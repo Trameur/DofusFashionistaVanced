@@ -59658,8 +59658,10 @@
         "name_es": "Set cosmético de estratega",
         "name_pt": "Conjunto de Aparência do Estrategista",
         "name_de": "Prunkset des Taktikers",
-        "items": 1,
+        "items": 3,
         "equipment_ids": [
+            32564,
+            32565,
             32566
         ]
     },
@@ -59736,6 +59738,64 @@
             33549,
             33550,
             33551
+        ]
+    },
+    {
+        "ankama_id": 1078,
+        "name_en": "Emerald Lottery Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de la loterie Émeraude",
+        "name_es": "Set cosmético de la lotería Esmeralda",
+        "name_pt": "Conjunto de Aparência da Loteria Esmeralda",
+        "name_de": "Prunkset der Smaragd-Lotterie",
+        "items": 4,
+        "equipment_ids": [
+            33610,
+            33611,
+            33612,
+            33613
+        ]
+    },
+    {
+        "ankama_id": 1079,
+        "name_en": "Champion of the Dragons Ceremonial Set",
+        "name_fr": "Panoplie d'apparat du Champion des dragons",
+        "name_es": "Set cosmético de campeón de los dragones",
+        "name_pt": "Conjunto de Aparência do Campeão dos Dragões",
+        "name_de": "[!] Champion of the Dragons Ceremonial Set",
+        "items": 17,
+        "equipment_ids": [
+            33614,
+            33647,
+            33648,
+            33649,
+            33650,
+            33651,
+            33652,
+            33654,
+            33655,
+            33656,
+            33657,
+            33658,
+            33659,
+            33661,
+            33662,
+            33663,
+            33665
+        ]
+    },
+    {
+        "ankama_id": 1080,
+        "name_en": "[!] Panoplie d'apparat du seigneur de glace",
+        "name_fr": "Panoplie d'apparat du seigneur de glace",
+        "name_es": "[!] Panoplie d'apparat du seigneur de glace",
+        "name_pt": "[!] Panoplie d'apparat du seigneur de glace",
+        "name_de": "[!] Panoplie d'apparat du seigneur de glace",
+        "items": 4,
+        "equipment_ids": [
+            33653,
+            33660,
+            33664,
+            33669
         ]
     }
 ]

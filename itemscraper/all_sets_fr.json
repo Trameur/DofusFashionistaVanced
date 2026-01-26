@@ -118231,11 +118231,13 @@
         {
             "ankama_id": 1055,
             "name": "Panoplie d'apparat du Tacticien",
-            "items": 1,
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
+                32564,
+                32565,
                 32566
             ]
         },
@@ -118307,6 +118309,61 @@
                 33549,
                 33550,
                 33551
+            ]
+        },
+        {
+            "ankama_id": 1078,
+            "name": "Panoplie d'apparat de la loterie Émeraude",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                33610,
+                33611,
+                33612,
+                33613
+            ]
+        },
+        {
+            "ankama_id": 1079,
+            "name": "Panoplie d'apparat du Champion des dragons",
+            "items": 17,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                33614,
+                33647,
+                33648,
+                33649,
+                33650,
+                33651,
+                33652,
+                33654,
+                33655,
+                33656,
+                33657,
+                33658,
+                33659,
+                33661,
+                33662,
+                33663,
+                33665
+            ]
+        },
+        {
+            "ankama_id": 1080,
+            "name": "Panoplie d'apparat du seigneur de glace",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                33653,
+                33660,
+                33664,
+                33669
             ]
         }
     ]

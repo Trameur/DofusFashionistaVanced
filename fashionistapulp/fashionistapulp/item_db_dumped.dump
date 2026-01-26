@@ -972,6 +972,9 @@ INSERT INTO sets VALUES(1057,'Silver Aytee Ceremonial Set',1057,NULL);
 INSERT INTO sets VALUES(1058,'Gold Aytee Ceremonial Set',1058,NULL);
 INSERT INTO sets VALUES(1059,'Ankamaset',1059,NULL);
 INSERT INTO sets VALUES(1060,'Oni Devotee Ceremonial Set',1060,NULL);
+INSERT INTO sets VALUES(1078,'Emerald Lottery Ceremonial Set',1078,NULL);
+INSERT INTO sets VALUES(1079,'Champion of the Dragons Ceremonial Set',1079,NULL);
+INSERT INTO sets VALUES(1080,'[!] Panoplie d''apparat du seigneur de glace',1080,NULL);
 CREATE TABLE "items" (
         `id` INTEGER PRIMARY KEY,
         `name` text,
@@ -59233,6 +59236,18 @@ INSERT INTO set_names VALUES(1060, 'fr', 'Panoplie d''apparat des adorateurs d''
 INSERT INTO set_names VALUES(1060, 'es', 'Set cosmético de los adoradores de onis');
 INSERT INTO set_names VALUES(1060, 'pt', 'Conjunto de Aparência dos Adoradores de Onis');
 INSERT INTO set_names VALUES(1060, 'de', 'Prunkset der Oni-Bewunderer');
+INSERT INTO set_names VALUES(1078, 'fr', 'Panoplie d''apparat de la loterie Émeraude');
+INSERT INTO set_names VALUES(1078, 'es', 'Set cosmético de la lotería Esmeralda');
+INSERT INTO set_names VALUES(1078, 'pt', 'Conjunto de Aparência da Loteria Esmeralda');
+INSERT INTO set_names VALUES(1078, 'de', 'Prunkset der Smaragd-Lotterie');
+INSERT INTO set_names VALUES(1079, 'fr', 'Panoplie d''apparat du Champion des dragons');
+INSERT INTO set_names VALUES(1079, 'es', 'Set cosmético de campeón de los dragones');
+INSERT INTO set_names VALUES(1079, 'pt', 'Conjunto de Aparência do Campeão dos Dragões');
+INSERT INTO set_names VALUES(1079, 'de', '[!] Champion of the Dragons Ceremonial Set');
+INSERT INTO set_names VALUES(1080, 'fr', 'Panoplie d''apparat du seigneur de glace');
+INSERT INTO set_names VALUES(1080, 'es', '[!] Panoplie d''apparat du seigneur de glace');
+INSERT INTO set_names VALUES(1080, 'pt', '[!] Panoplie d''apparat du seigneur de glace');
+INSERT INTO set_names VALUES(1080, 'de', '[!] Panoplie d''apparat du seigneur de glace');
 CREATE TABLE item_weird_conditions (item INTEGER, condition_id INTEGER, FOREIGN KEY(item) REFERENCES items(id));
 INSERT INTO item_weird_conditions VALUES(16182, 1);
 INSERT INTO item_weird_conditions VALUES(16183, 1);
