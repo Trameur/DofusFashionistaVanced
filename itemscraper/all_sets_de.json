@@ -118327,7 +118327,7 @@
         },
         {
             "ankama_id": 1079,
-            "name": "[!] Champion of the Dragons Ceremonial Set",
+            "name": "Prunkset des Drachenstreiters",
             "items": 17,
             "level": 60,
             "contains_cosmetics": true,
@@ -118354,7 +118354,7 @@
         },
         {
             "ankama_id": 1080,
-            "name": "[!] Panoplie d'apparat du seigneur de glace",
+            "name": "Prunkset des Eisfürsten",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -118364,6 +118364,35 @@
                 33660,
                 33664,
                 33669
+            ]
+        },
+        {
+            "ankama_id": 1081,
+            "name": "Prunkset der Türkis-Lotterie",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34128,
+                34129,
+                34130,
+                34131
+            ]
+        },
+        {
+            "ankama_id": 1082,
+            "name": "Zentoror-Prunkset",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34198,
+                34199,
+                34200,
+                34201,
+                34202
             ]
         }
     ]

@@ -118365,6 +118365,35 @@
                 33664,
                 33669
             ]
+        },
+        {
+            "ankama_id": 1081,
+            "name": "Panoplie d'apparat de la loterie Turquoise",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34128,
+                34129,
+                34130,
+                34131
+            ]
+        },
+        {
+            "ankama_id": 1082,
+            "name": "Panoplie d'apparat Cavalière",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34198,
+                34199,
+                34200,
+                34201,
+                34202
+            ]
         }
     ]
 }

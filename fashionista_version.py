@@ -1,7 +1,7 @@
 """Centralized version metadata for Dofus Fashionista."""
 from __future__ import annotations
 
-FASHIONISTA_VERSION = "3.4.15.16"
+FASHIONISTA_VERSION = "3.4.18.19"
 
 
 def get_version() -> str:

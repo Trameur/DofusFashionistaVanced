@@ -59761,7 +59761,7 @@
         "name_fr": "Panoplie d'apparat du Champion des dragons",
         "name_es": "Set cosmético de campeón de los dragones",
         "name_pt": "Conjunto de Aparência do Campeão dos Dragões",
-        "name_de": "[!] Champion of the Dragons Ceremonial Set",
+        "name_de": "Prunkset des Drachenstreiters",
         "items": 17,
         "equipment_ids": [
             33614,
@@ -59785,17 +59785,48 @@
     },
     {
         "ankama_id": 1080,
-        "name_en": "[!] Panoplie d'apparat du seigneur de glace",
+        "name_en": "Ice Lord Ceremonial Set",
         "name_fr": "Panoplie d'apparat du seigneur de glace",
-        "name_es": "[!] Panoplie d'apparat du seigneur de glace",
-        "name_pt": "[!] Panoplie d'apparat du seigneur de glace",
-        "name_de": "[!] Panoplie d'apparat du seigneur de glace",
+        "name_es": "Set cosmético de señor de hielo",
+        "name_pt": "Conjunto de Aparência do Senhor de Gelo",
+        "name_de": "Prunkset des Eisfürsten",
         "items": 4,
         "equipment_ids": [
             33653,
             33660,
             33664,
             33669
+        ]
+    },
+    {
+        "ankama_id": 1081,
+        "name_en": "Turquoise Lottery Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de la loterie Turquoise",
+        "name_es": "Set cosmético de la lotería Turquesa",
+        "name_pt": "Conjunto de Aparência da Loteria Turquesa",
+        "name_de": "Prunkset der Türkis-Lotterie",
+        "items": 4,
+        "equipment_ids": [
+            34128,
+            34129,
+            34130,
+            34131
+        ]
+    },
+    {
+        "ankama_id": 1082,
+        "name_en": "Centoror Ceremonial Set",
+        "name_fr": "Panoplie d'apparat Cavalière",
+        "name_es": "Set cosmético de centauroro",
+        "name_pt": "Conjunto de Aparência do Centoro",
+        "name_de": "Zentoror-Prunkset",
+        "items": 5,
+        "equipment_ids": [
+            34198,
+            34199,
+            34200,
+            34201,
+            34202
         ]
     }
 ]
