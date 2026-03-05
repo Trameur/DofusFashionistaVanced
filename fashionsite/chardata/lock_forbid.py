@@ -38,6 +38,7 @@ DEFAULT_EXCLUSIONS_121_PLUS = ['Gore Master\'s Ring (Gms Only)',
                                'Khardboard Moowolf Belt',
                                'Khardboard Bowisse\'s Shield',
                                'Lordsoth Daggers',
+                               'Split Splinter Sprinter'
                                ]
 DEFAULT_EXCLUSIONS_120_MINUS = (DEFAULT_EXCLUSIONS_121_PLUS
                                 + [])

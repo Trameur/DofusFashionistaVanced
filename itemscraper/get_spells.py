@@ -10,7 +10,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
 
-from default_damage_spells import DEFAULT_DAMAGE_SPELL_NAMES
+try:
+    from .default_damage_spells import DEFAULT_DAMAGE_SPELL_NAMES
+except ImportError:
+    from default_damage_spells import DEFAULT_DAMAGE_SPELL_NAMES
 
 LANGUAGES: Sequence[str] = ("en", "fr", "es", "pt", "de")
 RAW_ROOT = Path("itemscraper/raw")

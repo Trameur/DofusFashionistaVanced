@@ -11,7 +11,10 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Set, Tuple
 
-from default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
+try:
+    from .default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
+except ImportError:
+    from default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
 
 AUTO_START = "# AUTO-GENERATED DAMAGE_SPELLS START"
 AUTO_END = "# AUTO-GENERATED DAMAGE_SPELLS END"

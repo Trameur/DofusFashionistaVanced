@@ -6,13 +6,20 @@ import importlib.util
 import json
 import re
 import shutil
+import sys
 import tarfile
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
 from typing import Dict, Iterable, List, Sequence, Set, Tuple
 
-from fashionista_version import FASHIONISTA_VERSION
+try:
+    from fashionista_version import FASHIONISTA_VERSION
+except ModuleNotFoundError:
+    repo_root = Path(__file__).resolve().parents[1]
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+    from fashionista_version import FASHIONISTA_VERSION
 
 
 DEFAULT_RAW_ROOT = Path("itemscraper/raw")

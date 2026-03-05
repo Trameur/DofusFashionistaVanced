@@ -119,25 +119,25 @@ $version = python -m fashionista_version
 
 1. **Download the dumps**
    ```powershell
-   python itemscraper/download_raw_data.py --tag $version --filter spell --filter translations --filter spell_images
+   python -m itemscraper.download_raw_data --tag $version --filter spell --filter translations --filter spell_images
    ```
    This pulls the selected release into `itemscraper/raw/<tag>/`. Set a `GITHUB_TOKEN` if GitHub rate-limits you.
 
 2. **Transform the spells**
    ```powershell
-   python itemscraper/get_spells.py --tag $version --output itemscraper/transformed_spells.json --class-output itemscraper/transformed_class_spells.json
+   python -m itemscraper.get_spells --tag $version --output itemscraper/transformed_spells.json --class-output itemscraper/transformed_class_spells.json
    ```
    Generates the compact spell JSON plus the class map that mirrors the in-game spellbook.
 
 3. **Regenerate `DAMAGE_SPELLS`**
    ```powershell
-   python itemscraper/generate_damage_spells.py --class-json itemscraper/transformed_class_spells.json --spells-json itemscraper/transformed_spells.json --constants fashionistapulp/fashionistapulp/dofus_constants.py
+   python -m itemscraper.generate_damage_spells --class-json itemscraper/transformed_class_spells.json --spells-json itemscraper/transformed_spells.json --constants fashionistapulp/fashionistapulp/dofus_constants.py
    ```
    Fills the auto-generated block in `dofus_constants.py`.
 
 4. **Refresh spell icons**
    ```powershell
-   python itemscraper/download_spell_images.py --version $version --size 96 --scope damage --prune
+   python -m itemscraper.download_spell_images --version $version --size 96 --scope damage --prune
    ```
    Extracts `spell_images_<size>.tar.gz`, renames each PNG with the latest English name, and copies the files to `fashionsite/chardata/static/chardata/spells` plus the mirrored `fashionsite/staticfiles/chardata/spells` directory.
 

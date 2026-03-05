@@ -9,7 +9,13 @@ from typing import Iterable, List, Optional
 
 import requests
 
-from fashionista_version import FASHIONISTA_VERSION
+try:
+    from fashionista_version import FASHIONISTA_VERSION
+except ModuleNotFoundError:
+    repo_root = Path(__file__).resolve().parents[1]
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+    from fashionista_version import FASHIONISTA_VERSION
 
 API_ROOT = "https://api.github.com"
 DEFAULT_REPO = "dofusdude/dofus3-main"
