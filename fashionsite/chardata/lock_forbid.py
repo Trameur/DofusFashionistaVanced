@@ -38,7 +38,11 @@ DEFAULT_EXCLUSIONS_121_PLUS = ['Gore Master\'s Ring (Gms Only)',
                                'Khardboard Moowolf Belt',
                                'Khardboard Bowisse\'s Shield',
                                'Lordsoth Daggers',
-                               'Split Splinter Sprinter'
+                               'Split Splinter Sprinter',
+                               'Wild Crimson Seemyool',
+                               'Wild Ebony Seemyool',
+                               'Wild Indigo Seemyool',
+                               'Wild Orchid Seemyool',
                                ]
 DEFAULT_EXCLUSIONS_120_MINUS = (DEFAULT_EXCLUSIONS_121_PLUS
                                 + [])
