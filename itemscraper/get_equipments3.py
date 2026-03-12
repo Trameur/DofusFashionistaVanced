@@ -402,28 +402,31 @@ with open(f'{current_directory}/../fashionistapulp/fashionistapulp/item_db_dumpe
                 if max_value is None:
                     max_value = min_value
 
-                # Check if the description is a hit stat
-                if description.startswith("(") and description.endswith(")"):
-                    # Remove parentheses from the description
-                    stat_description = description[1:-1].lower()
+                # Parse weapon hit lines, handling both "(Fire heals)" and "Fire Steal" variants.
+                normalized_description = description.strip()
+                if normalized_description.startswith("(") and normalized_description.endswith(")"):
+                    normalized_description = normalized_description[1:-1].strip()
 
-                    element = stat_description.split(' ')[0].lower()
-                    damage_type = stat_description.split(' ')[1]
+                parts = normalized_description.lower().split()
+                if len(parts) >= 2:
+                    element = parts[0]
+                    damage_type = parts[1]
 
-                    steals = 0
-                    heals = 0
+                    if element in {'neutral', 'earth', 'fire', 'water', 'air'} and damage_type in {'damage', 'steal', 'steals', 'heal', 'heals', 'healing'}:
+                        steals = 0
+                        heals = 0
 
-                    if damage_type == 'steal':
-                        steals = 1
-                    elif damage_type == 'healing':
-                        heals = 1
+                        if damage_type in {'steal', 'steals'}:
+                            steals = 1
+                        elif damage_type in {'heal', 'heals', 'healing'}:
+                            heals = 1
 
-                    if element == 'neutral':
-                        element = 'neut'
+                        if element == 'neutral':
+                            element = 'neut'
 
-                    f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},{steals},{heals},'{element}');\n")
+                        f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},{steals},{heals},'{element}');\n")
 
-                    i += 1
+                        i += 1
 
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 

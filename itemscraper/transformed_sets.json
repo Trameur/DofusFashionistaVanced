@@ -6533,10 +6533,10 @@
     },
     {
         "ankama_id": 42,
-        "name_en": "Turko Set",
-        "name_fr": "Panoplie Dindo",
-        "name_es": "Set Pavuesco",
-        "name_pt": "Conjunto Perueiro",
+        "name_en": "Turkoset",
+        "name_fr": "Panodindo",
+        "name_es": "Set dragopavil",
+        "name_pt": "Conjuperueiro",
         "name_de": "Truter-Set",
         "items": 4,
         "stats_list": [
@@ -6554,9 +6554,14 @@
                         "Vitality"
                     ],
                     [
+                        10,
+                        null,
+                        "Prospecting"
+                    ],
+                    [
                         20,
                         null,
-                        "Strength"
+                        "Chance"
                     ],
                     [
                         20,
@@ -6566,12 +6571,7 @@
                     [
                         20,
                         null,
-                        "Chance"
-                    ],
-                    [
-                        10,
-                        null,
-                        "Prospecting"
+                        "Strength"
                     ]
                 ]
             },
@@ -6581,12 +6581,17 @@
                     [
                         25,
                         null,
-                        "Agility"
+                        "Chance"
                     ],
                     [
-                        15,
+                        25,
                         null,
-                        "Prospecting"
+                        "Intelligence"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Strength"
                     ],
                     [
                         50,
@@ -6594,19 +6599,14 @@
                         "Vitality"
                     ],
                     [
-                        25,
+                        15,
                         null,
-                        "Strength"
+                        "Prospecting"
                     ],
                     [
                         25,
                         null,
-                        "Intelligence"
-                    ],
-                    [
-                        25,
-                        null,
-                        "Chance"
+                        "Agility"
                     ]
                 ]
             },
@@ -6614,29 +6614,9 @@
                 "effect_key": "4",
                 "effects": [
                     [
-                        1,
-                        null,
-                        "AP"
-                    ],
-                    [
-                        20,
-                        null,
-                        "Prospecting"
-                    ],
-                    [
-                        60,
-                        null,
-                        "Vitality"
-                    ],
-                    [
                         30,
                         null,
-                        "Agility"
-                    ],
-                    [
-                        30,
-                        null,
-                        "Strength"
+                        "Chance"
                     ],
                     [
                         30,
@@ -6646,7 +6626,27 @@
                     [
                         30,
                         null,
-                        "Chance"
+                        "Strength"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Vitality"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Prospecting"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
                     ]
                 ]
             }
@@ -24612,11 +24612,11 @@
     },
     {
         "ankama_id": 245,
-        "name_en": "Ogivol Scalarcin Set",
-        "name_fr": "Panoplie d'Ogivol Scalarcin",
-        "name_es": "Set de Ogivol Scarratero",
-        "name_pt": "Conjunto de Ogivol Scafurtado",
-        "name_de": "Ausrüstungsset von Ogivol Scalarcin",
+        "name_en": "Ogivol Set",
+        "name_fr": "Panoplie d'Ogivol",
+        "name_es": "Set de Ogivol",
+        "name_pt": "Conjunto de Ogivol",
+        "name_de": "Ogivol-Set",
         "items": 3,
         "stats_list": [
             {
@@ -24633,44 +24633,29 @@
                         "Chance"
                     ],
                     [
-                        7,
+                        20,
                         null,
-                        "% Air Resist"
+                        "Prospecting"
                     ],
                     [
-                        7,
+                        300,
                         null,
-                        "% Fire Resist"
+                        "Initiative"
                     ],
                     [
-                        30,
+                        1,
                         null,
-                        "Critical Resist"
+                        "Summon"
                     ],
                     [
-                        10,
+                        1,
                         null,
-                        "Critical Hits"
-                    ],
-                    [
-                        30,
-                        null,
-                        "Agility"
-                    ],
-                    [
-                        100,
-                        null,
-                        "Vitality"
+                        "Range"
                     ],
                     [
                         10,
                         null,
-                        "Neutral Damage"
-                    ],
-                    [
-                        10,
-                        null,
-                        "Earth Damage"
+                        "Air Damage"
                     ],
                     [
                         10,
@@ -24680,52 +24665,22 @@
                     [
                         10,
                         null,
-                        "Air Damage"
+                        "Earth Damage"
                     ],
                     [
-                        1,
+                        10,
                         null,
-                        "Range"
+                        "Neutral Damage"
                     ],
                     [
-                        1,
+                        100,
                         null,
-                        "Summon"
-                    ],
-                    [
-                        300,
-                        null,
-                        "Initiative"
-                    ],
-                    [
-                        20,
-                        null,
-                        "Prospecting"
-                    ]
-                ]
-            },
-            {
-                "effect_key": "3",
-                "effects": [
-                    [
-                        7,
-                        null,
-                        "% Air Resist"
-                    ],
-                    [
-                        7,
-                        null,
-                        "% Fire Resist"
-                    ],
-                    [
-                        1,
-                        null,
-                        "AP"
+                        "Vitality"
                     ],
                     [
                         30,
                         null,
-                        "Critical Resist"
+                        "Agility"
                     ],
                     [
                         10,
@@ -24733,9 +24688,74 @@
                         "Critical Hits"
                     ],
                     [
+                        30,
+                        null,
+                        "Critical Resist"
+                    ],
+                    [
+                        7,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        7,
+                        null,
+                        "% Air Resist"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Prospecting"
+                    ],
+                    [
+                        300,
+                        null,
+                        "Initiative"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        100,
+                        null,
+                        "Vitality"
+                    ],
+                    [
                         60,
                         null,
-                        "Agility"
+                        "Strength"
                     ],
                     [
                         60,
@@ -24745,52 +24765,32 @@
                     [
                         60,
                         null,
-                        "Strength"
+                        "Agility"
                     ],
                     [
-                        100,
+                        10,
                         null,
-                        "Vitality"
+                        "Critical Hits"
                     ],
                     [
-                        15,
+                        30,
                         null,
-                        "Neutral Damage"
-                    ],
-                    [
-                        15,
-                        null,
-                        "Earth Damage"
-                    ],
-                    [
-                        15,
-                        null,
-                        "Water Damage"
-                    ],
-                    [
-                        15,
-                        null,
-                        "Air Damage"
+                        "Critical Resist"
                     ],
                     [
                         1,
                         null,
-                        "Range"
+                        "AP"
                     ],
                     [
-                        1,
+                        7,
                         null,
-                        "Summon"
+                        "% Fire Resist"
                     ],
                     [
-                        300,
+                        7,
                         null,
-                        "Initiative"
-                    ],
-                    [
-                        20,
-                        null,
-                        "Prospecting"
+                        "% Air Resist"
                     ]
                 ]
             }
@@ -25854,11 +25854,11 @@
     },
     {
         "ankama_id": 260,
-        "name_en": "Nomarow Transplent Set",
-        "name_fr": "Panoplie de Padgref Demoël",
+        "name_en": "Nomarow Set",
+        "name_fr": "Panoplie de Padgref",
         "name_es": "Set de Noai Aludem",
-        "name_pt": "Conjunto de Nondome Dula",
-        "name_de": "Ausrüstungsset vom Knöchernen Mark von Kainsdaff Ürmisch",
+        "name_pt": "Conjunto de Nondome",
+        "name_de": "Set des Knöchernen Marks",
         "items": 3,
         "stats_list": [
             {
@@ -25875,14 +25875,14 @@
                         "Agility"
                     ],
                     [
-                        10,
-                        null,
-                        "Critical Damage"
-                    ],
-                    [
                         8,
                         null,
                         "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Critical Damage"
                     ]
                 ]
             },
@@ -25890,19 +25890,9 @@
                 "effect_key": "3",
                 "effects": [
                     [
-                        1,
+                        30,
                         null,
-                        "AP"
-                    ],
-                    [
-                        10,
-                        null,
-                        "Critical Damage"
-                    ],
-                    [
-                        8,
-                        null,
-                        "Critical Hits"
+                        "Intelligence"
                     ],
                     [
                         30,
@@ -25910,9 +25900,19 @@
                         "Agility"
                     ],
                     [
-                        30,
+                        8,
                         null,
-                        "Intelligence"
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Critical Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
                     ]
                 ]
             }
@@ -44476,11 +44476,11 @@
     },
     {
         "ankama_id": 513,
-        "name_en": "Berylbell Copperbeard Set",
-        "name_fr": "Panoplie de Barbéryl Clochecuivre",
-        "name_es": "Set de Demena Decobre",
-        "name_pt": "Conjunto de Barberila Sinocobre",
-        "name_de": "Ausrüstungsset von Barberyl Glockenleder",
+        "name_en": "Berylbell Set",
+        "name_fr": "Panoplie de Barbéryl",
+        "name_es": "Set de Demena",
+        "name_pt": "Conjunto de Barberila",
+        "name_de": "Barberyl-Set",
         "items": 3,
         "stats_list": [
             {
@@ -44507,14 +44507,9 @@
                 "effect_key": "3",
                 "effects": [
                     [
-                        7,
+                        40,
                         null,
-                        "Dodge"
-                    ],
-                    [
-                        10,
-                        null,
-                        "Critical Damage"
+                        "Chance"
                     ],
                     [
                         1,
@@ -44522,9 +44517,14 @@
                         "AP"
                     ],
                     [
-                        40,
+                        10,
                         null,
-                        "Chance"
+                        "Critical Damage"
+                    ],
+                    [
+                        7,
+                        null,
+                        "Dodge"
                     ]
                 ]
             }
@@ -46164,7 +46164,7 @@
         "name_es": "Set cosmético de steamer",
         "name_pt": "Conjunto de Aparência Steamer",
         "name_de": "Steamer-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             21787,
             21788,
@@ -46172,7 +46172,8 @@
             21791,
             21792,
             21793,
-            23006
+            23006,
+            33677
         ]
     },
     {
@@ -46182,7 +46183,7 @@
         "name_es": "Set cosmético de ocra",
         "name_pt": "Conjunto de Aparência Cra",
         "name_de": "Crâ-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             21796,
             21797,
@@ -46190,7 +46191,8 @@
             21799,
             21800,
             21801,
-            23007
+            23007,
+            33679
         ]
     },
     {
@@ -46293,7 +46295,7 @@
         "name_es": "Set cosmético feca",
         "name_pt": "Conjunto de Aparência Feca",
         "name_de": "Féca-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             22362,
             22363,
@@ -46301,7 +46303,8 @@
             22365,
             22366,
             22367,
-            23648
+            23648,
+            33678
         ]
     },
     {
@@ -46311,7 +46314,7 @@
         "name_es": "Set cosmético zurcarák",
         "name_pt": "Conjunto de Aparência Ecaflip",
         "name_de": "Ecaflip-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             23833,
             23834,
@@ -46319,7 +46322,8 @@
             23836,
             23837,
             23838,
-            25992
+            25992,
+            33680
         ]
     },
     {
@@ -57862,11 +57866,6 @@
                         500,
                         null,
                         "Initiative"
-                    ],
-                    [
-                        200,
-                        null,
-                        "Vitality"
                     ]
                 ]
             },
@@ -57874,7 +57873,12 @@
                 "effect_key": "3",
                 "effects": [
                     [
-                        80,
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        40,
                         null,
                         "Power"
                     ],
@@ -57882,16 +57886,6 @@
                         500,
                         null,
                         "Initiative"
-                    ],
-                    [
-                        200,
-                        null,
-                        "Vitality"
-                    ],
-                    [
-                        10,
-                        null,
-                        "Damage"
                     ]
                 ]
             }
@@ -59641,14 +59635,27 @@
         "name_es": "Set cosmético de Corpo",
         "name_pt": "Conjunto de Aparência Corporativa",
         "name_de": "Corpo-Prunkset",
-        "items": 6,
+        "items": 19,
         "equipment_ids": [
             32531,
             32532,
             32533,
             32534,
             32535,
-            32536
+            32536,
+            34241,
+            34242,
+            34243,
+            34244,
+            34245,
+            34246,
+            34247,
+            34248,
+            34249,
+            34250,
+            34251,
+            34268,
+            34269
         ]
     },
     {
@@ -59741,6 +59748,1438 @@
         ]
     },
     {
+        "ankama_id": 1061,
+        "name_en": "Scalarcin Set",
+        "name_fr": "Panoplie des Scalarcin",
+        "name_es": "Set de los Scarratero",
+        "name_pt": "Conjunto dos Scafurtado",
+        "name_de": "Ausrüstungsset der Scalarcin",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        15,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        10,
+                        null,
+                        "MP Reduction"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        15,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        10,
+                        null,
+                        "MP Reduction"
+                    ],
+                    [
+                        2,
+                        null,
+                        "Range"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33559,
+            33560,
+            33561
+        ]
+    },
+    {
+        "ankama_id": 1062,
+        "name_en": "Marzwel Set",
+        "name_fr": "Panoplie de Marzwel",
+        "name_es": "Set de Marzwelo",
+        "name_pt": "Conjunto de Marzwel",
+        "name_de": "Ausrüstungsset von Marzwel",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Reduction"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Reduction"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33562,
+            33563,
+            33564
+        ]
+    },
+    {
+        "ankama_id": 1063,
+        "name_en": "Qil Bil Set",
+        "name_fr": "Panoplie de Qil Bil",
+        "name_es": "Set de Qil Bil",
+        "name_pt": "Conjunto de Qil Bil",
+        "name_de": "Ausrüstungsset von Qil Bil",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        1,
+                        null,
+                        "MP"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33565,
+            33566,
+            33567
+        ]
+    },
+    {
+        "ankama_id": 1064,
+        "name_en": "The Terrible Set",
+        "name_fr": "Panoplie de la Terrible",
+        "name_es": "Set de la Terrible",
+        "name_pt": "Conjunto da Terrível",
+        "name_de": "Ausrüstungsset der Schrecklichen",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        30,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Neutral Damage"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        30,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33568,
+            33569,
+            33570
+        ]
+    },
+    {
+        "ankama_id": 1065,
+        "name_en": "Scalptaras Set",
+        "name_fr": "Panoplie des Scalptaras",
+        "name_es": "Set de los Scalptaras",
+        "name_pt": "Conjunto dos Scalptaras",
+        "name_de": "Ausrüstungsset der Scalptaras",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        300,
+                        null,
+                        "Initiative"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "AP Reduction"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        300,
+                        null,
+                        "Initiative"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "AP Reduction"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33571,
+            33572,
+            33573
+        ]
+    },
+    {
+        "ankama_id": 1066,
+        "name_en": "Musha Set",
+        "name_fr": "Panoplie de Musha",
+        "name_es": "Set de Musha",
+        "name_pt": "Conjunto de Musha",
+        "name_de": "Ausrüstungsset von Musha",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        2,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        -10,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Damage"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        -10,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        2,
+                        null,
+                        "Range"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33574,
+            33575,
+            33576
+        ]
+    },
+    {
+        "ankama_id": 1067,
+        "name_en": "Simbadas Set",
+        "name_fr": "Panoplie de Simbadas",
+        "name_es": "Set de Simbadás",
+        "name_pt": "Conjunto de Simbadas",
+        "name_de": "Ausrüstungsset von Simbadas",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33577,
+            33578,
+            33579
+        ]
+    },
+    {
+        "ankama_id": 1068,
+        "name_en": "Rok Gnorok Set",
+        "name_fr": "Panoplie de Rok Gnorok",
+        "name_es": "Set de Rok Gnorok",
+        "name_pt": "Conjunto de Rok Gnorok",
+        "name_de": "Ausrüstungsset von Rok Gnorok",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        5,
+                        null,
+                        "AP Reduction"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Reduction"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        5,
+                        null,
+                        "AP Reduction"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Reduction"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33580,
+            33581,
+            33582
+        ]
+    },
+    {
+        "ankama_id": 1069,
+        "name_en": "Augerfeld Set",
+        "name_fr": "Panoplie de l'Aguerfelde",
+        "name_es": "Set de La Guerfeld",
+        "name_pt": "Conjunto da Largafelde",
+        "name_de": "Ausrüstungsset von La Garfield",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Critical Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Reduction"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Reduction"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Critical Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Strength"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33583,
+            33584,
+            33585
+        ]
+    },
+    {
+        "ankama_id": 1070,
+        "name_en": "Naganita Set",
+        "name_fr": "Panoplie de Naganita",
+        "name_es": "Set de Naganita",
+        "name_pt": "Conjunto de Naganita",
+        "name_de": "Ausrüstungsset von Naganita",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        30,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        8,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        8,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33586,
+            33587,
+            33588
+        ]
+    },
+    {
+        "ankama_id": 1071,
+        "name_en": "Stingset",
+        "name_fr": "Panokipik",
+        "name_es": "Setkepika",
+        "name_pt": "Conjundor",
+        "name_de": "Piksiges Set",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Critical Resist"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Pushback Resist"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        100,
+                        null,
+                        "Vitality"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Critical Resist"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Pushback Resist"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        100,
+                        null,
+                        "Vitality"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33589,
+            33590,
+            33591
+        ]
+    },
+    {
+        "ankama_id": 1072,
+        "name_en": "War T'Lillyput Set",
+        "name_fr": "Panoplie de Nenufor Tilotus",
+        "name_es": "Set de Nenúflor Deloto",
+        "name_pt": "Conjunto de Nenufor Tilótus",
+        "name_de": "Ausrüstungsset von Nelumbor Klotus",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        30,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        2,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        300,
+                        null,
+                        "Initiative"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        2,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        300,
+                        null,
+                        "Initiative"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33592,
+            33593,
+            33594
+        ]
+    },
+    {
+        "ankama_id": 1073,
+        "name_en": "Transplent Set",
+        "name_fr": "Panoplie des Demoël",
+        "name_es": "Set de los Aludem",
+        "name_pt": "Conjunto dos Dula",
+        "name_de": "Ausrüstungsset der Kainsdaff Ürmisch",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "Critical Damage"
+                    ],
+                    [
+                        7,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        7,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Critical Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33595,
+            33596,
+            33597
+        ]
+    },
+    {
+        "ankama_id": 1074,
+        "name_en": "Buddy Dubble Set",
+        "name_fr": "Panoplie de Fojumo",
+        "name_es": "Set de Gemalo",
+        "name_pt": "Conjunto de Dizigoto",
+        "name_de": "Ausrüstungsset von Dizigota",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        400,
+                        null,
+                        "Initiative"
+                    ],
+                    [
+                        5,
+                        null,
+                        "AP Loss Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        5,
+                        null,
+                        "MP Loss Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Lock"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        10,
+                        null,
+                        "MP Loss Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "AP Loss Resist"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Agility"
+                    ],
+                    [
+                        400,
+                        null,
+                        "Initiative"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Lock"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33598,
+            33599,
+            33600
+        ]
+    },
+    {
+        "ankama_id": 1075,
+        "name_en": "Shushu Ptidoop Set",
+        "name_fr": "Panoplie du Shushu Debruk'Sayl",
+        "name_es": "Set del fab'huritu Coldbru'Selas",
+        "name_pt": "Conjunto do Shushu Rasco",
+        "name_de": "Ausrüstungsset von Shushu Nakol",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        15,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        7,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        7,
+                        null,
+                        "AP Reduction"
+                    ],
+                    [
+                        7,
+                        null,
+                        "AP Loss Resist"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Agility"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ],
+                    [
+                        12,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        12,
+                        null,
+                        "AP Reduction"
+                    ],
+                    [
+                        12,
+                        null,
+                        "AP Loss Resist"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Strength"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Intelligence"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Agility"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33601,
+            33602,
+            33603
+        ]
+    },
+    {
+        "ankama_id": 1076,
+        "name_en": "Predagob Set",
+        "name_fr": "Panoplie de Predagob",
+        "name_es": "Set de Predagob",
+        "name_pt": "Conjunto de Predagob",
+        "name_de": "Ausrüstungsset von Predagob",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        15,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Dodge"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        25,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Dodge"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            33604,
+            33605,
+            33606
+        ]
+    },
+    {
+        "ankama_id": 1077,
+        "name_en": "Armarines Set",
+        "name_fr": "Panoplie des Armutins",
+        "name_es": "Set de los armadutinados",
+        "name_pt": "Conjunto dos Armutinados",
+        "name_de": "Ausrüstungsset der Rüstebellen",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        30,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        15,
+                        null,
+                        "MP Loss Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        30,
+                        null,
+                        "Air Damage"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        50,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        40,
+                        null,
+                        "Pushback Damage"
+                    ],
+                    [
+                        30,
+                        null,
+                        "MP Loss Resist"
+                    ],
+                    [
+                        20,
+                        null,
+                        "Dodge"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            18715,
+            33607,
+            33608
+        ]
+    },
+    {
         "ankama_id": 1078,
         "name_en": "Emerald Lottery Ceremonial Set",
         "name_fr": "Panoplie d'apparat de la loterie Émeraude",
@@ -59762,7 +61201,7 @@
         "name_es": "Set cosmético de campeón de los dragones",
         "name_pt": "Conjunto de Aparência do Campeão dos Dragões",
         "name_de": "Prunkset des Drachenstreiters",
-        "items": 17,
+        "items": 21,
         "equipment_ids": [
             33614,
             33647,
@@ -59780,7 +61219,11 @@
             33661,
             33662,
             33663,
-            33665
+            33665,
+            33666,
+            33667,
+            33668,
+            33813
         ]
     },
     {
@@ -59820,13 +61263,238 @@
         "name_es": "Set cosmético de centauroro",
         "name_pt": "Conjunto de Aparência do Centoro",
         "name_de": "Zentoror-Prunkset",
-        "items": 5,
+        "items": 6,
         "equipment_ids": [
+            33818,
             34198,
             34199,
             34200,
             34201,
             34202
+        ]
+    },
+    {
+        "ankama_id": 1083,
+        "name_en": "Demon V Ceremonial Set",
+        "name_fr": "Panoplie d'apparat du Démon V",
+        "name_es": "Set cosmético del Demonio V",
+        "name_pt": "Conjunto de Aparência do Demônio V",
+        "name_de": "Prunkset von Dämon V",
+        "items": 4,
+        "equipment_ids": [
+            34215,
+            34216,
+            34217,
+            34218
+        ]
+    },
+    {
+        "ankama_id": 1084,
+        "name_en": "Many-Hued Demon V Ceremonial Set",
+        "name_fr": "Panoplie d'apparat diaprée du Démon V",
+        "name_es": "Set cosmético matizado del Demonio V",
+        "name_pt": "Conjunto de Aparência Matizado do Demônio V",
+        "name_de": "Schillerndes Prunkset von Dämon V",
+        "items": 4,
+        "equipment_ids": [
+            34219,
+            34220,
+            34221,
+            34222
+        ]
+    },
+    {
+        "ankama_id": 1085,
+        "name_en": "Crimson Set",
+        "name_fr": "Panoplie Pourpre",
+        "name_es": "Set púrpura",
+        "name_pt": "Conjunto Púrpura",
+        "name_de": "Purpur-Ausrüstungsset",
+        "items": 4,
+        "equipment_ids": [
+            34230,
+            34231,
+            34232,
+            34233
+        ]
+    },
+    {
+        "ankama_id": 1086,
+        "name_en": "Seemyoolset",
+        "name_fr": "Panomuldo",
+        "name_es": "Set mulacuoso",
+        "name_pt": "Marmujunto",
+        "name_de": "Quaggset",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        5,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Air Damage"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        5,
+                        null,
+                        "Neutral Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Earth Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Fire Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Water Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "Air Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34252,
+            34253,
+            34254
+        ]
+    },
+    {
+        "ankama_id": 1087,
+        "name_en": "Rhineetleset",
+        "name_fr": "Panovolko",
+        "name_es": "Set vueloceróntico",
+        "name_pt": "Vulkonjunto",
+        "name_de": "Naskset",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        4,
+                        null,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Air Resist"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        4,
+                        null,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        4,
+                        null,
+                        "% Air Resist"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34255,
+            34256,
+            34257
+        ]
+    },
+    {
+        "ankama_id": 1088,
+        "name_en": "Flamboyant Ceremonial Set of the Phoenix",
+        "name_fr": "Panoplie d'apparat flamboyante du Phénix",
+        "name_es": "Set cosmético flamígero del fénix",
+        "name_pt": "Conjunto de Aparência Flamejante da Fênix",
+        "name_de": "Flammendes Prunkset des Phönix",
+        "items": 6,
+        "equipment_ids": [
+            34259,
+            34260,
+            34261,
+            34262,
+            34263,
+            34264
         ]
     }
 ]
