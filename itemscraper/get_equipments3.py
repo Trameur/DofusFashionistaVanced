@@ -404,7 +404,11 @@ with open(f'{current_directory}/../fashionistapulp/fashionistapulp/item_db_dumpe
 
                 # Parse weapon hit lines, handling both "(Fire heals)" and "Fire Steal" variants.
                 normalized_description = description.strip()
-                if normalized_description.startswith("(") and normalized_description.endswith(")"):
+                is_parenthesized_hit = (
+                    normalized_description.startswith("(")
+                    and normalized_description.endswith(")")
+                )
+                if is_parenthesized_hit:
                     normalized_description = normalized_description[1:-1].strip()
 
                 parts = normalized_description.lower().split()
@@ -413,6 +417,11 @@ with open(f'{current_directory}/../fashionistapulp/fashionistapulp/item_db_dumpe
                     damage_type = parts[1]
 
                     if element in {'neutral', 'earth', 'fire', 'water', 'air'} and damage_type in {'damage', 'steal', 'steals', 'heal', 'heals', 'healing'}:
+                        # Plain labels like "Fire Damage" are stats and must not become hit lines.
+                        # Keep plain parsing only for legacy steal/heal labels (e.g. "Fire Steal").
+                        if not is_parenthesized_hit and damage_type == 'damage':
+                            continue
+
                         steals = 0
                         heals = 0
 
