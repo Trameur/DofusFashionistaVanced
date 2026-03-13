@@ -1228,7 +1228,7 @@ msgstr ""
 
 #: chardata/templates/chardata/license.html:58
 msgid "Privacy Policy:"
-msgstr ""
+msgstr "Informativa sulla privacy:"
 
 #: chardata/templates/chardata/license.html:59
 msgid ""
@@ -1236,6 +1236,9 @@ msgid ""
 "that the Dofus Fashionista does not store your password. However, the Dofus "
 "Fashionista does store your email address and your Google ID."
 msgstr ""
+"Dofus Fashionista usa Google OAuth per autenticare gli utenti. Questo "
+"significa che Dofus Fashionista non memorizza la tua password. Tuttavia, "
+"Dofus Fashionista memorizza il tuo indirizzo email e il tuo ID Google."
 
 #: chardata/templates/chardata/license.html:60
 msgid ""
@@ -1243,16 +1246,21 @@ msgid ""
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
 msgstr ""
+"Se preferisci non usare Google OAuth, puoi comunque usare Dofus "
+"Fashionista. Puoi creare un account con nome utente e password. Dofus "
+"Fashionista memorizza la tua password in forma criptata."
 
 #: chardata/templates/chardata/license.html:61
 msgid ""
 "The Dofus Fashionista also stores the characters you create. This "
 "information is used to provide the services of the Dofus Fashionista."
 msgstr ""
+"Dofus Fashionista memorizza anche i personaggi che crei. Queste "
+"informazioni sono usate per fornire i servizi di Dofus Fashionista."
 
 #: chardata/templates/chardata/license.html:62
 msgid "The Dofus Fashionista does not share any data with third parties."
-msgstr ""
+msgstr "Dofus Fashionista non condivide alcun dato con terze parti."
 
 #: chardata/templates/chardata/load_projects.html:15
 #: chardata/templates/chardata/load_projects.html:114

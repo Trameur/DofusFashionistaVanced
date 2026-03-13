@@ -20,7 +20,7 @@ msgstr ""
 #: admin/js/SelectFilter2.js:45 staticfiles/admin/js/SelectFilter2.js:38
 #, javascript-format
 msgid "Available %s"
-msgstr ""
+msgstr "Available %s"
 
 #: admin/js/SelectFilter2.js:46 staticfiles/admin/js/SelectFilter2.js:44
 #, javascript-format
@@ -28,29 +28,31 @@ msgid ""
 "This is the list of available %s. You may choose some by selecting them in "
 "the box below and then clicking the \"Choose\" arrow between the two boxes."
 msgstr ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
 
 #: admin/js/SelectFilter2.js:53 staticfiles/admin/js/SelectFilter2.js:60
 #, javascript-format
 msgid "Type into this box to filter down the list of available %s."
-msgstr ""
+msgstr "Type into this box to filter down the list of available %s."
 
 #: admin/js/SelectFilter2.js:57 staticfiles/admin/js/SelectFilter2.js:65
 #: staticfiles/admin/js/SelectFilter2.js:110
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: admin/js/SelectFilter2.js:61 staticfiles/admin/js/SelectFilter2.js:69
 msgid "Choose all"
-msgstr ""
+msgstr "Choose all"
 
 #: admin/js/SelectFilter2.js:61 staticfiles/admin/js/SelectFilter2.js:69
 #, javascript-format
 msgid "Click to choose all %s at once."
-msgstr ""
+msgstr "Click to choose all %s at once."
 
 #: admin/js/SelectFilter2.js:67 staticfiles/admin/js/SelectFilter2.js:75
 msgid "Choose"
-msgstr ""
+msgstr "Choose"
 
 #: admin/js/SelectFilter2.js:69 staticfiles/admin/js/SelectFilter2.js:77
 msgid "Remove"
@@ -59,7 +61,7 @@ msgstr "Retirer "
 #: admin/js/SelectFilter2.js:75 staticfiles/admin/js/SelectFilter2.js:83
 #, javascript-format
 msgid "Chosen %s"
-msgstr ""
+msgstr "Chosen %s"
 
 #: admin/js/SelectFilter2.js:76 staticfiles/admin/js/SelectFilter2.js:89
 #, javascript-format
@@ -67,6 +69,8 @@ msgid ""
 "This is the list of chosen %s. You may remove some by selecting them in the "
 "box below and then clicking the \"Remove\" arrow between the two boxes."
 msgstr ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
 
 #: admin/js/SelectFilter2.js:80 staticfiles/admin/js/SelectFilter2.js:120
 msgid "Remove all"
@@ -75,14 +79,14 @@ msgstr "Retirer "
 #: admin/js/SelectFilter2.js:80 staticfiles/admin/js/SelectFilter2.js:120
 #, javascript-format
 msgid "Click to remove all chosen %s at once."
-msgstr ""
+msgstr "Click to remove all chosen %s at once."
 
 #: admin/js/actions.js:18 admin/js/actions.min.js:1
 #: staticfiles/admin/js/actions.js:67
 msgid "%(sel)s of %(cnt)s selected"
 msgid_plural "%(sel)s of %(cnt)s selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(sel)s sur %(cnt)s selectionne"
+msgstr[1] "%(sel)s sur %(cnt)s selectionnes"
 
 #: admin/js/actions.js:109 admin/js/actions.min.js:5
 #: staticfiles/admin/js/actions.js:161
@@ -90,6 +94,8 @@ msgid ""
 "You have unsaved changes on individual editable fields. If you run an "
 "action, your unsaved changes will be lost."
 msgstr ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
 
 #: admin/js/actions.js:121 admin/js/actions.min.js:5
 msgid ""
@@ -97,6 +103,9 @@ msgid ""
 "individual fields yet. Please click OK to save. You'll need to re-run the "
 "action."
 msgstr ""
+"You have selected an action, but you haven't saved your changes to "
+"individual fields yet. Please click OK to save. You'll need to re-run the "
+"action."
 
 #: admin/js/actions.js:123 admin/js/actions.min.js:6
 msgid ""
@@ -104,85 +113,90 @@ msgid ""
 "fields. You're probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
+"You have selected an action, and you haven't made any changes on individual "
+"fields. You're probably looking for the Go button rather than the Save "
+"button."
 
 #: admin/js/admin/DateTimeShortcuts.js:52
 #: admin/js/admin/DateTimeShortcuts.js:88
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:13
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:110
 msgid "Now"
-msgstr ""
+msgstr "Now"
 
 #: admin/js/admin/DateTimeShortcuts.js:56
 msgid "Clock"
-msgstr ""
+msgstr "Clock"
 
 #: admin/js/admin/DateTimeShortcuts.js:84
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:158
 msgid "Choose a time"
-msgstr ""
+msgstr "Choose a time"
 
 #: admin/js/admin/DateTimeShortcuts.js:89
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:14
 msgid "Midnight"
-msgstr ""
+msgstr "Midnight"
 
 #: admin/js/admin/DateTimeShortcuts.js:90
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:15
 msgid "6 a.m."
-msgstr ""
+msgstr "6 a.m."
 
 #: admin/js/admin/DateTimeShortcuts.js:91
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:16
 msgid "Noon"
-msgstr ""
+msgstr "Noon"
 
 #: admin/js/admin/DateTimeShortcuts.js:95
 #: admin/js/admin/DateTimeShortcuts.js:208
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:175
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:333
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: admin/js/admin/DateTimeShortcuts.js:148
 #: admin/js/admin/DateTimeShortcuts.js:201
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:238
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:318
 msgid "Today"
-msgstr ""
+msgstr "Today"
 
 #: admin/js/admin/DateTimeShortcuts.js:152
 msgid "Calendar"
-msgstr ""
+msgstr "Calendar"
 
 #: admin/js/admin/DateTimeShortcuts.js:199
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:312
 msgid "Yesterday"
-msgstr ""
+msgstr "Yesterday"
 
 #: admin/js/admin/DateTimeShortcuts.js:203
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:324
 msgid "Tomorrow"
-msgstr ""
+msgstr "Tomorrow"
 
 #: admin/js/calendar.js:8
 msgid ""
-"January February March April May June July August September October November "
-"December"
+"January February March April May June July August September October November"
+" December"
 msgstr ""
+"January February March April May June July August September October November"
+" December"
 
 #: admin/js/calendar.js:9
 msgid "S M T W T F S"
-msgstr ""
+msgstr "S M T W T F S"
 
 #: admin/js/collapse.js:8 admin/js/collapse.js:19 admin/js/collapse.min.js:1
 #: staticfiles/admin/js/collapse.js:16 staticfiles/admin/js/collapse.js:34
 msgid "Show"
-msgstr ""
+msgstr "Show"
 
 #: admin/js/collapse.js:16 admin/js/collapse.min.js:1
 #: staticfiles/admin/js/collapse.js:30
 msgid "Hide"
-msgstr ""
+msgstr "Hide"
 
 #: chardata/static/chardata/inclusions.js:13
 #: chardata/static/chardata/solution_popup.js:458
@@ -313,8 +327,8 @@ msgid ""
 " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
 "and tailor a new set."
 msgstr ""
-" Pour trouver un équipement qui l'inclut, verrouillez le <a href=\"/"
-"inclusions/%s/\">ici</a> et générez un nouvel équipement."
+" Pour trouver un équipement qui l'inclut, verrouillez le <a "
+"href=\"/inclusions/%s/\">ici</a> et générez un nouvel équipement."
 
 #: chardata/static/chardata/solution_popup.js:383
 #: staticfiles/chardata/solution_popup.js:383
@@ -328,11 +342,11 @@ msgstr ""
 #: staticfiles/chardata/solution_popup.js:385
 #, javascript-format
 msgid ""
-" To find a set including it that fulfills these conditions, lock it <a href="
-"\"/inclusions/%s/\">here</a> and tailor a new set."
+" To find a set including it that fulfills these conditions, lock it <a "
+"href=\"/inclusions/%s/\">here</a> and tailor a new set."
 msgstr ""
-" Pour trouver un équipement qui l'inclut, verrouillez le <a href=\"/"
-"inclusions/%s/\">ici</a> et générez un nouvel équipement."
+" Pour trouver un équipement qui l'inclut, verrouillez le <a "
+"href=\"/inclusions/%s/\">ici</a> et générez un nouvel équipement."
 
 #: chardata/static/chardata/solution_popup.js:442
 #: staticfiles/chardata/solution_popup.js:442
@@ -417,14 +431,14 @@ msgstr ""
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
 msgid "Type into this box to filter down the list of selected %s."
-msgstr ""
+msgstr "Type into this box to filter down the list of selected %s."
 
 #: staticfiles/admin/js/SelectFilter2.js:211
 #, javascript-format
 msgid "%s selected option not visible"
 msgid_plural "%s selected options not visible"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "L'option selectionnee %s n'est pas visible"
+msgstr[1] "Les options selectionnees %s ne sont pas visibles"
 
 #: staticfiles/admin/js/actions.js:174
 msgid ""
@@ -432,6 +446,9 @@ msgid ""
 "individual fields yet. Please click OK to save. You’ll need to re-run the "
 "action."
 msgstr ""
+"You have selected an action, but you haven’t saved your changes to "
+"individual fields yet. Please click OK to save. You’ll need to re-run the "
+"action."
 
 #: staticfiles/admin/js/actions.js:175
 msgid ""
@@ -439,40 +456,43 @@ msgid ""
 "fields. You’re probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
+"You have selected an action, and you haven’t made any changes on individual "
+"fields. You’re probably looking for the Go button rather than the Save "
+"button."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:17
 msgid "6 p.m."
-msgstr ""
+msgstr "6 p.m."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:78
 #, javascript-format
 msgid "Note: You are %s hour ahead of server time."
 msgid_plural "Note: You are %s hours ahead of server time."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Note: vous avez %s heure d'avance sur l'heure du serveur."
+msgstr[1] "Note: vous avez %s heures d'avance sur l'heure du serveur."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:86
 #, javascript-format
 msgid "Note: You are %s hour behind server time."
 msgid_plural "Note: You are %s hours behind server time."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Note: vous avez %s heure de retard sur l'heure du serveur."
+msgstr[1] "Note: vous avez %s heures de retard sur l'heure du serveur."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"
-msgstr ""
+msgstr "Choose a Time"
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:255
 msgid "Choose a Date"
-msgstr ""
+msgstr "Choose a Date"
 
 #: staticfiles/admin/js/calendar.js:11
 msgid "January"
-msgstr ""
+msgstr "January"
 
 #: staticfiles/admin/js/calendar.js:12
 msgid "February"
-msgstr ""
+msgstr "February"
 
 #: staticfiles/admin/js/calendar.js:13
 #, fuzzy
@@ -482,131 +502,131 @@ msgstr "Rechercher"
 
 #: staticfiles/admin/js/calendar.js:14
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: staticfiles/admin/js/calendar.js:15
 msgid "May"
-msgstr ""
+msgstr "May"
 
 #: staticfiles/admin/js/calendar.js:16
 msgid "June"
-msgstr ""
+msgstr "June"
 
 #: staticfiles/admin/js/calendar.js:17
 msgid "July"
-msgstr ""
+msgstr "July"
 
 #: staticfiles/admin/js/calendar.js:18
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: staticfiles/admin/js/calendar.js:19
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: staticfiles/admin/js/calendar.js:20
 msgid "October"
-msgstr ""
+msgstr "October"
 
 #: staticfiles/admin/js/calendar.js:21
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: staticfiles/admin/js/calendar.js:22
 msgid "December"
-msgstr ""
+msgstr "December"
 
 #: staticfiles/admin/js/calendar.js:25
 msgctxt "abbrev. month January"
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: staticfiles/admin/js/calendar.js:26
 msgctxt "abbrev. month February"
 msgid "Feb"
-msgstr ""
+msgstr "Feb"
 
 #: staticfiles/admin/js/calendar.js:27
 msgctxt "abbrev. month March"
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: staticfiles/admin/js/calendar.js:28
 msgctxt "abbrev. month April"
 msgid "Apr"
-msgstr ""
+msgstr "Apr"
 
 #: staticfiles/admin/js/calendar.js:29
 msgctxt "abbrev. month May"
 msgid "May"
-msgstr ""
+msgstr "May"
 
 #: staticfiles/admin/js/calendar.js:30
 msgctxt "abbrev. month June"
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: staticfiles/admin/js/calendar.js:31
 msgctxt "abbrev. month July"
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: staticfiles/admin/js/calendar.js:32
 msgctxt "abbrev. month August"
 msgid "Aug"
-msgstr ""
+msgstr "Aug"
 
 #: staticfiles/admin/js/calendar.js:33
 msgctxt "abbrev. month September"
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: staticfiles/admin/js/calendar.js:34
 msgctxt "abbrev. month October"
 msgid "Oct"
-msgstr ""
+msgstr "Oct"
 
 #: staticfiles/admin/js/calendar.js:35
 msgctxt "abbrev. month November"
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: staticfiles/admin/js/calendar.js:36
 msgctxt "abbrev. month December"
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: staticfiles/admin/js/calendar.js:39
 msgctxt "one letter Sunday"
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: staticfiles/admin/js/calendar.js:40
 msgctxt "one letter Monday"
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: staticfiles/admin/js/calendar.js:41
 msgctxt "one letter Tuesday"
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: staticfiles/admin/js/calendar.js:42
 msgctxt "one letter Wednesday"
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: staticfiles/admin/js/calendar.js:43
 msgctxt "one letter Thursday"
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: staticfiles/admin/js/calendar.js:44
 msgctxt "one letter Friday"
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: staticfiles/admin/js/calendar.js:45
 msgctxt "one letter Saturday"
 msgid "S"
-msgstr ""
+msgstr "S"

@@ -17,112 +17,115 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: chardata/compare_sets_view.py:163
 msgid "Paste links of at least 2 projects to compare"
-msgstr ""
+msgstr "Fügen Sie Links von mindestens 2 Projekten zum Vergleich ein"
 
 #: chardata/compare_sets_view.py:172
 #, python-format
 msgid "%s does not refer to a valid project"
-msgstr ""
+msgstr "%s verweist nicht auf ein gültiges Projekt"
 
 #: chardata/compare_sets_view.py:175
 #, python-format
 msgid "%s refers to someone else's project"
-msgstr ""
+msgstr "%s bezieht sich auf das Projekt einer anderen Person"
 
 #: chardata/compare_sets_view.py:184
 #, python-format
 msgid "%s is not a valid share link"
-msgstr ""
+msgstr "%s ist kein gültiger Freigabelink"
 
 #: chardata/compare_sets_view.py:187
 #, python-format
 msgid "%s is not shared"
-msgstr ""
+msgstr "%s ist nicht freigegeben"
 
 #: chardata/compare_sets_view.py:219
 #, python-format
 msgid "Project %s is not shared."
-msgstr ""
+msgstr "Projekt %s ist nicht freigegeben."
 
 #: chardata/exclusions_view.py:30
 msgid "Weapon"
-msgstr ""
+msgstr "Waffe"
 
 #: chardata/exclusions_view.py:31
 msgid "Shield"
-msgstr ""
+msgstr "Schild"
 
 #: chardata/exclusions_view.py:32
 msgid "Hat"
-msgstr ""
+msgstr "Hut"
 
 #: chardata/exclusions_view.py:33
 msgid "Cloak"
-msgstr ""
+msgstr "Mantel"
 
 #: chardata/exclusions_view.py:34
 msgid "Pet"
-msgstr ""
+msgstr "Haustier"
 
 #: chardata/exclusions_view.py:35
 msgid "Amulet"
-msgstr ""
+msgstr "Amulett"
 
 #: chardata/exclusions_view.py:36
 msgid "Ring"
-msgstr ""
+msgstr "Ring"
 
 #: chardata/exclusions_view.py:37
 msgid "Boots"
-msgstr ""
+msgstr "Stiefel"
 
 #: chardata/exclusions_view.py:38
 msgid "Belt"
-msgstr ""
+msgstr "Gürtel"
 
 #: chardata/exclusions_view.py:39
 msgid "Dofus"
-msgstr ""
+msgstr "Dofus"
 
 #: chardata/home_view.py:46 chardata/templates/chardata/projdetails.html:18
 msgid "Create a Project"
-msgstr ""
+msgstr "Erstellen Sie ein Projekt"
 
 #: chardata/home_view.py:53 chardata/templates/chardata/load_projects.html:6
 #: chardata/templates/chardata/load_projects.html:11
 msgid "Load a Project"
-msgstr ""
+msgstr "Laden Sie ein Projekt"
 
 #: chardata/home_view.py:60 chardata/templates/chardata/base.html:96
 #: chardata/templates/chardata/login.html:6
 #: chardata/templates/chardata/login.html:13
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: chardata/home_view.py:67 chardata/templates/chardata/base.html:104
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: chardata/home_view.py:74 chardata/templates/chardata/about.html:13
 #: chardata/templates/chardata/base.html:103
 #: chardata/templates/chardata/base.html:208
 msgid "Help & About"
-msgstr ""
+msgstr "Hilfe und Info"
 
 #: chardata/login_view.py:67
 msgid "Welcome to The Dofus Fashionista!"
-msgstr ""
+msgstr "Willkommen bei The Dofus Fashionista!"
 
 #: chardata/login_view.py:68
 msgid ""
 "Please click the link below to confirm your email and activate your account."
 msgstr ""
+"Bitte klicken Sie auf den Link unten, um Ihre E-Mail-Adresse zu bestätigen "
+"und Ihr Konto zu aktivieren."
 
 #: chardata/login_view.py:170
 msgid "Password change requested for The Dofus Fashionista"
-msgstr ""
+msgstr "Passwortänderung für The Dofus Fashionista angefordert"
 
 #: chardata/login_view.py:171
 #, python-brace-format
@@ -133,10 +136,15 @@ msgid ""
 "\n"
 "If you don't want to reset your password, just ignore this email."
 msgstr ""
+"Für The Dofus Fashionista wurde ein Zurücksetzen des Passworts beantragt!\n"
+"Klicken Sie bitte auf den Link unten, um ein neues Konto für Ihr Konto zu erstellen.\n"
+"{link}\n"
+"\n"
+"Wenn Sie Ihr Passwort nicht zurücksetzen möchten, ignorieren Sie diese E-Mail einfach."
 
 #: chardata/login_view.py:204
 msgid "Password for The Dofus Fashionista has been reset"
-msgstr ""
+msgstr "Das Passwort für The Dofus Fashionista wurde zurückgesetzt"
 
 #: chardata/login_view.py:205
 #, python-brace-format
@@ -148,6 +156,12 @@ msgid ""
 "\n"
 "Change it to a new one or just keep this email ;-)"
 msgstr ""
+"Hallo, {username}!\n"
+"Das folgende Passwort wurde für Sie generiert:\n"
+"\n"
+"{new_password}\n"
+"\n"
+"Ändern Sie es in ein neues oder behalten Sie einfach diese E-Mail ;-)"
 
 #: chardata/min_stats_view.py:45
 #: chardata/templates/chardata/compare_sets.html:144
@@ -156,7 +170,7 @@ msgstr ""
 #: chardata/templates/chardata/wizard_min_stats.html:6
 #: chardata/translation_util.py:68
 msgid "AP"
-msgstr ""
+msgstr "AP"
 
 #: chardata/min_stats_view.py:49
 #: chardata/templates/chardata/compare_sets.html:145
@@ -165,7 +179,7 @@ msgstr ""
 #: chardata/templates/chardata/wizard_min_stats.html:10
 #: chardata/translation_util.py:69
 msgid "MP"
-msgstr ""
+msgstr "Abgeordneter"
 
 #: chardata/min_stats_view.py:53
 #: chardata/templates/chardata/compare_sets.html:146
@@ -174,7 +188,7 @@ msgstr ""
 #: chardata/templates/chardata/wizard_min_stats.html:14
 #: chardata/translation_util.py:70
 msgid "Range"
-msgstr ""
+msgstr "Reichweite"
 
 #: chardata/smart_build.py:36 chardata/templates/chardata/chardata.html:32
 #: chardata/templates/chardata/chardata.html:82
@@ -183,7 +197,7 @@ msgstr ""
 #: chardata/templates/chardata/spells.html:595
 #: chardata/templates/chardata/stats.html:25 chardata/translation_util.py:63
 msgid "Strength"
-msgstr ""
+msgstr "Stärke"
 
 #: chardata/smart_build.py:37 chardata/templates/chardata/chardata.html:33
 #: chardata/templates/chardata/chardata.html:85
@@ -192,7 +206,7 @@ msgstr ""
 #: chardata/templates/chardata/spells.html:597
 #: chardata/templates/chardata/stats.html:26 chardata/translation_util.py:64
 msgid "Intelligence"
-msgstr ""
+msgstr "Intelligenz"
 
 #: chardata/smart_build.py:38 chardata/templates/chardata/chardata.html:34
 #: chardata/templates/chardata/chardata.html:88
@@ -201,7 +215,7 @@ msgstr ""
 #: chardata/templates/chardata/spells.html:599
 #: chardata/templates/chardata/stats.html:27 chardata/translation_util.py:65
 msgid "Chance"
-msgstr ""
+msgstr "Chance"
 
 #: chardata/smart_build.py:39 chardata/templates/chardata/chardata.html:35
 #: chardata/templates/chardata/chardata.html:91
@@ -210,7 +224,7 @@ msgstr ""
 #: chardata/templates/chardata/spells.html:601
 #: chardata/templates/chardata/stats.html:28 chardata/translation_util.py:66
 msgid "Agility"
-msgstr ""
+msgstr "Beweglichkeit"
 
 #: chardata/smart_build.py:40 chardata/templates/chardata/chardata.html:30
 #: chardata/templates/chardata/chardata.html:76
@@ -219,110 +233,115 @@ msgstr ""
 #: chardata/templates/chardata/stats.html:23 chardata/translation_util.py:61
 #: chardata/wizard_sliders.py:63
 msgid "Vitality"
-msgstr ""
+msgstr "Vitalität"
 
 #: chardata/smart_build.py:41
 msgid "Resists"
-msgstr ""
+msgstr "Widersteht"
 
 #: chardata/smart_build.py:42
 msgid "Omni-Elemental"
-msgstr ""
+msgstr "Omnielementar"
 
 #: chardata/smart_build.py:43
 msgid "Leeching"
-msgstr ""
+msgstr "Blutegel"
 
 #: chardata/smart_build.py:44
 msgid "Linear Damage"
-msgstr ""
+msgstr "Linearer Schaden"
 
-#: chardata/smart_build.py:45 chardata/templates/chardata/compare_sets.html:148
+#: chardata/smart_build.py:45
+#: chardata/templates/chardata/compare_sets.html:148
 #: chardata/templates/chardata/solution.html:167
 #: chardata/templates/chardata/stats.html:39 chardata/translation_util.py:73
 #: chardata/wizard_sliders.py:50
 msgid "Critical Hits"
-msgstr ""
+msgstr "Kritische Treffer"
 
 #: chardata/smart_build.py:46
 msgid "Avoid Critical Hits"
-msgstr ""
+msgstr "Vermeiden Sie kritische Treffer"
 
 #: chardata/smart_build.py:47
 msgid "Linear Heals"
-msgstr ""
+msgstr "Lineare Heilungen"
 
 #: chardata/smart_build.py:48
 msgid "AP Removal"
-msgstr ""
+msgstr "AP-Entfernung"
 
 #: chardata/smart_build.py:49
 msgid "MP Removal"
-msgstr ""
+msgstr "MP-Entfernung"
 
 #: chardata/smart_build.py:50
 msgid "Group PVP"
-msgstr ""
+msgstr "Gruppen-PVP"
 
 #: chardata/smart_build.py:51
 msgid "Duel PVP"
-msgstr ""
+msgstr "Duell PVP"
 
 #: chardata/smart_build.py:52
 msgid "Traps"
-msgstr ""
+msgstr "Fallen"
 
-#: chardata/smart_build.py:53 chardata/templates/chardata/compare_sets.html:147
+#: chardata/smart_build.py:53
+#: chardata/templates/chardata/compare_sets.html:147
 #: chardata/templates/chardata/solution.html:165
 #: chardata/templates/chardata/stats.html:38 chardata/translation_util.py:71
 #: chardata/translation_util.py:580 chardata/wizard_sliders.py:92
 msgid "Summons"
-msgstr ""
+msgstr "Ladung"
 
 #: chardata/smart_build.py:54
 msgid "Pushback"
-msgstr ""
+msgstr "Pushback"
 
-#: chardata/smart_build.py:55 chardata/templates/chardata/compare_sets.html:154
+#: chardata/smart_build.py:55
+#: chardata/templates/chardata/compare_sets.html:154
 #: chardata/templates/chardata/solution.html:172
 #: chardata/templates/chardata/stats.html:42 chardata/translation_util.py:75
 #: chardata/wizard_sliders.py:96
 msgid "Prospecting"
-msgstr ""
+msgstr "Prospektion"
 
-#: chardata/smart_build.py:56 chardata/templates/chardata/compare_sets.html:163
+#: chardata/smart_build.py:56
+#: chardata/templates/chardata/compare_sets.html:163
 #: chardata/templates/chardata/solution.html:190
 #: chardata/templates/chardata/stats.html:51 chardata/translation_util.py:84
 msgid "Pods"
-msgstr ""
+msgstr "Schoten"
 
 #: chardata/smart_build.py:57
 msgid "Balanced"
-msgstr ""
+msgstr "Ausgewogen"
 
 #: chardata/smart_build.py:58
 msgid "Glass-Cannon"
-msgstr ""
+msgstr "Glaskanone"
 
 #: chardata/solution_result.py:182
 #, python-format
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr ""
+"(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 
 #: chardata/solution_result.py:188
 #, python-format
 msgid "(%(weapon_type)s) AP: %(AP)d"
-msgstr ""
+msgstr "(%(weapon_type)s) AP: %(AP)d"
 
 #: chardata/solution_result.py:193
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s steal)"
-msgstr ""
+msgstr "%(min)d bis %(max)d (%(element)s stehlen)"
 
 #: chardata/solution_result.py:197
 #, python-format
 msgid "%(min)d to %(max)d (HP restored)"
-msgstr ""
+msgstr "%(min)d bis %(max)d (HP wiederhergestellt)"
 
 #: chardata/solution_result.py:200
 #, python-format
@@ -332,60 +351,68 @@ msgstr "%(min)d bis %(max)d %(element)s Heilung"
 #: chardata/solution_result.py:200
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
-msgstr ""
+msgstr "%(min)d bis %(max)d (%(element)s)"
 
 #: chardata/solution_result.py:256
 msgid "Set bonus < 3"
-msgstr ""
+msgstr "Setbonus < 3"
 
 #: chardata/solution_result.py:265
 msgid "Prysmaradite < 1"
-msgstr ""
+msgstr "Prysmaradit < 1"
 
 #: chardata/templates/chardata/403.html:6
 #: chardata/templates/chardata/404.html:6
 #: chardata/templates/chardata/500.html:6
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: chardata/templates/chardata/403.html:10
 msgid "403 - Forbidden"
-msgstr ""
+msgstr "403 – Verboten"
 
 #: chardata/templates/chardata/403.html:15
 #: chardata/templates/chardata/404.html:15
 msgid "Oops..."
-msgstr ""
+msgstr "Hoppla..."
 
 #: chardata/templates/chardata/403.html:17
 msgid ""
 "It seems like the project you are trying to access is not available. It may "
 "have been deleted, or maybe it belongs to someone else."
 msgstr ""
+"Anscheinend ist das Projekt, auf das Sie zugreifen möchten, nicht verfügbar."
+" Möglicherweise wurde es gelöscht oder es gehört jemand anderem."
 
 #: chardata/templates/chardata/403.html:20
 #, python-format
 msgid ""
 "If someone sent you this link, have them send you the 'Share' link at the "
 "bottom of their Outfit Suggestion page instead. If that is not the case and "
-"this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
-"a>."
+"this keeps happening, you can contact us <a "
+"href=\"%(contact_url)s\">here</a>."
 msgstr ""
+"Wenn Ihnen jemand diesen Link gesendet hat, bitten Sie ihn stattdessen, "
+"Ihnen den „Teilen“-Link unten auf der Outfit-Vorschlagsseite zu senden. "
+"Sollte dies nicht der Fall sein und dies immer wieder passieren, können Sie "
+"uns <a href=\"%(contact_url)s\">hier</a> kontaktieren."
 
 #: chardata/templates/chardata/403.html:24
 #, python-format
 msgid ""
-"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a href="
-"\"%(create_project_url)s\">create a project</a> of your own."
+"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a "
+"href=\"%(create_project_url)s\">create a project</a> of your own."
 msgstr ""
+"Oder Sie kehren zur <a href=\"%(home_url)s\">Startseite</a> zurück oder <a "
+"href=\"%(create_project_url)s\">erstellen Sie ein eigenes Projekt</a>."
 
 #: chardata/templates/chardata/404.html:10
 msgid "404 - Page Not Found"
-msgstr ""
+msgstr "404 – Seite nicht gefunden"
 
 #: chardata/templates/chardata/404.html:17
 msgid "We could not find the page you are looking for."
-msgstr ""
+msgstr "Wir konnten die von Ihnen gesuchte Seite nicht finden."
 
 #: chardata/templates/chardata/404.html:21
 #, python-format
@@ -394,45 +421,65 @@ msgid ""
 "send us a message <a href=\"%(contact_url)s\">here</a> if this keeps "
 "happening."
 msgstr ""
+"Sie können stattdessen zur <a href=\"%(home_url)s\">Startseite</a> "
+"zurückkehren oder uns <a href=\"%(contact_url)s\">hier</a> eine Nachricht "
+"senden, wenn das Problem weiterhin auftritt."
 
 #: chardata/templates/chardata/500.html:10
 msgid "500 - Application Error"
-msgstr ""
+msgstr "500 – Anwendungsfehler"
 
 #: chardata/templates/chardata/500.html:19
 msgid "The application threw an error. It's probably our fault."
 msgstr ""
+"Die Anwendung hat einen Fehler ausgegeben. Es ist wahrscheinlich unsere "
+"Schuld."
 
 #: chardata/templates/chardata/500.html:20
 msgid "Please return to the previous page and try again."
 msgstr ""
+"Bitte kehren Sie zur vorherigen Seite zurück und versuchen Sie es erneut."
 
 #: chardata/templates/chardata/500.html:21
 #, python-format
 msgid ""
-"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a> "
-"and tell us all about this problem."
+"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a>"
+" and tell us all about this problem."
 msgstr ""
+"Wenn das nicht funktioniert, kontaktieren Sie uns bitte <a "
+"href=\"%(contact_url)s\">hier</a> und erzählen Sie uns alles über dieses "
+"Problem."
 
 #: chardata/templates/chardata/about.html:6
 msgid "About"
-msgstr ""
+msgstr "Um"
 
 #: chardata/templates/chardata/about.html:19
 msgid ""
-"The Dofus Fashionista is a fan site about <a href='http://www.dofus."
-"com'>Dofus</a>. It uses mathematical programming, a branch of <a "
+"The Dofus Fashionista is a fan site about <a "
+"href='http://www.dofus.com'>Dofus</a>. It uses mathematical programming, a "
+"branch of <a "
 "href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, "
 "to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 "
 "MP with as much Intelligence as possible) the player provides."
 msgstr ""
+"Die Dofus Fashionista ist eine Fanseite über <a "
+"href='http://www.dofus.com'>Dofus</a>. Es verwendet mathematische "
+"Programmierung, einen Zweig von <a "
+"href='http://en.wikipedia.org/wiki/Artificial_intelligence'>Hexerei</a>, um "
+"Satzvorschläge zu erstellen, die den Anforderungen des Spielers entsprechen "
+"(z. B. 12 AP, 6 MP mit so viel Intelligenz wie möglich)."
 
 #: chardata/templates/chardata/about.html:20
 msgid ""
-"When a new project is created, the Wizard tries to figure what the character "
-"is about by reading the build and class specified. It then creates an "
+"When a new project is created, the Wizard tries to figure what the character"
+" is about by reading the build and class specified. It then creates an "
 "initial configuration for the first run."
 msgstr ""
+"Wenn ein neues Projekt erstellt wird, versucht der Assistent herauszufinden,"
+" worum es bei der Figur geht, indem er den angegebenen Build und die "
+"angegebene Klasse liest. Anschließend wird eine Anfangskonfiguration für den"
+" ersten Lauf erstellt."
 
 #: chardata/templates/chardata/about.html:21
 msgid ""
@@ -441,29 +488,41 @@ msgid ""
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
 msgstr ""
+"Der Outfit-Vorschlag entspricht möglicherweise nicht Ihren Vorstellungen. "
+"Beispielsweise sind die HP trotz guter Agilität zu niedrig. Sie können "
+"Anpassungen vornehmen, indem Sie zum Assistenten zurückkehren und mit den "
+"Schiebereglern herumspielen, oder indem Sie direkt mit dem Wert "
+"experimentieren, der den einzelnen Statistiken zugewiesen wird."
 
 #: chardata/templates/chardata/about.html:22
 msgid ""
 "If items that are too expensive or not available to you are suggested, you "
 "can always forbid them and ask for a new set."
 msgstr ""
+"Wenn Ihnen Artikel vorgeschlagen werden, die zu teuer oder nicht verfügbar "
+"sind, können Sie diese jederzeit verbieten und um ein neues Set bitten."
 
 #: chardata/templates/chardata/about.html:26
 #: chardata/templates/chardata/license.html:19
-msgid "The Dofus Fashionista is open source software. The code can be found in"
+msgid ""
+"The Dofus Fashionista is open source software. The code can be found in"
 msgstr ""
+"Die Dofus Fashionista ist Open-Source-Software. Den Code finden Sie in"
 
 #: chardata/templates/chardata/about.html:27
 #, python-format
 msgid ""
-"To report problems, suggest new features, or rant about the lack of skill of "
-"your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
+"To report problems, suggest new features, or rant about the lack of skill of"
+" your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
 msgstr ""
+"Um Probleme zu melden, neue Funktionen vorzuschlagen oder sich über die "
+"mangelnden Fähigkeiten Ihres Kolo-Teams zu beschweren, <a "
+"href=\"%(contact_url)s\">kontaktieren Sie uns</a>."
 
 #: chardata/templates/chardata/about.html:28
 #: chardata/templates/chardata/base.html:208
 msgid "Copyright and License information"
-msgstr ""
+msgstr "Informationen zu Urheberrecht und Lizenz"
 
 #: chardata/templates/chardata/base.html:226
 msgid "Support Fashionista"
@@ -471,39 +530,43 @@ msgstr "Fashionista unterstützen"
 
 #: chardata/templates/chardata/about.html:29
 msgid "Website version:"
-msgstr ""
+msgstr "Website-Version:"
 
 #: chardata/templates/chardata/about.html:30
 msgid "English version by: "
-msgstr ""
+msgstr "Englische Version von:"
 
 #: chardata/templates/chardata/base.html:38
 msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
+"Sie haben nicht gespeicherte Änderungen. Sie werden verworfen, wenn Sie "
+"gehen."
 
 #: chardata/templates/chardata/base.html:85
 #: chardata/templates/chardata/base.html:87
 #, python-format
 msgid ""
-"Welcome, <a id=\"logged_user_alias\" href=\"%(manage_account_link)s\">"
-"%(user)s</a>! "
+"Welcome, <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a>! "
 msgstr ""
+"Willkommen, <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a>!"
 
 #: chardata/templates/chardata/base.html:92
 msgid "Logout"
-msgstr ""
+msgstr "Abmelden"
 
 #: chardata/templates/chardata/base.html:102
 msgid "Home"
-msgstr ""
+msgstr "Heim"
 
 #: chardata/templates/chardata/base.html:109
 msgid "Create a project"
-msgstr ""
+msgstr "Erstellen Sie ein Projekt"
 
 #: chardata/templates/chardata/base.html:112
 msgid "Load a project"
-msgstr ""
+msgstr "Laden Sie ein Projekt"
 
 #: chardata/templates/chardata/base.html:115
 msgid "Shared Builds"
@@ -511,115 +574,119 @@ msgstr "Geteilte Builds"
 
 #: chardata/templates/chardata/base.html:118
 msgid "Compare sets"
-msgstr ""
+msgstr "Sätze vergleichen"
 
 #: chardata/templates/chardata/base.html:125
 #: chardata/templates/chardata/wizard.html:6
 #: chardata/templates/chardata/wizard.html:16
 msgid "Wizard"
-msgstr ""
+msgstr "Zauberer"
 
 #: chardata/templates/chardata/base.html:129
 #: chardata/templates/chardata/chardata.html:6
 #: chardata/templates/chardata/chardata.html:12
 msgid "Base Characteristics"
-msgstr ""
+msgstr "Basiseigenschaften"
 
 #: chardata/templates/chardata/base.html:132
 #: chardata/templates/chardata/options.html:5
 #: chardata/templates/chardata/options.html:15
 #: chardata/templates/chardata/projdetails.html:67
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #: chardata/templates/chardata/base.html:135
 #: chardata/templates/chardata/inclusions.html:4
 #: chardata/templates/chardata/inclusions.html:17
 msgid "Lock Items"
-msgstr ""
+msgstr "Elemente sperren"
 
 #: chardata/templates/chardata/base.html:138
 #: chardata/templates/chardata/exclusions.html:6
 #: chardata/templates/chardata/exclusions.html:18
 msgid "Forbid Items"
-msgstr ""
+msgstr "Gegenstände verbieten"
 
 #: chardata/templates/chardata/base.html:141
 #: chardata/templates/chardata/min_stats.html:4
 #: chardata/templates/chardata/min_stats.html:15
 msgid "Minimum Characteristics"
-msgstr ""
+msgstr "Mindesteigenschaften"
 
 #: chardata/templates/chardata/base.html:144
 #: chardata/templates/chardata/stats.html:4
 #: chardata/templates/chardata/stats.html:14
 msgid "Characteristics Weights"
-msgstr ""
+msgstr "Eigenschaften Gewichte"
 
 #: chardata/templates/chardata/base.html:148
 #: chardata/templates/chardata/base.html:456
 msgid "Less"
-msgstr ""
+msgstr "Weniger"
 
 #: chardata/templates/chardata/base.html:152
 #: chardata/templates/chardata/solution.html:105
 #: chardata/templates/chardata/wizard.html:45
 msgid "Tailor a New Set"
-msgstr ""
+msgstr "Stellen Sie ein neues Set zusammen"
 
 #: chardata/templates/chardata/base.html:168
 #: chardata/templates/chardata/solution.html:6
 #: chardata/templates/chardata/solution.html:16
 msgid "Outfit Suggestion"
-msgstr ""
+msgstr "Outfit-Vorschlag"
 
 #: chardata/templates/chardata/base.html:182
 #: chardata/templates/chardata/spells.html:6
 #: chardata/templates/chardata/spells.html:15
 msgid "Spells Damage"
-msgstr ""
+msgstr "Zauberschaden"
 
 #: chardata/templates/chardata/base.html:207
 msgid "Items up to update"
-msgstr ""
+msgstr "Artikel müssen aktualisiert werden"
 
 #: chardata/templates/chardata/base.html:208
 #: chardata/templates/chardata/contacts.html:11
 #: chardata/templates/chardata/contacts.html:15
 msgid "Contact us"
-msgstr ""
+msgstr "Kontaktieren Sie uns"
 
 #: chardata/templates/chardata/base.html:263
 msgid ""
 "Since you are not logged in, this will replace your current project (if you "
 "have one). Continue?"
 msgstr ""
+"Da Sie nicht angemeldet sind, wird dadurch Ihr aktuelles Projekt ersetzt "
+"(sofern Sie eines haben). Weitermachen?"
 
 #: chardata/templates/chardata/base.html:448
 #: chardata/templates/chardata/base.html:459
 msgid "More"
-msgstr ""
+msgstr "Mehr"
 
 #: chardata/templates/chardata/chardata.html:19
 msgid ""
 "Distribute the points for me (the points will be applied when designing a "
 "set)"
 msgstr ""
+"Verteile die Punkte für mich (die Punkte werden beim Entwerfen eines Sets "
+"berücksichtigt)"
 
 #: chardata/templates/chardata/chardata.html:25
 msgid "Scrolled"
-msgstr ""
+msgstr "Gescrollt"
 
 #: chardata/templates/chardata/chardata.html:26
 msgid "Points"
-msgstr ""
+msgstr "Punkte"
 
 #: chardata/templates/chardata/chardata.html:27
 #: chardata/templates/chardata/compare_sets.html:101
 #: chardata/templates/chardata/solution.html:118
 #: chardata/templates/chardata/solution.html:349
 msgid "Total"
-msgstr ""
+msgstr "Gesamt"
 
 #: chardata/templates/chardata/chardata.html:31
 #: chardata/templates/chardata/chardata.html:79
@@ -628,40 +695,42 @@ msgstr ""
 #: chardata/templates/chardata/stats.html:24 chardata/translation_util.py:62
 #: chardata/wizard_sliders.py:94
 msgid "Wisdom"
-msgstr ""
+msgstr "Weisheit"
 
 #: chardata/templates/chardata/chardata.html:37
 msgid "Characteristics points:"
-msgstr ""
+msgstr "Charakteristische Punkte:"
 
 #: chardata/templates/chardata/chardata.html:41
 msgid "Reset to Zero"
-msgstr ""
+msgstr "Auf Null zurücksetzen"
 
 #: chardata/templates/chardata/chardata.html:42
 msgid "Fully Scroll"
-msgstr ""
+msgstr "Vollständig scrollen"
 
 #: chardata/templates/chardata/chardata.html:45
 msgid "Proceed to Wizard"
-msgstr ""
+msgstr "Fahren Sie mit dem Assistenten fort"
 
 #: chardata/templates/chardata/chardata.html:54
 msgid "Soft Caps"
-msgstr ""
+msgstr "Weiche Kappen"
 
 #: chardata/templates/chardata/chardata.html:183
 msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
 msgstr ""
+"Verwenden Sie %pointsUsed% Punkte, um bei %ratio%:1 auf %newTotal% zu "
+"erhöhen"
 
 #: chardata/templates/chardata/chardata.html:299
 msgid "Scrolled stats must be between 0 and 100."
-msgstr ""
+msgstr "Die gescrollten Statistiken müssen zwischen 0 und 100 liegen."
 
 #: chardata/templates/chardata/check_your_email.html:6
 #: chardata/templates/chardata/check_your_email.html:13
 msgid "Confirm your email"
-msgstr ""
+msgstr "Bestätigen Sie Ihre E-Mail"
 
 #: chardata/templates/chardata/check_your_email.html:19
 #, python-format
@@ -669,68 +738,77 @@ msgid ""
 "We have sent you a confirmation email. Please click the link in the email "
 "and then <a href='%(login_link)s'>login</a>."
 msgstr ""
+"Wir haben Ihnen eine Bestätigungs-E-Mail gesendet. Bitte klicken Sie auf den"
+" Link in der E-Mail und dann <a href='%(login_link)s'>Anmelden</a>."
 
 #: chardata/templates/chardata/choose_compare_sets.html:7
 #: chardata/templates/chardata/choose_compare_sets.html:13
 msgid "Choose sets to compare"
-msgstr ""
+msgstr "Wählen Sie Sets zum Vergleichen aus"
 
 #: chardata/templates/chardata/choose_compare_sets.html:15
 msgid ""
 "To compare projects that you own, type the project name or paste a link to "
 "the solution such as:"
 msgstr ""
+"Um Projekte zu vergleichen, deren Eigentümer Sie sind, geben Sie den "
+"Projektnamen ein oder fügen Sie einen Link zur Lösung ein, z. B.:"
 
 #: chardata/templates/chardata/choose_compare_sets.html:17
-msgid "To compare other people's projects paste the sharing link, for example:"
+msgid ""
+"To compare other people's projects paste the sharing link, for example:"
 msgstr ""
+"Um die Projekte anderer Leute zu vergleichen, fügen Sie den Freigabelink "
+"ein, zum Beispiel:"
 
 #: chardata/templates/chardata/choose_compare_sets.html:23
 msgid "Link to project"
-msgstr ""
+msgstr "Link zum Projekt"
 
 #: chardata/templates/chardata/choose_compare_sets.html:33
 #: chardata/templates/chardata/load_projects.html:48
 msgid "Compare"
-msgstr ""
+msgstr "Vergleichen"
 
 #: chardata/templates/chardata/compare_sets.html:8
 #: chardata/templates/chardata/compare_sets.html:19
 msgid "Compare Sets"
-msgstr ""
+msgstr "Sätze vergleichen"
 
 #: chardata/templates/chardata/compare_sets.html:22
 msgid ""
 "This is a comparison between set suggestions. To share it, use the link "
 "below rather than the one in your browser."
 msgstr ""
+"Dies ist ein Vergleich zwischen Set-Vorschlägen. Um es zu teilen, verwenden "
+"Sie den untenstehenden Link und nicht den in Ihrem Browser."
 
 #: chardata/templates/chardata/compare_sets.html:42
 #: chardata/templates/chardata/compare_sets.html:74
 #: chardata/templates/chardata/compare_sets.html:126
 #, python-format
 msgid "Set %(n)s"
-msgstr ""
+msgstr "%(n)s festlegen"
 
 #: chardata/templates/chardata/compare_sets.html:64
 msgid "Change Sets"
-msgstr ""
+msgstr "Änderungssätze"
 
 #: chardata/templates/chardata/compare_sets.html:106
 #: chardata/templates/chardata/solution.html:123
 #: chardata/templates/chardata/solution.html:346
 msgid "Equip"
-msgstr ""
+msgstr "Ausrüsten"
 
 #: chardata/templates/chardata/compare_sets.html:124
 msgid "Diff"
-msgstr ""
+msgstr "Diff"
 
 #: chardata/templates/chardata/compare_sets.html:132
 #: chardata/templates/chardata/solution.html:134
 #: chardata/translation_util.py:60
 msgid "HP"
-msgstr ""
+msgstr "PS"
 
 #: chardata/templates/chardata/compare_sets.html:139
 #: chardata/templates/chardata/solution.html:148
@@ -744,132 +822,132 @@ msgstr ""
 #: chardata/templates/chardata/stats.html:29 chardata/translation_util.py:67
 #: chardata/translation_util.py:287 chardata/wizard_sliders.py:42
 msgid "Power"
-msgstr ""
+msgstr "Leistung"
 
 #: chardata/templates/chardata/compare_sets.html:153
 #: chardata/templates/chardata/solution.html:170
 #: chardata/templates/chardata/stats.html:41 chardata/translation_util.py:74
 #: chardata/wizard_sliders.py:84
 msgid "Initiative"
-msgstr ""
+msgstr "Initiative"
 
 #: chardata/templates/chardata/compare_sets.html:155
 #: chardata/templates/chardata/solution.html:174
 #: chardata/templates/chardata/stats.html:43 chardata/translation_util.py:76
 #: chardata/wizard_sliders.py:75
 msgid "Lock"
-msgstr ""
+msgstr "Sperren"
 
 #: chardata/templates/chardata/compare_sets.html:156
 #: chardata/templates/chardata/solution.html:176
 #: chardata/templates/chardata/stats.html:44 chardata/translation_util.py:77
 #: chardata/wizard_sliders.py:76
 msgid "Dodge"
-msgstr ""
+msgstr "Ausweichen"
 
 #: chardata/templates/chardata/compare_sets.html:157
 #: chardata/templates/chardata/solution.html:178
 #: chardata/templates/chardata/stats.html:45 chardata/translation_util.py:78
 #: chardata/wizard_sliders.py:81
 msgid "AP Reduction"
-msgstr ""
+msgstr "AP-Reduktion"
 
 #: chardata/templates/chardata/compare_sets.html:158
 #: chardata/templates/chardata/solution.html:180
 #: chardata/templates/chardata/stats.html:46 chardata/translation_util.py:79
 #: chardata/wizard_sliders.py:83
 msgid "MP Reduction"
-msgstr ""
+msgstr "MP-Reduzierung"
 
 #: chardata/templates/chardata/compare_sets.html:159
 #: chardata/templates/chardata/solution.html:182
 #: chardata/templates/chardata/stats.html:47 chardata/translation_util.py:80
 #: chardata/wizard_sliders.py:78
 msgid "AP Loss Resist"
-msgstr ""
+msgstr "AP-Verlustresistenz"
 
 #: chardata/templates/chardata/compare_sets.html:160
 #: chardata/templates/chardata/solution.html:184
 #: chardata/templates/chardata/stats.html:48 chardata/translation_util.py:81
 #: chardata/wizard_sliders.py:79
 msgid "MP Loss Resist"
-msgstr ""
+msgstr "Resistenz gegen MP-Verlust"
 
 #: chardata/templates/chardata/compare_sets.html:161
 #: chardata/templates/chardata/solution.html:186
 #: chardata/templates/chardata/stats.html:49 chardata/translation_util.py:82
 msgid "Pushback Resist"
-msgstr ""
+msgstr "Pushback-Widerstand"
 
 #: chardata/templates/chardata/compare_sets.html:162
 #: chardata/templates/chardata/solution.html:188
 #: chardata/templates/chardata/stats.html:50 chardata/translation_util.py:83
 #: chardata/wizard_sliders.py:70
 msgid "Critical Resist"
-msgstr ""
+msgstr "Kritischer Widerstand"
 
 #: chardata/templates/chardata/compare_sets.html:164
 #: chardata/templates/chardata/solution.html:192
 #: chardata/templates/chardata/stats.html:52 chardata/translation_util.py:85
 msgid "Reflects"
-msgstr ""
+msgstr "Reflektiert"
 
 #: chardata/templates/chardata/compare_sets.html:165
 #: chardata/templates/chardata/solution.html:194
 #: chardata/templates/chardata/stats.html:53 chardata/translation_util.py:86
 #: chardata/wizard_sliders.py:57
 msgid "Trap Damage"
-msgstr ""
+msgstr "Fallenschaden"
 
 #: chardata/templates/chardata/compare_sets.html:166
 #: chardata/templates/chardata/stats.html:54 chardata/translation_util.py:87
 #: chardata/wizard_sliders.py:58
 msgid "% Trap Damage"
-msgstr ""
+msgstr "% Fallenschaden"
 
 #: chardata/templates/chardata/compare_sets.html:171
 #: chardata/templates/chardata/solution.html:199
 #: chardata/templates/chardata/spells.html:593
 #: chardata/templates/chardata/stats.html:56 chardata/translation_util.py:88
 msgid "Damage"
-msgstr ""
+msgstr "Schaden"
 
 #: chardata/templates/chardata/compare_sets.html:172
 #: chardata/templates/chardata/solution.html:201
 #: chardata/templates/chardata/stats.html:57 chardata/translation_util.py:89
 msgid "Neutral Damage"
-msgstr ""
+msgstr "Neutraler Schaden"
 
 #: chardata/templates/chardata/compare_sets.html:173
 #: chardata/templates/chardata/solution.html:203
 #: chardata/templates/chardata/stats.html:58 chardata/translation_util.py:90
 msgid "Earth Damage"
-msgstr ""
+msgstr "Erdschaden"
 
 #: chardata/templates/chardata/compare_sets.html:174
 #: chardata/templates/chardata/solution.html:205
 #: chardata/templates/chardata/stats.html:59 chardata/translation_util.py:91
 msgid "Fire Damage"
-msgstr ""
+msgstr "Brandschaden"
 
 #: chardata/templates/chardata/compare_sets.html:175
 #: chardata/templates/chardata/solution.html:207
 #: chardata/templates/chardata/stats.html:60 chardata/translation_util.py:92
 msgid "Water Damage"
-msgstr ""
+msgstr "Wasserschaden"
 
 #: chardata/templates/chardata/compare_sets.html:176
 #: chardata/templates/chardata/solution.html:209
 #: chardata/templates/chardata/stats.html:61 chardata/translation_util.py:93
 msgid "Air Damage"
-msgstr ""
+msgstr "Luftschaden"
 
 #: chardata/templates/chardata/compare_sets.html:177
 #: chardata/templates/chardata/solution.html:211
 #: chardata/templates/chardata/stats.html:62 chardata/translation_util.py:94
 #: chardata/wizard_sliders.py:51
 msgid "Critical Damage"
-msgstr ""
+msgstr "Kritischer Schaden"
 
 #: chardata/templates/chardata/compare_sets.html:178
 #: chardata/templates/chardata/solution.html:213
@@ -877,7 +955,7 @@ msgstr ""
 #: chardata/templates/chardata/stats.html:63 chardata/translation_util.py:95
 #: chardata/wizard_sliders.py:54
 msgid "Pushback Damage"
-msgstr ""
+msgstr "Pushback-Schaden"
 
 #: chardata/templates/chardata/compare_sets.html:179
 #: chardata/templates/chardata/solution.html:215
@@ -887,113 +965,119 @@ msgstr ""
 #: chardata/templates/chardata/stats.html:64 chardata/translation_util.py:96
 #: chardata/wizard_sliders.py:90
 msgid "Heals"
-msgstr ""
+msgstr "Heilt"
 
 #: chardata/templates/chardata/compare_sets.html:184
 #: chardata/templates/chardata/solution.html:218
 #: chardata/templates/chardata/stats.html:67 chardata/translation_util.py:97
 msgid "Neutral Resist"
-msgstr ""
+msgstr "Neutraler Widerstand"
 
 #: chardata/templates/chardata/compare_sets.html:185
 #: chardata/templates/chardata/solution.html:220
 #: chardata/templates/chardata/stats.html:68 chardata/translation_util.py:98
 msgid "Earth Resist"
-msgstr ""
+msgstr "Erdwiderstand"
 
 #: chardata/templates/chardata/compare_sets.html:186
 #: chardata/templates/chardata/solution.html:222
 #: chardata/templates/chardata/stats.html:69 chardata/translation_util.py:99
 msgid "Fire Resist"
-msgstr ""
+msgstr "Feuerbeständig"
 
 #: chardata/templates/chardata/compare_sets.html:187
 #: chardata/templates/chardata/solution.html:224
 #: chardata/templates/chardata/stats.html:70 chardata/translation_util.py:100
 msgid "Water Resist"
-msgstr ""
+msgstr "Wasserbeständig"
 
 #: chardata/templates/chardata/compare_sets.html:188
 #: chardata/templates/chardata/solution.html:226
 #: chardata/templates/chardata/stats.html:71 chardata/translation_util.py:101
 msgid "Air Resist"
-msgstr ""
+msgstr "Luftbeständig"
 
 #: chardata/templates/chardata/compare_sets.html:193
 #: chardata/templates/chardata/stats.html:74
 msgid "% Neutral Resist"
-msgstr ""
+msgstr "% Neutralwiderstand"
 
 #: chardata/templates/chardata/compare_sets.html:194
 #: chardata/templates/chardata/stats.html:75
 #, python-format
 msgid "% Earth Resist"
-msgstr ""
+msgstr "% Erdwiderstand"
 
 #: chardata/templates/chardata/compare_sets.html:195
 #: chardata/templates/chardata/stats.html:76
 msgid "% Fire Resist"
-msgstr ""
+msgstr "% Feuerbeständigkeit"
 
 #: chardata/templates/chardata/compare_sets.html:196
 #: chardata/templates/chardata/stats.html:77
 msgid "% Water Resist"
-msgstr ""
+msgstr "% Wasserbeständigkeit"
 
 #: chardata/templates/chardata/compare_sets.html:197
 #: chardata/templates/chardata/stats.html:78
 msgid "% Air Resist"
-msgstr ""
+msgstr "% Luftwiderstand"
 
 #: chardata/templates/chardata/contacts.html:29
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: chardata/templates/chardata/contacts.html:29
 #: chardata/templates/chardata/contacts.html:37
 msgid "optional"
-msgstr ""
+msgstr "optional"
 
 #: chardata/templates/chardata/contacts.html:37
 #: chardata/templates/chardata/login.html:117
 #: chardata/templates/chardata/manage_account.html:35
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 #: chardata/templates/chardata/contacts.html:47
 msgid "Subject"
-msgstr ""
+msgstr "Thema"
 
 #: chardata/templates/chardata/contacts.html:57
 msgid "Message"
-msgstr ""
+msgstr "Nachricht"
 
 #: chardata/templates/chardata/exclusions.html:20
 msgid ""
-"Declare items that cannot be used on your character's set. By doing this you "
-"can avoid items that are expensive, hard to obtain, require a dungeon to be "
-"complete, or are just plain ugly."
+"Declare items that cannot be used on your character's set. By doing this you"
+" can avoid items that are expensive, hard to obtain, require a dungeon to be"
+" complete, or are just plain ugly."
 msgstr ""
+"Deklarieren Sie Gegenstände, die nicht im Set Ihres Charakters verwendet "
+"werden können. Auf diese Weise können Sie Gegenstände vermeiden, die teuer "
+"oder schwer zu bekommen sind, für deren Fertigstellung ein Dungeon "
+"erforderlich ist oder die einfach nur hässlich sind."
 
 #: chardata/templates/chardata/exclusions.html:27
 #: chardata/templates/chardata/solution_item.html:26
 msgid "Forbid"
-msgstr ""
+msgstr "Verbieten"
 
 #: chardata/templates/chardata/exclusions.html:44
 msgid "Dofus or Trophy"
-msgstr ""
+msgstr "Dofus oder Trophäe"
 
 #: chardata/templates/chardata/faq.html:6
 #: chardata/templates/chardata/faq.html:15
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Häufig gestellte Fragen"
 
 #: chardata/templates/chardata/faq.html:19
 msgid ""
 "What are the numbers by the sliders? And why does each slider have a "
 "different range?"
 msgstr ""
+"Wie lauten die Zahlen auf den Schiebereglern? Und warum hat jeder "
+"Schieberegler einen anderen Bereich?"
 
 #: chardata/templates/chardata/faq.html:20
 msgid ""
@@ -1001,109 +1085,160 @@ msgid ""
 "worth to you. The program will then choose the equipment that sum the most "
 "points in total. For example, suppose you have the following equipment:"
 msgstr ""
+"Jede dieser Zahlen gibt an, wie viele Punkte Ihnen jedes der Attribute wert "
+"ist. Das Programm wählt dann die Geräte aus, die insgesamt die meisten "
+"Punkte ergeben. Angenommen, Sie verfügen über die folgende Ausrüstung:"
 
 #: chardata/templates/chardata/faq.html:27
 msgid "Item A"
-msgstr ""
+msgstr "Punkt A"
 
 #: chardata/templates/chardata/faq.html:28
 #: chardata/templates/chardata/faq.html:35
 msgid "intelligence"
-msgstr ""
+msgstr "Intelligenz"
 
 #: chardata/templates/chardata/faq.html:29
 #: chardata/templates/chardata/faq.html:36
 msgid "initiative"
-msgstr ""
+msgstr "Initiative"
 
 #: chardata/templates/chardata/faq.html:34
 msgid "Item B"
-msgstr ""
+msgstr "Punkt B"
 
 #: chardata/templates/chardata/faq.html:42
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"10 points, equipment A will have a score of 2100 points, while equipment B "
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
 msgstr ""
+"Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 10 "
+"Punkte wert ist, hat Ausrüstung A eine Punktzahl von 2100 Punkten, während "
+"Ausrüstung B eine Punktzahl von 1400 Punkten hat, und das Programm wählt "
+"Punkt A aus."
 
 #: chardata/templates/chardata/faq.html:49
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"1 point, equipment A will have a score of 300 points, while equipment B will "
-"have a score of 500 points, and the program will choose Item B."
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 1 point, equipment A will have a score of 300 points, while equipment B "
+"will have a score of 500 points, and the program will choose Item B."
 msgstr ""
+"Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 1 Punkt "
+"wert ist, erhält Ausrüstung A eine Punktzahl von 300 Punkten, während "
+"Ausrüstung B eine Punktzahl von 500 Punkten hat und das Programm Element B "
+"auswählt."
 
 #: chardata/templates/chardata/faq.html:51
 msgid ""
 "That is our way of telling the program what to optimize. The ranges you see "
-"on each slider is the range that is most effective for each attribute, based "
-"on our experience. If you wish to use values outside of the range we "
-"defined, you can go to the Characteristics Weights page (under More) and set "
-"them manually."
+"on each slider is the range that is most effective for each attribute, based"
+" on our experience. If you wish to use values outside of the range we "
+"defined, you can go to the Characteristics Weights page (under More) and set"
+" them manually."
 msgstr ""
+"Auf diese Weise sagen wir dem Programm, was optimiert werden soll. Die "
+"Bereiche, die Sie auf jedem Schieberegler sehen, sind unserer Erfahrung nach"
+" die Bereiche, die für jedes Attribut am effektivsten sind. Wenn Sie Werte "
+"außerhalb des von uns definierten Bereichs verwenden möchten, können Sie zur"
+" Seite „Merkmalsgewichtungen“ (unter „Mehr“) gehen und diese manuell "
+"festlegen."
 
 #: chardata/templates/chardata/faq.html:53
 msgid "I asked for exos but I can’t find them on any item. Where are they?"
 msgstr ""
+"Ich habe nach Exos gefragt, kann sie aber auf keinem Artikel finden. Wo sind"
+" sie?"
 
 #: chardata/templates/chardata/faq.html:54
 msgid ""
 "We don’t assign the exos to any particular equipment because we think you "
 "are the best person to know where it is most convenient to have them. Maybe "
-"a particular item is cheaper to buy/mage in your server, or you already have "
-"an exo in a piece of equipment and want to use it. It is still important "
+"a particular item is cheaper to buy/mage in your server, or you already have"
+" an exo in a piece of equipment and want to use it. It is still important "
 "that you tell us whether or not you are gonna have exos, because otherwise "
 "we may use some items with AP conditions that make them unequipable if you "
 "get an extra AP on your set."
 msgstr ""
+"Wir ordnen die Exos keiner bestimmten Ausrüstung zu, da wir der Meinung "
+"sind, dass Sie am besten wissen, wo Sie sie am bequemsten haben können. "
+"Vielleicht ist es auf Ihrem Server günstiger, einen bestimmten Gegenstand zu"
+" kaufen/zu bearbeiten, oder Sie haben bereits einen Exo in einem "
+"Ausrüstungsgegenstand und möchten ihn verwenden. Es ist dennoch wichtig, "
+"dass Sie uns mitteilen, ob Sie Exos haben werden oder nicht, da wir sonst "
+"möglicherweise einige Gegenstände mit AP-Bedingungen verwenden, die es "
+"unmöglich machen, sie auszurüsten, wenn Sie einen zusätzlichen AP für Ihr "
+"Set erhalten."
 
 #: chardata/templates/chardata/faq.html:56
 msgid ""
 "I need a PVM set, but I only see PVP options. Is there a way to build a PVM "
 "set?"
 msgstr ""
+"Ich benötige ein PVM-Set, sehe aber nur PVP-Optionen. Gibt es eine "
+"Möglichkeit, ein PVM-Set zu erstellen?"
 
 #: chardata/templates/chardata/faq.html:57
 msgid ""
 "We assume that, if you don’t check either of the PVP options, the set you "
 "are building is a PVM set."
 msgstr ""
+"Wir gehen davon aus, dass es sich bei dem von Ihnen erstellten Set um ein "
+"PVM-Set handelt, wenn Sie keine der PVP-Optionen aktivieren."
 
 #: chardata/templates/chardata/faq.html:60
 msgid "How does the site choose a weapon?"
-msgstr ""
+msgstr "Wie wählt die Website eine Waffe aus?"
 
 #: chardata/templates/chardata/faq.html:62
 msgid ""
 "If you don’t lock a weapon, the site will disregard the weapon damages and "
 "treat it like any other item, so you don’t always get an option that hits "
 "well. You will usually get a weapon with good attributes to your build, "
-"which tend to hit the element you chose. It is common to get AP weapons that "
-"aren’t really for hitting with. Forbid them and run again to see the next "
+"which tend to hit the element you chose. It is common to get AP weapons that"
+" aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
 msgstr ""
+"Wenn Sie eine Waffe nicht sperren, ignoriert die Website den Waffenschaden "
+"und behandelt sie wie jeden anderen Gegenstand, sodass Sie nicht immer eine "
+"Option erhalten, die gut trifft. Normalerweise erhalten Sie eine Waffe mit "
+"guten Eigenschaften für Ihren Build, die dazu neigen, das von Ihnen gewählte"
+" Element zu treffen. Es ist üblich, AP-Waffen zu bekommen, mit denen man "
+"nicht wirklich zuschlagen kann. Verbieten Sie sie und laufen Sie erneut, um "
+"die nächst bessere Option zu sehen."
 
 #: chardata/templates/chardata/faq.html:65
 msgid "Why can I focus on vitality and resists? Doesn't every char need them?"
 msgstr ""
+"Warum kann ich mich auf Vitalität und Widerstandskraft konzentrieren? "
+"Braucht nicht jeder Char sie?"
 
 #: chardata/templates/chardata/faq.html:66
 msgid ""
-"Those options are there for characters that need specially high vitality (or "
-"resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
+"Those options are there for characters that need specially high vitality (or"
+" resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
 "lot of vitality and not care much about their main element. Others, like "
 "Osamodas, may need a vit/res build with just a little bit of intelligence, "
-"and that's how they declare that defense is more important to them. Checking "
-"a focus box trades points in your main element (and other stats) for a boost "
-"on the focus you chose."
+"and that's how they declare that defense is more important to them. Checking"
+" a focus box trades points in your main element (and other stats) for a "
+"boost on the focus you chose."
 msgstr ""
+"Diese Optionen gibt es für Charaktere, die besonders hohe Vitalität (oder "
+"Resistenzen) benötigen. Beispielsweise wünschen sich Sacrieurs, Maskeradores"
+" und Foggernauts möglicherweise viel Vitalität und kümmern sich nicht viel "
+"um ihr Hauptelement. Andere, wie Osamodas, brauchen möglicherweise einen "
+"Vit/Res-Build mit ein wenig Intelligenz, und deshalb erklären sie, dass "
+"ihnen die Verteidigung wichtiger ist. Wenn Sie ein Fokusfeld markieren, "
+"tauschen Sie Punkte in Ihrem Hauptelement (und anderen Statistiken) gegen "
+"eine Steigerung des von Ihnen gewählten Fokus ein."
 
 #: chardata/templates/chardata/faq.html:67
 msgid ""
-"Not checking any focus boxes is fine and correct for a lot of cases. It will "
-"give you an all-around set."
+"Not checking any focus boxes is fine and correct for a lot of cases. It will"
+" give you an all-around set."
 msgstr ""
+"In vielen Fällen ist es in Ordnung und richtig, keine Fokusfelder "
+"anzukreuzen. Damit erhalten Sie ein Rundum-Set."
 
 #: chardata/templates/chardata/home_post.html:17
 #: chardata/templates/chardata/license.html:46
@@ -1116,35 +1251,39 @@ msgstr ""
 #: chardata/templates/chardata/license.html:53
 #: chardata/templates/chardata/license.html:55
 msgid "by"
-msgstr ""
+msgstr "von"
 
 #: chardata/templates/chardata/inclusions.html:19
 msgid ""
 "If you have any items that <b>must</b> be on the final set, lock them in "
 "here:"
 msgstr ""
+"Wenn Sie Gegenstände haben, die <b>im endgültigen Satz enthalten sein "
+"müssen</b>, sperren Sie sie hier ein:"
 
 #: chardata/templates/chardata/inclusions.html:98
 #: chardata/templates/chardata/solution.html:262
 #: chardata/templates/chardata/wizard.html:60
 msgid "Cancel"
-msgstr ""
+msgstr "Stornieren"
 
 #: chardata/templates/chardata/inclusions_row.html:10
 msgid "Choose"
-msgstr ""
+msgstr "Wählen"
 
 #: chardata/templates/chardata/infeasible.html:6
 msgid "No set suggestion found"
-msgstr ""
+msgstr "Kein Set-Vorschlag gefunden"
 
 #: chardata/templates/chardata/infeasible.html:21
 msgid "We could not find a set that fits all your needs"
-msgstr ""
+msgstr "Wir konnten kein Set finden, das alle Ihre Anforderungen erfüllt"
 
 #: chardata/templates/chardata/infeasible.html:22
 msgid "Try one or more of the following tips and try again:"
 msgstr ""
+"Probieren Sie einen oder mehrere der folgenden Tipps aus und versuchen Sie "
+"es erneut:"
 
 #: chardata/templates/chardata/infeasible.html:24
 #, python-format
@@ -1152,6 +1291,8 @@ msgid ""
 "Remove or lower <a href=%(mins_link)s>minimum characteristics</a> and raise "
 "their <a href=%(weights_link)s>weights</a> instead"
 msgstr ""
+"Entfernen oder senken Sie die <a href=%(mins_link)s>Mindestmerkmale</a> und "
+"erhöhen Sie stattdessen deren <a href=%(weights_link)s>Gewichtungen</a>"
 
 #: chardata/templates/chardata/infeasible.html:25
 #, python-format
@@ -1159,72 +1300,76 @@ msgid ""
 "Check if you <a href=%(lock_link)s>locked</a> an item with conditions that "
 "can't be met"
 msgstr ""
+"Überprüfen Sie, ob Sie ein Element mit Bedingungen <a "
+"href=%(lock_link)s>gesperrt</a> haben, die nicht erfüllt werden können"
 
 #: chardata/templates/chardata/infeasible.html:26
 #, python-format
 msgid "<a href=%(lock_link)s>Unlock</a> some items"
-msgstr ""
+msgstr "<a href=%(lock_link)s>Schalten Sie einige Elemente frei</a>"
 
 #: chardata/templates/chardata/infeasible.html:27
 #, python-format
 msgid "Allow <a href=%(exo_link)s>exo mages</a>"
-msgstr ""
+msgstr "Erlaube <a href=%(exo_link)s>Exo-Magier</a>"
 
 #: chardata/templates/chardata/infeasible.html:28
 msgid ""
 "Check if you are asking for &#x00BD; crits on a char whose level is too low"
 msgstr ""
+"Überprüfen Sie, ob Sie nach &#x00BD; fragen. Kritische Treffer für einen "
+"Charakter, dessen Level zu niedrig ist"
 
 #: chardata/templates/chardata/language-selector.html:10
 #: chardata/templates/chardata/language-selector.html:30
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugiesisch"
 
 #: chardata/templates/chardata/language-selector.html:13
 #: chardata/templates/chardata/language-selector.html:33
 msgid "English"
-msgstr ""
+msgstr "Englisch"
 
 #: chardata/templates/chardata/language-selector.html:16
 #: chardata/templates/chardata/language-selector.html:36
 msgid "French"
-msgstr ""
+msgstr "Französisch"
 
 #: chardata/templates/chardata/language-selector.html:19
 #: chardata/templates/chardata/language-selector.html:39
 msgid "Spanish"
-msgstr ""
+msgstr "Spanisch"
 
 #: chardata/templates/chardata/language-selector.html:22
 #: chardata/templates/chardata/language-selector.html:42
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: chardata/templates/chardata/language-selector.html:25
 #: chardata/templates/chardata/language-selector.html:45
 msgid "Italian"
-msgstr ""
+msgstr "Italienisch"
 
 #: chardata/templates/chardata/license.html:6
 #: chardata/templates/chardata/license.html:12
 msgid "License & Copyright Information"
-msgstr ""
+msgstr "Lizenz- und Urheberrechtsinformationen"
 
 #: chardata/templates/chardata/license.html:20
 msgid "Item and character images are property of"
-msgstr ""
+msgstr "Artikel- und Charakterbilder sind Eigentum von"
 
 #: chardata/templates/chardata/license.html:21
 msgid "Character images were generated with"
-msgstr ""
+msgstr "Charakterbilder wurden mit generiert"
 
 #: chardata/templates/chardata/license.html:24
 msgid "Powered by:"
-msgstr ""
+msgstr "Angetrieben von:"
 
 #: chardata/templates/chardata/license.html:44
 msgid "Licensed images:"
-msgstr ""
+msgstr "Lizenzierte Bilder:"
 
 #: chardata/templates/chardata/license.html:46
 #: chardata/templates/chardata/license.html:47
@@ -1233,15 +1378,15 @@ msgstr ""
 #: chardata/templates/chardata/license.html:50
 #: chardata/templates/chardata/license.html:51
 msgid "from"
-msgstr ""
+msgstr "aus"
 
 #: chardata/templates/chardata/license.html:54
 msgid "generated at"
-msgstr ""
+msgstr "erzeugt bei"
 
 #: chardata/templates/chardata/license.html:58
 msgid "Privacy Policy:"
-msgstr ""
+msgstr "Datenschutzrichtlinie:"
 
 #: chardata/templates/chardata/license.html:59
 msgid ""
@@ -1249,6 +1394,10 @@ msgid ""
 "that the Dofus Fashionista does not store your password. However, the Dofus "
 "Fashionista does store your email address and your Google ID."
 msgstr ""
+"Die Dofus Fashionista verwendet Google OAuth zur Authentifizierung von "
+"Benutzern. Das bedeutet, dass Dofus Fashionista Ihr Passwort nicht "
+"speichert. Allerdings speichert Dofus Fashionista Ihre E-Mail-Adresse und "
+"Ihre Google-ID."
 
 #: chardata/templates/chardata/license.html:60
 msgid ""
@@ -1256,16 +1405,23 @@ msgid ""
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
 msgstr ""
+"Wenn Sie Google OAuth lieber nicht verwenden möchten, können Sie trotzdem "
+"Dofus Fashionista verwenden. Sie können ein Konto mit einem Benutzernamen "
+"und einem Passwort erstellen. Die Dofus Fashionista speichert Ihr Passwort "
+"in verschlüsselter Form."
 
 #: chardata/templates/chardata/license.html:61
 msgid ""
 "The Dofus Fashionista also stores the characters you create. This "
 "information is used to provide the services of the Dofus Fashionista."
 msgstr ""
+"Der Dofus Fashionista speichert auch die von Ihnen erstellten Charaktere. "
+"Diese Informationen werden zur Bereitstellung der Dienste von Dofus "
+"Fashionista verwendet."
 
 #: chardata/templates/chardata/license.html:62
 msgid "The Dofus Fashionista does not share any data with third parties."
-msgstr ""
+msgstr "Die Dofus Fashionista gibt keine Daten an Dritte weiter."
 
 #: chardata/templates/chardata/load_projects.html:15
 #: chardata/templates/chardata/load_projects.html:114
@@ -1273,86 +1429,90 @@ msgid ""
 "You have reached the maximum number of projects. Please delete some old "
 "projects and try again."
 msgstr ""
+"Sie haben die maximale Anzahl an Projekten erreicht. Bitte löschen Sie "
+"einige alte Projekte und versuchen Sie es erneut."
 
 #: chardata/templates/chardata/load_projects.html:21
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: chardata/templates/chardata/load_projects.html:23
 msgid "None"
-msgstr ""
+msgstr "Keiner"
 
 #: chardata/templates/chardata/load_projects.html:26
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #: chardata/templates/chardata/load_projects.html:27
 #: chardata/templates/chardata/main-header.html:14
 msgid "Char"
-msgstr ""
+msgstr "Verkohlen"
 
 #: chardata/templates/chardata/load_projects.html:28
 #: chardata/templates/chardata/main-header.html:9
 msgid "Build"
-msgstr ""
+msgstr "Bauen"
 
 #: chardata/templates/chardata/load_projects.html:29
 msgid "Class"
-msgstr ""
+msgstr "Klasse"
 
 #: chardata/templates/chardata/load_projects.html:30
 #: chardata/templates/chardata/main-header.html:18
 #: chardata/templates/chardata/spells.html:36
 #: chardata/templates/chardata/spells.html:299
 msgid "Level"
-msgstr ""
+msgstr "Ebene"
 
 #: chardata/templates/chardata/load_projects.html:35
 msgid "A set suggestion has been generated for this project."
-msgstr ""
+msgstr "Für dieses Projekt wurde ein Setvorschlag generiert."
 
 #: chardata/templates/chardata/load_projects.html:46
 #: chardata/templates/chardata/solution_item.html:28
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: chardata/templates/chardata/load_projects.html:51
 #: chardata/templates/chardata/main-header.html:30
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikat"
 
 #: chardata/templates/chardata/load_projects.html:56
 #, python-format
 msgid ""
-"You don't have any projects yet. Create one <a href=\"%(create_project_link)s"
-"\">here</a>."
+"You don't have any projects yet. Create one <a "
+"href=\"%(create_project_link)s\">here</a>."
 msgstr ""
+"Sie haben noch keine Projekte. Erstellen Sie <a "
+"href=\"%(create_project_link)s\">hier</a> eins."
 
 #: chardata/templates/chardata/load_projects.html:61
 msgid "You need to login before you can load a project."
-msgstr ""
+msgstr "Sie müssen sich anmelden, bevor Sie ein Projekt laden können."
 
 #: chardata/templates/chardata/load_projects.html:84
 msgid "Are you sure you want to delete?"
-msgstr ""
+msgstr "Möchten Sie wirklich löschen?"
 
 #: chardata/templates/chardata/load_projects.html:116
 msgid "An error has occurred"
-msgstr ""
+msgstr "Es ist ein Fehler aufgetreten"
 
 #: chardata/templates/chardata/loading.html:12
 #, python-format
 msgid "Tailoring a set for %(char_name)s"
-msgstr ""
+msgstr "Einen Satz für %(char_name)s anpassen"
 
 #: chardata/templates/chardata/loading.html:14
 msgid "Tailoring a set"
-msgstr ""
+msgstr "Ein Set schneidern"
 
 #: chardata/templates/chardata/login.html:23
 #, python-format
 msgid "Welcome, you are logged in as %(user_alias)s!"
-msgstr ""
+msgstr "Willkommen, Sie sind als %(user_alias)s angemeldet!"
 
 #: chardata/templates/chardata/login.html:28
 #, python-format
@@ -1360,6 +1520,8 @@ msgid ""
 "You can change your alias, email and password <a "
 "href='%(manage_account_url)s'>here</a>."
 msgstr ""
+"Sie können Ihren Alias, Ihre E-Mail-Adresse und Ihr Passwort <a "
+"href='%(manage_account_url)s'>hier</a> ändern."
 
 #: chardata/templates/chardata/login.html:35
 #, python-format
@@ -1367,145 +1529,158 @@ msgid ""
 "<a href='%(create_project_url)s'>Create</a> or <a "
 "href='%(load_projects_url)s'>load</a> a project to get started."
 msgstr ""
+"<a href='%(create_project_url)s'>Erstellen</a> oder <a "
+"href='%(load_projects_url)s'>Laden</a> ein Projekt, um loszulegen."
 
 #: chardata/templates/chardata/login.html:45
 msgid ""
 "Your email had already been confirmed. Please type your password to enter."
 msgstr ""
+"Ihre E-Mail wurde bereits bestätigt. Bitte geben Sie Ihr Passwort ein, um "
+"einzutreten."
 
 #: chardata/templates/chardata/login.html:47
 msgid "Thanks for confirming your email. Please type your password to enter."
 msgstr ""
+"Vielen Dank für die Bestätigung Ihrer E-Mail. Bitte geben Sie Ihr Passwort "
+"ein, um einzutreten."
 
 #: chardata/templates/chardata/login.html:54
 #: chardata/templates/chardata/login.html:100
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: chardata/templates/chardata/login.html:58
 #: chardata/templates/chardata/login.html:107
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: chardata/templates/chardata/login.html:64
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Passwort vergessen?"
 
 #: chardata/templates/chardata/login.html:65
 msgid "Enter"
-msgstr ""
+msgstr "Eingeben"
 
 #: chardata/templates/chardata/login.html:69
 msgid "or"
-msgstr ""
+msgstr "oder"
 
 #: chardata/templates/chardata/login.html:73
 msgid "Login with Facebook"
-msgstr ""
+msgstr "Melden Sie sich mit Facebook an"
 
 #: chardata/templates/chardata/login.html:75
 msgid "Login with Google"
-msgstr ""
+msgstr "Melden Sie sich mit Google an"
 
 #: chardata/templates/chardata/login.html:78
 msgid ""
-"We will <b>never</b> post anything to either of your walls.<br> This step is "
-"just an authentication so you are able to save and share projects."
+"We will <b>never</b> post anything to either of your walls.<br> This step is"
+" just an authentication so you are able to save and share projects."
 msgstr ""
+"Wir werden <b>niemals</b> etwas auf Ihren Pinnwänden posten.<br> Dieser "
+"Schritt dient lediglich der Authentifizierung, damit Sie Projekte speichern "
+"und teilen können."
 
 #: chardata/templates/chardata/login.html:91
 msgid "New here? Register:"
-msgstr ""
+msgstr "Neu hier? Registrieren:"
 
 #: chardata/templates/chardata/login.html:94
 msgid ""
-"Remember to never use your Dofus login and password on any external websites "
-"(which includes this one)"
+"Remember to never use your Dofus login and password on any external websites"
+" (which includes this one)"
 msgstr ""
+"Denken Sie daran, Ihren Dofus-Benutzernamen und Ihr Dofus-Passwort niemals "
+"auf externen Websites zu verwenden (einschließlich dieser)."
 
 #: chardata/templates/chardata/login.html:111
 msgid "Confirm Password"
-msgstr ""
+msgstr "Passwort bestätigen"
 
 #: chardata/templates/chardata/login.html:124
 msgid "Register"
-msgstr ""
+msgstr "Registrieren"
 
 #: chardata/templates/chardata/main-header.html:8
 #: chardata/templates/chardata/projdetails.html:54
 msgid "Project Name"
-msgstr ""
+msgstr "Projektname"
 
 #: chardata/templates/chardata/main-header.html:24
 msgid "Copy this project"
-msgstr ""
+msgstr "Kopieren Sie dieses Projekt"
 
 #: chardata/templates/chardata/main-header.html:28
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: chardata/templates/chardata/manage_account.html:11
 #: chardata/templates/chardata/manage_account.html:15
 msgid "Manage account"
-msgstr ""
+msgstr "Konto verwalten"
 
 #: chardata/templates/chardata/manage_account.html:25
 msgid "Set account details"
-msgstr ""
+msgstr "Kontodetails festlegen"
 
 #: chardata/templates/chardata/manage_account.html:28
 msgid "Alias"
-msgstr ""
+msgstr "Alias"
 
 #: chardata/templates/chardata/manage_account.html:49
 msgid "Change password"
-msgstr ""
+msgstr "Kennwort ändern"
 
 #: chardata/templates/chardata/manage_account.html:52
 msgid "Old Password"
-msgstr ""
+msgstr "Altes Passwort"
 
 #: chardata/templates/chardata/manage_account.html:61
 msgid "New Password"
-msgstr ""
+msgstr "Neues Passwort"
 
 #: chardata/templates/chardata/manage_account.html:68
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Bestätigen Sie das neue Passwort"
 
 #: chardata/templates/chardata/manage_account.html:81
 msgid "Change Password"
-msgstr ""
+msgstr "Kennwort ändern"
 
 #: chardata/templates/chardata/nomessage.html:6
 #: chardata/templates/chardata/thankyou.html:6
 msgid "Thank you"
-msgstr ""
+msgstr "Danke"
 
 #: chardata/templates/chardata/nomessage.html:12
 msgid "Your message could not be sent."
-msgstr ""
+msgstr "Ihre Nachricht konnte nicht gesendet werden."
 
 #: chardata/templates/chardata/nomessage.html:13
 msgid "Please login and try again."
-msgstr ""
+msgstr "Bitte melden Sie sich an und versuchen Sie es erneut."
 
 #: chardata/templates/chardata/nomessage.html:15
 #: chardata/templates/chardata/thankyou.html:15
 #, python-format
 msgid "Click <a href=\"%(home_url)s\">here</a> to go back."
-msgstr ""
+msgstr "Klicken Sie <a href=\"%(home_url)s\">hier</a>, um zurückzugehen."
 
 #: chardata/templates/chardata/options.html:17
 msgid ""
 "Choose what expensive or uncommon options can be used in your character's "
 "set."
 msgstr ""
+"Wählen Sie, welche teuren oder ungewöhnlichen Optionen im Set Ihres "
+"Charakters verwendet werden können."
 
 #: chardata/templates/chardata/options.html:28
 #: chardata/templates/chardata/wizard_options.html:11
 msgid "Allow AP Exo"
-msgstr ""
+msgstr "AP Exo zulassen"
 
 #: chardata/templates/chardata/options.html:29
 #: chardata/templates/chardata/options.html:45
@@ -1514,7 +1689,7 @@ msgstr ""
 #: chardata/templates/chardata/wizard_options.html:12
 #: chardata/templates/chardata/wizard_options.html:19
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: chardata/templates/chardata/options.html:30
 #: chardata/templates/chardata/options.html:46
@@ -1523,38 +1698,38 @@ msgstr ""
 #: chardata/templates/chardata/wizard_options.html:13
 #: chardata/templates/chardata/wizard_options.html:21
 msgid "No"
-msgstr ""
+msgstr "NEIN"
 
 #: chardata/templates/chardata/options.html:44
 msgid "Allow Range Exo"
-msgstr ""
+msgstr "Range Exo zulassen"
 
 #: chardata/templates/chardata/options.html:60
 #: chardata/templates/chardata/wizard_options.html:18
 msgid "Allow MP Exo"
-msgstr ""
+msgstr "MP Exo zulassen"
 
 #: chardata/templates/chardata/options.html:62
 #: chardata/templates/chardata/wizard_options.html:20
 msgid "Only Gelano"
-msgstr ""
+msgstr "Nur Gelano"
 
 #: chardata/templates/chardata/options.html:75
 msgid "Allow Dofuses and Trophies"
-msgstr ""
+msgstr "Erlaube Dofuses und Trophäen"
 
 #: chardata/templates/chardata/options.html:78
 msgid "Remove only <3"
-msgstr ""
+msgstr "Nur <3 entfernen"
 
 #: chardata/templates/chardata/options.html:80
 msgid "Allow only Cawwot Dofus"
-msgstr ""
+msgstr "Erlaube nur Kawott-Dofus"
 
 #: chardata/templates/chardata/options.html:95
 #: chardata/templates/chardata/wizard_options.html:27
 msgid "Allow Mounts"
-msgstr ""
+msgstr "Mounts zulassen"
 
 #: chardata/templates/chardata/wizard_options.html:228
 msgid "Prysmaradite"
@@ -1563,21 +1738,21 @@ msgstr "Prysmaradite"
 #: chardata/templates/chardata/options.html:96
 #: chardata/templates/chardata/wizard_options.html:28
 msgid "Dragoturkeys"
-msgstr ""
+msgstr "Dragotruter"
 
 #: chardata/templates/chardata/options.html:97
 #: chardata/templates/chardata/wizard_options.html:29
 msgid "Seemyools"
-msgstr ""
+msgstr "Scheint myools"
 
 #: chardata/templates/chardata/options.html:98
 #: chardata/templates/chardata/wizard_options.html:30
 msgid "Rhineetles"
-msgstr ""
+msgstr "Rhineetles"
 
 #: chardata/templates/chardata/options.html:113
 msgid "Allow dofuses:"
-msgstr ""
+msgstr "Dofuses zulassen:"
 
 #: chardata/templates/chardata/options.html:113
 msgid "Allow dofuses and prysmaradite:"
@@ -1586,180 +1761,180 @@ msgstr "Dofus und Prysmaradite erlauben:"
 #: chardata/templates/chardata/options.html:119
 #: chardata/templates/chardata/wizard_options.html:43
 msgid "Cawwot"
-msgstr ""
+msgstr "Kawotte"
 
 #: chardata/templates/chardata/options.html:126
 #: chardata/templates/chardata/wizard_options.html:50
 msgid "Grofus"
-msgstr ""
+msgstr "Grofus"
 
 #: chardata/templates/chardata/options.html:133
 #: chardata/templates/chardata/wizard_options.html:57
 msgid "Dokoko"
-msgstr ""
+msgstr "Dokoko"
 
 #: chardata/templates/chardata/options.html:140
 #: chardata/templates/chardata/wizard_options.html:64
 msgid "Vulbis"
-msgstr ""
+msgstr "Vulbis"
 
 #: chardata/templates/chardata/options.html:147
 #: chardata/templates/chardata/wizard_options.html:71
 msgid "Dolmanax"
-msgstr ""
+msgstr "Dolmanax"
 
 #: chardata/templates/chardata/options.html:154
 #: chardata/templates/chardata/wizard_options.html:78
 msgid "Watchers"
-msgstr ""
+msgstr "Beobachter"
 
 #: chardata/templates/chardata/options.html:161
 #: chardata/templates/chardata/wizard_options.html:85
 msgid "Kaliptus"
-msgstr ""
+msgstr "Kaliptus"
 
 #: chardata/templates/chardata/options.html:168
 #: chardata/templates/chardata/wizard_options.html:92
 msgid "Dotrich"
-msgstr ""
+msgstr "Dotrich"
 
 #: chardata/templates/chardata/options.html:175
 #: chardata/templates/chardata/wizard_options.html:99
 msgid "Emerald"
-msgstr ""
+msgstr "Smaragd"
 
 #: chardata/templates/chardata/options.html:182
 #: chardata/templates/chardata/wizard_options.html:106
 msgid "Crimson"
-msgstr ""
+msgstr "Purpur"
 
 #: chardata/templates/chardata/options.html:189
 #: chardata/templates/chardata/wizard_options.html:113
 msgid "Ochre"
-msgstr ""
+msgstr "Ocker"
 
 #: chardata/templates/chardata/options.html:196
 #: chardata/templates/chardata/wizard_options.html:120
 msgid "Turquoise"
-msgstr ""
+msgstr "Türkis"
 
 #: chardata/templates/chardata/options.html:203
 #: chardata/templates/chardata/wizard_options.html:127
 msgid "Cloudy"
-msgstr ""
+msgstr "Wolkig"
 
 #: chardata/templates/chardata/options.html:210
 #: chardata/templates/chardata/wizard_options.html:134
 msgid "Ivory"
-msgstr ""
+msgstr "Elfenbein"
 
 #: chardata/templates/chardata/options.html:217
 #: chardata/templates/chardata/wizard_options.html:141
 msgid "Ice"
-msgstr ""
+msgstr "Eis"
 
 #: chardata/templates/chardata/options.html:224
 #: chardata/templates/chardata/wizard_options.html:148
 msgid "Abyssal"
-msgstr ""
+msgstr "Abgründig"
 
 #: chardata/templates/chardata/options.html:231
 #: chardata/templates/chardata/wizard_options.html:155
 msgid "Lavasmith"
-msgstr ""
+msgstr "Lavaschmied"
 
 #: chardata/templates/chardata/options.html:238
 msgid "Black-Spotted"
-msgstr ""
+msgstr "Schwarzgefleckt"
 
 #: chardata/templates/chardata/options.html:245
 #: chardata/templates/chardata/wizard_options.html:169
 msgid "Ebony"
-msgstr ""
+msgstr "Ebenholz"
 
 #: chardata/templates/chardata/options.html:252
 #: chardata/templates/chardata/wizard_options.html:176
 msgid "Silver"
-msgstr ""
+msgstr "Silber"
 
 #: chardata/templates/chardata/options.html:259
 #: chardata/templates/chardata/wizard_options.html:183
 msgid "Sparkling Silver"
-msgstr ""
+msgstr "Funkelndes Silber"
 
 #: chardata/templates/chardata/options.html:266
 #: chardata/templates/chardata/wizard_options.html:190
 msgid "Cocoa"
-msgstr ""
+msgstr "Kakao"
 
 #: chardata/templates/chardata/options.html:273
 #: chardata/templates/chardata/wizard_options.html:197
 msgid "Domakuro"
-msgstr ""
+msgstr "Domakuro"
 
 #: chardata/templates/chardata/options.html:280
 #: chardata/templates/chardata/wizard_options.html:204
 msgid "Dorigami"
-msgstr ""
+msgstr "Dorigami"
 
 #: chardata/templates/chardata/options.html:287
 #: chardata/templates/chardata/wizard_options.html:211
 msgid "Nightmare"
-msgstr ""
+msgstr "Alptraum"
 
 #: chardata/templates/chardata/options.html:294
 #: chardata/templates/chardata/wizard_options.html:218
 msgid "Sylvan"
-msgstr ""
+msgstr "Sylvan"
 
 #: chardata/templates/chardata/password_was_reset.html:6
 #: chardata/templates/chardata/password_was_reset.html:13
 msgid "Password Reset"
-msgstr ""
+msgstr "Passwort zurücksetzen"
 
 #: chardata/templates/chardata/password_was_reset.html:18
 #, python-format
 msgid "The password for <b>%(username)s</b> has been reset to:"
-msgstr ""
+msgstr "Das Passwort für <b>%(username)s</b> wurde zurückgesetzt auf:"
 
 #: chardata/templates/chardata/password_was_reset.html:24
 msgid "Proceed to logging in"
-msgstr ""
+msgstr "Fahren Sie mit der Anmeldung fort"
 
 #: chardata/templates/chardata/projdetails.html:7
 #: chardata/templates/chardata/projdetails.html:20
 #: chardata/templates/chardata/projdetails.html:351
 msgid "Project Details"
-msgstr ""
+msgstr "Projektdetails"
 
 #: chardata/templates/chardata/projdetails.html:27
 msgid "Get started by providing details about your character."
-msgstr ""
+msgstr "Geben Sie zunächst Details zu Ihrem Charakter an."
 
 #: chardata/templates/chardata/projdetails.html:29
 msgid "Modify the project and character configuration."
-msgstr ""
+msgstr "Ändern Sie die Projekt- und Charakterkonfiguration."
 
 #: chardata/templates/chardata/projdetails.html:36
 msgid "Character Name"
-msgstr ""
+msgstr "Charaktername"
 
 #: chardata/templates/chardata/projdetails.html:40
 msgid "Character Level"
-msgstr ""
+msgstr "Charakterebene"
 
 #: chardata/templates/chardata/projdetails.html:44
 msgid "Character Class"
-msgstr ""
+msgstr "Charakterklasse"
 
 #: chardata/templates/chardata/projdetails.html:66
 msgid "Elements"
-msgstr ""
+msgstr "Elemente"
 
 #: chardata/templates/chardata/projdetails.html:68
 msgid ""
-"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</"
-"span>"
+"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to "
+"2)</span>"
 msgstr ""
 "Fokussieren auf, wobei andere Stats geopfert werden <span "
 "id='aspect_limit_text'>(bis zu 2)</span>"
@@ -1769,101 +1944,135 @@ msgstr "bis zu 2"
 
 #: chardata/templates/chardata/projdetails.html:81
 msgid "Create a set by hand"
-msgstr ""
+msgstr "Erstellen Sie ein Set von Hand"
 
 #: chardata/templates/chardata/projdetails.html:82
 msgid "Continue to Wizard"
-msgstr ""
+msgstr "Weiter zum Assistenten"
 
 #: chardata/templates/chardata/projdetails.html:85
 msgid "Restart wizard upon saving"
-msgstr ""
+msgstr "Starten Sie den Assistenten nach dem Speichern neu"
 
 #: chardata/templates/chardata/projdetails.html:99
 #, python-format
 msgid ""
 " You need to <a href=\"%(login_link)s\">login</a> before you can create "
-"another project. Your current project can be found <a href="
-"\"%(load_proj_link)s\">here</a>. "
+"another project. Your current project can be found <a "
+"href=\"%(load_proj_link)s\">here</a>. "
 msgstr ""
+"Sie müssen sich <a href=\"%(login_link)s\">anmelden</a>, bevor Sie ein "
+"weiteres Projekt erstellen können. Ihr aktuelles Projekt finden Sie <a "
+"href=\"%(load_proj_link)s\">hier</a>."
 
 #: chardata/templates/chardata/projdetails.html:105
 #, python-format
 msgid ""
 " You have reached the maximum number of projects allowed. To create a new "
-"project, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
+"project, please delete some old ones <a "
+"href=\"%(load_proj_link)s\">here</a>."
 msgstr ""
+"Sie haben die maximal zulässige Anzahl an Projekten erreicht. Um ein neues "
+"Projekt zu erstellen, löschen Sie bitte <a "
+"href=\"%(load_proj_link)s\">hier</a> einige alte."
 
 #: chardata/templates/chardata/projdetails.html:126
 msgid ""
 "Focus on critical hits. Useful for characters that have spells/weapons that "
 "are much better on a critical hit."
 msgstr ""
+"Konzentrieren Sie sich auf kritische Treffer. Nützlich für Charaktere, deren"
+" Zauber/Waffen bei einem kritischen Treffer viel besser sind."
 
 #: chardata/templates/chardata/projdetails.html:127
 msgid ""
 "Avoids critical hits. Useful to fight enemies with high critical resist."
 msgstr ""
+"Vermeidet kritische Treffer. Nützlich, um Feinde mit hoher kritischer "
+"Resistenz zu bekämpfen."
 
 #: chardata/templates/chardata/projdetails.html:128
 msgid ""
 "PVPers should check this. Increases importance of AP/MP resists, critical "
 "resist and initiative. Decreases importance of prospecting to 0."
 msgstr ""
+"PVPers sollten dies überprüfen. Erhöht die Bedeutung von AP/MP-Resistenzen, "
+"kritischem Widerstand und Initiative. Verringert die Bedeutung der "
+"Neukundengewinnung auf 0."
 
 #: chardata/templates/chardata/projdetails.html:129
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 Duelers should check this. Increases importance of initiative a lot."
+" Enables shields."
 msgstr ""
+"1 vs. 1 Duellanten sollten dies überprüfen. Erhöht die Bedeutung der "
+"Initiative erheblich. Aktiviert Schilde."
 
 #: chardata/templates/chardata/projdetails.html:130
 msgid "This will yield and all-around build."
-msgstr ""
+msgstr "Dadurch ergibt sich ein rundum ertragreicher Aufbau."
 
 #: chardata/templates/chardata/projdetails.html:131
 msgid ""
 "Support and vitality based chars should check this. Increases importance of "
 "vitality, but will hurt the other stats."
 msgstr ""
+"Unterstützungs- und vitalitätsbasierte Charaktere sollten dies überprüfen. "
+"Erhöht die Bedeutung der Vitalität, beeinträchtigt aber die anderen Werte."
 
 #: chardata/templates/chardata/projdetails.html:132
 msgid ""
 "Hitters who want damage as high as possible ignoring defense should check "
 "this."
 msgstr ""
+"Schlagmänner, die einen möglichst hohen Schaden anstreben und dabei die "
+"Verteidigung ignorieren, sollten dies überprüfen."
 
 #: chardata/templates/chardata/projdetails.html:133
 msgid ""
 "Tankers that want very high resists. Increases importance of linear and "
 "percentage resists."
 msgstr ""
+"Tankers that want very high resists. Erhöht die Bedeutung von linearen und "
+"prozentualen Resistenzen."
 
 #: chardata/templates/chardata/projdetails.html:134
 msgid ""
-"Chars that want +Damage over the main stat, for hitting with low base damage "
-"attacks. Increases importance of +Damage and +Elemental Damages."
+"Chars that want +Damage over the main stat, for hitting with low base damage"
+" attacks. Increases importance of +Damage and +Elemental Damages."
 msgstr ""
+"Charaktere, die +Schaden gegenüber dem Hauptwert wünschen, um mit Angriffen "
+"mit niedrigem Grundschaden zu treffen. Erhöht die Bedeutung von +Schaden und"
+" +Elementarschaden."
 
 #: chardata/templates/chardata/projdetails.html:135
 msgid ""
-"Healers that prefer +Heals over intelligence for low base heals spells/"
-"weapons. For example, Enis should check this if they intend to heal "
+"Healers that prefer +Heals over intelligence for low base heals "
+"spells/weapons. For example, Enis should check this if they intend to heal "
 "primarily with Healing Word and Revitalizing Word rather than Word of "
 "Sacrifice and Word of Altruism."
 msgstr ""
+"Heiler, die +Heilungen gegenüber Intelligenz für Zauber/Waffen mit niedriger"
+" Basisheilung bevorzugen. Enis sollte dies beispielsweise überprüfen, wenn "
+"sie beabsichtigen, hauptsächlich mit heilenden Worten und revitalisierenden "
+"Worten zu heilen und nicht mit Worten der Aufopferung und Worten des "
+"Altruismus."
 
 #: chardata/templates/chardata/projdetails.html:136
 msgid ""
 "Disablers that want to focus on AP reduction rather than dealing damage "
 "should check this."
 msgstr ""
+"Disabler, die sich auf die AP-Reduzierung statt auf das Verursachen von "
+"Schaden konzentrieren möchten, sollten dies überprüfen."
 
 #: chardata/templates/chardata/projdetails.html:137
 msgid ""
 "Disablers that want to focus on MP reduction rather than dealing damage "
 "should check this."
 msgstr ""
+"Disabler, die sich auf die MP-Reduzierung statt auf das Verursachen von "
+"Schaden konzentrieren möchten, sollten dies überprüfen."
 
 #: chardata/templates/chardata/projdetails.html:138
 msgid ""
@@ -1871,59 +2080,73 @@ msgid ""
 "all stats except wisdom. Wisdom will be high, but the rest won't be pretty. "
 "Disables trophies and Dofus."
 msgstr ""
+"Nur Blutegel sollten dies überprüfen. Dies wird allen Statistiken außer der "
+"Weisheit nur sehr wenig Bedeutung beimessen. Die Weisheit wird hoch sein, "
+"aber der Rest wird nicht schön sein. Deaktiviert Trophäen und Dofus."
 
 #: chardata/templates/chardata/projdetails.html:139
 msgid ""
 "Check this to get a prospecting set, with mediocre stats but high "
 "prospecting."
 msgstr ""
+"Aktivieren Sie dies, um ein Prospektionsset mit mittelmäßigen Statistiken, "
+"aber hoher Prospektionsquote zu erhalten."
 
 #: chardata/templates/chardata/projdetails.html:140
 msgid ""
 "Check this to get a pod set, pretty much ignoring the rest, primarily for "
 "professions."
 msgstr ""
+"Aktivieren Sie dies, um ein Pod-Set zu erhalten, und ignorieren Sie den Rest"
+" weitgehend, hauptsächlich für Berufe."
 
 #: chardata/templates/chardata/projdetails.html:141
 msgid ""
 "Srams that focus on traps should check this, though there isn't much trap "
 "equipment. Importance of Power (Traps) and +Trap Damage will be increased."
 msgstr ""
+"Srams, die sich auf Fallen konzentrieren, sollten dies überprüfen, obwohl es"
+" nicht viel Fallenausrüstung gibt. Die Bedeutung von Kraft (Fallen) und "
+"+Fallenschaden wird erhöht."
 
 #: chardata/templates/chardata/projdetails.html:142
 msgid ""
-"Summon spammers should check this. It will increase the minimum summons by 1 "
-"and increase importance of summons."
+"Summon spammers should check this. It will increase the minimum summons by 1"
+" and increase importance of summons."
 msgstr ""
+"Summon-Spammer sollten dies überprüfen. Dadurch wird die Mindestanzahl an "
+"Beschwörungen um 1 erhöht und die Bedeutung der Beschwörungen erhöht."
 
 #: chardata/templates/chardata/projdetails.html:143
 msgid ""
 "Chars that deal significant pushback damage should check this. This "
 "increases the +Pushback Damage importance."
 msgstr ""
+"Charaktere, die erheblichen Pushback-Schaden verursachen, sollten dies "
+"überprüfen. Dies erhöht die Bedeutung von +Pushback-Schaden."
 
 #: chardata/templates/chardata/pw_recovery_email.html:6
 #: chardata/templates/chardata/pw_recovery_email.html:13
 msgid "Password Recovery"
-msgstr ""
+msgstr "Passwortwiederherstellung"
 
 #: chardata/templates/chardata/pw_recovery_email.html:21
 msgid "Please enter your registered email"
-msgstr ""
+msgstr "Bitte geben Sie Ihre registrierte E-Mail-Adresse ein"
 
 #: chardata/templates/chardata/pw_recovery_email.html:25
 msgid "Send Email"
-msgstr ""
+msgstr "E-Mail senden"
 
 #: chardata/templates/chardata/recover_password.html:6
 #: chardata/templates/chardata/recover_password.html:13
 msgid "Password Recovery Requested"
-msgstr ""
+msgstr "Passwortwiederherstellung angefordert"
 
 #: chardata/templates/chardata/recover_password.html:19
 #, python-format
 msgid "There is already an account registered for %(email)s."
-msgstr ""
+msgstr "Für %(email)s ist bereits ein Konto registriert."
 
 #: chardata/templates/chardata/recover_password.html:23
 #, python-format
@@ -1931,177 +2154,196 @@ msgid ""
 "We have sent an email to %(email)s with a password recovery link. That link "
 "can be used to set a new password."
 msgstr ""
+"Wir haben eine E-Mail mit einem Link zur Passwortwiederherstellung an "
+"%(email)s gesendet. Über diesen Link kann ein neues Passwort festgelegt "
+"werden."
 
 #: chardata/templates/chardata/solution.html:23
 #, python-format
 msgid "This is the set that we suggest for <b>%(charname)s</b>. "
-msgstr ""
+msgstr "Dies ist der Satz, den wir für <b>%(charname)s</b> vorschlagen."
 
 #: chardata/templates/chardata/solution.html:25
 msgid "This is the suggested set."
-msgstr ""
+msgstr "Dies ist das empfohlene Set."
 
 #: chardata/templates/chardata/solution.html:30
 #, python-format
 msgid ""
 "If you don't like an item, click the forbid ( <img style='position: "
-"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button "
-"under its name and <a href=\"%(run_again_link)s\" class=\"rerun-button\">run "
-"again</a>. If, on the contrary, you want to lock in an item for future sets "
-"for this char, click the lock (<img style='position: relative; bottom: -1px; "
-"left: 0px;' src=%(lock)s title='Lock'>) button. You can also switch any item "
-"for another you like best by clicking the switch (<img class='solution-item-"
-"button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
-"title='Switch'>) button."
+"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button"
+" under its name and <a href=\"%(run_again_link)s\" class=\"rerun-"
+"button\">run again</a>. If, on the contrary, you want to lock in an item for"
+" future sets for this char, click the lock (<img style='position: relative; "
+"bottom: -1px; left: 0px;' src=%(lock)s title='Lock'>) button. You can also "
+"switch any item for another you like best by clicking the switch (<img "
+"class='solution-item-button' style='position: relative; bottom: -5px; left: "
+"0px;' src=%(switch)s title='Switch'>) button."
 msgstr ""
+"Wenn Ihnen ein Element nicht gefällt, klicken Sie auf die Schaltfläche "
+"„Verbieten“ ( <img style='position: relative; unten: -3px; links: -2px;' "
+"src=%(delete)s title='Forbid'> ) unter seinem Namen und <a "
+"href=\"%(run_again_link)s\" class=\"rerun-button\">erneut ausführen</a>. "
+"Wenn Sie hingegen ein Element für zukünftige Sätze für dieses Zeichen "
+"sperren möchten, klicken Sie auf die Schaltfläche „Sperren“ (<img "
+"style='position: relative; unten: -1px; links: 0px;' src=%(lock)s "
+"title='Lock'>). Sie können auch jedes Element gegen ein anderes austauschen,"
+" das Ihnen am besten gefällt, indem Sie auf die Schaltfläche zum Wechseln "
+"(<img class='solution-item-button' style='position: relative; unten: -5px; "
+"links: 0px;' src=%(switch)s title='Switch'>) klicken."
 
 #: chardata/templates/chardata/solution.html:34
 #, python-format
 msgid ""
 "\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
+"    This set was generated from scratch. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose items and build a set for you."
 msgstr ""
+"\n"
+"Dieses Set wurde von Grund auf neu erstellt. Klicken Sie auf die "
+"Schaltflächen „Hinzufügen“ (<img style='position: relative; unten: -4px; "
+"links: 1px;' src=%(add)s title='Add'>), um Elemente auszuwählen und ein Set "
+"für Sie zu erstellen."
 
 #: chardata/templates/chardata/solution.html:42
 #: chardata/templates/chardata/solution.html:72
 msgid "Compare to another set"
-msgstr ""
+msgstr "Vergleichen Sie es mit einem anderen Set"
 
 #: chardata/templates/chardata/solution.html:56
 #, python-format
 msgid "This is %(owner)s's set for %(charname)s. "
-msgstr ""
+msgstr "Dies ist der Satz von %(owner)s für %(charname)s."
 
 #: chardata/templates/chardata/solution.html:58
 #, python-format
 msgid "This is %(owner)s's set. "
-msgstr ""
+msgstr "Dies ist der Satz von %(owner)s."
 
 #: chardata/templates/chardata/solution.html:62
 #, python-format
 msgid "This is someone else's set for %(charname)s. "
-msgstr ""
+msgstr "Dies ist der Satz einer anderen Person für %(charname)s."
 
 #: chardata/templates/chardata/solution.html:64
 msgid "This is someone else's set."
-msgstr ""
+msgstr "Das ist das Set von jemand anderem."
 
 #: chardata/templates/chardata/solution.html:68
 #, python-format
 msgid ""
-"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-link"
-"\">copy</a> it to your workspace.</p>"
+"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
+"link\">copy</a> it to your workspace.</p>"
 msgstr ""
+"Wenn Sie es ändern möchten, <a href=\"%(copy_link)s\" class=\"copy-action-"
+"link\">kopieren</a> Sie es in Ihren Arbeitsbereich.</p>"
 
 #: chardata/templates/chardata/solution.html:79
 msgid "Expand All"
-msgstr ""
+msgstr "Alles erweitern"
 
 #: chardata/templates/chardata/solution.html:80
 msgid "Collapse All"
-msgstr ""
+msgstr "Alles reduzieren"
 
 #: chardata/templates/chardata/solution.html:130
 msgid "Base"
-msgstr ""
+msgstr "Base"
 
 #: chardata/templates/chardata/solution.html:150
 #, python-format
 msgid "%% Melee Damage"
-msgstr ""
+msgstr "%% Nahkampfschaden"
 
 #: chardata/templates/chardata/solution.html:152
 #, python-format
 msgid "%% Ranged Damage"
-msgstr ""
+msgstr "%% Fernkampfschaden"
 
 #: chardata/templates/chardata/solution.html:154
 #, python-format
 msgid "%% Weapon Damage"
-msgstr ""
+msgstr "%% Waffenschaden"
 
 #: chardata/templates/chardata/solution.html:156
 #, python-format
 msgid "%% Spell Damage"
-msgstr ""
+msgstr "%% Zauberschaden"
 
 #: chardata/templates/chardata/solution.html:196
 #, python-format
 msgid "%% Trap Damage"
-msgstr ""
+msgstr "%% Fallenschaden"
 
 #: chardata/templates/chardata/solution.html:229
 #, python-format
 msgid "%% Neutral Resist"
-msgstr ""
+msgstr "%% Neutralwiderstand"
 
 #: chardata/templates/chardata/solution.html:231
 #, python-format
 msgid "%% Earth Resist"
-msgstr ""
+msgstr "%% Erdwiderstand"
 
 #: chardata/templates/chardata/solution.html:233
 #, python-format
 msgid "%% Fire Resist"
-msgstr ""
+msgstr "%% Feuerbeständig"
 
 #: chardata/templates/chardata/solution.html:235
 #, python-format
 msgid "%% Water Resist"
-msgstr ""
+msgstr "%% wasserbeständig"
 
 #: chardata/templates/chardata/solution.html:237
 #, python-format
 msgid "%% Air Resist"
-msgstr ""
+msgstr "%% Luftwiderstand"
 
 #: chardata/templates/chardata/solution.html:239
 #, python-format
 msgid "%% Melee Resist"
-msgstr ""
+msgstr "%% Nahkampfresistenz"
 
 #: chardata/templates/chardata/solution.html:241
 #, python-format
 msgid "%% Ranged Resist"
-msgstr ""
+msgstr "%% Fernkampfwiderstand"
 
 #: chardata/templates/chardata/solution.html:243
 #, python-format
 msgid "%% Weapon Resist"
-msgstr ""
+msgstr "%% Waffenresistenz"
 
 #: chardata/templates/chardata/solution.html:375
 #: chardata/templates/chardata/solution.html:388
 msgid "Unshare"
-msgstr ""
+msgstr "Teilen aufheben"
 
 #: chardata/templates/chardata/solution.html:379
 #: chardata/templates/chardata/solution.html:394
 msgid "Get link to share"
-msgstr ""
+msgstr "Holen Sie sich den Link zum Teilen"
 
 #: chardata/templates/chardata/solution_item.html:22
 msgid "Lvl."
-msgstr ""
+msgstr "Lvl."
 
 #: chardata/templates/chardata/solution_item.html:25
 msgctxt "button name"
 msgid "Lock"
-msgstr ""
+msgstr "Sperren"
 
 #: chardata/templates/chardata/solution_item.html:27
 msgid "Switch"
-msgstr ""
+msgstr "Schalten"
 
 #: chardata/templates/chardata/solution_item.html:30
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: chardata/templates/chardata/solution_set.html:7
 msgid "pieces"
-msgstr ""
+msgstr "Stücke"
 
 #: chardata/templates/chardata/spells.html:19
 #, python-format
@@ -2109,208 +2351,220 @@ msgid ""
 "How much damage %(charname)s's weapon and spells will deal with the "
 "suggested set. "
 msgstr ""
+"Wie viel Schaden verursachen die Waffen und Zauber von %(charname)s mit dem "
+"vorgeschlagenen Satz?"
 
 #: chardata/templates/chardata/spells.html:21
 msgid ""
 "How much damage your weapon and spells will deal with the suggested set."
 msgstr ""
+"Wie viel Schaden verursachen Ihre Waffen und Zauber mit dem vorgeschlagenen "
+"Satz?"
 
 #: chardata/templates/chardata/spells.html:29
 msgid "Fully Buff"
-msgstr ""
+msgstr "Vollständig poliert"
 
 #: chardata/templates/chardata/spells.html:30
 msgid "Clean Buffs"
-msgstr ""
+msgstr "Saubere Buffs"
 
 #: chardata/templates/chardata/spells.html:40
 msgid "Agi"
-msgstr ""
+msgstr "Agi"
 
 #: chardata/templates/chardata/spells.html:44
 msgid "Cha"
-msgstr ""
+msgstr "Cha"
 
 #: chardata/templates/chardata/spells.html:48
 msgid "Int"
-msgstr ""
+msgstr "Int"
 
 #: chardata/templates/chardata/spells.html:52
 msgid "Str"
-msgstr ""
+msgstr "Str"
 
 #: chardata/templates/chardata/spells.html:54
 msgid "Others"
-msgstr ""
+msgstr "Andere"
 
 #: chardata/templates/chardata/spells.html:501
 #: chardata/templates/chardata/spells.html:502
 msgid "steals"
-msgstr ""
+msgstr "stiehlt"
 
 #: chardata/templates/chardata/spells.html:522
 #: chardata/templates/chardata/spells.html:577
 msgid "Steals"
-msgstr ""
+msgstr "Stehlt"
 
 #: chardata/templates/chardata/spells.html:533
 msgid "to"
-msgstr ""
+msgstr "Zu"
 
 #: chardata/templates/chardata/spells.html:583
 msgid "(weapons)"
-msgstr ""
+msgstr "(Waffen)"
 
 #: chardata/templates/chardata/spells.html:585
 msgid "(spells)"
-msgstr ""
+msgstr "(Zauber)"
 
 #: chardata/templates/chardata/spells.html:587
 msgid "(except glyphs)"
-msgstr ""
+msgstr "(außer Glyphen)"
 
 #: chardata/templates/chardata/spells.html:589
 msgid "(glyphs)"
-msgstr ""
+msgstr "(Glyphen)"
 
 #: chardata/templates/chardata/spells.html:591
 msgid "(traps)"
-msgstr ""
+msgstr "(Fallen)"
 
 #: chardata/templates/chardata/spells.html:666
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: chardata/templates/chardata/spells.html:669
 msgid "On"
-msgstr ""
+msgstr "An"
 
 #: chardata/templates/chardata/spells.html:673
 msgid "Crit"
-msgstr ""
+msgstr "Krit"
 
 #: chardata/templates/chardata/spells.html:749
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: chardata/templates/chardata/spells.html:749
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: chardata/templates/chardata/spells.html:749
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: chardata/templates/chardata/spells.html:749
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: chardata/templates/chardata/spells.html:749
 msgid "A"
-msgstr ""
+msgstr "A"
 
 #: chardata/templates/chardata/state_engine_all_buttons.html:3
 msgid "Discard Changes"
-msgstr ""
+msgstr "Änderungen verwerfen"
 
 #: chardata/templates/chardata/state_engine_all_buttons.html:4
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: chardata/templates/chardata/state_engine_all_buttons.html:6
 msgid "Save and Tailor a New Set"
-msgstr ""
+msgstr "Speichern Sie ein neues Set und passen Sie es an"
 
 #: chardata/templates/chardata/stats.html:16
 msgid "The value of each attribute point for this character."
-msgstr ""
+msgstr "Der Wert jedes Attributpunkts für dieses Zeichen."
 
 #: chardata/templates/chardata/stats.html:17
 msgid ""
 "Dofus Fashionista maximizes the total value of all your character's "
 "attributes. Increasing the weight of an attribute will cause others to be "
-"sacrificed for it. Decreasing the weight of an attribute will cause it to be "
-"sacrificed for others."
+"sacrificed for it. Decreasing the weight of an attribute will cause it to be"
+" sacrificed for others."
 msgstr ""
+"Dofus Fashionista maximiert den Gesamtwert aller Attribute Ihres Charakters."
+" Die Erhöhung der Gewichtung eines Attributs führt dazu, dass andere dafür "
+"geopfert werden. Die Verringerung der Gewichtung eines Attributs führt dazu,"
+" dass es für andere geopfert wird."
 
 #: chardata/templates/chardata/stats.html:30 chardata/translation_util.py:102
 msgid "% Melee Damage"
-msgstr ""
+msgstr "% Nahkampfschaden"
 
 #: chardata/templates/chardata/stats.html:31 chardata/translation_util.py:103
 msgid "% Ranged Damage"
-msgstr ""
+msgstr "% Fernkampfschaden"
 
 #: chardata/templates/chardata/stats.html:32 chardata/translation_util.py:104
 msgid "% Weapon Damage"
-msgstr ""
+msgstr "% Waffenschaden"
 
 #: chardata/templates/chardata/stats.html:33
 msgid "% Spells Damage"
-msgstr ""
+msgstr "% Zauberschaden"
 
 #: chardata/templates/chardata/stats.html:66
 msgid "All Resists"
-msgstr ""
+msgstr "Alle Widerstände"
 
 #: chardata/templates/chardata/stats.html:73
 msgid "All % Resists"
-msgstr ""
+msgstr "Alle % Widerstände"
 
 #: chardata/templates/chardata/stats.html:80 chardata/translation_util.py:106
 msgid "% Melee Resist"
-msgstr ""
+msgstr "% Nahkampfresistenz"
 
 #: chardata/templates/chardata/stats.html:81 chardata/translation_util.py:107
 msgid "% Ranged Resist"
-msgstr ""
+msgstr "% Fernkampfwiderstand"
 
 #: chardata/templates/chardata/stats.html:82
 msgid "% Weapon Resist"
-msgstr ""
+msgstr "% Waffenresistenz"
 
 #: chardata/templates/chardata/thankyou.html:12
 msgid "Your message has been sent."
-msgstr ""
+msgstr "Ihre Nachricht wurde gesendet."
 
 #: chardata/templates/chardata/thankyou.html:13
 msgid "Thank you for contacting us."
-msgstr ""
+msgstr "Vielen Dank, dass Sie uns kontaktiert haben."
 
 #: chardata/templates/chardata/wizard.html:122
 #: chardata/templates/chardata/wizard_scrolling.html:9
 msgid "Leave scrolling at"
-msgstr ""
+msgstr "Scrollen Sie weiter"
 
 #: chardata/templates/chardata/wizard.html:127
 msgid "This will reset the tuning sliders back to the default for your build."
 msgstr ""
+"Dadurch werden die Tuning-Schieberegler für Ihren Build auf die "
+"Standardeinstellungen zurückgesetzt."
 
 #: chardata/templates/chardata/wizard_inclusions.html:6
 msgid "Is there a weapon that you want this character to use?"
-msgstr ""
+msgstr "Gibt es eine Waffe, die dieser Charakter verwenden soll?"
 
 #: chardata/templates/chardata/wizard_inclusions.html:14
 msgid ""
 "If you don't choose any, a weapon will be chosen only for its stats, no "
 "matter how it hits"
 msgstr ""
+"Wenn Sie keine auswählen, wird eine Waffe nur aufgrund ihrer Werte "
+"ausgewählt, unabhängig davon, wie sie trifft"
 
 #: chardata/templates/chardata/wizard_min_stats.html:3
 msgid "Choose the minimum stats you need on this character"
-msgstr ""
+msgstr "Wählen Sie die Mindestwerte, die Sie für diesen Charakter benötigen"
 
 #: chardata/templates/chardata/wizard_min_stats.html:19
 msgid "You can leave the fields empty if you don't care about them"
-msgstr ""
+msgstr "Sie können die Felder leer lassen, wenn Sie sie nicht interessieren"
 
 #: chardata/templates/chardata/wizard_options.html:5
 msgid "Exos and mounts"
-msgstr ""
+msgstr "Exos und Reittiere"
 
 #: chardata/templates/chardata/wizard_options.html:37
 msgid "Dofuses"
-msgstr ""
+msgstr "Dofuses"
 
 #: chardata/templates/chardata/wizard_options.html:37
 msgid "Dofuses and Prysmaradite"
@@ -2318,35 +2572,38 @@ msgstr "Dofus und Prysmaradite"
 
 #: chardata/templates/chardata/wizard_options.html:162
 msgid "Black Spotted"
-msgstr ""
+msgstr "Schwarz gefleckt"
 
 #: chardata/templates/chardata/wizard_options.html:223
 msgid "Check the dofuses we are allowed to use"
-msgstr ""
+msgstr "Überprüfen Sie, welche Dofuses wir verwenden dürfen"
 
 #: chardata/templates/chardata/wizard_scrolling.html:3
 msgid "Scrolling"
-msgstr ""
+msgstr "Scrollen"
 
 #: chardata/templates/chardata/wizard_scrolling.html:7
 msgid "Fully scroll my character"
-msgstr ""
+msgstr "Scrolle komplett durch meinen Charakter"
 
 #: chardata/templates/chardata/wizard_scrolling.html:8
 msgid "Don't scroll any characteristics"
-msgstr ""
+msgstr "Scrollen Sie nicht durch irgendwelche Merkmale"
 
 #: chardata/templates/chardata/wizard_scrolling.html:17
 #, python-format
 msgid ""
-"If you wish to set your base stats yourself, you can do it at the <i><a href="
-"\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> page, "
-"under <i>More</i>"
+"If you wish to set your base stats yourself, you can do it at the <i><a "
+"href=\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> "
+"page, under <i>More</i>"
 msgstr ""
+"Wenn Sie Ihre Basisstatistiken selbst festlegen möchten, können Sie dies auf"
+" der Seite <i><a href=\"%(base_stats_url)s\" "
+"target=\"_blank\">Basiseigenschaften</a></i> unter <i>Mehr</i> tun"
 
 #: chardata/templates/chardata/wizard_sliders.html:3
 msgid "Fine tune stat weights"
-msgstr ""
+msgstr "Feinabstimmung der Statistikgewichte"
 
 #: chardata/templates/chardata/wizard_sliders.html:5
 msgid ""
@@ -2354,2203 +2611,2207 @@ msgid ""
 "be used to fine tune a set to suit your particular needs. Increasing one "
 "stat weight means it will go up, but the others will go down."
 msgstr ""
+"Die Schieberegler unten sind entsprechend Ihrer Klasse und Ihrem Körperbau "
+"voreingestellt. Sie können verwendet werden, um ein Set genau auf Ihre "
+"speziellen Bedürfnisse abzustimmen. Das Erhöhen eines Statistikgewichts "
+"bedeutet, dass es steigt, die anderen jedoch sinken."
 
 #: chardata/templates/chardata/wizard_sliders.html:18
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: chardata/translation_util.py:22
 msgid "Eniripsa"
-msgstr ""
+msgstr "Eniripsa"
 
 #: chardata/translation_util.py:23
 msgid "Iop"
-msgstr ""
+msgstr "Iop"
 
 #: chardata/translation_util.py:24
 msgid "Xelor"
-msgstr ""
+msgstr "Xélor"
 
 #: chardata/translation_util.py:25
 msgid "Osamodas"
-msgstr ""
+msgstr "Osamodas"
 
 #: chardata/translation_util.py:26
 msgid "Feca"
-msgstr ""
+msgstr "Féca"
 
 #: chardata/translation_util.py:27
 msgid "Sacrier"
-msgstr ""
+msgstr "Sacrieur"
 
 #: chardata/translation_util.py:28
 msgid "Ecaflip"
-msgstr ""
+msgstr "Ecaflip"
 
 #: chardata/translation_util.py:29
 msgid "Enutrof"
-msgstr ""
+msgstr "Enutrof"
 
 #: chardata/translation_util.py:30
 msgid "Sram"
-msgstr ""
+msgstr "Sram"
 
 #: chardata/translation_util.py:31
 msgid "Sadida"
-msgstr ""
+msgstr "Sadida"
 
 #: chardata/translation_util.py:32
 msgid "Cra"
-msgstr ""
+msgstr "Cra"
 
 #: chardata/translation_util.py:33
 msgid "Pandawa"
-msgstr ""
+msgstr "Pandawa"
 
 #: chardata/translation_util.py:34
 msgid "Rogue"
-msgstr ""
+msgstr "Schurke"
 
 #: chardata/translation_util.py:35
 msgid "Masqueraider"
-msgstr ""
+msgstr "Maskerador"
 
 #: chardata/translation_util.py:36
 msgid "Foggernaut"
-msgstr ""
+msgstr "Foggernaut"
 
 #: chardata/translation_util.py:37
 msgid "Eliotrope"
-msgstr ""
+msgstr "Eliotrop"
 
 #: chardata/translation_util.py:38
 msgid "Huppermage"
-msgstr ""
+msgstr "Übermagier"
 
 #: chardata/translation_util.py:39
 msgid "Ouginak"
-msgstr ""
+msgstr "Ouginak"
 
 #: chardata/translation_util.py:40
 msgid "Forgelance"
-msgstr ""
+msgstr "Vergebung"
 
 #: chardata/translation_util.py:44
 msgid "Fire"
-msgstr ""
+msgstr "Feuer"
 
 #: chardata/translation_util.py:45
 msgid "Earth"
-msgstr ""
+msgstr "Erde"
 
 #: chardata/translation_util.py:46
 msgid "Neutral"
-msgstr ""
+msgstr "Neutral"
 
 #: chardata/translation_util.py:47
 msgid "Water"
-msgstr ""
+msgstr "Wasser"
 
 #: chardata/translation_util.py:48
 msgid "Air"
-msgstr ""
+msgstr "Luft"
 
 #: chardata/translation_util.py:52
 msgid "project"
-msgstr ""
+msgstr "Projekt"
 
 #: chardata/translation_util.py:53
 msgid "Sum of all % Resists except neutral"
-msgstr ""
+msgstr "Summe aller % Resistenzen außer neutral"
 
 #: chardata/translation_util.py:54
 msgid "Sum of all % Resists"
-msgstr ""
+msgstr "Summe aller % Resistenzen"
 
 #: chardata/translation_util.py:55
 msgid "Sum of all Linear Resists"
-msgstr ""
+msgstr "Summe aller linearen Widerstände"
 
 #: chardata/translation_util.py:56
 msgid "Sum of all Linear Resists except neutral"
-msgstr ""
+msgstr "Summe aller linearen Widerstände außer neutral"
 
 #: chardata/translation_util.py:72
 msgid "Summon"
-msgstr ""
+msgstr "Beschwörung"
 
 #: chardata/translation_util.py:105
 msgid "% Spell Damage"
-msgstr ""
+msgstr "% Zauberschaden"
 
 #: chardata/translation_util.py:111
 msgid "Perfidious Boomerang"
-msgstr ""
+msgstr "Perfider Bumerang"
 
 #: chardata/translation_util.py:112
 msgid "Leek Pie"
-msgstr ""
+msgstr "Lauchkuchen"
 
 #: chardata/translation_util.py:113
 msgid "Moon Hammer"
-msgstr ""
+msgstr "Mondhammer"
 
 #: chardata/translation_util.py:114
 msgid "Lightning Strike"
-msgstr ""
+msgstr "Blitzeinschlag"
 
 #: chardata/translation_util.py:115
 msgid "Weapon Skill"
-msgstr ""
+msgstr "Waffenfähigkeit"
 
 #: chardata/translation_util.py:116
 msgid "Magic Arrow"
-msgstr ""
+msgstr "Magischer Pfeil"
 
 #: chardata/translation_util.py:117
 msgid "Concentration Arrow"
-msgstr ""
+msgstr "Konzentrationspfeil"
 
 #: chardata/translation_util.py:118
 msgid "Retreat Arrow"
-msgstr ""
+msgstr "Rückzugspfeil"
 
 #: chardata/translation_util.py:119
 msgid "Erosive Arrow"
-msgstr ""
+msgstr "Erosiver Pfeil"
 
 #: chardata/translation_util.py:120
 msgid "Frozen Arrow"
-msgstr ""
+msgstr "Gefrorener Pfeil"
 
 #: chardata/translation_util.py:121
 msgid "Paralyzing Arrow Fire"
-msgstr ""
+msgstr "Lähmendes Pfeilfeuer"
 
 #: chardata/translation_util.py:122
 msgid "Burning Arrow"
-msgstr ""
+msgstr "Brennender Pfeil"
 
 #: chardata/translation_util.py:123
 msgid "Repulsive Arrow"
-msgstr ""
+msgstr "Abstoßender Pfeil"
 
 #: chardata/translation_util.py:124
 msgid "Atonement Arrow"
-msgstr ""
+msgstr "Sühnepfeil"
 
 #: chardata/translation_util.py:125
 msgid "Redemption Arrow"
-msgstr ""
+msgstr "Erlösungspfeil"
 
 #: chardata/translation_util.py:126
 msgid "Bat's Eye"
-msgstr ""
+msgstr "Fledermausauge"
 
 #: chardata/translation_util.py:127
 msgid "Crushing Arrow"
-msgstr ""
+msgstr "Zerschmetternder Pfeil"
 
 #: chardata/translation_util.py:128
 msgid "Critical Shooting"
-msgstr ""
+msgstr "Kritisches Schießen"
 
 #: chardata/translation_util.py:129
 msgid "Paralyzing Arrow"
-msgstr ""
+msgstr "Lähmender Pfeil"
 
 #: chardata/translation_util.py:130
 msgid "Assailing Arrow"
-msgstr ""
+msgstr "Angreifender Pfeil"
 
 #: chardata/translation_util.py:131
 msgid "Punitive Arrow"
-msgstr ""
+msgstr "Strafpfeil"
 
 #: chardata/translation_util.py:132
 msgid "Arrow of Judgement"
-msgstr ""
+msgstr "Pfeil des Urteils"
 
 #: chardata/translation_util.py:133
 msgid "Powerful Shooting"
-msgstr ""
+msgstr "Kraftvolles Schießen"
 
 #: chardata/translation_util.py:134
 msgid "Plaguing Arrow"
-msgstr ""
+msgstr "Plagender Pfeil"
 
 #: chardata/translation_util.py:135
 msgid "Slaughtering Arrow"
-msgstr ""
+msgstr "Schlachtpfeil"
 
 #: chardata/translation_util.py:136
 msgid "Poisoned Arrow"
-msgstr ""
+msgstr "Vergifteter Pfeil"
 
 #: chardata/translation_util.py:137
 msgid "Tormenting Arrow"
-msgstr ""
+msgstr "Quälender Pfeil"
 
 #: chardata/translation_util.py:138
 msgid "Tyrannical Arrow"
-msgstr ""
+msgstr "Tyrannischer Pfeil"
 
 #: chardata/translation_util.py:139
 msgid "Destructive Arrow"
-msgstr ""
+msgstr "Zerstörerischer Pfeil"
 
 #: chardata/translation_util.py:140
 msgid "Barricade Shot"
-msgstr ""
+msgstr "Barrikadenschuss"
 
 #: chardata/translation_util.py:141
 msgid "Absorptive Arrow"
-msgstr ""
+msgstr "Absorbierender Pfeil"
 
 #: chardata/translation_util.py:142
 msgid "Devouring Arrow"
-msgstr ""
+msgstr "Verschlingender Pfeil"
 
 #: chardata/translation_util.py:143
 msgid "Slow Down Arrow"
-msgstr ""
+msgstr "Verlangsamungspfeil"
 
 #: chardata/translation_util.py:144
 msgid "Striking Arrow"
-msgstr ""
+msgstr "Auffälliger Pfeil"
 
 #: chardata/translation_util.py:145
 msgid "Explosive Arrow"
-msgstr ""
+msgstr "Explosiver Pfeil"
 
 #: chardata/translation_util.py:146
 msgid "Fulminating Arrow"
-msgstr ""
+msgstr "Fulminierender Pfeil"
 
 #: chardata/translation_util.py:147
 msgid "Bow Skill"
-msgstr ""
+msgstr "Bogenfertigkeit"
 
 #: chardata/translation_util.py:148
 msgid "Sentinel"
-msgstr ""
+msgstr "Wächter"
 
 #: chardata/translation_util.py:149
 msgid "Heads or Tails 1"
-msgstr ""
+msgstr "Kopf oder Zahl 1"
 
 #: chardata/translation_util.py:150
 msgid "Heads or Tails 2"
-msgstr ""
+msgstr "Kopf oder Zahl 2"
 
 #: chardata/translation_util.py:151
 msgid "Bluff"
-msgstr ""
+msgstr "Bluff"
 
 #: chardata/translation_util.py:152
 msgid "Nerve"
-msgstr ""
+msgstr "Nerv"
 
 #: chardata/translation_util.py:153
 msgid "Topkaj"
-msgstr ""
+msgstr "Topkaj"
 
 #: chardata/translation_util.py:154
 msgid "Yowling"
-msgstr ""
+msgstr "Jaulen"
 
 #: chardata/translation_util.py:155
 msgid "All or Nothing"
-msgstr ""
+msgstr "Alles oder Nichts"
 
 #: chardata/translation_util.py:156
 msgid "Peril"
-msgstr ""
+msgstr "Gefahr"
 
 #: chardata/translation_util.py:157
 msgid "Rough Tongue"
-msgstr ""
+msgstr "Raue Zunge"
 
 #: chardata/translation_util.py:158
 msgid "Lapping Up"
-msgstr ""
+msgstr "Läppen"
 
 #: chardata/translation_util.py:159
 msgid "Wheel of Fortune"
-msgstr ""
+msgstr "Glücksrad"
 
 #: chardata/translation_util.py:160
 msgid "Feline Spirit"
-msgstr ""
+msgstr "Katzengeist"
 
 #: chardata/translation_util.py:161
 msgid "Pawpads"
-msgstr ""
+msgstr "Pfotenpolster"
 
 #: chardata/translation_util.py:162
 msgid "Reflex"
-msgstr ""
+msgstr "Reflex"
 
 #: chardata/translation_util.py:163
 msgid "Bravado"
-msgstr ""
+msgstr "Tapferkeit"
 
 #: chardata/translation_util.py:164
 msgid "Playful Claw"
-msgstr ""
+msgstr "Verspielte Klaue"
 
 #: chardata/translation_util.py:165
 msgid "Misadventure"
-msgstr ""
+msgstr "Missgeschick"
 
 #: chardata/translation_util.py:166
 msgid "Felintion"
-msgstr ""
+msgstr "Felintion"
 
 #: chardata/translation_util.py:167
 msgid "Kraps"
-msgstr ""
+msgstr "Kraps"
 
 #: chardata/translation_util.py:168
 msgid "Claw of Ceangal"
-msgstr ""
+msgstr "Klaue von Ceangal"
 
 #: chardata/translation_util.py:169
 msgid "Misfortune"
-msgstr ""
+msgstr "Unglück"
 
 #: chardata/translation_util.py:170
 msgid "Rekop"
-msgstr ""
+msgstr "Rekop"
 
 #: chardata/translation_util.py:171
 msgid "Trickery"
-msgstr ""
+msgstr "Trickserei"
 
 #: chardata/translation_util.py:172
 msgid "Fate of Ecaflip"
-msgstr ""
+msgstr "Schicksal von Ecaflip"
 
 #: chardata/translation_util.py:173
 msgid "Ecaflip's Audacity"
-msgstr ""
+msgstr "Ecaflips Audacity"
 
 #: chardata/translation_util.py:174
 msgid "Alternative Word"
-msgstr ""
+msgstr "Alternatives Wort"
 
 #: chardata/translation_util.py:175
 msgid "Striking Word"
-msgstr ""
+msgstr "Markantes Wort"
 
 #: chardata/translation_util.py:176
 msgid "Wounding Word"
-msgstr ""
+msgstr "Verletzendes Wort"
 
 #: chardata/translation_util.py:177
 msgid "Slighting Word"
-msgstr ""
+msgstr "Beleidigendes Wort"
 
 #: chardata/translation_util.py:178
 msgid "Forbidden Word"
-msgstr ""
+msgstr "Verbotenes Wort"
 
 #: chardata/translation_util.py:179
 msgid "Taboo Word"
-msgstr ""
+msgstr "Tabuwort"
 
 #: chardata/translation_util.py:180
 msgid "Seductive Word"
-msgstr ""
+msgstr "Verführerisches Wort"
 
 #: chardata/translation_util.py:181
 msgid "Self-Sacrificing Word"
-msgstr ""
+msgstr "Aufopferndes Wort"
 
 #: chardata/translation_util.py:182
 msgid "Brutal Word"
-msgstr ""
+msgstr "Brutales Wort"
 
 #: chardata/translation_util.py:183
 msgid "Pernicious Word"
-msgstr ""
+msgstr "Verderbliches Wort"
 
 #: chardata/translation_util.py:184
 msgid "Defensive Word"
-msgstr ""
+msgstr "Defensives Wort"
 
 #: chardata/translation_util.py:185
 msgid "Selective Word"
-msgstr ""
+msgstr "Selektives Wort"
 
 #: chardata/translation_util.py:186
 msgid "Impartial Word"
-msgstr ""
+msgstr "Unparteiisches Wort"
 
 #: chardata/translation_util.py:187
 msgid "Blaring Word"
-msgstr ""
+msgstr "Plärrendes Wort"
 
 #: chardata/translation_util.py:188
 msgid "Resounding Word"
-msgstr ""
+msgstr "Klingendes Wort"
 
 #: chardata/translation_util.py:189
 msgid "Agonising Word"
-msgstr ""
+msgstr "Qualvolles Wort"
 
 #: chardata/translation_util.py:190
 msgid "Turbulent Word"
-msgstr ""
+msgstr "Turbulentes Wort"
 
 #: chardata/translation_util.py:191
 msgid "Mischievous Word"
-msgstr ""
+msgstr "Boshaftes Wort"
 
 #: chardata/translation_util.py:192
 msgid "Puzzling Word"
-msgstr ""
+msgstr "Rätselhaftes Wort"
 
 #: chardata/translation_util.py:193
 msgid "Furious Word"
-msgstr ""
+msgstr "Wütendes Wort"
 
 #: chardata/translation_util.py:194
 msgid "Whirling Word 1"
-msgstr ""
+msgstr "Wirbelndes Wort 1"
 
 #: chardata/translation_util.py:195
 msgid "Whirling Word 2"
-msgstr ""
+msgstr "Wirbelndes Wort 2"
 
 #: chardata/translation_util.py:196
 msgid "Thunderous Word"
-msgstr ""
+msgstr "Donnerndes Wort"
 
 #: chardata/translation_util.py:197
 msgid "Overwhelming Word"
-msgstr ""
+msgstr "Überwältigendes Wort"
 
 #: chardata/translation_util.py:198
 msgid "Coins Throwing"
-msgstr ""
+msgstr "Münzenwerfen"
 
 #: chardata/translation_util.py:199
 msgid "Hard Cash"
-msgstr ""
+msgstr "Hartes Geld"
 
 #: chardata/translation_util.py:200
 msgid "Shovel Throwing"
-msgstr ""
+msgstr "Schaufelwerfen"
 
 #: chardata/translation_util.py:201
 msgid "Spade Throw"
-msgstr ""
+msgstr "Spatenwurf"
 
 #: chardata/translation_util.py:202
 msgid "Ghostly Shovel"
-msgstr ""
+msgstr "Geisterschaufel"
 
 #: chardata/translation_util.py:203
 msgid "Ghostly Spade"
-msgstr ""
+msgstr "Geisterhafter Spaten"
 
 #: chardata/translation_util.py:204
 msgid "Mound"
-msgstr ""
+msgstr "Hügel"
 
 #: chardata/translation_util.py:205
 msgid "Peat Bog"
-msgstr ""
+msgstr "Torfmoor"
 
 #: chardata/translation_util.py:206
 msgid "Prime of Life"
-msgstr ""
+msgstr "Blüte des Lebens"
 
 #: chardata/translation_util.py:207
 msgid "Obsolescence"
-msgstr ""
+msgstr "Veralten"
 
 #: chardata/translation_util.py:208
 msgid "Greed"
-msgstr ""
+msgstr "Gier"
 
 #: chardata/translation_util.py:209
 msgid "Shovel Kiss"
-msgstr ""
+msgstr "Schaufelkuss"
 
 #: chardata/translation_util.py:210
 msgid "Spade Kiss"
-msgstr ""
+msgstr "Spatenkuss"
 
 #: chardata/translation_util.py:211
 msgid "Loafylactic"
-msgstr ""
+msgstr "Loafylaktisch"
 
 #: chardata/translation_util.py:212
 msgid "Fortune"
-msgstr ""
+msgstr "Vermögen"
 
 #: chardata/translation_util.py:213
 msgid "Opportuneness"
-msgstr ""
+msgstr "Opportunität"
 
 #: chardata/translation_util.py:214
 msgid "Shovel of Judgment"
-msgstr ""
+msgstr "Schaufel des Urteils"
 
 #: chardata/translation_util.py:215
 msgid "Spade of Judgment"
-msgstr ""
+msgstr "Spaten des Urteils"
 
 #: chardata/translation_util.py:216
 msgid "Slaughtering Shovel"
-msgstr ""
+msgstr "Schlachtschaufel"
 
 #: chardata/translation_util.py:217
 msgid "Carnivore Spade"
-msgstr ""
+msgstr "Fleischfresser-Spaten"
 
 #: chardata/translation_util.py:218
 msgid "Unsummoning"
-msgstr ""
+msgstr "Unaufgefordert"
 
 #: chardata/translation_util.py:219 chardata/translation_util.py:489
 msgid "Correction"
-msgstr ""
+msgstr "Korrektur"
 
 #: chardata/translation_util.py:220
 msgid "Natural Attack"
-msgstr ""
+msgstr "Natürlicher Angriff"
 
 #: chardata/translation_util.py:221
 msgid "Natural Attraction"
-msgstr ""
+msgstr "Natürliche Anziehungskraft"
 
 #: chardata/translation_util.py:222
 msgid "Blindness"
-msgstr ""
+msgstr "Blindheit"
 
 #: chardata/translation_util.py:223
 msgid "Dazzling"
-msgstr ""
+msgstr "Blendend"
 
 #: chardata/translation_util.py:224
 msgid "Typhoon"
-msgstr ""
+msgstr "Taifun"
 
 #: chardata/translation_util.py:225
 msgid "Gust"
-msgstr ""
+msgstr "Böe"
 
 #: chardata/translation_util.py:226
 msgid "Bubble"
-msgstr ""
+msgstr "Blase"
 
 #: chardata/translation_util.py:227
 msgid "Swelling"
-msgstr ""
+msgstr "Schwellung"
 
 #: chardata/translation_util.py:228
 msgid "Aggressive Glyph"
-msgstr ""
+msgstr "Aggressive Glyphe"
 
 #: chardata/translation_util.py:229
 msgid "Fulminating Glyph"
-msgstr ""
+msgstr "Fulminierende Glyphe"
 
 #: chardata/translation_util.py:230
 msgid "Lethargy"
-msgstr ""
+msgstr "Lethargie"
 
 #: chardata/translation_util.py:231
 msgid "Lifelessness"
-msgstr ""
+msgstr "Leblosigkeit"
 
 #: chardata/translation_util.py:232
 msgid "Cloudy Attack"
-msgstr ""
+msgstr "Bewölkter Angriff"
 
 #: chardata/translation_util.py:233
 msgid "Stormy Attack"
-msgstr ""
+msgstr "Stürmischer Angriff"
 
 #: chardata/translation_util.py:234
 msgid "Bastion"
-msgstr ""
+msgstr "Bastion"
 
 #: chardata/translation_util.py:235
 msgid "Backlash"
-msgstr ""
+msgstr "Gegenreaktion"
 
 #: chardata/translation_util.py:236
 msgid "Tetany"
-msgstr ""
+msgstr "Tetanie"
 
 #: chardata/translation_util.py:237
 msgid "Repulsion Glyph"
-msgstr ""
+msgstr "Abstoßungsglyphe"
 
 #: chardata/translation_util.py:238
 msgid "Barrier"
-msgstr ""
+msgstr "Barriere"
 
 #: chardata/translation_util.py:239
 msgid "Blinding Glyph"
-msgstr ""
+msgstr "Blendende Glyphe"
 
 #: chardata/translation_util.py:240
 msgid "Protective Glyph"
-msgstr ""
+msgstr "Schutzglyphe"
 
 #: chardata/translation_util.py:241
 msgid "Shiver"
-msgstr ""
+msgstr "Schauer"
 
 #: chardata/translation_util.py:242
 msgid "Tension"
-msgstr ""
+msgstr "Spannung"
 
 #: chardata/translation_util.py:243
 msgid "Paralyzing Glyph"
-msgstr ""
+msgstr "Lähmende Glyphe"
 
 #: chardata/translation_util.py:244
 msgid "Roaming Glyph"
-msgstr ""
+msgstr "Wandernde Glyphe"
 
 #: chardata/translation_util.py:245
 msgid "Reinforced Protection"
-msgstr ""
+msgstr "Verstärkter Schutz"
 
 #: chardata/translation_util.py:246
 msgid "Burning Glyph"
-msgstr ""
+msgstr "Brennende Glyphe"
 
 #: chardata/translation_util.py:247
 msgid "Perception Glyph"
-msgstr ""
+msgstr "Wahrnehmungsglyphe"
 
 #: chardata/translation_util.py:248
 msgid "Anchor"
-msgstr ""
+msgstr "Anker"
 
 #: chardata/translation_util.py:249
 msgid "Mooring"
-msgstr ""
+msgstr "Anlegen"
 
 #: chardata/translation_util.py:250
 msgid "Pilfer"
-msgstr ""
+msgstr "Stehlen"
 
 #: chardata/translation_util.py:251
 msgid "Scuttle"
-msgstr ""
+msgstr "Scuttle"
 
 #: chardata/translation_util.py:252
 msgid "Torrent"
-msgstr ""
+msgstr "Torrent"
 
 #: chardata/translation_util.py:253
 msgid "Harmattan"
-msgstr ""
+msgstr "Harmattan"
 
 #: chardata/translation_util.py:254
 msgid "Scaphander"
-msgstr ""
+msgstr "Scaphander"
 
 #: chardata/translation_util.py:255
 msgid "Backwash"
-msgstr ""
+msgstr "Rückspülung"
 
 #: chardata/translation_util.py:256
 msgid "Torpedo"
-msgstr ""
+msgstr "Torpedo"
 
 #: chardata/translation_util.py:257
 msgid "Tide"
-msgstr ""
+msgstr "Tide"
 
 #: chardata/translation_util.py:258
 msgid "Corrosion"
-msgstr ""
+msgstr "Korrosion"
 
 #: chardata/translation_util.py:259
 msgid "Vapour"
-msgstr ""
+msgstr "Dampf"
 
 #: chardata/translation_util.py:260
 msgid "Valve"
-msgstr ""
+msgstr "Ventil"
 
 #: chardata/translation_util.py:261
 msgid "Periscope 1"
-msgstr ""
+msgstr "Periskop 1"
 
 #: chardata/translation_util.py:262
 msgid "Periscope 2"
-msgstr ""
+msgstr "Periskop 2"
 
 #: chardata/translation_util.py:263
 msgid "First Aid"
-msgstr ""
+msgstr "Erste Hilfe"
 
 #: chardata/translation_util.py:264
 msgid "Rescue"
-msgstr ""
+msgstr "Rettung"
 
 #: chardata/translation_util.py:265
 msgid "Surge"
-msgstr ""
+msgstr "Anstieg"
 
 #: chardata/translation_util.py:266
 msgid "Short-Circuit"
-msgstr ""
+msgstr "Kurzschluss"
 
 #: chardata/translation_util.py:267 chardata/translation_util.py:436
 msgid "Ambush"
-msgstr ""
+msgstr "Hinterhalt"
 
 #: chardata/translation_util.py:268
 msgid "Froth"
-msgstr ""
+msgstr "Schaum"
 
 #: chardata/translation_util.py:269
 msgid "Nautilus"
-msgstr ""
+msgstr "Nautilus"
 
 #: chardata/translation_util.py:270
 msgid "Trident"
-msgstr ""
+msgstr "Dreizack"
 
 #: chardata/translation_util.py:271
 msgid "Seizing"
-msgstr ""
+msgstr "Beschlagnahme"
 
 #: chardata/translation_util.py:272
 msgid "Intimidation"
-msgstr ""
+msgstr "Einschüchterung"
 
 #: chardata/translation_util.py:273
 msgid "Pressure"
-msgstr ""
+msgstr "Druck"
 
 #: chardata/translation_util.py:274
 msgid "Pounding"
-msgstr ""
+msgstr "Stampfen"
 
 #: chardata/translation_util.py:275
 msgid "Outpouring"
-msgstr ""
+msgstr "Erguss"
 
 #: chardata/translation_util.py:276
 msgid "Threat"
-msgstr ""
+msgstr "Gefahr"
 
 #: chardata/translation_util.py:277
 msgid "Divine Sword"
-msgstr ""
+msgstr "Göttliches Schwert"
 
 #: chardata/translation_util.py:278
 msgid "Cleaver"
-msgstr ""
+msgstr "Hackmesser"
 
 #: chardata/translation_util.py:279
 msgid "Destructive Sword"
-msgstr ""
+msgstr "Zerstörerisches Schwert"
 
 #: chardata/translation_util.py:280
 msgid "Destructive Ring"
-msgstr ""
+msgstr "Zerstörerischer Ring"
 
 #: chardata/translation_util.py:281
 msgid "Concentration"
-msgstr ""
+msgstr "Konzentration"
 
 #: chardata/translation_util.py:282
 msgid "Accumulation"
-msgstr ""
+msgstr "Akkumulation"
 
 #: chardata/translation_util.py:283
 msgid "Cut"
-msgstr ""
+msgstr "Schneiden"
 
 #: chardata/translation_util.py:284
 msgid "Fracture"
-msgstr ""
+msgstr "Bruch"
 
 #: chardata/translation_util.py:285
 msgid "Sword of Judgement"
-msgstr ""
+msgstr "Schwert des Urteils"
 
 #: chardata/translation_util.py:286
 msgid "Condemnation"
-msgstr ""
+msgstr "Verurteilung"
 
 #: chardata/translation_util.py:288
 msgid "Strengthstorm"
-msgstr ""
+msgstr "Kraftsturm"
 
 #: chardata/translation_util.py:289
 msgid "Tumult"
-msgstr ""
+msgstr "Tumult"
 
 #: chardata/translation_util.py:290
 msgid "Celestial Sword"
-msgstr ""
+msgstr "Himmlisches Schwert"
 
 #: chardata/translation_util.py:291
 msgid "Zenith"
-msgstr ""
+msgstr "Zenit"
 
 #: chardata/translation_util.py:292
 msgid "Endurance"
-msgstr ""
+msgstr "Ausdauer"
 
 #: chardata/translation_util.py:293
 msgid "Sword of Iop"
-msgstr ""
+msgstr "Schwert von Iop"
 
 #: chardata/translation_util.py:294
 msgid "Pygmachia"
-msgstr ""
+msgstr "Pygmachie"
 
 #: chardata/translation_util.py:295
 msgid "Sword of Fate"
-msgstr ""
+msgstr "Schwert des Schicksals"
 
 #: chardata/translation_util.py:296
 msgid "Sentence"
-msgstr ""
+msgstr "Satz"
 
 #: chardata/translation_util.py:297
 msgid "Iop's Wrath"
-msgstr ""
+msgstr "Iops Zorn"
 
 #: chardata/translation_util.py:298
 msgid "Fit of Rage"
-msgstr ""
+msgstr "Wutanfall"
 
 #: chardata/translation_util.py:299
 msgid "Picada"
-msgstr ""
+msgstr "Picada"
 
 #: chardata/translation_util.py:300
 msgid "Agular"
-msgstr ""
+msgstr "Eckig"
 
 #: chardata/translation_util.py:301
 msgid "Martelo"
-msgstr ""
+msgstr "Martelo"
 
 #: chardata/translation_util.py:302
 msgid "Parafuso"
-msgstr ""
+msgstr "Parafuso"
 
 #: chardata/translation_util.py:303
 msgid "Reinforcement"
-msgstr ""
+msgstr "Verstärkung"
 
 #: chardata/translation_util.py:304
 msgid "Retention"
-msgstr ""
+msgstr "Zurückbehaltung"
 
 #: chardata/translation_util.py:305
 msgid "Estrelia"
-msgstr ""
+msgstr "Estrelia"
 
 #: chardata/translation_util.py:306
 msgid "Furia"
-msgstr ""
+msgstr "Furia"
 
 #: chardata/translation_util.py:307
 msgid "Cavalcade"
-msgstr ""
+msgstr "Kavalkade"
 
 #: chardata/translation_util.py:308
 msgid "Distance"
-msgstr ""
+msgstr "Distanz"
 
 #: chardata/translation_util.py:309
 msgid "Atabak"
-msgstr ""
+msgstr "Atabak"
 
 #: chardata/translation_util.py:310
 msgid "Ginga"
-msgstr ""
+msgstr "Ginga"
 
 #: chardata/translation_util.py:311
 msgid "Neurosis"
-msgstr ""
+msgstr "Neurose"
 
 #: chardata/translation_util.py:312
 msgid "Capering"
-msgstr ""
+msgstr "Kapriolen"
 
 #: chardata/translation_util.py:313
 msgid "Bocciara"
-msgstr ""
+msgstr "Bocciara"
 
 #: chardata/translation_util.py:314
 msgid "Decoy"
-msgstr ""
+msgstr "Köder"
 
 #: chardata/translation_util.py:315
 msgid "Catalepsy"
-msgstr ""
+msgstr "Katalepsie"
 
 #: chardata/translation_util.py:316
 msgid "Apostasy"
-msgstr ""
+msgstr "Apostasie"
 
 #: chardata/translation_util.py:317
 msgid "Brincaderia"
-msgstr ""
+msgstr "Brincaderia"
 
 #: chardata/translation_util.py:318
 msgid "Apathy"
-msgstr ""
+msgstr "Apathie"
 
 #: chardata/translation_util.py:319
 msgid "Ponteira"
-msgstr ""
+msgstr "Ponteira"
 
 #: chardata/translation_util.py:320
 msgid "Boliche"
-msgstr ""
+msgstr "Boliche"
 
 #: chardata/translation_util.py:321
 msgid "Inferno"
-msgstr ""
+msgstr "Inferno"
 
 #: chardata/translation_util.py:322
 msgid "Canine"
-msgstr ""
+msgstr "Eckzahn"
 
 #: chardata/translation_util.py:323
 msgid "Repulsive Fang"
-msgstr ""
+msgstr "Abstoßender Fangzahn"
 
 #: chardata/translation_util.py:324
 msgid "Dragonic"
-msgstr ""
+msgstr "Dracheisch"
 
 #: chardata/translation_util.py:325
 msgid "Aquatic Wave"
-msgstr ""
+msgstr "Wasserwelle"
 
 #: chardata/translation_util.py:326
 msgid "Fossil"
-msgstr ""
+msgstr "Fossil"
 
 #: chardata/translation_util.py:327
 msgid "Sedimentation"
-msgstr ""
+msgstr "Sedimentation"
 
 #: chardata/translation_util.py:328
 msgid "Takeoff"
-msgstr ""
+msgstr "Abheben"
 
 #: chardata/translation_util.py:329
 msgid "Whip"
-msgstr ""
+msgstr "Peitsche"
 
 #: chardata/translation_util.py:330
 msgid "Duster"
-msgstr ""
+msgstr "Staubtuch"
 
 #: chardata/translation_util.py:331
 msgid "Plucking"
-msgstr ""
+msgstr "Zupfen"
 
 #: chardata/translation_util.py:332
 msgid "Dragon's Breath"
-msgstr ""
+msgstr "Drachenatem"
 
 #: chardata/translation_util.py:333
 msgid "Crackler Punch"
-msgstr ""
+msgstr "Knisterpunsch"
 
 #: chardata/translation_util.py:334
 msgid "Constriction"
-msgstr ""
+msgstr "Einengung"
 
 #: chardata/translation_util.py:335
 msgid "Geyser"
-msgstr ""
+msgstr "Geysir"
 
 #: chardata/translation_util.py:336
 msgid "Whirlwind"
-msgstr ""
+msgstr "Wirbelwind"
 
 #: chardata/translation_util.py:337
 msgid "Blazing Fist"
-msgstr ""
+msgstr "Flammende Faust"
 
 #: chardata/translation_util.py:338
 msgid "Burning Circle"
-msgstr ""
+msgstr "Brennender Kreis"
 
 #: chardata/translation_util.py:339
 msgid "Debauchery"
-msgstr ""
+msgstr "Ausschweifung"
 
 #: chardata/translation_util.py:340
 msgid "Hangover"
-msgstr ""
+msgstr "Kater"
 
 #: chardata/translation_util.py:341
 msgid "Alcoholic Breath"
-msgstr ""
+msgstr "Alkoholischer Atem"
 
 #: chardata/translation_util.py:342
 msgid "Numbness"
-msgstr ""
+msgstr "Taubheit"
 
 #: chardata/translation_util.py:343
 msgid "Schnaps"
-msgstr ""
+msgstr "Schnaps"
 
 #: chardata/translation_util.py:344
 msgid "Liqueur"
-msgstr ""
+msgstr "Likör"
 
 #: chardata/translation_util.py:345
 msgid "Propulsion"
-msgstr ""
+msgstr "Antrieb"
 
 #: chardata/translation_util.py:346
 msgid "Eviction"
-msgstr ""
+msgstr "Vertreibung"
 
 #: chardata/translation_util.py:347
 msgid "Nausea"
-msgstr ""
+msgstr "Brechreiz"
 
 #: chardata/translation_util.py:348
 msgid "Tipple"
-msgstr ""
+msgstr "Trinkgeld"
 
 #: chardata/translation_util.py:349
 msgid "Distillation"
-msgstr ""
+msgstr "Destillation"
 
 #: chardata/translation_util.py:350
 msgid "Melancholy"
-msgstr ""
+msgstr "Melancholie"
 
 #: chardata/translation_util.py:351
 msgid "Hooch"
-msgstr ""
+msgstr "Fusel"
 
 #: chardata/translation_util.py:352
 msgid "Zatoishwan's Wrath"
-msgstr ""
+msgstr "Zatoishwans Zorn"
 
 #: chardata/translation_util.py:353
 msgid "Explosive Flask"
-msgstr ""
+msgstr "Explosiver Kolben"
 
 #: chardata/translation_util.py:354
 msgid "Absinthe"
-msgstr ""
+msgstr "Absinth"
 
 #: chardata/translation_util.py:355
 msgid "Pandatak"
-msgstr ""
+msgstr "Pandatak"
 
 #: chardata/translation_util.py:356
 msgid "Filthipint"
-msgstr ""
+msgstr "Filthipint"
 
 #: chardata/translation_util.py:357
 msgid "Explobomb"
-msgstr ""
+msgstr "Explosionsbombe"
 
 #: chardata/translation_util.py:358
 msgid "Extraction"
-msgstr ""
+msgstr "Extraktion"
 
 #: chardata/translation_util.py:359
 msgid "Obliteration"
-msgstr ""
+msgstr "Auslöschung"
 
 #: chardata/translation_util.py:360
 msgid "Musket"
-msgstr ""
+msgstr "Muskete"
 
 #: chardata/translation_util.py:361
 msgid "Grenado"
-msgstr ""
+msgstr "Grenado"
 
 #: chardata/translation_util.py:362
 msgid "Boomerang Daggers"
-msgstr ""
+msgstr "Bumerang-Dolche"
 
 #: chardata/translation_util.py:363
 msgid "Cadence"
-msgstr ""
+msgstr "Kadenz"
 
 #: chardata/translation_util.py:364
 msgid "Deception"
-msgstr ""
+msgstr "Täuschung"
 
 #: chardata/translation_util.py:365
 msgid "Stolen Goods"
-msgstr ""
+msgstr "Gestohlene Waren"
 
 #: chardata/translation_util.py:366
 msgid "Water Bomb"
-msgstr ""
+msgstr "Wasserbombe"
 
 #: chardata/translation_util.py:367
 msgid "Pulsar"
-msgstr ""
+msgstr "Pulsar"
 
 #: chardata/translation_util.py:368
 msgid "Gluing Explobomb"
-msgstr ""
+msgstr "Klebende Explosionsbombe"
 
 #: chardata/translation_util.py:369
 msgid "Arquebus"
-msgstr ""
+msgstr "Arkebuse"
 
 #: chardata/translation_util.py:370
 msgid "Carbine"
-msgstr ""
+msgstr "Karabiner"
 
 #: chardata/translation_util.py:371
 msgid "Machine Gun"
-msgstr ""
+msgstr "Maschinengewehr"
 
 #: chardata/translation_util.py:372
 msgid "Last Breath"
-msgstr ""
+msgstr "Letzter Atemzug"
 
 #: chardata/translation_util.py:373
 msgid "Seismobomb"
-msgstr ""
+msgstr "Seismobombe"
 
 #: chardata/translation_util.py:374
 msgid "Blunderbuss"
-msgstr ""
+msgstr "Donnerbüchse"
 
 #: chardata/translation_util.py:375
 msgid "Weigh Down"
-msgstr ""
+msgstr "Beschweren"
 
 #: chardata/translation_util.py:376
 msgid "Absorption"
-msgstr ""
+msgstr "Absorption"
 
 #: chardata/translation_util.py:377
 msgid "Slaughter"
-msgstr ""
+msgstr "Schlachten"
 
 #: chardata/translation_util.py:378
 msgid "Fury"
-msgstr ""
+msgstr "Wut"
 
 #: chardata/translation_util.py:379
 msgid "Carnage"
-msgstr ""
+msgstr "Blutbad"
 
 #: chardata/translation_util.py:380
 msgid "Stase"
-msgstr ""
+msgstr "Stase"
 
 #: chardata/translation_util.py:381
 msgid "Dissolution"
-msgstr ""
+msgstr "Auflösung"
 
 #: chardata/translation_util.py:382
 msgid "Motivating Pain"
-msgstr ""
+msgstr "Motivierender Schmerz"
 
 #: chardata/translation_util.py:383
 msgid "Cauterisation"
-msgstr ""
+msgstr "Kauterisation"
 
 #: chardata/translation_util.py:384
 msgid "Assault"
-msgstr ""
+msgstr "Angriff"
 
 #: chardata/translation_util.py:385
 msgid "Aversion"
-msgstr ""
+msgstr "Abneigung"
 
 #: chardata/translation_util.py:386
 msgid "Mutilation"
-msgstr ""
+msgstr "Verstümmelung"
 
 #: chardata/translation_util.py:387
 msgid "Light Speed"
-msgstr ""
+msgstr "Lichtgeschwindigkeit"
 
 #: chardata/translation_util.py:388
 msgid "Condensation"
-msgstr ""
+msgstr "Kondensation"
 
 #: chardata/translation_util.py:389
 msgid "Nervousness"
-msgstr ""
+msgstr "Nervosität"
 
 #: chardata/translation_util.py:390
 msgid "Clobbering"
-msgstr ""
+msgstr "Klatschen"
 
 #: chardata/translation_util.py:391
 msgid "Projection"
-msgstr ""
+msgstr "Vorsprung"
 
 #: chardata/translation_util.py:392
 msgid "Hostility"
-msgstr ""
+msgstr "Feindseligkeit"
 
 #: chardata/translation_util.py:393
 msgid "Torture"
-msgstr ""
+msgstr "Folter"
 
 #: chardata/translation_util.py:394
 msgid "Desolation"
-msgstr ""
+msgstr "Verwüstung"
 
 #: chardata/translation_util.py:395
 msgid "Influx"
-msgstr ""
+msgstr "Zustrom"
 
 #: chardata/translation_util.py:396
 msgid "Ravages"
-msgstr ""
+msgstr "Verwüstungen"
 
 #: chardata/translation_util.py:397
 msgid "Decimation"
-msgstr ""
+msgstr "Dezimierung"
 
 #: chardata/translation_util.py:398
 msgid "Gash"
-msgstr ""
+msgstr "Schnitt"
 
 #: chardata/translation_util.py:399
 msgid "Blood Bath"
-msgstr ""
+msgstr "Blutbad"
 
 #: chardata/translation_util.py:400
 msgid "Ritual Bloodletting"
-msgstr ""
+msgstr "Ritueller Aderlass"
 
 #: chardata/translation_util.py:401
 msgid "Bramble"
-msgstr ""
+msgstr "Brombeere"
 
 #: chardata/translation_util.py:402
 msgid "Poisoned Undergrowth"
-msgstr ""
+msgstr "Vergiftetes Unterholz"
 
 #: chardata/translation_util.py:403
 msgid "Paralysing Poison"
-msgstr ""
+msgstr "Lähmendes Gift"
 
 #: chardata/translation_util.py:404
 msgid "Tear"
-msgstr ""
+msgstr "Träne"
 
 #: chardata/translation_util.py:405
 msgid "Rise of Sap"
-msgstr ""
+msgstr "Aufstieg von Sap"
 
 #: chardata/translation_util.py:406
 msgid "Soothing Bramble"
-msgstr ""
+msgstr "Beruhigende Brombeere"
 
 #: chardata/translation_util.py:407
 msgid "Earthquake"
-msgstr ""
+msgstr "Erdbeben"
 
 #: chardata/translation_util.py:408
 msgid "Shake"
-msgstr ""
+msgstr "Shake"
 
 #: chardata/translation_util.py:409
 msgid "Natural Gift"
-msgstr ""
+msgstr "Natürliches Geschenk"
 
 #: chardata/translation_util.py:410
 msgid "Inoculation"
-msgstr ""
+msgstr "Impfung"
 
 #: chardata/translation_util.py:411
 msgid "Manifold Bramble"
-msgstr ""
+msgstr "Vielfältige Brombeere"
 
 #: chardata/translation_util.py:412
 msgid "Force of Nature"
-msgstr ""
+msgstr "Naturgewalt"
 
 #: chardata/translation_util.py:413
 msgid "Dolly Sacrifice"
-msgstr ""
+msgstr "Dolly-Opfer"
 
 #: chardata/translation_util.py:414
 msgid "Bane"
-msgstr ""
+msgstr "Fluch"
 
 #: chardata/translation_util.py:415
 msgid "Aggressive Bramble"
-msgstr ""
+msgstr "Aggressiver Brombeerstrauch"
 
 #: chardata/translation_util.py:416
 msgid "Plaguing Bramble"
-msgstr ""
+msgstr "Plagender Brombeerstrauch"
 
 #: chardata/translation_util.py:417
 msgid "Wild Grass"
-msgstr ""
+msgstr "Wildes Gras"
 
 #: chardata/translation_util.py:418
 msgid "Contagion"
-msgstr ""
+msgstr "Ansteckung"
 
 #: chardata/translation_util.py:419
 msgid "Bush Fire"
-msgstr ""
+msgstr "Buschfeuer"
 
 #: chardata/translation_util.py:420
 msgid "Voodoo Curse"
-msgstr ""
+msgstr "Voodoo-Fluch"
 
 #: chardata/translation_util.py:421
 msgid "Paralysing Bramble"
-msgstr ""
+msgstr "Lähmender Brombeerstrauch"
 
 #: chardata/translation_util.py:422
 msgid "Tricky Trap"
-msgstr ""
+msgstr "Knifflige Falle"
 
 #: chardata/translation_util.py:423
 msgid "Deviousness"
-msgstr ""
+msgstr "Verschlagenheit"
 
 #: chardata/translation_util.py:424
 msgid "Pitfall"
-msgstr ""
+msgstr "Falle"
 
 #: chardata/translation_util.py:425
 msgid "Insidious Poison"
-msgstr ""
+msgstr "Heimtückisches Gift"
 
 #: chardata/translation_util.py:426
 msgid "Toxines"
-msgstr ""
+msgstr "Giftstoffe"
 
 #: chardata/translation_util.py:427
 msgid "Mistake"
-msgstr ""
+msgstr "Fehler"
 
 #: chardata/translation_util.py:428
 msgid "Raiding"
-msgstr ""
+msgstr "Überfall"
 
 #: chardata/translation_util.py:429
 msgid "Tricky Blow"
-msgstr ""
+msgstr "Kniffliger Schlag"
 
 #: chardata/translation_util.py:430
 msgid "Cut-Throat"
-msgstr ""
+msgstr "Cut-Throat"
 
 #: chardata/translation_util.py:431
 msgid "Miry Trap"
-msgstr ""
+msgstr "Miry-Falle"
 
 #: chardata/translation_util.py:432
 msgid "Larceny"
-msgstr ""
+msgstr "Diebstahl"
 
 #: chardata/translation_util.py:433
 msgid "Mass Trap"
-msgstr ""
+msgstr "Massenfalle"
 
 #: chardata/translation_util.py:434
 msgid "Trapster"
-msgstr ""
+msgstr "Trapster"
 
 #: chardata/translation_util.py:435
 msgid "Cruelty"
-msgstr ""
+msgstr "Grausamkeit"
 
 #: chardata/translation_util.py:437
 msgid "Poisoned Trap"
-msgstr ""
+msgstr "Vergiftete Falle"
 
 #: chardata/translation_util.py:438
 msgid "Toxic Injection"
-msgstr ""
+msgstr "Toxic Injection"
 
 #: chardata/translation_util.py:439
 msgid "Chakra Concentration"
-msgstr ""
+msgstr "Chakra-Konzentration"
 
 #: chardata/translation_util.py:440
 msgid "Fragmentation Trap"
-msgstr ""
+msgstr "Fragmentierungsfalle"
 
 #: chardata/translation_util.py:441
 msgid "Insidious Trap"
-msgstr ""
+msgstr "Heimtückische Falle"
 
 #: chardata/translation_util.py:442
 msgid "Epidemic"
-msgstr ""
+msgstr "Epidemie"
 
 #: chardata/translation_util.py:443
 msgid "Repelling Trap"
-msgstr ""
+msgstr "Abwehrfalle"
 
 #: chardata/translation_util.py:444
 msgid "Con"
-msgstr ""
+msgstr "Con"
 
 #: chardata/translation_util.py:445
 msgid "Jinx"
-msgstr ""
+msgstr "Verhexen"
 
 #: chardata/translation_util.py:446
 msgid "Calamity"
-msgstr ""
+msgstr "Unglück"
 
 #: chardata/translation_util.py:447
 msgid "Furrow"
-msgstr ""
+msgstr "Furche"
 
 #: chardata/translation_util.py:448
 msgid "Perquisition"
-msgstr ""
+msgstr "Übernahme"
 
 #: chardata/translation_util.py:449
 msgid "Lethal Attack"
-msgstr ""
+msgstr "Tödlicher Angriff"
 
 #: chardata/translation_util.py:450
 msgid "Malevolent Trap"
-msgstr ""
+msgstr "Böswillige Falle"
 
 #: chardata/translation_util.py:451
 msgid "Lethal Trap"
-msgstr ""
+msgstr "Tödliche Falle"
 
 #: chardata/translation_util.py:452
 msgid "Perfidy"
-msgstr ""
+msgstr "Perfidie"
 
 #: chardata/translation_util.py:453
 msgid "Slow Down"
-msgstr ""
+msgstr "Verlangsamen"
 
 #: chardata/translation_util.py:454
 msgid "Souvenir"
-msgstr ""
+msgstr "Souvenir"
 
 #: chardata/translation_util.py:455
 msgid "Hand"
-msgstr ""
+msgstr "Hand"
 
 #: chardata/translation_util.py:456
 msgid "Cog"
-msgstr ""
+msgstr "Zahn"
 
 #: chardata/translation_util.py:457
 msgid "Shriveling"
-msgstr ""
+msgstr "Schrumpfend"
 
 #: chardata/translation_util.py:458
 msgid "Drying Up"
-msgstr ""
+msgstr "Austrocknen"
 
 #: chardata/translation_util.py:459
 msgid "Xelor's Punch"
-msgstr ""
+msgstr "Xélors Schlag"
 
 #: chardata/translation_util.py:460
 msgid "Gear"
-msgstr ""
+msgstr "Gang"
 
 #: chardata/translation_util.py:461
 msgid "Frostbite"
-msgstr ""
+msgstr "Erfrierung"
 
 #: chardata/translation_util.py:462
 msgid "Disruption"
-msgstr ""
+msgstr "Störung"
 
 #: chardata/translation_util.py:463
 msgid "Xelor's Sandglass"
-msgstr ""
+msgstr "Xélors Sanduhr"
 
 #: chardata/translation_util.py:464
 msgid "Temporal Distortion"
-msgstr ""
+msgstr "Zeitliche Verzerrung"
 
 #: chardata/translation_util.py:465
 msgid "Time Theft"
-msgstr ""
+msgstr "Zeitdiebstahl"
 
 #: chardata/translation_util.py:466
 msgid "Petrification"
-msgstr ""
+msgstr "Versteinerung"
 
 #: chardata/translation_util.py:467
 msgid "Temporal Dust"
-msgstr ""
+msgstr "Zeitlicher Staub"
 
 #: chardata/translation_util.py:468
 msgid "Temporal Suspension"
-msgstr ""
+msgstr "Vorübergehende Aussetzung"
 
 #: chardata/translation_util.py:469
 msgid "Loss of Motivation"
-msgstr ""
+msgstr "Verlust der Motivation"
 
 #: chardata/translation_util.py:470
 msgid "Pendulum"
-msgstr ""
+msgstr "Pendel"
 
 #: chardata/translation_util.py:471
 msgid "Clock"
-msgstr ""
+msgstr "Uhr"
 
 #: chardata/translation_util.py:472
 msgid "Water Clock"
-msgstr ""
+msgstr "Wasseruhr"
 
 #: chardata/translation_util.py:473
 msgid "Dark Ray"
-msgstr ""
+msgstr "Dunkler Strahl"
 
 #: chardata/translation_util.py:474
 msgid "Shadowy Beam"
-msgstr ""
+msgstr "Schattenstrahl"
 
 #: chardata/translation_util.py:475
 msgid "Knell"
-msgstr ""
+msgstr "Totenglocke"
 
 #: chardata/translation_util.py:476
 msgid "Affliction"
-msgstr ""
+msgstr "Gebrechen"
 
 #: chardata/translation_util.py:477
 msgid "Tribulation"
-msgstr ""
+msgstr "Drangsal"
 
 #: chardata/translation_util.py:478
 msgid "Insult"
-msgstr ""
+msgstr "Beleidigung"
 
 #: chardata/translation_util.py:479
 msgid "Contempt"
-msgstr ""
+msgstr "Verachtung"
 
 #: chardata/translation_util.py:480
 msgid "Shock"
-msgstr ""
+msgstr "Schock"
 
 #: chardata/translation_util.py:481
 msgid "Convulsion"
-msgstr ""
+msgstr "Konvulsion"
 
 #: chardata/translation_util.py:482
 msgid "Wakfu Ray"
-msgstr ""
+msgstr "Wakfu Ray"
 
 #: chardata/translation_util.py:483
 msgid "Lazybeam"
-msgstr ""
+msgstr "Lazybeam"
 
 #: chardata/translation_util.py:484
 msgid "Offence"
-msgstr ""
+msgstr "Angriff"
 
 #: chardata/translation_util.py:485
 msgid "Affront"
-msgstr ""
+msgstr "Beleidigung"
 
 #: chardata/translation_util.py:486
 msgid "Therapy"
-msgstr ""
+msgstr "Therapie"
 
 #: chardata/translation_util.py:487
 msgid "Sinecure"
-msgstr ""
+msgstr "Sinekure"
 
 #: chardata/translation_util.py:488
 msgid "Bullying"
-msgstr ""
+msgstr "Mobbing"
 
 #: chardata/translation_util.py:490
 msgid "Lightning Fist"
-msgstr ""
+msgstr "Blitzfaust"
 
 #: chardata/translation_util.py:491
 msgid "Snub"
-msgstr ""
+msgstr "Brüskierung"
 
 #: chardata/translation_util.py:492
 msgid "Audacious"
-msgstr ""
+msgstr "Kühn"
 
 #: chardata/translation_util.py:493
 msgid "Composure"
-msgstr ""
+msgstr "Gelassenheit"
 
 #: chardata/translation_util.py:494
 msgid "Focus"
-msgstr ""
+msgstr "Fokus"
 
 #: chardata/translation_util.py:495
 msgid "Parasite"
-msgstr ""
+msgstr "Parasit"
 
 #: chardata/translation_util.py:496
 msgid "Virus"
-msgstr ""
+msgstr "Virus"
 
 #: chardata/translation_util.py:497
 msgid "Ridicule"
-msgstr ""
+msgstr "Spott"
 
 #: chardata/translation_util.py:498
 msgid "Persiflage"
-msgstr ""
+msgstr "Persiflage"
 
 #: chardata/translation_util.py:499
 msgid "Ether"
-msgstr ""
+msgstr "Äther"
 
 #: chardata/translation_util.py:500
 msgid "Stinger"
-msgstr ""
+msgstr "Stinger"
 
 #: chardata/translation_util.py:501
 msgid "Telluric Wave"
-msgstr ""
+msgstr "Tellurische Welle"
 
 #: chardata/translation_util.py:502
 msgid "Celestial Wave"
-msgstr ""
+msgstr "Himmlische Welle"
 
 #: chardata/translation_util.py:503
 msgid "Flamethrower"
-msgstr ""
+msgstr "Flammenwerfer"
 
 #: chardata/translation_util.py:504
 msgid "Cataract"
-msgstr ""
+msgstr "Katarakt"
 
 #: chardata/translation_util.py:505
 msgid "Stalagmite"
-msgstr ""
+msgstr "Stalagmit"
 
 #: chardata/translation_util.py:506
 msgid "Ember"
-msgstr ""
+msgstr "Glut"
 
 #: chardata/translation_util.py:507
 msgid "Elemental Drain"
-msgstr ""
+msgstr "Elementarer Entzug"
 
 #: chardata/translation_util.py:508
 msgid "Morph"
-msgstr ""
+msgstr "Morph"
 
 #: chardata/translation_util.py:509
 msgid "Storm"
-msgstr ""
+msgstr "Sturm"
 
 #: chardata/translation_util.py:510
 msgid "Tectonic Breach"
-msgstr ""
+msgstr "Tektonischer Bruch"
 
 #: chardata/translation_util.py:511
 msgid "Astral Blade"
-msgstr ""
+msgstr "Astralklinge"
 
 #: chardata/translation_util.py:512
 msgid "Telluric Blade"
-msgstr ""
+msgstr "Tellurklinge"
 
 #: chardata/translation_util.py:513
 msgid "Burning Stroke"
-msgstr ""
+msgstr "Brennender Schlaganfall"
 
 #: chardata/translation_util.py:514
 msgid "Volcano"
-msgstr ""
+msgstr "Vulkan"
 
 #: chardata/translation_util.py:515
 msgid "Glacier"
-msgstr ""
+msgstr "Gletscher"
 
 #: chardata/translation_util.py:516
 msgid "Stalactite"
-msgstr ""
+msgstr "Stalaktit"
 
 #: chardata/translation_util.py:517
 msgid "Journey"
-msgstr ""
+msgstr "Reise"
 
 #: chardata/translation_util.py:518
 msgid "Deflagration"
-msgstr ""
+msgstr "Verpuffung"
 
 #: chardata/translation_util.py:519
 msgid "Flood"
-msgstr ""
+msgstr "Flut"
 
 #: chardata/translation_util.py:520
 msgid "Contribution"
-msgstr ""
+msgstr "Beitrag"
 
 #: chardata/translation_util.py:521
 msgid "Icy Shards"
-msgstr ""
+msgstr "Eisige Scherben"
 
 #: chardata/translation_util.py:522
 msgid "Sun Lance"
-msgstr ""
+msgstr "Sonnenlanze"
 
 #: chardata/translation_util.py:523
 msgid "Transfixing Gust"
-msgstr ""
+msgstr "Durchdringende Böe"
 
 #: chardata/translation_util.py:524
 msgid "Hurricane"
-msgstr ""
+msgstr "Hurrikan"
 
 #: chardata/translation_util.py:525
 msgid "Striking Meteor"
-msgstr ""
+msgstr "Auffälliger Meteor"
 
 #: chardata/translation_util.py:526
 msgid "Comet"
-msgstr ""
+msgstr "Komet"
 
 #: chardata/translation_util.py:527
 msgid "Watchdog"
-msgstr ""
+msgstr "Wachhund"
 
 #: chardata/translation_util.py:528
 msgid "Jaw"
-msgstr ""
+msgstr "Kiefer"
 
 #: chardata/translation_util.py:529
 msgid "Ulna"
-msgstr ""
+msgstr "Elle"
 
 #: chardata/translation_util.py:530
 msgid "Calcaneus"
-msgstr ""
+msgstr "Calcaneus"
 
 #: chardata/translation_util.py:531
 msgid "Carcass"
-msgstr ""
+msgstr "Karkasse"
 
 #: chardata/translation_util.py:532
 msgid "Stripping"
-msgstr ""
+msgstr "Strippen"
 
 #: chardata/translation_util.py:533
 msgid "Cutting Down"
-msgstr ""
+msgstr "Reduzieren"
 
 #: chardata/translation_util.py:534
 msgid "Woof"
-msgstr ""
+msgstr "Schuss"
 
 #: chardata/translation_util.py:535
 msgid "Mastiff"
-msgstr ""
+msgstr "Dogge"
 
 #: chardata/translation_util.py:536
 msgid "Muzzle"
-msgstr ""
+msgstr "Schnauze"
 
 #: chardata/translation_util.py:537
 msgid "Tibia"
-msgstr ""
+msgstr "Schienbein"
 
 #: chardata/translation_util.py:538
 msgid "Humerous"
-msgstr ""
+msgstr "Humorvoll"
 
 #: chardata/translation_util.py:539
 msgid "Tracking"
-msgstr ""
+msgstr "Verfolgung"
 
 #: chardata/translation_util.py:540
 msgid "Hunt"
-msgstr ""
+msgstr "Jagd"
 
 #: chardata/translation_util.py:541
 msgid "Bloodhound"
-msgstr ""
+msgstr "Bluthund"
 
 #: chardata/translation_util.py:542
 msgid "Beaten"
-msgstr ""
+msgstr "Geschlagen"
 
 #: chardata/translation_util.py:543
 msgid "R-Canine"
-msgstr ""
+msgstr "R-Canine"
 
 #: chardata/translation_util.py:544
 msgid "Carrion"
-msgstr ""
+msgstr "Aas"
 
 #: chardata/translation_util.py:545
 msgid "Radius"
-msgstr ""
+msgstr "Radius"
 
 #: chardata/translation_util.py:546
 msgid "Marrow Bone"
-msgstr ""
+msgstr "Markknochen"
 
 #: chardata/translation_util.py:547
 msgid "Vertebra"
-msgstr ""
+msgstr "Wirbel"
 
 #: chardata/translation_util.py:548
 msgid "Cerberus"
-msgstr ""
+msgstr "Cerberus"
 
 #: chardata/translation_util.py:549
 msgid "Amarok"
-msgstr ""
+msgstr "Amarok"
 
 #: chardata/translation_util.py:550
 msgid "Tetanisation"
-msgstr ""
+msgstr "Tetanisierung"
 
 #: chardata/translation_util.py:551
 msgid "Carving Up"
-msgstr ""
+msgstr "Aufteilen"
 
 #: chardata/translation_util.py:555
 #, python-format
 msgid "25% chance of"
-msgstr ""
+msgstr "25% chance of"
 
 #: chardata/translation_util.py:556
 msgid "Not charged"
-msgstr ""
+msgstr "Nicht berechnet"
 
 #: chardata/translation_util.py:557
 msgid "Not Charged"
-msgstr ""
+msgstr "Nicht berechnet"
 
 #: chardata/translation_util.py:558
 msgid "Charged once"
-msgstr ""
+msgstr "Einmal aufgeladen"
 
 #: chardata/translation_util.py:559
 msgid "Charged twice"
-msgstr ""
+msgstr "Zweimal aufgeladen"
 
 #: chardata/translation_util.py:560 chardata/translation_util.py:576
 msgid "If the target is pushed"
-msgstr ""
+msgstr "Wenn das Ziel gedrückt wird"
 
 #: chardata/translation_util.py:561
 msgid "If the target suffers pushback damage"
-msgstr ""
+msgstr "Wenn das Ziel Rückstoßschaden erleidet"
 
 #: chardata/translation_util.py:562
 msgid "Regular shot"
-msgstr ""
+msgstr "Normaler Schuss"
 
 #: chardata/translation_util.py:563
 msgid "After postponing once"
-msgstr ""
+msgstr "Nach einmaliger Verschiebung"
 
 #: chardata/translation_util.py:564
 msgid "After postponing twice"
-msgstr ""
+msgstr "Nach zweimaliger Verschiebung"
 
 #: chardata/translation_util.py:565
 msgid "Enemies"
-msgstr ""
+msgstr "Feinde"
 
 #: chardata/translation_util.py:566
 msgid "Allies"
-msgstr ""
+msgstr "Verbündete"
 
 #: chardata/translation_util.py:567
 msgid "Enemies (imediately)"
-msgstr ""
+msgstr "Feinde (sofort)"
 
 #: chardata/translation_util.py:568
 msgid "Enemies (next turn)"
-msgstr ""
+msgstr "Feinde (nächste Runde)"
 
 #: chardata/translation_util.py:569
 msgid "Allies (imediately)"
-msgstr ""
+msgstr "Verbündete (sofort)"
 
 #: chardata/translation_util.py:570
 msgid "Allies (next turn)"
-msgstr ""
+msgstr "Verbündete (nächste Runde)"
 
 #: chardata/translation_util.py:571
 msgid "If the target has more than 50% HP"
-msgstr ""
+msgstr "Wenn das Ziel mehr als 50 % HP hat"
 
 #: chardata/translation_util.py:572
 msgid "If the target has less than 50% HP"
-msgstr ""
+msgstr "Wenn das Ziel weniger als 50 % HP hat"
 
 #: chardata/translation_util.py:573
 msgid "In one turn"
-msgstr ""
+msgstr "In einer Runde"
 
 #: chardata/translation_util.py:574
 msgid "In two turns"
-msgstr ""
+msgstr "In zwei Runden"
 
 #: chardata/translation_util.py:575
 msgid "In three turns"
-msgstr ""
+msgstr "In drei Runden"
 
 #: chardata/translation_util.py:577
 msgid "Enemy or around ally"
-msgstr ""
+msgstr "Feind oder Verbündeter"
 
 #: chardata/translation_util.py:578
 msgid "Ally or around enemy"
-msgstr ""
+msgstr "Verbündeter oder in der Nähe des Feindes"
 
 #: chardata/translation_util.py:579
 msgid "Non-summons"
-msgstr ""
+msgstr "Nichtvorladung"
 
 #: chardata/translation_util.py:581
 msgid "Hit"
-msgstr ""
+msgstr "Schlag"
 
 #: chardata/translation_util.py:582
 msgid "Pushback Poison"
-msgstr ""
+msgstr "Pushback-Gift"
 
 #: chardata/translation_util.py:583
 msgid "Other"
-msgstr ""
+msgstr "Andere"
 
 #: chardata/translation_util.py:584
 msgid "Charged"
-msgstr ""
+msgstr "Aufgeladen"
 
 #: chardata/translation_util.py:585
 msgid "Tofu"
-msgstr ""
+msgstr "Tofu"
 
 #: chardata/translation_util.py:586
 msgid "Gobball"
-msgstr ""
+msgstr "Fresser"
 
 #: chardata/translation_util.py:587
 msgid "Toad"
-msgstr ""
+msgstr "Kröte"
 
 #: chardata/translation_util.py:588
 msgid "Wyrmling (enemies)"
-msgstr ""
+msgstr "Wyrmling (Feinde)"
 
 #: chardata/translation_util.py:589
 msgid "Wyrmling (allies)"
-msgstr ""
+msgstr "Wyrmling (Verbündete)"
 
 #: chardata/translation_util.py:590
 msgid "No Tofus"
-msgstr ""
+msgstr "Kein Tofus"
 
 #: chardata/translation_util.py:591
 msgid "One Tofu"
-msgstr ""
+msgstr "Ein Tofu"
 
 #: chardata/translation_util.py:592
 msgid "Two Tofus"
-msgstr ""
+msgstr "Zwei Tofus"
 
 #: chardata/translation_util.py:593
 msgid "Three Tofus"
-msgstr ""
+msgstr "Drei Tofus"
 
 #: chardata/translation_util.py:594
 msgid "Four Tofus"
-msgstr ""
+msgstr "Vier Tofus"
 
 #: chardata/translation_util.py:595
 msgid "Five Tofus"
-msgstr ""
+msgstr "Fünf Tofus"
 
 #: chardata/translation_util.py:596
 msgid "If an Explobomb is present"
-msgstr ""
+msgstr "Wenn eine Explobombe vorhanden ist"
 
 #: chardata/translation_util.py:597
 msgid "If a Grenado is present"
-msgstr ""
+msgstr "Wenn ein Grenado vorhanden ist"
 
 #: chardata/translation_util.py:598
 msgid "If a Waterbomb is present"
-msgstr ""
+msgstr "Wenn eine Wasserbombe vorhanden ist"
 
 #: chardata/translation_util.py:599
 msgid "If a Seismobomb is present"
-msgstr ""
+msgstr "Wenn eine Seismobombe vorhanden ist"
 
 #: chardata/translation_util.py:600
 msgid "Allies/Summons"
-msgstr ""
+msgstr "Verbündete/Vorladung"
 
 #: chardata/translation_util.py:601
 msgid "If the target loses MP"
-msgstr ""
+msgstr "Wenn das Ziel MP verliert"
 
 #: chardata/translation_util.py:602
 msgid "If the target loses AP"
-msgstr ""
+msgstr "Wenn das Ziel AP verliert"
 
 #: chardata/translation_util.py:603
 msgid "At the center"
-msgstr ""
+msgstr "Im Mittelpunkt"
 
 #: chardata/translation_util.py:604
 msgid "One tile away from the center"
-msgstr ""
+msgstr "Eine Kachel von der Mitte entfernt"
 
 #: chardata/translation_util.py:605
 msgid "Two tiles away from the center"
-msgstr ""
+msgstr "Zwei Kacheln von der Mitte entfernt"
 
 #: chardata/translation_util.py:606
 msgid "Three tiles away from the center"
-msgstr ""
+msgstr "Drei Kacheln von der Mitte entfernt"
 
 #: chardata/translation_util.py:607
 msgid "Directly"
-msgstr ""
+msgstr "Direkt"
 
 #: chardata/translation_util.py:608
 msgid "Through a portal"
-msgstr ""
+msgstr "Durch ein Portal"
 
 #: chardata/translation_util.py:609
 msgid "Target in air state"
-msgstr ""
+msgstr "Ziel im Luftzustand"
 
 #: chardata/translation_util.py:610
 msgid "Target in fire state"
-msgstr ""
+msgstr "Ziel im Feuerzustand"
 
 #: chardata/translation_util.py:611
 msgid "Target in water state"
-msgstr ""
+msgstr "Ziel im Wasserzustand"
 
 #: chardata/translation_util.py:612
 msgid "Target in earth state"
-msgstr ""
+msgstr "Ziel im Erdzustand"
 
 #: chardata/translation_util.py:613
 msgid "If the target is Prey"
-msgstr ""
+msgstr "Wenn das Ziel Beute ist"
 
 #: chardata/translation_util.py:614
 msgid "After hitting a Prey once"
-msgstr ""
+msgstr "Nachdem man einmal eine Beute getroffen hat"
 
 #: chardata/translation_util.py:615
 msgid "After hitting a Prey twice"
-msgstr ""
+msgstr "Nachdem man eine Beute zweimal getroffen hat"
 
 #: chardata/translation_util.py:616
 msgid "After hitting a Prey 3x"
-msgstr ""
+msgstr "Nachdem man 3x eine Beute getroffen hat"
 
 #: chardata/translation_util.py:617
 msgid "After hitting a Prey 4x"
-msgstr ""
+msgstr "Nachdem man eine Beute 4x getroffen hat"
 
 #: chardata/translation_util.py:618
 msgid "After hitting a Prey 5x"
-msgstr ""
+msgstr "Nachdem man eine Beute 5x getroffen hat"
 
 #: chardata/translation_util.py:623
 msgid "Hammer"
-msgstr ""
+msgstr "Hammer"
 
 #: chardata/translation_util.py:624
 msgid "Axe"
-msgstr ""
+msgstr "Axt"
 
 #: chardata/translation_util.py:625
 msgid "Shovel"
-msgstr ""
+msgstr "Schaufel"
 
 #: chardata/translation_util.py:626
 msgid "Staff"
-msgstr ""
+msgstr "Personal"
 
 #: chardata/translation_util.py:627
 msgid "Sword"
-msgstr ""
+msgstr "Schwert"
 
 #: chardata/translation_util.py:628
 msgid "Dagger"
-msgstr ""
+msgstr "Dolch"
 
 #: chardata/translation_util.py:629
 msgid "Bow"
-msgstr ""
+msgstr "Bogen"
 
 #: chardata/translation_util.py:630
 msgid "Wand"
-msgstr ""
+msgstr "Zauberstab"
 
 #: chardata/translation_util.py:631
 msgid "Pickaxe"
-msgstr ""
+msgstr "Spitzhacke"
 
 #: chardata/translation_util.py:632
 msgid "Scythe"
-msgstr ""
+msgstr "Sense"
 
 #: chardata/translation_util.py:633
 msgid "Lance"
-msgstr ""
+msgstr "Lanze"
 
 #: chardata/wizard_sliders.py:35
 msgctxt "Slider section"
 msgid "Offense"
-msgstr ""
+msgstr "Angriff"
 
 #: chardata/wizard_sliders.py:61
 msgctxt "Slider section"
 msgid "Defense"
-msgstr ""
+msgstr "Verteidigung"
 
 #: chardata/wizard_sliders.py:64
 msgid "% Resists"
-msgstr ""
+msgstr "% Resistenzen"
 
 #: chardata/wizard_sliders.py:73
 msgctxt "Slider section"
 msgid "Mobility"
-msgstr ""
+msgstr "Mobilität"
 
 #: chardata/wizard_sliders.py:87
 msgctxt "Slider section"
 msgid "Special"
-msgstr ""
+msgstr "Besonders"
 
 #: chardata/solution_result.py
 #, python-format
@@ -4583,8 +4844,17 @@ msgid "Advances %(min)d to %(max)d cells"
 msgstr "Rückt %(min)d bis %(max)d Felder vor"
 
 #: chardata/templates/chardata/license.html
-msgid "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
-msgstr "Dofus Fashionista verwendet Google-Dienste (Analytics, AdSense, OAuth), um die Benutzererfahrung zu verbessern, relevante Anzeigen anzuzeigen und die Authentifizierung bereitzustellen. Diese Dienste können anonyme Nutzungsdaten sammeln. Sie können Ihre Einwilligungspräferenzen über das Banner für Datenschutzeinstellungen verwalten."
+msgid ""
+"The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to "
+"improve user experience, display relevant ads, and provide authentication. "
+"These services may collect anonymous usage data. You can manage your consent"
+" preferences through the privacy settings banner."
+msgstr ""
+"Dofus Fashionista verwendet Google-Dienste (Analytics, AdSense, OAuth), um "
+"die Benutzererfahrung zu verbessern, relevante Anzeigen anzuzeigen und die "
+"Authentifizierung bereitzustellen. Diese Dienste können anonyme "
+"Nutzungsdaten sammeln. Sie können Ihre Einwilligungspräferenzen über das "
+"Banner für Datenschutzeinstellungen verwalten."
 
 #: chardata/solution_result.py
 #, python-format
@@ -4597,8 +4867,12 @@ msgid "Steals %(min)d to %(max)d kamas"
 msgstr "Stiehlt %(min)d bis %(max)d Kamas"
 
 #: chardata/templates/chardata/shared_builds.html
-msgid "Browse and discover builds shared by the community. Click on any build to view details."
-msgstr "Durchsuchen und entdecken Sie Builds, die von der Community geteilt werden. Klicken Sie auf einen Build, um Details anzuzeigen."
+msgid ""
+"Browse and discover builds shared by the community. Click on any build to "
+"view details."
+msgstr ""
+"Durchsuchen und entdecken Sie Builds, die von der Community geteilt werden. "
+"Klicken Sie auf einen Build, um Details anzuzeigen."
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Search & Filter"
@@ -4692,6 +4966,8 @@ msgid "View Build"
 msgstr "Build Anzeigen"
 
 #: chardata/templates/chardata/shared_builds.html
-msgid "No shared builds found matching your criteria. Try adjusting your filters."
-msgstr "Keine geteilten Builds gefunden, die Ihren Kriterien entsprechen. Versuchen Sie, Ihre Filter anzupassen."
-
+msgid ""
+"No shared builds found matching your criteria. Try adjusting your filters."
+msgstr ""
+"Keine geteilten Builds gefunden, die Ihren Kriterien entsprechen. Versuchen "
+"Sie, Ihre Filter anzupassen."

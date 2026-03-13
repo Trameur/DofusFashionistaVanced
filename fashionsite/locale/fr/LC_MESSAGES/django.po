@@ -295,12 +295,10 @@ msgid ""
 "If you don't want to reset your password, just ignore this email."
 msgstr ""
 "Un changement de mot de passe a été demandé pour le site Dofus fashionista!\n"
-"Merci de cliquer sur le lien ci-dessous pour en générer un nouveau pour "
-"votre compte.\n"
+"Merci de cliquer sur le lien ci-dessous pour en générer un nouveau pour votre compte.\n"
 "{link}\n"
 "\n"
-"Si vous ne voulez pas réinitialiser votre mot de passe, ignorez juste cet "
-"email."
+"Si vous ne voulez pas réinitialiser votre mot de passe, ignorez juste cet email."
 
 #: fashionsite/chardata/login_view.py:204
 msgid "Password for The Dofus Fashionista has been reset"
@@ -321,8 +319,7 @@ msgstr ""
 "\n"
 "{new_password}\n"
 "\n"
-"Changez le pour un nouveau ou bien conservez ce email pour ne pas "
-"l'oublier ;-) "
+"Changez le pour un nouveau ou bien conservez ce email pour ne pas l'oublier ;-) "
 
 #: fashionsite/chardata/min_stats_view.py:45
 #: fashionsite/chardata/templates/chardata/compare_sets.html:144
@@ -514,8 +511,8 @@ msgstr ""
 msgid ""
 "If someone sent you this link, have them send you the 'Share' link at the "
 "bottom of their Outfit Suggestion page instead. If that is not the case and "
-"this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
-"a>."
+"this keeps happening, you can contact us <a "
+"href=\"%(contact_url)s\">here</a>."
 msgstr ""
 "Si quelqu'un vous a envoyé ce lien, demandez lui plutôt de vous envoyer le "
 "lien 'de partage' au-dessus de sa page de suggestion d'équipement. Si ce "
@@ -525,11 +522,11 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/403.html:24
 #, python-format
 msgid ""
-"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a href="
-"\"%(create_project_url)s\">create a project</a> of your own."
+"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a "
+"href=\"%(create_project_url)s\">create a project</a> of your own."
 msgstr ""
-"Ou vous pouvez retourner à la <a href=\"%(home_url)s\">page d'accueil</a> ou "
-"<a href=\"%(create_project_url)s\">créer un projet</a> de votre choix."
+"Ou vous pouvez retourner à la <a href=\"%(home_url)s\">page d'accueil</a> ou"
+" <a href=\"%(create_project_url)s\">créer un projet</a> de votre choix."
 
 #: fashionsite/chardata/templates/chardata/404.html:10
 msgid "404 - Page Not Found"
@@ -547,8 +544,8 @@ msgid ""
 "happening."
 msgstr ""
 "Vous pouvez revenir à <a href=\"%(home_url)s\">l'acceuil</a> à la place, ou "
-"nous envoyer un message <a href=\"%(contact_url)s\">ici</a> si cela continue "
-"à se produire."
+"nous envoyer un message <a href=\"%(contact_url)s\">ici</a> si cela continue"
+" à se produire."
 
 #: fashionsite/chardata/templates/chardata/500.html:10
 msgid "500 - Application Error"
@@ -565,11 +562,11 @@ msgstr "Merci de retourner à la page précédente et de réessayer."
 #: fashionsite/chardata/templates/chardata/500.html:21
 #, python-format
 msgid ""
-"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a> "
-"and tell us all about this problem."
+"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a>"
+" and tell us all about this problem."
 msgstr ""
-"Si ça ne marche pas, merci de nous contacter <a href=\"%(contact_url)s"
-"\">ici</a> pour nous parler de votre problème."
+"Si ça ne marche pas, merci de nous contacter <a "
+"href=\"%(contact_url)s\">ici</a> pour nous parler de votre problème."
 
 #: fashionsite/chardata/templates/chardata/about.html:6
 msgid "About"
@@ -577,23 +574,25 @@ msgstr "À propos"
 
 #: fashionsite/chardata/templates/chardata/about.html:19
 msgid ""
-"The Dofus Fashionista is a fan site about <a href='http://www.dofus."
-"com'>Dofus</a>. It uses mathematical programming, a branch of <a "
+"The Dofus Fashionista is a fan site about <a "
+"href='http://www.dofus.com'>Dofus</a>. It uses mathematical programming, a "
+"branch of <a "
 "href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, "
 "to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 "
 "MP with as much Intelligence as possible) the player provides."
 msgstr ""
-"Dofus Fashionista est un fan-site à propos de <a href='http://www.dofus."
-"com'>Dofus</a>. Ce site utilise des programmes mathématiques, <a "
-"href='http://en.wikipedia.org/wiki/Artificial_intelligence'>une intelligence "
-"artificielle</a>, pour réussir à déterminer une panoplie qui correspond aux "
-"critères demandés (Par exemple : 12 PA, 6 PM, avec un maximum "
+"Dofus Fashionista est un fan-site à propos de <a "
+"href='http://www.dofus.com'>Dofus</a>. Ce site utilise des programmes "
+"mathématiques, <a "
+"href='http://en.wikipedia.org/wiki/Artificial_intelligence'>une intelligence"
+" artificielle</a>, pour réussir à déterminer une panoplie qui correspond aux"
+" critères demandés (Par exemple : 12 PA, 6 PM, avec un maximum "
 "d'intelligence) par le joueur."
 
 #: fashionsite/chardata/templates/chardata/about.html:20
 msgid ""
-"When a new project is created, the Wizard tries to figure what the character "
-"is about by reading the build and class specified. It then creates an "
+"When a new project is created, the Wizard tries to figure what the character"
+" is about by reading the build and class specified. It then creates an "
 "initial configuration for the first run."
 msgstr ""
 "Quand un nouveau projet est créé, l’assistant commence en lisant les "
@@ -607,8 +606,8 @@ msgid ""
 "by going back to the wizard and playing with the sliders, or going hardcore "
 "and fiddling directly with the value the attributed to each stat."
 msgstr ""
-"Les équipements proposés ne vont pas forcément vous plaire. Vous pouvez, par "
-"exemple, trouver les points de vie trop bas malgré une bonne agilité. Vous "
+"Les équipements proposés ne vont pas forcément vous plaire. Vous pouvez, par"
+" exemple, trouver les points de vie trop bas malgré une bonne agilité. Vous "
 "pouvez affiner vos critères en retournant à la page où vous avez configuré "
 "votre nombre de PA, PM, PO, etc. (Page 'Assistant'), puis peaufiner vos "
 "critères ou en jouant avec les curseurs en bas de page."
@@ -624,19 +623,20 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/about.html:26
 #: fashionsite/chardata/templates/chardata/license.html:19
-msgid "The Dofus Fashionista is open source software. The code can be found in"
+msgid ""
+"The Dofus Fashionista is open source software. The code can be found in"
 msgstr ""
 "Dofus Fashionista est un logiciel open source. Vous pouvez le trouver dans"
 
 #: fashionsite/chardata/templates/chardata/about.html:27
 #, python-format
 msgid ""
-"To report problems, suggest new features, or rant about the lack of skill of "
-"your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
+"To report problems, suggest new features, or rant about the lack of skill of"
+" your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
 msgstr ""
 "Pour reporter des problèmes, proposer de nouvelles choses, ou vous plaindre "
-"du manque de skill de votre équipe spéciale kolizéum, <a href="
-"\"%(contact_url)s\">contactez nous</a>."
+"du manque de skill de votre équipe spéciale kolizéum, <a "
+"href=\"%(contact_url)s\">contactez nous</a>."
 
 #: fashionsite/chardata/templates/chardata/about.html:28
 #: fashionsite/chardata/templates/chardata/base.html:208
@@ -667,11 +667,11 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/base.html:87
 #, python-format
 msgid ""
-"Welcome, <a id=\"logged_user_alias\" href=\"%(manage_account_link)s\">"
-"%(user)s</a>! "
+"Welcome, <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a>! "
 msgstr ""
-"Bienvenue, <a id=\"logged_user_alias\" href=\"%(manage_account_link)s\">"
-"%(user)s</a> ! "
+"Bienvenue, <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a> ! "
 
 #: fashionsite/chardata/templates/chardata/base.html:92
 msgid "Logout"
@@ -877,7 +877,8 @@ msgstr ""
 "collez le lien vers la solution comme cela :"
 
 #: fashionsite/chardata/templates/chardata/choose_compare_sets.html:17
-msgid "To compare other people's projects paste the sharing link, for example:"
+msgid ""
+"To compare other people's projects paste the sharing link, for example:"
 msgstr ""
 "Pour comparer les projets d'autres personnes collez le lien de partage, par "
 "exemple :"
@@ -1144,9 +1145,9 @@ msgstr "Message "
 
 #: fashionsite/chardata/templates/chardata/exclusions.html:20
 msgid ""
-"Declare items that cannot be used on your character's set. By doing this you "
-"can avoid items that are expensive, hard to obtain, require a dungeon to be "
-"complete, or are just plain ugly."
+"Declare items that cannot be used on your character's set. By doing this you"
+" can avoid items that are expensive, hard to obtain, require a dungeon to be"
+" complete, or are just plain ugly."
 msgstr ""
 "Déclarez les items qui ne peuvent être utilisés dans votre équipement. En "
 "faisant cela vous pouvez éviter les items chers, difficiles d'obtention, "
@@ -1180,8 +1181,8 @@ msgid ""
 "worth to you. The program will then choose the equipment that sum the most "
 "points in total. For example, suppose you have the following equipment:"
 msgstr ""
-"Chacun de ces nombres détermine la valeur des caractéristiques par rapport à "
-"votre demande. L’assistant va ensuite choisir la combinaison d’équipements "
+"Chacun de ces nombres détermine la valeur des caractéristiques par rapport à"
+" votre demande. L’assistant va ensuite choisir la combinaison d’équipements "
 "avec le score total le plus haut. Par exemple, supposons que vous avez ces "
 "équipements :"
 
@@ -1205,20 +1206,20 @@ msgstr "Équipement B"
 
 #: fashionsite/chardata/templates/chardata/faq.html:42
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"10 points, equipment A will have a score of 2100 points, while equipment B "
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
 msgstr ""
-"Si vous choisissez une valeur de 10 par point d’intelligence et 10 par point "
-"d’initiative, l’équipement A aura un score de 2100 points alors que "
+"Si vous choisissez une valeur de 10 par point d’intelligence et 10 par point"
+" d’initiative, l’équipement A aura un score de 2100 points alors que "
 "l’équipement B aura un score de 1400 points et dans ce cas l’assistant "
 "choisira l’équipement A."
 
 #: fashionsite/chardata/templates/chardata/faq.html:49
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"1 point, equipment A will have a score of 300 points, while equipment B will "
-"have a score of 500 points, and the program will choose Item B."
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 1 point, equipment A will have a score of 300 points, while equipment B "
+"will have a score of 500 points, and the program will choose Item B."
 msgstr ""
 "Si vous choisissez une valeur de 10 par point d’intelligence et 1 par point "
 "d’initiative, l’équipement A aura un score de 300 points tandis que "
@@ -1228,16 +1229,16 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/faq.html:51
 msgid ""
 "That is our way of telling the program what to optimize. The ranges you see "
-"on each slider is the range that is most effective for each attribute, based "
-"on our experience. If you wish to use values outside of the range we "
-"defined, you can go to the Characteristics Weights page (under More) and set "
-"them manually."
+"on each slider is the range that is most effective for each attribute, based"
+" on our experience. If you wish to use values outside of the range we "
+"defined, you can go to the Characteristics Weights page (under More) and set"
+" them manually."
 msgstr ""
 "C’est ainsi que nous indiquons à notre programme ce qu’il doit optimiser. "
 "Les valeurs que vous voyez de chaque côté du curseur sont celles que nous "
 "avons jugées les plus adaptées, de part notre expérience. Si vous souhaitez "
-"utiliser des valeurs en dehors des intervalles définis, vous pouvez le faire "
-"en allant sur la page 'Poids des caractéristiques' (Sous la page 'Plus')."
+"utiliser des valeurs en dehors des intervalles définis, vous pouvez le faire"
+" en allant sur la page 'Poids des caractéristiques' (Sous la page 'Plus')."
 
 #: fashionsite/chardata/templates/chardata/faq.html:53
 msgid "I asked for exos but I can’t find them on any item. Where are they?"
@@ -1249,18 +1250,18 @@ msgstr ""
 msgid ""
 "We don’t assign the exos to any particular equipment because we think you "
 "are the best person to know where it is most convenient to have them. Maybe "
-"a particular item is cheaper to buy/mage in your server, or you already have "
-"an exo in a piece of equipment and want to use it. It is still important "
+"a particular item is cheaper to buy/mage in your server, or you already have"
+" an exo in a piece of equipment and want to use it. It is still important "
 "that you tell us whether or not you are gonna have exos, because otherwise "
 "we may use some items with AP conditions that make them unequipable if you "
 "get an extra AP on your set."
 msgstr ""
 "Nous n’assignons pas d’exos à des équipements en particulier parce que nous "
 "pensons que vous êtes la meilleure personne pour décider où placer votre "
-"exo. Peut-être qu’un équipement particulier serait moins cher à acheter/"
-"forgemager sur votre serveur, ou vous avez déjà un exo sur l’un de vos "
-"équipements et souhaitez l’utiliser. Il est tout de même important de nous "
-"signaler si vous souhaitez ou non avoir des exos, car autrement, nous "
+"exo. Peut-être qu’un équipement particulier serait moins cher à "
+"acheter/forgemager sur votre serveur, ou vous avez déjà un exo sur l’un de "
+"vos équipements et souhaitez l’utiliser. Il est tout de même important de "
+"nous signaler si vous souhaitez ou non avoir des exos, car autrement, nous "
 "pourrions utiliser des équipements avec des conditions sur les PA maximums "
 "qui pourraient devenir inutilisables à l’ajout d’un exo PA."
 
@@ -1269,16 +1270,16 @@ msgid ""
 "I need a PVM set, but I only see PVP options. Is there a way to build a PVM "
 "set?"
 msgstr ""
-"J’ai besoin d’une panoplie pour le PVM mais je ne vois qu’une option pour le "
-"PvP. Y-a-t’il une façon d’avoir une panoplie pour le PvM ?"
+"J’ai besoin d’une panoplie pour le PVM mais je ne vois qu’une option pour le"
+" PvP. Y-a-t’il une façon d’avoir une panoplie pour le PvM ?"
 
 #: fashionsite/chardata/templates/chardata/faq.html:57
 msgid ""
 "We assume that, if you don’t check either of the PVP options, the set you "
 "are building is a PVM set."
 msgstr ""
-"Nous suggérons que si vous ne cherchez pas une panoplie spécialement pour le "
-"PvP alors par défaut la panoplie recherchée sera pour le PvM."
+"Nous suggérons que si vous ne cherchez pas une panoplie spécialement pour le"
+" PvP alors par défaut la panoplie recherchée sera pour le PvM."
 
 #: fashionsite/chardata/templates/chardata/faq.html:60
 msgid "How does the site choose a weapon?"
@@ -1289,8 +1290,8 @@ msgid ""
 "If you don’t lock a weapon, the site will disregard the weapon damages and "
 "treat it like any other item, so you don’t always get an option that hits "
 "well. You will usually get a weapon with good attributes to your build, "
-"which tend to hit the element you chose. It is common to get AP weapons that "
-"aren’t really for hitting with. Forbid them and run again to see the next "
+"which tend to hit the element you chose. It is common to get AP weapons that"
+" aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
 msgstr ""
 "Si vous ne verrouillez aucune arme, le site va choisir une arme sans prêter "
@@ -1306,35 +1307,35 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/faq.html:65
 msgid "Why can I focus on vitality and resists? Doesn't every char need them?"
 msgstr ""
-"Pourquoi est-ce que je peux me concentrer sur la vitalité et les "
-"résistances ? Toutes les classes n’en ont-elles pas le besoin ?"
+"Pourquoi est-ce que je peux me concentrer sur la vitalité et les résistances"
+" ? Toutes les classes n’en ont-elles pas le besoin ?"
 
 #: fashionsite/chardata/templates/chardata/faq.html:66
 msgid ""
-"Those options are there for characters that need specially high vitality (or "
-"resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
+"Those options are there for characters that need specially high vitality (or"
+" resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
 "lot of vitality and not care much about their main element. Others, like "
 "Osamodas, may need a vit/res build with just a little bit of intelligence, "
-"and that's how they declare that defense is more important to them. Checking "
-"a focus box trades points in your main element (and other stats) for a boost "
-"on the focus you chose."
+"and that's how they declare that defense is more important to them. Checking"
+" a focus box trades points in your main element (and other stats) for a "
+"boost on the focus you chose."
 msgstr ""
 "Ces options sont là pour les personnages qui recherchent spécialement "
 "beaucoup de vitalité (ou de la résistance). Par exemple, les sacrieurs, "
-"zobals et steamers peuvent rechercher beaucoup de vitalité et ne pas trop se "
-"soucier de leur élément principal. Sinon, les Osamodas peuvent avoir besoin "
-"d’une panoplie avec beaucoup de vitalité / résistance avec un petit peu "
+"zobals et steamers peuvent rechercher beaucoup de vitalité et ne pas trop se"
+" soucier de leur élément principal. Sinon, les Osamodas peuvent avoir besoin"
+" d’une panoplie avec beaucoup de vitalité / résistance avec un petit peu "
 "d’intelligence ; c’est comme cela qu’ils démontrent que la défense est "
 "importante pour eux. Sélectionnez la case de votre élément principal (et "
 "celles d’autres stats) pour la (les) mettre en priorité."
 
 #: fashionsite/chardata/templates/chardata/faq.html:67
 msgid ""
-"Not checking any focus boxes is fine and correct for a lot of cases. It will "
-"give you an all-around set."
+"Not checking any focus boxes is fine and correct for a lot of cases. It will"
+" give you an all-around set."
 msgstr ""
-"Ne sélectionner aucune case fonctionne aussi, cela vous donnera une panoplie "
-"équilibrée basée sur toutes les stats."
+"Ne sélectionner aucune case fonctionne aussi, cela vous donnera une panoplie"
+" équilibrée basée sur toutes les stats."
 
 #: fashionsite/chardata/templates/chardata/home_post.html:17
 #: fashionsite/chardata/templates/chardata/license.html:46
@@ -1386,8 +1387,9 @@ msgid ""
 "Remove or lower <a href=%(mins_link)s>minimum characteristics</a> and raise "
 "their <a href=%(weights_link)s>weights</a> instead"
 msgstr ""
-"Supprimez ou diminuez les <a href=%(mins_link)s>caractéristiques minimales</"
-"a>  et augmentez leur <a href=%(weights_link)s>poids</a> à la place"
+"Supprimez ou diminuez les <a href=%(mins_link)s>caractéristiques "
+"minimales</a>  et augmentez leur <a href=%(weights_link)s>poids</a> à la "
+"place"
 
 #: fashionsite/chardata/templates/chardata/infeasible.html:25
 #, python-format
@@ -1490,8 +1492,8 @@ msgid ""
 "Fashionista does store your email address and your Google ID."
 msgstr ""
 "The Dofus Fashionista utilise Google OAuth pour authentifier les "
-"utilisateurs. Cela signifie que Dofus Fashionista ne stocke pas votre mot de "
-"passe. Cependant, Dofus Fashionista stocke votre adresse e-mail et votre "
+"utilisateurs. Cela signifie que Dofus Fashionista ne stocke pas votre mot de"
+" passe. Cependant, Dofus Fashionista stocke votre adresse e-mail et votre "
 "identifiant Google."
 
 #: fashionsite/chardata/templates/chardata/license.html:60
@@ -1500,10 +1502,10 @@ msgid ""
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
 msgstr ""
-"Si vous préférez ne pas utiliser Google OAuth, vous pouvez toujours utiliser "
-"Dofus Fashionista. Vous pouvez créer un compte avec un nom d'utilisateur et "
-"un mot de passe. Dofus Fashionista stocke votre mot de passe sous une forme "
-"cryptée."
+"Si vous préférez ne pas utiliser Google OAuth, vous pouvez toujours utiliser"
+" Dofus Fashionista. Vous pouvez créer un compte avec un nom d'utilisateur et"
+" un mot de passe. Dofus Fashionista stocke votre mot de passe sous une forme"
+" cryptée."
 
 #: fashionsite/chardata/templates/chardata/license.html:61
 msgid ""
@@ -1576,11 +1578,11 @@ msgstr "Dupliquer"
 #: fashionsite/chardata/templates/chardata/load_projects.html:56
 #, python-format
 msgid ""
-"You don't have any projects yet. Create one <a href=\"%(create_project_link)s"
-"\">here</a>."
+"You don't have any projects yet. Create one <a "
+"href=\"%(create_project_link)s\">here</a>."
 msgstr ""
-"Vous n'avez aucun projet. Cliquez <a href=\"%(create_project_link)s\">ici</"
-"a> pour en créer un."
+"Vous n'avez aucun projet. Cliquez <a "
+"href=\"%(create_project_link)s\">ici</a> pour en créer un."
 
 #: fashionsite/chardata/templates/chardata/load_projects.html:61
 msgid "You need to login before you can load a project."
@@ -1669,11 +1671,12 @@ msgstr "Se connecter avec Google"
 
 #: fashionsite/chardata/templates/chardata/login.html:78
 msgid ""
-"We will <b>never</b> post anything to either of your walls.<br> This step is "
-"just an authentication so you are able to save and share projects."
+"We will <b>never</b> post anything to either of your walls.<br> This step is"
+" just an authentication so you are able to save and share projects."
 msgstr ""
 "Nous ne publierons <b>jamais</b> sur vos réseaux sociaux. Cette étape sert "
-"uniquement d'identification pour pouvoir sauvegarder et partager des projets."
+"uniquement d'identification pour pouvoir sauvegarder et partager des "
+"projets."
 
 #: fashionsite/chardata/templates/chardata/login.html:91
 msgid "New here? Register:"
@@ -1681,8 +1684,8 @@ msgstr "Nouveau ici ? Inscris toi :"
 
 #: fashionsite/chardata/templates/chardata/login.html:94
 msgid ""
-"Remember to never use your Dofus login and password on any external websites "
-"(which includes this one)"
+"Remember to never use your Dofus login and password on any external websites"
+" (which includes this one)"
 msgstr ""
 "Rappelez-vous de ne jamais utiliser votre nom d'utilisateur et votre mot de "
 "passe de Dofus sur des sites Internet externes (celui-ci y compris)"
@@ -1983,7 +1986,8 @@ msgstr "Changement de mot de passe"
 
 #: fashionsite/chardata/templates/chardata/password_was_reset.html:18
 #, fuzzy, python-format
-#| msgid "The password for <b>%(username | safe)s</b> has been reset to:"
+#| msgid ""
+#| "The password for <b>%(username | safe)s</b> has been reset to:"
 msgid "The password for <b>%(username)s</b> has been reset to:"
 msgstr "Le mot de passe de <b>%(username | safe)s</b> a été changé pour :"
 
@@ -2023,8 +2027,8 @@ msgstr "Élément(s)"
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:68
 msgid ""
-"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</"
-"span>"
+"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to "
+"2)</span>"
 msgstr ""
 "Se concentrer sur, en sacrifiant d'autres statistiques <span "
 "id='aspect_limit_text'>(maximum 2)</span>"
@@ -2048,30 +2052,31 @@ msgstr "Redémarrer l'Assistant lors de l'enregistrement"
 #, python-format
 msgid ""
 " You need to <a href=\"%(login_link)s\">login</a> before you can create "
-"another project. Your current project can be found <a href="
-"\"%(load_proj_link)s\">here</a>. "
+"another project. Your current project can be found <a "
+"href=\"%(load_proj_link)s\">here</a>. "
 msgstr ""
 "Vous devez <a href=\"%(login_link)s\">vous connecter</a> avant de pouvoir "
-"créer d'autres projets. Votre trouverez votre projet actuel <a href="
-"\"%(load_proj_link)s\">ici</a>."
+"créer d'autres projets. Votre trouverez votre projet actuel <a "
+"href=\"%(load_proj_link)s\">ici</a>."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:105
 #, python-format
 msgid ""
 " You have reached the maximum number of projects allowed. To create a new "
-"project, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
+"project, please delete some old ones <a "
+"href=\"%(load_proj_link)s\">here</a>."
 msgstr ""
 " Vous avez atteint le nombre maximal de projets permis. Pour créer un "
-"nouveau projet, veuillez effacer de vieux projets <a href="
-"\"%(load_proj_link)s\">ici</a>."
+"nouveau projet, veuillez effacer de vieux projets <a "
+"href=\"%(load_proj_link)s\">ici</a>."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:126
 msgid ""
 "Focus on critical hits. Useful for characters that have spells/weapons that "
 "are much better on a critical hit."
 msgstr ""
-"Focus sur les coups critiques. Utile pour les personnages avec des sorts/"
-"armes qui frappe bien mieux en coup critique."
+"Focus sur les coups critiques. Utile pour les personnages avec des "
+"sorts/armes qui frappe bien mieux en coup critique."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:127
 msgid ""
@@ -2092,8 +2097,8 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:129
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 Duelers should check this. Increases importance of initiative a lot."
+" Enables shields."
 msgstr ""
 "Nous conseillons aux joueurs de PvP 1v1 de cocher cette case. Cela augmente "
 "l'importance de l'initiative pendant la recherche, et active les boucliers."
@@ -2130,8 +2135,8 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:134
 msgid ""
-"Chars that want +Damage over the main stat, for hitting with low base damage "
-"attacks. Increases importance of +Damage and +Elemental Damages."
+"Chars that want +Damage over the main stat, for hitting with low base damage"
+" attacks. Increases importance of +Damage and +Elemental Damages."
 msgstr ""
 "Si vous désirez beaucoup de dommages en plus des caractéristiques, pour "
 "taper plus fort avec des attaques faibles, cochez cette case. Cela va "
@@ -2139,8 +2144,8 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:135
 msgid ""
-"Healers that prefer +Heals over intelligence for low base heals spells/"
-"weapons. For example, Enis should check this if they intend to heal "
+"Healers that prefer +Heals over intelligence for low base heals "
+"spells/weapons. For example, Enis should check this if they intend to heal "
 "primarily with Healing Word and Revitalizing Word rather than Word of "
 "Sacrifice and Word of Altruism."
 msgstr ""
@@ -2155,16 +2160,16 @@ msgid ""
 "Disablers that want to focus on AP reduction rather than dealing damage "
 "should check this."
 msgstr ""
-"Cochez cette case si vous aimez retirer des PA aux adversaires plutôt que de "
-"leur occasionner des dommages."
+"Cochez cette case si vous aimez retirer des PA aux adversaires plutôt que de"
+" leur occasionner des dommages."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:137
 msgid ""
 "Disablers that want to focus on MP reduction rather than dealing damage "
 "should check this."
 msgstr ""
-"Cochez cette case si vous aimez retirer des PM aux adversaires plutôt que de "
-"leur occasionner des dommages."
+"Cochez cette case si vous aimez retirer des PM aux adversaires plutôt que de"
+" leur occasionner des dommages."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:138
 msgid ""
@@ -2173,16 +2178,16 @@ msgid ""
 "Disables trophies and Dofus."
 msgstr ""
 "Seules les mules à XP devraient cocher cette case. Cela donnera peu "
-"d'importance à toutes les stats sauf à la sagesse. Désactive les Trophées et "
-"les Dofus."
+"d'importance à toutes les stats sauf à la sagesse. Désactive les Trophées et"
+" les Dofus."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:139
 msgid ""
 "Check this to get a prospecting set, with mediocre stats but high "
 "prospecting."
 msgstr ""
-"Cochez cette case pour obtenir un stuff prospection, avec des statitistiques "
-"médiocres mais beaucoup de prospection."
+"Cochez cette case pour obtenir un stuff prospection, avec des statitistiques"
+" médiocres mais beaucoup de prospection."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:140
 msgid ""
@@ -2198,13 +2203,14 @@ msgid ""
 "equipment. Importance of Power (Traps) and +Trap Damage will be increased."
 msgstr ""
 "Les Sram utilisant massivement leurs pièges devraient cocher cette case "
-"(bien qu'il n'existe pas beaucoup d'équipements favorisant les pièges). Cela "
-"augmentera l'importance des dommages aux pièges et de la puissance (pièges)."
+"(bien qu'il n'existe pas beaucoup d'équipements favorisant les pièges). Cela"
+" augmentera l'importance des dommages aux pièges et de la puissance "
+"(pièges)."
 
 #: fashionsite/chardata/templates/chardata/projdetails.html:142
 msgid ""
-"Summon spammers should check this. It will increase the minimum summons by 1 "
-"and increase importance of summons."
+"Summon spammers should check this. It will increase the minimum summons by 1"
+" and increase importance of summons."
 msgstr ""
 "Les invocateurs devraient cocher cette case. Cela augmentera le minimum "
 "d'invocations de 1 et l'importance des invocations."
@@ -2264,38 +2270,34 @@ msgstr "Ceci est l'équipement suggéré."
 #, python-format
 msgid ""
 "If you don't like an item, click the forbid ( <img style='position: "
-"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button "
-"under its name and <a href=\"%(run_again_link)s\" class=\"rerun-button\">run "
-"again</a>. If, on the contrary, you want to lock in an item for future sets "
-"for this char, click the lock (<img style='position: relative; bottom: -1px; "
-"left: 0px;' src=%(lock)s title='Lock'>) button. You can also switch any item "
-"for another you like best by clicking the switch (<img class='solution-item-"
-"button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
-"title='Switch'>) button."
+"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button"
+" under its name and <a href=\"%(run_again_link)s\" class=\"rerun-"
+"button\">run again</a>. If, on the contrary, you want to lock in an item for"
+" future sets for this char, click the lock (<img style='position: relative; "
+"bottom: -1px; left: 0px;' src=%(lock)s title='Lock'>) button. You can also "
+"switch any item for another you like best by clicking the switch (<img "
+"class='solution-item-button' style='position: relative; bottom: -5px; left: "
+"0px;' src=%(switch)s title='Switch'>) button."
 msgstr ""
 "Si vous n'aimez pas un item, cliquez sur le bouton ( <img style='position: "
 "relative; bottom: -3px; left: -2px;' src=%(delete)s title='Interdire'> ) "
-"interdire en dessous de son nom et <a href=\"%(run_again_link)s\" class="
-"\"rerun-button\">relancez</a>. Si, au contraire, vous voulez verrouiller un "
-"item pour vos futurs équipements pour ce personnage, cliquez sur le bouton "
-"(<img style='position: relative; bottom: -1px; left: 0px;' src=%(lock)s "
-"title='Verrouiller'>) verrouillage. Vous pouvez aussi échanger n'importe "
-"quel item pour celui que vous préférez en cliquant sur le bouton modifier "
-"(<img class='solution-item-button' style='position: relative; bottom: -5px; "
-"left: 0px;' src=%(switch)s title='Changer'>)."
+"interdire en dessous de son nom et <a href=\"%(run_again_link)s\" "
+"class=\"rerun-button\">relancez</a>. Si, au contraire, vous voulez "
+"verrouiller un item pour vos futurs équipements pour ce personnage, cliquez "
+"sur le bouton (<img style='position: relative; bottom: -1px; left: 0px;' "
+"src=%(lock)s title='Verrouiller'>) verrouillage. Vous pouvez aussi échanger "
+"n'importe quel item pour celui que vous préférez en cliquant sur le bouton "
+"modifier (<img class='solution-item-button' style='position: relative; "
+"bottom: -5px; left: 0px;' src=%(switch)s title='Changer'>)."
 
 #: fashionsite/chardata/templates/chardata/solution.html:34
 #, python-format
 msgid ""
 "\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
+"    This set was generated from scratch. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose items and build a set for you."
 msgstr ""
 "\n"
-"    Ce stuff a été conçu à partir de rien. Cliquez sur le bouton ajouter "
-"(<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Ajouter'>) pour choisir des équipements et créer votre propre stuff."
+"    Ce stuff a été conçu à partir de rien. Cliquez sur le bouton ajouter (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Ajouter'>) pour choisir des équipements et créer votre propre stuff."
 
 #: fashionsite/chardata/templates/chardata/solution.html:42
 #: fashionsite/chardata/templates/chardata/solution.html:72
@@ -2324,11 +2326,11 @@ msgstr "Ceci est l'équipement de quelqu'un d'autre."
 #: fashionsite/chardata/templates/chardata/solution.html:68
 #, python-format
 msgid ""
-"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-link"
-"\">copy</a> it to your workspace.</p>"
+"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
+"link\">copy</a> it to your workspace.</p>"
 msgstr ""
-"Si vous souhaitez le modifier, <a href=\"%(copy_link)s\" class=\"copy-action-"
-"link\">copiez</a> le sur votre espace de travail.</p>"
+"Si vous souhaitez le modifier, <a href=\"%(copy_link)s\" class=\"copy-"
+"action-link\">copiez</a> le sur votre espace de travail.</p>"
 
 #: fashionsite/chardata/templates/chardata/solution.html:79
 msgid "Expand All"
@@ -2460,8 +2462,8 @@ msgstr ""
 msgid ""
 "How much damage your weapon and spells will deal with the suggested set."
 msgstr ""
-"Combien de dommages occasionneront votre arme et vos sorts avec l'équipement "
-"proposé."
+"Combien de dommages occasionneront votre arme et vos sorts avec l'équipement"
+" proposé."
 
 #: fashionsite/chardata/templates/chardata/spells.html:29
 msgid "Fully Buff"
@@ -2577,8 +2579,8 @@ msgstr "La valeur de chaque point attribué pour ce personnage"
 msgid ""
 "Dofus Fashionista maximizes the total value of all your character's "
 "attributes. Increasing the weight of an attribute will cause others to be "
-"sacrificed for it. Decreasing the weight of an attribute will cause it to be "
-"sacrificed for others."
+"sacrificed for it. Decreasing the weight of an attribute will cause it to be"
+" sacrificed for others."
 msgstr ""
 "Dofus Fashionista maximise la valeur totale de tous les attributs de votre "
 "personnage. Augmenter le poids d'une caractéristique sacrifiera d'autres "
@@ -2631,7 +2633,8 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/wizard_min_stats.html:3
 msgid "Choose the minimum stats you need on this character"
 msgstr ""
-"Choisissez les caractéristiques minimales que vous voulez pour ce personnage "
+"Choisissez les caractéristiques minimales que vous voulez pour ce personnage"
+" "
 
 #: fashionsite/chardata/templates/chardata/wizard_min_stats.html:19
 msgid "You can leave the fields empty if you don't care about them"
@@ -2672,9 +2675,9 @@ msgstr "Ne parchoter aucune caractéristique"
 #: fashionsite/chardata/templates/chardata/wizard_scrolling.html:17
 #, python-format
 msgid ""
-"If you wish to set your base stats yourself, you can do it at the <i><a href="
-"\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> page, "
-"under <i>More</i>"
+"If you wish to set your base stats yourself, you can do it at the <i><a "
+"href=\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> "
+"page, under <i>More</i>"
 msgstr ""
 "Si vous souhaitez fixer vos stats de base, vous pouvez le faire à la page "
 "des <i><a href=\"%(base_stats_url)s\" target=\"_blank\">caractéristiques de "
@@ -4559,15 +4562,15 @@ msgstr "Dépeçage"
 
 #: fashionsite/chardata/translation_util.py:552
 msgid "Lance of the Lake"
-msgstr ""
+msgstr "Lance of the Lake"
 
 #: fashionsite/chardata/translation_util.py:553
 msgid "Slingshot"
-msgstr ""
+msgstr "Slingshot"
 
 #: fashionsite/chardata/translation_util.py:554
 msgid "Seismic Pike"
-msgstr ""
+msgstr "Seismic Pike"
 
 #: fashionsite/chardata/translation_util.py:555
 #, fuzzy
@@ -4583,19 +4586,19 @@ msgstr "Forgelance"
 
 #: fashionsite/chardata/translation_util.py:557
 msgid "No Myr Javelin"
-msgstr ""
+msgstr "No Myr Javelin"
 
 #: fashionsite/chardata/translation_util.py:558
 msgid "Disengaging"
-msgstr ""
+msgstr "Disengaging"
 
 #: fashionsite/chardata/translation_util.py:559
 msgid "Hot Iron"
-msgstr ""
+msgstr "Hot Iron"
 
 #: fashionsite/chardata/translation_util.py:560
 msgid "Parry"
-msgstr ""
+msgstr "Parry"
 
 #: fashionsite/chardata/translation_util.py:561
 #, fuzzy
@@ -4617,11 +4620,11 @@ msgstr "Non chargée"
 
 #: fashionsite/chardata/translation_util.py:564
 msgid "Brass Rain"
-msgstr ""
+msgstr "Brass Rain"
 
 #: fashionsite/chardata/translation_util.py:565
 msgid "Spicy Mill"
-msgstr ""
+msgstr "Spicy Mill"
 
 #: fashionsite/chardata/translation_util.py:566
 #, fuzzy
@@ -4631,23 +4634,23 @@ msgstr "Trait Ardent"
 
 #: fashionsite/chardata/translation_util.py:567
 msgid "Brass Volley"
-msgstr ""
+msgstr "Brass Volley"
 
 #: fashionsite/chardata/translation_util.py:568
 msgid "Balestra"
-msgstr ""
+msgstr "Balestra"
 
 #: fashionsite/chardata/translation_util.py:569
 msgid "Octave"
-msgstr ""
+msgstr "Octave"
 
 #: fashionsite/chardata/translation_util.py:570
 msgid "Upheaval"
-msgstr ""
+msgstr "Upheaval"
 
 #: fashionsite/chardata/translation_util.py:571
 msgid "Windmill"
-msgstr ""
+msgstr "Windmill"
 
 #: fashionsite/chardata/translation_util.py:572
 #, fuzzy
@@ -4657,27 +4660,27 @@ msgstr "Résistance Terre"
 
 #: fashionsite/chardata/translation_util.py:573
 msgid "Kyrja"
-msgstr ""
+msgstr "Kyrja"
 
 #: fashionsite/chardata/translation_util.py:574
 msgid "Maelstrom"
-msgstr ""
+msgstr "Maelstrom"
 
 #: fashionsite/chardata/translation_util.py:575
 msgid "Lunge"
-msgstr ""
+msgstr "Lunge"
 
 #: fashionsite/chardata/translation_util.py:576
 msgid "Vajra"
-msgstr ""
+msgstr "Vajra"
 
 #: fashionsite/chardata/translation_util.py:577
 msgid "Ydra"
-msgstr ""
+msgstr "Ydra"
 
 #: fashionsite/chardata/translation_util.py:578
 msgid "Iron Prelude"
-msgstr ""
+msgstr "Iron Prelude"
 
 #: fashionsite/chardata/translation_util.py:579
 #, fuzzy
@@ -4693,11 +4696,11 @@ msgstr "Foudroiement"
 
 #: fashionsite/chardata/translation_util.py:581
 msgid "Grunob's Lesson"
-msgstr ""
+msgstr "Grunob's Lesson"
 
 #: fashionsite/chardata/translation_util.py:582
 msgid "Jormun"
-msgstr ""
+msgstr "Jormun"
 
 #: fashionsite/chardata/translation_util.py:583
 #, fuzzy
@@ -4719,19 +4722,19 @@ msgstr "Cercle Brûlant"
 
 #: fashionsite/chardata/translation_util.py:586
 msgid "Crocobur's Appetite"
-msgstr ""
+msgstr "Crocobur's Appetite"
 
 #: fashionsite/chardata/translation_util.py:587
 msgid "Scurvion Toxicity"
-msgstr ""
+msgstr "Scurvion Toxicity"
 
 #: fashionsite/chardata/translation_util.py:588
 msgid "Kannibubble"
-msgstr ""
+msgstr "Kannibubble"
 
 #: fashionsite/chardata/translation_util.py:589
 msgid "Kanniboil"
-msgstr ""
+msgstr "Kanniboil"
 
 #: fashionsite/chardata/translation_util.py:590
 #, fuzzy
@@ -4747,11 +4750,11 @@ msgstr "Sans Tofus"
 
 #: fashionsite/chardata/translation_util.py:592
 msgid "Pestilential Fog"
-msgstr ""
+msgstr "Pestilential Fog"
 
 #: fashionsite/chardata/translation_util.py:593
 msgid "Middle Earth"
-msgstr ""
+msgstr "Middle Earth"
 
 #: fashionsite/chardata/translation_util.py:594
 #, fuzzy
@@ -4761,11 +4764,11 @@ msgstr "Non"
 
 #: fashionsite/chardata/translation_util.py:595
 msgid "Mantiscroc"
-msgstr ""
+msgstr "Mantiscroc"
 
 #: fashionsite/chardata/translation_util.py:596
 msgid "Dart Mocles"
-msgstr ""
+msgstr "Dart Mocles"
 
 #: fashionsite/chardata/translation_util.py:597
 #, fuzzy
@@ -4799,7 +4802,7 @@ msgstr "Flèche Assaillante"
 
 #: fashionsite/chardata/translation_util.py:602
 msgid "Piercing Shots"
-msgstr ""
+msgstr "Piercing Shots"
 
 #: fashionsite/chardata/translation_util.py:603
 #, fuzzy
@@ -4839,7 +4842,7 @@ msgstr "Flèche d'Immobilisation"
 
 #: fashionsite/chardata/translation_util.py:609
 msgid "Piercing Shot"
-msgstr ""
+msgstr "Piercing Shot"
 
 #: fashionsite/chardata/translation_util.py:610
 #, fuzzy
@@ -4873,7 +4876,7 @@ msgstr "Dernier Souffle"
 
 #: fashionsite/chardata/translation_util.py:615
 msgid "Brandy"
-msgstr ""
+msgstr "Brandy"
 
 #: fashionsite/chardata/translation_util.py:616
 #, fuzzy
@@ -5228,23 +5231,23 @@ msgstr "Après avoir frappé une Proie 5x"
 
 #: fashionsite/chardata/translation_util.py:699
 msgid "Hit in best element"
-msgstr ""
+msgstr "Hit in best element"
 
 #: fashionsite/chardata/translation_util.py:700
 msgid "Steals in best element"
-msgstr ""
+msgstr "Steals in best element"
 
 #: fashionsite/chardata/translation_util.py:701
 msgid "On ennemy"
-msgstr ""
+msgstr "On ennemy"
 
 #: fashionsite/chardata/translation_util.py:702
 msgid "On caster"
-msgstr ""
+msgstr "On caster"
 
 #: fashionsite/chardata/translation_util.py:703
 msgid "Hit in worst element"
-msgstr ""
+msgstr "Hit in worst element"
 
 #: fashionsite/chardata/translation_util.py:704
 #, fuzzy
@@ -5254,15 +5257,15 @@ msgstr "Dommages Poussée"
 
 #: fashionsite/chardata/translation_util.py:705
 msgid "If pushed or attracted"
-msgstr ""
+msgstr "If pushed or attracted"
 
 #: fashionsite/chardata/translation_util.py:706
 msgid "Sober"
-msgstr ""
+msgstr "Sober"
 
 #: fashionsite/chardata/translation_util.py:707
 msgid "Drunk"
-msgstr ""
+msgstr "Drunk"
 
 #: fashionsite/chardata/translation_util.py:711
 msgid "Hammer"
@@ -5334,36 +5337,6 @@ msgctxt "Slider section"
 msgid "Special"
 msgstr "Spécial"
 
-#~ msgid "Send"
-#~ msgstr "Envoyer"
-
-#~ msgid "Buy Kamas"
-#~ msgstr "Acheter Kamas"
-
-#~ msgid "Glyph of Repulsion"
-#~ msgstr "Glyphe de Répulsion"
-
-#~ msgid "Glyph of Blindness"
-#~ msgstr "Glyphe d'Aveuglement"
-
-#~ msgid "Fulmination"
-#~ msgstr "Fulmination"
-
-#~ msgid "Elemental Loop"
-#~ msgstr "Boucle Élémentaire"
-
-#~ msgid "Snuggletooth"
-#~ msgstr "Caninos"
-
-#~ msgid "Ferocity"
-#~ msgstr "Férocité"
-
-#~ msgid "Exos"
-#~ msgstr "Exos"
-
-#~ msgid "Neu"
-#~ msgstr "Neu"
-
 #: chardata/solution_result.py
 #, python-format
 msgid "Pushes %(cells)d cells"
@@ -5405,12 +5378,25 @@ msgid "Advances %(min)d to %(max)d cells"
 msgstr "Avance de %(min)d à %(max)d cases"
 
 #: chardata/templates/chardata/license.html
-msgid "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
-msgstr "Dofus Fashionista utilise les services Google (Analytics, AdSense, OAuth) pour améliorer l'expérience utilisateur, afficher des publicités pertinentes et fournir l'authentification. Ces services peuvent collecter des données d'utilisation anonymes. Vous pouvez gérer vos préférences de consentement via la bannière de paramètres de confidentialité."
+msgid ""
+"The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to "
+"improve user experience, display relevant ads, and provide authentication. "
+"These services may collect anonymous usage data. You can manage your consent"
+" preferences through the privacy settings banner."
+msgstr ""
+"Dofus Fashionista utilise les services Google (Analytics, AdSense, OAuth) "
+"pour améliorer l'expérience utilisateur, afficher des publicités pertinentes"
+" et fournir l'authentification. Ces services peuvent collecter des données "
+"d'utilisation anonymes. Vous pouvez gérer vos préférences de consentement "
+"via la bannière de paramètres de confidentialité."
 
 #: chardata/templates/chardata/shared_builds.html
-msgid "Browse and discover builds shared by the community. Click on any build to view details."
-msgstr "Parcourez et découvrez les builds partagés par la communauté. Cliquez sur un build pour voir les détails."
+msgid ""
+"Browse and discover builds shared by the community. Click on any build to "
+"view details."
+msgstr ""
+"Parcourez et découvrez les builds partagés par la communauté. Cliquez sur un"
+" build pour voir les détails."
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Search & Filter"
@@ -5570,6 +5556,38 @@ msgid "View Build"
 msgstr "Voir le Build"
 
 #: chardata/templates/chardata/shared_builds.html
-msgid "No shared builds found matching your criteria. Try adjusting your filters."
-msgstr "Aucun build partagé trouvé correspondant à vos critères. Essayez d'ajuster vos filtres."
+msgid ""
+"No shared builds found matching your criteria. Try adjusting your filters."
+msgstr ""
+"Aucun build partagé trouvé correspondant à vos critères. Essayez d'ajuster "
+"vos filtres."
 
+#~ msgid "Send"
+#~ msgstr "Envoyer"
+
+#~ msgid "Buy Kamas"
+#~ msgstr "Acheter Kamas"
+
+#~ msgid "Glyph of Repulsion"
+#~ msgstr "Glyphe de Répulsion"
+
+#~ msgid "Glyph of Blindness"
+#~ msgstr "Glyphe d'Aveuglement"
+
+#~ msgid "Fulmination"
+#~ msgstr "Fulmination"
+
+#~ msgid "Elemental Loop"
+#~ msgstr "Boucle Élémentaire"
+
+#~ msgid "Snuggletooth"
+#~ msgstr "Caninos"
+
+#~ msgid "Ferocity"
+#~ msgstr "Férocité"
+
+#~ msgid "Exos"
+#~ msgstr "Exos"
+
+#~ msgid "Neu"
+#~ msgstr "Neu"
