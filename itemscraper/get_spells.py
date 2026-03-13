@@ -18,6 +18,7 @@ except ImportError:
 LANGUAGES: Sequence[str] = ("en", "fr", "es", "pt", "de")
 RAW_ROOT = Path("itemscraper/raw")
 DEFAULT_OUTPUT = Path("itemscraper/transformed_spells.json")
+DEFAULT_NAMES_OUTPUT = Path("itemscraper/transformed_spell_names.json")
 DATA_FILES = (
     "spells.json",
     "spell_levels.json",
@@ -579,6 +580,26 @@ class SpellTransformer:
             missing = len(self.missing_effects)
             print(f"Warning: metadata missing for {missing} effect IDs", file=sys.stderr)
 
+    def write_spell_names(self, payload: Sequence[Mapping[str, Any]], output_path: Path) -> None:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        names: Dict[str, Dict[str, str]] = {}
+        for spell in payload:
+            name_en = (spell.get("name_en") or "").strip()
+            if not name_en:
+                continue
+
+            localized: Dict[str, str] = {}
+            for lang in self.languages:
+                value = spell.get(f"name_{lang}")
+                if isinstance(value, str) and value.strip():
+                    localized[lang] = value.strip()
+
+            if localized:
+                names.setdefault(name_en, localized)
+
+        output_path.write_text(json.dumps(names, indent=2, ensure_ascii=False, sort_keys=True), encoding="utf-8")
+        print(f"Wrote {len(names)} spell names -> {output_path}")
+
     def _ensure_breeds(self) -> None:
         if self._breeds is not None:
             return
@@ -713,6 +734,7 @@ def parse_args(argv: Optional[Iterable[str]] = None) -> argparse.Namespace:
     parser.add_argument("--raw-root", type=Path, default=RAW_ROOT, help="Root folder that contains datacenter dumps")
     parser.add_argument("--tag", help="Specific datacenter tag (sub-folder inside --raw-root). Defaults to the latest one.")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Destination JSON file")
+    parser.add_argument("--names-output", type=Path, default=DEFAULT_NAMES_OUTPUT, help="Destination compact JSON file for localized spell names")
     parser.add_argument("--languages", nargs="+", default=list(LANGUAGES), help="Language files to merge (default: en fr es pt de)")
     parser.add_argument(
         "--class-output",
@@ -729,6 +751,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         transformer = SpellTransformer(dataset_dir=dataset_dir, output_path=args.output, languages=args.languages)
         payload = transformer.build()
         transformer.write(payload)
+        transformer.write_spell_names(payload, args.names_output)
         if args.class_output:
             class_map = transformer.build_class_map(payload)
             transformer.write_class_map(class_map, args.class_output)
