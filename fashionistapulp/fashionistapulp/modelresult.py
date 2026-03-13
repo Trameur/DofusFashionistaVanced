@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from collections import Counter
+import logging
 from django.utils.translation import gettext as _
 
 from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS,
@@ -26,6 +27,8 @@ from .violation import Violation
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
 
 RELEVANT_INPUT = ['options', 'base_stats_by_attr', 'char_level', 'origin']
+
+logger = logging.getLogger(__name__)
 
 class ModelResultMinimal():
 
@@ -120,6 +123,8 @@ def model_result_from_minimal(minimal):
         if item_id is not None and structure.get_item_by_id(item_id):
             result.add_item_at_slot(structure.get_item_by_id(item_id), slot)
         else:
+            if item_id is not None:
+                logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
             result.add_item_at_slot(None, slot) 
     open_slots = []
     for slot in result.open_slots:
@@ -571,14 +576,17 @@ class ModelResultItem():
     
             if self.type == 'Weapon':
                 weapon = structure.get_weapon_by_name(self.name)
-                self.is_mageable = weapon.is_mageable
-                self.non_crit_hits = weapon.non_crit_hits
-                self.crit_hits = weapon.crit_hits
-                self.crit_bonus = weapon.crit_bonus
-                self.crit_chance = weapon.crit_chance_percent
-                self.ap = weapon.ap
-                weapon_type = structure.get_weapon_type_by_id(weapon.weapon_type)
-                self.weapon_type = weapon_type.name if weapon_type is not None else "DefaultName"
+                if weapon is not None:
+                    self.is_mageable = weapon.is_mageable
+                    self.non_crit_hits = weapon.non_crit_hits
+                    self.crit_hits = weapon.crit_hits
+                    self.crit_bonus = weapon.crit_bonus
+                    self.crit_chance = weapon.crit_chance_percent
+                    self.ap = weapon.ap
+                    weapon_type = structure.get_weapon_type_by_id(weapon.weapon_type)
+                    self.weapon_type = weapon_type.name if weapon_type is not None else "DefaultName"
+                else:
+                    logger.warning('Missing weapon metadata for item_id=%s item_name=%s', self.id, self.name)
         else:
             self.name = 'NoItem'
             self.id = None

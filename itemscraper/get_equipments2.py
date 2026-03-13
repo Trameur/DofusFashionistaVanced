@@ -219,6 +219,13 @@ equipment_data = {lang: load_data_for_language(lang, 'equipment') for lang in LA
 
 mount_data = {lang: load_data_for_language(lang, 'mounts') for lang in LANGUAGES}
 
+# Keep mount records as source of truth when mounts and equipment share ankama_id.
+mount_ankama_ids = {
+    item.get('ankama_id')
+    for item in mount_data['en'].get('mounts', [])
+    if item.get('ankama_id') is not None
+}
+
 set_data = {lang: load_data_for_language(lang, 'sets') for lang in LANGUAGES}
 
 # Create a list to store the new formatted items
@@ -243,6 +250,8 @@ for item in equipment_data['en']['items']:
         name_counts[name] = 1
 
 for item in equipment_data['en']['items']:
+    if item.get('ankama_id') in mount_ankama_ids:
+        continue
     if 'Certificate' in item['type']['name'] or 'Sidekick' in item['type']['name'] or 'Badge' in item['type']['name'] or '[!] [UNKNOWN_TEXT_ID_0]' in item['name'] or 'Perceptor' in item['type']['name']:
         continue
     transformed_item = {}
