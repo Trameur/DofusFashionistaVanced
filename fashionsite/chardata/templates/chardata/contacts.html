@@ -84,17 +84,21 @@
             </td>
             </tr>
             </table>
-            <div id="captcha" align="center" 
+            <div id="captcha-container" align="center" 
             data-theme="
             {% if theme != "lighttheme" %}
                 dark
             {% else %}
                 light
             {% endif %}">
-                <button id="captcha" class="g-recaptcha" 
+                {% if debug_mode %}
+                <button type="submit">Submit</button>
+                {% else %}
+                <button id="captcha-button" class="g-recaptcha" 
                     data-sitekey="6LckESspAAAAAATetjumgWbl4RRpKQ3rGFjD6ZOt" 
                     data-callback='onSubmit' 
                     data-action='submit'>Submit</button>
+                {% endif %}
             </div>
         </form>
         <a href="https://discord.gg/J842fFxU7r" target="_blank" class="discord-invite-btn">
@@ -110,5 +114,7 @@
       document.getElementById("theform").submit();
     }
   </script>       
+{% if not debug_mode %}
 <script src='https://www.google.com/recaptcha/api.js?hl={{language}}'></script>       
+{% endif %}
 {% endblock %}

@@ -67,7 +67,10 @@ def download_image(url, filename, threshold=0.01):
         file.write(new_content)
     return True
 current_directory = os.path.dirname(__file__)
-target_directory = os.path.join(current_directory, '../fashionsite/staticfiles/chardata/')
+target_directories = [
+    os.path.join(current_directory, '../fashionsite/staticfiles/chardata/'),
+    os.path.join(current_directory, '../fashionsite/chardata/static/chardata/'),
+]
 
 total = len(data)
 count = 0
@@ -79,17 +82,17 @@ for item in data:
         original_name = f"{item['name_en']}.png"
         sanitized_name = sanitize_filename(original_name)
 
-        if item['w_type'] == 'Petsmount' or item['w_type'] == 'Pet':
-            directory = os.path.join(target_directory, "pets/")
-        else:
-            directory = os.path.join(target_directory, "items/")
-        
-        filename = os.path.join(directory, sanitized_name)
-        
         if original_name != sanitized_name:
             print(f"Filename modified: {original_name} -> {sanitized_name}")
-        
-        download_image(image_url, filename)
+
+        for target_directory in target_directories:
+            if item['w_type'] == 'Petsmount' or item['w_type'] == 'Pet':
+                directory = os.path.join(target_directory, "pets/")
+            else:
+                directory = os.path.join(target_directory, "items/")
+
+            filename = os.path.join(directory, sanitized_name)
+            download_image(image_url, filename)
         
         count += 1
         percentage = int((count / total) * 100)

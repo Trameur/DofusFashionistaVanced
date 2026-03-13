@@ -110,6 +110,7 @@ def get_alias(user):
     return None
     
 def set_response(request, path, params, char=None):
+    params['debug_mode'] = settings.DEBUG
     params['language'] = get_language()
     params['experiments'] = settings.EXPERIMENTS
     params['useralias'] = get_alias(request.user)
