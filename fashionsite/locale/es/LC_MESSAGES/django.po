@@ -1395,9 +1395,9 @@ msgid ""
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
 msgstr ""
-"Si prefieres no usar Google OAuth, aun puedes usar Dofus Fashionista. "
-"Puedes crear una cuenta con nombre de usuario y contrasena. Dofus "
-"Fashionista almacena tu contrasena de forma cifrada."
+"Si prefieres no usar Google OAuth, aun puedes usar Dofus Fashionista. Puedes"
+" crear una cuenta con nombre de usuario y contrasena. Dofus Fashionista "
+"almacena tu contrasena de forma cifrada."
 
 #: chardata/templates/chardata/license.html:61
 msgid ""
@@ -4969,6 +4969,30 @@ msgid ""
 msgstr ""
 "No se encontraron builds compartidos que coincidan con tus criterios. "
 "Intenta ajustar tus filtros."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Light Theme"
+msgstr "Tema claro"
+
+msgid "Dark Theme"
+msgstr "Tema oscuro"
+
+msgid "Auto"
+msgstr "Automatico"
+
+msgid "Submit"
+msgstr "Enviar"
+
+msgid "Final Damage"
+msgstr "Dano final"
+
+msgid "Final Heals"
+msgstr "Curas finales"
+
+msgid "Hit in best element"
+msgstr "Golpea en el mejor elemento"
 
 #~ msgid "Send"
 #~ msgstr "Enviar"

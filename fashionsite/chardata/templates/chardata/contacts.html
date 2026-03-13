@@ -92,12 +92,12 @@
                 light
             {% endif %}">
                 {% if debug_mode %}
-                <button type="submit">Submit</button>
+                <button type="submit">{% trans "Submit" %}</button>
                 {% else %}
                 <button id="captcha-button" class="g-recaptcha" 
                     data-sitekey="6LckESspAAAAAATetjumgWbl4RRpKQ3rGFjD6ZOt" 
                     data-callback='onSubmit' 
-                    data-action='submit'>Submit</button>
+                    data-action='submit'>{% trans "Submit" %}</button>
                 {% endif %}
             </div>
         </form>

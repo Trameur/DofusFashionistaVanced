@@ -5231,23 +5231,23 @@ msgstr "Après avoir frappé une Proie 5x"
 
 #: fashionsite/chardata/translation_util.py:699
 msgid "Hit in best element"
-msgstr "Hit in best element"
+msgstr "Frappe dans le meilleur element"
 
 #: fashionsite/chardata/translation_util.py:700
 msgid "Steals in best element"
-msgstr "Steals in best element"
+msgstr "Vole dans le meilleur element"
 
 #: fashionsite/chardata/translation_util.py:701
 msgid "On ennemy"
-msgstr "On ennemy"
+msgstr "Sur l'ennemi"
 
 #: fashionsite/chardata/translation_util.py:702
 msgid "On caster"
-msgstr "On caster"
+msgstr "Sur le lanceur"
 
 #: fashionsite/chardata/translation_util.py:703
 msgid "Hit in worst element"
-msgstr "Hit in worst element"
+msgstr "Frappe dans le pire element"
 
 #: fashionsite/chardata/translation_util.py:704
 #, fuzzy
@@ -5257,11 +5257,11 @@ msgstr "Dommages Poussée"
 
 #: fashionsite/chardata/translation_util.py:705
 msgid "If pushed or attracted"
-msgstr "If pushed or attracted"
+msgstr "Si pousse ou attire"
 
 #: fashionsite/chardata/translation_util.py:706
 msgid "Sober"
-msgstr "Sober"
+msgstr "Sobre"
 
 #: fashionsite/chardata/translation_util.py:707
 msgid "Drunk"
@@ -5561,6 +5561,27 @@ msgid ""
 msgstr ""
 "Aucun build partagé trouvé correspondant à vos critères. Essayez d'ajuster "
 "vos filtres."
+
+msgid "Theme"
+msgstr "Theme"
+
+msgid "Light Theme"
+msgstr "Theme clair"
+
+msgid "Dark Theme"
+msgstr "Theme sombre"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "Submit"
+msgstr "Envoyer"
+
+msgid "Final Damage"
+msgstr "Degats finaux"
+
+msgid "Final Heals"
+msgstr "Soins finaux"
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"

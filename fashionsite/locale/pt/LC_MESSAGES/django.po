@@ -4963,6 +4963,30 @@ msgstr ""
 "Nenhum build compartilhado encontrado que corresponda aos seus critérios. "
 "Tente ajustar seus filtros."
 
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Light Theme"
+msgstr "Tema claro"
+
+msgid "Dark Theme"
+msgstr "Tema escuro"
+
+msgid "Auto"
+msgstr "Automatico"
+
+msgid "Submit"
+msgstr "Enviar"
+
+msgid "Final Damage"
+msgstr "Dano final"
+
+msgid "Final Heals"
+msgstr "Curas finais"
+
+msgid "Hit in best element"
+msgstr "Golpeia no melhor elemento"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

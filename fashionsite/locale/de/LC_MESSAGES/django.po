@@ -2199,10 +2199,7 @@ msgid ""
 "    This set was generated from scratch. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose items and build a set for you."
 msgstr ""
 "\n"
-"Dieses Set wurde von Grund auf neu erstellt. Klicken Sie auf die "
-"Schaltflächen „Hinzufügen“ (<img style='position: relative; unten: -4px; "
-"links: 1px;' src=%(add)s title='Add'>), um Elemente auszuwählen und ein Set "
-"für Sie zu erstellen."
+"Dieses Set wurde von Grund auf neu erstellt. Klicken Sie auf die Schaltflächen „Hinzufügen“ (<img style='position: relative; unten: -4px; links: 1px;' src=%(add)s title='Add'>), um Elemente auszuwählen und ein Set für Sie zu erstellen."
 
 #: chardata/templates/chardata/solution.html:42
 #: chardata/templates/chardata/solution.html:72
@@ -4971,3 +4968,27 @@ msgid ""
 msgstr ""
 "Keine geteilten Builds gefunden, die Ihren Kriterien entsprechen. Versuchen "
 "Sie, Ihre Filter anzupassen."
+
+msgid "Theme"
+msgstr "Thema"
+
+msgid "Light Theme"
+msgstr "Helles Design"
+
+msgid "Dark Theme"
+msgstr "Dunkles Design"
+
+msgid "Auto"
+msgstr "Automatisch"
+
+msgid "Submit"
+msgstr "Senden"
+
+msgid "Final Damage"
+msgstr "Endschaden"
+
+msgid "Final Heals"
+msgstr "Endheilung"
+
+msgid "Hit in best element"
+msgstr "Treffer im besten Element"
