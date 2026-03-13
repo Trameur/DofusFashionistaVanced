@@ -194,8 +194,15 @@ def evolve_result_item(result_item, r=None):
                             'max': hit.max_dam,
                             'element': LOCALIZED_ELEMENTS[hit.element]}
             elif hit.heals:
-                line = _('%(min)d to %(max)d (HP restored)' ) % {'min': hit.min_dam, 
-                            'max': hit.max_dam}
+                if hasattr(hit, 'element') and hit.element in LOCALIZED_ELEMENTS:
+                    line = _('%(min)d to %(max)d %(element)s heals' ) % {
+                        'min': hit.min_dam,
+                        'max': hit.max_dam,
+                        'element': LOCALIZED_ELEMENTS[hit.element]
+                    }
+                else:
+                    line = _('%(min)d to %(max)d (HP restored)' ) % {'min': hit.min_dam,
+                                'max': hit.max_dam}
             elif hasattr(hit, 'element') and hit.element == 'pushes':
                 if hit.min_dam == hit.max_dam:
                     line = _('Pushes %(cells)d cells') % {'cells': hit.min_dam}

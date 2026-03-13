@@ -338,6 +338,11 @@ msgstr "%(min)d a %(max)d (PV restaurados)"
 
 #: chardata/solution_result.py:200
 #, python-format
+msgid "%(min)d to %(max)d %(element)s heals"
+msgstr "%(min)d a %(max)d curas %(element)s"
+
+#: chardata/solution_result.py:200
+#, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
 msgstr "%(min)d a %(max)d (%(element)s)"
 
