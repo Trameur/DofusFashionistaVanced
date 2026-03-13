@@ -7,8 +7,8 @@ fashionsite/staticfiles/chardata/spells/Con.png
 /logs
 /itemscraper/raw
 migrated_data.json
-itemscraper/transformed_spells.json
-itemscraper/transformed_class_spells.json
 itemscraper/spell_icons_test
 itemscraper/spell_images
 fashionsite/chardata/static/chardata/spells/Con.png
+itemscraper/transformed_spells.json
+itemscraper/transformed_class_spells.json

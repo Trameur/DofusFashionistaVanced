@@ -8,11 +8,26 @@ from pathlib import Path
 from typing import Dict
 
 LANGUAGES = ("en", "fr", "es", "pt", "de")
+SPELL_NAMES_JSON = Path(__file__).resolve().parents[2] / "itemscraper" / "transformed_spell_names.json"
 SPELLS_JSON = Path(__file__).resolve().parents[2] / "itemscraper" / "transformed_spells.json"
 
 
 @lru_cache(maxsize=1)
 def _spell_name_map() -> Dict[str, Dict[str, str]]:
+    if SPELL_NAMES_JSON.exists():
+        with SPELL_NAMES_JSON.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+        if isinstance(payload, dict):
+            return {
+                str(name_en): {
+                    lang: str(localized)
+                    for lang, localized in names.items()
+                    if lang in LANGUAGES and isinstance(localized, str) and localized.strip()
+                }
+                for name_en, names in payload.items()
+                if isinstance(names, dict)
+            }
+
     if not SPELLS_JSON.exists():
         return {}
 
