@@ -45,9 +45,36 @@
 }
 .encyclopedia-stat-row {
     display: grid;
-    grid-template-columns: minmax(180px, 1fr) 120px;
+    grid-template-columns: minmax(180px, 1fr) minmax(120px, 180px) auto;
     gap: 8px;
     margin-top: 8px;
+    align-items: end;
+}
+.encyclopedia-stat-row label {
+    display: block;
+    margin-bottom: 4px;
+}
+.encyclopedia-stat-row input,
+.encyclopedia-stat-row select {
+    width: 100%;
+    box-sizing: border-box;
+}
+.encyclopedia-stat-row-actions {
+    display: flex;
+    align-items: end;
+}
+.encyclopedia-small-btn {
+    border-radius: 4px;
+    border: 1px solid #888;
+    background: #5f5f5f;
+    color: white;
+    text-decoration: none;
+    padding: 7px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.encyclopedia-small-btn-danger {
+    background: #7b5555;
 }
 .encyclopedia-actions {
     margin-top: 12px;
@@ -125,6 +152,9 @@
     .encyclopedia-stat-row {
         grid-template-columns: 1fr;
     }
+    .encyclopedia-stat-row-actions {
+        align-items: stretch;
+    }
 }
 </style>
 {% endblock %}
@@ -161,50 +191,30 @@
 
         <div class="encyclopedia-stat-filters">
             <b>{{ t.stat_filters }}</b>
-            <div class="encyclopedia-stat-row">
-                <div>
-                    <label for="stat1">{{ t.stat_label }} 1</label>
-                    <select id="stat1" name="stat1">
-                        <option value="">-</option>
-                        {% for option in stat_options %}
-                            <option value="{{ option.key }}" {% if selected_stat1_key == option.key %}selected{% endif %}>{{ option.name }}</option>
-                        {% endfor %}
-                    </select>
+            <div id="stat-filter-list">
+                {% for stat_row in selected_stat_rows %}
+                <div class="encyclopedia-stat-row">
+                    <div>
+                        <label>{{ t.stat_label }}</label>
+                        <select name="stat_key">
+                            <option value="">-</option>
+                            {% for option in stat_options %}
+                                <option value="{{ option.key }}" {% if stat_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label>{{ t.min_value_label }}</label>
+                        <input type="number" min="1" name="stat_min" value="{{ stat_row.min }}">
+                    </div>
+                    <div class="encyclopedia-stat-row-actions">
+                        <button type="button" class="encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{{ t.remove_stat_filter }}</button>
+                    </div>
                 </div>
-                <div>
-                    <label for="stat1_min">{{ t.min_value_label }}</label>
-                    <input id="stat1_min" type="number" min="1" name="stat1_min" value="{{ selected_stat1_min }}">
-                </div>
+                {% endfor %}
             </div>
-            <div class="encyclopedia-stat-row">
-                <div>
-                    <label for="stat2">{{ t.stat_label }} 2</label>
-                    <select id="stat2" name="stat2">
-                        <option value="">-</option>
-                        {% for option in stat_options %}
-                            <option value="{{ option.key }}" {% if selected_stat2_key == option.key %}selected{% endif %}>{{ option.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="stat2_min">{{ t.min_value_label }}</label>
-                    <input id="stat2_min" type="number" min="1" name="stat2_min" value="{{ selected_stat2_min }}">
-                </div>
-            </div>
-            <div class="encyclopedia-stat-row">
-                <div>
-                    <label for="stat3">{{ t.stat_label }} 3</label>
-                    <select id="stat3" name="stat3">
-                        <option value="">-</option>
-                        {% for option in stat_options %}
-                            <option value="{{ option.key }}" {% if selected_stat3_key == option.key %}selected{% endif %}>{{ option.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="stat3_min">{{ t.min_value_label }}</label>
-                    <input id="stat3_min" type="number" min="1" name="stat3_min" value="{{ selected_stat3_min }}">
-                </div>
+            <div class="encyclopedia-actions">
+                <button type="button" class="encyclopedia-small-btn" id="add-stat-filter">{{ t.add_stat_filter }}</button>
             </div>
         </div>
 
@@ -213,6 +223,69 @@
             <a class="encyclopedia-btn encyclopedia-btn-secondary" href="{% url 'encyclopedia' %}">{{ t.clear_filters }}</a>
         </div>
     </form>
+
+    <template id="stat-filter-template">
+        <div class="encyclopedia-stat-row">
+            <div>
+                <label>{{ t.stat_label }}</label>
+                <select name="stat_key">
+                    <option value="">-</option>
+                    {% for option in stat_options %}
+                        <option value="{{ option.key }}">{{ option.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label>{{ t.min_value_label }}</label>
+                <input type="number" min="1" name="stat_min" value="">
+            </div>
+            <div class="encyclopedia-stat-row-actions">
+                <button type="button" class="encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{{ t.remove_stat_filter }}</button>
+            </div>
+        </div>
+    </template>
+
+    <script>
+    (function() {
+        var list = document.getElementById('stat-filter-list');
+        var template = document.getElementById('stat-filter-template');
+        var addButton = document.getElementById('add-stat-filter');
+
+        function updateRemoveButtons() {
+            var rows = list.querySelectorAll('.encyclopedia-stat-row');
+            rows.forEach(function(row) {
+                var removeButton = row.querySelector('.remove-stat-filter');
+                if (removeButton) {
+                    removeButton.disabled = rows.length === 1;
+                }
+            });
+        }
+
+        function bindRemoveButtons(scope) {
+            var buttons = scope.querySelectorAll('.remove-stat-filter');
+            buttons.forEach(function(button) {
+                button.onclick = function() {
+                    var rows = list.querySelectorAll('.encyclopedia-stat-row');
+                    if (rows.length <= 1) {
+                        return;
+                    }
+                    button.closest('.encyclopedia-stat-row').remove();
+                    updateRemoveButtons();
+                };
+            });
+        }
+
+        addButton.addEventListener('click', function() {
+            var fragment = template.content.cloneNode(true);
+            bindRemoveButtons(fragment);
+            list.appendChild(fragment);
+            updateRemoveButtons();
+        });
+
+        bindRemoveButtons(document);
+        updateRemoveButtons();
+    })();
+    </script>
 
     <div class="encyclopedia-results-header">{{ t.results }}: {{ items_count }}</div>
 

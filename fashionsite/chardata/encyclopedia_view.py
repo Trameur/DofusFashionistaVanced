@@ -26,6 +26,8 @@ LOCALIZED_UI = {
         'stat_filters': 'Stat filters (minimum value)',
         'stat_label': 'Stat',
         'min_value_label': 'Min value',
+        'add_stat_filter': 'Add stat filter',
+        'remove_stat_filter': 'Remove',
         'apply_filters': 'Apply filters',
         'clear_filters': 'Clear',
         'results': 'Results',
@@ -54,6 +56,8 @@ LOCALIZED_UI = {
         'stat_filters': 'Filtres de caracteristiques (valeur minimale)',
         'stat_label': 'Caracteristique',
         'min_value_label': 'Valeur min',
+        'add_stat_filter': 'Ajouter un filtre',
+        'remove_stat_filter': 'Supprimer',
         'apply_filters': 'Appliquer les filtres',
         'clear_filters': 'Effacer',
         'results': 'Resultats',
@@ -82,6 +86,8 @@ LOCALIZED_UI = {
         'stat_filters': 'Filtros de estadisticas (valor minimo)',
         'stat_label': 'Estadistica',
         'min_value_label': 'Valor min',
+        'add_stat_filter': 'Agregar filtro',
+        'remove_stat_filter': 'Eliminar',
         'apply_filters': 'Aplicar filtros',
         'clear_filters': 'Limpiar',
         'results': 'Resultados',
@@ -110,6 +116,8 @@ LOCALIZED_UI = {
         'stat_filters': 'Filtros de atributos (valor minimo)',
         'stat_label': 'Atributo',
         'min_value_label': 'Valor min',
+        'add_stat_filter': 'Adicionar filtro',
+        'remove_stat_filter': 'Remover',
         'apply_filters': 'Aplicar filtros',
         'clear_filters': 'Limpar',
         'results': 'Resultados',
@@ -138,6 +146,8 @@ LOCALIZED_UI = {
         'stat_filters': 'Stat-Filter (Mindestwert)',
         'stat_label': 'Stat',
         'min_value_label': 'Min Wert',
+        'add_stat_filter': 'Filter hinzufugen',
+        'remove_stat_filter': 'Entfernen',
         'apply_filters': 'Filter anwenden',
         'clear_filters': 'Zuruecksetzen',
         'results': 'Ergebnisse',
@@ -336,18 +346,28 @@ def encyclopedia(request):
     max_level = safe_int(request.GET.get('max_level'), None)
 
     selected_stat_filters = []
-    selected_stats = {
-        1: {'key': '', 'min': ''},
-        2: {'key': '', 'min': ''},
-        3: {'key': '', 'min': ''},
-    }
-    for idx in range(1, 4):
-        stat_key = (request.GET.get('stat%d' % idx) or '').strip()
-        stat_min = safe_int(request.GET.get('stat%d_min' % idx), None)
-        selected_stats[idx] = {
+    selected_stat_rows = []
+
+    stat_keys = request.GET.getlist('stat_key')
+    stat_mins = request.GET.getlist('stat_min')
+
+    if not stat_keys and not stat_mins:
+        # Backward compatibility with earlier indexed query params.
+        idx = 1
+        while ('stat%d' % idx) in request.GET or ('stat%d_min' % idx) in request.GET:
+            stat_keys.append(request.GET.get('stat%d' % idx, ''))
+            stat_mins.append(request.GET.get('stat%d_min' % idx, ''))
+            idx += 1
+
+    row_count = max(len(stat_keys), len(stat_mins), 1)
+    for idx in range(row_count):
+        stat_key = (stat_keys[idx] if idx < len(stat_keys) else '').strip()
+        stat_min_raw = (stat_mins[idx] if idx < len(stat_mins) else '').strip()
+        stat_min = safe_int(stat_min_raw, None)
+        selected_stat_rows.append({
             'key': stat_key,
-            'min': '' if stat_min is None else stat_min,
-        }
+            'min': '' if stat_min_raw == '' else stat_min_raw,
+        })
         if stat_key and stat_min is not None and stat_min > 0:
             selected_stat_filters.append((stat_key, stat_min))
 
@@ -439,12 +459,7 @@ def encyclopedia(request):
             'max_level': '' if max_level is None else max_level,
             'type_names': TYPE_NAMES,
             'selected_stat_filters': selected_stat_filters,
-            'selected_stat1_key': selected_stats[1]['key'],
-            'selected_stat1_min': selected_stats[1]['min'],
-            'selected_stat2_key': selected_stats[2]['key'],
-            'selected_stat2_min': selected_stats[2]['min'],
-            'selected_stat3_key': selected_stats[3]['key'],
-            'selected_stat3_min': selected_stats[3]['min'],
+            'selected_stat_rows': selected_stat_rows,
             'stat_options': stat_options,
             'page_query_prefix': page_query_prefix,
         },
