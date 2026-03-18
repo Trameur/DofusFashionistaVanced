@@ -97,6 +97,14 @@
     font-size: 0.95em;
     margin: 3px 0;
 }
+.encyclopedia-card-stats {
+    margin: 6px 0;
+    font-size: 0.92em;
+    line-height: 1.25;
+}
+.encyclopedia-card-stat-negative {
+    color: #ff9c9c;
+}
 .encyclopedia-pagination {
     margin-top: 14px;
     display: flex;
@@ -218,6 +226,17 @@
             <div>
                 <div class="encyclopedia-card-name">{{ item.name }}</div>
                 <div class="encyclopedia-card-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                {% if item.stat_lines %}
+                <div class="encyclopedia-card-stats">
+                    {% for stat_line in item.stat_lines %}
+                        {% if stat_line.negative %}
+                        <div class="encyclopedia-card-stat-negative">{{ stat_line.text }}</div>
+                        {% else %}
+                        <div>{{ stat_line.text }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
                 {% if item.detail_url %}
                 <a href="{{ item.detail_url }}">{{ t.open_item }}</a>
                 {% endif %}
