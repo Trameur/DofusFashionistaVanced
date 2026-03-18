@@ -1,6 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 import re
+from django.utils.translation import gettext as _
 
 from chardata.image_store import get_image_url
 from chardata.official_site import get_item_link
@@ -36,6 +37,8 @@ LOCALIZED_UI = {
         'set_label': 'Set',
         'stats_label': 'Stats',
         'conditions_label': 'Conditions',
+        'or_label': 'OR',
+        'and_label': 'AND',
         'extra_effects_label': 'Extra effects',
         'item_not_found': 'Item not found in the encyclopedia.',
     },
@@ -62,6 +65,8 @@ LOCALIZED_UI = {
         'set_label': 'Panoplie',
         'stats_label': 'Caracteristiques',
         'conditions_label': 'Conditions',
+        'or_label': 'OU',
+        'and_label': 'ET',
         'extra_effects_label': 'Effets supplementaires',
         'item_not_found': 'Objet introuvable dans encyclopedie.',
     },
@@ -88,6 +93,8 @@ LOCALIZED_UI = {
         'set_label': 'Set',
         'stats_label': 'Estadisticas',
         'conditions_label': 'Condiciones',
+        'or_label': 'O',
+        'and_label': 'Y',
         'extra_effects_label': 'Efectos extra',
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
     },
@@ -114,6 +121,8 @@ LOCALIZED_UI = {
         'set_label': 'Conjunto',
         'stats_label': 'Atributos',
         'conditions_label': 'Condicoes',
+        'or_label': 'OU',
+        'and_label': 'E',
         'extra_effects_label': 'Efeitos extras',
         'item_not_found': 'Item nao encontrado na enciclopedia.',
     },
@@ -140,6 +149,8 @@ LOCALIZED_UI = {
         'set_label': 'Set',
         'stats_label': 'Werte',
         'conditions_label': 'Bedingungen',
+        'or_label': 'ODER',
+        'and_label': 'UND',
         'extra_effects_label': 'Zusatzeffekte',
         'item_not_found': 'Gegenstand nicht in der Enzyklopaedie gefunden.',
     },
@@ -178,6 +189,26 @@ def _get_stats_map(item):
     return stats
 
 
+def _get_stat_lines(structure, item):
+    stat_lines = []
+    for stat_id, stat_value in sorted(
+        item.stats,
+        key=lambda stat_pair: STAT_ORDER.get(structure.get_stat_by_id(stat_pair[0]).key, 9999),
+    ):
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is None:
+            continue
+        stat_lines.append({
+            'text': '%d%s%s' % (
+                stat_value,
+                '' if stat.name.startswith('%') else ' ',
+                _(stat.name),
+            ),
+            'negative': stat_value < 0,
+        })
+    return stat_lines
+
+
 def _item_matches_search(structure, item, search_text, language):
     if not search_text:
         return True
@@ -196,6 +227,90 @@ def _collect_unique_items(structure):
             seen_ids.add(item.id)
             items.append(item)
     return items
+
+
+def _get_item_group_key(item):
+    ankama_type = (item.ankama_type or '').strip().lower()
+    if item.ankama_id and ankama_type:
+        return ('ankama', ankama_type, int(item.ankama_id))
+    return ('item', int(item.id))
+
+
+def _get_group_representative(items):
+    # Prefer active entries, then lower item id for deterministic behavior.
+    sorted_items = sorted(items, key=lambda current: (current.removed, current.id))
+    return sorted_items[0]
+
+
+def _split_variant_suffix(name):
+    if not name:
+        return '', False
+
+    value = name.strip()
+    patterns = [
+        r'^(.*?)(?:\s*\(#\d+\))$',
+        r'^(.*?)(?:\s*#\d+)$',
+        r'^(.*?)(?:\s+\d+)$',
+    ]
+
+    for pattern in patterns:
+        match = re.match(pattern, value)
+        if match is not None:
+            base = match.group(1).strip(' -_')
+            return base, True
+
+    return value, False
+
+
+def _get_display_name_for_group(structure, variant_items, language):
+    representative = _get_group_representative(variant_items)
+    representative_name = structure.get_item_name_in_language(representative, language)
+
+    if len(variant_items) < 2:
+        return representative_name
+
+    base_names = []
+    all_have_suffix = True
+    for variant in variant_items:
+        variant_name = structure.get_item_name_in_language(variant, language)
+        base_name, has_suffix = _split_variant_suffix(variant_name)
+        all_have_suffix = all_have_suffix and has_suffix
+        base_names.append(base_name)
+
+    if all_have_suffix and len({_normalized_text(name) for name in base_names}) == 1:
+        return base_names[0]
+
+    return representative_name
+
+
+def _format_condition_groups(structure, variant_items):
+    groups = []
+    for variant in variant_items:
+        parts = []
+        for stat_id, stat_value in sorted(
+            variant.min_stats_to_equip,
+            key=lambda pair: STAT_ORDER.get(structure.get_stat_by_id(pair[0]).key, 9999),
+        ):
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is None:
+                continue
+            # Keep legacy wording used elsewhere in project: "Stat > value-1".
+            parts.append('%s > %d' % (stat.name, stat_value - 1))
+
+        for stat_id, stat_value in sorted(
+            variant.max_stats_to_equip,
+            key=lambda pair: STAT_ORDER.get(structure.get_stat_by_id(pair[0]).key, 9999),
+        ):
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is None:
+                continue
+            # Keep legacy wording used elsewhere in project: "Stat < value+1".
+            parts.append('%s < %d' % (stat.name, stat_value + 1))
+
+        if parts:
+            groups.append(parts)
+
+    return groups
 
 
 def _get_ankama_type_aliases(ankama_type):
@@ -237,9 +352,17 @@ def encyclopedia(request):
             selected_stat_filters.append((stat_key, stat_min))
 
     all_items = _collect_unique_items(structure)
+    grouped_items = {}
+    for item in all_items:
+        group_key = _get_item_group_key(item)
+        grouped_items.setdefault(group_key, []).append(item)
+
     filtered_items = []
 
-    for item in all_items:
+    for _, variants in grouped_items.items():
+        item = _get_group_representative(variants)
+        display_name = _get_display_name_for_group(structure, variants, language)
+        stat_lines = _get_stat_lines(structure, item)
         type_name = structure.get_type_name_by_id(item.type)
         if selected_type and type_name != selected_type:
             continue
@@ -259,18 +382,18 @@ def encyclopedia(request):
         if stat_filter_failed:
             continue
 
-        localized_name = structure.get_item_name_in_language(item, language)
-        detail_url = get_item_link(item.ankama_type, item.ankama_id, localized_name)
+        detail_url = get_item_link(item.ankama_type, item.ankama_id, display_name)
         filtered_items.append({
             'id': item.id,
             'ankama_id': item.ankama_id,
             'ankama_type': item.ankama_type,
-            'name': localized_name,
+            'name': display_name,
             'or_name': item.or_name,
             'level': item.level,
             'type_name': type_name,
             'image_url': static(get_image_url(type_name, item.name)),
             'detail_url': detail_url,
+            'stat_lines': stat_lines,
             'stats_map': stats_map,
         })
 
@@ -379,13 +502,24 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     if matched_item is None:
         raise Http404(t['item_not_found'])
 
-    localized_name = structure.get_item_name_in_language(matched_item, language)
-    type_name = structure.get_type_name_by_id(matched_item.type)
-    item_set = structure.get_set_by_id(matched_item.set) if matched_item.set is not None else None
+    group_key = _get_item_group_key(matched_item)
+    grouped_variants = [
+        item for item in structure.get_concatenated_items_lists()
+        if _get_item_group_key(item) == group_key
+    ]
+    if not grouped_variants:
+        grouped_variants = [matched_item]
+
+    representative_item = _get_group_representative(grouped_variants)
+
+    localized_name = _get_display_name_for_group(structure, grouped_variants, language)
+    type_name = structure.get_type_name_by_id(representative_item.type)
+    item_set = (structure.get_set_by_id(representative_item.set)
+                if representative_item.set is not None else None)
 
     stat_lines = []
     for stat_id, stat_value in sorted(
-        matched_item.stats,
+        representative_item.stats,
         key=lambda stat_pair: STAT_ORDER.get(structure.get_stat_by_id(stat_pair[0]).key, 9999),
     ):
         stat = structure.get_stat_by_id(stat_id)
@@ -396,28 +530,11 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'value': stat_value,
         })
 
-    condition_lines = []
-    for stat_id, stat_value in sorted(
-        matched_item.min_stats_to_equip,
-        key=lambda stat_pair: STAT_ORDER.get(structure.get_stat_by_id(stat_pair[0]).key, 9999),
-    ):
-        stat = structure.get_stat_by_id(stat_id)
-        if stat is None:
-            continue
-        condition_lines.append('>= %d %s' % (stat_value, stat.name))
+    condition_groups = _format_condition_groups(structure, grouped_variants)
 
-    for stat_id, stat_value in sorted(
-        matched_item.max_stats_to_equip,
-        key=lambda stat_pair: STAT_ORDER.get(structure.get_stat_by_id(stat_pair[0]).key, 9999),
-    ):
-        stat = structure.get_stat_by_id(stat_id)
-        if stat is None:
-            continue
-        condition_lines.append('<= %d %s' % (stat_value, stat.name))
-
-    extras = matched_item.localized_extras.get(language)
+    extras = representative_item.localized_extras.get(language)
     if extras is None:
-        extras = matched_item.localized_extras.get('en', [])
+        extras = representative_item.localized_extras.get('en', [])
 
     return set_response(
         request,
@@ -428,16 +545,16 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             't': t,
             'item': {
                 'name': localized_name,
-                'or_name': matched_item.or_name,
-                'level': matched_item.level,
+                'or_name': representative_item.or_name,
+                'level': representative_item.level,
                 'type_name': type_name,
-                'ankama_id': matched_item.ankama_id,
-                'ankama_type': matched_item.ankama_type,
-                'image_url': static(get_image_url(type_name, matched_item.name)),
+                'ankama_id': representative_item.ankama_id,
+                'ankama_type': representative_item.ankama_type,
+                'image_url': static(get_image_url(type_name, representative_item.name)),
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
             'stats': stat_lines,
-            'conditions': condition_lines,
+            'condition_groups': condition_groups,
             'extras': extras,
         },
     )

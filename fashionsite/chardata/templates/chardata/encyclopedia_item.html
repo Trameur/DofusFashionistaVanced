@@ -72,12 +72,20 @@
             </ul>
         </div>
 
-        {% if conditions %}
+        {% if condition_groups %}
         <div class="encyclopedia-section">
             <b>{{ t.conditions_label }}</b>
             <ul class="encyclopedia-list">
-                {% for condition in conditions %}
-                <li>{{ condition }}</li>
+                {% for group in condition_groups %}
+                <li>
+                    {% for condition in group %}
+                        {% if not forloop.first %} {{ t.and_label }} {% endif %}
+                        {{ condition }}
+                    {% endfor %}
+                </li>
+                {% if not forloop.last %}
+                <li><b>{{ t.or_label }}</b></li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>
