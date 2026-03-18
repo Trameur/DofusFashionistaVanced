@@ -1,0 +1,251 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ t.title }}{% endblock %}
+
+{% block css %}
+<style>
+.encyclopedia-page {
+    padding: 12px;
+}
+.encyclopedia-title {
+    margin: 4px 0;
+}
+.encyclopedia-subtitle {
+    margin: 2px 0 16px;
+    color: #ddd;
+}
+.encyclopedia-filter-box {
+    border: 1px solid #4b4b4b;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.12);
+}
+.encyclopedia-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+.encyclopedia-filter-grid label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.encyclopedia-filter-grid input,
+.encyclopedia-filter-grid select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+    border-radius: 4px;
+    border: 1px solid #777;
+}
+.encyclopedia-stat-filters {
+    margin-top: 12px;
+}
+.encyclopedia-stat-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 120px;
+    gap: 8px;
+    margin-top: 8px;
+}
+.encyclopedia-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.encyclopedia-btn {
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid #888;
+    background: #5d6b8c;
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.encyclopedia-btn-secondary {
+    background: #5f5f5f;
+}
+.encyclopedia-results-header {
+    margin: 12px 0 8px;
+    font-weight: 700;
+}
+.encyclopedia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+}
+.encyclopedia-card {
+    display: flex;
+    gap: 10px;
+    border: 1px solid #4b4b4b;
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.18);
+}
+.encyclopedia-card img {
+    width: 60px;
+    height: 60px;
+}
+.encyclopedia-card-name {
+    font-weight: 700;
+}
+.encyclopedia-card-meta {
+    color: #e0e0e0;
+    font-size: 0.95em;
+    margin: 3px 0;
+}
+.encyclopedia-pagination {
+    margin-top: 14px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+.encyclopedia-page-link {
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 5px 8px;
+    text-decoration: none;
+    color: #fff;
+}
+.encyclopedia-page-link-current {
+    background: #5d6b8c;
+}
+@media (max-width: 600px) {
+    .encyclopedia-stat-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="encyclopedia-page">
+    <h1 class="encyclopedia-title">{{ t.title }}</h1>
+    <p class="encyclopedia-subtitle">{{ t.subtitle }}</p>
+
+    <form method="get" class="encyclopedia-filter-box">
+        <div class="encyclopedia-filter-grid">
+            <div>
+                <label for="q">{{ t.search_label }}</label>
+                <input id="q" type="text" name="q" value="{{ search_text }}" placeholder="{{ t.search_placeholder }}">
+            </div>
+            <div>
+                <label for="type">{{ t.type_label }}</label>
+                <select id="type" name="type">
+                    <option value="">{{ t.all_types }}</option>
+                    {% for type_name in type_names %}
+                    <option value="{{ type_name }}" {% if type_name == selected_type %}selected{% endif %}>{{ type_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="min_level">{{ t.min_level }}</label>
+                <input id="min_level" type="number" min="1" max="200" name="min_level" value="{{ min_level }}">
+            </div>
+            <div>
+                <label for="max_level">{{ t.max_level }}</label>
+                <input id="max_level" type="number" min="1" max="200" name="max_level" value="{{ max_level }}">
+            </div>
+        </div>
+
+        <div class="encyclopedia-stat-filters">
+            <b>{{ t.stat_filters }}</b>
+            <div class="encyclopedia-stat-row">
+                <div>
+                    <label for="stat1">{{ t.stat_label }} 1</label>
+                    <select id="stat1" name="stat1">
+                        <option value="">-</option>
+                        {% for option in stat_options %}
+                            <option value="{{ option.key }}" {% if selected_stat1_key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="stat1_min">{{ t.min_value_label }}</label>
+                    <input id="stat1_min" type="number" min="1" name="stat1_min" value="{{ selected_stat1_min }}">
+                </div>
+            </div>
+            <div class="encyclopedia-stat-row">
+                <div>
+                    <label for="stat2">{{ t.stat_label }} 2</label>
+                    <select id="stat2" name="stat2">
+                        <option value="">-</option>
+                        {% for option in stat_options %}
+                            <option value="{{ option.key }}" {% if selected_stat2_key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="stat2_min">{{ t.min_value_label }}</label>
+                    <input id="stat2_min" type="number" min="1" name="stat2_min" value="{{ selected_stat2_min }}">
+                </div>
+            </div>
+            <div class="encyclopedia-stat-row">
+                <div>
+                    <label for="stat3">{{ t.stat_label }} 3</label>
+                    <select id="stat3" name="stat3">
+                        <option value="">-</option>
+                        {% for option in stat_options %}
+                            <option value="{{ option.key }}" {% if selected_stat3_key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="stat3_min">{{ t.min_value_label }}</label>
+                    <input id="stat3_min" type="number" min="1" name="stat3_min" value="{{ selected_stat3_min }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="encyclopedia-actions">
+            <button class="encyclopedia-btn" type="submit">{{ t.apply_filters }}</button>
+            <a class="encyclopedia-btn encyclopedia-btn-secondary" href="{% url 'encyclopedia' %}">{{ t.clear_filters }}</a>
+        </div>
+    </form>
+
+    <div class="encyclopedia-results-header">{{ t.results }}: {{ items_count }}</div>
+
+    {% if items_page.object_list %}
+    <div class="encyclopedia-grid">
+        {% for item in items_page.object_list %}
+        <div class="encyclopedia-card">
+            <div>
+                <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            </div>
+            <div>
+                <div class="encyclopedia-card-name">{{ item.name }}</div>
+                <div class="encyclopedia-card-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                {% if item.detail_url %}
+                <a href="{{ item.detail_url }}">{{ t.open_item }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if items_page.has_other_pages %}
+    <div class="encyclopedia-pagination">
+        {% if items_page.has_previous %}
+        <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ items_page.previous_page_number }}">&lt;</a>
+        {% endif %}
+        {% for page_num in items_page.paginator.page_range %}
+            {% if page_num == items_page.number %}
+                <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
+            {% elif page_num >= items_page.number|add:"-3" and page_num <= items_page.number|add:"3" %}
+                <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if items_page.has_next %}
+        <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ items_page.next_page_number }}">&gt;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <p>{{ t.no_results }}</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "chardata/base.html" %}
+
+{% block title %}{{ item.name }} - {{ t.title }}{% endblock %}
+
+{% block css %}
+<style>
+.encyclopedia-item {
+    padding: 12px;
+}
+.encyclopedia-item-card {
+    border: 1px solid #4b4b4b;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.18);
+    padding: 12px;
+}
+.encyclopedia-item-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.encyclopedia-item-head img {
+    width: 60px;
+    height: 60px;
+}
+.encyclopedia-item-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.encyclopedia-item-meta {
+    color: #ddd;
+}
+.encyclopedia-section {
+    margin-top: 14px;
+}
+.encyclopedia-list {
+    margin: 4px 0 0;
+    padding-left: 20px;
+}
+.encyclopedia-back {
+    margin-bottom: 10px;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="encyclopedia-item">
+    <div class="encyclopedia-back">
+        <a href="{% url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
+    </div>
+
+    <div class="encyclopedia-item-card">
+        <div class="encyclopedia-item-head">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <div>
+                <div class="encyclopedia-item-name">{{ item.name }}</div>
+                <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                <div class="encyclopedia-item-meta">ID: {{ item.ankama_id }} ({{ item.ankama_type }})</div>
+                {% if item_set_name %}
+                <div class="encyclopedia-item-meta">{{ t.set_label }}: {{ item_set_name }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="encyclopedia-section">
+            <b>{{ t.stats_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for stat in stats %}
+                <li>{{ stat.value }} {{ stat.name }}</li>
+                {% empty %}
+                <li>-</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if conditions %}
+        <div class="encyclopedia-section">
+            <b>{{ t.conditions_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for condition in conditions %}
+                <li>{{ condition }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if extras %}
+        <div class="encyclopedia-section">
+            <b>{{ t.extra_effects_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for extra in extras %}
+                <li>{{ extra }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
