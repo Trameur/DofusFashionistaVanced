@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import json
+import importlib
 import os
 import sqlite3
 import sys
@@ -11,11 +12,12 @@ PROJECT_ROOT = os.path.dirname(CURRENT_DIRECTORY)
 if PROJECT_ROOT not in sys.path:
     sys.path.append(PROJECT_ROOT)
 
-from fashionistapulp.fashionista_config import (
-    get_items_db_path,
-    load_items_db_from_dump,
-    save_items_db_to_dump,
-)
+try:
+    fashionista_config = importlib.import_module('fashionistapulp.fashionista_config')
+except ModuleNotFoundError:
+    fashionista_config = importlib.import_module('fashionistapulp.fashionistapulp.fashionista_config')
+
+get_items_db_path = fashionista_config.get_items_db_path
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
@@ -28,6 +30,96 @@ NAME_SOURCE_CATEGORIES = [
     'cosmetics',
     'mounts',
 ]
+
+
+def _find_base_dir(base_dir=None):
+    """Resolve the directory containing all_*_<lang>.json files.
+
+    Supports execution from both repository root and itemscraper directory.
+    """
+    candidates = []
+    if base_dir:
+        candidates.append(os.path.abspath(base_dir))
+    candidates.extend([
+        CURRENT_DIRECTORY,
+        os.getcwd(),
+        os.path.join(os.getcwd(), 'itemscraper'),
+        os.path.join(PROJECT_ROOT, 'itemscraper'),
+    ])
+
+    expected_file = 'all_equipment_en.json'
+    for candidate in candidates:
+        if os.path.exists(os.path.join(candidate, expected_file)):
+            return candidate
+
+    return os.path.abspath(base_dir) if base_dir else CURRENT_DIRECTORY
+
+
+def _get_items_dump_path():
+    return os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')
+
+
+def _sanitize_dump_sql(sql_script):
+    sanitized_lines = []
+    for line in sql_script.splitlines():
+        if 'sqlite_sequence' in line.lower():
+            continue
+        sanitized_lines.append(line)
+    return '\n'.join(sanitized_lines)
+
+
+def _load_db_from_dump(items_db_path):
+    dump_path = _get_items_dump_path()
+    if not os.path.exists(dump_path):
+        raise RuntimeError('Could not find item DB dump at %s' % dump_path)
+
+    with open(dump_path, 'r', encoding='utf-8') as in_file:
+        sql_script = _sanitize_dump_sql(in_file.read())
+
+    if os.path.exists(items_db_path):
+        os.remove(items_db_path)
+
+    conn = sqlite3.connect(items_db_path)
+    try:
+        conn.executescript('PRAGMA foreign_keys = OFF;')
+        conn.executescript(sql_script)
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _save_db_to_dump(items_db_path):
+    dump_path = _get_items_dump_path()
+    temp_dump_path = dump_path + '.tmp'
+    conn = sqlite3.connect(items_db_path)
+    try:
+        with open(temp_dump_path, 'w', encoding='utf-8') as out_file:
+            for statement in conn.iterdump():
+                out_file.write(statement)
+                out_file.write('\n')
+    finally:
+        conn.close()
+
+    os.replace(temp_dump_path, dump_path)
+
+
+def _open_items_db():
+    items_db_path = get_items_db_path()
+    os.makedirs(os.path.dirname(items_db_path), exist_ok=True)
+
+    needs_bootstrap = not os.path.exists(items_db_path)
+    if not needs_bootstrap:
+        conn = sqlite3.connect(items_db_path)
+        try:
+            cursor = conn.cursor()
+            needs_bootstrap = not _table_exists(cursor, 'items')
+        finally:
+            conn.close()
+
+    if needs_bootstrap:
+        _load_db_from_dump(items_db_path)
+
+    return sqlite3.connect(items_db_path)
 
 
 def _table_exists(cursor, table_name):
@@ -210,17 +302,27 @@ def _store_item_data(cursor, item_id, language, entry, ingredient_name_map):
         )
 
 
-def main(base_dir='itemscraper'):
-    base_dir = os.path.abspath(base_dir)
+def main(base_dir=None):
+    base_dir = _find_base_dir(base_dir)
+    print('Using scraper data directory: %s' % base_dir)
+
+    expected_equipment_file = os.path.join(base_dir, 'all_equipment_en.json')
+    if not os.path.exists(expected_equipment_file):
+        raise RuntimeError(
+            'Could not find all_equipment_en.json in %s. Run get_equipments.py first.' % base_dir
+        )
+
     equipment_payloads = {}
     for lang in LANGUAGES:
         equipment_path = os.path.join(base_dir, 'all_equipment_%s.json' % lang)
         equipment_payloads[lang] = _extract_entries(_load_json(equipment_path))
 
+    if not equipment_payloads.get('en'):
+        raise RuntimeError('Loaded 0 english equipment entries from %s.' % expected_equipment_file)
+
     ingredient_name_map = _load_name_maps(base_dir)
 
-    load_items_db_from_dump()
-    conn = sqlite3.connect(get_items_db_path())
+    conn = _open_items_db()
     cursor = conn.cursor()
     _ensure_tables(cursor)
 
@@ -243,9 +345,10 @@ def main(base_dir='itemscraper'):
 
     conn.commit()
     conn.close()
-    save_items_db_to_dump()
+    _save_db_to_dump(get_items_db_path())
     print('Stored item extra info for %d localized item rows (%d missing item ids).' % (upserts, missing))
 
 
 if __name__ == '__main__':
-    main()
+    provided_base_dir = sys.argv[1] if len(sys.argv) > 1 else None
+    main(provided_base_dir)
