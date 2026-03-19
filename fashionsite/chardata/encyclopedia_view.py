@@ -17,6 +17,74 @@ from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
 
+STAT_ICON_FILENAME_BY_KEY = {
+    'hp': 'Health_Points.png',
+    'vit': 'Vitality.png',
+    'str': 'Strength.png',
+    'int': 'Intelligence.png',
+    'cha': 'Chance.png',
+    'agi': 'Agility.png',
+    'wis': 'Wisdom.png',
+    'ap': 'AP.png',
+    'mp': 'MP.png',
+    'range': 'Range.png',
+    'summon': 'Summon.png',
+    'init': 'Initiative.png',
+    'pp': 'Prospecting.png',
+    'pod': 'Health_Points.png',
+    'lock': 'Lock.png',
+    'dodge': 'Dodge.png',
+    'pow': 'Neutral.png',
+    'dam': 'Neutral.png',
+    'heals': 'Health_Points.png',
+    'ch': 'Neutral.png',
+    'cf': 'Neutral.png',
+    'cridam': 'Neutral.png',
+    'crires': 'Neutral.png',
+    'pshdam': 'Neutral.png',
+    'pshres': 'Neutral.png',
+    'apred': 'AP.png',
+    'apres': 'AP.png',
+    'mpred': 'MP.png',
+    'mpres': 'MP.png',
+    'neutdam': 'Neutral.png',
+    'neutres': 'Neutral.png',
+    'neutresper': 'Neutral.png',
+    'earthdam': 'Strength.png',
+    'earthres': 'Strength.png',
+    'earthresper': 'Strength.png',
+    'firedam': 'Intelligence.png',
+    'fireres': 'Intelligence.png',
+    'fireresper': 'Intelligence.png',
+    'waterdam': 'Chance.png',
+    'waterres': 'Chance.png',
+    'waterresper': 'Chance.png',
+    'airdam': 'Agility.png',
+    'airres': 'Agility.png',
+    'airresper': 'Agility.png',
+    'pvpneutres': 'Neutral.png',
+    'pvpearthres': 'Strength.png',
+    'pvpfireres': 'Intelligence.png',
+    'pvpwaterres': 'Chance.png',
+    'pvpairres': 'Agility.png',
+    'pvpneutresper': 'Neutral.png',
+    'pvpearthresper': 'Strength.png',
+    'pvpfireresper': 'Intelligence.png',
+    'pvpwaterresper': 'Chance.png',
+    'pvpairresper': 'Agility.png',
+    'trapdam': 'Neutral.png',
+    'trapdamper': 'Neutral.png',
+    'permedam': 'Neutral.png',
+    'perrandam': 'Neutral.png',
+    'perweadam': 'Weapon.png',
+    'perspedam': 'Neutral.png',
+    'respermee': 'Neutral.png',
+    'resperran': 'Neutral.png',
+    'resperwea': 'Weapon.png',
+    'ref': 'Neutral.png',
+}
+
+
 LOCALIZED_UI = {
     'en': {
         'title': 'Encyclopedia',
@@ -206,6 +274,11 @@ LOCALIZED_UI = {
 }
 
 
+NON_SEARCHABLE_STAT_KEYS = {
+    'hp',
+}
+
+
 def _ui_text():
     language = get_supported_language()
     if language not in LOCALIZED_UI:
@@ -232,6 +305,19 @@ def _localized_label(label, language):
         return ''
     with translation.override(language):
         return _(label)
+
+
+def _is_searchable_stat_key(stat_key):
+    if not stat_key:
+        return False
+    return stat_key not in NON_SEARCHABLE_STAT_KEYS and not stat_key.startswith('pvp')
+
+
+def _get_stat_icon_url(stat_key):
+    icon_filename = STAT_ICON_FILENAME_BY_KEY.get(stat_key)
+    if icon_filename is None:
+        return None
+    return static('chardata/%s' % icon_filename)
 
 
 def _get_stats_map(item):
@@ -348,6 +434,7 @@ def _get_stat_lines(structure, item, language):
                 _localized_label(stat.name, language),
             ),
             'negative': stat_value < 0,
+            'icon_url': _get_stat_icon_url(stat.key),
         })
     return stat_lines
 
@@ -631,11 +718,15 @@ def encyclopedia(request):
         stat_key = (stat_keys[idx] if idx < len(stat_keys) else '').strip()
         stat_min_raw = (stat_mins[idx] if idx < len(stat_mins) else '').strip()
         stat_min = safe_int(stat_min_raw, None)
+
+        if stat_key and not _is_searchable_stat_key(stat_key):
+            stat_key = ''
+
         selected_stat_rows.append({
             'key': stat_key,
             'min': '' if stat_min_raw == '' else stat_min_raw,
         })
-        if stat_key and stat_min is not None and stat_min > 0:
+        if stat_key and stat_min is not None and stat_min > 0 and _is_searchable_stat_key(stat_key):
             selected_stat_filters.append((stat_key, stat_min))
 
     all_items = _collect_unique_items(structure)
@@ -710,6 +801,7 @@ def encyclopedia(request):
             'name': _localized_label(structure.get_stat_by_key(stat.key).name, language),
         }
         for stat in structure.get_stats_list()
+        if _is_searchable_stat_key(stat.key)
     ]
     stat_options = sorted(stat_options, key=lambda entry: STAT_ORDER.get(entry['key'], 9999))
 
@@ -821,6 +913,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         stat_lines.append({
             'name': _localized_label(stat.name, language),
             'value': stat_value,
+            'icon_url': _get_stat_icon_url(stat.key),
         })
 
     condition_groups = _format_condition_groups(structure, grouped_variants, language)
