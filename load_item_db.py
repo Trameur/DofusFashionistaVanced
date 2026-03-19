@@ -19,8 +19,24 @@
 import os
 import platform
 import sqlite3
+import importlib
 
-from fashionistapulp.fashionista_config import get_items_db_path, get_items_dump_path
+try:
+    fashionista_config = importlib.import_module('fashionistapulp.fashionista_config')
+except ModuleNotFoundError:
+    fashionista_config = importlib.import_module('fashionistapulp.fashionistapulp.fashionista_config')
+
+get_items_db_path = fashionista_config.get_items_db_path
+get_items_dump_path = fashionista_config.get_items_dump_path
+
+
+def _sanitize_dump_sql(sql_script):
+    sanitized_lines = []
+    for line in sql_script.splitlines():
+        if 'sqlite_sequence' in line.lower():
+            continue
+        sanitized_lines.append(line)
+    return '\n'.join(sanitized_lines)
 
 def main():
     items_db_path = get_items_db_path()
@@ -34,30 +50,14 @@ def main():
     if platform.system() == 'Windows':
         print(f"Importing database from {dumped_db_path} to {items_db_path}")
         try:
-            # Ouvrir le fichier dump et diviser les instructions SQL
+            # Executescript handles semicolons in SQL strings correctly.
             with open(dumped_db_path, 'r', encoding='utf-8') as f:
                 sql_script = f.read()
+            sql_script = _sanitize_dump_sql(sql_script)
 
-            # Créer une connexion à la base de données
             conn = sqlite3.connect(items_db_path)
-            cursor = conn.cursor()
-
-            # Activer le mode continue on error
             conn.executescript("PRAGMA foreign_keys = OFF;")
-
-            # Diviser le script en instructions individuelles et les exécuter
-            # Ignorer les erreurs "table already exists"
-            statements = sql_script.split(';')
-            for statement in statements:
-                statement = statement.strip()
-                if statement:
-                    try:
-                        cursor.execute(statement + ';')
-                    except sqlite3.Error as e:
-                        # Ignorer les erreurs "table already exists"
-                        if "already exists" not in str(e):
-                            print(f"Error executing statement: {e}")
-
+            conn.executescript(sql_script)
             conn.commit()
             conn.close()
             print("Database import completed successfully.")
