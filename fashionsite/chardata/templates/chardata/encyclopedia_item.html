@@ -8,10 +8,10 @@
     padding: 12px;
 }
 .encyclopedia-item-card {
-    border: 1px solid #4b4b4b;
+    border: 1px solid rgba(61, 32, 13, 0.25);
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.18);
     padding: 12px;
+    box-sizing: border-box;
 }
 .encyclopedia-item-head {
     display: flex;
@@ -27,7 +27,7 @@
     font-weight: 700;
 }
 .encyclopedia-item-meta {
-    color: #ddd;
+    opacity: 0.9;
 }
 .encyclopedia-section {
     margin-top: 14px;
@@ -39,16 +39,32 @@
 .encyclopedia-back {
     margin-bottom: 10px;
 }
+.encyclopedia-back a {
+    text-decoration: underline;
+}
+
+/* Improve readability when the active site theme is dark. */
+.dark-theme-active .encyclopedia-item-card {
+    border-color: #5a5a5a;
+    background: #1f1f1f;
+}
+.dark-theme-active .encyclopedia-item-meta {
+    opacity: 1;
+    color: #f0f0f0;
+}
+.dark-theme-active .encyclopedia-item a {
+    color: #ffd8a8;
+}
 </style>
 {% endblock %}
 
 {% block main %}
-<div class="encyclopedia-item">
+<div class="encyclopedia-item text">
     <div class="encyclopedia-back">
         <a href="{% url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
     </div>
 
-    <div class="encyclopedia-item-card">
+    <div class="encyclopedia-item-card brown-box">
         <div class="encyclopedia-item-head">
             <img src="{{ item.image_url }}" alt="{{ item.name }}">
             <div>
@@ -103,4 +119,23 @@
         {% endif %}
     </div>
 </div>
+<script>
+(function() {
+    function refreshThemeClass() {
+        var formsCss = document.querySelector('.forms-css');
+        var href = formsCss && formsCss.getAttribute('href') ? formsCss.getAttribute('href').toLowerCase() : '';
+        var isDarkTheme = href.indexOf('darktheme') !== -1;
+        document.body.classList.toggle('dark-theme-active', isDarkTheme);
+    }
+
+    refreshThemeClass();
+
+    // Keep class in sync when user switches theme without leaving the page.
+    var formsCss = document.querySelector('.forms-css');
+    if (formsCss && typeof MutationObserver !== 'undefined') {
+        var observer = new MutationObserver(refreshThemeClass);
+        observer.observe(formsCss, { attributes: true, attributeFilter: ['href'] });
+    }
+})();
+</script>
 {% endblock %}

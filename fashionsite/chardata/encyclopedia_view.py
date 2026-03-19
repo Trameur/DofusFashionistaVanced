@@ -2,6 +2,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 import re
 from django.utils.translation import gettext as _
+from django.utils import translation
 
 from chardata.image_store import get_image_url
 from chardata.official_site import get_item_link
@@ -188,6 +189,13 @@ def _normalized_slug(value):
     return normalized.strip('-')
 
 
+def _localized_label(label, language):
+    if not label:
+        return ''
+    with translation.override(language):
+        return _(label)
+
+
 def _get_stats_map(item):
     structure = get_structure()
     stats = {}
@@ -199,7 +207,7 @@ def _get_stats_map(item):
     return stats
 
 
-def _get_stat_lines(structure, item):
+def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
         item.stats,
@@ -212,7 +220,7 @@ def _get_stat_lines(structure, item):
             'text': '%d%s%s' % (
                 stat_value,
                 '' if stat.name.startswith('%') else ' ',
-                _(stat.name),
+                _localized_label(stat.name, language),
             ),
             'negative': stat_value < 0,
         })
@@ -293,7 +301,7 @@ def _get_display_name_for_group(structure, variant_items, language):
     return representative_name
 
 
-def _format_condition_groups(structure, variant_items):
+def _format_condition_groups(structure, variant_items, language):
     groups = []
     for variant in variant_items:
         parts = []
@@ -305,7 +313,7 @@ def _format_condition_groups(structure, variant_items):
             if stat is None:
                 continue
             # Keep legacy wording used elsewhere in project: "Stat > value-1".
-            parts.append('%s > %d' % (stat.name, stat_value - 1))
+            parts.append('%s > %d' % (_localized_label(stat.name, language), stat_value - 1))
 
         for stat_id, stat_value in sorted(
             variant.max_stats_to_equip,
@@ -315,7 +323,7 @@ def _format_condition_groups(structure, variant_items):
             if stat is None:
                 continue
             # Keep legacy wording used elsewhere in project: "Stat < value+1".
-            parts.append('%s < %d' % (stat.name, stat_value + 1))
+            parts.append('%s < %d' % (_localized_label(stat.name, language), stat_value + 1))
 
         if parts:
             groups.append(parts)
@@ -382,8 +390,9 @@ def encyclopedia(request):
     for _, variants in grouped_items.items():
         item = _get_group_representative(variants)
         display_name = _get_display_name_for_group(structure, variants, language)
-        stat_lines = _get_stat_lines(structure, item)
+        stat_lines = _get_stat_lines(structure, item, language)
         type_name = structure.get_type_name_by_id(item.type)
+        localized_type_name = _localized_label(type_name, language)
         if selected_type and type_name != selected_type:
             continue
         if min_level is not None and item.level < min_level:
@@ -410,7 +419,7 @@ def encyclopedia(request):
             'name': display_name,
             'or_name': item.or_name,
             'level': item.level,
-            'type_name': type_name,
+            'type_name': localized_type_name,
             'image_url': static(get_image_url(type_name, item.name)),
             'detail_url': detail_url,
             'stat_lines': stat_lines,
@@ -419,7 +428,8 @@ def encyclopedia(request):
 
     filtered_items = sorted(filtered_items, key=lambda entry: (-entry['level'], entry['name'].lower()))
 
-    paginator = Paginator(filtered_items, 40)
+    # Keep page size aligned with a 3-column grid to avoid orphan single-item rows.
+    paginator = Paginator(filtered_items, 39)
     page = request.GET.get('page', 1)
     try:
         page_obj = paginator.page(page)
@@ -438,11 +448,19 @@ def encyclopedia(request):
     stat_options = [
         {
             'key': stat.key,
-            'name': structure.get_stat_by_key(stat.key).name,
+            'name': _localized_label(structure.get_stat_by_key(stat.key).name, language),
         }
         for stat in structure.get_stats_list()
     ]
     stat_options = sorted(stat_options, key=lambda entry: STAT_ORDER.get(entry['key'], 9999))
+
+    type_options = [
+        {
+            'value': type_name,
+            'label': _localized_label(type_name, language),
+        }
+        for type_name in TYPE_NAMES
+    ]
 
     return set_response(
         request,
@@ -457,7 +475,7 @@ def encyclopedia(request):
             'selected_type': selected_type,
             'min_level': '' if min_level is None else min_level,
             'max_level': '' if max_level is None else max_level,
-            'type_names': TYPE_NAMES,
+            'type_options': type_options,
             'selected_stat_filters': selected_stat_filters,
             'selected_stat_rows': selected_stat_rows,
             'stat_options': stat_options,
@@ -529,6 +547,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
 
     localized_name = _get_display_name_for_group(structure, grouped_variants, language)
     type_name = structure.get_type_name_by_id(representative_item.type)
+    localized_type_name = _localized_label(type_name, language)
     item_set = (structure.get_set_by_id(representative_item.set)
                 if representative_item.set is not None else None)
 
@@ -541,11 +560,11 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         if stat is None:
             continue
         stat_lines.append({
-            'name': stat.name,
+            'name': _localized_label(stat.name, language),
             'value': stat_value,
         })
 
-    condition_groups = _format_condition_groups(structure, grouped_variants)
+    condition_groups = _format_condition_groups(structure, grouped_variants, language)
 
     extras = representative_item.localized_extras.get(language)
     if extras is None:
@@ -562,7 +581,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 'name': localized_name,
                 'or_name': representative_item.or_name,
                 'level': representative_item.level,
-                'type_name': type_name,
+                'type_name': localized_type_name,
                 'ankama_id': representative_item.ankama_id,
                 'ankama_type': representative_item.ankama_type,
                 'image_url': static(get_image_url(type_name, representative_item.name)),

@@ -27,13 +27,22 @@
 .encyclopedia-filter-box {
     border-radius: 8px;
     padding: 12px;
-    margin-bottom: 16px;
+    margin: 0 0 16px;
+    width: 100%;
+    max-width: none;
+    display: block;
+    box-sizing: border-box;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 .encyclopedia-filter-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
+    align-items: end;
+}
+.encyclopedia-filter-grid > div {
+    display: flex;
+    flex-direction: column;
 }
 .encyclopedia-filter-grid label {
     display: block;
@@ -98,27 +107,34 @@
 }
 .encyclopedia-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
     justify-content: start;
-    align-items: start;
+    align-items: stretch;
+}
+.encyclopedia-grid > * {
+    min-width: 0;
 }
 .encyclopedia-card {
     display: flex;
     gap: 10px;
     border-radius: 8px;
     padding: 8px;
-    min-height: 170px;
     min-width: 0;
+    box-sizing: border-box;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
     text-align: left;
 }
 .encyclopedia-card.brown-box {
     width: auto;
+    max-width: 100%;
     margin: 0;
 }
 .encyclopedia-card > div:last-child {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
+    flex: 1;
 }
 .encyclopedia-card img {
     width: 60px;
@@ -167,11 +183,17 @@
     font-weight: 700;
 }
 @media (max-width: 980px) {
+    .encyclopedia-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .encyclopedia-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 @media (max-width: 600px) {
+    .encyclopedia-filter-grid {
+        grid-template-columns: 1fr;
+    }
     .encyclopedia-stat-row {
         grid-template-columns: 1fr;
     }
@@ -200,8 +222,8 @@
                 <label for="type">{{ t.type_label }}</label>
                 <select class="pretty-input" id="type" name="type">
                     <option value="">{{ t.all_types }}</option>
-                    {% for type_name in type_names %}
-                    <option value="{{ type_name }}" {% if type_name == selected_type %}selected{% endif %}>{{ type_name }}</option>
+                    {% for type_option in type_options %}
+                    <option value="{{ type_option.value }}" {% if type_option.value == selected_type %}selected{% endif %}>{{ type_option.label }}</option>
                     {% endfor %}
                 </select>
             </div>
