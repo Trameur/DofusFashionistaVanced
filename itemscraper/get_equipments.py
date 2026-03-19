@@ -25,28 +25,34 @@ api_base = "https://api.dofusdu.de/dofus3/v1/"
 # Endpoints
 endpoints = {
     "equipment": "/items/equipment/all",
+    "resources": "/items/resources/all",
+    "consumables": "/items/consumables/all",
+    "quest_items": "/items/quest/all",
+    "cosmetics": "/items/cosmetics/all",
     "mounts": "/mounts/all",
     "sets": "/sets/all"
 }
 
-for lang in LANGUAGES:
-    for category, endpoint in endpoints.items():
-        # Construct the full API URL with language parameter
-        api_url = f"{api_base}{lang}{endpoint}"
 
-        # Make the GET request
-        response = requests.get(api_url)
+def download_and_save(lang, category, endpoint):
+    api_url = f"{api_base}{lang}{endpoint}"
+    response = requests.get(api_url, timeout=60)
+    if response.status_code != 200:
+        print(f"Failed to retrieve {category} data for {lang}. Status code: {response.status_code}")
+        return
 
-        # Check for successful request
-        if response.status_code == 200:
-            json_data = response.json()
+    json_data = response.json()
+    filename = f"all_{category}_{lang}.json"
+    with open(filename, 'w', encoding='utf-8') as out_file:
+        json.dump(json_data, out_file, ensure_ascii=False, indent=4)
+    print(f"Successfully saved all {category} data in {lang} to '{filename}'")
 
-            # Save to a JSON file
-            filename = f"all_{category}_{lang}.json"
-            with open(filename, 'w', encoding='utf-8') as f:
-                json.dump(json_data, f, ensure_ascii=False, indent=4)
 
-            print(f"Successfully saved all {category} data in {lang} to '{filename}'")
+def main():
+    for lang in LANGUAGES:
+        for category, endpoint in endpoints.items():
+            download_and_save(lang, category, endpoint)
 
-        else:
-            print(f"Failed to retrieve {category} data for {lang}. Status code: {response.status_code}")
+
+if __name__ == '__main__':
+    main()

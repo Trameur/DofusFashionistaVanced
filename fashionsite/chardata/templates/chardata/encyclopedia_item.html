@@ -117,6 +117,42 @@
             </ul>
         </div>
         {% endif %}
+
+        {% if description or pods is not None %}
+        <div class="encyclopedia-section">
+            <b>{{ t.additional_info_label }}</b>
+            <ul class="encyclopedia-list">
+                {% if description %}
+                <li><b>{{ t.description_label }}:</b> {{ description }}</li>
+                {% endif %}
+                {% if pods is not None %}
+                <li><b>{{ t.weight_label }}:</b> {{ pods }}</li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="encyclopedia-section">
+            <b>{{ t.recipe_label }}</b>
+            {% if recipe %}
+            <ul class="encyclopedia-list">
+                {% for ingredient in recipe %}
+                <li>
+                    {% if ingredient.local_item_url %}
+                    <a href="{{ ingredient.local_item_url }}">{{ ingredient.name }}</a>
+                    {% else %}
+                    {{ ingredient.name }}
+                    {% endif %}
+                    x{{ ingredient.quantity }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <ul class="encyclopedia-list">
+                <li>{{ t.no_recipe }}</li>
+            </ul>
+            {% endif %}
+        </div>
     </div>
 </div>
 <script>

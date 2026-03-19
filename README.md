@@ -103,6 +103,7 @@ python3 get_equipments.py
 python3 get_equipments2.py
 python3 get_equipments3.py
 python3 get_equipments4.py  
+python3 store_item_obtainment.py
 cd ..
 python3 resize_images.py
 ```

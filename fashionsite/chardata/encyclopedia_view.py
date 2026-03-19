@@ -1,6 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 import re
+import sqlite3
 from django.utils.translation import gettext as _
 from django.utils import translation
 
@@ -8,6 +9,7 @@ from chardata.image_store import get_image_url
 from chardata.official_site import get_item_link
 from chardata.util import safe_int, set_response
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
+from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
@@ -43,6 +45,12 @@ LOCALIZED_UI = {
         'or_label': 'OR',
         'and_label': 'AND',
         'extra_effects_label': 'Extra effects',
+        'description_label': 'Description',
+        'additional_info_label': 'Additional information',
+        'weight_label': 'Weight',
+        'recipe_label': 'Recipe',
+        'no_recipe': 'No recipe available.',
+        'recipe_unknown_ingredient': 'Unknown ingredient',
         'item_not_found': 'Item not found in the encyclopedia.',
     },
     'fr': {
@@ -73,6 +81,12 @@ LOCALIZED_UI = {
         'or_label': 'OU',
         'and_label': 'ET',
         'extra_effects_label': 'Effets supplementaires',
+        'description_label': 'Description',
+        'additional_info_label': 'Informations supplementaires',
+        'weight_label': 'Poids',
+        'recipe_label': 'Recette',
+        'no_recipe': 'Aucune recette disponible.',
+        'recipe_unknown_ingredient': 'Ingredient inconnu',
         'item_not_found': 'Objet introuvable dans encyclopedie.',
     },
     'es': {
@@ -103,6 +117,12 @@ LOCALIZED_UI = {
         'or_label': 'O',
         'and_label': 'Y',
         'extra_effects_label': 'Efectos extra',
+        'description_label': 'Descripcion',
+        'additional_info_label': 'Informacion adicional',
+        'weight_label': 'Peso',
+        'recipe_label': 'Receta',
+        'no_recipe': 'No hay receta disponible.',
+        'recipe_unknown_ingredient': 'Ingrediente desconocido',
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
     },
     'pt': {
@@ -133,6 +153,12 @@ LOCALIZED_UI = {
         'or_label': 'OU',
         'and_label': 'E',
         'extra_effects_label': 'Efeitos extras',
+        'description_label': 'Descricao',
+        'additional_info_label': 'Informacoes adicionais',
+        'weight_label': 'Peso',
+        'recipe_label': 'Receita',
+        'no_recipe': 'Receita nao disponivel.',
+        'recipe_unknown_ingredient': 'Ingrediente desconhecido',
         'item_not_found': 'Item nao encontrado na enciclopedia.',
     },
     'de': {
@@ -163,6 +189,12 @@ LOCALIZED_UI = {
         'or_label': 'ODER',
         'and_label': 'UND',
         'extra_effects_label': 'Zusatzeffekte',
+        'description_label': 'Beschreibung',
+        'additional_info_label': 'Weitere Informationen',
+        'weight_label': 'Gewicht',
+        'recipe_label': 'Rezept',
+        'no_recipe': 'Kein Rezept verfugbar.',
+        'recipe_unknown_ingredient': 'Unbekannte Zutat',
         'item_not_found': 'Gegenstand nicht in der Enzyklopaedie gefunden.',
     },
 }
@@ -341,6 +373,140 @@ def _get_ankama_type_aliases(ankama_type):
         'equipment': {'equipment', 'equipement', 'equipements', 'equipments'},
     }
     return alias_map.get(normalized, {normalized})
+
+
+def _get_item_extra_info(representative_item, language, t):
+    default_data = {
+        'description': None,
+        'pods': None,
+        'recipe': [],
+    }
+
+    if representative_item is None:
+        return default_data
+
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path())
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_descriptions'"
+        )
+        if cursor.fetchone() is not None:
+            cursor.execute(
+                "SELECT description FROM item_descriptions WHERE item = ? AND language = ?",
+                (representative_item.id, language),
+            )
+            row = cursor.fetchone()
+            if row is None and language != 'en':
+                cursor.execute(
+                    "SELECT description FROM item_descriptions WHERE item = ? AND language = 'en'",
+                    (representative_item.id,),
+                )
+                row = cursor.fetchone()
+            if row is not None:
+                default_data['description'] = row[0]
+
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_extra_info'"
+        )
+        if cursor.fetchone() is not None:
+            cursor.execute(
+                "SELECT pods FROM item_extra_info WHERE item = ?",
+                (representative_item.id,),
+            )
+            row = cursor.fetchone()
+            if row is not None:
+                default_data['pods'] = row[0]
+
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipes'"
+        )
+        has_recipe_table = cursor.fetchone() is not None
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipe_ingredient_names'"
+        )
+        has_recipe_names_table = cursor.fetchone() is not None
+
+        if has_recipe_table:
+            cursor.execute(
+                """
+                SELECT position, ingredient_ankama_id, ingredient_subtype, quantity
+                FROM item_recipes
+                WHERE item = ?
+                ORDER BY position ASC
+                """,
+                (representative_item.id,),
+            )
+            recipe_rows = cursor.fetchall()
+
+            for _, ingredient_ankama_id, ingredient_subtype, quantity in recipe_rows:
+                ingredient_name = None
+                if has_recipe_names_table:
+                    cursor.execute(
+                        """
+                        SELECT name
+                        FROM item_recipe_ingredient_names
+                        WHERE ingredient_ankama_id = ?
+                          AND ingredient_subtype = ?
+                          AND language = ?
+                        """,
+                        (ingredient_ankama_id, ingredient_subtype, language),
+                    )
+                    name_row = cursor.fetchone()
+                    if name_row is None and language != 'en':
+                        cursor.execute(
+                            """
+                            SELECT name
+                            FROM item_recipe_ingredient_names
+                            WHERE ingredient_ankama_id = ?
+                              AND ingredient_subtype = ?
+                              AND language = 'en'
+                            """,
+                            (ingredient_ankama_id, ingredient_subtype),
+                        )
+                        name_row = cursor.fetchone()
+                    if name_row is not None:
+                        ingredient_name = name_row[0]
+
+                if not ingredient_name:
+                    ingredient_name = '%s #%s' % (t['recipe_unknown_ingredient'], ingredient_ankama_id)
+
+                local_item_url = None
+                local_item_types = {
+                    'equipment': 'equipment',
+                    'mounts': 'mount',
+                    'mount': 'mount',
+                    'pet': 'pet',
+                    'pets': 'pet',
+                }
+                local_type = local_item_types.get((ingredient_subtype or '').lower())
+                if local_type:
+                    cursor.execute(
+                        "SELECT ankama_id, ankama_type, id, name, dofustouch FROM items WHERE ankama_id = ? AND ankama_type = ? ORDER BY dofustouch ASC LIMIT 1",
+                        (ingredient_ankama_id, local_type),
+                    )
+                    local_item = cursor.fetchone()
+                    if local_item is not None:
+                        local_name = local_item[3]
+                        local_item_url = get_item_link(local_item[1], local_item[0], local_name)
+
+                default_data['recipe'].append({
+                    'name': ingredient_name,
+                    'quantity': quantity,
+                    'subtype': ingredient_subtype,
+                    'ankama_id': ingredient_ankama_id,
+                    'local_item_url': local_item_url,
+                })
+
+    except Exception:
+        return default_data
+    finally:
+        if conn is not None:
+            conn.close()
+
+    return default_data
 
 
 def encyclopedia(request):
@@ -570,6 +736,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     if extras is None:
         extras = representative_item.localized_extras.get('en', [])
 
+    extra_info = _get_item_extra_info(representative_item, language, t)
+
     return set_response(
         request,
         'chardata/encyclopedia_item.html',
@@ -590,5 +758,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'stats': stat_lines,
             'condition_groups': condition_groups,
             'extras': extras,
+            'description': extra_info['description'],
+            'pods': extra_info['pods'],
+            'recipe': extra_info['recipe'],
         },
     )
