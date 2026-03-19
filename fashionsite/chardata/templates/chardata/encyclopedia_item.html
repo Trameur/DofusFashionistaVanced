@@ -88,6 +88,17 @@
             </ul>
         </div>
 
+        {% if weapon_lines %}
+        <div class="encyclopedia-section">
+            <b>{{ t.weapon_details_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for weapon_line in weapon_lines %}
+                <li>{{ weapon_line }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         {% if condition_groups %}
         <div class="encyclopedia-section">
             <b>{{ t.conditions_label }}</b>

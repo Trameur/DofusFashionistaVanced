@@ -13,6 +13,7 @@ from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
+from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
 
@@ -45,6 +46,7 @@ LOCALIZED_UI = {
         'or_label': 'OR',
         'and_label': 'AND',
         'extra_effects_label': 'Extra effects',
+        'weapon_details_label': 'Weapon details',
         'description_label': 'Description',
         'additional_info_label': 'Additional information',
         'weight_label': 'Weight',
@@ -81,6 +83,7 @@ LOCALIZED_UI = {
         'or_label': 'OU',
         'and_label': 'ET',
         'extra_effects_label': 'Effets supplementaires',
+        'weapon_details_label': 'Details arme',
         'description_label': 'Description',
         'additional_info_label': 'Informations supplementaires',
         'weight_label': 'Poids',
@@ -117,6 +120,7 @@ LOCALIZED_UI = {
         'or_label': 'O',
         'and_label': 'Y',
         'extra_effects_label': 'Efectos extra',
+        'weapon_details_label': 'Detalles del arma',
         'description_label': 'Descripcion',
         'additional_info_label': 'Informacion adicional',
         'weight_label': 'Peso',
@@ -153,6 +157,7 @@ LOCALIZED_UI = {
         'or_label': 'OU',
         'and_label': 'E',
         'extra_effects_label': 'Efeitos extras',
+        'weapon_details_label': 'Detalhes da arma',
         'description_label': 'Descricao',
         'additional_info_label': 'Informacoes adicionais',
         'weight_label': 'Peso',
@@ -189,6 +194,7 @@ LOCALIZED_UI = {
         'or_label': 'ODER',
         'and_label': 'UND',
         'extra_effects_label': 'Zusatzeffekte',
+        'weapon_details_label': 'Waffendetails',
         'description_label': 'Beschreibung',
         'additional_info_label': 'Weitere Informationen',
         'weight_label': 'Gewicht',
@@ -237,6 +243,93 @@ def _get_stats_map(item):
             continue
         stats[stat.key] = stats.get(stat.key, 0) + stat_value
     return stats
+
+
+def _find_weapon_for_variants(structure, variant_items):
+    names_to_try = []
+    touch_flags = []
+
+    for item in variant_items:
+        if item is None:
+            continue
+        if item.name:
+            names_to_try.append(item.name)
+        if item.or_name:
+            names_to_try.append(item.or_name)
+        touch_flags.append(bool(item.dofus_touch))
+
+    # Deduplicate while preserving order.
+    seen_names = set()
+    ordered_names = []
+    for name in names_to_try:
+        if name in seen_names:
+            continue
+        seen_names.add(name)
+        ordered_names.append(name)
+
+    flags_to_try = []
+    for flag in touch_flags + [False, True]:
+        if flag not in flags_to_try:
+            flags_to_try.append(flag)
+
+    for name in ordered_names:
+        for dofus_touch in flags_to_try:
+            weapon = structure.get_weapon_by_name(name, dofus_touch)
+            if weapon is not None and getattr(weapon, 'base_hit', None):
+                return weapon
+
+    return None
+
+
+def _get_weapon_detail_lines(structure, variant_items, language):
+    weapon = _find_weapon_for_variants(structure, variant_items)
+    if weapon is None or not hasattr(weapon, 'base_hit') or weapon.base_hit is None:
+        return []
+
+    with translation.override(language):
+        weapon_type_obj = structure.get_weapon_type_by_id(weapon.weapon_type)
+        weapon_type_name = weapon_type_obj.name if weapon_type_obj is not None else ''
+        localized_weapon_type = LOCALIZED_WEAPON_TYPES.get(weapon_type_name, weapon_type_name)
+
+        lines = []
+        if weapon.crit_chance is not None and weapon.crit_bonus is not None:
+            lines.append(
+                _('(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)')
+                % {
+                    'weapon_type': localized_weapon_type,
+                    'AP': weapon.ap,
+                    'crit_chance': weapon.crit_chance,
+                    'crit_bonus': weapon.crit_bonus,
+                }
+            )
+        else:
+            lines.append(
+                _('(%(weapon_type)s) AP: %(AP)d')
+                % {'weapon_type': localized_weapon_type, 'AP': weapon.ap}
+            )
+
+        for hit in weapon.base_hit:
+            if hit.steals:
+                line = _('%(min)d to %(max)d (%(element)s steal)') % {
+                    'min': hit.min_dam,
+                    'max': hit.max_dam,
+                    'element': LOCALIZED_ELEMENTS.get(hit.element, hit.element),
+                }
+            elif hit.heals:
+                line = _('%(min)d to %(max)d %(element)s heals') % {
+                    'min': hit.min_dam,
+                    'max': hit.max_dam,
+                    'element': LOCALIZED_ELEMENTS.get(hit.element, hit.element),
+                }
+            else:
+                line = _('%(min)d to %(max)d (%(element)s)') % {
+                    'min': hit.min_dam,
+                    'max': hit.max_dam,
+                    'element': LOCALIZED_ELEMENTS.get(hit.element, hit.element),
+                }
+            lines.append(line)
+
+    return lines
 
 
 def _get_stat_lines(structure, item, language):
@@ -737,6 +830,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         extras = representative_item.localized_extras.get('en', [])
 
     extra_info = _get_item_extra_info(representative_item, language, t)
+    weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
     return set_response(
         request,
@@ -758,6 +852,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'stats': stat_lines,
             'condition_groups': condition_groups,
             'extras': extras,
+            'weapon_lines': weapon_lines,
             'description': extra_info['description'],
             'pods': extra_info['pods'],
             'recipe': extra_info['recipe'],
