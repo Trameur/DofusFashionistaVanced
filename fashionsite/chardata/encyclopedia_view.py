@@ -1,5 +1,6 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
+import json
 import re
 import sqlite3
 from django.utils.translation import gettext as _
@@ -100,6 +101,11 @@ LOCALIZED_UI = {
         'min_value_label': 'Min value',
         'add_stat_filter': 'Add stat filter',
         'remove_stat_filter': 'Remove',
+        'order_stats': 'Order by stats',
+        'order_direction_label': 'Direction',
+        'direction_desc': 'Descending',
+        'direction_asc': 'Ascending',
+        'add_order_stat': 'Add order stat',
         'apply_filters': 'Apply filters',
         'clear_filters': 'Clear',
         'results': 'Results',
@@ -137,6 +143,11 @@ LOCALIZED_UI = {
         'min_value_label': 'Valeur min',
         'add_stat_filter': 'Ajouter un filtre',
         'remove_stat_filter': 'Supprimer',
+        'order_stats': 'Trier par caracteristiques',
+        'order_direction_label': 'Ordre',
+        'direction_desc': 'Decroissant',
+        'direction_asc': 'Croissant',
+        'add_order_stat': 'Ajouter un tri',
         'apply_filters': 'Appliquer les filtres',
         'clear_filters': 'Effacer',
         'results': 'Resultats',
@@ -174,6 +185,11 @@ LOCALIZED_UI = {
         'min_value_label': 'Valor min',
         'add_stat_filter': 'Agregar filtro',
         'remove_stat_filter': 'Eliminar',
+        'order_stats': 'Ordenar por estadisticas',
+        'order_direction_label': 'Direccion',
+        'direction_desc': 'Descendente',
+        'direction_asc': 'Ascendente',
+        'add_order_stat': 'Agregar criterio de orden',
         'apply_filters': 'Aplicar filtros',
         'clear_filters': 'Limpiar',
         'results': 'Resultados',
@@ -211,6 +227,11 @@ LOCALIZED_UI = {
         'min_value_label': 'Valor min',
         'add_stat_filter': 'Adicionar filtro',
         'remove_stat_filter': 'Remover',
+        'order_stats': 'Ordenar por atributos',
+        'order_direction_label': 'Direcao',
+        'direction_desc': 'Decrescente',
+        'direction_asc': 'Crescente',
+        'add_order_stat': 'Adicionar criterio de ordenacao',
         'apply_filters': 'Aplicar filtros',
         'clear_filters': 'Limpar',
         'results': 'Resultados',
@@ -248,6 +269,11 @@ LOCALIZED_UI = {
         'min_value_label': 'Min Wert',
         'add_stat_filter': 'Filter hinzufugen',
         'remove_stat_filter': 'Entfernen',
+        'order_stats': 'Nach Werten sortieren',
+        'order_direction_label': 'Richtung',
+        'direction_desc': 'Absteigend',
+        'direction_asc': 'Aufsteigend',
+        'add_order_stat': 'Sortierung hinzufugen',
         'apply_filters': 'Filter anwenden',
         'clear_filters': 'Zuruecksetzen',
         'results': 'Ergebnisse',
@@ -701,6 +727,8 @@ def encyclopedia(request):
 
     selected_stat_filters = []
     selected_stat_rows = []
+    selected_stat_orders = []
+    selected_order_rows = []
 
     stat_keys = request.GET.getlist('stat_key')
     stat_mins = request.GET.getlist('stat_min')
@@ -728,6 +756,53 @@ def encyclopedia(request):
         })
         if stat_key and stat_min is not None and stat_min > 0 and _is_searchable_stat_key(stat_key):
             selected_stat_filters.append((stat_key, stat_min))
+
+    order_keys = []
+    order_dirs = []
+
+    order_rows_json = (request.GET.get('order_rows_json') or '').strip()
+    if order_rows_json:
+        try:
+            parsed_rows = json.loads(order_rows_json)
+            if isinstance(parsed_rows, list):
+                for row in parsed_rows:
+                    if not isinstance(row, dict):
+                        continue
+                    order_keys.append(str(row.get('key', '')).strip())
+                    order_dirs.append(str(row.get('dir', '')).strip().lower())
+        except (TypeError, ValueError):
+            order_keys = []
+            order_dirs = []
+
+    if not order_keys and not order_dirs:
+        order_keys = request.GET.getlist('order_key')
+        order_dirs = request.GET.getlist('order_dir')
+
+    if not order_keys and not order_dirs:
+        # Backward compatibility for earlier single-field ordering params.
+        legacy_order_key = (request.GET.get('order_stat') or '').strip()
+        legacy_order_dir = (request.GET.get('order_direction') or '').strip().lower()
+        if legacy_order_key or legacy_order_dir:
+            order_keys = [legacy_order_key]
+            order_dirs = [legacy_order_dir]
+
+    order_row_count = max(len(order_keys), len(order_dirs), 1)
+    for idx in range(order_row_count):
+        order_key = (order_keys[idx] if idx < len(order_keys) else '').strip()
+        order_dir = (order_dirs[idx] if idx < len(order_dirs) else '').strip().lower()
+
+        if order_key and not _is_searchable_stat_key(order_key):
+            order_key = ''
+        if order_dir not in ('asc', 'desc'):
+            order_dir = 'desc'
+
+        selected_order_rows.append({
+            'key': order_key,
+            'dir': order_dir,
+        })
+
+        if order_key and _is_searchable_stat_key(order_key):
+            selected_stat_orders.append((order_key, order_dir))
 
     all_items = _collect_unique_items(structure)
     grouped_items = {}
@@ -776,7 +851,19 @@ def encyclopedia(request):
             'stats_map': stats_map,
         })
 
-    filtered_items = sorted(filtered_items, key=lambda entry: (-entry['level'], entry['name'].lower()))
+    if selected_stat_orders:
+        def _sort_key(entry):
+            values = []
+            for stat_key, order_dir in selected_stat_orders:
+                stat_value = entry['stats_map'].get(stat_key, 0)
+                values.append(stat_value if order_dir == 'asc' else -stat_value)
+            values.append(-entry['level'])
+            values.append((entry['name'] or '').lower())
+            return tuple(values)
+
+        filtered_items = sorted(filtered_items, key=_sort_key)
+    else:
+        filtered_items = sorted(filtered_items, key=lambda entry: (-entry['level'], (entry['name'] or '').lower()))
 
     # Keep page size aligned with a 3-column grid to avoid orphan single-item rows.
     paginator = Paginator(filtered_items, 39)
@@ -829,6 +916,7 @@ def encyclopedia(request):
             'type_options': type_options,
             'selected_stat_filters': selected_stat_filters,
             'selected_stat_rows': selected_stat_rows,
+            'selected_order_rows': selected_order_rows,
             'stat_options': stat_options,
             'page_query_prefix': page_query_prefix,
         },

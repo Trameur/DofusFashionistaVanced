@@ -74,6 +74,22 @@
     width: 100%;
     box-sizing: border-box;
 }
+.encyclopedia-order-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(130px, 180px) auto;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: end;
+}
+.encyclopedia-order-row label {
+    display: block;
+    margin-bottom: 4px;
+}
+.encyclopedia-order-row input,
+.encyclopedia-order-row select {
+    width: 100%;
+    box-sizing: border-box;
+}
 .encyclopedia-stat-row-actions {
     display: flex;
     align-items: end;
@@ -209,6 +225,9 @@
     .encyclopedia-stat-row {
         grid-template-columns: 1fr;
     }
+    .encyclopedia-order-row {
+        grid-template-columns: 1fr;
+    }
     .encyclopedia-stat-row-actions {
         align-items: stretch;
     }
@@ -225,6 +244,7 @@
     <p class="encyclopedia-subtitle small-explain">{{ t.subtitle }}</p>
 
     <form method="get" class="encyclopedia-filter-box brown-box">
+        <input type="hidden" name="order_rows_json" id="order-rows-json" value="">
         <div class="encyclopedia-filter-grid">
             <div>
                 <label for="q">{{ t.search_label }}</label>
@@ -278,6 +298,38 @@
             </div>
         </div>
 
+        <div class="encyclopedia-stat-filters">
+            <b>{{ t.order_stats }}</b>
+            <div id="stat-order-list">
+                {% for order_row in selected_order_rows %}
+                <div class="encyclopedia-order-row">
+                    <div>
+                        <label>{{ t.stat_label }}</label>
+                        <select class="pretty-input" name="order_key">
+                            <option value="">-</option>
+                            {% for option in stat_options %}
+                                <option value="{{ option.key }}" {% if order_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label>{{ t.order_direction_label }}</label>
+                        <select class="pretty-input" name="order_dir">
+                            <option value="desc" {% if order_row.dir == 'desc' %}selected{% endif %}>{{ t.direction_desc }}</option>
+                            <option value="asc" {% if order_row.dir == 'asc' %}selected{% endif %}>{{ t.direction_asc }}</option>
+                        </select>
+                    </div>
+                    <div class="encyclopedia-stat-row-actions">
+                        <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-order-stat">{{ t.remove_stat_filter }}</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="encyclopedia-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn" id="add-order-stat">{{ t.add_order_stat }}</button>
+            </div>
+        </div>
+
         <div class="encyclopedia-actions">
             <button class="button-generic encyclopedia-btn" type="submit">{{ t.apply_filters }}</button>
             <a class="button-thin encyclopedia-btn encyclopedia-btn-secondary" href="{% url 'encyclopedia' %}">{{ t.clear_filters }}</a>
@@ -305,11 +357,40 @@
         </div>
     </template>
 
+    <template id="stat-order-template">
+        <div class="encyclopedia-order-row">
+            <div>
+                <label>{{ t.stat_label }}</label>
+                <select class="pretty-input" name="order_key">
+                    <option value="">-</option>
+                    {% for option in stat_options %}
+                        <option value="{{ option.key }}">{{ option.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label>{{ t.order_direction_label }}</label>
+                <select class="pretty-input" name="order_dir">
+                    <option value="desc">{{ t.direction_desc }}</option>
+                    <option value="asc">{{ t.direction_asc }}</option>
+                </select>
+            </div>
+            <div class="encyclopedia-stat-row-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-order-stat">{{ t.remove_stat_filter }}</button>
+            </div>
+        </div>
+    </template>
+
     <script>
     (function() {
         var list = document.getElementById('stat-filter-list');
         var template = document.getElementById('stat-filter-template');
         var addButton = document.getElementById('add-stat-filter');
+        var form = document.querySelector('.encyclopedia-filter-box');
+        var orderList = document.getElementById('stat-order-list');
+        var orderTemplate = document.getElementById('stat-order-template');
+        var addOrderButton = document.getElementById('add-order-stat');
+        var orderRowsJson = document.getElementById('order-rows-json');
 
         function updateRemoveButtons() {
             var rows = list.querySelectorAll('.encyclopedia-stat-row');
@@ -335,6 +416,44 @@
             });
         }
 
+        function updateOrderRemoveButtons() {
+            var rows = orderList.querySelectorAll('.encyclopedia-order-row');
+            rows.forEach(function(row) {
+                var removeButton = row.querySelector('.remove-order-stat');
+                if (removeButton) {
+                    removeButton.disabled = rows.length === 1;
+                }
+            });
+        }
+
+        function bindOrderRemoveButtons(scope) {
+            var buttons = scope.querySelectorAll('.remove-order-stat');
+            buttons.forEach(function(button) {
+                button.onclick = function() {
+                    var rows = orderList.querySelectorAll('.encyclopedia-order-row');
+                    if (rows.length <= 1) {
+                        return;
+                    }
+                    button.closest('.encyclopedia-order-row').remove();
+                    updateOrderRemoveButtons();
+                };
+            });
+        }
+
+        function syncOrderRowsJson() {
+            var rows = orderList.querySelectorAll('.encyclopedia-order-row');
+            var payload = [];
+            rows.forEach(function(row) {
+                var keySelect = row.querySelector('select[name="order_key"]');
+                var dirSelect = row.querySelector('select[name="order_dir"]');
+                payload.push({
+                    key: keySelect ? keySelect.value : '',
+                    dir: dirSelect ? dirSelect.value : 'desc'
+                });
+            });
+            orderRowsJson.value = JSON.stringify(payload);
+        }
+
         addButton.addEventListener('click', function() {
             var fragment = template.content.cloneNode(true);
             bindRemoveButtons(fragment);
@@ -342,8 +461,23 @@
             updateRemoveButtons();
         });
 
+        addOrderButton.addEventListener('click', function() {
+            var fragment = orderTemplate.content.cloneNode(true);
+            bindOrderRemoveButtons(fragment);
+            orderList.appendChild(fragment);
+            updateOrderRemoveButtons();
+            syncOrderRowsJson();
+        });
+
+        form.addEventListener('submit', function() {
+            syncOrderRowsJson();
+        });
+
         bindRemoveButtons(document);
+        bindOrderRemoveButtons(document);
         updateRemoveButtons();
+        updateOrderRemoveButtons();
+        syncOrderRowsJson();
     })();
     </script>
 
