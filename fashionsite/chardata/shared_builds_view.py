@@ -16,22 +16,173 @@
 
 from django.urls import reverse
 from django.db.models import Q, Count, Case, When, IntegerField, F
+from django.core.cache import cache
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 import json
+import pickle
 
 from chardata.models import Char, UserAlias, BuildVote
+from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.util import set_response
 from chardata.encoded_char_id import encode_char_id
+from chardata.image_store import get_image_url
 from chardata.solution import get_solution
-from chardata.solution_result import SolutionResult
+from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
+from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS, STAT_ORDER
+from fashionistapulp.structure import get_structure
+from fashionistapulp.translation import get_supported_language
+from static_s3.templatetags.static_s3 import static
 
 # Create reverse mapping from short names to keys
 SHORT_NAME_TO_KEY = {v: k for k, v in ASPECT_TO_SHORT_NAME.items()}
+SHARED_BUILDS_PAGE_SIZE = 10
+SHARED_BUILD_META_CACHE_TIMEOUT = 6 * 60 * 60
+
+
+def _get_valid_slots_for_type(type_name):
+    slot_name = TYPE_NAME_TO_SLOT.get(type_name)
+    if slot_name is None:
+        return set()
+
+    slot_count = TYPE_NAME_TO_SLOT_NUMBER.get(type_name, 1)
+    if slot_count > 1:
+        return set('%s%d' % (slot_name, idx) for idx in range(1, slot_count + 1))
+    return {slot_name}
+
+
+def _get_shared_build_meta_cache_key(char):
+    modified_marker = 'none'
+    if char.modified_time is not None:
+        modified_marker = str(int(char.modified_time.timestamp() * 1000000))
+    return 'shared-build-meta-%s-%s-%s' % (char.pk, modified_marker, get_supported_language())
+
+
+def _get_total_stats_score(solution):
+    total_stats = solution.get_stats_total()
+    return sum(value for value in total_stats.values()
+               if isinstance(value, (int, float)) and value > 0)
+
+
+def _get_preview_items(minimal_solution, structure):
+    preview_items = []
+    item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
+    language = get_supported_language()
+
+    for slot in SLOTS:
+        item_id = item_per_slot.get(slot)
+        if item_id is None:
+            continue
+        item = structure.get_item_by_id(item_id)
+        if item is None:
+            continue
+        preview_items.append({
+            'slot': slot,
+            'name': structure.get_item_name_in_language(item, language),
+            'image_url': static(get_image_url(structure.get_type_name_by_id(item.type), item.name)),
+        })
+    return preview_items
+
+
+def _get_compact_stats(solution, structure):
+    total_stats = solution.get_stats_total()
+    compact_stats = []
+    sorted_stat_keys = sorted(total_stats.keys(), key=lambda key: STAT_ORDER.get(key, 9999))
+    for stat_key in sorted_stat_keys:
+        value = total_stats.get(stat_key, 0)
+        stat = structure.get_stat_by_key(stat_key)
+        if stat is None:
+            continue
+        icon_path = get_stat_icon_path(stat_key)
+        compact_stats.append({
+            'key': stat_key,
+            'label': _(stat.name),
+            'value': int(value) if float(value).is_integer() else round(value, 1),
+            'icon_url': static(icon_path) if icon_path else None,
+        })
+    return compact_stats
+
+
+def _get_shared_build_meta(char):
+    cache_key = _get_shared_build_meta_cache_key(char)
+    cached_meta = cache.get(cache_key)
+    if cached_meta is not None:
+        return cached_meta
+
+
+    meta = {
+        'has_outdated_slots': False,
+        'has_condition_issues': False,
+        'has_missing_items': False,
+        'is_invalid': False,
+        'total_stats': 0,
+        'preview_items': [],
+        'compact_stats': [],
+    }
+
+    if not char.minimal_solution:
+        cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
+        return meta
+
+    structure = get_structure()
+
+    try:
+        minimal_solution = pickle.loads(char.minimal_solution)
+    except Exception:
+        meta['has_outdated_slots'] = True
+        meta['is_invalid'] = True
+        cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
+        return meta
+
+    item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
+    meta['preview_items'] = _get_preview_items(minimal_solution, structure)
+    for slot, item_id in item_per_slot.items():
+        if item_id is None:
+            continue
+
+        item = structure.get_item_by_id(item_id)
+        if item is None:
+            meta['has_missing_items'] = True
+            meta['has_outdated_slots'] = True
+            continue
+
+        item_type_name = structure.get_type_name_by_id(item.type)
+        if slot not in _get_valid_slots_for_type(item_type_name):
+            meta['has_outdated_slots'] = True
+
+    try:
+        solution = get_solution(char)
+    except Exception:
+        solution = None
+        meta['has_condition_issues'] = True
+
+    if solution is None:
+        meta['is_invalid'] = meta['has_outdated_slots'] or meta['has_condition_issues']
+        cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
+        return meta
+
+    try:
+        meta['total_stats'] = _get_total_stats_score(solution)
+        meta['compact_stats'] = _get_compact_stats(solution, structure)
+    except Exception:
+        meta['total_stats'] = 0
+        meta['compact_stats'] = []
+
+    item_condition_violations = False
+    for item in solution.item_list:
+        if item.item_added and solution.get_violations_on_item(item):
+            item_condition_violations = True
+            break
+
+    project_min_violations = solution._get_min_violations(get_min_stats_digested_by_key(char))
+    meta['has_condition_issues'] = item_condition_violations or bool(project_min_violations)
+    meta['is_invalid'] = meta['has_outdated_slots'] or meta['has_condition_issues']
+    cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
+    return meta
 
 def translate_build_name(build_name):
     """Translate a build name that may contain multiple aspects separated by / or spaces"""
@@ -95,6 +246,7 @@ def shared_builds(request):
     user_search = request.GET.get('user_search', '')
     show_liked = request.GET.get('show_liked', '')  # Show only liked builds by current user
     show_favorited = request.GET.get('show_favorited', '')  # Show only favorited builds by current user
+    hide_invalid = request.GET.get('hide_invalid', '')
     page_number = request.GET.get('page', 1)
     
     # Get selected build aspects from checkboxes
@@ -107,7 +259,7 @@ def shared_builds(request):
     
     # Start with all shared, non-deleted builds
     # Annotate with like and favorite counts
-    builds = Char.objects.filter(link_shared=True, deleted=False).annotate(
+    builds = Char.objects.filter(link_shared=True, deleted=False).select_related('owner').annotate(
         like_count=Count(Case(When(buildvote__vote_type='like', then=1), output_field=IntegerField())),
         favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1), output_field=IntegerField()))
     )
@@ -209,85 +361,99 @@ def shared_builds(request):
     else:
         builds = builds.order_by('-view_count', '-modified_time')
     
-    # Paginate results (25 per page)
-    paginator = Paginator(builds, 25)
-    try:
-        builds_page = paginator.page(page_number)
-    except PageNotAnInteger:
-        builds_page = paginator.page(1)
-    except EmptyPage:
-        builds_page = paginator.page(paginator.num_pages)
-    
-    # Get user's votes if logged in
-    user_likes = set()
-    user_favorites = set()
-    if request.user.is_authenticated:
-        user_likes = set(BuildVote.objects.filter(
-            user=request.user, vote_type='like', build__in=builds_page
-        ).values_list('build_id', flat=True))
-        user_favorites = set(BuildVote.objects.filter(
-            user=request.user, vote_type='favorite', build__in=builds_page
-        ).values_list('build_id', flat=True))
-    
-    # Prepare build data with links and stats
     builds_data = []
-    for char in builds_page:
+    if hide_invalid:
+        all_builds_data = []
+        for char in builds:
+            build_meta = _get_shared_build_meta(char)
+            if build_meta['is_invalid']:
+                continue
+            all_builds_data.append({'char': char, 'meta': build_meta})
+
+        paginator = Paginator(all_builds_data, SHARED_BUILDS_PAGE_SIZE)
+        try:
+            builds_page = paginator.page(page_number)
+        except PageNotAnInteger:
+            builds_page = paginator.page(1)
+        except EmptyPage:
+            builds_page = paginator.page(paginator.num_pages)
+
+        page_entries = list(builds_page.object_list)
+        page_chars = [entry['char'] for entry in page_entries]
+        meta_by_id = {entry['char'].id: entry['meta'] for entry in page_entries}
+    else:
+        paginator = Paginator(builds, SHARED_BUILDS_PAGE_SIZE)
+        try:
+            builds_page = paginator.page(page_number)
+        except PageNotAnInteger:
+            builds_page = paginator.page(1)
+        except EmptyPage:
+            builds_page = paginator.page(paginator.num_pages)
+
+        page_chars = list(builds_page.object_list)
+        meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
+
+    owner_ids = [char.owner_id for char in page_chars if char.owner_id]
+    alias_by_user_id = {
+        alias.user_id: alias.alias
+        for alias in UserAlias.objects.filter(user_id__in=owner_ids)
+        if alias.alias
+    }
+
+    for char in page_chars:
         encoded_id = encode_char_id(int(char.id))
         char_name = char.char_name or 'shared'
         link = 'https://fashionistavanced.com' + reverse('solution_linked',
                                                           args=(char_name, encoded_id))
-        
-        # Get creator name (prefer alias, fallback to username)
+
         creator_name = None
         if char.owner:
-            try:
-                user_alias = UserAlias.objects.get(user=char.owner)
-                creator_name = user_alias.alias if user_alias.alias else char.owner.username
-            except UserAlias.DoesNotExist:
-                creator_name = char.owner.username
-        
-        # Try to get solution stats if available
-        solution = get_solution(char)
-        total_stats = None
-        if solution:
-            try:
-                sol_result = SolutionResult(solution)
-                stats = sol_result.get_stats()
-                if stats:
-                    # Calculate a simple "score" based on total stats
-                    total_stats = sum([v for v in stats.values() if isinstance(v, (int, float)) and v > 0])
-            except:
-                pass
-        
-        # Translate build type name if available
-        # Check if build has no focus aspects (which means it's balanced)
-        focus_aspects = ['Vit', 'Glass Cannon', 'Dam', 'Heals', 'AP Red', 'MP Red', 
-                        'Crit', 'Res', 'Leecher', 'PP', 'Pods', 'Traps', 'Summons', 
+            creator_name = alias_by_user_id.get(char.owner_id, char.owner.username)
+
+        focus_aspects = ['Vit', 'Glass Cannon', 'Dam', 'Heals', 'AP Red', 'MP Red',
+                        'Crit', 'Res', 'Leecher', 'PP', 'Pods', 'Traps', 'Summons',
                         'Pushback', 'Non-Crit']
-        
         has_focus = any(focus in char.char_build for focus in focus_aspects if char.char_build)
-        
+
         if char.char_build and not has_focus:
-            # Build has elements but no focus = balanced
             build_name_translated = f"{translate_build_name(char.char_build)} {ASPECT_TO_NAME['balanced']}"
         elif not char.char_build:
-            # No build type at all = balanced
             build_name_translated = str(ASPECT_TO_NAME['balanced'])
         else:
             build_name_translated = translate_build_name(char.char_build)
-        
+
+        build_meta = meta_by_id[char.id]
         builds_data.append({
             'char': char,
             'link': link,
-            'total_stats': total_stats or 0,
+            'total_stats': build_meta['total_stats'],
+            'preview_items': build_meta['preview_items'],
+            'compact_stats': build_meta['compact_stats'],
             'view_count': char.view_count,
             'build_name_translated': build_name_translated,
             'creator_name': creator_name,
             'like_count': char.like_count,
             'favorite_count': char.favorite_count,
-            'user_liked': char.id in user_likes,
-            'user_favorited': char.id in user_favorites,
+            'user_liked': False,
+            'user_favorited': False,
+            'has_outdated_slots': build_meta['has_outdated_slots'],
+            'has_condition_issues': build_meta['has_condition_issues'],
+            'is_invalid': build_meta['is_invalid'],
         })
+
+    # Get user's votes if logged in.
+    if request.user.is_authenticated and builds_data:
+        build_ids = [build['char'].id for build in builds_data]
+        user_likes = set(BuildVote.objects.filter(
+            user=request.user, vote_type='like', build_id__in=build_ids
+        ).values_list('build_id', flat=True))
+        user_favorites = set(BuildVote.objects.filter(
+            user=request.user, vote_type='favorite', build_id__in=build_ids
+        ).values_list('build_id', flat=True))
+
+        for build in builds_data:
+            build['user_liked'] = build['char'].id in user_likes
+            build['user_favorited'] = build['char'].id in user_favorites
     
     # Get all unique classes for filter dropdown
     all_classes = Char.objects.filter(link_shared=True, deleted=False).values_list('char_class', flat=True).distinct().order_by('char_class')
@@ -315,6 +481,7 @@ def shared_builds(request):
             'user_search': user_search,
             'show_liked': show_liked,
             'show_favorited': show_favorited,
+            'hide_invalid': hide_invalid,
         }
     }
     

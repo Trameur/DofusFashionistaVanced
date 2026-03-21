@@ -17,6 +17,7 @@
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
+from django.core.cache import cache
 import json
 
 from chardata.encoded_char_id import encode_char_id
@@ -38,6 +39,66 @@ from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
 from fashionistapulp.modelresult import ModelResultMinimal
 from chardata.themes import get_ajax_loader_URL, get_external_image_URL
+from fashionistapulp.translation import get_supported_language
+
+
+SHARED_SOLUTION_CACHE_TIMEOUT = 6 * 60 * 60
+
+
+def _get_shared_solution_cache_key(char):
+    modified_marker = 'none'
+    if char.modified_time is not None:
+        modified_marker = str(int(char.modified_time.timestamp() * 1000000))
+    return 'shared-solution-%s-%s-%s' % (char.pk,
+                                         modified_marker,
+                                         get_supported_language())
+
+
+def _get_shared_solution_params(char):
+    cache_key = _get_shared_solution_cache_key(char)
+    cached_params = cache.get(cache_key)
+    if cached_params is not None:
+        return cached_params
+
+    inclusions = get_all_inclusions_en_names(char)
+    exclusions = get_all_exclusions_en_names(char)
+    solution = get_solution(char)
+    solution_result = SolutionResult(solution,
+                                     inclusions,
+                                     exclusions)
+    cached_params = solution_result.get_params()
+    cache.set(cache_key, cached_params, SHARED_SOLUTION_CACHE_TIMEOUT)
+    return cached_params
+
+
+def _get_live_vote_data(request, char):
+    vote_data = {
+        'like_count': 0,
+        'favorite_count': 0,
+        'user_liked': False,
+        'user_favorited': False,
+    }
+
+    if not char.link_shared:
+        return vote_data
+
+    try:
+        vote_counts = BuildVote.objects.filter(build=char).values('vote_type').annotate(count=Count('id'))
+        for vote_count in vote_counts:
+            if vote_count['vote_type'] == 'like':
+                vote_data['like_count'] = vote_count['count']
+            elif vote_count['vote_type'] == 'favorite':
+                vote_data['favorite_count'] = vote_count['count']
+
+        if request.user.is_authenticated:
+            user_votes = set(BuildVote.objects.filter(user=request.user,
+                                                      build=char).values_list('vote_type', flat=True))
+            vote_data['user_liked'] = 'like' in user_votes
+            vote_data['user_favorited'] = 'favorite' in user_votes
+    except Exception as e:
+        print(f"Error fetching vote data: {e}")
+
+    return vote_data
 
 
 def solution(request, char_id, empty=False):
@@ -52,35 +113,24 @@ def solution(request, char_id, empty=False):
             input_['base_stats_by_attr'] = get_base_stats_by_attr(request, char_id)
             input_['char_level'] = char.level
             set_minimal_solution(char, ModelResultMinimal.generate_empty_solution(input_))
-    return _solution(request, char_id, False)
+    return _solution(request, char_id, False, char=char)
     
-def _solution(request, char_id, is_guest, encoded_char_id=None):
-    char = get_object_or_404(Char, pk=char_id)
-    
-    inclusions = get_all_inclusions_en_names(char)
-    exclusions = get_all_exclusions_en_names(char)
-    
-    solution = get_solution(char)
-    solution_result = SolutionResult(solution,
-                                     inclusions,
-                                     exclusions)
-    
-    # Get vote counts and user's votes for shared builds
-    like_count = 0
-    favorite_count = 0
-    user_liked = False
-    user_favorited = False
-    
-    if char.link_shared:
-        try:
-            like_count = BuildVote.objects.filter(build=char, vote_type='like').count()
-            favorite_count = BuildVote.objects.filter(build=char, vote_type='favorite').count()
-            
-            if request.user.is_authenticated:
-                user_liked = BuildVote.objects.filter(user=request.user, build=char, vote_type='like').exists()
-                user_favorited = BuildVote.objects.filter(user=request.user, build=char, vote_type='favorite').exists()
-        except Exception as e:
-            print(f"Error fetching vote data: {e}")
+def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
+    if char is None:
+        char = get_object_or_404(Char, pk=char_id)
+
+    if is_guest and char.link_shared:
+        solution_params = _get_shared_solution_params(char)
+    else:
+        inclusions = get_all_inclusions_en_names(char)
+        exclusions = get_all_exclusions_en_names(char)
+        solution = get_solution(char)
+        solution_result = SolutionResult(solution,
+                                         inclusions,
+                                         exclusions)
+        solution_params = solution_result.get_params()
+
+    vote_data = _get_live_vote_data(request, char)
     
     params = {'char_id': char_id,
               'lock_item': static('chardata/lock-icon.png'),
@@ -94,16 +144,13 @@ def _solution(request, char_id, is_guest, encoded_char_id=None):
               'encoded_char_id': encoded_char_id,
               'link_shared': char.link_shared,
               'owner_alias': get_alias(char.owner),
-              'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
-              'like_count': like_count,
-              'favorite_count': favorite_count,
-              'user_liked': user_liked,
-              'user_favorited': user_favorited}
+              'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel')}
               
     if char.link_shared:
         params['initial_link'] = generate_link(char)
 
-    params.update(solution_result.get_params())
+    params.update(vote_data)
+    params.update(solution_params)
 
     response = set_response(request, 
                             'chardata/solution.html',
@@ -163,7 +210,7 @@ def solution_linked(request, char_name, encoded_char_id):
         # If view tracking fails, log it but don't break the page
         print(f"View tracking error: {e}")
     
-    return _solution(request, char.pk, True, encoded_char_id)
+    return _solution(request, char.pk, True, encoded_char_id, char=char)
 
 def generate_link(char):
     encoded_id = encode_char_id(int(char.id))

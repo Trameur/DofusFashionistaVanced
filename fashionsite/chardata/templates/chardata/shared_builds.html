@@ -102,6 +102,64 @@
             gap: 5px;
             margin: 10px 0;
         }
+
+        .build-preview-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+            gap: 6px;
+            margin: 12px 0 10px;
+            padding: 10px;
+            border: 1px solid rgba(139, 115, 85, 0.5);
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .build-preview-item {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.22);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .build-preview-item img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .build-compact-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 0;
+        }
+
+        .build-compact-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(139, 115, 85, 0.45);
+            color: #D4AF37;
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .build-compact-stat img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            flex: 0 0 16px;
+        }
+
+        .build-compact-stat-value {
+            font-weight: bold;
+        }
         
         .build-info-row {
             display: flex;
@@ -239,6 +297,31 @@
         
         .build-link:visited:hover {
             color: #000 !important;
+        }
+
+        .build-alerts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 4px;
+        }
+
+        .build-alert-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid rgba(173, 88, 43, 0.55);
+            background-color: rgba(173, 88, 43, 0.16);
+            color: #8f2d12;
+        }
+
+        .build-alert-badge-danger {
+            border-color: rgba(173, 43, 43, 0.6);
+            background-color: rgba(173, 43, 43, 0.16);
+            color: #8b1e1e;
         }
         
         .no-builds {
@@ -441,6 +524,15 @@
                 </div>
             </div>
             {% endif %}
+
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label style="color: #D4AF37;">
+                        <input type="checkbox" name="hide_invalid" value="1" {% if filters.hide_invalid %}checked{% endif %}>
+                        {% trans "Hide invalid or outdated builds" %}
+                    </label>
+                </div>
+            </div>
             
             <div class="filter-row" style="justify-content: center;">
                 <button type="submit" class="filter-button button-generic">{% trans "Apply Filters" %}</button>
@@ -491,6 +583,40 @@
                             </div>
                         {% endif %}
                     </div>
+
+                    {% if build.preview_items %}
+                    <div class="build-preview-items">
+                        {% for item in build.preview_items %}
+                        <div class="build-preview-item" title="{{ item.name }}">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if build.compact_stats %}
+                    <div class="build-compact-stats">
+                        {% for stat in build.compact_stats %}
+                        <div class="build-compact-stat" title="{{ stat.label }}: {{ stat.value }}">
+                            {% if stat.icon_url %}
+                            <img src="{{ stat.icon_url }}" alt="{{ stat.label }}">
+                            {% endif %}
+                            <span class="build-compact-stat-value">{{ stat.value }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if build.has_outdated_slots or build.has_condition_issues %}
+                    <div class="build-alerts">
+                        {% if build.has_outdated_slots %}
+                        <span class="build-alert-badge">{% trans "Outdated slot layout" %}</span>
+                        {% endif %}
+                        {% if build.has_condition_issues %}
+                        <span class="build-alert-badge build-alert-badge-danger">{% trans "Conditions not met" %}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
                     
                     <div class="build-stats">
                         <div class="stat-item">

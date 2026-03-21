@@ -4932,6 +4932,18 @@ msgid "Apply Filters"
 msgstr "Filter Anwenden"
 
 #: chardata/templates/chardata/shared_builds.html
+msgid "Hide invalid or outdated builds"
+msgstr "Ungueltige oder veraltete Builds ausblenden"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Outdated slot layout"
+msgstr "Veraltete Slot-Belegung"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Conditions not met"
+msgstr "Bedingungen nicht erfuellt"
+
+#: chardata/templates/chardata/shared_builds.html
 msgid "Clear Filters"
 msgstr "Filter Löschen"
 
