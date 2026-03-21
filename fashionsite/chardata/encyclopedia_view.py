@@ -8,6 +8,7 @@ from django.utils import translation
 
 from chardata.image_store import get_image_url
 from chardata.official_site import get_item_link
+from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
@@ -16,74 +17,6 @@ from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
-
-
-STAT_ICON_FILENAME_BY_KEY = {
-    'hp': 'Health_Points.png',
-    'vit': 'Vitality.png',
-    'str': 'Strength.png',
-    'int': 'Intelligence.png',
-    'cha': 'Chance.png',
-    'agi': 'Agility.png',
-    'wis': 'Wisdom.png',
-    'ap': 'AP.png',
-    'mp': 'MP.png',
-    'range': 'Range.png',
-    'summon': 'Summon.png',
-    'init': 'Initiative.png',
-    'pp': 'Prospecting.png',
-    'pod': 'Health_Points.png',
-    'lock': 'Lock.png',
-    'dodge': 'Dodge.png',
-    'pow': 'Neutral.png',
-    'dam': 'Neutral.png',
-    'heals': 'Health_Points.png',
-    'ch': 'Neutral.png',
-    'cf': 'Neutral.png',
-    'cridam': 'Neutral.png',
-    'crires': 'Neutral.png',
-    'pshdam': 'Neutral.png',
-    'pshres': 'Neutral.png',
-    'apred': 'AP.png',
-    'apres': 'AP.png',
-    'mpred': 'MP.png',
-    'mpres': 'MP.png',
-    'neutdam': 'Neutral.png',
-    'neutres': 'Neutral.png',
-    'neutresper': 'Neutral.png',
-    'earthdam': 'Strength.png',
-    'earthres': 'Strength.png',
-    'earthresper': 'Strength.png',
-    'firedam': 'Intelligence.png',
-    'fireres': 'Intelligence.png',
-    'fireresper': 'Intelligence.png',
-    'waterdam': 'Chance.png',
-    'waterres': 'Chance.png',
-    'waterresper': 'Chance.png',
-    'airdam': 'Agility.png',
-    'airres': 'Agility.png',
-    'airresper': 'Agility.png',
-    'pvpneutres': 'Neutral.png',
-    'pvpearthres': 'Strength.png',
-    'pvpfireres': 'Intelligence.png',
-    'pvpwaterres': 'Chance.png',
-    'pvpairres': 'Agility.png',
-    'pvpneutresper': 'Neutral.png',
-    'pvpearthresper': 'Strength.png',
-    'pvpfireresper': 'Intelligence.png',
-    'pvpwaterresper': 'Chance.png',
-    'pvpairresper': 'Agility.png',
-    'trapdam': 'Neutral.png',
-    'trapdamper': 'Neutral.png',
-    'permedam': 'Neutral.png',
-    'perrandam': 'Neutral.png',
-    'perweadam': 'Weapon.png',
-    'perspedam': 'Neutral.png',
-    'respermee': 'Neutral.png',
-    'resperran': 'Neutral.png',
-    'resperwea': 'Weapon.png',
-    'ref': 'Neutral.png',
-}
 
 
 LOCALIZED_UI = {
@@ -340,10 +273,10 @@ def _is_searchable_stat_key(stat_key):
 
 
 def _get_stat_icon_url(stat_key):
-    icon_filename = STAT_ICON_FILENAME_BY_KEY.get(stat_key)
-    if icon_filename is None:
+    icon_path = get_stat_icon_path(stat_key)
+    if icon_path is None:
         return None
-    return static('chardata/%s' % icon_filename)
+    return static(icon_path)
 
 
 def _get_stats_map(item):
@@ -886,6 +819,7 @@ def encyclopedia(request):
         {
             'key': stat.key,
             'name': _localized_label(structure.get_stat_by_key(stat.key).name, language),
+            'icon_url': _get_stat_icon_url(stat.key) or '',
         }
         for stat in structure.get_stats_list()
         if _is_searchable_stat_key(stat.key)

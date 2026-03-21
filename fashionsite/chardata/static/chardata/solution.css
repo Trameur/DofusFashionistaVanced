@@ -170,6 +170,30 @@
     margin-left: 4px;
 }
 
+.solution-inline-stat-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.solution-inline-stat-icon {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.solution-item-expand-content .solution-inline-stat-icon,
+.solution-set-expand-content .solution-inline-stat-icon {
+    width: 15px !important;
+    height: 15px !important;
+    max-width: 15px !important;
+    max-height: 15px !important;
+    min-width: 15px;
+    min-height: 15px;
+    vertical-align: middle;
+}
+
 .solution-stat-summary-mode-option-container {
     float: left;
     width: 50%;

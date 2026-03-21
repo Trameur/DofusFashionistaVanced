@@ -18,11 +18,12 @@
     </div>
     <div class="expand-content solution-set-expand-content">
         {% for line in set_result.stats_lines %}
-            {% if '#r' in line.formatting %}
-                <span class="solution-negative-stat-text">{{line.text}}</span>
-            {% else %}
-                {{line.text}}
-            {% endif %}
+            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+                {% if line.icon_url %}
+                    <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="">
+                {% endif %}
+                <span>{{line.text}}</span>
+            </span>
             <br>
         {% endfor %}
     </div>

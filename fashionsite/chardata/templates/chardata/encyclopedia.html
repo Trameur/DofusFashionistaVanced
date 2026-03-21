@@ -74,6 +74,20 @@
     width: 100%;
     box-sizing: border-box;
 }
+.encyclopedia-stat-select {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.encyclopedia-stat-select-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+.encyclopedia-stat-select-icon-hidden {
+    visibility: hidden;
+}
 .encyclopedia-order-row {
     display: grid;
     grid-template-columns: minmax(180px, 1fr) minmax(130px, 180px) auto;
@@ -276,12 +290,15 @@
                 <div class="encyclopedia-stat-row">
                     <div>
                         <label>{{ t.stat_label }}</label>
-                        <select class="pretty-input" name="stat_key">
-                            <option value="">-</option>
+                        <div class="encyclopedia-stat-select">
+                            <img class="encyclopedia-stat-select-icon {% if not stat_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if stat_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
+                            <select class="pretty-input" name="stat_key">
+                            <option value="" data-icon-url="">-</option>
                             {% for option in stat_options %}
-                                <option value="{{ option.key }}" {% if stat_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                                <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}" {% if stat_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
                             {% endfor %}
-                        </select>
+                            </select>
+                        </div>
                     </div>
                     <div>
                         <label>{{ t.min_value_label }}</label>
@@ -305,12 +322,15 @@
                 <div class="encyclopedia-order-row">
                     <div>
                         <label>{{ t.stat_label }}</label>
-                        <select class="pretty-input" name="order_key">
-                            <option value="">-</option>
+                        <div class="encyclopedia-stat-select">
+                            <img class="encyclopedia-stat-select-icon {% if not order_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if order_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
+                            <select class="pretty-input" name="order_key">
+                            <option value="" data-icon-url="">-</option>
                             {% for option in stat_options %}
-                                <option value="{{ option.key }}" {% if order_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                                <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}" {% if order_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
                             {% endfor %}
-                        </select>
+                            </select>
+                        </div>
                     </div>
                     <div>
                         <label>{{ t.order_direction_label }}</label>
@@ -340,12 +360,15 @@
         <div class="encyclopedia-stat-row">
             <div>
                 <label>{{ t.stat_label }}</label>
-                <select class="pretty-input" name="stat_key">
-                    <option value="">-</option>
+                <div class="encyclopedia-stat-select">
+                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
+                    <select class="pretty-input" name="stat_key">
+                    <option value="" data-icon-url="">-</option>
                     {% for option in stat_options %}
-                        <option value="{{ option.key }}">{{ option.name }}</option>
+                        <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}">{{ option.name }}</option>
                     {% endfor %}
-                </select>
+                    </select>
+                </div>
             </div>
             <div>
                 <label>{{ t.min_value_label }}</label>
@@ -361,12 +384,15 @@
         <div class="encyclopedia-order-row">
             <div>
                 <label>{{ t.stat_label }}</label>
-                <select class="pretty-input" name="order_key">
-                    <option value="">-</option>
+                <div class="encyclopedia-stat-select">
+                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
+                    <select class="pretty-input" name="order_key">
+                    <option value="" data-icon-url="">-</option>
                     {% for option in stat_options %}
-                        <option value="{{ option.key }}">{{ option.name }}</option>
+                        <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}">{{ option.name }}</option>
                     {% endfor %}
-                </select>
+                    </select>
+                </div>
             </div>
             <div>
                 <label>{{ t.order_direction_label }}</label>
@@ -416,6 +442,34 @@
             });
         }
 
+        function syncStatSelectIcon(select) {
+            if (!select) {
+                return;
+            }
+            var wrapper = select.closest('.encyclopedia-stat-select');
+            if (!wrapper) {
+                return;
+            }
+            var icon = wrapper.querySelector('.encyclopedia-stat-select-icon');
+            var selectedOption = select.options[select.selectedIndex];
+            var iconUrl = selectedOption ? selectedOption.getAttribute('data-icon-url') : '';
+            if (!icon) {
+                return;
+            }
+            icon.src = iconUrl || '';
+            icon.classList.toggle('encyclopedia-stat-select-icon-hidden', !iconUrl);
+        }
+
+        function bindStatSelectIcons(scope) {
+            var selects = scope.querySelectorAll('select[name="stat_key"], select[name="order_key"]');
+            selects.forEach(function(select) {
+                select.onchange = function() {
+                    syncStatSelectIcon(select);
+                };
+                syncStatSelectIcon(select);
+            });
+        }
+
         function updateOrderRemoveButtons() {
             var rows = orderList.querySelectorAll('.encyclopedia-order-row');
             rows.forEach(function(row) {
@@ -457,6 +511,7 @@
         addButton.addEventListener('click', function() {
             var fragment = template.content.cloneNode(true);
             bindRemoveButtons(fragment);
+            bindStatSelectIcons(fragment);
             list.appendChild(fragment);
             updateRemoveButtons();
         });
@@ -464,6 +519,7 @@
         addOrderButton.addEventListener('click', function() {
             var fragment = orderTemplate.content.cloneNode(true);
             bindOrderRemoveButtons(fragment);
+            bindStatSelectIcons(fragment);
             orderList.appendChild(fragment);
             updateOrderRemoveButtons();
             syncOrderRowsJson();
@@ -475,6 +531,7 @@
 
         bindRemoveButtons(document);
         bindOrderRemoveButtons(document);
+        bindStatSelectIcons(document);
         updateRemoveButtons();
         updateOrderRemoveButtons();
         syncOrderRowsJson();

@@ -266,7 +266,7 @@ def _get_difference(item, slot, char):
     stats_lines = []
     for stat_key, stat_value in ordered_diff:
         stat_name = get_structure().get_stat_by_key(stat_key).name
-        stats_lines.append(AttributeLine(stat_value, stat_name))
+        stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
     return stats_lines
 
 def _get_weapon_rate(weapon, char, result):

@@ -23,6 +23,7 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure
+from chardata.stat_icons import get_stat_icon_path
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_item_link
@@ -90,7 +91,7 @@ class SolutionResult:
             result_set.stats_lines = []
             for stat_key, stat_value in stats_from_result_set:
                 stat_name = get_structure().get_stat_by_key(stat_key).name
-                result_set.stats_lines.append(AttributeLine(stat_value, stat_name))
+                result_set.stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
                            
             # This is a dict to handle cases like Air Bwaks, that can be multiple different
             # items, but we only want to display one.
@@ -142,7 +143,7 @@ def evolve_result_item(result_item, r=None):
     result_item.stats_lines = []
     for stat_key, stat_value in stats_from_result_item:
         stat_name = get_structure().get_stat_by_key(stat_key).name
-        result_item.stats_lines.append(AttributeLine(stat_value, stat_name))
+        result_item.stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
     for extra in result_item.extras:
         result_item.stats_lines.append(ExtraLine(extra))
 
@@ -153,14 +154,14 @@ def evolve_result_item(result_item, r=None):
                                       key=lambda x: STAT_ORDER[x[0]])
         for stat_key, stat_value in min_from_result_item:
             stat_name = get_structure().get_stat_by_key(stat_key).name
-            result_item.condition_lines.append(MinConditionLine(stat_value, stat_name, r))
+            result_item.condition_lines.append(MinConditionLine(stat_key, stat_value, stat_name, r))
 
     if hasattr(result_item, 'max_stats_to_equip'):
         max_from_result_item = sorted(iter(result_item.max_stats_to_equip.items()),
                                       key=lambda x: STAT_ORDER[x[0]])
         for stat_key, stat_value in max_from_result_item:
             stat_name = get_structure().get_stat_by_key(stat_key).name
-            result_item.condition_lines.append(MaxConditionLine(stat_value, stat_name, r))
+            result_item.condition_lines.append(MaxConditionLine(stat_key, stat_value, stat_name, r))
 
     if result_item.weird_conditions['light_set']:
         result_item.condition_lines.append(LightSetConditionLine(r))
@@ -233,12 +234,14 @@ def evolve_result_item(result_item, r=None):
 
 class AttributeLine:
     
-    def __init__(self, stat_value, stat_name):
+    def __init__(self, stat_key, stat_value, stat_name):
         self.text = ('%d%s%s'
                      % (stat_value,
                         '' if stat_name.startswith('%') else ' ',
                         _(stat_name)))
         self.formatting = '#r' if stat_value < 0 else ''
+        icon_path = get_stat_icon_path(stat_key)
+        self.icon_url = static(icon_path) if icon_path else None
 
 class ExtraLine:
     
@@ -248,11 +251,13 @@ class ExtraLine:
 
 class MinConditionLine:
     
-    def __init__(self, stat_value, stat_name, model_result):
+    def __init__(self, stat_key, stat_value, stat_name, model_result):
         self.text = ('%s > %d'
                      % (_(stat_name),
                         stat_value - 1))
         self.formatting = ''
+        icon_path = get_stat_icon_path(stat_key)
+        self.icon_url = static(icon_path) if icon_path else None
         if model_result:
             s = get_structure()
             stat = s.get_stat_by_name(stat_name)
@@ -261,11 +266,13 @@ class MinConditionLine:
 
 class MaxConditionLine:
     
-    def __init__(self, stat_value, stat_name, model_result):
+    def __init__(self, stat_key, stat_value, stat_name, model_result):
         self.text = ('%s < %d'
                      % (_(stat_name),
                         stat_value + 1))
         self.formatting = ''
+        icon_path = get_stat_icon_path(stat_key)
+        self.icon_url = static(icon_path) if icon_path else None
         if model_result:
             s = get_structure()
             stat = s.get_stat_by_name(stat_name)
