@@ -597,7 +597,7 @@
                     {% if build.compact_stats %}
                     <div class="build-compact-stats">
                         {% for stat in build.compact_stats %}
-                        <div class="build-compact-stat" title="{{ stat.label }}: {{ stat.value }}">
+                        <div class="build-compact-stat"{% if stat.label %} title="{{ stat.label }}: {{ stat.value }}"{% endif %}>
                             {% if stat.icon_url %}
                             <img src="{{ stat.icon_url }}" alt="{{ stat.label }}">
                             {% endif %}
