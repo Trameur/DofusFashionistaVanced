@@ -373,6 +373,46 @@ msgstr "Atributos"
 msgid "Select"
 msgstr "Seleccionar"
 
+#: chardata/static/chardata/solution_popup.js
+msgid "Add filter"
+msgstr "Agregar filtro"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Stat filters"
+msgstr "Filtros de stats"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Any stat"
+msgstr "Cualquier stat"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Minimum"
+msgstr "Minimo"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Damage"
+msgstr "Danos"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Neutral Resistance"
+msgstr "Resistencia Neutral"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Earth Resistance"
+msgstr "Resistencia Tierra"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Fire Resistance"
+msgstr "Resistencia Fuego"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Water Resistance"
+msgstr "Resistencia Agua"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Air Resistance"
+msgstr "Resistencia Aire"
+
 #: chardata/static/chardata/solution_popup.js:515
 #: staticfiles/chardata/solution_popup.js:515
 msgid "The average damage/AP of this weapon while %(element)s maged would be"

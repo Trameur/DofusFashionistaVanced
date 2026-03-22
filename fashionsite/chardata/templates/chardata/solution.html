@@ -301,6 +301,9 @@
         </a>
     </p>
 {% include "chardata/jqueryui.html" %}
+    <script>
+        var statFilterOptions = {{ stat_filter_options_json | safe }};
+    </script>
     <script src="{% static 'chardata/solution_popup.js' %}"></script>
     <script>
         $.ajaxSetup({

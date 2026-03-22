@@ -33,6 +33,22 @@ var itemTemplate =
 </div>';
 
 var loadUrl = "";
+var popupStatFilters = [];
+var popupStatOptions =
+    (typeof statFilterOptions !== 'undefined' && Array.isArray(statFilterOptions) && statFilterOptions.length > 0)
+        ? statFilterOptions
+        : [
+            {key: 'ap', label: gettext('AP')},
+            {key: 'mp', label: gettext('MP')},
+            {key: 'range', label: gettext('Range')},
+            {key: 'summon', label: gettext('Summons')},
+            {key: 'vit', label: gettext('Vitality')},
+            {key: 'wis', label: gettext('Wisdom')},
+            {key: 'str', label: gettext('Strength')},
+            {key: 'int', label: gettext('Intelligence')},
+            {key: 'cha', label: gettext('Chance')},
+            {key: 'agi', label: gettext('Agility')}
+        ];
 
 function toggle_expand_header() {;
     $header = $(this);
@@ -117,6 +133,72 @@ function clearSwitchDiv(thisItemName, imageURL) {
     
 }
 
+function renderStatFilters() {
+    var container = $(".stat-filters-div");
+    container.empty();
+    if (!popupStatFilters || popupStatFilters.length === 0) {
+        return;
+    }
+
+    $.each(popupStatFilters, function(i, filterRow) {
+        var row = $("<div class='stat-filter-row' style='margin-top: 6px;'></div>");
+        var statSelect = $("<select class='filter-stat-key'></select>");
+        statSelect.append($("<option value=''>" + gettext('Any stat') + "</option>"));
+
+        $.each(popupStatOptions, function(_, statOption) {
+            var option = $("<option></option>");
+            option.val(statOption.key);
+            option.text(statOption.label);
+            if (filterRow.key === statOption.key) {
+                option.prop('selected', true);
+            }
+            statSelect.append(option);
+        });
+
+        var minInput = $("<input type='number' class='filter-stat-min' style='width: 90px; margin-left: 6px;' />");
+        minInput.attr('placeholder', gettext('Minimum'));
+        if (filterRow.min !== undefined && filterRow.min !== null && filterRow.min !== '') {
+            minInput.val(filterRow.min);
+        }
+
+        var removeButton = $("<button class='button-generic' style='margin-left: 6px;'>x</button>");
+        statSelect.change(function() {
+            popupStatFilters[i].key = $(this).val();
+        });
+        minInput.on('input', function() {
+            popupStatFilters[i].min = $(this).val();
+        });
+        removeButton.click(function(e) {
+            e.preventDefault();
+            popupStatFilters.splice(i, 1);
+            renderStatFilters();
+        });
+
+        row.append(statSelect);
+        row.append(minInput);
+        row.append(removeButton);
+        container.append(row);
+    });
+}
+
+function getStatFiltersPayload() {
+    var rows = [];
+    $.each(popupStatFilters, function(_, filterRow) {
+        if (!filterRow.key) {
+            return;
+        }
+        if (filterRow.min === undefined || filterRow.min === null || filterRow.min === '') {
+            return;
+        }
+        var minValue = parseInt(filterRow.min, 10);
+        if (isNaN(minValue)) {
+            return;
+        }
+        rows.push({key: filterRow.key, min: minValue});
+    });
+    return rows;
+}
+
 function populateSwitchDivInitial(key, page, itemNames, char_id, thisItemName, callBack, showComparison, orderByStat = true) {
     if (thisItemName != "") {
         $(".removing-div").text(gettext("Removing ") + thisItemName);
@@ -126,18 +208,27 @@ function populateSwitchDivInitial(key, page, itemNames, char_id, thisItemName, c
     $(".search-div").empty();
     searchString = gettext("Search");
     resetString = gettext("Reset");
+    addFilterString = gettext("Add filter");
     $(".search-div").append($("\
     <div>\
         <input id='input-search-term'></input>\
         <button id='button-search' class='button-generic'>" + searchString + "</button>\
         <button id='button-reset' class='button-generic'>" + resetString + "</button>\
-    </div>"));
+        <button id='button-add-stat-filter' class='button-generic' style='margin-left: 6px;'>" + addFilterString + "</button>\
+    </div>\
+    <div class='stat-filters-div' style='margin-top: 8px;'></div>"));
+    renderStatFilters();
+    $("#button-add-stat-filter").click(function(e) {
+        e.preventDefault();
+        popupStatFilters.push({key: '', min: ''});
+        renderStatFilters();
+    });
     $("#button-search").click(function() {
-        populateSwitchDiv(key, page, itemNames, char_id, $('#input-search-term').val(), callBack, showComparison);
+        populateSwitchDiv(key, page, itemNames, char_id, $('#input-search-term').val(), callBack, showComparison, orderByStat);
     });
     $("#button-reset").click(function() {
         $('#input-search-term').val('');
-        populateSwitchDiv(key, page, itemNames, char_id, null, callBack, showComparison);
+        populateSwitchDiv(key, page, itemNames, char_id, null, callBack, showComparison, orderByStat);
     });
     $(".weapon-order").empty();
     slot = key.toString();
@@ -227,13 +318,14 @@ function radioWeaponStatsClick(hits, stats, key, page, itemNames, char_id, thisI
 
 
 function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat = true) {
+    var statFiltersPayload = JSON.stringify(getStatFiltersPayload());
     if (itemNames) {
         $.post("/itemexchange/" + char_id + "/",
-               {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat},
+               {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload},
                function(data) {
                    var response = data;
                    populateItems(response.items, response.violations, char_id, searchTerm, key.toString(), response.differences, callBack, showComparison, response.weapon_info);
-                   setPage(response.page, response.max_page, key, itemNames, char_id, searchTerm, callBack, showComparison);
+                   setPage(response.page, response.max_page, key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
                    $(".item-exchange-header").click(toggle_expand_header);
                    $(".item-exchange-violations").click(toggle_expand_violate);
                    
@@ -246,11 +338,11 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
                });
     } else {
         $.post("/itemadd/" + char_id + "/",
-               {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat},
+               {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload},
                function(data) {
                    var response = data;
                    populateItems(response.items, response.violations, char_id, searchTerm, key.toString(), response.differences, callBack, showComparison, 0);
-                   setPage(response.page, response.max_page, key, itemNames, char_id, searchTerm, callBack, showComparison);
+                   setPage(response.page, response.max_page, key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
                    $(".item-exchange-header").click(toggle_expand_header);
                    $(".item-exchange-violations").click(toggle_expand_violate);
                    
@@ -584,7 +676,7 @@ function radioComparisonsClick(attributes, comparison, attrDiv, compDiv){
     compDiv.show();
 }
 
-function setPage(page, maxPages, key, itemNames, char_id, searchTerm, callBack, showComparison) {
+function setPage(page, maxPages, key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat) {
     var pages = [];
     page = parseInt(page);
     maxPages = parseInt(maxPages);
@@ -621,24 +713,24 @@ function setPage(page, maxPages, key, itemNames, char_id, searchTerm, callBack, 
                 div.append($("<label class='pages-current'> "+ page +" </label>"));
         } else {
             if (i === 0){
-                var label = createPageLabel(pages[i], key, itemNames, char_id, searchTerm, callBack, showComparison);
+                var label = createPageLabel(pages[i], key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
                 div.append(label);
             } else {
                     div.append($("<label class='pages-not-link'> </label>"));
                 if (pages[i] > pages[i-1] + 1){
                     div.append($("<label class='pages-not-link'>... </label>"));
                 }
-                var label = createPageLabel(pages[i], key, itemNames, char_id, searchTerm, callBack, showComparison);
+                var label = createPageLabel(pages[i], key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
                 div.append(label);
             }
         }
     }
 }
 
-function createPageLabel(page, key, itemNames, char_id, searchTerm, callBack, showComparison) {
+function createPageLabel(page, key, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat) {
     var label = $("<label class='pages-link'>" + page + "</label>");
     label.click(function() {
-        populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, showComparison);
+        populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat);
     });
     return label;
 }

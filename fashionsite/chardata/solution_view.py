@@ -29,11 +29,12 @@ from chardata.models import Char, BuildVote, BuildView
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, get_base_stats_by_attr
-from fashionistapulp.dofus_constants import SLOTS
+from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER
 
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
@@ -43,6 +44,16 @@ from fashionistapulp.translation import get_supported_language
 
 
 SHARED_SOLUTION_CACHE_TIMEOUT = 6 * 60 * 60
+
+
+def _get_stat_filter_options():
+    structure = get_structure()
+    stats = sorted(structure.get_stats_list(), key=lambda stat: STAT_ORDER.get(stat.key, 9999))
+    return [
+        {'key': stat.key, 'label': _(stat.name)}
+        for stat in stats
+        if stat.key != 'hp' and not stat.key.startswith('pvp')
+    ]
 
 
 def _get_shared_solution_cache_key(char):
@@ -144,7 +155,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'encoded_char_id': encoded_char_id,
               'link_shared': char.link_shared,
               'owner_alias': get_alias(char.owner),
-              'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel')}
+              'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
+              'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:
         params['initial_link'] = generate_link(char)

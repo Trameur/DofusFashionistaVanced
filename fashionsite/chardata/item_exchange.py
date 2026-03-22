@@ -37,7 +37,62 @@ from fashionistapulp.translation import get_supported_language
 from django.utils.translation import gettext as _
 
 
-def _order_items(item_type, char, search_term):
+def _parse_stat_filters(request):
+    raw_filters = request.POST.get('stat_filters_json', None)
+    if raw_filters is None:
+        return []
+    try:
+        parsed = jsonpickle.decode(raw_filters)
+    except Exception:
+        return []
+
+    valid_stat_keys = {stat.key for stat in get_structure().get_stats_list()}
+    filters = []
+    for row in parsed if isinstance(parsed, list) else []:
+        if not isinstance(row, dict):
+            continue
+        stat_key = row.get('key', None)
+        min_raw = row.get('min', None)
+        if stat_key not in valid_stat_keys:
+            continue
+        try:
+            min_value = int(min_raw)
+        except (TypeError, ValueError):
+            continue
+        filters.append({'key': stat_key, 'min': min_value})
+    return filters
+
+
+def _get_item_stats_by_key(item):
+    structure = get_structure()
+    normalized_item = item
+    if item.name in structure.or_items:
+        normalized_item = structure.get_or_item_by_name(item.name)[0]
+    stats_by_key = {}
+    for stat_id, stat_value in normalized_item.stats:
+        stat_obj = structure.get_stat_by_id(stat_id)
+        if stat_obj is not None:
+            stats_by_key[stat_obj.key] = stat_value
+    return stats_by_key
+
+
+def _apply_stat_filters(items, stat_filters):
+    if not stat_filters:
+        return items
+    filtered = []
+    for item in items:
+        stats_by_key = _get_item_stats_by_key(item)
+        include = True
+        for stat_filter in stat_filters:
+            if stats_by_key.get(stat_filter['key'], 0) < stat_filter['min']:
+                include = False
+                break
+        if include:
+            filtered.append(item)
+    return filtered
+
+
+def _order_items(item_type, char, search_term, stat_filters=None):
     structure = get_structure()
     items = structure.get_unique_items_by_type_and_level(item_type, char.level)
     search_term = search_term.lower()
@@ -45,6 +100,7 @@ def _order_items(item_type, char, search_term):
     if search_term is not None:
         items = [i for i in items if _item_contains_term(i, re.sub(r'\W+', '', search_term))]
     items = [i for i in items if _hide_removed_item(i)]
+    items = _apply_stat_filters(items, stat_filters or [])
     weights = pickle.loads(char.stats_weight)
     sorted_items = sorted(items, key=lambda item: _rate(structure, item, weights), reverse=True)
     return sorted_items
@@ -57,14 +113,15 @@ def _hide_removed_item(item):
         return False
     return True
 
-def _order_by_hits(item_type, char, search_term):
+def _order_by_hits(item_type, char, search_term, stat_filters=None):
     structure = get_structure()
     items = structure.get_unique_items_by_type_and_level(item_type, char.level)
     search_term = search_term.lower()
     search_term = strip_accents(search_term)
-    if search_term is not None and search_term is not '':
+    if search_term is not None and search_term != '':
         items = [i for i in items if _item_contains_term(i, re.sub(r'\W+', '', search_term))]
     items = [i for i in items if _hide_removed_item(i)]
+    items = _apply_stat_filters(items, stat_filters or [])
     solution = get_solution(char)
     sorted_items = sorted(items, key=lambda item: _get_weapon_rate(item, char, solution), reverse=True)
     #print sorted_items[:5]
@@ -82,7 +139,7 @@ def _item_contains_term(item, search_term):
         item_name = item.name.lower()
     
     search_term = re.sub(r'\W+', '', search_term)
-    item_name = re.sub(r'\W+', ' ', item_name)  # replace special characters with space
+    item_name = re.sub(r'\W+', '', item_name)
     return search_term in item_name
 
 def _rate(structure, item, weights):
@@ -106,16 +163,20 @@ def get_items_of_type(request, char_id):
     page = int(request.POST.get('page', None))
     search_term = request.POST.get('search_term', None)
     slot = request.POST.get('slot', None)
+    stat_filters = _parse_stat_filters(request)
     
     itype = SLOT_NAME_TO_TYPE[slot]
     structure = get_structure()
     
-    cache_key = ('%s-%s-%s' % (char_id, structure.get_type_id_by_name(itype), search_term)) 
+    cache_key = ('%s-%s-%s-%s' % (char_id,
+                                  structure.get_type_id_by_name(itype),
+                                  search_term,
+                                  jsonpickle.encode(stat_filters, unpicklable=False)))
     cache_key = re.sub(r"\s+", '_', cache_key) 
     items = cache.get(cache_key)
     
     if items == None:
-        items = _order_items(itype, char, search_term)
+        items = _order_items(itype, char, search_term, stat_filters)
     cache.set(cache_key, items, 300)
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
@@ -150,6 +211,7 @@ def get_items_to_exchange(request, char_id):
     page = int(request.POST.get('page', 1))
     search_term = request.POST.get('search_term', None)
     order_by_stats = request.POST.get('order_by_stat', True)
+    stat_filters = _parse_stat_filters(request)
     
     assert slot in SLOTS
     assert int(page) >= 0
@@ -157,17 +219,21 @@ def get_items_to_exchange(request, char_id):
     structure = get_structure()
     item_type = structure.get_type_id_by_name(SLOT_NAME_TO_TYPE.get(slot))
     
-    cache_key = ('%s-%s-%s-%s' % (char_id, item_type, search_term, order_by_stats)) 
+    cache_key = ('%s-%s-%s-%s-%s' % (char_id,
+                                     item_type,
+                                     search_term,
+                                     order_by_stats,
+                                     jsonpickle.encode(stat_filters, unpicklable=False)))
     cache_key = re.sub(r"\s+", '_', cache_key) 
     items_to_exchange = cache.get(cache_key) 
     
     if items_to_exchange == None:
         if slot == 'weapon' and order_by_stats == 'false':
             items_to_exchange = _order_by_hits(structure.get_type_name_by_id(item_type), char,
-                                               search_term)  
+                                                                                             search_term, stat_filters)
         else:
             items_to_exchange = _order_items(structure.get_type_name_by_id(item_type), char,
-                                             search_term)
+                                                                                         search_term, stat_filters)
     cache.set(cache_key, items_to_exchange, 300)
     
     max_page = math.ceil(len(items_to_exchange) / 10.0)

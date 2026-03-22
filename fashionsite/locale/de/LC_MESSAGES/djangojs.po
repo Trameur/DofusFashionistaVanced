@@ -353,6 +353,46 @@ msgstr ""
 msgid "There are no differences."
 msgstr "There are no differences."
 
+#: chardata/static/chardata/solution_popup.js
+msgid "Add filter"
+msgstr "Filter hinzufuegen"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Stat filters"
+msgstr "Stat-Filter"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Any stat"
+msgstr "Beliebiger Wert"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Minimum"
+msgstr "Minimum"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Damage"
+msgstr "Schaden"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Neutral Resistance"
+msgstr "Neutraler Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Earth Resistance"
+msgstr "Erd-Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Fire Resistance"
+msgstr "Feuer-Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Water Resistance"
+msgstr "Wasser-Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Air Resistance"
+msgstr "Luft-Widerstand"
+
 #: chardata/static/chardata/solution_popup.js:453
 #: staticfiles/chardata/solution_popup.js:453
 msgid "No items found containing"
