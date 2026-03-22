@@ -8,6 +8,25 @@
     {% load static_s3 %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+        .min-stat-icon {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        .min-stat-icon-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .min-stat-icon-group .min-stat-icon {
+            margin-right: 0;
+        }
+    </style>
 
 <form id="main_form" method="post">
   {% csrf_token %}
@@ -41,6 +60,37 @@ var all_stats = {{stats_order | safe}};
 var fixedStats = {{stats_fixed | safe}};  
 var advStats = {{stats_adv | safe}};  
 
+function buildStatIcon(iconUrl, altText) {
+    if (!iconUrl) {
+        return $("<span style='display:inline-block; width:16px; height:16px;'></span>");
+    }
+    return $("<img class='min-stat-icon' src='" + iconUrl + "' alt='" + altText + "'>");
+}
+
+function buildStatIcons(iconUrls, altText) {
+    if (!iconUrls || iconUrls.length === 0) {
+        return buildStatIcon('', altText);
+    }
+    if (iconUrls.length === 1) {
+        return buildStatIcon(iconUrls[0], altText);
+    }
+
+    var container = $("<span class='min-stat-icon-group'></span>");
+    $.each(iconUrls, function(index, iconUrl) {
+        container.append(buildStatIcon(iconUrl, altText));
+    });
+    return container;
+}
+
+function updateDynamicStatIcon(lineContainer, statKey) {
+    var selectedStat = all_stats.find(function(candidate) { return candidate.key === statKey; });
+    var iconCell = lineContainer.find('.dynamic-stat-icon-cell');
+    iconCell.empty();
+    if (selectedStat) {
+        iconCell.append(buildStatIcon(selectedStat.icon_url, selectedStat.name));
+    }
+}
+
 function addIfNeeded() {
     var allselected = true;
     var selects = $('.stat_select');
@@ -57,7 +107,7 @@ function addIfNeeded() {
 function addFields() {
     var line_container = $("<tr></tr>");
     $("#form_container").append(line_container);
-    line_container.append($("<td style='width: 30px'></td>"));
+    line_container.append($("<td style='width: 30px' class='dynamic-stat-icon-cell'></td>"));
     var cell_container = $("<td style='width: 180px'></td>");
     line_container.append(cell_container);
     var select = $("<select class='stat_select'></select>");
@@ -68,6 +118,7 @@ function addFields() {
      });
     select.prop('selectedIndex', -1);
     select.change(function() {
+        updateDynamicStatIcon(line_container, select.val());
         addIfNeeded();
     });
 
@@ -98,7 +149,9 @@ function addFields() {
 function addFixedFields(stat) {
     var line_container = $("<tr></tr>");
     $("#form_container").append(line_container);
-    line_container.append($("<td style='width: 30px'></td>"));
+    var icon_cell = $("<td style='width: 30px'></td>");
+    icon_cell.append(buildStatIcon(stat.icon_url, stat.name));
+    line_container.append(icon_cell);
     var cell_container = $("<td style='width: 180px' class='min-stat-name'>" + stat.name + "</td>");
     line_container.append(cell_container);
 
@@ -133,9 +186,13 @@ function setStatMin(stat, statValue) {
         if (selectThere.length > 0) {
             input = selectThere.closest('tr').find('input');
         } else {
-            var lineContainer = addFields();
-            var selectOption = lineContainer.find("select option[value='" + stat + "']");
-            selectOption.prop('selected', true); // Use prop instead of attr for boolean attributes
+            var emptySelect = $("select.stat_select").filter(function() {
+                return !$(this).val();
+            }).first();
+            var lineContainer = emptySelect.length > 0 ? emptySelect.closest('tr') : addFields();
+            var select = lineContainer.find("select");
+            select.val(stat);
+            select.trigger('change');
             input = lineContainer.find("input");
             input.attr('name', 'min_' + stat);
         }
@@ -158,7 +215,9 @@ function hideStatMin(statName) {
 function addCompositeMinimums(stat){
     var line_container = $("<tr></tr>");
     $("#composite_form_container").append(line_container);
-    line_container.append($("<td style='width: 30px'></td>"));
+    var icon_cell = $("<td style='width: 30px'></td>");
+    icon_cell.append(buildStatIcons(stat.icon_urls, stat.local_name));
+    line_container.append(icon_cell);
     var cell_container = $("<td  class='min-stat-name'>" + stat.local_name + "</td>");
     line_container.append(cell_container);
     line_container.append($("<td style='width: 81px'><input name='min_" + stat.key + "' class='pretty-input' type='number' min='-9999' max='9999' autocomplete='off'></input></td>"));
