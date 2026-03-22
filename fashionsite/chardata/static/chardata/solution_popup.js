@@ -495,16 +495,25 @@ function setStats(item, weaponInfo) {
         stats += '<hr class="solution-item-hr" />';
     }
     $.each(item.stats_lines, function(i, statLine) {
+        var statText = normalizeStatLineText(statLine.text);
         if (statLine.formatting.indexOf("#r") != -1) {
-            stats += '<span class="solution-negative-stat-text">' + statLine.text + "</span>";
+            stats += '<span class="solution-negative-stat-text">' + statText + "</span>";
         } else if (statLine.formatting.indexOf("#c") != -1) {
-            stats += '<span class="solution-condition-stat-text">' + statLine.text + "</span>";
+            stats += '<span class="solution-condition-stat-text">' + statText + "</span>";
         } else {
-            stats += statLine.text;
+            stats += statText;
         }
         stats += "<br>";
     });
     return stats;
+}
+
+function normalizeStatLineText(text) {
+    if (!text) {
+        return text;
+    }
+    // Ensure there is a space between a leading icon glyph and numeric value.
+    return text.replace(/^([^\w\s<])(\d)/u, '$1 $2');
 }
 
 function setConditionLines(item) {
@@ -512,7 +521,7 @@ function setConditionLines(item) {
     if (item.condition_lines && item.condition_lines.length > 0) {
         conds += '<hr class="solution-item-hr" />';
         $.each(item.condition_lines, function(i, conditionLine) {
-            conds += conditionLine.text;
+            conds += normalizeStatLineText(conditionLine.text);
             conds += "<br>";
         });
     }
