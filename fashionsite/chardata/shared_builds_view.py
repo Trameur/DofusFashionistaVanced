@@ -33,7 +33,7 @@ from chardata.image_store import get_image_url
 from chardata.solution import get_solution
 from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
-from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS, STAT_ORDER
+from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
@@ -103,50 +103,8 @@ def _get_compact_stats(solution, structure):
             'icon_url': static(icon_path) if icon_path else None,
         })
 
-    # Core stats first.
-    for stat_key in ['ap', 'mp', 'range', 'summon', 'vit', 'str', 'int', 'cha', 'agi', 'wis', 'pow', 'ch', 'heals']:
-        stat = structure.get_stat_by_key(stat_key)
-        if stat is None:
-            continue
-        add_chip(stat_key, total_stats.get(stat_key, 0), label=_(stat.name))
-
-    # Group related values to keep cards compact.
-    add_chip('res_total_flat',
-             sum(total_stats.get(key, 0) for key in ['neutres', 'earthres', 'fireres', 'waterres', 'airres']),
-             icon_key='earthres')
-    add_chip('res_total_percent',
-             sum(total_stats.get(key, 0) for key in ['neutresper', 'earthresper', 'fireresper', 'waterresper', 'airresper']),
-             icon_key='earthresper')
-    add_chip('pvp_res_total_flat',
-             sum(total_stats.get(key, 0) for key in ['pvpneutres', 'pvpearthres', 'pvpfireres', 'pvpwaterres', 'pvpairres']),
-             icon_key='pvpneutres')
-    add_chip('pvp_res_total_percent',
-             sum(total_stats.get(key, 0) for key in ['pvpneutresper', 'pvpearthresper', 'pvpfireresper', 'pvpwaterresper', 'pvpairresper']),
-             icon_key='pvpneutresper')
-    add_chip('elem_damage_total',
-             sum(total_stats.get(key, 0) for key in ['neutdam', 'earthdam', 'firedam', 'waterdam', 'airdam']),
-             icon_key='dam')
-    add_chip('loss_reduction_total',
-             total_stats.get('apred', 0) + total_stats.get('mpred', 0),
-             icon_key='apred')
-    add_chip('loss_resist_total',
-             total_stats.get('apres', 0) + total_stats.get('mpres', 0),
-             icon_key='apres')
-
-    # Keep any remaining non-zero stats that are not already represented.
-    covered_keys = {
-        'ap', 'mp', 'range', 'summon', 'vit', 'str', 'int', 'cha', 'agi', 'wis', 'pow', 'ch', 'heals',
-        'neutres', 'earthres', 'fireres', 'waterres', 'airres',
-        'neutresper', 'earthresper', 'fireresper', 'waterresper', 'airresper',
-        'pvpneutres', 'pvpearthres', 'pvpfireres', 'pvpwaterres', 'pvpairres',
-        'pvpneutresper', 'pvpearthresper', 'pvpfireresper', 'pvpwaterresper', 'pvpairresper',
-        'neutdam', 'earthdam', 'firedam', 'waterdam', 'airdam',
-        'apred', 'mpred', 'apres', 'mpres'
-    }
-    remaining_keys = sorted(total_stats.keys(), key=lambda key: STAT_ORDER.get(key, 9999))
-    for stat_key in remaining_keys:
-        if stat_key in covered_keys:
-            continue
+    # Keep shared card stats intentionally compact: only main/core stats.
+    for stat_key in ['ap', 'mp', 'range', 'summon', 'vit', 'wis', 'str', 'int', 'cha', 'agi', 'pow', 'ch']:
         stat = structure.get_stat_by_key(stat_key)
         if stat is None:
             continue
