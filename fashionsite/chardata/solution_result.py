@@ -235,8 +235,10 @@ def evolve_result_item(result_item, r=None):
 class AttributeLine:
     
     def __init__(self, stat_key, stat_value, stat_name):
+        # Round stat value to nearest integer to avoid floating-point precision issues
+        rounded_value = int(round(stat_value))
         self.text = ('%d%s%s'
-                     % (stat_value,
+                     % (rounded_value,
                         '' if stat_name.startswith('%') else ' ',
                         _(stat_name)))
         self.formatting = '#r' if stat_value < 0 else ''

@@ -378,6 +378,13 @@
         var stats_gear = {{stats_gear_json | safe}};
         var stats_total = {{stats_total_json | safe}};
 
+        function formatDofusStatValue(value) {
+            if (value === null || value === undefined || value === '') {
+                return '0';
+            }
+            return Math.round(Number(value)).toString();
+        }
+
         function update_stats() {
             if ($("input[name='total_mode']:checked").val() == "equip") {
                 new_stats = stats_gear;
@@ -392,15 +399,15 @@
                 if ((stat_key === "ap" && options["ap_exo"] === true)
                     || (stat_key === "mp" && options["mp_exo"] === true)
                     || (stat_key === "range" && options["range_exo"] === true)) {
-                    statValueString = (stat_value - 1).toString() + "+1";
+                    statValueString = formatDofusStatValue(stat_value - 1) + "+1";
                 } else {
-                    statValueString = stat_value.toString();
+                    statValueString = formatDofusStatValue(stat_value);
                 }
                 if (stat_value < 0) {
                     statValueString = "<span class='red-text'>" + statValueString + "</span>";
                 }
                 if (stat_key in stats_base) {
-                    $("td[name=stat_value_base_" + stat_key + "]").html(stats_base[stat_key]);
+                    $("td[name=stat_value_base_" + stat_key + "]").html(formatDofusStatValue(stats_base[stat_key]));
                 }
                 $("td[name=stat_value_" + stat_key + "]").html(statValueString);
             });

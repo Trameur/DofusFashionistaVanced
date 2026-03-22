@@ -386,9 +386,11 @@ def _get_stat_lines(structure, item, language):
         stat = structure.get_stat_by_id(stat_id)
         if stat is None:
             continue
+        # Round stat value to nearest integer to avoid floating-point precision issues
+        rounded_value = int(round(stat_value))
         stat_lines.append({
             'text': '%d%s%s' % (
-                stat_value,
+                rounded_value,
                 '' if stat.name.startswith('%') else ' ',
                 _localized_label(stat.name, language),
             ),
