@@ -20,9 +20,9 @@
         {% for line in set_result.stats_lines %}
             <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
                 {% if line.icon_url %}
-                    <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;margin-right:6px;vertical-align:middle;">
+                    <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;vertical-align:middle;">&nbsp;
                 {% endif %}
-                <span style="padding-left:4px;">{{line.text}}</span>
+                <span>{{line.text}}</span>
             </span>
             <br>
         {% endfor %}
