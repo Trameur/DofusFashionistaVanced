@@ -1,0 +1,26 @@
+.exclusions-types-section {
+    display: table;
+}
+
+.exclusions-types-column {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.exclusions-types-cell {
+    width: 360px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.type-name-span {
+    font-size: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.forbidden-item {
+    font-size: 80%;
+    padding-bottom: 5px;
+}
+

@@ -1,0 +1,138 @@
+.input-name{
+    color:#3D200D;
+}
+
+
+.input-value{
+    background-color: #E4E6BC;
+}
+
+.min-stat-name, .input-name, .text, .small-explain, .item-level {
+    color:#3D200D;
+}
+
+.input-stat-name, .stat-softcap, .softcap-stat-name, .big-text {
+    color:#3D200D;
+}
+
+.register-line-stat:nth-child(even), .softcap-stat-line:nth-child(even), .weight-stat-line:nth-child(even), .load-project-line:nth-child(even) {
+    background-color: #E4E6BC;
+}
+
+.register-line-stat:nth-child(odd), .softcap-stat-line:nth-child(odd), .weight-stat-line:nth-child(odd), .load-project-line:nth-child(odd) {
+    background-color: #CACCA7;
+}
+
+.register-stat, .table-softcap-stat, .weight-stat-table{
+    background-color: #3D200D;
+    color:#3D200D;
+}
+
+.stat-title{
+    color: white;
+}
+
+.remaining-points{
+    color:#3D200D;
+}
+
+select, .pretty-input {
+    color: #3D200D;
+    background: #E4E6BC;
+    border-color: #3D200D; 
+}
+
+.white-pretty-input {
+    color: #3D200D;
+    background: #FFFFFF;
+    border-color: #E4E6BC; 
+}
+
+.disabled-pretty-input {
+    color: #464646;
+    background: #E9E9E9;
+    border-color: #B7B7B7; 
+}
+
+.infeasible-title, .infeasible-body {
+    color:#3D200D;
+}
+
+.load-project-table {
+    background-color: #3D200D;
+    border-color: #3D200D;
+}
+
+.build-boxes-section {
+    background-color: #3D200D;
+    border-color: #3D200D;
+}
+
+.build-boxes-title{
+    color: #ffffff;
+}
+
+.build-boxes-element-column {
+    background: #CACCA7;
+    color: #3D200D;
+}
+
+.build-boxes-options-column {
+    background: #E4E6BC;
+    border-right-color: #3D200D;
+    border-left-color: #3D200D;
+    color: #3D200D;
+}
+
+.build-boxes-aspects-column {
+    background: #CACCA7;
+    color: #3D200D;
+}
+
+.red-text {
+    color: #ff0000;
+}
+
+.green-text {
+    color: #008800;
+}
+
+.crits-table {
+    background-color: #CACCA7;
+    color: #3D200D;
+}
+
+.min-stats-div, .min-stats-div-lower {
+    background: #CACCA7;
+}
+
+.wizard-div, .brown-box, .brown-table, .small-brown-box {
+    background: #E4E6BC;
+}
+
+.wizard-div { 
+    background: #CACCA7;
+}
+
+.small-brown-box{
+    background: #CACCA7;
+}
+
+.brown-box { 
+    background: #E4E6BC;
+}
+
+#change-succesful {
+    color: #3D200D;
+}
+
+.hr {
+    background: #3D200D;
+}
+.load-project-header {
+    color:#eeb996; 
+ }
+ 
+ .all-proj, .no-proj {
+    color:#eeb996;
+ }

@@ -1,0 +1,135 @@
+.input-value, #input-item-to-forbid {
+    background-color: #212121;
+}
+
+.min-stat-name, .input-name, .text, .small-explain, .item-level, .type-name-span, .forbidden-item {
+    color:#DDD;
+}
+
+.input-stat-name, .stat-softcap, .softcap-stat-name, .big-text, #input-item-to-forbid, .weight-stat-name {
+    color:#DDD;
+}
+
+.register-line-stat:nth-child(even), .softcap-stat-line:nth-child(even), .weight-stat-line:nth-child(even), .load-project-line:nth-child(even) {
+    background-color: #212121;
+}
+
+.register-line-stat:nth-child(odd), .softcap-stat-line:nth-child(odd), .weight-stat-line:nth-child(odd), .load-project-line:nth-child(odd) {
+    background-color: #333333;
+}
+
+.register-stat, .table-softcap-stat, .weight-stat-table{
+    background-color: #151515;
+    color:#151515;
+}
+
+.stat-title{
+    color: white;
+}
+
+.remaining-points{
+    color:#DDD;
+}
+
+select, .pretty-input {
+    color: #FFF;
+    background: #212121;
+    border-color: #151515; 
+}
+
+.white-pretty-input {
+    color: #FFF;
+    background: #212121;
+    border-color: #151515; 
+}
+
+.disabled-pretty-input {
+    color: #464646;
+    background: #E9E9E9;
+    border-color: #B7B7B7; 
+}
+
+.infeasible-title, .infeasible-body {
+    color:#DDD;
+}
+
+.load-project-table {
+    background-color: #151515;
+    border-color: #151515;
+}
+
+.build-boxes-section {
+    background-color: #222;
+    border-color: #222;
+}
+
+.build-boxes-title{
+    color: #DDD;
+}
+
+.build-boxes-element-column {
+    background: #333333;
+    color: #DDD;
+}
+
+.build-boxes-options-column {
+    background: #333333;
+    border-right-color: #222;
+    border-left-color: #222;
+    color: #DDD;
+}
+
+.build-boxes-aspects-column {
+    background: #333333;
+    color: #DDD;
+}
+
+.red-text {
+    color: #ff5e5e;
+}
+
+.green-text {
+    color: #5eff5e;
+}
+
+.crits-table {
+    background-color: #616161;
+    color: #151515;
+}
+
+.min-stats-div, .min-stats-div-lower {
+    background: #333333;
+}
+
+.wizard-div, .brown-box, .brown-table, .small-brown-box {
+    background: #212121;
+}
+
+.wizard-div { 
+    background: #333333;
+}
+
+.small-brown-box{
+    background: #333333;
+}
+
+.brown-box { 
+    background: #212121;
+}
+
+#change-succesful {
+    color: #151515;
+}
+
+.hr {
+    background: #151515;
+}
+
+.load-project-header, .all-proj, .no-proj {
+    color:#DDD; 
+ }
+ 
+ .compare-link-div {
+    color:#DDD;
+ {
+
