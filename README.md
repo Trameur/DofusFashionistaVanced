@@ -190,23 +190,23 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
 ✅ Update weights of special items including Dofus and Prysmaradite         
 ✅ Release a beta version          
 ✅ Add support for new languages         
-    ✅ Deutsche          
-    ✅ Italian          
+       ✅ Deutsche          
+       ✅ Italian          
 ✅ Bug fixes and improvement for 3.0 release     
 ✅ Windows 11 compatibility (Thanks Hoklims)         
 ✅ Translate new content               
-    ✅ 100% English              
-    ✅ 100% French               
-    ✅ 100% Spanish           
-    ✅ 100% Portuguese             
-    ✅ 100% Deutsche              
-    ❌ 0% Italian (Ankama removed Italian language)              
+       ✅ 100% English              
+       ✅ 100% French               
+       ✅ 100% Spanish           
+       ✅ 100% Portuguese             
+       ✅ 100% Deutsche              
+       ❌ 0% Italian (Ankama removed Italian language)              
 ✅ Add ability to forbid prysmaradite       
 ❌ Make it mobile friendly             
         
 🚧 New features after 3.0 TBD     
-    ✅ Shared Builds    
-    ✅ Encyclopedia     
+       ✅ Shared Builds    
+       ✅ Encyclopedia     
        
 ✅ Dofus 3 Unity             
 ❌ Dofus Touch            
