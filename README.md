@@ -194,13 +194,13 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
     ✅ Italian          
 ✅ Bug fixes and improvement for 3.0 release     
 ✅ Windows 11 compatibility (Thanks Hoklims)         
-✅ Translate new content           
-    ✅ 100% English           
-    ✅ 100% French           
-    ✅ 100% Spanish        
-    ✅ 100% Portuguese          
-    ✅ 100% Deutsche           
-    ❌ 0% Italian (Ankama removed Italian language)           
+✅ Translate new content               
+    ✅ 100% English              
+    ✅ 100% French               
+    ✅ 100% Spanish           
+    ✅ 100% Portuguese             
+    ✅ 100% Deutsche              
+    ❌ 0% Italian (Ankama removed Italian language)              
 ✅ Add ability to forbid prysmaradite       
 ❌ Make it mobile friendly             
         
