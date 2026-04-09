@@ -49703,17 +49703,17 @@
         },
         {
             "ankama_id": 23712,
-            "name": "Yugo the Eliatrope Cape",
+            "name": "Yugo the Eliatrope Wings",
             "type": {
-                "name": "Ceremonial cape",
-                "id": 18
+                "name": "Wings",
+                "id": 218
             },
             "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17476-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17476-128.png"
             },
-            "description": "Finally, a cape worthy of your power and style. Will it bring you glory or put an end to your adventure? Only time will tell.\n\n(Place these shoulder pads over an already-equipped cape to change their appearance.)",
+            "description": "Finally! Wings worthy of your power and style. Will they bring you glory or put an end to your adventure? Only time will tell.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -49727,19 +49727,6 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Exchangeable: 0"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Compatible with:",
-                        "id": 1,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Compatible with: 0"
                 }
             ],
             "pods": 1
@@ -101061,8 +101048,8 @@
             "ankama_id": 34218,
             "name": "Demon V Shoulder Pads",
             "type": {
-                "name": "Costume",
-                "id": 16
+                "name": "Shoulder Pad",
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102273,6 +102260,367 @@
                 }
             ],
             "pods": 0
+        },
+        {
+            "ankama_id": 34272,
+            "name": "Royal Pingwall",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82589-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82589-128.png"
+            },
+            "description": "You can also kneel on this shield if you need to quickly descend a snowy mountain, whether out of fear for your life or simply for fun.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34278,
+            "name": "Supercharged Helmet",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16908-128.png"
+            },
+            "description": "Wearing this helmet can be a hair-raising experience.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34279,
+            "name": "Supercharged Shield",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82587-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82587-128.png"
+            },
+            "description": "This may reduce your carrying capacity, but it's just like carrying a capacitor!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34280,
+            "name": "Supercharged Spaulders",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164971-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164971-128.png"
+            },
+            "description": "Perfect for frying that chip on your shoulder.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34281,
+            "name": "Supercharged Costume",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164970-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164970-128.png"
+            },
+            "description": "This will give you the energy to stand with the resistance and charge forward!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34282,
+            "name": "Supercharged Wings",
+            "type": {
+                "name": "Wings",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164972-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164972-128.png"
+            },
+            "description": "These will prevent you from remaining static for too long.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34283,
+            "name": "Supercharged Cape",
+            "type": {
+                "name": "Ceremonial cape",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17694-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17694-128.png"
+            },
+            "description": "Whatever you do, don't touch the ends together!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34295,
+            "name": "Fulguroskryl",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121174-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121174-128.png"
+            },
+            "description": "This temperamental creature can bite very hard and electrocute its master for no good reason.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34296,
+            "name": "Vypowt",
+            "type": {
+                "name": "Ceremonial pet",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121175-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121175-128.png"
+            },
+            "description": "This creature can move incredibly fast but doesn't seem to want to very often.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

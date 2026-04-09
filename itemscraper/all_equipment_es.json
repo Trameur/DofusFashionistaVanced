@@ -58509,7 +58509,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 3
                 },
                 {
                     "item_ankama_id": 12075,
@@ -136139,7 +136139,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 14
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 1612,
@@ -136654,7 +136654,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 17
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 16154,
@@ -181065,9 +181065,9 @@
             "description": "El eslogan del sastre que creó esta maravilla era: «Incluso en medio de la acción, será imposible que pierdas este calzón, pues lo sujetan unos tirantes que molan mogollón». Antes de ser sastre fracasó como poeta.",
             "recipe": [
                 {
-                    "item_ankama_id": 8807,
+                    "item_ankama_id": 14457,
                     "item_subtype": "resources",
-                    "quantity": 7
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 2505,
@@ -362119,14 +362119,14 @@
                     "int_minimum": 13672,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": línea de visión desactivada",
-                        "id": 205,
+                        "name": ": + de alcance máximo",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Drenaje Elemental: línea de visión desactivada"
+                    "formatted": "Drenaje Elemental: +2 de alcance máximo"
                 },
                 {
                     "int_minimum": 13713,
@@ -362145,56 +362145,17 @@
                     "int_minimum": 13722,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": línea de visión desactivada",
-                        "id": 205,
+                        "name": ": alcance modificable",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ciclo Elemental: línea de visión desactivada"
+                    "formatted": "Ciclo Elemental: alcance modificable"
                 },
                 {
                     "int_minimum": 14341,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + lanzamiento(s) por turno",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Corriente Cuadramental: +1 lanzamiento(s) por turno"
-                },
-                {
-                    "int_minimum": 13695,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + lanzamiento(s) por turno",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Propagación: +1 lanzamiento(s) por turno"
-                },
-                {
-                    "int_minimum": 13719,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - de reactivación",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Prisma Rúnico: -1 de reactivación"
-                },
-                {
-                    "int_minimum": 32033,
                     "int_maximum": 0,
                     "type": {
                         "name": ": alcance modificable",
@@ -362204,7 +362165,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Supernova: alcance modificable"
+                    "formatted": "Corriente Cuadramental: alcance modificable"
+                },
+                {
+                    "int_minimum": 13695,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": línea de visión desactivada",
+                        "id": 205,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propagación: línea de visión desactivada"
+                },
+                {
+                    "int_minimum": 13719,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Prisma Rúnico: -1 PA"
+                },
+                {
+                    "int_minimum": 32033,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + de alcance máximo",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Supernova: +2 de alcance máximo"
                 },
                 {
                     "int_minimum": 14342,

@@ -83034,7 +83034,7 @@
         },
         {
             "ankama_id": 26265,
-            "name": "Bouataklône ETP-20",
+            "name": "Bouataklône ETP-4",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83044,7 +83044,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15195-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15195-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°20 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°4 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83077,7 +83077,7 @@
         },
         {
             "ankama_id": 26266,
-            "name": "Bouataklône ETP-21",
+            "name": "Bouataklône ETP-5",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83087,7 +83087,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15196-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15196-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°21 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°5 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83120,7 +83120,7 @@
         },
         {
             "ankama_id": 26267,
-            "name": "Bouataklône ETP-22",
+            "name": "Bouataklône ETP-6",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83130,7 +83130,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15197-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15197-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°22 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°6 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83163,7 +83163,7 @@
         },
         {
             "ankama_id": 26268,
-            "name": "Bouataklône ETP-23",
+            "name": "Bouataklône ETP-7",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83173,7 +83173,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15198-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15198-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°23 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°7 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83206,7 +83206,7 @@
         },
         {
             "ankama_id": 26269,
-            "name": "Bouataklône ETP-24",
+            "name": "Bouataklône ETP-8",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83216,7 +83216,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15199-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15199-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°24 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°8 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83249,7 +83249,7 @@
         },
         {
             "ankama_id": 26270,
-            "name": "Bouataklône ETP-25",
+            "name": "Bouataklône ETP-9",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83259,7 +83259,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15200-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15200-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°25 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°9 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83292,7 +83292,7 @@
         },
         {
             "ankama_id": 26271,
-            "name": "Bouataklône ETP-26",
+            "name": "Bouataklône ETP-10",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83302,7 +83302,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15201-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15201-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°26 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°10 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83335,7 +83335,7 @@
         },
         {
             "ankama_id": 26272,
-            "name": "Bouataklône ETP-27",
+            "name": "Bouataklône ETP-11",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83345,7 +83345,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15202-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15202-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°27 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°11 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83378,7 +83378,7 @@
         },
         {
             "ankama_id": 26273,
-            "name": "Bouataklône ETP-28",
+            "name": "Bouataklône ETP-12",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83388,7 +83388,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15203-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15203-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°28 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°12 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83421,7 +83421,7 @@
         },
         {
             "ankama_id": 26274,
-            "name": "Bouataklône ETP-29",
+            "name": "Bouataklône ETP-13",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83431,7 +83431,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15204-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15204-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°29 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°13 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83464,7 +83464,7 @@
         },
         {
             "ankama_id": 26275,
-            "name": "Bouataklône ETP-30",
+            "name": "Bouataklône ETP-14",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83474,7 +83474,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15205-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15205-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°30 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°14 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83507,7 +83507,7 @@
         },
         {
             "ankama_id": 26276,
-            "name": "Bouataklône ETP-31",
+            "name": "Bouataklône ETP-15",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83517,7 +83517,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15206-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15206-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°31 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°15 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83550,7 +83550,7 @@
         },
         {
             "ankama_id": 26277,
-            "name": "Bouataklône ETP-32",
+            "name": "Bouataklône ETP-16",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83560,7 +83560,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15207-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15207-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°32 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°16 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83593,7 +83593,7 @@
         },
         {
             "ankama_id": 26278,
-            "name": "Bouataklône ETP-33",
+            "name": "Bouataklône ETP-17",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83603,7 +83603,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15208-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15208-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°33 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°17 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -83636,7 +83636,7 @@
         },
         {
             "ankama_id": 26279,
-            "name": "Bouataklône ETP-34",
+            "name": "Bouataklône ETP-18",
             "type": {
                 "name": "Bouataklône",
                 "id": 28
@@ -83646,7 +83646,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15209-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15209-128.png"
             },
-            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°34 de l'Assistante d'Otomaï.",
+            "description": "À l'intérieur se trouve un archiklône dont l'âme sera rangée dans l'étagère n°18 de l'Assistante d'Otomaï.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -112213,7 +112213,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gagne x1 Cycle Élémentaire"
+                    "formatted": "Gagne x1 Courant Quadramental"
                 },
                 {
                     "int_minimum": 1,
@@ -127006,6 +127006,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "Gagne x1000"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 10

@@ -49705,8 +49705,8 @@
             "ankama_id": 23712,
             "name": "Alas de Yugo el Selatrop",
             "type": {
-                "name": "Capa de apariencia",
-                "id": 18
+                "name": "Alas",
+                "id": 218
             },
             "level": 1,
             "image_urls": {
@@ -49727,19 +49727,6 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Intercambiable: 0"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Compatible con",
-                        "id": 1,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Compatible con 0"
                 }
             ],
             "pods": 1
@@ -101061,8 +101048,8 @@
             "ankama_id": 34218,
             "name": "Hombreras del Demonio V",
             "type": {
-                "name": "Traje",
-                "id": 16
+                "name": "Hombrera",
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102273,6 +102260,367 @@
                 }
             ],
             "pods": 0
+        },
+        {
+            "ankama_id": 34272,
+            "name": "Morsascudo Real",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82589-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82589-128.png"
+            },
+            "description": "Con este escudo, puede que seas el morsagüino que más lejos resbala en la banquisa.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34278,
+            "name": "Casco de electrizado",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16908-128.png"
+            },
+            "description": "Llevar este casco te pondrá los pelos de punta irremediablemente.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34279,
+            "name": "Escudo de electrizado",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82587-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82587-128.png"
+            },
+            "description": "Atención, ¡no lo lleves puesto cuando estés bajo un árbol! Podría ser peligroso.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34280,
+            "name": "Hombreras de electrizado",
+            "type": {
+                "name": "Hombrera",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164971-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164971-128.png"
+            },
+            "description": "Útiles para impedir que cualquiera te dé palmaditas en el hombro.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34281,
+            "name": "Traje de electrizado",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164970-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164970-128.png"
+            },
+            "description": "¡Para aparentar estar al corriente de todo!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34282,
+            "name": "Alas de electrizado",
+            "type": {
+                "name": "Alas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164972-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164972-128.png"
+            },
+            "description": "Refuerzan la sensación de electricidad en el aire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34283,
+            "name": "Capa de electrizado",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17694-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17694-128.png"
+            },
+            "description": "¡Ni se te ocurra conectar los extremos!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34295,
+            "name": "Fulguroskryl",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121174-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121174-128.png"
+            },
+            "description": "De carácter caprichoso, suele morder con mucha fuerza y electrocutar a su dueño sin motivo alguno.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34296,
+            "name": "Guaypaut",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121175-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121175-128.png"
+            },
+            "description": "Tiene la capacidad de ir muy rápido, pero raramente tiene ganas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

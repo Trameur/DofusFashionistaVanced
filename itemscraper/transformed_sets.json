@@ -61306,7 +61306,7 @@
     {
         "ankama_id": 1085,
         "name_en": "Crimson Set",
-        "name_fr": "Panoplie Pourpre",
+        "name_fr": "Panoplie d'apparat de la loterie Poupre",
         "name_es": "Set púrpura",
         "name_pt": "Conjunto Púrpura",
         "name_de": "Purpur-Ausrüstungsset",
@@ -61495,6 +61495,25 @@
             34262,
             34263,
             34264
+        ]
+    },
+    {
+        "ankama_id": 1089,
+        "name_en": "Supercharged Ceremonial Set",
+        "name_fr": "Panoplie d'apparat du survolté",
+        "name_es": "Set cosmético de electrizado",
+        "name_pt": "Conjunto de Aparência do Eletrizado",
+        "name_de": "Prunkset des Elektrisierten",
+        "items": 8,
+        "equipment_ids": [
+            34278,
+            34279,
+            34280,
+            34281,
+            34282,
+            34283,
+            34295,
+            34296
         ]
     }
 ]

@@ -58509,7 +58509,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 3
                 },
                 {
                     "item_ankama_id": 12075,
@@ -136139,7 +136139,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 14
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 1612,
@@ -136654,7 +136654,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 17
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 16154,
@@ -181065,9 +181065,9 @@
             "description": "The motto of the tailor who made this wonder was \"Even in the heart of the action, your pants must always remain up your behind which they will thanks to these high quality flax suspenders\". This really isn't a good motto...",
             "recipe": [
                 {
-                    "item_ankama_id": 8807,
+                    "item_ankama_id": 14457,
                     "item_subtype": "resources",
-                    "quantity": 7
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 2505,
@@ -362119,14 +362119,14 @@
                     "int_minimum": 13672,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": + Maximum Range",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Elemental Drain: line of sight off"
+                    "formatted": "Elemental Drain: +2 Maximum Range"
                 },
                 {
                     "int_minimum": 13713,
@@ -362145,56 +362145,17 @@
                     "int_minimum": 13722,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": modifiable Range",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Elemental Cycle: line of sight off"
+                    "formatted": "Elemental Cycle: modifiable Range"
                 },
                 {
                     "int_minimum": 14341,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + cast(s) per turn",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Quadramental Current: +1 cast(s) per turn"
-                },
-                {
-                    "int_minimum": 13695,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + cast(s) per turn",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Propagation: +1 cast(s) per turn"
-                },
-                {
-                    "int_minimum": 13719,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - cooldown",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Runic Prism: -1 cooldown"
-                },
-                {
-                    "int_minimum": 32033,
                     "int_maximum": 0,
                     "type": {
                         "name": ": modifiable Range",
@@ -362204,7 +362165,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Supernova: modifiable Range"
+                    "formatted": "Quadramental Current: modifiable Range"
+                },
+                {
+                    "int_minimum": 13695,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": line of sight off",
+                        "id": 205,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propagation: line of sight off"
+                },
+                {
+                    "int_minimum": 13719,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Runic Prism: -1 AP"
+                },
+                {
+                    "int_minimum": 32033,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Maximum Range",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Supernova: +2 Maximum Range"
                 },
                 {
                     "int_minimum": 14342,

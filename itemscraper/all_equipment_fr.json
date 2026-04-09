@@ -58509,7 +58509,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 3
                 },
                 {
                     "item_ankama_id": 12075,
@@ -136139,7 +136139,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 14
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 1612,
@@ -136654,7 +136654,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 17
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 16154,
@@ -181065,9 +181065,9 @@
             "description": "Le slogan du couturier à l'origine de cette merveille était : \"Même dans le feu de l'action, ce caleçon restera solidement accroché à votre postérieur, grâce à ses bretelles en lin d'une qualité supérieure\". Avant d'être couturier, il était mauvais poète.",
             "recipe": [
                 {
-                    "item_ankama_id": 8807,
+                    "item_ankama_id": 14457,
                     "item_subtype": "resources",
-                    "quantity": 7
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 2505,
@@ -362119,14 +362119,14 @@
                     "int_minimum": 13672,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": + Portée maximale",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Drain Élémentaire : ligne de vue désactivée"
+                    "formatted": "Drain Élémentaire : +2 Portée maximale"
                 },
                 {
                     "int_minimum": 13713,
@@ -362145,56 +362145,17 @@
                     "int_minimum": 13722,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": Portée modifiable",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Cycle Élémentaire : ligne de vue désactivée"
+                    "formatted": "Cycle Élémentaire : Portée modifiable"
                 },
                 {
                     "int_minimum": 14341,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + lancer(s) par tour",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Courant Quadramental : +1 lancer(s) par tour"
-                },
-                {
-                    "int_minimum": 13695,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + lancer(s) par tour",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Propagation : +1 lancer(s) par tour"
-                },
-                {
-                    "int_minimum": 13719,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - de relance",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Prisme Runique : -1 de relance"
-                },
-                {
-                    "int_minimum": 32033,
                     "int_maximum": 0,
                     "type": {
                         "name": ": Portée modifiable",
@@ -362204,7 +362165,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Supernova : Portée modifiable"
+                    "formatted": "Courant Quadramental : Portée modifiable"
+                },
+                {
+                    "int_minimum": 13695,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": ligne de vue désactivée",
+                        "id": 205,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propagation : ligne de vue désactivée"
+                },
+                {
+                    "int_minimum": 13719,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Prisme Runique : -1 PA"
+                },
+                {
+                    "int_minimum": 32033,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Portée maximale",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Supernova : +2 Portée maximale"
                 },
                 {
                     "int_minimum": 14342,

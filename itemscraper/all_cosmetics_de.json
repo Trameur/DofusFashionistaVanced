@@ -49703,17 +49703,17 @@
         },
         {
             "ankama_id": 23712,
-            "name": "Umhang von Yago dem Eliatropen",
+            "name": "Flügel von Yago dem Eliatropen",
             "type": {
-                "name": "Prunkumhang",
-                "id": 18
+                "name": "Flügel",
+                "id": 218
             },
             "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17476-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17476-128.png"
             },
-            "description": "Endlich mal ein Umhang, der eurer Stärke und eurem Style gerecht wird. Wird er euch Ruhm bringen oder eurem Abenteuer ein jähes Ende setzen? Ihr werdet euch noch ein wenig gedulden müssen, um das herauszufinden.",
+            "description": "Endlich mal ein paar Flügel, die eurer Stärke und eurem Stil gerecht werden. Werden sie euch Ruhm bringen oder eurem Abenteuer ein jähes Ende setzen? Ihr werdet euch noch ein wenig gedulden müssen, um das herauszufinden.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -49727,19 +49727,6 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Austauschbar: 0"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Kompatibel zu:",
-                        "id": 1,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Kompatibel zu: 0"
                 }
             ],
             "pods": 1
@@ -101061,8 +101048,8 @@
             "ankama_id": 34218,
             "name": "Schulterplatten von Dämon V",
             "type": {
-                "name": "Kleidung",
-                "id": 16
+                "name": "Schulterplatte",
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102273,6 +102260,367 @@
                 }
             ],
             "pods": 0
+        },
+        {
+            "ankama_id": 34272,
+            "name": "Königlicher Pingschild",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82589-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82589-128.png"
+            },
+            "description": "Mit diesem Schild werdet ihr womöglich der Ping sein, der auf dem Packeis am weitesten gleitet.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34278,
+            "name": "Helm des Elektrisierten",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16908-128.png"
+            },
+            "description": "Wer diesen Helm aufsetzt, dem stellen sich die Haare zu Berge, und zwar dauerhaft.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34279,
+            "name": "Schild des Elektrisierten",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82587-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82587-128.png"
+            },
+            "description": "Ihr solltet ihn nicht tragen, wenn ihr euch unter einem Baum befindet, das könnte gefährlich sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34280,
+            "name": "Schulterplatten des Elektrisierten",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164971-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164971-128.png"
+            },
+            "description": "Nützlich, um die Leute davon abzuhalten, euch auf die Schulter zu klopfen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34281,
+            "name": "Kleidung des Elektrisierten",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164970-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164970-128.png"
+            },
+            "description": "Um mit dem Strom der Zeit zu gehen!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34282,
+            "name": "Flügel des Elektrisierten",
+            "type": {
+                "name": "Flügel",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164972-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164972-128.png"
+            },
+            "description": "Verstärkt das Gefühl, dass Spannung in der Luft liegt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34283,
+            "name": "Umhang des Elektrisierten",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17694-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17694-128.png"
+            },
+            "description": "Lasst die beiden Endpunkte auf keinen Fall miteinander in Kontakt kommen!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34295,
+            "name": "Fulguroskryl",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121174-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121174-128.png"
+            },
+            "description": "Er ist launischer Natur und neigt dazu, heftig zu beißen und seinem Herrchen grundlos Stromschläge zu versetzen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34296,
+            "name": "Weipaut",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121175-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121175-128.png"
+            },
+            "description": "Er ist zwar dazu imstande, sich schnell zu bewegen, hat aber selten Lust dazu.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

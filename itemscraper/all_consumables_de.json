@@ -127006,6 +127006,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "Erhalte x1000"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
                 }
             ],
             "pods": 10

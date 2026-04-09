@@ -137383,7 +137383,7 @@
             [
                 13672,
                 null,
-                ": line of sight off"
+                ": + Maximum Range"
             ],
             [
                 13713,
@@ -137393,27 +137393,27 @@
             [
                 13722,
                 null,
-                ": line of sight off"
+                ": modifiable Range"
             ],
             [
                 14341,
                 null,
-                ": + cast(s) per turn"
+                ": modifiable Range"
             ],
             [
                 13695,
                 null,
-                ": + cast(s) per turn"
+                ": line of sight off"
             ],
             [
                 13719,
                 null,
-                ": - cooldown"
+                ": - AP"
             ],
             [
                 32033,
                 null,
-                ": modifiable Range"
+                ": + Maximum Range"
             ],
             [
                 14342,

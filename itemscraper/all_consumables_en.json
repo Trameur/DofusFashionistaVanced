@@ -127006,6 +127006,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "Gains 1000x"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
                 }
             ],
             "pods": 10

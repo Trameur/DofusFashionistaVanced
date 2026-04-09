@@ -49703,17 +49703,17 @@
         },
         {
             "ankama_id": 23712,
-            "name": "Capa de Yugo, o Eliatrope",
+            "name": "Asas de Yugo, o Eliatrope",
             "type": {
-                "name": "Capa de aparência",
-                "id": 18
+                "name": "Asas",
+                "id": 218
             },
             "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17476-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17476-128.png"
             },
-            "description": "Finalmente uma capa à altura da sua força e do seu estilo. Será que ela vai lhe trazer glória ou acabar com a sua aventura? Você ainda vai ter que esperar um pouco para descobrir.",
+            "description": "Finalmente, asas à altura da sua força e do seu estilo. Será que elas vão lhe trazer glória ou acabar com a sua aventura? Você ainda vai ter que esperar um pouco para descobrir.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -49727,19 +49727,6 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Trocável: 0"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Compatível com:",
-                        "id": 1,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Compatível com: 0"
                 }
             ],
             "pods": 1
@@ -101061,8 +101048,8 @@
             "ankama_id": 34218,
             "name": "Ombreiras do Demônio V",
             "type": {
-                "name": "Traje",
-                "id": 16
+                "name": "Ombreira",
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102273,6 +102260,367 @@
                 }
             ],
             "pods": 0
+        },
+        {
+            "ankama_id": 34272,
+            "name": "Pingwiscudo Real",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82589-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82589-128.png"
+            },
+            "description": "Com este escudo, você poderá ser o Pingwin que chega mais longe deslizando no gelo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34278,
+            "name": "Capacete do Eletrizado",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16908-128.png"
+            },
+            "description": "Usar este capacete arrepia os cabelos de maneira irreversível.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34279,
+            "name": "Escudo do Eletrizado",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82587-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82587-128.png"
+            },
+            "description": "Cuidado para não usar quando estiver debaixo de uma árvore. Pode ser perigoso.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34280,
+            "name": "Espaldeiras do Eletrizado",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164971-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164971-128.png"
+            },
+            "description": "Perfeitas para impedir que fiquem dando tapinhas no seu ombro.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34281,
+            "name": "Traje do Eletrizado",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164970-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164970-128.png"
+            },
+            "description": "Para ficar ligado em tudo!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34282,
+            "name": "Asas do Eletrizado",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164972-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164972-128.png"
+            },
+            "description": "Aumentam a sensação de eletricidade no ar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34283,
+            "name": "Capa do Eletrizado",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17694-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17694-128.png"
+            },
+            "description": "Nem pense em juntar as duas extremidades!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34295,
+            "name": "Fulguroskryl",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121174-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121174-128.png"
+            },
+            "description": "Lunático por natureza, ele costuma eletrocutar e morder o dono com bastante força e sem motivo aparente.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34296,
+            "name": "Rapidaut",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121175-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121175-128.png"
+            },
+            "description": "Ele consegue ir bem rápido. Só falta querer.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

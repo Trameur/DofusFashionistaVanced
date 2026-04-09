@@ -49703,17 +49703,17 @@
         },
         {
             "ankama_id": 23712,
-            "name": "Cape de Yugo l'Eliatrope",
+            "name": "Ailes de Yugo l'Eliatrope",
             "type": {
-                "name": "Cape d'apparat",
-                "id": 18
+                "name": "Ailes",
+                "id": 218
             },
             "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17476-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17476-128.png"
             },
-            "description": "Enfin une cape à la hauteur de votre puissance et de votre style. Va-t-elle vous apporter la gloire ou mettre fin à votre aventure ? Il va falloir encore attendre un peu pour le découvrir.\n\n(Déposez ces épaulières sur une cape déjà équipée pour lui transmettre leur apparence)",
+            "description": "Enfin des ailes à la hauteur de votre puissance et de votre style. Vont-elles vous apporter la gloire ou mettre fin à votre aventure ? Il va falloir encore attendre un peu pour le découvrir.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -49727,19 +49727,6 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Échangeable : 0"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Compatible avec :",
-                        "id": 1,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Compatible avec : 0"
                 }
             ],
             "pods": 1
@@ -101061,8 +101048,8 @@
             "ankama_id": 34218,
             "name": "Épaulières du Démon V",
             "type": {
-                "name": "Costume",
-                "id": 16
+                "name": "Épaulière",
+                "id": 248
             },
             "level": 1,
             "image_urls": {
@@ -102273,6 +102260,367 @@
                 }
             ],
             "pods": 0
+        },
+        {
+            "ankama_id": 34272,
+            "name": "Mansoclier Royal",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82589-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82589-128.png"
+            },
+            "description": "Avec ce bouclier, vous serez peut-être le mansot qui glisse le plus loin sur la banquise.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34278,
+            "name": "Casque du survolté",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16908-128.png"
+            },
+            "description": "Attention, porter ce casque dresse les cheveux sur la tête de façon irrémédiable.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34279,
+            "name": "Bouclier du survolté",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82587-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82587-128.png"
+            },
+            "description": "Attention à ne pas le porter quand vous êtes sous un arbre, ça pourrait être dangereux.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34280,
+            "name": "Spalières du survolté",
+            "type": {
+                "name": "Épaulière",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164971-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164971-128.png"
+            },
+            "description": "Utiles pour empêcher quiconque de vous taper sur l'épaule.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34281,
+            "name": "Costume du survolté",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164970-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164970-128.png"
+            },
+            "description": "Pour avoir l'air au courant de tout !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34282,
+            "name": "Ailes du survolté",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164972-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164972-128.png"
+            },
+            "description": "Renforce la sensation d'électricité dans l'air.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34283,
+            "name": "Cape du survolté",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17694-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17694-128.png"
+            },
+            "description": "Ne connectez surtout pas les extrémités ensemble !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34295,
+            "name": "Fulguroskryl",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121174-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121174-128.png"
+            },
+            "description": "De nature lunatique, il a tendance à mordre très fort et à électrocuter son maître sans raison.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34296,
+            "name": "Vipoute",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121175-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121175-128.png"
+            },
+            "description": "Il a la faculté d'aller très vite, mais rarement l'envie.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

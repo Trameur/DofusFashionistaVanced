@@ -58509,7 +58509,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 3
                 },
                 {
                     "item_ankama_id": 12075,
@@ -136139,7 +136139,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 14
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 1612,
@@ -136654,7 +136654,7 @@
                 {
                     "item_ankama_id": 16151,
                     "item_subtype": "resources",
-                    "quantity": 17
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 16154,
@@ -181065,9 +181065,9 @@
             "description": "Der Werbeslogan des Schneiders dieses Prunkstücks war: \"Selbst mitten in Äktschn bietet die Hosenträger Atträktschn\". Das hat gewirkt! Man muss dazusagen, dass der Mann vor seiner Karriere als Schneider im ganzen Land für seine Dichter-Künste gefürchtet war.",
             "recipe": [
                 {
-                    "item_ankama_id": 8807,
+                    "item_ankama_id": 14457,
                     "item_subtype": "resources",
-                    "quantity": 7
+                    "quantity": 5
                 },
                 {
                     "item_ankama_id": 2505,
@@ -362119,14 +362119,14 @@
                     "int_minimum": 13672,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Elementar-Raub: Sichtlinie deaktiviert"
+                    "formatted": "Elementar-Raub: +2 Maximale Reichweite"
                 },
                 {
                     "int_minimum": 13713,
@@ -362145,56 +362145,17 @@
                     "int_minimum": 13722,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": Veränderbare Reichweite",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Elementarzyklus: Sichtlinie deaktiviert"
+                    "formatted": "Elementarzyklus: Veränderbare Reichweite"
                 },
                 {
                     "int_minimum": 14341,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Zauber pro Runde",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Quadrelementarströmung : +1 Zauber pro Runde"
-                },
-                {
-                    "int_minimum": 13695,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Zauber pro Runde",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Ausbreitung : +1 Zauber pro Runde"
-                },
-                {
-                    "int_minimum": 13719,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": Abklingzeit verringert um –",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Runenprisma: Abklingzeit verringert um –1"
-                },
-                {
-                    "int_minimum": 32033,
                     "int_maximum": 0,
                     "type": {
                         "name": ": Veränderbare Reichweite",
@@ -362204,7 +362165,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Supernova: Veränderbare Reichweite"
+                    "formatted": "Quadrelementarströmung: Veränderbare Reichweite"
+                },
+                {
+                    "int_minimum": 13695,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": Sichtlinie deaktiviert",
+                        "id": 205,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ausbreitung: Sichtlinie deaktiviert"
+                },
+                {
+                    "int_minimum": 13719,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Runenprisma: –1 AP"
+                },
+                {
+                    "int_minimum": 32033,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Supernova: +2 Maximale Reichweite"
                 },
                 {
                     "int_minimum": 14342,

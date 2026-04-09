@@ -121688,6 +121688,24 @@
                 34263,
                 34264
             ]
+        },
+        {
+            "ankama_id": 1089,
+            "name": "Set cosmético de electrizado",
+            "items": 8,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34278,
+                34279,
+                34280,
+                34281,
+                34282,
+                34283,
+                34295,
+                34296
+            ]
         }
     ]
 }
