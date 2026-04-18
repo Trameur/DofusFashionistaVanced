@@ -42,6 +42,10 @@ services:
       - static_files:/app/fashionsite/staticfiles
     ports:
       - "8000:8000"
+    command: >
+      /bin/sh -c "cd /app/fashionsite &&
+      python manage.py migrate --noinput &&
+      python manage.py runserver 0.0.0.0:8000"
     networks:
       - fashionista_network
     healthcheck:

@@ -1,15 +1,12 @@
-FROM python:3.9-slim
+FROM python:3.14-slim
 
 # Installer les dépendances système nécessaires
 RUN apt-get update && apt-get install -y \
-    default-libmysqlclient-dev \
+    bash \
     build-essential \
-    memcached \
+    pkg-config \
     gettext \
     mariadb-client \
-    libdbus-1-dev \
-    libdbus-glib-1-dev \
-    pkg-config \
     dos2unix \
     sqlite3 \
     curl \
@@ -19,11 +16,12 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copier les fichiers de requirements
-COPY requirements.txt .
+COPY requirements-docker.txt .
 
 # Installer les dépendances Python
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements-docker.txt
+RUN pip install --no-cache-dir gunicorn
 
 # Copier le reste du code source
 COPY . .
@@ -85,5 +83,5 @@ RUN chmod +x /app/docker-entrypoint.sh
 # Exposer le port 8000
 EXPOSE 8000
 
-# Point d'entrée
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+# Point d'entrée: démarrer Django en développement
+CMD ["python", "/app/fashionsite/manage.py", "runserver", "0.0.0.0:8000"]

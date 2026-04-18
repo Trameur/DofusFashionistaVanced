@@ -1,6 +1,13 @@
 # Prerequisites
 
-Python 3.9.16 or higher but < 3.12 (lxml not available for Python 3.12+)
+Python 3.14.4 is recommended.
+
+Verified locally on Windows with:
+- Python 3.11.9 for the existing launcher flow
+- Python 3.12.4 with `requirements_win.txt` and `python manage.py check`
+- Python 3.14.4 with refreshed `.venv`, `requirements_win.txt`, and `python manage.py check`
+
+Python 3.15+ is not verified in this repository yet.
 
 ## Python Packages
 

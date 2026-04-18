@@ -64,3 +64,19 @@ Thumbs.db
 # Autres fichiers
 *.bak
 *.tmp
+
+# Gros jeux de donnees / fichiers volumineux inutiles au build
+itemscraper/raw/
+itemscraper/spell_images/
+itemscraper/spell_icons_test/
+migrated_data.json
+logs/
+
+# Artefacts generes
+fashionsite/staticfiles/
+
+# Environnements locaux volumineux
+.venv/
+
+# Metadonnees git
+.git/

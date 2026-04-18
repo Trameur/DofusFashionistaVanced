@@ -1,17 +1,19 @@
 @echo off
-REM Script Docker simple pour DofusFashionista sur Windows
+REM Script Docker pour DofusFashionistaVanced
+REM Usage: run_docker.bat                         -> démarrer (sans supprimer les données)
+REM        run_docker.bat reset CONFIRM_DELETE_DATA -> repartir de zéro (supprime la base de données)
 echo.
-echo ========================================
-echo   DofusFashionista Docker Setup 
-echo ========================================
+echo =========================================
+echo   DofusFashionistaVanced - Docker
+echo   Python 3.14 + MySQL 8 + Django
+echo =========================================
 echo.
 
 REM Vérifier si Docker est installé
 docker --version >nul 2>&1
 if errorlevel 1 (
-    echo Erreur: Docker n'est pas installé ou n'est pas dans le PATH
-    echo Veuillez installer Docker Desktop depuis:
-    echo https://www.docker.com/products/docker-desktop
+    echo ERREUR: Docker n'est pas installe.
+    echo Installez Docker Desktop depuis https://www.docker.com/products/docker-desktop
     pause
     exit /b 1
 )
@@ -19,65 +21,65 @@ if errorlevel 1 (
 REM Vérifier si Docker Compose est disponible
 docker compose version >nul 2>&1
 if errorlevel 1 (
-    echo Erreur: Docker Compose n'est pas disponible
-    echo Veuillez installer Docker Desktop avec Compose
+    echo ERREUR: Docker Compose n'est pas disponible.
+    echo Installez Docker Desktop ^(il inclut Docker Compose^).
     pause
     exit /b 1
 )
 
-echo Docker et Docker Compose sont installés
+REM Vérifier si on doit repartir de zéro
+if /i "%1"=="reset" (
+    if /i not "%2"=="CONFIRM_DELETE_DATA" (
+        echo ERREUR: la commande reset supprime irreversiblement le volume MySQL Docker local.
+        echo Utilisez: run_docker.bat reset CONFIRM_DELETE_DATA
+        echo.
+        pause
+        exit /b 1
+    )
+    echo Remise a zero: suppression des conteneurs et de la base de donnees...
+    docker compose down -v
+    echo Remise a zero terminee.
+    echo.
+)
+
+echo Construction et demarrage...
+echo La premiere fois, cela peut prendre 5-10 minutes pour telecharger Python 3.14 et installer les dependances.
 echo.
 
-REM Arrêter et supprimer les conteneurs existants si nécessaire
-echo Nettoyage des conteneurs existants...
-docker compose down -v 2>nul
-
-echo.
-echo Construction et démarrage des conteneurs...
-echo Cela peut prendre quelques minutes la première fois...
-echo.
-
-REM Construire et démarrer les conteneurs
+REM Construire et démarrer sans supprimer les données
 docker compose up --build -d
 
 if errorlevel 1 (
     echo.
-    echo Erreur lors du démarrage des conteneurs
-    echo.
-    echo Logs des conteneurs:
-    docker compose logs
+    echo ERREUR lors du demarrage. Logs:
+    docker compose logs --tail=50
     echo.
     pause
     exit /b 1
 )
 
 echo.
-echo DofusFashionista est en cours de démarrage !
-echo.
-echo URLs d'accès:
-echo - Application: http://localhost:8000
-echo - Base de données MySQL: localhost:3306
-echo.
-echo Commandes utiles:
-echo - Voir les logs: docker compose logs -f
-echo - Arrêter: docker compose down
-echo - Redémarrer: docker compose restart
-echo.
+echo Attente que MySQL et Django soient prets...
+timeout /t 10 /nobreak >nul
 
-REM Attendre que les services soient prêts
-echo Attente que les services soient prêts...
-timeout /t 5 /nobreak >nul
-
-REM Vérifier le statut des conteneurs
+REM Afficher le statut
 docker compose ps
 
 echo.
-echo Ouverture de l'application dans le navigateur...
+echo =========================================
+echo   DofusFashionistaVanced est pret !
+echo =========================================
+echo.
+echo   http://localhost:8000
+echo.
+echo   Commandes utiles:
+echo   - Logs en direct : docker compose logs -f
+echo   - Arreter        : docker compose down
+echo   - Remettre a zero: run_docker.bat reset
+echo.
+
 start http://localhost:8000
 
-echo.
-echo Installation terminée !
-echo L'application devrait s'ouvrir dans votre navigateur.
 echo Si ce n'est pas le cas, allez sur http://localhost:8000
 echo.
 pause

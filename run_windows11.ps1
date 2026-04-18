@@ -105,9 +105,17 @@ function Test-Prerequisites {
     # Installer les dépendances manquantes
     Write-LogMessage "Installation des dépendances nécessaires..." "INFO"
     try {
-        # Remplacer pylibmc (non compatible Windows) par python-memcached
-        & pip install python-memcached 2>&1 | Out-Null
-        Write-LogMessage "python-memcached installé avec succès." "SUCCESS"
+        # Installer toutes les dépendances depuis requirements_win.txt
+        $requirementsFile = "$PSScriptRoot\requirements_win.txt"
+        if (Test-Path -Path $requirementsFile) {
+            Write-LogMessage "Installation des dépendances depuis $requirementsFile..." "INFO"
+            & pip install -r $requirementsFile --quiet 2>&1 | Out-Null
+            Write-LogMessage "Toutes les dépendances ont été installées avec succès." "SUCCESS"
+        } else {
+            Write-LogMessage "Fichier requirements_win.txt introuvable, installation limitée..." "WARNING"
+            & pip install python-memcached 2>&1 | Out-Null
+            Write-LogMessage "python-memcached installé avec succès." "SUCCESS"
+        }
     }
     catch {
         Write-LogMessage "Erreur lors de l'installation des dépendances: $_" "WARNING"
