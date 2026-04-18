@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import json
 import jsonpickle
 import math
 import pickle
@@ -42,7 +43,7 @@ def _parse_stat_filters(request):
     if raw_filters is None:
         return []
     try:
-        parsed = jsonpickle.decode(raw_filters)
+        parsed = json.loads(raw_filters)
     except Exception:
         return []
 
