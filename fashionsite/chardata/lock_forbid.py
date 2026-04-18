@@ -37,6 +37,12 @@ DEFAULT_EXCLUSIONS_121_PLUS = ['Gore Master\'s Ring (Gms Only)',
                                'Khardboard Getas',
                                'Khardboard Moowolf Belt',
                                'Khardboard Bowisse\'s Shield',
+                               'Lordsoth Daggers',
+                               'Split Splinter Sprinter',
+                               'Wild Crimson Seemyool',
+                               'Wild Ebony Seemyool',
+                               'Wild Indigo Seemyool',
+                               'Wild Orchid Seemyool',
                                ]
 DEFAULT_EXCLUSIONS_120_MINUS = (DEFAULT_EXCLUSIONS_121_PLUS
                                 + [])
@@ -140,7 +146,33 @@ def set_excluded(char, item_id, forbidden):
         remove_items_from_exclusions(char, item_ids)
    
 def _item_id_to_local_or_name(item_id, language):
-    return get_structure().get_item_by_id(item_id).localized_names[language]
+    structure = get_structure()
+    item = structure.get_item_by_id(item_id)
+
+    if item is None:
+        # Legacy pickles can reference retired items; fall back to any variant we still know
+        for candidate in structure.get_items_by_or_id(item_id):
+            if candidate is not None:
+                item = candidate
+                break
+
+    if item is None:
+        return f"Unknown item #{item_id}"
+
+    localized_names = getattr(item, 'localized_names', {}) or {}
+    if language in localized_names:
+        return localized_names[language]
+
+    if 'en' in localized_names:
+        return localized_names['en']
+
+    # Last resort: return first available localization or name/id to avoid crashing the UI
+    if localized_names:
+        return next(iter(localized_names.values()))
+    if getattr(item, 'name', None):
+        return item.name
+
+    return str(item_id)
 
 def _save_inclusion_dict(char, inclusions):
     inclusions = {slot: int(value)

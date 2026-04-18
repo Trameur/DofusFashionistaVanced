@@ -22,7 +22,8 @@ import sys
 import getpass
 import json
 import os
-from subprocess import call, check_call
+from subprocess import call, check_call, run, PIPE
+import shutil
 
 if platform.system() == 'Windows':
     CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
@@ -67,6 +68,11 @@ PACKAGES_TO_INSTALL = {
         'libevent-devel',
         'memcached',
     ],
+    # Added for Windows 
+    'windows': [
+        'https://aka.ms/vs/17/release/vc_redist.x64.exe', # Visual C++ Redistributable
+        'https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.1-21-Q16-HDRI-x64-dll.exe', # ImageMagick
+    ]
 }
 
 PIP_PACKAGES_TO_INSTALL = [
@@ -83,6 +89,14 @@ PIP_PACKAGES_TO_INSTALL = [
     'python-memcached',
     'django-sslserver',
     'unidecode',
+]
+
+WINDOWS_PIP_PACKAGES = [
+    'pillow',
+    'mysql-connector-python',
+    'lxml',
+    'mysqlclient',
+    'wheel',
 ]
 
 GEN_CONFIG_FILE = {
@@ -111,7 +125,9 @@ GEN_CONFIG_FILE = {
 }
 
 def main():
-    if getpass.getuser() != 'root' and platform.system() != 'Windows':
+    is_windows = platform.system() == 'Windows'
+    
+    if getpass.getuser() != 'root' and not is_windows:
         print('Run this script as root.')
         return
         
@@ -152,7 +168,7 @@ def main():
     with open(path_gen_config_file_path, 'r') as f:
         GEN_CONFIGS = json.load(f)
     
-    mysql_config_file_path = os.path.join('..', '.my.cnf')
+    mysql_config_file_path = os.path.join(os.path.expanduser('~'), '.my.cnf')
     with open(mysql_config_file_path, 'w') as f:
         f.write(f"""
 [client]
@@ -172,14 +188,73 @@ password={GEN_CONFIGS['mysql_PASSWORD']}
 
     if args.install_deps:
         _print_header('Installing dependencies')
-        package_manager = _get_package_manager()
-        if package_manager:
-            call(['sudo', package_manager, 'install', '-y'] + PACKAGES_TO_INSTALL[package_manager])
-            call(['pip3', 'install'] + PIP_PACKAGES_TO_INSTALL)
+        
+        if is_windows:
+            _install_windows_deps()
+        else:
+            package_manager = _get_package_manager()
+            if package_manager:
+                call(['sudo', package_manager, 'install', '-y'] + PACKAGES_TO_INSTALL[package_manager])
+                call(['pip3', 'install'] + PIP_PACKAGES_TO_INSTALL)
 
     _print_header('Done')
 
+def _install_windows_deps():
+    _print_header("Installing Windows dependencies")
+    
+    temp_dir = os.path.join(os.environ['TEMP'], 'fashionista_deps')
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    try:
+        run(['pip', '--version'], check=True, stdout=PIPE, stderr=PIPE)
+    except:
+        print("Pip n'est pas installé ou n'est pas dans le PATH.")
+        print("Veuillez installer Python avec pip et réessayer.")
+        return
+    
+    print("Installation des packages Python...")
+    all_pip_packages = PIP_PACKAGES_TO_INSTALL + WINDOWS_PIP_PACKAGES
+    run(['pip', 'install'] + all_pip_packages, check=True)
+    
+    print("Vérification de MySQL...")
+    mysql_installed = False
+    try:
+        result = run(['mysql', '--version'], stdout=PIPE, stderr=PIPE)
+        if result.returncode == 0:
+            mysql_installed = True
+            print("MySQL est déjà installé.")
+    except:
+        print("MySQL n'est pas installé ou n'est pas dans le PATH.")
+    
+    if not mysql_installed:
+        print("\nVeuillez installer MySQL manuellement depuis:")
+        print("https://dev.mysql.com/downloads/installer/")
+        print("Choisissez l'option 'Server only' pendant l'installation.")
+        input("Appuyez sur Entrée une fois MySQL installé...")
+    
+    print("\nTéléchargement et installation des dépendances supplémentaires...")
+    for url in PACKAGES_TO_INSTALL['windows']:
+        file_name = url.split('/')[-1]
+        file_path = os.path.join(temp_dir, file_name)
+        
+        print(f"Téléchargement de {file_name}...")
+        try:
+            import urllib.request
+            urllib.request.urlretrieve(url, file_path)
+            
+            print(f"Installation de {file_name}...")
+            run([file_path], shell=True)
+        except Exception as e:
+            print(f"Erreur lors du téléchargement/installation de {file_name}: {e}")
+            print(f"Veuillez télécharger et installer manuellement depuis:\n{url}")
+    
+    print("\nInstallation des dépendances Windows terminée.")
+    print("Certains composants peuvent nécessiter une installation manuelle si des erreurs se sont produites.")
+
 def _get_package_manager():
+    if platform.system() == 'Windows':
+        return 'windows'
+        
     try:
         with open('/etc/os-release', 'r') as f:
             lines = f.read().lower()

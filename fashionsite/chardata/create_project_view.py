@@ -154,7 +154,8 @@ def create_project(request):
                        'turq_dofus': char.level >= 199,
                        'dragoturkey': True,
                        'rhineetle': True,
-                       'seemyool': True})
+                       'seemyool': True,
+                       'prysmaradite': char.level >= 200})
 
     char.save()
 

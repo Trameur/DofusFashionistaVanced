@@ -326,6 +326,11 @@ msgstr ""
 
 #: chardata/solution_result.py:200
 #, python-format
+msgid "%(min)d to %(max)d %(element)s heals"
+msgstr "%(min)d to %(max)d %(element)s heals"
+
+#: chardata/solution_result.py:200
+#, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
 msgstr ""
 
@@ -460,6 +465,10 @@ msgstr ""
 msgid "Copyright and License information"
 msgstr ""
 
+#: chardata/templates/chardata/base.html:226
+msgid "Support Fashionista"
+msgstr ""
+
 #: chardata/templates/chardata/about.html:29
 msgid "Website version:"
 msgstr ""
@@ -497,6 +506,10 @@ msgid "Load a project"
 msgstr ""
 
 #: chardata/templates/chardata/base.html:115
+msgid "Shared Builds"
+msgstr ""
+
+#: chardata/templates/chardata/base.html:118
 msgid "Compare sets"
 msgstr ""
 
@@ -1515,6 +1528,10 @@ msgstr ""
 msgid "Allow Mounts"
 msgstr ""
 
+#: chardata/templates/chardata/wizard_options.html:228
+msgid "Prysmaradite"
+msgstr ""
+
 #: chardata/templates/chardata/options.html:96
 #: chardata/templates/chardata/wizard_options.html:28
 msgid "Dragoturkeys"
@@ -1532,6 +1549,10 @@ msgstr ""
 
 #: chardata/templates/chardata/options.html:113
 msgid "Allow dofuses:"
+msgstr ""
+
+#: chardata/templates/chardata/options.html:113
+msgid "Allow dofuses and prysmaradite:"
 msgstr ""
 
 #: chardata/templates/chardata/options.html:119
@@ -2256,6 +2277,10 @@ msgstr ""
 
 #: chardata/templates/chardata/wizard_options.html:37
 msgid "Dofuses"
+msgstr ""
+
+#: chardata/templates/chardata/wizard_options.html:37
+msgid "Dofuses and Prysmaradite"
 msgstr ""
 
 #: chardata/templates/chardata/wizard_options.html:162
@@ -4493,3 +4518,158 @@ msgstr ""
 msgctxt "Slider section"
 msgid "Special"
 msgstr ""
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Pushes %(cells)d cells"
+msgstr "Pushes %(cells)d cells"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Pushes %(min)d to %(max)d cells"
+msgstr "Pushes %(min)d to %(max)d cells"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Attracts %(cells)d cells"
+msgstr "Attracts %(cells)d cells"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Attracts %(min)d to %(max)d cells"
+msgstr "Attracts %(min)d to %(max)d cells"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Steals %(kamas)d kamas"
+msgstr "Steals %(kamas)d kamas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Steals %(min)d to %(max)d kamas"
+msgstr "Steals %(min)d to %(max)d kamas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Advances %(cells)d cells"
+msgstr "Advances %(cells)d cells"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Advances %(min)d to %(max)d cells"
+msgstr "Advances %(min)d to %(max)d cells"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Browse and discover builds shared by the community. Click on any build to view details."
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Search & Filter"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Search"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Project or character name"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "User"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Search by username"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "All Classes"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Build Type"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "All Builds"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Min Level"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Max Level"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Order By"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Most Viewed"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Recently Modified"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Recently Created"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Apply Filters"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Hide invalid or outdated builds"
+msgstr "Hide invalid or outdated builds"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Outdated slot layout"
+msgstr "Outdated slot layout"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Conditions not met"
+msgstr "Conditions not met"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Clear Filters"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+#, python-format
+msgid "Found %(counter)s shared build"
+msgid_plural "Found %(counter)s shared builds"
+msgstr[0] "Found %(counter)s shared build"
+msgstr[1] "Found %(counter)s shared builds"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "showing first 100"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Creator"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Views"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Total Stats"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "View Build"
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "No shared builds found matching your criteria. Try adjusting your filters."
+msgstr ""
+
+#: chardata/templates/chardata/license.html
+msgid "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
+msgstr "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."

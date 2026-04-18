@@ -25,15 +25,22 @@ from subprocess import call
 # Determine the correct python command
 PYTHON_CMD = "python3" if platform.system() != "Windows" else "python"
 
+# Déterminer le répertoire de configuration en fonction du système d'exploitation
 if platform.system() == 'Windows':
-    CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista\gen_config.json')
+    CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
 else:
     CONFIG_DIR = '/etc/fashionista'
 
 def load_config():
     """Load the database configuration from a JSON file."""
-    with open(CONFIG_DIR, 'r') as config_file:
-        return json.load(config_file)
+    config_file_path = os.path.join(CONFIG_DIR, 'gen_config.json')
+    try:
+        with open(config_file_path, 'r') as config_file:
+            return json.load(config_file)
+    except FileNotFoundError:
+        print(f"Configuration file not found: {config_file_path}")
+        print("Please run configure_fashionista_root.py first")
+        exit(1)
 
 def main():
     # Load database credentials

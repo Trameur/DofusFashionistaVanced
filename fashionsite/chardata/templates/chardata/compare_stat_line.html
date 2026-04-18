@@ -1,7 +1,11 @@
 {% load static_s3 %}
+{% load chardata_stat_icons %}
+{% stat_icon_path stat_key as resolved_icon %}
 <tr class="solution-stat-summary-line">
     <td class="solution-stat-summary-icon-cell">
-        {% if icon %}
+        {% if resolved_icon %}
+            <img class="solution-stat-summary-icon" src="{% static resolved_icon %}">
+        {% elif icon %}
             <img class="solution-stat-summary-icon" src="{% static icon %}">
         {% endif %}
     </td>

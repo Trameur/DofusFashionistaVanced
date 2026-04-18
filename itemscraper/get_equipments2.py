@@ -143,6 +143,14 @@ STAT_TRANSLATE = {
     '(MP)': '(MP)',
     'reflected damage' : 'Reflects',
     '(best-element damage)' : '(best-element damage)',
+    'Size: %' : 'Size: %',
+    'Action Points (AP)': 'AP',
+    'Movement Points (MP)': 'MP',
+    '(Attracts by cell)': '(Attracts by cell)',
+    '(best-element steal)' : '(best-element steal)',
+    '(Advances by cell)' : '(Advances by cell)',
+    '(Fire heals)' : 'Fire heals',
+    'Fertile' : 'Fertile',
 }
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
@@ -211,6 +219,13 @@ equipment_data = {lang: load_data_for_language(lang, 'equipment') for lang in LA
 
 mount_data = {lang: load_data_for_language(lang, 'mounts') for lang in LANGUAGES}
 
+# Keep mount records as source of truth when mounts and equipment share ankama_id.
+mount_ankama_ids = {
+    item.get('ankama_id')
+    for item in mount_data['en'].get('mounts', [])
+    if item.get('ankama_id') is not None
+}
+
 set_data = {lang: load_data_for_language(lang, 'sets') for lang in LANGUAGES}
 
 # Create a list to store the new formatted items
@@ -235,6 +250,8 @@ for item in equipment_data['en']['items']:
         name_counts[name] = 1
 
 for item in equipment_data['en']['items']:
+    if item.get('ankama_id') in mount_ankama_ids:
+        continue
     if 'Certificate' in item['type']['name'] or 'Sidekick' in item['type']['name'] or 'Badge' in item['type']['name'] or '[!] [UNKNOWN_TEXT_ID_0]' in item['name'] or 'Perceptor' in item['type']['name']:
         continue
     transformed_item = {}
@@ -282,7 +299,7 @@ for item in equipment_data['en']['items']:
                 eff["int_maximum"] if not eff["ignore_int_max"] else None,
                 f"({eff['type']['name']})" if eff["type"]["is_active"] else eff["type"]["name"]
             ] for eff in item["effects"]
-            if not ((eff["type"]["name"] == 'MP' and item["name"] in ["War's Halbaxe", "Wulan's Bow", "Roasty Breadstick", "Pillar of Ephedrya", "Imp Sword", "Phonemenal Scythe"]) or (eff["type"]["id"] == 179) or (eff["type"]["id"] == 238))
+            if not ((eff["type"]["name"] == 'MP' and item["name"] in ["War's Halbaxe", "Wulan's Bow", "Roasty Breadstick", "Pillar of Ephedrya", "Imp Sword", "Phonemenal Scythe"]) or (eff["type"]["id"] == 179) or (eff["type"]["id"] == 238) or (eff["type"]["id"] == 253) or (eff["type"]["id"] == 254))
         ]
         for eff in item["effects"]:
             if eff["type"]["name"] == '-special spell-':
@@ -316,10 +333,10 @@ for item in equipment_data['en']['items']:
                     lang_name_key = f"name_{lang}"
                     if lang_name_key in copy_item:
                         copy_item[lang_name_key] += f" {i + 1}"
-                copy_item["conditions"] = [f"{cond['element']['name']} {cond['operator']} {cond['int_value']}" for cond in conditions]
+                copy_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in conditions]
                 new_data.append(copy_item)
         else:
-            transformed_item["conditions"] = [f"{cond['element']['name']} {cond['operator']} {cond['int_value']}" for cond in flattened_or_conditions[0]]
+            transformed_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in flattened_or_conditions[0]]
             new_data.append(transformed_item)
     else:
         # Ensure "conditions" key exists with an empty list

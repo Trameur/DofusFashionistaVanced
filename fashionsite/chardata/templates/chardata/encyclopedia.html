@@ -1,0 +1,595 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+
+{% block title %}{{ t.title }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+.encyclopedia-page {
+    padding: 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+.encyclopedia-title {
+    margin: 4px 0;
+    font-weight: 800;
+    text-align: left;
+}
+.encyclopedia-subtitle {
+    margin: 2px 0 16px;
+    opacity: 0.9;
+    text-align: left;
+}
+.encyclopedia-filter-box {
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0 0 16px;
+    width: 100%;
+    max-width: none;
+    display: block;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.encyclopedia-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    align-items: end;
+}
+.encyclopedia-filter-grid > div {
+    display: flex;
+    flex-direction: column;
+}
+.encyclopedia-filter-grid label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.encyclopedia-filter-grid input,
+.encyclopedia-filter-grid select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+}
+.encyclopedia-stat-filters {
+    margin-top: 12px;
+}
+.encyclopedia-stat-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(120px, 180px) auto;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: end;
+}
+.encyclopedia-stat-row label {
+    display: block;
+    margin-bottom: 4px;
+}
+.encyclopedia-stat-row input,
+.encyclopedia-stat-row select {
+    width: 100%;
+    box-sizing: border-box;
+}
+.encyclopedia-stat-select {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.encyclopedia-stat-select-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+.encyclopedia-stat-select-icon-hidden {
+    visibility: hidden;
+}
+.encyclopedia-order-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(130px, 180px) auto;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: end;
+}
+.encyclopedia-order-row label {
+    display: block;
+    margin-bottom: 4px;
+}
+.encyclopedia-order-row input,
+.encyclopedia-order-row select {
+    width: 100%;
+    box-sizing: border-box;
+}
+.encyclopedia-stat-row-actions {
+    display: flex;
+    align-items: end;
+}
+.encyclopedia-small-btn {
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.encyclopedia-small-btn-danger {
+    opacity: 0.92;
+}
+.encyclopedia-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.encyclopedia-btn {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+.encyclopedia-btn-secondary {
+    opacity: 0.92;
+}
+.encyclopedia-results-header {
+    margin: 12px 0 8px;
+    font-weight: 700;
+    text-align: left;
+}
+.encyclopedia-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    justify-content: start;
+    align-items: stretch;
+}
+.encyclopedia-grid > * {
+    min-width: 0;
+}
+.encyclopedia-card {
+    display: flex;
+    gap: 10px;
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 0;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    text-align: left;
+}
+.encyclopedia-card.brown-box {
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+}
+.encyclopedia-card > div:last-child {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+.encyclopedia-card > div:first-child img {
+    width: 60px;
+    height: 60px;
+}
+.encyclopedia-card-name {
+    font-weight: 700;
+}
+.encyclopedia-card-meta {
+    font-size: 0.95em;
+    margin: 3px 0;
+    font-weight: 600;
+    opacity: 0.9;
+}
+.encyclopedia-card-stats {
+    margin: 6px 0;
+    font-size: 0.92em;
+    line-height: 1.25;
+}
+.encyclopedia-card-stat-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 1px 0;
+}
+.encyclopedia-card .encyclopedia-card-stat-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+.encyclopedia-card-name,
+.encyclopedia-card-meta,
+.encyclopedia-card-stats {
+    overflow-wrap: anywhere;
+}
+.encyclopedia-card-stat-negative {
+    color: #d64d42;
+}
+.encyclopedia-card a,
+.encyclopedia-page-link {
+    text-decoration: underline;
+}
+.encyclopedia-card a:hover,
+.encyclopedia-page-link:hover {
+    text-decoration: underline;
+}
+.encyclopedia-pagination {
+    margin-top: 14px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+.encyclopedia-page-link {
+    display: inline-block;
+}
+.encyclopedia-page-link-current {
+    font-weight: 700;
+}
+@media (max-width: 980px) {
+    .encyclopedia-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .encyclopedia-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 600px) {
+    .encyclopedia-filter-grid {
+        grid-template-columns: 1fr;
+    }
+    .encyclopedia-stat-row {
+        grid-template-columns: 1fr;
+    }
+    .encyclopedia-order-row {
+        grid-template-columns: 1fr;
+    }
+    .encyclopedia-stat-row-actions {
+        align-items: stretch;
+    }
+    .encyclopedia-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="encyclopedia-page text" id="encyclopedia-page">
+    <h1 class="encyclopedia-title">{{ t.title }}</h1>
+    <p class="encyclopedia-subtitle small-explain">{{ t.subtitle }}</p>
+
+    <form method="get" class="encyclopedia-filter-box brown-box">
+        <input type="hidden" name="order_rows_json" id="order-rows-json" value="">
+        <div class="encyclopedia-filter-grid">
+            <div>
+                <label for="q">{{ t.search_label }}</label>
+                <input class="pretty-input" id="q" type="text" name="q" value="{{ search_text }}" placeholder="{{ t.search_placeholder }}">
+            </div>
+            <div>
+                <label for="type">{{ t.type_label }}</label>
+                <select class="pretty-input" id="type" name="type">
+                    <option value="">{{ t.all_types }}</option>
+                    {% for type_option in type_options %}
+                    <option value="{{ type_option.value }}" {% if type_option.value == selected_type %}selected{% endif %}>{{ type_option.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="min_level">{{ t.min_level }}</label>
+                <input class="pretty-input" id="min_level" type="number" min="1" max="200" name="min_level" value="{{ min_level }}">
+            </div>
+            <div>
+                <label for="max_level">{{ t.max_level }}</label>
+                <input class="pretty-input" id="max_level" type="number" min="1" max="200" name="max_level" value="{{ max_level }}">
+            </div>
+        </div>
+
+        <div class="encyclopedia-stat-filters">
+            <b>{{ t.stat_filters }}</b>
+            <div id="stat-filter-list">
+                {% for stat_row in selected_stat_rows %}
+                <div class="encyclopedia-stat-row">
+                    <div>
+                        <label>{{ t.stat_label }}</label>
+                        <div class="encyclopedia-stat-select">
+                            <img class="encyclopedia-stat-select-icon {% if not stat_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if stat_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
+                            <select class="pretty-input" name="stat_key">
+                            <option value="" data-icon-url="">-</option>
+                            {% for option in stat_options %}
+                                <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}" {% if stat_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ t.min_value_label }}</label>
+                        <input class="pretty-input" type="number" min="1" name="stat_min" value="{{ stat_row.min }}">
+                    </div>
+                    <div class="encyclopedia-stat-row-actions">
+                        <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{{ t.remove_stat_filter }}</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="encyclopedia-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn" id="add-stat-filter">{{ t.add_stat_filter }}</button>
+            </div>
+        </div>
+
+        <div class="encyclopedia-stat-filters">
+            <b>{{ t.order_stats }}</b>
+            <div id="stat-order-list">
+                {% for order_row in selected_order_rows %}
+                <div class="encyclopedia-order-row">
+                    <div>
+                        <label>{{ t.stat_label }}</label>
+                        <div class="encyclopedia-stat-select">
+                            <img class="encyclopedia-stat-select-icon {% if not order_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if order_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
+                            <select class="pretty-input" name="order_key">
+                            <option value="" data-icon-url="">-</option>
+                            {% for option in stat_options %}
+                                <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}" {% if order_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label>{{ t.order_direction_label }}</label>
+                        <select class="pretty-input" name="order_dir">
+                            <option value="desc" {% if order_row.dir == 'desc' %}selected{% endif %}>{{ t.direction_desc }}</option>
+                            <option value="asc" {% if order_row.dir == 'asc' %}selected{% endif %}>{{ t.direction_asc }}</option>
+                        </select>
+                    </div>
+                    <div class="encyclopedia-stat-row-actions">
+                        <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-order-stat">{{ t.remove_stat_filter }}</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="encyclopedia-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn" id="add-order-stat">{{ t.add_order_stat }}</button>
+            </div>
+        </div>
+
+        <div class="encyclopedia-actions">
+            <button class="button-generic encyclopedia-btn" type="submit">{{ t.apply_filters }}</button>
+            <a class="button-thin encyclopedia-btn encyclopedia-btn-secondary" href="{% url 'encyclopedia' %}">{{ t.clear_filters }}</a>
+        </div>
+    </form>
+
+    <template id="stat-filter-template">
+        <div class="encyclopedia-stat-row">
+            <div>
+                <label>{{ t.stat_label }}</label>
+                <div class="encyclopedia-stat-select">
+                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
+                    <select class="pretty-input" name="stat_key">
+                    <option value="" data-icon-url="">-</option>
+                    {% for option in stat_options %}
+                        <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}">{{ option.name }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>{{ t.min_value_label }}</label>
+                <input class="pretty-input" type="number" min="1" name="stat_min" value="">
+            </div>
+            <div class="encyclopedia-stat-row-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{{ t.remove_stat_filter }}</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="stat-order-template">
+        <div class="encyclopedia-order-row">
+            <div>
+                <label>{{ t.stat_label }}</label>
+                <div class="encyclopedia-stat-select">
+                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
+                    <select class="pretty-input" name="order_key">
+                    <option value="" data-icon-url="">-</option>
+                    {% for option in stat_options %}
+                        <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}">{{ option.name }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>{{ t.order_direction_label }}</label>
+                <select class="pretty-input" name="order_dir">
+                    <option value="desc">{{ t.direction_desc }}</option>
+                    <option value="asc">{{ t.direction_asc }}</option>
+                </select>
+            </div>
+            <div class="encyclopedia-stat-row-actions">
+                <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-order-stat">{{ t.remove_stat_filter }}</button>
+            </div>
+        </div>
+    </template>
+
+    <script>
+    (function() {
+        var list = document.getElementById('stat-filter-list');
+        var template = document.getElementById('stat-filter-template');
+        var addButton = document.getElementById('add-stat-filter');
+        var form = document.querySelector('.encyclopedia-filter-box');
+        var orderList = document.getElementById('stat-order-list');
+        var orderTemplate = document.getElementById('stat-order-template');
+        var addOrderButton = document.getElementById('add-order-stat');
+        var orderRowsJson = document.getElementById('order-rows-json');
+
+        function updateRemoveButtons() {
+            var rows = list.querySelectorAll('.encyclopedia-stat-row');
+            rows.forEach(function(row) {
+                var removeButton = row.querySelector('.remove-stat-filter');
+                if (removeButton) {
+                    removeButton.disabled = rows.length === 1;
+                }
+            });
+        }
+
+        function bindRemoveButtons(scope) {
+            var buttons = scope.querySelectorAll('.remove-stat-filter');
+            buttons.forEach(function(button) {
+                button.onclick = function() {
+                    var rows = list.querySelectorAll('.encyclopedia-stat-row');
+                    if (rows.length <= 1) {
+                        return;
+                    }
+                    button.closest('.encyclopedia-stat-row').remove();
+                    updateRemoveButtons();
+                };
+            });
+        }
+
+        function syncStatSelectIcon(select) {
+            if (!select) {
+                return;
+            }
+            var wrapper = select.closest('.encyclopedia-stat-select');
+            if (!wrapper) {
+                return;
+            }
+            var icon = wrapper.querySelector('.encyclopedia-stat-select-icon');
+            var selectedOption = select.options[select.selectedIndex];
+            var iconUrl = selectedOption ? selectedOption.getAttribute('data-icon-url') : '';
+            if (!icon) {
+                return;
+            }
+            icon.src = iconUrl || '';
+            icon.classList.toggle('encyclopedia-stat-select-icon-hidden', !iconUrl);
+        }
+
+        function bindStatSelectIcons(scope) {
+            var selects = scope.querySelectorAll('select[name="stat_key"], select[name="order_key"]');
+            selects.forEach(function(select) {
+                select.onchange = function() {
+                    syncStatSelectIcon(select);
+                };
+                syncStatSelectIcon(select);
+            });
+        }
+
+        function updateOrderRemoveButtons() {
+            var rows = orderList.querySelectorAll('.encyclopedia-order-row');
+            rows.forEach(function(row) {
+                var removeButton = row.querySelector('.remove-order-stat');
+                if (removeButton) {
+                    removeButton.disabled = rows.length === 1;
+                }
+            });
+        }
+
+        function bindOrderRemoveButtons(scope) {
+            var buttons = scope.querySelectorAll('.remove-order-stat');
+            buttons.forEach(function(button) {
+                button.onclick = function() {
+                    var rows = orderList.querySelectorAll('.encyclopedia-order-row');
+                    if (rows.length <= 1) {
+                        return;
+                    }
+                    button.closest('.encyclopedia-order-row').remove();
+                    updateOrderRemoveButtons();
+                };
+            });
+        }
+
+        function syncOrderRowsJson() {
+            var rows = orderList.querySelectorAll('.encyclopedia-order-row');
+            var payload = [];
+            rows.forEach(function(row) {
+                var keySelect = row.querySelector('select[name="order_key"]');
+                var dirSelect = row.querySelector('select[name="order_dir"]');
+                payload.push({
+                    key: keySelect ? keySelect.value : '',
+                    dir: dirSelect ? dirSelect.value : 'desc'
+                });
+            });
+            orderRowsJson.value = JSON.stringify(payload);
+        }
+
+        addButton.addEventListener('click', function() {
+            var fragment = template.content.cloneNode(true);
+            bindRemoveButtons(fragment);
+            bindStatSelectIcons(fragment);
+            list.appendChild(fragment);
+            updateRemoveButtons();
+        });
+
+        addOrderButton.addEventListener('click', function() {
+            var fragment = orderTemplate.content.cloneNode(true);
+            bindOrderRemoveButtons(fragment);
+            bindStatSelectIcons(fragment);
+            orderList.appendChild(fragment);
+            updateOrderRemoveButtons();
+            syncOrderRowsJson();
+        });
+
+        form.addEventListener('submit', function() {
+            syncOrderRowsJson();
+        });
+
+        bindRemoveButtons(document);
+        bindOrderRemoveButtons(document);
+        bindStatSelectIcons(document);
+        updateRemoveButtons();
+        updateOrderRemoveButtons();
+        syncOrderRowsJson();
+    })();
+    </script>
+
+    <div class="encyclopedia-results-header big-text">{{ t.results }}: {{ items_count }}</div>
+
+    {% if items_page.object_list %}
+    <div class="encyclopedia-grid">
+        {% for item in items_page.object_list %}
+        <div class="encyclopedia-card brown-box">
+            <div>
+                <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            </div>
+            <div>
+                <div class="encyclopedia-card-name">{{ item.name }}</div>
+                <div class="encyclopedia-card-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                {% if item.stat_lines %}
+                <div class="encyclopedia-card-stats">
+                    {% for stat_line in item.stat_lines %}
+                        <div class="encyclopedia-card-stat-line {% if stat_line.negative %}encyclopedia-card-stat-negative{% endif %}">
+                            {% if stat_line.icon_url %}
+                            <img class="encyclopedia-card-stat-icon" src="{{ stat_line.icon_url }}" alt="">
+                            {% endif %}
+                            <span>{{ stat_line.text }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if item.detail_url %}
+                <a class="encyclopedia-page-link" href="{{ item.detail_url }}">{{ t.open_item }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if items_page.has_other_pages %}
+    <div class="encyclopedia-pagination">
+        {% if items_page.has_previous %}
+        <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ items_page.previous_page_number }}">&lt;</a>
+        {% endif %}
+        {% for page_num in items_page.paginator.page_range %}
+            {% if page_num == items_page.number %}
+                <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
+            {% elif page_num >= items_page.number|add:"-3" and page_num <= items_page.number|add:"3" %}
+                <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if items_page.has_next %}
+        <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ items_page.next_page_number }}">&gt;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <p>{{ t.no_results }}</p>
+    {% endif %}
+</div>
+{% endblock %}

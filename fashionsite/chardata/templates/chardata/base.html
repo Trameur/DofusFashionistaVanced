@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Get Dofus sets created automatically, based on your specific needs.">
+    <meta name="author" content="Dofus Fashionista">
+    <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Dofus Fashionista - Equipment Set Optimizer">
+    <meta property="og:description" content="Create optimized Dofus equipment sets automatically based on your character's needs.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fashionistavanced.com/">
     <title>{% block title %}Dofus Fashionista{% endblock %}</title>
 
     {% load i18n %}
@@ -17,19 +24,20 @@
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
 
-    <!-- Google Analytics -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
+    <script data-ad-client="ca-pub-3961330018791408" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="https://fundingchoicesmessages.google.com/i/pub-3961330018791408?ers=1" nonce="{{ request.csp_nonce }}"></script>
+
+    <!-- Google tag (gtag.js) - Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XKQQ02BGR0"></script>
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', '{{ google_analytics_id }}', 'auto');
-      ga('require', 'displayfeatures');
-      ga('send', 'pageview');
-
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XKQQ02BGR0');
     </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script>
     
@@ -112,7 +120,13 @@
                 <a class="menu_link menu_link_middle" href="{% url 'load_projects' %}">{% trans "Load a project" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_bottom" href="{% url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
+                <a class="menu_link menu_link_middle" href="{% url 'shared_builds' %}">{% trans "Shared Builds" %}</a>
+              </div>
+              <div>
+                                <a class="menu_link menu_link_middle" href="{% url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
+                            </div>
+                            <div>
+                                <a class="menu_link menu_link_bottom" href="{% url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
               </div>
           </div>
           <div class="space"></div>
@@ -203,7 +217,7 @@
         
         {% include "chardata/loading.html" with char=char language=language %}
             <div align="center" class="footer">
-                {% trans "Items up to update" %} 3.0.36.24
+                {% trans "Items up to update" %} {{ SITE_VERSION }}
                 <br>
                 <!-- General Site Links -->
                 <a href="{% url 'about' %}">{% trans "Help & About" %}</a> &ndash;
@@ -220,6 +234,13 @@
                     <img src="{% static 'chardata/discord.png' %}" alt="Discord" class="discord-logo" />
                     fashionista
                 </a>
+                
+                <!-- Ko-fi Donation Button -->
+                <div class="kofi-widget-wrapper">
+                    <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+                    <script type='text/javascript'>kofiwidget2.init('{% trans "Support Fashionista" %}', '#f57873', 'T6T81MWTYO');kofiwidget2.draw();</script>
+                </div>
+                
             </div>
             <style>
                 .discord-invite-btn {
@@ -245,6 +266,12 @@
                     margin-right: 8px;
                     height: 20px;
                     width: 26px;
+                }
+                
+                .kofi-widget-wrapper {
+                    display: inline-block;
+                    margin: 10px 5px 23px 5px;
+                    vertical-align: middle;
                 }
             </style>
         </div>

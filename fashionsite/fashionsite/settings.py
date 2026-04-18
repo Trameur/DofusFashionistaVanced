@@ -28,6 +28,14 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import json
 import platform
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from fashionista_version import FASHIONISTA_VERSION
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Define the paths for Linux and Windows
@@ -52,7 +60,25 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ['fashionistavanced.com', 'www.fashionistavanced.com', '16.171.215.36']
+    ALLOWED_HOSTS = ['.fashionistavanced.com', 'fashionistavanced.com', '16.171.215.36']
+
+# CSRF trusted origins for Django 4.0+
+CSRF_TRUSTED_ORIGINS = [
+    'https://fashionistavanced.com',
+    'https://dofus.fashionistavanced.com',
+    'https://www.fashionistavanced.com',
+]
+
+# Security settings for production (HTTPS)
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    SECURE_SSL_REDIRECT = False  # AWS/CloudFront handles redirect
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 STATIC_URL = '/static/'
 
@@ -96,6 +122,7 @@ TEMPLATES = [
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
                 'django.template.context_processors.request',
+                'fashionsite.context_processors.site_version',
             ],
         },
     },
@@ -141,17 +168,31 @@ SOCIAL_AUTH_SESSION_EXPIRATION = False
 SOCIAL_AUTH_FACEBOOK_KEY = GEN_CONFIGS['SOCIAL_AUTH_FACEBOOK_KEY']
 SOCIAL_AUTH_FACEBOOK_SECRET = GEN_CONFIGS['SOCIAL_AUTH_FACEBOOK_SECRET']
 
+if not DEBUG:
+    SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 
 USE_MYSQL = True
 if USE_MYSQL:
+    # Support pour Docker avec variables d'environnement
+    DB_HOST = os.environ.get('DB_HOST', 'localhost')
+    DB_PORT = os.environ.get('DB_PORT', '3306')
+    DB_NAME = os.environ.get('DB_NAME', 'fashionista')
+    DB_USER = os.environ.get('DB_USER', GEN_CONFIGS['mysql_USER'])
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', GEN_CONFIGS['mysql_PASSWORD'])
+    
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', 
-            'NAME': 'fashionista',
-            'USER': GEN_CONFIGS['mysql_USER'],
-            'PASSWORD': GEN_CONFIGS['mysql_PASSWORD'],
-            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-            'PORT': '3306',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
         }
     }
 else:
@@ -197,11 +238,11 @@ with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
     if not serve_static or not DEBUG:
         #STATIC_URL = 'https://fashionistavanced.s3.eu-north-1.amazonaws.com/'
         #ALLOWED_HOSTS = ['fashionistavanced.com', 'www.fashionistavanced.com']
-        STATIC_ROOT = '/tmp/statictemp'
+        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
         STATIC_URL = '/static/'
         STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
     else:
-        STATIC_ROOT = '/tmp/statictemp'
+        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
         STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 LOGGING = {
@@ -250,14 +291,15 @@ LOGGING = {
     }
 }
 
-CACHES = { 
-  'default' : { 
-     'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache', 
-     'LOCATION' : '127.0.0.1:11211',
-     'TIMEOUT': 600,
-     'CULL_FREQUENCY': 3
-  }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'fashionista-cache',
+    }
 }
+
+
+
 
 EMAIL_USE_TLS = GEN_CONFIGS['EMAIL_USE_TLS']
 EMAIL_HOST = GEN_CONFIGS['EMAIL_HOST']
@@ -265,7 +307,7 @@ EMAIL_HOST_USER = GEN_CONFIGS['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = GEN_CONFIGS['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = GEN_CONFIGS['EMAIL_PORT']
 
-SITE_VERSION = '3.0.36.24'
+SITE_VERSION = FASHIONISTA_VERSION
 
 EXPERIMENTS = {
     'COMPARE_SETS': True,
@@ -275,3 +317,14 @@ EXPERIMENTS = {
 }
 
 DEFAULT_THEME = 'lighttheme'
+
+
+
+
+
+
+
+
+
+
+

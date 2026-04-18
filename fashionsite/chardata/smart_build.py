@@ -111,285 +111,180 @@ RACE_TO_BUILD_PROFILE = {
         '%fireres': 0.0, # Increase % of % Fire Resist
     },
     'Cra': {
-        # TODO: Aspects
-        # - Pushback damage
-        # - Field manipulation
-        # - Debuffer
-        # - Spike damage
-        # - Crowd control
         'all': {
-            'mpred_importance': 0.6, # Poisoned Arrow, Paralyzing Arrow
+            'mpred_importance': 0.6,
             'lock_importance': 0.1,
             'dodge_importance': 0.9,
             'vit_importance': 0.4,
-            'pshdam_importance': 0.2, # Lashing Arrow
+            'pshdam_importance': 0.2,
             'meleeness': 0.0,
+            'pow_power': 1.0,
         },
         'str': {
-            'mpred_importance': 0.8, # Poisoned Arrow
-            'earthdam': 1.5,
-            'neutdam': 0.4, # Poisoned Arrow
+            'earthdam': 6.0,
         },
         'int': {
-            'apred_importance': 0.6, # Paralyzing Arrow (int)
-            'pshdam_importance': 0.4, # Burning Arrow, Repulsive Arrow
-            'firedam': 1.7,
+            'firedam': 6.0,
         },
         'cha': {
-            'apred_importance': 0.3, # Slow Down Arrow
-            'mpred_importance': 1.0, # Paralyzing Arrow
-            'waterdam': 1.6,
+            'waterdam': 6.0,
         },
         'agi': {
-            'pshdam_importance': 0.4, # Retreat Arrow
-            'airdam': 1.7,
+            'airdam': 6.0,
         },
     },
     'Ecaflip': {
-        # TODO: Aspects
-        # - Non-crit
-        # - Crit
         'all': {
             'range_importance': 0.5,
-            'cridam': 0.4, # Rekop
-            'vit_importance': 0.6, # Repercussion, Pussycat
+            'cridam': 0.4,
+            'vit_importance': 0.6,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.5,
-            'mpred_importance': 0.3, # Fate of Ecaflip, Lapping Up
-            'pshdam_importance': 0.2, # Fate of Ecaflip, Ecaflip's Audacity
-            'earthdam': 1.4,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.1,
-            'range_importance': 1.0, # Topkaj, Rough Tongue
-            'heals_importance': 0.1, # Yowling, All or Nothing, Peril
-            'pow_power': 0.4, # Yowling, Felintion, All or Nothing
-            'firedam': 0.9,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.3,
-            'pshdam_importance': 0.05, # Felintion, Kraps
-            'dodge_importance': 0.6, # Felintion, Kraps
-            'waterdam': 1.4,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.5,
-            'pshdam_importance': 0.1, # Claw of Ceangal
-            'airdam': 1.5,
+            'airdam': 6.0,
         },
     },
     'Eniripsa': {
-        # TODO: Aspects
-        # - Damage dealer
         'all': {
-            'apred_importance': 0.1, # Word of Silence
-            'mpred_importance': 0.1, # Paralyzing Word, Overwhelming Word
+            'apred_importance': 0.1,
+            'mpred_importance': 0.1,
             'lock_importance': 0.1,
-            'pshdam_importance': 0.05, # Frightening Word
+            'pshdam_importance': 0.05,
             'heals_importance': 0.05,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.5,
-            'earthdam': 2.0,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.3,
-            'heals_importance': 0.5, # Alternative Word
-            'pow_power': 0.3,
-            'firedam': 1.0,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.7,
-            'apred_importance': 0.4, # Thunderous Word
-            'mpred_importance': 0.4, # Overwhelming Word
-            'lock_importance': 0.3, # Thunderous Word
-            'waterdam': 1.4,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.2,
-            'dodge_importance': 0.6,
-            'airdam': 1.4,
-            'pshdam_importance': 0.2, # Turbulent Word
+            'airdam': 6.0,
         },
     },
     'Enutrof': {
-        # TODO: Aspects
-        # - Range specialist
-        # - Melee specialist
         'all': {
-            'apred_importance': 0.1, # Mass Clumsiness, Loafylactic
-            'mpred_importance': 1.0, # Clumsiness, Shovel of Judgment, Prime of Life, Spade Kiss
+            'apred_importance': 0.1,
+            'mpred_importance': 1.0,
             'dodge_importance': 0.5,
-            'min_summons_low_level': 2, # Living Shovel, Living Bag, Living Chest
+            'min_summons_low_level': 2,
             'min_summons_high_level': 2,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.4,
-            'lock_importance': 0.3,
-            'dodge_importance': 0.7,
-            'earthdam': 1.9,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.3,
-            'lock_importance': 0.5,
-            'dodge_importance': 0.5,
-            'firedam': 1.7,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.0,
-            'lock_importance': 0.1,
-            'dodge_importance': 0.9,
-            'waterdam': 1.7,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.5,
-            'lock_importance': 0.5,
-            'dodge_importance': 0.5,
-            'airdam': 1.9,
-            'apred_importance': 0.5, # Loafylactic
-            'pshdam_importance': 0.1, # Spade of Judgment
+            'airdam': 6.0,
         },
     },
     'Feca': {
         'all': {
-            'range_importance': 0.5, # Glyph of Repulsion, Barricade, Bastion
-            'neutdam': 1.0, # Blindness, Tetany
-            'apred_importance': 0.2, # Blindness, Glyph of Blindness
-            'mpred_importance': 0.2, # Paralyzing Glyph
-            'lock_importance': 0.6, # Glyph of Repulsion
-            'cridam': 0.25, # Glyphs
+            'range_importance': 0.5,
+            'neutdam': 1.0,
+            'apred_importance': 0.2,
+            'mpred_importance': 0.2,
+            'lock_importance': 0.6,
+            'cridam': 0.25,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.8,
-            'apred_importance': 0.6, # Blindness, Tetany
-            'lock_importance': 0.7, # Dazzling, Tetany
-            'earthdam': 1.0,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.1,
-            'mpred_importance': 0.7, # Lethargy
-            'dodge_importance': 0.6, # Lethargy
-            'lock_importance': 0.4,
-            'firedam': 1.6,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.0,
-            'range_importance': 1.0,
-            'dodge_importance': 0.9, # Bubble, Cloudy Attack
-            'apred_importance': 0.7, # Glyph of Blindness
-            'lock_importance': 0.4,
-            'pshdam_importance': 0.1, # Tension
-            'waterdam': 1.6,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.8,
-            'dodge_importance': 0.7, # [!] Boursoufflure, Low range spells
-            'lock_importance': 0.7, # Low range spells
-            'pshdam_importance': 0.2, # Gust, [!] Boursoufflure
-            'airdam': 1.9,
+            'airdam': 6.0,
         },
     },
     'Foggernaut': {
-        # TODO: Aspects:
-        # - Healer
-        # - Pushback damage
         'all': {
-            'range_importance': 0.5, # Breakwater, Dreadnaut, Harpooner
+            'range_importance': 0.5,
             'lock_importance': 0.2,
             'dodge_importance': 0.5,
-            'vit_importance': 0.7, # Turrets, [!] Blindage
-            'heals_importance': 0.15, # First Aid
-            'mpred_importance': 0.1, # [!] Nautile, [!] Corrosion
-            'cridam': 0.3, # Turrets
+            'vit_importance': 0.7,
+            'heals_importance': 0.15,
+            'mpred_importance': 0.1,
+            'cridam': 0.3,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.2,
-            'pshdam_importance': 0.7, # Backwash, Trident
-            'earthdam': 2.0,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.4,
-            'heals_importance': 0.25, # First Aid, [!] Sauvetage
-            'pow_power': 0.8, # First Aid, [!] Sauvetage
-            'firedam': 1.8,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.1,
-            'dodge_importance': 0.7, # Froth, Torrent
-            'pshdam_importance': 0.2, # Froth
-            'mpred_importance': 0.3, # [!] Nautile
-            'waterdam': 1.7,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.6,
-            'pshdam_importance': 0.7, # [!] Harmattan, [!] Torpille
-            'mpred_importance': 0.2, # [!] Corrosion
-            'airdam': 1.8,
+            'airdam': 6.0,
         },
     },
     'Iop': {
-        # TODO: Aspects
-        # - Pushback damage ([!] Violence, Intimidation, [!] Coup pour Coup)
-        # - Shield support ([!] Vertu, [!] Rassemblement, [!] Conquete)
-        # - Crowd control ([!] Tannee, [!] Tumulte, [!] Sentence)
         'all': {
-            'neutdam': 0.3, # Intimidation
             'range_importance': 0,
-            'mpred_importance': 0.1, # Cut
+            'mpred_importance': 0.1,
             'lock_importance': 0.6,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 1.0,
-            'pshdam_importance': 0.2, # Intimidation
-            'earthdam': 1.3,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.6,
-            'range_importance': 1.0, # Cut, Sentence
-            'mpred_importance': 0.4, # Cut
-            'dodge_importance': 0.6, # Strengthstorm
-            'firedam': 1.3,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.8,
-            'waterdam': 1.5,
-            'vit_importance': 0.7, # Outpouring, Threat, [!] Fendoir, [!] Endurance
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.5,
-            'airdam': 1.5,
-            'mpred_importance': 0.6, # [!] Tannee
+            'airdam': 6.0,
         },
     },
     'Masqueraider': {
-        # TODO: Aspects
-        # - Coward
-        # - Classic
-        # - Psycho
         'all': {
             'meleeness': 0.8,
-            'range_importance': 0.5, # Picada, [!] Agular, Tortoruga, [!] Armadur, [!] Atabak, [!] Brincaderia, [!] Ponteira
-            'mpred_importance': 0.1, # Apathy
+            'range_importance': 0.5,
+            'mpred_importance': 0.1,
             'dodge_importance': 0.1,
-            'vit_importance': 0.8, # Shields
-            'pshdam_importance': 0.1, # [!] Comedie
+            'vit_importance': 0.8,
+            'pshdam_importance': 0.1,
+            'pow_power': 1.0,
         },
         'str': {
-            'mpred_importance': 0.3, # Apathy
-            'apred_importance': 0.2, # [!] Atabak
-            'earthdam': 1.6,
+            'earthdam': 6.0,
         },
         'int': {
-            'firedam': 1.6,
+            'firedam': 6.0,
         },
         'cha': {
-            'pshdam_importance': 0.7, # Boliche, Distance
-            'waterdam': 1.6,
+            'waterdam': 6.0,
         },
         'agi': {
-            'mpred_importance': 0.2, # Retention
-            'airdam': 1.6,
+            'airdam': 6.0,
         },
     },
     'Osamodas': {
@@ -401,180 +296,125 @@ RACE_TO_BUILD_PROFILE = {
             'summons_are_important': True,
             'min_summons_low_level': 2,
             'min_summons_high_level': 3,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.5,
-            'vit_importance': 0.8, # close range
-            'lock_importance': 0.8, # close range
-            'mpred_importance': 0.2, # Fossil
-            'earthdam': 1.8,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.2,
-            'vit_importance': 0.5, # long range
-            'range_importance': 0.5, # Dragonic, Dragon's Breath
-            'heals_importance': 0.2, # Whip
-            'dodge_importance': 0.8, # Whip, Dragonic
-            'firedam': 1.4,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.7,
-            'waterdam': 1.6,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.0,
-            'range_importance': 1.0, # Duster, Canine, [!] Croc Repulsif, [!] Deplumage
-            'min_summons_low_level': 3, # Tofus, Duster
-            'min_summons_high_level': 4, # Tofus, Duster
-            'airdam': 1.6, # Duster
+            'airdam': 6.0,
         },
     },
     'Pandawa': {
-        # TODO: Aspects
-        # - Drunk
-        # - Sober
         'all': {
-            'range_importance': 0.5, # Terror, Vulnerability, Stabilization, Pandiniuras, Spirit Bond
-            'dodge_importance': 0.3, # Stabilization, Karcham
-            'min_summons_high_level': 2, # Spirit Bond, Drunkeness
+            'range_importance': 0.5,
+            'dodge_importance': 0.3,
+            'min_summons_high_level': 2,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.6,
-            'lock_importance': 0.8,
-            'earthdam': 1.5,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.2,
-            'range_importance': 0.75, # Blazing Fist, Explosive Flask
-            'dodge_importance': 0.5,
-            'firedam': 1.6,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.4,
-            'range_importance': 1.0, # Tipple, Melancholy, [!] Gnole
-            'waterdam': 1.5,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.0,
-            'range_importance': 1.0, # Alcoholic Breath, [!] Engourdissement, [!] Liqueur, [!] Nausee
-            'dodge_importance': 0.6,
-            'pshdam_importance': 0.2, # Alcoholic Breath
-            'airdam': 1.6,
-            'mpred_importance': 0.2, # [!] Engourdissement
+            'airdam': 6.0,
         },
     },
     'Rogue': {
-        # TODO: Aspects:
-        # - Bomber
-        # - Direct damage
         'all': {
             'meleeness': 0.0,
-            'vit_importance': 0.6, # Bombs
-            'range_importance': 0.5, # Detonator, Kickback, Magnet, Dirty Trick, [!] Stratageme, [!] Explobombe Collante, [!] Piege Magnetique, Powder, Overload, Kaboom
-            'cridam': 0.25, # Bombs
+            'vit_importance': 0.6,
+            'range_importance': 0.5,
+            'cridam': 0.25,
+            'pow_power': 1.2, # Power important for bomb damage
         },
         'str': {
-            'earthdam': 1.0,
+            'earthdam': 6.0,
         },
         'int': {
-            'firedam': 1.0,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.4, # Blunderbuss, Deception
-            'apred_importance': 0.2, # Deception, Water Bomb
-            'waterdam': 1.2,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.0,
-            'range_importance': 1.0, # Boomerang Daggers, [!] Cadence, [!] Mitraille
-            'mpred_importance': 0.2, # Grenado
-            'pshdam_importance': 0.1, # [!] Mitraille
-            'dodge_importance': 0.7,
-            'airdam': 1.3,
+            'airdam': 6.0,
         },
     },
     'Sacrier': {
         'all': {
             'meleeness': 1.0,
-            'range_importance': 0.25, # Attraction, Transposition
+            'range_importance': 0.25,
             'lock_importance': 0.7,
             'vit_importance': 0.7,
+            'pow_power': 1.0,
         },
-        'str' : {
-            'meleeness': 0.8,
-            'earthdam': 1.6,
+        'str': {
+            'earthdam': 6.0,
         },
         'int': {
-            'pshdam_importance': 0.05, # [!] Aversion
-            'firedam': 1.6,
+            'firedam': 6.0,
         },
         'cha': {
-            'lock_importance': 0.9,
-            'mpred_importance': 0.1, # [!] Stase
-            'waterdam': 2.0,
+            'waterdam': 6.0,
         },
         'agi': {
-            'pshdam_importance': 0.05, # [!] Hostilite
-            'airdam': 1.8,
+            'airdam': 6.0,
         },
     },
     'Sadida': {
         'all': {
             'range_importance': 0.0,
-            'mpred_importance': 0.5, # Soothing Bramble, Wild Grass
-            'dodge_importance': 0.6, # No pushback
+            'mpred_importance': 0.5,
+            'dodge_importance': 0.6,
             'min_summons_low_level': 2,
             'min_summons_high_level': 3,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.1,
-            'range_importance': 1.0, # Bramble, Aggressive Bramble, [!] Broussaille Empoisonnee
-            'earthdam': 1.8,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.0,
-            'range_importance': 1.0, # Paralysing Poison, Wild Grass, Bush Fire
-            'mpred_importance': 0.6, # Wild Grass
-            'heals_importance': 0.1, # Soothing Bramble, Natural Gift
-            'pow_power': 0.7, # Soothing Bramble, Natural Gift
-            'firedam': 1.4,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.5,
-            'range_importance': 1.0, # Tear, Bush Fire
-            'waterdam': 1.8,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.0,
-            'range_importance': 1.0, # [!] Contagion, [!] Ronce Paralysante
-            'mpred_importance': 0.3, # [!] Ronce Paralysante
-            'airdam': 1.8,
+            'airdam': 6.0,
         },
     },
     'Sram': {
         'all': {
             'range_importance': 1.0,
-            'mpred_importance': 0.2, # Paralyzing Trap
-            'lock_importance': 0.8, # Double
+            'mpred_importance': 0.2,
+            'lock_importance': 0.8,
             'traps_are_important': True,
-            'cridam': 0.35, # Traps
+            'cridam': 0.35,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.7,
-            'earthdam': 1.4,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.7,
-            'pshdam_importance': 0.2, # Tricky Blow
-            'firedam': 1.8,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.6,
-            'waterdam': 1.6,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.7,
-            'airdam': 2.0,
+            'airdam': 6.0,
         },
     },
     'Xelor': {
@@ -583,28 +423,19 @@ RACE_TO_BUILD_PROFILE = {
             'range_importance': 0.5,
             'apred_importance': 1.0,
             'dodge_importance': 0.5,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.6,
-            'apred_importance': 0.2,
-            'earthdam': 1.8,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.4,
-            'apred_importance': 1.0,
-            'range_importance': 1.0, # Hand, Xelor's Sandglass
-            'firedam': 1.8,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.5,
-            'range_importance': 1.0,
-            'apred_importance': 0.8,
-            'waterdam': 1.8,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.4,
-            'apred_importance': 0.2,
-            'airdam': 1.7,
+            'airdam': 6.0,
         },
     },
     'Eliotrope': {
@@ -612,118 +443,78 @@ RACE_TO_BUILD_PROFILE = {
             'meleeness': 0.1,
             'range_importance': 0.0,
             'dodge_importance': 0.5,
+            'pow_power': 1.0,
         },
         'str': {
-            'range_importance': 0.5,
-            'pshdam_importance': 0.05, # Convulsion
-            'earthdam': 1.5,
+            'earthdam': 6.0,
         },
         'int': {
-            'range_importance': 0.5,
-            'heals_importance': 0.05, # Curative Palm
-            'firedam': 1.5,
+            'firedam': 6.0,
         },
         'cha': {
-            'range_importance': 0.5,
-            'pshdam_importance': 0.1, # Lightning Fist
-            'waterdam': 1.5,
+            'waterdam': 6.0,
         },
         'agi': {
-            'mpred_importance': 0.1, # Ridicule
-            'pshdam_importance': 0.2, # Bullying
-            'airdam': 1.5,
-            'meleeness': 0.2,
+            'airdam': 6.0,
         },
     },
     'Huppermage': {
         'all': {
             'dodge_importance': 0.3,
             'lock_importance': 0.5,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 0.0,
-            'range_importance': 1.0, # Telluric Wave, Striking Meteor
-            'mpred_importance': 0.2,
-            'pshdam_importance': 0.05,
-            'earthdam': 1.3,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 0.3,
-            'range_importance': 0.75, # Flamethrower
-            'apred_importance': 0.1,
-            'mpred_importance': 0.2,
-            'vit_importance': 0.6, # Contibution
-            'firedam': 1.3,
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.75,
-            'range_importance': 0.0,
-            'mpred_importance': 0.2,
-            'vit_importance': 0.6,
-            'lock_importance': 0.7,
-            'waterdam': 1.2,
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.0,
-            'range_importance': 0.75, # Astral Blade
-            'pshdam_importance': 0.05,
-            'apred_importance': 0.1,
-            'airdam': 1.3,
+            'airdam': 6.0,
         },
         'agi/int': {
-            'meleeness': 0.2,
-            'apred_importance': 1.3,
+            'airdam': 6.0,
+            'firedam': 6.0,
         },
         'agi/str': {
-            'meleeness': 0.0,
-            'pshdam_importance': 0.95,
-            'vit_importance': 0.3,
+            'earthdam': 6.0,
+            'airdam': 6.0,
         },
         'cha/int': {
-            'meleeness': 0.75,
-            'vit_importance': 0.6,
-            'lock_importance': 0.8,
+            'firedam': 6.0,
+            'waterdam': 6.0,
         },
         'cha/str': {
-            'meleeness': 0.5,
-            'mpred_importance': 1.8,
+            'earthdam': 6.0,
+            'waterdam': 6.0,
         },
     },
     'Ouginak': {
         'all': {
-            'vit_importance': 0.7, # Protective Pelt, Appeasement, close range
+            'vit_importance': 0.7,
             'range_importance': 0.0,
             'dodge_importance': 0.3,
             'lock_importance': 0.6,
             'mpred_importance': 0.3,
+            'pow_power': 1.0,
         },
         'str': {
-            'meleeness': 1.0,
-            'earthdam': 1.4,
-            'vit_importance': 0.7,
-            'lock_importance': 0.7,
+            'earthdam': 6.0,
         },
         'int': {
-            'meleeness': 1.0,
-            'firedam': 1.4,
-            'mpred_importance': 1.0, # Cutting Down, Tetanisation
-            'pshdam_importance': 0.3, # [!] Aboi, [!] Chasse
+            'firedam': 6.0,
         },
         'cha': {
-            'meleeness': 0.6,
-            'waterdam': 1.4,
-            'vit_importance': 0.5,
-            'range_importance': 1.0,
-            'lock_importance': 0.4,
-            'dodge_importance': 0.4, # Ulna
-            'pshdam_importance': 0.1, # Tibia
+            'waterdam': 6.0,
         },
         'agi': {
-            'meleeness': 0.8,
-            'airdam': 1.4,
+            'airdam': 6.0,
         },
     },
-    #TODO: forgelance is placeholder
     'Forgelance': {
         'all': {
             'meleeness': 0.5,
@@ -732,26 +523,19 @@ RACE_TO_BUILD_PROFILE = {
             'lock_importance': 0.5,
             'mpred_importance': 0.2,
             'vit_importance': 0.6,
+            'pow_power': 1.0,
         },
         'str': {
-            'earthdam': 1.6,
-            'vit_importance': 0.6,
-            'lock_importance': 0.6,
+            'earthdam': 6.0,
         },
         'int': {
-            'firedam': 1.6,
-            'vit_importance': 0.6,
-            'dodge_importance': 0.6,
+            'firedam': 6.0,
         },
         'cha': {
-            'waterdam': 1.6,
-            'vit_importance': 0.6,
-            'lock_importance': 0.6,
+            'waterdam': 6.0,
         },
         'agi': {
-            'airdam': 1.6,
-            'vit_importance': 0.6,
-            'dodge_importance': 0.6,
+            'airdam': 6.0,
         },
     },
 }
@@ -888,10 +672,10 @@ def _set_weights(char, aspects, apply=True):
     w['mp'] = (20 + 100 * level_pct) * b
     range_importance = param_for_build(race, elements, 'range_importance', 'float_avg')
     w['range'] = (16 + 80 * level_pct) * range_importance * b
-    
-    attack_factor = {0: 0, 1: 3.5, 2: 3, 3: 2, 4: 1.5}[element_count]
+    # Increased main stat priority: mono 7 (was 4.5), bi 6 (was 4), tri 4 (was 3), omni 3 (was 2.5)
+    attack_factor = {0: 0, 1: 6, 2: 5, 3: 3, 4: 2}[element_count]
     if 'glasscannon' in aspects:
-        attack_factor *= 1.4
+        attack_factor *= 1.5
     dam_mult = 2 if 'dam' in aspects else 1
     res_per_factor = 2 + (10 * level_pct * level_pct)
     w['lock'] = param_for_build(race, elements, 'lock_importance', 'float_avg') * 10 * b
@@ -963,21 +747,21 @@ def _set_weights(char, aspects, apply=True):
     w['pp'] = 10 * b if 'pp' in aspects else 0.2 * b if 'pvp' not in aspects else 0
     w['cha'] = max(w['cha'], w['pp'] / 10.0)
 
-    w['init'] =  0.3 * b if 'duel' in aspects else 0.1 * b if 'pvp' in aspects else 0.05 * b
+    w['init'] =  0.3 * b if 'duel' in aspects else 0.1 * b if 'pvp' in aspects else 0.03 * b
 
     if 'pods' in aspects:
         w['pod'] = 10 * b
         w['str'] = max(w['str'], w['pod'] / 5.0)
 
     if 'pushback' in aspects:
-        w['pshdam'] = 10 * b
+        w['pshdam'] = 15 * b
     else:
         w['pshdam'] = param_for_build(race, elements, 'pshdam_importance', 'float_avg') * 10 * b
 
     if param_for_build(race, elements, 'summons_are_important'):
         w['summon'] = 40 * b if 'summon' in aspects else 10 * b
     else:
-        w['summon'] = 20 * b if 'summon' in aspects else 1 * b
+        w['summon'] = 20 * b if 'summon' in aspects else 0 * b
 
     w['pshres'] = 0.1 * b
     w['crires'] = 2 * res_w if 'pvp' in aspects else 0.2 * res_w
@@ -989,8 +773,8 @@ def _set_weights(char, aspects, apply=True):
             
     # Crits
     if 'crit' in aspects:
-        w['ch'] = 25 * b
-        w['cridam'] = 2 * w['dam'] * param_for_build(race, elements, 'cridam', 'float_avg')
+        w['ch'] = 140 * b
+        w['cridam'] = 1.85 * w['dam'] * param_for_build(race, elements, 'cridam', 'float_avg')
     elif 'noncrit' in aspects:
         w['ch'] = -4 * b
         w['cridam'] = 0

@@ -1,0 +1,224 @@
+{% extends "chardata/base.html" %}
+
+{% block title %}{{ item.name }} - {{ t.title }}{% endblock %}
+
+{% block css %}
+<style>
+.encyclopedia-item {
+    padding: 12px;
+}
+.encyclopedia-item-card {
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+.encyclopedia-item-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.encyclopedia-item-head img {
+    width: 60px;
+    height: 60px;
+}
+.encyclopedia-item-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.encyclopedia-item-meta {
+    opacity: 0.9;
+}
+.encyclopedia-section {
+    margin-top: 14px;
+}
+.encyclopedia-list {
+    margin: 4px 0 0;
+    padding-left: 20px;
+}
+.encyclopedia-list-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.encyclopedia-list-stat-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+.encyclopedia-back {
+    margin-bottom: 10px;
+}
+.encyclopedia-back a {
+    text-decoration: underline;
+}
+
+/* Improve readability when the active site theme is dark. */
+.dark-theme-active .encyclopedia-item-card {
+    border-color: #5a5a5a;
+    background: #1f1f1f;
+}
+.dark-theme-active .encyclopedia-item,
+.dark-theme-active .encyclopedia-item-card,
+.dark-theme-active .encyclopedia-item-card div,
+.dark-theme-active .encyclopedia-item-card span,
+.dark-theme-active .encyclopedia-item-card li {
+    color: #f3efe6;
+}
+.dark-theme-active .encyclopedia-item-name,
+.dark-theme-active .encyclopedia-section b {
+    color: #fff1d6;
+}
+.dark-theme-active .encyclopedia-item-meta {
+    opacity: 1;
+    color: #f0f0f0;
+}
+.dark-theme-active .encyclopedia-item a {
+    color: #ffd8a8;
+}
+.dark-theme-active .encyclopedia-item a:hover {
+    color: #ffe4bf;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="encyclopedia-item text">
+    <div class="encyclopedia-back">
+        <a href="{% url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
+    </div>
+
+    <div class="encyclopedia-item-card brown-box">
+        <div class="encyclopedia-item-head">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <div>
+                <div class="encyclopedia-item-name">{{ item.name }}</div>
+                <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                <div class="encyclopedia-item-meta">ID: {{ item.ankama_id }} ({{ item.ankama_type }})</div>
+                {% if item_set_name %}
+                <div class="encyclopedia-item-meta">{{ t.set_label }}: {{ item_set_name }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="encyclopedia-section">
+            <b>{{ t.stats_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for stat in stats %}
+                <li>
+                    <div class="encyclopedia-list-stat">
+                        {% if stat.icon_url %}
+                        <img class="encyclopedia-list-stat-icon" src="{{ stat.icon_url }}" alt="">
+                        {% endif %}
+                        <span>{{ stat.value }} {{ stat.name }}</span>
+                    </div>
+                </li>
+                {% empty %}
+                <li>-</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if weapon_lines %}
+        <div class="encyclopedia-section">
+            <b>{{ t.weapon_details_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for weapon_line in weapon_lines %}
+                <li>{{ weapon_line }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if condition_groups %}
+        <div class="encyclopedia-section">
+            <b>{{ t.conditions_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for group in condition_groups %}
+                <li>
+                    {% for condition in group %}
+                        {% if not forloop.first %} {{ t.and_label }} {% endif %}
+                        {{ condition }}
+                    {% endfor %}
+                </li>
+                {% if not forloop.last %}
+                <li><b>{{ t.or_label }}</b></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if extras %}
+        <div class="encyclopedia-section">
+            <b>{{ t.extra_effects_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for extra in extras %}
+                <li>{{ extra }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if description or pods is not None %}
+        <div class="encyclopedia-section">
+            <b>{{ t.additional_info_label }}</b>
+            <ul class="encyclopedia-list">
+                {% if description %}
+                <li><b>{{ t.description_label }}:</b> {{ description }}</li>
+                {% endif %}
+                {% if pods is not None %}
+                <li><b>{{ t.weight_label }}:</b> {{ pods }}</li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="encyclopedia-section">
+            <b>{{ t.recipe_label }}</b>
+            {% if recipe %}
+            <ul class="encyclopedia-list">
+                {% for ingredient in recipe %}
+                <li>
+                    {% if ingredient.local_item_url %}
+                    <a href="{{ ingredient.local_item_url }}">{{ ingredient.name }}</a>
+                    {% else %}
+                    {{ ingredient.name }}
+                    {% endif %}
+                    x{{ ingredient.quantity }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <ul class="encyclopedia-list">
+                <li>{{ t.no_recipe }}</li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+(function() {
+    function getThemeStylesheet() {
+        return document.querySelector('.forms-css') || document.querySelector('.common-css');
+    }
+
+    function refreshThemeClass() {
+        var themeCss = getThemeStylesheet();
+        var href = themeCss && themeCss.getAttribute('href') ? themeCss.getAttribute('href').toLowerCase() : '';
+        var isDarkTheme = href.indexOf('darktheme') !== -1;
+        document.body.classList.toggle('dark-theme-active', isDarkTheme);
+    }
+
+    refreshThemeClass();
+
+    // Keep class in sync when user switches theme without leaving the page.
+    var themeCss = getThemeStylesheet();
+    if (themeCss && typeof MutationObserver !== 'undefined') {
+        var observer = new MutationObserver(refreshThemeClass);
+        observer.observe(themeCss, { attributes: true, attributeFilter: ['href'] });
+    }
+})();
+</script>
+{% endblock %}

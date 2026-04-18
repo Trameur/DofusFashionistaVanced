@@ -64,6 +64,7 @@ def get_options(char):
         options['dragoturkey'] = options.get('dragoturkey', True)
         options['seemyool'] = options.get('seemyool', True)
         options['rhineetle'] = options.get('rhineetle', True)
+        options['prysmaradite'] = options.get('prysmaradite', char.level >= 200)
     options.setdefault('dofus', True)
     
     exclusions = get_all_exclusions_en_names(char)

@@ -76,13 +76,13 @@
     var cells = {}
     var buffsForSpell = {};
     var buffState = {};
+    var buffStackForSpell = {};
     var levelFilter = false;
     var agiFilter = false;
     var intFilter = false;
     var chaFilter = false;
     var strFilter = false;
     var othersFilter = false;
-   
    
     function checkElement(spell, element){
         notEle = true;
@@ -107,7 +107,7 @@
         }
         return true;
    }
-   
+
     function checkIfSpellToDisplay(spell){
         if (spell == null) {
             return false;
@@ -117,7 +117,7 @@
                 return false;
             }
         }
-        
+
         var elements = ["air", "fire", "water", "earth", "neut"];
         var filters = [agiFilter, intFilter, chaFilter, strFilter, strFilter];
         var hide = true;
@@ -363,12 +363,16 @@
             linearDamage = totalStats['heals'];
         }
         var finalDamage = Math.max(0, multipliedDamage + linearDamage);
-        if (totalStats.hasOwnProperty('final') && !damageHit.heals) {
-            finalDamage *= (100 + totalStats['final']) / 100;
+        if (!damageHit.heals) {
+            if (totalStats.hasOwnProperty('final')) {
+                finalDamage *= (100 + totalStats['final']) / 100;
+            }
+            if (totalStats.hasOwnProperty('negfinal')) {
+                finalDamage *= (100 - totalStats['negfinal']) / 100;
+            }
+        } else if (totalStats.hasOwnProperty('finalheals')) {
+            finalDamage *= (100 + totalStats['finalheals']) / 100;
         }
-        if (totalStats.hasOwnProperty('negfinal') && !damageHit.heals) {
-            finalDamage *= (100 - totalStats['negfinal']) / 100;
-        }  
         if ((spell.type == 'weapon' || spell.type == 'weapon_non_mageable') && (!damageHit.heals)) {
             finalDamage *= (100 + totalStats['perweadam']) / 100;
         }
@@ -434,6 +438,40 @@
         });
         return result;
     }
+
+    function getStatKeyForElement(element) {
+        var mapping = {
+            'buff_final': 'final',
+            'buff_finalheals': 'finalheals',
+            'buff_pow': 'pow'
+        };
+        return mapping[element] || null;
+    }
+
+    function getElementForStatKey(statKey) {
+        var mapping = {
+            'final': 'buff_final',
+            'finalheals': 'buff_finalheals',
+            'pow': 'buff_pow'
+        };
+        return mapping[statKey] || null;
+    }
+
+    function shouldHideScalingBuff(spell, element) {
+        var statKey = getStatKeyForElement(element);
+        if (!statKey) {
+            return false;
+        }
+        var scaling = getBuffScaling(spell);
+        return !!(scaling && scaling.stats && scaling.stats.hasOwnProperty(statKey));
+    }
+
+    function shouldHideBuffHit(spell, damageHit) {
+        if (!damageHit || damageHit.element.indexOf("buff") === -1) {
+            return false;
+        }
+        return shouldHideScalingBuff(spell, damageHit.element);
+    }
     
     function getHits(spell, damage, isCrit) {
         var finalDamage = calculateFinalDamage(spell, damage, isCrit);
@@ -449,8 +487,16 @@
                 for (var j = 0; j < aggregates[i][1].length; j++) {
                     var hit = aggregates[i][1][j];
                     if (hit < finalDamage.length) {
-                        damageInstances.push(finalDamage[hit]);
+                        var damageHit = finalDamage[hit];
+                        if (shouldHideBuffHit(spell, damageHit)) {
+                            continue;
+                        }
+                        damageInstances.push(damageHit);
                     }
+                }
+
+                if (damageInstances.length === 0) {
+                    continue;
                 }
                 
                 var healing = true;
@@ -498,8 +544,8 @@
                                       damageHit.element +
                                       "'>"
                         if (damageHit.steals && !allSteals) {
-                            string_min += " {% trans "steals" %} ";
-                            string_max += " {% trans "steals" %} ";
+                            string_min += " {% trans 'steals' %} ";
+                            string_max += " {% trans 'steals' %} ";
                         }
                         string_min += damageHit.min_dam;
                         string_min += "</span>";
@@ -517,9 +563,9 @@
                     var str = "";
                     str += "<span class='mixed'>";
                     if (healing){
-                        str += "<span>{% trans "Heals" %}</span> ";
+                        str += "<span>{% trans 'Heals' %}</span> ";
                     } else if (allSteals) {
-                        str += "<span>{% trans "Steals" %}</span> ";
+                        str += "<span>{% trans 'Steals' %}</span> ";
                     }
                     str += "<span class='main'>" + total_min + "</span>";
                     str += "</span>";
@@ -530,7 +576,7 @@
                         var cell3 = $("<td align='center'></td>");
                         table.append(line3);
                         line3.append(cell3);
-                        cell3.append("<span class='aggregate'> {% trans "to" %} </span>");
+                        cell3.append("<span class='aggregate'> {% trans 'to' %} </span>");
                         var line4 = $("<tr></tr>");
                         var cell4 = $("<td align='center'></td>");
                         table.append(line4);
@@ -543,11 +589,15 @@
             
         } else {
             for (var i = 0; i < finalDamage.length; i++) {
+                if (shouldHideBuffHit(spell, finalDamage[i])) {
+                    continue;
+                }
                 writeDamageLine(finalDamage[i].element, finalDamage[i].min_dam,
                                 finalDamage[i].max_dam, finalDamage[i].heals,
                                 finalDamage[i].steals, table);
             }
         }
+        appendScalingBuffRows(spell, table);
         return table;
     }
     
@@ -569,40 +619,89 @@
         str += "</span>";
         cell.append(str);
     }
+
+    function appendScalingBuffRows(spell, table) {
+        var scaling = getBuffScaling(spell);
+        if (!scaling || !scaling.stats) {
+            return;
+        }
+        $.each(scaling.stats, function(statKey, spec) {
+            var element = getElementForStatKey(statKey);
+            if (!element) {
+                return;
+            }
+            if (hasRenderableBuffValue(spec.base)) {
+                writeScalingBuffLine(element, spec.base, table);
+            }
+            if (hasRenderableBuffValue(spec.per_stack)) {
+                var perLabel = "{% trans 'per summon' %}";
+                if (scaling.type == 'mp_buff') {
+                    perLabel = "{% trans 'per MP' %}";
+                }
+                writeScalingBuffLine(element, spec.per_stack, table, perLabel);
+            }
+        });
+    }
+
+    function writeScalingBuffLine(element, value, table, extraText) {
+        var line = $("<tr></tr>");
+        var cell = $("<td align='center'></td>");
+        table.append(line);
+        line.append(cell);
+        var format = getTextFormatForHit(element, false, false);
+        var str = "";
+        str += "<span class='" + element + "'>";
+        str += format[0];
+        str += "<span class='main'>" + value + "</span>";
+        str += format[1];
+        if (extraText) {
+            str += " <span class='small-text'>" + extraText + "</span>";
+        }
+        str += "</span>";
+        cell.append(str);
+    }
+
+    function hasRenderableBuffValue(value) {
+        return value !== undefined && value !== null && value !== 0;
+    }
     
     function getTextFormatForHit(element, heals, steals) {
         if (heals === true) {
-            return ["<span>{% trans "Heals" %}</span> ", ""];
+            return ["<span>{% trans 'Heals' %}</span> ", ""];
         } else if (steals === true) {
-            return ["<span>{% trans "Steals" %}</span> ", ""];
+            return ["<span>{% trans 'Steals' %}</span> ", ""];
         } else if (element == "buff_pow") {
-            return ["+", "% {% trans "Power" %}"];
+            return ["+", "% {% trans 'Power' %}"];
         } else if (element == "buff_depow") {
-            return ["<span class='fire'>-", "% {% trans "Power" %}</span>"];
+            return ["<span class='fire'>-", "% {% trans 'Power' %}</span>"];
         } else if (element == "buff_pow_weapon") {
-            return ["+", "% {% trans "Power" %} {% trans "(weapons)" %}"];
+            return ["+", "% {% trans 'Power' %} {% trans '(weapons)' %}"];
         } else if (element == "buff_pow_spell") {
-            return ["+", "% {% trans "Power" %} {% trans "(spells)" %}"];
+            return ["+", "% {% trans 'Power' %} {% trans '(spells)' %}"];
         } else if (element == "buff_pow_nonglyph") {
-            return ["+", "% {% trans "Power" %} {% trans "(except glyphs)" %}"];
+            return ["+", "% {% trans 'Power' %} {% trans '(except glyphs)' %}"];
         } else if (element == "buff_pow_glyph") {
-            return ["+", "% {% trans "Power" %} {% trans "(glyphs)" %}"];
+            return ["+", "% {% trans 'Power' %} {% trans '(glyphs)' %}"];
         } else if (element == "buff_pow_traps") {
-            return ["+", "% {% trans "Power" %} {% trans "(traps)" %}"];
+            return ["+", "% {% trans 'Power' %} {% trans '(traps)' %}"];
         } else if (element == "buff_dam") {
-            return ["+", " {% trans "Damage" %}"];
+            return ["+", " {% trans 'Damage' %}"];
         } else if (element == "buff_str") {
-            return ["+", " {% trans "Strength" %}"];
+            return ["+", " {% trans 'Strength' %}"];
         } else if (element == "buff_int") {
-            return ["+", " {% trans "Intelligence" %}"];
+            return ["+", " {% trans 'Intelligence' %}"];
         } else if (element == "buff_cha") {
-            return ["+", " {% trans "Chance" %}"];
+            return ["+", " {% trans 'Chance' %}"];
         } else if (element == "buff_agi") {
-            return ["+", " {% trans "Agility" %}"];
+            return ["+", " {% trans 'Agility' %}"];
         } else if (element == "buff_pshdam") {
-            return ["+", " {% trans "Pushback Damage" %}"];
+            return ["+", " {% trans 'Pushback Damage' %}"];
         } else if (element == "buff_heals") {
-            return ["+", " {% trans "Heals" %}"];
+            return ["+", " {% trans 'Heals' %}"];
+        } else if (element == "buff_final") {
+            return ["+", "% {% trans 'Final Damage' %}"];
+        } else if (element == "buff_finalheals") {
+            return ["+", "% {% trans 'Final Heals' %}"];
         } else {
             return ["", ""];
         }
@@ -644,6 +743,63 @@
         return isBuff;
     }
     
+    function getBuffScaling(spell) {
+        return spell.buff_scaling || null;
+    }
+
+    function getBuffScalingForStat(spell, stat) {
+        var scaling = getBuffScaling(spell);
+        if (!scaling || !scaling.stats) {
+            return null;
+        }
+        return scaling.stats[stat] || null;
+    }
+
+    function calculateBuffValue(spell, statBuffed, buffStacks, effect) {
+        var statScaling = getBuffScalingForStat(spell, statBuffed);
+        if (!statScaling) {
+            return buffStacks * effect.max_dam;
+        }
+        if (buffStacks <= 0) {
+            return 0;
+        }
+        var baseValue = statScaling.base || 0;
+        var perStack = (statScaling.per_stack != null) ? statScaling.per_stack : effect.max_dam;
+        var offset = (spell.buff_scaling && spell.buff_scaling.stack_offset) ? spell.buff_scaling.stack_offset : 0;
+        var effectiveStacks = Math.max(buffStacks - offset, 0);
+        if (statScaling.max_effective != null) {
+            effectiveStacks = Math.min(effectiveStacks, statScaling.max_effective);
+        }
+        return baseValue + (effectiveStacks * perStack);
+    }
+
+    function formatStackOptionLabel(spell, stackIndex, isCrit) {
+        var scaling = getBuffScaling(spell);
+        if (scaling && scaling.type == 'summon_final') {
+            var offset = scaling.stack_offset || 0;
+            if (stackIndex <= offset) {
+                return "{% trans 'Summons' %}: 0";
+            }
+            var count = stackIndex - offset;
+            if (count == 1) {
+                return count + " {% trans 'Summon' %}";
+            }
+            return count + " {% trans 'Summons' %}";
+        }
+        if (scaling && scaling.type == 'mp_buff') {
+            var mpOffset = scaling.stack_offset || 0;
+            var mpCount = 0;
+            if (stackIndex > mpOffset) {
+                mpCount = stackIndex - mpOffset;
+            }
+            return "{% trans 'MP used' %}: " + mpCount;
+        }
+        if (spell.stacks == 1) {
+            return isCrit ? "{% trans 'Crit' %}" : "{% trans 'On' %}";
+        }
+        return (isCrit ? "{% trans 'Crit' %}" : "{% trans 'On' %}") + ' x' + stackIndex;
+    }
+
     function findBestBuff(spell){
         if (spell.stacks > 1) {
             if (spell.crit_dams) {
@@ -663,14 +819,14 @@
     function createStack(spell) {
         var select = $('<select class="select-stack"></select>')
         buffStackForSpell[spell.name] = select;
-        select.append($('<option />').text('{% trans "Off" %}').val('n' + 0));
+        select.append($('<option />').text("{% trans 'Off' %}").val('n' + 0));
         for (var i = 1; i <= spell.stacks; i++) {
             select.append($('<option />')
-                .text(spell.stacks == 1 ? '{% trans "On" %}' : '{% trans "On" %} x' + i)
+                .text(formatStackOptionLabel(spell, i, false))
                 .val('n' + i));
             if (spell.crit_dams) {
                 select.append($('<option />')
-                    .text(spell.stacks == 1 ? '{% trans "Crit" %}' : '{% trans "Crit" %} x' + i)
+                    .text(formatStackOptionLabel(spell, i, true))
                     .val('c' + i));
             }
         }
@@ -699,7 +855,7 @@
             effectParts = effect.element.split(/[_]+/);
             if (effectParts[0] == "buff") {
                 var statBuffed = effectParts[1];
-                var valueBuffed = buffStacks * effect.max_dam;
+                var valueBuffed = calculateBuffValue(spell, statBuffed, buffStacks, effect);
                 
                 if (statBuffed == 'depow'){
                     statBuffed = 'pow';

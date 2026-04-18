@@ -1,0 +1,359 @@
+.input-name{
+    text-align: right;
+    font-size: 15px;
+}
+
+.input-value{
+}
+
+.min-stat-name, .input-name, .text, .small-explain, .item-level {
+}
+
+.item-level {
+    font-size: 12px;
+}
+
+.small-explain {
+    font-size: 11px;
+}
+
+.text{
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.input-stat-name, .stat-softcap, .softcap-stat-name, .big-text {
+    font-size: 15px;
+}
+
+.input-stat-name{
+    padding: 4px;
+}
+
+.stat-softcap, .softcap-stat-name{
+    padding: 4px 12px;
+}
+
+.register {
+    border-spacing: 5px;
+}
+
+.register-line-stat:nth-child(even), .softcap-stat-line:nth-child(even), .weight-stat-line:nth-child(even), .load-project-line:nth-child(even) {
+}
+
+.register-line-stat:nth-child(odd), .softcap-stat-line:nth-child(odd), .weight-stat-line:nth-child(odd), .load-project-line:nth-child(odd) {
+}
+
+.register-stat, .table-softcap-stat, .weight-stat-table{
+    border-spacing: 0px;
+    padding: 2px;
+    border-radius: 7px;
+}
+
+.stat-title{
+    font-size: 15px;
+}
+
+.stat-icon {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+.input-stat-field{
+    text-align: center;
+}
+
+.stat-input {
+    text-align: center;
+    width: 50px;
+}
+
+.bottom-line{
+    border-radius: 0px 0px 7px 7px;
+}
+
+.bottom-left-cell{
+    border-radius: 0px 0px 0px 7px;
+}
+
+.bottom-right-cell{
+    border-radius: 0px 0px 7px 0px;
+}
+.upper-left-cell{
+    border-radius: 7px 0px 0px 0px;
+}
+
+.upper-right-cell{
+    border-radius: 0px 7px 0px 0px;
+}
+
+.stat-submit{
+    text-align: center;
+}
+
+.remaining-points{
+    font-size: 12px;
+}
+
+select, .pretty-input {
+    border-radius: 4px; 
+}
+
+.white-pretty-input {
+}
+
+.disabled-pretty-input {
+}
+
+.pretty-input, .disabled-pretty-input, .white-pretty-input {
+    border-width: 1px;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+.weight-stat-icon {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+}
+
+.inline-div {
+    display: inline-block
+}
+
+.infeasible-title, .infeasible-body {
+}
+
+.infeasible-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.infeasible-body {
+    padding-top: 30px;
+    font-weight: normal;
+    font-size: 15px;
+}
+
+.columns-section {
+   display: table;
+}
+
+.columns-column {
+   display: table-cell;
+   vertical-align: top;
+}
+
+.inclusions-section {
+   width: 100%;
+}
+
+.inclusions-column {
+   width: 50%;
+}
+
+.load-project-table {
+    border: 1px solid;
+    border-spacing: 0px;
+    border-radius: 4px; 
+}
+.load-project-cell, .load-project-header {
+    padding: 0px 10px;
+    overflow: hidden;
+} 
+
+
+.all-proj, .no-proj {
+    font-size:11px; 
+    text-decoration:underline; 
+    padding: 3px 10px;
+}
+
+.option_icon {
+    width: 40px;
+    height: 40px;
+    vertical-align: top;
+}
+
+.build-boxes-section {
+    border-radius: 4px; 
+    border-spacing: 0px;
+    border: 1px solid;
+}
+
+.build-boxes-column {
+    vertical-align: top;
+    width: 190px;
+    text-align: left;
+}
+
+.build-boxes-title{
+    text-align: center;
+}
+
+.build-boxes-element-column {
+    border-radius: 0px 0px 0px 4px;
+}
+
+.build-boxes-options-column {
+    border-right: 1px solid;
+    border-left: 1px solid;
+}
+
+.build-boxes-aspects-column {
+}
+
+.build-boxes-tip {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    margin-left: 4px;
+    margin-bottom: 2px;
+}
+
+.red-text {
+}
+
+.green-text {
+}
+
+.crits-table {
+    border-radius: 6px; 
+    font-size: 15px;
+    width: 50%;
+    padding: 10px;
+}
+
+.min-stats-div, .min-stats-div-lower { 
+    width: 70%;
+    border-radius: 6px; 
+    margin-left: auto;
+    margin-right: auto;
+    align: center;
+    padding: 10px 0px;
+}
+
+.wizard-div, .brown-box, .brown-table, .small-brown-box {
+    border-radius: 6px; 
+    margin-left: auto;
+    margin-right: auto;
+    align: center;
+    padding: 10px 0px;
+}
+
+.wizard-div { 
+    width: 636px;
+}
+
+.small-brown-box{
+    margin: 10px 50px;
+}
+
+.brown-box { 
+    width: 620px;
+}
+
+.wizard-slider-container {
+    display: table;
+    padding: 6px;
+}
+
+.wizard-slider-arrow-cell {
+    display: table-cell;
+    width: 20px;
+    cursor: pointer;
+}
+
+.wizard-slider-label {
+    width: 140px;
+    display: table-cell;
+    padding-right: 15px;
+}
+
+.wizard-slider-secondary-label {
+    text-align: right;
+}
+
+.wizard-slider-main-container {
+    display: table-cell;
+}
+
+.wizard-slider-main-slider {
+    width: 200px;
+}
+
+.wizard-slider-value {
+    display: table-cell;
+    padding-left: 12px;
+    width: 50px;
+}
+
+.wizard-section-sliders {
+}
+
+.wizard-slider-section-secondary {
+}
+
+#password-error, #incorrect-password-error, #username-taken-error, #email-error, #wrong-password-error, #login-error, .error-message {
+    font-size: 13px; 
+    vertical-align: top;
+    color: red;
+}
+
+#change-succesful {
+    font-size: 13px; 
+    vertical-align: top;
+}
+
+.hr {
+    border: 0;
+    height: 1px;
+}
+
+.compare-link-div-outer {
+    text-align: center;
+}
+
+.compare-link-div, .compare-link-error-div {
+    padding: 4px;
+}
+
+.compare-link-button-div {
+    padding-top: 12px;
+}
+
+.compare-link-button-div, .compare-link-error-div {
+    text-align: center;
+}
+
+.compare-link-input {
+    margin-left: 10px;
+    width: 600px;
+}
+
+.link-text {
+    font-weight: bold;
+}
+
+.edit-item-long-input {
+    width: 250px;
+}
+
+.dofus-box {
+    display:inline-block; 
+    margin-bottom:10px; 
+    width:70px;
+    text-align: center;
+}
+    
+.wizard-flying-pic {
+    position:relative; 
+    top:-150px; 
+    right: -550px; 
+    z-index:2; 
+    height: 0px; 
+    width: 0px;
+}
+
