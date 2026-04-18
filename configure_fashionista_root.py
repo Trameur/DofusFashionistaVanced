@@ -76,7 +76,7 @@ PACKAGES_TO_INSTALL = {
 }
 
 PIP_PACKAGES_TO_INSTALL = [
-    'Django==4.2.6', # Updated Django version
+    'Django==5.1.14', # Updated Django version
     'python-social-auth==0.2.21', # Federated SSO.
     'social-auth-core',
     'social-auth-app-django',
