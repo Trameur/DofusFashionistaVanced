@@ -165,6 +165,68 @@ Running Dofus Fashionista will create/populate the database the first time you r
 run_fashionista.bat
 ```
 
+## Docker (Local Development)
+
+For Docker-based local development:
+
+```shell
+# Start services (MySQL + Django app)
+./run_docker.bat
+
+# Access app at http://localhost:8000
+# Reset (with confirmation) if needed
+./run_docker.bat reset CONFIRM_DELETE_DATA
+```
+
+For detailed Docker setup, see [DOCKER_SETUP.md](DOCKER_SETUP.md).
+
+## AWS Deployment
+
+For production deployment to AWS with RDS and ECS/Fargate:
+
+### Quick Start
+1. **Setup RDS**: Follow [AWS_MIGRATION.md](AWS_MIGRATION.md#aws-setup)
+2. **Migrate Data**: Use `sync_db.py` to transfer data from local MySQL to AWS RDS
+3. **Deploy App**: Follow deployment checklist in [AWS_DEPLOYMENT_CHECKLIST.md](AWS_DEPLOYMENT_CHECKLIST.md)
+
+### Documentation
+- **[AWS_MIGRATION.md](AWS_MIGRATION.md)**: Complete guide for RDS setup and data migration
+- **[AWS_DEPLOYMENT_CHECKLIST.md](AWS_DEPLOYMENT_CHECKLIST.md)**: Step-by-step deployment checklist with timeline
+- **[MIGRATION_EXAMPLES.md](MIGRATION_EXAMPLES.md)**: Practical examples for various migration scenarios
+
+### Database Sync Utility
+
+Sync local or Docker databases with AWS RDS using the reusable sync script:
+
+```bash
+# Test migration (dry-run mode)
+python sync_db.py --dry-run
+
+# Migrate local MySQL to AWS RDS
+python sync_db.py \
+  --source-host localhost \
+  --source-port 3306 \
+  --source-db fashionista_migration \
+  --dest-host fashionista-mysql.xxxxx.rds.amazonaws.com \
+  --dest-port 3306 \
+  --dest-db fashionista
+
+# Use environment variables
+export SOURCE_DB_HOST=localhost
+export DEST_DB_HOST=fashionista-mysql.xxxxx.rds.amazonaws.com
+python sync_db.py
+```
+
+Features:
+- ✅ Dry-run mode to test without making changes
+- ✅ Automatic backup before migration
+- ✅ Row-count verification after migration
+- ✅ Batch processing for large datasets
+- ✅ Detailed logging to `db_sync.log`
+- ✅ Support for local MySQL, Docker, and AWS RDS
+
+See [MIGRATION_EXAMPLES.md](MIGRATION_EXAMPLES.md) for more examples.
+
 # Dépannage Windows 11
 
 Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici quelques solutions courantes:
