@@ -442,6 +442,29 @@
             });
         }
 
+        function sanitizeStatIconUrl(iconUrl) {
+            if (!iconUrl || typeof iconUrl !== 'string') {
+                return '';
+            }
+
+            var trimmed = iconUrl.trim();
+            if (!trimmed) {
+                return '';
+            }
+
+            try {
+                var parsed = new URL(trimmed, window.location.origin);
+                var isHttp = parsed.protocol === 'http:' || parsed.protocol === 'https:';
+                var isStaticPath = parsed.pathname.indexOf('/static/') === 0;
+                if (!isHttp || !isStaticPath) {
+                    return '';
+                }
+                return parsed.href;
+            } catch (err) {
+                return '';
+            }
+        }
+
         function syncStatSelectIcon(select) {
             if (!select) {
                 return;
@@ -456,8 +479,9 @@
             if (!icon) {
                 return;
             }
-            icon.src = iconUrl || '';
-            icon.classList.toggle('encyclopedia-stat-select-icon-hidden', !iconUrl);
+            var safeIconUrl = sanitizeStatIconUrl(iconUrl);
+            icon.src = safeIconUrl;
+            icon.classList.toggle('encyclopedia-stat-select-icon-hidden', !safeIconUrl);
         }
 
         function bindStatSelectIcons(scope) {
