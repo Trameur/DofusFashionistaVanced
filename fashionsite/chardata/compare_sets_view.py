@@ -67,7 +67,7 @@ def compare_sets(request, sets_params):
         solutions[char.pk] = sol_result.get_params()
         is_guest[char.pk] = not char_belongs_to_user(request, char)
         if not char_belongs_to_user(request, char):
-            links[char.pk] = generate_link(char)
+            links[char.pk] = generate_link(request, char)
         else:
             links[char.pk] = request.build_absolute_uri(reverse('solution_2',
                                     args=(char.pk,)))
@@ -81,7 +81,7 @@ def compare_sets(request, sets_params):
     
     compare_link_shared = None
     if all_chars_are_shared:
-        compare_link_shared = _generate_share_compare_link(char_ids)
+        compare_link_shared = _generate_share_compare_link(request, char_ids)
 
     get_compare_link_url = reverse('get_sharing_link',
                                     args=(sets_params,))
@@ -219,12 +219,11 @@ def get_sharing_link(request, sets_params):
                 return _get_text_error_response(_('Project %s is not shared.') % char_str)
         char_ids.append(char_id)
 
-    return HttpResponseText(_generate_share_compare_link(char_ids))
+    return HttpResponseText(_generate_share_compare_link(request, char_ids))
 
-def _generate_share_compare_link(char_ids):
+def _generate_share_compare_link(request, char_ids):
     params = '/'.join(['s%s' % encode_char_id(char_id) for char_id in char_ids])
-    return ('https://fashionistavanced.com'
-            + reverse('compare_sets', args=(params,)))
+    return request.build_absolute_uri(reverse('compare_sets', args=(params,)))
 
 def get_item_stats(request):
     item_id = request.POST.get('itemId', None)

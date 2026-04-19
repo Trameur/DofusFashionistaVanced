@@ -45,7 +45,7 @@
 
     <div align="center">
         <div style="display: inline-block;">
-        <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="https://fashionistavanced.com/solution/{{char_id}}/" name="char0"></input></form>
+        <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{ request.scheme }}://{{ request.get_host }}/solution/{{char_id}}/" name="char0"></input></form>
             <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
         </div>
         <div style="display: inline-block;">

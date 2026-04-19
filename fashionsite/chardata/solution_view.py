@@ -159,7 +159,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:
-        params['initial_link'] = generate_link(char)
+        params['initial_link'] = generate_link(request, char)
 
     params.update(vote_data)
     params.update(solution_params)
@@ -177,7 +177,7 @@ def get_sharing_link(request, char_id):
     char.link_shared = True
     char.save()
     
-    return HttpResponseText(generate_link(char))
+    return HttpResponseText(generate_link(request, char))
 
 def hide_sharing_link(request, char_id):
     char = get_char_or_raise(request, char_id)
@@ -224,12 +224,11 @@ def solution_linked(request, char_name, encoded_char_id):
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
-def generate_link(char):
+def generate_link(request, char):
     encoded_id = encode_char_id(int(char.id))
     char_name = char.char_name or 'shared'
-    return ('https://fashionistavanced.com'
-            + reverse('solution_linked',
-                      args=(char_name, encoded_id)))
+    return request.build_absolute_uri(reverse('solution_linked',
+                                              args=(char_name, encoded_id)))
 
 def set_item_locked(request, char_id):
     char = get_char_or_raise(request, char_id)

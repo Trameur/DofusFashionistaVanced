@@ -409,8 +409,8 @@ def shared_builds(request):
     for char in page_chars:
         encoded_id = encode_char_id(int(char.id))
         char_name = char.char_name or 'shared'
-        link = 'https://fashionistavanced.com' + reverse('solution_linked',
-                                                          args=(char_name, encoded_id))
+        link = request.build_absolute_uri(reverse('solution_linked',
+                                                   args=(char_name, encoded_id)))
 
         creator_name = None
         if char.owner:
