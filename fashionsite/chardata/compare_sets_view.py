@@ -258,4 +258,4 @@ def compare_set_search_proj_name(request):
     return HttpResponseJson(json.dumps(char_list))
 
 def _get_text_error_response(cause):
-    return HttpResponseText('Error: %s' % cause)
+    return HttpResponseText('Error')

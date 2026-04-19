@@ -17,6 +17,7 @@
 import pickle
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
 from static_s3.templatetags.static_s3 import static
@@ -31,7 +32,7 @@ from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECT
                                   ASPECT_TO_NAME)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
-                           TESTER_USERS, HttpResponseText, HttpResponseJson,
+                           TESTER_USERS, HttpResponseText,
     get_theme, remove_cache_for_char)
 from fashionistapulp.dofus_constants import STATS_NAMES, CHARACTER_CLASSES
 from chardata.themes import get_questionmark_URL
@@ -131,7 +132,7 @@ def save_project(request, char_id=0):
     if char_id > 0:
         remove_cache_for_char(char_id)
 
-    return HttpResponseJson(json.dumps(_get_state_from_char(char)))
+    return JsonResponse(_get_state_from_char(char))
 
 def create_project(request):
     state = _get_state_from_post(request)
@@ -217,7 +218,7 @@ def understand_build_post(request):
     build_line = request.POST.get('build_line', '')
     aspects = parse_aspects(build_line)
     
-    return HttpResponseJson(json.dumps(_get_aspect_checklist(aspects)))
+    return JsonResponse(_get_aspect_checklist(aspects))
 
 def save_project_to_user(request, char_id=None):
     char_id = char_id or request.session.get('char_id')

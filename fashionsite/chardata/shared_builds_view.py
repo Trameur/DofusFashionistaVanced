@@ -22,6 +22,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+import logging
 import json
 import pickle
 
@@ -37,6 +38,9 @@ from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
+
+
+logger = logging.getLogger(__name__)
 
 # Create reverse mapping from short names to keys
 SHORT_NAME_TO_KEY = {v: k for k, v in ASPECT_TO_SHORT_NAME.items()}
@@ -530,5 +534,6 @@ def vote_build(request, build_id):
         })
     except Char.DoesNotExist:
         return JsonResponse({'error': 'Build not found'}, status=404)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+    except Exception:
+        logger.exception('Unexpected error while voting on build', extra={'build_id': build_id})
+        return JsonResponse({'error': 'Internal server error'}, status=500)
