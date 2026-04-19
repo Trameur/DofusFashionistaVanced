@@ -42,7 +42,7 @@ jsonpatch==1.21
 jsonpickle==3.0.1
 jsonpointer==2.0
 jsonschema==3.2.0
-libcomps==0.1.18
+libcomps==0.1.21.post1
 lockfile==0.12.2
 lxml==6.0.2
 MarkupSafe==3.0.2
