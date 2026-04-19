@@ -16,6 +16,7 @@
 
 from collections import Counter
 from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
@@ -255,7 +256,7 @@ def compare_set_search_proj_name(request):
                         char_list.append({'label': char.name, 'idx': char.id})
     else:
         char_list = []
-    return HttpResponseJson(json.dumps(char_list))
+    return JsonResponse(char_list, safe=False)
 
 def _get_text_error_response(cause):
     return HttpResponseText('Error')
