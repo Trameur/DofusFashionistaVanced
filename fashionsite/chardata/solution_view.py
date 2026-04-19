@@ -252,8 +252,7 @@ def set_item_locked(request, char_id):
     elif locked == 'false':
         set_item_included(char, item_id, slot, False)
     
-    return HttpResponseText('char_id %s, slot %s, equip %s, locked %s'
-            % (char_id, slot, item_name, str(locked)))
+    return HttpResponseText('ok')
 
 def set_item_forbidden(request, char_id):
     char = get_char_or_raise(request, char_id)
@@ -275,5 +274,4 @@ def set_item_forbidden(request, char_id):
     elif forbidden == 'false':
         set_excluded(char, item_id, False)
 
-    return HttpResponseText('char_id %s, slot %s, equip %s, forbidden %s'
-            % (char_id, slot, item_name, str(forbidden)))
+    return HttpResponseText('ok')
