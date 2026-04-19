@@ -221,13 +221,13 @@ class ModelResult():
                 if stat in main_stats:
                     if hasattr(self, 'stats') and self.stats is not None:
                         self.stats_total[stat.key] += self.stats.get(stat.key, 0)
-            self.stats_total['apres'] += self.stats_total['wis'] / 10
-            self.stats_total['mpres'] += self.stats_total['wis'] / 10
-            self.stats_total['apred'] += self.stats_total['wis'] / 10
-            self.stats_total['mpred'] += self.stats_total['wis'] / 10
-            self.stats_total['dodge'] += self.stats_total['agi'] / 10
-            self.stats_total['lock'] += self.stats_total['agi'] / 10
-            self.stats_total['pp'] += self.stats_total['cha'] / 10
+            self.stats_total['apres'] += self.stats_total['wis'] // 10
+            self.stats_total['mpres'] += self.stats_total['wis'] // 10
+            self.stats_total['apred'] += self.stats_total['wis'] // 10
+            self.stats_total['mpred'] += self.stats_total['wis'] // 10
+            self.stats_total['dodge'] += self.stats_total['agi'] // 10
+            self.stats_total['lock'] += self.stats_total['agi'] // 10
+            self.stats_total['pp'] += self.stats_total['cha'] // 10
             self.stats_total['pod'] += self.stats_total['str'] * 5
             self.stats_total['init'] += (self.stats_total['str']
                                          + self.stats_total['int']
