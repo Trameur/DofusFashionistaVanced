@@ -551,7 +551,7 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
     container.empty();
     container.scrollTop();
     if (items.length == 0) {
-        container.append(gettext('No items found containing') + ' "' + searchTerm +'".');
+        container.append(document.createTextNode(gettext('No items found containing') + ' "' + searchTerm + '".'));
         return;
     }
     
