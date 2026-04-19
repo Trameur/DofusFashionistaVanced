@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from collections import Counter
+import logging
 from django.utils.translation import gettext as _
 
 from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS,
@@ -26,6 +27,8 @@ from .violation import Violation
 from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
 
 RELEVANT_INPUT = ['options', 'base_stats_by_attr', 'char_level', 'origin']
+
+logger = logging.getLogger(__name__)
 
 class ModelResultMinimal():
 
@@ -120,6 +123,8 @@ def model_result_from_minimal(minimal):
         if item_id is not None and structure.get_item_by_id(item_id):
             result.add_item_at_slot(structure.get_item_by_id(item_id), slot)
         else:
+            if item_id is not None:
+                logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
             result.add_item_at_slot(None, slot) 
     open_slots = []
     for slot in result.open_slots:
@@ -216,13 +221,13 @@ class ModelResult():
                 if stat in main_stats:
                     if hasattr(self, 'stats') and self.stats is not None:
                         self.stats_total[stat.key] += self.stats.get(stat.key, 0)
-            self.stats_total['apres'] += self.stats_total['wis'] / 10
-            self.stats_total['mpres'] += self.stats_total['wis'] / 10
-            self.stats_total['apred'] += self.stats_total['wis'] / 10
-            self.stats_total['mpred'] += self.stats_total['wis'] / 10
-            self.stats_total['dodge'] += self.stats_total['agi'] / 10
-            self.stats_total['lock'] += self.stats_total['agi'] / 10
-            self.stats_total['pp'] += self.stats_total['cha'] / 10
+            self.stats_total['apres'] += self.stats_total['wis'] // 10
+            self.stats_total['mpres'] += self.stats_total['wis'] // 10
+            self.stats_total['apred'] += self.stats_total['wis'] // 10
+            self.stats_total['mpred'] += self.stats_total['wis'] // 10
+            self.stats_total['dodge'] += self.stats_total['agi'] // 10
+            self.stats_total['lock'] += self.stats_total['agi'] // 10
+            self.stats_total['pp'] += self.stats_total['cha'] // 10
             self.stats_total['pod'] += self.stats_total['str'] * 5
             self.stats_total['init'] += (self.stats_total['str']
                                          + self.stats_total['int']
@@ -363,15 +368,27 @@ class ModelResult():
             else: 
                 composite_mins = s.get_adv_mins() 
                 for stat in composite_mins:
-                    if stat['key'] in min_val:
+                    stat_found = stat['key'] in min_val or stat['name'] in min_val
+                    if stat_found:
+                        required_min = min_val.get(stat['key'], min_val.get(stat['name']))
                         char_stat = 0
+                        debug_info = []
                         for attribute in stat['stats']:
-                            char_stat += self.stats_total[STAT_NAME_TO_KEY[attribute]]
-                        if char_stat < min_val[stat['key']]:
+                            val = self.stats_total[STAT_NAME_TO_KEY[attribute]]
+                            original_val = val
+                            if attribute.strip().startswith('%') and attribute.strip().endswith('Resist'):
+                                val = min(val, 50)
+                                if original_val != val:
+                                    debug_info.append(f"{attribute}: {original_val}→{val}")
+                            char_stat += val
+                        if char_stat < required_min:
                             violation = Violation()
                             violation.item_name = _('project')
-                            violation.stat_name = stat['local_name']
-                            violation.stat_value = min_val[stat['key']]
+                            stat_name = stat['local_name']
+                            if debug_info:
+                                stat_name += f" (capped: {', '.join(debug_info)})"
+                            violation.stat_name = stat_name
+                            violation.stat_value = required_min
                             violation.condition_type = 'min_eq'
                             violation.cant_equip = False
                             violations.append(violation)
@@ -511,6 +528,8 @@ class ModelResult():
 class ModelResultItem():
     
     def __init__(self, item):
+        # Default weapon-specific flags so legacy pickles missing new fields stay safe
+        self.is_mageable = False
         if item:
             structure = get_structure()
             self.item_added = True
@@ -556,16 +575,18 @@ class ModelResultItem():
             self.extras = localized_extras
     
             if self.type == 'Weapon':
-                # Just copy?
                 weapon = structure.get_weapon_by_name(self.name)
-                self.is_mageable = weapon.is_mageable
-                self.non_crit_hits = weapon.non_crit_hits
-                self.crit_hits = weapon.crit_hits
-                self.crit_bonus = weapon.crit_bonus
-                self.crit_chance = weapon.crit_chance_percent
-                self.ap = weapon.ap
-                weapon_type = structure.get_weapon_type_by_id(weapon.weapon_type)
-                self.weapon_type = weapon_type.name if weapon_type is not None else "DefaultName"
+                if weapon is not None:
+                    self.is_mageable = weapon.is_mageable
+                    self.non_crit_hits = weapon.non_crit_hits
+                    self.crit_hits = weapon.crit_hits
+                    self.crit_bonus = weapon.crit_bonus
+                    self.crit_chance = weapon.crit_chance_percent
+                    self.ap = weapon.ap
+                    weapon_type = structure.get_weapon_type_by_id(weapon.weapon_type)
+                    self.weapon_type = weapon_type.name if weapon_type is not None else "DefaultName"
+                else:
+                    logger.warning('Missing weapon metadata for item_id=%s item_name=%s', self.id, self.name)
         else:
             self.name = 'NoItem'
             self.id = None
@@ -578,7 +599,7 @@ class ModelResultItem():
             self.localized_name = _(SLOT_NAME_TO_TYPE[slot])
         
     def mage_weapon_smartly(self, char_stats):
-        if self.is_mageable:
+        if getattr(self, 'is_mageable', False):
             calculated_damage = {}
             for element in DAMAGE_TYPES:
                 calculated_damage[element] = calculate_damage(self.non_crit_hits[element],

@@ -122,6 +122,9 @@ function optionsInit(options) {
 
     var $sylvanCheckbox = $('input:checkbox[name=sylvan]');
     $sylvanCheckbox.prop('checked', options.dofuses.sylvan);
+
+    var $prysmaraditeCheckbox = $('input:checkbox[name=prysmaradite]');
+    $prysmaraditeCheckbox.prop('checked', options.prysmaradite);
 }
 
 function disableUnusableDofus(unusable){

@@ -23,6 +23,8 @@ import os
 FOLDERS = [
     'fashionsite/staticfiles/chardata/items/',
     'fashionsite/staticfiles/chardata/pets/',
+    'fashionsite/chardata/static/chardata/items/',
+    'fashionsite/chardata/static/chardata/pets/',
 ]
 
 W = 60

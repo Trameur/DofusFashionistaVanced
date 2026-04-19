@@ -70,6 +70,7 @@ def parse_options_post(request):
     options['dragoturkey'] = request.POST.get('dragoturkey', None) == 'on'
     options['seemyool'] = request.POST.get('seemyool', None) == 'on'
     options['rhineetle'] = request.POST.get('rhineetle', None) == 'on'
+    options['prysmaradite'] = request.POST.get('prysmaradite', None) == 'on'
         
     if 'dofus' in request.POST:
         dofus_trophy = request.POST.get('dofus', 'no')   

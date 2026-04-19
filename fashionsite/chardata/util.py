@@ -34,6 +34,16 @@ from fashionsite.settings import DEFAULT_THEME
 import jsonpickle
 
 
+ALLOWED_THEMES = {'auto', 'lighttheme', 'darktheme'}
+ALLOWED_CURRENT_AUTO = {'lighttheme', 'darktheme'}
+
+
+def _sanitize_cookie_choice(value, allowed_values, default_value):
+    if value in allowed_values:
+        return value
+    return default_value
+
+
 def get_base_stats_by_attr(request, char_id):
     char = get_char_or_raise(request, char_id)
     base_stats_by_attr = {}
@@ -110,6 +120,7 @@ def get_alias(user):
     return None
     
 def set_response(request, path, params, char=None):
+    params['debug_mode'] = settings.DEBUG
     params['language'] = get_language()
     params['experiments'] = settings.EXPERIMENTS
     params['useralias'] = get_alias(request.user)
@@ -215,8 +226,7 @@ def remove_cache_for_char(char_id):
         
 def set_theme(request):
     theme = request.POST.get('theme', None)
-    if theme is None:
-        theme = DEFAULT_THEME
+    theme = _sanitize_cookie_choice(theme, ALLOWED_THEMES, DEFAULT_THEME)
     theme_files = get_css_static_for_theme(theme, request)
     theme_files_json = jsonpickle.encode(theme_files)
     response = HttpResponseJson(theme_files_json)
@@ -226,8 +236,7 @@ def set_theme(request):
 
 def set_current_auto(request):
     current = request.POST.get('current', None)
-    if current is None:
-        current = DEFAULT_THEME
+    current = _sanitize_cookie_choice(current, ALLOWED_CURRENT_AUTO, 'darktheme')
     response_string = jsonpickle.encode('abc')
     response = HttpResponseJson(response_string)
     max_age_current_auto = 12 * 60 * 60  #twelve hours

@@ -1,0 +1,13 @@
+{
+    "python.terminal.activateEnvironment": false,
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/fashionistapulp",
+        "${workspaceFolder}/fashionsite"
+    ],
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/fashionistapulp",
+        "${workspaceFolder}/fashionsite"
+    ]
+}

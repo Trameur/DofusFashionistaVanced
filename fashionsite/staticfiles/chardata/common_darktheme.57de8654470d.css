@@ -1,0 +1,24 @@
+.button-generic:disabled, .button-thin:disabled, .button-generic-foreground:disabled, .button-thin-foreground:disabled  {
+    background: #212121;
+    color: #505050;
+}
+.button-thin, .button-generic {
+    background: #333333;
+    color: #FFFFFF;
+}
+.brown-text {
+    color: #151515;
+}
+.body-base {
+    background: #212121;
+}
+
+.button-generic-foreground, .button-thin-foreground, .button-thin-chardata {
+    background: #616161;
+    color: #FFFFFF;
+}
+
+.button-thin-chardata:disabled {
+    color: #505050;
+    background: #111111;
+}

@@ -20,11 +20,13 @@ from chardata.encoded_char_id import decode_char_id
 from chardata.fashion_action import fashion
 from chardata.models import Char
 from chardata.solution import get_solution
+from chardata.spell_localization import get_localized_spell_name
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import get_object_or_404
 from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
+from fashionistapulp.translation import get_supported_language
 
 from fashionistapulp.dofus_constants import (DAMAGE_SPELLS, DAMAGE_TYPES, NEUTRAL)
 
@@ -93,8 +95,9 @@ def _create_weapon_web_digest(weapon):
 def _create_spell_web_digest(spell):
     web_digest = {}
     digest = spell.get_effects_digest()
+    current_language = get_supported_language()
     web_digest['type'] = 'spell'
-    web_digest['name'] = _(spell.name)
+    web_digest['name'] = get_localized_spell_name(spell.name, current_language)
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
     web_digest['image_url'] = static('chardata/spells/' + spell.name + '.png')
@@ -102,8 +105,12 @@ def _create_spell_web_digest(spell):
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)
     web_digest['aggregates'] = convert_aggregates(digest.aggregates)
-    web_digest['is_linked'] = (spell.is_linked[0], _(spell.is_linked[1])) if spell.is_linked else None
+    web_digest['is_linked'] = (
+        spell.is_linked[0],
+        get_localized_spell_name(spell.is_linked[1], current_language)
+    ) if spell.is_linked else None
     web_digest['special'] = spell.special
+    web_digest['buff_scaling'] = spell.buff_scaling
     return web_digest
 
 def spells(request, char_id=0):

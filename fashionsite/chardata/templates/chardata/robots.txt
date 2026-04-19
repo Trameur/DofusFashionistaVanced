@@ -1,3 +1,9 @@
-User-agent: *
-Disallow:/understandbuild/
+# Allow AdSense and Google bots
+User-agent: Mediapartners-Google
+Allow: /
 
+User-agent: *
+Disallow: /understandbuild/
+
+# Sitemap location
+Sitemap: https://fashionistavanced.com/sitemap.xml
