@@ -1,0 +1,48 @@
+.button-generic, .button-generic-foreground {
+    padding: 4px 15px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+.button-generic:disabled, .button-thin:disabled, .button-thin-chardata:disabled, .button-thin-foreground:disabled, .button-generic-foreground:disabled {
+    cursor: auto;
+}
+
+.button-thin, .button-thin-foreground, .button-thin-chardata {
+    padding: 2px 15px;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+}
+
+.button-thin, .button-thin-foreground, .button-generic, .button-generic-foreground, .button-thin-chardata {
+    border: 0 none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.rotated {
+  transform: rotate(90deg);
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -moz-transform: rotate(90deg); /* Firefox */
+  -webkit-transform: rotate(90deg); /* Safari and Chrome */
+  -o-transform: rotate(90deg); /* Opera */
+}
+
+
+a, img {
+   border: 0;
+}
+
+.button-img {
+    height: 15px;
+    width: 15px;
+    padding-right: 7px;
+    margin-top: 2px;
+}
+
+.state-button-img {
+    height: 10px;
+    width: 10px;
+    padding-right: 7px;
+}
+

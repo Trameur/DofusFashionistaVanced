@@ -16,6 +16,7 @@
 
 import os
 import platform
+import sys
 
 path = None
 
@@ -26,11 +27,30 @@ def get_fashionista_path():
         config_file_path = ''
         if system_type == 'Windows':
             config_file_path = os.path.join(os.environ['APPDATA'], 'fashionista', 'config')
-        elif system_type == 'Linux':
+        else:  # Linux, macOS, etc.
             config_file_path = '/etc/fashionista/config'
 
-        with open(config_file_path) as f:
-            path = f.read().strip()
+        try:
+            with open(config_file_path) as f:
+                path = f.read().strip()
+        except FileNotFoundError:
+            # Si le fichier de configuration n'existe pas, on utilise le répertoire courant ou parent
+            print(f"Configuration file not found: {config_file_path}")
+            print("Using current directory as fallback")
+            
+            # Utiliser le répertoire parent du dossier fashionistapulp comme racine
+            current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            path = current_dir
+            
+            # Créer le fichier de configuration pour les futures utilisations
+            try:
+                os.makedirs(os.path.dirname(config_file_path), exist_ok=True)
+                with open(config_file_path, 'w') as f:
+                    f.write(path)
+                print(f"Created configuration file at {config_file_path}")
+            except Exception as e:
+                print(f"Warning: Could not create configuration file: {e}")
+    
     return path
 
 def get_items_db_path():
@@ -46,9 +66,17 @@ def save_items_db_to_dump():
     run_root_script('dump_item_db.py')
 
 def run_root_script(script_path):
-    ENV_VAR = 'PYTHONPATH=%s' % (os.path.join(get_fashionista_path(), 'fashionistapulp'))
-    LOAD_SCRIPT_PATH = os.path.join(get_fashionista_path(), script_path)
-    os.system('%s %s' % (ENV_VAR, LOAD_SCRIPT_PATH))
+    python_cmd = "python" if platform.system() == 'Windows' else "python3"
+    env_var = f'PYTHONPATH={os.path.join(get_fashionista_path(), "fashionistapulp")}'
+    load_script_path = os.path.join(get_fashionista_path(), script_path)
+    
+    if platform.system() == 'Windows':
+        # Utiliser une méthode qui fonctionne sur Windows
+        os.environ['PYTHONPATH'] = os.path.join(get_fashionista_path(), "fashionistapulp")
+        os.system(f'{python_cmd} {load_script_path}')
+    else:
+        # Méthode originale pour Linux/macOS
+        os.system(f'{env_var} {load_script_path}')
 
 serve_static = None
 
@@ -59,9 +87,24 @@ def serve_static_files():
         serve_static_file_path = ''
         if system_type == 'Windows':
             serve_static_file_path = os.path.join(os.environ['APPDATA'], 'fashionista', 'serve_static')
-        elif system_type == 'Linux':
+        else:  # Linux, macOS, etc.
             serve_static_file_path = '/etc/fashionista/serve_static'
 
-        with open(serve_static_file_path) as f:
-            serve_static = f.read().startswith('True')
+        try:
+            with open(serve_static_file_path) as f:
+                serve_static = f.read().startswith('True')
+        except FileNotFoundError:
+            # Valeur par défaut si le fichier n'existe pas
+            print(f"Static file configuration not found: {serve_static_file_path}")
+            print("Using default value: True")
+            serve_static = True
+            
+            # Tenter de créer le fichier pour les futures utilisations
+            try:
+                os.makedirs(os.path.dirname(serve_static_file_path), exist_ok=True)
+                with open(serve_static_file_path, 'w') as f:
+                    f.write("True")
+            except Exception as e:
+                print(f"Warning: Could not create static configuration file: {e}")
+    
     return serve_static

@@ -10,6 +10,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
     <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
+    <style>
+        .button-voted {
+            background-color: #D4AF37 !important;
+            color: #000 !important;
+            font-weight: bold;
+        }
+    </style>
 {% endblock %}
 
 {% block main %}
@@ -38,7 +45,7 @@
 
     <div align="center">
         <div style="display: inline-block;">
-        <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="https://fashionistavanced.com/solution/{{char_id}}/" name="char0"></input></form>
+        <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{ request.scheme }}://{{ request.get_host }}/solution/{{char_id}}/" name="char0"></input></form>
             <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
         </div>
         <div style="display: inline-block;">
@@ -71,6 +78,27 @@
     <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
             <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
     </div>
+    
+    <!-- Vote buttons for shared builds -->
+    {% if link_shared and user.is_authenticated %}
+    <div align="center" style="margin-top: 15px;">
+        <button id="like_button" class="button-generic {% if user_liked %}button-voted{% endif %}" 
+                onclick="voteBuild({{ char_id }}, 'like')" style="margin-right: 10px;">
+            ❤️ <span id="like_text">{% if user_liked %}{% trans "Unlike" %}{% else %}{% trans "Like" %}{% endif %}</span> 
+            (<span id="like_count">{{ like_count }}</span>)
+        </button>
+        <button id="favorite_button" class="button-generic {% if user_favorited %}button-voted{% endif %}"
+                onclick="voteBuild({{ char_id }}, 'favorite')">
+            ⭐ <span id="favorite_text">{% if user_favorited %}{% trans "Unfavorite" %}{% else %}{% trans "Favorite" %}{% endif %}</span> 
+            (<span id="favorite_count">{{ favorite_count }}</span>)
+        </button>
+    </div>
+    {% elif link_shared %}
+    <div align="center" style="margin-top: 15px; color: #888;">
+        ❤️ <span id="like_count">{{ like_count }}</span> {% trans "Likes" %} | 
+        ⭐ <span id="favorite_count">{{ favorite_count }}</span> {% trans "Favorites" %}
+    </div>
+    {% endif %}
     {% endif %}
 
     <table class="solution-table"><tr>
@@ -273,6 +301,9 @@
         </a>
     </p>
 {% include "chardata/jqueryui.html" %}
+    <script>
+        var statFilterOptions = {{ stat_filter_options_json | safe }};
+    </script>
     <script src="{% static 'chardata/solution_popup.js' %}"></script>
     <script>
         $.ajaxSetup({
@@ -347,6 +378,13 @@
         var stats_gear = {{stats_gear_json | safe}};
         var stats_total = {{stats_total_json | safe}};
 
+        function formatDofusStatValue(value) {
+            if (value === null || value === undefined || value === '') {
+                return '0';
+            }
+            return Math.round(Number(value)).toString();
+        }
+
         function update_stats() {
             if ($("input[name='total_mode']:checked").val() == "equip") {
                 new_stats = stats_gear;
@@ -361,15 +399,15 @@
                 if ((stat_key === "ap" && options["ap_exo"] === true)
                     || (stat_key === "mp" && options["mp_exo"] === true)
                     || (stat_key === "range" && options["range_exo"] === true)) {
-                    statValueString = (stat_value - 1).toString() + "+1";
+                    statValueString = formatDofusStatValue(stat_value - 1) + "+1";
                 } else {
-                    statValueString = stat_value.toString();
+                    statValueString = formatDofusStatValue(stat_value);
                 }
                 if (stat_value < 0) {
                     statValueString = "<span class='red-text'>" + statValueString + "</span>";
                 }
                 if (stat_key in stats_base) {
-                    $("td[name=stat_value_base_" + stat_key + "]").html(stats_base[stat_key]);
+                    $("td[name=stat_value_base_" + stat_key + "]").html(formatDofusStatValue(stats_base[stat_key]));
                 }
                 $("td[name=stat_value_" + stat_key + "]").html(statValueString);
             });
@@ -587,6 +625,46 @@
             });
             setExternalImage();
         });
+        
+        // Vote function for likes and favorites
+        function voteBuild(buildId, voteType) {
+            var button = voteType === 'like' ? $('#like_button') : $('#favorite_button');
+            var textSpan = voteType === 'like' ? $('#like_text') : $('#favorite_text');
+            var countSpan = voteType === 'like' ? $('#like_count') : $('#favorite_count');
+            var isVoted = button.hasClass('button-voted');
+            var action = isVoted ? 'remove' : 'add';
+            
+            button.prop('disabled', true);
+            
+            $.ajax({
+                url: '/votebuild/' + buildId + '/',
+                type: 'POST',
+                data: {
+                    'vote_type': voteType,
+                    'action': action,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        button.toggleClass('button-voted');
+                        
+                        if (voteType === 'like') {
+                            textSpan.text(isVoted ? "{% trans 'Like' %}" : "{% trans 'Unlike' %}");
+                            countSpan.text(response.like_count);
+                        } else {
+                            textSpan.text(isVoted ? "{% trans 'Favorite' %}" : "{% trans 'Unfavorite' %}");
+                            countSpan.text(response.favorite_count);
+                        }
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.error : 'Unknown error'));
+                },
+                complete: function() {
+                    button.prop('disabled', false);
+                }
+            });
+        }
         
     </script>
 {% endblock %}

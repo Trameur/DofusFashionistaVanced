@@ -21,7 +21,7 @@ msgstr ""
 #: admin/js/SelectFilter2.js:45 staticfiles/admin/js/SelectFilter2.js:38
 #, javascript-format
 msgid "Available %s"
-msgstr ""
+msgstr "Available %s"
 
 #: admin/js/SelectFilter2.js:46 staticfiles/admin/js/SelectFilter2.js:44
 #, javascript-format
@@ -29,38 +29,40 @@ msgid ""
 "This is the list of available %s. You may choose some by selecting them in "
 "the box below and then clicking the \"Choose\" arrow between the two boxes."
 msgstr ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
 
 #: admin/js/SelectFilter2.js:53 staticfiles/admin/js/SelectFilter2.js:60
 #, javascript-format
 msgid "Type into this box to filter down the list of available %s."
-msgstr ""
+msgstr "Type into this box to filter down the list of available %s."
 
 #: admin/js/SelectFilter2.js:57 staticfiles/admin/js/SelectFilter2.js:65
 #: staticfiles/admin/js/SelectFilter2.js:110
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: admin/js/SelectFilter2.js:61 staticfiles/admin/js/SelectFilter2.js:69
 msgid "Choose all"
-msgstr ""
+msgstr "Choose all"
 
 #: admin/js/SelectFilter2.js:61 staticfiles/admin/js/SelectFilter2.js:69
 #, javascript-format
 msgid "Click to choose all %s at once."
-msgstr ""
+msgstr "Click to choose all %s at once."
 
 #: admin/js/SelectFilter2.js:67 staticfiles/admin/js/SelectFilter2.js:75
 msgid "Choose"
-msgstr ""
+msgstr "Choose"
 
 #: admin/js/SelectFilter2.js:69 staticfiles/admin/js/SelectFilter2.js:77
 msgid "Remove"
-msgstr ""
+msgstr "Remove"
 
 #: admin/js/SelectFilter2.js:75 staticfiles/admin/js/SelectFilter2.js:83
 #, javascript-format
 msgid "Chosen %s"
-msgstr ""
+msgstr "Chosen %s"
 
 #: admin/js/SelectFilter2.js:76 staticfiles/admin/js/SelectFilter2.js:89
 #, javascript-format
@@ -68,22 +70,24 @@ msgid ""
 "This is the list of chosen %s. You may remove some by selecting them in the "
 "box below and then clicking the \"Remove\" arrow between the two boxes."
 msgstr ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
 
 #: admin/js/SelectFilter2.js:80 staticfiles/admin/js/SelectFilter2.js:120
 msgid "Remove all"
-msgstr ""
+msgstr "Remove all"
 
 #: admin/js/SelectFilter2.js:80 staticfiles/admin/js/SelectFilter2.js:120
 #, javascript-format
 msgid "Click to remove all chosen %s at once."
-msgstr ""
+msgstr "Click to remove all chosen %s at once."
 
 #: admin/js/actions.js:18 admin/js/actions.min.js:1
 #: staticfiles/admin/js/actions.js:67
 msgid "%(sel)s of %(cnt)s selected"
 msgid_plural "%(sel)s of %(cnt)s selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(sel)s von %(cnt)s ausgewahlt"
+msgstr[1] "%(sel)s von %(cnt)s ausgewahlt"
 
 #: admin/js/actions.js:109 admin/js/actions.min.js:5
 #: staticfiles/admin/js/actions.js:161
@@ -91,6 +95,8 @@ msgid ""
 "You have unsaved changes on individual editable fields. If you run an "
 "action, your unsaved changes will be lost."
 msgstr ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
 
 #: admin/js/actions.js:121 admin/js/actions.min.js:5
 msgid ""
@@ -98,6 +104,9 @@ msgid ""
 "individual fields yet. Please click OK to save. You'll need to re-run the "
 "action."
 msgstr ""
+"You have selected an action, but you haven't saved your changes to "
+"individual fields yet. Please click OK to save. You'll need to re-run the "
+"action."
 
 #: admin/js/actions.js:123 admin/js/actions.min.js:6
 msgid ""
@@ -105,180 +114,185 @@ msgid ""
 "fields. You're probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
+"You have selected an action, and you haven't made any changes on individual "
+"fields. You're probably looking for the Go button rather than the Save "
+"button."
 
 #: admin/js/admin/DateTimeShortcuts.js:52
 #: admin/js/admin/DateTimeShortcuts.js:88
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:13
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:110
 msgid "Now"
-msgstr ""
+msgstr "Now"
 
 #: admin/js/admin/DateTimeShortcuts.js:56
 msgid "Clock"
-msgstr ""
+msgstr "Clock"
 
 #: admin/js/admin/DateTimeShortcuts.js:84
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:158
 msgid "Choose a time"
-msgstr ""
+msgstr "Choose a time"
 
 #: admin/js/admin/DateTimeShortcuts.js:89
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:14
 msgid "Midnight"
-msgstr ""
+msgstr "Midnight"
 
 #: admin/js/admin/DateTimeShortcuts.js:90
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:15
 msgid "6 a.m."
-msgstr ""
+msgstr "6 a.m."
 
 #: admin/js/admin/DateTimeShortcuts.js:91
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:16
 msgid "Noon"
-msgstr ""
+msgstr "Noon"
 
 #: admin/js/admin/DateTimeShortcuts.js:95
 #: admin/js/admin/DateTimeShortcuts.js:208
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:175
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:333
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: admin/js/admin/DateTimeShortcuts.js:148
 #: admin/js/admin/DateTimeShortcuts.js:201
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:238
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:318
 msgid "Today"
-msgstr ""
+msgstr "Today"
 
 #: admin/js/admin/DateTimeShortcuts.js:152
 msgid "Calendar"
-msgstr ""
+msgstr "Calendar"
 
 #: admin/js/admin/DateTimeShortcuts.js:199
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:312
 msgid "Yesterday"
-msgstr ""
+msgstr "Yesterday"
 
 #: admin/js/admin/DateTimeShortcuts.js:203
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:324
 msgid "Tomorrow"
-msgstr ""
+msgstr "Tomorrow"
 
 #: admin/js/calendar.js:8
 msgid ""
-"January February March April May June July August September October November "
-"December"
+"January February March April May June July August September October November"
+" December"
 msgstr ""
+"January February March April May June July August September October November"
+" December"
 
 #: admin/js/calendar.js:9
 msgid "S M T W T F S"
-msgstr ""
+msgstr "S M T W T F S"
 
 #: admin/js/collapse.js:8 admin/js/collapse.js:19 admin/js/collapse.min.js:1
 #: staticfiles/admin/js/collapse.js:16 staticfiles/admin/js/collapse.js:34
 msgid "Show"
-msgstr ""
+msgstr "Show"
 
 #: admin/js/collapse.js:16 admin/js/collapse.min.js:1
 #: staticfiles/admin/js/collapse.js:30
 msgid "Hide"
-msgstr ""
+msgstr "Hide"
 
 #: chardata/static/chardata/inclusions.js:13
 #: chardata/static/chardata/solution_popup.js:458
 #: staticfiles/chardata/inclusions.js:13
 #: staticfiles/chardata/solution_popup.js:458
 msgid "Lvl."
-msgstr ""
+msgstr "Lvl."
 
 #: chardata/static/chardata/login.js:13 staticfiles/chardata/login.js:13
 msgid "The username and password entered do not match."
-msgstr ""
+msgstr "The username and password entered do not match."
 
 #: chardata/static/chardata/login.js:15 staticfiles/chardata/login.js:15
 msgid "Confirm your email to log in."
-msgstr ""
+msgstr "Confirm your email to log in."
 
 #: chardata/static/chardata/login.js:17 staticfiles/chardata/login.js:17
 msgid "Error while logging in."
-msgstr ""
+msgstr "Error while logging in."
 
 #: chardata/static/chardata/login.js:29 staticfiles/chardata/login.js:29
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Your password has been changed."
 
 #: chardata/static/chardata/login.js:35 staticfiles/chardata/login.js:35
 msgid "Your password did not match our records."
-msgstr ""
+msgstr "Your password did not match our records."
 
 #: chardata/static/chardata/login.js:47 staticfiles/chardata/login.js:47
 msgid "This username is already in use."
-msgstr ""
+msgstr "This username is already in use."
 
 #: chardata/static/chardata/login.js:63 staticfiles/chardata/login.js:63
 msgid "The passwords don't match. Please try again."
-msgstr ""
+msgstr "The passwords don't match. Please try again."
 
 #: chardata/static/chardata/login.js:81 staticfiles/chardata/login.js:81
 msgid "You need to enter a valid username."
-msgstr ""
+msgstr "You need to enter a valid username."
 
 #: chardata/static/chardata/login.js:87 staticfiles/chardata/login.js:87
 msgid "You need to enter a password."
-msgstr ""
+msgstr "You need to enter a password."
 
 #: chardata/static/chardata/login.js:93 staticfiles/chardata/login.js:93
 msgid "You need to enter a valid email."
-msgstr ""
+msgstr "You need to enter a valid email."
 
 #: chardata/static/chardata/options.js:133 staticfiles/chardata/options.js:133
 msgid "You need to be a higher level to equip this Dofus"
-msgstr ""
+msgstr "You need to be a higher level to equip this Dofus"
 
 #: chardata/static/chardata/solution_popup.js:106
 #: chardata/static/chardata/solution_popup.js:122
 #: staticfiles/chardata/solution_popup.js:106
 #: staticfiles/chardata/solution_popup.js:122
 msgid "Removing "
-msgstr ""
+msgstr "Removing "
 
 #: chardata/static/chardata/solution_popup.js:108
 #: chardata/static/chardata/solution_popup.js:124
 #: staticfiles/chardata/solution_popup.js:108
 #: staticfiles/chardata/solution_popup.js:124
 msgid "Adding Item"
-msgstr ""
+msgstr "Adding Item"
 
 #: chardata/static/chardata/solution_popup.js:115
 #: staticfiles/chardata/solution_popup.js:115
 msgid "Loading"
-msgstr ""
+msgstr "Loading"
 
 #: chardata/static/chardata/solution_popup.js:127
 #: staticfiles/chardata/solution_popup.js:127
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 #: chardata/static/chardata/solution_popup.js:128
 #: staticfiles/chardata/solution_popup.js:128
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: chardata/static/chardata/solution_popup.js:164
 #: staticfiles/chardata/solution_popup.js:164
 msgid "Order by stats"
-msgstr ""
+msgstr "Order by stats"
 
 #: chardata/static/chardata/solution_popup.js:165
 #: staticfiles/chardata/solution_popup.js:165
 msgid "Order by hits"
-msgstr ""
+msgstr "Order by hits"
 
 #: chardata/static/chardata/solution_popup.js:292
 #: staticfiles/chardata/solution_popup.js:292
 msgid "This item no longer exists"
-msgstr ""
+msgstr "This item no longer exists"
 
 #: chardata/static/chardata/solution_popup.js:296
 #: chardata/static/chardata/solution_popup.js:305
@@ -295,17 +309,17 @@ msgstr ""
 #: staticfiles/chardata/solution_popup.js:349
 #: staticfiles/chardata/solution_popup.js:358
 msgid "Violates %(item)s's condition:"
-msgstr ""
+msgstr "Violates %(item)s's condition:"
 
 #: chardata/static/chardata/solution_popup.js:332
 #: staticfiles/chardata/solution_popup.js:332
 msgid "%(item)s is already equipped"
-msgstr ""
+msgstr "%(item)s is already equipped"
 
 #: chardata/static/chardata/solution_popup.js:373
 #: staticfiles/chardata/solution_popup.js:373
 msgid "You cannot equip this item."
-msgstr ""
+msgstr "You cannot equip this item."
 
 #: chardata/static/chardata/solution_popup.js:375
 #: staticfiles/chardata/solution_popup.js:375
@@ -314,66 +328,112 @@ msgid ""
 " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
 "and tailor a new set."
 msgstr ""
+" To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
+"and tailor a new set."
 
 #: chardata/static/chardata/solution_popup.js:383
 #: staticfiles/chardata/solution_popup.js:383
 msgid ""
 "You can equip this item, but some project minimums will not be respected."
 msgstr ""
+"You can equip this item, but some project minimums will not be respected."
 
 #: chardata/static/chardata/solution_popup.js:385
 #: staticfiles/chardata/solution_popup.js:385
 #, javascript-format
 msgid ""
-" To find a set including it that fulfills these conditions, lock it <a href="
-"\"/inclusions/%s/\">here</a> and tailor a new set."
+" To find a set including it that fulfills these conditions, lock it <a "
+"href=\"/inclusions/%s/\">here</a> and tailor a new set."
 msgstr ""
+" To find a set including it that fulfills these conditions, lock it <a "
+"href=\"/inclusions/%s/\">here</a> and tailor a new set."
 
 #: chardata/static/chardata/solution_popup.js:442
 #: staticfiles/chardata/solution_popup.js:442
 msgid "There are no differences."
-msgstr ""
+msgstr "There are no differences."
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Add filter"
+msgstr "Filter hinzufuegen"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Stat filters"
+msgstr "Stat-Filter"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Any stat"
+msgstr "Beliebiger Wert"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Minimum"
+msgstr "Minimum"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Damage"
+msgstr "Schaden"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Neutral Resistance"
+msgstr "Neutraler Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Earth Resistance"
+msgstr "Erd-Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Fire Resistance"
+msgstr "Feuer-Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Water Resistance"
+msgstr "Wasser-Widerstand"
+
+#: chardata/static/chardata/solution_popup.js
+msgid "Air Resistance"
+msgstr "Luft-Widerstand"
 
 #: chardata/static/chardata/solution_popup.js:453
 #: staticfiles/chardata/solution_popup.js:453
 msgid "No items found containing"
-msgstr ""
+msgstr "No items found containing"
 
 #: chardata/static/chardata/solution_popup.js:465
 #: staticfiles/chardata/solution_popup.js:465
 msgid "Comparison"
-msgstr ""
+msgstr "Comparison"
 
 #: chardata/static/chardata/solution_popup.js:466
 #: staticfiles/chardata/solution_popup.js:466
 msgid "Attributes"
-msgstr ""
+msgstr "Attributes"
 
 #: chardata/static/chardata/solution_popup.js:472
 #: staticfiles/chardata/solution_popup.js:472
 msgid "Select"
-msgstr ""
+msgstr "Select"
 
 #: chardata/static/chardata/solution_popup.js:515
 #: staticfiles/chardata/solution_popup.js:515
 msgid "The average damage/AP of this weapon while %(element)s maged would be"
-msgstr ""
+msgstr "The average damage/AP of this weapon while %(element)s maged would be"
 
 #: chardata/static/chardata/solution_popup.js:521
 #: staticfiles/chardata/solution_popup.js:521
 msgid "The average damage/AP of this weapon would be"
-msgstr ""
+msgstr "The average damage/AP of this weapon would be"
 
 #: chardata/static/chardata/solution_popup.js:530
 #: staticfiles/chardata/solution_popup.js:530
 msgid "With the current set this weapon would hit "
-msgstr ""
+msgstr "With the current set this weapon would hit "
 
 #: chardata/static/chardata/solution_popup.js:532
 #: staticfiles/chardata/solution_popup.js:532
 msgid ""
 "With the current set this weapon would <font color=\"#CC0000\">heal</font> "
 msgstr ""
+"With the current set this weapon would <font color=\"#CC0000\">heal</font> "
 
 #: chardata/static/chardata/solution_popup.js:553
 #: staticfiles/chardata/solution_popup.js:553
@@ -382,39 +442,43 @@ msgid ""
 "and from <b> %(minCritDam)s </b> to <b> %(maxCritDam)s </b> on a critical "
 "hit."
 msgstr ""
+"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit, "
+"and from <b> %(minCritDam)s </b> to <b> %(maxCritDam)s </b> on a critical "
+"hit."
 
 #: chardata/static/chardata/solution_popup.js:563
 #: staticfiles/chardata/solution_popup.js:563
 msgid ""
 "from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
 msgstr ""
+"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
 
 #: chardata/static/chardata/stateengine.js:5
 #: staticfiles/chardata/stateengine.js:5
 msgid "Save"
-msgstr ""
+msgstr "Save"
 
 #: chardata/static/chardata/stateengine.js:5
 #: staticfiles/chardata/stateengine.js:5
 msgid "Saved"
-msgstr ""
+msgstr "Saved"
 
 #: chardata/static/chardata/stateengine.js:72
 #: staticfiles/chardata/stateengine.js:72
 msgid "You have unsaved changes. They will be discarded if you leave."
-msgstr ""
+msgstr "You have unsaved changes. They will be discarded if you leave."
 
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
 msgid "Type into this box to filter down the list of selected %s."
-msgstr ""
+msgstr "Type into this box to filter down the list of selected %s."
 
 #: staticfiles/admin/js/SelectFilter2.js:211
 #, javascript-format
 msgid "%s selected option not visible"
 msgid_plural "%s selected options not visible"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Die ausgewahlte Option %s ist nicht sichtbar"
+msgstr[1] "Die ausgewahlten Optionen %s sind nicht sichtbar"
 
 #: staticfiles/admin/js/actions.js:174
 msgid ""
@@ -422,6 +486,9 @@ msgid ""
 "individual fields yet. Please click OK to save. You’ll need to re-run the "
 "action."
 msgstr ""
+"You have selected an action, but you haven’t saved your changes to "
+"individual fields yet. Please click OK to save. You’ll need to re-run the "
+"action."
 
 #: staticfiles/admin/js/actions.js:175
 msgid ""
@@ -429,172 +496,175 @@ msgid ""
 "fields. You’re probably looking for the Go button rather than the Save "
 "button."
 msgstr ""
+"You have selected an action, and you haven’t made any changes on individual "
+"fields. You’re probably looking for the Go button rather than the Save "
+"button."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:17
 msgid "6 p.m."
-msgstr ""
+msgstr "6 p.m."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:78
 #, javascript-format
 msgid "Note: You are %s hour ahead of server time."
 msgid_plural "Note: You are %s hours ahead of server time."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hinweis: Sie liegen %s Stunde vor der Serverzeit."
+msgstr[1] "Hinweis: Sie liegen %s Stunden vor der Serverzeit."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:86
 #, javascript-format
 msgid "Note: You are %s hour behind server time."
 msgid_plural "Note: You are %s hours behind server time."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hinweis: Sie liegen %s Stunde hinter der Serverzeit."
+msgstr[1] "Hinweis: Sie liegen %s Stunden hinter der Serverzeit."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"
-msgstr ""
+msgstr "Choose a Time"
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:255
 msgid "Choose a Date"
-msgstr ""
+msgstr "Choose a Date"
 
 #: staticfiles/admin/js/calendar.js:11
 msgid "January"
-msgstr ""
+msgstr "January"
 
 #: staticfiles/admin/js/calendar.js:12
 msgid "February"
-msgstr ""
+msgstr "February"
 
 #: staticfiles/admin/js/calendar.js:13
 msgid "March"
-msgstr ""
+msgstr "March"
 
 #: staticfiles/admin/js/calendar.js:14
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: staticfiles/admin/js/calendar.js:15
 msgid "May"
-msgstr ""
+msgstr "May"
 
 #: staticfiles/admin/js/calendar.js:16
 msgid "June"
-msgstr ""
+msgstr "June"
 
 #: staticfiles/admin/js/calendar.js:17
 msgid "July"
-msgstr ""
+msgstr "July"
 
 #: staticfiles/admin/js/calendar.js:18
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: staticfiles/admin/js/calendar.js:19
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: staticfiles/admin/js/calendar.js:20
 msgid "October"
-msgstr ""
+msgstr "October"
 
 #: staticfiles/admin/js/calendar.js:21
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: staticfiles/admin/js/calendar.js:22
 msgid "December"
-msgstr ""
+msgstr "December"
 
 #: staticfiles/admin/js/calendar.js:25
 msgctxt "abbrev. month January"
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: staticfiles/admin/js/calendar.js:26
 msgctxt "abbrev. month February"
 msgid "Feb"
-msgstr ""
+msgstr "Feb"
 
 #: staticfiles/admin/js/calendar.js:27
 msgctxt "abbrev. month March"
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: staticfiles/admin/js/calendar.js:28
 msgctxt "abbrev. month April"
 msgid "Apr"
-msgstr ""
+msgstr "Apr"
 
 #: staticfiles/admin/js/calendar.js:29
 msgctxt "abbrev. month May"
 msgid "May"
-msgstr ""
+msgstr "May"
 
 #: staticfiles/admin/js/calendar.js:30
 msgctxt "abbrev. month June"
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: staticfiles/admin/js/calendar.js:31
 msgctxt "abbrev. month July"
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: staticfiles/admin/js/calendar.js:32
 msgctxt "abbrev. month August"
 msgid "Aug"
-msgstr ""
+msgstr "Aug"
 
 #: staticfiles/admin/js/calendar.js:33
 msgctxt "abbrev. month September"
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: staticfiles/admin/js/calendar.js:34
 msgctxt "abbrev. month October"
 msgid "Oct"
-msgstr ""
+msgstr "Oct"
 
 #: staticfiles/admin/js/calendar.js:35
 msgctxt "abbrev. month November"
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: staticfiles/admin/js/calendar.js:36
 msgctxt "abbrev. month December"
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: staticfiles/admin/js/calendar.js:39
 msgctxt "one letter Sunday"
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: staticfiles/admin/js/calendar.js:40
 msgctxt "one letter Monday"
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: staticfiles/admin/js/calendar.js:41
 msgctxt "one letter Tuesday"
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: staticfiles/admin/js/calendar.js:42
 msgctxt "one letter Wednesday"
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: staticfiles/admin/js/calendar.js:43
 msgctxt "one letter Thursday"
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: staticfiles/admin/js/calendar.js:44
 msgctxt "one letter Friday"
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: staticfiles/admin/js/calendar.js:45
 msgctxt "one letter Saturday"
 msgid "S"
-msgstr ""
+msgstr "S"

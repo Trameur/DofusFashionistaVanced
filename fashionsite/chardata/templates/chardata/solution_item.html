@@ -39,21 +39,23 @@
             <hr class="solution-item-hr" />
         {% endif %}
         {% for line in item.stats_lines %}
-            {% if '#r' in line.formatting %}
-                <span class="solution-negative-stat-text">{{line.text}}</span>
-            {% else %}
-                {{line.text}}
-            {% endif %}
+            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+                {% if line.icon_url %}
+                    <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;vertical-align:middle;">
+                {% endif %}
+                <span>{% if line.icon_url %}&nbsp;{% endif %}{{line.text}}</span>
+            </span>
             <br>
         {% endfor %}
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />
             {% for line in item.condition_lines %}
-            {% if '#r' in line.formatting %}
-                <span class="solution-negative-stat-text">{{line.text}}</span>
-            {% else %}
-                {{line.text}}
-            {% endif %}
+            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+                {% if line.icon_url %}
+                    <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;vertical-align:middle;">
+                {% endif %}
+                <span>{% if line.icon_url %}&nbsp;{% endif %}{{line.text}}</span>
+            </span>
                 <br>
             {% endfor %}
         {% endif %}

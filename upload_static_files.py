@@ -18,20 +18,43 @@
 
 import os
 import csv
-from subprocess import call
+import platform
+import tempfile
+from subprocess import call, run
 import s3_fashionista
 
-STATIC_ROOT = '/tmp/statictemp'
+# Utiliser un répertoire temporaire approprié selon le système d'exploitation
+if platform.system() == 'Windows':
+    STATIC_ROOT = os.path.join(tempfile.gettempdir(), 'statictemp')
+    CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
+else:
+    STATIC_ROOT = '/tmp/statictemp'
+    CONFIG_DIR = '/etc/fashionista'
+
 DBBACKUP_S3_BUCKET = 'fashionistavanced'
 
 def main():
-    with open('/etc/fashionista/serve_static') as f:
-        serve_static = f.read().startswith('True')
-        if not serve_static:
-            print('Fashionista needs to be configured with serve_static=True')
-            exit(1)
+    # Utiliser le chemin de configuration approprié
+    config_file_path = os.path.join(CONFIG_DIR, 'serve_static')
+    try:
+        with open(config_file_path) as f:
+            serve_static = f.read().startswith('True')
+            if not serve_static:
+                print('Fashionista needs to be configured with serve_static=True')
+                exit(1)
+    except FileNotFoundError:
+        print(f"Configuration file not found: {config_file_path}")
+        print("Please run configure_fashionista_root.py -s first")
+        exit(1)
 
-    call(['rm', '-rf', STATIC_ROOT])
+    # Nettoyer le répertoire temporaire de manière compatible avec Windows/Linux
+    if platform.system() == 'Windows':
+        if os.path.exists(STATIC_ROOT):
+            import shutil
+            shutil.rmtree(STATIC_ROOT, ignore_errors=True)
+        os.makedirs(STATIC_ROOT, exist_ok=True)
+    else:
+        call(['rm', '-rf', STATIC_ROOT])
 
     old_map = {}
     with open('static_file_map.csv', 'r', newline='', encoding='utf-8') as file_map_old:
@@ -45,7 +68,12 @@ def main():
     with open('static_file_map.csv', 'w', newline='', encoding='utf-8') as file_map:
     
         os.chdir('fashionsite')
-        call(['python3', 'manage.py', 'collectstatic'])
+        # Utiliser python ou python3 selon le système
+        python_cmd = 'python' if platform.system() == 'Windows' else 'python3'
+        if platform.system() == 'Windows':
+            run([python_cmd, 'manage.py', 'collectstatic', '--noinput'], shell=True)
+        else:
+            call([python_cmd, 'manage.py', 'collectstatic', '--noinput'])
         
         csvwriter = csv.writer(file_map)
     
@@ -70,16 +98,19 @@ def main():
             csvwriter.writerow([original_name, new_map[original_name]])
         
         bucket = s3_fashionista.get_s3_bucket(DBBACKUP_S3_BUCKET)
-        for (original_name, new_name) in new_map.items():
-            if original_name not in old_map:
-                print('Uploading ' + original_name + ': not in original map')
-                key = bucket.new_key(new_name)
-                key.set_contents_from_filename(new_name, cb=_update_progress, num_cb=1)
-            else:
-                if old_map[original_name] != new_map[original_name]:
-                    print('Uploading ' + original_name + ': Hash changed')
+        if bucket:
+            for (original_name, new_name) in new_map.items():
+                if original_name not in old_map:
+                    print('Uploading ' + original_name + ': not in original map')
                     key = bucket.new_key(new_name)
                     key.set_contents_from_filename(new_name, cb=_update_progress, num_cb=1)
+                else:
+                    if old_map[original_name] != new_map[original_name]:
+                        print('Uploading ' + original_name + ': Hash changed')
+                        key = bucket.new_key(new_name)
+                        key.set_contents_from_filename(new_name, cb=_update_progress, num_cb=1)
+        else:
+            print("S3 bucket configuration incomplete. Static files will not be uploaded.")
 
 def _update_progress(so_far, total):
    print('%d bytes transferred out of %d' % (so_far, total))

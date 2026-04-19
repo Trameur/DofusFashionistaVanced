@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 <h3 align="center" class='text'>{% blocktrans %}Your message could not be sent.{% endblocktrans %}</h3>
-<p align="center" class='text'>{% blocktrans %}Please login and try again.{% endblocktrans %}</p>
+<p align="center" class='text'>{% blocktrans %}Please check the captcha and try again.{% endblocktrans %}</p>
 {% url 'home' as home_url %}
 <p align="center" class='text'>{% blocktrans %}Click <a href="{{home_url}}">here</a> to go back.{% endblocktrans %}</p>
 {% endblock %}

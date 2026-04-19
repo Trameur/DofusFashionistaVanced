@@ -27,7 +27,7 @@
     <p>{% blocktrans %}To report problems, suggest new features, or rant about the lack of skill of your kolo team, <a href="{{contact_url}}">contact us</a>.{% endblocktrans %}</p>
     <p><a href="{% url 'license_page' %}">{% trans "Copyright and License information" %}</a></p>
     <p>{% trans "Website version:" %} {{site_version}}</p>
-    <p>{% trans "English version by: " %} </p>
+    <p>{{ about_language_name }} version by: {{ about_language_author }}</p>
     
 </td>
 </tr>

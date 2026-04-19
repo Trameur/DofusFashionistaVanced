@@ -18,18 +18,48 @@
 
 import getpass
 import platform
+import os
+import json
 from subprocess import call
 
 # Determine the correct python command
 PYTHON_CMD = "python3" if platform.system() != "Windows" else "python"
 
+# Déterminer le répertoire de configuration en fonction du système d'exploitation
+if platform.system() == 'Windows':
+    CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
+else:
+    CONFIG_DIR = '/etc/fashionista'
+
+def load_config():
+    """Load the database configuration from a JSON file."""
+    config_file_path = os.path.join(CONFIG_DIR, 'gen_config.json')
+    try:
+        with open(config_file_path, 'r') as config_file:
+            return json.load(config_file)
+    except FileNotFoundError:
+        print(f"Configuration file not found: {config_file_path}")
+        print("Please run configure_fashionista_root.py first")
+        exit(1)
+
 def main():
-    if getpass.getuser() == 'root' and platform.system() != 'Windows':
+    # Load database credentials
+    config = load_config()
+    db_user = config.get('mysql_USER', 'root')  # Default to 'root' if not specified
+    db_password = config.get('mysql_PASSWORD', '')
+    db_name = 'fashionista'
+
+    if platform.system() != 'Windows' and getpass.getuser() == 'root':
         print('Run this script as a regular user, not as root.')
         return
 
     _print_header('Creating database')
-    call(['mysql', '-e', 'CREATE DATABASE IF NOT EXISTS fashionista;'])
+    call([
+        'mysql',
+        '-u', db_user,
+        '-p' + db_password,
+        '-e', f'CREATE DATABASE IF NOT EXISTS {db_name};'
+    ])
 
     _print_header('Syncing db')
     call([PYTHON_CMD, 'fashionsite/manage.py', 'migrate'])

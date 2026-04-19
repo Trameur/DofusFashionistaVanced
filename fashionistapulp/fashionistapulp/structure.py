@@ -74,8 +74,8 @@ class Structure:
         self.read_set_bonus_table()
 #       self.read_weapon_is_onehanded_table()
         self.read_weapon_hits_table()
-        self.insert_turquoises()
-        self.insert_gelanos()
+        #self.insert_turquoises()
+        #self.insert_gelanos()
         self.build_indexes()
         self.separate_items()
         self.read_item_names_table()
@@ -104,12 +104,12 @@ class Structure:
             dofus_touch = entry[8]
             item = Item()
             item.id = item_id
-            if item_name == 'Gelano':
-                item.name = 'Gelano (#2)'
-            elif item_name == 'Gelano (MP)':
-                item.name = 'Gelano (#1)'
-            else:
-                item.name = item_name
+            #if item_name == 'Gelano':
+                #item.name = 'Gelano (#2)'
+            #elif item_name == 'Gelano (MP)':
+                #item.name = 'Gelano (#1)'
+            #else:
+            item.name = item_name
             item.level = item_level
             item.type = item_type
             item.set = item_set

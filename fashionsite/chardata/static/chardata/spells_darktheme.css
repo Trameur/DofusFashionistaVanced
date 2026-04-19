@@ -35,7 +35,7 @@
 }
 .buff_pow_spell, .buff_pshdam, .buff_dam, .buff_pow_weapon, .buff_pow,
 .buff_heals, .buff_int, .buff_pow_glyph, .buff_pow_nonglyph, .buff_str,
-.buff_cha, .buff_agi, .buff_negfinal, .buff_final {
+.buff_cha, .buff_agi, .buff_negfinal, .buff_final, .buff_finalheals {
     color: #ddd;
 } 
 

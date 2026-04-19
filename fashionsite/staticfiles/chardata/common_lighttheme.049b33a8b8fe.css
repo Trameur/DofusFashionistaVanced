@@ -1,0 +1,13 @@
+.button-generic:disabled, .button-thin:disabled, .button-thin-foreground:disabled, .button-generic-foreground:disabled {
+    background: #777777;
+}
+.button-thin, .button-thin-foreground, .button-generic, .button-generic-foreground {
+    background: #3D200D;
+    color: #FFFFFF;
+}
+.brown-text {
+    color: #3D200D;
+}
+.body-base {
+    background: #E4E6BC;
+}
