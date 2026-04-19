@@ -17,9 +17,10 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import json
+from django.http import JsonResponse
 
 from chardata.models import UserAlias
-from chardata.util import set_response, HttpResponseJson
+from chardata.util import set_response
 
 
 def manage_account(request):
@@ -46,5 +47,4 @@ def save_account(request):
         request.user.email = form_email
         request.user.save()
         
-    alias_json = json.dumps({'alias': alias.alias, 'email': request.user.email})    
-    return HttpResponseJson(alias_json)
+    return JsonResponse({'alias': alias.alias, 'email': request.user.email})

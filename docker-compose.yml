@@ -1,0 +1,82 @@
+services:
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: fashionista_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: fashionista
+      MYSQL_USER: fashionista
+      MYSQL_PASSWORD: fashionista
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - fashionista_network
+
+  # Application web Django
+  web:
+    build: .
+    container_name: fashionista_web
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - PYTHONPATH=/app:/app/fashionistapulp:/app/fashionsite
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=fashionista
+      - DB_USER=fashionista
+      - DB_PASSWORD=fashionista
+      - DEBUG=True
+    volumes:
+      - .:/app
+      - static_files:/app/fashionsite/staticfiles
+    ports:
+      - "8000:8000"
+    command: >
+      /bin/sh -c "cd /app/fashionsite &&
+      python manage.py migrate --noinput &&
+      python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - fashionista_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Serveur web Nginx (optionnel, pour la production)
+  nginx:
+    image: nginx:alpine
+    container_name: fashionista_nginx
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - static_files:/app/staticfiles
+    networks:
+      - fashionista_network
+    profiles:
+      - production
+
+volumes:
+  mysql_data:
+    driver: local
+  static_files:
+    driver: local
+
+networks:
+  fashionista_network:
+    driver: bridge

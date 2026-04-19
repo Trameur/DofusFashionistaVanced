@@ -35,7 +35,7 @@
                       <td><div style="width: 24px">{% if wrapped_char.char.minimal_solution %}<img class="button-img needle-img" title="{% trans "A set suggestion has been generated for this project." %}">{% endif %}</div></td>
                       <td class="load-project-cell"><div style="width: 180px"><a href="{% url 'load_a_project' wrapped_char.char.id %}">{{wrapped_char.char.name}}</a></div></td>
                       <td class="load-project-cell"><div style="width: 150px" class='big-text'>{{wrapped_char.char.char_name}}</div></td>
-                      <td class="load-project-cell"><div style="width: 170px" class='big-text'>{{wrapped_char.char.char_build}}</div></td>
+                      <td class="load-project-cell"><div style="width: 170px" class='big-text'>{{wrapped_char.build_string}}</div></td>
                       <td class="load-project-cell"><div style="width: 80px" class='big-text'> {{wrapped_char.class_string}}</div></td>
                       <td class="load-project-cell level-cell" align="center"><div style="width: 20px;" class='big-text'>{{wrapped_char.char.level}}</div></td>
                     </tr>

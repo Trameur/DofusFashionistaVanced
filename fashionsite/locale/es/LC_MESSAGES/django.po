@@ -136,8 +136,7 @@ msgid ""
 "If you don't want to reset your password, just ignore this email."
 msgstr ""
 "¡Has pedido un cambio de contraseña para el sitio fan Dofus Fashionista!\n"
-"Por favor presiona clic sobre el enlace de abajo para generar una nueva "
-"contraseña para tu cuenta.\n"
+"Por favor presiona clic sobre el enlace de abajo para generar una nueva contraseña para tu cuenta.\n"
 "{link}\n"
 "\n"
 "Si no deseas cambiar tu contraseña, solamente ignora este correo."
@@ -251,7 +250,8 @@ msgstr "Mula de leveo"
 msgid "Linear Damage"
 msgstr "Daños fijos"
 
-#: chardata/smart_build.py:45 chardata/templates/chardata/compare_sets.html:148
+#: chardata/smart_build.py:45
+#: chardata/templates/chardata/compare_sets.html:148
 #: chardata/templates/chardata/solution.html:167
 #: chardata/templates/chardata/stats.html:39 chardata/translation_util.py:73
 #: chardata/wizard_sliders.py:50
@@ -286,7 +286,8 @@ msgstr "PvP 1vs1"
 msgid "Traps"
 msgstr "Trampas"
 
-#: chardata/smart_build.py:53 chardata/templates/chardata/compare_sets.html:147
+#: chardata/smart_build.py:53
+#: chardata/templates/chardata/compare_sets.html:147
 #: chardata/templates/chardata/solution.html:165
 #: chardata/templates/chardata/stats.html:38 chardata/translation_util.py:71
 #: chardata/translation_util.py:580 chardata/wizard_sliders.py:92
@@ -297,14 +298,16 @@ msgstr "Invocaciones"
 msgid "Pushback"
 msgstr "Daños de empuje"
 
-#: chardata/smart_build.py:55 chardata/templates/chardata/compare_sets.html:154
+#: chardata/smart_build.py:55
+#: chardata/templates/chardata/compare_sets.html:154
 #: chardata/templates/chardata/solution.html:172
 #: chardata/templates/chardata/stats.html:42 chardata/translation_util.py:75
 #: chardata/wizard_sliders.py:96
 msgid "Prospecting"
 msgstr "Prospección"
 
-#: chardata/smart_build.py:56 chardata/templates/chardata/compare_sets.html:163
+#: chardata/smart_build.py:56
+#: chardata/templates/chardata/compare_sets.html:163
 #: chardata/templates/chardata/solution.html:190
 #: chardata/templates/chardata/stats.html:51 chardata/translation_util.py:84
 msgid "Pods"
@@ -321,7 +324,8 @@ msgstr "Cañón de cristal"
 #: chardata/solution_result.py:182
 #, python-format
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
-msgstr "(%(weapon_type)s) PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr ""
+"(%(weapon_type)s) PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 
 #: chardata/solution_result.py:188
 #, python-format
@@ -340,16 +344,21 @@ msgstr "%(min)d a %(max)d (PdV recuperados)"
 
 #: chardata/solution_result.py:200
 #, python-format
+msgid "%(min)d to %(max)d %(element)s heals"
+msgstr "%(min)d a %(max)d curas %(element)s"
+
+#: chardata/solution_result.py:200
+#, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
 msgstr "%(min)d a %(max)d (%(element)s)"
 
 #: chardata/solution_result.py:256
-msgid "Set bonus < 2"
-msgstr "Bonus de set < 2"
+msgid "Set bonus < 3"
+msgstr "Bonus de set < 3"
 
 #: chardata/solution_result.py:265
 msgid "Prysmaradite < 1"
-msgstr ""
+msgstr "Prysmaradite < 1"
 
 #: chardata/templates/chardata/403.html:6
 #: chardata/templates/chardata/404.html:6
@@ -379,19 +388,19 @@ msgstr ""
 msgid ""
 "If someone sent you this link, have them send you the 'Share' link at the "
 "bottom of their Outfit Suggestion page instead. If that is not the case and "
-"this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
-"a>."
+"this keeps happening, you can contact us <a "
+"href=\"%(contact_url)s\">here</a>."
 msgstr ""
 "Si alguien te envió este enlace, pídele que te envíen el enlace de "
 "'Compartir' en la parte superior de la página Equipamiento Sugerido. Si ese "
-"no es el caso y esto continúa ocurriendo, puedes contactarnos <a href="
-"\"%(contact_url)s\">aquí</a>."
+"no es el caso y esto continúa ocurriendo, puedes contactarnos <a "
+"href=\"%(contact_url)s\">aquí</a>."
 
 #: chardata/templates/chardata/403.html:24
 #, python-format
 msgid ""
-"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a href="
-"\"%(create_project_url)s\">create a project</a> of your own."
+"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a "
+"href=\"%(create_project_url)s\">create a project</a> of your own."
 msgstr ""
 "O puedes volver a la página de <a href=\"%(home_url)s\">inicio</a>, o bien "
 "<a href=\"%(create_project_url)s\">crear un proyecto</a> propio."
@@ -430,11 +439,12 @@ msgstr "Por favor regresa a la página anterior e intenta de nuevo."
 #: chardata/templates/chardata/500.html:21
 #, python-format
 msgid ""
-"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a> "
-"and tell us all about this problem."
+"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a>"
+" and tell us all about this problem."
 msgstr ""
-"Si eso no funciona, por favor contáctanos <a href=\"%(contact_url)s\">aquí</"
-"a> y cuéntanos con lujo de detalles sobre el problema."
+"Si eso no funciona, por favor contáctanos <a "
+"href=\"%(contact_url)s\">aquí</a> y cuéntanos con lujo de detalles sobre el "
+"problema."
 
 #: chardata/templates/chardata/about.html:6
 msgid "About"
@@ -442,22 +452,24 @@ msgstr "Acerca del sitio"
 
 #: chardata/templates/chardata/about.html:19
 msgid ""
-"The Dofus Fashionista is a fan site about <a href='http://www.dofus."
-"com'>Dofus</a>. It uses mathematical programming, a branch of <a "
+"The Dofus Fashionista is a fan site about <a "
+"href='http://www.dofus.com'>Dofus</a>. It uses mathematical programming, a "
+"branch of <a "
 "href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, "
 "to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 "
 "MP with as much Intelligence as possible) the player provides."
 msgstr ""
-"Dofus Fashionista es un sitio web fan sobre <a href='http://www.dofus."
-"com'>Dofus</a>. Este usa programación matemática, <a href='http://en."
-"wikipedia.org/wiki/Artificial_intelligence'>inteligencia artificial</a>, "
-"para determinar sugerencias que se adecuen a los requerimientos (ej: 12PA, "
-"6PM, con la mayor inteligencia posible) que el jugador provee."
+"Dofus Fashionista es un sitio web fan sobre <a "
+"href='http://www.dofus.com'>Dofus</a>. Este usa programación matemática, <a "
+"href='http://en.wikipedia.org/wiki/Artificial_intelligence'>inteligencia "
+"artificial</a>, para determinar sugerencias que se adecuen a los "
+"requerimientos (ej: 12PA, 6PM, con la mayor inteligencia posible) que el "
+"jugador provee."
 
 #: chardata/templates/chardata/about.html:20
 msgid ""
-"When a new project is created, the Wizard tries to figure what the character "
-"is about by reading the build and class specified. It then creates an "
+"When a new project is created, the Wizard tries to figure what the character"
+" is about by reading the build and class specified. It then creates an "
 "initial configuration for the first run."
 msgstr ""
 "Cuando se crea un nuevo proyecto, el Wizard (Asistente) comienza leyendo el "
@@ -475,8 +487,8 @@ msgstr ""
 "ejemplo, con unos Puntos de Vida muy mediocres a pesar de tener una buena "
 "Agilidad. Puedes modificarlo (enchular/personalizar) según tus preferencias "
 "volviendo al Wizard y probando a mover las diferentes barras, o incluso "
-"hacerlo más exacto determinando el valor preciso que desear ver reflejado en "
-"cualquier atributo o característica."
+"hacerlo más exacto determinando el valor preciso que desear ver reflejado en"
+" cualquier atributo o característica."
 
 #: chardata/templates/chardata/about.html:22
 msgid ""
@@ -488,24 +500,29 @@ msgstr ""
 
 #: chardata/templates/chardata/about.html:26
 #: chardata/templates/chardata/license.html:19
-msgid "The Dofus Fashionista is open source software. The code can be found in"
+msgid ""
+"The Dofus Fashionista is open source software. The code can be found in"
 msgstr ""
 "Dofus Fashionista es software de código abierto. Lo puedes encontrar en"
 
 #: chardata/templates/chardata/about.html:27
 #, python-format
 msgid ""
-"To report problems, suggest new features, or rant about the lack of skill of "
-"your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
+"To report problems, suggest new features, or rant about the lack of skill of"
+" your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
 msgstr ""
-"Para reportar problemas, sugerir nuevas funcionalidades, o desahogarte sobre "
-"lo pésimo que es tu equipo de koliseo, <a href=\"%(contact_url)s"
-"\">contáctanos</a>."
+"Para reportar problemas, sugerir nuevas funcionalidades, o desahogarte sobre"
+" lo pésimo que es tu equipo de koliseo, <a "
+"href=\"%(contact_url)s\">contáctanos</a>."
 
 #: chardata/templates/chardata/about.html:28
 #: chardata/templates/chardata/base.html:208
 msgid "Copyright and License information"
 msgstr "Información sobre licencias y Copyright"
+
+#: chardata/templates/chardata/base.html:226
+msgid "Support Fashionista"
+msgstr "Apoyar Fashionista"
 
 #: chardata/templates/chardata/about.html:29
 msgid "Website version:"
@@ -524,11 +541,11 @@ msgstr ""
 #: chardata/templates/chardata/base.html:87
 #, python-format
 msgid ""
-"Welcome, <a id=\"logged_user_alias\" href=\"%(manage_account_link)s\">"
-"%(user)s</a>! "
+"Welcome, <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a>! "
 msgstr ""
-"¡Bienvenido, querido <a id=\"logged_user_alias\" href="
-"\"%(manage_account_link)s\">%(user)s</a>!"
+"¡Bienvenido, querido <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a>!"
 
 #: chardata/templates/chardata/base.html:92
 msgid "Logout"
@@ -547,6 +564,10 @@ msgid "Load a project"
 msgstr "Cargar un proyecto"
 
 #: chardata/templates/chardata/base.html:115
+msgid "Shared Builds"
+msgstr "Builds Compartidos"
+
+#: chardata/templates/chardata/base.html:118
 msgid "Compare sets"
 msgstr "Comparar los sets"
 
@@ -644,8 +665,8 @@ msgid ""
 "Distribute the points for me (the points will be applied when designing a "
 "set)"
 msgstr ""
-"Distribuir los puntos por mí (los puntos serán aplicados cuando se diseñe un "
-"set)"
+"Distribuir los puntos por mí (los puntos serán aplicados cuando se diseñe un"
+" set)"
 
 #: chardata/templates/chardata/chardata.html:25
 msgid "Scrolled"
@@ -723,11 +744,12 @@ msgid ""
 "To compare projects that you own, type the project name or paste a link to "
 "the solution such as:"
 msgstr ""
-"Para comparar tus propios proyectos, digita el nombre del proyecto o pega el "
-"enlace de la solución como este:"
+"Para comparar tus propios proyectos, digita el nombre del proyecto o pega el"
+" enlace de la solución como este:"
 
 #: chardata/templates/chardata/choose_compare_sets.html:17
-msgid "To compare other people's projects paste the sharing link, for example:"
+msgid ""
+"To compare other people's projects paste the sharing link, for example:"
 msgstr ""
 "Para comparar proyectos de otros usuarios pega el enlace de compartir, por "
 "ejemplo:"
@@ -1020,13 +1042,13 @@ msgstr "Mensaje"
 
 #: chardata/templates/chardata/exclusions.html:20
 msgid ""
-"Declare items that cannot be used on your character's set. By doing this you "
-"can avoid items that are expensive, hard to obtain, require a dungeon to be "
-"complete, or are just plain ugly."
+"Declare items that cannot be used on your character's set. By doing this you"
+" can avoid items that are expensive, hard to obtain, require a dungeon to be"
+" complete, or are just plain ugly."
 msgstr ""
 "Menciona qué objetos no pueden ser utilizados en tu set. De esta manera "
-"puedes evitar los objetos costosos, díficiles de obtener, con condiciones de "
-"pasar una mazmorra, o simplemente fuera de moda para tu gusto."
+"puedes evitar los objetos costosos, díficiles de obtener, con condiciones de"
+" pasar una mazmorra, o simplemente fuera de moda para tu gusto."
 
 #: chardata/templates/chardata/exclusions.html:27
 #: chardata/templates/chardata/solution_item.html:26
@@ -1057,8 +1079,8 @@ msgid ""
 "points in total. For example, suppose you have the following equipment:"
 msgstr ""
 "Cada uno de esos números indica cuántos puntos de importancia tienen cada "
-"uno de esos atributos para ti. Entonces el programa escogerá el equipamiento "
-"(set) que acumule la mayoría de esos puntos. Por ejemplo, supongamos que "
+"uno de esos atributos para ti. Entonces el programa escogerá el equipamiento"
+" (set) que acumule la mayoría de esos puntos. Por ejemplo, supongamos que "
 "tienes el siguiente equipamiento:"
 
 #: chardata/templates/chardata/faq.html:27
@@ -1081,8 +1103,8 @@ msgstr "Objeto B"
 
 #: chardata/templates/chardata/faq.html:42
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"10 points, equipment A will have a score of 2100 points, while equipment B "
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
 msgstr ""
 "Si estableces que cada punto de  inteligencia te importa el valor de 10 "
@@ -1092,9 +1114,9 @@ msgstr ""
 
 #: chardata/templates/chardata/faq.html:49
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"1 point, equipment A will have a score of 300 points, while equipment B will "
-"have a score of 500 points, and the program will choose Item B."
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 1 point, equipment A will have a score of 300 points, while equipment B "
+"will have a score of 500 points, and the program will choose Item B."
 msgstr ""
 "Si determinas que la Inteligencia vale 10 puntos y la Iniciativa tan solo 1 "
 "punto, el Objeto A tendría un puntaje de 300 puntos mientras el Objeto B "
@@ -1104,10 +1126,10 @@ msgstr ""
 #: chardata/templates/chardata/faq.html:51
 msgid ""
 "That is our way of telling the program what to optimize. The ranges you see "
-"on each slider is the range that is most effective for each attribute, based "
-"on our experience. If you wish to use values outside of the range we "
-"defined, you can go to the Characteristics Weights page (under More) and set "
-"them manually."
+"on each slider is the range that is most effective for each attribute, based"
+" on our experience. If you wish to use values outside of the range we "
+"defined, you can go to the Characteristics Weights page (under More) and set"
+" them manually."
 msgstr ""
 "Esa es nuestra forma de decirle al programa cómo optimizar. Los rangos que "
 "ves en cada barra es el rango que es más eficaz para cada atributo, basado "
@@ -1125,8 +1147,8 @@ msgstr ""
 msgid ""
 "We don’t assign the exos to any particular equipment because we think you "
 "are the best person to know where it is most convenient to have them. Maybe "
-"a particular item is cheaper to buy/mage in your server, or you already have "
-"an exo in a piece of equipment and want to use it. It is still important "
+"a particular item is cheaper to buy/mage in your server, or you already have"
+" an exo in a piece of equipment and want to use it. It is still important "
 "that you tell us whether or not you are gonna have exos, because otherwise "
 "we may use some items with AP conditions that make them unequipable if you "
 "get an extra AP on your set."
@@ -1165,16 +1187,16 @@ msgid ""
 "If you don’t lock a weapon, the site will disregard the weapon damages and "
 "treat it like any other item, so you don’t always get an option that hits "
 "well. You will usually get a weapon with good attributes to your build, "
-"which tend to hit the element you chose. It is common to get AP weapons that "
-"aren’t really for hitting with. Forbid them and run again to see the next "
+"which tend to hit the element you chose. It is common to get AP weapons that"
+" aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
 msgstr ""
 "Si no aseguras algún arma, el sitio no toma en consideración los daños del "
 "arma sino que la trata como cualquier otro objeto, por eso no siempre "
 "conseguirás una opción que cause buenos daños. Generalmente te sugeriremos "
 "un arma con buenos bonus para tus requerimientos, lo cual tiene a "
-"relacionarse con un daño al elemento que has escogido. Es común que obtengas "
-"armas de PA que no pegan muy bien. Te aconsejamos Prohibirlas y tejer "
+"relacionarse con un daño al elemento que has escogido. Es común que obtengas"
+" armas de PA que no pegan muy bien. Te aconsejamos Prohibirlas y tejer "
 "nuevamente un set y esperar una mejor opción."
 
 #: chardata/templates/chardata/faq.html:65
@@ -1185,17 +1207,17 @@ msgstr ""
 
 #: chardata/templates/chardata/faq.html:66
 msgid ""
-"Those options are there for characters that need specially high vitality (or "
-"resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
+"Those options are there for characters that need specially high vitality (or"
+" resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
 "lot of vitality and not care much about their main element. Others, like "
 "Osamodas, may need a vit/res build with just a little bit of intelligence, "
-"and that's how they declare that defense is more important to them. Checking "
-"a focus box trades points in your main element (and other stats) for a boost "
-"on the focus you chose."
+"and that's how they declare that defense is more important to them. Checking"
+" a focus box trades points in your main element (and other stats) for a "
+"boost on the focus you chose."
 msgstr ""
 "Esas opciones están pensadas en los personajes que necesitan especialmente "
-"mucha Vitalidad (o resistencias). Por ejemplo, Sacrógritos, Zobal y Steamers "
-"probablemente prefieran demasiada Vitalidad y no tanto de su elemento "
+"mucha Vitalidad (o resistencias). Por ejemplo, Sacrógritos, Zobal y Steamers"
+" probablemente prefieran demasiada Vitalidad y no tanto de su elemento "
 "principal. Otros, como Osamodas, podrían necesitar una build de Vita/Resis "
 "con solo un poco de inteligencia, y de esta manera es que el jugador puede "
 "establecer que la defensa es más importante para ellos. El hecho de "
@@ -1205,11 +1227,11 @@ msgstr ""
 
 #: chardata/templates/chardata/faq.html:67
 msgid ""
-"Not checking any focus boxes is fine and correct for a lot of cases. It will "
-"give you an all-around set."
+"Not checking any focus boxes is fine and correct for a lot of cases. It will"
+" give you an all-around set."
 msgstr ""
-"Si no seleccionas ninguna casilla de enfoque, es también una decisión válida "
-"para obtener un set equilibrado en todos los atributos."
+"Si no seleccionas ninguna casilla de enfoque, es también una decisión válida"
+" para obtener un set equilibrado en todos los atributos."
 
 #: chardata/templates/chardata/home_post.html:17
 #: chardata/templates/chardata/license.html:46
@@ -1229,8 +1251,8 @@ msgid ""
 "If you have any items that <b>must</b> be on the final set, lock them in "
 "here:"
 msgstr ""
-"Si deseas ciertos objetos que <b>deban</b> estar en el set final, asegúralos "
-"aquí:"
+"Si deseas ciertos objetos que <b>deban</b> estar en el set final, asegúralos"
+" aquí:"
 
 #: chardata/templates/chardata/inclusions.html:98
 #: chardata/templates/chardata/solution.html:262
@@ -1269,8 +1291,8 @@ msgid ""
 "Check if you <a href=%(lock_link)s>locked</a> an item with conditions that "
 "can't be met"
 msgstr ""
-"Revisa si <a href=%(lock_link)s>aseguraste</a> un objeto con condiciones que "
-"no se pueden cumplir."
+"Revisa si <a href=%(lock_link)s>aseguraste</a> un objeto con condiciones que"
+" no se pueden cumplir."
 
 #: chardata/templates/chardata/infeasible.html:26
 #, python-format
@@ -1286,8 +1308,8 @@ msgstr "Permite el uso de <a href=%(exo_link)s>exomagia</a>."
 msgid ""
 "Check if you are asking for &#x00BD; crits on a char whose level is too low"
 msgstr ""
-"Revisa si estás requiriendo &#x00BD; en golpes críticos en un personaje cuyo "
-"nivel es demasiado bajo."
+"Revisa si estás requiriendo &#x00BD; en golpes críticos en un personaje cuyo"
+" nivel es demasiado bajo."
 
 #: chardata/templates/chardata/language-selector.html:10
 #: chardata/templates/chardata/language-selector.html:30
@@ -1312,12 +1334,12 @@ msgstr "Español"
 #: chardata/templates/chardata/language-selector.html:22
 #: chardata/templates/chardata/language-selector.html:42
 msgid "Deutsch"
-msgstr ""
+msgstr "Deutsch"
 
 #: chardata/templates/chardata/language-selector.html:25
 #: chardata/templates/chardata/language-selector.html:45
 msgid "Italian"
-msgstr ""
+msgstr "Italian"
 
 #: chardata/templates/chardata/license.html:6
 #: chardata/templates/chardata/license.html:12
@@ -1355,7 +1377,7 @@ msgstr "generado en"
 
 #: chardata/templates/chardata/license.html:58
 msgid "Privacy Policy:"
-msgstr ""
+msgstr "Politica de privacidad:"
 
 #: chardata/templates/chardata/license.html:59
 msgid ""
@@ -1363,6 +1385,9 @@ msgid ""
 "that the Dofus Fashionista does not store your password. However, the Dofus "
 "Fashionista does store your email address and your Google ID."
 msgstr ""
+"Dofus Fashionista usa Google OAuth para autenticar usuarios. Esto significa "
+"que Dofus Fashionista no almacena tu contrasena. Sin embargo, Dofus "
+"Fashionista si almacena tu direccion de correo y tu ID de Google."
 
 #: chardata/templates/chardata/license.html:60
 msgid ""
@@ -1370,16 +1395,21 @@ msgid ""
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
 msgstr ""
+"Si prefieres no usar Google OAuth, aun puedes usar Dofus Fashionista. Puedes"
+" crear una cuenta con nombre de usuario y contrasena. Dofus Fashionista "
+"almacena tu contrasena de forma cifrada."
 
 #: chardata/templates/chardata/license.html:61
 msgid ""
 "The Dofus Fashionista also stores the characters you create. This "
 "information is used to provide the services of the Dofus Fashionista."
 msgstr ""
+"Dofus Fashionista tambien almacena los personajes que creas. Esta "
+"informacion se usa para ofrecer los servicios de Dofus Fashionista."
 
 #: chardata/templates/chardata/license.html:62
 msgid "The Dofus Fashionista does not share any data with third parties."
-msgstr ""
+msgstr "Dofus Fashionista no comparte ningun dato con terceros."
 
 #: chardata/templates/chardata/load_projects.html:15
 #: chardata/templates/chardata/load_projects.html:114
@@ -1440,11 +1470,11 @@ msgstr "Duplicar"
 #: chardata/templates/chardata/load_projects.html:56
 #, python-format
 msgid ""
-"You don't have any projects yet. Create one <a href=\"%(create_project_link)s"
-"\">here</a>."
+"You don't have any projects yet. Create one <a "
+"href=\"%(create_project_link)s\">here</a>."
 msgstr ""
-"Aún no tienes ningún proyecto. Crea uno <a href=\"%(create_project_link)s"
-"\">aquí</a>."
+"Aún no tienes ningún proyecto. Crea uno <a "
+"href=\"%(create_project_link)s\">aquí</a>."
 
 #: chardata/templates/chardata/load_projects.html:61
 msgid "You need to login before you can load a project."
@@ -1494,12 +1524,14 @@ msgstr ""
 msgid ""
 "Your email had already been confirmed. Please type your password to enter."
 msgstr ""
-"Tu correo ya ha sido confirmado. Por favor escribe tu contraseña para entrar."
+"Tu correo ya ha sido confirmado. Por favor escribe tu contraseña para "
+"entrar."
 
 #: chardata/templates/chardata/login.html:47
 msgid "Thanks for confirming your email. Please type your password to enter."
 msgstr ""
-"Gracias por confirmar tu correo. Por favor escribe tu contraseña para entrar."
+"Gracias por confirmar tu correo. Por favor escribe tu contraseña para "
+"entrar."
 
 #: chardata/templates/chardata/login.html:54
 #: chardata/templates/chardata/login.html:100
@@ -1533,11 +1565,11 @@ msgstr "Conectarse usando Google"
 
 #: chardata/templates/chardata/login.html:78
 msgid ""
-"We will <b>never</b> post anything to either of your walls.<br> This step is "
-"just an authentication so you are able to save and share projects."
+"We will <b>never</b> post anything to either of your walls.<br> This step is"
+" just an authentication so you are able to save and share projects."
 msgstr ""
-"<b>Nunca</b> publicaremos nada de nada en tus redes sociales. Este paso sólo "
-"es una autenticación para permitirte guardar y compartir tus proyectos."
+"<b>Nunca</b> publicaremos nada de nada en tus redes sociales. Este paso sólo"
+" es una autenticación para permitirte guardar y compartir tus proyectos."
 
 #: chardata/templates/chardata/login.html:91
 msgid "New here? Register:"
@@ -1545,8 +1577,8 @@ msgstr "¿Eres nuevo en la vecindad? Regístrate:"
 
 #: chardata/templates/chardata/login.html:94
 msgid ""
-"Remember to never use your Dofus login and password on any external websites "
-"(which includes this one)"
+"Remember to never use your Dofus login and password on any external websites"
+" (which includes this one)"
 msgstr ""
 "Recuerda nunca usar tu cuenta y contraseña de Dofus (Ankama) en sitios no "
 "oficiales (incluyendo este)."
@@ -1674,8 +1706,8 @@ msgid "Allow Dofuses and Trophies"
 msgstr "Permitir Dofus y Trofeos"
 
 #: chardata/templates/chardata/options.html:78
-msgid "Remove only <2"
-msgstr "Eliminar sólo <2"
+msgid "Remove only <3"
+msgstr "Eliminar sólo <3"
 
 #: chardata/templates/chardata/options.html:80
 msgid "Allow only Cawwot Dofus"
@@ -1685,6 +1717,10 @@ msgstr "Permitir sólo Zanahowia"
 #: chardata/templates/chardata/wizard_options.html:27
 msgid "Allow Mounts"
 msgstr "Permitir Monturas:"
+
+#: chardata/templates/chardata/wizard_options.html:228
+msgid "Prysmaradite"
+msgstr "Prysmaradite"
 
 #: chardata/templates/chardata/options.html:96
 #: chardata/templates/chardata/wizard_options.html:28
@@ -1704,6 +1740,10 @@ msgstr "Vuelocerontes"
 #: chardata/templates/chardata/options.html:113
 msgid "Allow dofuses:"
 msgstr "Permitir dofus:"
+
+#: chardata/templates/chardata/options.html:113
+msgid "Allow dofuses and prysmaradite:"
+msgstr "Permitir dofus y prysmaradite:"
 
 #: chardata/templates/chardata/options.html:119
 #: chardata/templates/chardata/wizard_options.html:43
@@ -1792,47 +1832,47 @@ msgstr "Forjalava"
 
 #: chardata/templates/chardata/options.html:238
 msgid "Black-Spotted"
-msgstr ""
+msgstr "Black-Spotted"
 
 #: chardata/templates/chardata/options.html:245
 #: chardata/templates/chardata/wizard_options.html:169
 msgid "Ebony"
-msgstr ""
+msgstr "Ebony"
 
 #: chardata/templates/chardata/options.html:252
 #: chardata/templates/chardata/wizard_options.html:176
 msgid "Silver"
-msgstr ""
+msgstr "Silver"
 
 #: chardata/templates/chardata/options.html:259
 #: chardata/templates/chardata/wizard_options.html:183
 msgid "Sparkling Silver"
-msgstr ""
+msgstr "Sparkling Silver"
 
 #: chardata/templates/chardata/options.html:266
 #: chardata/templates/chardata/wizard_options.html:190
 msgid "Cocoa"
-msgstr ""
+msgstr "Cocoa"
 
 #: chardata/templates/chardata/options.html:273
 #: chardata/templates/chardata/wizard_options.html:197
 msgid "Domakuro"
-msgstr ""
+msgstr "Domakuro"
 
 #: chardata/templates/chardata/options.html:280
 #: chardata/templates/chardata/wizard_options.html:204
 msgid "Dorigami"
-msgstr ""
+msgstr "Dorigami"
 
 #: chardata/templates/chardata/options.html:287
 #: chardata/templates/chardata/wizard_options.html:211
 msgid "Nightmare"
-msgstr ""
+msgstr "Nightmare"
 
 #: chardata/templates/chardata/options.html:294
 #: chardata/templates/chardata/wizard_options.html:218
 msgid "Sylvan"
-msgstr ""
+msgstr "Sylvan"
 
 #: chardata/templates/chardata/password_was_reset.html:6
 #: chardata/templates/chardata/password_was_reset.html:13
@@ -1841,7 +1881,8 @@ msgstr "Reinicio de Contraseña"
 
 #: chardata/templates/chardata/password_was_reset.html:18
 #, fuzzy, python-format
-#| msgid "The password for <b>%(username | safe)s</b> has been reset to:"
+#| msgid ""
+#| "The password for <b>%(username | safe)s</b> has been reset to:"
 msgid "The password for <b>%(username)s</b> has been reset to:"
 msgstr "La contraseña para <b>%(username | safe)s</b> ha sido cambiada a:"
 
@@ -1881,11 +1922,14 @@ msgstr "Elementos"
 
 #: chardata/templates/chardata/projdetails.html:68
 msgid ""
-"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</"
-"span>"
+"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to "
+"2)</span>"
 msgstr ""
 "Enfoques, sacrificando otras características <span "
 "id='aspect_limit_text'>(hasta 2)</span>"
+
+msgid "up to 2"
+msgstr "hasta 2"
 
 #: chardata/templates/chardata/projdetails.html:81
 msgid "Create a set by hand"
@@ -1903,30 +1947,31 @@ msgstr "Reiniciar el Wizard tras guardar"
 #, python-format
 msgid ""
 " You need to <a href=\"%(login_link)s\">login</a> before you can create "
-"another project. Your current project can be found <a href="
-"\"%(load_proj_link)s\">here</a>. "
+"another project. Your current project can be found <a "
+"href=\"%(load_proj_link)s\">here</a>. "
 msgstr ""
-" Necesitas <a href=\"%(login_link)s\">iniciar sesión</a> antes de crear otro "
-"proyecto. Encontrarás tu proyecto actual <a href=\"%(load_proj_link)s"
-"\">aquí</a>."
+" Necesitas <a href=\"%(login_link)s\">iniciar sesión</a> antes de crear otro"
+" proyecto. Encontrarás tu proyecto actual <a "
+"href=\"%(load_proj_link)s\">aquí</a>."
 
 #: chardata/templates/chardata/projdetails.html:105
 #, python-format
 msgid ""
 " You have reached the maximum number of projects allowed. To create a new "
-"project, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
+"project, please delete some old ones <a "
+"href=\"%(load_proj_link)s\">here</a>."
 msgstr ""
 "Has alcanzado el máximo de proyectos permitidos. Para crear un nuevo "
-"proyecto, por favor elimina algunos viejos <a href=\"%(load_proj_link)s"
-"\">aquí</a>."
+"proyecto, por favor elimina algunos viejos <a "
+"href=\"%(load_proj_link)s\">aquí</a>."
 
 #: chardata/templates/chardata/projdetails.html:126
 msgid ""
 "Focus on critical hits. Useful for characters that have spells/weapons that "
 "are much better on a critical hit."
 msgstr ""
-"Se enfoca en los golpes críticos. Útil para personajes que tienen hechizos/"
-"armas que son mucho más eficientes en golpe crítico."
+"Se enfoca en los golpes críticos. Útil para personajes que tienen "
+"hechizos/armas que son mucho más eficientes en golpe crítico."
 
 #: chardata/templates/chardata/projdetails.html:127
 msgid ""
@@ -1946,8 +1991,8 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:129
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 Duelers should check this. Increases importance of initiative a lot."
+" Enables shields."
 msgstr ""
 "Aconsejado para duelistas 1vs1. Otorga gran prioridad a la iniciativa y "
 "activa el uso de escudos."
@@ -1977,22 +2022,22 @@ msgid ""
 "Tankers that want very high resists. Increases importance of linear and "
 "percentage resists."
 msgstr ""
-"Recomendados para tanquear con grandes resistencias. Incrementa la prioridad "
-"por resistencias fijas y porcentuales."
+"Recomendados para tanquear con grandes resistencias. Incrementa la prioridad"
+" por resistencias fijas y porcentuales."
 
 #: chardata/templates/chardata/projdetails.html:134
 msgid ""
-"Chars that want +Damage over the main stat, for hitting with low base damage "
-"attacks. Increases importance of +Damage and +Elemental Damages."
+"Chars that want +Damage over the main stat, for hitting with low base damage"
+" attacks. Increases importance of +Damage and +Elemental Damages."
 msgstr ""
 "Recomendado para personajes que prefieren +Daños en lugar de la "
-"característica principal, para golpes con bajo daño base. Otorga prioridad a "
-"+Daños y +Daños elementales (fijos)."
+"característica principal, para golpes con bajo daño base. Otorga prioridad a"
+" +Daños y +Daños elementales (fijos)."
 
 #: chardata/templates/chardata/projdetails.html:135
 msgid ""
-"Healers that prefer +Heals over intelligence for low base heals spells/"
-"weapons. For example, Enis should check this if they intend to heal "
+"Healers that prefer +Heals over intelligence for low base heals "
+"spells/weapons. For example, Enis should check this if they intend to heal "
 "primarily with Healing Word and Revitalizing Word rather than Word of "
 "Sacrifice and Word of Altruism."
 msgstr ""
@@ -2054,11 +2099,11 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:142
 msgid ""
-"Summon spammers should check this. It will increase the minimum summons by 1 "
-"and increase importance of summons."
+"Summon spammers should check this. It will increase the minimum summons by 1"
+" and increase importance of summons."
 msgstr ""
-"Recomendado para invocadores. Esta incrementa el mínimo de invocaciones en 1 "
-"y otorga prioridad a las invocaciones."
+"Recomendado para invocadores. Esta incrementa el mínimo de invocaciones en 1"
+" y otorga prioridad a las invocaciones."
 
 #: chardata/templates/chardata/projdetails.html:143
 msgid ""
@@ -2114,19 +2159,19 @@ msgstr "Este es el set sugerido."
 #, python-format
 msgid ""
 "If you don't like an item, click the forbid ( <img style='position: "
-"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button "
-"under its name and <a href=\"%(run_again_link)s\" class=\"rerun-button\">run "
-"again</a>. If, on the contrary, you want to lock in an item for future sets "
-"for this char, click the lock (<img style='position: relative; bottom: -1px; "
-"left: 0px;' src=%(lock)s title='Lock'>) button. You can also switch any item "
-"for another you like best by clicking the switch (<img class='solution-item-"
-"button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
-"title='Switch'>) button."
+"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button"
+" under its name and <a href=\"%(run_again_link)s\" class=\"rerun-"
+"button\">run again</a>. If, on the contrary, you want to lock in an item for"
+" future sets for this char, click the lock (<img style='position: relative; "
+"bottom: -1px; left: 0px;' src=%(lock)s title='Lock'>) button. You can also "
+"switch any item for another you like best by clicking the switch (<img "
+"class='solution-item-button' style='position: relative; bottom: -5px; left: "
+"0px;' src=%(switch)s title='Switch'>) button."
 msgstr ""
 "Si no te gusta un objeto, presiona click en el botón Prohibir ( <img "
 "style='position: relative; bottom: -3px; left: -2px;' src=%(delete)s "
-"title='Prohibir'> ) bajo su nombre y <a href=\"%(run_again_link)s\" class="
-"\"rerun-button\">cárgalo de nuevo</a>. Si, por el contrario, quieres "
+"title='Prohibir'> ) bajo su nombre y <a href=\"%(run_again_link)s\" "
+"class=\"rerun-button\">cárgalo de nuevo</a>. Si, por el contrario, quieres "
 "asegurar un objeto para futuros sets en este personaje, presiona clic en el "
 "botón Asegurar (<img style='position: relative; bottom: -1px; left: 0px;' "
 "src=%(lock)s title='Asegurar'>). También puedes reemplazar un objeto por "
@@ -2138,14 +2183,10 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
+"    This set was generated from scratch. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose items and build a set for you."
 msgstr ""
 "\n"
-"    Este set fue generado desde cero a puño limpio. Presiona clic en los "
-"botones añadir (<img style='position: relative; bottom: -4px; left: 1px;' "
-"src=%(add)s title='Añadir'>) para elegir objetos y construir un set para ti."
+"    Este set fue generado desde cero a puño limpio. Presiona clic en los botones añadir (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Añadir'>) para elegir objetos y construir un set para ti."
 
 #: chardata/templates/chardata/solution.html:42
 #: chardata/templates/chardata/solution.html:72
@@ -2174,11 +2215,11 @@ msgstr "Este es el set de otro usuario."
 #: chardata/templates/chardata/solution.html:68
 #, python-format
 msgid ""
-"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-link"
-"\">copy</a> it to your workspace.</p>"
+"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
+"link\">copy</a> it to your workspace.</p>"
 msgstr ""
-"Si deseas modificarlo, <a href=\"%(copy_link)s\" class=\"copy-action-link"
-"\">copialo</a> a tu área de trabajo."
+"Si deseas modificarlo, <a href=\"%(copy_link)s\" class=\"copy-action-"
+"link\">copialo</a> a tu área de trabajo."
 
 #: chardata/templates/chardata/solution.html:79
 msgid "Expand All"
@@ -2428,13 +2469,13 @@ msgstr "El valor relativo en puntos de cada atributo para este personaje."
 msgid ""
 "Dofus Fashionista maximizes the total value of all your character's "
 "attributes. Increasing the weight of an attribute will cause others to be "
-"sacrificed for it. Decreasing the weight of an attribute will cause it to be "
-"sacrificed for others."
+"sacrificed for it. Decreasing the weight of an attribute will cause it to be"
+" sacrificed for others."
 msgstr ""
 "Dofus Fashionista maximiza el valor total de todos los atributos de tu "
 "personaje. Incrementar el peso de un atributo conlleva a un sacrificio de "
-"los otros. Disminuir el peso de un atributo causará que este sea sacrificado "
-"por otros."
+"los otros. Disminuir el peso de un atributo causará que este sea sacrificado"
+" por otros."
 
 #: chardata/templates/chardata/stats.html:30 chardata/translation_util.py:102
 msgid "% Melee Damage"
@@ -2521,9 +2562,13 @@ msgstr "Exos y Monturas"
 msgid "Dofuses"
 msgstr "Dofus"
 
+#: chardata/templates/chardata/wizard_options.html:37
+msgid "Dofuses and Prysmaradite"
+msgstr "Dofus y Prysmaradite"
+
 #: chardata/templates/chardata/wizard_options.html:162
 msgid "Black Spotted"
-msgstr ""
+msgstr "Black Spotted"
 
 #: chardata/templates/chardata/wizard_options.html:223
 msgid "Check the dofuses we are allowed to use"
@@ -2544,12 +2589,12 @@ msgstr "No scrollear ninguna característica"
 #: chardata/templates/chardata/wizard_scrolling.html:17
 #, python-format
 msgid ""
-"If you wish to set your base stats yourself, you can do it at the <i><a href="
-"\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> page, "
-"under <i>More</i>"
+"If you wish to set your base stats yourself, you can do it at the <i><a "
+"href=\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> "
+"page, under <i>More</i>"
 msgstr ""
-"Si deseas configurar las características base tú mismo, puedes hacerlo en la "
-"página <i><a href=\"%(base_stats_url)s\" target=\"_blank\">Características "
+"Si deseas configurar las características base tú mismo, puedes hacerlo en la"
+" página <i><a href=\"%(base_stats_url)s\" target=\"_blank\">Características "
 "Base</a></i>, en la pestaña <i>Más</i>."
 
 #: chardata/templates/chardata/wizard_sliders.html:3
@@ -2562,8 +2607,8 @@ msgid ""
 "be used to fine tune a set to suit your particular needs. Increasing one "
 "stat weight means it will go up, but the others will go down."
 msgstr ""
-"Las siguientes barras están pre-enchuladas de acuerdo a tu clase y elemento. "
-"Puedes modificarlas para adecuar tu set a tus necesidades. Incrementar la "
+"Las siguientes barras están pre-enchuladas de acuerdo a tu clase y elemento."
+" Puedes modificarlas para adecuar tu set a tus necesidades. Incrementar la "
 "barra de una característica hará que esta suba y que el resto baje."
 
 #: chardata/templates/chardata/wizard_sliders.html:18
@@ -2644,7 +2689,7 @@ msgstr "Uginak"
 
 #: chardata/translation_util.py:40
 msgid "Forgelance"
-msgstr ""
+msgstr "Forgelance"
 
 #: chardata/translation_util.py:44
 msgid "Fire"
@@ -4765,6 +4810,201 @@ msgstr "Mobilidad"
 msgctxt "Slider section"
 msgid "Special"
 msgstr "Especial"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Pushes %(cells)d cells"
+msgstr "Empuja %(cells)d casillas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Pushes %(min)d to %(max)d cells"
+msgstr "Empuja de %(min)d a %(max)d casillas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Attracts %(cells)d cells"
+msgstr "Atrae %(cells)d casillas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Attracts %(min)d to %(max)d cells"
+msgstr "Atrae de %(min)d a %(max)d casillas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Advances %(cells)d cells"
+msgstr "Avanza %(cells)d casillas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Advances %(min)d to %(max)d cells"
+msgstr "Avanza de %(min)d a %(max)d casillas"
+
+#: chardata/templates/chardata/license.html
+msgid ""
+"The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to "
+"improve user experience, display relevant ads, and provide authentication. "
+"These services may collect anonymous usage data. You can manage your consent"
+" preferences through the privacy settings banner."
+msgstr ""
+"Dofus Fashionista utiliza servicios de Google (Analytics, AdSense, OAuth) "
+"para mejorar la experiencia del usuario, mostrar anuncios relevantes y "
+"proporcionar autenticación. Estos servicios pueden recopilar datos de uso "
+"anónimos. Puede gestionar sus preferencias de consentimiento a través del "
+"banner de configuración de privacidad."
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Steals %(kamas)d kamas"
+msgstr "Roba %(kamas)d kamas"
+
+#: chardata/solution_result.py
+#, python-format
+msgid "Steals %(min)d to %(max)d kamas"
+msgstr "Roba de %(min)d a %(max)d kamas"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid ""
+"Browse and discover builds shared by the community. Click on any build to "
+"view details."
+msgstr ""
+"Navega y descubre builds compartidos por la comunidad. Haz clic en cualquier"
+" build para ver los detalles."
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Search & Filter"
+msgstr "Buscar y Filtrar"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Search"
+msgstr "Buscar"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Project or character name"
+msgstr "Nombre del proyecto o personaje"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "User"
+msgstr "Usuario"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Search by username"
+msgstr "Buscar por nombre de usuario"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "All Classes"
+msgstr "Todas las Clases"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Build Type"
+msgstr "Tipo de Build"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "All Builds"
+msgstr "Todos los Builds"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Min Level"
+msgstr "Nivel Mín"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Max Level"
+msgstr "Nivel Máx"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Order By"
+msgstr "Ordenar por"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Most Viewed"
+msgstr "Más Vistos"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Recently Modified"
+msgstr "Modificados Recientemente"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Recently Created"
+msgstr "Creados Recientemente"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Apply Filters"
+msgstr "Aplicar Filtros"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Hide invalid or outdated builds"
+msgstr "Ocultar builds invalidos u obsoletos"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Outdated slot layout"
+msgstr "Distribucion de ranuras obsoleta"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Conditions not met"
+msgstr "Condiciones no cumplidas"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Clear Filters"
+msgstr "Limpiar Filtros"
+
+#: chardata/templates/chardata/shared_builds.html
+#, python-format
+msgid "Found %(counter)s shared build"
+msgid_plural "Found %(counter)s shared builds"
+msgstr[0] "%(counter)s build compartido encontrado"
+msgstr[1] "%(counter)s builds compartidos encontrados"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "showing first 100"
+msgstr "mostrando los primeros 100"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Creator"
+msgstr "Creador"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Views"
+msgstr "Vistas"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Total Stats"
+msgstr "Estadísticas Totales"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "View Build"
+msgstr "Ver Build"
+
+#: chardata/templates/chardata/shared_builds.html
+msgid ""
+"No shared builds found matching your criteria. Try adjusting your filters."
+msgstr ""
+"No se encontraron builds compartidos que coincidan con tus criterios. "
+"Intenta ajustar tus filtros."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Light Theme"
+msgstr "Tema claro"
+
+msgid "Dark Theme"
+msgstr "Tema oscuro"
+
+msgid "Auto"
+msgstr "Automatico"
+
+msgid "Submit"
+msgstr "Enviar"
+
+msgid "Final Damage"
+msgstr "Dano final"
+
+msgid "Final Heals"
+msgstr "Curas finales"
+
+msgid "Hit in best element"
+msgstr "Golpea en el mejor elemento"
 
 #~ msgid "Send"
 #~ msgstr "Enviar"

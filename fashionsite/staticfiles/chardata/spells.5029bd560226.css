@@ -1,0 +1,152 @@
+.spells-td{
+    vertical-align: top;
+}
+
+.outer-cell{
+    margin: 10px 5px;
+}
+
+.spell-image {
+    width: 60px;
+    height: 60px;
+}
+
+#spells-table {
+    border-spacing: 0px;
+    padding: 2px;
+}
+
+.table-spell {
+    border-spacing: 0px;
+}
+
+.title-cell{
+    padding-left: 5px;
+    padding-top: 5px;
+    vertical-align: top;
+}
+
+.header-cell {
+    position: relative;
+    width: 100%;
+}
+
+
+.aggregate{
+    font-size: 15px;
+}
+
+.main {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.damage-component {
+    font-size: 13px;
+}
+
+
+.hr-crit {
+    border: none;
+    height: 1px;
+}
+
+/* Spell level selector */
+
+.all-circles {
+    display: table;
+    -moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none;
+    
+    position: absolute;
+    bottom: 3px;
+    right: 5px;
+}
+
+.select-stack {
+    display: table;
+    position: absolute;
+    bottom: 3px;
+    left: 65px;
+}
+
+.circle-container {
+    width: 10px;
+    height: 10px;
+    background: transparent;
+    padding: 1px;
+    display: table-cell;
+    overflow: visible;
+    vertical-align: top;
+    text-align: center;
+}
+
+.level-circle {
+    border-radius: 50%;
+}
+
+
+
+.circle-container {
+    cursor: pointer;
+}
+
+.level-number {
+    font-family:'Arial';
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.spell-elemental-button-image {
+    margin-bottom: -3px;
+}
+
+.filter-button {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.all-buffs-button {
+    margin-right: 5px;
+}
+.left-buttons {
+    float: left;
+    width: 200px;
+}
+.right-buttons {
+    width: 40px;
+}
+
+.spell-buttons {
+  width: 800px;
+  height: 23px;
+/*  border: 1px solid red;*/
+  margin-right: 10px;
+  float: left;
+}
+
+.level-number {
+    visibility: hidden;
+}
+
+.selected-level .level-number {
+    visibility: visible;
+}
+
+.level-circle,
+.all-circles:hover .selected-level .level-circle {
+    width: 6px;
+    height: 6px;
+    margin: 2px;
+}
+
+.circle-container:hover .level-circle,
+.all-circles:hover .selected-level:hover .level-circle,
+.selected-level .level-circle {
+    width: 10px;
+    height: 10px;
+    margin: 0px;
+}
+

@@ -1,0 +1,61 @@
+.spell-cell, .outer-cell{
+    background-color: #E4E6BC;
+}
+#spells-table {
+    color:#3D200D;
+}
+.title-cell{
+    color:#3D200D;
+}
+.header-cell {
+    background-color: #CACCA7;
+}
+.water {
+    color: blue;
+}
+.mixed {
+    color: purple;
+}
+.fire {
+    color: red;
+}
+.air {
+    color: green;
+}
+.earth, .small-text {
+    color: #7E3517;
+}
+.neutral {
+    color: black;
+}
+.aggregate{
+    color: #7E3517;
+}
+.crit-hit-title {
+    color:#3D200D;
+}
+.hr-crit {
+    color:#7E3517;
+    background-color:#7E3517;
+}
+.level-circle-default-color {
+    background: #3D200D;
+}
+.level-circle-earth {
+    background: #7E3517;
+}
+.level-circle-neutral {
+    background: black;
+}
+.level-circle-fire {
+    background: red;
+}
+.level-circle-water {
+    background: blue;
+}
+.level-circle-air {
+    background: green;
+}
+.level-number-default-color {
+    color: #3D200D;
+}

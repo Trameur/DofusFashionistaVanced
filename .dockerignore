@@ -1,0 +1,82 @@
+# Ce fichier DockerIgnore permet d'exclure certains fichiers et dossiers du contexte de build Docker
+# Cela accélère le processus de build et évite d'inclure des fichiers inutiles dans l'image
+
+# Fichiers générés par Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Fichiers spécifiques à Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+
+# Fichiers d'environnement et de configuration locale
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+local_settings.py
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de développement et d'IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+
+# Fichiers Git
+.git
+.gitignore
+.gitattributes
+
+# Fichiers Docker
+.dockerignore
+
+# Autres fichiers
+*.bak
+*.tmp
+
+# Gros jeux de donnees / fichiers volumineux inutiles au build
+itemscraper/raw/
+itemscraper/spell_images/
+itemscraper/spell_icons_test/
+migrated_data.json
+logs/
+
+# Artefacts generes
+fashionsite/staticfiles/
+
+# Environnements locaux volumineux
+.venv/
+
+# Metadonnees git
+.git/

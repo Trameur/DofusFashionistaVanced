@@ -14,10 +14,13 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import io
 import json
-import requests
 import os
 import re
+
+import requests
+from PIL import Image, ImageChops, ImageStat
 
 with open('transformed_equipment.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
@@ -25,23 +28,74 @@ with open('transformed_equipment.json', 'r', encoding='utf-8') as file:
 def sanitize_filename(name):
     return re.sub(r'[\\/*?:"<>|]', "", name)
 
-def download_image(url, filename):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(filename, 'wb') as file:
-            file.write(response.content)
-current_directory = os.path.dirname(__file__)
-target_directory = os.path.join(current_directory, '../fashionsite/staticfiles/chardata/')
+def images_differ(existing_path, new_content, threshold=0.01):
+    """Return True if the difference between images exceeds the threshold."""
+    if not os.path.exists(existing_path):
+        return True
 
-count = 0
+    try:
+        with Image.open(existing_path) as old_img, Image.open(io.BytesIO(new_content)) as new_img:
+            old_converted = old_img.convert('RGBA')
+            new_converted = new_img.convert('RGBA')
+
+            if old_converted.size != new_converted.size:
+                return True
+
+            diff = ImageChops.difference(old_converted, new_converted)
+            stat = ImageStat.Stat(diff)
+            total_components = diff.size[0] * diff.size[1] * len(diff.getbands())
+            diff_ratio = sum(stat.sum) / (255 * total_components)
+            return diff_ratio > threshold
+    except Exception as exc:
+        print(f"Image comparison failed for {existing_path}: {exc}. Overwriting.")
+        return True
+
+
+def download_image(url, filename, threshold=0.01):
+    response = requests.get(url)
+    if response.status_code != 200:
+        print(f"Failed to download {url}: HTTP {response.status_code}")
+        return False
+
+    new_content = response.content
+    if not images_differ(filename, new_content, threshold):
+        print(f"Skipping {filename}: change below {threshold * 100:.2f}%.")
+        return False
+
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    with open(filename, 'wb') as file:
+        file.write(new_content)
+    return True
+current_directory = os.path.dirname(__file__)
+target_directories = [
+    os.path.join(current_directory, '../fashionsite/staticfiles/chardata/'),
+    os.path.join(current_directory, '../fashionsite/chardata/static/chardata/'),
+]
+
 total = len(data)
+count = 0
+last_percentage = -1
+print(f"Total images to download: {total}")
 for item in data:
     image_url = item.get('image_url')
     if image_url:
-        if item['w_type'] == 'Petsmount' or item['w_type'] == 'Pet':
-            filename = os.path.join(target_directory, "pets/", sanitize_filename(f"{item['name_en']}.png"))
-        else:
-            filename = os.path.join(target_directory, "items/", sanitize_filename(f"{item['name_en']}.png"))
-        download_image(image_url, filename)
+        original_name = f"{item['name_en']}.png"
+        sanitized_name = sanitize_filename(original_name)
+
+        if original_name != sanitized_name:
+            print(f"Filename modified: {original_name} -> {sanitized_name}")
+
+        for target_directory in target_directories:
+            if item['w_type'] == 'Petsmount' or item['w_type'] == 'Pet':
+                directory = os.path.join(target_directory, "pets/")
+            else:
+                directory = os.path.join(target_directory, "items/")
+
+            filename = os.path.join(directory, sanitized_name)
+            download_image(image_url, filename)
+        
         count += 1
-        print(f"Download images {count} / {total}")
+        percentage = int((count / total) * 100)
+        if percentage > last_percentage:
+            print(f"Progress: {percentage}%")
+            last_percentage = percentage

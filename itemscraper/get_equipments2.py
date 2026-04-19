@@ -17,6 +17,7 @@
 import json
 from copy import deepcopy
 import os
+import re
 
 current_directory = os.path.dirname(__file__) # Get the current directory
 
@@ -24,7 +25,7 @@ current_directory = os.path.dirname(__file__) # Get the current directory
 STAT_TRANSLATE = {
     '% Power': 'Power',
     'Damage': 'Damage',
-    'Heals': 'Heals',
+    'Heal': 'Heals',
     'AP': 'AP',
     'MP': 'MP',
     '% Critical': 'Critical Hits',
@@ -34,7 +35,7 @@ STAT_TRANSLATE = {
     'Earth Damage': 'Earth Damage',
     'Intelligence': 'Intelligence',
     'Fire Damage': 'Fire Damage',
-    'Air Damage': 'Air Damage',
+    'Air damage': 'Air Damage',
     'Chance': 'Chance',
     'Water Damage': 'Water Damage',
     'Vitality': 'Vitality',
@@ -64,6 +65,7 @@ STAT_TRANSLATE = {
     '% Earth Resistance in PvP': '% Earth Resist in PVP',
     'Prospecting': 'Prospecting',
     'pods': 'Pods',
+    'Pod': 'Pods',
     'AP Reduction': 'AP Reduction',
     'MP Reduction': 'MP Reduction',
     'Lock': 'Lock',
@@ -71,6 +73,7 @@ STAT_TRANSLATE = {
     'Reflects': 'Reflects',
     'Reflects ': 'Reflects',
     'Reflects  damage': 'Reflects',
+    'reflected Damage': 'Reflects',
     'Pushback Damage': 'Pushback Damage',
     'Trap Damage': 'Trap Damage',
     'Power (traps)': '% Trap Damage',
@@ -91,10 +94,72 @@ STAT_TRANSLATE = {
     '% Ranged Damage': '% Ranged Damage',
     '% Weapon Damage': '% Weapon Damage',
     '% Spell Damage': '% Spell Damage',
+    '(Neutral damage)': '(Neutral damage)',
+    '(Fire damage)': '(Fire damage)',
+    'Hunting weapon': 'Hunting Weapon',
+    '(Air damage)': '(Air damage)',
+    '(Water damage)': '(Water damage)',
+    'Power': 'Power',
+    'Exchangeable': 'Exchangeable',
+    '-special spell-': '-special spell-',
+    'Emote': 'Emote',
+    '(Fire steal)': 'Fire Steal',
+    '(Earth damage)': '(Earth damage)',
+    '(<sprite name="feu"> Fire heals)': 'Fire heals',
+    '(Water steal)': '(Water steal)',
+    '(Neutral steal)': '(Neutral steal)',
+    '/': '/',
+    'Linked to the character': 'Linked to the character',
+    '(Pushes back cell)': '(Pushes back cell)',
+    '(Air steal)': '(Air steal)',
+    '(Earth steal)': '(Earth steal)',
+    ': line of sight off': ': line of sight off',
+    ': - AP': ': - AP',
+    ': - cooldown': ': - cooldown',
+    ': + Maximum Range': ': + Maximum Range',
+    'Changes speech': 'Changes speech',
+    ': + cast(s) per target': ': + cast(s) per target',
+    ': +% Critical': ': +% Critical',
+    'Exchangeable:' : 'Exchangeable',
+    ': straight-line casting off': ': straight-line casting off',
+    ': modifiable Range': ': modifiable Range',
+    ': + cast(s) per turn': ': + cast(s) per turn',
+    ': occupied cell needed off': ': occupied cell needed off',
+    ': + Damage': ': + Damage',
+    'Changes appearance': 'Changes appearance',
+    'Number of victims:' : 'Number of victims:',
+    'Title:' : 'Title:',
+    '(Steals kamas)': '(Steals kamas)',
+    'Someone\'s following you!' : 'Someone\'s following you!',
+    ': + base damage': ': + base damage',
+    'Add a temporary spell' : 'Add a temporary spell',
+    'Cooperative crafting impossible' : 'Cooperative crafting impossible',
+    'Received on' : 'Received on',
+    'Teleport' : 'Teleport',
+    'What\'s inside?' : 'What\'s inside?',
+    '(Damage (best element))' : '(Damage (best element))',
+    '(Steals MP)' : '(Steals MP)',
+    'Max.': 'Max.',
+    '(MP)': '(MP)',
+    'reflected damage' : 'Reflects',
+    '(best-element damage)' : '(best-element damage)',
+    'Size: %' : 'Size: %',
+    'Action Points (AP)': 'AP',
+    'Movement Points (MP)': 'MP',
+    '(Attracts by cell)': '(Attracts by cell)',
+    '(best-element steal)' : '(best-element steal)',
+    '(Advances by cell)' : '(Advances by cell)',
+    '(Fire heals)' : 'Fire heals',
+    'Fertile' : 'Fertile',
 }
 
-
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
+
+
+def sanitize_filename(name):
+    name = re.sub(r'[\\/*?:"<>|]', "", name) 
+    name = name.replace("[!]", "") # Remove unavailable language tag
+    return name.strip()
 
 def parse_conditions(tree):
     """
@@ -154,6 +219,13 @@ equipment_data = {lang: load_data_for_language(lang, 'equipment') for lang in LA
 
 mount_data = {lang: load_data_for_language(lang, 'mounts') for lang in LANGUAGES}
 
+# Keep mount records as source of truth when mounts and equipment share ankama_id.
+mount_ankama_ids = {
+    item.get('ankama_id')
+    for item in mount_data['en'].get('mounts', [])
+    if item.get('ankama_id') is not None
+}
+
 set_data = {lang: load_data_for_language(lang, 'sets') for lang in LANGUAGES}
 
 # Create a list to store the new formatted items
@@ -178,6 +250,8 @@ for item in equipment_data['en']['items']:
         name_counts[name] = 1
 
 for item in equipment_data['en']['items']:
+    if item.get('ankama_id') in mount_ankama_ids:
+        continue
     if 'Certificate' in item['type']['name'] or 'Sidekick' in item['type']['name'] or 'Badge' in item['type']['name'] or '[!] [UNKNOWN_TEXT_ID_0]' in item['name'] or 'Perceptor' in item['type']['name']:
         continue
     transformed_item = {}
@@ -187,8 +261,21 @@ for item in equipment_data['en']['items']:
     if "name" in item:
         for lang in LANGUAGES:
             lang_name_key = f"name_{lang}"
-            lang_item = next((i for i in equipment_data[lang]['items'] if i['ankama_id'] == item['ankama_id']), None)
-            transformed_item[lang_name_key] = lang_item['name'] if lang_item else None
+            lang_item = next(
+                (i for i in equipment_data[lang]['items'] if i['ankama_id'] == item['ankama_id']),
+                None
+            )
+            if lang_item:
+                original_name = lang_item['name']
+                if lang == "en":
+                    sanitized_name = sanitize_filename(original_name)
+                    if original_name != sanitized_name:
+                        print(f"Modified name for {lang_name_key}: '{original_name}' -> '{sanitized_name}'")
+                    transformed_item[lang_name_key] = sanitized_name
+                else:
+                    transformed_item[lang_name_key] = original_name
+            else:
+                transformed_item[lang_name_key] = None
     if "type" in item:
         transformed_item["w_type"] = item["type"]["name"]
     if "level" in item:
@@ -210,9 +297,9 @@ for item in equipment_data['en']['items']:
             [
                 eff["int_minimum"] if not eff["ignore_int_min"] else None,
                 eff["int_maximum"] if not eff["ignore_int_max"] else None,
-                eff["type"]["name"]
+                f"({eff['type']['name']})" if eff["type"]["is_active"] else eff["type"]["name"]
             ] for eff in item["effects"]
-            if not ((eff["type"]["name"] == 'MP' and item["name"] in ["War's Halbaxe", "Wulan's Bow", "Roasty Breadstick", "Pillar of Ephedrya", "Imp Sword", "Phonemenal Scythe"]) or (eff["type"]["id"] == 179))
+            if not ((eff["type"]["name"] == 'MP' and item["name"] in ["War's Halbaxe", "Wulan's Bow", "Roasty Breadstick", "Pillar of Ephedrya", "Imp Sword", "Phonemenal Scythe"]) or (eff["type"]["id"] == 179) or (eff["type"]["id"] == 238) or (eff["type"]["id"] == 253) or (eff["type"]["id"] == 254))
         ]
         for eff in item["effects"]:
             if eff["type"]["name"] == '-special spell-':
@@ -246,10 +333,10 @@ for item in equipment_data['en']['items']:
                     lang_name_key = f"name_{lang}"
                     if lang_name_key in copy_item:
                         copy_item[lang_name_key] += f" {i + 1}"
-                copy_item["conditions"] = [f"{cond['element']['name']} {cond['operator']} {cond['int_value']}" for cond in conditions]
+                copy_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in conditions]
                 new_data.append(copy_item)
         else:
-            transformed_item["conditions"] = [f"{cond['element']['name']} {cond['operator']} {cond['int_value']}" for cond in flattened_or_conditions[0]]
+            transformed_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in flattened_or_conditions[0]]
             new_data.append(transformed_item)
     else:
         # Ensure "conditions" key exists with an empty list
@@ -290,11 +377,17 @@ for item in mount_data['en']['mounts']:
 
     new_data.append(transformed_item)
 
+missing_translation = []
+
 for item in new_data:
     if "stats" in item:
         for stat in item["stats"]:
             original_stat_name = stat[-1]  # The original name is the last element in the stat list
             translated_stat_name = STAT_TRANSLATE.get(original_stat_name, original_stat_name)  # Translate or keep as-is
+            if original_stat_name not in STAT_TRANSLATE:
+                if original_stat_name not in missing_translation:
+                    missing_translation.append(original_stat_name)
+                    print(f"Missing translation for: '{original_stat_name}'")
             stat[-1] = translated_stat_name  # Update the name in the stat list
 
 # Write the new JSON file
@@ -305,13 +398,20 @@ new_data = []
 
 for item in set_data['en']["sets"]:
 
+    # Translate `effects` names
     if "effects" in item:
-        for effect_group in item["effects"]:  # Iterate over each group of effects
+        for effect_key, effect_group in item["effects"].items():  # Iterate over key-value pairs
+            if effect_group is None:
+                continue  # Skip if the value is null
             for effect in effect_group:  # Iterate over each effect in the group
                 if "type" in effect and "name" in effect["type"]:
-                    original_type_name = effect["type"]["name"]  # The original name in the type
-                    translated_type_name = STAT_TRANSLATE.get(original_type_name, original_type_name)  # Translate or keep as-is
-                    effect["type"]["name"] = translated_type_name  # Update the name in the type
+                    original_type_name = effect["type"]["name"]
+                    translated_type_name = STAT_TRANSLATE.get(original_type_name, original_type_name)
+                    if original_type_name not in STAT_TRANSLATE:
+                        if original_type_name not in missing_translation:
+                            missing_translation.append(original_type_name)
+                            print(f"Missing translation for: '{original_type_name}'")
+                    effect["type"]["name"] = translated_type_name  # Update the name
 
     transformed_item = {}
     if "ankama_id" in item:

@@ -74,7 +74,7 @@
             {% trans "Allow Dofuses and Trophies" %}<br>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="yes">{% trans "Yes" %}</label>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="no">{% trans "No" %}</label>
-            <label><input type="radio" name="dofus" class="change-modifies-state" value="lightset">{% trans "Remove only <2" %}</label>
+            <label><input type="radio" name="dofus" class="change-modifies-state" value="lightset">{% trans "Remove only <3" %}</label>
             <br>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="cawwot">{% trans "Allow only Cawwot Dofus" %}</label>
         </td>
@@ -109,7 +109,7 @@
                     <br>
                     <br>
        <div class="brown-box" align="center">
-                    {% trans "Allow dofuses:" %} <br><br>
+                    {% trans "Allow dofuses and prysmaradite:" %} <br><br>
            <div>
            <div class="dofus-box">
                 <label class='cawwot'>
@@ -291,6 +291,13 @@
                     <img src="{% static "chardata/sylvan.png" %}" class="option_icon sylvan"><br>
                     <input type="checkbox" name="sylvan" class="change-modifies-state sylvan"><br>
                     {% trans "Sylvan" %}
+                </label><br>
+            </div>
+            <div class="dofus-box">
+                <label class='prysmaradite'>
+                    <img src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite"><br>
+                    <input type="checkbox" name="prysmaradite" class="change-modifies-state prysmaradite"><br>
+                    {% trans "Prysmaradite" %}
                 </label><br>
             </div>
         </div>

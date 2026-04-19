@@ -78,7 +78,7 @@ $(document).ready(function() {
     
         function handleSetNameSearch(event, ui) {
             event.preventDefault();
-            $(this).val("https://fashionistavanced.com/solution/" + ui.item.idx + "/"); 
+            $(this).val(window.location.origin + "/solution/" + ui.item.idx + "/"); 
         }
     
         $(this).autocomplete({

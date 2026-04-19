@@ -20,6 +20,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.utils.translation import get_language
 
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char
@@ -115,12 +116,24 @@ def contact(request, char_id=0):
                          'char_id': char_id})
 
 def about(request, char_id=0):
+    language_code = (get_language() or settings.LANGUAGE_CODE or 'en').split('-')[0]
+    language_name = dict(settings.LANGUAGES).get(language_code, 'English')
+
+    # Keep known translator credits and fall back to Trameur when missing.
+    about_authors = {
+        'fr': 'Mr-quifaitmal, Naturalglyphs, Edrolys, Praesugatus, Hyd-x, Bouzouw, Elbisiap et Trameur',
+        'es': 'Nelson-Magno',
+    }
+    language_author = about_authors.get(language_code, '') or 'Trameur'
+
     return set_response(request, 
                         'chardata/about.html', 
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id,
-                         'site_version': settings.SITE_VERSION})
+                         'site_version': settings.SITE_VERSION,
+                         'about_language_name': language_name,
+                         'about_language_author': language_author})
 
 def license_page(request, char_id=0):
     return set_response(request, 
