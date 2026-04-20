@@ -54,7 +54,7 @@ parsel==1.8.1
 Pillow==12.1.1
 ply==3.11
 prettytable==0.7.2
-prompt-toolkit==3.0.24
+prompt-toolkit==3.0.52
 Protego==0.2.1
 protobuf==3.20.3
 PuLP==2.7.0
