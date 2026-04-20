@@ -18,7 +18,7 @@ cloud-init==22.2.2
 colorama==0.4.4
 configobj==5.0.9
 constantly==15.1.0
-cryptography==46.0.5
+cryptography==46.0.7
 cssselect==1.2.0
 dbus-python==1.2.18
 defusedxml==0.7.1
