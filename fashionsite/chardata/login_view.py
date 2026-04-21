@@ -17,13 +17,14 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused
 from social_django.models import UserSocialAuth
 import hashlib
@@ -128,6 +129,14 @@ def local_login(request):
             return HttpResponseText('confirm-email')
     else:
         return HttpResponseText('invalid')
+
+def logout_view(request):
+    next_url = request.POST.get('next') or request.GET.get('next') or '/'
+    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        next_url = '/'
+
+    logout(request)
+    return HttpResponseRedirect(next_url)
         
 def change_password(request):
     username = request.POST.get('username', None)

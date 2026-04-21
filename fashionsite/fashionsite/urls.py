@@ -252,6 +252,8 @@ urlpatterns = [
     re_path(r'^contact/', contact_view.contact, name = 'contact'),
     re_path(r'^send/', contact_view.send_email, name = 'send_email'),
 
+    re_path(r'^logout/$', login_view.logout_view, name='logout'),
+
     re_path(r'^manageaccount/', manage_account_view.manage_account, name = 'manage_account'),
     re_path(r'^saveaccount/', manage_account_view.save_account, name = 'save_account'),
     

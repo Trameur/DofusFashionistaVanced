@@ -97,7 +97,11 @@
             {% else %}
             <b><span style="color: red">[SUPER USER] </span></b>{{ user.get_full_name }}
             {% endif %}
-             <a href="{% url 'auth:logout' %}?next=/">{% trans "Logout" %}</a>
+                         <form action="{% url 'auth:logout' %}" method="post" style="display: inline; margin: 0;">
+                             {% csrf_token %}
+                             <input type="hidden" name="next" value="/">
+                             <button type="submit" style="background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit;">{% trans "Logout" %}</button>
+                         </form>
          </div>
        {% else %}
           <div class="login">
