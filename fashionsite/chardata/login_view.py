@@ -131,12 +131,16 @@ def local_login(request):
         return HttpResponseText('invalid')
 
 def logout_view(request):
-    next_url = request.POST.get('next') or request.GET.get('next') or '/'
-    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
-        next_url = '/'
+    next_url = request.POST.get('next') or request.GET.get('next')
+    
+    # Validate the redirect URL - only use if safe, otherwise default to '/'
+    if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        safe_url = next_url
+    else:
+        safe_url = '/'
 
     logout(request)
-    return HttpResponseRedirect(next_url)
+    return HttpResponseRedirect(safe_url)
         
 def change_password(request):
     username = request.POST.get('username', None)
