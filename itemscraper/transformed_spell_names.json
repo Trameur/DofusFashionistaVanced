@@ -32290,6 +32290,13 @@
     "fr": "Horloge de la Gardienne",
     "pt": "Relógio da Guardiã"
   },
+  "Guardian's Elemental Cycle": {
+    "de": "Elementarzyklus des Wächters",
+    "en": "Guardian's Elemental Cycle",
+    "es": "Ciclo Elemental del Guardián",
+    "fr": "Cycle Élémentaire du Gardien",
+    "pt": "Ciclo Elementar do Guardião"
+  },
   "Guardian's Frostbite": {
     "de": "Zeitfrost des Wachturms",
     "en": "Guardian's Frostbite",
@@ -32373,6 +32380,13 @@
     "es": "Empuje de Guardián",
     "fr": "Poussée du gardien",
     "pt": "Empurrão do Guardião"
+  },
+  "Guardian's Quadramental Current": {
+    "de": "Quadrelementarströmung des Wächters",
+    "en": "Guardian's Quadramental Current",
+    "es": "Corriente Cuadramental del Guardián",
+    "fr": "Courant Quadramental du Gardien",
+    "pt": "Corrente Quadramental do Guardião"
   },
   "Guardian's Rampart": {
     "de": "Bollwerk des Wächters",
@@ -58292,7 +58306,7 @@
     "de": "Brutales Erwachen",
     "en": "Rude Awakening",
     "es": "Despertar Brutal",
-    "fr": "Réveil brutal",
+    "fr": "Réveil Brutal",
     "pt": "Despertar Brutal"
   },
   "Rude Wakening": {
@@ -78455,6 +78469,20 @@
     "fr": "Applique Hit si touché par le sort Aléorictussible",
     "pt": "[!] Applique Hit si touché par le sort Aléorictussible"
   },
+  "[!] Apprivoisement": {
+    "de": "[!] Apprivoisement",
+    "en": "[!] Apprivoisement",
+    "es": "[!] Apprivoisement",
+    "fr": "Apprivoisement",
+    "pt": "[!] Apprivoisement"
+  },
+  "[!] Apprivoisement de monture": {
+    "de": "[!] Apprivoisement de monture",
+    "en": "[!] Apprivoisement de monture",
+    "es": "[!] Apprivoisement de monture",
+    "fr": "Apprivoisement de monture",
+    "pt": "[!] Apprivoisement de monture"
+  },
   "[!] Armutation": {
     "de": "[!] Armutation",
     "en": "[!] Armutation",
@@ -78552,6 +78580,13 @@
     "es": "[!] Audace Trahison",
     "fr": "Audace Trahison",
     "pt": "[!] Audace Trahison"
+  },
+  "[!] Aura incendiaire du Phénix": {
+    "de": "[!] Aura incendiaire du Phénix",
+    "en": "[!] Aura incendiaire du Phénix",
+    "es": "[!] Aura incendiaire du Phénix",
+    "fr": "Aura incendiaire du Phénix",
+    "pt": "[!] Aura incendiaire du Phénix"
   },
   "[!] Avarisme": {
     "de": "[!] Avarisme",
@@ -79063,6 +79098,13 @@
     "es": "[!] Coupe-gorge Trahison",
     "fr": "Coupe-gorge Trahison",
     "pt": "[!] Coupe-gorge Trahison"
+  },
+  "[!] Courant Quadramental": {
+    "de": "[!] Courant Quadramental",
+    "en": "[!] Courant Quadramental",
+    "es": "[!] Courant Quadramental",
+    "fr": "Courant Quadramental",
+    "pt": "[!] Courant Quadramental"
   },
   "[!] Craqueglass (Cycles des États)": {
     "de": "[!] Craqueglass (Cycles des États)",
@@ -82920,6 +82962,13 @@
     "es": "[!] État Saison",
     "fr": "État Saison",
     "pt": "[!] État Saison"
+  },
+  "[!] État Élémentaire": {
+    "de": "[!] État Élémentaire",
+    "en": "[!] État Élémentaire",
+    "es": "[!] État Élémentaire",
+    "fr": "État Élémentaire",
+    "pt": "[!] État Élémentaire"
   },
   "[!] Étreinte Sylvestre": {
     "de": "[!] Étreinte Sylvestre",

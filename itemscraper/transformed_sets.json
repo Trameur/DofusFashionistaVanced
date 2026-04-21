@@ -55281,11 +55281,12 @@
         "name_es": "Set cosmético de Solary",
         "name_pt": "Conjunto de Aparência Solary",
         "name_de": "Solary-Prunkset",
-        "items": 3,
+        "items": 4,
         "equipment_ids": [
             30971,
             30976,
-            30981
+            30981,
+            34381
         ]
     },
     {
@@ -55309,11 +55310,12 @@
         "name_es": "Set cosmético de Karmine Corp",
         "name_pt": "Conjunto de Aparência Karmine Corp",
         "name_de": "Prunkset des Karmine Corps",
-        "items": 3,
+        "items": 4,
         "equipment_ids": [
             30973,
             30979,
-            30983
+            30983,
+            34380
         ]
     },
     {
@@ -61306,7 +61308,7 @@
     {
         "ankama_id": 1085,
         "name_en": "Crimson Set",
-        "name_fr": "Panoplie d'apparat de la loterie Poupre",
+        "name_fr": "Panoplie d'apparat Pourpre",
         "name_es": "Set púrpura",
         "name_pt": "Conjunto Púrpura",
         "name_de": "Purpur-Ausrüstungsset",
@@ -61514,6 +61516,36 @@
             34283,
             34295,
             34296
+        ]
+    },
+    {
+        "ankama_id": 1092,
+        "name_en": "Joblife Ceremonial Set",
+        "name_fr": "Panoplie d'apparat Joblife",
+        "name_es": "Set cosmético de Joblife",
+        "name_pt": "Conjunto de Aparência Joblife",
+        "name_de": "Joblife-Prunkset",
+        "items": 4,
+        "equipment_ids": [
+            34382,
+            34387,
+            34388,
+            34389
+        ]
+    },
+    {
+        "ankama_id": 1093,
+        "name_en": "Peps Ceremonial Set",
+        "name_fr": "Panoplie d'apparat Peps",
+        "name_es": "Set cosmético de Peps",
+        "name_pt": "Conjunto de Aparência Peps",
+        "name_de": "Peps-Prunkset",
+        "items": 4,
+        "equipment_ids": [
+            34383,
+            34384,
+            34385,
+            34386
         ]
     }
 ]

@@ -109695,14 +109695,15 @@
         {
             "ankama_id": 969,
             "name": "Solary-Prunkset",
-            "items": 3,
-            "level": 1,
+            "items": 4,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30971,
                 30976,
-                30981
+                30981,
+                34381
             ]
         },
         {
@@ -109721,14 +109722,15 @@
         {
             "ankama_id": 971,
             "name": "Prunkset des Karmine Corps",
-            "items": 3,
-            "level": 1,
+            "items": 4,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30973,
                 30979,
-                30983
+                30983,
+                34380
             ]
         },
         {
@@ -121705,6 +121707,34 @@
                 34283,
                 34295,
                 34296
+            ]
+        },
+        {
+            "ankama_id": 1092,
+            "name": "Joblife-Prunkset",
+            "items": 4,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34382,
+                34387,
+                34388,
+                34389
+            ]
+        },
+        {
+            "ankama_id": 1093,
+            "name": "Peps-Prunkset",
+            "items": 4,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34383,
+                34384,
+                34385,
+                34386
             ]
         }
     ]

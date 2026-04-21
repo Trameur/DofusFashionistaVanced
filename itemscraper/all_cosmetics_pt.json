@@ -101242,24 +101242,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16886-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16886-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16909-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16909-128.png"
             },
             "description": "Forjado no fogo a temperaturas extremas, este elmo tem uma ponta incandescente que cauteriza as feridas dos adversários antes de mandá-los ao Externam. Coisa de profissional.",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Trocável:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Trocável: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101272,6 +101259,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
                 }
             ],
             "pods": 1
@@ -101285,24 +101285,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17676-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17676-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17695-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17695-128.png"
             },
             "description": "É impossível alguém pegar você de surpresa com uma capa dessas: ela bota fogo em tudo que encosta! Você faz muita questão dos seus tapetes?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Trocável:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Trocável: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101315,6 +101302,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
                 }
             ],
             "pods": 1
@@ -101328,24 +101328,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82568-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82568-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82588-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82588-128.png"
             },
             "description": "Cuspido pela lava das entranhas de um vulcão, este escudo queimará etapas nos seus próximos combates... Quem bateria nele achando que sairia ileso?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Trocável:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Trocável: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101358,6 +101345,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
                 }
             ],
             "pods": 1
@@ -101393,14 +101393,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Trocável:",
-                        "id": 0,
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Trocável: 0"
+                    "formatted": "Vinculado ao personagem"
                 }
             ],
             "pods": 1
@@ -102606,6 +102606,440 @@
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34355,
+            "name": "[!] Ailes printanières",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
+            },
+            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34380,
+            "name": "Drakarmine",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121176-128.png"
+            },
+            "description": "Este dragão não vai pensar duas vezes antes de cuspir chamas em tudo que não é azul.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34381,
+            "name": "Lonary",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121177-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121177-128.png"
+            },
+            "description": "No dorso deste lobo, ir atrás do título não vai mais dar medo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34382,
+            "name": "Deltaplano",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121178-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121178-128.png"
+            },
+            "description": "Certos indivíduos ousam questionar o nome deste dragão. Tudo o que se sabe é que, por trás da blindagem desta criatura, se esconde um animal encantador de coração enorme.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34383,
+            "name": "Pepsito",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121179-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121179-128.png"
+            },
+            "description": "Esta criatura é tão carinhosa quanto temível e vai sair perfurando tudo o que obstruir a passagem sem pestanejar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34384,
+            "name": "Traje Peps",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165969-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165969-128.png"
+            },
+            "description": "Este traje realça a pepita que é você.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34385,
+            "name": "Ombreiras Peps",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165968-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165968-128.png"
+            },
+            "description": "Estas ombreiras são umas pepitas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34386,
+            "name": "Verrumas Peps",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165967-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165967-128.png"
+            },
+            "description": "Com estas verrumas, você vai poder encontrar todas as pepitas do mundo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34387,
+            "name": "Traje Joblife",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165966-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165966-128.png"
+            },
+            "description": "Enquanto não encontra trabalho, você pode pelo menos vestir este traje para dar uma forcinha para quem está na labuta.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34388,
+            "name": "Ombreiras Joblife",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165964-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165964-128.png"
+            },
+            "description": "Quer mostrar que, agora que encontrou trabalho, você tem recursos? Estas ombreiras foram feitas para você.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34389,
+            "name": "Asas Joblife",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165965-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165965-128.png"
+            },
+            "description": "Será que ter asas ajuda a achar trabalho? Você pode tentar responder a essa pergunta, mas isso não vai mudar em nada a sua situação.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

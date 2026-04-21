@@ -101242,24 +101242,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16886-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16886-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16909-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16909-128.png"
             },
             "description": "Forjado por las llamas a temperaturas extremas, este yelmo permanece incandescente en su punta, cauterizando las heridas que infligirá a tus adversarios antes de enviarlos a Externam. Un trabajo de profesional.",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Intercambiable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Intercambiable: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101272,6 +101259,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
                 }
             ],
             "pods": 1
@@ -101285,24 +101285,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17676-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17676-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17695-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17695-128.png"
             },
             "description": "Es imposible traicionarte con una capa como esta: ¡incendia todo lo que toca!... ¿Tan importantes son para ti tus alfombras?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Intercambiable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Intercambiable: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101315,6 +101302,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
                 }
             ],
             "pods": 1
@@ -101328,24 +101328,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82568-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82568-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82588-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82588-128.png"
             },
             "description": "Escupido por la lava de las entrañas de un volcán, este escudo quemará las etapas de tus futuras batallas... ¿Quién querría golpearlo esperando salir ileso?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Intercambiable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Intercambiable: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101358,6 +101345,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
                 }
             ],
             "pods": 1
@@ -101393,14 +101393,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Intercambiable:",
-                        "id": 0,
+                        "name": "Ligado a un personaje",
+                        "id": 81,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Intercambiable: 0"
+                    "formatted": "Ligado a un personaje"
                 }
             ],
             "pods": 1
@@ -102606,6 +102606,440 @@
                     "ignore_int_max": true,
                     "formatted": "Compatible con 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34355,
+            "name": "[!] Ailes printanières",
+            "type": {
+                "name": "Alas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
+            },
+            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34380,
+            "name": "Drakarmine",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121176-128.png"
+            },
+            "description": "Este dragón no dudará en escupir sus llamas contra todo lo que no sea azul.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34381,
+            "name": "Lubnary",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121177-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121177-128.png"
+            },
+            "description": "Apuntar a lo más alto no te intimidará tanto a lomos de este lobo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34382,
+            "name": "Aladelta",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121178-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121178-128.png"
+            },
+            "description": "Hay quien se atreve a cuestionar el nombre de este dragón. Lo que está claro es que, bajo su armadura, se oculta una criatura entrañable y de gran corazón.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34383,
+            "name": "Pepín",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121179-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121179-128.png"
+            },
+            "description": "Esta criatura es tan tierna como temible: no dudará en perforar todo lo que se interponga en su camino.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34384,
+            "name": "Traje de Peps",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165969-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165969-128.png"
+            },
+            "description": "Este traje pone de relieve la pepita que ya eres.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34385,
+            "name": "Hombreras de Peps",
+            "type": {
+                "name": "Hombrera",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165968-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165968-128.png"
+            },
+            "description": "Estas hombreras son como dos pepitas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34386,
+            "name": "Hélices de Peps",
+            "type": {
+                "name": "Alas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165967-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165967-128.png"
+            },
+            "description": "Con estas hélices, serás capaz de encontrar todas las pepitas de este mundo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34387,
+            "name": "Traje de Joblife",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165966-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165966-128.png"
+            },
+            "description": "Si no encuentras curro, al menos podrás ponerte este traje para animar a quienes sí están en activo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34388,
+            "name": "Hombreras de Joblife",
+            "type": {
+                "name": "Hombrera",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165964-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165964-128.png"
+            },
+            "description": "¿Quieres demostrar que, desde que tienes trabajo, no te falta de nada? Estas hombreras están hechas para ti.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34389,
+            "name": "Alas de Joblife",
+            "type": {
+                "name": "Alas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165965-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165965-128.png"
+            },
+            "description": "¿Tener alas te dará trabajo? Puedes intentar responder a esta pregunta, pero eso no cambiará tu situación.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

@@ -101242,24 +101242,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16886-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16886-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16909-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16909-128.png"
             },
             "description": "Forgé par les flammes à des températures extrêmes, ce heaume reste incandescent à sa pointe, cautérisant les plaies qu'il infligera à vos adversaires avant de les envoyer en Externam. Du travail de pro.",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101272,6 +101259,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
                 }
             ],
             "pods": 1
@@ -101285,24 +101285,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17676-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17676-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17695-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17695-128.png"
             },
             "description": "Impossible de vous prendre en traître avec une cape pareille : elle enflamme tout ce qu'elle touche ! ... Vous tenez tant que ça à votre tapisserie ?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101315,6 +101302,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
                 }
             ],
             "pods": 1
@@ -101328,24 +101328,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82568-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82568-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82588-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82588-128.png"
             },
             "description": "Recraché par la lave des entrailles d'un volcan, cet écu brûlera les étapes de vos futurs combats... Qui voudrait frapper là-dedans en espérant en ressortir indemne ?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101358,6 +101345,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
                 }
             ],
             "pods": 1
@@ -101393,14 +101393,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
+                        "name": "Lié au personnage",
+                        "id": 81,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
+                    "formatted": "Lié au personnage"
                 }
             ],
             "pods": 1
@@ -102606,6 +102606,440 @@
                     "ignore_int_max": true,
                     "formatted": "Compatible avec : 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34355,
+            "name": "Ailes printanières",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
+            },
+            "description": "Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34380,
+            "name": "Drakarmine",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121176-128.png"
+            },
+            "description": "Ce dragon n'hésitera pas avant de cracher ses flammes sur tout ce qui n'est pas bleu.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34381,
+            "name": "Lounary",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121177-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121177-128.png"
+            },
+            "description": "Viser le titre, cela ne vous fera plus peur une fois chevaucherez ce loup.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34382,
+            "name": "Deltaplane",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121178-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121178-128.png"
+            },
+            "description": "Certains individus osent remettre en question le nom de ce dragon. Ce qui est sûr, c'est que derrière l'armure de cette créature se cache une bête attachante au grand cœur.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34383,
+            "name": "Pepsou",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121179-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121179-128.png"
+            },
+            "description": "Cette créature est tout aussi affective que redoutable, elle n'hésitera pas à perforer tout ce qui vient obstruer son passage.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34384,
+            "name": "Costume Peps",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165969-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165969-128.png"
+            },
+            "description": "Ce costume met en lumière la pépite que vous êtes.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34385,
+            "name": "Épaulières Peps",
+            "type": {
+                "name": "Épaulière",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165968-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165968-128.png"
+            },
+            "description": "Ces épaulières sont une pépite.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34386,
+            "name": "Vrilles Peps",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165967-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165967-128.png"
+            },
+            "description": "Avec ces vrilles, vous serez capable de dénicher toutes les pépites de ce monde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34387,
+            "name": "Costume Joblife",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165966-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165966-128.png"
+            },
+            "description": "À défaut de trouver du travail, vous pourrez au moins enfiler ce costume pour encourager ceux qui sont dans la vie active.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34388,
+            "name": "Épaulières Joblife",
+            "type": {
+                "name": "Épaulière",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165964-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165964-128.png"
+            },
+            "description": "Vous souhaitez montrer que vous avez les moyens depuis que vous avez trouvé du travail ? Ces épaulières sont faites pour vous.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34389,
+            "name": "Ailes Joblife",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165965-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165965-128.png"
+            },
+            "description": "Est-ce qu'avoir des ailes vous donnera du travail ? Vous pouvez essayer de répondre à cette question, mais cela ne changera pas votre situation.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

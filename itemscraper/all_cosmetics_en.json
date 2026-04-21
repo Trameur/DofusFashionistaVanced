@@ -101242,24 +101242,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16886-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16886-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16909-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16909-128.png"
             },
             "description": "Forged in fires of unimaginable heat, the dome of this helmet burns hot and cauterises the wounds it inflicts on your enemies before sending them to Externam. Made by pros for pros.",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Exchangeable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Exchangeable: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101272,6 +101259,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
                 }
             ],
             "pods": 1
@@ -101285,24 +101285,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17676-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17676-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17695-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17695-128.png"
             },
             "description": "No one can sneak up on you when you're wearing this cape – it ignites everything it touches! ... Hopefully you're not too attached to your rugs and curtains!",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Exchangeable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Exchangeable: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101315,6 +101302,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
                 }
             ],
             "pods": 1
@@ -101328,24 +101328,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82568-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82568-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82588-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82588-128.png"
             },
             "description": "With this shield, which is the product of lava spewed forth from the bowels of a volcano, you can blaze a trail in your future battles. Just warn your enemies: if you play with fire, you get burned.",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Exchangeable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Exchangeable: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101358,6 +101345,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
                 }
             ],
             "pods": 1
@@ -101393,14 +101393,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Exchangeable:",
-                        "id": 0,
+                        "name": "Linked to the character",
+                        "id": 81,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Exchangeable: 0"
+                    "formatted": "Linked to the character"
                 }
             ],
             "pods": 1
@@ -102606,6 +102606,440 @@
                     "ignore_int_max": true,
                     "formatted": "Compatible with: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34355,
+            "name": "[!] Ailes printanières",
+            "type": {
+                "name": "Wings",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
+            },
+            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34380,
+            "name": "Drakarmine",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121176-128.png"
+            },
+            "description": "This dragon won't hesitate to spew flames on anything that isn't blue.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34381,
+            "name": "Solupunary",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121177-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121177-128.png"
+            },
+            "description": "Once you're riding this wolf, you'll no longer be afraid to aim for the title.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34382,
+            "name": "Hangon",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121178-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121178-128.png"
+            },
+            "description": "This dragon's name could be pronounced a few different ways. One thing is sure: underneath the armour, this creature is a big softie.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34383,
+            "name": "Pepsykins",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121179-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121179-128.png"
+            },
+            "description": "This creature is endearing yet fearsome. It won't hesitate to pierce anything that gets in its way.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34384,
+            "name": "Peps Costume",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165969-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165969-128.png"
+            },
+            "description": "This costume will make you shine like gold while putting a pep in your step.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34385,
+            "name": "Peps Shoulder Pads",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165968-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165968-128.png"
+            },
+            "description": "These shoulder pads are a gem.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34386,
+            "name": "Peps Gimlets",
+            "type": {
+                "name": "Wings",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165967-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165967-128.png"
+            },
+            "description": "With these tools, you'll be able to unearth all the nuggets in the world.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34387,
+            "name": "Joblife Costume",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165966-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165966-128.png"
+            },
+            "description": "If you can't find a job, you can at least wear this costume to encourage those in the workforce.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34388,
+            "name": "Joblife Shoulder Pads",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165964-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165964-128.png"
+            },
+            "description": "Want to show you've been doing well for yourself since you found a job? These shoulder pads are just the thing.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34389,
+            "name": "Joblife Wings",
+            "type": {
+                "name": "Wings",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165965-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165965-128.png"
+            },
+            "description": "Will having wings give you a job? You can try to answer this question, but it won't change your situation either way.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

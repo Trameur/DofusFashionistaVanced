@@ -101242,24 +101242,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16886-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16886-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16909-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16909-128.png"
             },
             "description": "Dieser Helm wurde in extrem heißen Flammen geschmiedet und ist an seiner Spitze noch immer glühend heiß. Mit ihm lassen sich die Wunden ausbrennen, die er euren Gegnern zufügt, bevor er sie endgültig nach Externam schickt. Hier war ein echter Profi am Werk.",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Austauschbar:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Austauschbar: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101272,6 +101259,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
                 }
             ],
             "pods": 1
@@ -101285,24 +101285,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17676-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17676-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17695-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17695-128.png"
             },
             "description": "Mit einem solchen Umhang kann man euch unmöglich überrumpeln: er setzt alles in Brand, was ihn berührt! Hängt ihr wirklich so sehr an eurem Wandteppich?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Austauschbar:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Austauschbar: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101315,6 +101302,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
                 }
             ],
             "pods": 1
@@ -101328,24 +101328,11 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82568-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82568-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82588-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82588-128.png"
             },
             "description": "Dieser Schild entstammt der glühend heißen Lava im Innern eines Vulkans und wird euch bei zukünftigen hitzigen Gefechten begleiten ... Wer würde schon auf ihn einschlagen und hoffen, diese Begegnung unbeschadet zu überstehen?",
             "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Austauschbar:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Austauschbar: 0"
-                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -101358,6 +101345,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
                 }
             ],
             "pods": 1
@@ -101393,14 +101393,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Austauschbar:",
-                        "id": 0,
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Austauschbar: 0"
+                    "formatted": "An den Charakter gebunden"
                 }
             ],
             "pods": 1
@@ -102606,6 +102606,440 @@
                     "ignore_int_max": true,
                     "formatted": "Kompatibel zu: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34355,
+            "name": "[!] Ailes printanières",
+            "type": {
+                "name": "Flügel",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
+            },
+            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34380,
+            "name": "Karmindrache",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121176-128.png"
+            },
+            "description": "Dieser Drache ist ziemlich auf Farben fixiert und lässt alles, was nicht blau ist, sofort in einem Feuerball verschwinden.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34381,
+            "name": "Solarywolf",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121177-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121177-128.png"
+            },
+            "description": "Wenn ihr erst mal auf diesem Wolf reitet, bereitet es euch keine Angst mehr, um den Titel zu kämpfen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34382,
+            "name": "Drachenflieger",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121178-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121178-128.png"
+            },
+            "description": "Manch einer hat sich bereits hinter vorgehaltener Hand gefragt, ob der Drache dieses Namens wirklich würdig ist. Diese Frage bleibt weiter offen, doch eins ist sicher: Hinter der Rüstung dieser Kreatur verbirgt sich ein anhängliches Tierchen mit großem Herz.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34383,
+            "name": "Pepschen",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121179-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121179-128.png"
+            },
+            "description": "Diese Kreatur ist so herzlich wie gefährlich: Wer sich ihr in den Weg stellt, wird gnadenlos durchlöchert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34384,
+            "name": "Peps-Kostüm",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165969-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165969-128.png"
+            },
+            "description": "Dieses Kostüm zeigt, was für eine Perle ihr seid.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34385,
+            "name": "Peps-Schulterplatten",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165968-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165968-128.png"
+            },
+            "description": "Diese Schulterplatten sind ein wahres Prunkstück.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34386,
+            "name": "Peps-Drillbohrer",
+            "type": {
+                "name": "Flügel",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165967-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165967-128.png"
+            },
+            "description": "Mit diesen Drillbohrern ist die Suche nach Nuggets ein Kinderspiel.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34387,
+            "name": "Joblife-Kostüm",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165966-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165966-128.png"
+            },
+            "description": "Wenn ihr schon keine Arbeit findet, könnt ihr wenigstens dieses Kostüm tragen, um die Berufstätigen etwas zu motivieren.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34388,
+            "name": "Joblife-Schulterplatten",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165964-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165964-128.png"
+            },
+            "description": "Ihr wollt allen zeigen, dass ihr euch nun auch endlich etwas leisten könnt – jetzt, wo ihr eine Arbeit gefunden habt? Dann sind diese Schulterplatten genau das Richtige für euch.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34389,
+            "name": "Joblife-Flügel",
+            "type": {
+                "name": "Flügel",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165965-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165965-128.png"
+            },
+            "description": "Arbeit verleiht Flügel, heißt es. Aber gilt das auch umgekehrt? Ihr könnt versuchen, eine Antwort auf diese Frage zu finden. An eurer Lage ändert sich dadurch jedoch nichts.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
