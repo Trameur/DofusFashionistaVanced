@@ -36,20 +36,17 @@ services:
       - DB_NAME=fashionista
       - DB_USER=fashionista
       - DB_PASSWORD=fashionista
-      - DEBUG=True
+      - DEBUG=False
     volumes:
-      - .:/app
+      - /etc/fashionista/gen_config.json:/etc/fashionista/gen_config.json
       - static_files:/app/fashionsite/staticfiles
     ports:
       - "8000:8000"
-    command: >
-      /bin/sh -c "cd /app/fashionsite &&
-      python manage.py migrate --noinput &&
-      python manage.py runserver 0.0.0.0:8000"
+    entrypoint: ["/bin/sh", "/app/docker-entrypoint.sh"]
     networks:
       - fashionista_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD-SHELL", "curl -fsS -H 'Host: fashionistavanced.com' http://localhost:8000/ > /dev/null || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

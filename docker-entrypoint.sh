@@ -3,9 +3,17 @@ set -e
 
 echo "Starting DofusFashionistaVanced container..."
 
+# Fusionner les configurations existantes avec les valeurs par défaut
+CONFIG_DIR="/etc/fashionista"
+CONFIG_FILE="${CONFIG_DIR}/gen_config.json"
+
+# Exécuter le script Python pour fusionner les configurations
+echo "Merging configuration files..."
+python3 /app/merge_docker_config.py
+
 # Attendre que la base de données soit disponible
 echo "Waiting for database to be available..."
-until python -c "
+until python3 -c "
 import pymysql
 import sys
 import os

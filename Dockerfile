@@ -37,34 +37,15 @@ RUN find . -name "*.sh" -type f -exec chmod +x {} \;
 # Créer le répertoire de configuration pour Docker
 RUN mkdir -p /etc/fashionista
 
-# Créer un fichier gen_config.json pour Docker
-RUN echo '{\
-    "PASSWORD_RESET_SALT": "docker_salt_change_me",\
-    "EMAIL_CONFIRMATION_SALT": "docker_salt_2_change_me",\
-    "SECRET_KEY": "django-insecure-docker-change-me-in-production",\
-    "mysql_PASSWORD": "fashionista",\
-    "mysql_USER": "fashionista",\
-    "EMAIL_HOST_USER": "",\
-    "EMAIL_HOST_PASSWORD": "",\
-    "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY": null,\
-    "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET": null,\
-    "SOCIAL_AUTH_FACEBOOK_KEY": null,\
-    "SOCIAL_AUTH_FACEBOOK_SECRET": null,\
-    "DBBACKUP_S3_ACCESS_KEY": null,\
-    "DBBACKUP_S3_SECRET_KEY": null,\
-    "url_captcha_secret": null,\
-    "char_id_SECRET_PART_1": "docker_secret_1",\
-    "char_id_SECRET_PART_2": "docker_secret_2",\
-    "google_analytics_id": null,\
-    "EMAIL_USE_TLS": true,\
-    "EMAIL_HOST": "smtp.gmail.com",\
-    "EMAIL_PORT": 587,\
-    "TESTER_USERS_EMAILS": ["admin@localhost"],\
-    "SUPER_USERS_EMAILS": ["admin@localhost"]\
-}' > /etc/fashionista/gen_config.json
+# Copier le script de fusion de configuration
+COPY merge_docker_config.py /app/merge_docker_config.py
+RUN chmod +x /app/merge_docker_config.py
 
-# Configurer le mode DEBUG pour Docker
-RUN echo "True" > /etc/fashionista/debug_mode
+# Créer un fichier gen_config.json avec les valeurs par défaut en utilisant le script Python
+RUN python3 /app/merge_docker_config.py
+
+# Configurer le mode DEBUG pour Docker (production)
+RUN echo "False" > /etc/fashionista/debug_mode
 
 # Configurer le mode serve_static pour Docker
 RUN echo "True" > /etc/fashionista/serve_static
