@@ -48,11 +48,17 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
 echo "Starting Gunicorn server..."
+# On small instances, 2 workers is usually more stable than 3.
+GUNICORN_WORKERS="${GUNICORN_WORKERS:-2}"
+
 # Démarrer Gunicorn avec les bonnes configurations
 exec gunicorn fashionsite.wsgi:application \
     --bind 0.0.0.0:8000 \
-    --workers 3 \
+    --workers "${GUNICORN_WORKERS}" \
     --timeout 120 \
+    --max-requests 1000 \
+    --max-requests-jitter 100 \
+    --keep-alive 5 \
     --access-logfile - \
     --error-logfile - \
     --log-level info

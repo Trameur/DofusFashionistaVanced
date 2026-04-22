@@ -4,6 +4,11 @@ services:
     image: mysql:8.0
     container_name: fashionista_mysql
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: fashionista
@@ -26,6 +31,11 @@ services:
     build: .
     container_name: fashionista_web
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
     depends_on:
       mysql:
         condition: service_healthy
@@ -56,6 +66,11 @@ services:
     image: nginx:alpine
     container_name: fashionista_nginx
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
     depends_on:
       - web
     ports:
