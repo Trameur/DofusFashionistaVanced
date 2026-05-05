@@ -300,8 +300,9 @@ LOGGING = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'fashionista-cache',
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/fashionista-cache',
+        'TIMEOUT': 6 * 60 * 60,  # 6 hours default
     }
 }
 

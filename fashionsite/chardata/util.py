@@ -65,23 +65,17 @@ def get_base_stats_by_attr(request, char_id):
     return base_stats_by_attr
 
 def get_stats(char):
-    stats = {}
-    for element_name, _ in STATS_NAMES:
-        basestats = CharBaseStats.objects.filter(char=char, stat=element_name)
-        if len(basestats) == 0:
-            stats[element_name] = 0
-        else:
-            stats[element_name] = basestats[0].total_value - basestats[0].scrolled_value
+    stats = {element_name: 0 for element_name, _ in STATS_NAMES}
+    for bs in CharBaseStats.objects.filter(char=char):
+        if bs.stat in stats:
+            stats[bs.stat] = bs.total_value - bs.scrolled_value
     return stats
 
 def get_scrolled_stats(char):
-    stats = {}
-    for element_name, _ in STATS_NAMES:
-        basestats = CharBaseStats.objects.filter(char=char, stat=element_name)
-        if len(basestats) == 0:
-            stats[element_name] = 0
-        else:
-            stats[element_name] = basestats[0].scrolled_value
+    stats = {element_name: 0 for element_name, _ in STATS_NAMES}
+    for bs in CharBaseStats.objects.filter(char=char):
+        if bs.stat in stats:
+            stats[bs.stat] = bs.scrolled_value
     return stats
 
 def safe_int(val, default=None):

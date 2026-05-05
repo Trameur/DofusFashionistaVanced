@@ -246,7 +246,7 @@ def translate_build_name(build_name):
 
 def shared_builds(request):
     """Display a page with all shared builds, with search and filter options."""
-    
+
     # Get filter parameters from GET request
     char_class = request.GET.get('char_class', '')
     min_level = request.GET.get('min_level', '')
@@ -267,12 +267,19 @@ def shared_builds(request):
         if request.GET.get(f'check_{aspect}'):
             selected_aspects.append(aspect)
     
-    # Start with all shared, non-deleted builds
-    # Annotate with like and favorite counts
-    builds = Char.objects.filter(link_shared=True, deleted=False).select_related('owner').annotate(
-        like_count=Count(Case(When(buildvote__vote_type='like', then=1), output_field=IntegerField())),
-        favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1), output_field=IntegerField()))
+    # Start with all shared, non-deleted builds.
+    # Only annotate vote counts when needed for ordering — it's an expensive JOIN.
+    needs_vote_annotation = order_by in ('likes', 'favorites') or (
+        request.user.is_authenticated and (show_liked or show_favorited)
     )
+
+    if needs_vote_annotation:
+        builds = Char.objects.filter(link_shared=True, deleted=False).select_related('owner').annotate(
+            like_count=Count(Case(When(buildvote__vote_type='like', then=1), output_field=IntegerField())),
+            favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1), output_field=IntegerField()))
+        )
+    else:
+        builds = Char.objects.filter(link_shared=True, deleted=False).select_related('owner')
     
     # Apply filters
     if char_class:
@@ -364,13 +371,13 @@ def shared_builds(request):
             F('modified_time').desc(nulls_last=True),
             '-id'
         )
-    elif order_by == 'likes':
+    elif order_by == 'likes' and needs_vote_annotation:
         builds = builds.order_by('-like_count', '-modified_time')
-    elif order_by == 'favorites':
+    elif order_by == 'favorites' and needs_vote_annotation:
         builds = builds.order_by('-favorite_count', '-modified_time')
     else:
         builds = builds.order_by('-view_count', '-modified_time')
-    
+
     builds_data = []
     if hide_invalid:
         all_builds_data = []
@@ -402,6 +409,24 @@ def shared_builds(request):
 
         page_chars = list(builds_page.object_list)
         meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
+
+    # Bulk-fetch vote counts for just the page items (1–2 queries for N items)
+    if page_chars:
+        page_char_ids = [char.id for char in page_chars]
+        if not needs_vote_annotation:
+            vote_rows = BuildVote.objects.filter(
+                build_id__in=page_char_ids
+            ).values('build_id', 'vote_type').annotate(cnt=Count('build_id'))
+            like_counts = {}
+            favorite_counts = {}
+            for row in vote_rows:
+                if row['vote_type'] == 'like':
+                    like_counts[row['build_id']] = row['cnt']
+                elif row['vote_type'] == 'favorite':
+                    favorite_counts[row['build_id']] = row['cnt']
+            for char in page_chars:
+                char.like_count = like_counts.get(char.id, 0)
+                char.favorite_count = favorite_counts.get(char.id, 0)
 
     owner_ids = [char.owner_id for char in page_chars if char.owner_id]
     alias_by_user_id = {
