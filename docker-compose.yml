@@ -48,7 +48,8 @@ services:
       - DB_PASSWORD=fashionista
       - DEBUG=False
     volumes:
-      - /etc/fashionista/gen_config.json:/etc/fashionista/gen_config.json
+      - ${FASHIONISTA_GEN_CONFIG_PATH:-./docker/gen_config.json}:/etc/fashionista/gen_config.json
+      - ${FASHIONISTA_DEBUG_MODE_PATH:-./docker/debug_mode}:/etc/fashionista/debug_mode
       - static_files:/app/fashionsite/staticfiles
     ports:
       - "8000:8000"

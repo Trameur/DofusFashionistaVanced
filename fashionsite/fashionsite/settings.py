@@ -60,7 +60,14 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ['.fashionistavanced.com', 'fashionistavanced.com', '16.171.215.36']
+    ALLOWED_HOSTS = [
+        '.fashionistavanced.com',
+        'fashionistavanced.com',
+        '16.171.215.36',
+        'localhost',
+        '127.0.0.1',
+        '[::1]',
+    ]
 
 # CSRF trusted origins for Django 4.0+
 CSRF_TRUSTED_ORIGINS = [

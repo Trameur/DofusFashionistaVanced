@@ -98116,6 +98116,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 29754,
+            "name": "Potion vers la zone Bêta",
+            "type": {
+                "name": "Potion de téléportation",
+                "id": 25
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15778-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15778-128.png"
+            },
+            "description": "Cette potion vous permet de vous téléporter dans la zone Bêta.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Gagne x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Gagne x"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Téléporte",
+                        "id": 53,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Téléporte"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 30065,
             "name": "Diplôme de Nostalgique",
             "type": {
@@ -127411,6 +127454,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 34322,
+            "name": "Diplôme de Sprinteur Survolté",
+            "type": {
+                "name": "Parchemin de titre",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Ce diplôme confère le titre « Sprinteur Survolté ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titre :",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titre : Sprinteur Survolté"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34333,
             "name": "Siffloter",
             "type": {
@@ -127449,6 +127535,281 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34345,
+            "name": "Dragobon Vanille survolté",
+            "type": {
+                "name": "Friandise",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42263-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42263-128.png"
+            },
+            "description": "Une petite boule concentrée en goût et en effet en tout genre. La friandise préférée de votre dragon préféré.\n(Ce bonbon augmente les gains d'expérience pendant 6 heures).",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34346,
+            "name": "Dragobon Gingembre survolté",
+            "type": {
+                "name": "Friandise",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42262-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42262-128.png"
+            },
+            "description": "Une petite boule concentrée en goût et en effet en tout genre. La friandise préférée de votre dragon préféré.\n(Ce bonbon augmente les chances d'obtenir un butin pendant 3 heures).",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34347,
+            "name": "Potion d'expérience survoltée (50)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Cette potion vous donnera l'expérience nécessaire pour passer du niveau 1 au niveau 50.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Point d'expérience",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Point d'expérience"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34348,
+            "name": "Potion d'expérience survoltée (100)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Cette potion vous donnera l'expérience nécessaire pour passer du niveau 1 au niveau 100.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Point d'expérience",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Point d'expérience"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34349,
+            "name": "Potion d'expérience survoltée (150)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Cette potion vous donnera l'expérience nécessaire pour passer du niveau 1 au niveau 150.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Point d'expérience",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Point d'expérience"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34350,
+            "name": "Potion d'expérience survoltée (190)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Cette potion vous donnera l'expérience nécessaire pour passer du niveau 1 au niveau 190.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Point d'expérience",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Point d'expérience"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34351,
+            "name": "Potion d'expérience survoltée (200)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Cette potion vous donnera l'expérience nécessaire pour passer du niveau 1 au niveau 200.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Point d'expérience",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Point d'expérience"
                 }
             ],
             "pods": 1

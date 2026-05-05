@@ -98116,6 +98116,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 29754,
+            "name": "Pócima hacia la zona Beta",
+            "type": {
+                "name": "Pócima de teletransportación",
+                "id": 25
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15778-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15778-128.png"
+            },
+            "description": "Con esta pócima podrás teletransportarte a la zona Beta.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Gana x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Gana x"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Teletransporta",
+                        "id": 53,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Teletransporta"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 30065,
             "name": "Diploma de nostálgico",
             "type": {
@@ -127411,6 +127454,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 34322,
+            "name": "Diploma de esprínter alterado",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Este diploma otorga el título de «Esprínter alterado».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Esprínter alterado."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34333,
             "name": "[!] Siffloter",
             "type": {
@@ -127449,6 +127535,281 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34345,
+            "name": "Dragobón de vainilla alterado",
+            "type": {
+                "name": "Golosina",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42263-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42263-128.png"
+            },
+            "description": "Una bolita con todo tipo de sabores y efectos concentrados. El dulce favorito de tu dragón favorito.\n(Este caramelo aumenta las ganancias de experiencia durante 6 horas).",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34346,
+            "name": "Dragobón de jengibre alterado",
+            "type": {
+                "name": "Golosina",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42262-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42262-128.png"
+            },
+            "description": "Una bolita con todo tipo de sabores y efectos concentrados. El dulce favorito de tu dragón favorito.\n(Este caramelo aumenta la probabilidad de conseguir un botín durante 3 horas).",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34347,
+            "name": "Pócima de experiencia alterada (50)",
+            "type": {
+                "name": "Pócima",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Esta pócima te dará la experiencia necesaria para pasar del nivel 1 al nivel 50.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "punto de experiencia",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 punto de experiencia"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34348,
+            "name": "Pócima de experiencia alterada (100)",
+            "type": {
+                "name": "Pócima",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Esta pócima te dará la experiencia necesaria para pasar del nivel 1 al nivel 100.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "punto de experiencia",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 punto de experiencia"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34349,
+            "name": "Pócima de experiencia alterada (150)",
+            "type": {
+                "name": "Pócima",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Esta pócima te dará la experiencia necesaria para pasar del nivel 1 al nivel 150.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "punto de experiencia",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 punto de experiencia"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34350,
+            "name": "Pócima de experiencia alterada (190)",
+            "type": {
+                "name": "Pócima",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Esta pócima te dará la experiencia necesaria para pasar del nivel 1 al nivel 190.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "punto de experiencia",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 punto de experiencia"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34351,
+            "name": "Pócima de experiencia alterada (200)",
+            "type": {
+                "name": "Pócima",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Esta pócima te dará la experiencia necesaria para pasar del nivel 1 al nivel 200.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "punto de experiencia",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 punto de experiencia"
                 }
             ],
             "pods": 1

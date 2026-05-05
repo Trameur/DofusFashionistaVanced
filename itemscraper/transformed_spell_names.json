@@ -3408,6 +3408,13 @@
     "fr": "Communion Animale",
     "pt": "Comunhão Animal"
   },
+  "Animal Link": {
+    "de": "Ruf der Wildnis",
+    "en": "Animal Link",
+    "es": "Vínculo Animal",
+    "fr": "Lien animal",
+    "pt": "Elo Animal"
+  },
   "Animal Pheromones": {
     "de": "Bestialische Pheromone",
     "en": "Animal Pheromones",
@@ -16834,6 +16841,13 @@
     "fr": "Croutage",
     "pt": "Encrostação"
   },
+  "Crvor": {
+    "de": "Crvor",
+    "en": "Crvor",
+    "es": "Crvor",
+    "fr": "Crvor",
+    "pt": "Crvor"
+  },
   "Cry of Agony": {
     "de": "Röchelnde Agonie",
     "en": "Cry of Agony",
@@ -22601,6 +22615,13 @@
     "es": "Dracollamas",
     "fr": "Dracoflammes",
     "pt": "Dragochamas"
+  },
+  "Dragoheal": {
+    "de": "Dracopflege",
+    "en": "Dragoheal",
+    "es": "Dragocura",
+    "fr": "Dragosoin",
+    "pt": "Dragocura"
   },
   "Dragon Exhortation": {
     "de": "Anrufung des Drachen",
@@ -35580,6 +35601,13 @@
     "fr": "Immunisation",
     "pt": "Imunização"
   },
+  "Immunity": {
+    "de": "Immunität",
+    "en": "Immunity",
+    "es": "Inmunidad",
+    "fr": "Immunité",
+    "pt": "Imunidade"
+  },
   "Immunodeficiency": {
     "de": "Abwehrschwäche",
     "en": "Immunodeficiency",
@@ -43490,6 +43518,13 @@
     "fr": "Martyre",
     "pt": "Martírio"
   },
+  "Martyr Punishment": {
+    "de": "Bestrafung des Märtyrers",
+    "en": "Martyr Punishment",
+    "es": "Castigo del Mártir",
+    "fr": "Châtiment du Martyr",
+    "pt": "Castigo do Mártir"
+  },
   "Mary Reankle's Judgement": {
     "de": "Marie Reeds Urteil",
     "en": "Mary Reankle's Judgement",
@@ -43615,6 +43650,13 @@
     "es": "Veneno Insidioso de Maza",
     "fr": "Poison insidieux de masse",
     "pt": "Veneno Insidioso de massa"
+  },
+  "Mass Trap": {
+    "de": "Massenfalle",
+    "en": "Mass Trap",
+    "es": "Trampa de Masas",
+    "fr": "Piège de Masse",
+    "pt": "Armadilha de Massa"
   },
   "Mass Unsummoning": {
     "de": "Massenentzauberung",
@@ -50952,6 +50994,13 @@
     "fr": "Punition Mesquine",
     "pt": "Punição Mesquinha"
   },
+  "Petulance": {
+    "de": "Übermut",
+    "en": "Petulance",
+    "es": "Petulancia",
+    "fr": "Pétulance",
+    "pt": "Petulância"
+  },
   "Petunia": {
     "de": "Petunia",
     "en": "Petunia",
@@ -51840,6 +51889,13 @@
     "es": "¡Ojo, Que Quema!",
     "fr": "Qui s'y frotte s'y brûle",
     "pt": "Brincar com Fogo"
+  },
+  "Player Gameplay": {
+    "de": "Spieler-Gameplay",
+    "en": "Player Gameplay",
+    "es": "Gameplay jugador",
+    "fr": "Gameplay joueur",
+    "pt": "Gameplay do Jogador"
   },
   "Playful Claw": {
     "de": "Spielkralle",
@@ -55180,6 +55236,13 @@
     "fr": "Radotage",
     "pt": "Disparate"
   },
+  "RamboPL": {
+    "de": "RamboPL",
+    "en": "RamboPL",
+    "es": "RamboPL",
+    "fr": "RamboPL",
+    "pt": "RamboPL"
+  },
   "Ramification": {
     "de": "Verzweigung",
     "en": "Ramification",
@@ -56600,6 +56663,13 @@
     "es": "Resonancia",
     "fr": "Résonance",
     "pt": "Ressonância"
+  },
+  "Resonance (Snyler)": {
+    "de": "Resonanz (Snyler)",
+    "en": "Resonance (Snyler)",
+    "es": "Resonancia (Snyler)",
+    "fr": "Résonance (Snyler)",
+    "pt": "Ressonância (Snyler)"
   },
   "Resounding Hoof": {
     "de": "Klingender Stiefel",
@@ -63076,6 +63146,13 @@
     "fr": "Caninos",
     "pt": "Caninos"
   },
+  "Snyler": {
+    "de": "Snyler",
+    "en": "Snyler",
+    "es": "Snyler",
+    "fr": "Snyler",
+    "pt": "Snyler"
+  },
   "Snyperock": {
     "de": "Sneipör",
     "en": "Snyperock",
@@ -67164,6 +67241,13 @@
     "fr": "Invocation de Marionnette Rouge",
     "pt": "Invocação de Marionete Vermelha"
   },
+  "Summoning of Red Wyrmling": {
+    "de": "Beschwörung des Roten Drachennestlings",
+    "en": "Summoning of Red Wyrmling",
+    "es": "Invocación de Dragonito Rojo",
+    "fr": "Invocation du Dragonnet rouge",
+    "pt": "Invocação do Dragoneto Vermelho"
+  },
   "Summoning of Running Bow Wow": {
     "de": "Rennenden SchnuffWuff beschwören",
     "en": "Summoning of Running Bow Wow",
@@ -68885,6 +68969,13 @@
     "es": "Telefrag",
     "fr": "Téléfrag",
     "pt": "Telefrag"
+  },
+  "Teleglyph": {
+    "de": "Teleglyphation",
+    "en": "Teleglyph",
+    "es": "Teleglifo",
+    "fr": "Téléglyphe",
+    "pt": "Teleglifo"
   },
   "Telekinesis": {
     "de": "Telekinese",
@@ -77929,6 +78020,13 @@
     "es": "Bufido",
     "fr": "Feulement",
     "pt": "Rugido Felino"
+  },
+  "Yoy": {
+    "de": "Yoy",
+    "en": "Yoy",
+    "es": "Yoy",
+    "fr": "Yoy",
+    "pt": "Yoy"
   },
   "Yozora": {
     "de": "Yozora",

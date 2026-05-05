@@ -98116,6 +98116,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 29754,
+            "name": "Trank für die Reise in die Beta-Zone",
+            "type": {
+                "name": "Teleportationstrank",
+                "id": 25
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15778-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15778-128.png"
+            },
+            "description": "Mit diesem Trank könnt ihr euch in die Beta-Zone teleportieren.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erhalte x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Erhalte x"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Teleportiert",
+                        "id": 53,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Teleportiert"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 30065,
             "name": "„Nostalgiker“-Diplom",
             "type": {
@@ -127411,6 +127454,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 34322,
+            "name": "Diplom „Elektrisierter Sprinter“",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Dieses Diplom verleiht den Titel „Elektrisierter Sprinter“.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Elektrisierter Sprinter"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34333,
             "name": "[!] Siffloter",
             "type": {
@@ -127454,6 +127540,281 @@
             "pods": 1
         },
         {
+            "ankama_id": 34345,
+            "name": "Aufgekratztes Vanille-Drachobon",
+            "type": {
+                "name": "Süßigkeit",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42263-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42263-128.png"
+            },
+            "description": "Ein Kügelchen mit hochkonzentriertem Geschmack und mannigfaltigen Wirkungen. Die Lieblingssüßigkeit eures Lieblingsdrachens.\n(Dieses Bonbon erhöht 6 Stunden lang die erhaltenen EP).",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34346,
+            "name": "Aufgekratztes Ingwer-Drachobon",
+            "type": {
+                "name": "Süßigkeit",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42262-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42262-128.png"
+            },
+            "description": "Ein Kügelchen mit hochkonzentriertem Geschmack und mannigfaltigen Wirkungen. Die Lieblingssüßigkeit eures Lieblingsdrachens.\n(Dieses Bonbon erhöht 3 Stunden lang die Chance auf Drops).",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34347,
+            "name": "Geladener Erfahrungstrank (50)",
+            "type": {
+                "name": "Trank",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Dieser Trank verleiht euch die nötige Erfahrung, um von Stufe 1 auf Stufe 50 aufzusteigen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erfahrungspunkt",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Erfahrungspunkt"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34348,
+            "name": "Geladener Erfahrungstrank (100)",
+            "type": {
+                "name": "Trank",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Dieser Trank verleiht euch die nötige Erfahrung, um von Stufe 1 auf Stufe 100 aufzusteigen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erfahrungspunkt",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Erfahrungspunkt"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34349,
+            "name": "Geladener Erfahrungstrank (150)",
+            "type": {
+                "name": "Trank",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Dieser Trank verleiht euch die nötige Erfahrung, um von Stufe 1 auf Stufe 150 aufzusteigen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erfahrungspunkt",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Erfahrungspunkt"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34350,
+            "name": "Geladener Erfahrungstrank (190)",
+            "type": {
+                "name": "Trank",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Dieser Trank verleiht euch die nötige Erfahrung, um von Stufe 1 auf Stufe 190 aufzusteigen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erfahrungspunkt",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Erfahrungspunkt"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34351,
+            "name": "Geladener Erfahrungstrank (200)",
+            "type": {
+                "name": "Trank",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "Dieser Trank verleiht euch die nötige Erfahrung, um von Stufe 1 auf Stufe 200 aufzusteigen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erfahrungspunkt",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Erfahrungspunkt"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34390,
             "name": "Solary-Diplom",
             "type": {
@@ -127465,7 +127826,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
-            "description": "Dieses Diplom verleiht den Titel „Titelstürmer“.",
+            "description": "Dieses Diplom verleiht den Titel „Ça vise le titre“.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -127508,7 +127869,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
-            "description": "Dieses Diplom verleiht den Titel „Her mit dem Peps“.",
+            "description": "Dieses Diplom verleiht den Titel „La main sur la Peps“.",
             "effects": [
                 {
                     "int_minimum": 0,

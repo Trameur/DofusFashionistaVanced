@@ -98116,6 +98116,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 29754,
+            "name": "Beta Area Potion",
+            "type": {
+                "name": "Teleportation potion",
+                "id": 25
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15778-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15778-128.png"
+            },
+            "description": "Use this potion to teleport to the Beta area.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Gainsx",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Gains x"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Teleport",
+                        "id": 53,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Teleport"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 30065,
             "name": "Nostalgic Certificate",
             "type": {
@@ -127411,6 +127454,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 34322,
+            "name": "Supercharged Sprinter Certificate",
+            "type": {
+                "name": "Title Scroll",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "This certificate awards you the title of \"Supercharged Sprinter\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Supercharged Sprinter"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34333,
             "name": "[!] Siffloter",
             "type": {
@@ -127449,6 +127535,281 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34345,
+            "name": "Supercharged Vanilla Dragobon",
+            "type": {
+                "name": "Treat",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42263-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42263-128.png"
+            },
+            "description": "A little ball of concentrated flavour that can produce all manner of effects. Your favourite dragon's favourite sweet.\n(This candy increases experience gains for 6 hours.)",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34346,
+            "name": "Supercharged Ginger Dragobon",
+            "type": {
+                "name": "Treat",
+                "id": 30
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/42262-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/42262-128.png"
+            },
+            "description": "A little ball of concentrated flavour that can produce all manner of effects. Your favourite dragon's favourite sweet.\n(This candy increases the likelihood of obtaining loot for 3 hours.)",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34347,
+            "name": "Supercharged Experience Potion (50)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "This potion will give you the experience you need to level up from level 1 to level 50.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Experience Point",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Experience Point"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34348,
+            "name": "Supercharged Experience Potion (100)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "This potion will give you the experience you need to level up from level 1 to level 100.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Experience Point",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Experience Point"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34349,
+            "name": "Supercharged Experience Potion (150)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "This potion will give you the experience you need to level up from level 1 to level 150.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Experience Point",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Experience Point"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34350,
+            "name": "Supercharged Experience Potion (190)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "This potion will give you the experience you need to level up from level 1 to level 190.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Experience Point",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Experience Point"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34351,
+            "name": "Supercharged Experience Potion (200)",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12801-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12801-128.png"
+            },
+            "description": "This potion will give you the experience you need to level up from level 1 to level 200.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Experience Point",
+                        "id": 210,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "0 Experience Point"
                 }
             ],
             "pods": 1
