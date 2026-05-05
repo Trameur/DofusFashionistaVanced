@@ -38,7 +38,7 @@ jmespath==1.0.1
 jsonpatch==1.21
 jsonpickle==4.1.1
 jsonpointer==2.0
-jsonschema==3.2.0
+jsonschema==4.26.0
 #libcomps==0.1.18
 lockfile==0.12.2
 MarkupSafe==3.0.2
