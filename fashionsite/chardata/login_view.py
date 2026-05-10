@@ -24,14 +24,22 @@ from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.utils.crypto import get_random_string
 from django.utils.http import url_has_allowed_host_and_scheme
-from smtplib import SMTPRecipientsRefused
+from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
 import hashlib
+import logging
 
 from chardata.models import UserAlias
 from chardata.util import set_response, TESTER_USERS, HttpResponseText
 from django.utils.translation import gettext as _
+
+logger = logging.getLogger(__name__)
+
+
+def _get_from_email():
+    return getattr(settings, 'DEFAULT_FROM_EMAIL', None) or settings.EMAIL_HOST_USER or 'DofusFashionistaVanced@gmail.com'
 
 def login_page(request, char_id=0):
     return _login_page_generic(request, False, None, char_id, False)
@@ -68,10 +76,16 @@ def register(request):
         send_mail(_('Welcome to The Dofus Fashionista!'),
                   _('Please click the link below to confirm your email and activate your '
                     'account.') + '\n' + link,
-                  'DofusFashionistaVanced@gmail.com',
+                  _get_from_email(),
                   [email])
-    except (BadHeaderError, SMTPRecipientsRefused) as e:
-        raise e
+    except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
+        logger.exception('Registration email could not be sent to %s', email)
+        return set_response(request,
+                            'chardata/recover_password.html',
+                            {'request': request,
+                             'email': email,
+                             'from_register': False,
+                             'email_send_failed': True})
         
     user = User.objects.create_user(username, email, password)
     user.is_active = False
@@ -186,15 +200,22 @@ def _recover_password_page(request, email, from_register):
                     '{link}\n\n'
                     'If you don\'t want to reset your password, just ignore this email.').format(
                         link=link),
-                  'DofusFashionistaVanced@gmail.com',
+                  _get_from_email(),
                   [email])
-    except (BadHeaderError, SMTPRecipientsRefused) as e:
-        raise e
+    except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
+        logger.exception('Password recovery email could not be sent to %s', email)
+        return set_response(request,
+                            'chardata/recover_password.html',
+                            {'request': request,
+                             'email': email,
+                             'from_register': from_register,
+                             'email_send_failed': True})
     return set_response(request,
                         'chardata/recover_password.html', 
                         {'request': request,
                          'email': email,
-                         'from_register': from_register})
+                         'from_register': from_register,
+                         'email_send_failed': False})
 
 def recover_password(request, username, recover_token):
     users = User.objects.filter(username=username)
@@ -207,29 +228,40 @@ def recover_password(request, username, recover_token):
     correct_token = _generate_token_for_password_reset(username, current_password)
     if correct_token != recover_token:
         raise PermissionDenied
-        
+
     username = user.username
-    new_password = User.objects.make_random_password()
-    user.set_password(hashlib.sha256(('dofusfashionista' + new_password).encode('utf-8')).hexdigest())
+    if request.method != 'POST':
+        return set_response(request,
+                            'chardata/password_reset_form.html',
+                            {'request': request,
+                             'username': username,
+                             'recover_token': recover_token})
+
+    new_password = request.POST.get('new_password', None)
+    confirm_password = request.POST.get('confirm_password', None)
+    error_message = None
+
+    if not new_password:
+        error_message = _('You need to enter a new password.')
+    elif new_password != confirm_password:
+        error_message = _('The passwords do not match.')
+
+    if error_message:
+        return set_response(request,
+                            'chardata/password_reset_form.html',
+                            {'request': request,
+                             'username': username,
+                             'recover_token': recover_token,
+                             'error_message': error_message})
+
+    new_password_hashed = hashlib.sha256(('dofusfashionista' + new_password).encode('utf-8')).hexdigest()
+    user.set_password(new_password_hashed)
     user.save()
-    
-    try:
-        send_mail(_('Password for The Dofus Fashionista has been reset'),
-                  _('Hello, {username}!\n'
-                    'The following password has been generated for you:\n\n'
-                    '{new_password}\n\n'
-                    'Change it to a new one or just keep this email ;-)').format(
-                        username=username, new_password=new_password),
-                  'DofusFashionistaVanced@gmail.com',
-                  [user.email])
-    except (BadHeaderError, SMTPRecipientsRefused) as e:
-        raise e
         
     return set_response(request,
                         'chardata/password_was_reset.html', 
                         {'request': request,
-                         'username': username,
-                         'new_password': new_password})
+                         'username': username})
 
 EMAIL_CONFIRMATION_SALT = settings.GEN_CONFIGS["EMAIL_CONFIRMATION_SALT"]
 def _generate_token_for_user(username):

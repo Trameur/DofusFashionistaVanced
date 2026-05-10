@@ -87,14 +87,14 @@ def infeasible(request, char_id=0):
                          'exo_link': reverse('options', args=(char_id,))},
                         char)
                                                          
-def forbidden(request, char_id=0):
+def forbidden(request, exception=None, char_id=0):
     return set_response(request, 
                         'chardata/403.html', 
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id})
                          
-def not_found(request, char_id=0):
+def not_found(request, exception=None, char_id=0):
     return set_response(request, 
                         'chardata/404.html', 
                         {'request': request,
