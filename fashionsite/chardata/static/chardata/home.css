@@ -289,3 +289,144 @@ h2:first-letter{
 }
 
 
+/* =============================================
+   RESPONSIVE LAYOUT — Tablet & Mobile
+   =============================================
+   Strategy:
+   - ≤ 1100px: fluid containers (was 1044/1234px fixed)
+               home giant-buttons switch to flex flow (no more absolute positioning)
+   - ≤ 768px : single-column — sidebar collapses to a horizontal top bar
+   ============================================= */
+
+/* --- Fluid containers + flex buttons (tablet & smaller) --- */
+@media screen and (max-width: 1100px) {
+    .add-banner {
+        width: 100% !important;
+        max-width: 1234px;
+        box-sizing: border-box;
+    }
+    .everything {
+        width: 100% !important;
+        max-width: 1044px;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+    .banner {
+        width: 100% !important;
+        height: auto;
+        box-sizing: border-box;
+    }
+    .banner img {
+        max-width: 100%;
+        height: auto;
+    }
+    .secondcolumn {
+        margin-left: 0;
+    }
+    /* Home page: switch giant buttons from absolute to flex flow */
+    .main-div table {
+        display: none;
+    }
+    .main-div {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 0;
+    }
+    .giant-button {
+        position: static !important;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 8px;
+        top: auto !important;
+        left: auto !important;
+    }
+}
+
+/* --- Mobile: single-column layout (≤ 768px) --- */
+@media screen and (max-width: 768px) {
+
+    /* Sidebar becomes a horizontal nav bar: two mini-menus side by side */
+    .sidebar {
+        float: none;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding: 6px 0;
+        font-size: 14px;
+    }
+    .sidebar > .space {
+        display: none;
+    }
+    .mini-menu {
+        flex: 1 1 0;
+        min-width: 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+    .menu_link:link, .menu_link:visited,
+    .menu-collapse-link:link, .menu-collapse-link:visited {
+        width: 100%;
+        min-width: 0;
+        white-space: normal;
+        box-sizing: border-box;
+        padding: 9px 6px;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+    .menu_link {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Main content: remove sidebar offset */
+    .maincolumn {
+        margin: 0;
+    }
+    .secondcolumn {
+        margin: 0;
+        padding: 10px;
+    }
+
+    /* Shrink padding on content boxes */
+    .maincontent, .loading {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    /* Space bar (login / language / theme selectors) — allow wrapping */
+    .space {
+        height: auto;
+        min-height: 30px;
+        padding-bottom: 4px;
+        overflow: visible;
+    }
+
+    /* Hide the character class image that overlays the banner on mobile
+       (it uses top:-230px which is off-screen when banner is small) */
+    .char {
+        display: none;
+    }
+
+    /* Smaller headings on mobile */
+    h1 {
+        font-size: 20pt;
+    }
+
+    /* Giant buttons: 2 per row on mobile */
+    .giant-button {
+        box-sizing: border-box;
+        width: calc(50% - 16px);
+    }
+    .giant-button-pic img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+

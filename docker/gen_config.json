@@ -4,7 +4,7 @@
     "SECRET_KEY": "django-insecure-docker-change-me-in-production",
     "mysql_PASSWORD": "fashionista",
     "mysql_USER": "fashionista",
-    "EMAIL_HOST_USER": "",
+    "EMAIL_HOST_USER": "dofusfashionistavanced@gmail.com",
     "EMAIL_HOST_PASSWORD": "",
     "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY": null,
     "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET": null,
