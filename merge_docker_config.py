@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """
-Script to merge Docker default configuration with existing configuration.
-Preserves existing values for SOCIAL_AUTH and other important settings.
+Script to initialize/merge Docker configuration.
+
+Safety behavior:
+- If config does not exist: create it from defaults.
+- If config exists: keep it unchanged by default.
+- Use --force-merge to apply default-key merge explicitly.
 """
 
+import argparse
 import json
 import os
 import sys
@@ -22,8 +27,6 @@ DEFAULT_CONFIG = {
     "EMAIL_HOST_PASSWORD": "",
     "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY": None,
     "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET": None,
-    "SOCIAL_AUTH_FACEBOOK_KEY": None,
-    "SOCIAL_AUTH_FACEBOOK_SECRET": None,
     "DBBACKUP_S3_ACCESS_KEY": None,
     "DBBACKUP_S3_SECRET_KEY": None,
     "url_captcha_secret": None,
@@ -37,7 +40,12 @@ DEFAULT_CONFIG = {
     "SUPER_USERS_EMAILS": ["admin@localhost"]
 }
 
-def merge_configs():
+DEPRECATED_KEYS = {
+    "SOCIAL_AUTH_FACEBOOK_KEY",
+    "SOCIAL_AUTH_FACEBOOK_SECRET",
+}
+
+def merge_configs(force_merge=False):
     """Merge existing config with defaults, preserving non-null values."""
     
     # Ensure config directory exists
@@ -45,15 +53,21 @@ def merge_configs():
     
     # Read existing config if it exists
     existing_config = {}
-    if os.path.exists(CONFIG_FILE):
+    config_exists = os.path.exists(CONFIG_FILE)
+    if config_exists:
         try:
             with open(CONFIG_FILE, 'r') as f:
                 existing_config = json.load(f)
             print(f"✓ Loaded existing configuration from {CONFIG_FILE}")
         except json.JSONDecodeError as e:
-            print(f"⚠ Warning: Could not parse existing config: {e}")
-            print("  Will use default configuration instead")
-            existing_config = {}
+            print(f"✗ Could not parse existing config: {e}", file=sys.stderr)
+            print("  Refusing to overwrite an invalid config file.", file=sys.stderr)
+            raise
+
+        if not force_merge:
+            print("✓ Existing config detected; leaving it unchanged (safe mode).")
+            print("  Use --force-merge to explicitly merge defaults into existing config.")
+            return existing_config
     else:
         print(f"ℹ No existing configuration found at {CONFIG_FILE}")
     
@@ -76,6 +90,9 @@ def merge_configs():
     
     # Add any new keys from existing config (in case of upgrades)
     for key in existing_config.keys():
+        if key in DEPRECATED_KEYS:
+            print(f"  - Dropped deprecated key {key}")
+            continue
         if key not in merged_config:
             merged_config[key] = existing_config[key]
             print(f"  ✓ Preserved new key {key}")
@@ -101,8 +118,16 @@ def merge_configs():
     return merged_config
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Initialize or merge Docker config safely.")
+    parser.add_argument(
+        "--force-merge",
+        action="store_true",
+        help="Merge defaults into an existing config file (otherwise existing config is left untouched).",
+    )
+    args = parser.parse_args()
+
     try:
-        merge_configs()
+        merge_configs(force_merge=args.force_merge)
     except Exception as e:
         print(f"✗ Error merging configurations: {e}", file=sys.stderr)
         sys.exit(1)

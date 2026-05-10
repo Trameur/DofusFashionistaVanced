@@ -109,8 +109,6 @@ GEN_CONFIG_FILE = {
     'EMAIL_HOST_PASSWORD': "my_password",
     'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY': None,
     'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET': None,
-    'SOCIAL_AUTH_FACEBOOK_KEY': None,
-    'SOCIAL_AUTH_FACEBOOK_SECRET': None,
     'DBBACKUP_S3_ACCESS_KEY': None,
     'DBBACKUP_S3_SECRET_KEY': None,
     'url_captcha_secret': None,

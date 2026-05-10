@@ -8,8 +8,6 @@
     "EMAIL_HOST_PASSWORD": "",
     "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY": null,
     "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET": null,
-    "SOCIAL_AUTH_FACEBOOK_KEY": null,
-    "SOCIAL_AUTH_FACEBOOK_SECRET": null,
     "DBBACKUP_S3_ACCESS_KEY": null,
     "DBBACKUP_S3_SECRET_KEY": null,
     "url_captcha_secret": null,
