@@ -38,6 +38,9 @@ class SolutionResult:
                    
     def get_params(self):
         r = self.model_result 
+
+        def split_into_columns(items, column_count):
+            return [items[index::column_count] for index in range(column_count)]
         
         item_list_ordered = []
         item_list_ordered.extend(r.items['Weapon'])
@@ -49,10 +52,10 @@ class SolutionResult:
         item_list_ordered.extend(r.items['Belt'])
         item_list_ordered.extend(r.items['Shield'])
         item_list_ordered.extend(r.items['Pet'])
-        item_columns = [item_list_ordered[::2], item_list_ordered[1::2]]
+        item_columns = split_into_columns(item_list_ordered, 6)
         
         dofus_list = r.items['Dofus']
-        dofus_columns = [dofus_list[::2], dofus_list[1::2]]
+        dofus_columns = split_into_columns(dofus_list, 6)
         
         item_sections = [item_columns, dofus_columns]
         all_items = item_list_ordered + dofus_list

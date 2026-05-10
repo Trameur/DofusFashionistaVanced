@@ -1,0 +1,12 @@
+{% load i18n %}
+{% if item %}
+<div class="solution-slot-tile{% if extra_class %} {{ extra_class }}{% endif %}{% if not item.id %} solution-slot-empty{% endif %}">
+    <div class="solution-slot-icon-wrap">
+        <img src="{{ item.file }}" alt="{{ label }}" class="solution-slot-icon-img">
+    </div>
+    <div class="solution-slot-copy">
+        <span class="solution-slot-label">{{ label }}</span>
+        <strong>{% if item.id %}{{ item.localized_name }}{% else %}{{ label }}{% endif %}</strong>
+    </div>
+</div>
+{% endif %}

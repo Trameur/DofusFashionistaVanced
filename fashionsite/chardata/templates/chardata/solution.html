@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load get_item %}
 {% load static_s3 %}
 
 {% block title %}The Dofus Fashionista: {% trans "Outfit Suggestion" %}{% endblock %}
@@ -15,6 +16,911 @@
             background-color: #D4AF37 !important;
             color: #000 !important;
             font-weight: bold;
+        }
+
+        body.body-base .solution-item-level {
+            clear: both !important;
+            display: block !important;
+        }
+
+        @media (min-width: 901px) {
+            body.body-base .add-banner {
+                width: 100% !important;
+                margin-right: 0 !important;
+            }
+
+            body.body-base .everything {
+                width: auto !important;
+                max-width: none !important;
+                display: block !important;
+                margin-right: 0 !important;
+            }
+
+            body.body-base .maincolumn {
+                width: auto !important;
+            }
+
+            body.body-base .maincontent {
+                width: auto !important;
+                max-width: none !important;
+                box-sizing: border-box !important;
+            }
+
+            body.body-base .banner {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            body.body-base .solution-table {
+                width: 100% !important;
+            }
+
+            body.body-base .solution-item-summary {
+                width: 66% !important;
+            }
+
+            body.body-base .solution-stat-summary {
+                width: 34% !important;
+            }
+
+            body.body-base .solution-stat-table {
+                width: 100% !important;
+            }
+
+            body.body-base .solution-item-expand-header {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            body.body-base .solution-item-section {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
+            body.body-base .solution-item-section-column {
+                flex: 0 0 calc(33.333% - 6px) !important;
+                max-width: calc(33.333% - 6px) !important;
+                min-width: 0 !important;
+                width: auto !important;
+            }
+
+            body.body-base .solution-sets-section {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
+            body.body-base .solution-sets-section .expand-container {
+                flex: 0 0 calc(33.333% - 6px) !important;
+                max-width: calc(33.333% - 6px) !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+                margin-right: 0 !important;
+                margin-bottom: 0 !important;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            body.body-base .solution-item-section-column {
+                flex: 0 0 calc(25% - 6px) !important;
+                max-width: calc(25% - 6px) !important;
+            }
+            body.body-base .solution-sets-section .expand-container {
+                flex: 0 0 calc(25% - 6px) !important;
+                max-width: calc(25% - 6px) !important;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            body.body-base .solution-item-section-column {
+                flex: 0 0 calc(20% - 7px) !important;
+                max-width: calc(20% - 7px) !important;
+            }
+            body.body-base .solution-sets-section .expand-container {
+                flex: 0 0 calc(20% - 7px) !important;
+                max-width: calc(20% - 7px) !important;
+            }
+        }
+
+        @media (min-width: 2100px) {
+            body.body-base .solution-item-section-column {
+                flex: 0 0 calc(16.667% - 7px) !important;
+                max-width: calc(16.667% - 7px) !important;
+            }
+            body.body-base .solution-sets-section .expand-container {
+                flex: 0 0 calc(16.667% - 7px) !important;
+                max-width: calc(16.667% - 7px) !important;
+            }
+        }
+
+        @media (min-width: 560px) and (max-width: 900px) {
+            body.body-base .solution-table,
+            body.body-base .solution-table > tbody {
+                display: table !important;
+                width: 100% !important;
+            }
+
+            body.body-base .solution-table > tbody > tr {
+                display: table-row !important;
+            }
+
+            body.body-base .solution-item-summary,
+            body.body-base .solution-stat-summary {
+                display: table-cell !important;
+                vertical-align: top !important;
+                box-sizing: border-box !important;
+            }
+
+            body.body-base .solution-item-summary {
+                width: 66% !important;
+            }
+
+            body.body-base .solution-stat-summary {
+                width: 34% !important;
+                margin-top: 0 !important;
+            }
+
+            body.body-base .solution-stat-table {
+                width: 100% !important;
+            }
+
+            body.body-base .solution-item-expand-header {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            body.body-base .solution-item-section {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
+            body.body-base .solution-item-section-column {
+                flex: 0 0 calc(50% - 4px) !important;
+                max-width: calc(50% - 4px) !important;
+                min-width: 0 !important;
+                width: auto !important;
+            }
+
+            body.body-base .solution-sets-section {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
+            body.body-base .solution-sets-section .expand-container {
+                flex: 0 0 calc(50% - 4px) !important;
+                max-width: calc(50% - 4px) !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+                margin-right: 0 !important;
+                margin-bottom: 0 !important;
+            }
+        }
+
+        @media (min-width: 430px) and (max-width: 559px) {
+            body.body-base .maincontent .proj_info {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: auto !important;
+                box-sizing: border-box !important;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            body.body-base .solution-table,
+            body.body-base .solution-table > tbody {
+                display: table !important;
+                width: 100% !important;
+            }
+
+            body.body-base .solution-table > tbody > tr {
+                display: table-row !important;
+            }
+
+            body.body-base .solution-item-summary,
+            body.body-base .solution-stat-summary {
+                display: table-cell !important;
+                vertical-align: top !important;
+                box-sizing: border-box !important;
+            }
+
+            body.body-base .solution-item-summary {
+                width: 68% !important;
+            }
+
+            body.body-base .solution-stat-summary {
+                width: 32% !important;
+                margin-top: 0 !important;
+            }
+
+            body.body-base .solution-item-section-column {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            body.body-base .solution-item-expand-header {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        }
+
+        @media (max-width: 429px) {
+            body.body-base .maincontent .proj_info {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: auto !important;
+                box-sizing: border-box !important;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            body.body-base .solution-table,
+            body.body-base .solution-table > tbody,
+            body.body-base .solution-table > tbody > tr {
+                display: block !important;
+                width: 100% !important;
+            }
+
+            body.body-base .solution-item-summary,
+            body.body-base .solution-stat-summary {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            body.body-base .solution-stat-summary {
+                margin-top: 14px !important;
+            }
+
+            body.body-base .solution-item-section {
+                display: block !important;
+            }
+
+            body.body-base .solution-item-section-column {
+                display: block !important;
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            body.body-base .solution-item-expand-header {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+        }
+
+        body.body-base .maincontent {
+            width: auto !important;
+            max-width: none !important;
+        }
+
+        body.body-base .solution-shell {
+            display: grid;
+            grid-template-columns: 180px minmax(0, 1fr) 360px;
+            gap: 22px;
+            align-items: start;
+            margin-top: 16px;
+        }
+
+        body.body-base .solution-panel {
+            background: linear-gradient(180deg, rgba(255, 251, 232, 0.98), rgba(244, 236, 199, 0.98));
+            border: 1px solid rgba(121, 85, 32, 0.16);
+            border-radius: 24px;
+            box-shadow: 0 18px 40px rgba(75, 48, 16, 0.10);
+            padding: 16px;
+        }
+
+        body.body-base .solution-panel + .solution-panel {
+            margin-top: 18px;
+        }
+
+        body.body-base .solution-panel-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        body.body-base .solution-panel-heading h2,
+        body.body-base .solution-panel-heading h3 {
+            margin: 0;
+            color: #4d2d12;
+            font-size: 28px;
+            line-height: 1.05;
+        }
+
+        body.body-base .solution-panel-kicker {
+            display: inline-block;
+            margin-bottom: 6px;
+            color: #9b6b2f;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        body.body-base .solution-panel-subtitle,
+        body.body-base .solution-ad-placeholder p {
+            margin: 0;
+            color: #6f5841;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        body.body-base .solution-left-rail,
+        body.body-base .solution-right-rail {
+            position: sticky;
+            top: 18px;
+        }
+
+        body.body-base .solution-right-rail {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        body.body-base .solution-overview-grid,
+        body.body-base .solution-stage-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        body.body-base .solution-metric-card {
+            background: rgba(255, 255, 255, 0.66);
+            border: 1px solid rgba(121, 85, 32, 0.12);
+            border-radius: 18px;
+            padding: 12px 14px;
+        }
+
+        body.body-base .solution-metric-card strong {
+            display: block;
+            color: #4d2d12;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        body.body-base .solution-metric-card span {
+            display: block;
+            margin-top: 4px;
+            color: #7b634a;
+            font-size: 12px;
+        }
+
+        body.body-base .solution-ad-placeholder {
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background:
+                radial-gradient(circle at top left, rgba(255, 213, 127, 0.32), transparent 42%),
+                linear-gradient(180deg, rgba(83, 51, 20, 0.92), rgba(46, 29, 12, 0.96));
+            color: #fff7df;
+            overflow: hidden;
+        }
+
+        body.body-base .solution-ad-placeholder h3 {
+            color: #fff7df;
+        }
+
+        body.body-base .solution-ad-placeholder p {
+            color: rgba(255, 247, 223, 0.85);
+        }
+
+        body.body-base .solution-stage-panel {
+            padding: 16px;
+            background:
+                radial-gradient(circle at top, rgba(255, 224, 147, 0.34), transparent 32%),
+                linear-gradient(180deg, rgba(255, 251, 232, 0.98), rgba(241, 231, 189, 0.98));
+        }
+
+        body.body-base .solution-stage-grid {
+            display: grid;
+            grid-template-columns: minmax(210px, 1fr) minmax(240px, 290px) minmax(210px, 1fr);
+            gap: 14px;
+            align-items: center;
+        }
+
+        body.body-base .solution-slot-cluster {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        body.body-base .solution-slot-tile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 62px;
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(121, 85, 32, 0.12);
+            box-shadow: 0 10px 24px rgba(75, 48, 16, 0.08);
+        }
+
+        body.body-base .solution-slot-empty {
+            opacity: 0.75;
+        }
+
+        body.body-base .solution-slot-icon-wrap {
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(83, 51, 20, 0.08);
+            border: 1px solid rgba(121, 85, 32, 0.10);
+        }
+
+        body.body-base .solution-slot-icon-img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        body.body-base .solution-slot-copy {
+            min-width: 0;
+        }
+
+        body.body-base .solution-slot-label {
+            display: block;
+            color: #9b6b2f;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        body.body-base .solution-slot-copy strong {
+            display: block;
+            color: #4d2d12;
+            font-size: 12px;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+
+        body.body-base .solution-stage-core {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        body.body-base .solution-stage-avatar {
+            position: relative;
+            width: min(100%, 250px);
+            aspect-ratio: 1 / 1.04;
+            border-radius: 26px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 18%, rgba(255, 228, 154, 0.95), rgba(241, 194, 96, 0.92) 22%, transparent 22%),
+                linear-gradient(180deg, rgba(83, 51, 20, 0.97), rgba(55, 35, 16, 0.98));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 16px 36px rgba(75, 48, 16, 0.18);
+        }
+
+        body.body-base .solution-stage-avatar::before {
+            content: "";
+            position: absolute;
+            inset: 20px;
+            border-radius: 26px;
+            border: 1px solid rgba(255, 247, 223, 0.18);
+        }
+
+        body.body-base .solution-stage-figure {
+            position: absolute;
+            inset: 0;
+        }
+
+        body.body-base .solution-stage-head {
+            position: absolute;
+            left: 50%;
+            top: 22%;
+            width: 58px;
+            height: 58px;
+            margin-left: -29px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #f5d49c, #cc955d);
+            box-shadow: 0 0 0 10px rgba(255, 243, 214, 0.08);
+        }
+
+        body.body-base .solution-stage-body {
+            position: absolute;
+            left: 50%;
+            bottom: 18%;
+            width: 136px;
+            height: 160px;
+            margin-left: -68px;
+            border-radius: 88px 88px 34px 34px;
+            background:
+                linear-gradient(180deg, rgba(248, 213, 125, 0.30), transparent 20%),
+                linear-gradient(180deg, #ae5e23 0%, #844116 38%, #4a2811 100%);
+        }
+
+        body.body-base .solution-stage-caption {
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: #fff7df;
+            text-align: center;
+        }
+
+        body.body-base .solution-stage-caption strong {
+            font-size: 21px;
+            line-height: 1.05;
+            font-weight: 700;
+        }
+
+        body.body-base .solution-stage-caption span {
+            font-size: 12px;
+            opacity: 0.92;
+        }
+
+        body.body-base .solution-stage-class {
+            font-size: 11px !important;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        body.body-base .solution-stage-dofus {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        body.body-base .solution-stage-dofus .solution-slot-tile {
+            min-height: 52px;
+            padding: 8px;
+        }
+
+        body.body-base .solution-stage-dofus .solution-slot-icon-wrap {
+            width: 34px;
+            height: 34px;
+            flex-basis: 34px;
+        }
+
+        body.body-base .solution-stage-dofus .solution-slot-icon-img {
+            width: 28px;
+            height: 28px;
+        }
+
+        body.body-base .solution-stage-dofus .solution-slot-copy strong {
+            font-size: 11px;
+        }
+
+        body.body-base .solution-stage-metrics {
+            width: 100%;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        body.body-base .solution-stage-metrics .solution-metric-card {
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        body.body-base .solution-stage-metrics .solution-metric-card strong {
+            font-size: 18px;
+        }
+
+        body.body-base .solution-stage-metrics .solution-metric-card span {
+            font-size: 10px;
+        }
+
+        body.body-base .solution-hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        body.body-base .solution-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(83, 51, 20, 0.08);
+            border: 1px solid rgba(121, 85, 32, 0.12);
+            color: #5c3718;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        body.body-base .solution-subsection + .solution-subsection {
+            margin-top: 22px;
+        }
+
+        body.body-base .solution-subsection-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        body.body-base .solution-subsection-heading h3 {
+            margin: 0;
+            color: #4d2d12;
+            font-size: 24px;
+            line-height: 1.05;
+        }
+
+        body.body-base .solution-subsection-heading p {
+            margin: 4px 0 0;
+            color: #7b634a;
+            font-size: 13px;
+        }
+
+        body.body-base .solution-subsection-meta {
+            color: #9b6b2f;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        body.body-base .solution-panel-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        body.body-base .solution-item-grid,
+        body.body-base .solution-set-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+        }
+
+        body.body-base .solution-set-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        body.body-base .solution-item-grid .expand-container,
+        body.body-base .solution-set-grid .expand-container {
+            margin: 0 !important;
+            width: 100% !important;
+            max-width: none !important;
+        }
+
+        body.body-base .solution-item-grid .solution-item-expand-header,
+        body.body-base .solution-item-grid .solution-item-expand-content,
+        body.body-base .solution-set-grid .solution-set-expand-header,
+        body.body-base .solution-set-grid .solution-set-expand-content {
+            width: 100% !important;
+            max-width: none !important;
+            box-sizing: border-box !important;
+        }
+
+        body.body-base .solution-item-grid .solution-item-expand-header,
+        body.body-base .solution-set-grid .solution-set-expand-header {
+            min-height: 168px;
+            padding: 14px !important;
+            background: linear-gradient(180deg, rgba(252, 251, 240, 0.92), rgba(232, 226, 184, 0.96));
+            border: 1px solid rgba(121, 85, 32, 0.12);
+            border-radius: 20px !important;
+            box-shadow: 0 10px 24px rgba(75, 48, 16, 0.08);
+        }
+
+        body.body-base .solution-item-grid .solution-item-expand-content,
+        body.body-base .solution-set-grid .solution-set-expand-content {
+            padding: 12px 14px !important;
+            background: rgba(255, 250, 233, 0.92);
+            border: 1px solid rgba(121, 85, 32, 0.10);
+            border-top: 0;
+        }
+
+        body.body-base .solution-item-grid .solution-item-expand-header table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        body.body-base .solution-item-grid .solution-item-info {
+            position: relative;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        body.body-base .solution-item-grid .solution-item-name-div {
+            float: none;
+            display: block;
+            width: 100%;
+            padding-right: 20px;
+            box-sizing: border-box;
+            overflow-wrap: anywhere;
+            line-height: 1.08;
+            font-weight: 700;
+            color: #4d2d12;
+        }
+
+        body.body-base .solution-item-grid .solution-item-link-div {
+            float: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            line-height: 1;
+        }
+
+        body.body-base .solution-item-grid .solution-item-level {
+            margin-top: 6px;
+            color: #7b634a;
+        }
+
+        body.body-base .solution-item-grid .solution-item-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-top: 10px;
+        }
+
+        body.body-base .solution-item-grid .solution-item-button {
+            width: 16px;
+            height: 16px;
+        }
+
+        body.body-base .solution-item-grid .item-external-image-link {
+            width: 14px;
+            height: 14px;
+        }
+
+        body.body-base .solution-item-grid .solution-item-icon-container {
+            margin-right: 12px;
+        }
+
+        body.body-base .solution-item-grid .solution-items-icon,
+        body.body-base .solution-item-grid .solution-item-icon-container {
+            width: 58px;
+            height: 58px;
+        }
+
+        body.body-base .solution-set-grid .solution-set-expand-header {
+            min-height: 132px;
+        }
+
+        body.body-base .solution-set-grid .solution-set-expand-header-cell:first-child {
+            width: 100%;
+        }
+
+        body.body-base .solution-set-grid .solution-set-icons-list {
+            justify-content: flex-start;
+        }
+
+        body.body-base .solution-stats-card {
+            padding: 16px;
+            max-height: calc(100vh - 32px);
+            overflow: auto;
+        }
+
+        body.body-base .solution-stat-summary {
+            display: block !important;
+            width: auto !important;
+            margin: 0 !important;
+            font-size: 13px;
+        }
+
+        body.body-base .solution-stat-table {
+            width: 100% !important;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 18px;
+            background: rgba(255, 250, 233, 0.92);
+        }
+
+        body.body-base .solution-stat-table td {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        body.body-base .solution-stat-table tr:nth-child(odd) td {
+            background: rgba(121, 85, 32, 0.05);
+        }
+
+        body.body-base .solution-stat-summary-mode-option-container {
+            width: 50%;
+            float: left;
+            padding-bottom: 8px;
+        }
+
+        body.body-base .solution-stat-summary-value-header {
+            font-weight: 700;
+        }
+
+        body.body-base .solution-cta-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 1540px) {
+            body.body-base .solution-shell {
+                grid-template-columns: minmax(0, 1fr) 340px;
+            }
+
+            body.body-base .solution-left-rail {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1180px) {
+            body.body-base .solution-shell {
+                grid-template-columns: 1fr;
+            }
+
+            body.body-base .solution-right-rail {
+                position: static;
+                top: auto;
+            }
+
+            body.body-base .solution-stats-card {
+                max-height: none;
+            }
+
+            body.body-base .solution-stage-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body.body-base .solution-stage-core {
+                order: -1;
+            }
+
+            body.body-base .solution-stage-metrics {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            body.body-base .solution-stage-dofus {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 820px) {
+            body.body-base .solution-panel-heading,
+            body.body-base .solution-subsection-heading {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            body.body-base .solution-hero-tags,
+            body.body-base .solution-panel-actions {
+                justify-content: flex-start;
+            }
+
+            body.body-base .solution-item-grid,
+            body.body-base .solution-set-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 620px) {
+            body.body-base .solution-overview-grid,
+            body.body-base .solution-stage-metrics,
+            body.body-base .solution-slot-cluster,
+            body.body-base .solution-stage-dofus,
+            body.body-base .solution-item-grid,
+            body.body-base .solution-set-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body.body-base .solution-panel {
+                padding: 14px;
+                border-radius: 18px;
+            }
+
+            body.body-base .solution-stage-panel {
+                padding: 16px;
+            }
         }
     </style>
 {% endblock %}
@@ -101,45 +1007,198 @@
     {% endif %}
     {% endif %}
 
-    <table class="solution-table"><tr>
-    <td class="solution-item-summary">
+    <div class="solution-shell">
+        <aside class="solution-left-rail">
+            <div class="solution-panel">
+                <div class="solution-panel-heading">
+                    <div>
+                        <span class="solution-panel-kicker">{% trans "Overview" %}</span>
+                        <h3>{% trans "Build Snapshot" %}</h3>
+                    </div>
+                </div>
+                <div class="solution-overview-grid">
+                    <div class="solution-metric-card">
+                        <strong>{{ all_items|length }}</strong>
+                        <span>{% trans "visible slots" %}</span>
+                    </div>
+                    <div class="solution-metric-card">
+                        <strong>{{ sets|length }}</strong>
+                        <span>{% trans "set bonuses" %}</span>
+                    </div>
+                    <div class="solution-metric-card">
+                        <strong>{% if char.level %}{{ char.level }}{% else %}--{% endif %}</strong>
+                        <span>{% trans "character level" %}</span>
+                    </div>
+                    <div class="solution-metric-card">
+                        <strong>{% if char.char_class %}{{ char.char_class }}{% else %}{% trans "Build" %}{% endif %}</strong>
+                        <span>{% trans "class focus" %}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="solution-panel solution-ad-placeholder">
+                <span class="solution-panel-kicker">{% trans "Reserved" %}</span>
+                <h3>{% trans "Ad Space" %}</h3>
+                <p>{% trans "Left rail kept intentionally open for future ads or featured content." %}</p>
+            </div>
+        </aside>
 
-    <button id="expand_button" class="solution-item-summary-expand-all button-generic">{% trans "Expand All" %}</button>
-    <button id="collapse_button" class="solution-item-summary-collapse-all button-generic">{% trans "Collapse All" %}</button>
+        <div class="solution-main-column">
+            {% with weapon=item_per_slot|get_item:'weapon' hat=item_per_slot|get_item:'hat' cloak=item_per_slot|get_item:'cloak' amulet=item_per_slot|get_item:'amulet' ring1=item_per_slot|get_item:'ring1' ring2=item_per_slot|get_item:'ring2' boots=item_per_slot|get_item:'boots' belt=item_per_slot|get_item:'belt' shield=item_per_slot|get_item:'shield' pet=item_per_slot|get_item:'pet' dofus1=item_per_slot|get_item:'dofus1' dofus2=item_per_slot|get_item:'dofus2' dofus3=item_per_slot|get_item:'dofus3' dofus4=item_per_slot|get_item:'dofus4' dofus5=item_per_slot|get_item:'dofus5' dofus6=item_per_slot|get_item:'dofus6' %}
+            <section class="solution-panel solution-stage-panel">
+                <div class="solution-panel-heading">
+                    <div>
+                        <span class="solution-panel-kicker">{% trans "Centerpiece" %}</span>
+                        <h2>{% trans "Build Stage" %}</h2>
+                        <p class="solution-panel-subtitle">{% trans "A stable overview with the character at the center and every equipped slot visible at a glance." %}</p>
+                    </div>
+                    <div class="solution-hero-tags">
+                        {% if char.char_class %}<span class="solution-chip">{{ char.char_class }}</span>{% endif %}
+                        {% if char.char_build %}<span class="solution-chip">{{ char.char_build }}</span>{% endif %}
+                        {% if char.level %}<span class="solution-chip">{% trans "Lvl." %} {{ char.level }}</span>{% endif %}
+                    </div>
+                </div>
 
-    {% for section in item_sections %}
-    <div class="solution-item-section">
-        {% for item_list_ordered in section %}
-        <div class="solution-item-section-column">
-            {% for item in item_list_ordered %}
-                {% include "chardata/solution_item.html" with item=item %}
-            {% endfor %}
+                <div class="solution-stage-grid">
+                    <div class="solution-slot-cluster">
+                        {% include "chardata/solution_stage_slot.html" with item=hat label=_('Hat') %}
+                        {% include "chardata/solution_stage_slot.html" with item=cloak label=_('Cloak') %}
+                        {% include "chardata/solution_stage_slot.html" with item=amulet label=_('Amulet') %}
+                        {% include "chardata/solution_stage_slot.html" with item=ring1 label=_('Ring') %}
+                        {% include "chardata/solution_stage_slot.html" with item=weapon label=_('Weapon') %}
+                    </div>
+
+                    <div class="solution-stage-core">
+                        <div class="solution-stage-avatar">
+                            <div class="solution-stage-figure">
+                                <div class="solution-stage-head"></div>
+                                <div class="solution-stage-body"></div>
+                            </div>
+                            <div class="solution-stage-caption">
+                                {% if char.char_class %}<span class="solution-stage-class">{{ char.char_class }}</span>{% endif %}
+                                {% if char.char_name %}
+                                <strong>{{ char.char_name }}</strong>
+                                {% else %}
+                                <strong>{% trans "Suggested Set" %}</strong>
+                                {% endif %}
+                                <span>{% trans "Level" %} {% if char.level %}{{ char.level }}{% else %}--{% endif %}</span>
+                            </div>
+                        </div>
+
+                        <div class="solution-stage-metrics">
+                            <div class="solution-metric-card">
+                                <strong>9</strong>
+                                <span>{% trans "main equipment slots" %}</span>
+                            </div>
+                            <div class="solution-metric-card">
+                                <strong>6</strong>
+                                <span>{% trans "dofus slots" %}</span>
+                            </div>
+                            <div class="solution-metric-card">
+                                <strong>{{ sets|length }}</strong>
+                                <span>{% trans "active set cards" %}</span>
+                            </div>
+                            <div class="solution-metric-card">
+                                <strong>{% if char.char_build %}{{ char.char_build }}{% else %}{% trans "Flexible" %}{% endif %}</strong>
+                                <span>{% trans "build profile" %}</span>
+                            </div>
+                        </div>
+
+                        <div class="solution-stage-dofus">
+                            {% include "chardata/solution_stage_slot.html" with item=dofus1 label=_('Dofus 1') %}
+                            {% include "chardata/solution_stage_slot.html" with item=dofus2 label=_('Dofus 2') %}
+                            {% include "chardata/solution_stage_slot.html" with item=dofus3 label=_('Dofus 3') %}
+                            {% include "chardata/solution_stage_slot.html" with item=dofus4 label=_('Dofus 4') %}
+                            {% include "chardata/solution_stage_slot.html" with item=dofus5 label=_('Dofus 5') %}
+                            {% include "chardata/solution_stage_slot.html" with item=dofus6 label=_('Dofus 6') %}
+                        </div>
+                    </div>
+
+                    <div class="solution-slot-cluster">
+                        {% include "chardata/solution_stage_slot.html" with item=shield label=_('Shield') %}
+                        {% include "chardata/solution_stage_slot.html" with item=ring2 label=_('Ring') %}
+                        {% include "chardata/solution_stage_slot.html" with item=belt label=_('Belt') %}
+                        {% include "chardata/solution_stage_slot.html" with item=boots label=_('Boots') %}
+                        {% include "chardata/solution_stage_slot.html" with item=pet label=_('Pet') %}
+                    </div>
+                </div>
+            </section>
+            {% endwith %}
+
+            <section class="solution-panel">
+                <div class="solution-panel-heading">
+                    <div>
+                        <span class="solution-panel-kicker">{% trans "Equipment" %}</span>
+                        <h2>{% trans "Item Cards" %}</h2>
+                        <p class="solution-panel-subtitle">{% trans "Stable cards, readable names, and quick actions without layout jumps." %}</p>
+                    </div>
+                    <div class="solution-panel-actions">
+                        <button id="expand_button" class="solution-item-summary-expand-all button-generic">{% trans "Expand All" %}</button>
+                        <button id="collapse_button" class="solution-item-summary-collapse-all button-generic">{% trans "Collapse All" %}</button>
+                    </div>
+                </div>
+
+                {% for section in item_sections %}
+                <div class="solution-subsection">
+                    <div class="solution-subsection-heading">
+                        <div>
+                            {% if forloop.first %}
+                            <h3>{% trans "Equipment" %}</h3>
+                            <p>{% trans "Main gear arranged in a fixed, modern card grid." %}</p>
+                            {% else %}
+                            <h3>{% trans "Dofus & Trophies" %}</h3>
+                            <p>{% trans "Artifacts separated in their own section to keep the page readable." %}</p>
+                            {% endif %}
+                        </div>
+                        <div class="solution-subsection-meta">
+                            {% if forloop.first %}9 {% trans "cards" %}{% else %}6 {% trans "cards" %}{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="solution-item-grid">
+                        {% for item_list_ordered in section %}
+                            {% for item in item_list_ordered %}
+                                {% include "chardata/solution_item.html" with item=item %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section class="solution-panel">
+                <div class="solution-subsection-heading">
+                    <div>
+                        <span class="solution-panel-kicker">{% trans "Synergies" %}</span>
+                        <h3>{% trans "Set Bonuses" %}</h3>
+                        <p>{% trans "Set cards remain compact while leaving room for ad rails and stats." %}</p>
+                    </div>
+                    <div class="solution-subsection-meta">{{ sets|length }} {% trans "sets" %}</div>
+                </div>
+
+                <div class="solution-set-grid">
+                {% for set_result in sets %}
+                    {% include "chardata/solution_set.html" with set=set_result %}
+                {% endfor %}
+                </div>
+
+                {% if not is_guest %}
+                <div class="solution-cta-row">
+                    <a href="{% url 'fashion' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
+                </div>
+                {% endif %}
+            </section>
         </div>
-        {% endfor %}
-    </div>
-    {% endfor %}
 
-    <div>
-    {% for set_result in sets %}
-        {% include "chardata/solution_set.html" with set=set_result %}
-    {% endfor %}
-    </div>
-
-    {% if not is_guest %}
-    <div align="center">
-    
-      
-
-    <a href="{% url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
-    
-  
-    
-    </div>
-    {% endif %}
-
-    </td>
-    <td class="solution-stat-summary">
-        <table class="solution-stat-table">
+        <aside class="solution-right-rail">
+            <div class="solution-panel solution-stats-card">
+                <div class="solution-panel-heading">
+                    <div>
+                        <span class="solution-panel-kicker">{% trans "Stats" %}</span>
+                        <h3>{% trans "Characteristics" %}</h3>
+                    </div>
+                </div>
+                <div class="solution-stat-summary">
+                    <table class="solution-stat-table">
             <tr><td colspan="4">
                 <div class="solution-stat-summary-mode-option-container">       
                     <label>                    
@@ -271,10 +1330,16 @@
             {% trans "% Ranged Resist" as Res_Per_Dis %}
             {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Dis stat_key="resperran" %}
             {% trans "% Weapon Resist" as Res_Per_Wea %}
-            <tr>
-        </table>
-    </td>
-    </tr></table>
+                    </table>
+                </div>
+            </div>
+            <div class="solution-panel solution-ad-placeholder">
+                <span class="solution-panel-kicker">{% trans "Reserved" %}</span>
+                <h3>{% trans "Ad Space" %}</h3>
+                <p>{% trans "Right rail kept free for ads while the stats panel stays sticky and readable." %}</p>
+            </div>
+        </aside>
+    </div>
     <div id="blanket" style="display:none;"></div>
     <div id="popUpDiv" style="display:none;">
         <div class="removing-div"></div>

@@ -33,10 +33,13 @@
 
 .solution-item-info {
     vertical-align: top;
+    overflow: hidden;
 }
 
 .solution-item-level {
     font-size: 14px;
+    clear: both;
+    display: block;
 }
 
 .solution-item-button {
@@ -52,7 +55,7 @@
 
 .solution-item-summary {
     vertical-align: top;
-    width: 70%;
+    width: 78%;
 }
 
 .solution-item-summary-expand-all, .solution-item-summary-collapse-all {
@@ -153,7 +156,7 @@
 
 .solution-stat-summary {
     vertical-align: top;
-    width: 30%;
+    width: 22%;
     font-size: 14px;
 }
 
@@ -228,12 +231,35 @@
 .solution-stat-table{
     border-radius: 7px;
     padding: 2px;
+    width: 100%;
 }
 
 .checkbox-text, .removing-div {
     font-weight: bold;
 }
 
+
+.solution-sets-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.solution-sets-section .expand-container {
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+@media (min-width: 1600px) {
+    .solution-sets-section .expand-container {
+        flex: 0 0 calc(25% - 6px);
+        max-width: calc(25% - 6px);
+    }
+}
 
 .solution-item-hr {
     border: 0;
@@ -298,7 +324,8 @@
 
 .solution-item-name-div {
     float: left;
-    width: 145px;
+    width: calc(100% - 20px);
+    overflow-wrap: break-word;
 }
 
 .solution-item-link-div {
