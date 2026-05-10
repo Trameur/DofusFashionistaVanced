@@ -25,7 +25,6 @@ from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.crypto import get_random_string
 from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
 import hashlib
@@ -229,39 +228,40 @@ def recover_password(request, username, recover_token):
     correct_token = _generate_token_for_password_reset(username, current_password)
     if correct_token != recover_token:
         raise PermissionDenied
-        
+
     username = user.username
-    # Django 5 removed UserManager.make_random_password().
-    new_password = get_random_string(12)
-    new_password_hashed = hashlib.sha256(('dofusfashionista' + new_password).encode('utf-8')).hexdigest()
-
-    try:
-        send_mail(_('Password for The Dofus Fashionista has been reset'),
-                  _('Hello, {username}!\n'
-                    'The following password has been generated for you:\n\n'
-                    '{new_password}\n\n'
-                    'Change it to a new one or just keep this email ;-)').format(
-                        username=username, new_password=new_password),
-                  _get_from_email(),
-                  [user.email])
-    except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
-        logger.exception('Password reset email could not be sent to %s', user.email)
+    if request.method != 'POST':
         return set_response(request,
-                            'chardata/recover_password.html',
+                            'chardata/password_reset_form.html',
                             {'request': request,
-                             'email': user.email,
-                             'from_register': False,
-                             'email_send_failed': True})
+                             'username': username,
+                             'recover_token': recover_token})
 
-    # Only apply the new password once the email has been sent successfully.
+    new_password = request.POST.get('new_password', None)
+    confirm_password = request.POST.get('confirm_password', None)
+    error_message = None
+
+    if not new_password:
+        error_message = _('You need to enter a new password.')
+    elif new_password != confirm_password:
+        error_message = _('The passwords do not match.')
+
+    if error_message:
+        return set_response(request,
+                            'chardata/password_reset_form.html',
+                            {'request': request,
+                             'username': username,
+                             'recover_token': recover_token,
+                             'error_message': error_message})
+
+    new_password_hashed = hashlib.sha256(('dofusfashionista' + new_password).encode('utf-8')).hexdigest()
     user.set_password(new_password_hashed)
     user.save()
         
     return set_response(request,
                         'chardata/password_was_reset.html', 
                         {'request': request,
-                         'username': username,
-                         'new_password': new_password})
+                         'username': username})
 
 EMAIL_CONFIRMATION_SALT = settings.GEN_CONFIGS["EMAIL_CONFIRMATION_SALT"]
 def _generate_token_for_user(username):
