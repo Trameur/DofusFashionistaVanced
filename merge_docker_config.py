@@ -22,8 +22,6 @@ DEFAULT_CONFIG = {
     "EMAIL_HOST_PASSWORD": "",
     "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY": None,
     "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET": None,
-    "SOCIAL_AUTH_FACEBOOK_KEY": None,
-    "SOCIAL_AUTH_FACEBOOK_SECRET": None,
     "DBBACKUP_S3_ACCESS_KEY": None,
     "DBBACKUP_S3_SECRET_KEY": None,
     "url_captcha_secret": None,
@@ -35,6 +33,11 @@ DEFAULT_CONFIG = {
     "EMAIL_PORT": 587,
     "TESTER_USERS_EMAILS": ["admin@localhost"],
     "SUPER_USERS_EMAILS": ["admin@localhost"]
+}
+
+DEPRECATED_KEYS = {
+    "SOCIAL_AUTH_FACEBOOK_KEY",
+    "SOCIAL_AUTH_FACEBOOK_SECRET",
 }
 
 def merge_configs():
@@ -76,6 +79,9 @@ def merge_configs():
     
     # Add any new keys from existing config (in case of upgrades)
     for key in existing_config.keys():
+        if key in DEPRECATED_KEYS:
+            print(f"  - Dropped deprecated key {key}")
+            continue
         if key not in merged_config:
             merged_config[key] = existing_config[key]
             print(f"  ✓ Preserved new key {key}")
