@@ -64,6 +64,17 @@
     width:1044px;
     display: inline-block;
     vertical-align: top;
+    .mobile-menu-toggle {
+        display: none;
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        box-sizing: border-box;
+        margin: 8px 0;
+        padding: 10px 12px;
+    }
     margin-left: 0px; 
     margin-right: 20px; 
     text-align: left;
@@ -78,6 +89,17 @@
 
 .login {
     float:right;
+        .mobile-menu-toggle {
+            display: block;
+        }
+
+        body.mobile-menu-collapsed .sidebar {
+            display: none;
+        }
+
+        body.mobile-menu-collapsed .mobile-menu-toggle {
+            margin-bottom: 12px;
+        }
     margin-right: 3px;
     margin-top: 7px;
     font-size: 12px;
@@ -288,6 +310,18 @@ h2:first-letter{
     width: 80px;
 }
 
+.mobile-menu-toggle {
+    display: none;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
 
 /* =============================================
    RESPONSIVE LAYOUT — Tablet & Mobile
@@ -303,12 +337,16 @@ h2:first-letter{
     .add-banner {
         width: 100% !important;
         max-width: 1234px;
+        padding: 0 10px;
         box-sizing: border-box;
     }
     .everything {
         width: 100% !important;
         max-width: 1044px;
+        display: block;
+        margin-left: 0;
         margin-right: 0;
+        padding: 0 10px;
         box-sizing: border-box;
     }
     .banner {
@@ -317,11 +355,17 @@ h2:first-letter{
         box-sizing: border-box;
     }
     .banner img {
+        display: block;
+        width: 100%;
         max-width: 100%;
         height: auto;
     }
     .secondcolumn {
         margin-left: 0;
+    }
+    .space {
+        height: auto;
+        min-height: 24px;
     }
     /* Home page: switch giant buttons from absolute to flex flow */
     .main-div table {
@@ -343,32 +387,84 @@ h2:first-letter{
         top: auto !important;
         left: auto !important;
     }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    body.mobile-menu-collapsed .sidebar {
+        display: none;
+    }
+
+    body.mobile-menu-collapsed .maincolumn {
+        margin-left: 0;
+    }
+
+    body.mobile-menu-collapsed .secondcolumn {
+        margin-left: 0;
+    }
 }
 
 /* --- Mobile: single-column layout (≤ 768px) --- */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 980px) {
+    .sidebar {
+        gap: 10px;
+    }
 
-    /* Sidebar becomes a horizontal nav bar: two mini-menus side by side */
+    .mini-menu {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+    }
+
+    .mini-menu > * {
+        width: 100%;
+    }
+
+    .menu_link:link, .menu_link:visited,
+    .menu-collapse-link:link, .menu-collapse-link:visited {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 10px 8px;
+        min-height: 42px;
+        font-size: 15px;
+        line-height: 1.2;
+    }
+}
+
+/* --- Mobile: single-column layout (≤ 700px) --- */
+@media screen and (max-width: 700px) {
+
+    /* Sidebar becomes stacked full-width nav cards for finger-friendly navigation */
     .sidebar {
         float: none;
         width: 100%;
         box-sizing: border-box;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: nowrap;
-        gap: 6px;
-        padding: 6px 0;
+        gap: 10px;
+        padding: 8px 0;
         font-size: 14px;
     }
     .sidebar > .space {
         display: none;
     }
     .mini-menu {
-        flex: 1 1 0;
-        min-width: 0;
+        flex: 0 0 auto;
+        width: 100%;
+        min-width: 100%;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     }
     .menu_link:link, .menu_link:visited,
     .menu-collapse-link:link, .menu-collapse-link:visited {
@@ -376,9 +472,14 @@ h2:first-letter{
         min-width: 0;
         white-space: normal;
         box-sizing: border-box;
-        padding: 9px 6px;
-        font-size: 14px;
-        line-height: 1.2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 12px 10px;
+        min-height: 46px;
+        font-size: 16px;
+        line-height: 1.25;
     }
     .menu_link {
         width: 100%;
@@ -427,6 +528,15 @@ h2:first-letter{
     .giant-button-pic img {
         max-width: 100%;
         height: auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .menu_link:link, .menu_link:visited,
+    .menu-collapse-link:link, .menu-collapse-link:visited {
+        padding: 11px 8px;
+        min-height: 44px;
+        font-size: 15px;
     }
 }
 

@@ -109,6 +109,9 @@
           </div>
        {% endif %}
         </div>
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-expanded="true">
+            {% trans "Hide menu" %}
+        </button>
         <div class="sidebar" background="#00ff00">
           <div class="mini-menu">
               <div><a class="menu_link menu_link_top" href="/">{% trans "Home" %}</a></div>
@@ -487,6 +490,70 @@
         }
     
     }
+
+    function setupMobileMenuToggle() {
+        var button = $("#mobile-menu-toggle");
+        if (!button.length) {
+            return;
+        }
+
+        var mobileQuery = window.matchMedia("(max-width: 1100px)");
+        var storageKey = "fashionista-mobile-menu-collapsed";
+        var showText = '{{ _("Show menu")|escapejs }}';
+        var hideText = '{{ _("Hide menu")|escapejs }}';
+
+        function readCollapsedState() {
+            try {
+                var stored = sessionStorage.getItem(storageKey);
+                if (stored === null) {
+                    return true;
+                }
+                return stored === "1";
+            } catch (err) {
+                return true;
+            }
+        }
+
+        function writeCollapsedState(isCollapsed) {
+            try {
+                sessionStorage.setItem(storageKey, isCollapsed ? "1" : "0");
+            } catch (err) {
+                return;
+            }
+        }
+
+        function applyCollapsedState(isCollapsed) {
+            $("body").toggleClass("mobile-menu-collapsed", isCollapsed);
+            button.text(isCollapsed ? showText : hideText);
+            button.attr("aria-expanded", isCollapsed ? "false" : "true");
+        }
+
+        function syncWithViewport() {
+            if (mobileQuery.matches) {
+                button.show();
+                applyCollapsedState(readCollapsedState());
+            } else {
+                button.hide();
+                $("body").removeClass("mobile-menu-collapsed");
+                button.text(hideText);
+                button.attr("aria-expanded", "true");
+            }
+        }
+
+        button.off("click.mobileMenu").on("click.mobileMenu", function() {
+            var isCollapsed = !$("body").hasClass("mobile-menu-collapsed");
+            applyCollapsedState(isCollapsed);
+            writeCollapsedState(isCollapsed);
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncWithViewport);
+        } else if (typeof mobileQuery.addListener === "function") {
+            mobileQuery.addListener(syncWithViewport);
+        }
+
+        syncWithViewport();
+    }
     
     $(document).ready(function() {
         checkAutoTheme();
@@ -530,6 +597,7 @@
                 spantext.text('{{ _("More")|escapejs }}');
             }
     });
+    setupMobileMenuToggle();
 });
 </script>        
      

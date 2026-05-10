@@ -138,3 +138,13 @@ h2 {
     color: #151515;
     background-color: #DDD;
 }
+
+.mobile-menu-toggle {
+    background-color: #3f3f3f;
+    color: #f0f0f0;
+}
+
+.mobile-menu-toggle:hover,
+.mobile-menu-toggle:focus {
+    background-color: #525252;
+}

@@ -43,16 +43,16 @@
     </p>
     {% endif %}
 
-    <div align="center">
-        <div style="display: inline-block;">
+    <div class="solution-actions" align="center">
+        <div class="solution-action-block">
         <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{ request.scheme }}://{{ request.get_host }}/solution/{{char_id}}/" name="char0"></input></form>
-            <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
+            <button id="compare_set_button" type="submit" class="button-generic">{% trans "Compare to another set" %}</button>
         </div>
-        <div style="display: inline-block;">
+        <div class="solution-action-block">
             <button id="link_sharing_button" class="button-generic"></button>
         </div>
-        <div style="display: inline-block;">
-            <input type="text" id="link_sharing_url_text" value="" style="width: 350px; " class='pretty-input' readonly />
+        <div class="solution-action-block solution-link-input-block">
+            <input type="text" id="link_sharing_url_text" value="" class='pretty-input solution-link-input' readonly />
         </div>
     </div>
     <br>
@@ -74,9 +74,9 @@
     {% url 'duplicate_someones_project' encoded_char_id as copy_link%}
     {% blocktrans %}If you wish to modify it, <a href="{{copy_link}}" class="copy-action-link">copy</a> it to your workspace.</p>{% endblocktrans %}
     
-    <div align="center">
+        <div class="solution-actions" align="center">
     <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
-            <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
+            <button id="compare_set_button" type="submit" class="button-generic">{% trans "Compare to another set" %}</button>
     </div>
     
     <!-- Vote buttons for shared builds -->
