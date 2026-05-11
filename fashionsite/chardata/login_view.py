@@ -24,11 +24,10 @@ from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.utils.crypto import get_random_string
+from django.utils.crypto import get_random_string, salted_hmac
 from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
-import hashlib
 import logging
 
 from chardata.models import UserAlias
@@ -254,8 +253,7 @@ def recover_password(request, username, recover_token):
                              'recover_token': recover_token,
                              'error_message': error_message})
 
-    new_password_hashed = hashlib.sha256(('dofusfashionista' + new_password).encode('utf-8')).hexdigest()
-    user.set_password(new_password_hashed)
+    user.set_password(new_password)
     user.save()
         
     return set_response(request,
@@ -265,11 +263,11 @@ def recover_password(request, username, recover_token):
 
 EMAIL_CONFIRMATION_SALT = settings.GEN_CONFIGS["EMAIL_CONFIRMATION_SALT"]
 def _generate_token_for_user(username):
-    return hashlib.sha256((EMAIL_CONFIRMATION_SALT + username).encode('utf-8')).hexdigest()
+    return salted_hmac(EMAIL_CONFIRMATION_SALT, username).hexdigest()
 
 PASSWORD_RESET_SALT = settings.GEN_CONFIGS["PASSWORD_RESET_SALT"]
 def _generate_token_for_password_reset(username, password):
-    return hashlib.sha256((PASSWORD_RESET_SALT + username + password).encode('utf-8')).hexdigest()
+    return salted_hmac(PASSWORD_RESET_SALT, username + password).hexdigest()
 
 def _get_non_social_users_for_email(email):
     non_social_users = []
