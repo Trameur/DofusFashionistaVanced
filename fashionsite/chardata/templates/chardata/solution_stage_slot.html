@@ -1,12 +1,37 @@
 {% load i18n %}
 {% if item %}
-<div class="solution-slot-tile{% if extra_class %} {{ extra_class }}{% endif %}{% if not item.id %} solution-slot-empty{% endif %}">
+<div class="solution-slot-tile{% if extra_class %} {{ extra_class }}{% endif %}{% if not item.id %} solution-slot-empty{% endif %}{% if item.id and item.slot %} solution-slot-actionable{% endif %}"
+     {% if item.id and item.slot %}data-slot="{{ item.slot }}" role="button" tabindex="0"{% endif %}
+    {% if not item.id %}title="{{ label }}"{% endif %}>
     <div class="solution-slot-icon-wrap">
         <img src="{{ item.file }}" alt="{{ label }}" class="solution-slot-icon-img">
     </div>
     <div class="solution-slot-copy">
         <span class="solution-slot-label">{{ label }}</span>
         <strong>{% if item.id %}{{ item.localized_name }}{% else %}{{ label }}{% endif %}</strong>
+        {% if item.id and item.slot %}<span class="solution-slot-expand-hint">{% trans "Hover for stats, click to expand" %}</span>{% endif %}
     </div>
+    {% if item.id and item.slot %}
+    <div class="solution-slot-hover-content" aria-hidden="true">
+        <div class="solution-slot-hover-title">
+            <strong>{{ item.localized_name }}</strong>
+            {% if item.level %}<span>{% trans "Lvl." %} {{ item.level }}</span>{% endif %}
+        </div>
+        <div class="solution-slot-hover-lines">
+            {% for line in item.stats_lines %}
+            <div class="solution-slot-hover-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+                {% if line.icon_url %}<img src="{{ line.icon_url }}" alt="" class="solution-slot-hover-icon">{% else %}<span class="solution-slot-hover-dot"></span>{% endif %}
+                <span>{{ line.text }}</span>
+            </div>
+            {% endfor %}
+            {% for line in item.condition_lines %}
+            <div class="solution-slot-hover-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+                {% if line.icon_url %}<img src="{{ line.icon_url }}" alt="" class="solution-slot-hover-icon">{% else %}<span class="solution-slot-hover-dot"></span>{% endif %}
+                <span>{{ line.text }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endif %}

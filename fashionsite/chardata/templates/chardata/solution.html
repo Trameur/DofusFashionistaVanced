@@ -299,8 +299,8 @@
 
         body.body-base .solution-shell {
             display: grid;
-            grid-template-columns: 180px minmax(0, 1fr) 360px;
-            gap: 22px;
+            grid-template-columns: 170px minmax(0, 1fr) 300px;
+            gap: 16px;
             align-items: start;
             margin-top: 16px;
         }
@@ -418,17 +418,73 @@
                 linear-gradient(180deg, rgba(255, 251, 232, 0.98), rgba(241, 231, 189, 0.98));
         }
 
-        body.body-base .solution-stage-grid {
-            display: grid;
-            grid-template-columns: minmax(210px, 1fr) minmax(240px, 290px) minmax(210px, 1fr);
-            gap: 14px;
-            align-items: center;
-        }
-
-        body.body-base .solution-slot-cluster {
+        body.body-base .solution-stage-showcase {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px;
+            align-items: stretch;
+        }
+
+        body.body-base .solution-stage-orbit-panel {
+            border: 1px solid rgba(121, 85, 32, 0.14);
+            border-radius: 16px;
+            background: rgba(60, 40, 24, 0.20);
+            padding: 10px;
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        body.body-base .solution-stage-inline-ad {
+            min-height: 100%;
+            border-radius: 16px;
+        }
+
+        body.body-base .solution-stage-grid {
+            display: grid;
+            grid-template-columns: 50px minmax(124px, 148px) 50px;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.body-base .solution-slot-cluster {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.body-base .solution-stage-grid > .solution-slot-cluster:first-child {
+            transform: translateX(-30px);
+        }
+
+        body.body-base .solution-stage-grid > .solution-slot-cluster:last-child {
+            transform: translateX(30px);
+        }
+
+        body.body-base .solution-stage-grid .solution-slot-tile {
+            width: 42px;
+            min-height: 42px;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        body.body-base .solution-stage-grid .solution-slot-icon-wrap {
+            width: 28px;
+            height: 28px;
+            flex: 0 0 28px;
+        }
+
+        body.body-base .solution-stage-grid .solution-slot-icon-img {
+            width: 24px;
+            height: 24px;
+        }
+
+        body.body-base .solution-stage-grid .solution-slot-copy {
+            display: none;
         }
 
         body.body-base .solution-slot-tile {
@@ -487,36 +543,95 @@
             overflow-wrap: anywhere;
         }
 
+        body.body-base .solution-slot-expand-hint {
+            display: block;
+            margin-top: 4px;
+            color: #7b634a;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+
+        body.body-base .solution-slot-actionable {
+            cursor: pointer;
+            transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+        }
+
+        body.body-base .solution-slot-actionable:hover,
+        body.body-base .solution-slot-actionable:focus {
+            transform: translateY(-2px);
+            border-color: rgba(121, 85, 32, 0.34);
+            box-shadow: 0 14px 26px rgba(75, 48, 16, 0.16);
+            outline: none;
+        }
+
         body.body-base .solution-stage-core {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 6px;
             align-items: center;
+        }
+
+        body.body-base .solution-stage-bottom {
+            display: flex;
+            justify-content: center;
+            margin-top: 8px;
         }
 
         body.body-base .solution-stage-avatar {
             position: relative;
-            width: min(100%, 250px);
-            aspect-ratio: 1 / 1.04;
-            border-radius: 26px;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 50% 18%, rgba(255, 228, 154, 0.95), rgba(241, 194, 96, 0.92) 22%, transparent 22%),
-                linear-gradient(180deg, rgba(83, 51, 20, 0.97), rgba(55, 35, 16, 0.98));
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 16px 36px rgba(75, 48, 16, 0.18);
+            width: min(100%, 136px);
+            min-height: 176px;
+            overflow: visible;
+            background: transparent;
+            box-shadow: none;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         body.body-base .solution-stage-avatar::before {
-            content: "";
-            position: absolute;
-            inset: 20px;
-            border-radius: 26px;
-            border: 1px solid rgba(255, 247, 223, 0.18);
+            display: none;
+        }
+
+        body.body-base .solution-stage-avatar::after {
+            display: none;
         }
 
         body.body-base .solution-stage-figure {
-            position: absolute;
-            inset: 0;
+            display: none;
+        }
+
+        body.body-base .solution-stage-art {
+            position: relative;
+            inset: auto;
+            width: 100%;
+            min-height: 156px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        body.body-base .solution-stage-art::before {
+            display: none;
+        }
+
+        body.body-base .solution-stage-character-img {
+            position: relative;
+            z-index: 1;
+            max-width: 100%;
+            max-height: 170px;
+            object-fit: contain;
+            filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.28));
+        }
+
+        body.body-base .solution-stage-fallback {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
         body.body-base .solution-stage-head {
@@ -545,25 +660,25 @@
         }
 
         body.body-base .solution-stage-caption {
-            position: absolute;
-            left: 24px;
-            right: 24px;
-            bottom: 20px;
+            position: static;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            color: #fff7df;
+            gap: 2px;
+            color: #4d2d12;
             text-align: center;
+            z-index: 3;
+            padding: 2px 0 0;
         }
 
         body.body-base .solution-stage-caption strong {
-            font-size: 21px;
+            font-size: 14px;
             line-height: 1.05;
             font-weight: 700;
+            overflow-wrap: anywhere;
         }
 
         body.body-base .solution-stage-caption span {
-            font-size: 12px;
+            font-size: 10px;
             opacity: 0.92;
         }
 
@@ -574,30 +689,118 @@
         }
 
         body.body-base .solution-stage-dofus {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(6, minmax(0, 1fr));
-            gap: 8px;
+            width: fit-content;
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 6px;
+            margin: 0 auto;
         }
 
         body.body-base .solution-stage-dofus .solution-slot-tile {
-            min-height: 52px;
-            padding: 8px;
+            min-height: 36px;
+            padding: 5px;
+            justify-content: center;
+            width: 36px;
+            border-radius: 9px;
+            flex: 0 0 36px;
         }
 
         body.body-base .solution-stage-dofus .solution-slot-icon-wrap {
-            width: 34px;
-            height: 34px;
-            flex-basis: 34px;
+            width: 24px;
+            height: 24px;
+            flex-basis: 24px;
         }
 
         body.body-base .solution-stage-dofus .solution-slot-icon-img {
-            width: 28px;
-            height: 28px;
+            width: 20px;
+            height: 20px;
         }
 
         body.body-base .solution-stage-dofus .solution-slot-copy strong {
             font-size: 11px;
+        }
+
+        body.body-base .solution-stage-dofus .solution-slot-copy {
+            display: none;
+        }
+
+        body.body-base .solution-slot-hover-content {
+            display: none;
+        }
+
+        body.body-base .solution-slot-hover-popup {
+            position: fixed;
+            z-index: 9999;
+            width: min(300px, calc(100vw - 16px));
+            max-height: 280px;
+            overflow: auto;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(121, 85, 32, 0.20);
+            background: linear-gradient(180deg, rgba(255, 252, 237, 0.98), rgba(244, 235, 198, 0.98));
+            box-shadow: 0 16px 28px rgba(26, 14, 4, 0.28);
+            pointer-events: none;
+        }
+
+        body.body-base .solution-slot-hover-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #4d2d12;
+        }
+
+        body.body-base .solution-slot-hover-title strong {
+            font-size: 13px;
+            line-height: 1.2;
+        }
+
+        body.body-base .solution-slot-hover-title span {
+            font-size: 11px;
+            color: #7b634a;
+        }
+
+        body.body-base .solution-slot-hover-lines {
+            display: grid;
+            gap: 4px;
+        }
+
+        body.body-base .solution-slot-hover-line {
+            display: grid;
+            grid-template-columns: 14px 1fr;
+            align-items: center;
+            gap: 6px;
+            color: #513014;
+            font-size: 12px;
+            line-height: 1.2;
+        }
+
+        body.body-base .solution-slot-hover-icon {
+            width: 14px;
+            height: 14px;
+            object-fit: contain;
+        }
+
+        body.body-base .solution-slot-hover-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(121, 85, 32, 0.45);
+            margin-left: 2px;
+        }
+
+        body.body-base .solution-stage-callout {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 16px;
+            background: rgba(83, 51, 20, 0.06);
+            border: 1px solid rgba(121, 85, 32, 0.10);
+            color: #664926;
+            font-size: 12px;
+            line-height: 1.4;
+            text-align: center;
         }
 
         body.body-base .solution-stage-metrics {
@@ -635,6 +838,10 @@
             color: #5c3718;
             font-size: 12px;
             font-weight: 700;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         body.body-base .solution-subsection + .solution-subsection {
@@ -739,10 +946,14 @@
             width: 100%;
             padding-right: 20px;
             box-sizing: border-box;
+            overflow: hidden;
             overflow-wrap: anywhere;
             line-height: 1.08;
             font-weight: 700;
             color: #4d2d12;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         body.body-base .solution-item-grid .solution-item-link-div {
@@ -803,6 +1014,37 @@
             overflow: auto;
         }
 
+        body.body-base .solution-stats-quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        body.body-base .solution-stats-quick-card {
+            border-radius: 12px;
+            border: 1px solid rgba(121, 85, 32, 0.12);
+            background: rgba(255, 255, 255, 0.66);
+            padding: 8px;
+            text-align: center;
+        }
+
+        body.body-base .solution-stats-quick-card strong {
+            display: block;
+            font-size: 16px;
+            line-height: 1;
+            color: #4d2d12;
+        }
+
+        body.body-base .solution-stats-quick-card span {
+            display: block;
+            margin-top: 2px;
+            color: #7b634a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
         body.body-base .solution-stat-summary {
             display: block !important;
             width: auto !important;
@@ -820,8 +1062,17 @@
         }
 
         body.body-base .solution-stat-table td {
+            font-size: 12px;
             padding-top: 4px;
             padding-bottom: 4px;
+        }
+
+        body.body-base .solution-stat-table tr.solution-stat-divider-line td {
+            height: 14px !important;
+            padding: 0 !important;
+            background: linear-gradient(90deg, rgba(121, 85, 32, 0.00), rgba(121, 85, 32, 0.26), rgba(121, 85, 32, 0.00)) !important;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
         }
 
         body.body-base .solution-stat-table tr:nth-child(odd) td {
@@ -846,7 +1097,7 @@
 
         @media (max-width: 1540px) {
             body.body-base .solution-shell {
-                grid-template-columns: minmax(0, 1fr) 340px;
+                grid-template-columns: minmax(0, 1fr) 300px;
             }
 
             body.body-base .solution-left-rail {
@@ -868,12 +1119,12 @@
                 max-height: none;
             }
 
-            body.body-base .solution-stage-grid {
+            body.body-base .solution-stage-showcase {
                 grid-template-columns: 1fr;
             }
 
-            body.body-base .solution-stage-core {
-                order: -1;
+            body.body-base .solution-stage-inline-ad {
+                min-height: 180px;
             }
 
             body.body-base .solution-stage-metrics {
@@ -881,7 +1132,25 @@
             }
 
             body.body-base .solution-stage-dofus {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                flex-wrap: wrap;
+            }
+
+            body.body-base .solution-stage-bottom {
+                grid-template-columns: 1fr;
+            }
+
+            body.body-base .solution-stage-grid .solution-slot-tile {
+                width: 40px;
+                min-height: 40px;
+            }
+
+            body.body-base .solution-stage-grid > .solution-slot-cluster:first-child,
+            body.body-base .solution-stage-grid > .solution-slot-cluster:last-child {
+                transform: none;
+            }
+
+            body.body-base .solution-stats-quick-grid {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
             }
         }
 
@@ -906,7 +1175,6 @@
         @media (max-width: 620px) {
             body.body-base .solution-overview-grid,
             body.body-base .solution-stage-metrics,
-            body.body-base .solution-slot-cluster,
             body.body-base .solution-stage-dofus,
             body.body-base .solution-item-grid,
             body.body-base .solution-set-grid {
@@ -920,6 +1188,19 @@
 
             body.body-base .solution-stage-panel {
                 padding: 16px;
+            }
+
+            body.body-base .solution-stage-grid .solution-slot-tile {
+                width: 36px;
+                min-height: 36px;
+            }
+
+            body.body-base .solution-stage-avatar {
+                width: min(100%, 132px);
+            }
+
+            body.body-base .solution-stats-quick-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
     </style>
@@ -1009,32 +1290,6 @@
 
     <div class="solution-shell">
         <aside class="solution-left-rail">
-            <div class="solution-panel">
-                <div class="solution-panel-heading">
-                    <div>
-                        <span class="solution-panel-kicker">{% trans "Overview" %}</span>
-                        <h3>{% trans "Build Snapshot" %}</h3>
-                    </div>
-                </div>
-                <div class="solution-overview-grid">
-                    <div class="solution-metric-card">
-                        <strong>{{ all_items|length }}</strong>
-                        <span>{% trans "visible slots" %}</span>
-                    </div>
-                    <div class="solution-metric-card">
-                        <strong>{{ sets|length }}</strong>
-                        <span>{% trans "set bonuses" %}</span>
-                    </div>
-                    <div class="solution-metric-card">
-                        <strong>{% if char.level %}{{ char.level }}{% else %}--{% endif %}</strong>
-                        <span>{% trans "character level" %}</span>
-                    </div>
-                    <div class="solution-metric-card">
-                        <strong>{% if char.char_class %}{{ char.char_class }}{% else %}{% trans "Build" %}{% endif %}</strong>
-                        <span>{% trans "class focus" %}</span>
-                    </div>
-                </div>
-            </div>
             <div class="solution-panel solution-ad-placeholder">
                 <span class="solution-panel-kicker">{% trans "Reserved" %}</span>
                 <h3>{% trans "Ad Space" %}</h3>
@@ -1047,9 +1302,8 @@
             <section class="solution-panel solution-stage-panel">
                 <div class="solution-panel-heading">
                     <div>
-                        <span class="solution-panel-kicker">{% trans "Centerpiece" %}</span>
-                        <h2>{% trans "Build Stage" %}</h2>
-                        <p class="solution-panel-subtitle">{% trans "A stable overview with the character at the center and every equipped slot visible at a glance." %}</p>
+                        <span class="solution-panel-kicker">{% trans "Equipment Orbit" %}</span>
+                        <h2>{% trans "Character View" %}</h2>
                     </div>
                     <div class="solution-hero-tags">
                         {% if char.char_class %}<span class="solution-chip">{{ char.char_class }}</span>{% endif %}
@@ -1058,67 +1312,70 @@
                     </div>
                 </div>
 
-                <div class="solution-stage-grid">
-                    <div class="solution-slot-cluster">
-                        {% include "chardata/solution_stage_slot.html" with item=hat label=_('Hat') %}
-                        {% include "chardata/solution_stage_slot.html" with item=cloak label=_('Cloak') %}
-                        {% include "chardata/solution_stage_slot.html" with item=amulet label=_('Amulet') %}
-                        {% include "chardata/solution_stage_slot.html" with item=ring1 label=_('Ring') %}
-                        {% include "chardata/solution_stage_slot.html" with item=weapon label=_('Weapon') %}
+                <div class="solution-stage-showcase">
+                    <div class="solution-stage-orbit-panel">
+                        <div class="solution-stage-grid">
+                            <div class="solution-slot-cluster">
+                                {% include "chardata/solution_stage_slot.html" with item=hat label=_('Hat') %}
+                                {% include "chardata/solution_stage_slot.html" with item=cloak label=_('Cloak') %}
+                                {% include "chardata/solution_stage_slot.html" with item=amulet label=_('Amulet') %}
+                                {% include "chardata/solution_stage_slot.html" with item=ring1 label=_('Ring') %}
+                                {% include "chardata/solution_stage_slot.html" with item=weapon label=_('Weapon') %}
+                            </div>
+
+                            <div class="solution-stage-core">
+                                <div class="solution-stage-avatar">
+                                    <div class="solution-stage-figure"></div>
+                                    <div class="solution-stage-art">
+                                        {% if char.char_class %}
+                                            {% with wizard_image='chardata/designs/wizard/'|add:char.char_class|add:'/myWizard'|add:char.char_class|add:'1.png' %}
+                                            <img src="{% static wizard_image %}" alt="{{ char.char_class }}" class="solution-stage-character-img">
+                                            {% endwith %}
+                                        {% else %}
+                                        <div class="solution-stage-fallback">
+                                            <div class="solution-stage-head"></div>
+                                            <div class="solution-stage-body"></div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="solution-stage-caption">
+                                        {% if char.char_class %}<span class="solution-stage-class">{{ char.char_class }}</span>{% endif %}
+                                        {% if char.char_name %}
+                                        <strong>{{ char.char_name }}</strong>
+                                        {% else %}
+                                        <strong>{% trans "Suggested Set" %}</strong>
+                                        {% endif %}
+                                        <span>{% trans "Level" %} {% if char.level %}{{ char.level }}{% else %}--{% endif %}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="solution-slot-cluster">
+                                {% include "chardata/solution_stage_slot.html" with item=shield label=_('Shield') %}
+                                {% include "chardata/solution_stage_slot.html" with item=ring2 label=_('Ring') %}
+                                {% include "chardata/solution_stage_slot.html" with item=belt label=_('Belt') %}
+                                {% include "chardata/solution_stage_slot.html" with item=boots label=_('Boots') %}
+                                {% include "chardata/solution_stage_slot.html" with item=pet label=_('Pet') %}
+                            </div>
+                        </div>
+
+                        <div class="solution-stage-bottom">
+                            <div class="solution-stage-dofus">
+                                {% include "chardata/solution_stage_slot.html" with item=dofus1 label=_('Dofus 1') %}
+                                {% include "chardata/solution_stage_slot.html" with item=dofus2 label=_('Dofus 2') %}
+                                {% include "chardata/solution_stage_slot.html" with item=dofus3 label=_('Dofus 3') %}
+                                {% include "chardata/solution_stage_slot.html" with item=dofus4 label=_('Dofus 4') %}
+                                {% include "chardata/solution_stage_slot.html" with item=dofus5 label=_('Dofus 5') %}
+                                {% include "chardata/solution_stage_slot.html" with item=dofus6 label=_('Dofus 6') %}
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="solution-stage-core">
-                        <div class="solution-stage-avatar">
-                            <div class="solution-stage-figure">
-                                <div class="solution-stage-head"></div>
-                                <div class="solution-stage-body"></div>
-                            </div>
-                            <div class="solution-stage-caption">
-                                {% if char.char_class %}<span class="solution-stage-class">{{ char.char_class }}</span>{% endif %}
-                                {% if char.char_name %}
-                                <strong>{{ char.char_name }}</strong>
-                                {% else %}
-                                <strong>{% trans "Suggested Set" %}</strong>
-                                {% endif %}
-                                <span>{% trans "Level" %} {% if char.level %}{{ char.level }}{% else %}--{% endif %}</span>
-                            </div>
-                        </div>
-
-                        <div class="solution-stage-metrics">
-                            <div class="solution-metric-card">
-                                <strong>9</strong>
-                                <span>{% trans "main equipment slots" %}</span>
-                            </div>
-                            <div class="solution-metric-card">
-                                <strong>6</strong>
-                                <span>{% trans "dofus slots" %}</span>
-                            </div>
-                            <div class="solution-metric-card">
-                                <strong>{{ sets|length }}</strong>
-                                <span>{% trans "active set cards" %}</span>
-                            </div>
-                            <div class="solution-metric-card">
-                                <strong>{% if char.char_build %}{{ char.char_build }}{% else %}{% trans "Flexible" %}{% endif %}</strong>
-                                <span>{% trans "build profile" %}</span>
-                            </div>
-                        </div>
-
-                        <div class="solution-stage-dofus">
-                            {% include "chardata/solution_stage_slot.html" with item=dofus1 label=_('Dofus 1') %}
-                            {% include "chardata/solution_stage_slot.html" with item=dofus2 label=_('Dofus 2') %}
-                            {% include "chardata/solution_stage_slot.html" with item=dofus3 label=_('Dofus 3') %}
-                            {% include "chardata/solution_stage_slot.html" with item=dofus4 label=_('Dofus 4') %}
-                            {% include "chardata/solution_stage_slot.html" with item=dofus5 label=_('Dofus 5') %}
-                            {% include "chardata/solution_stage_slot.html" with item=dofus6 label=_('Dofus 6') %}
-                        </div>
-                    </div>
-
-                    <div class="solution-slot-cluster">
-                        {% include "chardata/solution_stage_slot.html" with item=shield label=_('Shield') %}
-                        {% include "chardata/solution_stage_slot.html" with item=ring2 label=_('Ring') %}
-                        {% include "chardata/solution_stage_slot.html" with item=belt label=_('Belt') %}
-                        {% include "chardata/solution_stage_slot.html" with item=boots label=_('Boots') %}
-                        {% include "chardata/solution_stage_slot.html" with item=pet label=_('Pet') %}
+                    <div class="solution-panel solution-ad-placeholder solution-stage-inline-ad">
+                        <span class="solution-panel-kicker">{% trans "Reserved" %}</span>
+                        <h3>{% trans "Ad Space" %}</h3>
+                        <p>{% trans "Half of this showcase is intentionally reserved for ad inventory." %}</p>
                     </div>
                 </div>
             </section>
@@ -1196,6 +1453,14 @@
                         <span class="solution-panel-kicker">{% trans "Stats" %}</span>
                         <h3>{% trans "Characteristics" %}</h3>
                     </div>
+                </div>
+                <div class="solution-stats-quick-grid">
+                    <div class="solution-stats-quick-card"><strong id="quick-stat-ap">0</strong><span>AP</span></div>
+                    <div class="solution-stats-quick-card"><strong id="quick-stat-mp">0</strong><span>MP</span></div>
+                    <div class="solution-stats-quick-card"><strong id="quick-stat-range">0</strong><span>{% trans "Range" %}</span></div>
+                    <div class="solution-stats-quick-card"><strong id="quick-stat-vit">0</strong><span>{% trans "Vitality" %}</span></div>
+                    <div class="solution-stats-quick-card"><strong id="quick-stat-pow">0</strong><span>{% trans "Power" %}</span></div>
+                    <div class="solution-stats-quick-card"><strong id="quick-stat-ch">0</strong><span>{% trans "Crit" %}</span></div>
                 </div>
                 <div class="solution-stat-summary">
                     <table class="solution-stat-table">
@@ -1450,6 +1715,15 @@
             return Math.round(Number(value)).toString();
         }
 
+        function setQuickStats(statMap) {
+            $("#quick-stat-ap").text(formatDofusStatValue(statMap.ap));
+            $("#quick-stat-mp").text(formatDofusStatValue(statMap.mp));
+            $("#quick-stat-range").text(formatDofusStatValue(statMap.range));
+            $("#quick-stat-vit").text(formatDofusStatValue(statMap.vit));
+            $("#quick-stat-pow").text(formatDofusStatValue(statMap.pow));
+            $("#quick-stat-ch").text(formatDofusStatValue(statMap.ch));
+        }
+
         function update_stats() {
             if ($("input[name='total_mode']:checked").val() == "equip") {
                 new_stats = stats_gear;
@@ -1476,6 +1750,8 @@
                 }
                 $("td[name=stat_value_" + stat_key + "]").html(statValueString);
             });
+
+            setQuickStats(new_stats);
         }
 
         var link = {% if link_shared %}"{{initial_link}}"{% else %}null{% endif %};
@@ -1567,6 +1843,93 @@
             update_stats();
             $("input[name='total_mode']").change(update_stats);
 
+            var slotHoverPopup = $('<div class="solution-slot-hover-popup" style="display:none;"></div>');
+            $('body').append(slotHoverPopup);
+
+            function positionSlotHoverPopup(event) {
+                var popupWidth = slotHoverPopup.outerWidth() || 0;
+                var popupHeight = slotHoverPopup.outerHeight() || 0;
+                var viewportWidth = $(window).width();
+                var viewportHeight = $(window).height();
+                var x = event.clientX + 14;
+                var y = event.clientY + 14;
+
+                if (x + popupWidth > viewportWidth - 8) {
+                    x = event.clientX - popupWidth - 14;
+                }
+                if (y + popupHeight > viewportHeight - 8) {
+                    y = event.clientY - popupHeight - 14;
+                }
+
+                slotHoverPopup.css({ left: x + 'px', top: y + 'px' });
+            }
+
+            function buildSlotHoverFromItem(slotKey, fallbackElement) {
+                var itemContainer = $("#item-container-" + slotKey);
+                if (!itemContainer.length) {
+                    var fallback = $(fallbackElement).find('.solution-slot-hover-content').first();
+                    return fallback.length ? fallback.html() : '';
+                }
+
+                var wrapper = $('<div></div>');
+                var title = $('<div class="solution-slot-hover-title"></div>');
+                var nameText = $("#item-name-" + slotKey).first().text().trim();
+                var levelText = itemContainer.find('.solution-item-level').first().text().trim();
+
+                title.append($('<strong></strong>').text(nameText || slotKey));
+                if (levelText) {
+                    title.append($('<span></span>').text(levelText));
+                }
+                wrapper.append(title);
+
+                var linesWrap = $('<div class="solution-slot-hover-lines"></div>');
+                itemContainer.find('.solution-item-expand-content .solution-inline-stat-line').each(function(index, node) {
+                    if (index >= 18) {
+                        return false;
+                    }
+
+                    var lineNode = $(node);
+                    var line = $('<div class="solution-slot-hover-line"></div>');
+                    if (lineNode.hasClass('solution-negative-stat-text')) {
+                        line.addClass('solution-negative-stat-text');
+                    }
+
+                    var icon = lineNode.find('img').first();
+                    if (icon.length) {
+                        line.append($('<img class="solution-slot-hover-icon" alt="">').attr('src', icon.attr('src')));
+                    } else {
+                        line.append($('<span class="solution-slot-hover-dot"></span>'));
+                    }
+
+                    line.append($('<span></span>').text(lineNode.text().replace(/\s+/g, ' ').trim()));
+                    linesWrap.append(line);
+                });
+
+                wrapper.append(linesWrap);
+                return wrapper.html();
+            }
+
+            function showSlotHoverPopup(element, event) {
+                var slotKey = $(element).data('slot');
+                if (!slotKey) {
+                    return;
+                }
+
+                var hoverHtml = buildSlotHoverFromItem(slotKey, element);
+                if (!hoverHtml) {
+                    return;
+                }
+
+                slotHoverPopup.html(hoverHtml).show();
+                if (event) {
+                    positionSlotHoverPopup(event);
+                }
+            }
+
+            function hideSlotHoverPopup() {
+                slotHoverPopup.hide().empty();
+            }
+
             $("#expand_button").click(function(e) {
                 e.preventDefault();
                 $(".expand-header").each(function(index, value) {
@@ -1596,6 +1959,61 @@
             });
             $("#link_sharing_url_text").click(function(e) {
                 this.select();
+            });
+
+            function openStageSlotDetails(slotKey) {
+                var itemContainer = $("#item-container-" + slotKey);
+                if (!itemContainer.length) {
+                    return;
+                }
+
+                var header = itemContainer.find(".expand-header").first();
+                if (header.length) {
+                    var content = header.next();
+                    if (content.css("display") == "none") {
+                        expand_expand(header);
+                    }
+                }
+
+                $('html, body').animate({
+                    scrollTop: Math.max(0, itemContainer.offset().top - 90)
+                }, 220);
+            }
+
+            $(".solution-slot-actionable").on("click", function(e) {
+                e.preventDefault();
+                var slotKey = $(this).data("slot");
+                openStageSlotDetails(slotKey);
+            });
+
+            $(".solution-slot-actionable").on("mouseenter", function(e) {
+                showSlotHoverPopup(this, e);
+            });
+
+            $(".solution-slot-actionable").on("mousemove", function(e) {
+                if (slotHoverPopup.is(':visible')) {
+                    positionSlotHoverPopup(e);
+                }
+            });
+
+            $(".solution-slot-actionable").on("mouseleave", function() {
+                hideSlotHoverPopup();
+            });
+
+            $(".solution-slot-actionable").on("focus", function(e) {
+                showSlotHoverPopup(this, e);
+            });
+
+            $(".solution-slot-actionable").on("blur", function() {
+                hideSlotHoverPopup();
+            });
+
+            $(".solution-slot-actionable").on("keydown", function(e) {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    var slotKey = $(this).data("slot");
+                    openStageSlotDetails(slotKey);
+                }
             });
 
             $.each(itemViolates, function(key, value) {
