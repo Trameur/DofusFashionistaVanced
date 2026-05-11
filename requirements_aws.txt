@@ -1,5 +1,5 @@
 asgiref==3.8.1
-attrs==23.1.0
+attrs==26.1.0
 Automat==25.4.16
 awk==1.2.1
 aws-cfn-bootstrap==2.0
