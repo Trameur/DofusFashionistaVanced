@@ -1,0 +1,21 @@
+{# Reusable template for displaying an equipment slot in the solution stage #}
+{% load i18n %}
+<div class="solution-slot-tile">
+    <div class="solution-slot-icon-wrap">
+        {% if item and item.item_added %}
+            <img src="{{ item.file }}" alt="{{ item.or_name }}" class="solution-slot-icon-img" title="{{ item.or_name }}">
+        {% else %}
+            <div class="solution-slot-icon-img" style="background: none; opacity: 0.3;" title="{% trans 'Empty slot' %}">
+                <span style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">-</span>
+            </div>
+        {% endif %}
+    </div>
+    <div class="solution-slot-copy">
+        <span class="solution-slot-label">{{ label }}</span>
+        {% if item and item.item_added %}
+            <span class="solution-slot-name">{{ item.or_name }}</span>
+        {% else %}
+            <span class="solution-slot-name" style="opacity: 0.5;">{% trans 'Empty' %}</span>
+        {% endif %}
+    </div>
+</div>

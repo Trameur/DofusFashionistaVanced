@@ -18,6 +18,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
 from django.core.cache import cache
+from django.http import JsonResponse
 import json
 
 from chardata.encoded_char_id import encode_char_id
@@ -275,3 +276,110 @@ def set_item_forbidden(request, char_id):
         set_excluded(char, item_id, False)
 
     return HttpResponseText('ok')
+
+
+def export_build_json(request, char_id):
+    """Export a build as JSON for external use (e.g., dofusbook.net)
+    
+    This endpoint returns a structured JSON export of a build that can be:
+    - Downloaded by the user for local storage
+    - Sent to external services via API
+    - Used for cross-platform build sharing
+    
+    JSON structure includes:
+    - Build metadata (name, class, level)
+    - Equipment list with item IDs and names
+    - Statistics (base, gear, total)
+    - Set bonuses
+    - Locked/forbidden items
+    - Options and restrictions
+    """
+    from django.http import JsonResponse
+    
+    try:
+        char = get_char_or_raise(request, char_id)
+        
+        # Get solution and apply inclusions/exclusions
+        inclusions = get_all_inclusions_en_names(char)
+        exclusions = get_all_exclusions_en_names(char)
+        solution = get_solution(char)
+        solution_result = SolutionResult(solution, inclusions, exclusions)
+        solution_params = solution_result.get_params()
+        
+        # Build the export structure
+        export_data = {
+            'metadata': {
+                'project_name': char.name,
+                'character_name': char.char_name,
+                'character_class': char.char_class,
+                'character_level': char.level,
+                'build_type': char.char_build,
+                'exported_at': timezone.now().isoformat(),
+                'export_version': '1.0'
+            },
+            'equipment': {
+                'items': {},
+                'dofus': []
+            },
+            'statistics': {
+                'base': solution_params.get('stats_base_json', '{}'),
+                'gear': solution_params.get('stats_gear_json', '{}'),
+                'total': solution_params.get('stats_total_json', '{}')
+            },
+            'sets': [],
+            'restrictions': {
+                'locked_items': solution_params.get('item_is_locked', {}),
+                'forbidden_items': solution_params.get('item_is_forbidden', {})
+            },
+            'options': {
+                'duel_mode': chardata.smart_build.char_has_aspect(char, 'duel'),
+                'options_json': solution_params.get('options_json', '{}')
+            }
+        }
+        
+        # Extract equipment items (organized by slot)
+        for slot_name in ['Weapon', 'Hat', 'Cloak', 'Amulet', 'Ring', 'Boots', 'Belt', 'Shield', 'Pet']:
+            if slot_name in solution_params.get('item_per_slot', {}):
+                slot_data = solution_params['item_per_slot'][slot_name]
+                if hasattr(slot_data, '__dict__'):
+                    export_data['equipment']['items'][slot_name] = {
+                        'name': getattr(slot_data, 'or_name', ''),
+                        'id': getattr(slot_data, 'ankama_id', None),
+                        'rarity': getattr(slot_data, 'rarity', None),
+                        'level': getattr(slot_data, 'level', None)
+                    }
+        
+        # Extract dofus items
+        if 'dofus_per_slot' in solution_params:
+            for dofus in solution_params['dofus_per_slot']:
+                if hasattr(dofus, '__dict__'):
+                    export_data['equipment']['dofus'].append({
+                        'name': getattr(dofus, 'or_name', ''),
+                        'id': getattr(dofus, 'ankama_id', None),
+                        'level': getattr(dofus, 'level', None)
+                    })
+        
+        # Extract set bonuses
+        if 'sets' in solution_params:
+            for set_obj in solution_params['sets']:
+                if hasattr(set_obj, '__dict__'):
+                    set_stats = {}
+                    if hasattr(set_obj, 'stats_lines'):
+                        for stat_line in set_obj.stats_lines:
+                            if hasattr(stat_line, 'stat_key'):
+                                set_stats[stat_line.stat_key] = stat_line.stat_value
+                    
+                    export_data['sets'].append({
+                        'name': getattr(set_obj, 'name', ''),
+                        'parts_count': getattr(set_obj, 'items', []) and len([i for i in getattr(set_obj, 'items', []) if getattr(i, 'item_added', False)]),
+                        'bonuses': set_stats
+                    })
+        
+        return JsonResponse(export_data, json_dumps_params={'indent': 2})
+    
+    except Exception as e:
+        return JsonResponse({
+            'error': 'Failed to export build',
+            'message': str(e),
+            'export_version': '1.0'
+        }, status=400)
