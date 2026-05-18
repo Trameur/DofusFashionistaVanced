@@ -76,8 +76,10 @@ services:
       - web
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/certs:/etc/nginx/certs:ro
       - static_files:/app/staticfiles
     networks:
       - fashionista_network

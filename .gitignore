@@ -13,3 +13,4 @@ fashionsite/chardata/static/chardata/spells/Con.png
 itemscraper/transformed_spells.json
 itemscraper/transformed_class_spells.json
 docker/gen_config.json
+docker/certs/
