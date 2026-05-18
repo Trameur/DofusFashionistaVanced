@@ -57,7 +57,7 @@ services:
     networks:
       - fashionista_network
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS -H 'Host: fashionistavanced.com' http://localhost:8000/ > /dev/null || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS -H 'Host: dofusfashionista.gg' http://localhost:8000/ > /dev/null || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

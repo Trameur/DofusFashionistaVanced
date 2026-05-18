@@ -53,8 +53,16 @@ def get_fashionista_path():
     
     return path
 
-def get_items_db_path():
-    return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', 'items.db')
+_DB_FILES = {
+    'dofus3': 'items.db',
+    'touch': 'items.db',
+    'beta': 'items_beta.db',
+    'retro': 'items_retro.db',
+}
+
+def get_items_db_path(game_version='dofus3'):
+    db_file = _DB_FILES.get(game_version, 'items.db')
+    return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', db_file)
 
 def get_items_dump_path():
     return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')

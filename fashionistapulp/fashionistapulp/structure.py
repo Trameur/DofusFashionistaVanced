@@ -21,6 +21,7 @@ import random
 import re
 import sqlite3
 import itertools
+import threading
 from threading import Lock
 
 from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL, STAT_ORDER,
@@ -40,25 +41,35 @@ from django.utils.translation import gettext as _
 load_items_db_from_dump()
 
 lock = Lock()
-structure_singleton = None
+_structure_singletons = {}
+_current_game_version = threading.local()
 
-def get_structure():
-    global structure_singleton
-    if structure_singleton is None:
+
+def get_structure(game_version=None):
+    global _structure_singletons
+    if game_version is None:
+        game_version = getattr(_current_game_version, 'version', 'dofus3')
+    if game_version not in _structure_singletons:
         with lock:
-            if structure_singleton is None:
-                structure_singleton = Structure()
-                print('Structure created with %d bytes' % len(pickle.dumps(structure_singleton)))
-    return structure_singleton
+            if game_version not in _structure_singletons:
+                s = Structure(game_version)
+                _structure_singletons[game_version] = s
+                print('Structure [%s] created with %d bytes' % (game_version, len(pickle.dumps(s))))
+    return _structure_singletons[game_version]
 
-def invalidate_structure():
-    global structure_singleton
-    structure_singleton = None
+
+def invalidate_structure(game_version=None):
+    global _structure_singletons
+    if game_version is not None:
+        _structure_singletons.pop(game_version, None)
+    else:
+        _structure_singletons.clear()
 
 class Structure:
-    
-    def __init__(self):
-        self.conn = sqlite3.connect(get_items_db_path())
+
+    def __init__(self, game_version='dofus3'):
+        self.game_version = game_version
+        self.conn = sqlite3.connect(get_items_db_path(game_version))
     
         self.read_sets_table()
         self.read_items_table()

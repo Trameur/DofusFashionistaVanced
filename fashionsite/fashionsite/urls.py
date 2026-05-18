@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 from django.views.i18n import JavaScriptCatalog
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -300,6 +300,15 @@ if settings.EXPERIMENTS['TRANSLATION']:
                             re_path(r'^i18n/', include('django.conf.urls.i18n'))]
 
 urlpatterns += staticfiles_urlpatterns()
+
+# Version-specific routes: same views, game_version set by middleware
+_game_urls = 'chardata.game_urls'
+urlpatterns += [
+    path('beta/', include(_game_urls)),
+    path('retro/', include(_game_urls)),
+    path('touch/', include(_game_urls)),
+]
+
 handler403 = views.forbidden
 handler404 = views.not_found
 handler500 = views.app_error
