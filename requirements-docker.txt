@@ -78,7 +78,7 @@ requests==2.33.1
 requests-file==1.5.1
 requests-oauthlib==1.3.1
 #rpm==4.16.1.3
-rsa==4.7.2
+rsa==4.9.1
 #s3transfer==0.17.0
 #selinux==3.4
 #sepolicy==3.4
