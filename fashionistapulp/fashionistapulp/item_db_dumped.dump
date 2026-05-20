@@ -1003,6 +1003,7 @@ INSERT INTO sets VALUES(1088,'Flamboyant Ceremonial Set of the Phoenix',1088,NUL
 INSERT INTO sets VALUES(1089,'Supercharged Ceremonial Set',1089,NULL);
 INSERT INTO sets VALUES(1092,'Joblife Ceremonial Set',1092,NULL);
 INSERT INTO sets VALUES(1093,'Peps Ceremonial Set',1093,NULL);
+INSERT INTO sets VALUES(1097,'[!] Panoplie d''apparat de l''exterminateur',1097,NULL);
 CREATE TABLE "items" (
         `id` INTEGER PRIMARY KEY,
         `name` text,
@@ -60497,6 +60498,10 @@ INSERT INTO set_names VALUES(1093, 'fr', 'Panoplie d''apparat Peps');
 INSERT INTO set_names VALUES(1093, 'es', 'Set cosmético de Peps');
 INSERT INTO set_names VALUES(1093, 'pt', 'Conjunto de Aparência Peps');
 INSERT INTO set_names VALUES(1093, 'de', 'Peps-Prunkset');
+INSERT INTO set_names VALUES(1097, 'fr', 'Panoplie d''apparat de l''exterminateur');
+INSERT INTO set_names VALUES(1097, 'es', '[!] Panoplie d''apparat de l''exterminateur');
+INSERT INTO set_names VALUES(1097, 'pt', '[!] Panoplie d''apparat de l''exterminateur');
+INSERT INTO set_names VALUES(1097, 'de', '[!] Panoplie d''apparat de l''exterminateur');
 CREATE TABLE item_weird_conditions (item INTEGER, condition_id INTEGER, FOREIGN KEY(item) REFERENCES items(id));
 INSERT INTO item_weird_conditions VALUES(16182, 1);
 INSERT INTO item_weird_conditions VALUES(16183, 1);

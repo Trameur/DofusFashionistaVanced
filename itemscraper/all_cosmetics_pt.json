@@ -102305,6 +102305,49 @@
             "pods": 1
         },
         {
+            "ankama_id": 34273,
+            "name": "[!] Minoclier",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82590-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82590-128.png"
+            },
+            "description": "[!] Ce bouclier prouve que vous avez enfin pris le Minotoror par les cornes.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34278,
             "name": "Capacete do Eletrizado",
             "type": {
@@ -103040,6 +103083,324 @@
             },
             "description": "Será que ter asas ajuda a achar trabalho? Você pode tentar responder a essa pergunta, mas isso não vai mudar em nada a sua situação.",
             "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34409,
+            "name": "[!] Coiffe d'apparat de l'exterminateur",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16914-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16914-128.png"
+            },
+            "description": "[!] Il protège efficacement de toute sorte de chose qui peut tomber du ciel.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34410,
+            "name": "[!] Bouclier d'apparat de l'exterminateur",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82595-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82595-128.png"
+            },
+            "description": "[!] La façon dont vous interprétez la forme dessus en dit probablement beaucoup sur vous...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34411,
+            "name": "[!] Épaulières d'apparat de l'exterminateur",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165970-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165970-128.png"
+            },
+            "description": "[!] Un exterminateur digne de ce nom se doit d'avoir des choses coupantes sur tout son apparat, même sur ses épaulettes !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34412,
+            "name": "[!] Costume d'apparat de l'exterminateur",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165972-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165972-128.png"
+            },
+            "description": "[!] Idéal pour que vos amis se tiennent à carreau quand ils seront à côté de vous.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34413,
+            "name": "[!] Ailes de l'exterminateur",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165971-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165971-128.png"
+            },
+            "description": "[!] Elles coupent très bien en plus de donner du style.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34414,
+            "name": "[!] Cape d'apparat de l'exterminateur",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17699-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17699-128.png"
+            },
+            "description": "[!] Elles comportent des ailes si vous voulez planer et des nageoires si vous voulez respirer sous l'eau. Aucune d'entre elles ne fonctionne.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34415,
+            "name": "[!] Dessssstrier",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121180-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121180-128.png"
+            },
+            "description": "[!] Il vous portera où vous voudrez sans aucun sssssouci.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34416,
+            "name": "[!] Ssssserpentin",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18944-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18944-128.png"
+            },
+            "description": "[!] Il sssssuivra toujours vos pas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

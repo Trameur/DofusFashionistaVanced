@@ -41,6 +41,11 @@ class Char(models.Model):
     aspects = models.BinaryField(default=b'')
     deleted = models.BooleanField(default=False)
     allow_points_distribution = models.BooleanField(default=True)
+    game_version = models.CharField(
+        max_length=20,
+        default='dofus3',
+        db_index=True,
+    )
 
     def __unicode__(self):
         return self.name

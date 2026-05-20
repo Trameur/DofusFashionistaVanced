@@ -63,6 +63,9 @@ else:
     ALLOWED_HOSTS = [
         '.fashionistavanced.com',
         'fashionistavanced.com',
+        '.dofusfashionista.gg',
+        'dofusfashionista.gg',
+        '178.105.48.220',
         '16.171.215.36',
         'localhost',
         '127.0.0.1',
@@ -74,6 +77,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://fashionistavanced.com',
     'https://dofus.fashionistavanced.com',
     'https://www.fashionistavanced.com',
+    'https://dofusfashionista.gg',
+    'https://www.dofusfashionista.gg',
 ]
 
 # Security settings for production (HTTPS)
@@ -146,6 +151,7 @@ AUTHENTICATION_BACKENDS = (
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
+    'chardata.middleware.GameVersionMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -296,9 +302,8 @@ LOGGING = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/tmp/fashionista-cache',
-        'TIMEOUT': 6 * 60 * 60,  # 6 hours default
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'fashionista-cache',
     }
 }
 
