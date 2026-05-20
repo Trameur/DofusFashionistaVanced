@@ -3408,13 +3408,6 @@
     "fr": "Communion Animale",
     "pt": "Comunhão Animal"
   },
-  "Animal Link": {
-    "de": "Ruf der Wildnis",
-    "en": "Animal Link",
-    "es": "Vínculo Animal",
-    "fr": "Lien animal",
-    "pt": "Elo Animal"
-  },
   "Animal Pheromones": {
     "de": "Bestialische Pheromone",
     "en": "Animal Pheromones",
@@ -16841,13 +16834,6 @@
     "fr": "Croutage",
     "pt": "Encrostação"
   },
-  "Crvor": {
-    "de": "Crvor",
-    "en": "Crvor",
-    "es": "Crvor",
-    "fr": "Crvor",
-    "pt": "Crvor"
-  },
   "Cry of Agony": {
     "de": "Röchelnde Agonie",
     "en": "Cry of Agony",
@@ -22615,13 +22601,6 @@
     "es": "Dracollamas",
     "fr": "Dracoflammes",
     "pt": "Dragochamas"
-  },
-  "Dragoheal": {
-    "de": "Dracopflege",
-    "en": "Dragoheal",
-    "es": "Dragocura",
-    "fr": "Dragosoin",
-    "pt": "Dragocura"
   },
   "Dragon Exhortation": {
     "de": "Anrufung des Drachen",
@@ -35601,13 +35580,6 @@
     "fr": "Immunisation",
     "pt": "Imunização"
   },
-  "Immunity": {
-    "de": "Immunität",
-    "en": "Immunity",
-    "es": "Inmunidad",
-    "fr": "Immunité",
-    "pt": "Imunidade"
-  },
   "Immunodeficiency": {
     "de": "Abwehrschwäche",
     "en": "Immunodeficiency",
@@ -43518,13 +43490,6 @@
     "fr": "Martyre",
     "pt": "Martírio"
   },
-  "Martyr Punishment": {
-    "de": "Bestrafung des Märtyrers",
-    "en": "Martyr Punishment",
-    "es": "Castigo del Mártir",
-    "fr": "Châtiment du Martyr",
-    "pt": "Castigo do Mártir"
-  },
   "Mary Reankle's Judgement": {
     "de": "Marie Reeds Urteil",
     "en": "Mary Reankle's Judgement",
@@ -43650,13 +43615,6 @@
     "es": "Veneno Insidioso de Maza",
     "fr": "Poison insidieux de masse",
     "pt": "Veneno Insidioso de massa"
-  },
-  "Mass Trap": {
-    "de": "Massenfalle",
-    "en": "Mass Trap",
-    "es": "Trampa de Masas",
-    "fr": "Piège de Masse",
-    "pt": "Armadilha de Massa"
   },
   "Mass Unsummoning": {
     "de": "Massenentzauberung",
@@ -50994,13 +50952,6 @@
     "fr": "Punition Mesquine",
     "pt": "Punição Mesquinha"
   },
-  "Petulance": {
-    "de": "Übermut",
-    "en": "Petulance",
-    "es": "Petulancia",
-    "fr": "Pétulance",
-    "pt": "Petulância"
-  },
   "Petunia": {
     "de": "Petunia",
     "en": "Petunia",
@@ -51792,6 +51743,13 @@
     "fr": "Ensorcellement Sombre",
     "pt": "Enfeitiçamento Sombrio"
   },
+  "Plaguing Arrow": {
+    "de": "Plagender Pfeil",
+    "en": "Plaguing Arrow",
+    "es": "Flecha Acosante",
+    "fr": "Flèche Harcelante",
+    "pt": "Flecha Inconveniente"
+  },
   "Plain Protection": {
     "de": "Schutz der Ebene",
     "en": "Plain Protection",
@@ -51889,13 +51847,6 @@
     "es": "¡Ojo, Que Quema!",
     "fr": "Qui s'y frotte s'y brûle",
     "pt": "Brincar com Fogo"
-  },
-  "Player Gameplay": {
-    "de": "Spieler-Gameplay",
-    "en": "Player Gameplay",
-    "es": "Gameplay jugador",
-    "fr": "Gameplay joueur",
-    "pt": "Gameplay do Jogador"
   },
   "Playful Claw": {
     "de": "Spielkralle",
@@ -55236,13 +55187,6 @@
     "fr": "Radotage",
     "pt": "Disparate"
   },
-  "RamboPL": {
-    "de": "RamboPL",
-    "en": "RamboPL",
-    "es": "RamboPL",
-    "fr": "RamboPL",
-    "pt": "RamboPL"
-  },
   "Ramification": {
     "de": "Verzweigung",
     "en": "Ramification",
@@ -56663,13 +56607,6 @@
     "es": "Resonancia",
     "fr": "Résonance",
     "pt": "Ressonância"
-  },
-  "Resonance (Snyler)": {
-    "de": "Resonanz (Snyler)",
-    "en": "Resonance (Snyler)",
-    "es": "Resonancia (Snyler)",
-    "fr": "Résonance (Snyler)",
-    "pt": "Ressonância (Snyler)"
   },
   "Resounding Hoof": {
     "de": "Klingender Stiefel",
@@ -58376,7 +58313,7 @@
     "de": "Brutales Erwachen",
     "en": "Rude Awakening",
     "es": "Despertar Brutal",
-    "fr": "Réveil Brutal",
+    "fr": "Réveil brutal",
     "pt": "Despertar Brutal"
   },
   "Rude Wakening": {
@@ -63146,13 +63083,6 @@
     "fr": "Caninos",
     "pt": "Caninos"
   },
-  "Snyler": {
-    "de": "Snyler",
-    "en": "Snyler",
-    "es": "Snyler",
-    "fr": "Snyler",
-    "pt": "Snyler"
-  },
   "Snyperock": {
     "de": "Sneipör",
     "en": "Snyperock",
@@ -67241,13 +67171,6 @@
     "fr": "Invocation de Marionnette Rouge",
     "pt": "Invocação de Marionete Vermelha"
   },
-  "Summoning of Red Wyrmling": {
-    "de": "Beschwörung des Roten Drachennestlings",
-    "en": "Summoning of Red Wyrmling",
-    "es": "Invocación de Dragonito Rojo",
-    "fr": "Invocation du Dragonnet rouge",
-    "pt": "Invocação do Dragoneto Vermelho"
-  },
   "Summoning of Running Bow Wow": {
     "de": "Rennenden SchnuffWuff beschwören",
     "en": "Summoning of Running Bow Wow",
@@ -68969,13 +68892,6 @@
     "es": "Telefrag",
     "fr": "Téléfrag",
     "pt": "Telefrag"
-  },
-  "Teleglyph": {
-    "de": "Teleglyphation",
-    "en": "Teleglyph",
-    "es": "Teleglifo",
-    "fr": "Téléglyphe",
-    "pt": "Teleglifo"
   },
   "Telekinesis": {
     "de": "Telekinese",
@@ -78021,13 +77937,6 @@
     "fr": "Feulement",
     "pt": "Rugido Felino"
   },
-  "Yoy": {
-    "de": "Yoy",
-    "en": "Yoy",
-    "es": "Yoy",
-    "fr": "Yoy",
-    "pt": "Yoy"
-  },
   "Yozora": {
     "de": "Yozora",
     "en": "Yozora",
@@ -78385,6 +78294,13 @@
     "fr": "Activation Runes Cristalactite",
     "pt": "[!] Activation Runes Cristalactite"
   },
+  "[!] Acuité Absolue": {
+    "de": "[!] Acuité Absolue",
+    "en": "[!] Acuité Absolue",
+    "es": "[!] Acuité Absolue",
+    "fr": "Acuité Absolue",
+    "pt": "[!] Acuité Absolue"
+  },
   "[!] Agilité": {
     "de": "[!] Agilité",
     "en": "[!] Agilité",
@@ -78707,6 +78623,20 @@
     "fr": "Balestra du Dopeul",
     "pt": "Balestra"
   },
+  "[!] Balise Tactique": {
+    "de": "[!] Balise Tactique",
+    "en": "[!] Balise Tactique",
+    "es": "[!] Balise Tactique",
+    "fr": "Balise Tactique",
+    "pt": "[!] Balise Tactique"
+  },
+  "[!] Balise de Survie": {
+    "de": "[!] Balise de Survie",
+    "en": "[!] Balise de Survie",
+    "es": "[!] Balise de Survie",
+    "fr": "Balise de Survie",
+    "pt": "[!] Balise de Survie"
+  },
   "[!] Barbare": {
     "de": "[!] Barbare",
     "en": "[!] Barbare",
@@ -78881,6 +78811,13 @@
     "es": "[!] Capture d'âmes",
     "fr": "Capture d'âmes",
     "pt": "[!] Capture d'âmes"
+  },
+  "[!] Carreaux Destructeurs": {
+    "de": "[!] Carreaux Destructeurs",
+    "en": "[!] Carreaux Destructeurs",
+    "es": "[!] Carreaux Destructeurs",
+    "fr": "Carreaux Destructeurs",
+    "pt": "[!] Carreaux Destructeurs"
   },
   "[!] Cast Radiations": {
     "de": "[!] Cast Radiations",
@@ -79680,12 +79617,61 @@
     "fr": "Flou expérimental",
     "pt": "[!] Flou expérimental"
   },
+  "[!] Flèche Assaillante": {
+    "de": "[!] Flèche Assaillante",
+    "en": "[!] Flèche Assaillante",
+    "es": "[!] Flèche Assaillante",
+    "fr": "Flèche Assaillante",
+    "pt": "[!] Flèche Assaillante"
+  },
+  "[!] Flèche Boomerang": {
+    "de": "[!] Flèche Boomerang",
+    "en": "[!] Flèche Boomerang",
+    "es": "[!] Flèche Boomerang",
+    "fr": "Flèche Boomerang",
+    "pt": "[!] Flèche Boomerang"
+  },
+  "[!] Flèche Cinglante": {
+    "de": "[!] Flèche Cinglante",
+    "en": "[!] Flèche Cinglante",
+    "es": "[!] Flèche Cinglante",
+    "fr": "Flèche Cinglante",
+    "pt": "[!] Flèche Cinglante"
+  },
   "[!] Flèche Destructrice Trahison": {
     "de": "[!] Flèche Destructrice Trahison",
     "en": "[!] Flèche Destructrice Trahison",
     "es": "[!] Flèche Destructrice Trahison",
     "fr": "Flèche Destructrice Trahison",
     "pt": "[!] Flèche Destructrice Trahison"
+  },
+  "[!] Flèche Détonante": {
+    "de": "[!] Flèche Détonante",
+    "en": "[!] Flèche Détonante",
+    "es": "[!] Flèche Détonante",
+    "fr": "Flèche Détonante",
+    "pt": "[!] Flèche Détonante"
+  },
+  "[!] Flèche Dévorante": {
+    "de": "[!] Flèche Dévorante",
+    "en": "[!] Flèche Dévorante",
+    "es": "[!] Flèche Dévorante",
+    "fr": "Flèche Dévorante",
+    "pt": "[!] Flèche Dévorante"
+  },
+  "[!] Flèche Explosive": {
+    "de": "[!] Flèche Explosive",
+    "en": "[!] Flèche Explosive",
+    "es": "[!] Flèche Explosive",
+    "fr": "Flèche Explosive",
+    "pt": "[!] Flèche Explosive"
+  },
+  "[!] Flèche Fulminante": {
+    "de": "[!] Flèche Fulminante",
+    "en": "[!] Flèche Fulminante",
+    "es": "[!] Flèche Fulminante",
+    "fr": "Flèche Fulminante",
+    "pt": "[!] Flèche Fulminante"
   },
   "[!] Flèche Fulminante Trahison": {
     "de": "[!] Flèche Fulminante Trahison",
@@ -79694,12 +79680,124 @@
     "fr": "Flèche Fulminante Trahison",
     "pt": "[!] Flèche Fulminante Trahison"
   },
+  "[!] Flèche Glacée": {
+    "de": "[!] Flèche Glacée",
+    "en": "[!] Flèche Glacée",
+    "es": "[!] Flèche Glacée",
+    "fr": "Flèche Glacée",
+    "pt": "[!] Flèche Glacée"
+  },
+  "[!] Flèche Massacrante": {
+    "de": "[!] Flèche Massacrante",
+    "en": "[!] Flèche Massacrante",
+    "es": "[!] Flèche Massacrante",
+    "fr": "Flèche Massacrante",
+    "pt": "[!] Flèche Massacrante"
+  },
+  "[!] Flèche Paralysante": {
+    "de": "[!] Flèche Paralysante",
+    "en": "[!] Flèche Paralysante",
+    "es": "[!] Flèche Paralysante",
+    "fr": "Flèche Paralysante",
+    "pt": "[!] Flèche Paralysante"
+  },
+  "[!] Flèche Perforante": {
+    "de": "[!] Flèche Perforante",
+    "en": "[!] Flèche Perforante",
+    "es": "[!] Flèche Perforante",
+    "fr": "Flèche Perforante",
+    "pt": "[!] Flèche Perforante"
+  },
+  "[!] Flèche Persécutrice": {
+    "de": "[!] Flèche Persécutrice",
+    "en": "[!] Flèche Persécutrice",
+    "es": "[!] Flèche Persécutrice",
+    "fr": "Flèche Persécutrice",
+    "pt": "[!] Flèche Persécutrice"
+  },
+  "[!] Flèche Punitive": {
+    "de": "[!] Flèche Punitive",
+    "en": "[!] Flèche Punitive",
+    "es": "[!] Flèche Punitive",
+    "fr": "Flèche Punitive",
+    "pt": "[!] Flèche Punitive"
+  },
+  "[!] Flèche Ralentissante": {
+    "de": "[!] Flèche Ralentissante",
+    "en": "[!] Flèche Ralentissante",
+    "es": "[!] Flèche Ralentissante",
+    "fr": "Flèche Ralentissante",
+    "pt": "[!] Flèche Ralentissante"
+  },
+  "[!] Flèche Tyrannique": {
+    "de": "[!] Flèche Tyrannique",
+    "en": "[!] Flèche Tyrannique",
+    "es": "[!] Flèche Tyrannique",
+    "fr": "Flèche Tyrannique",
+    "pt": "[!] Flèche Tyrannique"
+  },
+  "[!] Flèche Vagabonde": {
+    "de": "[!] Flèche Vagabonde",
+    "en": "[!] Flèche Vagabonde",
+    "es": "[!] Flèche Vagabonde",
+    "fr": "Flèche Vagabonde",
+    "pt": "[!] Flèche Vagabonde"
+  },
+  "[!] Flèche d'Abolition": {
+    "de": "[!] Flèche d'Abolition",
+    "en": "[!] Flèche d'Abolition",
+    "es": "[!] Flèche d'Abolition",
+    "fr": "Flèche d'Abolition",
+    "pt": "[!] Flèche d'Abolition"
+  },
   "[!] Flèche d'Abolition Trahison": {
     "de": "[!] Flèche d'Abolition Trahison",
     "en": "[!] Flèche d'Abolition Trahison",
     "es": "[!] Flèche d'Abolition Trahison",
     "fr": "Flèche d'Abolition Trahison",
     "pt": "[!] Flèche d'Abolition Trahison"
+  },
+  "[!] Flèche d'Expiation": {
+    "de": "[!] Flèche d'Expiation",
+    "en": "[!] Flèche d'Expiation",
+    "es": "[!] Flèche d'Expiation",
+    "fr": "Flèche d'Expiation",
+    "pt": "[!] Flèche d'Expiation"
+  },
+  "[!] Flèche d'Immobilisation": {
+    "de": "[!] Flèche d'Immobilisation",
+    "en": "[!] Flèche d'Immobilisation",
+    "es": "[!] Flèche d'Immobilisation",
+    "fr": "Flèche d'Immobilisation",
+    "pt": "[!] Flèche d'Immobilisation"
+  },
+  "[!] Flèche de Barrage": {
+    "de": "[!] Flèche de Barrage",
+    "en": "[!] Flèche de Barrage",
+    "es": "[!] Flèche de Barrage",
+    "fr": "Flèche de Barrage",
+    "pt": "[!] Flèche de Barrage"
+  },
+  "[!] Flèche de Dispersion": {
+    "de": "[!] Flèche de Dispersion",
+    "en": "[!] Flèche de Dispersion",
+    "es": "[!] Flèche de Dispersion",
+    "fr": "Flèche de Dispersion",
+    "pt": "[!] Flèche de Dispersion"
+  },
+  "[!] Flèche de Recul": {
+    "de": "[!] Flèche de Recul",
+    "en": "[!] Flèche de Recul",
+    "es": "[!] Flèche de Recul",
+    "fr": "Flèche de Recul",
+    "pt": "[!] Flèche de Recul"
+  },
+  "[!] Flèche de Rédemption": {
+    "de": "[!] Flèche de Rédemption",
+    "en": "[!] Flèche de Rédemption",
+    "es": "[!] Flèche de Rédemption",
+    "fr": "Flèche de Rédemption",
+    "pt": "[!] Flèche de Rédemption"
   },
   "[!] Flèche de Rédemption Trahison": {
     "de": "[!] Flèche de Rédemption Trahison",
@@ -79708,12 +79806,47 @@
     "fr": "Flèche de Rédemption Trahison",
     "pt": "[!] Flèche de Rédemption Trahison"
   },
+  "[!] Flèche du Jugement": {
+    "de": "[!] Flèche du Jugement",
+    "en": "[!] Flèche du Jugement",
+    "es": "[!] Flèche du Jugement",
+    "fr": "Flèche du Jugement",
+    "pt": "[!] Flèche du Jugement"
+  },
   "[!] Flèche expérimentale Tyrannique": {
     "de": "[!] Flèche expérimentale Tyrannique",
     "en": "[!] Flèche expérimentale Tyrannique",
     "es": "[!] Flèche expérimentale Tyrannique",
     "fr": "Flèche expérimentale Tyrannique",
     "pt": "[!] Flèche expérimentale Tyrannique"
+  },
+  "[!] Flèche Éclatante": {
+    "de": "[!] Flèche Éclatante",
+    "en": "[!] Flèche Éclatante",
+    "es": "[!] Flèche Éclatante",
+    "fr": "Flèche Éclatante",
+    "pt": "[!] Flèche Éclatante"
+  },
+  "[!] Flèche Évasive": {
+    "de": "[!] Flèche Évasive",
+    "en": "[!] Flèche Évasive",
+    "es": "[!] Flèche Évasive",
+    "fr": "Flèche Évasive",
+    "pt": "[!] Flèche Évasive"
+  },
+  "[!] Flèches Amoureuses": {
+    "de": "[!] Flèches Amoureuses",
+    "en": "[!] Flèches Amoureuses",
+    "es": "[!] Flèches Amoureuses",
+    "fr": "Flèches Amoureuses",
+    "pt": "[!] Flèches Amoureuses"
+  },
+  "[!] Flèches Enflammées": {
+    "de": "[!] Flèches Enflammées",
+    "en": "[!] Flèches Enflammées",
+    "es": "[!] Flèches Enflammées",
+    "fr": "Flèches Enflammées",
+    "pt": "[!] Flèches Enflammées"
   },
   "[!] Folie expérimentale Sanguinaire": {
     "de": "[!] Folie expérimentale Sanguinaire",
@@ -80877,6 +81010,13 @@
     "fr": "Parasite Trahison",
     "pt": "[!] Parasite Trahison"
   },
+  "[!] Pas Chassé": {
+    "de": "[!] Pas Chassé",
+    "en": "[!] Pas Chassé",
+    "es": "[!] Pas Chassé",
+    "fr": "Pas Chassé",
+    "pt": "[!] Pas Chassé"
+  },
   "[!] Pas le temps de dire \"Aïe\"": {
     "de": "[!] Pas le temps de dire \"Aïe\"",
     "en": "[!] Pas le temps de dire \"Aïe\"",
@@ -81002,6 +81142,13 @@
     "es": "[!] Plastron expérimental",
     "fr": "Plastron expérimental",
     "pt": "[!] Plastron expérimental"
+  },
+  "[!] Pluie de Flèches": {
+    "de": "[!] Pluie de Flèches",
+    "en": "[!] Pluie de Flèches",
+    "es": "[!] Pluie de Flèches",
+    "fr": "Pluie de Flèches",
+    "pt": "[!] Pluie de Flèches"
   },
   "[!] Ponteira Trahison": {
     "de": "[!] Ponteira Trahison",
@@ -81268,6 +81415,13 @@
     "es": "[!] Renfortiche Compteur",
     "fr": "Renfortiche Compteur",
     "pt": "[!] Renfortiche Compteur"
+  },
+  "[!] Représailles": {
+    "de": "[!] Représailles",
+    "en": "[!] Représailles",
+    "es": "[!] Représailles",
+    "fr": "Représailles",
+    "pt": "[!] Représailles"
   },
   "[!] Reset apparence": {
     "de": "[!] Reset apparence",
@@ -81667,6 +81821,13 @@
     "es": "[!] Secouwiste Déclenché",
     "fr": "Secouwiste Déclenché",
     "pt": "[!] Secouwiste Déclenché"
+  },
+  "[!] Sentinelle": {
+    "de": "[!] Sentinelle",
+    "en": "[!] Sentinelle",
+    "es": "[!] Sentinelle",
+    "fr": "Sentinelle",
+    "pt": "[!] Sentinelle"
   },
   "[!] Serpette": {
     "de": "[!] Serpette",
@@ -82088,6 +82249,34 @@
     "fr": "Tibagin",
     "pt": "[!] Tibagin"
   },
+  "[!] Tir Perçant": {
+    "de": "[!] Tir Perçant",
+    "en": "[!] Tir Perçant",
+    "es": "[!] Tir Perçant",
+    "fr": "Tir Perçant",
+    "pt": "[!] Tir Perçant"
+  },
+  "[!] Tir Précis": {
+    "de": "[!] Tir Précis",
+    "en": "[!] Tir Précis",
+    "es": "[!] Tir Précis",
+    "fr": "Tir Précis",
+    "pt": "[!] Tir Précis"
+  },
+  "[!] Tir Puissant": {
+    "de": "[!] Tir Puissant",
+    "en": "[!] Tir Puissant",
+    "es": "[!] Tir Puissant",
+    "fr": "Tir Puissant",
+    "pt": "[!] Tir Puissant"
+  },
+  "[!] Tir de Repli": {
+    "de": "[!] Tir de Repli",
+    "en": "[!] Tir de Repli",
+    "es": "[!] Tir de Repli",
+    "fr": "Tir de Repli",
+    "pt": "[!] Tir de Repli"
+  },
   "[!] Topkaj Trahison": {
     "de": "[!] Topkaj Trahison",
     "en": "[!] Topkaj Trahison",
@@ -82339,6 +82528,13 @@
     "es": "[!] Vaporeux",
     "fr": "Vaporeux",
     "pt": "[!] Vaporeux"
+  },
+  "[!] Vendetta": {
+    "de": "[!] Vendetta",
+    "en": "[!] Vendetta",
+    "es": "[!] Vendetta",
+    "fr": "Vendetta",
+    "pt": "[!] Vendetta"
   },
   "[!] Vendetta expérimentale": {
     "de": "[!] Vendetta expérimentale",
@@ -83095,6 +83291,20 @@
     "es": "[!] état GO retrait",
     "fr": "état GO retrait",
     "pt": "[!] état GO retrait"
+  },
+  "[!] Œil de Taupe": {
+    "de": "[!] Œil de Taupe",
+    "en": "[!] Œil de Taupe",
+    "es": "[!] Œil de Taupe",
+    "fr": "Œil de Taupe",
+    "pt": "[!] Œil de Taupe"
+  },
+  "[!] Œil pour Œil": {
+    "de": "[!] Œil pour Œil",
+    "en": "[!] Œil pour Œil",
+    "es": "[!] Œil pour Œil",
+    "fr": "Œil pour Œil",
+    "pt": "[!] Œil pour Œil"
   },
   "[!] Œuf Noir": {
     "de": "[!] Œuf Noir",

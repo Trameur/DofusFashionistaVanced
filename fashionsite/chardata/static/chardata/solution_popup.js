@@ -320,7 +320,7 @@ function radioWeaponStatsClick(hits, stats, key, page, itemNames, char_id, thisI
 function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, showComparison, orderByStat = true) {
     var statFiltersPayload = JSON.stringify(getStatFiltersPayload());
     if (itemNames) {
-        $.post("/itemexchange/" + char_id + "/",
+        $.post(apiBase + "/itemexchange/" + char_id + "/",
                {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload},
                function(data) {
                    var response = data;
@@ -337,7 +337,7 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
                     });
                });
     } else {
-        $.post("/itemadd/" + char_id + "/",
+        $.post(apiBase + "/itemadd/" + char_id + "/",
                {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload},
                function(data) {
                    var response = data;
@@ -465,7 +465,7 @@ function setItemViolations(item, violations, char_id) {
                 violationsString += gettext("You cannot equip this item.");
                 if (addLink) {
                     message = gettext(' To find a set including it, lock it <a href="/inclusions/%s/">here</a> and tailor a new set.');
-                    violationsString += interpolate(message, [char_id]);
+                    violationsString += interpolate(message.replace('href="/', 'href="' + apiBase + '/'), [char_id]);
                 }
                 violationsString += "</span>";
             } else  if (removedOnly){
@@ -475,7 +475,7 @@ function setItemViolations(item, violations, char_id) {
                 violationsString += gettext("You can equip this item, but some project minimums will not be respected.");
                 if (addLink) {
                     message = gettext(' To find a set including it that fulfills these conditions, lock it <a href="/inclusions/%s/">here</a> and tailor a new set.');
-                    violationsString += interpolate(message, [char_id]);
+                    violationsString += interpolate(message.replace('href="/', 'href="' + apiBase + '/'), [char_id]);
                 }
                 violationsString += "</span>";
             }

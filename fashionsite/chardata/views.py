@@ -34,17 +34,19 @@ def load_projects(request, char_id=0):
     return load_projects_error(request, error=None)
 
 def load_projects_error(request, error):
+    game_version = getattr(request, 'game_version', 'dofus3')
     chars = []
     if request.user is not None and not request.user.is_anonymous:
-        chars = Char.objects.filter(owner=request.user)
+        chars = Char.objects.filter(owner=request.user, game_version=game_version)
         chars = chars.exclude(deleted=True)
     has_projects = False
     if len(chars) > 0:
         has_projects = True
     if request.user.is_anonymous and 'char_id' in request.session:
         char = get_object_or_404(Char, pk=request.session['char_id'])
-        chars.append(char)
-        has_projects = True
+        if char.game_version == game_version:
+            chars.append(char)
+            has_projects = True
 
     return set_response(request, 
                         'chardata/load_projects.html',
@@ -55,17 +57,18 @@ def load_projects_error(request, error):
                          'error_msg': error})
 
 def user_has_projects(request):
+    game_version = getattr(request, 'game_version', 'dofus3')
     chars = []
     if request.user is not None and not request.user.is_anonymous:
-        chars = Char.objects.filter(owner=request.user)
+        chars = Char.objects.filter(owner=request.user, game_version=game_version)
         chars = chars.exclude(deleted=True)
     has_projects = False
     if len(chars) > 0:
         has_projects = True
     if request.user.is_anonymous and 'char_id' in request.session:
         char = get_object_or_404(Char, pk=request.session['char_id'])
-        chars.append(char)
-        has_projects = True
+        if char.game_version == game_version:
+            has_projects = True
     return has_projects
 
 def load_a_project(request, char_id):

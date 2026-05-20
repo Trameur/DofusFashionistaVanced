@@ -28,7 +28,7 @@ import pickle
 
 from chardata.models import Char, UserAlias, BuildVote
 from chardata.min_stats import get_min_stats_digested_by_key
-from chardata.util import set_response
+from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
 from chardata.image_store import get_image_url
 from chardata.solution import get_solution
@@ -267,19 +267,21 @@ def shared_builds(request):
         if request.GET.get(f'check_{aspect}'):
             selected_aspects.append(aspect)
     
-    # Start with all shared, non-deleted builds.
+    # Start with all shared, non-deleted builds for the current game version.
     # Only annotate vote counts when needed for ordering — it's an expensive JOIN.
+    game_version = getattr(request, 'game_version', 'dofus3')
     needs_vote_annotation = order_by in ('likes', 'favorites') or (
         request.user.is_authenticated and (show_liked or show_favorited)
     )
 
+    base_filter = dict(link_shared=True, deleted=False, game_version=game_version)
     if needs_vote_annotation:
-        builds = Char.objects.filter(link_shared=True, deleted=False).select_related('owner').annotate(
+        builds = Char.objects.filter(**base_filter).select_related('owner').annotate(
             like_count=Count(Case(When(buildvote__vote_type='like', then=1), output_field=IntegerField())),
             favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1), output_field=IntegerField()))
         )
     else:
-        builds = Char.objects.filter(link_shared=True, deleted=False).select_related('owner')
+        builds = Char.objects.filter(**base_filter).select_related('owner')
     
     # Apply filters
     if char_class:
@@ -438,8 +440,8 @@ def shared_builds(request):
     for char in page_chars:
         encoded_id = encode_char_id(int(char.id))
         char_name = char.char_name or 'shared'
-        link = request.build_absolute_uri(reverse('solution_linked',
-                                                   args=(char_name, encoded_id)))
+        link = request.build_absolute_uri(version_reverse(request, 'solution_linked',
+                                                           char_name, encoded_id))
 
         creator_name = None
         if char.owner:
@@ -490,8 +492,8 @@ def shared_builds(request):
             build['user_liked'] = build['char'].id in user_likes
             build['user_favorited'] = build['char'].id in user_favorites
     
-    # Get all unique classes for filter dropdown
-    all_classes = Char.objects.filter(link_shared=True, deleted=False).values_list('char_class', flat=True).distinct().order_by('char_class')
+    # Get all unique classes for filter dropdown (same game version)
+    all_classes = Char.objects.filter(link_shared=True, deleted=False, game_version=game_version).values_list('char_class', flat=True).distinct().order_by('char_class')
     
     # Prepare aspect names and layout for checkboxes (same as projdetails.html)
     aspect_to_name = {k: str(v) for k, v in ASPECT_TO_NAME.items()}

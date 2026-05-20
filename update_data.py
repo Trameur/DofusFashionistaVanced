@@ -32,6 +32,9 @@ import sys
 import time
 from pathlib import Path
 
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
 ROOT = Path(__file__).resolve().parent
 ITEMSCRAPER = ROOT / "itemscraper"
 PY = sys.executable
@@ -48,6 +51,13 @@ NOISE_PATTERNS = [
     r"permissions set",
     r"^\d+ files? correctly",
     r"^wrote \d+",
+    r"\[exists\]",                        # download_raw_data: cached asset lines
+    r"^\s*->\s+\S+:\s+[\d.]+\s+MB",     # download_raw_data: per-chunk progress
+    r"^progress:\s*\d+%",               # get_equipments4: per-percent progress
+    r"^skipping .+change below",        # get_equipments4: per-image skip
+    r"^skipping ",                      # get_equipments3: unsupported stat/type names
+    r"^updated damage_spells",
+    r"damage_spells already up to date",
 ]
 
 
@@ -173,7 +183,7 @@ def main() -> None:
         step("items/load-db",    [PY, "load_item_db.py"])
 
     if do_images:
-        step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)
+        step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)  # --game-version defaults to dofus3
 
     if do_data:
         step("spells/download", [

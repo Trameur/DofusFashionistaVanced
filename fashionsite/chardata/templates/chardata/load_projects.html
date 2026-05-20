@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Load a Project" %}{% endblock %}
 
@@ -52,7 +53,7 @@
           {% endif %}
        {% else %}
             <div align="center" class='text'>
-            {% url 'setup' as create_project_link %}
+            {% game_url 'setup' as create_project_link %}
             {% blocktrans %}You don't have any projects yet. Create one <a href="{{ create_project_link }}">here</a>.{% endblocktrans %}
             </div>
        {% endif %}

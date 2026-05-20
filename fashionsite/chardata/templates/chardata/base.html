@@ -16,6 +16,7 @@
 
     {% load i18n %}
     {% load static_s3 %}
+    {% load version_url %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/home.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.home %}" class="home-css">
     <link rel="stylesheet" type="text/css" href="{% static "chardata/common.css" %}">
@@ -75,20 +76,21 @@
     
         <div class='banner' ALIGN=CENTER "position:relative; z-index:1">
           <br>   
-          <a href="/"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
         </div>
         <div style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
-          <a href="/"><img  class='char' src="{% static pic %}"></img></a>
+          <a href="{% game_url 'home' %}"><img  class='char' src="{% static pic %}"></img></a>
         </div>
         
         
         <div class='space'>
        {% include "chardata/language-selector.html" %}
        {% include "chardata/theme-selector.html" %}
+       {% include "chardata/version-selector.html" %}
        {% if user and not user.is_anonymous %}
          <div class="login">
             {% if not is_super_user %}
-            {% url 'manage_account' as manage_account_link %}
+            {% game_url 'manage_account' as manage_account_link %}
                 {% if useralias %}
                     {% blocktrans with useralias as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %} 
                 {% else %}
@@ -105,61 +107,61 @@
          </div>
        {% else %}
           <div class="login">
-            <a href="{% url 'login_page' %}"> {% trans "Login" %} </a>
+            <a href="{% game_url 'login_page' %}"> {% trans "Login" %} </a>
           </div>
        {% endif %}
         </div>
         <div class="sidebar" background="#00ff00">
           <div class="mini-menu">
-              <div><a class="menu_link menu_link_top" href="/">{% trans "Home" %}</a></div>
+              <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}">{% trans "Home" %}</a></div>
               <div><a class="menu_link menu_link_middle"  href="{% url 'about' %}">{% trans "Help & About" %}</a></div>
               <div><a class="menu_link menu_link_bottom"  href="{% url 'faq' %}">{% trans "FAQ" %}</a></div>
           </div>    
               <div class="space"></div>
           <div class="mini-menu">    
               <div>
-                <a class="menu_link menu_link_top" href="{% url 'setup' %}">{% trans "Create a project" %}</a>
+                <a class="menu_link menu_link_top" href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% url 'load_projects' %}">{% trans "Load a project" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'load_projects' %}">{% trans "Load a project" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% url 'shared_builds' %}">{% trans "Shared Builds" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'shared_builds' %}">{% trans "Shared Builds" %}</a>
               </div>
               <div>
-                                <a class="menu_link menu_link_middle" href="{% url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
                             </div>
                             <div>
-                                <a class="menu_link menu_link_bottom" href="{% url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
+                                <a class="menu_link menu_link_bottom" href="{% game_url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
               </div>
           </div>
           <div class="space"></div>
           <div class="mini-menu">
     {% if char_id and char_id != 0 and not is_guest %}
               <div>
-                <a class="menu_link menu_link_top" id="proj-name-link" href="{% url 'project_setup' char_id %}">{{char.name}}</a>
+                <a class="menu_link menu_link_top" id="proj-name-link" href="{% game_url 'project_setup' char_id %}">{{char.name}}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% url 'wizard' char_id %}">{% trans "Wizard" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'wizard' char_id %}">{% trans "Wizard" %}</a>
               </div>
               <div id="menu-collapse">
                   <div>
-                    <a class="menu-collapse-link menu_link_middle" href="{% url 'setup_base_stats' char_id %}">{% trans "Base Characteristics" %}</a>
+                    <a class="menu-collapse-link menu_link_middle" href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base Characteristics" %}</a>
                   </div>
                   <div>
-                    <a class="menu-collapse-link menu_link_middle" href="{% url 'options' char_id %}">{% trans "Options" %}</a>
+                    <a class="menu-collapse-link menu_link_middle" href="{% game_url 'options' char_id %}">{% trans "Options" %}</a>
                   </div>
                   <div>
-                    <a class="menu-collapse-link menu_link_middle" href="{% url 'inclusions' char_id %}">{% trans "Lock Items" %}</a>
+                    <a class="menu-collapse-link menu_link_middle" href="{% game_url 'inclusions' char_id %}">{% trans "Lock Items" %}</a>
                   </div>
                   <div>
-                    <a class="menu-collapse-link menu_link_middle" href="{% url 'exclusions' char_id %}">{% trans "Forbid Items" %}</a>
+                    <a class="menu-collapse-link menu_link_middle" href="{% game_url 'exclusions' char_id %}">{% trans "Forbid Items" %}</a>
                   </div>
                   <div>
-                    <a class="menu-collapse-link menu_link_middle" href="{% url 'min_stats' char_id %}">{% trans "Minimum Characteristics" %}</a>
+                    <a class="menu-collapse-link menu_link_middle" href="{% game_url 'min_stats' char_id %}">{% trans "Minimum Characteristics" %}</a>
                   </div>
                   <div>
-                    <a class="menu-collapse-link menu_link_middle" href="{% url 'stats' char_id %}">{% trans "Characteristics Weights" %}</a>
+                    <a class="menu-collapse-link menu_link_middle" href="{% game_url 'stats' char_id %}">{% trans "Characteristics Weights" %}</a>
                   </div>
               </div>
               <div>
@@ -167,7 +169,7 @@
               </div>
               <hr class="menu-hor-line">
               <div>
-                <a class="menu_link menu_link_middle rerun-button" href="{% url 'fashion' char_id %}"><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img"></img>{% trans "Tailor a New Set" %}</a>
+                <a class="menu_link menu_link_middle rerun-button" href="{% game_url 'fashion' char_id %}"><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img"></img>{% trans "Tailor a New Set" %}</a>
               </div>
               <hr class="menu-hor-line">
     {% endif %}
@@ -181,7 +183,7 @@
                     href="{% url 'solution_linked' 'shared' encoded_char_id %}"
                     {% endif %}
                 {% else %}
-                href="{% url 'solution_2' char_id %}"
+                href="{% game_url 'solution_2' char_id %}"
                 {% endif %}
                 id="solution-link">{% trans "Outfit Suggestion" %}</a>
               </div>
@@ -195,7 +197,7 @@
                     href="{% url 'spells_linked' 'shared' encoded_char_id %}"
                     {% endif %}
                 {% else %}
-                href="{% url 'spells' char_id %}"
+                href="{% game_url 'spells' char_id %}"
                 {% endif %}
                 id="spells-link">{% trans "Spells Damage" %}</a>
               </div>

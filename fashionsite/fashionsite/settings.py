@@ -135,6 +135,7 @@ TEMPLATES = [
                 'social_django.context_processors.login_redirect',
                 'django.template.context_processors.request',
                 'fashionsite.context_processors.site_version',
+                'chardata.context_processors.game_version',
             ],
         },
     },

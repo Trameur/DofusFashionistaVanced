@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load version_url %}
 {% block title %}The Dofus Fashionista: {% trans "Minimum Characteristics" %}{% endblock %}
 
 {% block main %}
@@ -256,7 +257,7 @@ $(document).ready(function() {
     }
     
     setupStateEngine(init,
-         "{% url 'min_stats_post' char_id %}",
+         "{% game_url 'min_stats_post' char_id %}",
          initialData,
          null,
          onDataReceived);

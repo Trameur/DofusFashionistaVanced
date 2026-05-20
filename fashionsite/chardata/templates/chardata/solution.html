@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Outfit Suggestion" %}{% endblock %}
 
@@ -32,7 +33,7 @@
         {% trans "This is the suggested set." %}
     {% endif %} 
     
-    {% url 'fashion' char_id  as run_again_link %}
+    {% game_url 'fashion' char_id as run_again_link %}
     
     {% blocktrans with lock=lock_item switch=switch_item delete=delete_item %}If you don't like an item, click the forbid ( <img style='position: relative; bottom: -3px; left: -2px;' src={{delete}} title='Forbid'> ) button under its name and <a href="{{run_again_link}}" class="rerun-button">run again</a>. If, on the contrary, you want to lock in an item for future sets for this char, click the lock (<img style='position: relative; bottom: -1px; left: 0px;' src={{lock}} title='Lock'>) button. You can also switch any item for another you like best by clicking the switch (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src={{switch}} title='Switch'>) button.{% endblocktrans %}
     </p>
@@ -45,7 +46,7 @@
 
     <div align="center">
         <div style="display: inline-block;">
-        <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{ request.scheme }}://{{ request.get_host }}/solution/{{char_id}}/" name="char0"></input></form>
+        <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{ request.scheme }}://{{ request.get_host }}{% game_url 'solution_2' char_id %}" name="char0"></input></form>
             <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
         </div>
         <div style="display: inline-block;">
@@ -130,7 +131,7 @@
     
       
 
-    <a href="{% url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
+    <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
     
   
     
@@ -155,7 +156,7 @@
             <tr class="solution-stat-summary-line">
                 <td class="solution-stat-summary-icon-header"></td>
                 <td class="solution-stat-summary-name-header"></td>
-                <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell"><a href="{% url 'setup_base_stats' char_id %}">{% trans "Base" %}</a></td>
+                <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell"><a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a></td>
                 <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
             </tr>
 
@@ -303,6 +304,7 @@
 {% include "chardata/jqueryui.html" %}
     <script>
         var statFilterOptions = {{ stat_filter_options_json | safe }};
+        var apiBase = '{{ api_base }}';
     </script>
     <script src="{% static 'chardata/solution_popup.js' %}"></script>
     <script>
@@ -429,7 +431,7 @@
 
         function updateLinkSharing() {
             if (sharing) {
-                $.get('/getsharinglink/{{char_id}}/', {}, function(data) {
+                $.get(apiBase + '/getsharinglink/{{char_id}}/', {}, function(data) {
                     $("#link_sharing_button").html('{% trans "Unshare" %}');
                     $("#link_sharing_url_text").show();
                     $("#link_sharing_url_text").val(data);
@@ -439,7 +441,7 @@
                 $("#link_sharing_button").html('{% trans "Get link to share" %}');
                 $("#link_sharing_url_text").hide();
                 $("#link_sharing_url_text").val("");
-                $.get('/hidesharinglink/{{char_id}}/', {}, function(data) {
+                $.get(apiBase + '/hidesharinglink/{{char_id}}/', {}, function(data) {
                 });
             }
         }
@@ -450,14 +452,14 @@
         }
         
         function switchItem(itemName, slot, char_id) {
-            $.post("/exchange/" + char_id + "/",
+            $.post(apiBase + "/exchange/" + char_id + "/",
                    {itemName: itemName, slot: slot},
                    function(data) {
                        location.reload();
                    });
         }
         function removeItem(slot, char_id) {
-            $.post("/remove/" + char_id + "/",
+            $.post(apiBase + "/remove/" + char_id + "/",
                    {slot: slot},
                    function(data) {
                        location.reload();
@@ -553,7 +555,7 @@
                         updateForbidButtonState(forbidButton, key);
                     }
                     updateLockButtonState(lockButton, key);
-                    $.post("/setitemlocked/{{char_id}}/",
+                    $.post(apiBase + "/setitemlocked/{{char_id}}/",
                            {slot: key.toString(), equip: itemNames[key], locked: itemIsLocked[key]},
                            function(data) {
                            });
@@ -574,7 +576,7 @@
                         updateLockButtonState(lockButton, key);
                     } 
                     updateForbidButtonState(forbidButton, key);
-                    $.post("/setitemforbidden/{{char_id}}/",
+                    $.post(apiBase + "/setitemforbidden/{{char_id}}/",
                            {slot: key.toString(), equip: itemNames[key], forbidden: itemIsForbidden[key]},
                            function(data) {
                            });
@@ -637,7 +639,7 @@
             button.prop('disabled', true);
             
             $.ajax({
-                url: '/votebuild/' + buildId + '/',
+                url: apiBase + '/votebuild/' + buildId + '/',
                 type: 'POST',
                 data: {
                     'vote_type': voteType,

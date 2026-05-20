@@ -23,6 +23,7 @@ from chardata.solution import get_solution
 from chardata.spell_localization import get_localized_spell_name
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
@@ -125,6 +126,8 @@ def spells_linked(request, char_name, encoded_char_id):
     char = get_object_or_404(Char, pk=char_id)
     if not char.link_shared:
         raise PermissionDenied
+    if char.game_version != getattr(request, 'game_version', 'dofus3'):
+        raise Http404
     
     return _spells(request, char, True, char_id, encoded_char_id)
     

@@ -60,12 +60,24 @@ _DB_FILES = {
     'retro': 'items_retro.db',
 }
 
+_DUMP_FILES = {
+    'dofus3': 'item_db_dumped.dump',
+    'touch': 'item_db_dumped.dump',
+    'beta': 'item_db_dumped_beta.dump',
+    'retro': 'item_db_dumped_retro.dump',
+}
+
 def get_items_db_path(game_version='dofus3'):
     db_file = _DB_FILES.get(game_version, 'items.db')
     return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', db_file)
 
-def get_items_dump_path():
-    return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')
+def get_items_dump_path(game_version='dofus3'):
+    dump_file = _DUMP_FILES.get(game_version, 'item_db_dumped.dump')
+    return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', dump_file)
+
+def get_constants_module(game_version='dofus3'):
+    from fashionistapulp.fashionistapulp import dofus_constants
+    return dofus_constants
 
 def load_items_db_from_dump():
     run_root_script('load_item_db.py')

@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Error" %}{% endblock %}
 
@@ -19,8 +20,8 @@
         {% url 'contact' as contact_url %}
         {% blocktrans %}If someone sent you this link, have them send you the 'Share' link at the bottom of their Outfit Suggestion page instead. If that is not the case and this keeps happening, you can contact us <a href="{{contact_url}}">here</a>.{% endblocktrans %}
         <br><br>
-        {% url 'home' as home_url %}
-        {% url 'setup' as create_project_url %}
+        {% game_url 'home' as home_url %}
+        {% game_url 'setup' as create_project_url %}
         {% blocktrans %}Or you can go back to the <a href="{{home_url}}">home</a> page or <a href="{{create_project_url}}">create a project</a> of your own.{% endblocktrans %}
     </p>
 </td>

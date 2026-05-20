@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load version_url %}
 {% block title %}The Dofus Fashionista: {% trans "Lock Items" %}{% endblock %}
 
 {% block main %}
@@ -140,7 +141,7 @@ function get_loader_img()
 
 $(document).ready(function() {
     setupStateEngine(inclusionsInitStateEngine,
-            "{% url 'inclusions_post' char_id %}",
+            "{% game_url 'inclusions_post' char_id %}",
              inclusionsInitial);
              
     $.each(inclusionsInitial, function(slot, equip) {

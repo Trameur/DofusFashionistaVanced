@@ -27,7 +27,7 @@ from chardata.solution import set_minimal_solution
 from chardata.solution_memory import DatabaseSolutionMemory
 from chardata.stats_weights import get_stats_weights
 from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
-    remove_cache_for_char
+    remove_cache_for_char, version_reverse
 from chardata.util_views import error
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.model import ModelInput
@@ -70,7 +70,7 @@ def fashion(request, char_id, spells=False):
     if load_error:
         return error(request,
                      'characteristics weights',
-                     reverse('stats', args=(char_id,)),
+                     version_reverse(request, 'stats', char_id),
                      char_id,
                      char)
         
@@ -118,17 +118,17 @@ def fashion(request, char_id, spells=False):
         return_model(model)
         MEMORY.put(model_input, (model.get_solved_status(), stats, result))
 
-    if result is None: 
-        return HttpResponseRedirect(reverse('infeasible', args=(char.id,)))
+    if result is None:
+        return HttpResponseRedirect(version_reverse(request, 'infeasible', char.id))
 
     if char.allow_points_distribution:
         set_stats(char, stats)
     set_minimal_solution(char, result)
-    
+
     if spells:
-        return HttpResponseRedirect(reverse('spells', args=(char.id,)))
-    
-    return HttpResponseRedirect(reverse('solution_2', args=(char.id,)))
+        return HttpResponseRedirect(version_reverse(request, 'spells', char.id))
+
+    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
 def set_stats(char, stats):
     for element_name, abr in STATS_NAMES:

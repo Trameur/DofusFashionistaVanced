@@ -91,6 +91,33 @@
     position: relative;
 }
 
+.version-selector {
+    float: right;
+    margin-right: 6px;
+    margin-top: 7px;
+    font-size: 12px;
+}
+
+.version-link {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-left: 2px;
+    color: inherit;
+    opacity: 0.65;
+}
+
+.version-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.version-link.active {
+    font-weight: bold;
+    opacity: 1;
+}
+
 
 
 .maincolumn {

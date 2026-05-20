@@ -14,13 +14,14 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import argparse
+import os
 import requests
 import json
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
-# API base URL
-api_base = "https://api.dofusdu.de/dofus3/v1/"
+DEFAULT_API_BASE = "https://api.dofusdu.de/dofus3/v1/"
 
 # Endpoints
 endpoints = {
@@ -34,7 +35,7 @@ endpoints = {
 }
 
 
-def download_and_save(lang, category, endpoint):
+def download_and_save(lang, category, endpoint, api_base, work_dir):
     api_url = f"{api_base}{lang}{endpoint}"
     response = requests.get(api_url, timeout=60)
     if response.status_code != 200:
@@ -42,16 +43,28 @@ def download_and_save(lang, category, endpoint):
         return
 
     json_data = response.json()
-    filename = f"all_{category}_{lang}.json"
+    filename = os.path.join(work_dir, f"all_{category}_{lang}.json")
     with open(filename, 'w', encoding='utf-8') as out_file:
         json.dump(json_data, out_file, ensure_ascii=False, indent=4)
     print(f"Successfully saved all {category} data in {lang} to '{filename}'")
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Download Dofus equipment data from dofusdu.de API")
+    parser.add_argument("--api-url", default=DEFAULT_API_BASE, help="API base URL (default: dofus3)")
+    parser.add_argument("--work-dir", default=None, help="Directory to save downloaded JSON files (default: script directory)")
+    args = parser.parse_args()
+
+    api_base = args.api_url
+    if not api_base.endswith('/'):
+        api_base += '/'
+
+    work_dir = args.work_dir if args.work_dir else os.path.dirname(os.path.abspath(__file__))
+    os.makedirs(work_dir, exist_ok=True)
+
     for lang in LANGUAGES:
         for category, endpoint in endpoints.items():
-            download_and_save(lang, category, endpoint)
+            download_and_save(lang, category, endpoint, api_base, work_dir)
 
 
 if __name__ == '__main__':

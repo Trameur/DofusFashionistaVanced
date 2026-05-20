@@ -25,7 +25,7 @@ import json
 from chardata.create_project_view import MAXIMUM_NUMBER_OF_PROJECTS
 from chardata.encoded_char_id import decode_char_id
 from chardata.models import CharBaseStats, Char
-from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText
+from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText, version_reverse
 
 
 def delete_projects(request):
@@ -56,26 +56,26 @@ def duplicate_my_project(request, char_id):
 
     worked = _unchecked_duplicate_project(request, char_id)
     if worked:
-        return HttpResponseRedirect(reverse('load_projects'))
+        return HttpResponseRedirect(version_reverse(request, 'load_projects'))
     else:
-        return HttpResponseRedirect(reverse('load_projects_error',
-                                            args=('too_many',)))
+        return HttpResponseRedirect(version_reverse(request, 'load_projects_error',
+                                                    'too_many'))
 
 def duplicate_someones_project(request, encoded_char_id):
     char_id = decode_char_id(encoded_char_id)
     if char_id is None:
         raise PermissionDenied
-        
+
     char = get_object_or_404(Char, pk=char_id)
     if not char.link_shared:
         raise PermissionDenied
-    
+
     worked = _unchecked_duplicate_project(request, char_id)
     if worked:
-        return HttpResponseRedirect(reverse('load_projects'))
+        return HttpResponseRedirect(version_reverse(request, 'load_projects'))
     else:
-        return HttpResponseRedirect(reverse('load_projects_error',
-                                            args=('too_many',)))
+        return HttpResponseRedirect(version_reverse(request, 'load_projects_error',
+                                                    'too_many'))
 
 def _unchecked_duplicate_project(request, proj_id_to_copy):
     signed_out = (request.user is None or request.user.is_anonymous)

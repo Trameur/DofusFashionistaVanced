@@ -52,9 +52,17 @@ def resize_file_list(file_list):
 
 def resize_all():
     for folder in FOLDERS:
-        new_folder = get_new_folder_that_exists(folder)
-        dirs = os.listdir(folder)
-        for item in dirs:
+        _resize_folder(folder)
+
+def _resize_folder(folder):
+    if not os.path.isdir(folder):
+        return
+    new_folder = get_new_folder_that_exists(folder)
+    for item in os.listdir(folder):
+        item_path = os.path.join(folder, item)
+        if os.path.isdir(item_path) and item != '60x60':
+            _resize_folder(item_path)
+        else:
             resize_image(folder, item, new_folder)
 
 def get_new_folder_that_exists(folder):

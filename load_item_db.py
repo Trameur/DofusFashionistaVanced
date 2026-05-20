@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import argparse
 import os
 import platform
 import sqlite3
@@ -39,8 +40,12 @@ def _sanitize_dump_sql(sql_script):
     return '\n'.join(sanitized_lines)
 
 def main():
-    items_db_path = get_items_db_path()
-    dumped_db_path = get_items_dump_path()
+    parser = argparse.ArgumentParser(description="Load item dump into SQLite database")
+    parser.add_argument("--game-version", default="dofus3", help="Game version (dofus3, beta, retro, touch)")
+    args = parser.parse_args()
+
+    items_db_path = get_items_db_path(args.game_version)
+    dumped_db_path = get_items_dump_path(args.game_version)
     
     # Utiliser des méthodes compatibles Windows/Linux pour supprimer le fichier
     if os.path.exists(items_db_path):

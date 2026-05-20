@@ -1,6 +1,7 @@
 {% extends "chardata/base.html" %}
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}{{ t.title }}{% endblock %}
 
@@ -352,7 +353,7 @@
 
         <div class="encyclopedia-actions">
             <button class="button-generic encyclopedia-btn" type="submit">{{ t.apply_filters }}</button>
-            <a class="button-thin encyclopedia-btn encyclopedia-btn-secondary" href="{% url 'encyclopedia' %}">{{ t.clear_filters }}</a>
+            <a class="button-thin encyclopedia-btn encyclopedia-btn-secondary" href="{% game_url 'encyclopedia' %}">{{ t.clear_filters }}</a>
         </div>
     </form>
 

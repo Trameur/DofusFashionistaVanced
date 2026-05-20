@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Forbid Items" %}{% endblock %}
 
@@ -164,7 +165,7 @@
         $("#button-forbid").click(onForbidButtonClick);
         
         setupStateEngine(init,
-            "{% url 'exclusions_post' char_id %}",
+            "{% game_url 'exclusions_post' char_id %}",
              excludedItemsInput,
              postData);
 

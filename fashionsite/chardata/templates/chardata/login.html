@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Login" %}{% endblock %}
 
@@ -24,14 +25,14 @@
             </span>
             <br>
             <span class="big-text">
-            {% url 'manage_account' as manage_account_url %}
+            {% game_url 'manage_account' as manage_account_url %}
             {% blocktrans %}You can change your alias, email and password <a href='{{manage_account_url}}'>here</a>.{% endblocktrans %}
             </span>
             <br>
             <br>
             <span class="big-text">
-            {% url 'setup' as create_project_url %}
-            {% url 'load_projects' as load_projects_url %}
+            {% game_url 'setup' as create_project_url %}
+            {% game_url 'load_projects' as load_projects_url %}
             {% blocktrans %}<a href='{{create_project_url}}'>Create</a> or <a href='{{load_projects_url}}'>load</a> a project to get started.{% endblocktrans %}
             </span>
         </td>
@@ -167,7 +168,7 @@ $(document).ready(function() {
         login(username, password);
     })
     $("#register-form").submit(registerSubmit)
-    $.post("{% url 'save_project_to_user' %}",
+    $.post("{% game_url 'save_project_to_user' %}",
            {},
            function (data) {
            });

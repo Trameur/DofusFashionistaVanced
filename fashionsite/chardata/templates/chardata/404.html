@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Error" %}{% endblock %}
 
@@ -16,7 +17,7 @@
         <br><br>
         {% blocktrans %}We could not find the page you are looking for.{% endblocktrans %}
         <br><br>
-        {% url 'home' as home_url %}
+        {% game_url 'home' as home_url %}
         {% url 'contact' as contact_url %}
         {% blocktrans %}You can go back to the <a href="{{home_url}}">home</a> page instead, or send us a message <a href="{{contact_url}}">here</a> if this keeps happening.{% endblocktrans %}
     </p>

@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Options" %}{% endblock %}
 
@@ -316,7 +317,7 @@ var initialOptions = {{options | safe}};
 $(document).ready(function() {
 
     setupStateEngine(optionsInit,
-            "{% url 'options_post' char_id %}",
+            "{% game_url 'options_post' char_id %}",
             initialOptions);
     disableUnusableDofus(initialOptions.dofusnotforchar);
 });

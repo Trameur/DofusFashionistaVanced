@@ -4,6 +4,7 @@
 {% load get_range %}
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Compare Sets" %}{% endblock %}
 
@@ -45,7 +46,7 @@
                                {% if guest %}
                             href="{{ links|get_item:char.id }}"
                                {% else %}
-                            href="{% url 'solution_2' char.id %}"
+                            href="{% game_url 'solution_2' char.id %}"
                                {% endif %}
                             {% endwith %}>{{ char.name }}</a><br>
                         {% endfor %}
