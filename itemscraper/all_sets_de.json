@@ -121736,6 +121736,24 @@
                 34385,
                 34386
             ]
+        },
+        {
+            "ankama_id": 1097,
+            "name": "[!] Panoplie d'apparat de l'exterminateur",
+            "items": 8,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34409,
+                34410,
+                34411,
+                34412,
+                34413,
+                34414,
+                34415,
+                34416
+            ]
         }
     ]
 }

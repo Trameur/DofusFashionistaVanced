@@ -61547,5 +61547,24 @@
             34385,
             34386
         ]
+    },
+    {
+        "ankama_id": 1097,
+        "name_en": "[!] Panoplie d'apparat de l'exterminateur",
+        "name_fr": "Panoplie d'apparat de l'exterminateur",
+        "name_es": "[!] Panoplie d'apparat de l'exterminateur",
+        "name_pt": "[!] Panoplie d'apparat de l'exterminateur",
+        "name_de": "[!] Panoplie d'apparat de l'exterminateur",
+        "items": 8,
+        "equipment_ids": [
+            34409,
+            34410,
+            34411,
+            34412,
+            34413,
+            34414,
+            34415,
+            34416
+        ]
     }
 ]
