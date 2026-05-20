@@ -25,7 +25,7 @@ from django.utils.translation import get_language
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char
 from chardata.solution import get_solution
-from chardata.util import set_response, get_theme
+from chardata.util import set_response, get_theme, version_reverse
 from static_s3.templatetags.static_s3 import static
 from chardata.themes import get_needle_URL
 
@@ -74,8 +74,8 @@ def user_has_projects(request):
 def load_a_project(request, char_id):
     char = get_object_or_404(Char, pk=char_id)
     if get_solution(char) is not None:
-        return HttpResponseRedirect(reverse('solution_2', args=(char.id,)))
-    return HttpResponseRedirect(reverse('wizard', args=(char.id,)))
+        return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+    return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
                                               
 def infeasible(request, char_id=0):
     char = get_object_or_404(Char, pk=char_id)
