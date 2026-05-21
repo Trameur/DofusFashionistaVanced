@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 FASHIONISTA_VERSION = "3.5.17.21"
-FASHIONISTA_BETA_VERSION = "3.5.7.19"
+FASHIONISTA_BETA_VERSION = "3.5.7.21"
 
 
 def get_version() -> str:
