@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Error" %}{% endblock %}
 
@@ -15,7 +16,7 @@
 </td>
 <td>
     <p class='text'>
-    {% url 'contact' as contact_url %}
+    {% game_url 'contact' as contact_url %}
     {% blocktrans %}The application threw an error. It's probably our fault.{% endblocktrans %}<br><br>
     {% blocktrans %}Please return to the previous page and try again.{% endblocktrans %}<br><br>
     {% blocktrans %}If that doesn't work, please contact us <a href="{{contact_url}}">here</a> and tell us all about this problem.{% endblocktrans %}

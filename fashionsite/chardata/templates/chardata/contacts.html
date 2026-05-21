@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
@@ -45,7 +46,7 @@
 </td>
 <td>
     <div id="c_form">
-        <form name="theform" action="{% url 'send_email'%}" method="post" id="theform">
+        <form name="theform" action="{% game_url 'send_email' %}" method="post" id="theform">
             {% csrf_token %}
             
             <table style="width: 450px;">

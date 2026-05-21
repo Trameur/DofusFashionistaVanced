@@ -17,7 +17,7 @@
         <br><br>
         {% blocktrans %}It seems like the project you are trying to access is not available. It may have been deleted, or maybe it belongs to someone else.{% endblocktrans %}
         <br><br>
-        {% url 'contact' as contact_url %}
+        {% game_url 'contact' as contact_url %}
         {% blocktrans %}If someone sent you this link, have them send you the 'Share' link at the bottom of their Outfit Suggestion page instead. If that is not the case and this keeps happening, you can contact us <a href="{{contact_url}}">here</a>.{% endblocktrans %}
         <br><br>
         {% game_url 'home' as home_url %}

@@ -94,7 +94,7 @@
             <br>
             <div style="width: 400px;"><span class="big-text" style="font-size: 12px;">{% trans "Remember to never use your Dofus login and password on any external websites (which includes this one)" %}</span></div>
             <br><br><br>
-            <form id="register-form" action="{% url 'register'%}" method="post">
+            <form id="register-form" action="{% game_url 'register' %}" method="post">
             {% csrf_token %}
             <table>
             <tr>

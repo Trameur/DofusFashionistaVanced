@@ -127,7 +127,7 @@ function compareProjects() {
     });
     console.log("compareProjects");
     console.log(checkboxesList.join("/"));
-    window.location.href = "/compare_sets/" + checkboxesList.join("/");
+    window.location.href = "{{ api_base }}/compare_sets/" + checkboxesList.join("/");
 }
 {% endif %}
 

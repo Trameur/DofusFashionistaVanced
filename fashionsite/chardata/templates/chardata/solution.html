@@ -72,11 +72,11 @@
         {% trans "This is someone else's set." %}
         {% endif %}
     {% endif %}
-    {% url 'duplicate_someones_project' encoded_char_id as copy_link%}
+    {% game_url 'duplicate_someones_project' encoded_char_id as copy_link %}
     {% blocktrans %}If you wish to modify it, <a href="{{copy_link}}" class="copy-action-link">copy</a> it to your workspace.</p>{% endblocktrans %}
     
     <div align="center">
-    <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
+    <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
             <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
     </div>
     

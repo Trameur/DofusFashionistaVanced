@@ -31,7 +31,7 @@ from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
                            HttpResponseText, char_belongs_to_user, get_char_id_possibly_encoded,
-                           HttpResponseJson)
+                           HttpResponseJson, version_reverse)
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, TYPE_NAME_TO_SLOT
 from fashionistapulp.modelresult import ModelResultItem
 from fashionistapulp.structure import get_structure
@@ -84,8 +84,8 @@ def compare_sets(request, sets_params):
     if all_chars_are_shared:
         compare_link_shared = _generate_share_compare_link(request, char_ids)
 
-    get_compare_link_url = reverse('get_sharing_link',
-                                    args=(sets_params,))
+    get_compare_link_url = version_reverse(request, 'get_compare_sharing_link',
+                                           sets_params)
 
     params = {'chars': chars,
               'char_ids': char_ids,
@@ -190,8 +190,7 @@ def choose_compare_sets_post(request):
 
     compare_path = '/'.join(char_ids)
 
-    return HttpResponseText(reverse('compare_sets',
-                                    args=(compare_path,)))
+    return HttpResponseText(version_reverse(request, 'compare_sets', compare_path))
 
 def _process_link(l):
     parsed = urlparse(l)
@@ -224,7 +223,7 @@ def get_sharing_link(request, sets_params):
 
 def _generate_share_compare_link(request, char_ids):
     params = '/'.join(['s%s' % encode_char_id(char_id) for char_id in char_ids])
-    return request.build_absolute_uri(reverse('compare_sets', args=(params,)))
+    return request.build_absolute_uri(version_reverse(request, 'compare_sets', params))
 
 def get_item_stats(request):
     item_id = request.POST.get('itemId', None)

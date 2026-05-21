@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Base Characteristics" %}{% endblock %}
 
@@ -13,7 +14,7 @@
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form id="main_form" action="{% url 'init_base_stats_post' char_id %}" method="post">
+    <form id="main_form" action="{% game_url 'init_base_stats_post' char_id %}" method="post">
         {% csrf_token %}
 
         <label class='text'><input type="checkbox" name="choose_stats" value="choose_stats" class="change-modifies-state" id="choose_stats">{% blocktrans %}Distribute the points for me (the points will be applied when designing a set){% endblocktrans %}</label><br><br>
@@ -341,7 +342,7 @@
         } else {
             $("#submit-mode").remove();
             setupStateEngine(initializeBaseStats,
-                    "{% url 'save_char' char_id %}",
+                    "{% game_url 'save_char' char_id %}",
                     initialStats,
                     sendBaseStatsFunction);
         }

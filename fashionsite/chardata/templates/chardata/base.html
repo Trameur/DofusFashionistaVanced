@@ -114,8 +114,8 @@
         <div class="sidebar" background="#00ff00">
           <div class="mini-menu">
               <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}">{% trans "Home" %}</a></div>
-              <div><a class="menu_link menu_link_middle"  href="{% url 'about' %}">{% trans "Help & About" %}</a></div>
-              <div><a class="menu_link menu_link_bottom"  href="{% url 'faq' %}">{% trans "FAQ" %}</a></div>
+              <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}">{% trans "Help & About" %}</a></div>
+              <div><a class="menu_link menu_link_bottom"  href="{% game_url 'faq' %}">{% trans "FAQ" %}</a></div>
           </div>    
               <div class="space"></div>
           <div class="mini-menu">    
@@ -178,9 +178,9 @@
                 <a class="menu_link {% if is_guest %} menu_link_top {% else %} menu_link_middle {% endif %}{% if not char.solution %} rerun-button {% endif %}"
                 {% if is_guest %}
                     {% if char.char_name %}
-                    href="{% url 'solution_linked' char.char_name encoded_char_id %}"
+                    href="{% game_url 'solution_linked' char.char_name encoded_char_id %}"
                     {% else %}
-                    href="{% url 'solution_linked' 'shared' encoded_char_id %}"
+                    href="{% game_url 'solution_linked' 'shared' encoded_char_id %}"
                     {% endif %}
                 {% else %}
                 href="{% game_url 'solution_2' char_id %}"
@@ -191,10 +191,9 @@
                 <a class="menu_link menu_link_bottom"
                 {% if is_guest %}
                     {% if char.char_name %}
-                    
-                    href="{% url 'spells_linked' char.char_name encoded_char_id %}"
+                    href="{% game_url 'spells_linked' char.char_name encoded_char_id %}"
                     {% else %}
-                    href="{% url 'spells_linked' 'shared' encoded_char_id %}"
+                    href="{% game_url 'spells_linked' 'shared' encoded_char_id %}"
                     {% endif %}
                 {% else %}
                 href="{% game_url 'spells' char_id %}"
@@ -226,9 +225,9 @@
                 {% trans "Items up to update" %} {{ SITE_VERSION }}
                 <br>
                 <!-- General Site Links -->
-                <a href="{% url 'about' %}">{% trans "Help & About" %}</a> &ndash;
-                <a href="{% url 'contact' %}">{% trans "Contact us" %}</a> &ndash;
-                <a href="{% url 'license_page' %}">{% trans "Copyright and License information" %}</a>
+                <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &ndash;
+                <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &ndash;
+                <a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a>
                 <br><br> <!-- Adds space between general links and Discord links -->
             
                 <!-- Discord Invite Buttons -->

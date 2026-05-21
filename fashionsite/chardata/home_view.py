@@ -65,14 +65,14 @@ def home(request, char_id=0):
         button = {}
         button['pic'] = static('chardata/Faq2.png')
         button['label'] = _('FAQ')
-        button['link'] = reverse('faq')
+        button['link'] = version_reverse(request, 'faq')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     if len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/About2.png')
         button['label'] = _('Help & About')
-        button['link'] = reverse('about')
+        button['link'] = version_reverse(request, 'about')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     

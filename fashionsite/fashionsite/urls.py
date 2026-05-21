@@ -249,6 +249,7 @@ urlpatterns = [
     re_path(r'^500/', views.app_error, name = 'app_error'),
 
     re_path(r'^contact/thankyou/', contact_view.thankyou, name = 'thankyou'),
+    re_path(r'^contact/nomessage/', contact_view.nomessage, name = 'nomessage'),
     re_path(r'^contact/', contact_view.contact, name = 'contact'),
     re_path(r'^send/', contact_view.send_email, name = 'send_email'),
 

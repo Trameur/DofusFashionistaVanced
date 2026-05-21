@@ -5,7 +5,7 @@ from chardata import (
     stats_weights_view, min_stats_view, options_view, inclusions_view,
     exclusions_view, wizard_view, fashion_action, solution_view, spells_view,
     compare_sets_view, item_exchange, util_views, shared_builds_view,
-    encyclopedia_view, login_view, manage_account_view,
+    encyclopedia_view, login_view, manage_account_view, contact_view,
 )
 
 urlpatterns = [
@@ -76,6 +76,14 @@ urlpatterns = [
 
     re_path(r'^infeasible/(?P<char_id>\d+)/', views.infeasible, name='infeasible'),
     re_path(r'^error/(?P<char_id>\d+)/', util_views.error, name='error'),
+
+    re_path(r'^about/', views.about, name='about'),
+    re_path(r'^faq/', views.faq, name='faq'),
+    re_path(r'^license/', views.license_page, name='license_page'),
+    re_path(r'^contact/thankyou/', contact_view.thankyou, name='thankyou'),
+    re_path(r'^contact/nomessage/', contact_view.nomessage, name='nomessage'),
+    re_path(r'^contact/', contact_view.contact, name='contact'),
+    re_path(r'^send/', contact_view.send_email, name='send_email'),
 
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',

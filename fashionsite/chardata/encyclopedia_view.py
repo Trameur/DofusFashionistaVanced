@@ -516,7 +516,7 @@ def _get_ankama_type_aliases(ankama_type):
     return alias_map.get(normalized, {normalized})
 
 
-def _get_item_extra_info(representative_item, language, t):
+def _get_item_extra_info(representative_item, language, t, game_version='dofus3'):
     default_data = {
         'description': None,
         'pods': None,
@@ -631,7 +631,7 @@ def _get_item_extra_info(representative_item, language, t):
                     local_item = cursor.fetchone()
                     if local_item is not None:
                         local_name = local_item[3]
-                        local_item_url = get_item_link(local_item[1], local_item[0], local_name)
+                        local_item_url = get_item_link(local_item[1], local_item[0], local_name, game_version)
 
                 default_data['recipe'].append({
                     'name': ingredient_name,
@@ -771,7 +771,8 @@ def encyclopedia(request):
         if stat_filter_failed:
             continue
 
-        detail_url = get_item_link(item.ankama_type, item.ankama_id, display_name)
+        detail_url = get_item_link(item.ankama_type, item.ankama_id, display_name,
+                                   game_version=getattr(request, 'game_version', 'dofus3'))
         filtered_items.append({
             'id': item.id,
             'ankama_id': item.ankama_id,
@@ -946,7 +947,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     if extras is None:
         extras = representative_item.localized_extras.get('en', [])
 
-    extra_info = _get_item_extra_info(representative_item, language, t)
+    extra_info = _get_item_extra_info(representative_item, language, t,
+                                      game_version=getattr(request, 'game_version', 'dofus3'))
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
     return set_response(

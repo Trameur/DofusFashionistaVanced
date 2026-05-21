@@ -2,6 +2,7 @@
 
 {% load static_s3 %}
 {% load i18n %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "About" %}{% endblock %}
 
@@ -21,11 +22,11 @@
     <p>{% trans "The outfit suggestion might not be what you were looking for. You can find, for example, the HP too low despite the good Agility. Tweaking can be done by going back to the wizard and playing with the sliders, or going hardcore and fiddling directly with the value the attributed to each stat." %}</p>
     <p>{% trans "If items that are too expensive or not available to you are suggested, you can always forbid them and ask for a new set." %}</p>
     
-    {% url 'contact' as contact_url %}
-    
+    {% game_url 'contact' as contact_url %}
+
     <p>{% trans "The Dofus Fashionista is open source software. The code can be found in" %} <a href="https://github.com/Trameurs/DofusFashionistaVanced">GitHub</a>.</p>
     <p>{% blocktrans %}To report problems, suggest new features, or rant about the lack of skill of your kolo team, <a href="{{contact_url}}">contact us</a>.{% endblocktrans %}</p>
-    <p><a href="{% url 'license_page' %}">{% trans "Copyright and License information" %}</a></p>
+    <p><a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a></p>
     <p>{% trans "Website version:" %} {{site_version}}</p>
     <p>{{ about_language_name }} version by: {{ about_language_author }}</p>
     

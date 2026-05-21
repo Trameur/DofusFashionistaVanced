@@ -57,7 +57,7 @@
                         <td align="center">
                         
                             <div>
-                             <form id="compare_form" class="hidden-form" action="{% url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}
+                             <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}
                              {% for char in chars %}
                              <input type="text" value="{{ links|get_item:char.id }}" name="char{{forloop.counter0}}"></input>
                              {% endfor %}

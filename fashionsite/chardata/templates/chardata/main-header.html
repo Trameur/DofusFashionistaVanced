@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load version_url %}
 
 {% if char %}
   <div class="proj_info">
@@ -21,13 +22,13 @@
     </div>
   {% if is_guest %}
   <div style="display: table-cell; vertical-align: middle; width: 200px;">
-    <a href="{% url 'duplicate_someones_project' encoded_char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Copy this project" %}</a>
+    <a href="{% game_url 'duplicate_someones_project' encoded_char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Copy this project" %}</a>
   </div>
   {% elif char_id %}
   <div style="display: table-cell; vertical-align: middle; width: 200px; text-align: right; padding-right: 14px;">
-    <a href="{% url 'project_setup' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Edit" %}</a>
+    <a href="{% game_url 'project_setup' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Edit" %}</a>
     {% if not user.is_anonymous %}
-    <a href="{% url 'duplicate_my_project' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Duplicate" %}</a>
+    <a href="{% game_url 'duplicate_my_project' char_id %}" style='color: white; text-decoration: none;' class='submit-button button-generic copy-action-link'>{% trans "Duplicate" %}</a>
     {% endif %}
   </div>
   {% endif %}

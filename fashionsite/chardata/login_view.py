@@ -184,7 +184,12 @@ def _recover_password_page(request, email, from_register):
     non_social_users = _get_non_social_users_for_email(email)
     
     if not non_social_users:
-        raise SuspiciousOperation
+        return set_response(request,
+                            'chardata/recover_password.html',
+                            {'request': request,
+                             'email': email,
+                             'from_register': from_register,
+                             'email_send_failed': False})
 
     username = non_social_users[0].username
     password = non_social_users[0].password

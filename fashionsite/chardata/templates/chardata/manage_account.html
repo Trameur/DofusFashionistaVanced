@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
@@ -134,7 +135,7 @@ $(document).ready(function() {
         changePassword(username, password, newPassword);
     });
     setupStateEngine(manageInit,
-            "{% url 'save_account' %}",
+            "{% game_url 'save_account' %}",
             state,
             null,
             setLoggedUserAlias);
