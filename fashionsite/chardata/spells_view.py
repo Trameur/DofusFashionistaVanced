@@ -47,8 +47,9 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
         if weapon.item_added:
             web_digest = _create_weapon_web_digest(weapon)
             digests.append(web_digest)
+    game_version = getattr(request, 'game_version', 'dofus3')
     for spell in DAMAGE_SPELLS[char_class] + DAMAGE_SPELLS['default']:
-        web_digest = _create_spell_web_digest(spell)
+        web_digest = _create_spell_web_digest(spell, game_version)
         digests.append(web_digest)
     digests_json = jsonpickle.encode(digests, unpicklable=False)
     stats_json = jsonpickle.encode(solution.get_stats_total(), unpicklable=False)
@@ -93,7 +94,7 @@ def _create_weapon_web_digest(weapon):
     
     return web_digest
 
-def _create_spell_web_digest(spell):
+def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
@@ -101,7 +102,8 @@ def _create_spell_web_digest(spell):
     web_digest['name'] = get_localized_spell_name(spell.name, current_language)
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
-    web_digest['image_url'] = static('chardata/spells/' + spell.name + '.png')
+    spell_dir = 'chardata/spells/beta/' if game_version == 'beta' else 'chardata/spells/'
+    web_digest['image_url'] = static(spell_dir + spell.name + '.png')
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)

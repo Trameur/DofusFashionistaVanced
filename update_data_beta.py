@@ -235,6 +235,10 @@ def main() -> None:
             "--size", "96",
             "--scope", "damage",
             "--prune",
+            "--metadata", "itemscraper/transformed_spells_beta.json",
+            "--constants", "fashionistapulp/fashionistapulp/dofus_constants_beta.py",
+            "--static-dir", "fashionsite/chardata/static/chardata/spells/beta",
+            "--extra-static-dirs", "fashionsite/staticfiles/chardata/spells/beta",
         ])
 
     if do_images and not args.no_resize:
