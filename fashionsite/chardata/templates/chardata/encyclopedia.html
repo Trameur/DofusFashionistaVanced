@@ -570,7 +570,8 @@
         {% for item in items_page.object_list %}
         <div class="encyclopedia-card brown-box">
             <div>
-                <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+                <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
             <div>
                 <div class="encyclopedia-card-name">{{ item.name }}</div>
