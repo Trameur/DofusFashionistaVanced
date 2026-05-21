@@ -29,6 +29,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
 import logging
+import requests as http_requests
 
 from chardata.models import UserAlias
 from chardata.util import set_response, TESTER_USERS, HttpResponseText
@@ -54,10 +55,25 @@ def _login_page_generic(request, from_confirmation, prefilled_user, char_id, alr
                          'already_confirmed': already_confirmed == 'yes'})
 
 def register(request):
+    if not settings.DEBUG:
+        recaptcha_secret = settings.GEN_CONFIGS.get('url_captcha_secret')
+        g_recaptcha_response = request.POST.get('g-recaptcha-response', '')
+        try:
+            r = http_requests.post(
+                'https://www.google.com/recaptcha/api/siteverify',
+                data={'secret': recaptcha_secret, 'response': g_recaptcha_response},
+                timeout=10,
+            )
+            r.raise_for_status()
+            if not r.json().get('success'):
+                raise PermissionDenied
+        except (http_requests.RequestException, ValueError):
+            raise PermissionDenied
+
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
-    
+
     users = User.objects.filter(username=username)
     if users:
         raise PermissionDenied

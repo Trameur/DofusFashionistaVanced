@@ -122,7 +122,15 @@
             </tr>
             </table>
             <br>
+            {% if debug_mode %}
             <input type='submit' class='button-generic' id="login-register" value='{{_("Register")|escapejs}}' />
+            {% else %}
+            <button type="button" class="g-recaptcha button-generic"
+                data-sitekey="6LckESspAAAAAATetjumgWbl4RRpKQ3rGFjD6ZOt"
+                data-callback="onRegisterCaptcha"
+                data-action="register"
+                id="login-register">{% trans "Register" %}</button>
+            {% endif %}
             </form>
         </div>
     </td>
@@ -134,8 +142,8 @@
     {% endif %}
 </div>
 {% endif %}
-       
-<script src="{% static "chardata/sha256.js" %}"></script> 
+
+<script src="{% static "chardata/sha256.js" %}"></script>
 <script src="{% static "chardata/login.js" %}"></script>
 
 <script>
@@ -143,11 +151,37 @@ $.ajaxSetup({
          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
        });
 
+function onRegisterCaptcha(token) {
+    var username = $("#register-username").val();
+    var password = $("#password").val();
+    var email = $("#email").val();
+    var failed = false;
+    if (username === "" || $("#username-taken-error").text() !== "") {
+        failed = true;
+        $("#username-taken-error").text(gettext("You need to enter a valid username."));
+    }
+    if (password === "") {
+        failed = true;
+        $("#password-error").text(gettext("You need to enter a password."));
+    }
+    if (email === "" || email.indexOf("@") < 1 || email.indexOf(".") < 3) {
+        failed = true;
+        $("#email-error").text(gettext("You need to enter a valid email."));
+    }
+    if (!failed) {
+        var hash = hashPassword(password);
+        $("#password-actual").val(hash);
+        document.getElementById("register-form").submit();
+    } else {
+        grecaptcha.reset();
+    }
+}
+
 $(document).ready(function() {
     {% if prefilled_user %}
     $("#login-username").val("{{ prefilled_user | safe }}");
     {% endif %}
-    
+
     $(".trigger-enter").keypress(function(event) {
         if (event.keyCode == 13) {
             $('#login-enter').click();
@@ -167,15 +201,18 @@ $(document).ready(function() {
         var password = $("#login-password").val();
         login(username, password);
     })
-    $("#register-form").submit(registerSubmit)
+    {% if debug_mode %}
+    $("#register-form").submit(registerSubmit);
+    {% endif %}
     $.post("{% game_url 'save_project_to_user' %}",
            {},
            function (data) {
            });
 });
-
-
-</script> 
+</script>
+{% if not debug_mode %}
+<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+{% endif %} 
          
 {% endblock %}
 
