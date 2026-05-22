@@ -38,6 +38,14 @@
     z-index:1;
     border: 0px solid;
     border-radius: 10px;
+    overflow: hidden;
+}
+
+.banner img {
+    max-width: 100%;
+    max-height: 200px;
+    height: auto;
+    display: block;
 }
 
 .space {

@@ -78,7 +78,11 @@
     
         <div class='banner' ALIGN=CENTER "position:relative; z-index:1">
           <br>   
+          {% if current_game_version == 'beta' %}
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.png" %}"></img></a>
+          {% else %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
+          {% endif %}
         </div>
         <div style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
           <a href="{% game_url 'home' %}"><img  class='char' src="{% static pic %}"></img></a>
