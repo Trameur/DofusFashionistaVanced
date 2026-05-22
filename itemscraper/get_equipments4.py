@@ -100,7 +100,9 @@ def main():
                 print(f"Filename modified: {original_name} -> {sanitized_name}")
 
             for target_directory in target_directories:
-                type_subdir = "pets/" if item['w_type'] in ('Petsmount', 'Pet') else "items/"
+                _MOUNT_TYPES = ('Petsmount', 'Pet', 'Dragoturkey', 'Seemyool', 'Rhineetle',
+                                'Dragodinde', 'Muldo', 'Volkorne', 'Mount')
+                type_subdir = "pets/" if any(t in item.get('w_type', '') for t in _MOUNT_TYPES) else "items/"
                 directory = os.path.join(target_directory, type_subdir, version_subdir)
                 filename = os.path.join(directory, sanitized_name)
                 download_image(image_url, filename)
