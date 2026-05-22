@@ -1,11 +1,12 @@
 {% load i18n %}
 {% load static_s3 %}
+{% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
 <div class="expand-container" id="item-container-{{item.slot}}">
     <div class="{% if item.id %}expand-header{% endif %} solution-item-expand-header">
         <table width="100%"><tr>
         <td width="62px">
             <div class="solution-item-icon-container">
-                <img src="{{ item.file }}" class="solution-items-icon">
+                <img src="{{ item.file }}" class="solution-items-icon" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
         </td>
         <td class="solution-item-info">

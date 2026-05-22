@@ -35,7 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from fashionista_version import FASHIONISTA_VERSION
+from fashionista_version import FASHIONISTA_VERSION, FASHIONISTA_BETA_VERSION
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Define the paths for Linux and Windows
@@ -135,6 +135,7 @@ TEMPLATES = [
                 'social_django.context_processors.login_redirect',
                 'django.template.context_processors.request',
                 'fashionsite.context_processors.site_version',
+                'chardata.context_processors.game_version',
             ],
         },
     },
@@ -317,6 +318,7 @@ EMAIL_HOST_PASSWORD = GEN_CONFIGS['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = GEN_CONFIGS['EMAIL_PORT']
 
 SITE_VERSION = FASHIONISTA_VERSION
+SITE_VERSION_BETA = FASHIONISTA_BETA_VERSION
 
 EXPERIMENTS = {
     'COMPARE_SETS': True,

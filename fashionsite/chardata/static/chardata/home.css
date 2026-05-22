@@ -38,6 +38,14 @@
     z-index:1;
     border: 0px solid;
     border-radius: 10px;
+    overflow: hidden;
+}
+
+.banner img {
+    max-width: 100%;
+    max-height: 200px;
+    height: auto;
+    display: block;
 }
 
 .space {
@@ -89,6 +97,31 @@
     margin-top: 5px;
     font-size: 12px;
     position: relative;
+}
+
+.version-selector {
+    float: right;
+    margin-right: 6px;
+    margin-left: 20px;
+    margin-top: 5px;
+    display: inline-flex;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.version-link {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none !important;
+    line-height: 1.4;
+    transition: background 0.15s, color 0.15s;
+}
+
+.version-link.active {
+    font-weight: bold;
+    opacity: 1;
 }
 
 
@@ -201,7 +234,7 @@ h2:first-letter{
     margin-top: 5px;
 }
 
-.flag-choose, #flag, #current-theme, .theme-selector {
+.flag-choose, #flag, #current-theme, .current-theme, .theme-selector {
     cursor: pointer;
 }
 

@@ -3,6 +3,7 @@
 {% load get_range %}
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Choose sets to compare" %}{% endblock %}
 
@@ -54,7 +55,7 @@ function onCompareClick() {
         }
     }
     $.ajax({type: "POST",
-           url: "{% url 'choose_compare_sets_post' %}",
+           url: "{% game_url 'choose_compare_sets_post' %}",
            data: {links: JSON.stringify(links)},
            success: function (data) {
                if (!data.match('^[eE]rror: ')) {
@@ -78,12 +79,12 @@ $(document).ready(function() {
     
         function handleSetNameSearch(event, ui) {
             event.preventDefault();
-            $(this).val(window.location.origin + "/solution/" + ui.item.idx + "/"); 
+            $(this).val(window.location.origin + "{{ api_base }}/solution/" + ui.item.idx + "/");
         }
     
         $(this).autocomplete({
             source: function(request, response) {
-                $.post("/compare_set_search_proj_name/",
+                $.post("{{ api_base }}/compare_set_search_proj_name/",
                    {name: request},
                    function (data) {
                        response(data);

@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load version_url %}
 {% block title %}The Dofus Fashionista: {% trans "Characteristics Weights" %}{% endblock %}
 
 {% block main %}
@@ -154,7 +155,7 @@ $(document).ready(function() {
     });
     
     setupStateEngine(init,
-         "{% url 'stats_post' char_id %}",
+         "{% game_url 'stats_post' char_id %}",
          initialWeights);
 });
 

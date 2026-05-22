@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Wizard" %}{% endblock %}
 
@@ -11,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{% static css_files.solution %}" class="solution-css css-file">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
 
-<form id="wizard-form" action="{% url 'wizard_post' char_id %}" method="post">
+<form id="wizard-form" action="{% game_url 'wizard_post' char_id %}" method="post">
     {% csrf_token %}
     <h1 align="center">{% trans "Wizard" %}</h1><br><br>
     <div class= 'wizard-flying-pic'>

@@ -141,3 +141,19 @@ h2 {
     color: white;
     background-color: #3D200D;
 }
+
+.version-link {
+    background: #c4a882;
+    color: #3D200D;
+    border: 1px solid #3D200D;
+}
+.version-link:first-child { border-right: none; }
+.version-link:last-child  { border-left: none; }
+.version-link.active {
+    background: #3D200D;
+    color: #ffffff;
+}
+.version-link:hover:not(.active) {
+    background: #a8885e;
+    color: #ffffff;
+}

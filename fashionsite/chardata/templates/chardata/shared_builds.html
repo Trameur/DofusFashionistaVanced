@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Shared Builds" %}{% endblock %}
 
@@ -424,7 +425,7 @@
     
     <div class="filters-section">
         <h2>{% trans "Search & Filter" %}</h2>
-        <form method="get" action="{% url 'shared_builds' %}">
+        <form method="get" action="{% game_url 'shared_builds' %}">
             <div class="filter-row">
                 <div class="filter-group">
                     <label class="filter-label">{% trans "Search" %}</label>
@@ -536,7 +537,7 @@
             
             <div class="filter-row" style="justify-content: center;">
                 <button type="submit" class="filter-button button-generic">{% trans "Apply Filters" %}</button>
-                <a href="{% url 'shared_builds' %}" class="filter-button button-generic" style="display: inline-block; text-decoration: none;">
+                <a href="{% game_url 'shared_builds' %}" class="filter-button button-generic" style="display: inline-block; text-decoration: none;">
                     {% trans "Clear Filters" %}
                 </a>
             </div>

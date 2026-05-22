@@ -138,3 +138,19 @@ h2 {
     color: #151515;
     background-color: #DDD;
 }
+
+.version-link {
+    background: #2a2a2a;
+    color: #aaaaaa;
+    border: 1px solid #555555;
+}
+.version-link:first-child { border-right: none; }
+.version-link:last-child  { border-left: none; }
+.version-link.active {
+    background: #555555;
+    color: #ffffff;
+}
+.version-link:hover:not(.active) {
+    background: #3a3a3a;
+    color: #dddddd;
+}

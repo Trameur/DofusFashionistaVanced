@@ -58,6 +58,14 @@ def get_structure(game_version=None):
     return _structure_singletons[game_version]
 
 
+def set_current_game_version(version):
+    _current_game_version.version = version
+
+
+def get_current_game_version():
+    return getattr(_current_game_version, 'version', 'dofus3')
+
+
 def invalidate_structure(game_version=None):
     global _structure_singletons
     if game_version is not None:

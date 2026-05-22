@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from django.http import Http404
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
@@ -33,7 +34,7 @@ from django.utils.translation import gettext as _
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
-    HttpResponseText, get_base_stats_by_attr
+    HttpResponseText, get_base_stats_by_attr, version_reverse
 from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER
 
 from static_s3.templatetags.static_s3 import static
@@ -198,6 +199,8 @@ def get_client_ip(request):
 
 def solution_linked(request, char_name, encoded_char_id):
     char = get_char_encoded_or_raise(encoded_char_id)
+    if char.game_version != getattr(request, 'game_version', 'dofus3'):
+        raise Http404
     
     # Increment view count only once per IP per 24 hours
     try:
@@ -227,8 +230,8 @@ def solution_linked(request, char_name, encoded_char_id):
 def generate_link(request, char):
     encoded_id = encode_char_id(int(char.id))
     char_name = char.char_name or 'shared'
-    return request.build_absolute_uri(reverse('solution_linked',
-                                              args=(char_name, encoded_id)))
+    return request.build_absolute_uri(version_reverse(request, 'solution_linked',
+                                                      char_name, encoded_id))
 
 def set_item_locked(request, char_id):
     char = get_char_or_raise(request, char_id)

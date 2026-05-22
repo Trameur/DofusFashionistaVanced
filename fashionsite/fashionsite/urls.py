@@ -249,6 +249,7 @@ urlpatterns = [
     re_path(r'^500/', views.app_error, name = 'app_error'),
 
     re_path(r'^contact/thankyou/', contact_view.thankyou, name = 'thankyou'),
+    re_path(r'^contact/nomessage/', contact_view.nomessage, name = 'nomessage'),
     re_path(r'^contact/', contact_view.contact, name = 'contact'),
     re_path(r'^send/', contact_view.send_email, name = 'send_email'),
 
@@ -301,12 +302,14 @@ if settings.EXPERIMENTS['TRANSLATION']:
 
 urlpatterns += staticfiles_urlpatterns()
 
-# Version-specific routes: same views, game_version set by middleware
-_game_urls = 'chardata.game_urls'
+# Version-specific routes: same views, game_version set by middleware.
+# Each version gets a Django URL namespace so {% game_url %} can resolve
+# version-prefixed URLs (e.g. reverse('beta:setup') → /beta/setup/).
+_game_urls = ('chardata.game_urls', 'chardata')
 urlpatterns += [
-    path('beta/', include(_game_urls)),
-    path('retro/', include(_game_urls)),
-    path('touch/', include(_game_urls)),
+    path('beta/', include(_game_urls, namespace='beta')),
+    path('retro/', include(_game_urls, namespace='retro')),
+    path('touch/', include(_game_urls, namespace='touch')),
 ]
 
 handler403 = views.forbidden

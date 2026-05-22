@@ -17,11 +17,24 @@
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.http import Http404
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse, NoReverseMatch
 from django.utils.translation import get_language
 import json
 import random
+
+
+def version_reverse(request, url_name, *args, **kwargs):
+    """Like reverse() but auto-prefixes with the current game version namespace."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    if game_version != 'dofus3':
+        try:
+            return reverse(f'{game_version}:{url_name}', args=args, kwargs=kwargs)
+        except NoReverseMatch:
+            pass
+    return reverse(url_name, args=args, kwargs=kwargs)
 
 from chardata.encoded_char_id import decode_char_id
 from chardata.model_wrappers import WrappedChar
@@ -167,6 +180,9 @@ def get_or_none(model, **kwargs):
 
 def get_char_or_raise(request, char_id):
     char = get_object_or_404(Char, pk=char_id)
+    current_version = getattr(request, 'game_version', 'dofus3')
+    if char.game_version != current_version:
+        raise Http404
     if char_belongs_to_user(request, char):
         return char
     else:

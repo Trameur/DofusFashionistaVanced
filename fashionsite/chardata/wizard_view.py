@@ -24,7 +24,7 @@ from chardata.models import CharBaseStats
 from chardata.options import get_options, set_options, DOFUS_OPTIONS
 from chardata.options_view import parse_options_post
 from chardata.smart_build import reapply_weights
-from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson
+from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 from chardata.wizard_sliders import get_wizard_sliders, set_wizard_sliders
 from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE
 from fashionistapulp.structure import get_structure
@@ -98,7 +98,7 @@ def wizard_post(request, char_id):
     elif scroll == 'clean':
         _clean_scroll_char(char)
 
-    return HttpResponseRedirect(reverse('fashion', args=(char.id,)))
+    return HttpResponseRedirect(version_reverse(request, 'fashion', char.id))
 
 def _get_third_scroll_option(char):
     stats_scroll_dict = {}

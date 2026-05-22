@@ -1,4 +1,5 @@
 {% extends "chardata/base.html" %}
+{% load version_url %}
 
 {% block title %}{{ item.name }} - {{ t.title }}{% endblock %}
 
@@ -86,7 +87,7 @@
 {% block main %}
 <div class="encyclopedia-item text">
     <div class="encyclopedia-back">
-        <a href="{% url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
+        <a href="{% game_url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
     </div>
 
     <div class="encyclopedia-item-card brown-box">

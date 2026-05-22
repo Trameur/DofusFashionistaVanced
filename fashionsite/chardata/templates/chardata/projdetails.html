@@ -3,6 +3,7 @@
 {% load get_item %}
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Project Details" %} {% endblock %}
 
@@ -29,7 +30,7 @@
         <p class='big-text'>{% trans "Modify the project and character configuration." %}</p>
         {% endif %}
     
-        <form id="main_form" action="{% url 'create_project' %}" method="post">
+        <form id="main_form" action="{% game_url 'create_project' %}" method="post">
             {% csrf_token %}
                 <table class='register'>
                   <tr class='register-line'>
@@ -94,14 +95,14 @@
         <td>
         {% if login_problem %}
         <p>
-            {% url 'login_page' as login_link%}
-            {% url 'load_projects' as load_proj_link%}
+            {% game_url 'login_page' as login_link %}
+            {% game_url 'load_projects' as load_proj_link %}
             {% blocktrans %} You need to <a href="{{login_link}}">login</a> before you can create another project. Your current project can be found <a href="{{load_proj_link}}">here</a>. {% endblocktrans %}<br>
         </p>
         {% else %}
             {% if too_many_projects_problem %}
             <p>
-            {% url 'load_projects' as load_proj_link%}
+            {% game_url 'load_projects' as load_proj_link %}
                 {% blocktrans %} You have reached the maximum number of projects allowed. To create a new project, please delete some old ones <a href="{{load_proj_link}}">here</a>.{% endblocktrans %}<br>
             </p>
             {% endif %}
@@ -333,7 +334,7 @@ $(document).ready(function() {
     } else {
         $("#submit-mode").remove();
         setupStateEngine(init,
-            "{% url 'save_project' char_id %}",
+            "{% game_url 'save_project' char_id %}",
              initialState,
              saveButtonClicked);
     }

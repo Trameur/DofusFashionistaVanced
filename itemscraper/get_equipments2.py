@@ -14,12 +14,20 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import argparse
 import json
 from copy import deepcopy
 import os
 import re
 
-current_directory = os.path.dirname(__file__) # Get the current directory
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+_parser = argparse.ArgumentParser(description="Transform downloaded equipment JSON files")
+_parser.add_argument("--work-dir", default=None, help="Directory to read/write JSON files (default: script directory)")
+_args = _parser.parse_args()
+if _args.work_dir:
+    current_directory = os.path.abspath(_args.work_dir)
+    os.makedirs(current_directory, exist_ok=True)
 
 
 STAT_TRANSLATE = {
@@ -211,7 +219,10 @@ def convert_to_and_conditions(data):
     
 # Function to load data for each language
 def load_data_for_language(lang, data_type):
-    with open(f'{current_directory}/all_{data_type}_{lang}.json', 'r', encoding='utf-8') as file:
+    path = os.path.join(current_directory, f'all_{data_type}_{lang}.json')
+    if not os.path.exists(path):
+        return {data_type: []}
+    with open(path, 'r', encoding='utf-8') as file:
         return json.load(file)
     
 # Load equipment data for all languages

@@ -33,7 +33,7 @@ from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECT
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
                            TESTER_USERS, HttpResponseText,
-    get_theme, remove_cache_for_char)
+    get_theme, remove_cache_for_char, version_reverse)
 from fashionistapulp.dofus_constants import STATS_NAMES, CHARACTER_CLASSES
 from chardata.themes import get_questionmark_URL
 
@@ -59,10 +59,11 @@ def setup(request, char_id=0):
         can_create = True
         login_problem = False
     if (is_new_char
-        and request.user is not None 
+        and request.user is not None
         and not request.user.is_anonymous
         and can_create):
-        chars = Char.objects.filter(owner=request.user)
+        game_version = getattr(request, 'game_version', 'dofus3')
+        chars = Char.objects.filter(owner=request.user, game_version=game_version)
         chars = chars.exclude(deleted=True)
         if len(chars) >= MAXIMUM_NUMBER_OF_PROJECTS and request.user.email not in TESTER_USERS:
             can_create = False
@@ -90,9 +91,10 @@ def is_anon_cant_create(request):
 
 def has_too_many_projects(request):
     too_many_projects_problem = False
-    if (request.user is not None 
-        and not request.user.is_anonymous):
-        chars = Char.objects.filter(owner=request.user)
+    if (request.user is not None
+            and not request.user.is_anonymous):
+        game_version = getattr(request, 'game_version', 'dofus3')
+        chars = Char.objects.filter(owner=request.user, game_version=game_version)
         chars = chars.exclude(deleted=True)
         if len(chars) >= MAXIMUM_NUMBER_OF_PROJECTS and request.user.email not in TESTER_USERS:
             too_many_projects_problem = True
@@ -144,6 +146,7 @@ def create_project(request):
     char.stats_weight = pickle.dumps({})
     char.options = pickle.dumps({})
     char.link_shared = False
+    char.game_version = getattr(request, 'game_version', 'dofus3')
 
     _save_state_to_char(state, char)
     
@@ -172,11 +175,9 @@ def create_project(request):
         request.session['char_id'] = char.pk
     
     if state['where_to_go'] == 'wizard':
-        return HttpResponseRedirect(reverse('wizard',
-                                            args=(char.id,)))
+        return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
     else:
-        return HttpResponseRedirect(reverse('solution',
-                                            args=(char.id, True,)))
+        return HttpResponseRedirect(version_reverse(request, 'solution', char.id, True))
 
 # TODO: This state should be a class.
 def _get_state_from_char(char):

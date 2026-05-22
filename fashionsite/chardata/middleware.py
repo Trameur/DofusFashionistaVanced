@@ -1,6 +1,6 @@
 import threading
 
-_current_game_version = threading.local()
+from fashionistapulp.structure import set_current_game_version
 
 GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch'}
 
@@ -16,5 +16,5 @@ class GameVersionMiddleware:
         else:
             version = 'dofus3'
         request.game_version = version
-        _current_game_version.version = version
+        set_current_game_version(version)
         return self.get_response(request)

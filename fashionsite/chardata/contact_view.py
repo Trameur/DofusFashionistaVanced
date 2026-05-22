@@ -23,7 +23,7 @@ import requests
 from chardata.models import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 from smtplib import SMTPException
-from chardata.util import set_response
+from chardata.util import set_response, version_reverse
 import logging
 
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ def contact(request):
 
 def send_email(request):
     if request.method != 'POST':
-        return HttpResponseRedirect(reverse('contact'))
+        return HttpResponseRedirect(version_reverse(request, 'contact'))
 
     subject = request.POST.get('topic', '')
     message = request.POST.get('message', '')
@@ -76,9 +76,9 @@ def send_email(request):
         )
     except (BadHeaderError, SMTPException, OSError) as e:
         logger.error('Contact form email send failed: %s', e)
-        return HttpResponseRedirect(reverse('nomessage'))
+        return HttpResponseRedirect(version_reverse(request, 'nomessage'))
 
-    return HttpResponseRedirect(reverse('thankyou'))
+    return HttpResponseRedirect(version_reverse(request, 'thankyou'))
         
 def thankyou(request):
     return set_response(request,

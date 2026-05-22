@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}The Dofus Fashionista: {% trans "Load a Project" %}{% endblock %}
 
@@ -33,7 +34,7 @@
                     <tr class="load-project-line">
                       <td class="load-project-cell checkbox-cell" align="center"><div style="width: 20px"><input type="checkbox" name={{wrapped_char.char.id}} value={{wrapped_char.char.id}} class="project-checkbox{% if wrapped_char.char.minimal_solution %} has-solution{% endif %}"></div></td>
                       <td><div style="width: 24px">{% if wrapped_char.char.minimal_solution %}<img class="button-img needle-img" title="{% trans "A set suggestion has been generated for this project." %}">{% endif %}</div></td>
-                      <td class="load-project-cell"><div style="width: 180px"><a href="{% url 'load_a_project' wrapped_char.char.id %}">{{wrapped_char.char.name}}</a></div></td>
+                      <td class="load-project-cell"><div style="width: 180px"><a href="{% game_url 'load_a_project' wrapped_char.char.id %}">{{wrapped_char.char.name}}</a></div></td>
                       <td class="load-project-cell"><div style="width: 150px" class='big-text'>{{wrapped_char.char.char_name}}</div></td>
                       <td class="load-project-cell"><div style="width: 170px" class='big-text'>{{wrapped_char.build_string}}</div></td>
                       <td class="load-project-cell"><div style="width: 80px" class='big-text'> {{wrapped_char.class_string}}</div></td>
@@ -52,7 +53,7 @@
           {% endif %}
        {% else %}
             <div align="center" class='text'>
-            {% url 'setup' as create_project_link %}
+            {% game_url 'setup' as create_project_link %}
             {% blocktrans %}You don't have any projects yet. Create one <a href="{{ create_project_link }}">here</a>.{% endblocktrans %}
             </div>
        {% endif %}
@@ -91,7 +92,7 @@ function deleteProj() {
     $(".project-checkbox:checkbox:checked").each(function(){
         checkboxesList.push($(this).val());
     });
-    $.post("{% url 'delete_projects' %}",
+    $.post("{% game_url 'delete_projects' %}",
            {projects: JSON.stringify(checkboxesList)},
            function (data) {
                 location.reload();
@@ -104,7 +105,7 @@ function duplicateProj() {
         checkboxesList.push($(this).val());
     });
     proj_id = checkboxesList[0];
-    $.post("{% url 'duplicate_project' %}",
+    $.post("{% game_url 'duplicate_project' %}",
            {project_id: JSON.stringify(proj_id)},
            function (data) {
                 if (data === 'ok') {
@@ -126,7 +127,7 @@ function compareProjects() {
     });
     console.log("compareProjects");
     console.log(checkboxesList.join("/"));
-    window.location.href = "/compare_sets/" + checkboxesList.join("/");
+    window.location.href = "{{ api_base }}/compare_sets/" + checkboxesList.join("/");
 }
 {% endif %}
 

@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import argparse
 import json
 import pickle
 import os
@@ -22,6 +23,15 @@ import sys
 current_directory = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_directory)
 sys.path.append(project_root)
+
+_parser = argparse.ArgumentParser(description="Build SQLite dump from transformed equipment JSON")
+_parser.add_argument("--dump-output", default=None, help="Output path for the dump file (default: item_db_dumped.dump)")
+_parser.add_argument("--input-dir", default=None, help="Directory containing transformed_equipment.json and transformed_sets.json (default: script directory)")
+_args = _parser.parse_args()
+
+_default_dump = os.path.join(current_directory, '..', 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')
+dump_output_path = _args.dump_output if _args.dump_output else _default_dump
+input_dir = os.path.abspath(_args.input_dir) if _args.input_dir else current_directory
 
 from fashionistapulp.fashionistapulp.dofus_constants import (
     STAT_NAME_TO_KEY,
@@ -147,14 +157,14 @@ def escape_single_quotes(s):
     return s.replace("'", "''")
 
 # Read the original JSON file
-with open(f'{current_directory}/transformed_equipment.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(input_dir, 'transformed_equipment.json'), 'r', encoding='utf-8') as f:
     original_data = json.load(f)
 
-with open(f'{current_directory}/transformed_sets.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(input_dir, 'transformed_sets.json'), 'r', encoding='utf-8') as f:
     original_sets = json.load(f)
 
 # Open the .dump file for writing
-with open(f'{current_directory}/../fashionistapulp/fashionistapulp/item_db_dumped.dump', 'w', encoding='utf-8') as f:
+with open(dump_output_path, 'w', encoding='utf-8') as f:
     # Write initial SQL commands
     f.write("PRAGMA foreign_keys=OFF;\nBEGIN TRANSACTION;\nCREATE TABLE item_types\n             (id INTEGER PRIMARY KEY AUTOINCREMENT, name text);\n")
 

@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from chardata.util import set_response
+from chardata.util import set_response, version_reverse
 from chardata.create_project_view import is_anon_cant_create, has_too_many_projects
 from chardata.views import user_has_projects
 
@@ -44,35 +44,35 @@ def home(request, char_id=0):
         button = {}
         button['pic'] = static('chardata/LoadProj2.png')
         button['label'] = _('Create a Project')
-        button['link'] = reverse('setup')
+        button['link'] = version_reverse(request, 'setup')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     if user_has_projects(request) and len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/NewProj1.png')
         button['label'] = _('Load a Project')
-        button['link'] = reverse('load_projects')
+        button['link'] = version_reverse(request, 'load_projects')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     if request.user.is_anonymous and len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/Login1.png')
         button['label'] = _('Login')
-        button['link'] = reverse('login_page')
+        button['link'] = version_reverse(request, 'login_page')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     if len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/Faq2.png')
         button['label'] = _('FAQ')
-        button['link'] = reverse('faq')
+        button['link'] = version_reverse(request, 'faq')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     if len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/About2.png')
         button['label'] = _('Help & About')
-        button['link'] = reverse('about')
+        button['link'] = version_reverse(request, 'about')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     
