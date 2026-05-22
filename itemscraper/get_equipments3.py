@@ -225,7 +225,9 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
             item['is_prysmaradite'] = True
         if item['w_type'] == 'Backpack':
             item['w_type'] = 'Cloak'
-        if item['w_type'] == 'Petsmount':
+        _MOUNT_SUBTYPES = ('Petsmount', 'Dragoturkey', 'Seemyool', 'Rhineetle',
+                           'Dragodinde', 'Muldo', 'Volkorne', 'Mount')
+        if any(t in item.get('w_type', '') for t in _MOUNT_SUBTYPES):
             item['w_type'] = 'Pet'
 
         if item['w_type'] not in TYPE_NAME_TO_SLOT and item['w_type'] != '':

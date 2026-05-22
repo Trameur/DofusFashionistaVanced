@@ -263,12 +263,17 @@ for item in equipment_data['en']['items']:
 for item in equipment_data['en']['items']:
     if item.get('ankama_id') in mount_ankama_ids:
         continue
-    if 'Certificate' in item['type']['name'] or 'Sidekick' in item['type']['name'] or 'Badge' in item['type']['name'] or '[!] [UNKNOWN_TEXT_ID_0]' in item['name'] or 'Perceptor' in item['type']['name']:
+    item_type_name = item['type']['name']
+    if ('Certificate' in item_type_name or 'Sidekick' in item_type_name or 'Badge' in item_type_name
+            or '[!] [UNKNOWN_TEXT_ID_0]' in item['name'] or 'Perceptor' in item_type_name):
         continue
     transformed_item = {}
     if "ankama_id" in item:
         transformed_item["ankama_id"] = item["ankama_id"]
-    transformed_item["ankama_type"] = "equipment"
+    _MOUNT_TYPE_NAMES = {'Dragoturkey', 'Seemyool', 'Rhineetle', 'Petsmount',
+                         'Dragodinde', 'Muldo', 'Volkorne'}
+    _is_mount_type = any(t in item_type_name for t in _MOUNT_TYPE_NAMES) or 'Mount' in item_type_name
+    transformed_item["ankama_type"] = "mounts" if _is_mount_type else "equipment"
     if "name" in item:
         for lang in LANGUAGES:
             lang_name_key = f"name_{lang}"

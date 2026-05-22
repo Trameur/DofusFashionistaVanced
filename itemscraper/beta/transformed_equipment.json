@@ -95274,7 +95274,7 @@
     },
     {
         "ankama_id": 12541,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Madreggon",
         "name_fr": "Dragouf",
         "name_es": "Dragrillado",
@@ -98542,7 +98542,7 @@
     },
     {
         "ankama_id": 12963,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Slayhound",
         "name_fr": "Hurledent",
         "name_es": "Dekarbón",
@@ -100980,7 +100980,7 @@
     },
     {
         "ankama_id": 13182,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Karmeleon",
         "name_fr": "Kramkram",
         "name_es": "Kramkram",
@@ -102563,7 +102563,7 @@
     },
     {
         "ankama_id": 13465,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Boarhog",
         "name_fr": "Sakochère",
         "name_es": "Sakóquero",
@@ -103023,7 +103023,7 @@
     },
     {
         "ankama_id": 13603,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Razorbuck",
         "name_fr": "Balafreux",
         "name_es": "Suskrofa",
@@ -118713,7 +118713,7 @@
     },
     {
         "ankama_id": 14827,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kwyness",
         "name_fr": "Kwaltess",
         "name_es": "Kwalteza",
@@ -118749,7 +118749,7 @@
     },
     {
         "ankama_id": 14833,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sirocco",
         "name_fr": "Siroko",
         "name_es": "Siroko",
@@ -118780,7 +118780,7 @@
     },
     {
         "ankama_id": 14838,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Dehluge",
         "name_fr": "Dehluge",
         "name_es": "Xaparón",
@@ -118811,7 +118811,7 @@
     },
     {
         "ankama_id": 14848,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kompost",
         "name_fr": "Kompost",
         "name_es": "Kompost",
@@ -118842,7 +118842,7 @@
     },
     {
         "ankama_id": 14854,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Brulay",
         "name_fr": "Brûlih",
         "name_es": "Hardo",
@@ -123962,7 +123962,7 @@
     },
     {
         "ankama_id": 15243,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Drhexler",
         "name_fr": "Phorror",
         "name_es": "Perforror",
@@ -144085,7 +144085,7 @@
     },
     {
         "ankama_id": 18088,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Skrot",
         "name_fr": "Kougnard",
         "name_es": "Mortiélago",
@@ -150875,7 +150875,7 @@
     },
     {
         "ankama_id": 19044,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Alabaster Skrot",
         "name_fr": "Kougnard Albâtre",
         "name_es": "Mortiélago alabastrado",
@@ -154703,7 +154703,7 @@
     },
     {
         "ankama_id": 19286,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Gobbalator",
         "name_fr": "Bouftor",
         "name_es": "Jalacástor",
@@ -154734,7 +154734,7 @@
     },
     {
         "ankama_id": 19291,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Gobbalux",
         "name_fr": "Bouflux",
         "name_es": "Jalapólux",
@@ -169934,7 +169934,7 @@
     },
     {
         "ankama_id": 25292,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Tae'Niak",
         "name_fr": "Teh'Niak",
         "name_es": "Tae'Niak",
@@ -169975,7 +169975,7 @@
     },
     {
         "ankama_id": 25293,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Tortikoli",
         "name_fr": "Tortikoli",
         "name_es": "Tortikoli",
@@ -175661,7 +175661,7 @@
     },
     {
         "ankama_id": 29430,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Mamukil Kolophant",
         "name_fr": "Koliphant Mamukil",
         "name_es": "Kolifante mamuk",
@@ -175687,7 +175687,7 @@
     },
     {
         "ankama_id": 29431,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Lexander's Kolophant",
         "name_fr": "Koliphant de Lexandre",
         "name_es": "Kolifante de Lejandro",
@@ -175713,7 +175713,7 @@
     },
     {
         "ankama_id": 29432,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Tarkaj Kolophant",
         "name_fr": "Koliphant de Tarkaj",
         "name_es": "Kolifante de Kartago",
@@ -175739,7 +175739,7 @@
     },
     {
         "ankama_id": 29433,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Zenusha Kolophant",
         "name_fr": "Koliphant Zenusha",
         "name_es": "Kolifante zenusha",
@@ -175765,7 +175765,7 @@
     },
     {
         "ankama_id": 29434,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ziplizard",
         "name_fr": "Zarfuyar",
         "name_es": "Lagartiro",
@@ -175791,7 +175791,7 @@
     },
     {
         "ankama_id": 29435,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kobrapid",
         "name_fr": "Kobrapid",
         "name_es": "Kobraviva",
@@ -175817,7 +175817,7 @@
     },
     {
         "ankama_id": 29456,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kwismas Gull",
         "name_fr": "Gowelan",
         "name_es": "Gavioto",
@@ -181861,7 +181861,7 @@
     },
     {
         "ankama_id": 31886,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "The Venerable One's Mount",
         "name_fr": "Monture du Vénérable",
         "name_es": "Montura del Venerable",
@@ -186260,7 +186260,7 @@
     },
     {
         "ankama_id": 33000,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Feathered Dragoturkey 2",
         "name_fr": "Dragodinde à Plumes",
         "name_es": "Dragopavo con plumas",
@@ -186286,7 +186286,7 @@
     },
     {
         "ankama_id": 33001,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond Dragoturkey 2",
         "name_fr": "Dragodinde Amande",
         "name_es": "Dragopavo almendrado",
@@ -186317,7 +186317,7 @@
     },
     {
         "ankama_id": 33002,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Golden Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Dorée",
         "name_es": "Dragopavo almendrado y dorado",
@@ -186353,7 +186353,7 @@
     },
     {
         "ankama_id": 33003,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ebony Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Ebène",
         "name_es": "Dragopavo almendrado y ébano",
@@ -186389,7 +186389,7 @@
     },
     {
         "ankama_id": 33004,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Emerald Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Emeraude",
         "name_es": "Dragopavo almendrado y esmeralda",
@@ -186425,7 +186425,7 @@
     },
     {
         "ankama_id": 33005,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Indigo Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Indigo",
         "name_es": "Dragopavo almendrado e índigo",
@@ -186461,7 +186461,7 @@
     },
     {
         "ankama_id": 33006,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Ivoire",
         "name_es": "Dragopavo almendrado y marfil",
@@ -186497,7 +186497,7 @@
     },
     {
         "ankama_id": 33007,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Orchidée",
         "name_es": "Dragopavo almendrado y orquídeo",
@@ -186533,7 +186533,7 @@
     },
     {
         "ankama_id": 33008,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Pourpre",
         "name_es": "Dragopavo almendrado y púrpura",
@@ -186569,7 +186569,7 @@
     },
     {
         "ankama_id": 33009,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Rousse",
         "name_es": "Dragopavo almendrado y pelirrojo",
@@ -186605,7 +186605,7 @@
     },
     {
         "ankama_id": 33010,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Amande et Turquoise",
         "name_es": "Dragopavo almendrado y turquesa",
@@ -186641,7 +186641,7 @@
     },
     {
         "ankama_id": 33011,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden Dragoturkey 2",
         "name_fr": "Dragodinde Dorée",
         "name_es": "Dragopavo dorado",
@@ -186672,7 +186672,7 @@
     },
     {
         "ankama_id": 33012,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ebony Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Ebène",
         "name_es": "Dragopavo dorado y ébano",
@@ -186708,7 +186708,7 @@
     },
     {
         "ankama_id": 33013,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Emerald Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Emeraude",
         "name_es": "Dragopavo dorado y esmeralda",
@@ -186744,7 +186744,7 @@
     },
     {
         "ankama_id": 33014,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Indigo Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Indigo",
         "name_es": "Dragopavo dorado e índigo",
@@ -186780,7 +186780,7 @@
     },
     {
         "ankama_id": 33015,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Ivoire",
         "name_es": "Dragopavo dorado y marfil",
@@ -186816,7 +186816,7 @@
     },
     {
         "ankama_id": 33016,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Orchidée",
         "name_es": "Dragopavo dorado y orquídeo",
@@ -186852,7 +186852,7 @@
     },
     {
         "ankama_id": 33017,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Pourpre",
         "name_es": "Dragopavo dorado y púrpura",
@@ -186888,7 +186888,7 @@
     },
     {
         "ankama_id": 33018,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Rousse",
         "name_es": "Dragopavo dorado y pelirrojo",
@@ -186924,7 +186924,7 @@
     },
     {
         "ankama_id": 33019,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Dorée et Turquoise",
         "name_es": "Dragopavo dorado y turquesa",
@@ -186960,7 +186960,7 @@
     },
     {
         "ankama_id": 33020,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony Dragoturkey 2",
         "name_fr": "Dragodinde Ebène",
         "name_es": "Dragopavo ébano",
@@ -186991,7 +186991,7 @@
     },
     {
         "ankama_id": 33021,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Emerald Dragoturkey 2",
         "name_fr": "Dragodinde Ebène et Emeraude",
         "name_es": "Dragopavo ébano y esmeralda",
@@ -187027,7 +187027,7 @@
     },
     {
         "ankama_id": 33022,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Indigo Dragoturkey 2",
         "name_fr": "Dragodinde Ébène et Indigo",
         "name_es": "Dragopavo ébano e índigo",
@@ -187063,7 +187063,7 @@
     },
     {
         "ankama_id": 33023,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Ebène et Ivoire",
         "name_es": "Dragopavo ébano y marfil",
@@ -187099,7 +187099,7 @@
     },
     {
         "ankama_id": 33024,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Ebène et Orchidée",
         "name_es": "Dragopavo ébano y orquídeo",
@@ -187135,7 +187135,7 @@
     },
     {
         "ankama_id": 33025,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Ebène et Pourpre",
         "name_es": "Dragopavo ébano y púrpura",
@@ -187171,7 +187171,7 @@
     },
     {
         "ankama_id": 33026,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Ebène et Rousse",
         "name_es": "Dragopavo ébano y pelirrojo",
@@ -187207,7 +187207,7 @@
     },
     {
         "ankama_id": 33027,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Ebène et Turquoise",
         "name_es": "Dragopavo ébano y turquesa",
@@ -187243,7 +187243,7 @@
     },
     {
         "ankama_id": 33028,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude",
         "name_es": "Dragopavo esmeralda",
@@ -187274,7 +187274,7 @@
     },
     {
         "ankama_id": 33029,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Indigo Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude et Indigo",
         "name_es": "Dragopavo esmeralda e índigo",
@@ -187310,7 +187310,7 @@
     },
     {
         "ankama_id": 33030,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude et Ivoire",
         "name_es": "Dragopavo esmeralda y marfil",
@@ -187346,7 +187346,7 @@
     },
     {
         "ankama_id": 33031,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude et Orchidée",
         "name_es": "Dragopavo esmeralda y orquídeo",
@@ -187382,7 +187382,7 @@
     },
     {
         "ankama_id": 33032,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude et Pourpre",
         "name_es": "Dragopavo esmeralda y púrpura",
@@ -187418,7 +187418,7 @@
     },
     {
         "ankama_id": 33033,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude et Rousse",
         "name_es": "Dragopavo esmeralda y pelirrojo",
@@ -187454,7 +187454,7 @@
     },
     {
         "ankama_id": 33034,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Emeraude et Turquoise",
         "name_es": "Dragopavo esmeralda y turquesa",
@@ -187490,7 +187490,7 @@
     },
     {
         "ankama_id": 33035,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Armoured Dragoturkey 2",
         "name_fr": "Dragodinde en armure",
         "name_es": "Dragopavo con armadura",
@@ -187536,7 +187536,7 @@
     },
     {
         "ankama_id": 33036,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo Dragoturkey 2",
         "name_fr": "Dragodinde Indigo",
         "name_es": "Dragopavo índigo",
@@ -187567,7 +187567,7 @@
     },
     {
         "ankama_id": 33037,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Indigo et Ivoire",
         "name_es": "Dragopavo índigo y marfil",
@@ -187603,7 +187603,7 @@
     },
     {
         "ankama_id": 33038,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Indigo et Orchidée",
         "name_es": "Dragopavo índigo y orquídeo",
@@ -187639,7 +187639,7 @@
     },
     {
         "ankama_id": 33039,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Indigo et Pourpre",
         "name_es": "Dragopavo índigo y púrpura",
@@ -187675,7 +187675,7 @@
     },
     {
         "ankama_id": 33040,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Indigo et Rousse",
         "name_es": "Dragopavo índigo y pelirrojo",
@@ -187711,7 +187711,7 @@
     },
     {
         "ankama_id": 33041,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Indigo et Turquoise",
         "name_es": "Dragopavo índigo y turquesa",
@@ -187747,7 +187747,7 @@
     },
     {
         "ankama_id": 33042,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Ivoire",
         "name_es": "Dragopavo marfil",
@@ -187778,7 +187778,7 @@
     },
     {
         "ankama_id": 33043,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Ivoire et Orchidée",
         "name_es": "Dragopavo marfil y orquídeo",
@@ -187814,7 +187814,7 @@
     },
     {
         "ankama_id": 33044,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Ivoire et Pourpre",
         "name_es": "Dragopavo marfil y púrpura",
@@ -187850,7 +187850,7 @@
     },
     {
         "ankama_id": 33045,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Ivoire et Rousse",
         "name_es": "Dragopavo marfil y pelirrojo",
@@ -187886,7 +187886,7 @@
     },
     {
         "ankama_id": 33046,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Ivoire et Turquoise",
         "name_es": "Dragopavo marfil y turquesa",
@@ -187922,7 +187922,7 @@
     },
     {
         "ankama_id": 33047,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Orchidée",
         "name_es": "Dragopavo orquídeo",
@@ -187953,7 +187953,7 @@
     },
     {
         "ankama_id": 33048,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Orchidée et Pourpre",
         "name_es": "Dragopavo orquídeo y púrpura",
@@ -187989,7 +187989,7 @@
     },
     {
         "ankama_id": 33049,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Orchidée et Rousse",
         "name_es": "Dragopavo orquídeo y pelirrojo",
@@ -188025,7 +188025,7 @@
     },
     {
         "ankama_id": 33050,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Pourpre",
         "name_es": "Dragopavo púrpura",
@@ -188056,7 +188056,7 @@
     },
     {
         "ankama_id": 33051,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Pourpre et Rousse",
         "name_es": "Dragopavo púrpura y pelirrojo",
@@ -188092,7 +188092,7 @@
     },
     {
         "ankama_id": 33052,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum Dragoturkey 2",
         "name_fr": "Dragodinde Prune",
         "name_es": "Dragopavo ciruela",
@@ -188123,7 +188123,7 @@
     },
     {
         "ankama_id": 33053,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Almond Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Amande",
         "name_es": "Dragopavo ciruela y almendrado",
@@ -188159,7 +188159,7 @@
     },
     {
         "ankama_id": 33054,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Golden Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Dorée",
         "name_es": "Dragopavo ciruela y dorado",
@@ -188195,7 +188195,7 @@
     },
     {
         "ankama_id": 33055,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ebony Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Ebène",
         "name_es": "Dragopavo ciruela y ébano",
@@ -188231,7 +188231,7 @@
     },
     {
         "ankama_id": 33056,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Emerald Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Emeraude",
         "name_es": "Dragopavo ciruela y esmeralda",
@@ -188267,7 +188267,7 @@
     },
     {
         "ankama_id": 33057,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Indigo Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Indigo",
         "name_es": "Dragopavo ciruela e índigo",
@@ -188303,7 +188303,7 @@
     },
     {
         "ankama_id": 33058,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ivory Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Ivoire",
         "name_es": "Dragopavo ciruela y marfil",
@@ -188339,7 +188339,7 @@
     },
     {
         "ankama_id": 33059,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Orchidée",
         "name_es": "Dragopavo ciruela y orquídeo",
@@ -188375,7 +188375,7 @@
     },
     {
         "ankama_id": 33060,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Pourpre",
         "name_es": "Dragopavo ciruela y púrpura",
@@ -188411,7 +188411,7 @@
     },
     {
         "ankama_id": 33061,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Rousse",
         "name_es": "Dragopavo ciruela y pelirrojo",
@@ -188447,7 +188447,7 @@
     },
     {
         "ankama_id": 33062,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Prune et Turquoise",
         "name_es": "Dragopavo ciruela y turquesa",
@@ -188483,7 +188483,7 @@
     },
     {
         "ankama_id": 33063,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Rousse",
         "name_es": "Dragopavo pelirrojo",
@@ -188514,7 +188514,7 @@
     },
     {
         "ankama_id": 33065,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise Dragoturkey 2",
         "name_fr": "Dragodinde Turquoise",
         "name_es": "Dragopavo turquesa",
@@ -188545,7 +188545,7 @@
     },
     {
         "ankama_id": 33066,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Orchid Dragoturkey 2",
         "name_fr": "Dragodinde Turquoise et Orchidée",
         "name_es": "Dragopavo turquesa y orquídeo",
@@ -188581,7 +188581,7 @@
     },
     {
         "ankama_id": 33067,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Crimson Dragoturkey 2",
         "name_fr": "Dragodinde Turquoise et Pourpre",
         "name_es": "Dragopavo turquesa y púrpura",
@@ -188617,7 +188617,7 @@
     },
     {
         "ankama_id": 33068,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Ginger Dragoturkey 2",
         "name_fr": "Dragodinde Turquoise et Rousse",
         "name_es": "Dragopavo turquesa y pelirrojo",
@@ -188653,7 +188653,7 @@
     },
     {
         "ankama_id": 33069,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond Seemyool 2",
         "name_fr": "Muldo Amande",
         "name_es": "Mulagua almendrada",
@@ -188684,7 +188684,7 @@
     },
     {
         "ankama_id": 33070,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Emerald Seemyool 2",
         "name_fr": "Muldo Amande et Emeraude",
         "name_es": "Mulagua almendrada y esmeralda",
@@ -188720,7 +188720,7 @@
     },
     {
         "ankama_id": 33071,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ivory Seemyool 2",
         "name_fr": "Muldo Amande et Ivoire",
         "name_es": "Mulagua almendrada y marfil",
@@ -188756,7 +188756,7 @@
     },
     {
         "ankama_id": 33072,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden Seemyool 2",
         "name_fr": "Muldo Doré",
         "name_es": "Mulagua dorada",
@@ -188787,7 +188787,7 @@
     },
     {
         "ankama_id": 33073,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Almond Seemyool 2",
         "name_fr": "Muldo Doré et Amande",
         "name_es": "Mulagua dorada y almendrada",
@@ -188823,7 +188823,7 @@
     },
     {
         "ankama_id": 33074,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ebony Seemyool 2",
         "name_fr": "Muldo Doré et Ebène",
         "name_es": "Mulagua dorada y ébano",
@@ -188859,7 +188859,7 @@
     },
     {
         "ankama_id": 33075,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Emerald Seemyool 2",
         "name_fr": "Muldo Doré et Emeraude",
         "name_es": "Mulagua dorada y esmeralda",
@@ -188895,7 +188895,7 @@
     },
     {
         "ankama_id": 33076,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Indigo Seemyool 2",
         "name_fr": "Muldo Doré et Indigo",
         "name_es": "Mulagua dorada e índigo",
@@ -188931,7 +188931,7 @@
     },
     {
         "ankama_id": 33077,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ivory Seemyool 2",
         "name_fr": "Muldo Doré et Ivoire",
         "name_es": "Mulagua dorada y marfil",
@@ -188967,7 +188967,7 @@
     },
     {
         "ankama_id": 33078,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Orchid Seemyool 2",
         "name_fr": "Muldo Doré et Orchidée",
         "name_es": "Mulagua dorada y orquídea",
@@ -189003,7 +189003,7 @@
     },
     {
         "ankama_id": 33079,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Crimson Seemyool 2",
         "name_fr": "Muldo Doré et Pourpre",
         "name_es": "Mulagua dorada y púrpura",
@@ -189039,7 +189039,7 @@
     },
     {
         "ankama_id": 33080,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony Seemyool 2",
         "name_fr": "Muldo Ebène",
         "name_es": "Mulagua ébano",
@@ -189070,7 +189070,7 @@
     },
     {
         "ankama_id": 33081,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Almond Seemyool 2",
         "name_fr": "Muldo Ebène et Amande",
         "name_es": "Mulagua ébano y almendrada",
@@ -189106,7 +189106,7 @@
     },
     {
         "ankama_id": 33082,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Emerald Seemyool 2",
         "name_fr": "Muldo Ebène et Emeraude",
         "name_es": "Mulagua ébano y esmeralda",
@@ -189142,7 +189142,7 @@
     },
     {
         "ankama_id": 33083,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Indigo Seemyool 2",
         "name_fr": "Muldo Ebène et Indigo",
         "name_es": "Mulagua ébano e índigo",
@@ -189178,7 +189178,7 @@
     },
     {
         "ankama_id": 33084,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Ivory Seemyool 2",
         "name_fr": "Muldo Ebène et Ivoire",
         "name_es": "Mulagua ébano y marfil",
@@ -189214,7 +189214,7 @@
     },
     {
         "ankama_id": 33085,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Orchid Seemyool 2",
         "name_fr": "Muldo Ebène et Orchidée",
         "name_es": "Mulagua ébano y orquídea",
@@ -189250,7 +189250,7 @@
     },
     {
         "ankama_id": 33086,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony and Crimson Seemyool 2",
         "name_fr": "Muldo Ebène et Pourpre",
         "name_es": "Mulagua ébano y púrpura",
@@ -189286,7 +189286,7 @@
     },
     {
         "ankama_id": 33087,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald Seemyool 2",
         "name_fr": "Muldo Emeraude",
         "name_es": "Mulagua esmeralda",
@@ -189317,7 +189317,7 @@
     },
     {
         "ankama_id": 33088,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo Seemyool 2",
         "name_fr": "Muldo Indigo",
         "name_es": "Mulagua índigo",
@@ -189348,7 +189348,7 @@
     },
     {
         "ankama_id": 33089,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Almond Seemyool 2",
         "name_fr": "Muldo Indigo et Amande",
         "name_es": "Mulagua índigo y almendrada",
@@ -189384,7 +189384,7 @@
     },
     {
         "ankama_id": 33090,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Emerald Seemyool 2",
         "name_fr": "Muldo Indigo et Emeraude",
         "name_es": "Mulagua índigo y esmeralda",
@@ -189420,7 +189420,7 @@
     },
     {
         "ankama_id": 33091,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Ivory Seemyool 2",
         "name_fr": "Muldo Indigo et Ivoire",
         "name_es": "Mulagua índigo y marfil",
@@ -189456,7 +189456,7 @@
     },
     {
         "ankama_id": 33092,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Orchid Seemyool 2",
         "name_fr": "Muldo Indigo et Orchidée",
         "name_es": "Mulagua índigo y orquídea",
@@ -189492,7 +189492,7 @@
     },
     {
         "ankama_id": 33093,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Crimson Seemyool 2",
         "name_fr": "Muldo Indigo et Pourpre",
         "name_es": "Mulagua índigo y púrpura",
@@ -189528,7 +189528,7 @@
     },
     {
         "ankama_id": 33094,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory Seemyool 2",
         "name_fr": "Muldo Ivoire",
         "name_es": "Mulagua marfil",
@@ -189559,7 +189559,7 @@
     },
     {
         "ankama_id": 33095,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Emerald Seemyool 2",
         "name_fr": "Muldo Ivoire et Emeraude",
         "name_es": "Mulagua marfil y esmeralda",
@@ -189595,7 +189595,7 @@
     },
     {
         "ankama_id": 33096,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid Seemyool 2",
         "name_fr": "Muldo Orchidée",
         "name_es": "Mulagua orquídea",
@@ -189626,7 +189626,7 @@
     },
     {
         "ankama_id": 33097,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Almond Seemyool 2",
         "name_fr": "Muldo Orchidée et Amande",
         "name_es": "Mulagua orquídea y almendrada",
@@ -189662,7 +189662,7 @@
     },
     {
         "ankama_id": 33098,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Emerald Seemyool 2",
         "name_fr": "Muldo Orchidée et Emeraude",
         "name_es": "Mulagua orquídea y esmeralda",
@@ -189698,7 +189698,7 @@
     },
     {
         "ankama_id": 33099,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Ivory Seemyool 2",
         "name_fr": "Muldo Orchidée et Ivoire",
         "name_es": "Mulagua orquídea y marfil",
@@ -189734,7 +189734,7 @@
     },
     {
         "ankama_id": 33100,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Crimson Seemyool 2",
         "name_fr": "Muldo Orchidée et Pourpre",
         "name_es": "Mulagua orquídea y púrpura",
@@ -189770,7 +189770,7 @@
     },
     {
         "ankama_id": 33101,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson Seemyool 2",
         "name_fr": "Muldo Pourpre",
         "name_es": "Mulagua púrpura",
@@ -189801,7 +189801,7 @@
     },
     {
         "ankama_id": 33102,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Almond Seemyool 2",
         "name_fr": "Muldo Pourpre et Amande",
         "name_es": "Mulagua púrpura y almendrada",
@@ -189837,7 +189837,7 @@
     },
     {
         "ankama_id": 33103,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Emerald Seemyool 2",
         "name_fr": "Muldo Pourpre et Emeraude",
         "name_es": "Mulagua púrpura y esmeralda",
@@ -189873,7 +189873,7 @@
     },
     {
         "ankama_id": 33104,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Ivory Seemyool 2",
         "name_fr": "Muldo Pourpre et Ivoire",
         "name_es": "Mulagua púrpura y marfil",
@@ -189909,7 +189909,7 @@
     },
     {
         "ankama_id": 33105,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum Seemyool 2",
         "name_fr": "Muldo Prune",
         "name_es": "Mulagua ciruela",
@@ -189940,7 +189940,7 @@
     },
     {
         "ankama_id": 33106,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Almond Seemyool 2",
         "name_fr": "Muldo Prune et Amande",
         "name_es": "Mulagua ciruela y almendrada",
@@ -189976,7 +189976,7 @@
     },
     {
         "ankama_id": 33107,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Golden Seemyool 2",
         "name_fr": "Muldo Prune et Doré",
         "name_es": "Mulagua ciruela y dorada",
@@ -190012,7 +190012,7 @@
     },
     {
         "ankama_id": 33108,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ebony Seemyool 2",
         "name_fr": "Muldo Prune et Ebène",
         "name_es": "Mulagua ciruela y ébano",
@@ -190048,7 +190048,7 @@
     },
     {
         "ankama_id": 33109,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Emerald Seemyool 2",
         "name_fr": "Muldo Prune et Emeraude",
         "name_es": "Mulagua ciruela y esmeralda",
@@ -190084,7 +190084,7 @@
     },
     {
         "ankama_id": 33110,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Indigo Seemyool 2",
         "name_fr": "Muldo Prune et Indigo",
         "name_es": "Mulagua ciruela e índigo",
@@ -190120,7 +190120,7 @@
     },
     {
         "ankama_id": 33111,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ivory Seemyool 2",
         "name_fr": "Muldo Prune et Ivoire",
         "name_es": "Mulagua ciruela y marfil",
@@ -190156,7 +190156,7 @@
     },
     {
         "ankama_id": 33112,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Orchid Seemyool 2",
         "name_fr": "Muldo Prune et Orchidée",
         "name_es": "Mulagua ciruela y orquídea",
@@ -190192,7 +190192,7 @@
     },
     {
         "ankama_id": 33113,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Crimson Seemyool 2",
         "name_fr": "Muldo Prune et Pourpre",
         "name_es": "Mulagua ciruela y púrpura",
@@ -190228,7 +190228,7 @@
     },
     {
         "ankama_id": 33114,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ginger Seemyool 2",
         "name_fr": "Muldo Prune et Roux",
         "name_es": "Mulagua ciruela y roja",
@@ -190264,7 +190264,7 @@
     },
     {
         "ankama_id": 33115,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Turquoise Seemyool 2",
         "name_fr": "Muldo Prune et Turquoise",
         "name_es": "Mulagua ciruela y turquesa",
@@ -190300,7 +190300,7 @@
     },
     {
         "ankama_id": 33116,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger Seemyool 2",
         "name_fr": "Muldo Roux",
         "name_es": "Mulagua roja",
@@ -190331,7 +190331,7 @@
     },
     {
         "ankama_id": 33117,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Almond Seemyool 2",
         "name_fr": "Muldo Roux et Amande",
         "name_es": "Mulagua roja y almendrada",
@@ -190367,7 +190367,7 @@
     },
     {
         "ankama_id": 33118,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Golden Seemyool 2",
         "name_fr": "Muldo Roux et Doré",
         "name_es": "Mulagua roja y dorada",
@@ -190403,7 +190403,7 @@
     },
     {
         "ankama_id": 33119,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Ebony Seemyool 2",
         "name_fr": "Muldo Roux et Ebène",
         "name_es": "Mulagua roja y ébano",
@@ -190439,7 +190439,7 @@
     },
     {
         "ankama_id": 33120,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Emerald Seemyool 2",
         "name_fr": "Muldo Roux et Emeraude",
         "name_es": "Mulagua roja y esmeralda",
@@ -190475,7 +190475,7 @@
     },
     {
         "ankama_id": 33121,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Indigo Seemyool 2",
         "name_fr": "Muldo Roux et Indigo",
         "name_es": "Mulagua roja e índigo",
@@ -190511,7 +190511,7 @@
     },
     {
         "ankama_id": 33122,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Ivory Seemyool 2",
         "name_fr": "Muldo Roux et Ivoire",
         "name_es": "Mulagua roja y marfil",
@@ -190547,7 +190547,7 @@
     },
     {
         "ankama_id": 33123,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Orchid Seemyool 2",
         "name_fr": "Muldo Roux et Orchidée",
         "name_es": "Mulagua roja y orquídea",
@@ -190583,7 +190583,7 @@
     },
     {
         "ankama_id": 33124,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Crimson Seemyool 2",
         "name_fr": "Muldo Roux et Pourpre",
         "name_es": "Mulagua roja y púrpura",
@@ -190619,7 +190619,7 @@
     },
     {
         "ankama_id": 33125,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise Seemyool 2",
         "name_fr": "Muldo Turquoise",
         "name_es": "Mulagua turquesa",
@@ -190650,7 +190650,7 @@
     },
     {
         "ankama_id": 33126,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Almond Seemyool 2",
         "name_fr": "Muldo Turquoise et Amande",
         "name_es": "Mulagua turquesa y almendrada",
@@ -190686,7 +190686,7 @@
     },
     {
         "ankama_id": 33127,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Golden Seemyool 2",
         "name_fr": "Muldo Turquoise et Doré",
         "name_es": "Mulagua turquesa y dorada",
@@ -190722,7 +190722,7 @@
     },
     {
         "ankama_id": 33128,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Ebony Seemyool 2",
         "name_fr": "Muldo Turquoise et Ebène",
         "name_es": "Mulagua turquesa y ébano",
@@ -190758,7 +190758,7 @@
     },
     {
         "ankama_id": 33129,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Emerald Seemyool 2",
         "name_fr": "Muldo Turquoise et Emeraude",
         "name_es": "Mulagua turquesa y esmeralda",
@@ -190794,7 +190794,7 @@
     },
     {
         "ankama_id": 33130,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Indigo Seemyool 2",
         "name_fr": "Muldo Turquoise et Indigo",
         "name_es": "Mulagua turquesa e índigo",
@@ -190830,7 +190830,7 @@
     },
     {
         "ankama_id": 33131,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Ivory Seemyool 2",
         "name_fr": "Muldo Turquoise et Ivoire",
         "name_es": "Mulagua turquesa y marfil",
@@ -190866,7 +190866,7 @@
     },
     {
         "ankama_id": 33132,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Orchid Seemyool 2",
         "name_fr": "Muldo Turquoise et Orchidée",
         "name_es": "Mulagua turquesa y orquídea",
@@ -190902,7 +190902,7 @@
     },
     {
         "ankama_id": 33133,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Crimson Seemyool 2",
         "name_fr": "Muldo Turquoise et Pourpre",
         "name_es": "Mulagua turquesa y púrpura",
@@ -190938,7 +190938,7 @@
     },
     {
         "ankama_id": 33134,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Ginger Seemyool 2",
         "name_fr": "Muldo Turquoise et Roux",
         "name_es": "Mulagua turquesa y roja",
@@ -190974,7 +190974,7 @@
     },
     {
         "ankama_id": 33135,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond Rhineetle 2",
         "name_fr": "Volkorne Amande",
         "name_es": "Vueloceronte almendrado",
@@ -191005,7 +191005,7 @@
     },
     {
         "ankama_id": 33136,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ebony Rhineetle 2",
         "name_fr": "Volkorne Amande et Ebène",
         "name_es": "Vueloceronte almendrado y ébano",
@@ -191041,7 +191041,7 @@
     },
     {
         "ankama_id": 33137,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Indigo Rhineetle 2",
         "name_fr": "Volkorne Amande et Indigo",
         "name_es": "Vueloceronte almendrado e índigo",
@@ -191077,7 +191077,7 @@
     },
     {
         "ankama_id": 33138,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ivory Rhineetle 2",
         "name_fr": "Volkorne Amande et Ivoire",
         "name_es": "Vueloceronte almendrado y marfil",
@@ -191113,7 +191113,7 @@
     },
     {
         "ankama_id": 33139,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Orchid Rhineetle 2",
         "name_fr": "Volkorne Amande et Orchidée",
         "name_es": "Vueloceronte almendrado y orquídeo",
@@ -191149,7 +191149,7 @@
     },
     {
         "ankama_id": 33140,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Crimson Rhineetle 2",
         "name_fr": "Volkorne Amande et Pourpre",
         "name_es": "Vueloceronte almendrado y púrpura",
@@ -191185,7 +191185,7 @@
     },
     {
         "ankama_id": 33141,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Ginger Rhineetle 2",
         "name_fr": "Volkorne Amande et Roux",
         "name_es": "Vueloceronte almendrado y pelirrojo",
@@ -191221,7 +191221,7 @@
     },
     {
         "ankama_id": 33142,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Almond and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Amande et Turquoise",
         "name_es": "Vueloceronte almendrado y turquesa",
@@ -191257,7 +191257,7 @@
     },
     {
         "ankama_id": 33143,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst Rhineetle 2",
         "name_fr": "Volkorne Améthyste",
         "name_es": "Vueloceronte amatista",
@@ -191288,7 +191288,7 @@
     },
     {
         "ankama_id": 33144,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Almond Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Amande",
         "name_es": "Vueloceronte amatista y almendrado",
@@ -191324,7 +191324,7 @@
     },
     {
         "ankama_id": 33145,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Golden Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Doré",
         "name_es": "Vueloceronte amatista y dorado",
@@ -191360,7 +191360,7 @@
     },
     {
         "ankama_id": 33146,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Ebony Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Ebène",
         "name_es": "Vueloceronte amatista y ébano",
@@ -191396,7 +191396,7 @@
     },
     {
         "ankama_id": 33147,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Emerald Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Emeraude",
         "name_es": "Vueloceronte amatista y esmeralda",
@@ -191432,7 +191432,7 @@
     },
     {
         "ankama_id": 33148,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Indigo Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Indigo",
         "name_es": "Vueloceronte amatista e índigo",
@@ -191468,7 +191468,7 @@
     },
     {
         "ankama_id": 33149,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Ivory Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Ivoire",
         "name_es": "Vueloceronte amatista y marfil",
@@ -191504,7 +191504,7 @@
     },
     {
         "ankama_id": 33150,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Orchid Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Orchidée",
         "name_es": "Vueloceronte amatista y orquídeo",
@@ -191540,7 +191540,7 @@
     },
     {
         "ankama_id": 33151,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Crimson Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Pourpre",
         "name_es": "Vueloceronte amatista y púrpura",
@@ -191576,7 +191576,7 @@
     },
     {
         "ankama_id": 33152,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Plum Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Prune",
         "name_es": "Vueloceronte amatista y ciruela",
@@ -191612,7 +191612,7 @@
     },
     {
         "ankama_id": 33153,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Ginger Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Roux",
         "name_es": "Vueloceronte amatista y pelirrojo",
@@ -191648,7 +191648,7 @@
     },
     {
         "ankama_id": 33154,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amethyst and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Améthyste et Turquoise",
         "name_es": "Vueloceronte amatista y turquesa",
@@ -191684,7 +191684,7 @@
     },
     {
         "ankama_id": 33155,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden Rhineetle 2",
         "name_fr": "Volkorne Doré",
         "name_es": "Vueloceronte dorado",
@@ -191715,7 +191715,7 @@
     },
     {
         "ankama_id": 33156,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Almond Rhineetle 2",
         "name_fr": "Volkorne Doré et Amande",
         "name_es": "Vueloceronte dorado y almendrado",
@@ -191751,7 +191751,7 @@
     },
     {
         "ankama_id": 33157,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ebony Rhineetle 2",
         "name_fr": "Volkorne Doré et Ebène",
         "name_es": "Vueloceronte dorado y ébano",
@@ -191787,7 +191787,7 @@
     },
     {
         "ankama_id": 33158,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Emerald Rhineetle 2",
         "name_fr": "Volkorne Doré et Emeraude",
         "name_es": "Vueloceronte dorado y esmeralda",
@@ -191823,7 +191823,7 @@
     },
     {
         "ankama_id": 33159,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Indigo Rhineetle 2",
         "name_fr": "Volkorne Doré et Indigo",
         "name_es": "Vueloceronte dorado e índigo",
@@ -191859,7 +191859,7 @@
     },
     {
         "ankama_id": 33160,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ivory Rhineetle 2",
         "name_fr": "Volkorne Doré et Ivoire",
         "name_es": "Vueloceronte dorado y marfil",
@@ -191895,7 +191895,7 @@
     },
     {
         "ankama_id": 33161,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Orchid Rhineetle 2",
         "name_fr": "Volkorne Doré et Orchidée",
         "name_es": "Vueloceronte dorado y orquídeo",
@@ -191931,7 +191931,7 @@
     },
     {
         "ankama_id": 33162,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Crimson Rhineetle 2",
         "name_fr": "Volkorne Doré et Pourpre",
         "name_es": "Vueloceronte dorado y púrpura",
@@ -191967,7 +191967,7 @@
     },
     {
         "ankama_id": 33163,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Plum Rhineetle 2",
         "name_fr": "Volkorne Doré et Prune",
         "name_es": "Vueloceronte dorado y ciruela",
@@ -192003,7 +192003,7 @@
     },
     {
         "ankama_id": 33164,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Ginger Rhineetle 2",
         "name_fr": "Volkorne Doré et Roux",
         "name_es": "Vueloceronte dorado y pelirrojo",
@@ -192039,7 +192039,7 @@
     },
     {
         "ankama_id": 33165,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Golden and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Doré et Turquoise",
         "name_es": "Vueloceronte dorado y turquesa",
@@ -192075,7 +192075,7 @@
     },
     {
         "ankama_id": 33166,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ebony Rhineetle 2",
         "name_fr": "Volkorne Ebène",
         "name_es": "Vueloceronte ébano",
@@ -192106,7 +192106,7 @@
     },
     {
         "ankama_id": 33167,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald Rhineetle 2",
         "name_fr": "Volkorne Emeraude",
         "name_es": "Vueloceronte esmeralda",
@@ -192137,7 +192137,7 @@
     },
     {
         "ankama_id": 33168,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Almond Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Amande",
         "name_es": "Vueloceronte esmeralda y almendrado",
@@ -192173,7 +192173,7 @@
     },
     {
         "ankama_id": 33169,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Ebony Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Ebène",
         "name_es": "Vueloceronte esmeralda y ébano",
@@ -192209,7 +192209,7 @@
     },
     {
         "ankama_id": 33170,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Indigo Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Indigo",
         "name_es": "Vueloceronte esmeralda e índigo",
@@ -192245,7 +192245,7 @@
     },
     {
         "ankama_id": 33171,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Ivory Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Ivoire",
         "name_es": "Vueloceronte esmeralda y marfil",
@@ -192281,7 +192281,7 @@
     },
     {
         "ankama_id": 33172,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Orchid Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Orchidée",
         "name_es": "Vueloceronte esmeralda y orquídeo",
@@ -192317,7 +192317,7 @@
     },
     {
         "ankama_id": 33173,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Crimson Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Pourpre",
         "name_es": "Vueloceronte esmeralda y púrpura",
@@ -192353,7 +192353,7 @@
     },
     {
         "ankama_id": 33174,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Ginger Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Roux",
         "name_es": "Vueloceronte esmeralda y pelirrojo",
@@ -192389,7 +192389,7 @@
     },
     {
         "ankama_id": 33175,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Emerald and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Emeraude et Turquoise",
         "name_es": "Vueloceronte esmeralda y turquesa",
@@ -192425,7 +192425,7 @@
     },
     {
         "ankama_id": 33176,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo Rhineetle 2",
         "name_fr": "Volkorne Indigo",
         "name_es": "Vueloceronte índigo",
@@ -192456,7 +192456,7 @@
     },
     {
         "ankama_id": 33177,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Indigo and Ebony Rhineetle 2",
         "name_fr": "Volkorne Indigo et Ebène",
         "name_es": "Vueloceronte índigo y ébano",
@@ -192492,7 +192492,7 @@
     },
     {
         "ankama_id": 33178,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory Rhineetle 2",
         "name_fr": "Volkorne Ivoire",
         "name_es": "Vueloceronte marfil",
@@ -192523,7 +192523,7 @@
     },
     {
         "ankama_id": 33179,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Ebony Rhineetle 2",
         "name_fr": "Volkorne Ivoire et Ebène",
         "name_es": "Vueloceronte marfil y ébano",
@@ -192559,7 +192559,7 @@
     },
     {
         "ankama_id": 33180,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Indigo Rhineetle 2",
         "name_fr": "Volkorne Ivoire et Indigo",
         "name_es": "Vueloceronte marfil e índigo",
@@ -192595,7 +192595,7 @@
     },
     {
         "ankama_id": 33181,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Orchid Rhineetle 2",
         "name_fr": "Volkorne Ivoire et Orchidée",
         "name_es": "Vueloceronte marfil y orquídeo",
@@ -192631,7 +192631,7 @@
     },
     {
         "ankama_id": 33182,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Crimson Rhineetle 2",
         "name_fr": "Volkorne Ivoire et Pourpre",
         "name_es": "Vueloceronte marfil y púrpura",
@@ -192667,7 +192667,7 @@
     },
     {
         "ankama_id": 33183,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ivory and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Ivoire et Turquoise",
         "name_es": "Vueloceronte marfil y turquesa",
@@ -192703,7 +192703,7 @@
     },
     {
         "ankama_id": 33184,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade Rhineetle 2",
         "name_fr": "Volkorne Jade",
         "name_es": "Vueloceronte jade",
@@ -192734,7 +192734,7 @@
     },
     {
         "ankama_id": 33185,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Almond Rhineetle 2",
         "name_fr": "Volkorne Jade et Amande",
         "name_es": "Vueloceronte jade y almendrado",
@@ -192770,7 +192770,7 @@
     },
     {
         "ankama_id": 33186,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Amethyst Rhineetle 2",
         "name_fr": "Volkorne Jade et Améthyste",
         "name_es": "Vueloceronte jade y amatista",
@@ -192806,7 +192806,7 @@
     },
     {
         "ankama_id": 33187,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Golden Rhineetle 2",
         "name_fr": "Volkorne Jade et Doré",
         "name_es": "Vueloceronte jade y dorado",
@@ -192842,7 +192842,7 @@
     },
     {
         "ankama_id": 33188,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Ebony Rhineetle 2",
         "name_fr": "Volkorne Jade et Ebène",
         "name_es": "Vueloceronte jade y ébano",
@@ -192878,7 +192878,7 @@
     },
     {
         "ankama_id": 33189,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Emerald Rhineetle 2",
         "name_fr": "Volkorne Jade et Emeraude",
         "name_es": "Vueloceronte jade y esmeralda",
@@ -192914,7 +192914,7 @@
     },
     {
         "ankama_id": 33190,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Indigo Rhineetle 2",
         "name_fr": "Volkorne Jade et Indigo",
         "name_es": "Vueloceronte jade e índigo",
@@ -192950,7 +192950,7 @@
     },
     {
         "ankama_id": 33191,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Ivory Rhineetle 2",
         "name_fr": "Volkorne Jade et Ivoire",
         "name_es": "Vueloceronte jade y marfil",
@@ -192986,7 +192986,7 @@
     },
     {
         "ankama_id": 33192,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Orchid Rhineetle 2",
         "name_fr": "Volkorne Jade et Orchidée",
         "name_es": "Vueloceronte jade y orquídeo",
@@ -193022,7 +193022,7 @@
     },
     {
         "ankama_id": 33193,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Crimson Rhineetle 2",
         "name_fr": "Volkorne Jade et Pourpre",
         "name_es": "Vueloceronte jade y púrpura",
@@ -193058,7 +193058,7 @@
     },
     {
         "ankama_id": 33194,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Plum Rhineetle 2",
         "name_fr": "Volkorne Jade et Prune",
         "name_es": "Vueloceronte jade y ciruela",
@@ -193094,7 +193094,7 @@
     },
     {
         "ankama_id": 33195,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Ginger Rhineetle 2",
         "name_fr": "Volkorne Jade et Roux",
         "name_es": "Vueloceronte jade y pelirrojo",
@@ -193130,7 +193130,7 @@
     },
     {
         "ankama_id": 33196,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Ruby Rhineetle 2",
         "name_fr": "Volkorne Jade et Rubis",
         "name_es": "Vueloceronte jade y rubí",
@@ -193166,7 +193166,7 @@
     },
     {
         "ankama_id": 33197,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Sapphire Rhineetle 2",
         "name_fr": "Volkorne Jade et Saphir",
         "name_es": "Vueloceronte jade y zafiro",
@@ -193202,7 +193202,7 @@
     },
     {
         "ankama_id": 33198,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Jade and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Jade et Turquoise",
         "name_es": "Vueloceronte jade y turquesa",
@@ -193238,7 +193238,7 @@
     },
     {
         "ankama_id": 33199,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid Rhineetle 2",
         "name_fr": "Volkorne Orchidée",
         "name_es": "Vueloceronte orquídeo",
@@ -193269,7 +193269,7 @@
     },
     {
         "ankama_id": 33200,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Ebony Rhineetle 2",
         "name_fr": "Volkorne Orchidée et Ebène",
         "name_es": "Vueloceronte orquídeo y ébano",
@@ -193305,7 +193305,7 @@
     },
     {
         "ankama_id": 33201,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Orchid and Indigo Rhineetle 2",
         "name_fr": "Volkorne Orchidée et Indigo",
         "name_es": "Vueloceronte orquídeo e índigo",
@@ -193341,7 +193341,7 @@
     },
     {
         "ankama_id": 33202,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson Rhineetle 2",
         "name_fr": "Volkorne Pourpre",
         "name_es": "Vueloceronte púrpura",
@@ -193372,7 +193372,7 @@
     },
     {
         "ankama_id": 33203,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Ebony Rhineetle 2",
         "name_fr": "Volkorne Pourpre et Ebène",
         "name_es": "Vueloceronte púrpura y ébano",
@@ -193408,7 +193408,7 @@
     },
     {
         "ankama_id": 33204,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Indigo Rhineetle 2",
         "name_fr": "Volkorne Pourpre et Indigo",
         "name_es": "Vueloceronte púrpura e índigo",
@@ -193444,7 +193444,7 @@
     },
     {
         "ankama_id": 33205,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Crimson and Orchid Rhineetle 2",
         "name_fr": "Volkorne Pourpre et Orchidée",
         "name_es": "Vueloceronte púrpura y orquídeo",
@@ -193480,7 +193480,7 @@
     },
     {
         "ankama_id": 33206,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum Rhineetle 2",
         "name_fr": "Volkorne Prune",
         "name_es": "Vueloceronte ciruela",
@@ -193511,7 +193511,7 @@
     },
     {
         "ankama_id": 33207,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Almond Rhineetle 2",
         "name_fr": "Volkorne Prune et Amande",
         "name_es": "Vueloceronte ciruela y almendrado",
@@ -193547,7 +193547,7 @@
     },
     {
         "ankama_id": 33208,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ebony Rhineetle 2",
         "name_fr": "Volkorne Prune et Ebène",
         "name_es": "Vueloceronte ciruela y ébano",
@@ -193583,7 +193583,7 @@
     },
     {
         "ankama_id": 33209,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Emerald Rhineetle 2",
         "name_fr": "Volkorne Prune et Emeraude",
         "name_es": "Vueloceronte ciruela y esmeralda",
@@ -193619,7 +193619,7 @@
     },
     {
         "ankama_id": 33210,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Indigo Rhineetle 2",
         "name_fr": "Volkorne Prune et Indigo",
         "name_es": "Vueloceronte ciruela e índigo",
@@ -193655,7 +193655,7 @@
     },
     {
         "ankama_id": 33211,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ivory Rhineetle 2",
         "name_fr": "Volkorne Prune et Ivoire",
         "name_es": "Vueloceronte ciruela y marfil",
@@ -193691,7 +193691,7 @@
     },
     {
         "ankama_id": 33212,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Orchid Rhineetle 2",
         "name_fr": "Volkorne Prune et Orchidée",
         "name_es": "Vueloceronte ciruela y orquídeo",
@@ -193727,7 +193727,7 @@
     },
     {
         "ankama_id": 33213,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Crimson Rhineetle 2",
         "name_fr": "Volkorne Prune et Pourpre",
         "name_es": "Vueloceronte ciruela y púrpura",
@@ -193763,7 +193763,7 @@
     },
     {
         "ankama_id": 33214,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Ginger Rhineetle 2",
         "name_fr": "Volkorne Prune et Roux",
         "name_es": "Vueloceronte ciruela y pelirrojo",
@@ -193799,7 +193799,7 @@
     },
     {
         "ankama_id": 33215,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Plum and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Prune et Turquoise",
         "name_es": "Vueloceronte ciruela y turquesa",
@@ -193835,7 +193835,7 @@
     },
     {
         "ankama_id": 33216,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger Rhineetle 2",
         "name_fr": "Volkorne Roux",
         "name_es": "Vueloceronte pelirrojo",
@@ -193866,7 +193866,7 @@
     },
     {
         "ankama_id": 33217,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Ebony Rhineetle 2",
         "name_fr": "Volkorne Roux et Ebène",
         "name_es": "Vueloceronte pelirrojo y ébano",
@@ -193902,7 +193902,7 @@
     },
     {
         "ankama_id": 33218,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Indigo Rhineetle 2",
         "name_fr": "Volkorne Roux et Indigo",
         "name_es": "Vueloceronte pelirrojo e índigo",
@@ -193938,7 +193938,7 @@
     },
     {
         "ankama_id": 33219,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Ivory Rhineetle 2",
         "name_fr": "Volkorne Roux et Ivoire",
         "name_es": "Vueloceronte pelirrojo y marfil",
@@ -193974,7 +193974,7 @@
     },
     {
         "ankama_id": 33220,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Orchid Rhineetle 2",
         "name_fr": "Volkorne Roux et Orchidée",
         "name_es": "Vueloceronte pelirrojo y orquídeo",
@@ -194010,7 +194010,7 @@
     },
     {
         "ankama_id": 33221,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Crimson Rhineetle 2",
         "name_fr": "Volkorne Roux et Pourpre",
         "name_es": "Vueloceronte pelirrojo y púrpura",
@@ -194046,7 +194046,7 @@
     },
     {
         "ankama_id": 33222,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ginger and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Roux et Turquoise",
         "name_es": "Vueloceronte pelirrojo y turquesa",
@@ -194082,7 +194082,7 @@
     },
     {
         "ankama_id": 33223,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby Rhineetle 2",
         "name_fr": "Volkorne Rubis",
         "name_es": "Vueloceronte rubí",
@@ -194113,7 +194113,7 @@
     },
     {
         "ankama_id": 33224,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Almond Rhineetle 2",
         "name_fr": "Volkorne Rubis et Amande",
         "name_es": "Vueloceronte rubí y almendrado",
@@ -194149,7 +194149,7 @@
     },
     {
         "ankama_id": 33225,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Amethyst Rhineetle 2",
         "name_fr": "Volkorne Rubis et Améthyste",
         "name_es": "Vueloceronte rubí y amatista",
@@ -194185,7 +194185,7 @@
     },
     {
         "ankama_id": 33226,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Golden Rhineetle 2",
         "name_fr": "Volkorne Rubis et Doré",
         "name_es": "Vueloceronte rubí y dorado",
@@ -194221,7 +194221,7 @@
     },
     {
         "ankama_id": 33227,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Ebony Rhineetle 2",
         "name_fr": "Volkorne Rubis et Ebène",
         "name_es": "Vueloceronte rubí y ébano",
@@ -194257,7 +194257,7 @@
     },
     {
         "ankama_id": 33228,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Emerald Rhineetle 2",
         "name_fr": "Volkorne Rubis et Emeraude",
         "name_es": "Vueloceronte rubí y esmeralda",
@@ -194293,7 +194293,7 @@
     },
     {
         "ankama_id": 33229,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Indigo Rhineetle 2",
         "name_fr": "Volkorne Rubis et Indigo",
         "name_es": "Vueloceronte rubí e índigo",
@@ -194329,7 +194329,7 @@
     },
     {
         "ankama_id": 33230,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Ivory Rhineetle 2",
         "name_fr": "Volkorne Rubis et Ivoire",
         "name_es": "Vueloceronte rubí y marfil",
@@ -194365,7 +194365,7 @@
     },
     {
         "ankama_id": 33231,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Orchid Rhineetle 2",
         "name_fr": "Volkorne Rubis et Orchidée",
         "name_es": "Vueloceronte rubí y orquídeo",
@@ -194401,7 +194401,7 @@
     },
     {
         "ankama_id": 33232,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Crimson Rhineetle 2",
         "name_fr": "Volkorne Rubis et Pourpre",
         "name_es": "Vueloceronte rubí y púrpura",
@@ -194437,7 +194437,7 @@
     },
     {
         "ankama_id": 33233,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Plum Rhineetle 2",
         "name_fr": "Volkorne Rubis et Prune",
         "name_es": "Vueloceronte rubí y ciruela",
@@ -194473,7 +194473,7 @@
     },
     {
         "ankama_id": 33234,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Ginger Rhineetle 2",
         "name_fr": "Volkorne Rubis et Roux",
         "name_es": "Vueloceronte rubí y pelirrojo",
@@ -194509,7 +194509,7 @@
     },
     {
         "ankama_id": 33235,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Sapphire Rhineetle 2",
         "name_fr": "Volkorne Rubis et Saphir",
         "name_es": "Vueloceronte rubí y zafiro",
@@ -194545,7 +194545,7 @@
     },
     {
         "ankama_id": 33236,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ruby and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Rubis et Turquoise",
         "name_es": "Vueloceronte rubí y turquesa",
@@ -194581,7 +194581,7 @@
     },
     {
         "ankama_id": 33237,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire Rhineetle 2",
         "name_fr": "Volkorne Saphir",
         "name_es": "Vueloceronte zafiro",
@@ -194612,7 +194612,7 @@
     },
     {
         "ankama_id": 33238,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Almond Rhineetle 2",
         "name_fr": "Volkorne Saphir et Amande",
         "name_es": "Vueloceronte zafiro y almendrado",
@@ -194648,7 +194648,7 @@
     },
     {
         "ankama_id": 33239,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Amethyst Rhineetle 2",
         "name_fr": "Volkorne Saphir et Améthyste",
         "name_es": "Vueloceronte zafiro y amatista",
@@ -194684,7 +194684,7 @@
     },
     {
         "ankama_id": 33240,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Golden Rhineetle 2",
         "name_fr": "Volkorne Saphir et Doré",
         "name_es": "Vueloceronte zafiro y dorado",
@@ -194720,7 +194720,7 @@
     },
     {
         "ankama_id": 33241,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Ebony Rhineetle 2",
         "name_fr": "Volkorne Saphir et Ebène",
         "name_es": "Vueloceronte zafiro y ébano",
@@ -194756,7 +194756,7 @@
     },
     {
         "ankama_id": 33242,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Emerald Rhineetle 2",
         "name_fr": "Volkorne Saphir et Emeraude",
         "name_es": "Vueloceronte zafiro y esmeralda",
@@ -194792,7 +194792,7 @@
     },
     {
         "ankama_id": 33243,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Indigo Rhineetle 2",
         "name_fr": "Volkorne Saphir et Indigo",
         "name_es": "Vueloceronte zafiro e índigo",
@@ -194828,7 +194828,7 @@
     },
     {
         "ankama_id": 33244,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Ivory Rhineetle 2",
         "name_fr": "Volkorne Saphir et Ivoire",
         "name_es": "Vueloceronte zafiro y marfil",
@@ -194864,7 +194864,7 @@
     },
     {
         "ankama_id": 33245,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Orchid Rhineetle 2",
         "name_fr": "Volkorne Saphir et Orchidée",
         "name_es": "Vueloceronte zafiro y orquídeo",
@@ -194900,7 +194900,7 @@
     },
     {
         "ankama_id": 33246,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Crimson Rhineetle 2",
         "name_fr": "Volkorne Saphir et Pourpre",
         "name_es": "Vueloceronte zafiro y púrpura",
@@ -194936,7 +194936,7 @@
     },
     {
         "ankama_id": 33247,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Plum Rhineetle 2",
         "name_fr": "Volkorne Saphir et Prune",
         "name_es": "Vueloceronte zafiro y ciruela",
@@ -194972,7 +194972,7 @@
     },
     {
         "ankama_id": 33248,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Ginger Rhineetle 2",
         "name_fr": "Volkorne Saphir et Roux",
         "name_es": "Vueloceronte zafiro y pelirrojo",
@@ -195008,7 +195008,7 @@
     },
     {
         "ankama_id": 33249,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sapphire and Turquoise Rhineetle 2",
         "name_fr": "Volkorne Saphir et Turquoise",
         "name_es": "Vueloceronte zafiro y turquesa",
@@ -195044,7 +195044,7 @@
     },
     {
         "ankama_id": 33250,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise Rhineetle 2",
         "name_fr": "Volkorne Turquoise",
         "name_es": "Vueloceronte turquesa",
@@ -195075,7 +195075,7 @@
     },
     {
         "ankama_id": 33251,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Ebony Rhineetle 2",
         "name_fr": "Volkorne Turquoise et Ebène",
         "name_es": "Vueloceronte turquesa y ébano",
@@ -195111,7 +195111,7 @@
     },
     {
         "ankama_id": 33252,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Indigo Rhineetle 2",
         "name_fr": "Volkorne Turquoise et Indigo",
         "name_es": "Vueloceronte turquesa e índigo",
@@ -195147,7 +195147,7 @@
     },
     {
         "ankama_id": 33253,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Orchid Rhineetle 2",
         "name_fr": "Volkorne Turquoise et Orchidée",
         "name_es": "Vueloceronte turquesa y orquídeo",
@@ -195183,7 +195183,7 @@
     },
     {
         "ankama_id": 33254,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Turquoise and Crimson Rhineetle 2",
         "name_fr": "Volkorne Turquoise et Pourpre",
         "name_es": "Vueloceronte turquesa y púrpura",
@@ -195219,7 +195219,7 @@
     },
     {
         "ankama_id": 33255,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber Seemyool",
         "name_fr": "Muldo Ambre",
         "name_es": "Mulagua ámbar",
@@ -195250,7 +195250,7 @@
     },
     {
         "ankama_id": 33256,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral Seemyool",
         "name_fr": "Muldo Corail",
         "name_es": "Mulagua coral",
@@ -195281,7 +195281,7 @@
     },
     {
         "ankama_id": 33257,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure Seemyool",
         "name_fr": "Muldo Azur",
         "name_es": "Mulagua azur",
@@ -195312,7 +195312,7 @@
     },
     {
         "ankama_id": 33258,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine Seemyool",
         "name_fr": "Muldo Aigue-marine",
         "name_es": "Mulagua aguamarina",
@@ -195343,7 +195343,7 @@
     },
     {
         "ankama_id": 33259,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Golden Seemyool",
         "name_fr": "Muldo Ambre et Doré",
         "name_es": "Mulagua ámbar y dorada",
@@ -195379,7 +195379,7 @@
     },
     {
         "ankama_id": 33260,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Ebony Seemyool",
         "name_fr": "Muldo Ambre et Ebène",
         "name_es": "Mulagua ámbar y ébano",
@@ -195415,7 +195415,7 @@
     },
     {
         "ankama_id": 33261,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Indigo Seemyool",
         "name_fr": "Muldo Ambre et Indigo",
         "name_es": "Mulagua ámbar e índigo",
@@ -195451,7 +195451,7 @@
     },
     {
         "ankama_id": 33262,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Crimson Seemyool",
         "name_fr": "Muldo Ambre et Pourpre",
         "name_es": "Mulagua ámbar y púrpura",
@@ -195487,7 +195487,7 @@
     },
     {
         "ankama_id": 33263,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Orchid Seemyool",
         "name_fr": "Muldo Ambre et Orchidée",
         "name_es": "Mulagua ámbar y orquídea",
@@ -195523,7 +195523,7 @@
     },
     {
         "ankama_id": 33264,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Almond Seemyool",
         "name_fr": "Muldo Ambre et Amande",
         "name_es": "Mulagua ámbar y almendrada",
@@ -195559,7 +195559,7 @@
     },
     {
         "ankama_id": 33265,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Ginger Seemyool",
         "name_fr": "Muldo Ambre et Roux",
         "name_es": "Mulagua ámbar y roja",
@@ -195595,7 +195595,7 @@
     },
     {
         "ankama_id": 33266,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Ivory Seemyool",
         "name_fr": "Muldo Ambre et Ivoire",
         "name_es": "Mulagua ámbar y marfil",
@@ -195631,7 +195631,7 @@
     },
     {
         "ankama_id": 33267,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Turquoise Seemyool",
         "name_fr": "Muldo Ambre et Turquoise",
         "name_es": "Mulagua ámbar y turquesa",
@@ -195667,7 +195667,7 @@
     },
     {
         "ankama_id": 33268,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Emerald Seemyool",
         "name_fr": "Muldo Ambre et Émeraude",
         "name_es": "Mulagua ámbar y esmeralda",
@@ -195703,7 +195703,7 @@
     },
     {
         "ankama_id": 33269,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Plum Seemyool",
         "name_fr": "Muldo Ambre et Prune",
         "name_es": "Mulagua ámbar y ciruela",
@@ -195739,7 +195739,7 @@
     },
     {
         "ankama_id": 33270,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Coral Seemyool",
         "name_fr": "Muldo Ambre et Corail",
         "name_es": "Mulagua ámbar y coral",
@@ -195775,7 +195775,7 @@
     },
     {
         "ankama_id": 33271,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Azure Seemyool",
         "name_fr": "Muldo Ambre et Azur",
         "name_es": "Mulagua ámbar y azur",
@@ -195811,7 +195811,7 @@
     },
     {
         "ankama_id": 33272,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Amber and Aquamarine Seemyool",
         "name_fr": "Muldo Ambre et Aigue-marine",
         "name_es": "Mulagua ámbar y aguamarina",
@@ -195847,7 +195847,7 @@
     },
     {
         "ankama_id": 33273,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Golden Seemyool",
         "name_fr": "Muldo Corail et Doré",
         "name_es": "Mulagua coral y dorada",
@@ -195883,7 +195883,7 @@
     },
     {
         "ankama_id": 33274,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Ebony Seemyool",
         "name_fr": "Muldo Corail et Ebène",
         "name_es": "Mulagua coral y ébano",
@@ -195919,7 +195919,7 @@
     },
     {
         "ankama_id": 33275,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Indigo Seemyool",
         "name_fr": "Muldo Corail et Indigo",
         "name_es": "Mulagua coral e índigo",
@@ -195955,7 +195955,7 @@
     },
     {
         "ankama_id": 33276,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Crimson Seemyool",
         "name_fr": "Muldo Corail et Pourpre",
         "name_es": "Mulagua coral y púrpura",
@@ -195991,7 +195991,7 @@
     },
     {
         "ankama_id": 33277,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Orchid Seemyool",
         "name_fr": "Muldo Corail et Orchidée",
         "name_es": "Mulagua coral y orquídea",
@@ -196027,7 +196027,7 @@
     },
     {
         "ankama_id": 33278,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Almond Seemyool",
         "name_fr": "Muldo Corail et Amande",
         "name_es": "Mulagua coral y almendrada",
@@ -196063,7 +196063,7 @@
     },
     {
         "ankama_id": 33279,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Ginger Seemyool",
         "name_fr": "Muldo Corail et Roux",
         "name_es": "Mulagua coral y roja",
@@ -196099,7 +196099,7 @@
     },
     {
         "ankama_id": 33280,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Ivory Seemyool",
         "name_fr": "Muldo Corail et Ivoire",
         "name_es": "Mulagua coral y marfil",
@@ -196135,7 +196135,7 @@
     },
     {
         "ankama_id": 33281,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Turquoise Seemyool",
         "name_fr": "Muldo Corail et Turquoise",
         "name_es": "Mulagua coral y turquesa",
@@ -196171,7 +196171,7 @@
     },
     {
         "ankama_id": 33282,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Emerald Seemyool",
         "name_fr": "Muldo Corail et Émeraude",
         "name_es": "Mulagua coral y esmeralda",
@@ -196207,7 +196207,7 @@
     },
     {
         "ankama_id": 33283,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Plum Seemyool",
         "name_fr": "Muldo Corail et Prune",
         "name_es": "Mulagua coral y ciruela",
@@ -196243,7 +196243,7 @@
     },
     {
         "ankama_id": 33284,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Azure Seemyool",
         "name_fr": "Muldo Corail et Azur",
         "name_es": "Mulagua coral y azur",
@@ -196279,7 +196279,7 @@
     },
     {
         "ankama_id": 33285,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Coral and Aquamarine Seemyool",
         "name_fr": "Muldo Corail et Aigue-marine",
         "name_es": "Mulagua coral y aguamarina",
@@ -196315,7 +196315,7 @@
     },
     {
         "ankama_id": 33286,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Golden Seemyool",
         "name_fr": "Muldo Azur et Doré",
         "name_es": "Mulagua azur y dorada",
@@ -196351,7 +196351,7 @@
     },
     {
         "ankama_id": 33287,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Ebony Seemyool",
         "name_fr": "Muldo Azur et Ebène",
         "name_es": "Mulagua azur y ébano",
@@ -196387,7 +196387,7 @@
     },
     {
         "ankama_id": 33288,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Indigo Seemyool",
         "name_fr": "Muldo Azur et Indigo",
         "name_es": "Mulagua azur e índigo",
@@ -196423,7 +196423,7 @@
     },
     {
         "ankama_id": 33289,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Crimson Seemyool",
         "name_fr": "Muldo Azur et Pourpre",
         "name_es": "Mulagua azur y púrpura",
@@ -196459,7 +196459,7 @@
     },
     {
         "ankama_id": 33290,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Orchid Seemyool",
         "name_fr": "Muldo Azur et Orchidée",
         "name_es": "Mulagua azur y orquídea",
@@ -196495,7 +196495,7 @@
     },
     {
         "ankama_id": 33291,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Almond Seemyool",
         "name_fr": "Muldo Azur et Amande",
         "name_es": "Mulagua azur y almendrada",
@@ -196531,7 +196531,7 @@
     },
     {
         "ankama_id": 33292,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Ginger Seemyool",
         "name_fr": "Muldo Azur et Roux",
         "name_es": "Mulagua azur y roja",
@@ -196567,7 +196567,7 @@
     },
     {
         "ankama_id": 33293,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Ivory Seemyool",
         "name_fr": "Muldo Azur et Ivoire",
         "name_es": "Mulagua azur y marfil",
@@ -196603,7 +196603,7 @@
     },
     {
         "ankama_id": 33294,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Turquoise Seemyool",
         "name_fr": "Muldo Azur et Turquoise",
         "name_es": "Mulagua azur y turquesa",
@@ -196639,7 +196639,7 @@
     },
     {
         "ankama_id": 33295,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Emerald Seemyool",
         "name_fr": "Muldo Azur et Émeraude",
         "name_es": "Mulagua azur y esmeralda",
@@ -196675,7 +196675,7 @@
     },
     {
         "ankama_id": 33296,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Plum Seemyool",
         "name_fr": "Muldo Azur et Prune",
         "name_es": "Mulagua azur y ciruela",
@@ -196711,7 +196711,7 @@
     },
     {
         "ankama_id": 33297,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Azure and Aquamarine Seemyool",
         "name_fr": "Muldo Azur et Aigue-marine",
         "name_es": "Mulagua azur y aguamarina",
@@ -196747,7 +196747,7 @@
     },
     {
         "ankama_id": 33298,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Golden Seemyool",
         "name_fr": "Muldo Aigue-marine et Doré",
         "name_es": "Mulagua aguamarina y dorada",
@@ -196783,7 +196783,7 @@
     },
     {
         "ankama_id": 33299,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Ebony Seemyool",
         "name_fr": "Muldo Aigue-marine et Ebène",
         "name_es": "Mulagua aguamarina y ébano",
@@ -196819,7 +196819,7 @@
     },
     {
         "ankama_id": 33300,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Indigo Seemyool",
         "name_fr": "Muldo Aigue-marine et Indigo",
         "name_es": "Mulagua aguamarina e índigo",
@@ -196855,7 +196855,7 @@
     },
     {
         "ankama_id": 33301,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Crimson Seemyool",
         "name_fr": "Muldo Aigue-marine et Pourpre",
         "name_es": "Mulagua aguamarina y púrpura",
@@ -196891,7 +196891,7 @@
     },
     {
         "ankama_id": 33302,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Orchid Seemyool",
         "name_fr": "Muldo Aigue-marine et Orchidée",
         "name_es": "Mulagua aguamarina y orquídea",
@@ -196927,7 +196927,7 @@
     },
     {
         "ankama_id": 33303,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Almond Seemyool",
         "name_fr": "Muldo Aigue-marine et Amande",
         "name_es": "Mulagua aguamarina y almendrada",
@@ -196963,7 +196963,7 @@
     },
     {
         "ankama_id": 33304,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Ginger Seemyool",
         "name_fr": "Muldo Aigue-marine et Roux",
         "name_es": "Mulagua aguamarina y roja",
@@ -196999,7 +196999,7 @@
     },
     {
         "ankama_id": 33305,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Ivory Seemyool",
         "name_fr": "Muldo Aigue-marine et Ivoire",
         "name_es": "Mulagua aguamarina y marfil",
@@ -197035,7 +197035,7 @@
     },
     {
         "ankama_id": 33306,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Turquoise Seemyool",
         "name_fr": "Muldo Aigue-marine et Turquoise",
         "name_es": "Mulagua aguamarina y turquesa",
@@ -197071,7 +197071,7 @@
     },
     {
         "ankama_id": 33307,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Emerald Seemyool",
         "name_fr": "Muldo Aigue-marine et Émeraude",
         "name_es": "Mulagua aguamarina y esmeralda",
@@ -197107,7 +197107,7 @@
     },
     {
         "ankama_id": 33308,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Aquamarine and Plum Seemyool",
         "name_fr": "Muldo Aigue-marine et Prune",
         "name_es": "Mulagua aguamarina y ciruela",
