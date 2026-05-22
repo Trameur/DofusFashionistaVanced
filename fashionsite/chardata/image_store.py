@@ -14,16 +14,30 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import os
+
+from django.conf import settings
+from django.contrib.staticfiles import finders
+
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_current_game_version
+
+
+def _static_exists(path):
+    if finders.find(path):
+        return True
+    static_root = getattr(settings, 'STATIC_ROOT', None)
+    if static_root:
+        return os.path.exists(os.path.join(static_root, path))
+    return False
 
 
 def get_image_url(type, name, game_version=None):
     if game_version is None:
         game_version = get_current_game_version()
     type_dir = 'items' if type != 'Pet' else 'pets'
-    # dofus3 and touch share the same image directory (backward-compatible path)
+    dofus3_path = 'chardata/%s/60x60/%s-60-60.png' % (type_dir, normalize_name(name))
     if game_version in ('dofus3', 'touch'):
-        return 'chardata/%s/60x60/%s-60-60.png' % (type_dir, normalize_name(name))
-    else:
-        return 'chardata/%s/%s/60x60/%s-60-60.png' % (type_dir, game_version, normalize_name(name))
+        return dofus3_path
+    versioned_path = 'chardata/%s/%s/60x60/%s-60-60.png' % (type_dir, game_version, normalize_name(name))
+    return versioned_path if _static_exists(versioned_path) else dofus3_path
