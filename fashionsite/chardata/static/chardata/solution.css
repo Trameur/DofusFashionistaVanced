@@ -238,9 +238,7 @@
     z-index: 9002;
     width: 500px;
     max-width: calc(100vw - 20px);
-    max-height: calc(100vh - 20px);
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
 }
 
 .popup-cancel-div {
@@ -249,9 +247,8 @@
 
 .items-to-add {
     overflow-y: auto;
-    flex: 1 1 auto;
-    min-height: 180px;
-    height: auto;
+    max-height: calc(100vh - 220px);
+    min-height: 100px;
 }
 
 .pages-link{

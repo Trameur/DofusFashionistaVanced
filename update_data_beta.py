@@ -189,7 +189,8 @@ def main() -> None:
         print(f"[constants] bootstrapped dofus_constants_beta.py from dofus_constants.py")
 
     if do_data:
-        step("items/download", [PY, "get_equipments.py", "--api-url", BETA_API_URL, "--work-dir", BETA_WORK_DIR], cwd=ITEMSCRAPER)
+        step("items/download", [PY, "get_equipments.py", "--api-url", BETA_API_URL, "--work-dir", BETA_WORK_DIR,
+                                "--skip-endpoints", "mounts"], cwd=ITEMSCRAPER)
         step("items/transform", [PY, "get_equipments2.py", "--work-dir", BETA_WORK_DIR], cwd=ITEMSCRAPER)
         step("items/dump", [PY, "get_equipments3.py", "--input-dir", BETA_WORK_DIR, "--dump-output", BETA_DUMP], cwd=ITEMSCRAPER)
         step("items/load-db", [PY, "load_item_db.py", "--game-version", "beta"])

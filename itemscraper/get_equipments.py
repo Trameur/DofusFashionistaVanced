@@ -53,6 +53,8 @@ def main():
     parser = argparse.ArgumentParser(description="Download Dofus equipment data from dofusdu.de API")
     parser.add_argument("--api-url", default=DEFAULT_API_BASE, help="API base URL (default: dofus3)")
     parser.add_argument("--work-dir", default=None, help="Directory to save downloaded JSON files (default: script directory)")
+    parser.add_argument("--skip-endpoints", nargs="*", default=[], metavar="CATEGORY",
+                        help="Endpoint categories to skip (e.g. mounts)")
     args = parser.parse_args()
 
     api_base = args.api_url
@@ -62,8 +64,11 @@ def main():
     work_dir = args.work_dir if args.work_dir else os.path.dirname(os.path.abspath(__file__))
     os.makedirs(work_dir, exist_ok=True)
 
+    skip = set(args.skip_endpoints)
     for lang in LANGUAGES:
         for category, endpoint in endpoints.items():
+            if category in skip:
+                continue
             download_and_save(lang, category, endpoint, api_base, work_dir)
 
 

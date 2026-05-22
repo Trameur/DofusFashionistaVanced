@@ -247,12 +247,14 @@ name_counts = {}
 
 # Iterate through the items
 for item in equipment_data['en']['items']:
+    item_type_name = item.get('type', {}).get('name', '')
+    if ('Certificate' in item_type_name or 'Sidekick' in item_type_name or 'Badge' in item_type_name
+            or 'Perceptor' in item_type_name or '[!] [UNKNOWN_TEXT_ID_0]' in item.get('name', '')):
+        continue
     name = item['name']
 
-    # Count the occurrences of each name
     if name in name_counts:
         name_counts[name] += 1
-        # Update the item name with the count
         item['name'] = f"{name} {name_counts[name]}"
         for eff in item["effects"]:
             if eff["type"]["name"] == '-special spell-':
