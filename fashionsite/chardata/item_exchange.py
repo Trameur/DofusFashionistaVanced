@@ -124,6 +124,8 @@ def _order_by_hits(item_type, char, search_term, stat_filters=None):
     items = [i for i in items if _hide_removed_item(i)]
     items = _apply_stat_filters(items, stat_filters or [])
     solution = get_solution(char)
+    if solution is None:
+        return items
     sorted_items = sorted(items, key=lambda item: _get_weapon_rate(item, char, solution), reverse=True)
     #print sorted_items[:5]
     return sorted_items
@@ -152,8 +154,10 @@ def _rate(structure, item, weights):
             rating += stat[1] * weights[structure.get_stat_by_id(stat[0]).key]
     return rating
     
-def check_if_violates(item, slot, char): 
+def check_if_violates(item, slot, char):
     result = get_solution(char)
+    if result is None:
+        return []
     result.switch_item(item, slot)
     minimums = get_min_stats_digested_by_key(char)
     return result.get_all_project_violations(item.type, minimums)
@@ -312,6 +316,8 @@ def remove_item(request, char_id):
 
 def _get_difference(item, slot, char):
     result = get_solution(char)
+    if result is None:
+        return []
     current_stats = result.stats_total.copy()
     result.switch_item(item, slot)
     new_stats = result.stats_total.copy()
@@ -341,13 +347,15 @@ def _get_weapon_rate(weapon, char, result):
     result_item = result.switch_item(weapon, 'weapon')
     new_stats = result.stats_total.copy()
     weapon_obj = structure.get_weapon_by_name(weapon.name)
-    
+    if weapon_obj is None:
+        return 0
+
     if result_item.is_mageable:
         result_item.mage_weapon_smartly(new_stats)
         element = result_item.element_maged
     else:
         element = NEUTRAL
-        
+
     calculated_damage = {}
     for elementnew in DAMAGE_TYPES:
         calculated_damage[elementnew] = calculate_damage(weapon_obj.non_crit_hits[element],
@@ -400,14 +408,15 @@ def _get_weapon_info(weapon, char):
     result_item = result.switch_item(weapon, 'weapon')
     new_stats = result.stats_total.copy()
     weapon_obj = structure.get_weapon_by_name(weapon.name)
-    
+    if weapon_obj is None:
+        return weapon_info
+
     if result_item.is_mageable:
         result_item.mage_weapon_smartly(new_stats)
         element = result_item.element_maged
     else:
         element = NEUTRAL
-    #print element
-    
+
     weapon_info['is_mageable'] = result_item.is_mageable
     weapon_info['element'] = _(ELEMENT_KEY_TO_NAME[element])
         
