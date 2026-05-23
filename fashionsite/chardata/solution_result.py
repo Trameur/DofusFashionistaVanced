@@ -145,7 +145,13 @@ def evolve_result_item(result_item, r=None):
         stat_name = get_structure().get_stat_by_key(stat_key).name
         result_item.stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
     for extra in result_item.extras:
-        result_item.stats_lines.append(ExtraLine(extra))
+        if isinstance(extra, tuple):
+            text, icon_key = extra
+            line = ExtraLine(text)
+            line.icon_url = static(icon_key) if icon_key else None
+        else:
+            line = ExtraLine(extra)
+        result_item.stats_lines.append(line)
 
     result_item.condition_lines = []
 
@@ -219,6 +225,16 @@ def evolve_result_item(result_item, r=None):
                     line = _('Steals %(kamas)d kamas') % {'kamas': hit.min_dam}
                 else:
                     line = _('Steals %(min)d to %(max)d kamas') % {'min': hit.min_dam, 'max': hit.max_dam}
+            elif hasattr(hit, 'element') and hit.element == 'steals_mp':
+                if hit.min_dam == hit.max_dam:
+                    line = _('Steals %(mp)d MP') % {'mp': hit.min_dam}
+                else:
+                    line = _('Steals %(min)d to %(max)d MP') % {'min': hit.min_dam, 'max': hit.max_dam}
+            elif hasattr(hit, 'element') and hit.element == 'advances':
+                if hit.min_dam == hit.max_dam:
+                    line = _('Advances %(cells)d cells') % {'cells': hit.min_dam}
+                else:
+                    line = _('Advances %(min)d to %(max)d cells') % {'min': hit.min_dam, 'max': hit.max_dam}
             else:
                 line = _('%(min)d to %(max)d (%(element)s)' ) % {'min': hit.min_dam, 
                             'max': hit.max_dam,
@@ -246,10 +262,11 @@ class AttributeLine:
         self.icon_url = static(icon_path) if icon_path else None
 
 class ExtraLine:
-    
+
     def __init__(self, line):
         self.text = line
         self.formatting = ''
+        self.icon_url = None
 
 class MinConditionLine:
     

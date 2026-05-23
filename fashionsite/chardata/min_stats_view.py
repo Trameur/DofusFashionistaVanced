@@ -73,7 +73,7 @@ def min_stats(request, char_id):
     
     stats = []
     for stat in structure.get_stats_list():
-        if stat.key.startswith('pvp'):
+        if stat.key.startswith('pvp') or stat.key == 'vit':
             continue
         stat_to_add = {}
         stat_to_add['key'] = stat.key
@@ -139,12 +139,12 @@ def min_stats_post(request, char_id):
             continue
         if field_name in request.POST:
             minimum = safe_int(request.POST.get(field_name, ''))
-            if minimum is not None and minimum != 0:
+            if minimum is not None:
                 minimum_values[stat.name] = minimum
 
     if 'min_hp' in request.POST:
         minimum = safe_int(request.POST.get('min_hp'))
-        if minimum is not None and minimum != 0:
+        if minimum is not None:
             minimum_values['HP'] = minimum
 
     minimum_values['adv_mins'] = {}
@@ -152,7 +152,7 @@ def min_stats_post(request, char_id):
         field_name = 'min_%s' % stat['key']
         if field_name in request.POST:
             minimum = safe_int(request.POST.get(field_name, ''))
-            if minimum is not None and minimum != 0:
+            if minimum is not None:
                 minimum_values['adv_mins'][stat['name']] = minimum
     
     set_min_stats(char, minimum_values)        

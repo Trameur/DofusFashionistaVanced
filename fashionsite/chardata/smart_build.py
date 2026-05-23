@@ -597,11 +597,16 @@ def _set_minimums(char, aspects):
     race = char.char_class
     level = char.level
     elements = get_elements(aspects)
-    
+    is_mule = not elements and ('pp' in aspects or 'pods' in aspects)
+
     mins = {}
-    
+
     # AP/MP/Range/Summons
-    if level < 60:
+    if is_mule:
+        mins['ap'] = 7 if level >= 100 else 6
+        mins['mp'] = 4
+        mins['range'] = 0
+    elif level < 60:
         mins['ap'], mins['mp'] = 6, 3
         mins['range'] = 0
     elif level < 120:
@@ -619,9 +624,17 @@ def _set_minimums(char, aspects):
     else:
         mins['ap'], mins['mp'] = param_for_build(race, elements, 'endgame_mins')
         mins['range'] = 4
-    
-    mins['range'] = round(mins['range']
-                          * param_for_build(race, elements, 'range_importance', 'float_avg'))
+
+    if not is_mule:
+        mins['range'] = round(mins['range']
+                              * param_for_build(race, elements, 'range_importance', 'float_avg'))
+
+    # Preserve user-customized AP/MP/Range if they already exist and exceed the new defaults
+    if char.minimum_stats:
+        saved = pickle.loads(char.minimum_stats)
+        for stat_key, stat_name in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range')]:
+            if stat_name in saved:
+                mins[stat_key] = max(mins[stat_key], saved[stat_name])
     
     if level < 40:
         mins['summon'] = 1
@@ -812,6 +825,18 @@ def _set_weights(char, aspects, apply=True):
     w['meleeness'] = meleeness
 
     w['resperwea'] = chance_of_melee_def * resper_w * 5
+
+    # For pure mule/prospection builds (no combat elements), zero out irrelevant stats
+    if not elements and ('pp' in aspects or 'pods' in aspects):
+        for zero_key in ('dodge', 'lock', 'apred', 'mpred', 'apres', 'mpres',
+                         'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
+                         'trapdamper', 'ref', 'permedam', 'perrandam',
+                         'perweadam', 'perspedam', 'respermee', 'resperran',
+                         'resperwea', 'init', 'wis'):
+            w[zero_key] = 0
+        for damage_type in DAMAGE_TYPES:
+            w['%sres' % damage_type] = 0
+            w['%sresper' % damage_type] = 0
 
     # Discretize w
     for k in w:

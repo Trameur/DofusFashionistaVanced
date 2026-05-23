@@ -4685,3 +4685,42 @@ msgstr ""
 
 msgid "shared builds"
 msgstr ""
+
+msgid "Best element"
+msgstr "Best element"
+
+msgid "Hunting Weapon"
+msgstr ""
+
+msgid "Exchangeable"
+msgstr ""
+
+msgid "Linked to the character"
+msgstr ""
+
+msgid "Cooperative crafting impossible"
+msgstr ""
+
+msgid "Fertile"
+msgstr ""
+
+msgid "Steals %(mp)d MP"
+msgstr ""
+
+msgid "Steals %(min)d to %(max)d MP"
+msgstr ""
+
+
+
+msgid "Attracts"
+msgstr ""
+
+msgid "Pushes"
+msgstr ""
+
+msgid "Advances"
+msgstr ""
+
+
+msgid "cell(s)"
+msgstr ""

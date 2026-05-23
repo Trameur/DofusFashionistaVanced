@@ -428,7 +428,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     element = parts[0]
                     damage_type = parts[1]
 
-                    if element in {'neutral', 'earth', 'fire', 'water', 'air'} and damage_type in {'damage', 'steal', 'steals', 'heal', 'heals', 'healing'}:
+                    if element in {'neutral', 'earth', 'fire', 'water', 'air', 'best-element'} and damage_type in {'damage', 'steal', 'steals', 'heal', 'heals', 'healing'}:
                         # Plain labels like "Fire Damage" are stats and must not become hit lines.
                         # Keep plain parsing only for legacy steal/heal labels (e.g. "Fire Steal").
                         if not is_parenthesized_hit and damage_type == 'damage':
@@ -444,10 +444,38 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
 
                         if element == 'neutral':
                             element = 'neut'
+                        elif element == 'best-element':
+                            element = 'best'
 
                         f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},{steals},{heals},'{element}');\n")
 
                         i += 1
+
+                    elif is_parenthesized_hit and parts:
+                        special_element = None
+                        if parts[0] == 'attracts':
+                            special_element = 'attracts'
+                        elif parts[0] in {'pushes', 'push'}:
+                            special_element = 'pushes'
+                        elif parts[0] == 'advances':
+                            special_element = 'advances'
+                        elif parts[0] == 'steals' and len(parts) >= 2 and parts[1] == 'mp':
+                            special_element = 'steals_mp'
+                        if special_element:
+                            f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},0,0,'{special_element}');\n")
+                            i += 1
+
+    f.write("""CREATE TABLE item_flags (item INTEGER, flag TEXT, FOREIGN KEY(item) REFERENCES items(id));\n""")
+
+    for item in original_data:
+        item_id = item_to_id[id(item)]
+        if 'stats' in item:
+            for stat in item['stats']:
+                min_value, max_value, description = stat
+                if min_value is None and max_value is None:
+                    desc = str(description).strip()
+                    if not (desc.startswith('(') and desc.endswith(')')):
+                        f.write(f"INSERT INTO item_flags VALUES({item_id}, '{escape_single_quotes(desc)}');\n")
 
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 

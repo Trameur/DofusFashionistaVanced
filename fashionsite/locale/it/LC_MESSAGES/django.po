@@ -166,7 +166,7 @@ msgstr ""
 #: chardata/templates/chardata/wizard_min_stats.html:10
 #: chardata/translation_util.py:69
 msgid "MP"
-msgstr ""
+msgstr "PM"
 
 #: chardata/min_stats_view.py:53
 #: chardata/templates/chardata/compare_sets.html:146
@@ -4578,3 +4578,46 @@ msgid "Found %(counter)s shared build"
 msgid_plural "Found %(counter)s shared builds"
 msgstr[0] "%(counter)s set condiviso trovato"
 msgstr[1] "%(counter)s set condivisi trovati"
+
+msgid "Best element"
+msgstr "Elemento migliore"
+
+msgid "Hunting Weapon"
+msgstr ""
+
+msgid "Exchangeable"
+msgstr "Scambiabile"
+
+msgid "Linked to the character"
+msgstr ""
+
+msgid "Cooperative crafting impossible"
+msgstr ""
+
+msgid "Fertile"
+msgstr "Fertile"
+
+msgid "Steals %(mp)d MP"
+msgstr ""
+
+msgid "Steals %(min)d to %(max)d MP"
+msgstr ""
+
+msgid "Advances %(cells)d cells"
+msgstr ""
+
+msgid "Advances %(min)d to %(max)d cells"
+msgstr ""
+
+msgid "Attracts"
+msgstr "Attrae"
+
+msgid "Pushes"
+msgstr "Respinge"
+
+msgid "Advances"
+msgstr "Avanza"
+
+
+msgid "cell(s)"
+msgstr ""

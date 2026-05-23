@@ -5043,3 +5043,42 @@ msgstr "sets gerados"
 
 msgid "shared builds"
 msgstr "sets partilhados"
+
+msgid "Best element"
+msgstr "Melhor elemento"
+
+msgid "Hunting Weapon"
+msgstr ""
+
+msgid "Exchangeable"
+msgstr "Trocável"
+
+msgid "Linked to the character"
+msgstr ""
+
+msgid "Cooperative crafting impossible"
+msgstr ""
+
+msgid "Fertile"
+msgstr "Fértil"
+
+msgid "Steals %(mp)d MP"
+msgstr ""
+
+msgid "Steals %(min)d to %(max)d MP"
+msgstr ""
+
+
+
+msgid "Attracts"
+msgstr "Atrai"
+
+msgid "Pushes"
+msgstr "Empurra"
+
+msgid "Advances"
+msgstr "Avança"
+
+
+msgid "cell(s)"
+msgstr ""

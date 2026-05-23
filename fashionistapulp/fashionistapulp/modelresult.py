@@ -575,7 +575,23 @@ class ModelResultItem():
             localized_extras = item.localized_extras.get(get_supported_language())
             if localized_extras is None:
                 localized_extras = ['[!] ' + line for line in item.localized_extras.get('en', [])]
-            self.extras = localized_extras
+            flag_labels = {
+                'Hunting Weapon': _('Hunting Weapon'),
+                'Exchangeable': _('Exchangeable'),
+                'Linked to the character': _('Linked to the character'),
+                'Cooperative crafting impossible': _('Cooperative crafting impossible'),
+                'Fertile': _('Fertile'),
+            }
+            flag_icons = {
+                'Hunting Weapon': 'chardata/hunting_weapon.png',
+            }
+            translated_flags = []
+            for f in getattr(item, 'flags', []):
+                if f not in flag_labels:
+                    continue
+                icon_key = flag_icons.get(f)
+                translated_flags.append((flag_labels[f], icon_key))
+            self.extras = translated_flags + [(line, None) for line in localized_extras]
     
             if self.type == 'Weapon':
                 weapon = structure.get_weapon_by_name(self.name)

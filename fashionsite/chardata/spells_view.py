@@ -78,10 +78,14 @@ def _create_weapon_web_digest(weapon):
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
     web_digest['crit_dams'] = _convert_weapon_damage(weapon.crit_hits)
-    damage_indexes = [];
-    healing_indexes = [];
+    NON_DAMAGE_ELEMENTS = {'attracts', 'pushes', 'advances', 'steals_mp'}
+    damage_indexes = []
+    healing_indexes = []
+    effect_indexes = []
     for i, hit_instance in enumerate(weapon.non_crit_hits[NEUTRAL]):
-        if hit_instance.heals:
+        if hit_instance.element in NON_DAMAGE_ELEMENTS:
+            effect_indexes.append(i)
+        elif hit_instance.heals:
             healing_indexes.append(i)
         else:
             damage_indexes.append(i)
@@ -90,6 +94,8 @@ def _create_weapon_web_digest(weapon):
         aggregates.append(('', damage_indexes))
     if healing_indexes:
         aggregates.append(('', healing_indexes))
+    for idx in effect_indexes:
+        aggregates.append(('', [idx]))
     web_digest['aggregates'] = convert_aggregates(aggregates)
     
     return web_digest

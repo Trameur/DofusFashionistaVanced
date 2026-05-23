@@ -90,6 +90,7 @@ class Structure:
         self.read_max_stat_to_equip_table()
         self.read_weird_conditions_table()
         self.read_extra_lines_table()
+        self.read_item_flags_table()
         self.read_set_bonus_table()
 #       self.read_weapon_is_onehanded_table()
         self.read_weapon_hits_table()
@@ -412,6 +413,16 @@ class Structure:
             item = self.get_item_by_id(item_id)
             item.localized_extras[language] = lines
     
+    def read_item_flags_table(self):
+        c = self.conn.cursor()
+        try:
+            for entry in c.execute('SELECT item, flag FROM item_flags'):
+                item = self.get_item_by_id(entry[0])
+                if item is not None:
+                    item.flags.append(entry[1])
+        except Exception:
+            pass  # old DB without item_flags table
+
 #     def read_weapon_is_onehanded_table(self):
 #         c = self.conn.cursor()
 #         for entry in c.execute('SELECT item FROM weapon_is_onehanded'):

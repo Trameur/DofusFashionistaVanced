@@ -337,11 +337,24 @@
         return table;
     }
     
+    function getBestElementKey(totalStats) {
+        var best = 'str', bestVal = totalStats['str'] || 0;
+        $.each({int: 'int', cha: 'cha', agi: 'agi'}, function(k, v) {
+            if ((totalStats[v] || 0) > bestVal) { best = v; bestVal = totalStats[v] || 0; }
+        });
+        return best;
+    }
+
+    function resolveBestElement(element, totalStats) {
+        if (element !== 'best') return element;
+        return {str: 'earth', int: 'fire', cha: 'water', agi: 'air'}[getBestElementKey(totalStats)];
+    }
+
     function calculateFinalDamageValue(damageHit, isCrit, isMin, spell) {
         var totalStats = getTotalStats(spell);
-        
+
         var mainStat = {neut: 'str', earth: 'str', fire: 'int', water: 'cha', air: 'agi'}
-            [damageHit.element];
+            [damageHit.element] || getBestElementKey(totalStats);
         var baseValue = (isMin ? damageHit.min_dam : damageHit.max_dam);
         var multiplier = 100 + totalStats[mainStat];
         if (!damageHit.heals) {
@@ -354,7 +367,8 @@
         
         var linearDamage;
         if (!damageHit.heals) {
-            var elementalDamage = damageHit.element + 'dam';
+            var resolvedEl = resolveBestElement(damageHit.element, totalStats);
+            var elementalDamage = resolvedEl + 'dam';
             linearDamage = totalStats['dam'] + totalStats[elementalDamage];
             if (isCrit) {
                 linearDamage += totalStats['cridam'];
@@ -424,14 +438,18 @@
     }
     
     function calculateFinalDamage(spell, damage, isCrit) {
+        var totalStats = getTotalStats(spell);
         var result = [];
+        var NON_DAMAGE_ELEMENTS = {'attracts': true, 'pushes': true, 'advances': true, 'steals_mp': true};
         $.each(damage, function(i, d) {
-            if (d.element.indexOf("buff") != -1) {
+            if (d.element.indexOf("buff") != -1 || NON_DAMAGE_ELEMENTS[d.element]) {
                 result.push(d);
             } else {
-                result.push({min_dam: calculateFinalDamageValue(d, isCrit, true, spell),
-                             max_dam: calculateFinalDamageValue(d, isCrit, false, spell),
-                             element: d.element,
+                var resolvedElement = resolveBestElement(d.element, totalStats);
+                var resolvedHit = $.extend({}, d, {element: resolvedElement});
+                result.push({min_dam: calculateFinalDamageValue(resolvedHit, isCrit, true, spell),
+                             max_dam: calculateFinalDamageValue(resolvedHit, isCrit, false, spell),
+                             element: resolvedElement,
                              steals: d.steals,
                              heals: d.heals});
             }
@@ -702,6 +720,14 @@
             return ["+", "% {% trans 'Final Damage' %}"];
         } else if (element == "buff_finalheals") {
             return ["+", "% {% trans 'Final Heals' %}"];
+        } else if (element == "attracts") {
+            return ["{% trans 'Attracts' %} ", " {% trans 'cell(s)' %}"];
+        } else if (element == "pushes") {
+            return ["{% trans 'Pushes' %} ", " {% trans 'cell(s)' %}"];
+        } else if (element == "advances") {
+            return ["{% trans 'Advances' %} ", " {% trans 'cell(s)' %}"];
+        } else if (element == "steals_mp") {
+            return ["-", " {% trans 'MP' %}"];
         } else {
             return ["", ""];
         }

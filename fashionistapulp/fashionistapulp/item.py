@@ -32,6 +32,7 @@ class Item:
         self.min_stats_to_equip = []
         self.max_stats_to_equip = []
         self.localized_extras = {}
+        self.flags = []
         self.localized_names = {}
         self.accentless_local_names = {}
         self.weird_conditions = {'light_set': False, 'prysmaradite': False}

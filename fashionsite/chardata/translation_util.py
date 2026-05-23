@@ -46,6 +46,7 @@ LOCALIZED_ELEMENTS = {
     'neut': gettext_lazy('Neutral'),
     'water': gettext_lazy('Water'),
     'air': gettext_lazy('Air'),
+    'best': gettext_lazy('Best element'),
 }
 
 OTHERS = {

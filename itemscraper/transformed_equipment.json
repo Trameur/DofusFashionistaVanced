@@ -95274,7 +95274,7 @@
     },
     {
         "ankama_id": 12541,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Madreggon",
         "name_fr": "Dragouf",
         "name_es": "Dragrillado",
@@ -98542,7 +98542,7 @@
     },
     {
         "ankama_id": 12963,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Slayhound",
         "name_fr": "Hurledent",
         "name_es": "Dekarbón",
@@ -100980,7 +100980,7 @@
     },
     {
         "ankama_id": 13182,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Karmeleon",
         "name_fr": "Kramkram",
         "name_es": "Kramkram",
@@ -102563,7 +102563,7 @@
     },
     {
         "ankama_id": 13465,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Boarhog",
         "name_fr": "Sakochère",
         "name_es": "Sakóquero",
@@ -103023,7 +103023,7 @@
     },
     {
         "ankama_id": 13603,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Razorbuck",
         "name_fr": "Balafreux",
         "name_es": "Suskrofa",
@@ -118713,7 +118713,7 @@
     },
     {
         "ankama_id": 14827,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kwyness",
         "name_fr": "Kwaltess",
         "name_es": "Kwalteza",
@@ -118749,7 +118749,7 @@
     },
     {
         "ankama_id": 14833,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Sirocco",
         "name_fr": "Siroko",
         "name_es": "Siroko",
@@ -118780,7 +118780,7 @@
     },
     {
         "ankama_id": 14838,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Dehluge",
         "name_fr": "Dehluge",
         "name_es": "Xaparón",
@@ -118811,7 +118811,7 @@
     },
     {
         "ankama_id": 14848,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kompost",
         "name_fr": "Kompost",
         "name_es": "Kompost",
@@ -118842,7 +118842,7 @@
     },
     {
         "ankama_id": 14854,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Brulay",
         "name_fr": "Brûlih",
         "name_es": "Hardo",
@@ -123962,7 +123962,7 @@
     },
     {
         "ankama_id": 15243,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Drhexler",
         "name_fr": "Phorror",
         "name_es": "Perforror",
@@ -144038,7 +144038,7 @@
     },
     {
         "ankama_id": 18088,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Skrot",
         "name_fr": "Kougnard",
         "name_es": "Mortiélago",
@@ -150828,7 +150828,7 @@
     },
     {
         "ankama_id": 19044,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Alabaster Skrot",
         "name_fr": "Kougnard Albâtre",
         "name_es": "Mortiélago alabastrado",
@@ -154656,7 +154656,7 @@
     },
     {
         "ankama_id": 19286,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Gobbalator",
         "name_fr": "Bouftor",
         "name_es": "Jalacástor",
@@ -154687,7 +154687,7 @@
     },
     {
         "ankama_id": 19291,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Gobbalux",
         "name_fr": "Bouflux",
         "name_es": "Jalapólux",
@@ -169887,7 +169887,7 @@
     },
     {
         "ankama_id": 25292,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Tae'Niak",
         "name_fr": "Teh'Niak",
         "name_es": "Tae'Niak",
@@ -169928,7 +169928,7 @@
     },
     {
         "ankama_id": 25293,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Tortikoli",
         "name_fr": "Tortikoli",
         "name_es": "Tortikoli",
@@ -175546,7 +175546,7 @@
     },
     {
         "ankama_id": 29430,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Mamukil Kolophant",
         "name_fr": "Koliphant Mamukil",
         "name_es": "Kolifante mamuk",
@@ -175572,7 +175572,7 @@
     },
     {
         "ankama_id": 29431,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Lexander's Kolophant",
         "name_fr": "Koliphant de Lexandre",
         "name_es": "Kolifante de Lejandro",
@@ -175598,7 +175598,7 @@
     },
     {
         "ankama_id": 29432,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Tarkaj Kolophant",
         "name_fr": "Koliphant de Tarkaj",
         "name_es": "Kolifante de Kartago",
@@ -175624,7 +175624,7 @@
     },
     {
         "ankama_id": 29433,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Zenusha Kolophant",
         "name_fr": "Koliphant Zenusha",
         "name_es": "Kolifante zenusha",
@@ -175650,7 +175650,7 @@
     },
     {
         "ankama_id": 29434,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Ziplizard",
         "name_fr": "Zarfuyar",
         "name_es": "Lagartiro",
@@ -175676,7 +175676,7 @@
     },
     {
         "ankama_id": 29435,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kobrapid",
         "name_fr": "Kobrapid",
         "name_es": "Kobraviva",
@@ -175702,7 +175702,7 @@
     },
     {
         "ankama_id": 29456,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "Kwismas Gull",
         "name_fr": "Gowelan",
         "name_es": "Gavioto",
@@ -181600,7 +181600,7 @@
     },
     {
         "ankama_id": 31886,
-        "ankama_type": "equipment",
+        "ankama_type": "mounts",
         "name_en": "The Venerable One's Mount",
         "name_fr": "Monture du Vénérable",
         "name_es": "Montura del Venerable",

@@ -171,7 +171,7 @@ STAT_ORDER = {
     'firedam': 24,
     'waterdam': 25,
     'airdam': 26,
-    
+
     'heals': 31,
     
     'neutres': 71,
@@ -242,6 +242,7 @@ STAT_KEY_TO_NAME = {v: k for k, v in STAT_NAME_TO_KEY.items()}
 # If a migration is done to remove them from all projects, they can be cleaned
 # up from DEPRECATED_STATS.
 DEPRECATED_STATS = {
+    'besteldam': None,  # accidentally added during dev, not a real stat
 #     'Neutral Resist in PVP': 'pvpneutres',
 #     'Water Resist in PVP': 'pvpwaterres',
 #     'Air Resist in PVP': 'pvpairres',

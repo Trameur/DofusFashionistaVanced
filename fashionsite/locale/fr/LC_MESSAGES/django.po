@@ -5636,3 +5636,42 @@ msgstr "stuffs générés"
 
 msgid "shared builds"
 msgstr "stuffs partagés"
+
+msgid "Best element"
+msgstr "Meilleur élément"
+
+msgid "Hunting Weapon"
+msgstr "Arme de chasse"
+
+msgid "Exchangeable"
+msgstr "Échangeable"
+
+msgid "Linked to the character"
+msgstr "Lié au personnage"
+
+msgid "Cooperative crafting impossible"
+msgstr "Craft coopératif impossible"
+
+msgid "Fertile"
+msgstr "Fertile"
+
+msgid "Steals %(mp)d MP"
+msgstr "Vole %(mp)d PM"
+
+msgid "Steals %(min)d to %(max)d MP"
+msgstr "Vole %(min)d à %(max)d PM"
+
+
+
+msgid "Attracts"
+msgstr "Attire"
+
+msgid "Pushes"
+msgstr "Repousse"
+
+msgid "Advances"
+msgstr "Avance"
+
+
+msgid "cell(s)"
+msgstr "case(s)"

@@ -16,3 +16,4 @@ itemscraper/transformed_class_spells.json
 itemscraper/transformed_class_spells_beta.json
 docker/gen_config*.json
 docker/certs/
+.discord_token
