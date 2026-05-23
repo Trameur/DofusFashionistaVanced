@@ -56,6 +56,9 @@ RUN echo "/app" > /etc/fashionista/config
 # Ajouter les répertoires au PYTHONPATH
 ENV PYTHONPATH="/app:/app/fashionistapulp:/app/fashionsite"
 
+# Compiler les fichiers de traduction
+RUN cd /app/fashionsite && python manage.py compilemessages
+
 # Copier et configurer le script d'entrée pour Docker
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN dos2unix /app/docker-entrypoint.sh
