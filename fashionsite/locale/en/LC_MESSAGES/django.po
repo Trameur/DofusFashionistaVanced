@@ -4673,3 +4673,15 @@ msgstr ""
 #: chardata/templates/chardata/license.html
 msgid "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
 msgstr "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
+
+msgid "users"
+msgstr ""
+
+msgid "builds"
+msgstr ""
+
+msgid "solver runs"
+msgstr ""
+
+msgid "shared builds"
+msgstr ""

@@ -21,6 +21,15 @@ a:visited {
     background-color:#151515;
 }
 
+.sidebar-stats {
+    background-color:#151515;
+    color: #aaaaaa;
+}
+
+.sidebar-stats-value {
+    color: #dddddd;
+}
+
 
 .banner {
     background-color:#151515;

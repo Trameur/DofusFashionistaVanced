@@ -4560,3 +4560,21 @@ msgstr "Cure finali"
 
 msgid "Hit in best element"
 msgstr "Colpisce nel miglior elemento"
+
+msgid "users"
+msgstr "giocatori"
+
+msgid "builds"
+msgstr "set"
+
+msgid "solver runs"
+msgstr "set generati"
+
+msgid "shared builds"
+msgstr "set condivisi"
+
+#, python-format
+msgid "Found %(counter)s shared build"
+msgid_plural "Found %(counter)s shared builds"
+msgstr[0] "%(counter)s set condiviso trovato"
+msgstr[1] "%(counter)s set condivisi trovati"

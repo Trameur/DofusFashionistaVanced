@@ -18,6 +18,15 @@ a:visited {
     background-color:#3D200D;
 }
 
+.sidebar-stats {
+    background-color:#3D200D;
+    color: #e8d0a0;
+}
+
+.sidebar-stats-value {
+    color: #ffffff;
+}
+
 
 .banner {
     background-color:#3D200D;

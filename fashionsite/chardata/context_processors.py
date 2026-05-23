@@ -1,5 +1,25 @@
 import re
 
+from django.core.cache import cache
+from django.db.models import Sum
+
+
+def site_stats(request):
+    stats = cache.get('site_stats')
+    if stats is None:
+        from django.contrib.auth.models import User
+        from chardata.models import Char, SolutionCounter
+        solver_runs = SolutionCounter.objects.aggregate(t=Sum('get_count'))['t'] or 0
+        stats = {
+            'stat_users': f"{User.objects.count():,}",
+            'stat_characters': f"{Char.objects.count():,}",
+            'stat_solver_runs': f"{solver_runs:,}",
+            'stat_shared_builds': f"{Char.objects.filter(link_shared=True, deleted=False).count():,}",
+        }
+        cache.set('site_stats', stats, 600)
+    return stats
+
+
 ACTIVE_GAME_VERSIONS = [
     ('dofus3', 'Dofus 3'),
     ('beta', 'Beta'),

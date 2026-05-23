@@ -30,6 +30,27 @@
     border-radius: 10px;
 }
 
+.sidebar-stats {
+    box-sizing: border-box;
+    width: 168px;
+    border-radius: 10px;
+    padding: 6px 8px;
+    font-size: 11px;
+    line-height: 18px;
+    text-align: center;
+}
+
+.sidebar-stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.sidebar-stats-value {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
 .banner {
     margin: 0px 0px 0px 0px;
     width:1044px;

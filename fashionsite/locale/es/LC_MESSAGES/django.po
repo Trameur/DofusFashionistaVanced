@@ -565,7 +565,7 @@ msgstr "Cargar un proyecto"
 
 #: chardata/templates/chardata/base.html:115
 msgid "Shared Builds"
-msgstr "Builds Compartidos"
+msgstr "Sets Compartidos"
 
 #: chardata/templates/chardata/base.html:118
 msgid "Compare sets"
@@ -4902,7 +4902,7 @@ msgstr "Tipo de Build"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "All Builds"
-msgstr "Todos los Builds"
+msgstr "Todos los Sets"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Min Level"
@@ -4952,8 +4952,8 @@ msgstr "Limpiar Filtros"
 #, python-format
 msgid "Found %(counter)s shared build"
 msgid_plural "Found %(counter)s shared builds"
-msgstr[0] "%(counter)s build compartido encontrado"
-msgstr[1] "%(counter)s builds compartidos encontrados"
+msgstr[0] "%(counter)s set compartido encontrado"
+msgstr[1] "%(counter)s sets compartidos encontrados"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "showing first 100"
@@ -5038,3 +5038,15 @@ msgstr "Golpea en el mejor elemento"
 
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"
+
+msgid "users"
+msgstr "jugadores"
+
+msgid "builds"
+msgstr "sets"
+
+msgid "solver runs"
+msgstr "sets generados"
+
+msgid "shared builds"
+msgstr "sets compartidos"
