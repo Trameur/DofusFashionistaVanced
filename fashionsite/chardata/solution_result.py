@@ -30,11 +30,12 @@ from chardata.official_site import get_item_link
 
 
 class SolutionResult:
-    
-    def __init__(self, model_result, inclusions={}, exclusions=[]):
+
+    def __init__(self, model_result, inclusions={}, exclusions=[], empty_slots=[]):
         self.model_result = model_result
         self.inclusions = inclusions
         self.exclusions_set = set(exclusions)
+        self.empty_slots_set = set(empty_slots)
                    
     def get_params(self):
         r = self.model_result 
@@ -61,16 +62,20 @@ class SolutionResult:
         # TODO: Grafting this attribute is a hack.
         item_is_locked = {}
         item_is_forbidden = {}
+        item_is_empty_locked = {}
         item_names = {}
         translated_item_names = {}
         item_violates = {}
         for result_item in all_items:
             evolve_result_item(result_item, r)
-            
+
         for result_item in all_items:
             item_per_slot[result_item.slot] = result_item
             item_is_locked[result_item.slot] = self.is_item_locked(result_item)
             item_is_forbidden[result_item.slot] = self.is_item_forbidden(result_item)
+            result_item.is_empty_locked = (not result_item.item_added
+                                           and result_item.slot in self.empty_slots_set)
+            item_is_empty_locked[result_item.slot] = result_item.is_empty_locked
             item_names[result_item.slot] = (result_item.or_name 
                                             if result_item.item_added 
                                             else _(SLOT_NAME_TO_TYPE[result_item.slot]))
@@ -115,6 +120,7 @@ class SolutionResult:
                   'translated_item_names': json.dumps(translated_item_names),
                   'item_is_locked': json.dumps(item_is_locked),
                   'item_is_forbidden': json.dumps(item_is_forbidden),
+                  'item_is_empty_locked': json.dumps(item_is_empty_locked),
                   'item_violates': json.dumps(item_violates),
                   'options_json': json.dumps(r.input['options']),
                   'item_per_slot': item_per_slot,

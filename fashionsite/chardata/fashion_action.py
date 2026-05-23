@@ -20,7 +20,7 @@ from django.http import HttpResponseRedirect
 import pickle
 
 from chardata.lock_forbid import get_all_exclusions_en_names, get_all_inclusions_en_names,\
-    get_inclusions_dict, get_all_exclusions_ids
+    get_inclusions_dict, get_all_exclusions_ids, get_empty_slots
 from chardata.min_stats import get_min_stats_digested
 from chardata.models import CharBaseStats
 from chardata.solution import set_minimal_solution
@@ -96,7 +96,8 @@ def fashion(request, char_id, spells=False):
                              weights,
                              model_options,
                              char.char_class,
-                             stat_points_to_distribute)
+                             stat_points_to_distribute,
+                             get_empty_slots(char))
 
     solved_status = None
     stats = None

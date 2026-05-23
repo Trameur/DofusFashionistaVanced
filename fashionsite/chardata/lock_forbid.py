@@ -216,7 +216,7 @@ def add_items_to_exclusions(char, item_ids):
 
 def remove_items_from_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
-    
+
     changed = False
     for item_id in item_ids:
         if item_id in exclusions:
@@ -225,4 +225,20 @@ def remove_items_from_exclusions(char, item_ids):
 
     if changed:
         _save_exclusion_list(char, exclusions)
+
+def get_empty_slots(char):
+    if char.empty_slots:
+        return pickle.loads(char.empty_slots)
+    return []
+
+def set_empty_slot(char, slot, is_empty):
+    empty = get_empty_slots(char)
+    if is_empty:
+        if slot not in empty:
+            empty.append(slot)
+    else:
+        if slot in empty:
+            empty.remove(slot)
+    char.empty_slots = pickle.dumps(empty)
+    char.save()
     

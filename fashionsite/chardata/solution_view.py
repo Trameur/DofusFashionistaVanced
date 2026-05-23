@@ -25,7 +25,8 @@ from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
-    get_all_inclusions_en_names, get_all_exclusions_en_names)
+    get_all_inclusions_en_names, get_all_exclusions_en_names,
+    get_empty_slots, set_empty_slot)
 from chardata.models import Char, BuildVote, BuildView
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
@@ -136,10 +137,12 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     else:
         inclusions = get_all_inclusions_en_names(char)
         exclusions = get_all_exclusions_en_names(char)
+        empty_slots = get_empty_slots(char)
         solution = get_solution(char)
         solution_result = SolutionResult(solution,
                                          inclusions,
-                                         exclusions)
+                                         exclusions,
+                                         empty_slots)
         solution_params = solution_result.get_params()
 
     vote_data = _get_live_vote_data(request, char)
@@ -276,5 +279,17 @@ def set_item_forbidden(request, char_id):
         set_excluded(char, item_id, True)
     elif forbidden == 'false':
         set_excluded(char, item_id, False)
+
+    return HttpResponseText('ok')
+
+def set_slot_lock_empty(request, char_id):
+    char = get_char_or_raise(request, char_id)
+
+    slot = request.POST.get('slot', None)
+    locked = request.POST.get('locked', None)
+
+    assert slot in SLOTS
+
+    set_empty_slot(char, slot, locked == 'true')
 
     return HttpResponseText('ok')

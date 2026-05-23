@@ -468,6 +468,7 @@
 
         var itemIsLocked = {{item_is_locked | safe}}
         var itemIsForbidden = {{item_is_forbidden | safe}}
+        var itemIsEmptyLocked = {{item_is_empty_locked | safe}}
         var itemNames = {{item_names | safe}}
         var transItemNames = {{translated_item_names | safe}}
         var itemViolates = {{item_violates | safe}}
@@ -616,7 +617,32 @@
                 });
                 
             });
-            
+
+            $.each(itemIsEmptyLocked, function(key, value) {
+                var itemContainer = $("#item-container-" + key);
+                var lockEmptyButton = itemContainer.find(".solution-item-lock-empty-button");
+
+                function updateLockEmptyState(button) {
+                    if (isGuest) {
+                        button.hide();
+                    } else if (itemIsEmptyLocked[key]) {
+                        button.css({opacity: 1});
+                    } else {
+                        button.css({opacity: 0.3});
+                    }
+                }
+
+                lockEmptyButton.click(function(e) {
+                    e.stopPropagation();
+                    itemIsEmptyLocked[key] = !itemIsEmptyLocked[key];
+                    updateLockEmptyState(lockEmptyButton);
+                    $.post(apiBase + "/setslotlockempty/{{char_id}}/",
+                           {slot: key.toString(), locked: itemIsEmptyLocked[key]},
+                           function(data) {});
+                });
+                updateLockEmptyState(lockEmptyButton);
+            });
+
             $(".item-external-link").click(function(e) {
                 e.stopPropagation();
             });

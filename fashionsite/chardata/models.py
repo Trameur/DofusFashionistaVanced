@@ -39,6 +39,7 @@ class Char(models.Model):
     inclusions = models.BinaryField()
     exclusions = models.BinaryField()
     aspects = models.BinaryField(default=b'')
+    empty_slots = models.BinaryField(default=b'')
     deleted = models.BooleanField(default=False)
     allow_points_distribution = models.BooleanField(default=True)
     game_version = models.CharField(

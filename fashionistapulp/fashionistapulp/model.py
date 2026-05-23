@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, STAT_MAXIMUM, SOFT_CAPS
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, SOFT_CAPS
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
 import pulp
@@ -624,7 +624,8 @@ class Model:
                                                 model_input.options)
         self.modify_stats_points_constraints(model_input.char_class,
                                              model_input.stat_points_to_distribute)
-        
+        self.modify_empty_slot_constraints(model_input.empty_slot_types)
+
         self.write_objective_function(model_input.objective_values, model_input.char_level)
     
     def create_type_constraints(self):
@@ -637,7 +638,18 @@ class Model:
             restriction = self.problem.restriction_lt_eq(TYPE_NAME_TO_SLOT_NUMBER[item_type],
                                                         [(1, 'x', item_entry.id) for item_entry in items_of_type])
             self.restrictions.type_constraints[item_type] = restriction
-                                              
+
+    def modify_empty_slot_constraints(self, empty_slots):
+        locked_count = {}
+        for slot in empty_slots:
+            t = SLOT_NAME_TO_TYPE.get(slot)
+            if t:
+                locked_count[t] = locked_count.get(t, 0) + 1
+        for type_name, constraint in self.restrictions.type_constraints.items():
+            max_slots = TYPE_NAME_TO_SLOT_NUMBER[type_name]
+            locked = locked_count.get(type_name, 0)
+            constraint.changeRHS(max(0, max_slots - locked))
+
 #     def create_two_handed_constraints(self):
 #         one_handed_items = []
 #         for item in self.items_list:
@@ -1084,7 +1096,7 @@ class ModelInput(object):
 
     def __init__(self, char_level, base_stats_by_attr, minimum_stats, locked_equips,
                  forbidden_equips, objective_values, options, char_class,
-                 stat_points_to_distribute):
+                 stat_points_to_distribute, empty_slot_types=None):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1094,6 +1106,7 @@ class ModelInput(object):
         self.options = options
         self.char_class = char_class
         self.stat_points_to_distribute = stat_points_to_distribute
+        self.empty_slot_types = empty_slot_types or []
 
     def get_old_input(self):
         return {'char_level': self.char_level,
@@ -1115,7 +1128,8 @@ class ModelInput(object):
                 freeze(self.objective_values),
                 freeze(self.options),
                 self.char_class,
-                self.stat_points_to_distribute).__hash__()
+                self.stat_points_to_distribute,
+                frozenset(self.empty_slot_types)).__hash__()
 
 def freeze(d):
     if d is None:
