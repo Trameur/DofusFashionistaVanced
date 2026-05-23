@@ -759,6 +759,7 @@ def _set_weights(char, aspects, apply=True):
 
     w['pp'] = 10 * b if 'pp' in aspects else 0.2 * b if 'pvp' not in aspects else 0
     w['cha'] = max(w['cha'], w['pp'] / 10.0)
+    w['cha'] += 0.1 * w['pp']
 
     w['init'] =  0.3 * b if 'duel' in aspects else 0.1 * b if 'pvp' in aspects else 0.03 * b
 
@@ -832,7 +833,7 @@ def _set_weights(char, aspects, apply=True):
                          'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
                          'trapdamper', 'ref', 'permedam', 'perrandam',
                          'perweadam', 'perspedam', 'respermee', 'resperran',
-                         'resperwea', 'init', 'wis'):
+                         'resperwea', 'init', 'wis', 'ch', 'vit', 'hp'):
             w[zero_key] = 0
         for damage_type in DAMAGE_TYPES:
             w['%sres' % damage_type] = 0
