@@ -217,6 +217,9 @@ function populateSwitchDivInitial(key, page, itemNames, char_id, thisItemName, c
         <button id='button-add-stat-filter' class='button-generic' style='margin-left: 6px;'>" + addFilterString + "</button>\
     </div>\
     <div class='stat-filters-div' style='margin-top: 8px;'></div>"));
+    if (popupStatFilters.length === 0) {
+        popupStatFilters.push({key: '', min: ''});
+    }
     renderStatFilters();
     $("#button-add-stat-filter").click(function(e) {
         e.preventDefault();
