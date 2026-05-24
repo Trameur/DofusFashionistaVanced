@@ -241,4 +241,32 @@ def set_empty_slot(char, slot, is_empty):
             empty.remove(slot)
     char.empty_slots = pickle.dumps(empty)
     char.save()
+
+def get_stat_overrides(char):
+    if char.stat_overrides:
+        return pickle.loads(char.stat_overrides)
+    return {}
+
+def set_item_stat_override(char, item_id, stat_id, value):
+    overrides = get_stat_overrides(char)
+    if item_id not in overrides:
+        overrides[item_id] = {}
+    overrides[item_id][stat_id] = value
+    char.stat_overrides = pickle.dumps(overrides)
+    char.save()
+
+def remove_item_stat_override(char, item_id, stat_id):
+    overrides = get_stat_overrides(char)
+    if item_id in overrides:
+        overrides[item_id].pop(stat_id, None)
+        if not overrides[item_id]:
+            del overrides[item_id]
+    char.stat_overrides = pickle.dumps(overrides)
+    char.save()
+
+def clear_item_stat_overrides(char, item_id):
+    overrides = get_stat_overrides(char)
+    overrides.pop(item_id, None)
+    char.stat_overrides = pickle.dumps(overrides)
+    char.save()
     

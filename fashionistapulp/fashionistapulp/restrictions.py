@@ -39,3 +39,4 @@ class Restrictions:
         self.second_stats_points_constraints = {}
         self.third_stats_points_constraints = {}
         self.fourth_stats_points_constraint = None
+        self.set_max_cap_constraints = {}

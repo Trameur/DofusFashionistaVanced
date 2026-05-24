@@ -11,9 +11,13 @@
             <div id='{{select_name}}-name' ></div>
             <input id="item-id-{{select_name}}" class='change-modifies-state' type="hidden" name="{{select_name}}">
             <span id="item-level-{{select_name}}" class="item-level"></span>
-            <div class="solution-item-icons"> 
+            <div class="solution-item-icons">
             <img src='{% static "chardata/cross-icon.png" %}' class='click-modifies-state button-remove' style="vertical-align: middle;" id="button-remove-{{select_name}}">
             </div>
+            <div id="stat-override-toggle-{{select_name}}" style="display:none;margin-top:6px;">
+                <button type="button" id="stat-override-link-{{select_name}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>
+            </div>
+            <div id="stat-override-section-{{select_name}}" style="display:none;margin-top:6px;font-size:0.85em;"></div>
         </td>
         </tr>
 </table>

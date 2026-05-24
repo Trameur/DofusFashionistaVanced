@@ -66,6 +66,7 @@ class SolutionResult:
         item_names = {}
         translated_item_names = {}
         item_violates = {}
+        item_ids = {}
         for result_item in all_items:
             evolve_result_item(result_item, r)
 
@@ -76,12 +77,14 @@ class SolutionResult:
             result_item.is_empty_locked = (not result_item.item_added
                                            and result_item.slot in self.empty_slots_set)
             item_is_empty_locked[result_item.slot] = result_item.is_empty_locked
-            item_names[result_item.slot] = (result_item.or_name 
-                                            if result_item.item_added 
+            item_names[result_item.slot] = (result_item.or_name
+                                            if result_item.item_added
                                             else _(SLOT_NAME_TO_TYPE[result_item.slot]))
-            translated_item_names[result_item.slot] = (result_item.localized_name 
-                                            if result_item.item_added 
+            translated_item_names[result_item.slot] = (result_item.localized_name
+                                            if result_item.item_added
                                             else _(SLOT_NAME_TO_TYPE[result_item.slot]))
+            if result_item.item_added and result_item.id is not None:
+                item_ids[result_item.slot] = result_item.id
             s = get_structure()
             item_violates[result_item.slot] = False
             if result_item.item_added and len(r.get_violations_on_item(result_item)) > 0:
@@ -118,6 +121,7 @@ class SolutionResult:
                   'stats_total_json': json.dumps(r.get_stats_total()),
                   'item_names': json.dumps(item_names),
                   'translated_item_names': json.dumps(translated_item_names),
+                  'item_ids': json.dumps(item_ids),
                   'item_is_locked': json.dumps(item_is_locked),
                   'item_is_forbidden': json.dumps(item_is_forbidden),
                   'item_is_empty_locked': json.dumps(item_is_empty_locked),

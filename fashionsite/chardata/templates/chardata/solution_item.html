@@ -36,10 +36,12 @@
         </tr></table>
     </div>
     <div class="expand-content solution-item-expand-content">
+        <div id="stats-display-sol-{{item.slot}}">
         {% if item.slot == 'weapon' %}
             {% autoescape off %}{{item.damage_text}}{% endautoescape %}<br>
             <hr class="solution-item-hr" />
         {% endif %}
+        <div id="stat-lines-{{item.slot}}">
         {% for line in item.stats_lines %}
             <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
                 {% if line.icon_url %}
@@ -49,6 +51,7 @@
             </span>
             <br>
         {% endfor %}
+        </div>
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />
             {% for line in item.condition_lines %}
@@ -60,6 +63,12 @@
             </span>
                 <br>
             {% endfor %}
+        {% endif %}
+        </div>
+        {% if item.id %}
+        <div style="margin-top:6px;">
+            <button type="button" id="stat-override-btn-sol-{{item.slot}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>
+        </div>
         {% endif %}
     </div>
 </div>

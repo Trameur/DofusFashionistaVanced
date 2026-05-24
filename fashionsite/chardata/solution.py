@@ -18,13 +18,15 @@ from fashionistapulp.modelresult import model_result_from_minimal, ModelResultMi
 
 import pickle
 from chardata.util import get_stats, get_scrolled_stats
+from chardata.lock_forbid import get_stat_overrides
 
 def get_solution(char):
     if char.minimal_solution:
         minimal_solution = pickle.loads(char.minimal_solution)
         if minimal_solution:
             minimal_solution.update_base_stats(get_stats(char), get_scrolled_stats(char))
-            return model_result_from_minimal(minimal_solution)
+            stat_overrides = get_stat_overrides(char) or None
+            return model_result_from_minimal(minimal_solution, stat_overrides)
     return None
 
 def set_solution(char, solution):

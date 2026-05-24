@@ -16,6 +16,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from copy import deepcopy
+
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, SOFT_CAPS
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
@@ -27,16 +29,48 @@ from collections import Counter
 
 
 class Model:
-    
-    def __init__(self):
+
+    def __init__(self, stat_overrides=None):
         self.create_structure()
-        
+
+        if stat_overrides:
+            self._apply_stat_overrides(stat_overrides)
+
         self.problem = LpProblem2()
         self.restrictions = Restrictions()
         self.item_count = len(self.items_list)
-        
+
         self.create_variables()
         self.create_constraints()
+
+    _EXO_STAT_KEYS = {'ap', 'mp', 'range'}
+
+    def _apply_stat_overrides(self, stat_overrides):
+        """Deep-copy overridden items and modify their stats before constraint creation.
+        AP/MP/Range overrides are skipped — the exo option handles them in modify_stat_total_constraints."""
+        new_items_list = []
+        for item in self.items_list:
+            item_overrides = stat_overrides.get(item.id)
+            if item_overrides:
+                item = deepcopy(item)
+                new_stats = []
+                seen_stat_ids = set()
+                for stat_id, value in item.stats:
+                    if stat_id in item_overrides:
+                        new_stats.append((stat_id, item_overrides[stat_id]))
+                        seen_stat_ids.add(stat_id)
+                    else:
+                        new_stats.append((stat_id, value))
+                for stat_id, value in item_overrides.items():
+                    if stat_id not in seen_stat_ids:
+                        stat = self.structure.get_stat_by_id(stat_id)
+                        if stat and stat.key in self._EXO_STAT_KEYS:
+                            pass  # new AP/MP/Range stat = exo, handled by modify_stat_total_constraints
+                        else:
+                            new_stats.append((stat_id, value))
+                item.stats = new_stats
+            new_items_list.append(item)
+        self.items_list = new_items_list
         
     def create_structure(self):
         self.structure = get_structure()
@@ -600,6 +634,7 @@ class Model:
         self.create_presence_constraints()
         self.create_level_constraints()
         self.create_set_constraints()
+        self.create_set_max_cap_constraints()
         self.create_stat_total_constraints()
         self.create_condition_contraints()
         self.create_minimum_stat_constraints()
@@ -847,6 +882,29 @@ class Model:
                 restrictions_list.append(restriction)
             self.restrictions.fourth_set_constraints[item_set.name] = restrictions_list
     
+    def create_set_max_cap_constraints(self):
+        """Big-M constraints for set-based stat caps (e.g. Cire Momore AP/MP/Range limits).
+        For each (set, tier, stat) cap:
+          stat[s] + (global_max - cap) * ss[set_id, tier+1] <= global_max
+        When tier is active (ss=1): stat <= cap. When inactive (ss=0): stat <= global_max (no new restriction).
+        """
+        for item_set in self.sets_list:
+            if not item_set.max_caps:
+                continue
+            for num_items, stat_id, max_value in item_set.max_caps:
+                stat = self.structure.get_stat_by_id(stat_id)
+                if stat is None or stat.name not in STAT_MAXIMUM:
+                    continue
+                global_max = STAT_MAXIMUM[stat.name]
+                if max_value >= global_max:
+                    continue
+                matrix = [
+                    (1, 'stat', stat_id),
+                    (global_max - max_value, 'ss', '%d_%d' % (item_set.id, num_items + 1)),
+                ]
+                restriction = self.problem.restriction_lt_eq(global_max, matrix)
+                self.restrictions.set_max_cap_constraints[(item_set.id, num_items, stat_id)] = restriction
+
     def create_light_set_constraints(self):
         """
         Constraints for light sets:
@@ -1096,7 +1154,7 @@ class ModelInput(object):
 
     def __init__(self, char_level, base_stats_by_attr, minimum_stats, locked_equips,
                  forbidden_equips, objective_values, options, char_class,
-                 stat_points_to_distribute, empty_slot_types=None):
+                 stat_points_to_distribute, empty_slot_types=None, stat_overrides=None):
         self.char_level = char_level
         self.base_stats_by_attr = base_stats_by_attr
         self.minimum_stats = minimum_stats
@@ -1107,6 +1165,7 @@ class ModelInput(object):
         self.char_class = char_class
         self.stat_points_to_distribute = stat_points_to_distribute
         self.empty_slot_types = empty_slot_types or []
+        self.stat_overrides = stat_overrides or {}
 
     def get_old_input(self):
         return {'char_level': self.char_level,
@@ -1119,6 +1178,10 @@ class ModelInput(object):
                 'origin': 'generated'}
 
     def __hash__(self, *args, **kwargs):
+        overrides_key = frozenset(
+            (item_id, frozenset(stats.items()))
+            for item_id, stats in self.stat_overrides.items()
+        )
         return (self.char_level,
                 freeze(self.base_stats_by_attr),
                 frozenset([p for p in list(self.minimum_stats.items()) if p[0] != 'adv_mins']),
@@ -1129,7 +1192,8 @@ class ModelInput(object):
                 freeze(self.options),
                 self.char_class,
                 self.stat_points_to_distribute,
-                frozenset(self.empty_slot_types)).__hash__()
+                frozenset(self.empty_slot_types),
+                overrides_key).__hash__()
 
 def freeze(d):
     if d is None:

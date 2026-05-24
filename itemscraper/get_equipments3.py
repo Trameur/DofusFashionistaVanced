@@ -294,6 +294,34 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                         continue
                     f.write(f"INSERT INTO set_bonus VALUES({set_id},{effect_key},{list(STAT_NAME_TO_KEY_LOCAL).index(bonus[2]) + 1},{bonus[0]});\n")
 
+    # Dofus 3 internal characteristic IDs used inside "Max." set effects
+    MAX_EFFECT_CHAR_ID_TO_STAT_NAME = {
+        19: 'AP',
+        23: 'MP',
+        26: 'Range',
+    }
+
+    # Write CREATE TABLE for set_max_caps
+    f.write("""CREATE TABLE set_max_caps
+             (item_set INTEGER, num_pieces_used INTEGER, stat INTEGER, max_value INTEGER,
+              FOREIGN KEY(item_set) REFERENCES sets(id),
+              FOREIGN KEY(stat) REFERENCES stats(id));\n""")
+
+    for set_data in original_sets:
+        set_id = set_data['ankama_id']
+        if 'stats_list' in set_data:
+            for effect_data in set_data['stats_list']:
+                effect_key = int(effect_data['effect_key'])
+                for bonus in effect_data['effects']:
+                    char_id, max_value, stat_name = bonus
+                    if stat_name != 'Max.' or max_value is None:
+                        continue
+                    mapped = MAX_EFFECT_CHAR_ID_TO_STAT_NAME.get(char_id)
+                    if mapped is None:
+                        continue
+                    stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(mapped) + 1
+                    f.write(f"INSERT INTO set_max_caps VALUES({set_id},{effect_key},{stat_index},{max_value});\n")
+
     # Write CREATE TABLE for min_stat_to_equip
     f.write("""CREATE TABLE min_stat_to_equip
              (item INTEGER, stat INTEGER, value INTEGER,

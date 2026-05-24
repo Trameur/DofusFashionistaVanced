@@ -24,6 +24,7 @@ class Set:
         self.ankama_id = None
         self.bonus = []
         self.bonus_per_num_items = {}
+        self.max_caps = []  # list of (num_items, stat_id, max_value)
         self.items = []
         self.localized_names = {}
         self.dofus_touch = False

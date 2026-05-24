@@ -17,7 +17,8 @@
 
   <h1 align="center">{% trans "Lock Items" %}</h1>
   <div id="form_container">
-    <div class="text">{% trans "If you have any items that <b>must</b> be on the final set, lock them in here:" %} </div> <br>
+    <div class="text">{% trans "If you have any items that <b>must</b> be on the final set, lock them in here:" %} </div>
+    <div class="text" style="font-size:0.9em;margin-top:4px;">{% trans "Once an item is selected, a <b>Customize stats</b> button will appear — use it to adjust individual stats (e.g. for a partially forged item)." %}</div> <br>
   <div class="columns-section inclusions-section">
   <div class="columns-column inclusions-column">
     <div class="small-brown-box min-stat-name" align="center">
@@ -118,6 +119,8 @@ var inclusionsInitial = {{ inclusions_json | safe }};
 var slotToType = {{ slot_to_type_json | safe }};
 var slotImages = {{ images_json | safe }};
 var loader = {{ ajax_loader | safe }};
+var statOverrides = {{ stat_overrides_json | safe }};
+var charId = {{ char_id }};
 
 function lockItem(itemId, slot, char_id) {
     inclusionsUpdateLine(itemId, slot, allItemsPerType, slotToType);
@@ -169,6 +172,81 @@ $(document).ready(function() {
 function inclusionsInitStateEngine(inclusionsData) {
     inclusionsInit(inclusionsData, allItemsPerType, allItemsPerTypeAndName, slotToType, slotImages);
 }
+
+function renderStatOverrideSection(slot, itemId, itemStats) {
+    var section = $("#stat-override-section-" + slot);
+    section.empty();
+    if (!itemStats || itemStats.length === 0) return;
+
+    var itemOverrides = statOverrides[String(itemId)] || {};
+    $.each(itemStats, function(_, stat) {
+        var overrideVal = itemOverrides[String(stat.stat_id)];
+        var row = $("<div style='margin-bottom:5px;display:flex;align-items:center;gap:6px;'></div>");
+        var label = $("<span style='min-width:150px;display:inline-block;'></span>").text(stat.name + ":");
+        var input = $("<input type='number' style='width:65px;'>")
+            .val(overrideVal !== undefined ? overrideVal : stat.value);
+        if (overrideVal !== undefined) {
+            input.css('outline', '2px solid #E8A000');
+        }
+        var feedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'>&#10003;</span>");
+        input.on('change', (function(capturedStatId, capturedOriginalValue) {
+            return function() {
+                var inp = $(this);
+                var fb = inp.siblings('.save-feedback');
+                var newVal = inp.val().trim();
+                if (newVal === '' || parseInt(newVal) === capturedOriginalValue) {
+                    newVal = '';
+                    inp.css('outline', '');
+                    if (statOverrides[String(itemId)]) {
+                        delete statOverrides[String(itemId)][String(capturedStatId)];
+                    }
+                } else {
+                    inp.css('outline', '2px solid #E8A000');
+                    if (!statOverrides[String(itemId)]) statOverrides[String(itemId)] = {};
+                    statOverrides[String(itemId)][String(capturedStatId)] = parseInt(newVal);
+                }
+                $.post("{% game_url 'set_item_stat_override' char_id %}",
+                    {item_id: itemId, stat_id: capturedStatId, value: newVal},
+                    function() { fb.stop(true).show().delay(1200).fadeOut(400); });
+            };
+        })(stat.stat_id, stat.value));
+        row.append(label).append(input).append(feedback);
+        section.append(row);
+    });
+}
+
+function setupStatOverrideForSlot(slot, itemId) {
+    var toggle = $("#stat-override-toggle-" + slot);
+    var section = $("#stat-override-section-" + slot);
+    if (!itemId) {
+        toggle.hide();
+        section.hide();
+        return;
+    }
+    toggle.show();
+    $("#stat-override-link-" + slot).off('click').on('click', function(e) {
+        e.preventDefault();
+        if (section.is(':visible')) {
+            section.hide();
+        } else {
+            $.post("{% game_url 'get_item_details' %}", {item: itemId}, function(data) {
+                renderStatOverrideSection(slot, itemId, data.stats || []);
+                section.show();
+            });
+        }
+    });
+}
+
+$(document).ready(function() {
+    $.each(inclusionsInitial, function(slot, itemId) {
+        setupStatOverrideForSlot(slot, itemId || null);
+        $("#item-id-" + slot).on('change', function() {
+            var newId = $(this).val();
+            setupStatOverrideForSlot(slot, newId || null);
+            $("#stat-override-section-" + slot).hide();
+        });
+    });
+});
 </script>
 
 {% endblock %}

@@ -20,7 +20,7 @@ from django.http import HttpResponseRedirect
 import pickle
 
 from chardata.lock_forbid import get_all_exclusions_en_names, get_all_inclusions_en_names,\
-    get_inclusions_dict, get_all_exclusions_ids, get_empty_slots
+    get_inclusions_dict, get_all_exclusions_ids, get_empty_slots, get_stat_overrides
 from chardata.min_stats import get_min_stats_digested
 from chardata.models import CharBaseStats
 from chardata.solution import set_minimal_solution
@@ -30,8 +30,9 @@ from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
     remove_cache_for_char, version_reverse
 from chardata.util_views import error
 from fashionistapulp.dofus_constants import STATS_NAMES
-from fashionistapulp.model import ModelInput
+from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
+from fashionistapulp.structure import get_structure
 
 
 if not settings.DEBUG:
@@ -79,14 +80,27 @@ def fashion(request, char_id, spells=False):
     
     inclusions_dic = get_inclusions_dict(char)
     exclusions = get_all_exclusions_ids(char)
+    stat_overrides = get_stat_overrides(char)
 
-    base_stats_by_attr = get_base_stats_by_attr(request, char_id)   
-     
+    if stat_overrides:
+        structure = get_structure()
+        _EXO_KEY_TO_OPTION = {'ap': 'ap_exo', 'mp': 'mp_exo', 'range': 'range_exo'}
+        for item_id, item_overrides in stat_overrides.items():
+            item_obj = structure.get_item_by_id(item_id)
+            base_stat_ids = {sid for sid, _ in item_obj.stats} if item_obj else set()
+            for stat_id, value in item_overrides.items():
+                if stat_id not in base_stat_ids and value > 0:
+                    stat = structure.get_stat_by_id(stat_id)
+                    if stat and stat.key in _EXO_KEY_TO_OPTION:
+                        model_options[_EXO_KEY_TO_OPTION[stat.key]] = True
+
+    base_stats_by_attr = get_base_stats_by_attr(request, char_id)
+
     if char.allow_points_distribution:
         stat_points_to_distribute = 5 * (char.level -1)
     else:
         stat_points_to_distribute = 0
-        
+
     # TODO: Sanity check input.
     model_input = ModelInput(char.level,
                              base_stats_by_attr,
@@ -97,7 +111,8 @@ def fashion(request, char_id, spells=False):
                              model_options,
                              char.char_class,
                              stat_points_to_distribute,
-                             get_empty_slots(char))
+                             get_empty_slots(char),
+                             stat_overrides)
 
     solved_status = None
     stats = None
@@ -107,16 +122,23 @@ def fashion(request, char_id, spells=False):
     if memoized_result is not None:
         solved_status, stats, result = memoized_result
     else:
-        model = borrow_model()
-        model.setup(model_input)
-    
-        model.run(2)
-        solved_status = model.get_solved_status()
-        if solved_status == 'Optimal':
-            stats = model.get_stats()
-            result = model.get_result_minimal()
-
-        return_model(model)
+        if stat_overrides:
+            model = Model(stat_overrides=stat_overrides)
+            model.setup(model_input)
+            model.run(2)
+            solved_status = model.get_solved_status()
+            if solved_status == 'Optimal':
+                stats = model.get_stats()
+                result = model.get_result_minimal()
+        else:
+            model = borrow_model()
+            model.setup(model_input)
+            model.run(2)
+            solved_status = model.get_solved_status()
+            if solved_status == 'Optimal':
+                stats = model.get_stats()
+                result = model.get_result_minimal()
+            return_model(model)
         MEMORY.put(model_input, (model.get_solved_status(), stats, result))
 
     if result is None:

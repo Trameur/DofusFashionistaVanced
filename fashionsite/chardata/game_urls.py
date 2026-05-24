@@ -52,6 +52,7 @@ urlpatterns = [
     re_path(r'^inclusions/(?P<char_id>\d+)/', inclusions_view.inclusions, name='inclusions'),
     re_path(r'^inclusionspost/(?P<char_id>\d+)/', inclusions_view.inclusions_post, name='inclusions_post'),
     re_path(r'^getitemdetails/', inclusions_view.get_item_details, name='get_item_details'),
+    re_path(r'^setitemstatoverride/(?P<char_id>\d+)/', inclusions_view.set_item_stat_override_view, name='set_item_stat_override'),
 
     re_path(r'^exclusions/(?P<char_id>\d+)/', exclusions_view.exclusions, name='exclusions'),
     re_path(r'^exclusionspost/(?P<char_id>\d+)/', exclusions_view.exclusions_post, name='exclusions_post'),

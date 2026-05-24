@@ -92,6 +92,7 @@ class Structure:
         self.read_extra_lines_table()
         self.read_item_flags_table()
         self.read_set_bonus_table()
+        self.read_set_max_caps_table()
 #       self.read_weapon_is_onehanded_table()
         self.read_weapon_hits_table()
         #self.insert_turquoises()
@@ -620,6 +621,19 @@ class Structure:
                 continue
             stat_key = self.get_stat_by_id(stat_id).key
             item_set.bonus_per_num_items.setdefault(num_items, {})[stat_key] = value
+
+    def read_set_max_caps_table(self):
+        c = self.conn.cursor()
+        try:
+            rows = c.execute('SELECT item_set, num_pieces_used, stat, max_value FROM set_max_caps').fetchall()
+        except Exception:
+            return
+        for entry in rows:
+            set_id, num_items, stat_id, max_value = entry
+            item_set = self.sets_dict.get(set_id) or self.dt_sets_dict.get(set_id)
+            if item_set is None:
+                continue
+            item_set.max_caps.append((num_items, stat_id, max_value))
 
     def build_indexes(self):
         self.items_list = list(self.items_dict.values())

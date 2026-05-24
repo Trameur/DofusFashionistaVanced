@@ -26,7 +26,7 @@ from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
     get_all_inclusions_en_names, get_all_exclusions_en_names,
-    get_empty_slots, set_empty_slot)
+    get_empty_slots, set_empty_slot, get_stat_overrides)
 from chardata.models import Char, BuildVote, BuildView
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
@@ -40,6 +40,7 @@ from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER
 
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
+from chardata.stat_icons import get_stat_icon_path
 from fashionistapulp.modelresult import ModelResultMinimal
 from chardata.themes import get_ajax_loader_URL, get_external_image_URL
 from fashionistapulp.translation import get_supported_language
@@ -51,11 +52,18 @@ SHARED_SOLUTION_CACHE_TIMEOUT = 6 * 60 * 60
 def _get_stat_filter_options():
     structure = get_structure()
     stats = sorted(structure.get_stats_list(), key=lambda stat: STAT_ORDER.get(stat.key, 9999))
-    return [
-        {'key': stat.key, 'label': _(stat.name)}
-        for stat in stats
-        if stat.key != 'hp' and not stat.key.startswith('pvp')
-    ]
+    result = []
+    for stat in stats:
+        if stat.key == 'hp' or stat.key.startswith('pvp'):
+            continue
+        icon_path = get_stat_icon_path(stat.key)
+        result.append({
+            'key': stat.key,
+            'id': stat.id,
+            'label': _(stat.name),
+            'icon_url': static(icon_path) if icon_path else None,
+        })
+    return result
 
 
 def _get_shared_solution_cache_key(char):
@@ -168,9 +176,15 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     params.update(vote_data)
     params.update(solution_params)
 
-    response = set_response(request, 
+    if not is_guest:
+        raw_overrides = get_stat_overrides(char)
+        stat_overrides_json = {str(item_id): {str(stat_id): val for stat_id, val in stats.items()}
+                               for item_id, stats in raw_overrides.items()}
+        params['stat_overrides_json'] = json.dumps(stat_overrides_json)
+
+    response = set_response(request,
                             'chardata/solution.html',
-                            params, 
+                            params,
                             char)
     return response
 

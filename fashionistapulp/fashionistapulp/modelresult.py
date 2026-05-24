@@ -115,25 +115,25 @@ class ModelResultMinimal():
         for stat in scrolled:
             self.input.get('base_stats_by_attr')[stat] = scrolled[stat]
 
-def model_result_from_minimal(minimal):
+def model_result_from_minimal(minimal, stat_overrides=None):
     structure = get_structure()
     if hasattr(minimal, 'stats'):
         result = ModelResult(minimal.input, minimal.stats)
     else:
         result = ModelResult(minimal.input)
-        
+
     for slot, item_id in minimal.item_per_slot.items():
         if item_id is not None and structure.get_item_by_id(item_id):
-            result.add_item_at_slot(structure.get_item_by_id(item_id), slot)
+            result.add_item_at_slot(structure.get_item_by_id(item_id), slot, stat_overrides)
         else:
             if item_id is not None:
                 logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
-            result.add_item_at_slot(None, slot) 
+            result.add_item_at_slot(None, slot)
     open_slots = []
     for slot in result.open_slots:
         open_slots.append(slot)
     for slot in open_slots:
-        result.add_item_at_slot(None, slot) 
+        result.add_item_at_slot(None, slot)
     result.calculate_stats()
     return result
 
@@ -156,8 +156,8 @@ class ModelResult():
         self.stats_gear = None
         self.stats_total = None
 
-    def add_item_at_slot(self, item, slot):
-        self._add_result_item_at_slot(slot, ModelResultItem(item))
+    def add_item_at_slot(self, item, slot, stat_overrides=None):
+        self._add_result_item_at_slot(slot, ModelResultItem(item, stat_overrides))
         
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
@@ -529,8 +529,8 @@ class ModelResult():
 
 
 class ModelResultItem():
-    
-    def __init__(self, item):
+
+    def __init__(self, item, stat_overrides=None):
         # Default weapon-specific flags so legacy pickles missing new fields stay safe
         self.is_mageable = False
         if item:
@@ -563,7 +563,13 @@ class ModelResultItem():
             for stat_id, stat_value in item.stats:
                 stat = structure.get_stat_by_id(stat_id)
                 self.stats[stat.key] = stat_value
-    
+
+            if stat_overrides and item.id in stat_overrides:
+                for stat_id, override_val in stat_overrides[item.id].items():
+                    stat = structure.get_stat_by_id(stat_id)
+                    if stat:
+                        self.stats[stat.key] = override_val
+
             self.min_stats_to_equip = {}
             for stat_id, stat_value in item.min_stats_to_equip:
                 self.min_stats_to_equip[structure.get_stat_by_id(stat_id).key] = stat_value
@@ -577,10 +583,6 @@ class ModelResultItem():
                 localized_extras = ['[!] ' + line for line in item.localized_extras.get('en', [])]
             flag_labels = {
                 'Hunting Weapon': _('Hunting Weapon'),
-                'Exchangeable': _('Exchangeable'),
-                'Linked to the character': _('Linked to the character'),
-                'Cooperative crafting impossible': _('Cooperative crafting impossible'),
-                'Fertile': _('Fertile'),
             }
             flag_icons = {
                 'Hunting Weapon': 'chardata/hunting_weapon.png',
