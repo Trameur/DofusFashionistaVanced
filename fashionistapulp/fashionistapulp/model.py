@@ -123,12 +123,29 @@ class Model:
 
     def create_stat_total_variables(self):
         self.stat_count = len(self.stats_list)
-     
+
+        # Stats that appear in any set's max_caps need an overage variable so the LP can
+        # represent effective stats below the character's base (e.g. 6-piece Cire Momore caps MP at 2
+        # while base MP is 3 — without overage the equality constraint makes that infeasible).
+        self._capped_stat_ids = set()
+        for item_set in self.sets_list:
+            if not item_set.max_caps:
+                continue
+            for num_items, stat_id, max_value in item_set.max_caps:
+                stat = self.structure.get_stat_by_id(stat_id)
+                if stat and stat.name in STAT_MAXIMUM:
+                    self._capped_stat_ids.add(stat_id)
+
         for stat in self.stats_list:
             if stat.name in STAT_MAXIMUM:
                 self.problem.setup_variable('stat', stat.id, None, STAT_MAXIMUM[stat.name])
             else:
                 self.problem.setup_variable('stat', stat.id, None, None)
+
+        for stat_id in self._capped_stat_ids:
+            stat = self.structure.get_stat_by_id(stat_id)
+            if stat and stat.name in STAT_MAXIMUM:
+                self.problem.setup_variable('overage', stat_id, 0, STAT_MAXIMUM[stat.name])
 
     def create_stat_points_variables(self):
         self.stat_count = len(self.stats_list)
@@ -891,7 +908,12 @@ class Model:
         For each (set, tier, stat) cap:
           stat[s] + (global_max - cap) * ss[set_id, tier+1] <= global_max
         When tier is active (ss=1): stat <= cap. When inactive (ss=0): stat <= global_max (no new restriction).
+        Overage bound per stat (one constraint aggregating all capping tiers):
+          overage[s] <= global_max * sum(ss for all tiers that cap this stat)
+        This lets overage absorb the gap when the cap is below base, making the problem feasible.
         """
+        overage_ss_per_stat = {}  # stat_id -> list of (set_id, tier_index)
+
         for item_set in self.sets_list:
             if not item_set.max_caps:
                 continue
@@ -908,6 +930,22 @@ class Model:
                 ]
                 restriction = self.problem.restriction_lt_eq(global_max, matrix)
                 self.restrictions.set_max_cap_constraints[(item_set.id, num_items, stat_id)] = restriction
+
+                if stat_id in self._capped_stat_ids:
+                    overage_ss_per_stat.setdefault(stat_id, []).append((item_set.id, num_items + 1))
+
+        # One aggregate overage bound per capped stat:
+        # overage[s] - global_max * sum(ss[set, k]) <= 0
+        # → overage=0 when no cap active; overage free up to global_max when any cap fires.
+        for stat_id, ss_keys in overage_ss_per_stat.items():
+            stat = self.structure.get_stat_by_id(stat_id)
+            if not stat or stat.name not in STAT_MAXIMUM:
+                continue
+            global_max = STAT_MAXIMUM[stat.name]
+            overage_matrix = [(1, 'overage', stat_id)]
+            for (set_id, k) in ss_keys:
+                overage_matrix.append((-global_max, 'ss', '%d_%d' % (set_id, k)))
+            self.problem.restriction_lt_eq(0, overage_matrix)
 
     def create_light_set_constraints(self):
         """
@@ -993,6 +1031,9 @@ class Model:
             if stat in self.main_stats_list:
                 for i in range(0, 6):
                     matrix.append((1, 'stat_point', 'statpoint_%d_%d' % (i, stat.id)))
+            # overage absorbs excess when a set cap drives the stat below the character's base
+            if stat.id in self._capped_stat_ids:
+                matrix.append((-1, 'overage', stat.id))
             restriction = self.problem.restriction_eq(0, matrix)
             self.restrictions.stat_total_constraints[stat.name] = restriction
 

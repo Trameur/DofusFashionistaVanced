@@ -36344,20 +36344,20 @@ CREATE TABLE set_max_caps
               FOREIGN KEY(item_set) REFERENCES sets(id),
               FOREIGN KEY(stat) REFERENCES stats(id));
 INSERT INTO set_max_caps VALUES(507,2,5,4);
-INSERT INTO set_max_caps VALUES(507,2,4,4);
+INSERT INTO set_max_caps VALUES(507,2,18,4);
 INSERT INTO set_max_caps VALUES(507,2,19,4);
 INSERT INTO set_max_caps VALUES(507,3,19,3);
 INSERT INTO set_max_caps VALUES(507,3,5,3);
-INSERT INTO set_max_caps VALUES(507,3,4,3);
+INSERT INTO set_max_caps VALUES(507,3,18,3);
 INSERT INTO set_max_caps VALUES(507,4,19,3);
-INSERT INTO set_max_caps VALUES(507,4,4,3);
+INSERT INTO set_max_caps VALUES(507,4,18,3);
 INSERT INTO set_max_caps VALUES(507,4,5,3);
 INSERT INTO set_max_caps VALUES(507,5,19,3);
-INSERT INTO set_max_caps VALUES(507,5,4,3);
+INSERT INTO set_max_caps VALUES(507,5,18,3);
 INSERT INTO set_max_caps VALUES(507,5,5,3);
 INSERT INTO set_max_caps VALUES(507,6,19,2);
 INSERT INTO set_max_caps VALUES(507,6,5,2);
-INSERT INTO set_max_caps VALUES(507,6,4,2);
+INSERT INTO set_max_caps VALUES(507,6,18,2);
 CREATE TABLE min_stat_to_equip
              (item INTEGER, stat INTEGER, value INTEGER,
               FOREIGN KEY(item) REFERENCES items(id),

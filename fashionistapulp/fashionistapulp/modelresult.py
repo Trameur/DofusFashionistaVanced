@@ -237,6 +237,11 @@ class ModelResult():
                                          + self.stats_total['cha']
                                          + self.stats_total['agi'])
             self.stats_total['hp'] = self.stats_total['vit'] + self.input['char_level'] * 5 + 50 + self.stats_total['hp']
+            # Apply active set caps (e.g. 6-piece Cire Momore caps MP/Summon/Range)
+            for result_set in self.sets:
+                for stat_key, _stat_name, max_cap in result_set.get_max_caps():
+                    if stat_key in self.stats_total:
+                        self.stats_total[stat_key] = min(self.stats_total[stat_key], max_cap)
         return self.stats_total
         
     def switch_item(self, item, slot):
@@ -652,13 +657,14 @@ class ModelResultItem():
             
 
 class ModelResultSet():
-    
+
     def __init__(self, item_set, number_of_items):
         structure = get_structure()
         self.name = item_set.name
         self.total_number_of_items = structure.get_number_of_items_in_set_by_id(item_set.id)
         self.number_of_items = number_of_items
         self.bonus_per_num_items = item_set.bonus_per_num_items
+        self.raw_max_caps = item_set.max_caps  # list of (num_items, stat_id, max_value)
         self.items = []
         for item_id in item_set.items:
             item = structure.get_item_by_id(item_id)
@@ -667,6 +673,16 @@ class ModelResultSet():
 
     def get_bonus(self):
         return self.bonus_per_num_items[self.number_of_items]
+
+    def get_max_caps(self):
+        structure = get_structure()
+        caps = []
+        for num_items, stat_id, max_value in self.raw_max_caps:
+            if num_items == self.number_of_items:
+                stat = structure.get_stat_by_id(stat_id)
+                if stat:
+                    caps.append((stat.key, stat.name, max_value))
+        return caps
 
 
 class ModelResultStat():

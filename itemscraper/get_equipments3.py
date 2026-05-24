@@ -296,7 +296,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
 
     # Dofus 3 internal characteristic IDs used inside "Max." set effects
     MAX_EFFECT_CHAR_ID_TO_STAT_NAME = {
-        19: 'AP',
+        19: 'Summon',
         23: 'MP',
         26: 'Range',
     }

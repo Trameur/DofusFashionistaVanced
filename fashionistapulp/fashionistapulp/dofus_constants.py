@@ -228,6 +228,7 @@ STAT_MAXIMUM = {
     'AP': 12,
     'MP': 6,
     'Range': 6,
+    'Summon': 10,
     '% Neutral Resist': 53,
     '% Air Resist': 53,
     '% Fire Resist': 53,

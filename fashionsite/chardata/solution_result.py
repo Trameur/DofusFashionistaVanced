@@ -95,11 +95,14 @@ class SolutionResult:
         for result_set in r.sets:
             stats_from_result_set = sorted(iter(result_set.get_bonus().items()),
                                            key=lambda x: STAT_ORDER[x[0]])
-            
+
             result_set.stats_lines = []
             for stat_key, stat_value in stats_from_result_set:
                 stat_name = get_structure().get_stat_by_key(stat_key).name
                 result_set.stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
+
+            for stat_key, stat_name, max_value in result_set.get_max_caps():
+                result_set.stats_lines.append(CapLine(stat_key, stat_name, max_value))
                            
             # This is a dict to handle cases like Air Bwaks, that can be multiple different
             # items, but we only want to display one.
@@ -325,3 +328,12 @@ class PrysmaraditeConditionLine:
         if model_result:
             if not model_result.check_if_prysmaradite():
                 self.formatting = '#r'
+
+
+class CapLine:
+
+    def __init__(self, stat_key, stat_name, max_value):
+        self.text = _('Max. %(stat)s %(value)d') % {'stat': _(stat_name), 'value': max_value}
+        self.formatting = '#r'
+        icon_path = get_stat_icon_path(stat_key)
+        self.icon_url = static(icon_path) if icon_path else None
