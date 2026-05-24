@@ -314,6 +314,7 @@
 
         var isGuest = {{is_guest_json | safe}};
         var options = {{options_json | safe}};
+        var baseOptions = {% if base_options_json %}{{base_options_json | safe}}{% else %}options{% endif %};
         var external = {{link_external_image | safe}};
         var loader = {{ ajax_loader | safe }};
 
@@ -397,18 +398,35 @@
             }
 
             var exoOverride = countOverrideExo();
-            var apExoSources = (options["ap_exo"] ? 1 : 0) + exoOverride.ap;
-            var mpExoSources = (options["mp_exo"] ? 1 : 0) + exoOverride.mp;
-            var rangeExoSources = (options["range_exo"] ? 1 : 0) + exoOverride.range;
+            var actualApExo = options["ap_exo"] ? 1 : 0;
+            var actualMpExo = options["mp_exo"] ? 1 : 0;
+            var actualRangeExo = options["range_exo"] ? 1 : 0;
+            // wantedExo: show +1 only if user has an override documenting it, or explicitly checked the option
+            var wantedApExo = exoOverride.ap > 0 ? 1 : (baseOptions["ap_exo"] ? actualApExo : 0);
+            var wantedMpExo = exoOverride.mp > 0 ? 1 : (baseOptions["mp_exo"] ? actualMpExo : 0);
+            var wantedRangeExo = exoOverride.range > 0 ? 1 : (baseOptions["range_exo"] ? actualRangeExo : 0);
+            // apAdjust compensates for the difference between what's baked in stats_total and what we want to show
+            var apAdjust = wantedApExo - actualApExo;
+            var mpAdjust = wantedMpExo - actualMpExo;
+            var rangeAdjust = wantedRangeExo - actualRangeExo;
 
             $.each(new_stats, function(stat_key, stat_value) {
                 var statValueString;
-                if (stat_key === "ap" && apExoSources > 0) {
-                    statValueString = formatDofusStatValue(stat_value - apExoSources) + "+1";
-                } else if (stat_key === "mp" && mpExoSources > 0) {
-                    statValueString = formatDofusStatValue(stat_value - mpExoSources) + "+1";
-                } else if (stat_key === "range" && rangeExoSources > 0) {
-                    statValueString = formatDofusStatValue(stat_value - rangeExoSources) + "+1";
+                if (stat_key === "ap") {
+                    var apVal = stat_value + apAdjust;
+                    statValueString = wantedApExo > 0
+                        ? formatDofusStatValue(apVal - wantedApExo) + "+1"
+                        : formatDofusStatValue(apVal);
+                } else if (stat_key === "mp") {
+                    var mpVal = stat_value + mpAdjust;
+                    statValueString = wantedMpExo > 0
+                        ? formatDofusStatValue(mpVal - wantedMpExo) + "+1"
+                        : formatDofusStatValue(mpVal);
+                } else if (stat_key === "range") {
+                    var rangeVal = stat_value + rangeAdjust;
+                    statValueString = wantedRangeExo > 0
+                        ? formatDofusStatValue(rangeVal - wantedRangeExo) + "+1"
+                        : formatDofusStatValue(rangeVal);
                 } else {
                     statValueString = formatDofusStatValue(stat_value);
                 }
@@ -488,7 +506,9 @@
 
         var exoStatIds = {};
         var apStatId = null, mpStatId = null, rangeStatId = null;
+        var statIdToKey = {};
         $.each(statFilterOptions, function(_, opt) {
+            if (opt.id) statIdToKey[String(opt.id)] = opt.key;
             if (opt.key === 'ap' || opt.key === 'mp' || opt.key === 'range') {
                 exoStatIds[String(opt.id)] = opt.key;
                 if (opt.key === 'ap') apStatId = String(opt.id);
@@ -560,7 +580,7 @@
                         .css({width:'15px',height:'15px',verticalAlign:'middle',flexShrink:'0'}));
                 }
                 var input = $("<input type='number' style='width:55px;flex-shrink:0;'>").val(displayVal);
-                if (isExo) input.attr('min', 0).attr('max', 1);
+                if (isExo) input.attr('min', 0).attr('max', stat.isAdded ? 1 : stat.value + 1);
                 if (isBlue) input.css('outline', '2px solid #4a9fd5');
                 else if (isOrange) input.css('outline', '2px solid #C47A00');
 
@@ -574,14 +594,26 @@
                 delBtn.click((function(capturedStat) {
                     return function() {
                         var sidStr = String(capturedStat.stat_id);
+                        var delPrevOverride = (statOverrides[String(itemId)] || {})[sidStr];
                         $.post(apiBase + "/setitemstatoverride/{{char_id}}/",
                             {item_id: itemId, stat_id: capturedStat.stat_id, value: ''}, function() {});
                         if (statOverrides[String(itemId)]) delete statOverrides[String(itemId)][sidStr];
+                        if (trueExoOverrides[String(itemId)]) delete trueExoOverrides[String(itemId)][sidStr];
+                        var delGearKey = statIdToKey[sidStr];
+                        if (delGearKey && !exoStatIds[sidStr] && delPrevOverride !== undefined) {
+                            var delTarget = capturedStat.isAdded ? 0 : capturedStat.value;
+                            var delD = delTarget - delPrevOverride;
+                            if (delD !== 0) {
+                                if (stats_gear[delGearKey] !== undefined) stats_gear[delGearKey] += delD;
+                                if (stats_total[delGearKey] !== undefined) stats_total[delGearKey] += delD;
+                            }
+                        }
+                        update_stats();
                         if (capturedStat.isAdded) {
                             for (var i = itemStats.length - 1; i >= 0; i--) {
                                 if (itemStats[i].stat_id === capturedStat.stat_id) { itemStats.splice(i, 1); break; }
                             }
-                            $(this).closest('.sol-stat-edit-row').remove();
+                            showEditMode(slot, itemId, itemStats);
                         } else {
                             var inp = $(this).closest('.sol-stat-edit-row').find('input');
                             inp.val(capturedStat.value).css('outline', '');
@@ -595,26 +627,48 @@
                         var inp = $(this);
                         var fb = inp.siblings('.save-feedback');
                         var newVal = inp.val().trim();
-                        if (exoStatIds[String(capturedStatId)] && newVal !== '' && parseInt(newVal) > 1) {
-                            newVal = '1';
-                            inp.val(1);
+                        var prevOverride = (statOverrides[String(itemId)] || {})[String(capturedStatId)];
+                        var gearKey = statIdToKey[String(capturedStatId)];
+                        var isExoStat = !!exoStatIds[String(capturedStatId)];
+                        var exoMaxVal = capturedIsAdded ? 1 : capturedOriginalValue + 1;
+                        if (isExoStat && newVal !== '' && parseInt(newVal) > exoMaxVal) {
+                            newVal = String(exoMaxVal);
+                            inp.val(exoMaxVal);
                         }
                         if (capturedIsAdded && (newVal === '' || parseInt(newVal) === 0)) {
+                            if (gearKey && !isExoStat) {
+                                var oldContrib = prevOverride !== undefined ? prevOverride : 0;
+                                if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] -= oldContrib;
+                                if (stats_total[gearKey] !== undefined) stats_total[gearKey] -= oldContrib;
+                            }
                             $.post(apiBase + "/setitemstatoverride/{{char_id}}/",
                                 {item_id: itemId, stat_id: capturedStatId, value: ''}, function() {});
                             if (statOverrides[String(itemId)]) delete statOverrides[String(itemId)][String(capturedStatId)];
+                            if (trueExoOverrides[String(itemId)]) delete trueExoOverrides[String(itemId)][String(capturedStatId)];
                             for (var i = itemStats.length - 1; i >= 0; i--) {
                                 if (itemStats[i].stat_id === capturedStatId) { itemStats.splice(i, 1); break; }
                             }
-                            inp.closest('.sol-stat-edit-row').remove();
+                            showEditMode(slot, itemId, itemStats);
+                            update_stats();
                             return;
                         }
+                        var oldContrib = prevOverride !== undefined ? prevOverride : capturedOriginalValue;
                         if (newVal === '' || parseInt(newVal) === capturedOriginalValue) {
                             newVal = '';
                             inp.css('outline', '');
                             inp.siblings('span:not(.save-feedback)').css('color', '');
                             if (statOverrides[String(itemId)]) {
                                 delete statOverrides[String(itemId)][String(capturedStatId)];
+                            }
+                            if (isExoStat && trueExoOverrides[String(itemId)]) {
+                                delete trueExoOverrides[String(itemId)][String(capturedStatId)];
+                            }
+                            if (gearKey && !isExoStat) {
+                                var d = capturedOriginalValue - oldContrib;
+                                if (d !== 0) {
+                                    if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] += d;
+                                    if (stats_total[gearKey] !== undefined) stats_total[gearKey] += d;
+                                }
                             }
                         } else {
                             var newValInt = parseInt(newVal);
@@ -630,7 +684,23 @@
                             }
                             if (!statOverrides[String(itemId)]) statOverrides[String(itemId)] = {};
                             statOverrides[String(itemId)][String(capturedStatId)] = newValInt;
+                            if (isExoStat) {
+                                if (!trueExoOverrides[String(itemId)]) trueExoOverrides[String(itemId)] = {};
+                                if (capturedIsAdded ? newValInt > 0 : newValInt > capturedOriginalValue) {
+                                    trueExoOverrides[String(itemId)][String(capturedStatId)] = true;
+                                } else {
+                                    delete trueExoOverrides[String(itemId)][String(capturedStatId)];
+                                }
+                            }
+                            if (gearKey && !isExoStat) {
+                                var d = newValInt - oldContrib;
+                                if (d !== 0) {
+                                    if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] += d;
+                                    if (stats_total[gearKey] !== undefined) stats_total[gearKey] += d;
+                                }
+                            }
                         }
+                        update_stats();
                         $.post(apiBase + "/setitemstatoverride/{{char_id}}/",
                             {item_id: itemId, stat_id: capturedStatId, value: newVal},
                             function() { fb.stop(true).show().delay(1200).fadeOut(400); });
@@ -674,12 +744,23 @@
                 });
                 if (!statOverrides[String(itemId)]) statOverrides[String(itemId)] = {};
                 statOverrides[String(itemId)][String(newStatId)] = newVal;
+                if (exoStatIds[String(newStatId)] && newVal > 0) {
+                    if (!trueExoOverrides[String(itemId)]) trueExoOverrides[String(itemId)] = {};
+                    trueExoOverrides[String(itemId)][String(newStatId)] = true;
+                } else {
+                    var addGearKey = statIdToKey[String(newStatId)];
+                    if (addGearKey && newVal !== 0) {
+                        if (stats_gear[addGearKey] !== undefined) stats_gear[addGearKey] += newVal;
+                        if (stats_total[addGearKey] !== undefined) stats_total[addGearKey] += newVal;
+                    }
+                }
                 $.post(apiBase + "/setitemstatoverride/{{char_id}}/",
                     {item_id: itemId, stat_id: newStatId, value: newVal},
                     function() {
                         addFeedback.stop(true).show().delay(1200).fadeOut(400);
                         itemStats.push({stat_id: newStatId, name: statName, value: newVal, icon_url: iconUrl, isAdded: true});
                         showEditMode(slot, itemId, itemStats);
+                        update_stats();
                     });
             });
             addRow.append(statSelect).append(addInput).append(addBtn).append(addFeedback);
@@ -726,11 +807,20 @@
                 $.post(apiBase + "/getitemdetails/", {item: itemId}, function(data) {
                     var itemStats = data.stats || [];
                     var knownIds = {};
-                    $.each(itemStats, function(_, s) { knownIds[String(s.stat_id)] = true; });
+                    var baseStatValues = {};
+                    $.each(itemStats, function(_, s) {
+                        knownIds[String(s.stat_id)] = true;
+                        baseStatValues[String(s.stat_id)] = s.value;
+                    });
                     trueExoOverrides[itemIdStr] = {};
                     $.each(overrides, function(sidStr, val) {
-                        if (!knownIds[sidStr]) {
+                        var baseVal = baseStatValues.hasOwnProperty(sidStr) ? baseStatValues[sidStr] : 0;
+                        var isNewStat = !knownIds[sidStr];
+                        var isOverStat = exoStatIds[sidStr] && val > baseVal;
+                        if (isNewStat || isOverStat) {
                             trueExoOverrides[itemIdStr][sidStr] = true;
+                        }
+                        if (isNewStat) {
                             var iconUrl = null, name = '';
                             $.each(statFilterOptions, function(_, opt) {
                                 if (String(opt.id) === sidStr) { name = opt.label; iconUrl = opt.icon_url; return false; }

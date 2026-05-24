@@ -57,7 +57,11 @@ class Model:
                 seen_stat_ids = set()
                 for stat_id, value in item.stats:
                     if stat_id in item_overrides:
-                        new_stats.append((stat_id, item_overrides[stat_id]))
+                        stat = self.structure.get_stat_by_id(stat_id)
+                        if stat and stat.key in self._EXO_STAT_KEYS:
+                            new_stats.append((stat_id, min(item_overrides[stat_id], value)))
+                        else:
+                            new_stats.append((stat_id, item_overrides[stat_id]))
                         seen_stat_ids.add(stat_id)
                     else:
                         new_stats.append((stat_id, value))

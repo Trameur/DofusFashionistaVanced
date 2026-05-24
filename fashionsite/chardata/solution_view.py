@@ -181,6 +181,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
         stat_overrides_json = {str(item_id): {str(stat_id): val for stat_id, val in stats.items()}
                                for item_id, stats in raw_overrides.items()}
         params['stat_overrides_json'] = json.dumps(stat_overrides_json)
+        params['base_options_json'] = json.dumps(get_options(request, char_id))
 
     response = set_response(request,
                             'chardata/solution.html',

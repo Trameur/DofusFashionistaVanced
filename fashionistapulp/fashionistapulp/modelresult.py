@@ -564,11 +564,15 @@ class ModelResultItem():
                 stat = structure.get_stat_by_id(stat_id)
                 self.stats[stat.key] = stat_value
 
+            _EXO_KEYS = {'ap', 'mp', 'range'}
             if stat_overrides and item.id in stat_overrides:
                 for stat_id, override_val in stat_overrides[item.id].items():
                     stat = structure.get_stat_by_id(stat_id)
                     if stat:
-                        self.stats[stat.key] = override_val
+                        if stat.key in _EXO_KEYS and override_val > self.stats.get(stat.key, 0):
+                            pass  # exo portion; get_stats_gear() adds +1 via ap_exo/mp_exo/range_exo options
+                        else:
+                            self.stats[stat.key] = override_val
 
             self.min_stats_to_equip = {}
             for stat_id, stat_value in item.min_stats_to_equip:

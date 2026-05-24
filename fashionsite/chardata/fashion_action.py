@@ -87,11 +87,12 @@ def fashion(request, char_id, spells=False):
         _EXO_KEY_TO_OPTION = {'ap': 'ap_exo', 'mp': 'mp_exo', 'range': 'range_exo'}
         for item_id, item_overrides in stat_overrides.items():
             item_obj = structure.get_item_by_id(item_id)
-            base_stat_ids = {sid for sid, _ in item_obj.stats} if item_obj else set()
+            base_stats_dict = {sid: val for sid, val in item_obj.stats} if item_obj else {}
             for stat_id, value in item_overrides.items():
-                if stat_id not in base_stat_ids and value > 0:
-                    stat = structure.get_stat_by_id(stat_id)
-                    if stat and stat.key in _EXO_KEY_TO_OPTION:
+                stat = structure.get_stat_by_id(stat_id)
+                if stat and stat.key in _EXO_KEY_TO_OPTION:
+                    base_val = base_stats_dict.get(stat_id, 0)
+                    if value > base_val:
                         model_options[_EXO_KEY_TO_OPTION[stat.key]] = True
 
     base_stats_by_attr = get_base_stats_by_attr(request, char_id)
