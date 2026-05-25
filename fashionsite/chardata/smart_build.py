@@ -598,13 +598,14 @@ def _set_minimums(char, aspects):
     level = char.level
     elements = get_elements(aspects)
     is_mule = not elements and ('pp' in aspects or 'pods' in aspects)
+    is_leech = not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects
 
     mins = {}
 
     # AP/MP/Range/Summons
-    if is_mule:
-        mins['ap'] = 7 if level >= 100 else 6
-        mins['mp'] = 4
+    if is_mule or is_leech:
+        mins['ap'] = 0
+        mins['mp'] = 0
         mins['range'] = 0
     elif level < 60:
         mins['ap'], mins['mp'] = 6, 3
@@ -625,12 +626,13 @@ def _set_minimums(char, aspects):
         mins['ap'], mins['mp'] = param_for_build(race, elements, 'endgame_mins')
         mins['range'] = 4
 
-    if not is_mule:
+    if not (is_mule or is_leech):
         mins['range'] = round(mins['range']
                               * param_for_build(race, elements, 'range_importance', 'float_avg'))
 
     # Preserve user-customized AP/MP/Range if they already exist and exceed the new defaults
-    if char.minimum_stats:
+    # (skip for mule/leech builds — always use 0)
+    if not is_mule and not is_leech and char.minimum_stats:
         saved = pickle.loads(char.minimum_stats)
         for stat_key, stat_name in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range')]:
             if stat_name in saved:
@@ -654,7 +656,15 @@ def _set_minimums(char, aspects):
     #    options['mp_exo'] = True if level == 200 else 'gelano' if level >= 120 else False
     #    options['turq_dofus'] = (level >= 190)
     #options['shields'] = ('duel' in aspects)
-    options['dofus'] = 'cawwot' if ('wis' in aspects) else True
+    if is_mule or is_leech:
+        # Prysmaradites give combat bonuses useless for mule/leech
+        # Mule keeps dofus enabled so pp/cha dofuses can still be selected
+        # Leech only needs Cawwot Dofus for wis
+        if is_leech:
+            options['dofus'] = 'cawwot'
+        options['prysmaradite'] = False
+    else:
+        options['dofus'] = 'cawwot' if ('wis' in aspects) else True
     set_options(char, options)
     
     # Convert mins keys
@@ -828,16 +838,38 @@ def _set_weights(char, aspects, apply=True):
     w['resperwea'] = chance_of_melee_def * resper_w * 5
 
     # For pure mule/prospection builds (no combat elements), zero out irrelevant stats
+    # Keep pp (prospecting) and cha (chance, since 10 cha = 1 pp, so cha = pp/10) non-zero
     if not elements and ('pp' in aspects or 'pods' in aspects):
-        for zero_key in ('dodge', 'lock', 'apred', 'mpred', 'apres', 'mpres',
+        for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',
+                         'dodge', 'lock', 'agi', 'apred', 'mpred', 'apres', 'mpres',
                          'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
                          'trapdamper', 'ref', 'permedam', 'perrandam',
                          'perweadam', 'perspedam', 'respermee', 'resperran',
-                         'resperwea', 'init', 'wis', 'ch', 'vit', 'hp'):
+                         'resperwea', 'init', 'wis', 'ch', 'vit', 'hp',
+                         'pow', 'str', 'int'):
             w[zero_key] = 0
         for damage_type in DAMAGE_TYPES:
             w['%sres' % damage_type] = 0
             w['%sresper' % damage_type] = 0
+            w['%sdam' % damage_type] = 0
+        w['dam'] = 0
+        w['cha'] = w['pp'] / 10.0
+
+    # For pure leeching/wisdom builds (wis aspect, no combat elements), zero out everything except wis
+    if not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects:
+        for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',
+                         'dodge', 'lock', 'agi', 'apred', 'mpred', 'apres', 'mpres',
+                         'crires', 'pshres', 'cridam', 'pshdam', 'trapdam',
+                         'trapdamper', 'ref', 'permedam', 'perrandam',
+                         'perweadam', 'perspedam', 'respermee', 'resperran',
+                         'resperwea', 'init', 'ch', 'vit', 'hp',
+                         'pow', 'str', 'int', 'cha', 'pp'):
+            w[zero_key] = 0
+        for damage_type in DAMAGE_TYPES:
+            w['%sres' % damage_type] = 0
+            w['%sresper' % damage_type] = 0
+            w['%sdam' % damage_type] = 0
+        w['dam'] = 0
 
     # Discretize w
     for k in w:

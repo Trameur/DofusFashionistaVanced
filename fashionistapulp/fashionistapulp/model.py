@@ -165,7 +165,13 @@ class Model:
         self.problem.setup_variable('prysmaradite', 1, 0,  1)
         
         
-    def add_weird_item_weights_to_objective_funcion(self, objective_values, level):    
+    def add_weird_item_weights_to_objective_funcion(self, objective_values, level):
+        # Skip all special item bonuses for pure support builds (mule/leech)
+        # where all combat-relevant stats are zero
+        combat_stats = ('dam', 'hp', 'ap', 'mp', 'ch', 'permedam', 'perrandam',
+                        'str', 'int', 'agi', 'pow', 'heals', 'trocadeur')
+        if not any(objective_values.get(s, 0) for s in combat_stats):
+            return
 
         #Crimson Dofus
         #Deep Crimson: When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).
