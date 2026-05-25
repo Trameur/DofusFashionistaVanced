@@ -1,0 +1,228 @@
+{% load i18n %}
+<div id="changelog-overlay" onclick="closeChangelog()"></div>
+<div id="changelog-modal" role="dialog" aria-label="{% trans "Changelog" %}">
+  <div class="changelog-header">
+    <span>{% trans "Changelog" %}</span>
+    <button class="changelog-close" onclick="closeChangelog()" aria-label="{% trans "Close" %}">&times;</button>
+  </div>
+  <div id="changelog-body">
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "May 2026" %}</span>
+        <span class="cl-version">Dofus 3.5</span>
+      </div>
+      <div class="cl-title">{% trans "Item customization & optimizer fixes" %}</div>
+      <ul>
+        <li>{% trans "Cire Momore's Curse set caps now correctly enforced in the optimizer (MP/Summon/Range hard caps per tier)" %}</li>
+        <li>{% trans "Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is equipped" %}</li>
+        <li>{% trans "New: Customize Stats — modify the stats of a specific item for your build (undercrafted items, familiars below max level)" %}</li>
+        <li>{% trans "Exo mage stats now handled correctly in the custom stats editor" %}</li>
+        <li>{% trans "Lock an empty slot to prevent the optimizer from filling it" %}</li>
+        <li>{% trans "Stat filter in the item picker is now visible by default" %}</li>
+        <li>{% trans "Added Gelano AP/PM ring variant" %}</li>
+        <li>{% trans "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "May 2026" %}</span>
+        <span class="cl-version">Beta</span>
+      </div>
+      <div class="cl-title">{% trans "Beta version launched" %}</div>
+      <ul>
+        <li>{% trans "Beta version launched at /beta/ with a dedicated item database" %}</li>
+        <li>{% trans "Beta spell simulator added" %}</li>
+        <li>{% trans "Improved Dofus 3 / Beta version switcher in the navigation bar" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "May 2026" %}</span>
+        <span class="cl-version">Dofus 3.5</span>
+      </div>
+      <div class="cl-title">{% trans "Server migration & infrastructure" %}</div>
+      <ul>
+        <li>{% trans "Site migrated to Hetzner dedicated server (dofusfashionista.gg)" %}</li>
+        <li>{% trans "Multi-version framework: separate routes and databases for dofus3, beta, (retro, touch coming later)" %}</li>
+        <li>{% trans "Shared builds page load time reduced from 1900ms to 140ms" %}</li>
+        <li>{% trans "Mail spam protection added; password reset fixed" %}</li>
+        <li>{% trans "Maintenance page added for planned downtime" %}</li>
+        <li>{% trans "Removed legacy Facebook login code" %}</li>
+        <li>{% trans "Updated to Dofus 3.5.16.20 items" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "April 2026" %}</span>
+        <span class="cl-version">Dofus 3.5</span>
+      </div>
+      <div class="cl-title">{% trans "Docker support & security fixes" %}</div>
+      <ul>
+        <li>{% trans "Docker support added for local development; Python upgraded to 3.14" %}</li>
+        <li>{% trans "Google OAuth login and logout fixed after HTTPS migration" %}</li>
+        <li>{% trans "Fixed XSS reflected injection, DOM text reinterpretation, and deserialization vulnerabilities" %}</li>
+        <li>{% trans "jQuery upgraded to 3.6.4; Django updated to 5.1.14" %}</li>
+        <li>{% trans "Updated to Dofus 3.5.11.13 items" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "March 2026" %}</span>
+        <span class="cl-version">Dofus 3.5</span>
+      </div>
+      <div class="cl-title">{% trans "Encyclopedia" %}</div>
+      <ul>
+        <li>{% trans "Encyclopedia launched: browse all items with stats and craft recipes" %}</li>
+        <li>{% trans "Crafting recipes added to encyclopedia item pages" %}</li>
+        <li>{% trans "Weapon stats correctly displayed in the encyclopedia" %}</li>
+        <li>{% trans "Better item search with improved search box" %}</li>
+        <li>{% trans "Fixed items with OR-type equip conditions" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "March 2026" %}</span>
+        <span class="cl-version">Dofus 3.5</span>
+      </div>
+      <div class="cl-title">{% trans "Stat icons & display improvements" %}</div>
+      <ul>
+        <li>{% trans "Stat icons added across the interface (build page, shared builds, encyclopedia)" %}</li>
+        <li>{% trans "Fixed decimal rounding for displayed stat values" %}</li>
+        <li>{% trans "Better shared builds page: faster loading and cleaner stat display" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "March 2026" %}</span>
+        <span class="cl-version">Dofus 3.5</span>
+      </div>
+      <div class="cl-title">{% trans "Translations & item updates" %}</div>
+      <ul>
+        <li>{% trans "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)" %}</li>
+        <li>{% trans "Spell descriptions translated in all 6 languages" %}</li>
+        <li>{% trans "Lock/Forbid Wild Seemyool added to item restrictions" %}</li>
+        <li>{% trans "Fixed weapon damage display" %}</li>
+        <li>{% trans "Updated to Dofus 3.5.6.7 items" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "December 2025 – February 2026" %}</span>
+        <span class="cl-version">Dofus 3.4</span>
+      </div>
+      <div class="cl-title">{% trans "Spell auto-scrapper — extended" %}</div>
+      <ul>
+        <li>{% trans "Spell images scraped automatically for all classes" %}</li>
+        <li>{% trans "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "November 2025" %}</span>
+        <span class="cl-version">Dofus 3.3</span>
+      </div>
+      <div class="cl-title">{% trans "Spell auto-scrapper" %}</div>
+      <ul>
+        <li>{% trans "Spell damage simulator v1: auto-scraped hit data for all classes" %}</li>
+        <li>{% trans "Best element, MP cost, and base damage shown per spell" %}</li>
+        <li>{% trans "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "November 2025" %}</span>
+        <span class="cl-version">Dofus 3.3</span>
+      </div>
+      <div class="cl-title">{% trans "Shared builds" %}</div>
+      <ul>
+        <li>{% trans "Shared builds: publish your build with a unique link, visible to the community" %}</li>
+        <li>{% trans "Community voting system for shared builds" %}</li>
+        <li>{% trans "Build creator attribution shown on each shared build" %}</li>
+        <li>{% trans "Migrated internal item references to ankama_id for stability across game updates" %}</li>
+        <li>{% trans "Fixed old saved builds broken by item lock/forbid data migration" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "October 2025" %}</span>
+        <span class="cl-version">Dofus 3.3</span>
+      </div>
+      <div class="cl-title">{% trans "Dofus 3.3 update" %}</div>
+      <ul>
+        <li>{% trans "Updated to Dofus 3.3 with new items and icons" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "April – September 2025" %}</span>
+        <span class="cl-version">Dofus 3.1 – 3.2</span>
+      </div>
+      <div class="cl-title">{% trans "Compatibility & stability updates" %}</div>
+      <ul>
+        <li>{% trans "Windows 11 compatibility improvements" %}</li>
+        <li>{% trans "Fixed item equip conditions display" %}</li>
+        <li>{% trans "Fixed percentage resistance cap" %}</li>
+        <li>{% trans "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "December 2024" %}</span>
+        <span class="cl-version">Dofus 3.0</span>
+      </div>
+      <div class="cl-title">{% trans "Dofus 3.0 update" %}</div>
+      <ul>
+        <li>{% trans "Site adapted to Dofus 3.0: new item format, stats, and database" %}</li>
+        <li>{% trans "Item database updated through Dofus 3.0 (3.0.14.10 → 3.0.51.48)" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "December 2023" %}</span>
+        <span class="cl-version">Dofus 2.x</span>
+      </div>
+      <div class="cl-title">{% trans "Site relaunch on AWS" %}</div>
+      <ul>
+        <li>{% trans "Site relaunched as DofusFashionistaVanced on AWS" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "April 2023" %}</span>
+        <span class="cl-version">Dofus 2.x</span>
+      </div>
+      <div class="cl-title">{% trans "Python 3 fork & Windows support" %}</div>
+      <ul>
+        <li>{% trans "Forked from original DofusFashionista; converted entirely to Python 3" %}</li>
+        <li>{% trans "Windows compatibility and standalone executable added" %}</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-meta">
+        <span class="cl-date">{% trans "2012 – 2021" %}</span>
+        <span class="cl-version">Dofus 2.x</span>
+      </div>
+      <div class="cl-title">{% trans "Original DofusFashionista" %}</div>
+      <ul>
+        <li>{% trans "Original DofusFashionista by PiwiSlayer: linear programming optimizer for Dofus 2 equipment" %}</li>
+      </ul>
+    </div>
+
+  </div>
+</div>

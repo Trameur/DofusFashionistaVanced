@@ -4724,3 +4724,295 @@ msgstr ""
 
 msgid "cell(s)"
 msgstr ""
+
+# Changelog entries
+
+msgid "Changelog"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "May 2026"
+msgstr ""
+
+msgid "Item customization & optimizer fixes"
+msgstr ""
+
+msgid "Cire Momore's Curse set caps now correctly enforced in the optimizer (MP/Summon/Range hard caps per tier)"
+msgstr ""
+
+msgid "Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is equipped"
+msgstr ""
+
+msgid "New: Customize Stats — modify the stats of a specific item for your build (undercrafted items, familiars below max level)"
+msgstr ""
+
+msgid "Exo mage stats now handled correctly in the custom stats editor"
+msgstr ""
+
+msgid "Lock an empty slot to prevent the optimizer from filling it"
+msgstr ""
+
+msgid "Stat filter in the item picker is now visible by default"
+msgstr ""
+
+msgid "Added Gelano AP/PM ring variant"
+msgstr ""
+
+msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
+msgstr ""
+
+msgid "Mobile UI overhaul"
+msgstr ""
+
+msgid "Solution page redesigned for mobile screens"
+msgstr ""
+
+msgid "Main page now mobile-friendly"
+msgstr ""
+
+msgid "Beta version launched"
+msgstr ""
+
+msgid "Beta version launched at /beta/ with a dedicated item database"
+msgstr ""
+
+msgid "Beta spell simulator added"
+msgstr ""
+
+msgid "Improved Dofus 3 / Beta version switcher in the navigation bar"
+msgstr ""
+
+msgid "Server migration & infrastructure"
+msgstr ""
+
+msgid "Site migrated to Hetzner dedicated server (dofusfashionista.gg)"
+msgstr ""
+
+msgid "Multi-version framework: separate routes and databases for dofus3, beta, retro, touch"
+msgstr ""
+
+msgid "Shared builds page load time reduced from 1900ms to 140ms"
+msgstr ""
+
+msgid "Mail spam protection added; password reset fixed"
+msgstr ""
+
+msgid "Maintenance page added for planned downtime"
+msgstr ""
+
+msgid "Removed legacy Facebook login code"
+msgstr ""
+
+msgid "Updated to Dofus 3.5.16.20 items"
+msgstr ""
+
+msgid "April 2026"
+msgstr ""
+
+msgid "Docker support & security fixes"
+msgstr ""
+
+msgid "Docker support added for local development; Python upgraded to 3.14"
+msgstr ""
+
+msgid "Google OAuth login and logout fixed after HTTPS migration"
+msgstr ""
+
+msgid "Fixed XSS reflected injection, DOM text reinterpretation, and deserialization vulnerabilities"
+msgstr ""
+
+msgid "jQuery upgraded to 3.6.4; Django updated to 5.1.14"
+msgstr ""
+
+msgid "Updated to Dofus 3.5.11.13 items"
+msgstr ""
+
+msgid "March 2026"
+msgstr ""
+
+msgid "Encyclopedia"
+msgstr ""
+
+msgid "Encyclopedia launched: browse all items with stats and craft recipes"
+msgstr ""
+
+msgid "Crafting recipes added to encyclopedia item pages"
+msgstr ""
+
+msgid "Weapon stats correctly displayed in the encyclopedia"
+msgstr ""
+
+msgid "Better item search with improved search box"
+msgstr ""
+
+msgid "Fixed items with OR-type equip conditions"
+msgstr ""
+
+msgid "Stat icons & display improvements"
+msgstr ""
+
+msgid "Stat icons added across the interface (build page, shared builds, encyclopedia)"
+msgstr ""
+
+msgid "Fixed decimal rounding for displayed stat values"
+msgstr ""
+
+msgid "Better shared builds page: faster loading and cleaner stat display"
+msgstr ""
+
+msgid "Translations & item updates"
+msgstr ""
+
+msgid "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)"
+msgstr ""
+
+msgid "Lock/Forbid Wild Seemyool added to item restrictions"
+msgstr ""
+
+msgid "Fixed weapon damage display"
+msgstr ""
+
+msgid "Updated to Dofus 3.5.6.7 items"
+msgstr ""
+
+msgid "December 2025 – February 2026"
+msgstr ""
+
+msgid "Spell damage simulator — extended"
+msgstr ""
+
+msgid "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
+msgstr ""
+
+msgid "Spell images scraped and displayed per spell in the simulator"
+msgstr ""
+
+msgid "Sram class spells added to the simulator"
+msgstr ""
+
+msgid "Spell descriptions translated in all 6 languages"
+msgstr ""
+
+msgid "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)"
+msgstr ""
+
+msgid "November 2025"
+msgstr ""
+
+msgid "Spell damage simulator v1"
+msgstr ""
+
+msgid "Spell damage simulator v1: auto-scraped hit data for all classes"
+msgstr ""
+
+msgid "Best element, MP cost, and base damage shown per spell"
+msgstr ""
+
+msgid "Shared builds"
+msgstr ""
+
+msgid "Shared builds: publish your build with a unique link, visible to the community"
+msgstr ""
+
+msgid "Community voting system for shared builds"
+msgstr ""
+
+msgid "Build creator attribution shown on each shared build"
+msgstr ""
+
+msgid "Migrated internal item references to ankama_id for stability across game updates"
+msgstr ""
+
+msgid "Fixed old saved builds broken by item lock/forbid data migration"
+msgstr ""
+
+msgid "October 2025"
+msgstr ""
+
+msgid "Dofus 3.3 update"
+msgstr ""
+
+msgid "Updated to Dofus 3.3 with new items and icons"
+msgstr ""
+
+msgid "Google Analytics integrated"
+msgstr ""
+
+msgid "Sitemap and robots.txt added for SEO"
+msgstr ""
+
+msgid "August 2023"
+msgstr ""
+
+msgid "Site relaunch on AWS"
+msgstr ""
+
+msgid "Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
+msgstr ""
+
+msgid "Compare sets: side-by-side comparison of two builds"
+msgstr ""
+
+msgid "Build save and load system fixed"
+msgstr ""
+
+msgid "Email and password reset fixed"
+msgstr ""
+
+msgid "April 2023"
+msgstr ""
+
+msgid "Python 3 fork & Windows support"
+msgstr ""
+
+msgid "Forked from original DofusFashionista; converted entirely to Python 3"
+msgstr ""
+
+msgid "Windows compatibility and standalone executable added"
+msgstr ""
+
+msgid "2020 – 2021"
+msgstr ""
+
+msgid "Original DofusFashionista"
+msgstr ""
+
+msgid "Original DofusFashionista by PiwiSlayer: linear programming optimizer for Dofus 2 equipment"
+msgstr ""
+
+# Changelog 2024-2025 era entries
+
+msgid "December 2024"
+msgstr ""
+
+msgid "April – September 2025"
+msgstr ""
+
+msgid "Dofus 3.0 update"
+msgstr ""
+
+msgid "Compatibility & stability updates"
+msgstr ""
+
+msgid "Site adapted to Dofus 3.0: new item format, stats, and database"
+msgstr ""
+
+msgid "Item database updated through Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
+msgstr ""
+
+msgid "Windows 11 compatibility improvements"
+msgstr ""
+
+msgid "Docker support added (community contribution)"
+msgstr ""
+
+msgid "Fixed item equip conditions display"
+msgstr ""
+
+msgid "Fixed percentage resistance cap"
+msgstr ""
+
+msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
+msgstr ""

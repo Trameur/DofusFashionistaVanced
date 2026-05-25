@@ -17,7 +17,7 @@
 from fashionsite.settings import DEFAULT_THEME
 from static_s3.templatetags.static_s3 import static
 
-CSS_NAMES = ['common', 'compare', 'exclusions', 'forms', 'home', 'solution', 'spells']
+CSS_NAMES = ['changelog', 'common', 'compare', 'exclusions', 'forms', 'home', 'solution', 'spells']
 
 def get_css_for_theme(theme, request):
     theme_css = {}

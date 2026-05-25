@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{% static css_files.home %}" class="home-css">
     <link rel="stylesheet" type="text/css" href="{% static "chardata/common.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.common %}" class="common-css">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.changelog %}" class="changelog-css">
     {% block css %}{% endblock %}
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
@@ -230,6 +231,7 @@
                 {% trans "Items up to update" %} {{ SITE_VERSION }}
                 <br>
                 <!-- General Site Links -->
+                <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &ndash;
                 <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &ndash;
                 <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &ndash;
                 <a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a>
@@ -287,8 +289,10 @@
         </div>
      </div>
     </div>
-<div id="blanket-language" style="display:none;"></div>  
-<div id="blanket-theme" style="display:none;"></div>  
+{% include "chardata/changelog_modal.html" %}
+<script src="{% static 'chardata/changelog.js' %}"></script>
+<div id="blanket-language" style="display:none;"></div>
+<div id="blanket-theme" style="display:none;"></div>
 <script src="{% static "chardata/blanket.js" %}"></script>  
 <script>    
         $.ajaxSetup({
@@ -385,6 +389,7 @@
             $(".forms-css").attr("href", '{% static css_files.formslighttheme %}');
             $(".solution-css").attr("href", '{% static css_files.solutionlighttheme %}');
             $(".spells-css").attr("href", '{% static css_files.spellslighttheme %}');
+            $(".changelog-css").attr("href", '{% static "chardata/changelog_lighttheme.css" %}');
         }
         if (theme == 'darktheme') {
             $(".common-css").attr("href", '{% static css_files.commondarktheme %}');
@@ -394,9 +399,10 @@
             $(".forms-css").attr("href", '{% static css_files.formsdarktheme %}');
             $(".solution-css").attr("href", '{% static css_files.solutiondarktheme %}');
             $(".spells-css").attr("href", '{% static css_files.spellsdarktheme %}');
+            $(".changelog-css").attr("href", '{% static "chardata/changelog_darktheme.css" %}');
         }
     }
-    
+
         function updateAutoThemeFromData(data){
         theme = checkTimeForTheme();
         if (theme == 'lighttheme') {
@@ -407,6 +413,7 @@
             $(".forms-css").attr("href", data['formslighttheme']);
             $(".solution-css").attr("href", data['solutionlighttheme']);
             $(".spells-css").attr("href", data['spellslighttheme']);
+            $(".changelog-css").attr("href", '{% static "chardata/changelog_lighttheme.css" %}');
         }
         if (theme == 'darktheme') {
             $(".common-css").attr("href", data['commondarktheme']);
@@ -416,6 +423,7 @@
             $(".forms-css").attr("href", data['formsdarktheme']);
             $(".solution-css").attr("href", data['solutiondarktheme']);
             $(".spells-css").attr("href", data['spellsdarktheme']);
+            $(".changelog-css").attr("href", '{% static "chardata/changelog_darktheme.css" %}');
         }
     }
     
@@ -433,6 +441,7 @@
                   $(".forms-css").attr("href", data['forms']);
                   $(".solution-css").attr("href", data['solution']);
                   $(".spells-css").attr("href", data['spells']);
+                  $(".changelog-css").attr("href", data['changelog']);
               }
               setAllImages(theme);
               toggleBlanket('blanket-theme');
