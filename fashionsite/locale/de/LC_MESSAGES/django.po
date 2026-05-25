@@ -5091,6 +5091,9 @@ msgstr "Stat-Filter im Gegenstandswähler ist jetzt standardmäßig sichtbar"
 msgid "Added Gelano AP/PM ring variant"
 msgstr "Gelano AP/PM-Ring-Variante hinzugefügt"
 
+msgid "Better leech and prospecting preset"
+msgstr "Verbessertes Leech- und Prospektions-Preset"
+
 msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
 msgstr "Zauberschaden, Gegenstandsflags und Waffentrefferdaten für Dofus 3.5-Gegenstände korrigiert"
 

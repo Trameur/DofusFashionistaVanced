@@ -5118,6 +5118,9 @@ msgstr "O filtro de estatísticas no seletor de itens agora está visível por p
 msgid "Added Gelano AP/PM ring variant"
 msgstr "Variante do anel Gelano PA/PM adicionada"
 
+msgid "Better leech and prospecting preset"
+msgstr "Melhor predefinição de leech e prospecção"
+
 msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
 msgstr "Correções de dano de feitiços, flags de itens e dados de golpes de armas para itens do Dofus 3.5"
 

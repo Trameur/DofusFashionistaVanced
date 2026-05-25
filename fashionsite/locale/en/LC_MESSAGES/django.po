@@ -4760,6 +4760,9 @@ msgstr ""
 msgid "Added Gelano AP/PM ring variant"
 msgstr ""
 
+msgid "Better leech and prospecting preset"
+msgstr ""
+
 msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
 msgstr ""
 
