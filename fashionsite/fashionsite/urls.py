@@ -209,6 +209,7 @@ urlpatterns = [
     re_path(r'^inclusions/(?P<char_id>\d+)/', inclusions_view.inclusions, name='inclusions'),
     re_path(r'^inclusionspost/(?P<char_id>\d+)/', inclusions_view.inclusions_post, name='inclusions_post'),
     re_path(r'^getitemdetails/', inclusions_view.get_item_details, name='get_item_details'),
+    re_path(r'^setitemstatoverride/(?P<char_id>\d+)/', inclusions_view.set_item_stat_override_view, name='set_item_stat_override'),
 
     re_path(r'^exclusions/(?P<char_id>\d+)/', exclusions_view.exclusions, name='exclusions'),
     re_path(r'^exclusionspost/(?P<char_id>\d+)/', exclusions_view.exclusions_post, name='exclusions_post'),
@@ -226,6 +227,7 @@ urlpatterns = [
     re_path(r'^s/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', solution_view.solution_linked, name='solution_linked'),
     re_path(r'^setitemlocked/(?P<char_id>\d+)/', solution_view.set_item_locked, name='set_item_locked'),
     re_path(r'^setitemforbidden/(?P<char_id>\d+)/', solution_view.set_item_forbidden, name='set_item_forbidden'),
+    re_path(r'^setslotlockempty/(?P<char_id>\d+)/', solution_view.set_slot_lock_empty, name='set_slot_lock_empty'),
     re_path(r'^itemexchange/(?P<char_id>\d+)/', item_exchange.get_items_to_exchange, name='item_exchange'),
     re_path(r'^itemadd/(?P<char_id>\d+)/', item_exchange.get_items_of_type, name='item_add'),
     re_path(r'^exchange/(?P<char_id>\d+)/', item_exchange.switch_item, name='exchange'),
