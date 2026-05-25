@@ -55,6 +55,11 @@ def _login_page_generic(request, from_confirmation, prefilled_user, char_id, alr
                          'already_confirmed': already_confirmed == 'yes'})
 
 def register(request):
+    if request.method != 'POST':
+        ns = request.resolver_match.namespace
+        target = f'{ns}:login_page' if ns else 'login_page'
+        return HttpResponseRedirect(reverse(target))
+
     if not settings.DEBUG:
         recaptcha_secret = settings.GEN_CONFIGS.get('url_captcha_secret')
         g_recaptcha_response = request.POST.get('g-recaptcha-response', '')
@@ -110,7 +115,9 @@ def register(request):
     alias.alias = username
     alias.save()
     
-    return HttpResponseRedirect(reverse('check_your_email'))
+    ns = request.resolver_match.namespace
+    target = f'{ns}:check_your_email' if ns else 'check_your_email'
+    return HttpResponseRedirect(reverse(target))
 
 def check_your_email(request):
     return set_response(request,

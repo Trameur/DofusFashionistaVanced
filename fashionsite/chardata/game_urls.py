@@ -14,6 +14,7 @@ urlpatterns = [
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),
     re_path(r'^register/', login_view.register, name='register'),
+    re_path(r'^check_your_email/', login_view.check_your_email, name='check_your_email'),
 
     re_path(r'^manageaccount/', manage_account_view.manage_account, name='manage_account'),
     re_path(r'^saveaccount/', manage_account_view.save_account, name='save_account'),
