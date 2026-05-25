@@ -64,7 +64,7 @@ pyrsistent==0.17.3
 pyserial==3.5
 PySocks==1.7.1
 python-daemon==2.3.0
-python-dateutil==2.8.1
+python-dateutil==2.9.0.post0
 python-memcached==1.62
 python-social-auth==0.2.21
 python3-openid==3.2.0
