@@ -607,6 +607,14 @@
                                 if (stats_gear[delGearKey] !== undefined) stats_gear[delGearKey] += delD;
                                 if (stats_total[delGearKey] !== undefined) stats_total[delGearKey] += delD;
                             }
+                        } else if (delGearKey && exoStatIds[sidStr] && !capturedStat.isAdded && delPrevOverride !== undefined) {
+                            var delTarget = capturedStat.value;
+                            var cappedPrev = Math.min(delPrevOverride, delTarget);
+                            var delD = delTarget - cappedPrev;
+                            if (delD !== 0) {
+                                if (stats_gear[delGearKey] !== undefined) stats_gear[delGearKey] += delD;
+                                if (stats_total[delGearKey] !== undefined) stats_total[delGearKey] += delD;
+                            }
                         }
                         update_stats();
                         if (capturedStat.isAdded) {
@@ -669,6 +677,13 @@
                                     if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] += d;
                                     if (stats_total[gearKey] !== undefined) stats_total[gearKey] += d;
                                 }
+                            } else if (gearKey && isExoStat && !capturedIsAdded) {
+                                var cappedOld = Math.min(oldContrib, capturedOriginalValue);
+                                var d = capturedOriginalValue - cappedOld;
+                                if (d !== 0) {
+                                    if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] += d;
+                                    if (stats_total[gearKey] !== undefined) stats_total[gearKey] += d;
+                                }
                             }
                         } else {
                             var newValInt = parseInt(newVal);
@@ -694,6 +709,14 @@
                             }
                             if (gearKey && !isExoStat) {
                                 var d = newValInt - oldContrib;
+                                if (d !== 0) {
+                                    if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] += d;
+                                    if (stats_total[gearKey] !== undefined) stats_total[gearKey] += d;
+                                }
+                            } else if (gearKey && isExoStat && !capturedIsAdded) {
+                                var cappedOld = Math.min(oldContrib, capturedOriginalValue);
+                                var cappedNew = Math.min(newValInt, capturedOriginalValue);
+                                var d = cappedNew - cappedOld;
                                 if (d !== 0) {
                                     if (stats_gear[gearKey] !== undefined) stats_gear[gearKey] += d;
                                     if (stats_total[gearKey] !== undefined) stats_total[gearKey] += d;
