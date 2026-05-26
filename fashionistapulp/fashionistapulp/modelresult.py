@@ -565,17 +565,22 @@ class ModelResultItem():
             self.weird_conditions = item.weird_conditions
     
             self.stats = {}
+            self.base_stats = {}
             for stat_id, stat_value in item.stats:
                 stat = structure.get_stat_by_id(stat_id)
                 self.stats[stat.key] = stat_value
+                self.base_stats[stat.key] = stat_value
 
             _EXO_KEYS = {'ap', 'mp', 'range'}
+            self.exo_overrides = {}
             if stat_overrides and item.id in stat_overrides:
                 for stat_id, override_val in stat_overrides[item.id].items():
                     stat = structure.get_stat_by_id(stat_id)
                     if stat:
                         if stat.key in _EXO_KEYS and override_val > self.stats.get(stat.key, 0):
-                            pass  # exo portion; get_stats_gear() adds +1 via ap_exo/mp_exo/range_exo options
+                            # exo portion; get_stats_gear() adds +1 via ap_exo/mp_exo/range_exo
+                            # options, so we keep it out of self.stats but remember it for display
+                            self.exo_overrides[stat.key] = override_val
                         else:
                             self.stats[stat.key] = override_val
 

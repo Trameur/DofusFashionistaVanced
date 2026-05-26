@@ -43,7 +43,7 @@
         {% endif %}
         <div id="stat-lines-{{item.slot}}">
         {% for line in item.stats_lines %}
-            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}"{% if '#b' in line.formatting %} style="color:#4a9fd5;"{% elif '#o' in line.formatting %} style="color:#C47A00;"{% endif %}>
                 {% if line.icon_url %}
                     <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;vertical-align:middle;">
                 {% endif %}
@@ -55,7 +55,7 @@
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />
             {% for line in item.condition_lines %}
-            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}">
+            <span class="solution-inline-stat-line {% if '#r' in line.formatting %}solution-negative-stat-text{% endif %}"{% if '#b' in line.formatting %} style="color:#4a9fd5;"{% elif '#o' in line.formatting %} style="color:#C47A00;"{% endif %}>
                 {% if line.icon_url %}
                     <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;vertical-align:middle;">
                 {% endif %}

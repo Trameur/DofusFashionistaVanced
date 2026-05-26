@@ -150,13 +150,28 @@ def evolve_result_item(result_item, r=None):
         if not result_item.file:
             print('No item and no slot for picture.')
         return
-    stats_from_result_item = sorted(iter(result_item.stats.items()),
+    exo_overrides = getattr(result_item, 'exo_overrides', {}) or {}
+    base_stats = getattr(result_item, 'base_stats', None)
+    merged_stats = dict(result_item.stats)
+    for stat_key, override_val in exo_overrides.items():
+        merged_stats[stat_key] = override_val
+    stats_from_result_item = sorted(iter(merged_stats.items()),
                                     key=lambda x: STAT_ORDER[x[0]])
-    
+
     result_item.stats_lines = []
     for stat_key, stat_value in stats_from_result_item:
         stat_name = get_structure().get_stat_by_key(stat_key).name
-        result_item.stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
+        line = AttributeLine(stat_key, stat_value, stat_name)
+        if base_stats is not None and line.formatting == '':
+            base_val = base_stats.get(stat_key)
+            if base_val is None:
+                if stat_value != 0:
+                    line.formatting = '#b'
+            elif stat_value > base_val:
+                line.formatting = '#b'
+            elif stat_value < base_val:
+                line.formatting = '#o'
+        result_item.stats_lines.append(line)
     for extra in result_item.extras:
         if isinstance(extra, tuple):
             text, icon_key = extra
