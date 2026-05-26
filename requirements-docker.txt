@@ -8,7 +8,7 @@ Babel==2.9.1
 beautifulsoup4==4.14.3
 boto==2.49.0
 boto3==1.43.4
-botocore==1.43.6
+botocore==1.43.14
 certifi==2024.7.4
 cffi==2.0.0
 chardet==4.0.0
@@ -26,7 +26,7 @@ distro==1.9.0
 Django==6.0.5
 django-htmlmin==0.11.0
 django-sslserver==0.22
-docutils==0.16
+docutils==0.22.4
 #ec2-hibinit-agent==1.0.2
 filelock==3.20.3
 #gpg==1.15.1
@@ -44,12 +44,12 @@ jsonschema==4.26.0
 lockfile==0.12.2
 MarkupSafe==3.0.2
 #mod-wsgi==4.9.4
-mysql-connector-python==9.1.0
+mysql-connector-python==9.7.0
 oauthlib==3.2.2
 packaging==26.2
 Pillow==12.2.0
 ply==3.11
-prettytable==0.7.2
+prettytable==3.17.0
 prompt-toolkit==3.0.52
 protobuf==5.29.6
 PuLP==2.7.0
@@ -67,7 +67,7 @@ pyrsistent==0.17.3
 pyserial==3.5
 PySocks==1.7.1
 python-daemon==2.3.0
-python-dateutil==2.8.1
+python-dateutil==2.9.0.post0
 python-memcached==1.62
 python-social-auth==0.2.21
 python3-openid==3.2.0
