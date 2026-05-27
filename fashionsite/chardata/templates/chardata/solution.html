@@ -399,6 +399,12 @@
                         <input type="radio" name="total_mode" value="equip"><span class="checkbox-text">{% trans "Equip" %}</span>
                     </label>
                 </div>
+                <div class="solution-stat-summary-mode-option-container" style="margin-top: 4px;">
+                    <label title="{% trans 'Vitality, element, wisdom, power, damage and crit potions typically used in PvM.' %}">
+                        <input type="checkbox" name="apply_buffs" id="apply_buffs_toggle">
+                        <span class="checkbox-text">{% trans "With PvM buffs" %}</span>
+                    </label>
+                </div>
             </td></tr>
             <tr class="solution-stat-summary-line">
                 <td class="solution-stat-summary-icon-header"></td>
@@ -702,12 +708,40 @@
             return Math.round(Number(value)).toString();
         }
 
+        // Common PvM consumables (Iyfd potion + element potions + crit + dam + pow).
+        // Conservative: only stats players reliably buff before a fight.
+        var PVM_BUFFS = {
+            'vit': 200,     // Vitality potion
+            'str': 90,
+            'int': 90,
+            'cha': 90,
+            'agi': 90,
+            'wis': 40,
+            'pow': 50,
+            'ch': 5,
+            'permedam': 10,
+            'perrandam': 10,
+            'dam': 20,
+            'heals': 20,
+            'hp': 200       // HP follows vitality
+        };
+
+        function applyBuffsToStats(stats) {
+            if (!$('#apply_buffs_toggle').is(':checked')) return stats;
+            var buffed = {};
+            $.each(stats, function(k, v) { buffed[k] = v; });
+            $.each(PVM_BUFFS, function(k, b) {
+                if (k in buffed) buffed[k] += b;
+            });
+            return buffed;
+        }
+
         function update_stats() {
             if ($("input[name='total_mode']:checked").val() == "equip") {
-                new_stats = stats_gear;
+                new_stats = applyBuffsToStats(stats_gear);
                 $(".solution-stat-summary-value-header").text('{% trans "Equip" %}');
             } else {
-                new_stats = stats_total;
+                new_stats = applyBuffsToStats(stats_total);
                 $(".solution-stat-summary-value-header").text('{% trans "Total" %}');
             }
 
@@ -1174,6 +1208,7 @@
         $(document).ready(function() {
             update_stats();
             $("input[name='total_mode']").change(update_stats);
+            $('#apply_buffs_toggle').change(update_stats);
             rebuildOverriddenItems();
 
             $("#expand_button").click(function(e) {
