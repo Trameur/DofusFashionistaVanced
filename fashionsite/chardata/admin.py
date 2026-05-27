@@ -7,7 +7,7 @@
 
 from django.contrib import admin
 
-from chardata.models import BuildComment, CommentReport, UserAlias
+from chardata.models import BuildComment, CommentReport, UserAlias, WorkshopItem
 
 
 @admin.register(BuildComment)
@@ -54,4 +54,12 @@ class UserAliasAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'alias', 'notify_comments')
     list_filter = ('notify_comments',)
     search_fields = ('user__username', 'alias')
+    raw_id_fields = ('user',)
+
+
+@admin.register(WorkshopItem)
+class WorkshopItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'item_id', 'game_version', 'quantity', 'added_time')
+    list_filter = ('game_version', 'added_time')
+    search_fields = ('user__username',)
     raw_id_fields = ('user',)

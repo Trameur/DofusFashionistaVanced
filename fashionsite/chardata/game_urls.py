@@ -6,7 +6,7 @@ from chardata import (
     exclusions_view, wizard_view, fashion_action, solution_view, spells_view,
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
-    comment_view, coaching_view,
+    comment_view, coaching_view, workshop_view,
 )
 
 urlpatterns = [
@@ -40,6 +40,12 @@ urlpatterns = [
 
     re_path(r'^setup/$', create_project_view.setup, name='setup'),
     re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
+    re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
+    re_path(r'^workshop/add/$', workshop_view.add_to_workshop, name='workshop_add'),
+    re_path(r'^workshop/addsolution/(?P<char_id>\d+)/$', workshop_view.add_solution_to_workshop, name='workshop_add_solution'),
+    re_path(r'^workshop/setqty/(?P<workshop_item_id>\d+)/$', workshop_view.set_workshop_quantity, name='workshop_set_qty'),
+    re_path(r'^workshop/remove/(?P<workshop_item_id>\d+)/$', workshop_view.remove_from_workshop, name='workshop_remove'),
+    re_path(r'^workshop/clear/$', workshop_view.clear_workshop, name='workshop_clear'),
     re_path(r'^createproject/', create_project_view.create_project, name='create_project'),
     re_path(r'^saveprojecttouser/', create_project_view.save_project_to_user, name='save_project_to_user'),
     re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),

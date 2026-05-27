@@ -138,6 +138,11 @@
               <div>
                                 <a class="menu_link menu_link_middle" href="{% game_url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
                             </div>
+                            {% if user.is_authenticated %}
+                            <div>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'workshop' %}">{% trans "Workshop" %}</a>
+                            </div>
+                            {% endif %}
                             <div>
                                 <a class="menu_link menu_link_bottom" href="{% game_url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
               </div>

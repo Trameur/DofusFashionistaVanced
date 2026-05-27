@@ -102,6 +102,25 @@ class BuildComment(models.Model):
             models.Index(fields=['build', 'deleted', 'created_time']),
         ]
 
+class WorkshopItem(models.Model):
+    """A single item the user wants to craft (or remember to acquire).
+
+    Stored per game_version so a Dofus 3 craft list is independent from a
+    Dofus 2 one. Quantity defaults to 1 — players who add the same item
+    multiple times bump the counter rather than creating duplicates."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item_id = models.IntegerField()  # internal id from structure.items_dict
+    game_version = models.CharField(max_length=20, default='dofus3')
+    quantity = models.IntegerField(default=1)
+    added_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'item_id', 'game_version')
+        indexes = [
+            models.Index(fields=['user', 'game_version', 'added_time']),
+        ]
+
+
 class CommentReport(models.Model):
     """Player-submitted report on a comment. unique_together prevents a single
     user from spamming reports on the same comment. When 3 distinct users have

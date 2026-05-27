@@ -260,13 +260,18 @@
 
     {% if not is_guest %}
     <div align="center">
-    
-      
 
     <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
-    
-  
-    
+
+    </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div align="center" style="margin-top: 8px;">
+        <button id="add_to_workshop_btn" type="button" class="button-generic" onclick="addSolutionToWorkshop();">
+            {% trans "Add all items to my Workshop" %}
+        </button>
+        <span id="workshop_feedback" style="margin-left: 8px; font-size: 0.9em; opacity: 0.85;"></span>
     </div>
     {% endif %}
 
@@ -1413,6 +1418,31 @@
                 closeReportModal();
             }
         });
+
+        function addSolutionToWorkshop() {
+            var $btn = $('#add_to_workshop_btn');
+            var $fb = $('#workshop_feedback');
+            $btn.prop('disabled', true);
+            $fb.text('');
+            $.ajax({
+                url: apiBase + '/workshop/addsolution/{{ char_id }}/',
+                type: 'POST',
+                data: { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                success: function(resp) {
+                    if (resp.success) {
+                        $fb.text("{% trans 'Added' %} (" + resp.added + ").");
+                    }
+                },
+                error: function(xhr) {
+                    $fb.text(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not add to workshop' %}");
+                },
+                complete: function() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        }
 
         function deleteComment(event, commentId) {
             event.preventDefault();

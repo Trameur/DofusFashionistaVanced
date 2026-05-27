@@ -1,0 +1,165 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}The Dofus Fashionista: {% trans "My Workshop" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+        .workshop-wrapper {
+            max-width: 760px;
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+        .workshop-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 12px;
+            opacity: 0.85;
+        }
+        .workshop-empty {
+            text-align: center;
+            margin: 40px 0;
+            opacity: 0.7;
+            font-style: italic;
+        }
+        .workshop-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .workshop-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 4px;
+            border-top: 1px solid rgba(128,128,128,0.25);
+        }
+        .workshop-row:first-child {
+            border-top: none;
+        }
+        .workshop-row-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .workshop-row-name {
+            flex: 1;
+            min-width: 0;
+        }
+        .workshop-row-meta {
+            font-size: 0.85em;
+            opacity: 0.7;
+        }
+        .workshop-row-qty {
+            width: 60px;
+            text-align: center;
+            padding: 3px 4px;
+        }
+        .workshop-row-remove {
+            background: none;
+            border: none;
+            color: inherit;
+            opacity: 0.6;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        .workshop-row-remove:hover {
+            opacity: 1;
+        }
+        .workshop-missing {
+            color: #c33;
+            font-style: italic;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <h1 align="center">{% trans "My Workshop" %}</h1>
+
+    <div class="workshop-wrapper">
+        <p class="workshop-meta">
+            <span>
+                {% blocktrans count counter=workshop_count %}
+                {{ counter }} item · {{ workshop_total_units }} total
+                {% plural %}
+                {{ counter }} items · {{ workshop_total_units }} total
+                {% endblocktrans %}
+            </span>
+            {% if workshop_items %}
+            <a href="#" id="workshop_clear" class="comment-delete">{% trans "Clear all" %}</a>
+            {% endif %}
+        </p>
+
+        {% if workshop_items %}
+        <ul class="workshop-list" id="workshop_list">
+            {% for it in workshop_items %}
+            <li class="workshop-row" data-workshop-id="{{ it.id }}">
+                {% if it.image_url %}
+                <img src="{{ it.image_url }}" alt="{{ it.name }}" class="workshop-row-img">
+                {% else %}
+                <span class="workshop-row-img"></span>
+                {% endif %}
+                <div class="workshop-row-name">
+                    <div class="{% if it.missing %}workshop-missing{% endif %}">{{ it.name }}</div>
+                    {% if not it.missing %}
+                    <div class="workshop-row-meta">{{ it.type_name }} · {% trans "lvl" %} {{ it.level }}</div>
+                    {% endif %}
+                </div>
+                <input type="number" min="1" max="999" value="{{ it.quantity }}"
+                       class="workshop-row-qty pretty-input"
+                       data-workshop-id="{{ it.id }}"
+                       title="{% trans 'Quantity' %}">
+                <button class="workshop-row-remove" title="{% trans 'Remove' %}"
+                        data-workshop-id="{{ it.id }}">✕</button>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="workshop-empty">
+            {% trans "Your workshop is empty." %}<br>
+            {% trans "Open a build and click 'Add to workshop' on items you need to craft or acquire." %}
+        </p>
+        {% endif %}
+    </div>
+
+    <script>
+        var workshopApiBase = '{{ api_base }}';
+        $.ajaxSetup({ data: {csrfmiddlewaretoken: '{{ csrf_token }}'} });
+
+        $(document).on('click', '.workshop-row-remove', function() {
+            var id = $(this).data('workshop-id');
+            $.post(workshopApiBase + '/workshop/remove/' + id + '/', function(resp) {
+                if (resp.success) {
+                    $('[data-workshop-id="' + id + '"]').closest('.workshop-row').remove();
+                    if ($('#workshop_list .workshop-row').length === 0) {
+                        location.reload();
+                    }
+                }
+            });
+        });
+
+        $(document).on('change', '.workshop-row-qty', function() {
+            var id = $(this).data('workshop-id');
+            var q = parseInt($(this).val(), 10) || 1;
+            if (q < 1) q = 1;
+            if (q > 999) q = 999;
+            $(this).val(q);
+            $.post(workshopApiBase + '/workshop/setqty/' + id + '/', {quantity: q});
+        });
+
+        $('#workshop_clear').on('click', function(e) {
+            e.preventDefault();
+            if (!confirm("{% trans 'Clear all items from your workshop?' %}")) return false;
+            $.post(workshopApiBase + '/workshop/clear/', function(resp) {
+                if (resp.success) location.reload();
+            });
+            return false;
+        });
+    </script>
+{% endblock %}
