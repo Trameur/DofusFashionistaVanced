@@ -311,6 +311,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
         'django.db.backends': {
             'handlers': ['console'],
             'level': 'DEBUG',
