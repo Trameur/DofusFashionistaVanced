@@ -2,7 +2,7 @@ import threading
 
 from fashionistapulp.structure import set_current_game_version
 
-GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch'}
+GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch', 'dofus2'}
 
 
 class GameVersionMiddleware:

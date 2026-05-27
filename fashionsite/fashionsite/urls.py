@@ -310,6 +310,7 @@ urlpatterns += staticfiles_urlpatterns()
 _game_urls = ('chardata.game_urls', 'chardata')
 urlpatterns += [
     path('beta/', include(_game_urls, namespace='beta')),
+    path('dofus2/', include(_game_urls, namespace='dofus2')),
     path('retro/', include(_game_urls, namespace='retro')),
     path('touch/', include(_game_urls, namespace='touch')),
 ]

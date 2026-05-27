@@ -166,6 +166,13 @@ class Model:
         
         
     def add_weird_item_weights_to_objective_funcion(self, objective_values, level):
+        # These hard-coded weights target Dofus 3 specific items (Cocoa Dofus 2,
+        # Prytekt-O-Mat, Crocobur 3, etc.). Older versions don't ship most of
+        # them, so the lookups return None and crash. Skip the whole pass for
+        # versions that don't share the Dofus 3 item catalog.
+        if getattr(self.structure, 'game_version', 'dofus3') not in ('dofus3', 'beta'):
+            return
+
         # Skip all special item bonuses for pure support builds (mule/leech)
         # where all combat-relevant stats are zero
         combat_stats = ('dam', 'hp', 'ap', 'mp', 'ch', 'permedam', 'perrandam',

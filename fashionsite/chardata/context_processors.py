@@ -23,9 +23,10 @@ def site_stats(request):
 ACTIVE_GAME_VERSIONS = [
     ('dofus3', 'Dofus 3'),
     ('beta', 'Beta'),
+    ('dofus2', 'Dofus 2'),
 ]
 
-_VERSION_PREFIXES = ('beta/', 'retro/', 'touch/')
+_VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
 _CHAR_ID_RE = re.compile(r'/\d+/')
 
 

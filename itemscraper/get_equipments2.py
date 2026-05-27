@@ -181,7 +181,11 @@ def parse_conditions(tree):
     Creating a different item for each condition.
     """
     def traverse(node):
-        # If it's a condition (operand), return it as a single-item list
+        # Dofus 2 atomic condition: {operator, int_value, element} with no tree wrapper
+        if isinstance(node, dict) and 'operator' in node and 'is_operand' not in node and 'relation' not in node:
+            return [[node]]
+
+        # Dofus 3 operand
         if node.get('is_operand', False):
             return [[node['condition']]]
 
@@ -200,7 +204,11 @@ def parse_conditions(tree):
             return [item for sublist in children_results for item in sublist]
         else:
             raise ValueError(f"Unsupported relation: {relation}")
-    # Start traversal from the root node
+
+    # Dofus 2 ships conditions as a flat list (implicit AND); wrap for traversal.
+    if isinstance(tree, list):
+        tree = {'is_operand': False, 'relation': 'and', 'children': tree}
+
     return traverse(tree)
 
 def convert_to_and_conditions(data):
@@ -412,9 +420,32 @@ for item in new_data:
 with open(f'{current_directory}/transformed_equipment.json', 'w', encoding='utf-8') as f:
     json.dump(new_data, f, ensure_ascii=False, indent=4)
 
+def _normalize_set_effects(effects):
+    """Dofus 2 ships set effects as a list-of-lists (one sublist per N-piece
+    bonus, each effect carrying its own ``item_combination``). Dofus 3 uses a
+    dict keyed by piece count. Normalize to the dict shape so downstream code
+    works for both versions."""
+    if not isinstance(effects, list):
+        return effects
+    by_combo = {}
+    for idx, effect_group in enumerate(effects):
+        if not effect_group:
+            continue
+        combo = next(
+            (e.get('item_combination') for e in effect_group if isinstance(e, dict) and 'item_combination' in e),
+            None,
+        )
+        key = str(combo) if combo is not None else str(idx + 2)
+        by_combo[key] = effect_group
+    return by_combo
+
+
 new_data = []
 
 for item in set_data['en']["sets"]:
+
+    if "effects" in item:
+        item["effects"] = _normalize_set_effects(item["effects"])
 
     # Translate `effects` names
     if "effects" in item:

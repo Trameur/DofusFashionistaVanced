@@ -265,6 +265,11 @@ LOGGING = {
             'datefmt' : "%d/%b/%Y %H:%M:%S"
         },
     },
+    'filters': {
+        'rate_limited_errors': {
+            '()': 'chardata.log_filters.RateLimitedErrorFilter',
+        },
+    },
     'handlers': {
         'null': {
             'level':'DEBUG',
@@ -283,12 +288,28 @@ LOGGING = {
             'class':'logging.StreamHandler',
             'formatter': 'standard'
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['rate_limited_errors'],
+            'include_html': True,
+        },
     },
     'loggers': {
         'django': {
             'handlers':['console'],
             'propagate': True,
             'level':'WARN',
+        },
+        'django.request': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.security': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
         },
         'django.db.backends': {
             'handlers': ['console'],
@@ -317,6 +338,13 @@ EMAIL_HOST = GEN_CONFIGS['EMAIL_HOST']
 EMAIL_HOST_USER = GEN_CONFIGS['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = GEN_CONFIGS['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = GEN_CONFIGS['EMAIL_PORT']
+
+# Server error notifications: Django's AdminEmailHandler sends to ADMINS on
+# ERROR-level log records (including unhandled exceptions via django.request).
+# Rate-limited by chardata.log_filters.RateLimitedErrorFilter.
+ADMINS = [('DofusFashionista Errors', EMAIL_HOST_USER)]
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 SITE_VERSION = FASHIONISTA_VERSION
 SITE_VERSION_BETA = FASHIONISTA_BETA_VERSION
