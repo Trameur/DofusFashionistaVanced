@@ -185,6 +185,7 @@ urlpatterns = [
     re_path(r'^user/(?P<alias>[^/]+)/$', profile_view.user_profile, name='user_profile'),
     re_path(r'^follow/(?P<user_id>\d+)/$', profile_view.follow_user, name='follow_user'),
     re_path(r'^unfollow/(?P<user_id>\d+)/$', profile_view.unfollow_user, name='unfollow_user'),
+    re_path(r'^feed/$', profile_view.feed, name='feed'),
     re_path(r'^votebuild/(?P<build_id>\d+)/', shared_builds_view.vote_build, name='vote_build'),
     re_path(r'^postcomment/(?P<build_id>\d+)/$', comment_view.post_comment, name='post_comment'),
     re_path(r'^deletecomment/(?P<comment_id>\d+)/$', comment_view.delete_comment, name='delete_comment'),

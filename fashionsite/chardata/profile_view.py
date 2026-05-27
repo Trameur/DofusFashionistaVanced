@@ -5,7 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Public user profile page + follow / unfollow endpoints."""
+"""Public user profile page + follow / unfollow endpoints + follower feed."""
 
 import logging
 
@@ -133,6 +133,55 @@ def follow_user(request, user_id):
     follower_count = UserFollow.objects.filter(followed=target).count()
     return JsonResponse({'success': True, 'created': created,
                          'follower_count': follower_count})
+
+
+@login_required
+def feed(request):
+    """Builds from people the current user follows — newest first."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    followed_ids = list(UserFollow.objects
+                        .filter(follower=request.user)
+                        .values_list('followed_id', flat=True))
+
+    builds_data = []
+    if followed_ids:
+        builds_qs = (Char.objects
+                     .filter(owner_id__in=followed_ids, link_shared=True, deleted=False,
+                             game_version=game_version)
+                     .select_related('owner')
+                     .annotate(
+                         like_count=Count(Case(When(buildvote__vote_type='like', then=1),
+                                               output_field=IntegerField())),
+                         favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1),
+                                                   output_field=IntegerField())),
+                     )
+                     .order_by('-modified_time')[:50])
+
+        owner_ids = [b.owner_id for b in builds_qs if b.owner_id]
+        aliases = {
+            a.user_id: a.alias
+            for a in UserAlias.objects.filter(user_id__in=owner_ids) if a.alias
+        }
+
+        for b in builds_qs:
+            encoded = encode_char_id(int(b.id))
+            char_name = b.char_name or 'shared'
+            creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else _('Anonymous'))
+            builds_data.append({
+                'char': b,
+                'link': request.build_absolute_uri(
+                    version_reverse(request, 'solution_linked', char_name, encoded)),
+                'creator': creator,
+                'like_count': b.like_count or 0,
+                'favorite_count': b.favorite_count or 0,
+                'view_count': b.view_count or 0,
+                'build_name_translated': translate_build_name(b.char_build or ''),
+            })
+
+    return set_response(request, 'chardata/feed.html', {
+        'builds': builds_data,
+        'follow_count': len(followed_ids),
+    })
 
 
 @login_required

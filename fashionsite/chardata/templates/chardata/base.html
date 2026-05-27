@@ -138,6 +138,11 @@
               <div>
                 <a class="menu_link menu_link_middle" href="{% game_url 'tierlist' %}">{% trans "Tier List" %}</a>
               </div>
+              {% if user.is_authenticated %}
+              <div>
+                <a class="menu_link menu_link_middle" href="{% game_url 'feed' %}">{% trans "My Feed" %}</a>
+              </div>
+              {% endif %}
               <div>
                                 <a class="menu_link menu_link_middle" href="{% game_url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
                             </div>
