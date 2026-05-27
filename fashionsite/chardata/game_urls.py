@@ -12,6 +12,7 @@ from chardata import (
 
 urlpatterns = [
     re_path(r'^$', home_view.home, name='home'),
+    re_path(r'^random/$', home_view.random_build, name='random_build'),
 
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),

@@ -24,6 +24,7 @@ from chardata.views import user_has_projects
 
 from django.core.cache import cache
 from django.db.models import Count, Case, When, IntegerField
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from fashionistapulp.structure import get_structure
@@ -154,6 +155,21 @@ def home(request, char_id=0):
                          'featured_builds': featured_builds,
                          'user': request.user,
                          'char_id': char_id})
+
+def random_build(request):
+    """Redirect to a random shared build for the current game version.
+    Falls back to /sharedbuilds/ if there isn't a single one."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    char = (Char.objects
+            .filter(link_shared=True, deleted=False, game_version=game_version)
+            .order_by('?').first())
+    if char is None:
+        return HttpResponseRedirect(version_reverse(request, 'shared_builds'))
+    encoded = encode_char_id(int(char.id))
+    char_name = char.char_name or 'shared'
+    return HttpResponseRedirect(
+        version_reverse(request, 'solution_linked', char_name, encoded))
+
 
 def get_button_pos(buttons):
     if len(buttons) == 0:

@@ -44,7 +44,8 @@
     {% load version_url %}
     <p align="center" style="margin-top: 18px; opacity: 0.8;">
         {% trans "New to Dofus Fashionista?" %}
-        <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>.
+        <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
+        · <a href="{% game_url 'random_build' %}">{% trans "Discover a random build" %}</a>.
     </p>
 
     {% if featured_builds %}
