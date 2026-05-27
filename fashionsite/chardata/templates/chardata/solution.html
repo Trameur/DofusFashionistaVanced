@@ -18,6 +18,38 @@
             font-weight: bold;
         }
 
+        .char-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            max-width: 720px;
+            margin: 4px auto 14px;
+            padding: 6px 10px;
+            border: 1px solid rgba(128,128,128,0.25);
+            border-radius: 4px;
+        }
+        .char-banner-avatar {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .char-banner-info {
+            min-width: 0;
+            flex: 1;
+        }
+        .char-banner-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .char-banner-meta {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
         .comments-section {
             max-width: 720px;
             margin: 30px auto 20px;
@@ -154,7 +186,20 @@
 
 {% block main %}
     <h1 align="center">{% trans "Outfit Suggestion" %}</h1>
-    
+
+    {% if class_avatar %}
+    <div class="char-banner">
+        <img src="{{ class_avatar }}" alt="{{ char.char_class }}" class="char-banner-avatar">
+        <div class="char-banner-info">
+            <div class="char-banner-name">{{ char.char_name|default:char.name }}</div>
+            <div class="char-banner-meta">
+                {{ char.char_class }} · {% trans "level" %} {{ char.level }}
+                {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     {% if not is_guest %}
     
     {% if is_generated %}

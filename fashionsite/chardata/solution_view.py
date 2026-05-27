@@ -49,6 +49,22 @@ from fashionistapulp.translation import get_supported_language
 
 SHARED_SOLUTION_CACHE_TIMEOUT = 6 * 60 * 60
 
+# Classes for which we ship 6 wizard avatars under chardata/designs/wizard/<class>/.
+_CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
+                      'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
+                      'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram', 'Xelor'}
+_CLASS_AVATAR_COUNT = 6
+
+
+def _get_class_avatar(char):
+    """Stable per-char avatar URL, falling back to a placeholder for classes
+    without art (Forgelance) or unknown values."""
+    cls = char.char_class or ''
+    if cls not in _CLASS_AVATAR_DIRS:
+        return static('chardata/QuestionMark-lighttheme.png')
+    idx = 1 + (int(char.id or 0) % _CLASS_AVATAR_COUNT)
+    return static('chardata/designs/wizard/%s/myWizard%s%d.png' % (cls, cls, idx))
+
 
 def _get_stat_filter_options():
     structure = get_structure()
@@ -155,7 +171,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
         solution_params = solution_result.get_params()
 
     vote_data = _get_live_vote_data(request, char)
-    
+    class_avatar = _get_class_avatar(char)
+
     params = {'char_id': char_id,
               'lock_item': static('chardata/lock-icon.png'),
               'switch_item': static('chardata/1412645636_Left-right.png'),
@@ -169,6 +186,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'link_shared': char.link_shared,
               'owner_alias': get_alias(char.owner),
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
+              'class_avatar': class_avatar,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:
