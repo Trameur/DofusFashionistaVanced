@@ -17,6 +17,138 @@
             color: #000 !important;
             font-weight: bold;
         }
+
+        .comments-section {
+            max-width: 720px;
+            margin: 30px auto 20px;
+            padding: 0 10px;
+        }
+        .comments-title {
+            margin: 0 0 12px;
+            font-weight: normal;
+        }
+        .comment-form {
+            margin-bottom: 16px;
+        }
+        .comment-textarea {
+            width: 100%;
+            box-sizing: border-box;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.95em;
+            padding: 6px 8px;
+        }
+        .comment-form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+        .comment-error {
+            color: #c33;
+            font-size: 0.9em;
+        }
+        .comment-login-prompt {
+            font-size: 0.95em;
+            margin: 0 0 16px;
+        }
+        .comments-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .comment-item {
+            padding: 8px 0;
+            border-top: 1px solid rgba(128,128,128,0.25);
+        }
+        .comment-item:first-child {
+            border-top: none;
+        }
+        .comment-meta {
+            font-size: 0.85em;
+            opacity: 0.75;
+            margin-bottom: 4px;
+        }
+        .comment-author {
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        .comment-date {
+            margin-right: 6px;
+        }
+        .comment-delete,
+        .comment-report {
+            font-size: 0.85em;
+            opacity: 0.6;
+            text-decoration: none;
+            margin-left: 6px;
+        }
+        .comment-delete:hover,
+        .comment-report:hover {
+            opacity: 1;
+        }
+
+        .report-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .report-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+        }
+        .report-modal-content {
+            position: relative;
+            max-width: 420px;
+            width: calc(100% - 32px);
+            background: var(--card-bg, #fff);
+            color: inherit;
+            padding: 18px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+        .report-modal-title {
+            margin: 0 0 8px;
+            font-weight: normal;
+        }
+        .report-modal-help {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin: 0 0 12px;
+        }
+        .report-modal-label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+        .report-modal-label select {
+            display: block;
+            margin-top: 4px;
+            width: 100%;
+            padding: 4px 6px;
+        }
+        .report-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .report-modal-actions .comment-error {
+            margin-right: auto;
+        }
+        .comment-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .comment-empty {
+            font-style: italic;
+            opacity: 0.7;
+            margin: 0;
+        }
     </style>
 {% endblock %}
 
@@ -295,6 +427,73 @@
         </tr>
         </table>
     </div>
+
+    {% if link_shared %}
+    <div id="comments_section" class="comments-section">
+        <h3 class="comments-title">{% trans "Comments" %} (<span id="comments_count">{{ comments|length }}</span>)</h3>
+
+        {% if user.is_authenticated %}
+        <form id="comment_form" class="comment-form" onsubmit="return postComment(event);">
+            <textarea id="comment_content" name="content" rows="3" maxlength="2000"
+                      placeholder="{% trans 'Share your thoughts on this build...' %}"
+                      class="comment-textarea" required></textarea>
+            <div class="comment-form-actions">
+                <span id="comment_error" class="comment-error"></span>
+                <button type="submit" class="button-generic">{% trans "Post Comment" %}</button>
+            </div>
+        </form>
+        {% else %}
+        <p class="comment-login-prompt">
+            <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+            {% trans "to leave a comment." %}
+        </p>
+        {% endif %}
+
+        <ul id="comments_list" class="comments-list">
+            {% for comment in comments %}
+            <li class="comment-item" data-comment-id="{{ comment.id }}">
+                <div class="comment-meta">
+                    <span class="comment-author">{{ comment.author }}</span>
+                    <span class="comment-date">{{ comment.created_time }}</span>
+                    {% if comment.can_delete %}
+                    <a href="#" class="comment-delete" onclick="deleteComment(event, {{ comment.id }});">{% trans "delete" %}</a>
+                    {% endif %}
+                    {% if comment.can_report %}
+                    <a href="#" class="comment-report" onclick="openReportModal(event, {{ comment.id }});">{% trans "report" %}</a>
+                    {% endif %}
+                </div>
+                <div class="comment-content">{{ comment.content|linebreaksbr }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        <p id="comments_empty" class="comment-empty"{% if comments %} style="display:none;"{% endif %}>
+            {% trans "No comments yet." %}
+        </p>
+    </div>
+
+    <div id="report_modal" class="report-modal" style="display:none;">
+        <div class="report-modal-backdrop" onclick="closeReportModal();"></div>
+        <div class="report-modal-content">
+            <h3 class="report-modal-title">{% trans "Report this comment" %}</h3>
+            <p class="report-modal-help">{% trans "Tell us why you are reporting it. An admin will review the report." %}</p>
+            <label class="report-modal-label">
+                {% trans "Reason" %}
+                <select id="report_reason">
+                    <option value="spam">{% trans "Spam" %}</option>
+                    <option value="harassment">{% trans "Harassment / insult" %}</option>
+                    <option value="off_topic">{% trans "Off-topic" %}</option>
+                    <option value="other">{% trans "Other" %}</option>
+                </select>
+            </label>
+            <div class="report-modal-actions">
+                <span id="report_error" class="comment-error"></span>
+                <button type="button" class="button-generic" onclick="closeReportModal();">{% trans "Cancel" %}</button>
+                <button type="button" class="button-generic" id="report_submit">{% trans "Send report" %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <p align="center" class="text" style="margin: 0; padding: 0;">
         {% trans "Built using data from " %}
         <a href="https://docs.dofusdu.de/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
@@ -1093,6 +1292,152 @@
                 }
             });
         }
-        
+
+        // Post a new comment on this shared build
+        function postComment(event) {
+            event.preventDefault();
+            var $form = $('#comment_form');
+            var $textarea = $('#comment_content');
+            var $error = $('#comment_error');
+            var content = ($textarea.val() || '').trim();
+            $error.text('');
+            if (!content) {
+                $error.text("{% trans 'Comment is empty' %}");
+                return false;
+            }
+            $form.find('button[type=submit]').prop('disabled', true);
+            $.ajax({
+                url: apiBase + '/postcomment/{{ char_id }}/',
+                type: 'POST',
+                data: {
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        appendComment(response.comment);
+                        $textarea.val('');
+                        var count = parseInt($('#comments_count').text(), 10) || 0;
+                        $('#comments_count').text(count + 1);
+                        $('#comments_empty').hide();
+                    }
+                },
+                error: function(xhr) {
+                    $error.text(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not post comment' %}");
+                },
+                complete: function() {
+                    $form.find('button[type=submit]').prop('disabled', false);
+                }
+            });
+            return false;
+        }
+
+        function appendComment(comment) {
+            var $li = $('<li>').addClass('comment-item').attr('data-comment-id', comment.id);
+            var $meta = $('<div>').addClass('comment-meta');
+            $meta.append($('<span>').addClass('comment-author').text(comment.author));
+            $meta.append(' ');
+            $meta.append($('<span>').addClass('comment-date').text(comment.created_time));
+            if (comment.can_delete) {
+                $meta.append(' ');
+                $meta.append($('<a>').attr('href', '#').addClass('comment-delete')
+                    .text("{% trans 'delete' %}")
+                    .on('click', function(e) { deleteComment(e, comment.id); }));
+            }
+            if (comment.can_report) {
+                $meta.append(' ');
+                $meta.append($('<a>').attr('href', '#').addClass('comment-report')
+                    .text("{% trans 'report' %}")
+                    .on('click', function(e) { openReportModal(e, comment.id); }));
+            }
+            $li.append($meta);
+            // textContent (not html) -> safe from XSS
+            var $content = $('<div>').addClass('comment-content').text(comment.content);
+            $li.append($content);
+            $('#comments_list').append($li);
+        }
+
+        var _reportTargetCommentId = null;
+        function openReportModal(event, commentId) {
+            if (event) event.preventDefault();
+            _reportTargetCommentId = commentId;
+            $('#report_reason').val('spam');
+            $('#report_error').text('');
+            $('#report_submit').prop('disabled', false);
+            $('#report_modal').show();
+            return false;
+        }
+        function closeReportModal() {
+            $('#report_modal').hide();
+            _reportTargetCommentId = null;
+        }
+        $(document).on('click', '#report_submit', function() {
+            if (_reportTargetCommentId == null) return;
+            var reason = $('#report_reason').val();
+            $('#report_submit').prop('disabled', true);
+            $('#report_error').text('');
+            $.ajax({
+                url: apiBase + '/reportcomment/' + _reportTargetCommentId + '/',
+                type: 'POST',
+                data: {
+                    'reason': reason,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        if (response.auto_hidden) {
+                            $('[data-comment-id="' + _reportTargetCommentId + '"]').remove();
+                            var count = parseInt($('#comments_count').text(), 10) || 0;
+                            count = Math.max(0, count - 1);
+                            $('#comments_count').text(count);
+                            if (count === 0) $('#comments_empty').show();
+                        } else {
+                            // Hide the report link for this user on this comment
+                            $('[data-comment-id="' + _reportTargetCommentId + '"] .comment-report').hide();
+                        }
+                        closeReportModal();
+                    }
+                },
+                error: function(xhr) {
+                    $('#report_error').text(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not send report' %}");
+                    $('#report_submit').prop('disabled', false);
+                }
+            });
+        });
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && $('#report_modal').is(':visible')) {
+                closeReportModal();
+            }
+        });
+
+        function deleteComment(event, commentId) {
+            event.preventDefault();
+            if (!confirm("{% trans 'Delete this comment?' %}")) return false;
+            $.ajax({
+                url: apiBase + '/deletecomment/' + commentId + '/',
+                type: 'POST',
+                data: { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                success: function(response) {
+                    if (response.success) {
+                        $('[data-comment-id="' + commentId + '"]').remove();
+                        var count = parseInt($('#comments_count').text(), 10) || 0;
+                        count = Math.max(0, count - 1);
+                        $('#comments_count').text(count);
+                        if (count === 0) $('#comments_empty').show();
+                    }
+                },
+                error: function(xhr) {
+                    alert(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not delete comment' %}");
+                }
+            });
+            return false;
+        }
+
     </script>
 {% endblock %}

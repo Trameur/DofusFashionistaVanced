@@ -27,6 +27,7 @@ from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
     get_all_inclusions_en_names, get_all_exclusions_en_names,
     get_empty_slots, set_empty_slot, get_stat_overrides)
+from chardata.comment_view import get_comments_for_build
 from chardata.models import Char, BuildVote, BuildView
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
@@ -172,6 +173,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               
     if char.link_shared:
         params['initial_link'] = generate_link(request, char)
+        params['comments'] = get_comments_for_build(char, request.user)
+        params['comments_json'] = json.dumps(params['comments'])
+    else:
+        params['comments'] = []
+        params['comments_json'] = '[]'
 
     params.update(vote_data)
     params.update(solution_params)
