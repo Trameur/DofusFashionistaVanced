@@ -7,7 +7,7 @@
 
 from django.contrib import admin
 
-from chardata.models import BuildComment, CommentReport, UserAlias, WorkshopItem
+from chardata.models import BuildComment, CommentReport, UserAlias, UserFollow, WorkshopItem
 
 
 @admin.register(BuildComment)
@@ -63,3 +63,10 @@ class WorkshopItemAdmin(admin.ModelAdmin):
     list_filter = ('game_version', 'added_time')
     search_fields = ('user__username',)
     raw_id_fields = ('user',)
+
+
+@admin.register(UserFollow)
+class UserFollowAdmin(admin.ModelAdmin):
+    list_display = ('id', 'follower', 'followed', 'created_time')
+    search_fields = ('follower__username', 'followed__username')
+    raw_id_fields = ('follower', 'followed')

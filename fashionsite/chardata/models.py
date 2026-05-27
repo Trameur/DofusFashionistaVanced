@@ -102,6 +102,22 @@ class BuildComment(models.Model):
             models.Index(fields=['build', 'deleted', 'created_time']),
         ]
 
+class UserFollow(models.Model):
+    """One-way follow relationship — A follows B."""
+    follower = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='following_set')
+    followed = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='follower_set')
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('follower', 'followed')
+        indexes = [
+            models.Index(fields=['followed', 'created_time']),
+            models.Index(fields=['follower', 'created_time']),
+        ]
+
+
 class WorkshopItem(models.Model):
     """A single item the user wants to craft (or remember to acquire).
 

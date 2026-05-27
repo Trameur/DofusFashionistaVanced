@@ -27,7 +27,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
-    coaching_view, workshop_view, tierlist_view
+    coaching_view, workshop_view, tierlist_view, profile_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -182,6 +182,9 @@ urlpatterns = [
     re_path(r'^duplicatemyproject/(?P<char_id>\d+)/', projects_view.duplicate_my_project, name='duplicate_my_project'),
     re_path(r'^sharedbuilds/', shared_builds_view.shared_builds, name='shared_builds'),
     re_path(r'^tierlist/$', tierlist_view.tierlist, name='tierlist'),
+    re_path(r'^user/(?P<alias>[^/]+)/$', profile_view.user_profile, name='user_profile'),
+    re_path(r'^follow/(?P<user_id>\d+)/$', profile_view.follow_user, name='follow_user'),
+    re_path(r'^unfollow/(?P<user_id>\d+)/$', profile_view.unfollow_user, name='unfollow_user'),
     re_path(r'^votebuild/(?P<build_id>\d+)/', shared_builds_view.vote_build, name='vote_build'),
     re_path(r'^postcomment/(?P<build_id>\d+)/$', comment_view.post_comment, name='post_comment'),
     re_path(r'^deletecomment/(?P<comment_id>\d+)/$', comment_view.delete_comment, name='delete_comment'),
