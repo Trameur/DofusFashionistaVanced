@@ -7,6 +7,7 @@ from chardata import (
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, tierlist_view, profile_view,
+    tag_view,
 )
 
 urlpatterns = [
@@ -35,6 +36,8 @@ urlpatterns = [
     re_path(r'^postcomment/(?P<build_id>\d+)/$', comment_view.post_comment, name='post_comment'),
     re_path(r'^deletecomment/(?P<comment_id>\d+)/$', comment_view.delete_comment, name='delete_comment'),
     re_path(r'^reportcomment/(?P<comment_id>\d+)/$', comment_view.report_comment, name='report_comment'),
+    re_path(r'^addtag/(?P<char_id>\d+)/$', tag_view.add_tag, name='add_tag'),
+    re_path(r'^removetag/(?P<tag_id>\d+)/$', tag_view.remove_tag, name='remove_tag'),
     re_path(r'^duplicatesomeonesproject/(?P<encoded_char_id>.+)/', projects_view.duplicate_someones_project, name='duplicate_someones_project'),
 
     re_path(r'^setup/(?P<char_id>\d+)/', base_stats_view.setup_base_stats, name='setup_base_stats'),

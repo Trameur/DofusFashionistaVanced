@@ -26,7 +26,7 @@ import logging
 import json
 import pickle
 
-from chardata.models import Char, UserAlias, BuildVote
+from chardata.models import BuildTag, BuildVote, Char, UserAlias
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
@@ -257,6 +257,7 @@ def shared_builds(request):
     show_liked = request.GET.get('show_liked', '')  # Show only liked builds by current user
     show_favorited = request.GET.get('show_favorited', '')  # Show only favorited builds by current user
     hide_invalid = request.GET.get('hide_invalid', '')
+    tag_filter = (request.GET.get('tag') or '').strip().lower()
     page_number = request.GET.get('page', 1)
     
     # Get selected build aspects from checkboxes
@@ -339,9 +340,12 @@ def shared_builds(request):
     
     if search_query:
         builds = builds.filter(
-            Q(name__icontains=search_query) | 
+            Q(name__icontains=search_query) |
             Q(char_name__icontains=search_query)
         )
+
+    if tag_filter:
+        builds = builds.filter(tags__name=tag_filter)
     
     # Filter by user
     if user_search:
@@ -437,6 +441,13 @@ def shared_builds(request):
         if alias.alias
     }
 
+    # Bulk-fetch tags for the page items so each build row can show its chips.
+    tags_by_char = {}
+    if page_chars:
+        for t in BuildTag.objects.filter(char_id__in=[c.id for c in page_chars]).order_by('created_time'):
+            tags_by_char.setdefault(t.char_id, []).append(
+                {'name': t.display_name, 'slug': t.name})
+
     for char in page_chars:
         encoded_id = encode_char_id(int(char.id))
         char_name = char.char_name or 'shared'
@@ -476,6 +487,7 @@ def shared_builds(request):
             'has_outdated_slots': build_meta['has_outdated_slots'],
             'has_condition_issues': build_meta['has_condition_issues'],
             'is_invalid': build_meta['is_invalid'],
+            'tags': tags_by_char.get(char.id, []),
         })
 
     # Get user's votes if logged in.
@@ -519,6 +531,7 @@ def shared_builds(request):
             'show_liked': show_liked,
             'show_favorited': show_favorited,
             'hide_invalid': hide_invalid,
+            'tag': tag_filter,
         }
     }
     

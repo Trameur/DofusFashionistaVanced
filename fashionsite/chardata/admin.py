@@ -7,7 +7,7 @@
 
 from django.contrib import admin
 
-from chardata.models import BuildComment, CommentReport, UserAlias, UserFollow, WorkshopItem
+from chardata.models import BuildComment, BuildTag, CommentReport, UserAlias, UserFollow, WorkshopItem
 
 
 @admin.register(BuildComment)
@@ -70,3 +70,10 @@ class UserFollowAdmin(admin.ModelAdmin):
     list_display = ('id', 'follower', 'followed', 'created_time')
     search_fields = ('follower__username', 'followed__username')
     raw_id_fields = ('follower', 'followed')
+
+
+@admin.register(BuildTag)
+class BuildTagAdmin(admin.ModelAdmin):
+    list_display = ('id', 'char', 'name', 'display_name', 'created_time')
+    search_fields = ('name', 'display_name', 'char__name')
+    raw_id_fields = ('char',)

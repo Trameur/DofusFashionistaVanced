@@ -49,6 +49,51 @@
             font-size: 0.9em;
             opacity: 0.8;
         }
+        .char-banner-tags {
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+        .build-tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 1px 8px;
+            font-size: 0.8em;
+            border: 1px solid rgba(128,128,128,0.4);
+            border-radius: 10px;
+        }
+        .build-tag-chip a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .build-tag-chip a:hover {
+            text-decoration: underline;
+        }
+        .build-tag-remove {
+            background: none;
+            border: none;
+            color: inherit;
+            opacity: 0.55;
+            cursor: pointer;
+            padding: 0 2px;
+            font-size: 1em;
+            line-height: 1;
+        }
+        .build-tag-remove:hover {
+            opacity: 1;
+        }
+        .build-tag-add input {
+            border: 1px dashed rgba(128,128,128,0.45);
+            background: transparent;
+            color: inherit;
+            padding: 1px 6px;
+            font-size: 0.8em;
+            border-radius: 10px;
+            width: 100px;
+        }
 
         .comments-section {
             max-width: 720px;
@@ -200,6 +245,21 @@
             <div class="char-banner-meta">
                 {{ char.char_class }} · {% trans "level" %} {{ char.level }}
                 {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
+            </div>
+            <div class="char-banner-tags" id="char_tags_box">
+                {% for tag in build_tags %}
+                <span class="build-tag-chip" data-tag-id="{{ tag.id }}">
+                    <a href="{% game_url 'shared_builds' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                    {% if can_edit_tags %}
+                    <button type="button" class="build-tag-remove" data-tag-id="{{ tag.id }}" title="{% trans 'Remove tag' %}">×</button>
+                    {% endif %}
+                </span>
+                {% endfor %}
+                {% if can_edit_tags %}
+                <span class="build-tag-add">
+                    <input type="text" id="char_tag_input" maxlength="40" placeholder="{% trans '+ Add tag' %}">
+                </span>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -1468,6 +1528,52 @@
             if (e.key === 'Escape' && $('#report_modal').is(':visible')) {
                 closeReportModal();
             }
+        });
+
+        function addBuildTag(name) {
+            $.ajax({
+                url: apiBase + '/addtag/{{ char_id }}/',
+                type: 'POST',
+                data: { 'tag': name, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                success: function(resp) {
+                    if (resp.success) {
+                        var $chip = $('<span>').addClass('build-tag-chip')
+                            .attr('data-tag-id', resp.tag.id);
+                        var $link = $('<a>').attr('href', apiBase + '/sharedbuilds/?tag=' + resp.tag.slug)
+                            .text(resp.tag.display_name);
+                        $chip.append($link);
+                        var $btn = $('<button type="button">').addClass('build-tag-remove')
+                            .attr('data-tag-id', resp.tag.id).text('×');
+                        $chip.append(' ').append($btn);
+                        $('#char_tags_box .build-tag-add').before($chip);
+                        $('#char_tag_input').val('');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        alert(xhr.responseJSON.error);
+                    }
+                }
+            });
+        }
+
+        $(document).on('keydown', '#char_tag_input', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                var v = $(this).val().trim();
+                if (v) addBuildTag(v);
+            }
+        });
+
+        $(document).on('click', '.build-tag-remove', function() {
+            var id = $(this).data('tag-id');
+            $.post(apiBase + '/removetag/' + id + '/',
+                   { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                   function(resp) {
+                       if (resp.success) {
+                           $('.build-tag-chip[data-tag-id="' + id + '"]').remove();
+                       }
+                   });
         });
 
         function addSolutionToWorkshop() {

@@ -197,6 +197,13 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
         params['comments'] = []
         params['comments_json'] = '[]'
 
+    params['build_tags'] = [{'id': t.id, 'name': t.display_name, 'slug': t.name}
+                            for t in char.tags.all().order_by('created_time')]
+    params['can_edit_tags'] = (not is_guest
+                               and char.owner_id is not None
+                               and request.user.is_authenticated
+                               and char.owner_id == request.user.id)
+
     params.update(vote_data)
     params.update(solution_params)
 

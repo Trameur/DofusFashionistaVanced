@@ -102,6 +102,23 @@ class BuildComment(models.Model):
             models.Index(fields=['build', 'deleted', 'created_time']),
         ]
 
+class BuildTag(models.Model):
+    """Free-form tags that the build owner attaches to a Char to help
+    classification ("Klime", "PvP arena", "Frigost dungeons"). Stored
+    lowercased + trimmed so case-insensitive lookups are cheap; original
+    display name is preserved in `display_name`."""
+    char = models.ForeignKey(Char, on_delete=models.CASCADE, related_name='tags')
+    name = models.CharField(max_length=40, db_index=True)
+    display_name = models.CharField(max_length=40)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('char', 'name')
+        indexes = [
+            models.Index(fields=['name', 'char']),
+        ]
+
+
 class UserFollow(models.Model):
     """One-way follow relationship — A follows B."""
     follower = models.ForeignKey(User, on_delete=models.CASCADE,
