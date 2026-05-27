@@ -6,7 +6,7 @@ from chardata import (
     exclusions_view, wizard_view, fashion_action, solution_view, spells_view,
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
-    comment_view,
+    comment_view, coaching_view,
 )
 
 urlpatterns = [
@@ -39,6 +39,7 @@ urlpatterns = [
     re_path(r'^initbasestatspost/(?P<char_id>\d+)/', base_stats_view.init_base_stats_post, name='init_base_stats_post'),
 
     re_path(r'^setup/$', create_project_view.setup, name='setup'),
+    re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
     re_path(r'^createproject/', create_project_view.create_project, name='create_project'),
     re_path(r'^saveprojecttouser/', create_project_view.save_project_to_user, name='save_project_to_user'),
     re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),

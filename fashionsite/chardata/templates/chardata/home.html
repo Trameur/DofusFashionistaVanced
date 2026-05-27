@@ -32,14 +32,20 @@
     
     {% for button in buttons %}
     <div class="giant-button {{button.class}}" align="center">
-        <div class="giant-button-pic"> 
-             <img src="{{button.pic}}"> 
+        <div class="giant-button-pic">
+             <img src="{{button.pic}}">
         </div>
         <div>
             <a class="giant-button-text" href="{{button.link}}">{{button.label}}</a>
         </div>
-    </div>     
-    {% endfor %} 
+    </div>
+    {% endfor %}
+
+    <p align="center" style="margin-top: 18px; opacity: 0.8;">
+        {% load version_url %}
+        {% trans "New to Dofus Fashionista?" %}
+        <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>.
+    </p>
 </div>         
            
     
