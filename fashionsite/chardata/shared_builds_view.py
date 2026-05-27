@@ -26,7 +26,7 @@ import logging
 import json
 import pickle
 
-from chardata.models import BuildTag, BuildVote, Char, UserAlias
+from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
@@ -443,10 +443,17 @@ def shared_builds(request):
 
     # Bulk-fetch tags for the page items so each build row can show its chips.
     tags_by_char = {}
+    comment_counts = {}
     if page_chars:
-        for t in BuildTag.objects.filter(char_id__in=[c.id for c in page_chars]).order_by('created_time'):
+        page_char_ids_for_chips = [c.id for c in page_chars]
+        for t in BuildTag.objects.filter(char_id__in=page_char_ids_for_chips).order_by('created_time'):
             tags_by_char.setdefault(t.char_id, []).append(
                 {'name': t.display_name, 'slug': t.name})
+        for row in (BuildComment.objects
+                    .filter(build_id__in=page_char_ids_for_chips, deleted=False)
+                    .values('build_id')
+                    .annotate(cnt=Count('id'))):
+            comment_counts[row['build_id']] = row['cnt']
 
     for char in page_chars:
         encoded_id = encode_char_id(int(char.id))
@@ -488,6 +495,7 @@ def shared_builds(request):
             'has_condition_issues': build_meta['has_condition_issues'],
             'is_invalid': build_meta['is_invalid'],
             'tags': tags_by_char.get(char.id, []),
+            'comment_count': comment_counts.get(char.id, 0),
         })
 
     # Get user's votes if logged in.

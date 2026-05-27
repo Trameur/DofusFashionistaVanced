@@ -652,6 +652,12 @@
                             <div class="stat-value" id="favorite-count-{{ build.char.id }}">{{ build.favorite_count }}</div>
                             <div class="stat-label">{% trans "Favorites" %}</div>
                         </div>
+                        {% if build.comment_count > 0 %}
+                            <div class="stat-item">
+                                <div class="stat-value">{{ build.comment_count }}</div>
+                                <div class="stat-label">{% trans "Comments" %}</div>
+                            </div>
+                        {% endif %}
                         {% if build.total_stats > 0 %}
                             <div class="stat-item">
                                 <div class="stat-value">{{ build.total_stats|floatformat:0 }}</div>
