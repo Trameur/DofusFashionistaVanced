@@ -259,6 +259,16 @@
                 <span class="build-tag-add">
                     <input type="text" id="char_tag_input" maxlength="40" placeholder="{% trans '+ Add tag' %}">
                 </span>
+                {% if not build_tags %}
+                <span class="build-tag-suggestions" style="opacity: 0.65; font-size: 0.8em; margin-left: 6px;">
+                    {% trans "Suggestions:" %}
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">PvM</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">PvP</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">Solo</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">Group</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">Farm</a>
+                </span>
+                {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -1598,6 +1608,12 @@
                 var v = $(this).val().trim();
                 if (v) addBuildTag(v);
             }
+        });
+
+        $(document).on('click', '.build-tag-suggest', function(e) {
+            e.preventDefault();
+            addBuildTag($(this).text());
+            $(this).remove();
         });
 
         $(document).on('click', '.build-tag-remove', function() {
