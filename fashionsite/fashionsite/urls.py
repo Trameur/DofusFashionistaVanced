@@ -27,7 +27,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
-    coaching_view, workshop_view, tierlist_view, profile_view, tag_view
+    coaching_view, workshop_view, tierlist_view, profile_view, tag_view, api_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -162,6 +162,12 @@ urlpatterns = [
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
     re_path(r'^$', home_view.home, name='home'),
     re_path(r'^random/$', home_view.random_build, name='random_build'),
+
+    # Public read-only REST API (no auth, CORS open, cached 60s)
+    re_path(r'^api/v1/$', api_view.api_meta, name='api_meta'),
+    re_path(r'^api/v1/shared-builds/$', api_view.api_shared_builds, name='api_shared_builds'),
+    re_path(r'^api/v1/shared-builds/(?P<encoded_id>[^/]+)/$', api_view.api_shared_build_detail, name='api_shared_build_detail'),
+    re_path(r'^api/v1/tier-list/$', api_view.api_tier_list, name='api_tier_list'),
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),
     re_path(r'^register/', login_view.register, name='register'),
