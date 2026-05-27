@@ -566,7 +566,9 @@
                         {% if build.creator_name %}
                             <div class="build-info-row">
                                 <span class="build-label">{% trans "Creator" %}:</span>
-                                <span class="build-value">{{ build.creator_name }}</span>
+                                <span class="build-value">
+                                    <a href="{% game_url 'user_profile' build.creator_name %}">{{ build.creator_name }}</a>
+                                </span>
                             </div>
                         {% endif %}
                         <div class="build-info-row">

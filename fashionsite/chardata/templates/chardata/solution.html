@@ -104,6 +104,11 @@
         .comment-author {
             font-weight: bold;
             margin-right: 6px;
+            color: inherit;
+            text-decoration: none;
+        }
+        .comment-author:hover {
+            text-decoration: underline;
         }
         .comment-date {
             margin-right: 6px;
@@ -503,7 +508,7 @@
             {% for comment in comments %}
             <li class="comment-item" data-comment-id="{{ comment.id }}">
                 <div class="comment-meta">
-                    <span class="comment-author">{{ comment.author }}</span>
+                    <a class="comment-author" href="{% game_url 'user_profile' comment.author %}">{{ comment.author }}</a>
                     <span class="comment-date">{{ comment.created_time }}</span>
                     {% if comment.can_delete %}
                     <a href="#" class="comment-delete" onclick="deleteComment(event, {{ comment.id }});">{% trans "delete" %}</a>
@@ -1387,7 +1392,8 @@
         function appendComment(comment) {
             var $li = $('<li>').addClass('comment-item').attr('data-comment-id', comment.id);
             var $meta = $('<div>').addClass('comment-meta');
-            $meta.append($('<span>').addClass('comment-author').text(comment.author));
+            var profileUrl = '{{ api_base }}/user/' + encodeURIComponent(comment.author) + '/';
+            $meta.append($('<a>').addClass('comment-author').attr('href', profileUrl).text(comment.author));
             $meta.append(' ');
             $meta.append($('<span>').addClass('comment-date').text(comment.created_time));
             if (comment.can_delete) {

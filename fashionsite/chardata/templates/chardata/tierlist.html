@@ -135,7 +135,9 @@
                             {% if b.build_name_translated %}— {{ b.build_name_translated }}{% endif %}
                             ({% trans "lvl" %} {{ b.char.level }})
                         </span>
-                        <span class="tierlist-author">{{ b.creator }}</span>
+                        <span class="tierlist-author">
+                            <a href="{% game_url 'user_profile' b.creator %}" onclick="event.stopPropagation();">{{ b.creator }}</a>
+                        </span>
                         <span class="tierlist-stats">
                             ❤️ {{ b.like_count }} · ⭐ {{ b.favorite_count }} · 👁 {{ b.view_count }}
                         </span>
