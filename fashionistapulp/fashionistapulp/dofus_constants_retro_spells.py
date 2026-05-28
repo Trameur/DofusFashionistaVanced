@@ -155,7 +155,7 @@ RETRO_DAMAGE_SPELLS = {
         Spell("Rekop", [1, 1, 1, 1, 1, 100], Effects(
             [["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"]],
             [["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"]],
-            [WATER, FIRE, AIR, EARTH],
+            [EARTH, WATER, FIRE, AIR],
         )),
         Spell("Griffe de Ceangal", [1, 1, 1, 1, 1, 100], Effects(
             [["13-25", "13-28", "13-31", "13-34", "15-39", "21-45"]],
@@ -348,7 +348,7 @@ RETRO_DAMAGE_SPELLS = {
         Spell("Feu de Brousse", [1, 1, 1, 1, 1, 100], Effects(
             [["3-5", "3-6", "3-7", "4-8", "6-10", "6-10"], ["3-5", "3-6", "3-7", "4-8", "6-10", "6-10"]],
             [["6-6", "7-7", "8-8", "9-9", "11-11", "11-11"], ["6-6", "7-7", "8-8", "9-9", "11-11", "11-11"]],
-            [FIRE, WATER],
+            [WATER, FIRE],
         )),
         Spell("Herbe Folle", [1, 1, 1, 1, 1, 100], Effects(
             [["2-5", "3-7", "4-8", "5-9", "6-10", "11-20"]],
@@ -436,4 +436,581 @@ RETRO_DAMAGE_SPELLS = {
         )),
     ],
     'default': [],
+}
+
+RETRO_SPELL_NAMES = {
+ "Retour du bâton": {
+  "fr": "Retour du bâton",
+  "en": "Backlash",
+  "es": "Puñalada",
+  "pt": "Troco",
+  "de": "Gegenangriff"
+ },
+ "Bulle": {
+  "fr": "Bulle",
+  "en": "Bubble",
+  "es": "Pompa",
+  "pt": "Bolha",
+  "de": "Blase"
+ },
+ "Attaque Nuageuse": {
+  "fr": "Attaque Nuageuse",
+  "en": "Cloudy Attack",
+  "es": "Ataque Nuboso",
+  "pt": "Ataque Nebuloso",
+  "de": "Nebelhafter Angriff"
+ },
+ "Aveuglement": {
+  "fr": "Aveuglement",
+  "en": "Blindness",
+  "es": "Ceguera",
+  "pt": "Cegueira",
+  "de": "Blindheit"
+ },
+ "Attaque Naturelle": {
+  "fr": "Attaque Naturelle",
+  "en": "Natural Attack",
+  "es": "Ataque Natural",
+  "pt": "Ataque Natural",
+  "de": "Natürlicher Angriff"
+ },
+ "Frappe du Craqueleur": {
+  "fr": "Frappe du Craqueleur",
+  "en": "Punch of the Crackler",
+  "es": "Golpe del Crujidor",
+  "pt": "Soco de Crackler",
+  "de": "Krachlerfaust"
+ },
+ "Griffe Cinglante": {
+  "fr": "Griffe Cinglante",
+  "en": "Lashing Claw",
+  "es": "Garra Azotadora",
+  "pt": "Garra de Chicote",
+  "de": "Zupackende Kralle"
+ },
+ "Corbeau": {
+  "fr": "Corbeau",
+  "en": "Crow",
+  "es": "Cuervo",
+  "pt": "Corvo",
+  "de": "Rabe"
+ },
+ "Fouet": {
+  "fr": "Fouet",
+  "en": "Whip",
+  "es": "Látigo",
+  "pt": "Chicote",
+  "de": "Peitsche"
+ },
+ "Griffe Spectrale": {
+  "fr": "Griffe Spectrale",
+  "en": "Ghostly Claw",
+  "es": "Garra Espectral",
+  "pt": "Garra Espectral",
+  "de": "Geisterklaue"
+ },
+ "Pelle Massacrante": {
+  "fr": "Pelle Massacrante",
+  "en": "Slaughtering Shovel",
+  "es": "Pala Masacrante",
+  "pt": "Pá Massacrante",
+  "de": "Mörderschaufel"
+ },
+ "Pelle du Jugement": {
+  "fr": "Pelle du Jugement",
+  "en": "Shovel of Judgement",
+  "es": "Pala del Juicio",
+  "pt": "Pá de Julgamento",
+  "de": "Schaufel der Verurteilung"
+ },
+ "Roulage de Pelle": {
+  "fr": "Roulage de Pelle",
+  "en": "Shovel Kiss",
+  "es": "Jarabe de Pala",
+  "pt": "Beijo da Pá",
+  "de": "Herumwirbelnde Schaufel"
+ },
+ "Désinvocation": {
+  "fr": "Désinvocation",
+  "en": "Unsummoning",
+  "es": "Desinvocación",
+  "pt": "Desinvocação",
+  "de": "Rückruf"
+ },
+ "Force de l'Age": {
+  "fr": "Force de l'Age",
+  "en": "Prime of Life",
+  "es": "Madurez",
+  "pt": "Melhor da vida",
+  "de": "Kraft des Alters"
+ },
+ "Remblai": {
+  "fr": "Remblai",
+  "en": "Mound",
+  "es": "Terraplenado",
+  "pt": "Aterro",
+  "de": "Aufhäufen"
+ },
+ "Pelle Fantomatique": {
+  "fr": "Pelle Fantomatique",
+  "en": "Ghostly Shovel",
+  "es": "Pala Fantasmal",
+  "pt": "Pá Espectral",
+  "de": "Phantomschaufel"
+ },
+ "Lancer de Pièces": {
+  "fr": "Lancer de Pièces",
+  "en": "Coins Throwing",
+  "es": "Lanzamiento de Monedas",
+  "pt": "Arremesso de Moedas",
+  "de": "Münzenwurf"
+ },
+ "Lancer de Pelle": {
+  "fr": "Lancer de Pelle",
+  "en": "Shovel Throwing",
+  "es": "Lanzamiento de Pala",
+  "pt": "Arremesso de Pá",
+  "de": "Schaufel werfen"
+ },
+ "Frappe de Xélor": {
+  "fr": "Frappe de Xélor",
+  "en": "Xelor's Punch",
+  "es": "Golpe de Xelor",
+  "pt": "Soco de Xelor",
+  "de": "Faust von Xélor"
+ },
+ "Horloge": {
+  "fr": "Horloge",
+  "en": "Clock",
+  "es": "Reloj de Pared",
+  "pt": "Relógio",
+  "de": "Uhrwerk"
+ },
+ "Poussière Temporelle": {
+  "fr": "Poussière Temporelle",
+  "en": "Temporal Dust",
+  "es": "Polvo Temporal",
+  "pt": "Poeira Temporal",
+  "de": "Zeitstaub"
+ },
+ "Flétrissement": {
+  "fr": "Flétrissement",
+  "en": "Shriveling",
+  "es": "Marchitación",
+  "pt": "Encolhimento",
+  "de": "Verwelken"
+ },
+ "Rayon Obscur": {
+  "fr": "Rayon Obscur",
+  "en": "Dark Ray",
+  "es": "Rayo Oscuro",
+  "pt": "Raio Sombrio",
+  "de": "Dunkelstrahl"
+ },
+ "Sablier de Xélor": {
+  "fr": "Sablier de Xélor",
+  "en": "Xelor's Sandglass",
+  "es": "Reloj de Arena de Xelor",
+  "pt": "Ampulheta Xelor",
+  "de": "Sanduhr von Xélor"
+ },
+ "Gelure": {
+  "fr": "Gelure",
+  "en": "Frostbite",
+  "es": "Congelación",
+  "pt": "Mordida Gélida",
+  "de": "Einfrieren"
+ },
+ "Aiguille": {
+  "fr": "Aiguille",
+  "en": "Hand",
+  "es": "Aguja",
+  "pt": "Ferrão",
+  "de": "Zeiger"
+ },
+ "Destin d'Ecaflip": {
+  "fr": "Destin d'Ecaflip",
+  "en": "Fate of Ecaflip",
+  "es": "Destino de Zurcarák",
+  "pt": "Destino de Ecaflip",
+  "de": "Ecaflips Schicksal"
+ },
+ "Rekop": {
+  "fr": "Rekop",
+  "en": "Rekop",
+  "es": "Rekop",
+  "pt": "Rekop",
+  "de": "Rekop"
+ },
+ "Griffe de Ceangal": {
+  "fr": "Griffe de Ceangal",
+  "en": "Claw of Ceangal",
+  "es": "Garra de Ceangal",
+  "pt": "Garra de Ceangal",
+  "de": "Klaue von Ceangal"
+ },
+ "Griffe Joueuse": {
+  "fr": "Griffe Joueuse",
+  "en": "Playful Claw",
+  "es": "Garra Juguetona",
+  "pt": "Garra Divertida",
+  "de": "Spielkralle"
+ },
+ "Esprit Félin": {
+  "fr": "Esprit Félin",
+  "en": "Feline Spirit",
+  "es": "Espíritu Felino",
+  "pt": "Espírito Felino",
+  "de": "Katzengeist"
+ },
+ "Langue Râpeuse": {
+  "fr": "Langue Râpeuse",
+  "en": "Rough Tongue",
+  "es": "Lengua Raspadora",
+  "pt": "Língua Áspera",
+  "de": "Raue Zunge"
+ },
+ "Topkaj": {
+  "fr": "Topkaj",
+  "en": "Topkaj",
+  "es": "Topkaj",
+  "pt": "Topkaj",
+  "de": "Topkaj"
+ },
+ "Tout ou rien": {
+  "fr": "Tout ou rien",
+  "en": "All or Nothing",
+  "es": "Todo o Nada",
+  "pt": "Tudo ou Nada",
+  "de": "Alles oder nichts"
+ },
+ "Bluff": {
+  "fr": "Bluff",
+  "en": "Bluff",
+  "es": "Farol",
+  "pt": "Blefe",
+  "de": "Bluff"
+ },
+ "Pile ou Face": {
+  "fr": "Pile ou Face",
+  "en": "Heads or Tails",
+  "es": "Cara o Cruz",
+  "pt": "Cara ou coroa",
+  "de": "Kopf oder Zahl"
+ },
+ "Mot Blessant": {
+  "fr": "Mot Blessant",
+  "en": "Wounding Word",
+  "es": "Palabra Hiriente",
+  "pt": "Palavra do Poder: Dor",
+  "de": "Verletzendes Wort"
+ },
+ "Mot Interdit": {
+  "fr": "Mot Interdit",
+  "en": "Forbidden Word",
+  "es": "Palabra Prohibida",
+  "pt": "Palavra do Poder: Explosão",
+  "de": "Verbotenes Wort"
+ },
+ "Colère de Iop": {
+  "fr": "Colère de Iop",
+  "en": "Iop's Wrath",
+  "es": "Ira de Yopuka",
+  "pt": "Cólera de Iop",
+  "de": "Iops Wut"
+ },
+ "Epée de Iop": {
+  "fr": "Epée de Iop",
+  "en": "Sword of Iop",
+  "es": "Espada de Yopuka",
+  "pt": "Espada de Iop",
+  "de": "Iops Schwert"
+ },
+ "Concentration": {
+  "fr": "Concentration",
+  "en": "Concentration",
+  "es": "Concentración",
+  "pt": "Concentração",
+  "de": "Konzentration"
+ },
+ "Epée Céleste": {
+  "fr": "Epée Céleste",
+  "en": "Celestial Sword",
+  "es": "Espada Celeste",
+  "pt": "Espada Celestial",
+  "de": "Himmlisches Schwert"
+ },
+ "Tempête de Puissance": {
+  "fr": "Tempête de Puissance",
+  "en": "Strengthstorm",
+  "es": "Tempestad de Potencia",
+  "pt": "Tempestade de Poder",
+  "de": "Sturm der Macht"
+ },
+ "Epée du Jugement": {
+  "fr": "Epée du Jugement",
+  "en": "Sword of Judgement",
+  "es": "Espada del Juicio",
+  "pt": "Espada de Julgamento",
+  "de": "Schwert der Verurteilung"
+ },
+ "Couper": {
+  "fr": "Couper",
+  "en": "Cut",
+  "es": "Corte",
+  "pt": "Corte",
+  "de": "Schneiden"
+ },
+ "Epée Destructrice": {
+  "fr": "Epée Destructrice",
+  "en": "Destructive Sword",
+  "es": "Espada Destructora",
+  "pt": "Espada Destrutiva",
+  "de": "Zerstörerisches Schwert"
+ },
+ "Epée du destin": {
+  "fr": "Epée du destin",
+  "en": "Sword of Fate",
+  "es": "Espada del Destino",
+  "pt": "Espada de Destino",
+  "de": "Schicksalsschwert"
+ },
+ "Epée Divine": {
+  "fr": "Epée Divine",
+  "en": "Divine Sword",
+  "es": "Espada Divina",
+  "pt": "Espada Divina",
+  "de": "Göttliches Schwert"
+ },
+ "Intimidation": {
+  "fr": "Intimidation",
+  "en": "Intimidation",
+  "es": "Intimidación",
+  "pt": "Intimidação",
+  "de": "Einschüchterung"
+ },
+ "Pression": {
+  "fr": "Pression",
+  "en": "Pressure",
+  "es": "Presión",
+  "pt": "Pressão",
+  "de": "Druck"
+ },
+ "Flèche Explosive": {
+  "fr": "Flèche Explosive",
+  "en": "Explosive Arrow",
+  "es": "Flecha Explosiva",
+  "pt": "Flecha Explosiva",
+  "de": "Explosionspfeil"
+ },
+ "Flèche Ralentissante": {
+  "fr": "Flèche Ralentissante",
+  "en": "Slow Down Arrow",
+  "es": "Flecha Ralentizante",
+  "pt": "Flecha de Desaceleração",
+  "de": "Verlangsamungspfeil"
+ },
+ "Flèche Destructrice": {
+  "fr": "Flèche Destructrice",
+  "en": "Destructive Arrow",
+  "es": "Flecha Destructora",
+  "pt": "Flecha Destrutiva",
+  "de": "Zerstörender Pfeil"
+ },
+ "Flèche Persécutrice": {
+  "fr": "Flèche Persécutrice",
+  "en": "Tormenting Arrow",
+  "es": "Flecha Perseguidora",
+  "pt": "Olho de Lince",
+  "de": "Heimsuchender Pfeil"
+ },
+ "Flèche Cinglante": {
+  "fr": "Flèche Cinglante",
+  "en": "Lashing Arrow",
+  "es": "Flecha Azotadora",
+  "pt": "Flecha Cegante",
+  "de": "Peitschender Pfeil"
+ },
+ "Flèche Harcelante": {
+  "fr": "Flèche Harcelante",
+  "en": "Plaguing Arrow",
+  "es": "Flecha Acosadora",
+  "pt": "Flecha da Moléstia",
+  "de": "Plagender Pfeil"
+ },
+ "Flèche Punitive": {
+  "fr": "Flèche Punitive",
+  "en": "Punitive Arrow",
+  "es": "Flecha Castigadora",
+  "pt": "Flecha Punitiva",
+  "de": "Strafender Pfeil"
+ },
+ "Flèche d'Immobilisation": {
+  "fr": "Flèche d'Immobilisation",
+  "en": "Paralyzing Arrow",
+  "es": "Flecha Inmovilizadora",
+  "pt": "Flecha de Imobilização",
+  "de": "Lähmpfeil"
+ },
+ "Flèche d'Expiation": {
+  "fr": "Flèche d'Expiation",
+  "en": "Atonement Arrow",
+  "es": "Flecha de Expiación",
+  "pt": "Flecha de Expiação",
+  "de": "Sühnepfeil"
+ },
+ "Flèche Enflammée": {
+  "fr": "Flèche Enflammée",
+  "en": "Burning Arrow",
+  "es": "Flecha Flamígera",
+  "pt": "Flecha Chama",
+  "de": "Flammenpfeil"
+ },
+ "Flèche Glacée": {
+  "fr": "Flèche Glacée",
+  "en": "Frozen Arrow",
+  "es": "Flecha Helada",
+  "pt": "Flecha de Gelo",
+  "de": "Eispfeil"
+ },
+ "Flèche Magique": {
+  "fr": "Flèche Magique",
+  "en": "Magic Arrow",
+  "es": "Flecha Mágica",
+  "pt": "Flecha Mágica",
+  "de": "Magischer Pfeil"
+ },
+ "Flèche Empoisonnée": {
+  "fr": "Flèche Empoisonnée",
+  "en": "Poisoned Arrow",
+  "es": "Flecha Envenenada",
+  "pt": "Flecha Envenenada",
+  "de": "Giftpfeil"
+ },
+ "Flèche de Recul": {
+  "fr": "Flèche de Recul",
+  "en": "Retreat Arrow",
+  "es": "Flecha de Retroceso",
+  "pt": "Flecha de Recuo",
+  "de": "Rückstoßpfeil"
+ },
+ "Feu de Brousse": {
+  "fr": "Feu de Brousse",
+  "en": "Bush Fire",
+  "es": "Fuego Montés",
+  "pt": "Incêndio Florestal",
+  "de": "Buschfeuer"
+ },
+ "Herbe Folle": {
+  "fr": "Herbe Folle",
+  "en": "Wild Grass",
+  "es": "Hierba Loca",
+  "pt": "Erva Selvagem",
+  "de": "Wuchernde Gräser"
+ },
+ "Ronces Agressives": {
+  "fr": "Ronces Agressives",
+  "en": "Aggressive Brambles",
+  "es": "Zarzas Agresivas",
+  "pt": "Sarça Agressiva",
+  "de": "Aggressive Ranken"
+ },
+ "Vent Empoisonné": {
+  "fr": "Vent Empoisonné",
+  "en": "Poisoned Wind",
+  "es": "Viento Envenenado",
+  "pt": "Vento Envenenado",
+  "de": "Giftiger Windstrom"
+ },
+ "Ronces Multiples": {
+  "fr": "Ronces Multiples",
+  "en": "Manifold Bramble",
+  "es": "Zarzas Múltiples",
+  "pt": "Sarça Múltipla",
+  "de": "Rankengewirr"
+ },
+ "Tremblement": {
+  "fr": "Tremblement",
+  "en": "Earthquake",
+  "es": "Temblor",
+  "pt": "Terremoto",
+  "de": "Beben"
+ },
+ "Larme": {
+  "fr": "Larme",
+  "en": "Tear",
+  "es": "Lágrima",
+  "pt": "Lágrima",
+  "de": "Träne"
+ },
+ "Ronce": {
+  "fr": "Ronce",
+  "en": "Bramble",
+  "es": "Zarza",
+  "pt": "Sarça",
+  "de": "Ranken"
+ },
+ "Furie": {
+  "fr": "Furie",
+  "en": "Fury",
+  "es": "Furia",
+  "pt": "Fúria",
+  "de": "Raserei"
+ },
+ "Assaut": {
+  "fr": "Assaut",
+  "en": "Assault",
+  "es": "Asalto",
+  "pt": "Assalto",
+  "de": "Sturmangriff"
+ },
+ "Pied du Sacrieur": {
+  "fr": "Pied du Sacrieur",
+  "en": "Sacrier's Foot",
+  "es": "Pie del Sacrógrito",
+  "pt": "Bica de Sacrier",
+  "de": "Sacrieurs Fuß"
+ },
+ "Pandatak": {
+  "fr": "Pandatak",
+  "en": "Pandatak",
+  "es": "Pandatak",
+  "pt": "Pandatak",
+  "de": "Pandattak"
+ },
+ "Flasque Explosive": {
+  "fr": "Flasque Explosive",
+  "en": "Explosive Flask",
+  "es": "Frasco Explosivo",
+  "pt": "Frasco Explosivo",
+  "de": "Explosiver Flachmann"
+ },
+ "Vague à Lame": {
+  "fr": "Vague à Lame",
+  "en": "Melancholy",
+  "es": "Ola Marejadora",
+  "pt": "Melancolia",
+  "de": "Welle der Traurigkeit"
+ },
+ "Souffle Alcoolisé": {
+  "fr": "Souffle Alcoolisé",
+  "en": "Alcoholic Breath",
+  "es": "Soplido Alcoholizado",
+  "pt": "Golpe Eufórico",
+  "de": "Alkoholatem"
+ },
+ "Gueule de Bois": {
+  "fr": "Gueule de Bois",
+  "en": "Hangover",
+  "es": "Resaca",
+  "pt": "Ressaca",
+  "de": "Brummschädel"
+ },
+ "Poing Enflammé": {
+  "fr": "Poing Enflammé",
+  "en": "Blazing Fist",
+  "es": "Puño Flamígero",
+  "pt": "Punho Flamejante",
+  "de": "Flammende Faust"
+ }
 }

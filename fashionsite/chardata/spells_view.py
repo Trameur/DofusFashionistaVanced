@@ -110,12 +110,25 @@ def _damage_spells_for_version(game_version):
     return DAMAGE_SPELLS
 
 
+def _localized_spell_name(name, language, game_version):
+    # Retro spell names live in a version-specific map keyed by the French name
+    # (Spell.name); other versions use the shared English-keyed localization.
+    if game_version == 'retro':
+        from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
+        names = RETRO_SPELL_NAMES.get(name)
+        if names:
+            lang = (language or 'en').split('-')[0].lower()
+            return names.get(lang) or names.get('fr') or name
+        return name
+    return get_localized_spell_name(name, language)
+
+
 def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
     web_digest['type'] = 'spell'
-    web_digest['name'] = get_localized_spell_name(spell.name, current_language)
+    web_digest['name'] = _localized_spell_name(spell.name, current_language, game_version)
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
     if game_version == 'beta':

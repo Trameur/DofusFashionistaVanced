@@ -152,7 +152,7 @@ def main() -> None:
             step(f"lang/download-{lang}", [
                 PY, "download_retro_langs.py",
                 "--lang", lang,
-                "--categories", "items",
+                "--categories", "items", "spells",
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
