@@ -151,8 +151,9 @@ def decode_conditions(c_string):
     return out
 
 
-def build(items_root, sets_root, names_en=None):
+def build(items_root, sets_root, names_by_lang=None):
     items = items_root['u']
+    names_by_lang = names_by_lang or {}
     equipment = []
     for iid, it in items.items():
         if not isinstance(it, dict):
@@ -166,7 +167,10 @@ def build(items_root, sets_root, names_en=None):
         except (TypeError, ValueError):
             continue
         name_fr = it.get('n') or ''
-        name_en = (names_en or {}).get(iid, name_fr)
+
+        def loc(lang):
+            return (names_by_lang.get(lang) or {}).get(iid) or name_fr
+
         try:
             level = int(it.get('l', 1))
         except (TypeError, ValueError):
@@ -177,8 +181,8 @@ def build(items_root, sets_root, names_en=None):
         rec = {
             'ankama_id': ankama_id,
             'ankama_type': 'equipment',
-            'name_en': name_en, 'name_fr': name_fr,
-            'name_es': name_fr, 'name_pt': name_fr, 'name_de': name_fr,
+            'name_en': loc('en'), 'name_fr': name_fr,
+            'name_es': loc('es'), 'name_pt': loc('pt'), 'name_de': loc('de'),
             'level': level,
             'w_type': w_type,
             'stats': stats + hits,
@@ -229,14 +233,17 @@ def main(argv=None):
         if isinstance(it, dict) and iid in ista:
             it['istats'] = ista[iid]
 
-    # Optional English names
-    names_en = None
-    en_path = raw / 'items_en.json'
-    if en_path.exists():
-        en_items = json.loads(en_path.read_text(encoding='utf-8'))['I']['u']
-        names_en = {k: v.get('n') for k, v in en_items.items() if isinstance(v, dict)}
+    # Localized item names from the per-language lang files (downloaded if present).
+    # The site's real audience is heavily ES/PT (~40%), so pull every language we can.
+    names_by_lang = {}
+    for lang in ('en', 'es', 'pt', 'de'):
+        path = raw / f'items_{lang}.json'
+        if path.exists():
+            lang_items = json.loads(path.read_text(encoding='utf-8'))['I']['u']
+            names_by_lang[lang] = {k: v.get('n') for k, v in lang_items.items()
+                                   if isinstance(v, dict)}
 
-    equipment, sets = build(items_root, sets_root, names_en)
+    equipment, sets = build(items_root, sets_root, names_by_lang)
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)

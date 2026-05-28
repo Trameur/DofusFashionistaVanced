@@ -3,19 +3,19 @@
 update_data_retro.py - DofusFashionista data pipeline for Dofus Retro (1.29)
 
 Usage:
-    python update_data_retro.py              # full update (latest CDN lang versions)
-    python update_data_retro.py --skip-en    # skip the English-names download (FR only)
+    python update_data_retro.py                    # full update (latest CDN lang versions)
+    python update_data_retro.py --skip-translations  # FR names only (faster)
 
 Unlike Dofus 2/3/Beta, Retro has no version tag to bump: the source is Ankama's
 official "lang" CDN and download_retro_langs.py always fetches the latest versions
 listed in the live manifest (versions_<lang>.txt).
 
 Pipeline steps:
-    lang/download-fr   download_retro_langs.py  -> retro_raw/{items,itemstats,itemsets}_fr.json
-    lang/download-en   download_retro_langs.py  -> retro_raw/items_en.json (English names)
-    items/transform    get_equipments_retro.py  -> retro/transformed_{equipment,sets}.json
-    items/dump         get_equipments3.py        -> item_db_dumped_retro.dump
-    items/load-db      load_item_db.py           -> items_retro.db
+    lang/download-fr     download_retro_langs.py  -> retro_raw/{items,itemstats,itemsets}_fr.json
+    lang/download-en/... download_retro_langs.py  -> retro_raw/items_{en,es,pt,de}.json (names)
+    items/transform      get_equipments_retro.py  -> retro/transformed_{equipment,sets}.json
+    items/dump           get_equipments3.py        -> item_db_dumped_retro.dump
+    items/load-db        load_item_db.py           -> items_retro.db
 
 Not run for Retro (data lives in the 1.29 game client, not the lang CDN):
     item-images   - the gfx field points to compiled client SWF clips, no PNG CDN
@@ -116,8 +116,8 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument("--skip-en", action="store_true",
-                        help="Skip the English-names download (use FR names for name_en)")
+    parser.add_argument("--skip-translations", action="store_true",
+                        help="Skip the EN/ES/PT/DE name downloads (use FR names everywhere)")
     parser.add_argument("--lang", default="fr", help="Primary lang for names (default fr)")
     args = parser.parse_args()
 
@@ -143,13 +143,17 @@ def main() -> None:
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
-    if not args.skip_en:
-        step("lang/download-en", [
-            PY, "download_retro_langs.py",
-            "--lang", "en",
-            "--categories", "items",
-            "--dest", RETRO_RAW_DIR,
-        ], cwd=ITEMSCRAPER)
+    if not args.skip_translations:
+        # Pull item names for the other supported languages (ES/PT ~= 40% of users).
+        for lang in ("en", "es", "pt", "de"):
+            if lang == args.lang:
+                continue
+            step(f"lang/download-{lang}", [
+                PY, "download_retro_langs.py",
+                "--lang", lang,
+                "--categories", "items",
+                "--dest", RETRO_RAW_DIR,
+            ], cwd=ITEMSCRAPER)
 
     step("items/transform", [
         PY, "get_equipments_retro.py",
