@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 
 # Retro item type id -> (slot/category name, weapon subtype or None).
@@ -61,6 +62,12 @@ CONDITION_MAP = {
     'CV': 'Vitality', 'CC': 'Chance', 'CW': 'Wisdom',
 }
 
+# Elemental damage effect id -> element label. On a weapon these are hit lines
+# (the weapon's damage roll), not flat characteristic bonuses.
+ELEMENT_BY_EFFECT = {
+    96: 'Water', 97: 'Earth', 98: 'Air', 99: 'Fire', 100: 'Neutral',
+}
+
 
 def _hex(x):
     try:
@@ -69,30 +76,71 @@ def _hex(x):
         return None
 
 
-def decode_stats(ista_string):
-    """ISTA string -> list of [min, max, english_stat_name]."""
+def _is_die_roll(dice):
+    """ISTA dice field 'XdY+Z' is a real roll when Y>0 (weapon hit); a flat bonus
+    is encoded as '0d0+Z'."""
+    m = re.match(r'\s*(\d+)d(\d+)', dice or '')
+    return bool(m) and int(m.group(2)) > 0
+
+
+def decode_stats(ista_string, is_weapon=False):
+    """ISTA string -> (stats, hits).
+
+    stats = list of [min, max, english_stat_name] (characteristic bonuses).
+    hits  = list of [min, max, '(<Element> damage)'] weapon hit lines (weapons only).
+    On a weapon the elemental-damage effects are the weapon's damage roll, not a
+    flat +damage characteristic, so they are routed to hit lines instead of stats.
+    """
     stats = []
+    hits = []
     for part in (ista_string or '').split(','):
         if not part:
             continue
         fields = part.split('#')
         eid = _hex(fields[0])
-        if eid is None or eid not in EFFECT_MAP:
+        if eid is None:
             continue
-        name, sign = EFFECT_MAP[eid]
         jmin = _hex(fields[1]) if len(fields) > 1 and fields[1] != '' else None
         jmax = _hex(fields[2]) if len(fields) > 2 and fields[2] != '' else None
+        dice = fields[3] if len(fields) > 3 else ''
+        if is_weapon and eid in ELEMENT_BY_EFFECT and _is_die_roll(dice):
+            lo = jmin if jmin is not None else jmax
+            hi = jmax if jmax is not None else jmin
+            if hi is not None:
+                hits.append([lo if lo is not None else 0, hi,
+                             '(%s damage)' % ELEMENT_BY_EFFECT[eid]])
+            continue
+        if eid not in EFFECT_MAP:
+            continue
+        name, sign = EFFECT_MAP[eid]
         value = jmax if jmax not in (None, 0) else jmin
         if value is None:
             continue
         v = sign * value
         stats.append([v, v, name])
-    return stats
+    return stats, hits
+
+
+def decode_weapon_e(e):
+    """Retro weapon 'e' array -> {ap, crit_chance, crit_bonus}.
+
+    Layout (validated against Boisaille tier vs Dofus 3 Twiggy Sword):
+      [twoHanded, _, crit_chance, crit_failure, maxRange, minRange, ap, crit_bonus]
+    """
+    out = {}
+    if isinstance(e, list) and len(e) >= 8:
+        ap, crit, cbonus = e[6], e[2], e[7]
+        if isinstance(ap, (int, float)) and ap:
+            out['ap'] = int(ap)
+        if isinstance(crit, (int, float)):
+            out['crit_chance'] = int(crit)
+        if isinstance(cbonus, (int, float)):
+            out['crit_bonus'] = int(cbonus)
+    return out
 
 
 def decode_conditions(c_string):
     """Retro condition string -> ['Strength > 34', ...] (stat conditions only)."""
-    import re
     out = []
     if not c_string:
         return out
@@ -124,6 +172,8 @@ def build(items_root, sets_root, names_en=None):
         except (TypeError, ValueError):
             level = 1
         level = max(1, min(level, 200))  # structure.py indexes types by level 1..200
+        is_weapon = weapon_type is not None
+        stats, hits = decode_stats(it.get('istats', ''), is_weapon=is_weapon)
         rec = {
             'ankama_id': ankama_id,
             'ankama_type': 'equipment',
@@ -131,11 +181,12 @@ def build(items_root, sets_root, names_en=None):
             'name_es': name_fr, 'name_pt': name_fr, 'name_de': name_fr,
             'level': level,
             'w_type': w_type,
-            'stats': decode_stats(it.get('istats', '')),
+            'stats': stats + hits,
             'conditions': decode_conditions(it.get('c', '')),
         }
         if weapon_type:
             rec['weapon_type'] = weapon_type
+            rec.update(decode_weapon_e(it.get('e')))
         equipment.append(rec)
 
     sets = []
