@@ -49,6 +49,38 @@ from fashionistapulp.translation import get_supported_language
 
 SHARED_SOLUTION_CACHE_TIMEOUT = 6 * 60 * 60
 
+_SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
+                     'Belt', 'Boots', 'Dofus', 'Pet']
+
+
+def _build_share_text(request, char, solution):
+    """Plain-text build summary for pasting into Discord / forums."""
+    title = char.char_name or char.name or char.char_class or 'Build'
+    lines = ['%s - %s lvl %d' % (title, char.char_class, char.level), '']
+    for slot in _SHARE_SLOT_ORDER:
+        for item in solution.items.get(slot, []):
+            name = getattr(item, 'name', None)
+            if getattr(item, 'item_added', False) and name and name != 'NoItem':
+                lines.append('%s: %s' % (slot, name))
+    try:
+        stats = solution.get_stats_total()
+        chips = []
+        for key, label in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range'),
+                           ('vit', 'Vitality'), ('pow', 'Power')]:
+            value = stats.get(key, 0)
+            if value:
+                chips.append('%s %d' % (label, int(value)))
+        if chips:
+            lines += ['', ' / '.join(chips)]
+    except Exception:
+        pass
+    lines.append('')
+    if char.link_shared:
+        lines.append(generate_link(request, char))
+    else:
+        lines.append('https://dofusfashionista.gg')
+    return '\n'.join(lines)
+
 # Classes for which we ship 6 wizard avatars under chardata/designs/wizard/<class>/.
 _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
                       'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
@@ -173,6 +205,14 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     vote_data = _get_live_vote_data(request, char)
     class_avatar = _get_class_avatar(char)
 
+    share_text = ''
+    try:
+        _sol_for_text = get_solution(char)
+        if _sol_for_text is not None:
+            share_text = _build_share_text(request, char, _sol_for_text)
+    except Exception:
+        share_text = ''
+
     params = {'char_id': char_id,
               'lock_item': static('chardata/lock-icon.png'),
               'switch_item': static('chardata/1412645636_Left-right.png'),
@@ -187,6 +227,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'owner_alias': get_alias(char.owner),
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
+              'share_text': share_text,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:
