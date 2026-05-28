@@ -26,6 +26,20 @@
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#1b1b1b">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Fashionista">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(){});
+            });
+        }
+    </script>
+
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
     <script data-ad-client="ca-pub-3961330018791408" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script src="https://fundingchoicesmessages.google.com/i/pub-3961330018791408?ers=1" nonce="{{ request.csp_nonce }}"></script>
