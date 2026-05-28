@@ -105,9 +105,15 @@ class Model:
                     self.problem.setup_variable('capped_resist', var_id, 0, 50)
     
     def create_item_number_variables(self):
+        # Dofus 2/3 let you equip two copies of a setless ring; Retro 1.29 never
+        # allows the same ring twice (the "L'autre X" variants exist for that).
+        rings_can_double = self.structure.game_version != 'retro'
         for item in self.items_list:
-            max_number = 2 if self.structure.get_type_name_by_id(item.type) == 'Ring' and item.set == None else 1
-            self.problem.setup_variable('x', item.id, 0, max_number)    
+            doublable = (rings_can_double
+                         and self.structure.get_type_name_by_id(item.type) == 'Ring'
+                         and item.set is None)
+            max_number = 2 if doublable else 1
+            self.problem.setup_variable('x', item.id, 0, max_number)
     
     def create_item_presence_variables(self):
         for item in self.items_list:
@@ -704,6 +710,10 @@ class Model:
             for item in self.items_list:
                 if self.structure.get_type_name_by_id(item.type) == item_type:
                     items_of_type.append(item)
+            # A type with no available items (e.g. Shield in Retro 1.29) would make
+            # restriction_lt_eq collapse sum([]) <= n into a bool; skip it.
+            if not items_of_type:
+                continue
             restriction = self.problem.restriction_lt_eq(TYPE_NAME_TO_SLOT_NUMBER[item_type],
                                                         [(1, 'x', item_entry.id) for item_entry in items_of_type])
             self.restrictions.type_constraints[item_type] = restriction

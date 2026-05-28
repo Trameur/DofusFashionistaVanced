@@ -8,8 +8,9 @@ in older versions. Default behavior assumes Dofus 3 (the live current version).
 # Forgelance was introduced in Dofus 3.
 CLASSES_NOT_IN_VERSION = {
     'dofus2': {'Forgelance'},
-    # 'retro': {'Forgelance', 'Eliotrope', 'Huppermage', 'Ouginak',
-    #           'Masqueraider', 'Foggernaut', 'Rogue'},  # TODO when retro DB lands
+    # Retro is Dofus 1.29: only the original 12 classes exist.
+    'retro': {'Forgelance', 'Eliotrope', 'Huppermage', 'Ouginak',
+              'Masqueraider', 'Foggernaut', 'Rogue'},
     # 'touch': set(),  # TODO once a Touch data source is identified
 }
 
