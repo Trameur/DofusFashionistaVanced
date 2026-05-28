@@ -12,25 +12,31 @@ Dofus Retro "lang" CDN.
              CWS = zlib-compressed SWF (decompress from byte 8).
 
 This stage downloads + decompresses the categories we need and dumps:
-  - the raw decompressed SWF bytes  -> retro_raw/<category>_<lang>.swfdata
-  - the extracted constant-pool strings -> retro_raw/<category>_<lang>.strings.txt
+  - the raw decompressed SWF bytes      -> retro_raw/<category>_<lang>.swfdata
+  - the parsed data as JSON             -> retro_raw/<category>_<lang>.json
+    (via retro_swf_parser — pure-Python AS2 extraction, no JPEXS/Java)
 
-Stage 2 (TODO) parses the AS2 data into structured item records, then feeds the
-existing transform/dump/load pipeline to produce items_retro.db. Reference
-parser to port: github.com/Arakne/SwfLangLoader (PHP) or Cyberia.Langzilla (C#).
-Do NOT hand-roll an AS2 bytecode interpreter from scratch — reuse a proven one.
+Verified: items -> globals['I']['u'] = 11203 records {n,l,t,e,c,s,…}.
+
+Stage 3 (TODO) maps these Retro records onto the internal item model and feeds
+the transform/dump/load pipeline to produce items_retro.db, then conditions the
+LP solver / smart_build by game_version == 'retro'.
 """
 
 from __future__ import annotations
 
 import argparse
-import os
-import re
+import json
 import sys
 import zlib
 from pathlib import Path
 
 import requests
+
+try:
+    from retro_swf_parser import parse_lang_swf
+except ImportError:  # when run as a module
+    from itemscraper.retro_swf_parser import parse_lang_swf
 
 CDN_BASE = "https://dofusretro.cdn.ankama.com/lang"
 # Categories needed to build an equipment optimizer (others exist: spells, maps…)
@@ -67,11 +73,13 @@ def download_swf(category: str, lang: str, version: str, dest_dir: Path) -> byte
         raw = data[8:]
     dest_dir.mkdir(parents=True, exist_ok=True)
     (dest_dir / f"{category}_{lang}.swfdata").write_bytes(raw)
-    # Extract readable constant-pool strings for inspection / stage-2 work.
-    text = raw.decode('latin-1', errors='replace')
-    strings = re.findall(r'[\x20-\x7e\xc0-\xff]{4,}', text)
-    (dest_dir / f"{category}_{lang}.strings.txt").write_text(
-        '\n'.join(strings), encoding='utf-8')
+    # Parse the AS2 data into structured JSON (the real payload).
+    try:
+        globals_ = parse_lang_swf(data)
+        (dest_dir / f"{category}_{lang}.json").write_text(
+            json.dumps(globals_, ensure_ascii=False), encoding='utf-8')
+    except Exception as exc:
+        print(f"    (parse skipped for {category}: {exc})", file=sys.stderr)
     return raw
 
 
@@ -101,9 +109,9 @@ def main(argv=None):
             print(f"  ok {cat}_{args.lang}_{ver}.swf -> {len(raw)} bytes decompressed")
         except Exception as exc:
             print(f"  FAILED {cat}: {exc}", file=sys.stderr)
-    print(f"Done. Decompressed data + strings in {dest_dir}/")
-    print("Next: port an AS2 lang parser (Arakne/SwfLangLoader) to turn .swfdata "
-          "into structured item records.")
+    print(f"Done. Decompressed .swfdata + parsed .json in {dest_dir}/")
+    print("Next (stage 3): map the parsed Retro records onto the internal item "
+          "model -> items_retro.db, and condition the LP solver by game_version.")
     return 0
 
 

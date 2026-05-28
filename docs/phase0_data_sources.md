@@ -8,7 +8,7 @@
 | Cible | Source viable ? | Recommandation |
 |---|---|---|
 | **Dofus 2** | ✅ dofusdude (`dofus2-main`) | **FAIT** (implémenté) |
-| **Dofus Retro (1.29)** | ✅ **Source officielle confirmée** (CDN Lang Ankama) | **GO** : `itemscraper/download_retro_langs.py` (stage 1 validé). Reste : parseur AS2 + adaptation builder |
+| **Dofus Retro (1.29)** | ✅ **Source + extraction FONCTIONNELLES** | **GO** : download + parseur AS2 Python opérationnels (11 203 items extraits). Reste : mapping modèle interne + DB + builder |
 | **Dofus Touch** | 🔴 Pas de source fiable actuellement | **NO-GO pour l'instant** : dofapi (la seule source Touch connue) est hors-ligne |
 | **HDV / budget kamas** | ⛔ Bloqué légalement | **NO-GO** : accès aux prix HDV interdit par Ankama, aucune API stable. Alternative conforme ci-dessous |
 
@@ -27,17 +27,17 @@
 - **Manifeste** : `https://dofusretro.cdn.ankama.com/lang/versions_fr.txt` → HTTP 200. Liste `<catégorie>,<lang>,<version>` pour 38 catégories : `items,fr,1260`, `itemstats,fr,1259`, `itemsets,fr,1254`, `crafts,fr,1258` (= recettes !), `classes`, `effects`, `weapons`…
 - **Fichiers** : `https://dofusretro.cdn.ankama.com/lang/swf/<catégorie>_<lang>_<version>.swf` → HTTP 200, format **CWS (SWF zlib, décompression depuis l'octet 8)**.
 - **Vérifié end-to-end** : `items_fr_1260.swf` (702 Ko) se décompresse en 2,6 Mo contenant les données **en clair** (« Petite Amulette du Hibou », « PETITE EPEE DE BOISAILLE », descriptions, types). Données **officielles, autoritatives, toujours à jour**.
-- **Stage 1 implémenté et testé** : [itemscraper/download_retro_langs.py](../itemscraper/download_retro_langs.py) télécharge le manifeste, récupère + décompresse les catégories, et dump les chaînes pour inspection.
+- **Stage 1 + 2 implémentés et testés** (pur Python, aucune dépendance Java/JPEXS) :
+  - [itemscraper/retro_swf_parser.py](../itemscraper/retro_swf_parser.py) — interpréteur AS2 (zlib → tags SWF → DoAction → machine à pile sur ConstantPool/Push/Get-SetMember/InitObject/InitArray/NewObject). Reconstruit les globales.
+  - [itemscraper/download_retro_langs.py](../itemscraper/download_retro_langs.py) — manifeste → download → décompression → **JSON parsé**.
+  - **Résultat vérifié** : `items_fr` → `I['u']` = **11 203 items**, 123 types. Chaque item : `n` (nom), `nn` (nom maj.), `l` (niveau), `t` (type), `e` (effets/stats), `c` (conditions, ex. `CI>200&CW>100`), `s` (set, 815 items), `g` (gfx), `w` (poids), `d` (description). Ex. « La Baguette des Limbes » lvl 105.
 
-**Reste à faire (stage 2+)** :
-1. **Parseur AS2** : les `.swfdata` embarquent les données en ActionScript 2. Deux options, par ordre de simplicité :
-   - **(recommandé, le plus simple)** extraire le code AS2 en TEXTE via **JPEXS Free Flash Decompiler** en CLI (`ffdec -dumpAS2 <fichier.swf>`), puis parser le texte AS2 (assignations lisibles `addObject(...)` / tableaux) avec un parseur regex Python. Dépendance : Java + le jar `ffdec`.
-   - sinon **porter un parseur bytecode éprouvé** : [Arakne/SwfLangLoader](https://github.com/Arakne/SwfLangLoader) ou [Dragomitch/DofusSwfLangLoader](https://github.com/Dragomitch/DofusSwfLangLoader) (PHP), [Cyberia.Langzilla](https://github.com/Lounek09/Cyberia) (C#), [marvinroger/Dofus-Tools](https://github.com/marvinroger/Dofus-Tools) (Python, SWL/D2P).
-   - ⚠️ ne PAS écrire un interpréteur AS2 bytecode à la main. Sortie attendue = records `{id, name, type, level, stats, set, recipe}`.
+**Reste à faire (stage 3 — implémentation maîtrisée, données acquises)** :
+1. **Mapper** les records Retro sur le modèle interne (`item.py`/`structure.py`) : décoder le tableau `e` (effets) et la syntaxe de conditions `c` (`CI`/`CS`/`CA`/`CC`/`CW`… > seuils), résoudre les stats via `itemstats_fr.json`, les sets via `itemsets_fr.json`.
 2. **Audit stat-par-stat Retro↔Dofus3** (pas de Coup Critique indépendant, 12 classes, pas de sublimations).
-3. Transform/dump → `items_retro.db` ; conditionner `lpproblem.py` / `smart_build.py` par `game_version == 'retro'`.
+3. Générer `items_retro.db` (réutiliser `get_equipments2/3.py` + `load_item_db.py --game-version retro`), puis conditionner `lpproblem.py`/`smart_build.py` par `game_version == 'retro'`.
 
-**Recommandation** : **GO**. La source est résolue et opérationnalisée ; le chantier restant est de l'implémentation maîtrisée (parseur + builder), plus une impasse de données.
+**Recommandation** : **GO confirmé**. L'inconnue dure (« peut-on obtenir les données Retro ? ») est **résolue avec du code qui tourne**. Le reste est de l'implémentation cadrée sur des données déjà en main.
 
 **Note utile (hors Retro)** : `api.dofusdb.fr` expose les **recettes** (`recipeIds`/`recipeSlots`) du Dofus moderne. C'est une piste pour peupler la table `item_recipes` manquante (qui débloquerait l'agrégation de ressources du Workshop) — mais mélanger les sources (dofusdude + dofusdb) demande une réconciliation des IDs, à évaluer séparément.
 
