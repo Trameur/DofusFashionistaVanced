@@ -62,8 +62,11 @@ def decode_level(level_arr):
         return {}
     a, b = _collect(level_arr[-2]), _collect(level_arr[-1])
     result = {}
-    for elem in set(a) | set(b):
+    # Iterate in a fixed element order (by effect id) so output is deterministic.
+    for elem in ('water', 'earth', 'air', 'fire', 'neutral'):
         ra, rb = a.get(elem), b.get(elem)
+        if not ra and not rb:
+            continue
         if ra and rb:
             normal, crit = (rb, ra) if ra[1] >= rb[1] else (ra, rb)
         else:

@@ -967,8 +967,8 @@
    "level_count": 6,
    "elements": [
     "water",
-    "air",
     "earth",
+    "air",
     "fire"
    ],
    "non_crit_ranges": [
@@ -1768,8 +1768,8 @@
    "name": "Flèche Persécutrice",
    "level_count": 6,
    "elements": [
-    "fire",
-    "air"
+    "air",
+    "fire"
    ],
    "non_crit_ranges": [
     [
