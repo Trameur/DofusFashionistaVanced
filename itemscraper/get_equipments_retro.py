@@ -54,6 +54,8 @@ EFFECT_MAP = {
     175: ('Prospecting', -1), 168: ('AP', -1), 169: ('MP', -1),
     166: ('AP', 1), 177: ('Dodge', 1), 173: ('Lock', 1),
     194: ('Pods', 1),
+    # Minor stats found via the effects-lang audit (low frequency but real).
+    158: ('Pods', 1), 225: ('Trap Damage', 1), 226: ('% Trap Damage', 1),
 }
 
 # Condition code -> English stat name (only stat-gating codes; class/sub/align skipped).
