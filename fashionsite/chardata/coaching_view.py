@@ -99,27 +99,23 @@ def coaching(request):
                          'login_problem': is_anon_cant_create(request)})
 
 
-def _create_from_coaching(request, game_version):
-    char_class = request.POST.get('char_class', '')
+def create_build(request, char_class, char_level, aspects, game_version, name=None):
+    """Create a fully configured Char + base stats and return it.
+
+    Shared by the Quick Start (coaching) flow and the natural-language build
+    generator. `aspects` is a set of smart_build aspect keys."""
     if (char_class not in CHARACTER_CLASSES
             or not class_exists_in_version(char_class, game_version)):
         fallback = filter_classes_for_version(CHARACTER_CLASSES, game_version)
         char_class = fallback[0] if fallback else CHARACTER_CLASSES[0]
 
-    try:
-        char_level = int(request.POST.get('char_level', 200))
-    except (TypeError, ValueError):
-        char_level = 200
-    char_level = max(1, min(char_level, 230))
-
-    style = request.POST.get('play_style', 'solo_pvm')
-    if style not in dict(PLAY_STYLES):
-        style = 'solo_pvm'
+    char_level = max(1, min(int(char_level), 230))
 
     char = Char()
     if not request.user.is_anonymous:
         char.owner = request.user
-    char.name = _('Quick Start %(cls)s lvl %(lvl)s') % {'cls': char_class, 'lvl': char_level}
+    char.name = name or (_('Quick Start %(cls)s lvl %(lvl)s')
+                         % {'cls': char_class, 'lvl': char_level})
     char.char_name = char_class
     char.char_class = char_class
     char.char_build = ''
@@ -130,7 +126,6 @@ def _create_from_coaching(request, game_version):
     char.link_shared = False
     char.game_version = game_version
 
-    aspects = _style_aspects(style, char_class)
     set_char_aspects(char, aspects, True, False)
     set_exclusions_list_by_name(char, get_default_exclusions(char))
     set_options(char, {'ap_exo': char_level >= 200,
@@ -148,5 +143,26 @@ def _create_from_coaching(request, game_version):
 
     if request.user.is_anonymous:
         request.session['char_id'] = char.pk
+
+    return char
+
+
+def _create_from_coaching(request, game_version):
+    char_class = request.POST.get('char_class', '')
+
+    try:
+        char_level = int(request.POST.get('char_level', 200))
+    except (TypeError, ValueError):
+        char_level = 200
+
+    style = request.POST.get('play_style', 'solo_pvm')
+    if style not in dict(PLAY_STYLES):
+        style = 'solo_pvm'
+
+    # char_class validation/fallback happens inside create_build; compute
+    # aspects against the (possibly defaulted) class afterwards is fine since
+    # _style_aspects tolerates any class.
+    aspects = _style_aspects(style, char_class if char_class in CHARACTER_CLASSES else CHARACTER_CLASSES[0])
+    char = create_build(request, char_class, char_level, aspects, game_version)
 
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))

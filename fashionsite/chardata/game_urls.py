@@ -7,7 +7,7 @@ from chardata import (
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, tierlist_view, profile_view,
-    tag_view,
+    tag_view, nl_build_view,
 )
 
 urlpatterns = [
@@ -49,6 +49,7 @@ urlpatterns = [
 
     re_path(r'^setup/$', create_project_view.setup, name='setup'),
     re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
+    re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
     re_path(r'^workshop/add/$', workshop_view.add_to_workshop, name='workshop_add'),
     re_path(r'^workshop/addsolution/(?P<char_id>\d+)/$', workshop_view.add_solution_to_workshop, name='workshop_add_solution'),

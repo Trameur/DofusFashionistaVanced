@@ -1,0 +1,71 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}The Dofus Fashionista: {% trans "Smart Build" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+        .smart-wrap { max-width: 600px; margin: 36px auto; padding: 0 14px; text-align: center; }
+        .smart-intro { opacity: 0.85; margin-bottom: 20px; }
+        .smart-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        .smart-input {
+            flex: 1; min-width: 240px; max-width: 420px;
+            padding: 10px 12px; font-size: 1.05em; box-sizing: border-box;
+        }
+        .smart-error { color: #c33; margin: 12px 0; }
+        .smart-examples { margin-top: 22px; opacity: 0.8; font-size: 0.9em; }
+        .smart-example {
+            display: inline-block; margin: 3px; padding: 3px 10px;
+            border: 1px solid rgba(128,128,128,0.4); border-radius: 12px;
+            cursor: pointer; text-decoration: none; color: inherit;
+        }
+        .smart-example:hover { background: rgba(128,128,128,0.12); }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="smart-wrap">
+        <h1>{% trans "Smart Build" %}</h1>
+        <p class="smart-intro">
+            {% trans "Describe your character in plain words — class, level, element, playstyle — and we'll build it. Works in English, French, Spanish and Portuguese." %}
+        </p>
+
+        {% if error %}
+        <p class="smart-error">{{ error }}</p>
+        {% endif %}
+
+        {% if login_problem %}
+        <p class="smart-error">
+            {% trans "Log in to save this build to your account." %}
+            <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+        </p>
+        {% endif %}
+
+        <form method="post" class="smart-form">
+            {% csrf_token %}
+            <input type="text" name="q" id="smart_q" class="smart-input pretty-input"
+                   value="{{ query }}" autofocus
+                   placeholder="{% trans 'e.g. Iop 200 earth PvM' %}" required>
+            <button type="submit" class="button-generic">{% trans "Build it" %}</button>
+        </form>
+
+        <div class="smart-examples">
+            {% trans "Try:" %}
+            {% for ex in examples %}
+            <a href="#" class="smart-example">{{ ex }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        $(document).on('click', '.smart-example', function(e) {
+            e.preventDefault();
+            $('#smart_q').val($(this).text());
+            $('#smart_q').focus();
+        });
+    </script>
+{% endblock %}
