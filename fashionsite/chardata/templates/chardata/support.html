@@ -1,0 +1,57 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}The Dofus Fashionista: {% trans "Support the project" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+        .support-wrap { max-width: 640px; margin: 28px auto; padding: 0 14px; }
+        .support-intro { opacity: 0.9; margin-bottom: 20px; }
+        .support-section-title { font-weight: bold; margin: 22px 0 8px; }
+        .support-donate-links { display: flex; flex-wrap: wrap; gap: 10px; }
+        .support-donate-link {
+            display: inline-block; padding: 8px 16px;
+            border: 1px solid rgba(128,128,128,0.4); border-radius: 4px;
+            text-decoration: none; color: inherit;
+        }
+        .support-donate-link:hover { background: rgba(128,128,128,0.12); }
+        .support-help-list { line-height: 1.8; }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="support-wrap">
+        <h1 align="center">{% trans "Support the project" %}</h1>
+        <p class="support-intro">
+            {% trans "Dofus Fashionista is free and always will be — the optimizer, sharing and encyclopedia stay open to everyone. If the tool saves you time and kamas, here are a few ways to give back." %}
+        </p>
+
+        {% if support_links %}
+        <div class="support-section-title">{% trans "Donate" %}</div>
+        <div class="support-donate-links">
+            {% for link in support_links %}
+            <a class="support-donate-link" href="{{ link.url }}" target="_blank" rel="noopener noreferrer">
+                {{ link.label }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="support-section-title">{% trans "Free ways to help" %}</div>
+        <ul class="support-help-list">
+            <li>{% trans "Share your builds and the site with your guild and friends." %}</li>
+            <li>
+                {% trans "Report bugs and suggest features" %} —
+                <a href="{% game_url 'contact' %}">{% trans "contact us" %}</a>
+                {% trans "or join our" %}
+                <a href="https://discord.gg/a7b4a4dnVU" target="_blank" rel="noopener noreferrer">Discord</a>.
+            </li>
+            <li>{% trans "Translate the site into your language." %}</li>
+            <li>{% trans "Leave helpful comments on shared builds." %}</li>
+        </ul>
+    </div>
+{% endblock %}
