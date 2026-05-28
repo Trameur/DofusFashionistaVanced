@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import re
+import unicodedata
 from pathlib import Path
 
 # Retro item type id -> (slot/category name, weapon subtype or None).
@@ -69,6 +70,83 @@ CONDITION_MAP = {
 ELEMENT_BY_EFFECT = {
     96: 'Water', 97: 'Earth', 98: 'Air', 99: 'Fire', 100: 'Neutral',
 }
+
+# Set bonuses are NOT in the Ankama lang CDN (1.29 set bonuses are server-side),
+# so they're sourced from a vendored community snapshot (retro-craft/scrapstuff,
+# scraped from barbok.eratz.fr). Those use French stat labels; map them here.
+_SET_STAT_FR_TO_EN = {
+    'force': 'Strength', 'intelligence': 'Intelligence', 'agilite': 'Agility',
+    'chance': 'Chance', 'sagesse': 'Wisdom', 'vitalite': 'Vitality', 'vie': 'HP',
+    'dommages': 'Damage', 'dommage': 'Damage', 'soins': 'Heals', 'soin': 'Heals',
+    'prospection': 'Prospecting', 'pa': 'AP', 'pm': 'MP', 'portee': 'Range',
+    'po': 'Range', 'cc': 'Critical Hits', 'initiative': 'Initiative',
+    'pods': 'Pods', 'invocation': 'Summon', 'creature invocable': 'Summon',
+    'crea invocable': 'Summon', 'creatures invocables': 'Summon',
+    'renvoie': 'Reflects',
+}
+_SET_ELEMENTS_FR = {'terre': 'Earth', 'feu': 'Fire', 'eau': 'Water',
+                    'air': 'Air', 'neutre': 'Neutral'}
+_SET_NAME_STOPWORDS = {'panoplie', 'du', 'de', 'des', 'la', 'le', 'les', 'l', 'd'}
+
+
+def _ascii(s):
+    return unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode('ascii').lower().strip()
+
+
+def _norm_set_name(name):
+    """Stopword-stripped key so 'Panoplie du Bouftou' == 'Panoplie Bouftou' -> 'bouftou'."""
+    words = [w for w in re.sub(r'[^a-z0-9 ]', ' ', _ascii(name)).split()
+             if w not in _SET_NAME_STOPWORDS]
+    return ' '.join(words)
+
+
+def _map_set_stat(fr_type):
+    """French set-bonus label -> English stat name (or None to skip)."""
+    pct = '%' in fr_type
+    n = ' '.join(_ascii(fr_type).replace('%', '').replace('.', '').split())
+    if 'res' in n and 'faiblesse' not in n:
+        for fr, en in _SET_ELEMENTS_FR.items():
+            if fr in n:
+                return ('%% %s Resist' % en) if pct else ('%s Resist' % en)
+    if 'pieg' in n:
+        return '% Trap Damage' if pct else 'Trap Damage'
+    if pct:
+        return None  # retro has no other percent stats
+    return _SET_STAT_FR_TO_EN.get(n)
+
+
+def load_set_bonuses(path):
+    """Vendored scrapstuff sets.json -> {normalized_set_name: stats_list}.
+
+    stats_list matches get_equipments3's expected shape:
+      [{'effect_key': num_pieces, 'effects': [[value, value, EnglishStat], ...]}, ...]
+    """
+    p = Path(path)
+    if not p.exists():
+        return {}
+    data = json.loads(p.read_text(encoding='utf-8'))
+    out = {}
+    for s in data:
+        stats_list = []
+        # bonus[i] is the cumulative bonus for wearing (i+1) pieces: bonus[0] is the
+        # 1-piece tier (always empty -- no 1-item set bonus in Dofus).
+        for idx, tier in enumerate(s.get('bonus', [])):
+            num_pieces = idx + 1
+            effects = []
+            for b in (tier or []):
+                stat = _map_set_stat(b.get('type', ''))
+                if not stat:
+                    continue
+                try:
+                    val = int(b.get('value'))
+                except (TypeError, ValueError):
+                    continue
+                effects.append([val, val, stat])
+            if effects:
+                stats_list.append({'effect_key': num_pieces, 'effects': effects})
+        if stats_list:
+            out[_norm_set_name(s.get('name', ''))] = stats_list
+    return out
 
 
 def _hex(x):
@@ -153,9 +231,10 @@ def decode_conditions(c_string):
     return out
 
 
-def build(items_root, sets_root, names_by_lang=None):
+def build(items_root, sets_root, names_by_lang=None, set_bonuses=None):
     items = items_root['u']
     names_by_lang = names_by_lang or {}
+    set_bonuses = set_bonuses or {}
     equipment = []
     for iid, it in items.items():
         if not isinstance(it, dict):
@@ -204,15 +283,18 @@ def build(items_root, sets_root, names_by_lang=None):
         except (TypeError, ValueError):
             continue
         name = sd.get('n') or ''
+        equipment_ids = [int(x) for x in sd['i']]
+        # Set membership comes from the lang; per-piece bonuses come from the vendored
+        # community snapshot, matched by stopword-stripped French name. Drop tiers that
+        # exceed the set's item count (guards scrape noise + the model's 9-slot limit).
+        max_pieces = min(len(equipment_ids), 9)
+        stats_list = [t for t in set_bonuses.get(_norm_set_name(name), [])
+                      if t['effect_key'] <= max_pieces]
         sets.append({
             'ankama_id': set_ankama_id,
             'name_en': name, 'name_fr': name,
-            'equipment_ids': [int(x) for x in sd['i']],
-            # Set membership is here, but the bonus values are NOT in any Retro lang
-            # file: the itemsets SWF only exposes {i: item_ids, n: name}. In 1.29 the
-            # per-piece bonuses live in the game client SWF, not the lang CDN, so they
-            # can't be sourced here. Builds work without them; sets just give no bonus.
-            'stats_list': [],
+            'equipment_ids': equipment_ids,
+            'stats_list': stats_list,
         })
     return equipment, sets
 
@@ -222,6 +304,8 @@ def main(argv=None):
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--raw-dir', default='itemscraper/retro_raw')
     p.add_argument('--out-dir', default='itemscraper/retro')
+    p.add_argument('--set-bonuses', default='itemscraper/retro_set_bonuses.json',
+                   help='Vendored community set-bonus snapshot (not in the lang CDN)')
     p.add_argument('--lang', default='fr')
     args = p.parse_args(argv)
 
@@ -245,7 +329,9 @@ def main(argv=None):
             names_by_lang[lang] = {k: v.get('n') for k, v in lang_items.items()
                                    if isinstance(v, dict)}
 
-    equipment, sets = build(items_root, sets_root, names_by_lang)
+    set_bonuses = load_set_bonuses(args.set_bonuses)
+
+    equipment, sets = build(items_root, sets_root, names_by_lang, set_bonuses)
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)

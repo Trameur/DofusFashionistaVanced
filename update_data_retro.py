@@ -18,10 +18,12 @@ Pipeline steps:
     items/load-db        load_item_db.py           -> items_retro.db
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
 
-Not run for Retro (data lives in the 1.29 game client, not the lang CDN):
-    item-images   - the gfx field points to compiled client SWF clips, no PNG CDN
-    set bonuses   - itemsets lang exposes only {item_ids, name}
-    spells        - retro spells use the SWF "spells" lang, not the dofusdude pipeline
+Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side), so they come
+from a vendored community snapshot itemscraper/retro_set_bonuses.json (retro-craft/
+scrapstuff), matched to lang sets by name inside get_equipments_retro.py.
+
+Not run for Retro (data in the 1.29 client, no PNG CDN): item/spell images -- the gfx
+field points to compiled client SWF clips.
 """
 
 from __future__ import annotations
@@ -160,6 +162,7 @@ def main() -> None:
         PY, "get_equipments_retro.py",
         "--raw-dir", RETRO_RAW_DIR,
         "--out-dir", RETRO_WORK_DIR,
+        "--set-bonuses", str(ITEMSCRAPER / "retro_set_bonuses.json"),
         "--lang", args.lang,
     ], cwd=ITEMSCRAPER)
 

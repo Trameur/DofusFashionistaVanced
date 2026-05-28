@@ -141,6 +141,23 @@ for spells in retro_spells.values():
 check("all retro spell digests build", built > 50, f"built {built}")
 check("crit >= non-crit for every spell/level", crit_ok)
 
+print("\n== set bonuses ==")
+import sqlite3
+from fashionistapulp.fashionista_config import get_items_db_path
+con = sqlite3.connect(get_items_db_path("retro"))
+n_bonus = con.execute("SELECT COUNT(*) FROM set_bonus").fetchone()[0]
+n_sets = con.execute("SELECT COUNT(DISTINCT item_set) FROM set_bonus").fetchone()[0]
+check("set bonuses populated (50+ sets)", n_sets >= 50, f"{n_sets} sets, {n_bonus} rows")
+# Bouftou full set (7 pieces) grants +1 AP -- the iconic bonus.
+bouftou = con.execute(
+    "SELECT s.id FROM sets s WHERE s.name LIKE '%Bouftou%'").fetchall()
+ap_at_7 = con.execute(
+    "SELECT sb.value FROM set_bonus sb JOIN stats st ON sb.stat=st.id "
+    "WHERE st.name='AP' AND sb.num_pieces_used=7 AND sb.item_set IN "
+    "(SELECT id FROM sets WHERE name LIKE '%Bouftou%')").fetchall()
+check("Bouftou 7-piece set grants +1 AP", any(r[0] == 1 for r in ap_at_7),
+      f"bouftou sets={len(bouftou)} ap_rows={ap_at_7}")
+
 print(f"\n{len(_passed)} passed, {len(_failed)} failed")
 if _failed:
     print("FAILED: " + ", ".join(_failed))

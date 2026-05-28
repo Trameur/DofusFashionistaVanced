@@ -1,0 +1,10517 @@
+[
+ {
+  "name": "Panoplie du Boune",
+  "items": [
+   "Cape S'loque",
+   "Le Floude",
+   "Le Plussain",
+   "Les Incrustes",
+   "Le S'mesme",
+   "La Spamette"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "5"
+    },
+    {
+     "type": "Intelligence",
+     "value": "5"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    },
+    {
+     "type": "Chance",
+     "value": "5"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    },
+    {
+     "type": "Vitalité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "Vitalité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "25"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Sagesse",
+     "value": "25"
+    },
+    {
+     "type": "Vitalité",
+     "value": "25"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Champchamp",
+  "items": [
+   "Cape du champchamp",
+   "Champcoiffe",
+   "Anneau du champchamp",
+   "Alliance du champchamp"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Dommage",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Arakné",
+  "items": [
+   "Araknoton",
+   "Araknoture",
+   "Araknacoiffe",
+   "La Trancheuse d'Arakné"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "dommage",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "dommages",
+     "value": "2"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Kwak Vent",
+  "items": [
+   "Kwakoiffe de Vent",
+   "Kwape de Vent",
+   "Kwakanneau de vent",
+   "Kwakture de vent",
+   "Amukwak de Vent",
+   "Kwakobottes de Vent",
+   "Kwaklame de Vent",
+   "Bwak d'Air"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "15"
+    },
+    {
+     "type": "Vitalité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Force",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Force",
+     "value": "15"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "35"
+    },
+    {
+     "type": "Vitalité",
+     "value": "35"
+    },
+    {
+     "type": "Force",
+     "value": "25"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "45"
+    },
+    {
+     "type": "Vitalité",
+     "value": "45"
+    },
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "55"
+    },
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "25"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Bandit",
+  "items": [
+   "Ceinture du Bandit",
+   "Amulette du Bandit",
+   "Anneau du Bandit",
+   "Dagues du Bandit"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "initiative",
+     "value": "50"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "initiative",
+     "value": "100"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Corbac",
+  "items": [
+   "Corbottes",
+   "Corbacoiffe",
+   "Corbacape",
+   "Corbalame"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "dommages",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "portée",
+     "value": "1"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "dommages",
+     "value": "10"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Bouftou",
+  "items": [
+   "Cape Bouffante",
+   "Coiffe du Bouftou",
+   "Anneau de Bouze le Clerc",
+   "Boufbottes",
+   "Amulette du Bouftou",
+   "Ceinture du Bouftou",
+   "Marteau du Bouftou"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "5"
+    },
+    {
+     "type": "Intelligence",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "50"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Vie",
+     "value": "30"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Champêtre",
+  "items": [
+   "Capouze des Champs",
+   "Coiffe Champêtre",
+   "Anneau Champêtre",
+   "Bottes Champêtre",
+   "Amulette des Champs",
+   "Ceinture Fleurie",
+   "La Plantouze des Champs"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "5"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "% résistance neutre",
+     "value": "8"
+    },
+    {
+     "type": "initiative",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "12"
+    }
+   ],
+   [
+    {
+     "type": "initiative",
+     "value": "20"
+    },
+    {
+     "type": "portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "16"
+    }
+   ],
+   [
+    {
+     "type": "initiative",
+     "value": "30"
+    },
+    {
+     "type": "portée",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Jeune Aventurier",
+  "items": [
+   "Cape de l'Aventurier",
+   "Chapeau de l'Aventurier",
+   "Anneau de l'Aventurier",
+   "Bottes de l'Aventurier",
+   "Amulette de l'Aventurier",
+   "Ceinture de l'Aventurier"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Vitalité",
+     "value": "15"
+    },
+    {
+     "type": "Force",
+     "value": "15"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Force",
+     "value": "25"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Sagesse",
+     "value": "25"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Kwak Flamme",
+  "items": [
+   "Kwakoiffe de Flammes",
+   "Kwape de Flammes",
+   "Kwakanneau de Flammes",
+   "Kwakture de Flammes",
+   "Amukwak de Flammes",
+   "Kwakobottes de Flammes",
+   "Kwaklame de Flamme",
+   "Bwak de Feu"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "intelligence",
+     "value": "15"
+    },
+    {
+     "type": "vitalité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "intelligence",
+     "value": "20"
+    },
+    {
+     "type": "vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "intelligence",
+     "value": "25"
+    },
+    {
+     "type": "vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "intelligence",
+     "value": "30"
+    },
+    {
+     "type": "vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "intelligence",
+     "value": "35"
+    },
+    {
+     "type": "vitalité",
+     "value": "35"
+    },
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "45"
+    },
+    {
+     "type": "Vitalité",
+     "value": "45"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "55"
+    },
+    {
+     "type": "Agilité",
+     "value": "35"
+    },
+    {
+     "type": "Sagesse",
+     "value": "25"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Kwak Glace",
+  "items": [
+   "Kwakoiffe de Glace",
+   "Kwape de Glace",
+   "Kwakanneau de Glace",
+   "Kwakture de Glace",
+   "Amukwak de Glace",
+   "Kwakobottes de Glace",
+   "Kwaklame de Glace",
+   "Bwak d'eau"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Vitalité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "35"
+    },
+    {
+     "type": "Vitalité",
+     "value": "35"
+    },
+    {
+     "type": "Intelligence",
+     "value": "25"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "Portée /",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "45"
+    },
+    {
+     "type": "Vitalité",
+     "value": "45"
+    },
+    {
+     "type": "intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "55"
+    },
+    {
+     "type": "intelligence",
+     "value": "35"
+    },
+    {
+     "type": "Sagesse",
+     "value": "25"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Fourbasse",
+  "items": [
+   "Fourballiance",
+   "Ceinture Fourbuissante",
+   "Fourbabottes",
+   "Fourbamulette",
+   "Fourbacoiffe",
+   "Fourbacapa",
+   "Fourbasse-Ton"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    },
+    {
+     "type": "initiative",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "7"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Initiative",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "CC",
+     "value": "8"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Initiative",
+     "value": "60"
+    },
+    {
+     "type": "portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "CC",
+     "value": "8"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Initiative",
+     "value": "80"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "CC",
+     "value": "8"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    },
+    {
+     "type": "Initiative",
+     "value": "100"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Prespic",
+  "items": [
+   "Anneau du Prespic",
+   "Ceinture du Prespic",
+   "Cape du Prespic",
+   "Coiffe du Prespic"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Renvoie",
+     "value": "2"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Renvoie",
+     "value": "5"
+    },
+    {
+     "type": "dommage",
+     "value": "5"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Renvoie",
+     "value": "8"
+    },
+    {
+     "type": "dommages",
+     "value": "8"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Larvesque",
+  "items": [
+   "Larvabottes",
+   "Larvamulette",
+   "Larvacoiffe",
+   "Larvasac",
+   "Baguette Larvesque"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "intelligence",
+     "value": "20"
+    },
+    {
+     "type": "résistance feu",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "intelligence",
+     "value": "40"
+    },
+    {
+     "type": "résistance feu",
+     "value": "4"
+    },
+    {
+     "type": "Soins",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "intelligence",
+     "value": "60"
+    },
+    {
+     "type": "résistance feu",
+     "value": "8"
+    },
+    {
+     "type": "Soins",
+     "value": "10"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Akwadala",
+  "items": [
+   "Chapeau Akwadala",
+   "Cape Akwadala",
+   "Bouclier Akwadala",
+   "Geta Akwadala",
+   "Alliance Akwadala",
+   "Amulette Akwadala",
+   "Ceinture Akwadala",
+   "Bâton Akwadala"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "5"
+    },
+    {
+     "type": "Chance",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Vitailité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Prospection",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "60"
+    },
+    {
+     "type": "Prospection",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Kwak Terre",
+  "items": [
+   "Kwakoiffe de Terre",
+   "Kwape de Terre",
+   "Kwakanneau de Terre",
+   "Kwakture de Terre",
+   "Amukwak de Terre",
+   "Kwakobottes de Terre",
+   "Kwaklame de Terre",
+   "Bwak de Terre"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "15"
+    },
+    {
+     "type": "Vitalité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Viatlité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "25"
+    },
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "35"
+    },
+    {
+     "type": "Vitalité",
+     "value": "35"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "45"
+    },
+    {
+     "type": "Vitalité",
+     "value": "45"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "55"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "25"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Citronoplie",
+  "items": [
+   "Borsitrono",
+   "Cape Grume",
+   "Anneau Zest",
+   "Pailleton"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "intelligence",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "3"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Bois de l'Est",
+  "items": [
+   "Chapeau du Bois de l'Est",
+   "Cape du Bois de l'Est",
+   "Ceinture du Bois de l'Est",
+   "Bottes du Bois de l'Est"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie de Peggy la Porkass",
+  "items": [
+   "Cochobits",
+   "Cape Bouchon",
+   "Jambanneau",
+   "Ceinture Lardière"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Ananas",
+  "items": [
+   "Maskananas",
+   "Capananas",
+   "Bottananas"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Prospection",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Pompanoplie",
+  "items": [
+   "Pompocoiffe",
+   "Pompocape",
+   "Pompamulette",
+   "Pompanneau"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Créa. invocable",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Créa. invocable",
+     "value": "2"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Bzz",
+  "items": [
+   "Caskabeille",
+   "Cape Kifébzz",
+   "Pantoufrelons",
+   "masse O'Dard"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "8"
+    },
+    {
+     "type": "Créa. invocable",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie de l'Empire",
+  "items": [
+   "Caskotar",
+   "Sac de Bouba le Prophète",
+   "Anneau de la Mort",
+   "Sabroh"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Force",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "8"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Osamodas",
+  "items": [
+   "Capuche Apin",
+   "Cape Lyne",
+   "Bottes Swana",
+   "Ceinture Bodiézèle",
+   "Bague Héra"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Crâ",
+  "items": [
+   "Coiffe de Robbie Capuche",
+   "Cape Hulco",
+   "Bottes Deuradi",
+   "Sangle Cible",
+   "Anneau Bhli"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Ecaflip",
+  "items": [
+   "Chapeau Leufère",
+   "Cape Aillé",
+   "Charentaises à Poils",
+   "Ceinture Buhlent",
+   "Bague Houx"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Pandawa",
+  "items": [
+   "Chapeau Lithique",
+   "Cape Wéra",
+   "Getas Bernacle",
+   "Sangle Huée",
+   "Anneau Raille"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Enutrof",
+  "items": [
+   "Chapeau Taufeu",
+   "Cape Haharnum",
+   "Chaussures Lepont Davignon",
+   "Ceinture Gessant",
+   "Anneau Stalgik"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Sacrieur",
+  "items": [
+   "Bonnet Spairance",
+   "Cape Ytale",
+   "Tong Aclou",
+   "Sangle Hans",
+   "Anneau Pitale"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Eniripsa",
+  "items": [
+   "Coiffe Fère",
+   "Cape Sulhit",
+   "Bottes Ulsime",
+   "Sangle Holon",
+   "Anneau Zamour"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Sram",
+  "items": [
+   "Chapeau Grave",
+   "Cape Routh",
+   "Bottes Hox",
+   "Sangle Glinglin",
+   "Anneau Hell"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Sadida",
+  "items": [
+   "Chapeau Tyron",
+   "Cape Hitton",
+   "Bottes Hanik",
+   "Ceinture Luthe",
+   "Anneau Pwal"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Feca",
+  "items": [
+   "Bonnet Toual",
+   "Cape Hadosse",
+   "Bottes Antouche",
+   "Gaine Hage",
+   "Anneau Tassion"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Xelor",
+  "items": [
+   "Bonnet Nufar",
+   "Cape Huchon",
+   "Botte Hairo",
+   "Ceinture Lupine",
+   "Anneau Tilus"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Classe Iop",
+  "items": [
+   "Casque Keutumedi",
+   "Cape Aurale",
+   "Bottes Antrin",
+   "Sangle Hynère",
+   "Bague Harre"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Soins",
+     "value": "7"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Sagesse",
+     "value": "70"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "500"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "prospection",
+     "value": "30"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Chance",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "800"
+    },
+    {
+     "type": "Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "20"
+    },
+    {
+     "type": "prospection",
+     "value": "40"
+    },
+    {
+     "type": "invocation",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Rés. neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. feu",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. eau",
+     "value": "10"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Ventouse",
+  "items": [
+   "Anolamour",
+   "Kralano",
+   "Kralamansion"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplignon",
+  "items": [
+   "Chapignon",
+   "Anneau Colerette",
+   "Caprin",
+   "Couteaux à Champignon"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "% Dom. pieges",
+     "value": "25"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Dom. pieges",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "% Dom. pieges",
+     "value": "80"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Bworker Gladiateur",
+  "items": [
+   "Casque Harnage",
+   "Bottes Répané",
+   "Ceinture Toré",
+   "Anneau Bliteré"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Force",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Tue-Mouche",
+  "items": [
+   "Alliance Boletée",
+   "Amunite",
+   "Capignon",
+   "String Tue-Mouche"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Créa. invocable",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Créa. invocable",
+     "value": "2"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Souveraine",
+  "items": [
+   "Capuche Souveraine du Roissingue",
+   "Cape Souverraine du Roissingue",
+   "Sceau Souverain du Roissingue"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "Prospection",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Sous Bois",
+  "items": [
+   "Bottines des Sous Bois",
+   "Tranche des Sous Bois",
+   "Hache à Lamelles"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    },
+    {
+     "type": "Prospection",
+     "value": "15"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Panoplycelium",
+  "items": [
+   "Chaussons Pignons",
+   "Ceinture Myconsine",
+   "Anneau Chevelu"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Bworker Berserker",
+  "items": [
+   "Cape Erforée",
+   "Amulette Ripage",
+   "Bracelet Ventré",
+   "Lame Assacre"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Intelligence",
+     "value": "15"
+    },
+    {
+     "type": "Chance",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "Chance",
+     "value": "50"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Chene Mou",
+  "items": [
+   "Cape Usées du Chene Mou",
+   "Coiffe du Chene Mou",
+   "Anneau du Chene Mou",
+   "Talisman du Chene Mou",
+   "Tongues du Dimanche du Chene Mou",
+   "String Automnal du Chêne Mou"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "dommage",
+     "value": "1"
+    },
+    {
+     "type": "soin",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "% Dommages",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "% Dommages",
+     "value": "20"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Minotot",
+  "items": [
+   "Cape du Minotot",
+   "Coiffe du Minotot",
+   "Anneau du Minotot",
+   "Collier du Minotot",
+   "Ceinture du Minotot",
+   "Sandales du Minotot",
+   "Spectre du Minotot"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Soins",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "50"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "Soins",
+     "value": "5"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "60"
+    },
+    {
+     "type": "Intelligence",
+     "value": "60"
+    },
+    {
+     "type": "Soins",
+     "value": "6"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Zothuliste",
+  "items": [
+   "Coiffe du Maitre Zoth",
+   "Baton du Maitre Zoth"
+  ],
+  "bonus": [
+   []
+  ]
+ },
+ {
+  "name": "Panoplie Ougah",
+  "items": [
+   "Ougalurette",
+   "Ougature",
+   "Ougamulette",
+   "Ougarteau"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Prospection",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "6"
+    },
+    {
+     "type": "Prospection",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Zothicien",
+  "items": [
+   "Casque du Guerrier Zoth",
+   "Hache du Guerrier Zoth"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Dommages",
+     "value": "8"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Meulou",
+  "items": [
+   "Coiffe du Meulou",
+   "Cape du Meulou",
+   "Bottes du Meulou",
+   "Anneau du Meulou",
+   "La Meulette",
+   "Ceinture du Meulou"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Dommages",
+     "value": "8"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Claire",
+  "items": [
+   "Masque de l'Abrakleur Clair",
+   "Bottes de l'Abrakleur Claire",
+   "Ceinture Claire en Abrakleur",
+   "Branche de l'Abrakleur Claire"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "CC",
+     "value": "3"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    },
+    {
+     "type": "CC",
+     "value": "5"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "sagesse",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Abra Ancestral",
+  "items": [
+   "Abracapa Ancestrale",
+   "Abracaska Ancestral",
+   "Anneau Ancestral",
+   "Torque Ancestral",
+   "Protège-Tibias Ancestraux",
+   "Abrature Ancestral"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "% Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Dommages",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "% Dommages",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    },
+    {
+     "type": "Initiative",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Dommages",
+     "value": "15"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    },
+    {
+     "type": "Initiative",
+     "value": "40"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "2"
+    },
+    {
+     "type": "% Rés. neutre",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "% Dommages",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    },
+    {
+     "type": "Initiative",
+     "value": "60"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "3"
+    },
+    {
+     "type": "% Rés. neutre",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "PO",
+     "value": "1"
+    },
+    {
+     "type": "% Dommages",
+     "value": "25"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    },
+    {
+     "type": "Initiative",
+     "value": "100"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "4"
+    },
+    {
+     "type": "% Rés. neutre",
+     "value": "4"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Dragoeuf",
+  "items": [
+   "Cape du Dragoeuf",
+   "Casque Dragoeuf",
+   "Anneau du Dragoeuf",
+   "Amulette du Dragoeuf",
+   "Bottes du Dragoeuf",
+   "Ceinture du Dragoeuf"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "5"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    },
+    {
+     "type": "Intelligence",
+     "value": "5"
+    },
+    {
+     "type": "Chance",
+     "value": "5"
+    },
+    {
+     "type": "% Dommage",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Dommage",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "% Dommage",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "% Dommage",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "% Dommage",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "Force",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "Chance",
+     "value": "50"
+    },
+    {
+     "type": "% Dommage",
+     "value": "50"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Baveuse",
+  "items": [
+   "Kaskargo",
+   "Anneau Skargo",
+   "Kask'Arc Go"
+  ],
+  "bonus": [
+   []
+  ]
+ },
+ {
+  "name": "Panoplie Zoth Zotheur",
+  "items": [
+   "Chapeau de la Gamine Zoth",
+   "Marteau de la Gamine Zoth"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Initiative",
+     "value": "100"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Céremoniale",
+  "items": [
+   "Cape Ceremoniale du Seigneur des Rats",
+   "Masque Ceremonial du Seigneur des Rats",
+   "Anneau Cérémonial du Seigneur des Rats",
+   "Bottes Cérémoniales du Seigneur des Rats",
+   "Collier Cérémonial du Seigneur des Rats",
+   "Ceinture Cérémoniale du Seigneur des Rats"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Intelligence",
+     "value": "35"
+    },
+    {
+     "type": "Agilité",
+     "value": "35"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie d'Elya Wood",
+  "items": [
+   "Cape d'Elya Wood",
+   "Alliance d'Elya Wood",
+   "Talisman d'Elya Wood",
+   "Baguette d'Elya Wood"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Soins",
+     "value": "8"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "150"
+    },
+    {
+     "type": "Intelligence",
+     "value": "60"
+    },
+    {
+     "type": "Soins",
+     "value": "16"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Minotoror",
+  "items": [
+   "Cape du Minotoror",
+   "Minotokorno",
+   "Anneau du Minotoror",
+   "Collier du Minotoror",
+   "Ceinture du minotoror",
+   "Bottes du Minotoror",
+   "Hache du Minotoror"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "1"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "2"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "2"
+    },
+    {
+     "type": "Soins",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "150"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "6"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "200"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "4"
+    },
+    {
+     "type": "Soins",
+     "value": "8"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Rat Blanc",
+  "items": [
+   "Cape du Rat Blanc",
+   "Coiffe du Rat Blanc",
+   "Gantelet du Rat Blanc",
+   "Collier du Rat Blanc",
+   "Ceinture du Rat Blanc",
+   "Bottes du Rat Blanc",
+   "Epée du Rat Blanc"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "15"
+    },
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Force",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "2"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "5"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "% Rés. terre",
+     "value": "10"
+    },
+    {
+     "type": "% Rés. air",
+     "value": "10"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Feudala",
+  "items": [
+   "Chapeau Feudala",
+   "Cape Feudala",
+   "Bouclier Feudala",
+   "Geta Feudala",
+   "Alliance Feudala",
+   "Amulette Feudala",
+   "Ceinture Feudala",
+   "Sabre Feudala"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Soins",
+     "value": "6"
+    },
+    {
+     "type": "Initiative",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Soins",
+     "value": "8"
+    },
+    {
+     "type": "Initiative",
+     "value": "150"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Soins",
+     "value": "10"
+    },
+    {
+     "type": "Initiative",
+     "value": "200"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Soins",
+     "value": "12"
+    },
+    {
+     "type": "Initiative",
+     "value": "250"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Soins",
+     "value": "14"
+    },
+    {
+     "type": "Initiative",
+     "value": "500"
+    },
+    {
+     "type": "Intelligence",
+     "value": "80"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Chef Bwork",
+  "items": [
+   "Slip du Chef Bwork",
+   "Amulette du Chef Bwork",
+   "Cape du Chef Bwork",
+   "Bottes du Chef Bwork",
+   "Casque du Chef Bwork",
+   "Bracelet du Chef Bwork",
+   "Lame du Chef Bwork"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Initiative",
+     "value": "100"
+    },
+    {
+     "type": "Pods",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "120"
+    },
+    {
+     "type": "Pods",
+     "value": "200"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "140"
+    },
+    {
+     "type": "Pods",
+     "value": "300"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Force",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "160"
+    },
+    {
+     "type": "pods /+60 Vitalité",
+     "value": "400"
+    },
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "180"
+    },
+    {
+     "type": "Pods",
+     "value": "500"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Force",
+     "value": "60"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "200"
+    },
+    {
+     "type": "Pods",
+     "value": "600"
+    },
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "Force",
+     "value": "80"
+    },
+    {
+     "type": "Agilité",
+     "value": "60"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "PM ",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "panoplie Vassale",
+  "items": [
+   "Cape de la Ouassingue",
+   "Capuche de la Ouassingue",
+   "Bottes Horchons",
+   "Ouassulette"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Soins",
+     "value": "1"
+    },
+    {
+     "type": "Intelligence",
+     "value": "5"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Soins",
+     "value": "5"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Dragon Cochon",
+  "items": [
+   "Cape du Dragon Cochon",
+   "Coiffe du Dragon Cochon",
+   "Anneau du Dragon Cochon",
+   "Collier du Dragon Cochon",
+   "Mules du Dragon Cochon",
+   "Ceinture Dracochoune"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Prospection",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "120"
+    },
+    {
+     "type": "Sagesse",
+     "value": "60"
+    },
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Chance",
+     "value": "50"
+    },
+    {
+     "type": "Prospection",
+     "value": "30"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Rat Noir",
+  "items": [
+   "Cape du Rat Noir",
+   "Masque du Rat Noir",
+   "Anneau du Rat Noir",
+   "Collier du Rat Noir",
+   "Ceinture du Rat Noir",
+   "Bottes du Rat Noir",
+   "Dague du Rat Noir"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    },
+    {
+     "type": "Dom pièges",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Dom pièges",
+     "value": "2"
+    },
+    {
+     "type": "% Dom pièges",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Dom pièges",
+     "value": "4"
+    },
+    {
+     "type": "% Dom pièges",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Dom pièges",
+     "value": "10"
+    },
+    {
+     "type": "% Dom pièges",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "5"
+    },
+    {
+     "type": "PO",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Sombre",
+  "items": [
+   "Masque de l'Abrakleur Sombre",
+   "Ceinture Sombre en Abrakleur",
+   "Branche de l'Abrakleur Sombre"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Soins",
+     "value": "3"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "Soins",
+     "value": "6"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Multicolore Royale",
+  "items": [
+   "Amublop Multicolore Royale",
+   "Blopanneau Multicolore Royal",
+   "Blopture Multicolore Royale",
+   "Bloptes Multicolores Royales"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Dommage",
+     "value": "1"
+    },
+    {
+     "type": "Soin",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "portée",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Craq Légendaire",
+  "items": [
+   "Craquelocape Légendaire",
+   "Anneau du Craqueuleur Légendaire",
+   "Bottes du Craqueleur Légendaire",
+   "Amulette du Craqueuleur Légendaire",
+   "Ceinture du Craqueleur",
+   "Casque du Craqueleur Légendaire",
+   "Marteau du Craqueleur"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Initiative",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "CC",
+     "value": "1"
+    },
+    {
+     "type": "Initiative",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "CC",
+     "value": "2"
+    },
+    {
+     "type": "Initiative",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "CC",
+     "value": "4"
+    },
+    {
+     "type": "Initiative",
+     "value": "60"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "80"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Initiative",
+     "value": "100"
+    },
+    {
+     "type": "CC",
+     "value": "8"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "10"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Terrdala",
+  "items": [
+   "Chapeau Terrdala",
+   "Cape Terrdala",
+   "Bouclier Terrdala",
+   "Geta Terrdala",
+   "Alliance Terrdala",
+   "Amulette Terrdala",
+   "Ceinture Terrdala",
+   "Hache Terrdala"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "force",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "force",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "force",
+     "value": "40"
+    },
+    {
+     "type": "Dommages",
+     "value": "8"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "150"
+    },
+    {
+     "type": "force",
+     "value": "60"
+    },
+    {
+     "type": "Dommages",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "250"
+    },
+    {
+     "type": "force",
+     "value": "80"
+    },
+    {
+     "type": "Dommages",
+     "value": "12"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "20"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Griotte Royale",
+  "items": [
+   "Blopanneau Griotte Royal",
+   "Amublop Griotte Royale",
+   "Blopture Griotte Royale",
+   "Bloptes Griotte Royales"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Indigo Royale",
+  "items": [
+   "Blopanneau Indigo Royal",
+   "Amublop Indigo Royale",
+   "Blopture Indigo Royale",
+   "Bloptes Indigo Royales"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Koulosse",
+  "items": [
+   "Bottes du Koulosse",
+   "Sac du Koulosse",
+   "Coiffe du Koulousse",
+   "Baton du Koulosse"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Sagesse",
+     "value": "40"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "2"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Sagesse",
+     "value": "60"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "4"
+    },
+    {
+     "type": "Dommages",
+     "value": "8"
+    },
+    {
+     "type": "Initiative",
+     "value": "400"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Coco Royale",
+  "items": [
+   "Blopanneau Coco Royal",
+   "Amublop Coco Royale",
+   "Blopture Coco Royale",
+   "Bloptes Coco Royales"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Reinette Royale",
+  "items": [
+   "Blopanneau Reinette Royal",
+   "Amublop Reinette Royale",
+   "Blopture Reinette Royale",
+   "Bloptes Reinette Royales"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie de Farle",
+  "items": [
+   "Epis de Farle",
+   "Bracelet de Farle",
+   "Sabot de Farle",
+   "Farlature",
+   "Farlacoiffe",
+   "Cape de Farle",
+   "Bâton de Farle"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Réduction physique",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Réduction physique",
+     "value": "8"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Sagesse /20% résistance terre",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "Réduction physique",
+     "value": "10"
+    },
+    {
+     "type": "PM ",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie O'Boule",
+  "items": [
+   "Crystal O'boul",
+   "Cape du Désir O'Boul",
+   "La Doubitch O'boul",
+   "Kryst O'Boul"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    },
+    {
+     "type": "CC",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "8"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Chef Croco",
+  "items": [
+   "Amulettes du Chef Crocodaille",
+   "Pantoufles Crochues du Chef Crocodaille",
+   "Coiffe du Chef Crocodaille",
+   "Petit Sac d'Ecolier du Chef Crocodaille",
+   "Bracelet du Chef Crocodaille",
+   "Ceinture du Chef Crocodaille",
+   "Lame du chef crocodaille"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "12"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "12"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "35"
+    },
+    {
+     "type": "Chance",
+     "value": "35"
+    },
+    {
+     "type": "Sagese",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "14"
+    }
+   ],
+   [
+    {
+     "type": "% Résistance terre",
+     "value": "14"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Résistance air",
+     "value": "16"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "16"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie de Shika",
+  "items": [
+   "Cape de Shika",
+   "Shikacoiffe",
+   "Bracelet Magique de Shika",
+   "Sabot de Shika",
+   "Epis de Shika",
+   "Shikature",
+   "Baton de Shika"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Intelligence",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "10"
+    },
+    {
+     "type": "Résistance air",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Résistance eau",
+     "value": "6"
+    },
+    {
+     "type": "Résistance feu",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "15"
+    },
+    {
+     "type": "Résistance air",
+     "value": "8"
+    }
+   ],
+   [
+    {
+     "type": "Résistance eau",
+     "value": "8"
+    },
+    {
+     "type": "Résistance feu",
+     "value": "8"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Intelligence",
+     "value": "60"
+    },
+    {
+     "type": "Chance",
+     "value": "50"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Résistance air",
+     "value": "10"
+    },
+    {
+     "type": "Résistance eau",
+     "value": "10"
+    },
+    {
+     "type": "Résistance feu",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Aerdala",
+  "items": [
+   "Chapeau Aerdala",
+   "Cape Aerdala",
+   "Bouclier Aerdala",
+   "Geta Aerdala",
+   "Alliance Aerdala",
+   "Amulette Aerdala",
+   "Ceinture Aerdala",
+   "Dagues Aerdala"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "% Dom piéges",
+     "value": "5"
+    },
+    {
+     "type": "Dom piéges",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "% Dom piéges",
+     "value": "10"
+    },
+    {
+     "type": "Dom piéges",
+     "value": "6"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "% Dom piéges",
+     "value": "20"
+    },
+    {
+     "type": "Dom piéges",
+     "value": "8"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "80"
+    },
+    {
+     "type": "Vitalié",
+     "value": "80"
+    },
+    {
+     "type": "% Dom piéges",
+     "value": "40"
+    },
+    {
+     "type": "Dom piéges",
+     "value": "12"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Bouftou Royal",
+  "items": [
+   "Boufbottes Royales",
+   "Ceinture Royale du Bouftou",
+   "Boufcoiffe Royale",
+   "Cape Bouffante Royale",
+   "Anneau Royal du Bouftou",
+   "Amulette Royale du Bouftou",
+   "Epée Royale du Bouftou"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "vitalité",
+     "value": "40"
+    },
+    {
+     "type": "force",
+     "value": "40"
+    },
+    {
+     "type": "dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "vitalité",
+     "value": "50"
+    },
+    {
+     "type": "force",
+     "value": "50"
+    },
+    {
+     "type": "dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Force",
+     "value": "60"
+    },
+    {
+     "type": "Intelligence",
+     "value": "60"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "70"
+    },
+    {
+     "type": "Force",
+     "value": "70"
+    },
+    {
+     "type": "Intelligence",
+     "value": "70"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Mulou",
+  "items": [
+   "Cape du Mulou",
+   "Coiffe du Mulou",
+   "Anneau du Mulou",
+   "Bottines du Mulou",
+   "Amuloumulette",
+   "String du Mulou",
+   "Hache du Mulou"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Soins",
+     "value": "6"
+    },
+    {
+     "type": "Prospection",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Soins",
+     "value": "8"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Soins",
+     "value": "10"
+    },
+    {
+     "type": "prospection",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "80"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Soins",
+     "value": "10"
+    },
+    {
+     "type": "prospection",
+     "value": "15"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Koalak",
+  "items": [
+   "Coiffe du Koalak",
+   "Cape du Koalak",
+   "Bottes du Koalak",
+   "Anneau du Koalak",
+   "Amulette du Koalak",
+   "Ceinture du Koalak",
+   "Arc du Koalak",
+   "Koalak Sanguin"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Sagesse",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    },
+    {
+     "type": "CC",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "60"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    },
+    {
+     "type": "CC",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "80"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    },
+    {
+     "type": "CC",
+     "value": "8"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "100"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "CC",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Kitsou",
+  "items": [
+   "Anneau du Kitsou",
+   "Amulette du kitsou",
+   "Coiffe du kitsou",
+   "Cape du kitsou"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Sagesse",
+     "value": "60"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Tortue",
+  "items": [
+   "Caracoiffe",
+   "Carabottes",
+   "Caracape",
+   "Atouin"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "50"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Prospection",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "Portée",
+     "value": "1"
+    },
+    {
+     "type": "Chance",
+     "value": "80"
+    },
+    {
+     "type": "Prospection",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "6"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Vegatatif",
+  "items": [
+   "Végacoiffe",
+   "Vegacape",
+   "Vegamu"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Prospection",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "Prospection",
+     "value": "15"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Scara Dorée",
+  "items": [
+   "Scaracapes Dorée",
+   "Scaracoiffe Dorée",
+   "Anneau du Scarabosse Doré",
+   "Scarabottes Dorées",
+   "Amulette du Scarabosse Doré",
+   "Scarature Dorée",
+   "Baguette du Scarabosse Doré"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "1"
+    },
+    {
+     "type": "Soins",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "Soins",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Soins",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Soins",
+     "value": "4"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Soins",
+     "value": "5"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Dommages",
+     "value": "10"
+    },
+    {
+     "type": "Soins",
+     "value": "10"
+    },
+    {
+     "type": "Sagesse",
+     "value": "60"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Gelax",
+  "items": [
+   "Gelocape",
+   "Gelocoiffe",
+   "Gelano",
+   "Gelobottes",
+   "Gelamu",
+   "Geloture"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Intelligence",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "prospection",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "50"
+    },
+    {
+     "type": "prospection",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Wabbit",
+  "items": [
+   "Sac-Cawotte",
+   "Tongues Wabbits",
+   "Amulette \"Dents de Wabbits\"",
+   "Slip Kangouwou du Wabbit GM",
+   "Oreilles de Wabbits",
+   "Bâton du wobot"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vie",
+     "value": "50"
+    }
+   ],
+   [
+    {
+     "type": "Vie",
+     "value": "100"
+    }
+   ],
+   [
+    {
+     "type": "Vie",
+     "value": "100"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vie",
+     "value": "100"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vie",
+     "value": "200"
+    },
+    {
+     "type": "Prospection",
+     "value": "10"
+    },
+    {
+     "type": "Dommages",
+     "value": "8"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    },
+    {
+     "type": "initiative",
+     "value": "500"
+    }
+   ],
+   [
+    {
+     "type": "Vie",
+     "value": "250"
+    },
+    {
+     "type": "prospection",
+     "value": "16"
+    },
+    {
+     "type": "Dommages",
+     "value": "16"
+    },
+    {
+     "type": "PM",
+     "value": "2"
+    },
+    {
+     "type": "initiative",
+     "value": "1000"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Craqueleur",
+  "items": [
+   "Craquelocape",
+   "Bottes du Craqueleur",
+   "Craquamulette",
+   "Ceinture du Craqueleur",
+   "Casque du Craqueleur",
+   "Lame du Craqueleur"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Réduction magique",
+     "value": "1"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Réduction magique",
+     "value": "2"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "% résistance neutre",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Réduction magique",
+     "value": "4"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "% résistance neutre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "50"
+    },
+    {
+     "type": "Réduction magique",
+     "value": "6"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "6"
+    }
+   ],
+   [
+    {
+     "type": "% résistance neutre",
+     "value": "15"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Dindo",
+  "items": [
+   "Chapodindo",
+   "Capodindo",
+   "Anodindo",
+   "Botodindo"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Prospection",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Prospection",
+     "value": "20"
+    },
+    {
+     "type": "PM",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Boufcool",
+  "items": [
+   "Coiffe du Boufcoul",
+   "Cape du Boufcoul",
+   "Bottes du Boufcoul",
+   "Anneau du Boufcoul",
+   "Amulette du Boufcoul",
+   "Ceinture du Boufcoul",
+   "Marteau du Boufcoul"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "agilité",
+     "value": "5"
+    },
+    {
+     "type": "Chance",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "agilité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "agilité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "70"
+    },
+    {
+     "type": "Chance",
+     "value": "70"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Scara Noire",
+  "items": [
+   "Scaracape Noire",
+   "Scaracoiffe Noire",
+   "Scaranneau Noir",
+   "Scarature Noire"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "% Dommages",
+     "value": "15"
+    },
+    {
+     "type": "% rés. neutre",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "% Dommages",
+     "value": "30"
+    },
+    {
+     "type": "% rés. neutre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "100"
+    },
+    {
+     "type": "% Dommages",
+     "value": "60"
+    },
+    {
+     "type": "% rés. neutre",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Coco",
+  "items": [
+   "Blopanneau Coco",
+   "Amublop Coco",
+   "Blopture Coco",
+   "Bloptes Coco"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "% Resistance feu",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Resistance air",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse terre",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Resistance feu",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Resistance air",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse terre",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "% Resistance feu",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "15"
+    },
+    {
+     "type": "% Resistance air",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse terre",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Agilité",
+     "value": "50"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Reinette",
+  "items": [
+   "Blopanneau Reinette",
+   "Amublop Reinette",
+   "Blopture Reinette",
+   "Bloptes Reinette"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "% Resistance feu",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Resistance terre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse air",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Force",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Resistance feu",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Resistance terre",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse air",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Force",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "% Resistance feu",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "15"
+    },
+    {
+     "type": "% Resistance terre",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse air",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Force",
+     "value": "50"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Griotte",
+  "items": [
+   "Blopanneau Griotte",
+   "Amublop Griotte",
+   "Bloptes Griotte",
+   "Blopture Griotte"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "% Resistance terre",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Resistance feu",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse eau",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Intelligence",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Resistance terre",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Resistance feu",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse eau",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Intelligence",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "% Resistance terre",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "15"
+    },
+    {
+     "type": "% Resistance feu",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse eau",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Intelligence",
+     "value": "50"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Blop Indigo",
+  "items": [
+   "Blopanneau Indigo",
+   "Amublop Indigo",
+   "Blopture Indigo",
+   "Bloptes Indigo"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "% Resistance terre",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "5"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "5"
+    },
+    {
+     "type": "% Resistance eau",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse feu",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "% Resistance terre",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "10"
+    },
+    {
+     "type": "% Resistance eau",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse feu",
+     "value": "55"
+    },
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "PA",
+     "value": "1"
+    },
+    {
+     "type": "% Resistance terre",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "15"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "15"
+    },
+    {
+     "type": "% Resistance eau",
+     "value": "30"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse feu",
+     "value": "50"
+    },
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Chance",
+     "value": "50"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Vioutifule",
+  "items": [
+   "Les Bottes Vioutifoule",
+   "Le Casque Vioutifoule",
+   "La Ceinture Vioutifoule",
+   "La Cape Vioutifoule"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "% Résisance feu",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Intelligence",
+     "value": "60"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Scara Vert",
+  "items": [
+   "Scaracoiffe Verte",
+   "Scaracape Verte",
+   "Scaranneau Vert",
+   "Scarature Verte"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Megamane",
+  "items": [
+   "La Mégacape",
+   "La Mégacoiffe",
+   "La Mégature",
+   "Les Mégabottes"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "% Résisance eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "Chance",
+     "value": "60"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Scara Rouge",
+  "items": [
+   "Scaracoiffe Rouge",
+   "Scaracape Rouge",
+   "Scaranneau Rouge",
+   "Scarature Rouge"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Intelligence",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Intelligence",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "% Résistance feu",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Toady",
+  "items": [
+   "Toady",
+   "Bâton Carnivore"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "50"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "CC",
+     "value": "5"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Abraknyde",
+  "items": [
+   "Abracapa",
+   "Abracaska",
+   "Anobra",
+   "Abrabottes",
+   "L'Araknamu",
+   "Abrature",
+   "Abraton"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "10"
+    },
+    {
+     "type": "Vie",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "20"
+    },
+    {
+     "type": "Vie",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "30"
+    },
+    {
+     "type": "Vie",
+     "value": "30"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "40"
+    },
+    {
+     "type": "Vie",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse feu",
+     "value": "20"
+    },
+    {
+     "type": "% Faiblesse air",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Force",
+     "value": "50"
+    },
+    {
+     "type": "Vie",
+     "value": "50"
+    },
+    {
+     "type": "% Résistance neutre",
+     "value": "20"
+    },
+    {
+     "type": "% Résistance terre",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "% Faiblesse feu",
+     "value": "20"
+    },
+    {
+     "type": "% Faiblesse air",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Scara Bleue",
+  "items": [
+   "Scaracoiffe Bleue",
+   "Scaracape Bleue",
+   "Scaranneau Bleue",
+   "Scarature Bleue"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "% Résistance eau",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Scara Blanc",
+  "items": [
+   "Scaracoiffe Blanche",
+   "Scaracape Blanche",
+   "Scaranneau Blanc",
+   "Scarature Blanche"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Agilité",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "80"
+    },
+    {
+     "type": "% Résistance air",
+     "value": "20"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Sanglier",
+  "items": [
+   "Pieds du Sanglier",
+   "Sanglature",
+   "Anneau du Sanglier"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Initiative",
+     "value": "50"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "4"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Tofu",
+  "items": [
+   "Cape du Tofu",
+   "Kaskofu",
+   "Anneau du Tofu",
+   "Pantoufles du Tofu",
+   "Amulette du Tofu",
+   "Ceinture du Tofu",
+   "Baguette du Tofu"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Dommages",
+     "value": "2"
+    },
+    {
+     "type": "Initiative",
+     "value": "50"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Initiative",
+     "value": "100"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    },
+    {
+     "type": "Vitalité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "4"
+    },
+    {
+     "type": "Initiative",
+     "value": "150"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Initiative",
+     "value": "200"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "6"
+    },
+    {
+     "type": "Initiative",
+     "value": "250"
+    },
+    {
+     "type": "Agilité",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Sagesse",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Initiative",
+     "value": "300"
+    },
+    {
+     "type": "Agilité",
+     "value": "60"
+    },
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Sagesse",
+     "value": "30"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Homme Ours",
+  "items": [
+   "Cape de l'Homme Ours",
+   "Coiffe de l'Homme Ours",
+   "Alliance de l'Homme Ours",
+   "Bottes de l'Homme Ours",
+   "Amulette de l'Homme Ours",
+   "Ceinture de l'Homme Ours",
+   "Bâton de l'Homme Ours"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "5"
+    },
+    {
+     "type": "Agilité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Agilité",
+     "value": "10"
+    },
+    {
+     "type": "Initiative",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "15"
+    },
+    {
+     "type": "Agilité",
+     "value": "15"
+    },
+    {
+     "type": "Initiative",
+     "value": "15"
+    },
+    {
+     "type": "% Dommages",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Agilité",
+     "value": "20"
+    },
+    {
+     "type": "Initiative",
+     "value": "20"
+    },
+    {
+     "type": "% Dommages",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Réduction magique",
+     "value": "2"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "25"
+    },
+    {
+     "type": "Agilité",
+     "value": "25"
+    },
+    {
+     "type": "Initiative",
+     "value": "25"
+    },
+    {
+     "type": "% Dommages",
+     "value": "15"
+    }
+   ],
+   [
+    {
+     "type": "Réduction magique",
+     "value": "4"
+    },
+    {
+     "type": "Créature invocable",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "Agilité",
+     "value": "30"
+    },
+    {
+     "type": "Initiative",
+     "value": "30"
+    },
+    {
+     "type": "% Dommages",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Réduction magique",
+     "value": "6"
+    },
+    {
+     "type": "Créatures invocables",
+     "value": "2"
+    },
+    {
+     "type": "PA",
+     "value": "1"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Wa",
+  "items": [
+   "Cape du Wa Wabbit",
+   "Couronne du Wa Wabbit",
+   "Bâton du Wa Wabbit"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vie",
+     "value": "50"
+    }
+   ],
+   [
+    {
+     "type": "Vie",
+     "value": "100"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie Moskito",
+  "items": [
+   "Moskitogalurette",
+   "Sac du Petit Moskito",
+   "Amulette du Moskito",
+   "Mos Kitano"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Chance",
+     "value": "10"
+    },
+    {
+     "type": "Vitalité",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Chance",
+     "value": "40"
+    },
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Réduction physique",
+     "value": "3"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "Panoplie du Paysan",
+  "items": [
+   "Sac du Paysan",
+   "Bob du Paysan",
+   "Mitaines Mitées du Paysan",
+   "Bottes paysannes",
+   "Amulette du Paysan",
+   "Ceinturemuda du Paysan",
+   "Faux du usée du Paysan"
+  ],
+  "bonus": [
+   [],
+   [
+    {
+     "type": "Vitalité",
+     "value": "10"
+    },
+    {
+     "type": "Chance",
+     "value": "5"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "20"
+    },
+    {
+     "type": "Chance",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "30"
+    },
+    {
+     "type": "chance",
+     "value": "15"
+    },
+    {
+     "type": "Dommages",
+     "value": "1"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "40"
+    },
+    {
+     "type": "Chance",
+     "value": "20"
+    },
+    {
+     "type": "Dommages",
+     "value": "3"
+    },
+    {
+     "type": "Sagesse",
+     "value": "10"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "50"
+    },
+    {
+     "type": "Chance",
+     "value": "25"
+    },
+    {
+     "type": "Dommages",
+     "value": "5"
+    },
+    {
+     "type": "Sagesse",
+     "value": "20"
+    }
+   ],
+   [
+    {
+     "type": "Vitalité",
+     "value": "60"
+    },
+    {
+     "type": "Chance",
+     "value": "30"
+    },
+    {
+     "type": "Dommages",
+     "value": "7"
+    },
+    {
+     "type": "Sagesse",
+     "value": "40"
+    }
+   ]
+  ]
+ }
+]
