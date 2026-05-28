@@ -8,7 +8,7 @@
 | Cible | Source viable ? | Recommandation |
 |---|---|---|
 | **Dofus 2** | ✅ dofusdude (`dofus2-main`) | **FAIT** (implémenté) |
-| **Dofus Retro (1.29)** | 🟡 Partiel — sources communautaires, pas d'API officielle stable | **GO conditionnel** : démarrer sur `dofusdb.fr` (Retro) ou un dump 1.29, après audit stat-par-stat |
+| **Dofus Retro (1.29)** | 🔴 Aucune source clé-en-main (vérifié) | **NO-GO court terme** : nécessite extraction des assets client 1.29 (DofusInvoker), chantier lourd |
 | **Dofus Touch** | 🔴 Pas de source fiable actuellement | **NO-GO pour l'instant** : dofapi (la seule source Touch connue) est hors-ligne |
 | **HDV / budget kamas** | ⛔ Bloqué légalement | **NO-GO** : accès aux prix HDV interdit par Ankama, aucune API stable. Alternative conforme ci-dessous |
 
@@ -16,18 +16,17 @@
 
 ## Dofus Retro (1.29)
 
-**Sources évaluées :**
-- **`api.dofusdb.fr`** — API live confirmée (HTTP 200, ~21 500 items, schéma riche : `id`, `level`, `typeId`, `iconId`, `price`, `effects`, `criterions`…). C'est une API Feathers.js requêtable (`?$limit=`, `?$select[]=`). DofusDB cible le Dofus moderne (Unity) ; **une déclinaison Retro existe côté site** mais la couverture Retro via l'API publique reste à confirmer endpoint par endpoint.
-- **`Spx0001/DofusAPI`** (GitHub) — explicitement « API pour Dofus 1.29 ». Repo accessible. Candidat dédié Retro à auditer (fraîcheur, exhaustivité, licence).
-- **`bot4dofus/Datafus`** — dumps JSON de la base Dofus + events socket. Plutôt orienté Dofus moderne / bots.
-- **Kaggle « Dofus Database »** — dump statique, non maintenu, à éviter pour de la prod.
+**Sources évaluées (vérifiées par appel direct) :**
+- **`api.dofusdb.fr`** — API Feathers.js live, riche et multilingue (de/en/es/fr/pt), avec `effects`, `possibleEffects`, `recipeIds`/`hasRecipe`, `itemSet`, `criterions`. **MAIS données = Dofus moderne (Unity 3)**, confirmé (« Twiggy Sword » lvl 7, syntaxe de conditions moderne `SC!5|ST!5`). **Ne contient PAS de données Retro 1.29.** Redondant avec notre source dofusdude actuelle.
+- **`Spx0001/DofusAPI`** — malgré le titre « API pour Dofus 1.29 », c'est en réalité un **émulateur de serveur / système de comptes** (registration, gifts, server status, RSS) en PHP self-host, abandonné. **Pas une base d'items.** Inutilisable.
+- **`bot4dofus/Datafus`** — dumps JSON Dofus moderne + events socket. Pas Retro.
+- **Kaggle « Dofus Database »** — dump statique non maintenu. À éviter.
 
-**Verdict** : une source Retro existe (dofusdb Retro et/ou Spx0001), mais aucune n'est aussi clé-en-main que dofusdude. Le vrai coût reste **l'implémentation** (le builder Retro diffère : pas de Coup Critique en stat indépendante, calculs de dommages différents, 12 classes, pas de sublimations) — c'est ce que le plan avait anticipé.
+**Verdict (probant)** : **aucune source de données Retro 1.29 clé-en-main n'existe** parmi les candidats publics. La seule voie réaliste est l'**extraction depuis les assets du client Retro 1.29** (DofusInvoker / dumps communautaires), à condition de vérifier la licence Ankama — c'est un chantier lourd, sans raccourci. S'ajoute le coût d'implémentation déjà connu (stats/calculs Retro très différents : pas de Coup Critique indépendant, 12 classes, pas de sublimations).
 
-**Prochaines étapes concrètes (avant tout code)** :
-1. Auditer `api.dofusdb.fr` : confirmer s'il existe un filtre/version Retro (ex. `?version=` ou un host `retro.*`). Sinon évaluer `Spx0001/DofusAPI`.
-2. Écrire un mapping stat-par-stat Retro ↔ Dofus 3 (document) — prérequis du chantier T1b.
-3. Si source validée : nouveau `get_equipments_retro.py` (schéma dofusdb ≠ dofusdude → parseur dédié) → `items_retro.db` → conditionner `lpproblem.py`/`smart_build.py` par `game_version == 'retro'`.
+**Recommandation** : **NO-GO court terme**. Ne pas promettre Retro tant qu'une extraction d'assets fiable n'est pas réalisée. Prérequis si on y va un jour : (1) extraction assets 1.29, (2) audit stat-par-stat Retro↔Dofus3, (3) parseur dédié → `items_retro.db`, (4) `lpproblem.py`/`smart_build.py` conditionnés par version.
+
+**Note utile (hors Retro)** : `api.dofusdb.fr` expose les **recettes** (`recipeIds`/`recipeSlots`) du Dofus moderne. C'est une piste pour peupler la table `item_recipes` manquante (qui débloquerait l'agrégation de ressources du Workshop) — mais mélanger les sources (dofusdude + dofusdb) demande une réconciliation des IDs, à évaluer séparément.
 
 ## Dofus Touch
 
