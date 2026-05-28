@@ -27,6 +27,14 @@ import struct
 import zlib
 
 
+def _decode_str(raw: bytes) -> str:
+    """Dofus Retro lang strings are UTF-8; fall back to latin-1 for odd bytes."""
+    try:
+        return raw.decode('utf-8')
+    except UnicodeDecodeError:
+        return raw.decode('latin-1')
+
+
 def _decompress(swf: bytes) -> bytes:
     if swf[:3] == b'CWS':
         return zlib.decompress(swf[8:])
@@ -89,7 +97,7 @@ class _AS2Machine:
             o, pool = 2, []
             for _ in range(count):
                 e = p.index(0, o)
-                pool.append(p[o:e].decode('latin-1'))
+                pool.append(_decode_str(p[o:e]))
                 o = e + 1
             self.pool = pool
         elif op == 0x96:  # Push
@@ -99,7 +107,7 @@ class _AS2Machine:
                 o += 1
                 if t == 0:
                     e = p.index(0, o)
-                    st.append(p[o:e].decode('latin-1'))
+                    st.append(_decode_str(p[o:e]))
                     o = e + 1
                 elif t == 1:
                     st.append(struct.unpack_from('<f', p, o)[0]); o += 4
