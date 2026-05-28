@@ -30,7 +30,10 @@
 - **Stage 1 implémenté et testé** : [itemscraper/download_retro_langs.py](../itemscraper/download_retro_langs.py) télécharge le manifeste, récupère + décompresse les catégories, et dump les chaînes pour inspection.
 
 **Reste à faire (stage 2+)** :
-1. **Parseur AS2** : les `.swfdata` embarquent les données en ActionScript 2. Ne PAS réécrire un interpréteur AS2 — **porter un parseur éprouvé** : [Arakne/SwfLangLoader](https://github.com/Arakne/SwfLangLoader) (PHP) ou [Cyberia.Langzilla](https://github.com/Lounek09/Cyberia) (C#). Sortie = records `{id, name, type, level, stats, set, recipe}`.
+1. **Parseur AS2** : les `.swfdata` embarquent les données en ActionScript 2. Deux options, par ordre de simplicité :
+   - **(recommandé, le plus simple)** extraire le code AS2 en TEXTE via **JPEXS Free Flash Decompiler** en CLI (`ffdec -dumpAS2 <fichier.swf>`), puis parser le texte AS2 (assignations lisibles `addObject(...)` / tableaux) avec un parseur regex Python. Dépendance : Java + le jar `ffdec`.
+   - sinon **porter un parseur bytecode éprouvé** : [Arakne/SwfLangLoader](https://github.com/Arakne/SwfLangLoader) ou [Dragomitch/DofusSwfLangLoader](https://github.com/Dragomitch/DofusSwfLangLoader) (PHP), [Cyberia.Langzilla](https://github.com/Lounek09/Cyberia) (C#), [marvinroger/Dofus-Tools](https://github.com/marvinroger/Dofus-Tools) (Python, SWL/D2P).
+   - ⚠️ ne PAS écrire un interpréteur AS2 bytecode à la main. Sortie attendue = records `{id, name, type, level, stats, set, recipe}`.
 2. **Audit stat-par-stat Retro↔Dofus3** (pas de Coup Critique indépendant, 12 classes, pas de sublimations).
 3. Transform/dump → `items_retro.db` ; conditionner `lpproblem.py` / `smart_build.py` par `game_version == 'retro'`.
 
