@@ -16,6 +16,7 @@ Pipeline steps:
     items/transform      get_equipments_retro.py  -> retro/transformed_{equipment,sets}.json
     items/dump           get_equipments3.py        -> item_db_dumped_retro.dump
     items/load-db        load_item_db.py           -> items_retro.db
+    spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
 
 Not run for Retro (data lives in the 1.29 game client, not the lang CDN):
     item-images   - the gfx field points to compiled client SWF clips, no PNG CDN
@@ -139,7 +140,7 @@ def main() -> None:
     step("lang/download-fr", [
         PY, "download_retro_langs.py",
         "--lang", args.lang,
-        "--categories", "items", "itemstats", "itemsets",
+        "--categories", "items", "itemstats", "itemsets", "spells", "classes",
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
@@ -169,6 +170,15 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     step("items/load-db", [PY, "load_item_db.py", "--game-version", "retro"])
+
+    step("spells/decode", [
+        PY, "get_spells_retro.py",
+        "--raw-dir", RETRO_RAW_DIR,
+        "--out", str(ITEMSCRAPER / "retro" / "retro_damage_spells.json"),
+        "--module-out", str(ROOT / "fashionistapulp" / "fashionistapulp"
+                            / "dofus_constants_retro_spells.py"),
+        "--lang", args.lang,
+    ], cwd=ITEMSCRAPER)
 
     elapsed = time.time() - t_total
     print(f"\n{'='*60}")

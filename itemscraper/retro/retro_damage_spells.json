@@ -768,10 +768,10 @@
    "name": "Rekop",
    "level_count": 6,
    "elements": [
-    "earth",
-    "air",
+    "water",
     "fire",
-    "water"
+    "air",
+    "earth"
    ],
    "non_crit_ranges": [
     [
@@ -1008,8 +1008,8 @@
    "name": "Bluff",
    "level_count": 6,
    "elements": [
-    "air",
-    "water"
+    "water",
+    "air"
    ],
    "non_crit_ranges": [
     [
@@ -1544,8 +1544,8 @@
    "name": "Flèche Persécutrice",
    "level_count": 6,
    "elements": [
-    "air",
-    "fire"
+    "fire",
+    "air"
    ],
    "non_crit_ranges": [
     [

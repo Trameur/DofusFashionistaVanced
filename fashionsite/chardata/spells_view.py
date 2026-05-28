@@ -48,7 +48,8 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
             web_digest = _create_weapon_web_digest(weapon)
             digests.append(web_digest)
     game_version = getattr(request, 'game_version', 'dofus3')
-    for spell in DAMAGE_SPELLS[char_class] + DAMAGE_SPELLS['default']:
+    spells_by_class = _damage_spells_for_version(game_version)
+    for spell in spells_by_class.get(char_class, []) + spells_by_class.get('default', []):
         web_digest = _create_spell_web_digest(spell, game_version)
         digests.append(web_digest)
     digests_json = jsonpickle.encode(digests, unpicklable=False)
@@ -100,6 +101,15 @@ def _create_weapon_web_digest(weapon):
     
     return web_digest
 
+def _damage_spells_for_version(game_version):
+    # Retro has its own decoded damage spells; other versions share the dofus3 set
+    # (Beta/Dofus 2 are close enough that they reuse it, as before).
+    if game_version == 'retro':
+        from fashionistapulp.dofus_constants_retro_spells import RETRO_DAMAGE_SPELLS
+        return RETRO_DAMAGE_SPELLS
+    return DAMAGE_SPELLS
+
+
 def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest = {}
     digest = spell.get_effects_digest()
@@ -108,7 +118,12 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest['name'] = get_localized_spell_name(spell.name, current_language)
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
-    spell_dir = 'chardata/spells/beta/' if game_version == 'beta' else 'chardata/spells/'
+    if game_version == 'beta':
+        spell_dir = 'chardata/spells/beta/'
+    elif game_version == 'retro':
+        spell_dir = 'chardata/spells/retro/'
+    else:
+        spell_dir = 'chardata/spells/'
     web_digest['image_url'] = static(spell_dir + spell.name + '.png')
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
