@@ -8,7 +8,7 @@
 | Cible | Source viable ? | Recommandation |
 |---|---|---|
 | **Dofus 2** | ✅ dofusdude (`dofus2-main`) | **FAIT** (implémenté) |
-| **Dofus Retro (1.29)** | 🔴 Aucune source clé-en-main (vérifié) | **NO-GO court terme** : nécessite extraction des assets client 1.29 (DofusInvoker), chantier lourd |
+| **Dofus Retro (1.29)** | ✅ **Source officielle confirmée** (CDN Lang Ankama) | **GO** : `itemscraper/download_retro_langs.py` (stage 1 validé). Reste : parseur AS2 + adaptation builder |
 | **Dofus Touch** | 🔴 Pas de source fiable actuellement | **NO-GO pour l'instant** : dofapi (la seule source Touch connue) est hors-ligne |
 | **HDV / budget kamas** | ⛔ Bloqué légalement | **NO-GO** : accès aux prix HDV interdit par Ankama, aucune API stable. Alternative conforme ci-dessous |
 
@@ -22,9 +22,19 @@
 - **`bot4dofus/Datafus`** — dumps JSON Dofus moderne + events socket. Pas Retro.
 - **Kaggle « Dofus Database »** — dump statique non maintenu. À éviter.
 
-**Verdict (probant)** : **aucune source de données Retro 1.29 clé-en-main n'existe** parmi les candidats publics. La seule voie réaliste est l'**extraction depuis les assets du client Retro 1.29** (DofusInvoker / dumps communautaires), à condition de vérifier la licence Ankama — c'est un chantier lourd, sans raccourci. S'ajoute le coût d'implémentation déjà connu (stats/calculs Retro très différents : pas de Coup Critique indépendant, 12 classes, pas de sublimations).
+**✅ SOURCE TROUVÉE ET PROUVÉE — le CDN Lang officiel d'Ankama.** (Verdict initial « NO-GO » corrigé après investigation des parseurs communautaires Cyberia / Arakne / retrolangdl.)
 
-**Recommandation** : **NO-GO court terme**. Ne pas promettre Retro tant qu'une extraction d'assets fiable n'est pas réalisée. Prérequis si on y va un jour : (1) extraction assets 1.29, (2) audit stat-par-stat Retro↔Dofus3, (3) parseur dédié → `items_retro.db`, (4) `lpproblem.py`/`smart_build.py` conditionnés par version.
+- **Manifeste** : `https://dofusretro.cdn.ankama.com/lang/versions_fr.txt` → HTTP 200. Liste `<catégorie>,<lang>,<version>` pour 38 catégories : `items,fr,1260`, `itemstats,fr,1259`, `itemsets,fr,1254`, `crafts,fr,1258` (= recettes !), `classes`, `effects`, `weapons`…
+- **Fichiers** : `https://dofusretro.cdn.ankama.com/lang/swf/<catégorie>_<lang>_<version>.swf` → HTTP 200, format **CWS (SWF zlib, décompression depuis l'octet 8)**.
+- **Vérifié end-to-end** : `items_fr_1260.swf` (702 Ko) se décompresse en 2,6 Mo contenant les données **en clair** (« Petite Amulette du Hibou », « PETITE EPEE DE BOISAILLE », descriptions, types). Données **officielles, autoritatives, toujours à jour**.
+- **Stage 1 implémenté et testé** : [itemscraper/download_retro_langs.py](../itemscraper/download_retro_langs.py) télécharge le manifeste, récupère + décompresse les catégories, et dump les chaînes pour inspection.
+
+**Reste à faire (stage 2+)** :
+1. **Parseur AS2** : les `.swfdata` embarquent les données en ActionScript 2. Ne PAS réécrire un interpréteur AS2 — **porter un parseur éprouvé** : [Arakne/SwfLangLoader](https://github.com/Arakne/SwfLangLoader) (PHP) ou [Cyberia.Langzilla](https://github.com/Lounek09/Cyberia) (C#). Sortie = records `{id, name, type, level, stats, set, recipe}`.
+2. **Audit stat-par-stat Retro↔Dofus3** (pas de Coup Critique indépendant, 12 classes, pas de sublimations).
+3. Transform/dump → `items_retro.db` ; conditionner `lpproblem.py` / `smart_build.py` par `game_version == 'retro'`.
+
+**Recommandation** : **GO**. La source est résolue et opérationnalisée ; le chantier restant est de l'implémentation maîtrisée (parseur + builder), plus une impasse de données.
 
 **Note utile (hors Retro)** : `api.dofusdb.fr` expose les **recettes** (`recipeIds`/`recipeSlots`) du Dofus moderne. C'est une piste pour peupler la table `item_recipes` manquante (qui débloquerait l'agrégation de ressources du Workshop) — mais mélanger les sources (dofusdude + dofusdb) demande une réconciliation des IDs, à évaluer séparément.
 

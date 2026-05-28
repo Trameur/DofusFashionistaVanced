@@ -3,6 +3,7 @@
 .svn
 *.mo
 *.bak
+itemscraper/retro_raw/
 fashionsite/staticfiles/chardata/spells/Con.png
 /logs
 /itemscraper/raw
