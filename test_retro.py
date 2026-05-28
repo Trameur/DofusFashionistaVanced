@@ -115,6 +115,30 @@ if status == "Optimal":
     check("two rings are different items (no 1.29 ring doubling)",
           ring_ids[0] != ring_ids[1] or None in ring_ids)
 
+print("\n== spells ==")
+from chardata.spells_view import _damage_spells_for_version
+from fashionistapulp.dofus_constants import DAMAGE_SPELLS as D3
+retro_spells = _damage_spells_for_version("retro")
+classes_with_spells = [c for c in retro_spells
+                       if c != "default" and retro_spells[c]]
+check("retro spells cover 11 classes (Sram absent in lang)",
+      len(classes_with_spells) == 11, f"got {len(classes_with_spells)}")
+check("dofus3 spells unchanged by retro wiring", _damage_spells_for_version("dofus3") is D3)
+iop_spells = {s.name: s for s in retro_spells.get("Iop", [])}
+check("Iop has 'Colère de Iop'", "Colère de Iop" in iop_spells)
+# every retro spell digest builds and respects crit >= non-crit
+crit_ok, built = True, 0
+for spells in retro_spells.values():
+    for spell in spells:
+        dig = spell.get_effects_digest()
+        built += 1
+        for lvl in range(len(dig.non_crit_dams)):
+            for nc, cr in zip(dig.non_crit_dams[lvl], dig.crit_dams[lvl]):
+                if cr.max_dam < nc.max_dam:
+                    crit_ok = False
+check("all retro spell digests build", built > 50, f"built {built}")
+check("crit >= non-crit for every spell/level", crit_ok)
+
 print(f"\n{len(_passed)} passed, {len(_failed)} failed")
 if _failed:
     print("FAILED: " + ", ".join(_failed))
