@@ -48,11 +48,15 @@
 - **dofusdb.fr** — ne couvre pas Touch (cible Unity).
 - Le flag legacy `dofustouch=1` dans `items.db` est **obsolète** (déjà documenté).
 
-**Verdict** : **NO-GO actuellement**. La seule source Touch identifiée est indisponible. Ne pas écrire de pipeline Touch tant qu'une source pérenne n'est pas confirmée (sinon code mort). 
+**Investigation CDN (2026-05-28)** : le bucket **`dofustouch.cdn.ankama.com` existe** (le host résout) mais **toutes les clés testées renvoient 403** (`/lang/...`, `/data/common/Items.d2o`, `/build/config.json`, `/assetmap.json`…). Contrairement à Retro, il n'y a **pas de point d'entrée public** (manifeste `versions.txt` ouvert). Les URLs d'assets Touch sont vraisemblablement résolues via un manifeste signé/buildhash connu seulement du client.
+
+**Format** : Touch est basé sur Dofus 2.x → données en **D2O/D2P binaire** (pas du SWF lang comme Retro). Parseur disponible : [PyDofus](https://github.com/balciseri/PyDofus) (Python, unpack D2O/D2P). [dofusdude/doduda](https://github.com/dofusdude/doduda) embarque un port PyDofus mais ne cible que Dofus 2/3.
+
+**Verdict** : **NO-GO court terme** — le blocage Touch n'est PAS le parsing (PyDofus existe) mais la **découverte de l'URL des assets** (CDN verrouillé). Plus profond que Retro.
 
 **Prochaines étapes** :
-1. Surveiller le retour en ligne de dofapi (contacter le mainteneur via leur Discord).
-2. Sinon : reverse-engineering des assets de l'app Touch (licence Ankama à vérifier) — chantier lourd.
+1. Trouver le manifeste/buildhash Touch (inspecter le trafic réseau de l'app Touch, ou un mirror communautaire des D2P).
+2. Une fois les D2P récupérés : `PyDofus` → D2O → items → pipeline.
 3. Tant que bloqué : `/touch/` reste non proposé dans le sélecteur de version.
 
 ## HDV / budget kamas — ⛔ bloqué légalement
