@@ -537,6 +537,176 @@
    "id": 43
   }
  ],
+ "Sram": [
+  {
+   "name": "Attaque Mortelle",
+   "level_count": 6,
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "21-40",
+     "26-45",
+     "31-50",
+     "36-55",
+     "41-60",
+     "41-60"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "41-60",
+     "46-65",
+     "66-85",
+     "101-120",
+     "131-150",
+     "131-150"
+    ]
+   ],
+   "id": 76
+  },
+  {
+   "name": "Arnaque",
+   "level_count": 6,
+   "elements": [
+    "air"
+   ],
+   "non_crit_ranges": [
+    [
+     "9-23",
+     "11-25",
+     "13-27",
+     "15-29",
+     "18-32",
+     "18-32"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "25-25",
+     "28-28",
+     "30-30",
+     "32-32",
+     "35-35",
+     "35-35"
+    ]
+   ],
+   "id": 70
+  },
+  {
+   "name": "Coup Sournois",
+   "level_count": 6,
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "2-6",
+     "3-7",
+     "4-8",
+     "6-10",
+     "8-12",
+     "12-16"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "5-9",
+     "6-10",
+     "7-11",
+     "9-13",
+     "11-15",
+     "17-21"
+    ]
+   ],
+   "id": 63
+  },
+  {
+   "name": "Fourvoiement",
+   "level_count": 6,
+   "elements": [
+    "air"
+   ],
+   "non_crit_ranges": [
+    [
+     "6-15",
+     "7-16",
+     "8-17",
+     "9-18",
+     "10-19",
+     "11-25"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "8-17",
+     "9-18",
+     "10-19",
+     "11-20",
+     "12-21",
+     "16-30"
+    ]
+   ],
+   "id": 68
+  },
+  {
+   "name": "Poison insidieux",
+   "level_count": 6,
+   "elements": [
+    "air"
+   ],
+   "non_crit_ranges": [
+    [
+     "1-2",
+     "2-3",
+     "3-4",
+     "4-5",
+     "5-6",
+     "8-9"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "3-4",
+     "4-5",
+     "5-6",
+     "6-7",
+     "7-8",
+     "10-11"
+    ]
+   ],
+   "id": 66
+  },
+  {
+   "name": "Sournoiserie",
+   "level_count": 6,
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "2-4",
+     "3-5",
+     "4-6",
+     "5-7",
+     "6-8",
+     "11-13"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "4-6",
+     "5-7",
+     "6-8",
+     "7-9",
+     "8-10",
+     "20-20"
+    ]
+   ],
+   "id": 61
+  }
+ ],
  "Xelor": [
   {
    "name": "Frappe de Xélor",
@@ -796,10 +966,10 @@
    "name": "Rekop",
    "level_count": 6,
    "elements": [
-    "earth",
     "water",
-    "fire",
-    "air"
+    "air",
+    "earth",
+    "fire"
    ],
    "non_crit_ranges": [
     [

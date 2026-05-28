@@ -121,8 +121,10 @@ from fashionistapulp.dofus_constants import DAMAGE_SPELLS as D3
 retro_spells = _damage_spells_for_version("retro")
 classes_with_spells = [c for c in retro_spells
                        if c != "default" and retro_spells[c]]
-check("retro spells cover 11 classes (Sram absent in lang)",
-      len(classes_with_spells) == 11, f"got {len(classes_with_spells)}")
+check("retro spells cover all 12 classes",
+      len(classes_with_spells) == 12, f"got {len(classes_with_spells)}")
+check("Sram has damage spells (Add2 parser fix)",
+      len(retro_spells.get("Sram", [])) > 0)
 check("dofus3 spells unchanged by retro wiring", _damage_spells_for_version("dofus3") is D3)
 iop_spells = {s.name: s for s in retro_spells.get("Iop", [])}
 check("Iop has 'Colère de Iop'", "Colère de Iop" in iop_spells)

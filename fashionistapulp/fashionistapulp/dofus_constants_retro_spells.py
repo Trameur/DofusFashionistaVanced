@@ -104,6 +104,38 @@ RETRO_DAMAGE_SPELLS = {
             [EARTH],
         )),
     ],
+    "Sram": [
+        Spell("Attaque Mortelle", [1, 1, 1, 1, 1, 100], Effects(
+            [["21-40", "26-45", "31-50", "36-55", "41-60", "41-60"]],
+            [["41-60", "46-65", "66-85", "101-120", "131-150", "131-150"]],
+            [EARTH],
+        )),
+        Spell("Arnaque", [1, 1, 1, 1, 1, 100], Effects(
+            [["9-23", "11-25", "13-27", "15-29", "18-32", "18-32"]],
+            [["25-25", "28-28", "30-30", "32-32", "35-35", "35-35"]],
+            [AIR],
+        )),
+        Spell("Coup Sournois", [1, 1, 1, 1, 1, 100], Effects(
+            [["2-6", "3-7", "4-8", "6-10", "8-12", "12-16"]],
+            [["5-9", "6-10", "7-11", "9-13", "11-15", "17-21"]],
+            [EARTH],
+        )),
+        Spell("Fourvoiement", [1, 1, 1, 1, 1, 100], Effects(
+            [["6-15", "7-16", "8-17", "9-18", "10-19", "11-25"]],
+            [["8-17", "9-18", "10-19", "11-20", "12-21", "16-30"]],
+            [AIR],
+        )),
+        Spell("Poison insidieux", [1, 1, 1, 1, 1, 100], Effects(
+            [["1-2", "2-3", "3-4", "4-5", "5-6", "8-9"]],
+            [["3-4", "4-5", "5-6", "6-7", "7-8", "10-11"]],
+            [AIR],
+        )),
+        Spell("Sournoiserie", [1, 1, 1, 1, 1, 100], Effects(
+            [["2-4", "3-5", "4-6", "5-7", "6-8", "11-13"]],
+            [["4-6", "5-7", "6-8", "7-9", "8-10", "20-20"]],
+            [EARTH],
+        )),
+    ],
     "Xelor": [
         Spell("Frappe de Xélor", [1, 1, 1, 1, 1, 100], Effects(
             [["26-30", "31-35", "36-40", "41-45", "41-45", "41-45"]],
@@ -155,7 +187,7 @@ RETRO_DAMAGE_SPELLS = {
         Spell("Rekop", [1, 1, 1, 1, 1, 100], Effects(
             [["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"]],
             [["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"]],
-            [EARTH, WATER, FIRE, AIR],
+            [WATER, AIR, EARTH, FIRE],
         )),
         Spell("Griffe de Ceangal", [1, 1, 1, 1, 1, 100], Effects(
             [["13-25", "13-28", "13-31", "13-34", "15-39", "21-45"]],
@@ -571,6 +603,48 @@ RETRO_SPELL_NAMES = {
   "es": "Lanzamiento de Pala",
   "pt": "Arremesso de Pá",
   "de": "Schaufel werfen"
+ },
+ "Attaque Mortelle": {
+  "fr": "Attaque Mortelle",
+  "en": "Lethal Attack",
+  "es": "Ataque Mortal",
+  "pt": "Ataque Letal",
+  "de": "Tödlicher Angriff"
+ },
+ "Arnaque": {
+  "fr": "Arnaque",
+  "en": "Con",
+  "es": "Estafa",
+  "pt": "Trapaça",
+  "de": "Betrug"
+ },
+ "Coup Sournois": {
+  "fr": "Coup Sournois",
+  "en": "Tricky Blow",
+  "es": "Golpe Solapado",
+  "pt": "Golpe Enganador",
+  "de": "Tückischer Angriff"
+ },
+ "Fourvoiement": {
+  "fr": "Fourvoiement",
+  "en": "Mistake",
+  "es": "Karadura",
+  "pt": "Engano",
+  "de": "Verirrung"
+ },
+ "Poison insidieux": {
+  "fr": "Poison insidieux",
+  "en": "Insidious Poison",
+  "es": "Veneno Insidioso",
+  "pt": "Ataque Enganador",
+  "de": "Scheinangriff"
+ },
+ "Sournoiserie": {
+  "fr": "Sournoiserie",
+  "en": "Deviousness",
+  "es": "Engaño",
+  "pt": "Desvio",
+  "de": "Heimtücke"
  },
  "Frappe de Xélor": {
   "fr": "Frappe de Xélor",

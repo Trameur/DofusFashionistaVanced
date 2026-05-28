@@ -160,8 +160,23 @@ class _AS2Machine:
         elif op == 0x17:  # Pop
             if st:
                 st.pop()
-        # other opcodes (jumps, arithmetic, function defs) are irrelevant to the
-        # static data tables and safely ignored.
+        elif op == 0x47:  # Add2 (typed add). Used to re-join string literals that
+            # were split in the constant pool because they contain a '"' (e.g. the
+            # Sram class description quotes a state name). Without this the fragments
+            # stay as separate stack items and misalign the surrounding InitObject.
+            if len(st) >= 2:
+                b = st.pop()
+                a = st.pop()
+                if isinstance(a, str) or isinstance(b, str):
+                    st.append(('' if a is None else str(a))
+                              + ('' if b is None else str(b)))
+                else:
+                    try:
+                        st.append(a + b)
+                    except Exception:
+                        st.append(a if a is not None else b)
+        # other opcodes (jumps, function defs) are irrelevant to the static data
+        # tables and safely ignored.
 
 
 def parse_lang_swf(swf_bytes: bytes) -> dict:
