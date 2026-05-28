@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Get Dofus sets created automatically, based on your specific needs.">
+    <meta name="description" content="{% block meta_description %}Get Dofus sets created automatically, based on your specific needs.{% endblock %}">
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="index, follow">
+    {% block og_meta %}
     <meta property="og:title" content="Dofus Fashionista - Equipment Set Optimizer">
     <meta property="og:description" content="Create optimized Dofus equipment sets automatically based on your character's needs.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fashionistavanced.com/">
+    <meta name="twitter:card" content="summary">
+    {% endblock %}
     <title>{% block title %}Dofus Fashionista{% endblock %}</title>
 
     {% load i18n %}

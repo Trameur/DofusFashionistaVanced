@@ -6,6 +6,23 @@
 
 {% block title %}The Dofus Fashionista: {% trans "Outfit Suggestion" %}{% endblock %}
 
+{% block meta_description %}{% if link_shared %}{{ char.char_class }} {% trans "level" %} {{ char.level }} {% trans "build optimized on Dofus Fashionista" %}.{% else %}Get Dofus sets created automatically, based on your specific needs.{% endif %}{% endblock %}
+
+{% block og_meta %}
+{% if link_shared %}
+    <meta property="og:title" content="{{ char.char_name|default:char.name }} — {{ char.char_class }} {% trans 'lvl' %} {{ char.level }}">
+    <meta property="og:description" content="{{ char.char_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}">
+    <meta property="og:type" content="article">
+    {% if class_avatar %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ class_avatar }}">{% endif %}
+    <meta name="twitter:card" content="summary">
+{% else %}
+    <meta property="og:title" content="Dofus Fashionista - Equipment Set Optimizer">
+    <meta property="og:description" content="Create optimized Dofus equipment sets automatically based on your character's needs.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+{% endif %}
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/solution.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
