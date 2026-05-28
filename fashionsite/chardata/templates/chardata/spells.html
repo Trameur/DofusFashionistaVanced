@@ -72,6 +72,7 @@
 <script>
     var spellDigests = {{digests_json | safe}};
     var charStats = {{char_stats_json | safe}};
+    var spellFallbackImg = "{% static 'chardata/QuestionMark-lighttheme.png' %}";
     var spells;
     var cells = {}
     var buffsForSpell = {};
@@ -288,7 +289,7 @@
         var inner_image_cell = $("<td></td>");
         line.append(inner_image_cell);
         var image_source = spell.image_url
-        inner_image_cell.append('<img class="spell-image" src="'+image_source+'"></img>');
+        inner_image_cell.append('<img class="spell-image" src="'+image_source+'" onerror="this.onerror=null;this.src=\''+spellFallbackImg+'\'"></img>');
         var inner_title_cell = $("<td class='title-cell'></td>");
         line.append(inner_title_cell)
         

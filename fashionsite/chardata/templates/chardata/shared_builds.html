@@ -607,9 +607,10 @@
 
                     {% if build.preview_items %}
                     <div class="build-preview-items">
+                        {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
                         {% for item in build.preview_items %}
                         <div class="build-preview-item" title="{{ item.name }}">
-                            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         </div>
                         {% endfor %}
                     </div>

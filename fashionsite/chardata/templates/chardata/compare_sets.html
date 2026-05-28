@@ -83,7 +83,8 @@
                         {% for item in all_items %}
                             <div class="solution-item-icon-container" align="center">
                             {% if item %}
-                                <img src="{{ item.file }}" class="solution-items-icon"  title="{{item.localized_name}}" align="middle" id="{{item.id}}">
+                                {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+                                <img src="{{ item.file }}" class="solution-items-icon"  title="{{item.localized_name}}" align="middle" id="{{item.id}}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                             {% endif %}
                             </div>
                         {% endfor %}
