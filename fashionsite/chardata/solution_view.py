@@ -53,6 +53,34 @@ _SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
                      'Belt', 'Boots', 'Dofus', 'Pet']
 
 
+_LOW_ITEM_LEVEL_GAP = 50  # an equipped item this far below char level = upgrade hint
+
+
+def _build_check(char, solution):
+    """Lightweight, fast heuristic build review. Returns a dict with a list of
+    equipped items well below the character's level (likely upgradeable) and a
+    count of equipped items. Intentionally avoids slot-count math (version
+    dependent) — it only surfaces clearly actionable, low-risk hints."""
+    low_items = []
+    equipped = 0
+    char_level = char.level or 0
+    for slot, items in solution.items.items():
+        for item in items:
+            name = getattr(item, 'name', None)
+            if not getattr(item, 'item_added', False) or not name or name == 'NoItem':
+                continue
+            equipped += 1
+            item_level = getattr(item, 'level', None)
+            if (char_level >= 60 and item_level is not None
+                    and item_level <= char_level - _LOW_ITEM_LEVEL_GAP):
+                low_items.append({'slot': slot, 'name': name, 'level': item_level})
+    return {
+        'equipped_count': equipped,
+        'low_items': low_items,
+        'has_hints': bool(low_items),
+    }
+
+
 def _build_share_text(request, char, solution):
     """Plain-text build summary for pasting into Discord / forums."""
     title = char.char_name or char.name or char.char_class or 'Build'
@@ -206,12 +234,15 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     class_avatar = _get_class_avatar(char)
 
     share_text = ''
+    build_check = None
     try:
         _sol_for_text = get_solution(char)
         if _sol_for_text is not None:
             share_text = _build_share_text(request, char, _sol_for_text)
+            build_check = _build_check(char, _sol_for_text)
     except Exception:
         share_text = ''
+        build_check = None
 
     params = {'char_id': char_id,
               'lock_item': static('chardata/lock-icon.png'),
@@ -228,6 +259,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
               'share_text': share_text,
+              'build_check': build_check,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

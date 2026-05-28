@@ -300,8 +300,26 @@
     </div>
     {% endif %}
 
+    {% if build_check.has_hints %}
+    <div class="build-check" align="center">
+        <div class="build-check-inner">
+            <strong>{% trans "Build check" %}:</strong>
+            {% blocktrans count counter=build_check.low_items|length %}1 item is well below your level and could be upgraded:{% plural %}{{ counter }} items are well below your level and could be upgraded:{% endblocktrans %}
+            {% for li in build_check.low_items %}<span class="build-check-item">{{ li.name }} ({% trans "lvl" %} {{ li.level }}){% if not forloop.last %},{% endif %}</span> {% endfor %}
+        </div>
+    </div>
+    <style>
+        .build-check { margin: 0 auto 12px; max-width: 720px; }
+        .build-check-inner {
+            display: inline-block; padding: 6px 14px; font-size: 0.88em;
+            border: 1px solid rgba(200,160,40,0.5); border-radius: 4px; opacity: 0.92;
+        }
+        .build-check-item { white-space: nowrap; }
+    </style>
+    {% endif %}
+
     {% if not is_guest %}
-    
+
     {% if is_generated %}
     <p class="text">
     {% if char.char_name %}
