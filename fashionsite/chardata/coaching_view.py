@@ -128,13 +128,15 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
 
     set_char_aspects(char, aspects, True, False)
     set_exclusions_list_by_name(char, get_default_exclusions(char))
-    set_options(char, {'ap_exo': char_level >= 200,
-                       'mp_exo': char_level >= 200,
-                       'turq_dofus': char_level >= 199,
+    # Retro 1.29 has no AP/MP/range exotismes, Turquoise Dofus or prysmaradites.
+    exos = game_version != 'retro'
+    set_options(char, {'ap_exo': exos and char_level >= 200,
+                       'mp_exo': exos and char_level >= 200,
+                       'turq_dofus': exos and char_level >= 199,
                        'dragoturkey': True,
                        'rhineetle': True,
                        'seemyool': True,
-                       'prysmaradite': char_level >= 200})
+                       'prysmaradite': exos and char_level >= 200})
     char.save()
 
     for stat_name, _localized in STATS_NAMES:
