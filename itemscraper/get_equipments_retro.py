@@ -202,7 +202,11 @@ def build(items_root, sets_root, names_en=None):
             'ankama_id': set_ankama_id,
             'name_en': name, 'name_fr': name,
             'equipment_ids': [int(x) for x in sd['i']],
-            'stats_list': [],  # Retro set bonuses: TODO (not in itemsets lang)
+            # Set membership is here, but the bonus values are NOT in any Retro lang
+            # file: the itemsets SWF only exposes {i: item_ids, n: name}. In 1.29 the
+            # per-piece bonuses live in the game client SWF, not the lang CDN, so they
+            # can't be sourced here. Builds work without them; sets just give no bonus.
+            'stats_list': [],
         })
     return equipment, sets
 
