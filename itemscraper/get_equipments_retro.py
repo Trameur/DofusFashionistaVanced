@@ -34,6 +34,9 @@ TYPE_MAP = {
     '10': ('Belt', None), '11': ('Boots', None), '16': ('Hat', None),
     '17': ('Cloak', None), '18': ('Pet', None), '19': ('Weapon', 'Axe'),
     '21': ('Weapon', 'Pickaxe'), '22': ('Weapon', 'Scythe'), '23': ('Dofus', None),
+    # Dragodinde mounts (English names contain "Dragoturkey"); like Dofus 3 they
+    # share the Pet slot, and the "Dragoturkeys" mount toggle gates them.
+    '97': ('Pet', None),
 }
 
 # Retro effect id -> (English stat name as used by get_equipments3, sign).
