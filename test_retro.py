@@ -121,6 +121,19 @@ if status == "Optimal":
     check("two rings are different items (no 1.29 ring doubling)",
           ring_ids[0] != ring_ids[1] or None in ring_ids)
 
+print("\n== pvp resist (retro comeback) ==")
+from fashionistapulp.modelresult import model_result_from_minimal
+pvp_obj = {k: 0 for k in _okeys}
+pvp_obj.update({"pvpfireres": 100, "pvpneutres": 100})
+pm = Model()
+pm.setup(ModelInput(100, base, {"AP": 6, "MP": 3}, {}, set(), pvp_obj, options, "Feca", 5 * 99))
+pm.run(2)
+check("pvp-targeted solve is Optimal", pm.get_solved_status() == "Optimal", pm.get_solved_status())
+if pm.get_solved_status() == "Optimal":
+    pvp_total = model_result_from_minimal(pm.get_result_minimal(), {}).get_stats_total()
+    check("optimizer reaches PVP fire resist > 0",
+          pvp_total.get("pvpfireres", 0) > 0, f"got {pvp_total.get('pvpfireres')}")
+
 print("\n== spells ==")
 from chardata.spells_view import _damage_spells_for_version
 from fashionistapulp.dofus_constants import DAMAGE_SPELLS as D3
