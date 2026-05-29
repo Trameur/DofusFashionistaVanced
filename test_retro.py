@@ -61,6 +61,12 @@ print("\n== data ==")
 check("item count > 5000", len(items) > 5000, f"got {len(items)}")
 check("no mojibake names", not any(it.name and "Ã" in it.name for it in items))
 
+shields = [it for it in items if STRUCT.get_type_name_by_id(it.type) == "Shield"]
+check("retro has shields (type 82)", len(shields) > 100, f"got {len(shields)}")
+pvp = [it for it in items if any(STRUCT.get_stat_by_id(sid).name.endswith("in PVP")
+                                 for sid, _ in it.stats)]
+check("retro items carry PVP resist stats", len(pvp) > 20, f"got {len(pvp)}")
+
 # English item names are loaded (items_en.json), so the canonical name is English:
 # "Coiffe du Bouftou" -> "Gobball Headgear".
 bouftou = item_by_name("Gobball Headgear")

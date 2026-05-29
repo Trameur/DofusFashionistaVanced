@@ -61,6 +61,14 @@ EFFECT_MAP = {
     194: ('Pods', 1),
     # Minor stats found via the effects-lang audit (low frequency but real).
     158: ('Pods', 1), 225: ('Trap Damage', 1), 226: ('% Trap Damage', 1),
+    # PVP resists ("face aux combattants") — still on Retro items (e.g. shields),
+    # removed from Dofus 3. % variants 250-254, flat variants 260-264.
+    250: ('% Earth Resist in PVP', 1), 251: ('% Water Resist in PVP', 1),
+    252: ('% Air Resist in PVP', 1), 253: ('% Fire Resist in PVP', 1),
+    254: ('% Neutral Resist in PVP', 1),
+    260: ('Earth Resist in PVP', 1), 261: ('Water Resist in PVP', 1),
+    262: ('Air Resist in PVP', 1), 263: ('Fire Resist in PVP', 1),
+    264: ('Neutral Resist in PVP', 1),
 }
 
 # Condition code -> English stat name (only stat-gating codes; class/sub/align skipped).
