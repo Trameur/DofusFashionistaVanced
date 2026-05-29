@@ -578,6 +578,29 @@
             {% trans "% Ranged Resist" as Res_Per_Dis %}
             {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Dis stat_key="resperran" %}
             {% trans "% Weapon Resist" as Res_Per_Wea %}
+            {% if current_game_version == 'retro' %}
+            {# PVP resists exist on Retro gear (removed from Dofus 3). #}
+            {% trans "Neutral Resist (PvP)" as Neutral_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Neutral_Res_PvP stat_key="pvpneutres" %}
+            {% trans "Earth Resist (PvP)" as Earth_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Strength.png" stat_name=Earth_Res_PvP stat_key="pvpearthres" %}
+            {% trans "Fire Resist (PvP)" as Fire_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Intelligence.png" stat_name=Fire_Res_PvP stat_key="pvpfireres" %}
+            {% trans "Water Resist (PvP)" as Water_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Water_Res_PvP stat_key="pvpwaterres" %}
+            {% trans "Air Resist (PvP)" as Air_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Air_Res_PvP stat_key="pvpairres" %}
+            {% trans "% Neutral Resist (PvP)" as Per_Neutral_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Per_Neutral_Res_PvP stat_key="pvpneutresper" %}
+            {% trans "% Earth Resist (PvP)" as Per_Earth_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Strength.png" stat_name=Per_Earth_Res_PvP stat_key="pvpearthresper" %}
+            {% trans "% Fire Resist (PvP)" as Per_Fire_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Intelligence.png" stat_name=Per_Fire_Res_PvP stat_key="pvpfireresper" %}
+            {% trans "% Water Resist (PvP)" as Per_Water_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Per_Water_Res_PvP stat_key="pvpwaterresper" %}
+            {% trans "% Air Resist (PvP)" as Per_Air_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res_PvP stat_key="pvpairresper" %}
+            {% endif %}
             <tr>
         </table>
     </td>
