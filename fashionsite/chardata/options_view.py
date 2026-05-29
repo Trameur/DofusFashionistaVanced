@@ -18,7 +18,7 @@ import json
 
 from chardata.lock_forbid import add_items_to_exclusions, remove_items_from_exclusions
 from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
-    get_dofus_not_for_char
+    get_dofus_not_for_char, get_available_options
 from chardata.util import set_response, get_char_or_raise, HttpResponseJson
 from fashionistapulp.structure import get_structure
 from chardata.views import forbidden
@@ -30,9 +30,10 @@ def options(request, char_id):
     options = get_options(char)
     
     return set_response(request, 
-                        'chardata/options.html', 
+                        'chardata/options.html',
                         {'advanced': True,
                          'options': json.dumps(options),
+                         'version_options': get_available_options(),
                          'char_id': char_id},
                         char)
 

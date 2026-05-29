@@ -21,7 +21,7 @@ import jsonpickle
 from chardata.lock_forbid import get_inclusions_dict, set_item_included, set_excluded
 from chardata.min_stats import get_min_stats, set_min_stats
 from chardata.models import CharBaseStats
-from chardata.options import get_options, set_options, DOFUS_OPTIONS
+from chardata.options import get_options, set_options, DOFUS_OPTIONS, get_available_options
 from chardata.options_view import parse_options_post
 from chardata.smart_build import reapply_weights
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
@@ -49,6 +49,7 @@ def wizard(request, char_id):
                         'chardata/wizard.html',
                         {'char_id': char_id,
                          'wizard_pic': wizard_pic,
+                         'version_options': get_available_options(),
                          'constant_data': jsonpickle.encode(constant_data, unpicklable=False),
                          'wizard_data': jsonpickle.encode(wizard_data, unpicklable=False),
                          'triangle_url': jsonpickle.encode(get_triangle_URL(request), unpicklable=False)},
