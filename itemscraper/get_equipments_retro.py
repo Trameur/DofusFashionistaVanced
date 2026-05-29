@@ -86,18 +86,10 @@ _SET_STAT_FR_TO_EN = {
 }
 _SET_ELEMENTS_FR = {'terre': 'Earth', 'feu': 'Fire', 'eau': 'Water',
                     'air': 'Air', 'neutre': 'Neutral'}
-_SET_NAME_STOPWORDS = {'panoplie', 'du', 'de', 'des', 'la', 'le', 'les', 'l', 'd'}
 
 
 def _ascii(s):
     return unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode('ascii').lower().strip()
-
-
-def _norm_set_name(name):
-    """Stopword-stripped key so 'Panoplie du Bouftou' == 'Panoplie Bouftou' -> 'bouftou'."""
-    words = [w for w in re.sub(r'[^a-z0-9 ]', ' ', _ascii(name)).split()
-             if w not in _SET_NAME_STOPWORDS]
-    return ' '.join(words)
 
 
 def _map_set_stat(fr_type):
@@ -116,16 +108,21 @@ def _map_set_stat(fr_type):
 
 
 def load_set_bonuses(path):
-    """Vendored scrapstuff sets.json -> {normalized_set_name: stats_list}.
+    """Vendored scrapstuff sets.json -> [(frozenset(item_names), stats_list), ...].
 
-    stats_list matches get_equipments3's expected shape:
+    Matched to lang sets by item-name overlap (set names diverge too much:
+    "Abra Ancestral" vs "Abraknyde Ancestrale"). stats_list matches get_equipments3:
       [{'effect_key': num_pieces, 'effects': [[value, value, EnglishStat], ...]}, ...]
+
+    NOTE: this snapshot is Dofus Retro 1.29, but live Retro is 1.48. Item stats come
+    from the live CDN (1.48); only these set bonuses are 1.29 -- accurate for old sets
+    but missing the ~70 sets added since 1.29. Replace with a 1.48 source when found.
     """
     p = Path(path)
     if not p.exists():
-        return {}
+        return []
     data = json.loads(p.read_text(encoding='utf-8'))
-    out = {}
+    out = []
     for s in data:
         stats_list = []
         # bonus[i] is the cumulative bonus for wearing (i+1) pieces: bonus[0] is the
@@ -145,8 +142,24 @@ def load_set_bonuses(path):
             if effects:
                 stats_list.append({'effect_key': num_pieces, 'effects': effects})
         if stats_list:
-            out[_norm_set_name(s.get('name', ''))] = stats_list
+            item_names = frozenset(_ascii(n) for n in s.get('items', []) if n)
+            out.append((item_names, stats_list))
     return out
+
+
+def _match_set_bonuses(lang_item_names, set_bonuses):
+    """Pick the bonus entry whose items best overlap this lang set's items."""
+    if not lang_item_names:
+        return []
+    best_stats, best_overlap, best_size = [], 0, 0
+    for item_names, stats_list in set_bonuses:
+        overlap = len(lang_item_names & item_names)
+        if overlap > best_overlap:
+            best_overlap, best_stats, best_size = overlap, stats_list, len(item_names)
+    # Require the match to cover at least half of the source set's items.
+    if best_overlap >= max(2, best_size // 2):
+        return best_stats
+    return []
 
 
 def _hex(x):
@@ -234,7 +247,9 @@ def decode_conditions(c_string):
 def build(items_root, sets_root, names_by_lang=None, set_bonuses=None):
     items = items_root['u']
     names_by_lang = names_by_lang or {}
-    set_bonuses = set_bonuses or {}
+    set_bonuses = set_bonuses or []
+    item_name_by_id = {iid: _ascii(it.get('n', ''))
+                       for iid, it in items.items() if isinstance(it, dict)}
     equipment = []
     for iid, it in items.items():
         if not isinstance(it, dict):
@@ -285,10 +300,12 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None):
         name = sd.get('n') or ''
         equipment_ids = [int(x) for x in sd['i']]
         # Set membership comes from the lang; per-piece bonuses come from the vendored
-        # community snapshot, matched by stopword-stripped French name. Drop tiers that
-        # exceed the set's item count (guards scrape noise + the model's 9-slot limit).
+        # community snapshot, matched by item-name overlap (set names diverge). Drop
+        # tiers that exceed the item count (guards scrape noise + model 9-slot limit).
+        lang_item_names = {item_name_by_id.get(str(i), '') for i in sd['i']}
+        lang_item_names.discard('')
         max_pieces = min(len(equipment_ids), 9)
-        stats_list = [t for t in set_bonuses.get(_norm_set_name(name), [])
+        stats_list = [t for t in _match_set_bonuses(lang_item_names, set_bonuses)
                       if t['effect_key'] <= max_pieces]
         sets.append({
             'ankama_id': set_ankama_id,
