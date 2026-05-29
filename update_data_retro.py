@@ -16,14 +16,15 @@ Pipeline steps:
     items/transform      get_equipments_retro.py  -> retro/transformed_{equipment,sets}.json
     items/dump           get_equipments3.py        -> item_db_dumped_retro.dump
     items/load-db        load_item_db.py           -> items_retro.db
+    item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (Cyberia CDN)
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
 
 Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side), so they come
 from a vendored community snapshot itemscraper/retro_set_bonuses.json (retro-craft/
 scrapstuff), matched to lang sets by name inside get_equipments_retro.py.
 
-Not run for Retro (data in the 1.29 client, no PNG CDN): item/spell images -- the gfx
-field points to compiled client SWF clips.
+Item/mount icons come from the community Cyberia CDN (download_retro_images.py). Spell
+icons are not fetched yet (they render from client SWF clips; degrade to placeholder).
 """
 
 from __future__ import annotations
@@ -121,6 +122,8 @@ def main() -> None:
     )
     parser.add_argument("--skip-translations", action="store_true",
                         help="Skip the EN/ES/PT/DE name downloads (use FR names everywhere)")
+    parser.add_argument("--skip-images", action="store_true",
+                        help="Skip the item/mount icon download from the Cyberia CDN")
     parser.add_argument("--lang", default="fr", help="Primary lang for names (default fr)")
     args = parser.parse_args()
 
@@ -173,6 +176,13 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     step("items/load-db", [PY, "load_item_db.py", "--game-version", "retro"])
+
+    if not args.skip_images:
+        step("item-images", [
+            PY, "download_retro_images.py",
+            "--raw-dir", RETRO_RAW_DIR,
+            "--lang", args.lang,
+        ], cwd=ITEMSCRAPER)
 
     step("spells/decode", [
         PY, "get_spells_retro.py",
