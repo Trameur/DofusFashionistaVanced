@@ -51,7 +51,8 @@ def get_dofus_not_for_char(char):
     dofus_for_char = {}
     for (red, item) in DOFUS_OPTIONS.items():
         dofus = s.get_item_by_name(item)
-        if dofus.level > char.level:
+        # These are Dofus 3 dofus names; some don't exist in other versions (Retro).
+        if dofus is not None and dofus.level > char.level:
             dofus_for_char[red] = item
     return dofus_for_char
         
