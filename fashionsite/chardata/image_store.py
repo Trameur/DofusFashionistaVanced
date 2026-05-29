@@ -32,6 +32,9 @@ def _static_exists(path):
     return False
 
 
+RETRO_PLACEHOLDER = 'chardata/QuestionMark-lighttheme.png'
+
+
 def get_image_url(type, name, game_version=None):
     if game_version is None:
         game_version = get_current_game_version()
@@ -40,4 +43,12 @@ def get_image_url(type, name, game_version=None):
     if game_version in ('dofus3', 'touch'):
         return dofus3_path
     versioned_path = 'chardata/%s/%s/60x60/%s-60-60.png' % (type_dir, game_version, normalize_name(name))
-    return versioned_path if _static_exists(versioned_path) else dofus3_path
+    if _static_exists(versioned_path):
+        return versioned_path
+    # Beta/Dofus 2 items look like Dofus 3, so fall back to the Dofus 3 icon. Retro
+    # items are visually distinct, so the Dofus 3 icon would be the wrong item (and
+    # most names don't even match) -- show a neutral placeholder until we have real
+    # Retro icons in chardata/items/retro/60x60/.
+    if game_version == 'retro':
+        return RETRO_PLACEHOLDER
+    return dofus3_path
