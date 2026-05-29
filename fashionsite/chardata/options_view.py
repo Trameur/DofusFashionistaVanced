@@ -46,15 +46,17 @@ def options_post(request, char_id):
     too_high = get_dofus_not_for_char(char)
     forbidden_dofus = []
     allowed_dofus = []
+    structure = get_structure()
     for (red, item) in DOFUS_OPTIONS.items():
         if red not in too_high:
             forbidden = request.POST.get(red) is None
-            structure = get_structure()
-            item_id = structure.get_item_by_name(item).id
+            dofus = structure.get_item_by_name(item)
+            if dofus is None:
+                continue  # dofus not in this version (Retro/Dofus 2)
             if forbidden:
-                forbidden_dofus.append(int(item_id))
+                forbidden_dofus.append(int(dofus.id))
             else:
-                allowed_dofus.append(int(item_id))
+                allowed_dofus.append(int(dofus.id))
     add_items_to_exclusions(char, forbidden_dofus)
     remove_items_from_exclusions(char, allowed_dofus)
     

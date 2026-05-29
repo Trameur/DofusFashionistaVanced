@@ -85,11 +85,13 @@ def wizard_post(request, char_id):
     options.update(parse_options_post(request))
     set_options(char, options)
     
+    s = get_structure()
     for (red, item) in DOFUS_OPTIONS.items():
-        forbidden = request.POST.get(red) is None  
-        s = get_structure()
-        item_id = s.get_item_by_name(item).id
-        set_excluded(char, item_id, forbidden)
+        forbidden = request.POST.get(red) is None
+        dofus = s.get_item_by_name(item)
+        if dofus is None:
+            continue  # dofus not in this version (Retro/Dofus 2)
+        set_excluded(char, dofus.id, forbidden)
 
     set_wizard_sliders(char, request.POST)
 
