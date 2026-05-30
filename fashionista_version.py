@@ -1,7 +1,7 @@
 """Centralized version metadata for Dofus Fashionista."""
 from __future__ import annotations
 
-FASHIONISTA_VERSION = "3.5.17.21"
+FASHIONISTA_VERSION = "3.5.17.24"
 FASHIONISTA_BETA_VERSION = "3.5.7.21"
 
 

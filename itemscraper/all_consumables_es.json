@@ -16855,7 +16855,7 @@
                 "name": "Pergamino con un hechizo",
                 "id": 198
             },
-            "level": 1,
+            "level": 20,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/75003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/75003-128.png"
@@ -86274,7 +86274,7 @@
                 "name": "Pergamino con un hechizo",
                 "id": 198
             },
-            "level": 1,
+            "level": 60,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/75003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/75003-128.png"
@@ -86317,7 +86317,7 @@
                 "name": "Pergamino con un hechizo",
                 "id": 198
             },
-            "level": 1,
+            "level": 40,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/75003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/75003-128.png"

@@ -6,6 +6,8 @@
 fashionsite/staticfiles/chardata/spells/Con.png
 /logs
 /itemscraper/raw
+/itemscraper/raw_retro
+/itemscraper/retro_raw
 migrated_data.json
 itemscraper/spell_icons_test
 itemscraper/spell_images
