@@ -18,13 +18,14 @@ Pipeline steps:
     items/load-db        load_item_db.py           -> items_retro.db
     item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (Cyberia CDN)
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
+    spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (Cyberia CDN)
 
 Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side), so they come
 from a vendored community snapshot itemscraper/retro_set_bonuses.json (retro-craft/
 scrapstuff), matched to lang sets by name inside get_equipments_retro.py.
 
-Item/mount icons come from the community Cyberia CDN (download_retro_images.py). Spell
-icons are not fetched yet (they render from client SWF clips; degrade to placeholder).
+Item/mount icons and damage-spell icons come from the community Cyberia CDN
+(download_retro_images.py, download_retro_spell_images.py).
 """
 
 from __future__ import annotations
@@ -192,6 +193,9 @@ def main() -> None:
                             / "dofus_constants_retro_spells.py"),
         "--lang", args.lang,
     ], cwd=ITEMSCRAPER)
+
+    if not args.skip_images:
+        step("spell-images", [PY, "download_retro_spell_images.py"], cwd=ITEMSCRAPER)
 
     elapsed = time.time() - t_total
     print(f"\n{'='*60}")
