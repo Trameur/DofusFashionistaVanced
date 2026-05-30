@@ -48,10 +48,13 @@ DEFAULT_EXCLUSIONS_120_MINUS = (DEFAULT_EXCLUSIONS_121_PLUS
                                 + [])
 
 def get_default_exclusions(char):
-    if char.level > 120:
-        return DEFAULT_EXCLUSIONS_121_PLUS
-    else:
-        return DEFAULT_EXCLUSIONS_120_MINUS
+    names = (DEFAULT_EXCLUSIONS_121_PLUS if char.level > 120
+             else DEFAULT_EXCLUSIONS_120_MINUS)
+    # These are Dofus 3 item names; keep only those that exist in this version so
+    # other versions (Retro/Dofus 2) don't spam "item does not exist" warnings.
+    s = get_structure()
+    return [name for name in names
+            if s.get_item_by_name(name) or s.get_or_item_by_name(name)]
 
 def set_exclusions_list_and_check_inclusions(char, excluded_items):
     assert type(excluded_items) == list
