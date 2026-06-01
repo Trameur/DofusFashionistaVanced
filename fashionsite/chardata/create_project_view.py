@@ -25,7 +25,7 @@ import json
 
 from chardata.aspect_parser import parse_aspects
 from chardata.lock_forbid import (remove_invalid_inclusions, get_default_exclusions,
-    set_exclusions_list_by_name)
+    set_exclusions_list_and_check_inclusions)
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
@@ -155,7 +155,7 @@ def create_project(request):
     
     
     set_char_aspects(char, state['char_build_aspects_set'], True, state['where_to_go'] == 'wizard')
-    set_exclusions_list_by_name(char, get_default_exclusions(char))
+    set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     set_options(char, {'ap_exo': char.level >= 200,
                        'mp_exo': char.level >= 200,
                        'turq_dofus': char.level >= 199,

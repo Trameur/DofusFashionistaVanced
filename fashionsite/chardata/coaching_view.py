@@ -18,7 +18,7 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _, gettext_lazy
 
 from chardata.create_project_view import is_anon_cant_create
-from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_by_name
+from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and_check_inclusions
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.smart_build import set_char_aspects
@@ -127,7 +127,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     char.game_version = game_version
 
     set_char_aspects(char, aspects, True, False)
-    set_exclusions_list_by_name(char, get_default_exclusions(char))
+    set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     # Retro 1.29 has no AP/MP/range exotismes, Turquoise Dofus or prysmaradites.
     exos = game_version != 'retro'
     set_options(char, {'ap_exo': exos and char_level >= 200,

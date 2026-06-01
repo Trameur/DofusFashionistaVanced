@@ -112,6 +112,8 @@ class Structure:
         self.dt_items_dict = {}
         self.items_dict_name = {}
         self.dt_items_dict_name = {}
+        self.items_dict_ankama = {}
+        self.dt_items_dict_ankama = {}
         for entry in c.execute('SELECT id, name, level, type, item_set, ankama_id, ankama_type, removed, dofustouch '
                                'FROM items'):
             item_id = entry[0]
@@ -141,10 +143,14 @@ class Structure:
                 self.items_dict[item_id] = item
                 #assert item.name not in self.items_dict_name, "%s DUPLICATED" % item.name
                 self.items_dict_name[item.name] = item
+                if ankama_id is not None:
+                    self.items_dict_ankama[ankama_id] = item
             else:
                 self.dt_items_dict[item_id] = item
                 #assert item.name not in self.dt_items_dict_name, "%s DUPLICATED" % item.name
                 self.dt_items_dict_name[item.name] = item
+                if ankama_id is not None:
+                    self.dt_items_dict_ankama[ankama_id] = item
             if item_set is not None:
                 if item_set in self.sets_dict:
                     this_item_set = self.sets_dict[item_set]
@@ -909,6 +915,11 @@ class Structure:
             return self.dt_items_dict.get(item_id)
         else:
             return self.items_dict.get(item_id, None)
+
+    def get_item_by_ankama_id(self, ankama_id, dofus_touch=False):
+        if dofus_touch:
+            return self.dt_items_dict_ankama.get(ankama_id)
+        return self.items_dict_ankama.get(ankama_id)
 
     def get_item_by_name(self, name, dofus_touch=False):
         if dofus_touch:
