@@ -300,8 +300,6 @@ urlpatterns = [
     re_path(r'^saveprojecttouser/', create_project_view.save_project_to_user, name='save_project_to_user'),
     re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),
     re_path(r'^saveproject/(?P<char_id>\d+)/', create_project_view.save_project, name='save_project'),
-    re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),
-    re_path(r'^saveproject/(?P<char_id>\d+)/', create_project_view.save_project, name='save_project'),
     re_path(r'^understandbuild/', create_project_view.understand_build_post, name='understand_build_post'),
 
     re_path(r'^stats/(?P<char_id>\d+)/', stats_weights_view.stats, name='stats'),
