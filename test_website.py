@@ -214,13 +214,6 @@ def test_changelog_translations():
     ]
     for lang, needle, name in lang_checks:
         check_contains(name, "/", needle, cookies={"django_language": lang})
-    # Italian is currently not translated and should gracefully fall back to English.
-    check_contains_any(
-        "Italian — translation or fallback",
-        "/",
-        ["Dicembre 2024", "December 2024"],
-        cookies={"django_language": "it"},
-    )
 
 def test_encyclopedia():
     section("Encyclopedia")
@@ -270,7 +263,7 @@ def test_spell_simulator():
 
 def test_i18n():
     section("Internationalisation")
-    langs = ["fr", "de", "es", "it", "pt"]
+    langs = ["fr", "de", "es", "pt"]
     for lang in langs:
         try:
             r = get("/", cookies={"django_language": lang})

@@ -580,8 +580,8 @@ msgstr ""
 msgid "Spells Damage"
 msgstr ""
 
-#: chardata/templates/chardata/base.html:207
-msgid "Items up to update"
+#: chardata/templates/chardata/base.html:264
+msgid "Items up to %(game)s update %(version)s"
 msgstr ""
 
 #: chardata/templates/chardata/base.html:208
@@ -4869,7 +4869,7 @@ msgstr ""
 msgid "Translations & item updates"
 msgstr ""
 
-msgid "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)"
+msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
 msgstr ""
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
@@ -4896,7 +4896,7 @@ msgstr ""
 msgid "Sram class spells added to the simulator"
 msgstr ""
 
-msgid "Spell descriptions translated in all 6 languages"
+msgid "Spell descriptions translated in all 5 languages"
 msgstr ""
 
 msgid "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)"

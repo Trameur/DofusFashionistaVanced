@@ -52,11 +52,6 @@ ANKAMA_TYPE_TO_SITE_CATEGORY = {
            'pets': 'pet',
            'mount': 'mounts',
            'mounts': 'mounts',
-           'equipment': 'equipment'},
-    'it': {'pet': 'pet',
-           'pets': 'pet',
-           'mount': 'mounts',
-           'mounts': 'mounts',
            'equipment': 'equipment'}
 }
 

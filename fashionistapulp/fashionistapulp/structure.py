@@ -77,6 +77,7 @@ class Structure:
 
     def __init__(self, game_version='dofus3'):
         self.game_version = game_version
+        self._used_stat_keys = None
         self.conn = sqlite3.connect(get_items_db_path(game_version))
     
         self.read_sets_table()
@@ -855,6 +856,25 @@ class Structure:
 
     def get_stats_list(self):
         return self.stats_list
+
+    def get_used_stat_keys(self):
+        # Stat keys that actually appear on an item or set bonus in this
+        # version's data. Lets callers show only version-relevant stats
+        # (e.g. PVP resists exist in the retro data but not in Dofus 2/3).
+        if self._used_stat_keys is None:
+            used = set()
+            for item in itertools.chain(self.items_list, self.dt_items_list):
+                for stat_id, _value in item.stats:
+                    stat = self.get_stat_by_id(stat_id)
+                    if stat is not None:
+                        used.add(stat.key)
+            for item_set in itertools.chain(self.sets_list, self.dt_sets_list):
+                for _num_items, stat_id, _value in item_set.bonus:
+                    stat = self.get_stat_by_id(stat_id)
+                    if stat is not None:
+                        used.add(stat.key)
+            self._used_stat_keys = used
+        return self._used_stat_keys
         
     def get_types_list(self):
         return self.types_list

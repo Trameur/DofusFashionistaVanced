@@ -644,9 +644,9 @@ msgstr "Outfit-Vorschlag"
 msgid "Spells Damage"
 msgstr "Zauberschaden"
 
-#: chardata/templates/chardata/base.html:207
-msgid "Items up to update"
-msgstr "Artikel müssen aktualisiert werden"
+#: chardata/templates/chardata/base.html:264
+msgid "Items up to %(game)s update %(version)s"
+msgstr "Items bis zum %(game)s-Update %(version)s"
 
 #: chardata/templates/chardata/base.html:208
 #: chardata/templates/chardata/contacts.html:11
@@ -5201,8 +5201,8 @@ msgstr "Verbesserte gemeinsame Builds-Seite: schnelleres Laden und klarere Stat-
 msgid "Translations & item updates"
 msgstr "Übersetzungen und Gegenstands-Updates"
 
-msgid "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)"
-msgstr "100% Übersetzungsabdeckung für alle 6 unterstützten Sprachen (en, fr, de, es, it, pt)"
+msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgstr "100% Übersetzungsabdeckung für alle 5 unterstützten Sprachen (en, fr, de, es, pt)"
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
 msgstr "Sperren/Verbieten des Wilden Seemyools zu Gegenstandsbeschränkungen hinzugefügt"
@@ -5228,8 +5228,8 @@ msgstr "Zauberbilder gesammelt und pro Zauber im Simulator angezeigt"
 msgid "Sram class spells added to the simulator"
 msgstr "Sram-Klassenzauber zum Simulator hinzugefügt"
 
-msgid "Spell descriptions translated in all 6 languages"
-msgstr "Zauberbeschreibungen in allen 6 Sprachen übersetzt"
+msgid "Spell descriptions translated in all 5 languages"
+msgstr "Zauberbeschreibungen in allen 5 Sprachen übersetzt"
 
 msgid "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)"
 msgstr "Auf Dofus 3.4 Gegenstände aktualisiert (3.4.3.4 → 3.4.18.19)"
@@ -5352,3 +5352,36 @@ msgstr "Korrekte Begrenzung des prozentualen Widerstands"
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
 msgstr "Gegenstände bis Dofus 3.1 und 3.2 aktualisiert (3.1.2.1 → 3.2.7.9)"
+
+msgid "Neutral Resist in PVP"
+msgstr "Neutraler Widerstand im PvP"
+
+msgid "Water Resist in PVP"
+msgstr "Wasserbeständig im PvP"
+
+msgid "Air Resist in PVP"
+msgstr "Luftbeständig im PvP"
+
+msgid "Fire Resist in PVP"
+msgstr "Feuerbeständig im PvP"
+
+msgid "Earth Resist in PVP"
+msgstr "Erdwiderstand im PvP"
+
+msgid "% Neutral Resist in PVP"
+msgstr "% Neutralwiderstand im PvP"
+
+msgid "% Air Resist in PVP"
+msgstr "% Luftwiderstand im PvP"
+
+msgid "% Fire Resist in PVP"
+msgstr "% Feuerbeständigkeit im PvP"
+
+msgid "% Water Resist in PVP"
+msgstr "% Wasserbeständigkeit im PvP"
+
+msgid "% Earth Resist in PVP"
+msgstr "% Erdwiderstand im PvP"
+
+msgid "Critical Failure"
+msgstr "Kritischer Fehlschlag"

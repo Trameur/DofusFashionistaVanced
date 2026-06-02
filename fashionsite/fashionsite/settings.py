@@ -35,7 +35,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from fashionista_version import FASHIONISTA_VERSION, FASHIONISTA_BETA_VERSION
+from fashionista_version import (FASHIONISTA_VERSION, FASHIONISTA_BETA_VERSION,
+                                 FASHIONISTA_DOFUS2_VERSION, FASHIONISTA_RETRO_VERSION)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Define the paths for Linux and Windows
@@ -348,6 +349,13 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 SITE_VERSION = FASHIONISTA_VERSION
 SITE_VERSION_BETA = FASHIONISTA_BETA_VERSION
+# Item-data update shown in the footer, per browsable game version.
+SITE_VERSIONS = {
+    'dofus3': FASHIONISTA_VERSION,
+    'beta': FASHIONISTA_BETA_VERSION,
+    'dofus2': FASHIONISTA_DOFUS2_VERSION,
+    'retro': FASHIONISTA_RETRO_VERSION,
+}
 
 EXPERIMENTS = {
     'COMPARE_SETS': True,

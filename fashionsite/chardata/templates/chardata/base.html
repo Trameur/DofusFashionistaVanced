@@ -261,7 +261,7 @@
         
         {% include "chardata/loading.html" with char=char language=language %}
             <div align="center" class="footer">
-                {% trans "Items up to update" %} {{ SITE_VERSION }}
+                {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->
                 <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &ndash;
@@ -512,9 +512,6 @@
         });
         $("#flag-de").click(function() {
             chooseLanguage('de');
-        });
-        $("#flag-it").click(function() {
-            chooseLanguage('it');
         });
     }
     

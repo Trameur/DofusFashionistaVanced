@@ -639,9 +639,9 @@ msgstr "Equipamiento Sugerido"
 msgid "Spells Damage"
 msgstr "Daños de hechizos"
 
-#: chardata/templates/chardata/base.html:207
-msgid "Items up to update"
-msgstr "Objetos hasta la actualización"
+#: chardata/templates/chardata/base.html:264
+msgid "Items up to %(game)s update %(version)s"
+msgstr "Objetos hasta la actualización %(game)s %(version)s"
 
 #: chardata/templates/chardata/base.html:208
 #: chardata/templates/chardata/contacts.html:11
@@ -999,8 +999,6 @@ msgstr "% Resistencia Neutral"
 
 #: chardata/templates/chardata/compare_sets.html:194
 #: chardata/templates/chardata/stats.html:75
-#, fuzzy, python-format
-#| msgid "% Earth Resist"
 msgid "% Earth Resist"
 msgstr "% Resistencia Tierra"
 
@@ -2237,25 +2235,21 @@ msgstr "Base"
 
 #: chardata/templates/chardata/solution.html:150
 #, fuzzy, python-format
-#| msgid "%% Melee Damage"
 msgid "%% Melee Damage"
 msgstr "% Daños CaC"
 
 #: chardata/templates/chardata/solution.html:152
 #, fuzzy, python-format
-#| msgid "%% Ranged Damage"
 msgid "%% Ranged Damage"
 msgstr "% Daños Distancia"
 
 #: chardata/templates/chardata/solution.html:154
 #, fuzzy, python-format
-#| msgid "%% Weapon Damage"
 msgid "%% Weapon Damage"
 msgstr "% Daños de Armas"
 
 #: chardata/templates/chardata/solution.html:156
 #, fuzzy, python-format
-#| msgid "%% Spell Damage"
 msgid "%% Spell Damage"
 msgstr "% Daños de hechizos"
 
@@ -2266,43 +2260,36 @@ msgstr "Potencia (Trampas)"
 
 #: chardata/templates/chardata/solution.html:229
 #, fuzzy, python-format
-#| msgid "%% Neutral Resist"
 msgid "%% Neutral Resist"
 msgstr "% Resistencia Neutral"
 
 #: chardata/templates/chardata/solution.html:231
 #, fuzzy, python-format
-#| msgid "%% Earth Resist"
 msgid "%% Earth Resist"
 msgstr "% Resistencia Tierra"
 
 #: chardata/templates/chardata/solution.html:233
 #, fuzzy, python-format
-#| msgid "%% Fire Resist"
 msgid "%% Fire Resist"
 msgstr "% Resistencia Fuego"
 
 #: chardata/templates/chardata/solution.html:235
 #, fuzzy, python-format
-#| msgid "%% Water Resist"
 msgid "%% Water Resist"
 msgstr "% Resistencia Agua"
 
 #: chardata/templates/chardata/solution.html:237
 #, fuzzy, python-format
-#| msgid "%% Air Resist"
 msgid "%% Air Resist"
 msgstr "% Resistencia Aire"
 
 #: chardata/templates/chardata/solution.html:239
 #, fuzzy, python-format
-#| msgid "%% Melee Resist"
 msgid "%% Melee Resist"
 msgstr "% Resistencia CaC"
 
 #: chardata/templates/chardata/solution.html:241
 #, fuzzy, python-format
-#| msgid "%% Ranged Resist"
 msgid "%% Ranged Resist"
 msgstr "% Resistencia Distancia"
 
@@ -2512,10 +2499,8 @@ msgid "% Ranged Resist"
 msgstr "% Resistencia Distancia"
 
 #: chardata/templates/chardata/stats.html:82
-#, fuzzy
-#| msgid "% Water Resist"
 msgid "% Weapon Resist"
-msgstr "% Resistencia Agua"
+msgstr "% Resistencia a las Armas"
 
 #: chardata/templates/chardata/thankyou.html:12
 msgid "Your message has been sent."
@@ -4495,7 +4480,6 @@ msgstr "Despiece"
 
 #: chardata/translation_util.py:555
 #, fuzzy, python-format
-#| msgid "25% chance of"
 msgid "25% chance of"
 msgstr "25% de probabilidad de"
 
@@ -5235,8 +5219,8 @@ msgstr "Mejor página de builds compartidos: carga más rápida y visualización
 msgid "Translations & item updates"
 msgstr "Traducciones y actualizaciones de objetos"
 
-msgid "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)"
-msgstr "Cobertura de traducción al 100% para los 6 idiomas admitidos (en, fr, de, es, it, pt)"
+msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgstr "Cobertura de traducción al 100% para los 5 idiomas admitidos (en, fr, de, es, pt)"
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
 msgstr "Bloquear/Prohibir Seemyool Salvaje añadido a las restricciones de objetos"
@@ -5262,8 +5246,8 @@ msgstr "Imágenes de hechizos recopiladas y mostradas por hechizo en el simulado
 msgid "Sram class spells added to the simulator"
 msgstr "Hechizos de la clase Sram añadidos al simulador"
 
-msgid "Spell descriptions translated in all 6 languages"
-msgstr "Descripciones de hechizos traducidas en los 6 idiomas"
+msgid "Spell descriptions translated in all 5 languages"
+msgstr "Descripciones de hechizos traducidas en los 5 idiomas"
 
 msgid "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)"
 msgstr "Actualizado a objetos de Dofus 3.4 (3.4.3.4 → 3.4.18.19)"
@@ -5386,3 +5370,36 @@ msgstr "Corrección del límite de resistencia porcentual"
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
 msgstr "Base de datos de objetos actualizada hasta Dofus 3.1 y 3.2 (3.1.2.1 → 3.2.7.9)"
+
+msgid "Neutral Resist in PVP"
+msgstr "Resistencia Neutral en PvP"
+
+msgid "Water Resist in PVP"
+msgstr "Resistencia Agua en PvP"
+
+msgid "Air Resist in PVP"
+msgstr "Resistencia Aire en PvP"
+
+msgid "Fire Resist in PVP"
+msgstr "Resistencia Fuego en PvP"
+
+msgid "Earth Resist in PVP"
+msgstr "Resistencia Tierra en PvP"
+
+msgid "% Neutral Resist in PVP"
+msgstr "% Resistencia Neutral en PvP"
+
+msgid "% Air Resist in PVP"
+msgstr "% Resistencia Aire en PvP"
+
+msgid "% Fire Resist in PVP"
+msgstr "% Resistencia Fuego en PvP"
+
+msgid "% Water Resist in PVP"
+msgstr "% Resistencia Agua en PvP"
+
+msgid "% Earth Resist in PVP"
+msgstr "% Resistencia Tierra en PvP"
+
+msgid "Critical Failure"
+msgstr "Fallo Crítico"

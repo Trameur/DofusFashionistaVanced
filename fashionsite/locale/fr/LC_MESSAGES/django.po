@@ -149,15 +149,11 @@ msgstr "Dommages Air"
 
 #: fashionistapulp/fashionistapulp/structure.py:1068
 #: fashionsite/chardata/translation_util.py:54
-#, fuzzy
-#| msgid "Sum of all % Resists"
 msgid "Sum of all % Resists"
 msgstr "Somme de toutes les résistances (%)"
 
 #: fashionistapulp/fashionistapulp/structure.py:1079
 #: fashionsite/chardata/translation_util.py:53
-#, fuzzy
-#| msgid "Sum of all % Resists except neutral"
 msgid "Sum of all % Resists except neutral"
 msgstr "Somme de toutes les résistances (%), sauf neutre"
 
@@ -765,9 +761,9 @@ msgstr "Suggestion d'équipement"
 msgid "Spells Damage"
 msgstr "Dégâts des sorts"
 
-#: fashionsite/chardata/templates/chardata/base.html:207
-msgid "Items up to update"
-msgstr "Items jusqu'à la mise à jour"
+#: fashionsite/chardata/templates/chardata/base.html:264
+msgid "Items up to %(game)s update %(version)s"
+msgstr "Items jusqu'à la mise à jour %(game)s %(version)s"
 
 #: fashionsite/chardata/templates/chardata/base.html:208
 #: fashionsite/chardata/templates/chardata/contacts.html:11
@@ -4900,7 +4896,6 @@ msgstr "Force"
 
 #: fashionsite/chardata/translation_util.py:622
 #, fuzzy, python-format
-#| msgid "25% chance of"
 msgid "25% chance of"
 msgstr "25% de chance de:"
 
@@ -5044,14 +5039,10 @@ msgid "Allies (next turn)"
 msgstr "Alliés (prochain tour)"
 
 #: fashionsite/chardata/translation_util.py:651
-#, fuzzy
-#| msgid "If the target has more than 50% HP"
 msgid "If the target has more than 50% HP"
 msgstr "Si la cible a plus de 50% de PV"
 
 #: fashionsite/chardata/translation_util.py:652
-#, fuzzy
-#| msgid "If the target has less than 50% HP"
 msgid "If the target has less than 50% HP"
 msgstr "Si la cible a moins de 50% de PV"
 
@@ -5821,8 +5812,8 @@ msgstr "Meilleure page de builds partagés : chargement plus rapide et affichag
 msgid "Translations & item updates"
 msgstr "Traductions et mises à jour des objets"
 
-msgid "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)"
-msgstr "Couverture de traduction à 100 % pour les 6 langues prises en charge (en, fr, de, es, it, pt)"
+msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgstr "Couverture de traduction à 100 % pour les 5 langues prises en charge (en, fr, de, es, pt)"
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
 msgstr "Verrouillage/Interdiction du Sauvemule Farouche ajouté aux restrictions d'objets"
@@ -5848,8 +5839,8 @@ msgstr "Images de sorts récupérées et affichées par sort dans le simulateur"
 msgid "Sram class spells added to the simulator"
 msgstr "Sorts de la classe Sram ajoutés au simulateur"
 
-msgid "Spell descriptions translated in all 6 languages"
-msgstr "Descriptions de sorts traduites dans les 6 langues"
+msgid "Spell descriptions translated in all 5 languages"
+msgstr "Descriptions de sorts traduites dans les 5 langues"
 
 msgid "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)"
 msgstr "Mise à jour vers les objets Dofus 3.4 (3.4.3.4 → 3.4.18.19)"
@@ -5972,3 +5963,39 @@ msgstr "Correction du plafonnement des résistances en pourcentage"
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
 msgstr "Base de données des objets mise à jour jusqu'à Dofus 3.1 et 3.2 (3.1.2.1 → 3.2.7.9)"
+
+msgid "Neutral Resist in PVP"
+msgstr "Résistance Neutre en PvP"
+
+msgid "Water Resist in PVP"
+msgstr "Résistance Eau en PvP"
+
+msgid "Air Resist in PVP"
+msgstr "Résistance Air en PvP"
+
+msgid "Fire Resist in PVP"
+msgstr "Résistance Feu en PvP"
+
+msgid "Earth Resist in PVP"
+msgstr "Résistance Terre en PvP"
+
+msgid "% Neutral Resist in PVP"
+msgstr "% Résistance Neutre en PvP"
+
+msgid "% Air Resist in PVP"
+msgstr "% Résistance Air en PvP"
+
+msgid "% Fire Resist in PVP"
+msgstr "% Résistance Feu en PvP"
+
+msgid "% Water Resist in PVP"
+msgstr "% Résistance Eau en PvP"
+
+msgid "% Earth Resist in PVP"
+msgstr "% Résistance Terre en PvP"
+
+msgid "Critical Failure"
+msgstr "Échec Critique"
+
+msgid "% Weapon Resist"
+msgstr "% Résistance aux Armes"

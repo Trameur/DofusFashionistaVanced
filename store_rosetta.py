@@ -107,6 +107,8 @@ def read_id_to_terms(filename, table):
             term = entry['localized_name']
             pieces = url.split('/')
             lang = pieces[3]
+            if lang not in id_to_terms_in_lang:
+                continue  # skip unsupported languages (e.g. Italian, removed by Ankama)
             ankama_id = int(pieces[7].split('-')[0])
             item_type = pieces[6]
             if table != 'sets':
@@ -139,12 +141,8 @@ def get_ankama_type(lang, item_type):
                  'de':
                  {'vertraute': 'pet',
                   'reittiere': 'mount',
-                  'ausruestung': 'equipment'},
-                 'it':
-                 {'famigli': 'pet',
-                  'cavalcature': 'mount',
-                  'equipaggiamenti': 'equipment'}}
-    
+                  'ausruestung': 'equipment'}}
+
     return CONVERTER[lang][item_type]
                     
 def convert_to_dicts(id_to_terms):

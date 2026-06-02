@@ -128,10 +128,15 @@ def _get_class_avatar(char):
 
 def _get_stat_filter_options():
     structure = get_structure()
+    used_stat_keys = structure.get_used_stat_keys()
     stats = sorted(structure.get_stats_list(), key=lambda stat: STAT_ORDER.get(stat.key, 9999))
     result = []
     for stat in stats:
-        if stat.key == 'hp' or stat.key.startswith('pvp'):
+        if stat.key == 'hp':
+            continue
+        # PVP resists only exist in some versions (e.g. retro); show them
+        # only where the current version's items actually use them.
+        if stat.key.startswith('pvp') and stat.key not in used_stat_keys:
             continue
         icon_path = get_stat_icon_path(stat.key)
         result.append({
