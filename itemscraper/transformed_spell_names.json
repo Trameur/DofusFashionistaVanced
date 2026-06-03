@@ -1203,6 +1203,13 @@
     "fr": "Abolissement",
     "pt": "Abolição"
   },
+  "Abolition Arrow": {
+    "de": "Pfeil der Abschaffung",
+    "en": "Abolition Arrow",
+    "es": "Flecha de Abolición",
+    "fr": "Flèche d'Abolition",
+    "pt": "Flecha de Abolição"
+  },
   "Abombinable": {
     "de": "Ekelbombe",
     "en": "Abombinable",
@@ -1812,13 +1819,6 @@
     "fr": "Bribes d'aventurier",
     "pt": "Fragmentos de Aventureiro"
   },
-  "Adventurous Dream": {
-    "de": "Sehnsucht nach Abenteuer",
-    "en": "Adventurous Dream",
-    "es": "Sueño de Aventura",
-    "fr": "Rêve d'Aventure",
-    "pt": "Sonho de Aventura"
-  },
   "Aegibz": {
     "de": "Aegibz",
     "en": "Aegibz",
@@ -1937,6 +1937,13 @@
     "es": "Eoquim",
     "fr": "Eochim",
     "pt": "Eoquim"
+  },
+  "Aeroflower": {
+    "de": "Luftblüte",
+    "en": "Aeroflower",
+    "es": "Aeroflora",
+    "fr": "Aéroflore",
+    "pt": "Aeroflor"
   },
   "Aerogami": {
     "de": "Aerogami",
@@ -2939,13 +2946,6 @@
     "fr": "Tir Embusqué",
     "pt": "Tiro Emboscado"
   },
-  "Amnesia": {
-    "de": "Gedächtnisschwund",
-    "en": "Amnesia",
-    "es": "Amnesia",
-    "fr": "Amnésie",
-    "pt": "Amnésia"
-  },
   "Amphibiff": {
     "de": "Amphibienschlag",
     "en": "Amphibiff",
@@ -3075,8 +3075,8 @@
   "Ancestral Palm": {
     "de": "Handfläche der Ahnen",
     "en": "Ancestral Palm",
-    "es": "Palma ancestral",
-    "fr": "Paume ancestrale",
+    "es": "Palma Ancestral",
+    "fr": "Paume Ancestrale",
     "pt": "Palma Ancestral"
   },
   "Ancestral Quake": {
@@ -3323,6 +3323,13 @@
     "es": "¡Y una Botella de Ron!",
     "fr": "Et une bouteille de Rhum !",
     "pt": "Mais Uma Garrafa de Rum!"
+  },
+  "Andepilate": {
+    "de": "Enthaahden",
+    "en": "Andepilate",
+    "es": "Daldrepilación",
+    "fr": "Ebilation",
+    "pt": "Phoralação"
   },
   "Andespite": {
     "de": "Andre Sieht",
@@ -3659,6 +3666,13 @@
     "es": "Salto Apetitoso",
     "fr": "Bond Appétissant",
     "pt": "Salto Apetitoso"
+  },
+  "Applying Roles and Spells": {
+    "de": "Anwendung von Rollen und Zaubern",
+    "en": "Applying Roles and Spells",
+    "es": "Aplicación de roles y hechizos",
+    "fr": "Application des rôles et des sorts",
+    "pt": "Aplicação das funções e dos feitiços"
   },
   "Apprentice Fire": {
     "de": "Feuer der Novizin",
@@ -4430,6 +4444,13 @@
     "fr": "Blindage",
     "pt": "Blindagem"
   },
+  "Armouroot": {
+    "de": "Wurzelharnisch",
+    "en": "Armouroot",
+    "es": "Corarraíz",
+    "fr": "Cuiracine",
+    "pt": "Raizmadura"
+  },
   "Arms of Morpheus": {
     "de": "Morpheus' Arme",
     "en": "Arms of Morpheus",
@@ -4682,13 +4703,6 @@
     "fr": "Astéroïde",
     "pt": "Asteroide"
   },
-  "Asthenopia": {
-    "de": "Asthenopie",
-    "en": "Asthenopia",
-    "es": "Astenopía",
-    "fr": "Asthénopie",
-    "pt": "Astenopia"
-  },
   "Astral Assault": {
     "de": "Astraler Sturmangriff",
     "en": "Astral Assault",
@@ -4931,7 +4945,7 @@
     "de": "Stellungskrieg",
     "en": "Attrition Warfare",
     "es": "Guerra de Desgaste",
-    "fr": "Guerre de positions",
+    "fr": "Guerre de Positions",
     "pt": "Guerra de Posição"
   },
   "Audacious": {
@@ -5998,6 +6012,13 @@
     "fr": "Écorçage",
     "pt": "Cascoriação"
   },
+  "Barkicide": {
+    "de": "Mordsrinde",
+    "en": "Barkicide",
+    "es": "Cortezacidio",
+    "fr": "Écorcide",
+    "pt": "Cascacídio"
+  },
   "Barn Shovel": {
     "de": "Energisches Schaufelrad",
     "en": "Barn Shovel",
@@ -6018,6 +6039,13 @@
     "es": "Timón Asterio",
     "fr": "Barre Hikade",
     "pt": "Barra Hikada"
+  },
+  "Barricade Arrow": {
+    "de": "Sperrpfeil",
+    "en": "Barricade Arrow",
+    "es": "Flecha de Pelea",
+    "fr": "Flèche de Barrage",
+    "pt": "Flecha de Barricada"
   },
   "Barricade Shot": {
     "de": "Sperrfeuer",
@@ -6529,6 +6557,13 @@
     "es": "Cascabel",
     "fr": "Sonnette",
     "pt": "Sino"
+  },
+  "Belladonna": {
+    "de": "Belladonna",
+    "en": "Belladonna",
+    "es": "Belladona",
+    "fr": "Belladone",
+    "pt": "Beladona"
   },
   "Belladonna Aberration": {
     "de": "Belladonnas Wahnwitz",
@@ -7306,13 +7341,6 @@
     "es": "Golpe Negro",
     "fr": "Frappe Noire",
     "pt": "Golpe Negro"
-  },
-  "Black Hole": {
-    "de": "Schwarzes Loch",
-    "en": "Black Hole",
-    "es": "Agujero Negro",
-    "fr": "Trou Noir",
-    "pt": "Buraco Negro"
   },
   "Black Humour": {
     "de": "Schwarzer Humor",
@@ -8931,13 +8959,6 @@
     "fr": "Poussée bontarienne",
     "pt": "Empurrão Bontariano"
   },
-  "Bontarian Shield": {
-    "de": "Bonta-Schild",
-    "en": "Bontarian Shield",
-    "es": "Escudo Bontariano",
-    "fr": "Bouclier Bontarien",
-    "pt": "Escudo Bontariano"
-  },
   "Bontarian Skewering": {
     "de": "Bonta-Aufspießen",
     "en": "Bontarian Skewering",
@@ -9098,6 +9119,13 @@
     "es": "Tymempuje",
     "fr": "Roublaboute",
     "pt": "Ladinobote"
+  },
+  "Boomerang Arrow": {
+    "de": "Boomerangpfeil",
+    "en": "Boomerang Arrow",
+    "es": "Flecha Búmeran",
+    "fr": "Flèche Boomerang",
+    "pt": "Flecha Bumerangue"
   },
   "Boomerang Billhook": {
     "de": "Bumerang-Hippe",
@@ -9539,6 +9567,13 @@
     "es": "Zarza de Insolencia",
     "fr": "Ronce d'Insolence",
     "pt": "Sarça de Insolência"
+  },
+  "Bramblemon": {
+    "de": "Zitronenranke",
+    "en": "Bramblemon",
+    "es": "Zarzalimón",
+    "fr": "Roncitron",
+    "pt": "Sarcítrica"
   },
   "Brambles": {
     "de": "Rankumschlank",
@@ -10135,6 +10170,13 @@
     "fr": "Pétrin",
     "pt": "Buddy"
   },
+  "Budolith": {
+    "de": "Knospolith",
+    "en": "Budolith",
+    "es": "Botonlito",
+    "fr": "Boutonithe",
+    "pt": "Botanito"
+  },
   "Buffalo Jump": {
     "de": "Bisonsprung",
     "en": "Buffalo Jump",
@@ -10183,6 +10225,13 @@
     "es": "Bulak-Nattahnam (Activado)",
     "fr": "Bulak-Nattahnam (déclenché)",
     "pt": "Bulak-Nattahnam (acionado)"
+  },
+  "Bulbalm": {
+    "de": "Knospenbalsam",
+    "en": "Bulbalm",
+    "es": "Bulbálsamo",
+    "fr": "Bulbaume",
+    "pt": "Bulbunguento"
   },
   "Bulbation": {
     "de": "Bulbatur",
@@ -11170,13 +11219,6 @@
     "es": "Llamada del Hambre",
     "fr": "Appel de la faim",
     "pt": "Chamado da Fome"
-  },
-  "Call of the Bomberfu": {
-    "de": "Ruf des Bomberfus",
-    "en": "Call of the Bomberfu",
-    "es": "Llamada del Bomberloko",
-    "fr": "Appel du Bomberfu",
-    "pt": "Chamado do Bomberfu"
   },
   "Call of the Boowolf": {
     "de": "Ruf des WuWulfs",
@@ -13327,6 +13369,13 @@
     "fr": "Gueuleton",
     "pt": "Banquete"
   },
+  "Chromage": {
+    "de": "Chromagier",
+    "en": "Chromage",
+    "es": "Cromago",
+    "fr": "Chromage",
+    "pt": "Cromago"
+  },
   "Chronic Delay": {
     "de": "Chronische Verspätung",
     "en": "Chronic Delay",
@@ -14425,13 +14474,6 @@
     "es": "Estornudo Colateral",
     "fr": "Éternuement Collatéral",
     "pt": "Espirro Colateral"
-  },
-  "Collective Hallucination": {
-    "de": "Kollektive Halluzination",
-    "en": "Collective Hallucination",
-    "es": "Alucinación Colectiva",
-    "fr": "Hallucination Collective",
-    "pt": "Alucinação Coletiva"
   },
   "Collective Immunity": {
     "de": "Kollektive Immunität",
@@ -15553,6 +15595,13 @@
     "fr": "Attrape coton-tige",
     "pt": "Apanha Cotonete"
   },
+  "Cottonguard": {
+    "de": "Wattewächter",
+    "en": "Cottonguard",
+    "es": "Guardalgodón",
+    "fr": "Cotogarde",
+    "pt": "Algodoguarda"
+  },
   "CouRRRrrrage": {
     "de": "CouRRRrrrage",
     "en": "CouRRRrrrage",
@@ -16659,6 +16708,13 @@
     "fr": "Acclamations de la foule",
     "pt": "Aclamações do Público"
   },
+  "Crownyx": {
+    "de": "Kronyx",
+    "en": "Crownyx",
+    "es": "Corónice",
+    "fr": "Couronnyx",
+    "pt": "Corônix"
+  },
   "Cruciknife": {
     "de": "Kreuzmesser",
     "en": "Cruciknife",
@@ -16819,13 +16875,6 @@
     "es": "Turba Aplastante",
     "fr": "Tourbe écrasante",
     "pt": "Turfa Esmagadora"
-  },
-  "Crushing Sleep": {
-    "de": "Erdrückender Schlaf",
-    "en": "Crushing Sleep",
-    "es": "Sueño Irresistible",
-    "fr": "Sommeil Écrasant",
-    "pt": "Sonho Esmagador"
   },
   "Crust": {
     "de": "Kruste",
@@ -17142,6 +17191,13 @@
     "fr": "Malédiction du Tombeau",
     "pt": "Maldição da Tumba"
   },
+  "Cursed Aura": {
+    "de": "Verfluchte Aura",
+    "en": "Cursed Aura",
+    "es": "Aura Maldita",
+    "fr": "Aura Maudite",
+    "pt": "Aura Amaldiçoada"
+  },
   "Cursed Formula": {
     "de": "Verfluchte Formel",
     "en": "Cursed Formula",
@@ -17190,6 +17246,13 @@
     "es": "Silueta Maldita",
     "fr": "Silhouette Maudite",
     "pt": "Silhueta Maldita"
+  },
+  "Cursed Statue": {
+    "de": "Verfluchte Statue",
+    "en": "Cursed Statue",
+    "es": "Estatua Maldita",
+    "fr": "Statue Maudite",
+    "pt": "Estátua Amaldiçoada"
   },
   "Cursification": {
     "de": "Verfluchte Wandlung",
@@ -17512,6 +17575,13 @@
     "es": "Llamada de Papá",
     "fr": "Appel de Papa",
     "pt": "Chamado do Papa"
+  },
+  "Daffoduel": {
+    "de": "Narzissenkeilerei",
+    "en": "Daffoduel",
+    "es": "Juncombate",
+    "fr": "Bastonille",
+    "pt": "Bastonilla"
   },
   "Daffy Deal": {
     "de": "Stacheliger Sturzflug",
@@ -18457,6 +18527,13 @@
     "es": "Glifo de Venti",
     "fr": "Glyphe Daivain",
     "pt": "Glifo Deetwen Tea"
+  },
+  "Defender": {
+    "de": "Verteidiger",
+    "en": "Defender",
+    "es": "Defensor",
+    "fr": "Défenseur",
+    "pt": "Defensor"
   },
   "Defense Penetrator": {
     "de": "Defensivdurchbruch",
@@ -19409,6 +19486,13 @@
     "es": "Boomerang de Diamantina",
     "fr": "Boomerang de Diamantine",
     "pt": "Bumerangue de Diamantina"
+  },
+  "Diamondine Song": {
+    "de": "Diamantienchens Gesang",
+    "en": "Diamondine Song",
+    "es": "Canto de Diamantina",
+    "fr": "Chant de Diamantine",
+    "pt": "Canto de Diamantina"
   },
   "Diamontage": {
     "de": "Karomulus",
@@ -20494,6 +20578,13 @@
     "es": "Miopía muñequil",
     "fr": "Myopie Poupesque",
     "pt": "Miopia Bonecal"
+  },
+  "Dollish Song": {
+    "de": "Puppenhafter Gesang",
+    "en": "Dollish Song",
+    "es": "Canto Muñequero",
+    "fr": "Chant Poupesque",
+    "pt": "Canto Bonecal"
   },
   "Dollish Training": {
     "de": "Puppenhaftes Training",
@@ -22721,6 +22812,13 @@
     "fr": "Dindosoin",
     "pt": "Pecura"
   },
+  "Dragoturkey Multiplying Taming": {
+    "de": "Dracotruter zähmen und vermehren",
+    "en": "Dragoturkey Multiplying Taming",
+    "es": "Domesticación Multiplicadora de Dragopavo",
+    "fr": "Apprivoisement multiplicateur de Dragodinde",
+    "pt": "Domesticação Multiplicadora de Dragoperu"
+  },
   "Dragoturkey Protection": {
     "de": "Dracotruter-Schutz",
     "en": "Dragoturkey Protection",
@@ -22742,6 +22840,13 @@
     "fr": "Frappodindo",
     "pt": "Pegolpe"
   },
+  "Dragoturkey Taming": {
+    "de": "Dracotruter zähmen",
+    "en": "Dragoturkey Taming",
+    "es": "Domesticación de Dragopavos",
+    "fr": "Apprivoisement de Dragodindes",
+    "pt": "Domesticação de Dragoperus"
+  },
   "Dragowrath": {
     "de": "Dracozorn",
     "en": "Dragowrath",
@@ -22762,6 +22867,13 @@
     "es": "Drenarrata",
     "fr": "Drainerat",
     "pt": "Drena-rato"
+  },
+  "Drainfection": {
+    "de": "Infektionsabfluss",
+    "en": "Drainfection",
+    "es": "Drenaje Infecto",
+    "fr": "Drainfecte",
+    "pt": "Ralasqueroso"
   },
   "Draining Surprise": {
     "de": "Entwässerte Überraschung",
@@ -22860,13 +22972,6 @@
     "es": "Debilidad Onírica",
     "fr": "Faiblesse onirique",
     "pt": "Fraqueza Onírica"
-  },
-  "Dreamy Fog": {
-    "de": "Träumerischer Nebel",
-    "en": "Dreamy Fog",
-    "es": "Bruma Onírica",
-    "fr": "Brume Onirique",
-    "pt": "Bruma Onírica"
   },
   "Dreamy Warmup": {
     "de": "Hitzlügige Meinheit",
@@ -24583,6 +24688,13 @@
     "fr": "Étincelle Emeraude",
     "pt": "Centelha Esmeralda"
   },
+  "Emeralda Song": {
+    "de": "Smaragdgesang",
+    "en": "Emeralda Song",
+    "es": "Canto de Esmeralda",
+    "fr": "Chant d'Émeraude",
+    "pt": "Canto de Esmeralda"
+  },
   "Emergency Care": {
     "de": "Erste Hilfe",
     "en": "Emergency Care",
@@ -25409,6 +25521,13 @@
     "fr": "Évasion",
     "pt": "Evasão"
   },
+  "Evasive Arrow": {
+    "de": "Ausweichpfeil",
+    "en": "Evasive Arrow",
+    "es": "Flecha Evasiva",
+    "fr": "Flèche Évasive",
+    "pt": "Flecha Evasiva"
+  },
   "Even Glyph": {
     "de": "Gerade Glyphe",
     "en": "Even Glyph",
@@ -25492,6 +25611,13 @@
     "es": "Mal de Ojo",
     "fr": "Mauvais oeil",
     "pt": "Mau-olhado"
+  },
+  "Evil Flower": {
+    "de": "Schattenblume",
+    "en": "Evil Flower",
+    "es": "Flor Maléfica",
+    "fr": "Fleur maudite",
+    "pt": "Flor Maligna"
   },
   "Evil Leap": {
     "de": "Schattensprung",
@@ -26304,6 +26430,13 @@
     "es": "Sacrificio Familiar",
     "fr": "Sacrifice familial",
     "pt": "Sacrifício Familiar"
+  },
+  "Family Ties": {
+    "de": "Familienbande",
+    "en": "Family Ties",
+    "es": "Vínculo Familiar",
+    "fr": "Lien Familial",
+    "pt": "Elo Familiar"
   },
   "Famished Brambles": {
     "de": "Ausgehungerte Ranken",
@@ -28034,6 +28167,13 @@
     "fr": "Gromation",
     "pt": "Gordalogeno"
   },
+  "Floracle": {
+    "de": "Florakel",
+    "en": "Floracle",
+    "es": "Floráculo",
+    "fr": "Floracle",
+    "pt": "Floráculo"
+  },
   "Floral Blossom": {
     "de": "Florales Ausschlüpfen",
     "en": "Floral Blossom",
@@ -28048,12 +28188,54 @@
     "fr": "Flagellation Florale",
     "pt": "Flagelação Floral"
   },
+  "Floral Force": {
+    "de": "Blumenkraft",
+    "en": "Floral Force",
+    "es": "Florifuerza",
+    "fr": "Floriforce",
+    "pt": "Floriforça"
+  },
+  "Floral Glyph": {
+    "de": "Blumenglyphe",
+    "en": "Floral Glyph",
+    "es": "Glifo Floral",
+    "fr": "Glyphe Floral",
+    "pt": "Glifo Floral"
+  },
+  "Floral Incantation": {
+    "de": "Blütenreiche Beschwörung",
+    "en": "Floral Incantation",
+    "es": "Encantamiento Floral",
+    "fr": "Incantation Florale",
+    "pt": "Encantamento Floral"
+  },
   "Floral Shove": {
     "de": "Floraler Schubser",
     "en": "Floral Shove",
     "es": "Empuje Floral",
     "fr": "Poussée florale",
     "pt": "Empurrão Floral"
+  },
+  "Floral Storm": {
+    "de": "Blumensturm",
+    "en": "Floral Storm",
+    "es": "Tormenta Floral",
+    "fr": "Tempête Florale",
+    "pt": "Tempestade Floral"
+  },
+  "Florigin": {
+    "de": "Blumenhafter Ursprung",
+    "en": "Florigin",
+    "es": "Florigen",
+    "fr": "Florigine",
+    "pt": "Florigem"
+  },
+  "Flowerbolt": {
+    "de": "Florischock",
+    "en": "Flowerbolt",
+    "es": "Florichoque",
+    "fr": "Florichoc",
+    "pt": "Florichoque"
   },
   "Flowering": {
     "de": "Blüte",
@@ -28199,7 +28381,7 @@
     "de": "Technomagie des Steamers",
     "en": "Foggernaut's Technomagic",
     "es": "Tecnomagia de Steamer",
-    "fr": "Technomagie du Steamer",
+    "fr": "Technomagie Steamer",
     "pt": "Tecnomagia do Steamer"
   },
   "Foggernauts' Steam": {
@@ -28740,6 +28922,13 @@
     "es": "Garractura",
     "fr": "Griffracture",
     "pt": "Garras de Fratura"
+  },
+  "Fractured Sword": {
+    "de": "Zerbrochenes Schwert",
+    "en": "Fractured Sword",
+    "es": "Espada Fracturada",
+    "fr": "Épée fracturée",
+    "pt": "Espada Fraturada"
   },
   "Fracturgescence": {
     "de": "Frakturgor",
@@ -30246,6 +30435,13 @@
     "fr": "Geopoke",
     "pt": "Geopoke"
   },
+  "Geopulse": {
+    "de": "Geopulsion",
+    "en": "Geopulse",
+    "es": "Geopulsión",
+    "fr": "Géopulsion",
+    "pt": "Geopulsão"
+  },
   "Geothing": {
     "de": "Erddings",
     "en": "Geothing",
@@ -30336,6 +30532,13 @@
     "es": "Fase Germinal",
     "fr": "Phase Germinal",
     "pt": "Fase Germinal"
+  },
+  "Germination": {
+    "de": "Keimung",
+    "en": "Germination",
+    "es": "Germinación",
+    "fr": "Germination",
+    "pt": "Germinação"
   },
   "Germinator": {
     "de": "Keiminator",
@@ -30679,6 +30882,20 @@
     "es": "Un Regalo No Se Rechaza",
     "fr": "Un cadeau ça ne se refuse pas",
     "pt": "Presente Irrecusável"
+  },
+  "Gigagroan": {
+    "de": "Gigaröchler",
+    "en": "Gigagroan",
+    "es": "Gigaestertor",
+    "fr": "Gigarâle",
+    "pt": "Megalogrunhido"
+  },
+  "Gigalodoom": {
+    "de": "Gigalodoom",
+    "en": "Gigalodoom",
+    "es": "Gigalodoom",
+    "fr": "Gigalodoom",
+    "pt": "Megalodoom"
   },
   "Gigantiosity": {
     "de": "Riesenwuchs",
@@ -32261,6 +32478,13 @@
     "es": "Gamiyí",
     "fr": "Garde né",
     "pt": "Gam Gi"
+  },
+  "Guardian": {
+    "de": "Wächter",
+    "en": "Guardian",
+    "es": "Guardián",
+    "fr": "Gardien",
+    "pt": "Guardião"
   },
   "Guardian of Flovor": {
     "de": "Beschützer Flovors",
@@ -34432,6 +34656,13 @@
     "fr": "Crochet",
     "pt": "Gancho"
   },
+  "Hook Vine and Sinker": {
+    "de": "Lianenlektion",
+    "en": "Hook Vine and Sinker",
+    "es": "Lianección",
+    "fr": "Lianeçon",
+    "pt": "Cipoção"
+  },
   "Hooking": {
     "de": "Phishing",
     "en": "Hooking",
@@ -34928,6 +35159,13 @@
     "es": "Hidrofobia",
     "fr": "Hydrophobie",
     "pt": "Hidrofobia"
+  },
+  "Hydrose": {
+    "de": "Hydrose",
+    "en": "Hydrose",
+    "es": "Hidrorrosa",
+    "fr": "Hydrose",
+    "pt": "Hidrosa"
   },
   "Hydrothermal Eruption": {
     "de": "Hydrothermaler Anstieg",
@@ -35706,6 +35944,13 @@
     "fr": "Mort en Sursis",
     "pt": "Morte Iminente"
   },
+  "Imperial Exile": {
+    "de": "Kaiserliches Exil",
+    "en": "Imperial Exile",
+    "es": "Exilio Imperial",
+    "fr": "Exil Impérial",
+    "pt": "Exílio Imperial"
+  },
   "Impersonation": {
     "de": "Scheinheiligkeit",
     "en": "Impersonation",
@@ -35774,7 +36019,7 @@
     "en": "Imprint",
     "es": "Impronta",
     "fr": "Empreinte",
-    "pt": "Impressão"
+    "pt": "Pegada"
   },
   "Imprisonment Ritual": {
     "de": "Ritual der Einkerkerung",
@@ -36377,6 +36622,13 @@
     "es": "Vals Infernal",
     "fr": "Valse infernale",
     "pt": "Valsa Infernal"
+  },
+  "Infernalily": {
+    "de": "Feuerlilie",
+    "en": "Infernalily",
+    "es": "Hoguelirio",
+    "fr": "Brasilia",
+    "pt": "Brasilírio"
   },
   "Infernidiot": {
     "de": "Blödbrand",
@@ -37098,6 +37350,13 @@
     "es": "Desbordamiento Reconstituyente",
     "fr": "Débordement Revigorant",
     "pt": "Transbordamento Revigorante"
+  },
+  "Invigorating Petal": {
+    "de": "Belebendes Blütenblatt",
+    "en": "Invigorating Petal",
+    "es": "Pétalo Reconstituyente",
+    "fr": "Pétale Revigorante",
+    "pt": "Pétala Revigorante"
   },
   "Invigorating Punishment": {
     "de": "Lebensspendende Strafe",
@@ -38225,6 +38484,13 @@
     "es": "Kaiyo",
     "fr": "Kaiyo",
     "pt": "Kaiyo"
+  },
+  "Kaleidoscapula": {
+    "de": "Kaleidosknochen",
+    "en": "Kaleidoscapula",
+    "es": "Caleidohueso",
+    "fr": "Kaléidos",
+    "pt": "Caleidoscosso"
   },
   "Kalik": {
     "de": "Kalik",
@@ -39401,6 +39667,13 @@
     "es": "Salto Caballeresco",
     "fr": "Bond Chevaleresque",
     "pt": "Salto Cavalheiresco"
+  },
+  "Knotdacity": {
+    "de": "Gewagter Knoten",
+    "en": "Knotdacity",
+    "es": "Nudosadía",
+    "fr": "Nœudasse",
+    "pt": "Nodousadia"
   },
   "Knotdere": {
     "de": "Da nimmermehr",
@@ -42216,6 +42489,13 @@
     "fr": "Amour de la nature",
     "pt": "Amor da Natureza"
   },
+  "Loving Arrows": {
+    "de": "Liebespfeile",
+    "en": "Loving Arrows",
+    "es": "Flechas Amorosas",
+    "fr": "Flèches Amoureuses",
+    "pt": "Flechas Apaixonadas"
+  },
   "Low Blows": {
     "de": "Tiefschlag",
     "en": "Low Blows",
@@ -43035,6 +43315,13 @@
     "fr": "Rêveries malveillantes",
     "pt": "Sonhos Malignos"
   },
+  "Malicious Fissure": {
+    "de": "Unheilriss",
+    "en": "Malicious Fissure",
+    "es": "Malefisura",
+    "fr": "Maléfissure",
+    "pt": "Malefissura"
+  },
   "Malicious Peat": {
     "de": "Torfmoorfluch",
     "en": "Malicious Peat",
@@ -43685,6 +43972,13 @@
     "es": "Mazasesino",
     "fr": "Massassine",
     "pt": "Maçassina"
+  },
+  "Massiflower": {
+    "de": "Blumenbeet",
+    "en": "Massiflower",
+    "es": "Masiflora",
+    "fr": "Massiflore",
+    "pt": "Massiflor"
   },
   "Massurance": {
     "de": "Keul-Sicherung",
@@ -44575,13 +44869,6 @@
     "fr": "Ami Célium",
     "pt": "Hélio de Rato"
   },
-  "Micro-Nap": {
-    "de": "Mikro-Siesta",
-    "en": "Micro-Nap",
-    "es": "Microsiesta",
-    "fr": "Micro-sieste",
-    "pt": "Microssoneca"
-  },
   "Microcellular Diffusion": {
     "de": "Mikrozelluläre Streuung",
     "en": "Microcellular Diffusion",
@@ -45300,7 +45587,7 @@
     "de": "Molekulare Anregung",
     "en": "Molecular Excitation",
     "es": "Agitación Molecular",
-    "fr": "Agitation Moléculaire",
+    "fr": "Agitation moléculaire",
     "pt": "Agitação Molecular"
   },
   "Molecular Instability": {
@@ -45505,13 +45792,6 @@
     "es": "Inspiración Moonesca",
     "fr": "Inspiration Moonesque",
     "pt": "Inspiração Moonesca"
-  },
-  "Moonless Night": {
-    "de": "Mondlose Nacht",
-    "en": "Moonless Night",
-    "es": "Noche sin Luna",
-    "fr": "Nuit sans lune",
-    "pt": "Noite sem Lua"
   },
   "Moopet Choh": {
     "de": "Muhpett Choh",
@@ -46310,6 +46590,27 @@
     "es": "Destripamiento Múltiple",
     "fr": "Éventration multiple",
     "pt": "Evisceração Múltipla"
+  },
+  "Multiple Dragoturkey Multiplying Taming": {
+    "de": "Dracotruter zähmen und vermehren",
+    "en": "Multiple Dragoturkey Multiplying Taming",
+    "es": "Domesticación Multiplicadora de Dragopavos",
+    "fr": "Apprivoisement multiplicateur de Dragodindes",
+    "pt": "Domesticação Multiplicadora de Dragoperus"
+  },
+  "Multiple Rhineetle Multiplying Taming": {
+    "de": "Naskäfer zähmen und vermehren",
+    "en": "Multiple Rhineetle Multiplying Taming",
+    "es": "Domesticación Multiplicadora de Vuelocerontes",
+    "fr": "Apprivoisement multiplicateur de Volkornes",
+    "pt": "Domesticação Multiplicadora de Vulkórnios"
+  },
+  "Multiple Seemyool Multiplying Taming": {
+    "de": "Seequaggas zähmen und vermehren",
+    "en": "Multiple Seemyool Multiplying Taming",
+    "es": "Domesticación Multiplicadora de Mulaguas",
+    "fr": "Apprivoisement multiplicateur de Muldos",
+    "pt": "Domesticação Multiplicadora de Marmulas"
   },
   "Multiple Slap": {
     "de": "Maulschellen-Anhäufung",
@@ -47347,13 +47648,6 @@
     "fr": "Éternel Cauchemar",
     "pt": "Eterno Pesadelo"
   },
-  "Nightmare Eye": {
-    "de": "Auge des Alptraums",
-    "en": "Nightmare Eye",
-    "es": "Ojo de Pesadilla",
-    "fr": "Œil du Cauchemar",
-    "pt": "Olho do Pesadelo"
-  },
   "Nightmarish Arrow": {
     "de": "Albtraumhafter Pfeil",
     "en": "Nightmarish Arrow",
@@ -47970,6 +48264,13 @@
     "fr": "Butor",
     "pt": "Krasso"
   },
+  "Obelisk": {
+    "de": "Obelisk",
+    "en": "Obelisk",
+    "es": "Obelisco",
+    "fr": "Obélisque",
+    "pt": "Obelisco"
+  },
   "Objection": {
     "de": "Einspruch",
     "en": "Objection",
@@ -48502,6 +48803,13 @@
     "fr": "Rayonnement Oméga",
     "pt": "Radiação Omega"
   },
+  "Omnifloral": {
+    "de": "Omniflora",
+    "en": "Omnifloral",
+    "es": "Omniflora",
+    "fr": "Omniflore",
+    "pt": "Omniflor"
+  },
   "Omnipotence": {
     "de": "Allmacht",
     "en": "Omnipotence",
@@ -48515,13 +48823,6 @@
     "es": "Omnipresencia",
     "fr": "Omniprésence",
     "pt": "Onipresença"
-  },
-  "Omniscience": {
-    "de": "Allwissen",
-    "en": "Omniscience",
-    "es": "Omnisciencia",
-    "fr": "Omniscience",
-    "pt": "Omnisciência"
   },
   "On Guard": {
     "de": "Wächter",
@@ -50028,13 +50329,6 @@
     "fr": "Sève Paralysante",
     "pt": "Seiva Paralisante"
   },
-  "Paralysing Sleep": {
-    "de": "Lähmender Schlaf",
-    "en": "Paralysing Sleep",
-    "es": "Sueño Paralizante",
-    "fr": "Sommeil Paralysant",
-    "pt": "Sonho Paralisante"
-  },
   "Paralysing Song": {
     "de": "Lähmendes Lied",
     "en": "Paralysing Song",
@@ -50676,7 +50970,7 @@
     "de": "Schlagperkussion",
     "en": "Percussmack",
     "es": "Golpercusión",
-    "fr": "Frappercusion",
+    "fr": "Frappercussion",
     "pt": "Golpercussão"
   },
   "Perfidious Boomerang": {
@@ -51071,6 +51365,13 @@
     "fr": "Photosynthèse",
     "pt": "Fotossíntese"
   },
+  "Phytolith": {
+    "de": "Pytholith",
+    "en": "Phytolith",
+    "es": "Fitolito",
+    "fr": "Pytholithe",
+    "pt": "Fitolito"
+  },
   "Piautre": {
     "de": "Pi-Otter",
     "en": "Piautre",
@@ -51120,12 +51421,26 @@
     "fr": "Cueillette",
     "pt": "Colheita"
   },
+  "Pieces": {
+    "de": "Figuren",
+    "en": "Pieces",
+    "es": "Piezas",
+    "fr": "Pièces",
+    "pt": "Moedas"
+  },
   "Pierced": {
     "de": "Durchbohrt",
     "en": "Pierced",
     "es": "Punzada",
     "fr": "Percée",
     "pt": "Furado"
+  },
+  "Piercing Arrow": {
+    "de": "Durchdringender Pfeil",
+    "en": "Piercing Arrow",
+    "es": "Flecha Percutiente",
+    "fr": "Flèche Perforante",
+    "pt": "Flecha Perfurante"
   },
   "Piercing Claws": {
     "de": "Perforierende Krallen",
@@ -51722,6 +52037,13 @@
     "fr": "Virevoltage",
     "pt": "Piruetagem"
   },
+  "Pistilance": {
+    "de": "Stempellanze",
+    "en": "Pistilance",
+    "es": "Pistilanza",
+    "fr": "Pistilance",
+    "pt": "Pistilança"
+  },
   "Piston": {
     "de": "Kolben",
     "en": "Piston",
@@ -51792,6 +52114,13 @@
     "fr": "Ensorcellement Sombre",
     "pt": "Enfeitiçamento Sombrio"
   },
+  "Plaguing Arrow": {
+    "de": "Plagender Pfeil",
+    "en": "Plaguing Arrow",
+    "es": "Flecha Acosante",
+    "fr": "Flèche Harcelante",
+    "pt": "Flecha Inconveniente"
+  },
   "Plain Protection": {
     "de": "Schutz der Ebene",
     "en": "Plain Protection",
@@ -51833,13 +52162,6 @@
     "es": "Apuros",
     "fr": "Détresse",
     "pt": "Desespetrança"
-  },
-  "Planetary Alignment": {
-    "de": "Günstige Sternenkonstellation",
-    "en": "Planetary Alignment",
-    "es": "Alineación Planetaria",
-    "fr": "Alignement des Planètes",
-    "pt": "Alinhamento dos Planetas"
   },
   "Plantar Constraint": {
     "de": "Fußfessel",
@@ -52372,6 +52694,20 @@
     "es": "Polvillo",
     "fr": "Pousque",
     "pt": "Cisco"
+  },
+  "Polyblossom": {
+    "de": "Polyflora",
+    "en": "Polyblossom",
+    "es": "Poliflora",
+    "fr": "Polyflore",
+    "pt": "Polifor"
+  },
+  "Polypush": {
+    "de": "Polyspross",
+    "en": "Polypush",
+    "es": "Polibrote",
+    "fr": "Polypousse",
+    "pt": "Polibroto"
   },
   "Ponteira": {
     "de": "Ponteira",
@@ -53444,6 +53780,13 @@
     "fr": "Protecteur d'émoi",
     "pt": "Funcionário do Mês"
   },
+  "Protector's Call": {
+    "de": "Ruf des Beschützers",
+    "en": "Protector's Call",
+    "es": "Llamada del Protector",
+    "fr": "Appel du Protecteur",
+    "pt": "Chamado do Protetor"
+  },
   "Protector's Hammer": {
     "de": "Hammer des Beschützers",
     "en": "Protector's Hammer",
@@ -54179,6 +54522,13 @@
     "fr": "Glyphe de purification par le feu",
     "pt": "Glifo de Purificação pelo Fogo"
   },
+  "Purifiction": {
+    "de": "Purifiktion",
+    "en": "Purifiction",
+    "es": "Purificción",
+    "fr": "Purifiction",
+    "pt": "Purificção"
+  },
   "Purified by Fire": {
     "de": "Vom Feuer gereinigt",
     "en": "Purified by Fire",
@@ -54521,6 +54871,13 @@
     "es": "Piroquim",
     "fr": "Pyrochim",
     "pt": "Ignesquim"
+  },
+  "Pyrock": {
+    "de": "Pyrofels",
+    "en": "Pyrock",
+    "es": "Pirorroca",
+    "fr": "Pyroche",
+    "pt": "Pirorrocha"
   },
   "Pyrofoux Fire": {
     "de": "Feuerwirrkskörper",
@@ -54984,6 +55341,13 @@
     "fr": "Radar",
     "pt": "Radar"
   },
+  "Radiant Arrow": {
+    "de": "Leuchtpfeil",
+    "en": "Radiant Arrow",
+    "es": "Flecha Impactante",
+    "fr": "Flèche Éclatante",
+    "pt": "Flecha Brilhante"
+  },
   "Radiation": {
     "de": "Strahlung",
     "en": "Radiation",
@@ -55116,13 +55480,6 @@
     "es": "Espirilusión de Lluvia",
     "fr": "Spirillusion de pluie",
     "pt": "Espirilusão de Chuva"
-  },
-  "Rain of Shooting Stars": {
-    "de": "Sternschnuppenregen",
-    "en": "Rain of Shooting Stars",
-    "es": "Lluvia de Estrellas Fugaces",
-    "fr": "Pluie d'Étoiles Filantes",
-    "pt": "Chuva de Estrelas Cadentes"
   },
   "Rain of Spores": {
     "de": "Sporenwolke",
@@ -55720,7 +56077,7 @@
     "pt": "Refraterra"
   },
   "Recall Beacon": {
-    "de": "Leitmarkierung der Erinnerung",
+    "de": "Leitmarkierung des Rückrufs",
     "en": "Recall Beacon",
     "es": "Baliza de Recuerdo",
     "fr": "Balise de Rappel",
@@ -56727,13 +57084,6 @@
     "fr": "Repos",
     "pt": "Descanso"
   },
-  "Restful Sleep": {
-    "de": "Erholsamer Schlaf",
-    "en": "Restful Sleep",
-    "es": "Sueño Reparador",
-    "fr": "Sommeil Réparateur",
-    "pt": "Sonho Reparador"
-  },
   "Resting Season": {
     "de": "Erholungssaison",
     "en": "Resting Season",
@@ -56796,6 +57146,13 @@
     "es": "Retirada",
     "fr": "Retraite",
     "pt": "Retirada"
+  },
+  "Retreat Arrow": {
+    "de": "Rückstoßpfeil",
+    "en": "Retreat Arrow",
+    "es": "Flecha de Retroceso",
+    "fr": "Flèche de Recul",
+    "pt": "Flecha de Recuo"
   },
   "Retreat Stroke": {
     "de": "Rückstoßbolzen",
@@ -57041,6 +57398,20 @@
     "es": "Captura de Vueloceronte",
     "fr": "Capture de Volkorne",
     "pt": "Captura de Vulkórnio"
+  },
+  "Rhineetle Multiplying Taming": {
+    "de": "Naskäfer zähmen und vermehren",
+    "en": "Rhineetle Multiplying Taming",
+    "es": "Domesticación Multiplicadora de Vueloceronte",
+    "fr": "Apprivoisement multiplicateur de Volkorne",
+    "pt": "Domesticação Multiplicadora de Vulkórnio"
+  },
+  "Rhineetle Taming": {
+    "de": "Naskäfer zähmen",
+    "en": "Rhineetle Taming",
+    "es": "Domesticación de Vuelocerontes",
+    "fr": "Apprivoisement de Volkornes",
+    "pt": "Domesticação de Vulkórnios"
   },
   "Rhineetorption": {
     "de": "Nasorption",
@@ -57651,6 +58022,13 @@
     "fr": "Éboulis",
     "pt": "Deslizamento de Terra"
   },
+  "Rock Swapster": {
+    "de": "Felstransposition",
+    "en": "Rock Swapster",
+    "es": "Transposirrok",
+    "fr": "Transposiroc",
+    "pt": "Transposirrocha"
+  },
   "Rock Throw": {
     "de": "Felsenwurf",
     "en": "Rock Throw",
@@ -58099,6 +58477,13 @@
     "fr": "Chazino Royale",
     "pt": "Gatsino Royale"
   },
+  "Royal Composure": {
+    "de": "Königliche Kaltblütigkeit",
+    "en": "Royal Composure",
+    "es": "Sangre Azul Fría",
+    "fr": "Sanfroiyal",
+    "pt": "Sanguefreal"
+  },
   "Royal Crushing": {
     "de": "Königliche Zermalmung",
     "en": "Royal Crushing",
@@ -58239,6 +58624,13 @@
     "fr": "Paradoxe du Mansot Royal",
     "pt": "Paradoxo do Pingwin Real"
   },
+  "Royal Punishment": {
+    "de": "Königliche Strafe",
+    "en": "Royal Punishment",
+    "es": "Castigo Real",
+    "fr": "Châtiment Royal",
+    "pt": "Castigo Real"
+  },
   "Royal Rainbow Blop's Dream": {
     "de": "Traum des Königlichen Multiblobs",
     "en": "Royal Rainbow Blop's Dream",
@@ -58364,6 +58756,13 @@
     "es": "Rojo Bermejo",
     "fr": "Rouge Vermeil",
     "pt": "Vermelho Colorado"
+  },
+  "Ruby Song": {
+    "de": "Rubinas Gesang",
+    "en": "Ruby Song",
+    "es": "Canto de Ruby",
+    "fr": "Chant de Rubise",
+    "pt": "Canto de Rubina"
   },
   "Rudder": {
     "de": "Aus dem Ruder Lauf",
@@ -59135,6 +59534,13 @@
     "fr": "Bulbarbre",
     "pt": "Bulbárvore"
   },
+  "Sapphira Song": {
+    "de": "Saphiras Gesang",
+    "en": "Sapphira Song",
+    "es": "Canto de Zafira",
+    "fr": "Chant de Saphira",
+    "pt": "Canto de Safira"
+  },
   "Sapphire Booh M'Rang": {
     "de": "Saphir-Buh M'Rang",
     "en": "Sapphire Booh M'Rang",
@@ -59554,6 +59960,34 @@
     "es": "Sacarainvi",
     "fr": "Scarinvi",
     "pt": "Scarinvisível"
+  },
+  "Scarlet Aura": {
+    "de": "Blutrote Aura",
+    "en": "Scarlet Aura",
+    "es": "Aura Escarlata",
+    "fr": "Aura Écarlate",
+    "pt": "Aura Escarlate"
+  },
+  "Scarlet Protectors": {
+    "de": "Scharlachrote Beschützer",
+    "en": "Scarlet Protectors",
+    "es": "Protectores Escarlatas",
+    "fr": "Protecteurs Écarlate",
+    "pt": "Protetores Escarlate"
+  },
+  "Scarlet Struggle": {
+    "de": "Strahlender Kampf",
+    "en": "Scarlet Struggle",
+    "es": "Escarlucha",
+    "fr": "Écarlutte",
+    "pt": "Escarluta"
+  },
+  "Scarlet Sword": {
+    "de": "Schwerterglanz",
+    "en": "Scarlet Sword",
+    "es": "Hojascarlata",
+    "fr": "Épécarlate",
+    "pt": "Espadarlate"
   },
   "Scarlet Whip": {
     "de": "Blutrote Peitsche",
@@ -60080,12 +60514,12 @@
     "fr": "Narcotique",
     "pt": "Narcótico"
   },
-  "Sedentary Dream": {
-    "de": "Sehnsucht nach Sesshaftigkeit",
-    "en": "Sedentary Dream",
-    "es": "Sueño de Sedentarismo",
-    "fr": "Rêve de Sédentarité",
-    "pt": "Sonho de Sedentarismo"
+  "Sedimagnet": {
+    "de": "Sedimagnet",
+    "en": "Sedimagnet",
+    "es": "Sedimanto",
+    "fr": "Sédiaimant",
+    "pt": "Sedimagnético"
   },
   "Seduction": {
     "de": "Verführung",
@@ -60121,6 +60555,20 @@
     "es": "Mulagua Jira",
     "fr": "Muldo Mestik",
     "pt": "Marmula Destrada"
+  },
+  "Seemyool Multiplying Taming": {
+    "de": "Seequagga zähmen und vermehren",
+    "en": "Seemyool Multiplying Taming",
+    "es": "Domesticación Multiplicadora de Mulagua",
+    "fr": "Apprivoisement multiplicateur de Muldo",
+    "pt": "Domesticação Multiplicadora de Marmula"
+  },
+  "Seemyool Taming": {
+    "de": "Seequaggas zähmen",
+    "en": "Seemyool Taming",
+    "es": "Domesticación de Mulaguas",
+    "fr": "Apprivoisement de Muldos",
+    "pt": "Domesticação de Marmulas"
   },
   "Segmentation": {
     "de": "Segmentierung",
@@ -60962,6 +61410,13 @@
     "fr": "Carapace gardée",
     "pt": "Carapaça Guardada"
   },
+  "Shieldefence": {
+    "de": "Vertanzerung",
+    "en": "Shieldefence",
+    "es": "Blindefensa",
+    "fr": "Blindéfense",
+    "pt": "Blindefesa"
+  },
   "Shieldobushido": {
     "de": "Buschildo",
     "en": "Shieldobushido",
@@ -61255,13 +61710,6 @@
     "es": "Objetivación Aproximativa",
     "fr": "Ciblage approximatif",
     "pt": "Objetivação Aproximativa"
-  },
-  "Shooting Star": {
-    "de": "Sternschnuppe",
-    "en": "Shooting Star",
-    "es": "Estrella Fugaz",
-    "fr": "Étoile Filante",
-    "pt": "Estrela Cadente"
   },
   "Shoots and Leaves": {
     "de": "Kurzer Sprozess",
@@ -61696,6 +62144,13 @@
     "es": "Trampa Miserable",
     "fr": "Piège Scélérat",
     "pt": "Armadilha Celerrato"
+  },
+  "Sidestep": {
+    "de": "Gehetzter Schritt",
+    "en": "Sidestep",
+    "es": "Paso de Cacería",
+    "fr": "Pas Chassé",
+    "pt": "Passinho do Caçador"
   },
   "Siegfreeze": {
     "de": "Tränenbrecher",
@@ -62362,6 +62817,13 @@
     "fr": "Tuerie",
     "pt": "Massacre"
   },
+  "Slaughtering Arrow": {
+    "de": "Mörderpfeil",
+    "en": "Slaughtering Arrow",
+    "es": "Flecha Masacrante",
+    "fr": "Flèche Massacrante",
+    "pt": "Flecha Massacrante"
+  },
   "Slave Hatch": {
     "de": "Schlüpfen des Dieners",
     "en": "Slave Hatch",
@@ -62662,6 +63124,13 @@
     "es": "Ralentí",
     "fr": "Ralenti",
     "pt": "Ralenti"
+  },
+  "Slow-Down Arrow": {
+    "de": "Verlangsamungspfeil",
+    "en": "Slow-Down Arrow",
+    "es": "Flecha Ralentizante",
+    "fr": "Flèche Ralentissante",
+    "pt": "Flecha Desaceleradora"
   },
   "Slowed Spirit": {
     "de": "Verzögerter Geist",
@@ -63496,13 +63965,6 @@
     "fr": "Vigne Apaisante",
     "pt": "Videira Calmante"
   },
-  "Soporific": {
-    "de": "Schlafmittel",
-    "en": "Soporific",
-    "es": "Somnífero",
-    "fr": "Somnifère",
-    "pt": "Sonífero"
-  },
   "Sorbet": {
     "de": "Wasseraies",
     "en": "Sorbet",
@@ -64216,6 +64678,13 @@
     "es": "Espejismo y Espinas",
     "fr": "Épines et Mirages",
     "pt": "Espinhos e Miragens"
+  },
+  "Spinnafin": {
+    "de": "Flossendreher",
+    "en": "Spinnafin",
+    "es": "Giraleta",
+    "fr": "Tournageoire",
+    "pt": "Barbatanagira"
   },
   "Spinner": {
     "de": "Neschraub-Schlüssel",
@@ -65224,13 +65693,6 @@
     "es": "Hada Artificial Estrellada",
     "fr": "Fée d'artifice Etoilée",
     "pt": "Fada de Artifício Estrelada"
-  },
-  "Starry Night": {
-    "de": "Sternenklare Nacht",
-    "en": "Starry Night",
-    "es": "Noche Estrellada",
-    "fr": "Nuit Étoilée",
-    "pt": "Noite Estrelada"
   },
   "Start": {
     "de": "Schocker",
@@ -67052,6 +67514,13 @@
     "fr": "Invocation de Blop Indigo",
     "pt": "Invocação de Blop Índigo"
   },
+  "Summoning of Jelly": {
+    "de": "Gelee-Beschwörung",
+    "en": "Summoning of Jelly",
+    "es": "Invocación de Gelatina",
+    "fr": "Invocation de Gelée",
+    "pt": "Invocação de Gelatina"
+  },
   "Summoning of Kokonut": {
     "de": "Kokosnoss beschwören",
     "en": "Summoning of Kokonut",
@@ -67161,7 +67630,7 @@
     "de": "Nessillus-Beschwörung",
     "en": "Summoning of Nessil",
     "es": "Invocación de Nessil",
-    "fr": "Invocation du Nessil",
+    "fr": "Invocation de Narkooleuvre",
     "pt": "Invocação do Nessil"
   },
   "Summoning of Paindep's Bwork Magus": {
@@ -67626,6 +68095,13 @@
     "fr": "Suprématie",
     "pt": "Supremacia"
   },
+  "Supremaseat": {
+    "de": "Übermächtige Belagerung",
+    "en": "Supremaseat",
+    "es": "Supremasedio",
+    "fr": "Supremasiège",
+    "pt": "Supremacerco"
+  },
   "Supāku": {
     "de": "Supāku",
     "en": "Supāku",
@@ -67716,6 +68192,13 @@
     "es": "Supervivencia",
     "fr": "Survie",
     "pt": "Sobrevivência"
+  },
+  "Survival Beacon": {
+    "de": "Markierung des Überlebens",
+    "en": "Survival Beacon",
+    "es": "Baliza de Supervivencia",
+    "fr": "Balise de Survie",
+    "pt": "Baliza de Sobrevivência"
   },
   "Survival of the Weakest": {
     "de": "Die Kraft der Schwäche",
@@ -68003,6 +68486,13 @@
     "es": "Agujero de Emmental",
     "fr": "Trou d'Emmental",
     "pt": "Buraco de Emental"
+  },
+  "Switch": {
+    "de": "Wechsel",
+    "en": "Switch",
+    "es": "Intercambio",
+    "fr": "Switch",
+    "pt": "Troca"
   },
   "Switches places when receiving direct damage.": {
     "de": "Positionstausch bei direkt erlittenem Schaden",
@@ -68318,6 +68808,13 @@
     "es": "Salto Táctico",
     "fr": "Bond tactique",
     "pt": "Salto Tático"
+  },
+  "Tactical Movement": {
+    "de": "Taktische Bewegung",
+    "en": "Tactical Movement",
+    "es": "Desplazamiento Táctico",
+    "fr": "Déplacement tactique",
+    "pt": "Deslocamento Tático"
   },
   "Tactical Support": {
     "de": "Taktische Unterstützung",
@@ -69047,6 +69544,13 @@
     "fr": "Tallurisme",
     "pt": "Talurismo"
   },
+  "Telluric Bloom": {
+    "de": "Erdblüte",
+    "en": "Telluric Bloom",
+    "es": "Teluriflora",
+    "fr": "Telluriflore",
+    "pt": "Teluriflor"
+  },
   "Telluric Coat": {
     "de": "Tellurischer Mantel",
     "en": "Telluric Coat",
@@ -69487,6 +69991,13 @@
     "es": "Tetanismo",
     "fr": "Tétanysme",
     "pt": "Tetanismo"
+  },
+  "Tetrastyle": {
+    "de": "Tetrastil",
+    "en": "Tetrastyle",
+    "es": "Tetrastilo",
+    "fr": "Tétrastyle",
+    "pt": "Tetrastilo"
   },
   "Tewative": {
     "de": "Tewativ",
@@ -70586,13 +71097,6 @@
     "es": "Alternancia",
     "fr": "Alternance",
     "pt": "Alternância"
-  },
-  "Timely Movement": {
-    "de": "Punktuelle Bewegung",
-    "en": "Timely Movement",
-    "es": "Movimiento Puntual",
-    "fr": "Mouvement ponctuel",
-    "pt": "Movimento Pontual"
   },
   "Timepestuous": {
     "de": "Zeit der Stürme",
@@ -72400,6 +72904,13 @@
     "fr": "Trokai",
     "pt": "Trokai"
   },
+  "Trunkation": {
+    "de": "Stammverankerung",
+    "en": "Trunkation",
+    "es": "Tronclaje",
+    "fr": "Troncage",
+    "pt": "Trancoragem"
+  },
   "Trussst Me": {
     "de": "Fischbrutal",
     "en": "Trussst Me",
@@ -73415,6 +73926,34 @@
     "fr": "Sol instable",
     "pt": "Solo Instável"
   },
+  "Unstable Mixture": {
+    "de": "Instabile Mischung",
+    "en": "Unstable Mixture",
+    "es": "Mezcla Inestable",
+    "fr": "Mélange Instable",
+    "pt": "Mistura Instável"
+  },
+  "Unstable Mixture: Acidic": {
+    "de": "Instabile Mischung: Ätzend",
+    "en": "Unstable Mixture: Acidic",
+    "es": "Mezcla Inestable: Ácida",
+    "fr": "Mélange Instable : Acide",
+    "pt": "Mistura Instável: Ácido"
+  },
+  "Unstable Mixture: Bitter": {
+    "de": "Instabile Mischung: Bitter",
+    "en": "Unstable Mixture: Bitter",
+    "es": "Mezcla Inestable: Amarga",
+    "fr": "Mélange Instable : Amer",
+    "pt": "Mistura Instável: Amargo"
+  },
+  "Unstable Mixture: Sour": {
+    "de": "Instabile Mischung: Sauer",
+    "en": "Unstable Mixture: Sour",
+    "es": "Mezcla Inestable: Agria",
+    "fr": "Mélange Instable : Aigre",
+    "pt": "Mistura Instável: Azedo"
+  },
   "Unstable Mood": {
     "de": "Launisch",
     "en": "Unstable Mood",
@@ -73827,6 +74366,13 @@
     "es": "Repliegue",
     "fr": "Reculade",
     "pt": "Recuo"
+  },
+  "Vagabond Arrow": {
+    "de": "Landstreicherpfeil",
+    "en": "Vagabond Arrow",
+    "es": "Flecha Vagabunda",
+    "fr": "Flèche Vagabonde",
+    "pt": "Flecha Andarilha"
   },
   "Vagabond Fist": {
     "de": "Landstreicher-Faust",
@@ -74997,6 +75543,13 @@
     "fr": "Inspiration des Was",
     "pt": "Inspiração dos Weis"
   },
+  "Wa Wabbit": {
+    "de": "Wa Wabbit",
+    "en": "Wa Wabbit",
+    "es": "Wey Wabbit",
+    "fr": "Wa Wabbit",
+    "pt": "Wei Wabbit"
+  },
   "Wa Wabbit's Dream": {
     "de": "Traum von Wa Wabbit",
     "en": "Wa Wabbit's Dream",
@@ -75514,6 +76067,13 @@
     "es": "Moloso",
     "fr": "Molosse",
     "pt": "Molosso"
+  },
+  "Watcher": {
+    "de": "Nachtwächter",
+    "en": "Watcher",
+    "es": "Vigilante",
+    "fr": "Veilleur",
+    "pt": "Vigilante"
   },
   "Watcher Velocity": {
     "de": "Schnelligkeit der Wachenden",
@@ -76397,13 +76957,6 @@
     "fr": "Fée d'artifice Invocatrice de Boufton Blanc",
     "pt": "Fada de artifício Invocadora de Paparneiro Branco"
   },
-  "White Hole": {
-    "de": "Weißes Loch",
-    "en": "White Hole",
-    "es": "Agujero Blanco",
-    "fr": "Trou Blanc",
-    "pt": "Buraco Branco"
-  },
   "White Light Glyph": {
     "de": "Weißlicht-Glyphe",
     "en": "White Light Glyph",
@@ -76915,6 +77468,13 @@
     "fr": "Poing de repli",
     "pt": "Punho de Retirada"
   },
+  "Withdrawal Shot": {
+    "de": "Rückzugsschuss",
+    "en": "Withdrawal Shot",
+    "es": "Tiro de Repliegue",
+    "fr": "Tir de Repli",
+    "pt": "Tiro de Retirada"
+  },
   "Withheld": {
     "de": "Zurückhaltung",
     "en": "Withheld",
@@ -77061,13 +77621,6 @@
     "es": "Cabezazo Mundial",
     "fr": "Coup du Monde",
     "pt": "Arakascudo"
-  },
-  "Wormhole": {
-    "de": "Wurmloch",
-    "en": "Wormhole",
-    "es": "Agujero de Gusano",
-    "fr": "Trou de Ver",
-    "pt": "Buraco de Minhoca"
   },
   "Wormification": {
     "de": "Wurmifikation",
@@ -77558,6 +78111,13 @@
     "es": "XXI. El Mundo - Tarot de Zurcarák",
     "fr": "XXI. Le Monde - Tarot d'Ecaflip",
     "pt": "XXI. O Mundo - Tarô de Ecaflip"
+  },
+  "Xalactite": {
+    "de": "Xalaktit",
+    "en": "Xalactite",
+    "es": "Xalactita",
+    "fr": "Xalactite",
+    "pt": "Xalactite"
   },
   "Xelor": {
     "de": "Xélor",
@@ -78133,6 +78693,13 @@
     "fr": "Zéphyr",
     "pt": "Zéfiro"
   },
+  "Zephyris": {
+    "de": "Zephyris",
+    "en": "Zephyris",
+    "es": "Céfiris",
+    "fr": "Zéphyris",
+    "pt": "Zefiris"
+  },
   "Zephyrus": {
     "de": "Erschütterbrise",
     "en": "Zephyrus",
@@ -78343,6 +78910,13 @@
     "fr": "Zudzuki Bozu",
     "pt": "Zudzuki Bozu"
   },
+  "[!]  Impératrice": {
+    "de": "[!]  Impératrice",
+    "en": "[!]  Impératrice",
+    "es": "[!]  Impératrice",
+    "fr": "Impératrice",
+    "pt": "[!]  Impératrice"
+  },
   "[!] 'X P Attirance' to Push C Attirance": {
     "de": "Tod auf Anzieh-Pfeiler auslösen, um den Anzieh-Verflucher zu schubsen (ausgelöst und Auslöser)",
     "en": "[!] 'X P Attirance' to Push C Attirance",
@@ -78370,6 +78944,20 @@
     "es": "[!] 'X P TP2' to Push C TP2",
     "fr": "'X P TP2' to Push C TP2",
     "pt": "[!] 'X P TP2' to Push C TP2"
+  },
+  "[!] Abjection": {
+    "de": "[!] Abjection",
+    "en": "[!] Abjection",
+    "es": "[!] Abjection",
+    "fr": "Abjection",
+    "pt": "[!] Abjection"
+  },
+  "[!] Absolutte": {
+    "de": "[!] Absolutte",
+    "en": "[!] Absolutte",
+    "es": "[!] Absolutte",
+    "fr": "Absolutte",
+    "pt": "[!] Absolutte"
   },
   "[!] Acclamation du Public": {
     "de": "[!] Acclamation du Public",
@@ -78511,6 +79099,13 @@
     "fr": "Ankatchoum de vague",
     "pt": "[!] Ankatchoum de vague"
   },
+  "[!] Antidose": {
+    "de": "[!] Antidose",
+    "en": "[!] Antidose",
+    "es": "[!] Antidose",
+    "fr": "Antidose",
+    "pt": "[!] Antidose"
+  },
   "[!] Apathie Trahison": {
     "de": "[!] Apathie Trahison",
     "en": "[!] Apathie Trahison",
@@ -78567,19 +79162,19 @@
     "fr": "Applique Hit si touché par le sort Aléorictussible",
     "pt": "[!] Applique Hit si touché par le sort Aléorictussible"
   },
-  "[!] Apprivoisement": {
-    "de": "[!] Apprivoisement",
-    "en": "[!] Apprivoisement",
-    "es": "[!] Apprivoisement",
-    "fr": "Apprivoisement",
-    "pt": "[!] Apprivoisement"
-  },
   "[!] Apprivoisement de monture": {
     "de": "[!] Apprivoisement de monture",
     "en": "[!] Apprivoisement de monture",
     "es": "[!] Apprivoisement de monture",
     "fr": "Apprivoisement de monture",
     "pt": "[!] Apprivoisement de monture"
+  },
+  "[!] Armucus": {
+    "de": "[!] Armucus",
+    "en": "[!] Armucus",
+    "es": "[!] Armucus",
+    "fr": "Armucus",
+    "pt": "[!] Armucus"
   },
   "[!] Armutation": {
     "de": "[!] Armutation",
@@ -78658,6 +79253,13 @@
     "fr": "Attirance du curseur TP 2 (déclenché)",
     "pt": "[!] Attirance du curseur TP 2 (déclenché)"
   },
+  "[!] Attirance expérimentale": {
+    "de": "[!] Attirance expérimentale",
+    "en": "[!] Attirance expérimentale",
+    "es": "[!] Attirance expérimentale",
+    "fr": "Attirance expérimentale",
+    "pt": "[!] Attirance expérimentale"
+  },
   "[!] Au coin !": {
     "de": "[!] Au coin !",
     "en": "[!] Au coin !",
@@ -78728,12 +79330,26 @@
     "fr": "Battue Trahison",
     "pt": "[!] Battue Trahison"
   },
+  "[!] Belladone": {
+    "de": "[!] Belladone",
+    "en": "[!] Belladone",
+    "es": "[!] Belladone",
+    "fr": "Belladone",
+    "pt": "[!] Belladone"
+  },
   "[!] Bellarchimagie": {
     "de": "[!] Bellarchimagie",
     "en": "[!] Bellarchimagie",
     "es": "[!] Bellarchimagie",
     "fr": "Bellarchimagie",
     "pt": "[!] Bellarchimagie"
+  },
+  "[!] Bisque": {
+    "de": "[!] Bisque",
+    "en": "[!] Bisque",
+    "es": "[!] Bisque",
+    "fr": "Bisque",
+    "pt": "[!] Bisque"
   },
   "[!] Blop royaux": {
     "de": "[!] Blop royaux",
@@ -78833,6 +79449,13 @@
     "fr": "Braises Épineuses Trahison",
     "pt": "[!] Braises Épineuses Trahison"
   },
+  "[!] Branchiche": {
+    "de": "[!] Branchiche",
+    "en": "[!] Branchiche",
+    "es": "[!] Branchiche",
+    "fr": "Branchiche",
+    "pt": "[!] Branchiche"
+  },
   "[!] Bribe de Sadida": {
     "de": "[!] Bribe de Sadida",
     "en": "[!] Bribe de Sadida",
@@ -78854,6 +79477,13 @@
     "fr": "Bénédiction ambré",
     "pt": "[!] Bénédiction ambré"
   },
+  "[!] C'est assez": {
+    "de": "[!] C'est assez",
+    "en": "[!] C'est assez",
+    "es": "[!] C'est assez",
+    "fr": "C'est assez",
+    "pt": "[!] C'est assez"
+  },
   "[!] CD Bombombre": {
     "de": "[!] CD Bombombre",
     "en": "[!] CD Bombombre",
@@ -78867,6 +79497,13 @@
     "es": "[!] Canine Trahison",
     "fr": "Canine Trahison",
     "pt": "[!] Canine Trahison"
+  },
+  "[!] Canopince": {
+    "de": "[!] Canopince",
+    "en": "[!] Canopince",
+    "es": "[!] Canopince",
+    "fr": "Canopince",
+    "pt": "[!] Canopince"
   },
   "[!] Capitaine Ékarlatte": {
     "de": "[!] Capitaine Ékarlatte",
@@ -78973,6 +79610,13 @@
     "fr": "Chance",
     "pt": "[!] Chance"
   },
+  "[!] Changement d'équipe": {
+    "de": "[!] Changement d'équipe",
+    "en": "[!] Changement d'équipe",
+    "es": "[!] Changement d'équipe",
+    "fr": "Changement d'équipe",
+    "pt": "[!] Changement d'équipe"
+  },
   "[!] Changement de Phase": {
     "de": "[!] Changement de Phase",
     "en": "[!] Changement de Phase",
@@ -79022,6 +79666,20 @@
     "fr": "Chaud bouillant",
     "pt": "[!] Chaud bouillant"
   },
+  "[!] Check Mob": {
+    "de": "[!] Check Mob",
+    "en": "[!] Check Mob",
+    "es": "[!] Check Mob",
+    "fr": "Check Mob",
+    "pt": "[!] Check Mob"
+  },
+  "[!] Check des solutions": {
+    "de": "[!] Check des solutions",
+    "en": "[!] Check des solutions",
+    "es": "[!] Check des solutions",
+    "fr": "Check des solutions",
+    "pt": "[!] Check des solutions"
+  },
   "[!] Check du Compteur Air": {
     "de": "[!] Check du Compteur Air",
     "en": "[!] Check du Compteur Air",
@@ -79049,6 +79707,20 @@
     "es": "[!] Check du Compteur Terre",
     "fr": "Check du Compteur Terre",
     "pt": "[!] Check du Compteur Terre"
+  },
+  "[!] Check délock": {
+    "de": "[!] Check délock",
+    "en": "[!] Check délock",
+    "es": "[!] Check délock",
+    "fr": "Check délock",
+    "pt": "[!] Check délock"
+  },
+  "[!] Check monster color": {
+    "de": "[!] Check monster color",
+    "en": "[!] Check monster color",
+    "es": "[!] Check monster color",
+    "fr": "Check monster color",
+    "pt": "[!] Check monster color"
   },
   "[!] Chevauchée des Valkyrs (Anim + FX)": {
     "de": "[!] Chevauchée des Valkyrs (Anim + FX)",
@@ -79113,6 +79785,13 @@
     "fr": "Compteur de miliciens",
     "pt": "[!] Compteur de miliciens"
   },
+  "[!] Compteur light": {
+    "de": "[!] Compteur light",
+    "en": "[!] Compteur light",
+    "es": "[!] Compteur light",
+    "fr": "Compteur light",
+    "pt": "[!] Compteur light"
+  },
   "[!] Comédie": {
     "de": "[!] Comédie",
     "en": "[!] Comédie",
@@ -79154,6 +79833,13 @@
     "es": "[!] Convergence expérimentale",
     "fr": "Convergence expérimentale",
     "pt": "[!] Convergence expérimentale"
+  },
+  "[!] Corroside": {
+    "de": "[!] Corroside",
+    "en": "[!] Corroside",
+    "es": "[!] Corroside",
+    "fr": "Corroside",
+    "pt": "[!] Corroside"
   },
   "[!] Corrosion Trahison": {
     "de": "[!] Corrosion Trahison",
@@ -79197,13 +79883,6 @@
     "fr": "Coupe-gorge Trahison",
     "pt": "[!] Coupe-gorge Trahison"
   },
-  "[!] Courant Quadramental": {
-    "de": "[!] Courant Quadramental",
-    "en": "[!] Courant Quadramental",
-    "es": "[!] Courant Quadramental",
-    "fr": "Courant Quadramental",
-    "pt": "[!] Courant Quadramental"
-  },
   "[!] Craqueglass (Cycles des États)": {
     "de": "[!] Craqueglass (Cycles des États)",
     "en": "[!] Craqueglass (Cycles des États)",
@@ -79239,12 +79918,26 @@
     "fr": "Cruauté Trahison",
     "pt": "[!] Cruauté Trahison"
   },
+  "[!] Crustank": {
+    "de": "[!] Crustank",
+    "en": "[!] Crustank",
+    "es": "[!] Crustank",
+    "fr": "Crustank",
+    "pt": "[!] Crustank"
+  },
   "[!] Cubitus Trahison": {
     "de": "[!] Cubitus Trahison",
     "en": "[!] Cubitus Trahison",
     "es": "[!] Cubitus Trahison",
     "fr": "Cubitus Trahison",
     "pt": "[!] Cubitus Trahison"
+  },
+  "[!] Cuirage": {
+    "de": "[!] Cuirage",
+    "en": "[!] Cuirage",
+    "es": "[!] Cuirage",
+    "fr": "Cuirage",
+    "pt": "[!] Cuirage"
   },
   "[!] Cyclaustrophobe": {
     "de": "[!] Cyclaustrophobe",
@@ -79315,6 +80008,13 @@
     "es": "[!] Dessèchement Trahison",
     "fr": "Dessèchement Trahison",
     "pt": "[!] Dessèchement Trahison"
+  },
+  "[!] Disperssssion": {
+    "de": "[!] Disperssssion",
+    "en": "[!] Disperssssion",
+    "es": "[!] Disperssssion",
+    "fr": "Disperssssion",
+    "pt": "[!] Disperssssion"
   },
   "[!] Distance d'insécurité": {
     "de": "[!] Distance d'insécurité",
@@ -79407,6 +80107,13 @@
     "fr": "Défi de Minawax : à poil !",
     "pt": "[!] Défi de Minawax : à poil !"
   },
+  "[!] Délivrance": {
+    "de": "[!] Délivrance",
+    "en": "[!] Délivrance",
+    "es": "[!] Délivrance",
+    "fr": "Délivrance",
+    "pt": "[!] Délivrance"
+  },
   "[!] Délivrée, Libérée": {
     "de": "[!] Délivrée, Libérée",
     "en": "[!] Délivrée, Libérée",
@@ -79476,6 +80183,27 @@
     "es": "[!] Emplafonnement réussi anim croc",
     "fr": "Emplafonnement réussi anim croc",
     "pt": "[!] Emplafonnement réussi anim croc"
+  },
+  "[!] Encornage": {
+    "de": "[!] Encornage",
+    "en": "[!] Encornage",
+    "es": "[!] Encornage",
+    "fr": "Encornage",
+    "pt": "[!] Encornage"
+  },
+  "[!] Encornéant": {
+    "de": "[!] Encornéant",
+    "en": "[!] Encornéant",
+    "es": "[!] Encornéant",
+    "fr": "Encornéant",
+    "pt": "[!] Encornéant"
+  },
+  "[!] Enfourchage": {
+    "de": "[!] Enfourchage",
+    "en": "[!] Enfourchage",
+    "es": "[!] Enfourchage",
+    "fr": "Enfourchage",
+    "pt": "[!] Enfourchage"
   },
   "[!] Errance": {
     "de": "[!] Errance",
@@ -79582,6 +80310,13 @@
     "fr": "Faucheuse",
     "pt": "[!] Faucheuse"
   },
+  "[!] Faufilette": {
+    "de": "[!] Faufilette",
+    "en": "[!] Faufilette",
+    "es": "[!] Faufilette",
+    "fr": "Faufilette",
+    "pt": "[!] Faufilette"
+  },
   "[!] Feinte Offensive Animation": {
     "de": "[!] Feinte Offensive Animation",
     "en": "[!] Feinte Offensive Animation",
@@ -79623,6 +80358,48 @@
     "es": "[!] Feu expérimental de Brousse",
     "fr": "Feu expérimental de Brousse",
     "pt": "[!] Feu expérimental de Brousse"
+  },
+  "[!] Fight Light 0": {
+    "de": "[!] Fight Light 0",
+    "en": "[!] Fight Light 0",
+    "es": "[!] Fight Light 0",
+    "fr": "Fight Light 0",
+    "pt": "[!] Fight Light 0"
+  },
+  "[!] Fight Light 1": {
+    "de": "[!] Fight Light 1",
+    "en": "[!] Fight Light 1",
+    "es": "[!] Fight Light 1",
+    "fr": "Fight Light 1",
+    "pt": "[!] Fight Light 1"
+  },
+  "[!] Fight Light 2": {
+    "de": "[!] Fight Light 2",
+    "en": "[!] Fight Light 2",
+    "es": "[!] Fight Light 2",
+    "fr": "Fight Light 2",
+    "pt": "[!] Fight Light 2"
+  },
+  "[!] Fight Light 3": {
+    "de": "[!] Fight Light 3",
+    "en": "[!] Fight Light 3",
+    "es": "[!] Fight Light 3",
+    "fr": "Fight Light 3",
+    "pt": "[!] Fight Light 3"
+  },
+  "[!] Fight Light 4": {
+    "de": "[!] Fight Light 4",
+    "en": "[!] Fight Light 4",
+    "es": "[!] Fight Light 4",
+    "fr": "Fight Light 4",
+    "pt": "[!] Fight Light 4"
+  },
+  "[!] Fight Manager": {
+    "de": "[!] Fight Manager",
+    "en": "[!] Fight Manager",
+    "es": "[!] Fight Manager",
+    "fr": "Fight Manager",
+    "pt": "[!] Fight Manager"
   },
   "[!] Finish Fight Trigger": {
     "de": "[!] Finish Fight Trigger",
@@ -79679,6 +80456,13 @@
     "es": "[!] Flou expérimental",
     "fr": "Flou expérimental",
     "pt": "[!] Flou expérimental"
+  },
+  "[!] Flèche Assaillante": {
+    "de": "[!] Flèche Assaillante",
+    "en": "[!] Flèche Assaillante",
+    "es": "[!] Flèche Assaillante",
+    "fr": "Flèche Assaillante",
+    "pt": "[!] Flèche Assaillante"
   },
   "[!] Flèche Destructrice Trahison": {
     "de": "[!] Flèche Destructrice Trahison",
@@ -79841,6 +80625,13 @@
     "fr": "Fureur de Soon",
     "pt": "[!] Fureur de Soon"
   },
+  "[!] Férosignal": {
+    "de": "[!] Férosignal",
+    "en": "[!] Férosignal",
+    "es": "[!] Férosignal",
+    "fr": "Férosignal",
+    "pt": "[!] Férosignal"
+  },
   "[!] Galerie Animation": {
     "de": "[!] Galerie Animation",
     "en": "[!] Galerie Animation",
@@ -79932,12 +80723,33 @@
     "fr": "Giboulée expérimentale",
     "pt": "[!] Giboulée expérimentale"
   },
+  "[!] Gigalodoom": {
+    "de": "[!] Gigalodoom",
+    "en": "[!] Gigalodoom",
+    "es": "[!] Gigalodoom",
+    "fr": "Gigalodoom",
+    "pt": "[!] Gigalodoom"
+  },
   "[!] Gladiatrooller": {
     "de": "[!] Gladiatrooller",
     "en": "[!] Gladiatrooller",
     "es": "[!] Gladiatrooller",
     "fr": "Gladiatrooller",
     "pt": "[!] Gladiatrooller"
+  },
+  "[!] Glyphe Floral": {
+    "de": "[!] Glyphe Floral",
+    "en": "[!] Glyphe Floral",
+    "es": "[!] Glyphe Floral",
+    "fr": "Glyphe Floral",
+    "pt": "[!] Glyphe Floral"
+  },
+  "[!] Glyphe Indice": {
+    "de": "[!] Glyphe Indice",
+    "en": "[!] Glyphe Indice",
+    "es": "[!] Glyphe Indice",
+    "fr": "Glyphe Indice",
+    "pt": "[!] Glyphe Indice"
   },
   "[!] Glyphe de Victoire": {
     "de": "[!] Glyphe de Victoire",
@@ -79981,12 +80793,26 @@
     "fr": "Hitomi",
     "pt": "[!] Hitomi"
   },
+  "[!] Hydrage": {
+    "de": "[!] Hydrage",
+    "en": "[!] Hydrage",
+    "es": "[!] Hydrage",
+    "fr": "Hydrage",
+    "pt": "[!] Hydrage"
+  },
   "[!] Hyperactivité": {
     "de": "[!] Hyperactivité",
     "en": "[!] Hyperactivité",
     "es": "[!] Hyperactivité",
     "fr": "Hyperactivité",
     "pt": "[!] Hyperactivité"
+  },
+  "[!] Idées noires": {
+    "de": "[!] Idées noires",
+    "en": "[!] Idées noires",
+    "es": "[!] Idées noires",
+    "fr": "Idées noires",
+    "pt": "[!] Idées noires"
   },
   "[!] Images du monde flottant": {
     "de": "[!] Images du monde flottant",
@@ -80015,6 +80841,13 @@
     "es": "[!] Initial Saison",
     "fr": "Initial Saison",
     "pt": "[!] Initial Saison"
+  },
+  "[!] Initial Willorque": {
+    "de": "[!] Initial Willorque",
+    "en": "[!] Initial Willorque",
+    "es": "[!] Initial Willorque",
+    "fr": "Initial Willorque",
+    "pt": "[!] Initial Willorque"
   },
   "[!] Instinct Partagé Déclenché": {
     "de": "[!] Instinct Partagé Déclenché",
@@ -80065,6 +80898,13 @@
     "fr": "J'aime les concombres",
     "pt": "[!] J'aime les concombres"
   },
+  "[!] Jail Manager": {
+    "de": "[!] Jail Manager",
+    "en": "[!] Jail Manager",
+    "es": "[!] Jail Manager",
+    "fr": "Jail Manager",
+    "pt": "[!] Jail Manager"
+  },
   "[!] Javeline de Myr Trahison": {
     "de": "Wurfspeerine-Verrat",
     "en": "[!] Javeline de Myr Trahison",
@@ -80085,6 +80925,13 @@
     "es": "[!] Jeter la Boufballe",
     "fr": "Jeter la Boufballe",
     "pt": "[!] Jeter la Boufballe"
+  },
+  "[!] KO'rail": {
+    "de": "[!] KO'rail",
+    "en": "[!] KO'rail",
+    "es": "[!] KO'rail",
+    "fr": "KO'rail",
+    "pt": "[!] KO'rail"
   },
   "[!] Kaonashi": {
     "de": "[!] Kaonashi",
@@ -80240,6 +81087,13 @@
     "fr": "Larnak",
     "pt": "[!] Larnak"
   },
+  "[!] Le Portail Eliotrope": {
+    "de": "[!] Le Portail Eliotrope",
+    "en": "[!] Le Portail Eliotrope",
+    "es": "[!] Le Portail Eliotrope",
+    "fr": "Le Portail Eliotrope",
+    "pt": "[!] Le Portail Eliotrope"
+  },
   "[!] Le Sein-Supplice": {
     "de": "[!] Le Sein-Supplice",
     "en": "[!] Le Sein-Supplice",
@@ -80260,6 +81114,13 @@
     "es": "[!] Le nombre d'actions de la cible est limité. Quand cette limite est atteinte, la cible passe son tour.",
     "fr": "Le nombre d'actions de la cible est limité. Quand cette limite est atteinte, la cible passe son tour.",
     "pt": "[!] Le nombre d'actions de la cible est limité. Quand cette limite est atteinte, la cible passe son tour."
+  },
+  "[!] Les dents de l'amer": {
+    "de": "[!] Les dents de l'amer",
+    "en": "[!] Les dents de l'amer",
+    "es": "[!] Les dents de l'amer",
+    "fr": "Les dents de l'amer",
+    "pt": "[!] Les dents de l'amer"
   },
   "[!] Lotus et bouche cousue chall 524": {
     "de": "[!] Lotus et bouche cousue chall 524",
@@ -80373,6 +81234,13 @@
     "fr": "Martorpille",
     "pt": "[!] Martorpille"
   },
+  "[!] Maxquale": {
+    "de": "[!] Maxquale",
+    "en": "[!] Maxquale",
+    "es": "[!] Maxquale",
+    "fr": "Maxquale",
+    "pt": "[!] Maxquale"
+  },
   "[!] Maître Pandore": {
     "de": "[!] Maître Pandore",
     "en": "[!] Maître Pandore",
@@ -80386,6 +81254,104 @@
     "es": "[!] Maître artifouxier",
     "fr": "Maître artifouxier",
     "pt": "[!] Maître artifouxier"
+  },
+  "[!] MeS Willorque light 0%": {
+    "de": "[!] MeS Willorque light 0%",
+    "en": "[!] MeS Willorque light 0%",
+    "es": "[!] MeS Willorque light 0%",
+    "fr": "MeS Willorque light 0%",
+    "pt": "[!] MeS Willorque light 0%"
+  },
+  "[!] MeS Willorque light 10%": {
+    "de": "[!] MeS Willorque light 10%",
+    "en": "[!] MeS Willorque light 10%",
+    "es": "[!] MeS Willorque light 10%",
+    "fr": "MeS Willorque light 10%",
+    "pt": "[!] MeS Willorque light 10%"
+  },
+  "[!] MeS Willorque light 100%": {
+    "de": "[!] MeS Willorque light 100%",
+    "en": "[!] MeS Willorque light 100%",
+    "es": "[!] MeS Willorque light 100%",
+    "fr": "MeS Willorque light 100%",
+    "pt": "[!] MeS Willorque light 100%"
+  },
+  "[!] MeS Willorque light 20%": {
+    "de": "[!] MeS Willorque light 20%",
+    "en": "[!] MeS Willorque light 20%",
+    "es": "[!] MeS Willorque light 20%",
+    "fr": "MeS Willorque light 20%",
+    "pt": "[!] MeS Willorque light 20%"
+  },
+  "[!] MeS Willorque light 30%": {
+    "de": "[!] MeS Willorque light 30%",
+    "en": "[!] MeS Willorque light 30%",
+    "es": "[!] MeS Willorque light 30%",
+    "fr": "MeS Willorque light 30%",
+    "pt": "[!] MeS Willorque light 30%"
+  },
+  "[!] MeS Willorque light 40%": {
+    "de": "[!] MeS Willorque light 40%",
+    "en": "[!] MeS Willorque light 40%",
+    "es": "[!] MeS Willorque light 40%",
+    "fr": "MeS Willorque light 40%",
+    "pt": "[!] MeS Willorque light 40%"
+  },
+  "[!] MeS Willorque light 50%": {
+    "de": "[!] MeS Willorque light 50%",
+    "en": "[!] MeS Willorque light 50%",
+    "es": "[!] MeS Willorque light 50%",
+    "fr": "MeS Willorque light 50%",
+    "pt": "[!] MeS Willorque light 50%"
+  },
+  "[!] MeS Willorque light 60%": {
+    "de": "[!] MeS Willorque light 60%",
+    "en": "[!] MeS Willorque light 60%",
+    "es": "[!] MeS Willorque light 60%",
+    "fr": "MeS Willorque light 60%",
+    "pt": "[!] MeS Willorque light 60%"
+  },
+  "[!] MeS Willorque light 70%": {
+    "de": "[!] MeS Willorque light 70%",
+    "en": "[!] MeS Willorque light 70%",
+    "es": "[!] MeS Willorque light 70%",
+    "fr": "MeS Willorque light 70%",
+    "pt": "[!] MeS Willorque light 70%"
+  },
+  "[!] MeS Willorque light 80%": {
+    "de": "[!] MeS Willorque light 80%",
+    "en": "[!] MeS Willorque light 80%",
+    "es": "[!] MeS Willorque light 80%",
+    "fr": "MeS Willorque light 80%",
+    "pt": "[!] MeS Willorque light 80%"
+  },
+  "[!] MeS Willorque light 90%": {
+    "de": "[!] MeS Willorque light 90%",
+    "en": "[!] MeS Willorque light 90%",
+    "es": "[!] MeS Willorque light 90%",
+    "fr": "MeS Willorque light 90%",
+    "pt": "[!] MeS Willorque light 90%"
+  },
+  "[!] MeS tour global 1 Gigalodon": {
+    "de": "[!] MeS tour global 1 Gigalodon",
+    "en": "[!] MeS tour global 1 Gigalodon",
+    "es": "[!] MeS tour global 1 Gigalodon",
+    "fr": "MeS tour global 1 Gigalodon",
+    "pt": "[!] MeS tour global 1 Gigalodon"
+  },
+  "[!] MeS tour global 2 Gigalodon": {
+    "de": "[!] MeS tour global 2 Gigalodon",
+    "en": "[!] MeS tour global 2 Gigalodon",
+    "es": "[!] MeS tour global 2 Gigalodon",
+    "fr": "MeS tour global 2 Gigalodon",
+    "pt": "[!] MeS tour global 2 Gigalodon"
+  },
+  "[!] MeS tour global 3 Gigalodon": {
+    "de": "[!] MeS tour global 3 Gigalodon",
+    "en": "[!] MeS tour global 3 Gigalodon",
+    "es": "[!] MeS tour global 3 Gigalodon",
+    "fr": "MeS tour global 3 Gigalodon",
+    "pt": "[!] MeS tour global 3 Gigalodon"
   },
   "[!] Menace Dissimulé": {
     "de": "[!] Menace Dissimulé",
@@ -80435,6 +81401,13 @@
     "es": "[!] Monster Death Manager",
     "fr": "Monster Death Manager",
     "pt": "[!] Monster Death Manager"
+  },
+  "[!] Monster Manager": {
+    "de": "[!] Monster Manager",
+    "en": "[!] Monster Manager",
+    "es": "[!] Monster Manager",
+    "fr": "Monster Manager",
+    "pt": "[!] Monster Manager"
   },
   "[!] Monstres parasités": {
     "de": "[!] Monstres parasités",
@@ -80632,6 +81605,13 @@
     "fr": "Ninstabilité",
     "pt": "[!] Ninstabilité"
   },
+  "[!] Notification Manager": {
+    "de": "[!] Notification Manager",
+    "en": "[!] Notification Manager",
+    "es": "[!] Notification Manager",
+    "fr": "Notification Manager",
+    "pt": "[!] Notification Manager"
+  },
   "[!] Nécronyx expérimental": {
     "de": "[!] Nécronyx expérimental",
     "en": "[!] Nécronyx expérimental",
@@ -80645,6 +81625,13 @@
     "es": "[!] Objectif Check",
     "fr": "Objectif Check",
     "pt": "[!] Objectif Check"
+  },
+  "[!] Ocre d'ambre": {
+    "de": "[!] Ocre d'ambre",
+    "en": "[!] Ocre d'ambre",
+    "es": "[!] Ocre d'ambre",
+    "fr": "Ocre d'ambre",
+    "pt": "[!] Ocre d'ambre"
   },
   "[!] Odyssée expérimentale": {
     "de": "[!] Odyssée expérimentale",
@@ -81003,6 +81990,20 @@
     "fr": "Plastron expérimental",
     "pt": "[!] Plastron expérimental"
   },
+  "[!] Player Manager": {
+    "de": "[!] Player Manager",
+    "en": "[!] Player Manager",
+    "es": "[!] Player Manager",
+    "fr": "Player Manager",
+    "pt": "[!] Player Manager"
+  },
+  "[!] Poisson Lanterne": {
+    "de": "[!] Poisson Lanterne",
+    "en": "[!] Poisson Lanterne",
+    "es": "[!] Poisson Lanterne",
+    "fr": "Poisson Lanterne",
+    "pt": "[!] Poisson Lanterne"
+  },
   "[!] Ponteira Trahison": {
     "de": "[!] Ponteira Trahison",
     "en": "[!] Ponteira Trahison",
@@ -81065,6 +82066,13 @@
     "es": "[!] Porteur de la Tétanyte",
     "fr": "Porteur de la Tétanyte",
     "pt": "[!] Porteur de la Tétanyte"
+  },
+  "[!] Pose des glyphes": {
+    "de": "[!] Pose des glyphes",
+    "en": "[!] Pose des glyphes",
+    "es": "[!] Pose des glyphes",
+    "fr": "Pose des glyphes",
+    "pt": "[!] Pose des glyphes"
   },
   "[!] Pose des glyphes sur les îlots": {
     "de": "[!] Pose des glyphes sur les îlots",
@@ -81136,6 +82144,13 @@
     "fr": "Projection Trahison",
     "pt": "[!] Projection Trahison"
   },
+  "[!] Protecteurs du Corridor": {
+    "de": "[!] Protecteurs du Corridor",
+    "en": "[!] Protecteurs du Corridor",
+    "es": "[!] Protecteurs du Corridor",
+    "fr": "Protecteurs du Corridor",
+    "pt": "[!] Protecteurs du Corridor"
+  },
   "[!] Puissance cyclique": {
     "de": "[!] Puissance cyclique",
     "en": "[!] Puissance cyclique",
@@ -81163,6 +82178,13 @@
     "es": "[!] Purgatorio Trahison",
     "fr": "Purgatorio Trahison",
     "pt": "[!] Purgatorio Trahison"
+  },
+  "[!] Pétard Trempé": {
+    "de": "[!] Pétard Trempé",
+    "en": "[!] Pétard Trempé",
+    "es": "[!] Pétard Trempé",
+    "fr": "Pétard Trempé",
+    "pt": "[!] Pétard Trempé"
   },
   "[!] Quintuplé": {
     "de": "[!] Quintuplé",
@@ -81205,6 +82227,27 @@
     "es": "[!] Raillerie Trahison",
     "fr": "Raillerie Trahison",
     "pt": "[!] Raillerie Trahison"
+  },
+  "[!] Ralentissement expérimental": {
+    "de": "[!] Ralentissement expérimental",
+    "en": "[!] Ralentissement expérimental",
+    "es": "[!] Ralentissement expérimental",
+    "fr": "Ralentissement expérimental",
+    "pt": "[!] Ralentissement expérimental"
+  },
+  "[!] Ralliement": {
+    "de": "[!] Ralliement",
+    "en": "[!] Ralliement",
+    "es": "[!] Ralliement",
+    "fr": "Ralliement",
+    "pt": "[!] Ralliement"
+  },
+  "[!] Random Fish": {
+    "de": "[!] Random Fish",
+    "en": "[!] Random Fish",
+    "es": "[!] Random Fish",
+    "fr": "Random Fish",
+    "pt": "[!] Random Fish"
   },
   "[!] Rançon": {
     "de": "[!] Rançon",
@@ -81310,6 +82353,13 @@
     "es": "[!] RetraitPM",
     "fr": "RetraitPM",
     "pt": "[!] RetraitPM"
+  },
+  "[!] Retraite expérimentale": {
+    "de": "[!] Retraite expérimentale",
+    "en": "[!] Retraite expérimentale",
+    "es": "[!] Retraite expérimentale",
+    "fr": "Retraite expérimentale",
+    "pt": "[!] Retraite expérimentale"
   },
   "[!] Ribote Trahison": {
     "de": "[!] Ribote Trahison",
@@ -81436,6 +82486,13 @@
     "es": "[!] Réaction Pourpre 8",
     "fr": "Réaction Pourpre 8",
     "pt": "[!] Réaction Pourpre 8"
+  },
+  "[!] Récidif": {
+    "de": "[!] Récidif",
+    "en": "[!] Récidif",
+    "es": "[!] Récidif",
+    "fr": "Récidif",
+    "pt": "[!] Récidif"
   },
   "[!] Réflexe Primitif déclenché": {
     "de": "[!] Réflexe Primitif déclenché",
@@ -81752,6 +82809,13 @@
     "fr": "Soins",
     "pt": "[!] Soins"
   },
+  "[!] Sombre Chant": {
+    "de": "[!] Sombre Chant",
+    "en": "[!] Sombre Chant",
+    "es": "[!] Sombre Chant",
+    "fr": "Sombre Chant",
+    "pt": "[!] Sombre Chant"
+  },
   "[!] Sombre Lame déclenché": {
     "de": "[!] Sombre Lame déclenché",
     "en": "[!] Sombre Lame déclenché",
@@ -81793,6 +82857,13 @@
     "es": "[!] Sort 4 WIP",
     "fr": "Sort 4 WIP",
     "pt": "[!] Sort 4 WIP"
+  },
+  "[!] Sort Initial Famille": {
+    "de": "[!] Sort Initial Famille",
+    "en": "[!] Sort Initial Famille",
+    "es": "[!] Sort Initial Famille",
+    "fr": "Sort Initial Famille",
+    "pt": "[!] Sort Initial Famille"
   },
   "[!] Sort de délock Élémentaire": {
     "de": "[!] Sort de délock Élémentaire",
@@ -81975,6 +83046,13 @@
     "es": "[!] Suivre l'entité la plus proche",
     "fr": "Suivre l'entité la plus proche",
     "pt": "[!] Suivre l'entité la plus proche"
+  },
+  "[!] Switch": {
+    "de": "[!] Switch",
+    "en": "[!] Switch",
+    "es": "[!] Switch",
+    "fr": "Switch",
+    "pt": "[!] Switch"
   },
   "[!] TP CR A frise": {
     "de": "Teleportation des Spielers auf den Fries",
@@ -82263,12 +83341,26 @@
     "fr": "Transition Spectrale",
     "pt": "[!] Transition Spectrale"
   },
+  "[!] Tridémence": {
+    "de": "[!] Tridémence",
+    "en": "[!] Tridémence",
+    "es": "[!] Tridémence",
+    "fr": "Tridémence",
+    "pt": "[!] Tridémence"
+  },
   "[!] Trigger îlot": {
     "de": "[!] Trigger îlot",
     "en": "[!] Trigger îlot",
     "es": "[!] Trigger îlot",
     "fr": "Trigger îlot",
     "pt": "[!] Trigger îlot"
+  },
+  "[!] Triplicité": {
+    "de": "[!] Triplicité",
+    "en": "[!] Triplicité",
+    "es": "[!] Triplicité",
+    "fr": "Triplicité",
+    "pt": "[!] Triplicité"
   },
   "[!] Trooler": {
     "de": "[!] Trooler",
@@ -82319,6 +83411,13 @@
     "fr": "Téméraire",
     "pt": "[!] Téméraire"
   },
+  "[!] Ultrasplash": {
+    "de": "[!] Ultrasplash",
+    "en": "[!] Ultrasplash",
+    "es": "[!] Ultrasplash",
+    "fr": "Ultrasplash",
+    "pt": "[!] Ultrasplash"
+  },
   "[!] Vajra expérimental": {
     "de": "[!] Vajra expérimental",
     "en": "[!] Vajra expérimental",
@@ -82339,6 +83438,13 @@
     "es": "[!] Vaporeux",
     "fr": "Vaporeux",
     "pt": "[!] Vaporeux"
+  },
+  "[!] Veilleur": {
+    "de": "[!] Veilleur",
+    "en": "[!] Veilleur",
+    "es": "[!] Veilleur",
+    "fr": "Veilleur",
+    "pt": "[!] Veilleur"
   },
   "[!] Vendetta expérimentale": {
     "de": "[!] Vendetta expérimentale",
@@ -82402,6 +83508,13 @@
     "es": "[!] Vrai/Faux Terre",
     "fr": "Vrai/Faux Terre",
     "pt": "[!] Vrai/Faux Terre"
+  },
+  "[!] Willorque": {
+    "de": "[!] Willorque",
+    "en": "[!] Willorque",
+    "es": "[!] Willorque",
+    "fr": "Willorque",
+    "pt": "[!] Willorque"
   },
   "[!] Wukin & Wukang": {
     "de": "[!] Wukin & Wukang",
@@ -82711,13 +83824,6 @@
     "fr": "_REVIVE",
     "pt": "[!] _REVIVE"
   },
-  "[!] _RUNE": {
-    "de": "[!] _RUNE",
-    "en": "[!] _RUNE",
-    "es": "[!] _RUNE",
-    "fr": "_RUNE",
-    "pt": "[!] _RUNE"
-  },
   "[!] _SCALE 100 à 70 %": {
     "de": "[!] _SCALE 100 à 70 %",
     "en": "[!] _SCALE 100 à 70 %",
@@ -82984,6 +84090,13 @@
     "fr": "canEndFight",
     "pt": "[!] canEndFight"
   },
+  "[!] Écholok": {
+    "de": "[!] Écholok",
+    "en": "[!] Écholok",
+    "es": "[!] Écholok",
+    "fr": "Écholok",
+    "pt": "[!] Écholok"
+  },
   "[!] Éclat Kao (déclenché 02)": {
     "de": "[!] Éclat Kao (déclenché 02)",
     "en": "[!] Éclat Kao (déclenché 02)",
@@ -83011,6 +84124,13 @@
     "es": "[!] Élixir uchronique mineur",
     "fr": "Élixir uchronique mineur",
     "pt": "[!] Élixir uchronique mineur"
+  },
+  "[!] Épinade": {
+    "de": "[!] Épinade",
+    "en": "[!] Épinade",
+    "es": "[!] Épinade",
+    "fr": "Épinade",
+    "pt": "[!] Épinade"
   },
   "[!] Épreuve du Dragon Noir": {
     "de": "Glyphenzauber Stacks 1-2-3-4",
@@ -83047,26 +84167,12 @@
     "fr": "Équité Déclenché",
     "pt": "[!] Équité Déclenché"
   },
-  "[!] État Incurable": {
-    "de": "[!] État Incurable",
-    "en": "[!] État Incurable",
-    "es": "[!] État Incurable",
-    "fr": "État Incurable",
-    "pt": "[!] État Incurable"
-  },
   "[!] État Saison": {
     "de": "[!] État Saison",
     "en": "[!] État Saison",
     "es": "[!] État Saison",
     "fr": "État Saison",
     "pt": "[!] État Saison"
-  },
-  "[!] État Élémentaire": {
-    "de": "[!] État Élémentaire",
-    "en": "[!] État Élémentaire",
-    "es": "[!] État Élémentaire",
-    "fr": "État Élémentaire",
-    "pt": "[!] État Élémentaire"
   },
   "[!] Étreinte Sylvestre": {
     "de": "[!] Étreinte Sylvestre",

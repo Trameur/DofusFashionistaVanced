@@ -3994,49 +3994,49 @@ DAMAGE_SPELLS = {
         ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])]),
     ],
     'Cra': [
-        Spell('[!] Flèche de Recul', [1, 66, 132], Effects(
+        Spell('Retreat Arrow', [1, 66, 132], Effects(
             [['15-17', '20-22', '25-28']],
             [['18-20', '23-26', '30-34']],
             [AIR],
-        ), is_linked=(1, '[!] Flèche Éclatante')),
-        Spell('[!] Flèche Cinglante', [25, 92, 159], Effects(
+        ), is_linked=(1, 'Radiant Arrow')),
+        Spell('Lashing Arrow', [25, 92, 159], Effects(
             [['9-11', '12-14', '15-18']],
             [['12-14', '15-18', '19-23']],
             [AIR],
-        ), is_linked=(1, '[!] Flèche Assaillante')),
-        Spell('[!] Flèche de Dispersion', [40, 107, 174], Effects(
+        ), is_linked=(1, 'Assailing Arrow')),
+        Spell('Dispersing Arrow', [40, 107, 174], Effects(
             [['13-15', '17-19', '21-24']],
             [['16-18', '20-23', '25-29']],
             [AIR],
-        ), is_linked=(1, '[!] Flèches Enflammées')),
-        Spell('[!] Flèche Perforante', [80, 147], Effects(
+        ), is_linked=(1, 'Burning Arrows')),
+        Spell('Piercing Arrow', [80, 147], Effects(
             [['31-34', '38-42'], ['35-39', '44-48']],
             [['37-40', '46-50'], ['42-46', '53-58']],
             [AIR, AIR],
-        ), is_linked=(1, '[!] Flèche Boomerang')),
-        Spell('[!] Pluie de Flèches', [160], Effects(
+        ), is_linked=(1, 'Boomerang Arrow')),
+        Spell('Raining Arrows', [160], Effects(
             [['21-23']],
             [['25-28']],
             [AIR],
-        ), is_linked=(2, '[!] Œil de Taupe')),
-        Spell('[!] Flèche Boomerang', [190], Effects(
+        ), is_linked=(2, "Bat's Eye")),
+        Spell('Boomerang Arrow', [190], Effects(
             [['26-29'], ['26-29']],
             [['31-35'], ['31-35']],
             [AIR, AIR],
             steals=[False, True],
-        ), is_linked=(2, '[!] Flèche Perforante')),
-        Spell('[!] Flèche Persécutrice', [130, 197], Effects(
+        ), is_linked=(2, 'Piercing Arrow')),
+        Spell('Persecuting Arrow', [130, 197], Effects(
             [['30-34', '30-34'], ['30-34', '30-34'], ['0-0', '34-38'], ['0-0', '34-38']],
             [['36-41', '36-41'], ['36-41', '36-41'], ['0-0', '41-46'], ['0-0', '41-46']],
             [AIR, AIR, AIR, AIR],
             steals=[True, False, True, False],
-        ), is_linked=(2, "[!] Flèche d'Abolition")),
-        Spell('[!] Flèche Glacée', [1, 67, 133], Effects(
+        ), is_linked=(2, 'Abolition Arrow')),
+        Spell('Frozen Arrow', [1, 67, 133], Effects(
             [['12-14', '16-19', '21-24']],
             [['15-17', '20-23', '25-29']],
             [WATER],
         ), is_linked=(1, 'Plaguing Arrow')),
-        Spell("[!] Flèche d'Immobilisation", [30, 97, 164], Effects(
+        Spell('Immobilising Arrow', [30, 97, 164], Effects(
             [['7-9', '9-11', '11-13'],
              ['9-11', '11-13', '13-15'],
              ['11-13', '13-15', '15-17'],
@@ -4052,29 +4052,29 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(1, '[!] Flèche Tyrannique')),
-        Spell('[!] Œil de Taupe', [50, 117, 184], Effects(
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Tyrannical Arrow')),
+        Spell("Bat's Eye", [50, 117, 184], Effects(
             [['12-14', '16-19', '19-22']],
             [['15-18', '19-22', '23-26']],
             [WATER],
             steals=[True],
-        ), is_linked=(1, '[!] Pluie de Flèches')),
-        Spell("[!] Flèche d'Expiation", [75, 142], Effects(
+        ), is_linked=(1, 'Raining Arrows')),
+        Spell('Atonement Arrow', [75, 142], Effects(
             [['28-30', '35-37']],
             [['34-36', '42-44']],
             [WATER],
-        ), is_linked=(1, '[!] Flèche de Rédemption')),
-        Spell('[!] Flèche Ralentissante', [125, 192], Effects(
+        ), is_linked=(1, 'Redemption Arrow')),
+        Spell('Slow-Down Arrow', [125, 192], Effects(
             [['28-30', '28-30'], ['0-0', '32-34']],
             [['33-36', '33-36'], ['0-0', '38-41']],
             [WATER, WATER],
-        ), is_linked=(2, '[!] Flèche Détonante')),
-        Spell('[!] Flèche Paralysante', [165], Effects(
+        ), is_linked=(2, 'Exploding Arrow')),
+        Spell('Paralysing Arrow', [165], Effects(
             [['30-34']],
             [['36-41']],
             [WATER],
-        ), is_linked=(2, '[!] Œil pour Œil')),
-        Spell('[!] Flèche de Rédemption', [185], Effects(
+        ), is_linked=(2, 'Eye for Eye')),
+        Spell('Redemption Arrow', [185], Effects(
             [['26-29'], ['32-35'], ['38-41'], ['44-47'], ['50-53'], ['56-59'], ['62-65']],
             [['31-35'], ['37-41'], ['43-47'], ['49-53'], ['55-59'], ['61-65'], ['67-71']],
             [WATER, WATER, WATER, WATER, WATER, WATER, WATER],
@@ -4085,23 +4085,23 @@ DAMAGE_SPELLS = {
  ('Stack 3', [3]),
  ('Stack 4', [4]),
  ('Stack 5', [5]),
- ('Stack 6', [6])], stacks=6, is_linked=(2, "[!] Flèche d'Expiation")),
-        Spell('[!] Flèche de Barrage', [1, 68, 134], Effects(
+ ('Stack 6', [6])], stacks=6, is_linked=(2, 'Atonement Arrow')),
+        Spell('Barricade Arrow', [1, 68, 134], Effects(
             [['14-16', '19-21', '24-27']],
             [['17-19', '22-25', '29-32']],
             [FIRE],
-        ), is_linked=(1, '[!] Carreaux Destructeurs')),
-        Spell('[!] Flèche Détonante', [15, 82, 149], Effects(
+        ), is_linked=(1, 'Destructive Bolts')),
+        Spell('Exploding Arrow', [15, 82, 149], Effects(
             [['9-11', '11-14', '14-17'], ['9-11', '11-14', '14-17']],
             [['12-14', '15-18', '18-21'], ['12-14', '15-18', '18-21']],
             [FIRE, FIRE],
-        ), is_linked=(1, '[!] Flèche Ralentissante')),
-        Spell('[!] Flèche Explosive', [45, 112, 179], Effects(
+        ), is_linked=(1, 'Slow-Down Arrow')),
+        Spell('Explosive Arrow', [45, 112, 179], Effects(
             [['19-21', '25-28', '30-34']],
             [['23-26', '30-34', '36-41']],
             [FIRE],
-        ), is_linked=(1, '[!] Flèche Massacrante')),
-        Spell('[!] Flèche Dévorante', [85, 152], Effects(
+        ), is_linked=(1, 'Slaughtering Arrow')),
+        Spell('Devouring Arrow', [85, 152], Effects(
             [['9-11', '11-13'],
              ['9-11', '11-13'],
              ['19-22', '23-27'],
@@ -4128,24 +4128,24 @@ DAMAGE_SPELLS = {
              ['68-72', '84-89']],
             [FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE],
             steals=[True, True, True, True, True, False, False, False, False, False, False, False],
-        ), stacks=3, is_linked=(1, '[!] Flèche Fulminante')),
-        Spell('[!] Flèches Enflammées', [150], Effects(
+        ), stacks=3, is_linked=(1, 'Fulminating Arrow')),
+        Spell('Burning Arrows', [150], Effects(
             [['34-38']],
             [['41-46']],
             [FIRE],
-        ), is_linked=(2, '[!] Flèche de Dispersion')),
-        Spell('[!] Flèche Tyrannique', [140], Effects(
+        ), is_linked=(2, 'Dispersing Arrow')),
+        Spell('Tyrannical Arrow', [140], Effects(
             [['28-32'], ['20-22'], ['28-32']],
             [['34-38'], ['24-26'], ['34-38']],
             [FIRE, FIRE, FIRE],
-        ), is_linked=(2, "[!] Flèche d'Immobilisation")),
-        Spell('[!] Flèche Éclatante', [95, 162], Effects(
+        ), is_linked=(2, 'Immobilising Arrow')),
+        Spell('Radiant Arrow', [95, 162], Effects(
             [['18-20', '22-25']],
             [['21-24', '26-30']],
             [FIRE],
             steals=[True],
-        ), is_linked=(2, '[!] Flèche de Recul')),
-        Spell('[!] Flèche Fulminante', [195], Effects(
+        ), is_linked=(2, 'Retreat Arrow')),
+        Spell('Fulminating Arrow', [195], Effects(
             [['26-29'], ['41-44'], ['56-59'], ['71-74'], ['86-89']],
             [['31-35'], ['46-50'], ['61-65'], ['76-80'], ['91-95']],
             [FIRE, FIRE, FIRE, FIRE, FIRE],
@@ -4153,8 +4153,8 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(2, '[!] Flèche Dévorante')),
-        Spell("[!] Flèche d'Abolition", [20, 87, 154], Effects(
+ ('Stack 4', [4])], stacks=4, is_linked=(2, 'Devouring Arrow')),
+        Spell('Abolition Arrow', [20, 87, 154], Effects(
             [['5-7', '7-9', '9-11'],
              ['5-7', '7-9', '9-11'],
              ['5-7', '7-9', '9-11'],
@@ -4169,8 +4169,8 @@ DAMAGE_SPELLS = {
              ['15-18', '19-23', '23-27']],
             [EARTH, EARTH, EARTH, EARTH, EARTH, EARTH],
             steals=[True, True, True, True, True, True],
-        ), stacks=2, is_linked=(1, '[!] Flèche Persécutrice')),
-        Spell('[!] Œil pour Œil', [55, 122, 189], Effects(
+        ), stacks=2, is_linked=(1, 'Persecuting Arrow')),
+        Spell('Eye for Eye', [55, 122, 189], Effects(
             [['18-20', '24-26', '27-30'],
              ['22-24', '29-31', '33-36'],
              ['26-28', '34-36', '39-42'],
@@ -4187,18 +4187,18 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], stacks=4, is_linked=(1, '[!] Flèche Paralysante')),
-        Spell('[!] Flèche Vagabonde', [1, 69, 136], Effects(
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Paralysing Arrow')),
+        Spell('Vagabond Arrow', [1, 69, 136], Effects(
             [['16-18', '21-23', '27-30']],
             [['19-21', '25-28', '32-36']],
             [EARTH],
-        ), is_linked=(1, '[!] Flèche Évasive')),
-        Spell('[!] Flèche Punitive', [70, 137], Effects(
+        ), is_linked=(1, 'Evasive Arrow')),
+        Spell('Punitive Arrow', [70, 137], Effects(
             [['23-27', '30-34']],
             [['28-32', '36-41']],
             [EARTH],
-        ), is_linked=(1, '[!] Flèche du Jugement')),
-        Spell('[!] Flèche Massacrante', [155], Effects(
+        ), is_linked=(1, 'Arrow of Judgement')),
+        Spell('Slaughtering Arrow', [155], Effects(
             [['25-29'], ['37-41'], ['49-53'], ['61-65'], ['73-77']],
             [['30-35'], ['42-47'], ['54-59'], ['66-71'], ['78-83']],
             [EARTH, EARTH, EARTH, EARTH, EARTH],
@@ -4206,52 +4206,52 @@ DAMAGE_SPELLS = {
  ('Stack 1', [1]),
  ('Stack 2', [2]),
  ('Stack 3', [3]),
- ('Stack 4', [4])], is_linked=(2, '[!] Flèche Explosive')),
-        Spell('[!] Flèche Assaillante', [135], Effects(
+ ('Stack 4', [4])], is_linked=(2, 'Explosive Arrow')),
+        Spell('Assailing Arrow', [135], Effects(
             [['23-26'], ['150']],
             [['28-31'], ['150']],
             [EARTH, 'buff_pow'],
-        ), is_linked=(2, '[!] Flèche Cinglante')),
-        Spell('[!] Carreaux Destructeurs', [105, 172], Effects(
+        ), is_linked=(2, 'Lashing Arrow')),
+        Spell('Destructive Bolts', [105, 172], Effects(
             [['31-34', '38-42']],
             [['37-40', '46-50']],
             [EARTH],
-        ), is_linked=(2, '[!] Flèche de Barrage')),
-        Spell('[!] Flèche du Jugement', [180], Effects(
+        ), is_linked=(2, 'Barricade Arrow')),
+        Spell('Arrow of Judgement', [180], Effects(
             [['36-40'], ['25-27']],
             [['43-48'], ['30-32']],
             [EARTH, EARTH],
-        ), is_linked=(2, '[!] Flèche Punitive')),
-        Spell('[!] Tirs Puissants', [35, 102, 169], Effects(
+        ), stacks=2, is_linked=(2, 'Punitive Arrow')),
+        Spell('Powerful Shots', [35, 102, 169], Effects(
             [['150', '200', '250']],
             [['175', '235', '300']],
             ['buff_pow'],
-        ), is_linked=(1, '[!] Flèches Amoureuses')),
-        Spell('[!] Balise Tactique', [115, 182], Effects(
+        ), is_linked=(1, 'Loving Arrows')),
+        Spell('Tactical Beacon', [115, 182], Effects(
             [['30', '40']],
             None,
             ['buff_pow'],
         ), stacks=5),
-        Spell('[!] Représailles', [170], Effects(
+        Spell('Reprisal', [170], Effects(
             [['20-0']],
             [['25-0']],
             [NEUTRAL],
         )),
-        Spell('[!] Flèche Évasive', [110, 177], Effects(
+        Spell('Evasive Arrow', [110, 177], Effects(
             [['21-23', '26-29']],
             [['25-28', '31-35']],
             [WATER],
-        ), is_linked=(2, '[!] Flèche Vagabonde')),
-        Spell('[!] Flèches Amoureuses', [145], Effects(
+        ), is_linked=(2, 'Vagabond Arrow')),
+        Spell('Loving Arrows', [145], Effects(
             [['100']],
             [['100']],
             ['buff_pow'],
-        ), is_linked=(2, '[!] Tirs Puissants')),
+        ), is_linked=(2, 'Powerful Shots')),
         Spell('Plaguing Arrow', [100, 167], Effects(
             [['13-15', '13-15'], ['0-0', '17-19']],
             [['16-18', '16-18'], ['0-0', '20-23']],
             [AIR, AIR],
-        ), is_linked=(2, '[!] Flèche Glacée')),
+        ), is_linked=(2, 'Frozen Arrow')),
     ],
     'Ecaflip': [
         Spell('Reflex', [1, 66, 132], Effects(
@@ -6030,18 +6030,18 @@ DAMAGE_SPELLS = {
             steals=[True, True, True, True, False, False, False, False],
         ), stacks=6, is_linked=(1, 'Manifestation')),
         Spell('Elemental Drain', [10, 77, 144], Effects(
-            [['15-17', '21-23', '26-29'],
-             ['15-17', '21-23', '26-29'],
-             ['15-17', '21-23', '26-29'],
-             ['15-17', '21-23', '26-29'],
+            [['14-16', '19-21', '23-26'],
+             ['14-16', '19-21', '23-26'],
+             ['14-16', '19-21', '23-26'],
+             ['14-16', '19-21', '23-26'],
              ['60', '120', '200'],
              ['60', '120', '200'],
              ['60', '120', '200'],
              ['60', '120', '200']],
-            [['19-21', '25-28', '31-35'],
-             ['19-21', '25-28', '31-35'],
-             ['19-21', '25-28', '31-35'],
-             ['19-21', '25-28', '31-35'],
+            [['17-19', '22-25', '28-31'],
+             ['17-19', '22-25', '28-31'],
+             ['17-19', '22-25', '28-31'],
+             ['17-19', '22-25', '28-31'],
              ['60', '120', '200'],
              ['60', '120', '200'],
              ['60', '120', '200'],
@@ -6080,7 +6080,7 @@ DAMAGE_SPELLS = {
              ['23-25', '29-32', '36-40']],
             [EARTH, FIRE, WATER, AIR],
         )),
-        Spell('Contribution', [45, 112, 174], Effects(
+        Spell('Contribution', [45, 112, 179], Effects(
             [['150', '150', '150']],
             None,
             ['buff_pow'],
@@ -6102,7 +6102,7 @@ DAMAGE_SPELLS = {
             [AIR],
             steals=[True],
         ), is_linked=(1, 'Breach')),
-        Spell('Storm', [65, 131, 198], Effects(
+        Spell('Storm', [65, 132, 199], Effects(
             [['24-27', '29-32', '32-36']],
             [['29-32', '34-38', '38-43']],
             [EARTH],
@@ -6121,25 +6121,21 @@ DAMAGE_SPELLS = {
             [['11-13', '14-16'], ['11-13', '14-16']],
             [['14-16', '17-19'], ['14-16', '17-19']],
             [WATER, WATER],
-            steals=[False, True],
         ), is_linked=(2, 'Ether')),
         Spell('Celestial Wave', [110, 177], Effects(
             [['9-11', '12-14'], ['9-11', '12-14']],
             [['12-14', '15-17'], ['12-14', '15-17']],
             [AIR, AIR],
-            steals=[False, True],
         ), is_linked=(2, 'Stalagmite')),
         Spell('Telluric Lances', [105, 172], Effects(
             [['9-11', '11-13'], ['9-11', '11-13']],
             [['12-14', '14-16'], ['12-14', '14-16']],
             [EARTH, EARTH],
-            steals=[False, True],
         ), is_linked=(2, 'Flamethrower')),
         Spell('Ember', [100, 167], Effects(
             [['10-12', '13-15'], ['10-12', '13-15']],
             [['13-15', '16-18'], ['13-15', '16-18']],
             [FIRE, FIRE],
-            steals=[False, True],
         ), is_linked=(2, 'Seismic Shockwave')),
         Spell('Manifestation', [115, 182], Effects(
             [['12-0', '15-0'],
@@ -6215,62 +6211,62 @@ DAMAGE_SPELLS = {
             ['buff_str', 'buff_int', 'buff_cha', 'buff_agi'],
         ), is_linked=(2, 'Runic Overcharge')),
         Spell('Arcane Torrent', [200], Effects(
+            [['2-0'],
+             ['2-0'],
+             ['2-0'],
+             ['2-0'],
+             ['4-2'],
+             ['4-2'],
+             ['4-2'],
+             ['4-2'],
+             ['6-4'],
+             ['6-4'],
+             ['6-4'],
+             ['6-4'],
+             ['8-6'],
+             ['8-6'],
+             ['8-6'],
+             ['8-6'],
+             ['10-8'],
+             ['10-8'],
+             ['10-8'],
+             ['10-8'],
+             ['12-10'],
+             ['12-10'],
+             ['12-10'],
+             ['12-10'],
+             ['14-12'],
+             ['14-12'],
+             ['14-12'],
+             ['14-12']],
             [['4-0'],
              ['4-0'],
              ['4-0'],
              ['4-0'],
+             ['6-2'],
+             ['6-2'],
+             ['6-2'],
+             ['6-2'],
              ['8-4'],
              ['8-4'],
              ['8-4'],
              ['8-4'],
+             ['10-6'],
+             ['10-6'],
+             ['10-6'],
+             ['10-6'],
              ['12-8'],
              ['12-8'],
              ['12-8'],
              ['12-8'],
+             ['14-10'],
+             ['14-10'],
+             ['14-10'],
+             ['14-10'],
              ['16-12'],
              ['16-12'],
              ['16-12'],
-             ['16-12'],
-             ['20-16'],
-             ['20-16'],
-             ['20-16'],
-             ['20-16'],
-             ['24-20'],
-             ['24-20'],
-             ['24-20'],
-             ['24-20'],
-             ['28-24'],
-             ['28-24'],
-             ['28-24'],
-             ['28-24']],
-            [['6-0'],
-             ['6-0'],
-             ['6-0'],
-             ['6-0'],
-             ['10-4'],
-             ['10-4'],
-             ['10-4'],
-             ['10-4'],
-             ['14-8'],
-             ['14-8'],
-             ['14-8'],
-             ['14-8'],
-             ['18-12'],
-             ['18-12'],
-             ['18-12'],
-             ['18-12'],
-             ['22-16'],
-             ['22-16'],
-             ['22-16'],
-             ['22-16'],
-             ['26-20'],
-             ['26-20'],
-             ['26-20'],
-             ['26-20'],
-             ['30-24'],
-             ['30-24'],
-             ['30-24'],
-             ['30-24']],
+             ['16-12']],
             [AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER],
         ), aggregates=[('Stack 0', [0]),
  ('', [1]),
@@ -6480,7 +6476,7 @@ DAMAGE_SPELLS = {
  ('Stack 4', [4])], is_linked=(2, 'Sword of Fate')),
         Spell("Iop's Wrath", [200], Effects(
             [['81-100']],
-            [['97-120']],
+            [['107-130']],
             [EARTH],
         ), is_linked=(2, 'Fit of Rage')),
     ],
