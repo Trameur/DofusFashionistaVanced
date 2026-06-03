@@ -5403,3 +5403,43 @@ msgstr "% Resistencia Tierra en PvP"
 
 msgid "Critical Failure"
 msgstr "Fallo Crítico"
+
+#: chardata/templates/chardata/workshop.html
+msgid "Total ingredients needed"
+msgstr "Total de ingredientes necesarios"
+
+#: chardata/templates/chardata/workshop.html
+msgid "No recipe data for these items."
+msgstr "No hay datos de receta para estos objetos."
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredient"
+msgstr "ingrediente"
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredients"
+msgstr "ingredientes"
+
+#: chardata/templates/chardata/workshop.html
+msgid "total"
+msgstr "en total"
+
+#: chardata/templates/chardata/solution.html
+msgid "Show crafting ingredients"
+msgstr "Mostrar ingredientes de fabricación"
+
+#: chardata/templates/chardata/solution.html
+msgid "Hide crafting ingredients"
+msgstr "Ocultar ingredientes de fabricación"
+
+#: chardata/templates/chardata/solution.html
+msgid "No recipe data for this build."
+msgstr "No hay datos de receta para esta build."
+
+#: chardata/templates/chardata/solution.html
+msgid "Loading..."
+msgstr "Cargando..."
+
+#: chardata/workshop_view.py
+msgid "Unknown ingredient"
+msgstr "Ingrediente desconocido"

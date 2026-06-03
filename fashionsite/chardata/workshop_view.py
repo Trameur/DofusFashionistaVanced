@@ -10,10 +10,9 @@
 A logged-in player can stash items they want to craft or acquire, scoped to
 the current game version. Add-to-workshop buttons appear on /solution/ pages.
 
-MVP: list view + add / remove / clear / set quantity. Resource aggregation
-(summing all ingredient counts of recipes) will be plugged in once recipe
-tables are populated in production — the model already carries `item_id`
-and `game_version`, so the extension is purely a presentation layer."""
+The list view aggregates every stashed item's recipe into a single shopping
+list of raw ingredients (see `chardata.recipe_util`), so the player can see at
+a glance how many of each resource they need to craft everything."""
 
 import logging
 
@@ -24,6 +23,7 @@ from django.views.decorators.http import require_POST
 
 from chardata.image_store import get_image_url
 from chardata.models import WorkshopItem
+from chardata.recipe_util import aggregate_ingredients
 from chardata.util import set_response, version_reverse
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
@@ -73,15 +73,45 @@ def _items_for_user(user, game_version):
     return items
 
 
+def _ingredients_for_workshop(user, game_version):
+    """Aggregated recipe ingredients for everything currently in `user`'s
+    workshop, multiplied by each item's quantity."""
+    rows = WorkshopItem.objects.filter(user=user, game_version=game_version)
+    return aggregate_ingredients(
+        ((row.item_id, row.quantity) for row in rows),
+        get_supported_language(), game_version,
+        unknown_label=_('Unknown ingredient'))
+
+
 @login_required
 def workshop(request):
     game_version = getattr(request, 'game_version', 'dofus3')
     items = _items_for_user(request.user, game_version)
+    recipe = _ingredients_for_workshop(request.user, game_version)
     return set_response(request,
                         'chardata/workshop.html',
                         {'workshop_items': items,
                          'workshop_count': len(items),
-                         'workshop_total_units': sum(it['quantity'] for it in items)})
+                         'workshop_total_units': sum(it['quantity'] for it in items),
+                         'ingredients': recipe['ingredients'],
+                         'ingredient_kinds': len(recipe['ingredients']),
+                         'ingredient_total_units': sum(i['quantity'] for i in recipe['ingredients']),
+                         'recipes_available': recipe['recipes_available']})
+
+
+@login_required
+def workshop_ingredients(request):
+    """JSON ingredient list for the current user's workshop. Lets the page
+    refresh the shopping list after a quantity change / removal without a full
+    reload."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    recipe = _ingredients_for_workshop(request.user, game_version)
+    return JsonResponse({
+        'ingredients': recipe['ingredients'],
+        'ingredient_kinds': len(recipe['ingredients']),
+        'ingredient_total_units': sum(i['quantity'] for i in recipe['ingredients']),
+        'recipes_available': recipe['recipes_available'],
+    })
 
 
 def _coerce_quantity(value, default=1):
@@ -149,29 +179,41 @@ def clear_workshop(request):
     return JsonResponse({'success': True, 'removed_count': deleted})
 
 
+def _solution_item_ids(char):
+    """Unique structure item ids equipped in a solved Char, or None when the
+    build has no solution yet."""
+    from chardata.solution import get_solution
+    sol = get_solution(char)
+    if sol is None:
+        return None
+    item_ids = []
+    seen = set()
+    for item_info in getattr(sol, 'item_list', []) or []:
+        item_id = getattr(item_info, 'item_id', None) or getattr(item_info, 'id', None)
+        if item_id is None or item_id in seen:
+            continue
+        seen.add(item_id)
+        item_ids.append(item_id)
+    return item_ids
+
+
 @login_required
 @require_POST
 def add_solution_to_workshop(request, char_id):
     """Bulk-add every equipped item of a solved Char to the user's workshop."""
     from chardata.models import Char
-    from chardata.solution import get_solution
     try:
         char = Char.objects.get(id=char_id)
     except Char.DoesNotExist:
         return JsonResponse({'error': _('Build not found')}, status=404)
 
     game_version = char.game_version or 'dofus3'
-    sol = get_solution(char)
-    if sol is None:
+    item_ids = _solution_item_ids(char)
+    if item_ids is None:
         return JsonResponse({'error': _('Build has no solution yet')}, status=400)
 
     added = 0
-    seen_item_ids = set()
-    for item_info in getattr(sol, 'item_list', []) or []:
-        item_id = getattr(item_info, 'item_id', None) or getattr(item_info, 'id', None)
-        if item_id is None or item_id in seen_item_ids:
-            continue
-        seen_item_ids.add(item_id)
+    for item_id in item_ids:
         obj, created = WorkshopItem.objects.get_or_create(
             user=request.user, item_id=item_id, game_version=game_version,
             defaults={'quantity': 1})
@@ -181,3 +223,31 @@ def add_solution_to_workshop(request, char_id):
         added += 1
 
     return JsonResponse({'success': True, 'added': added})
+
+
+@login_required
+def solution_ingredients(request, char_id):
+    """JSON shopping list of recipe ingredients for a build's solution (one of
+    each equipped item). Drives the 'crafting ingredients' panel on the
+    solution page."""
+    from chardata.models import Char
+    try:
+        char = Char.objects.get(id=char_id)
+    except Char.DoesNotExist:
+        return JsonResponse({'error': _('Build not found')}, status=404)
+
+    game_version = char.game_version or 'dofus3'
+    item_ids = _solution_item_ids(char)
+    if item_ids is None:
+        return JsonResponse({'error': _('Build has no solution yet')}, status=400)
+
+    recipe = aggregate_ingredients(
+        ((item_id, 1) for item_id in item_ids),
+        get_supported_language(), game_version,
+        unknown_label=_('Unknown ingredient'))
+    return JsonResponse({
+        'ingredients': recipe['ingredients'],
+        'ingredient_kinds': len(recipe['ingredients']),
+        'ingredient_total_units': sum(i['quantity'] for i in recipe['ingredients']),
+        'recipes_available': recipe['recipes_available'],
+    })

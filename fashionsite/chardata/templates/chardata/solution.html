@@ -434,7 +434,14 @@
         <button id="add_to_workshop_btn" type="button" class="button-generic" onclick="addSolutionToWorkshop();">
             {% trans "Add all items to my Workshop" %}
         </button>
+        <button id="show_ingredients_btn" type="button" class="button-generic" onclick="toggleSolutionIngredients();">
+            {% trans "Show crafting ingredients" %}
+        </button>
         <span id="workshop_feedback" style="margin-left: 8px; font-size: 0.9em; opacity: 0.85;"></span>
+    </div>
+    <div id="solution_ingredients" style="display: none; max-width: 520px; margin: 10px auto 0; text-align: left;">
+        <div id="solution_ingredients_meta" style="opacity: 0.7; font-size: 0.85em; margin-bottom: 6px;"></div>
+        <ul id="solution_ingredients_list" style="list-style: none; padding: 0; margin: 0;"></ul>
     </div>
     {% endif %}
 
@@ -1731,6 +1738,53 @@
                 complete: function() {
                     $btn.prop('disabled', false);
                 }
+            });
+        }
+
+        var solutionIngredientsLoaded = false;
+        function toggleSolutionIngredients() {
+            var $box = $('#solution_ingredients');
+            var $btn = $('#show_ingredients_btn');
+            if ($box.is(':visible')) {
+                $box.slideUp(120);
+                $btn.text("{% trans 'Show crafting ingredients' %}");
+                return;
+            }
+            $btn.text("{% trans 'Hide crafting ingredients' %}");
+            $box.slideDown(120);
+            if (solutionIngredientsLoaded) return;
+
+            var ingSingular = "{% trans 'ingredient' %}";
+            var ingPlural = "{% trans 'ingredients' %}";
+            var totalWord = "{% trans 'total' %}";
+            $('#solution_ingredients_meta').text("{% trans 'Loading...' %}");
+            $.get(apiBase + '/workshop/solutioningredients/{{ char_id }}/', function(resp) {
+                solutionIngredientsLoaded = true;
+                var $list = $('#solution_ingredients_list').empty();
+                if (!resp || !resp.recipes_available || !resp.ingredients.length) {
+                    $('#solution_ingredients_meta').text("{% trans 'No recipe data for this build.' %}");
+                    return;
+                }
+                var kinds = resp.ingredient_kinds;
+                $('#solution_ingredients_meta').text(
+                    kinds + ' ' + (kinds === 1 ? ingSingular : ingPlural)
+                    + ' · ' + resp.ingredient_total_units + ' ' + totalWord);
+                resp.ingredients.forEach(function(ing) {
+                    var $name = $('<span></span>').css('flex', '1');
+                    if (ing.local_item_url) {
+                        $name.append($('<a></a>').attr('href', ing.local_item_url).text(ing.name));
+                    } else {
+                        $name.text(ing.name);
+                    }
+                    $('<li></li>')
+                        .css({display: 'flex', gap: '10px', padding: '4px 2px',
+                              'border-top': '1px solid rgba(128,128,128,0.25)'})
+                        .append($name)
+                        .append($('<span></span>').css('font-weight', '700').text('×' + ing.quantity))
+                        .appendTo($list);
+                });
+            }).fail(function() {
+                $('#solution_ingredients_meta').text("{% trans 'No recipe data for this build.' %}");
             });
         }
 

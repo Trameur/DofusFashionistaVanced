@@ -5385,3 +5385,43 @@ msgstr "% Erdwiderstand im PvP"
 
 msgid "Critical Failure"
 msgstr "Kritischer Fehlschlag"
+
+#: chardata/templates/chardata/workshop.html
+msgid "Total ingredients needed"
+msgstr "Benötigte Zutaten insgesamt"
+
+#: chardata/templates/chardata/workshop.html
+msgid "No recipe data for these items."
+msgstr "Keine Rezeptdaten für diese Gegenstände."
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredient"
+msgstr "Zutat"
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredients"
+msgstr "Zutaten"
+
+#: chardata/templates/chardata/workshop.html
+msgid "total"
+msgstr "insgesamt"
+
+#: chardata/templates/chardata/solution.html
+msgid "Show crafting ingredients"
+msgstr "Herstellungszutaten anzeigen"
+
+#: chardata/templates/chardata/solution.html
+msgid "Hide crafting ingredients"
+msgstr "Herstellungszutaten ausblenden"
+
+#: chardata/templates/chardata/solution.html
+msgid "No recipe data for this build."
+msgstr "Keine Rezeptdaten für diesen Build."
+
+#: chardata/templates/chardata/solution.html
+msgid "Loading..."
+msgstr "Wird geladen..."
+
+#: chardata/workshop_view.py
+msgid "Unknown ingredient"
+msgstr "Unbekannte Zutat"

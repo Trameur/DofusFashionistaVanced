@@ -14,6 +14,7 @@ Pipeline steps:
     items/transform     get_equipments2.py    -> itemscraper/transformed_equipment.json
     items/dump          get_equipments3.py    -> item_db_dumped.dump
     items/load-db       load_item_db.py       -> items.db
+    items/obtainment    store_item_obtainment.py -> recipes/descriptions in items.db
     item-images         get_equipments4.py    -> static item images
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells.json
@@ -181,6 +182,15 @@ def main() -> None:
         step("items/transform",  [PY, "get_equipments2.py"], cwd=ITEMSCRAPER)
         step("items/dump",       [PY, "get_equipments3.py"], cwd=ITEMSCRAPER)
         step("items/load-db",    [PY, "load_item_db.py"])
+        # Must run after load-db: adds recipe / description / pods tables onto
+        # the freshly-loaded items.db and re-dumps it. (load-db rebuilds the DB
+        # from the dump, so running this earlier would be wiped out.)
+        # Other versions are populated out-of-band, e.g.:
+        #   python itemscraper/store_item_obtainment.py --game-version beta
+        #   python itemscraper/store_item_obtainment.py --game-version dofus2
+        # Retro recipes come from a different source (Ankama "crafts" lang SWF):
+        #   python itemscraper/store_retro_recipes.py
+        step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)  # --game-version defaults to dofus3

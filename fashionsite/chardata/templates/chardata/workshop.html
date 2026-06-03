@@ -76,6 +76,45 @@
             color: #c33;
             font-style: italic;
         }
+        .workshop-ingredients {
+            margin: 28px 0 0;
+        }
+        .workshop-ingredients h2 {
+            font-size: 1.15em;
+            margin: 0 0 4px;
+        }
+        .workshop-ingredients-meta {
+            opacity: 0.7;
+            font-size: 0.85em;
+            margin: 0 0 10px;
+        }
+        .ingredient-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .ingredient-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            padding: 5px 4px;
+            border-top: 1px solid rgba(128,128,128,0.25);
+        }
+        .ingredient-row:first-child {
+            border-top: none;
+        }
+        .ingredient-name {
+            flex: 1;
+            min-width: 0;
+        }
+        .ingredient-qty {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .ingredient-empty {
+            opacity: 0.7;
+            font-style: italic;
+        }
     </style>
 {% endblock %}
 
@@ -126,11 +165,70 @@
             {% trans "Open a build and click 'Add to workshop' on items you need to craft or acquire." %}
         </p>
         {% endif %}
+
+        {% if workshop_items and recipes_available %}
+        <div class="workshop-ingredients" id="workshop_ingredients">
+            <h2>{% trans "Total ingredients needed" %}</h2>
+            <p class="workshop-ingredients-meta" id="ingredients_meta">
+                {{ ingredient_kinds }} {% if ingredient_kinds == 1 %}{% trans "ingredient" %}{% else %}{% trans "ingredients" %}{% endif %} · {{ ingredient_total_units }} {% trans "total" %}
+            </p>
+            <ul class="ingredient-list" id="ingredient_list">
+                {% for ing in ingredients %}
+                <li class="ingredient-row">
+                    <span class="ingredient-name">
+                        {% if ing.local_item_url %}
+                        <a href="{{ ing.local_item_url }}">{{ ing.name }}</a>
+                        {% else %}
+                        {{ ing.name }}
+                        {% endif %}
+                    </span>
+                    <span class="ingredient-qty">×{{ ing.quantity }}</span>
+                </li>
+                {% empty %}
+                <li class="ingredient-empty">{% trans "No recipe data for these items." %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
     </div>
 
     <script>
         var workshopApiBase = '{{ api_base }}';
         $.ajaxSetup({ data: {csrfmiddlewaretoken: '{{ csrf_token }}'} });
+
+        var ingSingular = "{% trans 'ingredient' %}";
+        var ingPlural = "{% trans 'ingredients' %}";
+        var totalWord = "{% trans 'total' %}";
+        var noRecipeText = "{% trans 'No recipe data for these items.' %}";
+
+        function refreshIngredients() {
+            var $box = $('#workshop_ingredients');
+            if (!$box.length) return;
+            $.get(workshopApiBase + '/workshop/ingredients/', function(resp) {
+                if (!resp || !resp.recipes_available) return;
+                var kinds = resp.ingredient_kinds;
+                $('#ingredients_meta').text(
+                    kinds + ' ' + (kinds === 1 ? ingSingular : ingPlural)
+                    + ' · ' + resp.ingredient_total_units + ' ' + totalWord);
+                var $list = $('#ingredient_list').empty();
+                if (!resp.ingredients.length) {
+                    $list.append($('<li class="ingredient-empty"></li>').text(noRecipeText));
+                    return;
+                }
+                resp.ingredients.forEach(function(ing) {
+                    var $name = $('<span class="ingredient-name"></span>');
+                    if (ing.local_item_url) {
+                        $name.append($('<a></a>').attr('href', ing.local_item_url).text(ing.name));
+                    } else {
+                        $name.text(ing.name);
+                    }
+                    $('<li class="ingredient-row"></li>')
+                        .append($name)
+                        .append($('<span class="ingredient-qty"></span>').text('×' + ing.quantity))
+                        .appendTo($list);
+                });
+            });
+        }
 
         $(document).on('click', '.workshop-row-remove', function() {
             var id = $(this).data('workshop-id');
@@ -139,6 +237,8 @@
                     $('[data-workshop-id="' + id + '"]').closest('.workshop-row').remove();
                     if ($('#workshop_list .workshop-row').length === 0) {
                         location.reload();
+                    } else {
+                        refreshIngredients();
                     }
                 }
             });
@@ -150,7 +250,9 @@
             if (q < 1) q = 1;
             if (q > 999) q = 999;
             $(this).val(q);
-            $.post(workshopApiBase + '/workshop/setqty/' + id + '/', {quantity: q});
+            $.post(workshopApiBase + '/workshop/setqty/' + id + '/', {quantity: q}, function() {
+                refreshIngredients();
+            });
         });
 
         $('#workshop_clear').on('click', function(e) {

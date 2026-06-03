@@ -1,5 +1,5 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.shortcuts import redirect
 import json
 import re
 import sqlite3
@@ -9,7 +9,7 @@ from django.utils import translation
 from chardata.image_store import get_image_url
 from chardata.official_site import get_item_link
 from chardata.stat_icons import get_stat_icon_path
-from chardata.util import safe_int, set_response
+from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import strip_accents
@@ -528,7 +528,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
 
     conn = None
     try:
-        conn = sqlite3.connect(get_items_db_path())
+        conn = sqlite3.connect(get_items_db_path(game_version))
         cursor = conn.cursor()
 
         cursor.execute(
@@ -868,7 +868,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     try:
         target_ankama_id = int(ankama_id)
     except (TypeError, ValueError):
-        raise Http404(t['item_not_found'])
+        return redirect(version_reverse(request, 'encyclopedia'))
 
     matched_item = None
     target_types = _get_ankama_type_aliases(ankama_type)
@@ -909,7 +909,10 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                         break
 
     if matched_item is None:
-        raise Http404(t['item_not_found'])
+        # Item doesn't exist in this game version (e.g. after switching versions
+        # from an item page) — fall back to the version's main encyclopedia
+        # rather than showing a 404.
+        return redirect(version_reverse(request, 'encyclopedia'))
 
     group_key = _get_item_group_key(matched_item)
     grouped_variants = [

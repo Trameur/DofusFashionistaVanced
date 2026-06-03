@@ -5999,3 +5999,43 @@ msgstr "Échec Critique"
 
 msgid "% Weapon Resist"
 msgstr "% Résistance aux Armes"
+
+#: chardata/templates/chardata/workshop.html
+msgid "Total ingredients needed"
+msgstr "Total des ingrédients nécessaires"
+
+#: chardata/templates/chardata/workshop.html
+msgid "No recipe data for these items."
+msgstr "Aucune donnée de recette pour ces objets."
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredient"
+msgstr "ingrédient"
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredients"
+msgstr "ingrédients"
+
+#: chardata/templates/chardata/workshop.html
+msgid "total"
+msgstr "au total"
+
+#: chardata/templates/chardata/solution.html
+msgid "Show crafting ingredients"
+msgstr "Afficher les ingrédients de craft"
+
+#: chardata/templates/chardata/solution.html
+msgid "Hide crafting ingredients"
+msgstr "Masquer les ingrédients de craft"
+
+#: chardata/templates/chardata/solution.html
+msgid "No recipe data for this build."
+msgstr "Aucune donnée de recette pour ce build."
+
+#: chardata/templates/chardata/solution.html
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: chardata/workshop_view.py
+msgid "Unknown ingredient"
+msgstr "Ingrédient inconnu"
