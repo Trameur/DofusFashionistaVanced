@@ -18,8 +18,9 @@ from django.utils.translation import gettext as _
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata.nl_parser import parse_build_request
+from chardata.smart_build import ASPECT_TO_NAME, ALL_ASPECTS_LIST
+from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES
 
 
 EXAMPLE_QUERIES = [
@@ -30,6 +31,30 @@ EXAMPLE_QUERIES = [
 ]
 
 
+def _aspect_labels(aspects):
+    ordered = sorted(aspects, key=lambda a: ALL_ASPECTS_LIST.index(a)
+                     if a in ALL_ASPECTS_LIST else len(ALL_ASPECTS_LIST))
+    return [str(ASPECT_TO_NAME.get(a, a)) for a in ordered]
+
+
+def _interpretation(parsed, confirmed):
+    """Human-readable echo of what the parser understood, so a misread is
+    visible before a build is created. When the class is missing we only show
+    the bits we actually recognized (no defaulted aspects)."""
+    if confirmed:
+        cls = parsed['char_class']
+        return {
+            'class_name': str(LOCALIZED_CHARACTER_CLASSES.get(cls, cls)),
+            'level': parsed['level'],
+            'aspect_labels': _aspect_labels(parsed['aspects']),
+        }
+    return {
+        'class_name': None,
+        'level': parsed['level'] if parsed['matched_level'] else None,
+        'aspect_labels': _aspect_labels(parsed['extra_aspects']) if parsed['extra_aspects'] else [],
+    }
+
+
 def smart_build(request):
     game_version = getattr(request, 'game_version', 'dofus3')
 
@@ -38,10 +63,23 @@ def smart_build(request):
         parsed = parse_build_request(query)
 
         if not parsed['matched_class']:
-            # Can't build without a class — re-render with an error + parsed hints.
+            # Can't build without a class — re-render with an error and whatever
+            # else we did recognize, so the user can see what to add.
             return set_response(request, 'chardata/smart_build.html', {
                 'query': query,
                 'error': _("Tell us which class — e.g. \"Iop 200 earth PvM\"."),
+                'interpretation': _interpretation(parsed, confirmed=False),
+                'examples': EXAMPLE_QUERIES,
+                'login_problem': is_anon_cant_create(request),
+            })
+
+        if not request.POST.get('confirm'):
+            # Echo the interpretation and let the user confirm or edit before we
+            # build — keeps a misread from silently producing the wrong set.
+            return set_response(request, 'chardata/smart_build.html', {
+                'query': query,
+                'interpretation': _interpretation(parsed, confirmed=True),
+                'confirm': True,
                 'examples': EXAMPLE_QUERIES,
                 'login_problem': is_anon_cant_create(request),
             })

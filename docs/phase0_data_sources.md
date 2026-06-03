@@ -9,7 +9,7 @@
 |---|---|---|
 | **Dofus 2** | ✅ dofusdude (`dofus2-main`) | **FAIT** (implémenté) |
 | **Dofus Retro (1.29)** | ✅ **Source + extraction FONCTIONNELLES** | **GO** : download + parseur AS2 Python opérationnels (11 203 items extraits). Reste : mapping modèle interne + DB + builder |
-| **Dofus Touch** | 🔴 Pas de source fiable actuellement | **NO-GO pour l'instant** : dofapi (la seule source Touch connue) est hors-ligne |
+| **Dofus Touch** | ✅ Encyclopédie officielle HTML exploitable | **GO (scraping natif)** : `www.dofus-touch.com` fonctionne avec gestion des cookies SSO |
 | **HDV / budget kamas** | ⛔ Bloqué légalement | **NO-GO** : accès aux prix HDV interdit par Ankama, aucune API stable. Alternative conforme ci-dessous |
 
 ---
@@ -43,21 +43,25 @@
 
 ## Dofus Touch
 
-**Sources évaluées :**
-- **`dofapi.fr`** — historiquement LA source Dofus + **Dofus-Touch** (items 100 %, JSON, FR/EN). **Problème : hors-ligne au moment du test** (DNS `api.dofapi.fr` non résolu, `dofapi.fr/api/*` → 404). Service instable / en sommeil.
-- **dofusdb.fr** — ne couvre pas Touch (cible Unity).
-- Le flag legacy `dofustouch=1` dans `items.db` est **obsolète** (déjà documenté).
+**Sources évaluées (mise à jour 2026-06-03) :**
+- **`dofapi.fr`** — historiquement la source Touch JSON, mais API non exploitable aujourd'hui (`api.dofapi.fr`/`fr.dofus.dofapi.fr` indisponibles, `/api/*` en 404).
+- **`api.dofusdu.de`** — pas d'endpoint Touch JSON public confirmé.
+- **`www.dofus-touch.com` (encyclopédie officielle)** — **source native trouvée** : les pages sont accessibles en HTTP 200 en conservant les cookies sur la redirection SSO Ankama.
 
-**Investigation CDN (2026-05-28)** : le bucket **`dofustouch.cdn.ankama.com` existe** (le host résout) mais **toutes les clés testées renvoient 403** (`/lang/...`, `/data/common/Items.d2o`, `/build/config.json`, `/assetmap.json`…). Contrairement à Retro, il n'y a **pas de point d'entrée public** (manifeste `versions.txt` ouvert). Les URLs d'assets Touch sont vraisemblablement résolues via un manifeste signé/buildhash connu seulement du client.
+**Validation d'accès (faite) :**
+- Les URLs d'encyclopédie (`/equipements`, `/armes`, `/objets/recette/<id>`) passent par un flux `302` vers `account.ankama.com/sso-redirect`.
+- Sans persistance de cookies, on observe une boucle de redirections.
+- Avec un cookie jar persistant, la page finale revient en **HTTP 200** (HTML complet parseable).
 
-**Format** : Touch est basé sur Dofus 2.x → données en **D2O/D2P binaire** (pas du SWF lang comme Retro). Parseur disponible : [PyDofus](https://github.com/balciseri/PyDofus) (Python, unpack D2O/D2P). [dofusdude/doduda](https://github.com/dofusdude/doduda) embarque un port PyDofus mais ne cible que Dofus 2/3.
+**Granularité des données récupérables :**
+- **Pages liste** : pagination + liens item/set avec `ankama_id` dans l'URL.
+- **Pages détail** : nom, niveau, type, effets, conditions, set lié.
+- **Recettes** : panneau recette présent sur les pages craftables (ingrédients + quantités).
 
-**Verdict** : **NO-GO court terme** — le blocage Touch n'est PAS le parsing (PyDofus existe) mais la **découverte de l'URL des assets** (CDN verrouillé). Plus profond que Retro.
+**Verdict** : **GO (scraping natif)** — la source Touch existe et est exploitable sans utiliser Dofus 2 comme proxy.  
+Contrainte : crawler orienté HTML avec gestion cookies/redirects et throttling.
 
-**Prochaines étapes** :
-1. Trouver le manifeste/buildhash Touch (inspecter le trafic réseau de l'app Touch, ou un mirror communautaire des D2P).
-2. Une fois les D2P récupérés : `PyDofus` → D2O → items → pipeline.
-3. Tant que bloqué : `/touch/` reste non proposé dans le sélecteur de version.
+**Note** : le dump `dofapi/crawlit-dofus-encyclopedia-parser/data/dofus-touch` existe, mais c'est un snapshot ancien (2019), utile en archive seulement.
 
 ## HDV / budget kamas — ⛔ bloqué légalement
 

@@ -5433,3 +5433,19 @@ msgstr "Alle geteilten Builds ansehen →"
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "Some items may have stronger options for your build:"
 msgstr "Einige Gegenstände haben möglicherweise bessere Optionen für deinen Build:"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Here's what we understood:"
+msgstr "Das haben wir verstanden:"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Understood so far:"
+msgstr "Bisher verstanden:"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Create this build"
+msgstr "Diesen Build erstellen"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Not quite? Edit your description above and search again."
+msgstr "Nicht ganz? Bearbeite deine Beschreibung oben und suche erneut."
