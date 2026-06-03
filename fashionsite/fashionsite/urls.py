@@ -151,6 +151,30 @@ def sitemap_view(request):
     
     return HttpResponse(sitemap_content, content_type='application/xml')
 
+def service_worker_view(request):
+    """Tombstone service worker.
+
+    An earlier build of the site registered a service worker at /sw.js. The
+    worker persists in visitors' browsers and keeps re-requesting /sw.js (404
+    spam) and can serve stale cached CSS/JS. Serving this self-unregistering
+    worker makes those browsers tear the old worker down and drop its caches."""
+    sw = """
+self.addEventListener('install', function() { self.skipWaiting(); });
+self.addEventListener('activate', function(event) {
+    event.waitUntil((async function() {
+        if (self.registration) { await self.registration.unregister(); }
+        var keys = await caches.keys();
+        await Promise.all(keys.map(function(k) { return caches.delete(k); }));
+        var clientsList = await self.clients.matchAll({ type: 'window' });
+        clientsList.forEach(function(client) { client.navigate(client.url); });
+    })());
+});
+"""
+    response = HttpResponse(sw, content_type='application/javascript')
+    # Never let the tombstone itself get cached.
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    return response
+
 js_info_dict = {
     'packages': 'chardata',
 }
@@ -158,6 +182,7 @@ js_info_dict = {
 urlpatterns = [
     re_path(r'^ads\.txt$', ads_txt_view, name='ads_txt'),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
+    re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
     re_path(r'^$', home_view.home, name='home'),
     re_path(r'^login_page/', login_view.login_page, name='login_page'),

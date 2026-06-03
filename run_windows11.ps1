@@ -594,15 +594,25 @@ function Start-DofusFashionista {
     # Configurer l'environnement Python
     Set-PythonEnvironment
 
-    # Forcer l'utilisation de la base 'fashionista_migration' pour correspondre aux dumps migrés
-    $env:DB_NAME = 'fashionista_migration'
-    Write-LogMessage "DB_NAME défini sur $env:DB_NAME pour cette session." "INFO"
-    
+    # La base 'fashionista_migration' n'a de sens que pour le scénario de migration
+    # AWS (import de migrated_production.sql). Sans ce dump, on utilise la base
+    # locale normale ('fashionista' par défaut) ; sinon Django pointe vers une base
+    # inexistante / sans droits -> erreur 1044 "Access denied ... fashionista_migration".
+    $defaultDump = "C:\Users\jems3\Documents\AWS\migrated_production.sql"
+    if (Test-Path -Path $defaultDump) {
+        $env:DB_NAME = 'fashionista_migration'
+        Write-LogMessage "Dump de prod migré trouvé : DB_NAME défini sur $env:DB_NAME." "INFO"
+    } elseif (-not $env:DB_NAME) {
+        $env:DB_NAME = 'fashionista'
+        Write-LogMessage "DB_NAME défini sur $env:DB_NAME pour cette session." "INFO"
+    } else {
+        Write-LogMessage "DB_NAME conservé : $env:DB_NAME." "INFO"
+    }
+
     # S'assurer que le fichier dump existe
     Ensure-DumpFile
-    
+
     # Importer le dump de prod migré si présent
-    $defaultDump = "C:\Users\jems3\Documents\AWS\migrated_production.sql"
     if (Test-Path -Path $defaultDump) {
         Import-MySqlDump -SqlPath $defaultDump -DbName $env:DB_NAME
     } else {
