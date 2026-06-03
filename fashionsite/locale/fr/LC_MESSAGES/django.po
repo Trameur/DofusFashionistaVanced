@@ -6039,3 +6039,7 @@ msgstr "Chargement..."
 #: chardata/workshop_view.py
 msgid "Unknown ingredient"
 msgstr "Ingrédient inconnu"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Browse all shared builds →"
+msgstr "Parcourir toutes les builds partagées →"

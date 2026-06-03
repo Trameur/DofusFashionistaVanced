@@ -5443,3 +5443,7 @@ msgstr "Cargando..."
 #: chardata/workshop_view.py
 msgid "Unknown ingredient"
 msgstr "Ingrediente desconocido"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Browse all shared builds →"
+msgstr "Ver todas las builds compartidas →"

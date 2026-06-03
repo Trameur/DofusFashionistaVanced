@@ -5425,3 +5425,7 @@ msgstr "Wird geladen..."
 #: chardata/workshop_view.py
 msgid "Unknown ingredient"
 msgstr "Unbekannte Zutat"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Browse all shared builds →"
+msgstr "Alle geteilten Builds ansehen →"
