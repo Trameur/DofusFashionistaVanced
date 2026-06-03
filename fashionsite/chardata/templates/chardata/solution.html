@@ -304,8 +304,8 @@
     <div class="build-check" align="center">
         <div class="build-check-inner">
             <strong>{% trans "Build check" %}:</strong>
-            {% blocktrans count counter=build_check.low_items|length %}1 item is well below your level and could be upgraded:{% plural %}{{ counter }} items are well below your level and could be upgraded:{% endblocktrans %}
-            {% for li in build_check.low_items %}<span class="build-check-item">{{ li.name }} ({% trans "lvl" %} {{ li.level }}){% if not forloop.last %},{% endif %}</span> {% endfor %}
+            {% trans "Some items may have stronger options for your build:" %}
+            {% for s in build_check.suggestions %}<span class="build-check-item">{{ s.name }}{% if not forloop.last %},{% endif %}</span> {% endfor %}
         </div>
     </div>
     <style>

@@ -20,6 +20,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
 from django.core.cache import cache
 import json
+import pickle
 
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
@@ -37,7 +38,7 @@ from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, get_base_stats_by_attr, version_reverse
-from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER
+from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, TYPE_NAME_TO_SLOT
 
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
@@ -53,31 +54,131 @@ _SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
                      'Belt', 'Boots', 'Dofus', 'Pet']
 
 
-_LOW_ITEM_LEVEL_GAP = 50  # an equipped item this far below char level = upgrade hint
+# Hint a slot as upgradable only when the equipped item is clearly off the pace
+# for *this build*: there must be at least this many strictly-better-scoring
+# options for the slot (so a top pick is never flagged) AND the equipped item
+# must score below this fraction of the slot's best score (so "good enough"
+# items stay silent). Score = the item's stats dotted with the build's stat
+# weights — the same ranking the "switch item" list uses, so a low-level item
+# that scores well for the build is correctly left alone.
+_UPGRADE_MIN_BETTER = 5
+_UPGRADE_SCORE_RATIO = 0.8
+_UPGRADE_MAX_HINTS = 4
+# Slots whose item is well-modelled by the build's stat weights. Weapons are
+# valued by damage/AP (own ranking), and Dofus/Pet are picked for unique
+# effects, quests or ownership — a flat stat score is a poor "upgrade" signal
+# for those, so they're left out to keep hints trustworthy.
+_CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
+
+
+def _resolve_structure_item(structure, name):
+    if not name or name == 'NoItem':
+        return None
+    item = structure.get_item_by_name(name)
+    if item is None and name in structure.or_items:
+        item = structure.get_or_item_by_name(name)[0]
+    return item
+
+
+def _weighted_rate(structure, item, weights):
+    """Build-specific score: the item's stats weighted by the build's stat
+    weights (mirrors item_exchange._rate, which orders the switch-item list)."""
+    if item.name in structure.or_items:
+        item = structure.get_or_item_by_name(item.name)[0]
+    rating = 0
+    for stat_id, value in item.stats:
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is not None and stat.key in weights:
+            rating += value * weights[stat.key]
+    return rating
 
 
 def _build_check(char, solution):
-    """Lightweight, fast heuristic build review. Returns a dict with a list of
-    equipped items well below the character's level (likely upgradeable) and a
-    count of equipped items. Intentionally avoids slot-count math (version
-    dependent) — it only surfaces clearly actionable, low-risk hints."""
-    low_items = []
-    equipped = 0
-    char_level = char.level or 0
+    """Heuristic build review. For each equipped slot, score the equipped item
+    against every item that fits the slot using the build's own stat weights and
+    hint only the slots where the equipped item is clearly suboptimal — many
+    stronger options *and* well below the slot's best score. Stays silent for
+    items that are already top picks (including low-level items that score well)
+    and for pieces kept by an active set bonus. Returns equipped count + the
+    suggestion list."""
+    structure = get_structure()
+    try:
+        weights = pickle.loads(char.stats_weight) if char.stats_weight else None
+    except Exception:
+        weights = None
+
+    # Resolve equipped items to structure items and tally set membership.
+    equipped_entries = []  # (slot, result_item, structure_item)
+    set_counts = {}
     for slot, items in solution.items.items():
         for item in items:
-            name = getattr(item, 'name', None)
-            if not getattr(item, 'item_added', False) or not name or name == 'NoItem':
+            if not getattr(item, 'item_added', False):
                 continue
-            equipped += 1
-            item_level = getattr(item, 'level', None)
-            if (char_level >= 60 and item_level is not None
-                    and item_level <= char_level - _LOW_ITEM_LEVEL_GAP):
-                low_items.append({'slot': slot, 'name': name, 'level': item_level})
+            structure_item = _resolve_structure_item(structure, getattr(item, 'name', None))
+            if structure_item is None:
+                continue
+            equipped_entries.append((slot, item, structure_item))
+            if structure_item.set is not None:
+                set_counts[structure_item.set] = set_counts.get(structure_item.set, 0) + 1
+
+    equipped_count = len(equipped_entries)
+    char_level = char.level or 0
+
+    suggestions = []
+    if weights and char_level:
+        rates_by_type = {}  # type_name -> sorted candidate scores (desc)
+        for slot, result_item, structure_item in equipped_entries:
+            if slot not in _CHECKED_SLOTS:
+                continue
+            # A piece kept for an active set bonus often scores poorly on its own.
+            if structure_item.set is not None and set_counts.get(structure_item.set, 0) >= 2:
+                continue
+
+            type_name = structure.get_type_name_by_id(structure_item.type)
+            # Skip slots whose stored item no longer matches the slot's type —
+            # old builds carry item ids that current versions reuse for a
+            # different item, which would otherwise be ranked against the wrong
+            # list. (Such builds are surfaced as outdated elsewhere.)
+            if TYPE_NAME_TO_SLOT.get(type_name, '').lower() != slot.lower():
+                continue
+
+            candidate_rates = rates_by_type.get(type_name)
+            if candidate_rates is None:
+                try:
+                    candidates = structure.get_unique_items_by_type_and_level(type_name, char_level)
+                except Exception:
+                    candidates = []
+                candidate_rates = sorted(
+                    (_weighted_rate(structure, candidate, weights)
+                     for candidate in candidates if not candidate.removed),
+                    reverse=True)
+                rates_by_type[type_name] = candidate_rates
+            if not candidate_rates:
+                continue
+
+            best_rate = candidate_rates[0]
+            if best_rate <= 0:
+                # The build doesn't value this slot's stats — nothing to upgrade toward.
+                continue
+
+            equipped_rate = _weighted_rate(structure, structure_item, weights)
+            better_count = sum(1 for rate in candidate_rates if rate > equipped_rate)
+            if better_count >= _UPGRADE_MIN_BETTER and equipped_rate < best_rate * _UPGRADE_SCORE_RATIO:
+                suggestions.append({
+                    'slot': slot,
+                    'name': structure.get_item_name_in_language(structure_item, get_supported_language()),
+                    'better_count': better_count,
+                    'gap': best_rate - equipped_rate,
+                })
+
+        # Biggest score gaps first, capped so the hint stays compact.
+        suggestions.sort(key=lambda entry: entry['gap'], reverse=True)
+        suggestions = suggestions[:_UPGRADE_MAX_HINTS]
+
     return {
-        'equipped_count': equipped,
-        'low_items': low_items,
-        'has_hints': bool(low_items),
+        'equipped_count': equipped_count,
+        'suggestions': suggestions,
+        'has_hints': bool(suggestions),
     }
 
 

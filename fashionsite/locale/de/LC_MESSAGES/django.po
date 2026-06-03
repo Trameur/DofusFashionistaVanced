@@ -5429,3 +5429,7 @@ msgstr "Unbekannte Zutat"
 #: fashionsite/chardata/templates/chardata/home.html
 msgid "Browse all shared builds →"
 msgstr "Alle geteilten Builds ansehen →"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Some items may have stronger options for your build:"
+msgstr "Einige Gegenstände haben möglicherweise bessere Optionen für deinen Build:"
