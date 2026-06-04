@@ -256,9 +256,11 @@ def decode_conditions(c_string):
     return out
 
 
-def build(items_root, sets_root, names_by_lang=None, set_bonuses=None):
+def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
+          set_names_by_lang=None):
     items = items_root['u']
     names_by_lang = names_by_lang or {}
+    set_names_by_lang = set_names_by_lang or {}
     set_bonuses = set_bonuses or []
     item_name_by_id = {iid: _ascii(it.get('n', ''))
                        for iid, it in items.items() if isinstance(it, dict)}
@@ -309,7 +311,11 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None):
             set_ankama_id = int(sid)
         except (TypeError, ValueError):
             continue
-        name = sd.get('n') or ''
+        name_fr = sd.get('n') or ''
+
+        def set_loc(lang):
+            return (set_names_by_lang.get(lang) or {}).get(sid) or name_fr
+
         equipment_ids = [int(x) for x in sd['i']]
         # Set membership comes from the lang; per-piece bonuses come from the vendored
         # community snapshot, matched by item-name overlap (set names diverge). Drop
@@ -319,9 +325,12 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None):
         max_pieces = min(len(equipment_ids), 9)
         stats_list = [t for t in _match_set_bonuses(lang_item_names, set_bonuses)
                       if t['effect_key'] <= max_pieces]
+        # Canonical name is English (structure.py uses sets.name as the 'en' name);
+        # other languages flow into the set_names table.
         sets.append({
             'ankama_id': set_ankama_id,
-            'name_en': name, 'name_fr': name,
+            'name_en': set_loc('en'), 'name_fr': name_fr,
+            'name_es': set_loc('es'), 'name_pt': set_loc('pt'), 'name_de': set_loc('de'),
             'equipment_ids': equipment_ids,
             'stats_list': stats_list,
         })
@@ -358,9 +367,20 @@ def main(argv=None):
             names_by_lang[lang] = {k: v.get('n') for k, v in lang_items.items()
                                    if isinstance(v, dict)}
 
+    # Localized set names from the per-language itemsets lang files (if present),
+    # so set names aren't stuck in French in EN/ES/PT/DE.
+    set_names_by_lang = {}
+    for lang in ('en', 'fr', 'es', 'pt', 'de'):
+        path = raw / f'itemsets_{lang}.json'
+        if path.exists():
+            lang_sets = json.loads(path.read_text(encoding='utf-8'))['IS']
+            set_names_by_lang[lang] = {sid: sd.get('n') for sid, sd in lang_sets.items()
+                                       if isinstance(sd, dict)}
+
     set_bonuses = load_set_bonuses(args.set_bonuses)
 
-    equipment, sets = build(items_root, sets_root, names_by_lang, set_bonuses)
+    equipment, sets = build(items_root, sets_root, names_by_lang, set_bonuses,
+                            set_names_by_lang)
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)

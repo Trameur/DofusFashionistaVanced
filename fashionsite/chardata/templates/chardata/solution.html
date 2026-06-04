@@ -459,12 +459,14 @@
                         <input type="radio" name="total_mode" value="equip"><span class="checkbox-text">{% trans "Equip" %}</span>
                     </label>
                 </div>
+                {% if has_spell_buffs %}
                 <div class="solution-stat-summary-mode-option-container" style="margin-top: 4px;">
-                    <label title="{% trans 'Vitality, element, wisdom, power, damage and crit potions typically used in PvM.' %}">
+                    <label title="{% trans 'Stats with your class self-buffs fully active.' %}">
                         <input type="checkbox" name="apply_buffs" id="apply_buffs_toggle">
-                        <span class="checkbox-text">{% trans "With PvM buffs" %}</span>
+                        <span class="checkbox-text">{% trans "With buffs" %}</span>
                     </label>
                 </div>
+                {% endif %}
             </td></tr>
             <tr class="solution-stat-summary-line">
                 <td class="solution-stat-summary-icon-header"></td>
@@ -793,29 +795,16 @@
             return Math.round(Number(value)).toString();
         }
 
-        // Common PvM consumables (Iyfd potion + element potions + crit + dam + pow).
-        // Conservative: only stats players reliably buff before a fight.
-        var PVM_BUFFS = {
-            'vit': 200,     // Vitality potion
-            'str': 90,
-            'int': 90,
-            'cha': 90,
-            'agi': 90,
-            'wis': 40,
-            'pow': 50,
-            'ch': 5,
-            'permedam': 10,
-            'perrandam': 10,
-            'dam': 20,
-            'heals': 20,
-            'hp': 200       // HP follows vitality
-        };
+        // The character's class self-buffs, fully active. Computed server-side
+        // from the same per-version spell data as the spells page "Fully Buff"
+        // button ({stat: bonus}); only universal stat buffs are included.
+        var SPELL_BUFFS = {{ spell_buff_stats_json|safe }};
 
         function applyBuffsToStats(stats) {
             if (!$('#apply_buffs_toggle').is(':checked')) return stats;
             var buffed = {};
             $.each(stats, function(k, v) { buffed[k] = v; });
-            $.each(PVM_BUFFS, function(k, b) {
+            $.each(SPELL_BUFFS, function(k, b) {
                 if (k in buffed) buffed[k] += b;
             });
             return buffed;

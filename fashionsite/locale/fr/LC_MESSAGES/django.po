@@ -6063,3 +6063,11 @@ msgstr "Créer ce build"
 #: fashionsite/chardata/templates/chardata/smart_build.html
 msgid "Not quite? Edit your description above and search again."
 msgstr "Pas tout à fait ? Modifiez votre description ci-dessus et relancez."
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "With buffs"
+msgstr "Avec buffs"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Stats with your class self-buffs fully active."
+msgstr "Stats avec les buffs de sorts de ta classe pleinement actifs."

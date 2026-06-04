@@ -98,6 +98,8 @@
           <br>   
           {% if current_game_version == 'beta' %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.png" %}"></img></a>
+          {% elif current_game_version == 'dofus2' or current_game_version == 'retro' %}
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}"></img></a>
           {% else %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
           {% endif %}

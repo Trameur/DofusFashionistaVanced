@@ -5467,3 +5467,11 @@ msgstr "Crear esta build"
 #: fashionsite/chardata/templates/chardata/smart_build.html
 msgid "Not quite? Edit your description above and search again."
 msgstr "¿No es correcto? Edita tu descripción arriba y vuelve a buscar."
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "With buffs"
+msgstr "Con buffs"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Stats with your class self-buffs fully active."
+msgstr "Estadísticas con los autobuffs de hechizo de tu clase totalmente activos."

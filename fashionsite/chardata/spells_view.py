@@ -20,6 +20,7 @@ from chardata.encoded_char_id import decode_char_id
 from chardata.fashion_action import fashion
 from chardata.models import Char
 from chardata.solution import get_solution
+from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -29,7 +30,7 @@ from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from fashionistapulp.translation import get_supported_language
 
-from fashionistapulp.dofus_constants import (DAMAGE_SPELLS, DAMAGE_TYPES, NEUTRAL)
+from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL)
 
 import jsonpickle
 
@@ -48,7 +49,7 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
             web_digest = _create_weapon_web_digest(weapon)
             digests.append(web_digest)
     game_version = getattr(request, 'game_version', 'dofus3')
-    spells_by_class = _damage_spells_for_version(game_version)
+    spells_by_class = get_damage_spells_for_version(game_version)
     for spell in spells_by_class.get(char_class, []) + spells_by_class.get('default', []):
         web_digest = _create_spell_web_digest(spell, game_version)
         digests.append(web_digest)
@@ -100,15 +101,6 @@ def _create_weapon_web_digest(weapon):
     web_digest['aggregates'] = convert_aggregates(aggregates)
     
     return web_digest
-
-def _damage_spells_for_version(game_version):
-    # Retro has its own decoded damage spells; other versions share the dofus3 set
-    # (Beta/Dofus 2 are close enough that they reuse it, as before).
-    if game_version == 'retro':
-        from fashionistapulp.dofus_constants_retro_spells import RETRO_DAMAGE_SPELLS
-        return RETRO_DAMAGE_SPELLS
-    return DAMAGE_SPELLS
-
 
 def _localized_spell_name(name, language, game_version):
     # Retro spell names live in a version-specific map keyed by the French name

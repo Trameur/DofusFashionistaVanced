@@ -32,6 +32,7 @@ from chardata.comment_view import get_comments_for_build
 from chardata.models import Char, BuildVote, BuildView
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
+from chardata.spell_buffs import compute_full_buff_stats
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from datetime import timedelta
@@ -375,6 +376,12 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     else:
         params['comments'] = []
         params['comments_json'] = '[]'
+
+    # "With buffs" stat preview: the character's class self-buffs fully active.
+    game_version = getattr(request, 'game_version', 'dofus3')
+    spell_buff_stats = compute_full_buff_stats(char, game_version)
+    params['spell_buff_stats_json'] = json.dumps(spell_buff_stats)
+    params['has_spell_buffs'] = bool(spell_buff_stats)
 
     params['build_tags'] = [{'id': t.id, 'name': t.display_name, 'slug': t.name}
                             for t in char.tags.all().order_by('created_time')]
