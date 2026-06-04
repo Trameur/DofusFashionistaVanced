@@ -704,9 +704,19 @@
 
     <p align="center" class="text" style="margin: 0; padding: 0;">
         {% trans "Built using data from " %}
+        {% if current_game_version == 'retro' %}
+        <a href="http://www.ankama-games.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
+            Ankama
+        </a>
+        &amp;
+        <a href="https://dofusretrotools.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
+            Dofus Retro Tools
+        </a>
+        {% else %}
         <a href="https://docs.dofusdu.de/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
             dofusdude
         </a>
+        {% endif %}
     </p>
 {% include "chardata/jqueryui.html" %}
     <script>

@@ -6065,6 +6065,10 @@ msgid "Not quite? Edit your description above and search again."
 msgstr "Pas tout à fait ? Modifiez votre description ci-dessus et relancez."
 
 #: fashionsite/chardata/templates/chardata/solution.html
+msgid "Built using data from "
+msgstr "Construit à partir des données de "
+
+#: fashionsite/chardata/templates/chardata/solution.html
 msgid "With buffs"
 msgstr "Avec buffs"
 
