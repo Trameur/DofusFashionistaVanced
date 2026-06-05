@@ -5479,3 +5479,139 @@ msgstr "Con buffs"
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "Stats with your class self-buffs fully active."
 msgstr "Estadísticas con los autobuffs de hechizo de tu clase totalmente activos."
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "June 2026"
+msgstr "Junio de 2026"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro launched"
+msgstr "Lanzamiento de Dofus Retro"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 version added"
+msgstr "Añadida la versión Dofus 2"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Community, sharing & tools"
+msgstr "Comunidad, compartir y herramientas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro launched at /retro/ with its own item database, built from Ankama's official Retro data"
+msgstr "Dofus Retro lanzado en /retro/ con su propia base de objetos, creada a partir de los datos oficiales de Retro de Ankama"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Retro is now selectable in the version switcher"
+msgstr "Retro ya se puede seleccionar en el selector de versión"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Retro spell damage simulator added, with damage spells per class"
+msgstr "Añadido el simulador de daño de hechizos de Retro, con hechizos de daño por clase"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "PvP resistances supported on Retro items: shown on the solution page and weightable in the stats page"
+msgstr "Resistencias PvP en los objetos de Retro: se muestran en la página de sugerencia y se pueden ponderar en la página de estadísticas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Retro shields and Dragoturkey mounts added"
+msgstr "Añadidos escudos de Retro y monturas Dragopavo"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Set bonuses for Retro sets, with the full per-piece bonus tables"
+msgstr "Bonificaciones de set para los sets de Retro, con las tablas completas por número de piezas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Familiars: the stats they can be fed are shown in the encyclopedia and used by the optimizer"
+msgstr "Mascotas: las estadísticas que se les pueden dar de comer se muestran en la enciclopedia y las usa el optimizador"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Craft recipes added, and item, set and spell names localized in all 5 languages"
+msgstr "Añadidas recetas de fabricación, y nombres de objetos, sets y hechizos traducidos en los 5 idiomas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages or prysmaradite)"
+msgstr "Optimizador adaptado a las reglas de Retro (12 clases, sin duplicar anillo, sin exo magia ni prysmaradita)"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 version added at /dofus2/ with its own item and set database"
+msgstr "Versión Dofus 2 añadida en /dofus2/ con su propia base de objetos y sets"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Comments on builds, with comment counts on shared-build cards"
+msgstr "Comentarios en los builds, con el número de comentarios en las tarjetas de builds compartidos"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "User profiles with follow / unfollow, a following feed, and author links on builds"
+msgstr "Perfiles de usuario con seguir / dejar de seguir, un feed de seguidos y enlaces al autor en los builds"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Free-form tags on builds, with filtering and tag suggestions"
+msgstr "Etiquetas libres en los builds, con filtrado y sugerencias de etiquetas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Discover builds: top community builds on the home page and a random build link"
+msgstr "Descubre builds: mejores builds de la comunidad en la página de inicio y un enlace de build aleatorio"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smart Build: describe a build in plain language and get a starting setup (multilingual)"
+msgstr "Smart Build: describe un build en lenguaje natural y obtén una base inicial (multilingüe)"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Workshop: craft ingredient list, with recipes for every version"
+msgstr "Taller: lista de ingredientes de fabricación, con recetas para todas las versiones"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Quick start coaching flow for new players"
+msgstr "Flujo de iniciación rápida para nuevos jugadores"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Share builds anywhere: copy a build as text for Discord/forums, plus richer link previews"
+msgstr "Comparte tus builds donde sea: copia el build como texto para Discord/foros, y vistas previas de enlaces mejoradas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Class avatar banner on the solution page"
+msgstr "Banner de avatar de clase en la página de sugerencia"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "'With buffs' stat preview on the stats panel"
+msgstr "Vista previa de estadísticas «Con buffs» en el panel de estadísticas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Public read-only REST API (v1)"
+msgstr "API REST pública de solo lectura (v1)"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Installable app (PWA) with offline fallback"
+msgstr "Aplicación instalable (PWA) con modo sin conexión de respaldo"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Support page with donation links"
+msgstr "Página de apoyo con enlaces de donación"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Build check now flags low-level equipped items, and password reset was fixed"
+msgstr "La comprobación del build ahora marca los objetos equipados de bajo nivel, y se corrigió el restablecimiento de contraseña"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro version launched at /retro/ with its own item database"
+msgstr "Versión Dofus Retro lanzada en /retro/ con su propia base de objetos"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Build check now flags slots where the equipped item is less than ideal for the slot"
+msgstr "La comprobación del build ahora marca las ranuras donde el objeto equipado no es el ideal"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro launched at /retro/ with its own item and set database"
+msgstr "Dofus Retro lanzado en /retro/ con su propia base de objetos y sets"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 launched"
+msgstr "Lanzamiento de Dofus 2"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 launched at /dofus2/ with its own item and set database"
+msgstr "Dofus 2 lanzado en /dofus2/ con su propia base de objetos y sets"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "how the data is parsed"
+msgstr "cómo se extraen los datos"
