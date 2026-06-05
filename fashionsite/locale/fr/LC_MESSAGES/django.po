@@ -6211,3 +6211,39 @@ msgstr "Dofus 2 lancé sur /dofus2/ avec sa propre base d'objets et de panoplies
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "how the data is parsed"
 msgstr "comment les données sont extraites"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Support the project"
+msgstr "Soutenir le projet"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Dofus Fashionista is free and always will be — the optimizer, sharing and encyclopedia stay open to everyone. If the tool saves you time and kamas, here are a few ways to give back."
+msgstr "Dofus Fashionista est gratuit et le restera toujours — l'optimiseur, le partage et l'encyclopédie restent ouverts à tous. Si l'outil vous fait gagner du temps et des kamas, voici quelques façons de nous soutenir."
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Donate"
+msgstr "Faire un don"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Free ways to help"
+msgstr "Façons d'aider gratuitement"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Share your builds and the site with your guild and friends."
+msgstr "Partagez vos builds et le site avec votre guilde et vos amis."
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Report bugs and suggest features"
+msgstr "Signalez des bugs et proposez des fonctionnalités"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "contact us"
+msgstr "contactez-nous"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "or join our"
+msgstr "ou rejoignez notre"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Leave helpful comments on shared builds."
+msgstr "Laissez des commentaires utiles sur les builds partagés."

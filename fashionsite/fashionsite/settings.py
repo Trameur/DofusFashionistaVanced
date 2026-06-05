@@ -366,6 +366,11 @@ EXPERIMENTS = {
 
 DEFAULT_THEME = 'lighttheme'
 
+# Donation buttons shown on the /support/ page (a list of {'label', 'url'}).
+SUPPORT_LINKS = [
+    {'label': 'Ko-fi', 'url': 'https://ko-fi.com/dofusfashionista'},
+]
+
 
 
 
