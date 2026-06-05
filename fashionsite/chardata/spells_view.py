@@ -18,6 +18,7 @@
 
 from chardata.encoded_char_id import decode_char_id
 from chardata.fashion_action import fashion
+from chardata.image_store import get_image_url
 from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
@@ -76,7 +77,10 @@ def _create_weapon_web_digest(weapon):
         web_digest['type'] = 'weapon_non_mageable'
     web_digest['name'] = weapon.localized_name
     web_digest['level'] = weapon.level
-    web_digest['image_url'] = static('chardata/items/' + weapon.or_name + '.png')
+    # Use the same version-aware icon resolution as the solution page, so the
+    # weapon image works for Retro (and Beta/Dofus 2) instead of pointing at a
+    # Dofus 3-only path.
+    web_digest['image_url'] = static(get_image_url(weapon.type, weapon.name))
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
     web_digest['crit_dams'] = _convert_weapon_damage(weapon.crit_hits)
