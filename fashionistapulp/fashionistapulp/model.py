@@ -1246,11 +1246,19 @@ class ModelInput(object):
                 'origin': 'generated'}
 
     def __hash__(self, *args, **kwargs):
+        # The solution cache (DatabaseSolutionMemory) keys entries by this hash,
+        # so it MUST include the game version. Otherwise a Retro build and a
+        # Dofus 3 / Dofus 2 build with the same level, class, stats and options
+        # collide on the same key, and one version is served another version's
+        # stored solution -- a broken build. Including the version here also
+        # naturally bypasses any previously-cached cross-version entries.
+        from fashionistapulp.structure import get_current_game_version
         overrides_key = frozenset(
             (item_id, frozenset(stats.items()))
             for item_id, stats in self.stat_overrides.items()
         )
-        return (self.char_level,
+        return (get_current_game_version(),
+                self.char_level,
                 freeze(self.base_stats_by_attr),
                 frozenset([p for p in list(self.minimum_stats.items()) if p[0] != 'adv_mins']),
                 freeze(self.minimum_stats.get('adv_mins')),
