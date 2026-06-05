@@ -39,6 +39,24 @@ def _sanitize_dump_sql(sql_script):
         sanitized_lines.append(line)
     return '\n'.join(sanitized_lines)
 
+def _build_db_file(target_path, dumped_db_path):
+    """Create a fresh SQLite DB at target_path from the SQL dump."""
+    if platform.system() == 'Windows':
+        # Executescript handles semicolons in SQL strings correctly.
+        with open(dumped_db_path, 'r', encoding='utf-8') as f:
+            sql_script = _sanitize_dump_sql(f.read())
+        conn = sqlite3.connect(target_path)
+        conn.executescript("PRAGMA foreign_keys = OFF;")
+        conn.executescript(sql_script)
+        conn.commit()
+        conn.close()
+    else:
+        return_code = os.system('sqlite3 %s < %s' % (target_path, dumped_db_path))
+        if return_code != 0:
+            raise RuntimeError('sqlite3 import failed (exit %d)' % return_code)
+        os.system('chmod 666 %s' % target_path)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Load item dump into SQLite database")
     parser.add_argument("--game-version", default="dofus3", help="Game version (dofus3, beta, retro, touch)")
@@ -46,36 +64,33 @@ def main():
 
     items_db_path = get_items_db_path(args.game_version)
     dumped_db_path = get_items_dump_path(args.game_version)
-    
-    # Utiliser des méthodes compatibles Windows/Linux pour supprimer le fichier
-    if os.path.exists(items_db_path):
-        os.remove(items_db_path)
-    
-    # Approche pour charger les données selon le système d'exploitation
-    if platform.system() == 'Windows':
-        print(f"Importing database from {dumped_db_path} to {items_db_path}")
-        try:
-            # Executescript handles semicolons in SQL strings correctly.
-            with open(dumped_db_path, 'r', encoding='utf-8') as f:
-                sql_script = f.read()
-            sql_script = _sanitize_dump_sql(sql_script)
 
-            conn = sqlite3.connect(items_db_path)
-            conn.executescript("PRAGMA foreign_keys = OFF;")
-            conn.executescript(sql_script)
-            conn.commit()
-            conn.close()
-            print("Database import completed successfully.")
-        except Exception as e:
-            print(f"Error during database import: {e}")
-    else:
-        # Méthode originale pour Linux/macOS
-        os.system('rm %s' % items_db_path)
-        os.system('sqlite3 %s < %s' % (items_db_path, dumped_db_path))
-        os.system('chmod 666 %s' % items_db_path)
-    
-    # S'assurer que les permissions sont correctes (équivalent de chmod 666)
-    # Sous Windows, nous devons nous assurer que le fichier est accessible en écriture
+    # Build into a private temp file, then atomically move it into place.
+    # structure.py rebuilds this DB on import, so every Gunicorn worker rebuilds
+    # it on startup. The old "rm then sqlite3 < dump" deleted the live file
+    # mid-write, so one worker could wipe another's half-written DB -> SQLite
+    # "disk I/O error" and a corrupt items DB (empty/garbage builds). A unique
+    # temp + os.replace makes each rebuild atomic: readers and concurrent
+    # rebuilders always see a complete database.
+    tmp_db_path = '%s.tmp.%d' % (items_db_path, os.getpid())
+    if os.path.exists(tmp_db_path):
+        os.remove(tmp_db_path)
+
+    print(f"Importing database from {dumped_db_path} to {items_db_path}")
+    try:
+        _build_db_file(tmp_db_path, dumped_db_path)
+        os.replace(tmp_db_path, items_db_path)  # atomic on the same filesystem
+        print("Database import completed successfully.")
+    except Exception as e:
+        print(f"Error during database import: {e}")
+        if os.path.exists(tmp_db_path):
+            try:
+                os.remove(tmp_db_path)
+            except OSError:
+                pass
+        return
+
+    # Ensure the file is writable (equivalent of chmod 666 on Windows).
     try:
         if platform.system() == 'Windows':
             import stat
