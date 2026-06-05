@@ -72,12 +72,21 @@ elif platform.system() == 'Linux' and ('arm' in platform.machine() or 'aarch64' 
         raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
     SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
 else:
-    # On AWS or other x86_64 systems
-    cbc_path = os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', 'cbc')
-    print(f"Detected non-ARM Linux system. Using project-specific CBC at: {cbc_path}")
-    if not os.path.isfile(cbc_path):
-        raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
-    SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
+    # On AWS / other x86_64 Linux. The previously-vendored CBC binary aborts
+    # ("terminate called after throwing an instance of 'CoinError'") on some
+    # Retro models. PuLP's bundled CBC is matched to the MPS PuLP writes and is
+    # effectively what runs locally, so prefer it; fall back to the vendored
+    # binary only if the bundled one isn't available.
+    bundled_solver = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
+    if bundled_solver.available():
+        SOLVER = bundled_solver
+        print("Detected non-ARM Linux system. Using PuLP's bundled CBC.")
+    else:
+        cbc_path = os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', 'cbc')
+        print(f"Detected non-ARM Linux system. Using project-specific CBC at: {cbc_path}")
+        if not os.path.isfile(cbc_path):
+            raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
+        SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
 
 # Confirm which solver is being used
 if hasattr(SOLVER, 'path'):
