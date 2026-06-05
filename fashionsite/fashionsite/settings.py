@@ -312,6 +312,15 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
+        # Bots constantly probe the raw IP with spoofed/garbage Host headers,
+        # each producing a uniquely-worded DisallowedHost error that slips past
+        # the rate-limited mail filter. These aren't actionable, so log to the
+        # console only and never email them.
+        'django.security.DisallowedHost': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
         'django.db.backends': {
             'handlers': ['console'],
             'level': 'DEBUG',
