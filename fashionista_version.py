@@ -3,6 +3,8 @@ from __future__ import annotations
 
 FASHIONISTA_VERSION = "3.5.17.24"
 FASHIONISTA_BETA_VERSION = "3.6.2.2"
+FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
+FASHIONISTA_RETRO_VERSION = "1.48"
 
 
 def get_version() -> str:
@@ -12,6 +14,14 @@ def get_version() -> str:
 
 def get_beta_version() -> str:
     return FASHIONISTA_BETA_VERSION
+
+
+def get_dofus2_version() -> str:
+    return FASHIONISTA_DOFUS2_VERSION
+
+
+def get_retro_version() -> str:
+    return FASHIONISTA_RETRO_VERSION
 
 
 if __name__ == "__main__":

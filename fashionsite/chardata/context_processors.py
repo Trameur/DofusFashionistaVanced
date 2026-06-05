@@ -31,6 +31,10 @@ _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
 _VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
 _CHAR_ID_RE = re.compile(r'/\d+/')
+# Shared / linked build pages ('/s/<name>/<id>/', '/spells_linked/<name>/<id>/')
+# are version-specific too, but their char id is encoded (non-numeric), so the
+# numeric check above doesn't catch them.
+_LINKED_PREFIXES = ('s/', 'spells_linked/')
 
 
 def game_version(request):
@@ -42,9 +46,10 @@ def game_version(request):
         if stripped.startswith(prefix):
             base_path = '/' + stripped[len(prefix):]
             break
-    # Char-specific pages (containing a numeric ID) don't translate across versions.
-    # Send the version switcher to home instead of a broken URL.
-    if _CHAR_ID_RE.search(base_path):
+    # Char-specific pages don't translate across versions — a build exists in
+    # only one game version. Send the version switcher to home instead of a
+    # broken URL. Owned pages carry a numeric id; shared/linked pages an encoded one.
+    if _CHAR_ID_RE.search(base_path) or base_path.lstrip('/').startswith(_LINKED_PREFIXES):
         base_path = '/'
 
     # api_base is the URL prefix for AJAX calls: '' for dofus3, '/beta' for beta, etc.
