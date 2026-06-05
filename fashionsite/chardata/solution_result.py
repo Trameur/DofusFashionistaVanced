@@ -22,7 +22,7 @@ from chardata.image_store import get_image_url
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
-from fashionistapulp.structure import get_structure
+from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.stat_icons import get_stat_icon_path
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
@@ -274,7 +274,8 @@ def evolve_result_item(result_item, r=None):
     if settings.EXPERIMENTS['ITEM_LINKS']:
         result_item.link = get_item_link(result_item.ankama_type,
                                          result_item.ankama_id,
-                                         result_item.localized_name)
+                                         result_item.localized_name,
+                                         game_version=get_current_game_version())
 
 class AttributeLine:
     

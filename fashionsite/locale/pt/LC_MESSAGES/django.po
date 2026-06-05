@@ -130,12 +130,14 @@ msgstr "Pedido de alteração de senha pra o Dofus Fashionista"
 #, python-brace-format
 msgid ""
 "A password reset has been requested for The Dofus Fashionista!\n"
+"Your username is: {username}\n"
 "Please click the link below to generate a new one for your account.\n"
 "{link}\n"
 "\n"
 "If you don't want to reset your password, just ignore this email."
 msgstr ""
 "Um pedido de alteração de senha foi feito no site Dofus Fashionista!\n"
+"Seu nome de usuário é: {username}\n"
 "Por favor, clique no link abaixo para gerar uma senha nova para sua conta.\n"
 "{link}\n"
 "\n"
@@ -636,9 +638,9 @@ msgstr "Sugestão de Equipamentos"
 msgid "Spells Damage"
 msgstr "Danos dos Feitiços"
 
-#: chardata/templates/chardata/base.html:207
-msgid "Items up to update"
-msgstr "Itens até a atualização"
+#: chardata/templates/chardata/base.html:264
+msgid "Items up to %(game)s update %(version)s"
+msgstr "Itens até a atualização %(game)s %(version)s"
 
 #: chardata/templates/chardata/base.html:208
 #: chardata/templates/chardata/contacts.html:11
@@ -999,8 +1001,6 @@ msgstr "% Resistência Neutra"
 
 #: chardata/templates/chardata/compare_sets.html:194
 #: chardata/templates/chardata/stats.html:75
-#, fuzzy, python-format
-#| msgid "% Earth Resist"
 msgid "% Earth Resist"
 msgstr "% Resistência Terra"
 
@@ -2233,25 +2233,21 @@ msgstr "Base"
 
 #: chardata/templates/chardata/solution.html:150
 #, fuzzy, python-format
-#| msgid "%% Melee Damage"
 msgid "%% Melee Damage"
 msgstr "% danos corpo a corpo"
 
 #: chardata/templates/chardata/solution.html:152
 #, fuzzy, python-format
-#| msgid "%% Ranged Damage"
 msgid "%% Ranged Damage"
 msgstr "% danos distância"
 
 #: chardata/templates/chardata/solution.html:154
 #, fuzzy, python-format
-#| msgid "%% Weapon Damage"
 msgid "%% Weapon Damage"
 msgstr "% danos armas"
 
 #: chardata/templates/chardata/solution.html:156
 #, fuzzy, python-format
-#| msgid "%% Spell Damage"
 msgid "%% Spell Damage"
 msgstr "% danos feitiços"
 
@@ -2501,10 +2497,8 @@ msgid "% Ranged Resist"
 msgstr "% Resist. distância"
 
 #: chardata/templates/chardata/stats.html:82
-#, fuzzy
-#| msgid "% Water Resist"
 msgid "% Weapon Resist"
-msgstr "% Resistência Água"
+msgstr "% Resistência às Armas"
 
 #: chardata/templates/chardata/thankyou.html:12
 msgid "Your message has been sent."
@@ -4486,7 +4480,6 @@ msgstr "Desmembramento"
 
 #: chardata/translation_util.py:555
 #, fuzzy, python-format
-#| msgid "25% chance of"
 msgid "25% chance of"
 msgstr "25% de chance de"
 
@@ -5226,8 +5219,8 @@ msgstr "Página de builds compartilhados melhorada: carregamento mais rápido e 
 msgid "Translations & item updates"
 msgstr "Traduções e atualizações de itens"
 
-msgid "100% translation coverage for all 6 supported languages (en, fr, de, es, it, pt)"
-msgstr "Cobertura de tradução a 100% para todos os 6 idiomas suportados (en, fr, de, es, it, pt)"
+msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgstr "Cobertura de tradução a 100% para todos os 5 idiomas suportados (en, fr, de, es, pt)"
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
 msgstr "Bloqueio/Proibição do Seemyool Selvagem adicionado às restrições de itens"
@@ -5253,8 +5246,8 @@ msgstr "Imagens de feitiços coletadas e exibidas por feitiço no simulador"
 msgid "Sram class spells added to the simulator"
 msgstr "Feitiços da classe Sram adicionados ao simulador"
 
-msgid "Spell descriptions translated in all 6 languages"
-msgstr "Descrições de feitiços traduzidas em todos os 6 idiomas"
+msgid "Spell descriptions translated in all 5 languages"
+msgstr "Descrições de feitiços traduzidas em todos os 5 idiomas"
 
 msgid "Updated to Dofus 3.4 items (3.4.3.4 → 3.4.18.19)"
 msgstr "Atualizado para itens do Dofus 3.4 (3.4.3.4 → 3.4.18.19)"
@@ -5377,3 +5370,284 @@ msgstr "Corrigido o limite de resistência percentual"
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
 msgstr "Banco de dados de itens atualizado para Dofus 3.1 e 3.2 (3.1.2.1 → 3.2.7.9)"
+
+msgid "Neutral Resist in PVP"
+msgstr "Resistência Neutra em PvP"
+
+msgid "Water Resist in PVP"
+msgstr "Resistência Água em PvP"
+
+msgid "Air Resist in PVP"
+msgstr "Resistência Ar em PvP"
+
+msgid "Fire Resist in PVP"
+msgstr "Resistência Fogo em PvP"
+
+msgid "Earth Resist in PVP"
+msgstr "Resistência Terra em PvP"
+
+msgid "% Neutral Resist in PVP"
+msgstr "% Resistência Neutra em PvP"
+
+msgid "% Air Resist in PVP"
+msgstr "% Resistência Ar em PvP"
+
+msgid "% Fire Resist in PVP"
+msgstr "% Resistência Fogo em PvP"
+
+msgid "% Water Resist in PVP"
+msgstr "% Resistência Água em PvP"
+
+msgid "% Earth Resist in PVP"
+msgstr "% Resistência Terra em PvP"
+
+msgid "Critical Failure"
+msgstr "Falha Crítica"
+
+#: chardata/templates/chardata/workshop.html
+msgid "Total ingredients needed"
+msgstr "Total de ingredientes necessários"
+
+#: chardata/templates/chardata/workshop.html
+msgid "No recipe data for these items."
+msgstr "Sem dados de receita para estes itens."
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredient"
+msgstr "ingrediente"
+
+#: chardata/templates/chardata/workshop.html
+msgid "ingredients"
+msgstr "ingredientes"
+
+#: chardata/templates/chardata/workshop.html
+msgid "total"
+msgstr "no total"
+
+#: chardata/templates/chardata/solution.html
+msgid "Show crafting ingredients"
+msgstr "Mostrar ingredientes de fabricação"
+
+#: chardata/templates/chardata/solution.html
+msgid "Hide crafting ingredients"
+msgstr "Ocultar ingredientes de fabricação"
+
+#: chardata/templates/chardata/solution.html
+msgid "No recipe data for this build."
+msgstr "Sem dados de receita para este build."
+
+#: chardata/templates/chardata/solution.html
+msgid "Loading..."
+msgstr "Carregando..."
+
+#: chardata/workshop_view.py
+msgid "Unknown ingredient"
+msgstr "Ingrediente desconhecido"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Browse all shared builds →"
+msgstr "Ver todas as builds partilhadas →"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Some items may have stronger options for your build:"
+msgstr "Alguns itens podem ter opções melhores para o seu build:"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Here's what we understood:"
+msgstr "Isto é o que entendemos:"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Understood so far:"
+msgstr "Entendido até agora:"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Create this build"
+msgstr "Criar este build"
+
+#: fashionsite/chardata/templates/chardata/smart_build.html
+msgid "Not quite? Edit your description above and search again."
+msgstr "Não está certo? Edite a sua descrição acima e pesquise novamente."
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Built using data from "
+msgstr "Criado com dados de "
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "With buffs"
+msgstr "Com buffs"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Stats with your class self-buffs fully active."
+msgstr "Estatísticas com os autobuffs de feitiço da tua classe totalmente ativos."
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "June 2026"
+msgstr "Junho de 2026"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro launched"
+msgstr "Lançamento do Dofus Retro"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 version added"
+msgstr "Adicionada a versão Dofus 2"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Community, sharing & tools"
+msgstr "Comunidade, partilha e ferramentas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro launched at /retro/ with its own item database, built from Ankama's official Retro data"
+msgstr "Dofus Retro lançado em /retro/ com a sua própria base de itens, criada a partir dos dados oficiais do Retro da Ankama"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Retro is now selectable in the version switcher"
+msgstr "O Retro já pode ser selecionado no seletor de versão"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Retro spell damage simulator added, with damage spells per class"
+msgstr "Adicionado o simulador de dano de feitiços do Retro, com feitiços de dano por classe"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "PvP resistances supported on Retro items: shown on the solution page and weightable in the stats page"
+msgstr "Resistências PvP suportadas nos itens do Retro: mostradas na página de sugestão e ponderáveis na página de estatísticas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Retro shields and Dragoturkey mounts added"
+msgstr "Adicionados escudos do Retro e montarias Dragoperu"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Set bonuses for Retro sets, with the full per-piece bonus tables"
+msgstr "Bónus de conjunto para os conjuntos do Retro, com as tabelas completas por número de peças"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Familiars: the stats they can be fed are shown in the encyclopedia and used by the optimizer"
+msgstr "Familiares: as estatísticas que podem comer são mostradas na enciclopédia e usadas pelo otimizador"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Craft recipes added, and item, set and spell names localized in all 5 languages"
+msgstr "Adicionadas receitas de fabrico, e nomes de itens, conjuntos e feitiços traduzidos nas 5 línguas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages or prysmaradite)"
+msgstr "Otimizador adaptado às regras do Retro (12 classes, sem duplicação de anel, sem exo magia nem prysmaradite)"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 version added at /dofus2/ with its own item and set database"
+msgstr "Versão Dofus 2 adicionada em /dofus2/ com a sua própria base de itens e conjuntos"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Comments on builds, with comment counts on shared-build cards"
+msgstr "Comentários nos builds, com o número de comentários nos cartões de builds partilhados"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "User profiles with follow / unfollow, a following feed, and author links on builds"
+msgstr "Perfis de utilizador com seguir / deixar de seguir, um feed de seguidos e ligações para o autor nos builds"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Free-form tags on builds, with filtering and tag suggestions"
+msgstr "Tags livres nos builds, com filtragem e sugestões de tags"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Discover builds: top community builds on the home page and a random build link"
+msgstr "Descobrir builds: melhores builds da comunidade na página inicial e uma ligação de build aleatório"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smart Build: describe a build in plain language and get a starting setup (multilingual)"
+msgstr "Smart Build: descreva um build em linguagem natural e obtenha uma base inicial (multilíngue)"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Workshop: craft ingredient list, with recipes for every version"
+msgstr "Oficina: lista de ingredientes de fabrico, com receitas para todas as versões"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Quick start coaching flow for new players"
+msgstr "Fluxo de iniciação rápida para novos jogadores"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Share builds anywhere: copy a build as text for Discord/forums, plus richer link previews"
+msgstr "Partilhe os seus builds em qualquer lugar: copie o build como texto para Discord/fóruns, e pré-visualizações de ligações melhoradas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Class avatar banner on the solution page"
+msgstr "Banner de avatar de classe na página de sugestão"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "'With buffs' stat preview on the stats panel"
+msgstr "Pré-visualização de estatísticas «Com buffs» no painel de estatísticas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Public read-only REST API (v1)"
+msgstr "API REST pública só de leitura (v1)"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Installable app (PWA) with offline fallback"
+msgstr "Aplicação instalável (PWA) com modo offline de recurso"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Support page with donation links"
+msgstr "Página de apoio com ligações de doação"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Build check now flags low-level equipped items, and password reset was fixed"
+msgstr "A verificação do build agora assinala os itens equipados de nível baixo, e a reposição da palavra-passe foi corrigida"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro version launched at /retro/ with its own item database"
+msgstr "Versão Dofus Retro lançada em /retro/ com a sua própria base de itens"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Build check now flags slots where the equipped item is less than ideal for the slot"
+msgstr "A verificação do build agora assinala os slots onde o item equipado não é o ideal"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Retro launched at /retro/ with its own item and set database"
+msgstr "Dofus Retro lançado em /retro/ com a sua própria base de itens e conjuntos"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 launched"
+msgstr "Lançamento do Dofus 2"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus 2 launched at /dofus2/ with its own item and set database"
+msgstr "Dofus 2 lançado em /dofus2/ com a sua própria base de itens e conjuntos"
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "how the data is parsed"
+msgstr "como os dados são extraídos"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Support the project"
+msgstr "Apoiar o projeto"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Dofus Fashionista is free and always will be — the optimizer, sharing and encyclopedia stay open to everyone. If the tool saves you time and kamas, here are a few ways to give back."
+msgstr "O Dofus Fashionista é gratuito e será sempre — o otimizador, a partilha e a enciclopédia continuam abertos a todos. Se a ferramenta te poupa tempo e kamas, aqui ficam algumas formas de contribuir."
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Donate"
+msgstr "Doar"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Free ways to help"
+msgstr "Formas gratuitas de ajudar"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Share your builds and the site with your guild and friends."
+msgstr "Partilha os teus builds e o site com a tua guilda e os teus amigos."
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Report bugs and suggest features"
+msgstr "Reporta erros e sugere funcionalidades"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "contact us"
+msgstr "contacta-nos"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "or join our"
+msgstr "ou junta-te ao nosso"
+
+#: fashionsite/chardata/templates/chardata/support.html
+msgid "Leave helpful comments on shared builds."
+msgstr "Deixa comentários úteis nos builds partilhados."

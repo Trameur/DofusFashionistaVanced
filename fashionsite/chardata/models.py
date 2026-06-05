@@ -61,6 +61,7 @@ class CharBaseStats(models.Model):
 class UserAlias(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     alias = models.CharField(max_length=50, null=True, blank=True)
+    notify_comments = models.BooleanField(default=True)
 
 class BuildVote(models.Model):
     """Track user votes (likes/favorites) for shared builds"""
@@ -81,10 +82,102 @@ class BuildView(models.Model):
     build = models.ForeignKey(Char, on_delete=models.CASCADE)
     ip_address = models.GenericIPAddressField()
     viewed_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         indexes = [
             models.Index(fields=['build', 'ip_address', 'viewed_at']),
+        ]
+
+class BuildComment(models.Model):
+    """Comments left by users on shared builds. Soft-deleted via `deleted` flag
+    (same pattern as Char.deleted) so moderation history stays intact."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    build = models.ForeignKey(Char, on_delete=models.CASCADE)
+    content = models.TextField(max_length=2000)
+    created_time = models.DateTimeField(auto_now_add=True)
+    deleted = models.BooleanField(default=False)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['build', 'deleted', 'created_time']),
+        ]
+
+class BuildTag(models.Model):
+    """Free-form tags that the build owner attaches to a Char to help
+    classification ("Klime", "PvP arena", "Frigost dungeons"). Stored
+    lowercased + trimmed so case-insensitive lookups are cheap; original
+    display name is preserved in `display_name`."""
+    char = models.ForeignKey(Char, on_delete=models.CASCADE, related_name='tags')
+    name = models.CharField(max_length=40, db_index=True)
+    display_name = models.CharField(max_length=40)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('char', 'name')
+        indexes = [
+            models.Index(fields=['name', 'char']),
+        ]
+
+
+class UserFollow(models.Model):
+    """One-way follow relationship — A follows B."""
+    follower = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='following_set')
+    followed = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='follower_set')
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('follower', 'followed')
+        indexes = [
+            models.Index(fields=['followed', 'created_time']),
+            models.Index(fields=['follower', 'created_time']),
+        ]
+
+
+class WorkshopItem(models.Model):
+    """A single item the user wants to craft (or remember to acquire).
+
+    Stored per game_version so a Dofus 3 craft list is independent from a
+    Dofus 2 one. Quantity defaults to 1 — players who add the same item
+    multiple times bump the counter rather than creating duplicates."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item_id = models.IntegerField()  # internal id from structure.items_dict
+    game_version = models.CharField(max_length=20, default='dofus3')
+    quantity = models.IntegerField(default=1)
+    added_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'item_id', 'game_version')
+        indexes = [
+            models.Index(fields=['user', 'game_version', 'added_time']),
+        ]
+
+
+class CommentReport(models.Model):
+    """Player-submitted report on a comment. unique_together prevents a single
+    user from spamming reports on the same comment. When 3 distinct users have
+    reported one comment the view will auto-mark it deleted pending admin
+    review (see chardata.comment_view.report_comment)."""
+
+    REASON_CHOICES = [
+        ('spam', 'Spam'),
+        ('harassment', 'Harassment / insult'),
+        ('off_topic', 'Off-topic'),
+        ('other', 'Other'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(BuildComment, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=20, choices=REASON_CHOICES, default='other')
+    created_time = models.DateTimeField(auto_now_add=True)
+    processed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'comment')
+        indexes = [
+            models.Index(fields=['comment', 'processed']),
+            models.Index(fields=['processed', 'created_time']),
         ]
     
 class ContactForm(forms.Form):

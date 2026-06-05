@@ -18,8 +18,16 @@ except ModuleNotFoundError:
     fashionista_config = importlib.import_module('fashionistapulp.fashionistapulp.fashionista_config')
 
 get_items_db_path = fashionista_config.get_items_db_path
+get_items_dump_path = fashionista_config.get_items_dump_path
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
+
+# Where each game version keeps its scraped all_*.json files, relative to the
+# itemscraper directory. dofus3 / touch use the top-level files.
+VERSION_DATA_SUBDIR = {
+    'beta': 'beta',
+    'dofus2': 'dofus2',
+}
 
 # Categories that provide names used by recipe ingredients.
 NAME_SOURCE_CATEGORIES = [
@@ -32,31 +40,38 @@ NAME_SOURCE_CATEGORIES = [
 ]
 
 
-def _find_base_dir(base_dir=None):
+def _find_base_dir(base_dir=None, game_version='dofus3'):
     """Resolve the directory containing all_*_<lang>.json files.
 
-    Supports execution from both repository root and itemscraper directory.
+    Supports execution from both repository root and itemscraper directory, and
+    per-version data subdirectories (itemscraper/beta, itemscraper/dofus2).
     """
+    subdir = VERSION_DATA_SUBDIR.get(game_version)
     candidates = []
     if base_dir:
         candidates.append(os.path.abspath(base_dir))
-    candidates.extend([
+    roots = [
         CURRENT_DIRECTORY,
         os.getcwd(),
         os.path.join(os.getcwd(), 'itemscraper'),
         os.path.join(PROJECT_ROOT, 'itemscraper'),
-    ])
+    ]
+    for root in roots:
+        if subdir:
+            candidates.append(os.path.join(root, subdir))
+        else:
+            candidates.append(root)
 
     expected_file = 'all_equipment_en.json'
     for candidate in candidates:
         if os.path.exists(os.path.join(candidate, expected_file)):
             return candidate
 
-    return os.path.abspath(base_dir) if base_dir else CURRENT_DIRECTORY
+    return os.path.abspath(base_dir) if base_dir else candidates[-1]
 
 
-def _get_items_dump_path():
-    return os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp', 'item_db_dumped.dump')
+def _get_items_dump_path(game_version='dofus3'):
+    return get_items_dump_path(game_version)
 
 
 def _sanitize_dump_sql(sql_script):
@@ -68,8 +83,8 @@ def _sanitize_dump_sql(sql_script):
     return '\n'.join(sanitized_lines)
 
 
-def _load_db_from_dump(items_db_path):
-    dump_path = _get_items_dump_path()
+def _load_db_from_dump(items_db_path, game_version='dofus3'):
+    dump_path = _get_items_dump_path(game_version)
     if not os.path.exists(dump_path):
         raise RuntimeError('Could not find item DB dump at %s' % dump_path)
 
@@ -88,8 +103,8 @@ def _load_db_from_dump(items_db_path):
         conn.close()
 
 
-def _save_db_to_dump(items_db_path):
-    dump_path = _get_items_dump_path()
+def _save_db_to_dump(items_db_path, game_version='dofus3'):
+    dump_path = _get_items_dump_path(game_version)
     temp_dump_path = dump_path + '.tmp'
     conn = sqlite3.connect(items_db_path)
     try:
@@ -103,8 +118,8 @@ def _save_db_to_dump(items_db_path):
     os.replace(temp_dump_path, dump_path)
 
 
-def _open_items_db():
-    items_db_path = get_items_db_path()
+def _open_items_db(game_version='dofus3'):
+    items_db_path = get_items_db_path(game_version)
     os.makedirs(os.path.dirname(items_db_path), exist_ok=True)
 
     needs_bootstrap = not os.path.exists(items_db_path)
@@ -117,7 +132,7 @@ def _open_items_db():
             conn.close()
 
     if needs_bootstrap:
-        _load_db_from_dump(items_db_path)
+        _load_db_from_dump(items_db_path, game_version)
 
     return sqlite3.connect(items_db_path)
 
@@ -302,9 +317,9 @@ def _store_item_data(cursor, item_id, language, entry, ingredient_name_map):
         )
 
 
-def main(base_dir=None):
-    base_dir = _find_base_dir(base_dir)
-    print('Using scraper data directory: %s' % base_dir)
+def main(game_version='dofus3', base_dir=None):
+    base_dir = _find_base_dir(base_dir, game_version)
+    print('Using scraper data directory: %s (version: %s)' % (base_dir, game_version))
 
     expected_equipment_file = os.path.join(base_dir, 'all_equipment_en.json')
     if not os.path.exists(expected_equipment_file):
@@ -322,12 +337,12 @@ def main(base_dir=None):
 
     ingredient_name_map = _load_name_maps(base_dir)
 
-    conn = _open_items_db()
+    conn = _open_items_db(game_version)
     cursor = conn.cursor()
     _ensure_tables(cursor)
 
     if not _table_exists(cursor, 'items'):
-        raise RuntimeError('items table does not exist in items.db')
+        raise RuntimeError('items table does not exist in %s' % get_items_db_path(game_version))
 
     upserts = 0
     missing = 0
@@ -345,10 +360,18 @@ def main(base_dir=None):
 
     conn.commit()
     conn.close()
-    _save_db_to_dump(get_items_db_path())
-    print('Stored item extra info for %d localized item rows (%d missing item ids).' % (upserts, missing))
+    _save_db_to_dump(get_items_db_path(game_version), game_version)
+    print('[%s] Stored item extra info for %d localized item rows (%d missing item ids).'
+          % (game_version, upserts, missing))
 
 
 if __name__ == '__main__':
-    provided_base_dir = sys.argv[1] if len(sys.argv) > 1 else None
-    main(provided_base_dir)
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Populate recipe / description / pods tables in a version items DB.')
+    parser.add_argument('--game-version', default='dofus3',
+                        help='dofus3 (default), touch, beta, dofus2, retro')
+    parser.add_argument('base_dir', nargs='?', default=None,
+                        help='Override directory containing all_*.json (auto-detected by default).')
+    args = parser.parse_args()
+    main(args.game_version, args.base_dir)

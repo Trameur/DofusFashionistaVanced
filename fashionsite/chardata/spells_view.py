@@ -20,6 +20,7 @@ from chardata.encoded_char_id import decode_char_id
 from chardata.fashion_action import fashion
 from chardata.models import Char
 from chardata.solution import get_solution
+from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -29,7 +30,7 @@ from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from fashionistapulp.translation import get_supported_language
 
-from fashionistapulp.dofus_constants import (DAMAGE_SPELLS, DAMAGE_TYPES, NEUTRAL)
+from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL)
 
 import jsonpickle
 
@@ -48,7 +49,8 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
             web_digest = _create_weapon_web_digest(weapon)
             digests.append(web_digest)
     game_version = getattr(request, 'game_version', 'dofus3')
-    for spell in DAMAGE_SPELLS[char_class] + DAMAGE_SPELLS['default']:
+    spells_by_class = get_damage_spells_for_version(game_version)
+    for spell in spells_by_class.get(char_class, []) + spells_by_class.get('default', []):
         web_digest = _create_spell_web_digest(spell, game_version)
         digests.append(web_digest)
     digests_json = jsonpickle.encode(digests, unpicklable=False)
@@ -100,15 +102,33 @@ def _create_weapon_web_digest(weapon):
     
     return web_digest
 
+def _localized_spell_name(name, language, game_version):
+    # Retro spell names live in a version-specific map keyed by the French name
+    # (Spell.name); other versions use the shared English-keyed localization.
+    if game_version == 'retro':
+        from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
+        names = RETRO_SPELL_NAMES.get(name)
+        if names:
+            lang = (language or 'en').split('-')[0].lower()
+            return names.get(lang) or names.get('fr') or name
+        return name
+    return get_localized_spell_name(name, language)
+
+
 def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
     web_digest['type'] = 'spell'
-    web_digest['name'] = get_localized_spell_name(spell.name, current_language)
+    web_digest['name'] = _localized_spell_name(spell.name, current_language, game_version)
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
-    spell_dir = 'chardata/spells/beta/' if game_version == 'beta' else 'chardata/spells/'
+    if game_version == 'beta':
+        spell_dir = 'chardata/spells/beta/'
+    elif game_version == 'retro':
+        spell_dir = 'chardata/spells/retro/'
+    else:
+        spell_dir = 'chardata/spells/'
     web_digest['image_url'] = static(spell_dir + spell.name + '.png')
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)

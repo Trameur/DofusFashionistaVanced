@@ -112,18 +112,18 @@ function addFields() {
     var cell_container = $("<td style='width: 180px'></td>");
     line_container.append(cell_container);
     var select = $("<select class='stat_select'></select>");
-    select.append($("<option></option>"));
     $.each(all_stats, function(index, value) {
-        if (value.key != "ap" && value.key != "mp" && value.key != "range")
+        if (value.key != "ap" && value.key != "mp" && value.key != "range" && value.key != "hp")
         select.append($("<option value='" + value.key + "'>" + value.name + "</option>"));
      });
-    select.prop('selectedIndex', -1);
     select.change(function() {
         updateDynamicStatIcon(line_container, select.val());
         addIfNeeded();
     });
 
     cell_container.append(select);
+    // Start blank (no stat chosen) without rendering an empty placeholder line.
+    select.prop('selectedIndex', -1);
     line_container.append($("<td style='width: 81px'><input class='pretty-input' type='number' min='-9999' max='9999' autocomplete='off'></input></td>"));
 
     var remove_button = $("<td style='width: 30px'><div style='padding-top: 3px'><img src='{% static "chardata/cross-icon.png" %}'></div></td>");

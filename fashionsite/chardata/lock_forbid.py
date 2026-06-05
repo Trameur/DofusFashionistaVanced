@@ -20,38 +20,41 @@ from fashionistapulp.dofus_constants import SLOTS
 from fashionistapulp.structure import get_structure
 
 
-DEFAULT_EXCLUSIONS_121_PLUS = ['Gore Master\'s Ring (Gms Only)',
-                               'Ultra-powerful Combat Bow Meow (GM)',
-                               'Small Combat Bow Meow (GM)',
-                               'Jiva Necklace',
-                               'Fiery Tongue Sword',
-                               'First Blood Staff',
-                               'Crack Sparrow\'s Own Withered Hat',
-                               'De Sendar\'s Ring',
-                               'Basic Broom',
-                               'Khardboard Goultard',
-                               'Khardboard Gobball Headgear',
-                               'Khardboard Dazzling Cloak',
-                               'Khardboard Celestial Brooch',
-                               'Khardboard Gelano',
-                               'Khardboard Getas',
-                               'Khardboard Moowolf Belt',
-                               'Khardboard Bowisse\'s Shield',
-                               'Lordsoth Daggers',
-                               'Split Splinter Sprinter',
-                               'Wild Crimson Seemyool',
-                               'Wild Ebony Seemyool',
-                               'Wild Indigo Seemyool',
-                               'Wild Orchid Seemyool',
-                               ]
-DEFAULT_EXCLUSIONS_120_MINUS = (DEFAULT_EXCLUSIONS_121_PLUS
-                                + [])
+# Items the optimiser excludes by default: GM-only, event, joke and duplicate items
+# nobody wants the solver to pick. Keyed by Ankama item id (stable across versions and
+# localisations), with the item name in a trailing comment. Ids absent from the active
+# game version are skipped automatically, so a single list covers every version.
+DEFAULT_EXCLUSION_ANKAMA_IDS = [
+    9031,   # Gore Master's Ring (Gms Only)
+    9202,   # Gore Master's Other Ring (Retro)
+    6894,   # Ultra-powerful Combat Bow Meow (GM)
+    6895,   # Small Combat Bow Meow (GM)
+    2155,   # Jiva Necklace
+    18853,  # Fiery Tongue Sword
+    8575,   # First Blood Staff
+    8854,   # Crack Sparrow's Own Withered Hat
+    2154,   # De Sendar's Ring
+    27645,  # Basic Broom
+    27268,  # Khardboard Goultard
+    27282,  # Khardboard Gobball Headgear
+    27267,  # Khardboard Dazzling Cloak
+    27265,  # Khardboard Celestial Brooch
+    27284,  # Khardboard Gelano
+    27278,  # Khardboard Getas
+    27266,  # Khardboard Moowolf Belt
+    27280,  # Khardboard Bowisse's Shield
+    6713,   # Lordsoth Daggers
+    13063,  # Split Splinter Sprinter
+]
 
 def get_default_exclusions(char):
-    if char.level > 120:
-        return DEFAULT_EXCLUSIONS_121_PLUS
-    else:
-        return DEFAULT_EXCLUSIONS_120_MINUS
+    s = get_structure()
+    item_ids = []
+    for ankama_id in DEFAULT_EXCLUSION_ANKAMA_IDS:
+        item = s.get_item_by_ankama_id(ankama_id)
+        if item is not None:
+            item_ids.append(item.id)
+    return item_ids
 
 def set_exclusions_list_and_check_inclusions(char, excluded_items):
     assert type(excluded_items) == list

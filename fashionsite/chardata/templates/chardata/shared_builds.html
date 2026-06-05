@@ -423,14 +423,22 @@
         {% trans "Browse and discover builds shared by the community. Click on any build to view details." %}
     </p>
     
+    {% if filters.tag %}
+    <p style="text-align: center; margin-bottom: 12px;">
+        {% trans "Filtered by tag:" %}
+        <span style="display: inline-block; padding: 2px 10px; border: 1px solid rgba(128,128,128,0.4); border-radius: 10px; margin: 0 4px;">{{ filters.tag }}</span>
+        <a href="?">{% trans "(clear)" %}</a>
+    </p>
+    {% endif %}
+
     <div class="filters-section">
         <h2>{% trans "Search & Filter" %}</h2>
         <form method="get" action="{% game_url 'shared_builds' %}">
             <div class="filter-row">
                 <div class="filter-group">
                     <label class="filter-label">{% trans "Search" %}</label>
-                    <input type="text" name="search" class="filter-input pretty-input" 
-                           placeholder="{% trans 'Project or character name' %}" 
+                    <input type="text" name="search" class="filter-input pretty-input"
+                           placeholder="{% trans 'Project or character name' %}"
                            value="{{ filters.search }}">
                 </div>
                 
@@ -566,7 +574,19 @@
                         {% if build.creator_name %}
                             <div class="build-info-row">
                                 <span class="build-label">{% trans "Creator" %}:</span>
-                                <span class="build-value">{{ build.creator_name }}</span>
+                                <span class="build-value">
+                                    <a href="{% game_url 'user_profile' build.creator_name %}">{{ build.creator_name }}</a>
+                                </span>
+                            </div>
+                        {% endif %}
+                        {% if build.tags %}
+                            <div class="build-info-row" style="flex-wrap: wrap; gap: 4px;">
+                                {% for tag in build.tags %}
+                                <a class="build-tag-pill" href="?tag={{ tag.slug }}"
+                                   style="display: inline-block; padding: 1px 8px; border: 1px solid rgba(128,128,128,0.4); border-radius: 10px; font-size: 0.8em; text-decoration: none; color: inherit;">
+                                    {{ tag.name }}
+                                </a>
+                                {% endfor %}
                             </div>
                         {% endif %}
                         <div class="build-info-row">
@@ -587,9 +607,10 @@
 
                     {% if build.preview_items %}
                     <div class="build-preview-items">
+                        {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
                         {% for item in build.preview_items %}
                         <div class="build-preview-item" title="{{ item.name }}">
-                            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         </div>
                         {% endfor %}
                     </div>
@@ -632,6 +653,12 @@
                             <div class="stat-value" id="favorite-count-{{ build.char.id }}">{{ build.favorite_count }}</div>
                             <div class="stat-label">{% trans "Favorites" %}</div>
                         </div>
+                        {% if build.comment_count > 0 %}
+                            <div class="stat-item">
+                                <div class="stat-value">{{ build.comment_count }}</div>
+                                <div class="stat-label">{% trans "Comments" %}</div>
+                            </div>
+                        {% endif %}
                         {% if build.total_stats > 0 %}
                             <div class="stat-item">
                                 <div class="stat-value">{{ build.total_stats|floatformat:0 }}</div>

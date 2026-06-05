@@ -77,6 +77,7 @@ class Structure:
 
     def __init__(self, game_version='dofus3'):
         self.game_version = game_version
+        self._used_stat_keys = None
         self.conn = sqlite3.connect(get_items_db_path(game_version))
     
         self.read_sets_table()
@@ -112,6 +113,8 @@ class Structure:
         self.dt_items_dict = {}
         self.items_dict_name = {}
         self.dt_items_dict_name = {}
+        self.items_dict_ankama = {}
+        self.dt_items_dict_ankama = {}
         for entry in c.execute('SELECT id, name, level, type, item_set, ankama_id, ankama_type, removed, dofustouch '
                                'FROM items'):
             item_id = entry[0]
@@ -141,10 +144,14 @@ class Structure:
                 self.items_dict[item_id] = item
                 #assert item.name not in self.items_dict_name, "%s DUPLICATED" % item.name
                 self.items_dict_name[item.name] = item
+                if ankama_id is not None:
+                    self.items_dict_ankama[ankama_id] = item
             else:
                 self.dt_items_dict[item_id] = item
                 #assert item.name not in self.dt_items_dict_name, "%s DUPLICATED" % item.name
                 self.dt_items_dict_name[item.name] = item
+                if ankama_id is not None:
+                    self.dt_items_dict_ankama[ankama_id] = item
             if item_set is not None:
                 if item_set in self.sets_dict:
                     this_item_set = self.sets_dict[item_set]
@@ -849,6 +856,25 @@ class Structure:
 
     def get_stats_list(self):
         return self.stats_list
+
+    def get_used_stat_keys(self):
+        # Stat keys that actually appear on an item or set bonus in this
+        # version's data. Lets callers show only version-relevant stats
+        # (e.g. PVP resists exist in the retro data but not in Dofus 2/3).
+        if self._used_stat_keys is None:
+            used = set()
+            for item in itertools.chain(self.items_list, self.dt_items_list):
+                for stat_id, _value in item.stats:
+                    stat = self.get_stat_by_id(stat_id)
+                    if stat is not None:
+                        used.add(stat.key)
+            for item_set in itertools.chain(self.sets_list, self.dt_sets_list):
+                for _num_items, stat_id, _value in item_set.bonus:
+                    stat = self.get_stat_by_id(stat_id)
+                    if stat is not None:
+                        used.add(stat.key)
+            self._used_stat_keys = used
+        return self._used_stat_keys
         
     def get_types_list(self):
         return self.types_list
@@ -909,6 +935,11 @@ class Structure:
             return self.dt_items_dict.get(item_id)
         else:
             return self.items_dict.get(item_id, None)
+
+    def get_item_by_ankama_id(self, ankama_id, dofus_touch=False):
+        if dofus_touch:
+            return self.dt_items_dict_ankama.get(ankama_id)
+        return self.items_dict_ankama.get(ankama_id)
 
     def get_item_by_name(self, name, dofus_touch=False):
         if dofus_touch:

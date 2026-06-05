@@ -39,6 +39,16 @@
                 <input type="text" name="email" class="pretty-input change-modifies-state" id="email"/>
                 </td>
                 </tr>
+                <tr>
+                <td align="right" class='input-stat-name' width="35%"> {% trans "Email notifications" %}:
+                </td>
+                <td align="left">
+                <label>
+                    <input type="checkbox" name="notify_comments" class="change-modifies-state" id="notify_comments"/>
+                    {% trans "Email me when someone comments on my shared builds" %}
+                </label>
+                </td>
+                </tr>
                 </table>
             <br>
             <div align="center">
@@ -103,6 +113,7 @@ $.ajaxSetup({
 var alias = {{useraliasjson | safe}};
 var name = {{user_social_name | safe}};
 var email = "{{user.email}}";
+var notify_comments = {{notify_comments_json | safe}};
 
 function manageInit(state) {
     $("#email").val(state.email);
@@ -113,6 +124,7 @@ function manageInit(state) {
             $('#alias').val(state.name);
         }
     }
+    $('#notify_comments').prop('checked', state.notify_comments !== false);
 }
 
 function setLoggedUserAlias(newState) {
@@ -120,7 +132,7 @@ function setLoggedUserAlias(newState) {
 }
 
 $(document).ready(function() {
-    var state = {alias: alias, name: name, email: email};
+    var state = {alias: alias, name: name, email: email, notify_comments: notify_comments};
 
     $("#password-confirm").change(function() {
         validate_password();

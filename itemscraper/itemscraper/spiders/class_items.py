@@ -95,8 +95,6 @@ class ClassItemsSpider(scrapy.Spider):
             lang = 'fr'
         elif '/es/' in response.request.url:
             lang = 'es'
-        elif '/it/' in response.request.url:
-            lang = 'it'
         elif '/de/' in response.request.url:
             lang = 'de'
         class_item['lang'] = lang

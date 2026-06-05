@@ -58,6 +58,7 @@ _DB_FILES = {
     'touch': 'items.db',
     'beta': 'items_beta.db',
     'retro': 'items_retro.db',
+    'dofus2': 'items_dofus2.db',
 }
 
 _DUMP_FILES = {
@@ -65,6 +66,7 @@ _DUMP_FILES = {
     'touch': 'item_db_dumped.dump',
     'beta': 'item_db_dumped_beta.dump',
     'retro': 'item_db_dumped_retro.dump',
+    'dofus2': 'item_db_dumped_dofus2.dump',
 }
 
 def get_items_db_path(game_version='dofus3'):

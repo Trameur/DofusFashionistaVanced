@@ -1,5 +1,6 @@
 {% extends "chardata/base.html" %}
 {% load version_url %}
+{% load static_s3 %}
 
 {% block title %}{{ item.name }} - {{ t.title }}{% endblock %}
 
@@ -92,7 +93,8 @@
 
     <div class="encyclopedia-item-card brown-box">
         <div class="encyclopedia-item-head">
-            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+            <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             <div>
                 <div class="encyclopedia-item-name">{{ item.name }}</div>
                 <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
@@ -103,6 +105,7 @@
             </div>
         </div>
 
+        {% if stats or not pet_feedable_bonuses %}
         <div class="encyclopedia-section">
             <b>{{ t.stats_label }}</b>
             <ul class="encyclopedia-list">
@@ -120,6 +123,28 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
+
+        {% if pet_feedable_bonuses %}
+        <div class="encyclopedia-section">
+            <b>{{ t.pet_feedable_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for bonus in pet_feedable_bonuses %}
+                <li>
+                    <div class="encyclopedia-list-stat">
+                        {% if bonus.icon_url %}
+                        <img class="encyclopedia-list-stat-icon" src="{{ bonus.icon_url }}" alt="">
+                        {% endif %}
+                        <span>{{ bonus.text }}</span>
+                    </div>
+                </li>
+                {% if not forloop.last %}
+                <li><b>{{ t.or_label }}</b></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
         {% if weapon_lines %}
         <div class="encyclopedia-section">

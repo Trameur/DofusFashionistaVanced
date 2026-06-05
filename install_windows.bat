@@ -22,20 +22,24 @@ echo. | tee -a %LOG_FILE%
 echo Appuyez sur une touche pour commencer l'installation ou Ctrl+C pour annuler | tee -a %LOG_FILE%
 pause > nul
 
-REM Vérifier que Python est installé
+REM Détecter un interpréteur Python réel (préférer le lanceur py ; ignorer le stub Microsoft Store)
 echo Vérification de Python... | tee -a %LOG_FILE%
-python --version > nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    echo ERREUR: Python n'est pas installé ou n'est pas dans le PATH. | tee -a %LOG_FILE%
-    echo Veuillez installer Python depuis https://www.python.org/downloads/ | tee -a %LOG_FILE%
-    echo Assurez-vous de cocher "Add Python to PATH" lors de l'installation. | tee -a %LOG_FILE%
+set "PY="
+py -3 --version >nul 2>&1 && set "PY=py -3"
+if not defined PY (
+    python --version >nul 2>&1 && set "PY=python"
+)
+if not defined PY (
+    echo ERREUR: Python introuvable ^(les alias Microsoft Store ne comptent pas^). | tee -a %LOG_FILE%
+    echo Installez Python 3.12+ : winget install -e --id Python.Python.3.14 | tee -a %LOG_FILE%
+    echo ^(ou https://www.python.org/downloads/ : cochez "Add Python to PATH" + py launcher^) | tee -a %LOG_FILE%
     pause
     exit /b 1
 )
 
-REM Vérifier la version de Python
-for /f "tokens=2" %%a in ('python --version 2^>^&1') do set "PYTHON_VERSION=%%a"
-echo Version Python détectée: %PYTHON_VERSION% | tee -a %LOG_FILE%
+REM Afficher la version de Python détectée
+for /f "tokens=2" %%a in ('%PY% --version 2^>^&1') do set "PYTHON_VERSION=%%a"
+echo Version Python détectée: !PYTHON_VERSION! ^(via %PY%^) | tee -a %LOG_FILE%
 
 REM Définir le PYTHONPATH
 set "CURRENT_DIR=%cd%"
@@ -51,20 +55,19 @@ echo PYTHONPATH temporaire défini avec succès. | tee -a %LOG_FILE%
 REM Installer les packages requis avec gestion des erreurs
 echo Installation des packages Python requis... | tee -a %LOG_FILE%
 echo Cette étape peut prendre plusieurs minutes. Veuillez patienter... | tee -a %LOG_FILE%
-python -m pip install --upgrade pip 2>> %LOG_FILE%
+%PY% -m pip install --upgrade pip 2>> %LOG_FILE%
 if %ERRORLEVEL% NEQ 0 (
     echo AVERTISSEMENT: Échec de la mise à jour de pip. Tentative de continuer... | tee -a %LOG_FILE%
 )
 
 echo Installation des dépendances Python (1/2)... | tee -a %LOG_FILE%
-python -m pip install wheel setuptools 2>> %LOG_FILE%
+%PY% -m pip install wheel setuptools 2>> %LOG_FILE%
 if %ERRORLEVEL% NEQ 0 (
     echo AVERTISSEMENT: Problème lors de l'installation de wheel/setuptools. Tentative de continuer... | tee -a %LOG_FILE%
 )
 
 echo Installation des dépendances Python (2/2)... | tee -a %LOG_FILE%
-REM Utiliser un timeout pour éviter que pip ne se bloque indéfiniment
-powershell -Command "Start-Process python -ArgumentList '-m', 'pip', 'install', '-r', 'requirements_win.txt' -NoNewWindow -Wait" 2>> %LOG_FILE%
+%PY% -m pip install -r requirements_win.txt 2>> %LOG_FILE%
 if %ERRORLEVEL% NEQ 0 (
     echo AVERTISSEMENT: Certains packages n'ont peut-être pas été installés correctement. | tee -a %LOG_FILE%
     echo Le script continuera, mais certaines fonctionnalités pourraient ne pas fonctionner. | tee -a %LOG_FILE%
@@ -107,7 +110,7 @@ echo. | tee -a %LOG_FILE%
 echo Exécution du script de configuration principal... | tee -a %LOG_FILE%
 echo Cette étape peut prendre plusieurs minutes. Veuillez patienter... | tee -a %LOG_FILE%
 timeout /t 5 > nul
-powershell -Command "Start-Process python -ArgumentList 'configure_fashionista_root.py', '-i', '-s', '-d' -NoNewWindow -Wait" 2>> %LOG_FILE%
+%PY% configure_fashionista_root.py -i -s -d 2>> %LOG_FILE%
 if %ERRORLEVEL% NEQ 0 (
     echo ERREUR: La configuration a échoué. | tee -a %LOG_FILE%
     echo Consultez le journal pour plus de détails: %LOG_FILE% | tee -a %LOG_FILE%
@@ -151,7 +154,7 @@ echo Mise à jour des paramètres de la base de données... | tee -a %LOG_FILE%
 cd fashionsite
 echo Exécution des migrations Django... | tee -a %LOG_FILE%
 echo Cette étape peut prendre plusieurs minutes. Veuillez patienter... | tee -a ..\%LOG_FILE%
-python manage.py migrate 2>> ..\%LOG_FILE%
+%PY% manage.py migrate 2>> ..\%LOG_FILE%
 if %ERRORLEVEL% NEQ 0 (
     echo AVERTISSEMENT: Problème lors des migrations Django. | tee -a ..\%LOG_FILE%
     echo L'application pourrait ne pas fonctionner correctement. | tee -a ..\%LOG_FILE%

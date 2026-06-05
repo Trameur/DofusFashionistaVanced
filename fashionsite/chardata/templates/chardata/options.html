@@ -14,9 +14,9 @@
 <form id="main_form" method="post">
     {% csrf_token %}
     <h1 align="center">{% trans "Options" %}</h1>
-    
+
     <p align="center" class='big-text'>{% blocktrans %}Choose what expensive or uncommon options can be used in your character's set.{% endblocktrans %}</p>
-    
+
     <table align="center" width="80%">
     <tr>
     <td>
@@ -82,9 +82,10 @@
         </td>
         </tr>
         </table>
-        
+
     </td>
     </tr>
+    {% if version_options.any_mount %}
     <tr>
     <td>
         <table>
@@ -94,207 +95,36 @@
         </td>
         <td class='big-text'>
             {% trans "Allow Mounts" %}<br>
-            <label><input type="checkbox" name="dragoturkey" class="change-modifies-state">{% trans "Dragoturkeys" %}</label>
-            <label><input type="checkbox" name="seemyool" class="change-modifies-state"">{% trans "Seemyools" %}</label> <br>
-            <label><input type="checkbox" name="rhineetle" class="change-modifies-state">{% trans "Rhineetles" %}</label>
+            {% if version_options.dragoturkey %}<label><input type="checkbox" name="dragoturkey" class="change-modifies-state">{% trans "Dragoturkeys" %}</label>{% endif %}
+            {% if version_options.seemyool %}<label><input type="checkbox" name="seemyool" class="change-modifies-state"">{% trans "Seemyools" %}</label> <br>{% endif %}
+            {% if version_options.rhineetle %}<label><input type="checkbox" name="rhineetle" class="change-modifies-state">{% trans "Rhineetles" %}</label>{% endif %}
             <br>
             <br>
         </td>
         </tr>
         </table>
-        
+
     </td>
     </tr>
+    {% endif %}
     </table>
-    
+
     <div class='big-text' align="center">
                     <br>
                     <br>
        <div class="brown-box" align="center">
                     {% trans "Allow dofuses and prysmaradite:" %} <br><br>
            <div>
-           <div class="dofus-box">
-                <label class='cawwot'>
-                    <img src="{% static "chardata/cawwot.png" %}" class="option_icon cawwot"><br>
-                    <input type="checkbox" name="cawwot" class="change-modifies-state cawwot"><br>
-                    {% trans "Cawwot" %}
-                </label><br>
-            </div>
+            {% for d in version_options.dofuses %}
             <div class="dofus-box">
-                <label class='grofus'>
-                    <img src="{% static "chardata/grofus.png" %}" class="option_icon grofus"><br>
-                    <input type="checkbox" name="grofus" class="change-modifies-state grofus"><br>
-                    {% trans "Grofus" %}
+                <label class='{{ d.key }}'>
+                    <img src="{% static d.img %}" class="option_icon {{ d.key }}"><br>
+                    <input type="checkbox" name="{{ d.key }}" class="change-modifies-state {{ d.key }}"><br>
+                    {{ d.label }}
                 </label><br>
             </div>
-            <div class="dofus-box">
-                <label class='dokoko'>
-                    <img src="{% static "chardata/dokoko.png" %}" class="option_icon dokoko"><br>
-                    <input type="checkbox" name="dokoko" class="change-modifies-state dokoko"><br>
-                    {% trans "Dokoko" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='vulbis'>
-                    <img src="{% static "chardata/vulbis.png" %}" class="option_icon vulbis"><br>
-                    <input type="checkbox" name="vulbis" class="change-modifies-state vulbis"><br>
-                    {% trans "Vulbis" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='dolmanax'>
-                    <img src="{% static "chardata/dolmanax.png" %}" class="option_icon dolmanax"><br>
-                    <input type="checkbox" name="dolmanax" class="change-modifies-state dolmanax"><br>
-                    {% trans "Dolmanax" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='watchers'>
-                    <img src="{% static "chardata/watchers.png" %}" class="option_icon watchers"><br>
-                    <input type="checkbox" name="watchers" class="change-modifies-state watchers"><br>
-                    {% trans "Watchers" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='kaliptus'>
-                    <img src="{% static "chardata/kaliptus.png" %}" class="option_icon kaliptus"><br>
-                    <input type="checkbox" name="kaliptus" class="change-modifies-state kaliptus"><br>
-                    {% trans "Kaliptus" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='dotrich'>
-                    <img src="{% static "chardata/dotrich.png" %}" class="option_icon dotrich"><br>
-                    <input type="checkbox" name="dotrich" class="change-modifies-state dotrich"><br>
-                    {% trans "Dotrich" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class="emerald">
-                    <img src="{% static "chardata/emerald.png" %}" class="option_icon emerald"><br>
-                    <input type="checkbox" name="emerald" class="change-modifies-state emerald"><br>
-                    {% trans "Emerald" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='crimson'>
-                    <img src="{% static "chardata/crimson.png" %}" class="option_icon crimson"><br>
-                    <input type="checkbox" name="crimson" class="change-modifies-state crimson"><br>
-                    {% trans "Crimson" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='ochre'>
-                    <img src="{% static "chardata/ochre.png" %}" class="option_icon ochre"><br>
-                    <input type="checkbox" name="ochre" class="change-modifies-state ochre"><br>
-                    {% trans "Ochre" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='turquoise'>
-                    <img src="{% static "chardata/turquoise.png" %}" class="option_icon turquoise"><br>
-                    <input type="checkbox" name="turquoise" class="change-modifies-state turquoise"><br>
-                    {% trans "Turquoise" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='cloudy'>
-                    <img src="{% static "chardata/cloudy.png" %}" class="option_icon cloudy"><br>
-                    <input type="checkbox" name="cloudy" class="change-modifies-state cloudy"><br>
-                    {% trans "Cloudy" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='ivory'>
-                    <img src="{% static "chardata/ivory.png" %}" class="option_icon ivory"><br>
-                    <input type="checkbox" name="ivory" class="change-modifies-state ivory"><br>
-                    {% trans "Ivory" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='ice'>
-                    <img src="{% static "chardata/ice.png" %}" class="option_icon ice"><br>
-                    <input type="checkbox" name="ice" class="change-modifies-state ice"><br>
-                    {% trans "Ice" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='abyssal'>
-                    <img src="{% static "chardata/abyssal.png" %}" class="option_icon abyssal"><br>
-                    <input type="checkbox" name="abyssal" class="change-modifies-state abyssal"><br>
-                    {% trans "Abyssal" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='lavasmith'>
-                    <img src="{% static "chardata/lavasmith.png" %}" class="option_icon lavasmith"><br>
-                    <input type="checkbox" name="lavasmith" class="change-modifies-state lavasmith"><br>
-                    {% trans "Lavasmith" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='blackspotted'>
-                    <img src="{% static "chardata/blackspotted.png" %}" class="option_icon blackspotted"><br>
-                    <input type="checkbox" name="blackspotted" class="change-modifies-state blackspotted"><br>
-                    {% trans "Black-Spotted" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='ebony'>
-                    <img src="{% static "chardata/ebony.png" %}" class="option_icon ebony"><br>
-                    <input type="checkbox" name="ebony" class="change-modifies-state ebony"><br>
-                    {% trans "Ebony" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='silver'>
-                    <img src="{% static "chardata/silver.png" %}" class="option_icon silver"><br>
-                    <input type="checkbox" name="silver" class="change-modifies-state silver"><br>
-                    {% trans "Silver" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='sparklingsilver'>
-                    <img src="{% static "chardata/sparklingsilver.png" %}" class="option_icon sparklingsilver"><br>
-                    <input type="checkbox" name="sparklingsilver" class="change-modifies-state sparklingsilver"><br>
-                    {% trans "Sparkling Silver" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='cocoa'>
-                    <img src="{% static "chardata/cocoa.png" %}" class="option_icon cocoa"><br>
-                    <input type="checkbox" name="cocoa" class="change-modifies-state cocoa"><br>
-                    {% trans "Cocoa" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='domakuro'>
-                    <img src="{% static "chardata/domakuro.png" %}" class="option_icon domakuro"><br>
-                    <input type="checkbox" name="domakuro" class="change-modifies-state domakuro"><br>
-                    {% trans "Domakuro" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='dorigami'>
-                    <img src="{% static "chardata/dorigami.png" %}" class="option_icon dorigami"><br>
-                    <input type="checkbox" name="dorigami" class="change-modifies-state dorigami"><br>
-                    {% trans "Dorigami" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='nightmare'>
-                    <img src="{% static "chardata/nightmare.png" %}" class="option_icon nightmare"><br>
-                    <input type="checkbox" name="nightmare" class="change-modifies-state nightmare"><br>
-                    {% trans "Nightmare" %}
-                </label><br>
-            </div>
-            <div class="dofus-box">
-                <label class='sylvan'>
-                    <img src="{% static "chardata/sylvan.png" %}" class="option_icon sylvan"><br>
-                    <input type="checkbox" name="sylvan" class="change-modifies-state sylvan"><br>
-                    {% trans "Sylvan" %}
-                </label><br>
-            </div>
+            {% endfor %}
+            {% if version_options.prysmaradite %}
             <div class="dofus-box">
                 <label class='prysmaradite'>
                     <img src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite"><br>
@@ -302,6 +132,7 @@
                     {% trans "Prysmaradite" %}
                 </label><br>
             </div>
+            {% endif %}
         </div>
     </div>
     <br>
@@ -324,4 +155,3 @@ $(document).ready(function() {
 });
 </script>
 {% endblock %}
-

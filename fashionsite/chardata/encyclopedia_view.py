@@ -1,5 +1,5 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.shortcuts import redirect
 import json
 import re
 import sqlite3
@@ -9,7 +9,7 @@ from django.utils import translation
 from chardata.image_store import get_image_url
 from chardata.official_site import get_item_link
 from chardata.stat_icons import get_stat_icon_path
-from chardata.util import safe_int, set_response
+from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import strip_accents
@@ -61,6 +61,7 @@ LOCALIZED_UI = {
         'no_recipe': 'No recipe available.',
         'recipe_unknown_ingredient': 'Unknown ingredient',
         'item_not_found': 'Item not found in the encyclopedia.',
+        'pet_feedable_label': 'Possible bonuses (when fed)',
     },
     'fr': {
         'title': 'Encyclopedie',
@@ -103,6 +104,7 @@ LOCALIZED_UI = {
         'no_recipe': 'Aucune recette disponible.',
         'recipe_unknown_ingredient': 'Ingredient inconnu',
         'item_not_found': 'Objet introuvable dans encyclopedie.',
+        'pet_feedable_label': 'Bonus possibles (selon le nourrissage)',
     },
     'es': {
         'title': 'Enciclopedia',
@@ -145,6 +147,7 @@ LOCALIZED_UI = {
         'no_recipe': 'No hay receta disponible.',
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
+        'pet_feedable_label': 'Bonificaciones posibles (segun la comida)',
     },
     'pt': {
         'title': 'Enciclopedia',
@@ -187,6 +190,7 @@ LOCALIZED_UI = {
         'no_recipe': 'Receita nao disponivel.',
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
         'item_not_found': 'Item nao encontrado na enciclopedia.',
+        'pet_feedable_label': 'Bonus possiveis (conforme alimentado)',
     },
     'de': {
         'title': 'Enzyklopaedie',
@@ -229,6 +233,7 @@ LOCALIZED_UI = {
         'no_recipe': 'Kein Rezept verfugbar.',
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
         'item_not_found': 'Gegenstand nicht in der Enzyklopaedie gefunden.',
+        'pet_feedable_label': 'Moegliche Boni (je nach Fuetterung)',
     },
 }
 
@@ -236,6 +241,13 @@ LOCALIZED_UI = {
 NON_SEARCHABLE_STAT_KEYS = {
     'hp',
 }
+
+# Synthetic Dofus Retro pet variants (one per stat a pet can be fed toward, at
+# its cap) live at/above this id and reuse the base pet's ankama id, so they
+# group with it. The base pet has no fixed stats, so instead of a blank stat
+# list we surface these as the bonuses the pet can be fed toward. Must match
+# VARIANT_ID_BASE in itemscraper/store_retro_pet_bonuses.py.
+PET_VARIANT_ID_BASE = 10_000_000
 
 
 def _ui_text():
@@ -375,6 +387,33 @@ def _get_weapon_detail_lines(structure, variant_items, language):
             lines.append(line)
 
     return lines
+
+
+def _get_pet_feedable_bonuses(structure, grouped_variants, language):
+    """For a Retro pet, the maxed stats it can be fed toward (one per variant).
+
+    Each synthetic variant carries a single stat at its cap; the player picks
+    one, so these read as alternatives (OR) on the pet's page. Empty for any
+    item that isn't a feedable Retro pet.
+    """
+    bonuses = []
+    for variant in sorted(grouped_variants, key=lambda current: current.id):
+        if variant.id < PET_VARIANT_ID_BASE:
+            continue
+        for stat_id, stat_value in variant.stats:
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is None:
+                continue
+            rounded_value = int(round(stat_value))
+            bonuses.append({
+                'text': '%d%s%s' % (
+                    rounded_value,
+                    '' if stat.name.startswith('%') else ' ',
+                    _localized_label(stat.name, language),
+                ),
+                'icon_url': _get_stat_icon_url(stat.key),
+            })
+    return bonuses
 
 
 def _get_stat_lines(structure, item, language):
@@ -528,7 +567,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
 
     conn = None
     try:
-        conn = sqlite3.connect(get_items_db_path())
+        conn = sqlite3.connect(get_items_db_path(game_version))
         cursor = conn.cursor()
 
         cursor.execute(
@@ -868,7 +907,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     try:
         target_ankama_id = int(ankama_id)
     except (TypeError, ValueError):
-        raise Http404(t['item_not_found'])
+        return redirect(version_reverse(request, 'encyclopedia'))
 
     matched_item = None
     target_types = _get_ankama_type_aliases(ankama_type)
@@ -909,7 +948,10 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                         break
 
     if matched_item is None:
-        raise Http404(t['item_not_found'])
+        # Item doesn't exist in this game version (e.g. after switching versions
+        # from an item page) — fall back to the version's main encyclopedia
+        # rather than showing a 404.
+        return redirect(version_reverse(request, 'encyclopedia'))
 
     group_key = _get_item_group_key(matched_item)
     grouped_variants = [
@@ -941,6 +983,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'icon_url': _get_stat_icon_url(stat.key),
         })
 
+    pet_feedable_bonuses = _get_pet_feedable_bonuses(structure, grouped_variants, language)
+
     condition_groups = _format_condition_groups(structure, grouped_variants, language)
 
     extras = representative_item.localized_extras.get(language)
@@ -969,6 +1013,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
             'stats': stat_lines,
+            'pet_feedable_bonuses': pet_feedable_bonuses,
             'condition_groups': condition_groups,
             'extras': extras,
             'weapon_lines': weapon_lines,

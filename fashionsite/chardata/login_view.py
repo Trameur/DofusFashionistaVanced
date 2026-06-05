@@ -28,6 +28,7 @@ from django.utils.crypto import get_random_string, salted_hmac
 from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
+import hashlib
 import logging
 import requests as http_requests
 
@@ -37,6 +38,13 @@ from django.utils.translation import gettext as _
 
 logger = logging.getLogger(__name__)
 
+
+# Login/register/change-password hash the password in the browser (login.js:
+# SHA256('dofusfashionista' + password)) before sending it, so every stored password is
+# make_password(<that hash>). The reset form posts the raw password, so it must get the
+# same pre-hash here or the new password will never authenticate.
+def _prehash_password(raw_password):
+    return hashlib.sha256(('dofusfashionista' + raw_password).encode('utf-8')).hexdigest()
 
 def _get_from_email():
     return getattr(settings, 'DEFAULT_FROM_EMAIL', None) or settings.EMAIL_HOST_USER or 'DofusFashionistaVanced@gmail.com'
@@ -223,10 +231,11 @@ def _recover_password_page(request, email, from_register):
     try:
         send_mail(_('Password change requested for The Dofus Fashionista'),
                   _('A password reset has been requested for The Dofus Fashionista!\n'
+                    'Your username is: {username}\n'
                     'Please click the link below to generate a new one for your account.\n'
                     '{link}\n\n'
                     'If you don\'t want to reset your password, just ignore this email.').format(
-                        link=link),
+                        username=username, link=link),
                   _get_from_email(),
                   [email])
     except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
@@ -281,11 +290,11 @@ def recover_password(request, username, recover_token):
                              'recover_token': recover_token,
                              'error_message': error_message})
 
-    user.set_password(new_password)
+    user.set_password(_prehash_password(new_password))
     user.save()
-        
+
     return set_response(request,
-                        'chardata/password_was_reset.html', 
+                        'chardata/password_was_reset.html',
                         {'request': request,
                          'username': username})
 

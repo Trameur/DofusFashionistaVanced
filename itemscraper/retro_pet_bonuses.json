@@ -1,0 +1,390 @@
+{
+  "Air Bwak": [
+    [
+      "Vitality",
+      80
+    ],
+    [
+      "Agility",
+      80
+    ],
+    [
+      "% Air Resist",
+      20
+    ]
+  ],
+  "Amaknian Hijinkx": [],
+  "Angora Bow Meow": [],
+  "Armoured Dragoone": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Astrubian Rukuss": [],
+  "Atooin": [],
+  "Baby Crowdzilla": [
+    [
+      "Prospecting",
+      40
+    ]
+  ],
+  "Baby Elante": [],
+  "Bilby": [],
+  "Black Dragoone": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Bloody Koalak": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Blue Piwin": [],
+  "Bobot": [],
+  "Borbat": [],
+  "Bow Meow": [
+    [
+      "Vitality",
+      80
+    ],
+    [
+      "Strength",
+      80
+    ],
+    [
+      "Intelligence",
+      80
+    ],
+    [
+      "Agility",
+      80
+    ],
+    [
+      "Chance",
+      80
+    ],
+    [
+      "% Neutral Resist",
+      20
+    ]
+  ],
+  "Brial": [],
+  "Brindled Minifoux": [
+    [
+      "Prospecting",
+      80
+    ]
+  ],
+  "Budshu": [],
+  "Bworky": [
+    [
+      "Pods",
+      1000
+    ]
+  ],
+  "Chazam": [],
+  "Chocowa": [],
+  "Crocodyl": [],
+  "Croum": [
+    [
+      "% Neutral Resist",
+      20
+    ],
+    [
+      "% Earth Resist",
+      20
+    ],
+    [
+      "% Water Resist",
+      20
+    ],
+    [
+      "% Air Resist",
+      20
+    ],
+    [
+      "% Fire Resist",
+      20
+    ]
+  ],
+  "Dakal": [],
+  "Dragodindonowel": [],
+  "Dragoshu": [],
+  "Earth Bwak": [
+    [
+      "Vitality",
+      80
+    ],
+    [
+      "Strength",
+      80
+    ],
+    [
+      "% Earth Resist",
+      20
+    ]
+  ],
+  "El Palador": [],
+  "El Scarador": [
+    [
+      "% Neutral Resist",
+      20
+    ],
+    [
+      "% Earth Resist",
+      20
+    ],
+    [
+      "% Fire Resist",
+      20
+    ],
+    [
+      "% Water Resist",
+      20
+    ],
+    [
+      "% Air Resist",
+      20
+    ]
+  ],
+  "Eliaboo": [],
+  "Estok": [],
+  "Feanor": [],
+  "Fiery Croum": [],
+  "Fire Bwak": [
+    [
+      "Vitality",
+      80
+    ],
+    [
+      "Intelligence",
+      80
+    ],
+    [
+      "% Fire Resist",
+      20
+    ]
+  ],
+  "Flibalak": [],
+  "Galeapagos": [],
+  "Ghast": [
+    [
+      "Vitality",
+      150
+    ]
+  ],
+  "Glutton": [],
+  "Gobballanster": [],
+  "Gobtubby": [
+    [
+      "Vitality",
+      150
+    ]
+  ],
+  "Golden Dragoone": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Golden Wyrmling": [],
+  "Green Piwin": [
+    [
+      "Strength",
+      80
+    ]
+  ],
+  "Groug": [],
+  "Hidweg": [],
+  "Jellufo": [
+    [
+      "Vitality",
+      150
+    ]
+  ],
+  "Karne": [],
+  "Kerubaby": [],
+  "Komet": [],
+  "Kurial": [],
+  "Kwismas Reindeer": [],
+  "Leokasper the Friendly Ghost": [],
+  "Leopardo": [],
+  "Lethal Ström": [],
+  "Lilboss": [],
+  "Little Black Bow Wow": [],
+  "Little White Bow Meow": [
+    [
+      "Initiative",
+      800
+    ]
+  ],
+  "Mikhal": [],
+  "Mini Champion": [],
+  "Mini Traiharrd": [],
+  "Mini Wa": [
+    [
+      "Strength",
+      80
+    ],
+    [
+      "Intelligence",
+      80
+    ],
+    [
+      "Agility",
+      80
+    ]
+  ],
+  "Minifoux": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Minimino": [],
+  "Miniminotot": [],
+  "Minipoth": [],
+  "Mischievous Squirrel": [],
+  "Mount Certificate": [],
+  "Necrobulb": [],
+  "Nomoon": [
+    [
+      "Prospecting",
+      80
+    ]
+  ],
+  "Ogrine Seeker": [],
+  "Original Boon": [],
+  "Pandawa Cub": [],
+  "Pandiscamp": [],
+  "Paradoxine": [],
+  "Patrick the Sandcastle": [],
+  "Peki": [
+    [
+      "Vitality",
+      400
+    ]
+  ],
+  "Permafrosty Piwi": [],
+  "Phormuth": [],
+  "Pingoku": [],
+  "Pink Dragoone": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Pink Piwin": [],
+  "Purple Piwin": [],
+  "Rafal": [],
+  "Red Dragoone": [
+    [
+      "Wisdom",
+      50
+    ]
+  ],
+  "Red Piwin": [
+    [
+      "Intelligence",
+      80
+    ]
+  ],
+  "Ross": [],
+  "Rushu's Shushu": [
+    [
+      "Vitality",
+      150
+    ]
+  ],
+  "Salar": [],
+  "Scrowl": [],
+  "Skeleton Dragoturkey": [],
+  "Smush": [
+    [
+      "Heals",
+      10
+    ]
+  ],
+  "Snow Bow Meow": [
+    [
+      "Prospecting",
+      40
+    ]
+  ],
+  "Solar Bear": [],
+  "Sting": [],
+  "Tabby Bow Meow": [],
+  "Tarzantula": [
+    [
+      "Reflects",
+      10
+    ]
+  ],
+  "The Famystic": [],
+  "The Godfather's Gobtubby": [
+    [
+      "Vitality",
+      150
+    ]
+  ],
+  "Tibilax": [],
+  "Tiwabbit Wosungwee": [],
+  "Tofoone Tribe": [],
+  "Tofrazzle": [],
+  "Tofus": [],
+  "Treechster": [],
+  "Vampyrina": [
+    [
+      "Vitality",
+      150
+    ]
+  ],
+  "Vegetal Croum": [],
+  "Veteran ": [],
+  "Volatile Croum": [],
+  "Wabbit": [
+    [
+      "Agility",
+      80
+    ],
+    [
+      "Strength",
+      80
+    ],
+    [
+      "Wisdom",
+      27
+    ],
+    [
+      "Intelligence",
+      80
+    ]
+  ],
+  "Water Bwak": [
+    [
+      "Vitality",
+      80
+    ],
+    [
+      "% Water Resist",
+      20
+    ]
+  ],
+  "Watery Croum": [],
+  "Weegle Owl": [],
+  "Wild Almond Dragoturkey": [],
+  "Wild Ginger Dragoturkey": [],
+  "Wild Golden Dragoturkey": [],
+  "Willy Peninzias": [],
+  "Yellow Piwin": [
+    [
+      "Agility",
+      80
+    ]
+  ],
+  "Young Wild Boar": []
+}

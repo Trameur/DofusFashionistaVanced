@@ -1,0 +1,12 @@
+{% load i18n %}{% blocktrans %}Hi,
+
+{{ commenter_name }} just commented on your build "{{ build_name }}":
+
+{{ extract }}
+
+View the comment here:
+{{ build_url }}
+
+— {{ site_name }}
+
+You can disable these notifications in your account settings.{% endblocktrans %}

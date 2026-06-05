@@ -18,14 +18,80 @@
 
 from chardata.util import set_response, version_reverse
 from chardata.create_project_view import is_anon_cant_create, has_too_many_projects
+from chardata.encoded_char_id import encode_char_id
+from chardata.models import Char, UserAlias
 from chardata.views import user_has_projects
 
+from django.core.cache import cache
+from django.db.models import Count, Case, When, IntegerField
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from chardata.image_store import get_image_url
 from static_s3.templatetags.static_s3 import static
+
+
+FEATURED_BUILDS_COUNT = 6
+FEATURED_BUILDS_CACHE_SECONDS = 30 * 60
+_CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
+                      'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
+                      'Ouginak', 'Pandawa', 'Rogue', 'Sacrier', 'Sadida', 'Sram', 'Xelor'}
+
+
+def _featured_avatar(char):
+    cls = char.char_class or ''
+    if cls not in _CLASS_AVATAR_DIRS:
+        return static('chardata/QuestionMark-lighttheme.png')
+    idx = 1 + (int(char.id or 0) % 6)
+    return static('chardata/designs/wizard/%s/myWizard%s%d.png' % (cls, cls, idx))
+
+
+def _get_featured_builds(request, game_version):
+    """Top community builds for the current game version, scored by likes +
+    favorites + (capped) view count. Cached so the homepage stays fast."""
+    cache_key = 'home_featured_builds:%s' % game_version
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    qs = (Char.objects
+          .filter(link_shared=True, deleted=False, game_version=game_version)
+          .select_related('owner')
+          .annotate(
+              like_count=Count(Case(When(buildvote__vote_type='like', then=1),
+                                    output_field=IntegerField())),
+              favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1),
+                                        output_field=IntegerField())),
+          ))
+    builds = list(qs)
+    owner_ids = [b.owner_id for b in builds if b.owner_id]
+    aliases = {a.user_id: a.alias for a in UserAlias.objects.filter(user_id__in=owner_ids) if a.alias}
+
+    scored = []
+    for b in builds:
+        score = (b.like_count or 0) * 3 + (b.favorite_count or 0) * 5 + min(50, b.view_count or 0)
+        creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else _('Anonymous'))
+        encoded = encode_char_id(int(b.id))
+        char_name = b.char_name or 'shared'
+        scored.append({
+            'name': b.char_name or b.name,
+            'char_class': b.char_class,
+            'level': b.level,
+            'creator': creator,
+            'like_count': b.like_count or 0,
+            'favorite_count': b.favorite_count or 0,
+            'view_count': b.view_count or 0,
+            'link': request.build_absolute_uri(
+                version_reverse(request, 'solution_linked', char_name, encoded)),
+            'avatar': _featured_avatar(b),
+            '_score': score,
+        })
+    scored.sort(key=lambda x: x['_score'], reverse=True)
+    result = scored[:FEATURED_BUILDS_COUNT]
+    cache.set(cache_key, result, FEATURED_BUILDS_CACHE_SECONDS)
+    return result
 
 def home(request, char_id=0):
     items = []
@@ -77,14 +143,33 @@ def home(request, char_id=0):
         buttons.append(button)
     
     
-    return set_response(request, 
-                        'chardata/home.html', 
+    game_version = getattr(request, 'game_version', 'dofus3')
+    featured_builds = _get_featured_builds(request, game_version)
+
+    return set_response(request,
+                        'chardata/home.html',
                         {'request': request,
                          'home': True,
                          'items': items,
                          'buttons': buttons,
+                         'featured_builds': featured_builds,
                          'user': request.user,
                          'char_id': char_id})
+
+def random_build(request):
+    """Redirect to a random shared build for the current game version.
+    Falls back to /sharedbuilds/ if there isn't a single one."""
+    game_version = getattr(request, 'game_version', 'dofus3')
+    char = (Char.objects
+            .filter(link_shared=True, deleted=False, game_version=game_version)
+            .order_by('?').first())
+    if char is None:
+        return HttpResponseRedirect(version_reverse(request, 'shared_builds'))
+    encoded = encode_char_id(int(char.id))
+    char_name = char.char_name or 'shared'
+    return HttpResponseRedirect(
+        version_reverse(request, 'solution_linked', char_name, encoded))
+
 
 def get_button_pos(buttons):
     if len(buttons) == 0:

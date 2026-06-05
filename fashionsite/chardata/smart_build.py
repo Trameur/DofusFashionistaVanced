@@ -790,11 +790,13 @@ def _set_weights(char, aspects, apply=True):
     w['pshres'] = 0.1 * b
     w['crires'] = 2 * res_w if 'pvp' in aspects else 0.2 * res_w
 
-#     if 'duel' in aspects:
-#         for res_type in product(['neut', 'earth', 'fire', 'water', 'air'],
-#                                 ['', 'per']):
-#             w['pvp%sres%s' % res_type] = w['%sres%s' % res_type]
-            
+    # Retro re-introduces "vs players" resistances (gone from Dofus 3); on a PvP preset,
+    # value each like its matching regular resistance. Unused in versions without them.
+    if 'pvp' in aspects or 'duel' in aspects:
+        for elem, suffix in product(DAMAGE_TYPES, ['', 'per']):
+            w['pvp%sres%s' % (elem, suffix)] = w['%sres%s' % (elem, suffix)]
+
+
     # Crits
     if 'crit' in aspects:
         w['ch'] = 140 * b

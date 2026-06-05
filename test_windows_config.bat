@@ -4,22 +4,28 @@ echo Test de la configuration Windows pour DofusFashionistaVanced
 echo ===============================================================
 echo.
 
+REM Détection d'un interpréteur Python réel (préférer le lanceur py ; ignorer le stub Microsoft Store)
+set "PY="
+py -3 --version >nul 2>&1 && set "PY=py -3"
+if not defined PY (
+    python --version >nul 2>&1 && set "PY=python"
+)
+
 REM Vérification de Python
 echo Vérification de Python...
-python --version > nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    echo [ÉCHEC] Python n'est pas installé ou n'est pas dans le PATH.
-    echo Veuillez installer Python 3.9+ depuis https://www.python.org/downloads/
-    echo Assurez-vous de cocher "Add Python to PATH" lors de l'installation.
+if not defined PY (
+    echo [ÉCHEC] Python introuvable ^(les alias Microsoft Store ne comptent pas^).
+    echo Installez Python 3.12+ : winget install -e --id Python.Python.3.14
+    echo ^(ou https://www.python.org/downloads/ : cochez "Add Python to PATH" + py launcher^)
 ) else (
-    for /f "tokens=2" %%a in ('python --version 2^>^&1') do set "PYTHON_VERSION=%%a"
-    echo [OK] Python %PYTHON_VERSION% est installé.
+    echo [OK] Python détecté via "%PY%" :
+    %PY% --version
 )
 echo.
 
 REM Vérification de pip
 echo Vérification de pip...
-python -m pip --version > nul 2>&1
+%PY% -m pip --version > nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
     echo [ÉCHEC] pip n'est pas installé correctement.
 ) else (
@@ -65,11 +71,10 @@ echo.
 REM Vérification des packages Python essentiels
 echo Vérification des packages Python essentiels...
 set "MISSING_PACKAGES="
-python -c "import django" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% Django"
-python -c "import social_core" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% social-auth-core"
-python -c "import pulp" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% PuLP"
-python -c "import pymysql" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% pymysql"
-python -c "import scrapy" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% Scrapy"
+%PY% -c "import django" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% Django"
+%PY% -c "import social_core" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% social-auth-core"
+%PY% -c "import pulp" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% PuLP"
+%PY% -c "import pymysql" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% pymysql"
 
 if not "%MISSING_PACKAGES%"=="" (
     echo [ÉCHEC] Packages Python manquants:%MISSING_PACKAGES%

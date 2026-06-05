@@ -56,25 +56,101 @@ function Test-CommandExists {
     }
 }
 
+# A freshly-installed Python isn't on the PATH of an already-open window until the
+# session is restarted; re-read it from the registry so we find it anyway.
+function Update-SessionPath {
+    try {
+        $machine = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+        $user    = [Environment]::GetEnvironmentVariable('Path', 'User')
+        $merged  = (@($machine, $user) | Where-Object { $_ }) -join ';'
+        if ($merged) { $env:Path = $merged }
+    }
+    catch { }
+}
+
+function Test-PythonCandidate {
+    param([string]$Exe, [string[]]$Prefix = @())
+    if (-not $Exe) { return $null }
+    if ($Exe -match '\\Microsoft\\WindowsApps\\') { return $null }   # Microsoft Store stub
+    if (-not (Test-Path -LiteralPath $Exe)) { return $null }
+    if ((Get-Item -LiteralPath $Exe).Length -le 0) { return $null }  # 0-byte alias stub
+    $probe = & $Exe @Prefix -c "import sys; print('%d.%d.%d' % sys.version_info[:3])" 2>$null
+    if ($LASTEXITCODE -eq 0 -and $probe) { return (@($Exe) + $Prefix) }
+    return $null
+}
+
+# Returns a call prefix for a real interpreter, e.g. @('py','-3') or @('C:\...\python.exe'),
+# or $null. Prefers the py launcher; falls back to PATH then well-known install dirs.
+function Get-PythonCommand {
+    Update-SessionPath
+
+    $pyCmd = Get-Command py -ErrorAction SilentlyContinue
+    if ($pyCmd) {
+        $res = Test-PythonCandidate -Exe $pyCmd.Source -Prefix @('-3')
+        if ($res) { return $res }
+    }
+
+    foreach ($cmd in (Get-Command python -All -ErrorAction SilentlyContinue)) {
+        $res = Test-PythonCandidate -Exe $cmd.Source
+        if ($res) { return $res }
+    }
+
+    $res = Test-PythonCandidate -Exe (Join-Path $env:LOCALAPPDATA 'Programs\Python\Launcher\py.exe') -Prefix @('-3')
+    if ($res) { return $res }
+    $res = Test-PythonCandidate -Exe (Join-Path $env:WINDIR 'py.exe') -Prefix @('-3')
+    if ($res) { return $res }
+    foreach ($base in @(
+            (Join-Path $env:LOCALAPPDATA 'Programs\Python'),
+            (Join-Path $env:ProgramFiles 'Python'),
+            (Join-Path ${env:ProgramFiles(x86)} 'Python'))) {
+        if ($base -and (Test-Path -LiteralPath $base)) {
+            $dirs = Get-ChildItem -LiteralPath $base -Directory -ErrorAction SilentlyContinue | Sort-Object Name -Descending
+            foreach ($d in $dirs) {
+                $res = Test-PythonCandidate -Exe (Join-Path $d.FullName 'python.exe')
+                if ($res) { return $res }
+            }
+        }
+    }
+
+    return $null
+}
+
+function Invoke-Python {
+    $exe = $Global:PythonCmd[0]
+    $prefix = @()
+    if ($Global:PythonCmd.Count -gt 1) {
+        $prefix = $Global:PythonCmd[1..($Global:PythonCmd.Count - 1)]
+    }
+    & $exe @prefix @args
+}
+
 # Fonction pour vérifier les prérequis
 function Test-Prerequisites {
     Write-LogMessage "Vérification des prérequis..." "INFO"
     
-    # Vérifier Python
-    if (-not (Test-CommandExists python)) {
-        Write-LogMessage "Python n'est pas installé ou n'est pas dans le PATH." "ERROR"
-        Write-LogMessage "Veuillez installer Python 3.9+ depuis https://www.python.org/downloads/" "ERROR"
-        Write-LogMessage "Assurez-vous de cocher 'Add Python to PATH' lors de l'installation." "ERROR"
+    # Vérifier Python (un interpréteur RÉEL, pas le stub Microsoft Store)
+    $Global:PythonCmd = Get-PythonCommand
+    if (-not $Global:PythonCmd) {
+        Write-LogMessage "Python introuvable. Les alias Microsoft Store (python.exe/python3.exe) ne comptent pas." "ERROR"
+        Write-LogMessage "Installez Python 3.12+ : winget install -e --id Python.Python.3.14   (ou https://www.python.org/downloads/)" "ERROR"
+        Write-LogMessage "Cochez 'Add Python to PATH' et 'Install py launcher'. Au besoin, désactivez les alias d'exécution d'application python.exe/python3.exe dans Paramètres Windows." "ERROR"
         return $false
     }
-    
+    Write-LogMessage "Interpréteur Python: $($Global:PythonCmd -join ' ')" "SUCCESS"
+
     # Vérifier la version de Python
-    $pythonVersion = python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')"
+    $pythonVersion = Invoke-Python -c "import sys; print('%d.%d.%d' % sys.version_info[:3])"
+    if ($LASTEXITCODE -ne 0 -or -not $pythonVersion) {
+        Write-LogMessage "Impossible de déterminer la version de Python." "ERROR"
+        return $false
+    }
     Write-LogMessage "Version Python détectée: $pythonVersion" "INFO"
-    
-    # Vérifier pip
-    if (-not (Test-CommandExists pip)) {
-        Write-LogMessage "pip n'est pas installé correctement." "ERROR"
+
+    # Vérifier pip (via le module, méthode robuste)
+    Invoke-Python -m pip --version 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        Write-LogMessage "pip n'est pas disponible pour cet interpréteur Python." "ERROR"
+        Write-LogMessage "Tentez : $($Global:PythonCmd -join ' ') -m ensurepip --upgrade" "ERROR"
         return $false
     }
     
@@ -109,11 +185,11 @@ function Test-Prerequisites {
         $requirementsFile = "$PSScriptRoot\requirements_win.txt"
         if (Test-Path -Path $requirementsFile) {
             Write-LogMessage "Installation des dépendances depuis $requirementsFile..." "INFO"
-            & pip install -r $requirementsFile --quiet 2>&1 | Out-Null
+            Invoke-Python -m pip install -r $requirementsFile --quiet 2>&1 | Out-Null
             Write-LogMessage "Toutes les dépendances ont été installées avec succès." "SUCCESS"
         } else {
             Write-LogMessage "Fichier requirements_win.txt introuvable, installation limitée..." "WARNING"
-            & pip install python-memcached 2>&1 | Out-Null
+            Invoke-Python -m pip install python-memcached 2>&1 | Out-Null
             Write-LogMessage "python-memcached installé avec succès." "SUCCESS"
         }
     }
@@ -132,8 +208,7 @@ function Set-PythonEnvironment {
     $env:PYTHONPATH = "$PSScriptRoot\fashionistapulp"
     $env:PYTHONUNBUFFERED = "1"
     $env:PYTHONIOENCODING = "UTF-8"
-    $env:PYTHONMALLOC = "debug"
-    
+
     Write-LogMessage "PYTHONPATH défini: $env:PYTHONPATH" "SUCCESS"
 }
 
@@ -301,7 +376,7 @@ function Clear-SolutionCache {
         Ensure-DumpFile
         
         Push-Location $PSScriptRoot
-        & python "$PSScriptRoot\wipe_solution_cache.py"
+        Invoke-Python "$PSScriptRoot\wipe_solution_cache.py"
         
         if ($LASTEXITCODE -ne 0) {
             Write-LogMessage "Avertissement lors du nettoyage du cache." "WARNING"
@@ -335,7 +410,7 @@ function Invoke-DjangoCompileMessages {
             }
             
             if ($getTextInstalled) {
-                & python -m django compilemessages
+                Invoke-Python -m django compilemessages
                 
                 if ($LASTEXITCODE -eq 0) {
                     Write-LogMessage "Messages compilés avec succès." "SUCCESS"
@@ -372,7 +447,7 @@ function Fix-DjangoSettings {
             Write-LogMessage "Sauvegarde des paramètres créée: $backupPath" "INFO"
             
             # Installer pymemcache pour compatibilité Django 4.2+
-            & pip install pymemcache 2>&1 | Out-Null
+            Invoke-Python -m pip install pymemcache 2>&1 | Out-Null
             Write-LogMessage "pymemcache installé pour compatibilité Django 4.2+." "SUCCESS"
             
             Write-LogMessage "Configuration du cache vers un backend local..." "INFO"
@@ -433,10 +508,10 @@ if __name__ == '__main__':
 "@ | Out-File -FilePath $tempScript -Encoding utf8
 
             # Exécuter le script Python
-            & python $tempScript $settingsPath
-            
+            Invoke-Python $tempScript $settingsPath
+
             # Vérifier que le fichier est syntaxiquement valide
-            $syntaxCheck = & python -c "compile(open('$($settingsPath.Replace('\', '\\'))', 'r', encoding='utf-8').read(), '$($settingsPath.Replace('\', '\\'))', 'exec')" 2>&1
+            $syntaxCheck = Invoke-Python -c "compile(open('$($settingsPath.Replace('\', '\\'))', 'r', encoding='utf-8').read(), '$($settingsPath.Replace('\', '\\'))', 'exec')" 2>&1
             
             if ($LASTEXITCODE -eq 0) {
                 Write-LogMessage "Paramètres Django mis à jour pour utiliser le cache local." "SUCCESS"
@@ -447,7 +522,7 @@ if __name__ == '__main__':
                 
                 # Exécuter le script fix_settings.py dédié si disponible
                 if (Test-Path -Path "$PSScriptRoot\fix_settings.py") {
-                    & python "$PSScriptRoot\fix_settings.py"
+                    Invoke-Python "$PSScriptRoot\fix_settings.py"
                     Write-LogMessage "Correction appliquée avec fix_settings.py." "INFO"
                 }
             }
@@ -472,15 +547,12 @@ function Invoke-DatabaseMigration {
     try {
         if (Test-Path -Path "$PSScriptRoot\fashionsite\manage.py") {
             Push-Location "$PSScriptRoot\fashionsite"
-            
-            # S'assurer que les paramètres Django sont compatibles avec Windows
-            Fix-DjangoSettings
-            
-            $migrateCheck = & python manage.py migrate --check 2>&1
-            
+
+            $migrateCheck = Invoke-Python manage.py migrate --noinput --check 2>&1
+
             if ($LASTEXITCODE -ne 0) {
                 Write-LogMessage "Configuration de la base de données..." "INFO"
-                & python manage.py migrate
+                Invoke-Python manage.py migrate --noinput
                 
                 if ($LASTEXITCODE -eq 0) {
                     Write-LogMessage "Base de données configurée avec succès." "SUCCESS"
@@ -508,7 +580,7 @@ function Reset-Database {
     
     try {
         # Exécuter le script Python load_item_db.py pour réinitialiser la base de données
-        & python "$PSScriptRoot\load_item_db.py"
+        Invoke-Python "$PSScriptRoot\load_item_db.py"
         
         if ($LASTEXITCODE -eq 0) {
             Write-LogMessage "Base de données réinitialisée avec succès." "SUCCESS"
@@ -541,7 +613,7 @@ function Start-DjangoServer {
             $env:DJANGO_SETTINGS_MODULE = 'fashionsite.settings'
             
             # Utiliser le serveur standard au lieu du serveur SSL qui a des problèmes avec Python 3.12
-            & python -X faulthandler manage.py runserver --noreload 0.0.0.0:8000
+            Invoke-Python -X faulthandler manage.py runserver --noreload 0.0.0.0:8000
             
             if ($LASTEXITCODE -ne 0) {
                 Write-LogMessage "Le serveur s'est arrêté avec le code $LASTEXITCODE" "ERROR"
@@ -560,6 +632,114 @@ function Start-DjangoServer {
         Pop-Location
     }
     
+    return $true
+}
+
+function Initialize-FashionistaConfig {
+    Write-LogMessage "Préparation de la configuration locale..." "INFO"
+
+    # settings.py reads these with json.loads / open(), which both reject a UTF-8 BOM.
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    $cfgDir = Join-Path $env:APPDATA 'fashionista'
+    if (-not (Test-Path -LiteralPath $cfgDir)) {
+        New-Item -ItemType Directory -Force -Path $cfgDir | Out-Null
+    }
+
+    [System.IO.File]::WriteAllText((Join-Path $cfgDir 'config'),       $PSScriptRoot, $utf8NoBom)
+    [System.IO.File]::WriteAllText((Join-Path $cfgDir 'debug_mode'),   'True',        $utf8NoBom)
+    [System.IO.File]::WriteAllText((Join-Path $cfgDir 'serve_static'), 'True',        $utf8NoBom)
+
+    $genPath = Join-Path $cfgDir 'gen_config.json'
+    if (-not (Test-Path -LiteralPath $genPath)) {
+        $buf = New-Object byte[] 48
+        ([System.Security.Cryptography.RandomNumberGenerator]::Create()).GetBytes($buf)
+        $secret = [Convert]::ToBase64String($buf)
+        $gen = [ordered]@{
+            PASSWORD_RESET_SALT              = 'local_salt'
+            EMAIL_CONFIRMATION_SALT          = 'local_salt_2'
+            SECRET_KEY                       = $secret
+            mysql_PASSWORD                   = 'local'
+            mysql_USER                       = 'root'
+            EMAIL_HOST_USER                  = 'local@example.com'
+            EMAIL_HOST_PASSWORD              = 'local'
+            SOCIAL_AUTH_GOOGLE_OAUTH2_KEY    = $null
+            SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = $null
+            DBBACKUP_S3_ACCESS_KEY           = $null
+            DBBACKUP_S3_SECRET_KEY           = $null
+            url_captcha_secret               = $null
+            char_id_SECRET_PART_1            = 'local_secret'
+            char_id_SECRET_PART_2            = 'local_secret_2'
+            google_analytics_id             = $null
+            TESTER_USERS_EMAILS              = @('local@example.com')
+            SUPER_USERS_EMAILS               = @()
+            EMAIL_USE_TLS                    = $true
+            EMAIL_HOST                       = 'smtp.example.com'
+            EMAIL_PORT                       = 587
+        }
+        [System.IO.File]::WriteAllText($genPath, ($gen | ConvertTo-Json), $utf8NoBom)
+        Write-LogMessage "Configuration locale créée: $genPath" "SUCCESS"
+    }
+    else {
+        Write-LogMessage "Configuration existante conservée: $genPath" "INFO"
+    }
+}
+
+# Démarre le MySQL 8.0 local (portable, sans service), importe le dump de prod au premier
+# lancement et garantit l'utilisateur applicatif. Réplique l'environnement de prod sous Windows.
+function Ensure-LocalMysql {
+    $mysqlHome  = Join-Path $env:LOCALAPPDATA 'Fashionista'
+    $base       = Join-Path $mysqlHome 'mysql-8.0.46-winx64'
+    $data       = Join-Path $mysqlHome 'data'
+    $mysqld     = Join-Path $base 'bin\mysqld.exe'
+    $mysql      = Join-Path $base 'bin\mysql.exe'
+    $mysqladmin = Join-Path $base 'bin\mysqladmin.exe'
+    $dump       = Join-Path $PSScriptRoot 'prod_dump.sql'
+
+    if (-not (Test-Path -LiteralPath $mysqld)) {
+        Write-LogMessage "MySQL 8.0 local introuvable dans $base." "ERROR"
+        Write-LogMessage "Lancez l'installation initiale : .\setup_local_mysql.ps1" "ERROR"
+        return $false
+    }
+
+    if (-not (Test-Path -LiteralPath (Join-Path $data 'mysql'))) {
+        Write-LogMessage "Initialisation du répertoire de données MySQL..." "INFO"
+        New-Item -ItemType Directory -Force -Path $data | Out-Null
+        & $mysqld --initialize-insecure "--datadir=$data" "--basedir=$base"
+        if ($LASTEXITCODE -ne 0) { Write-LogMessage "Échec de l'initialisation MySQL." "ERROR"; return $false }
+    }
+
+    if (-not (Get-NetTCPConnection -LocalPort 3306 -State Listen -ErrorAction SilentlyContinue)) {
+        Write-LogMessage "Démarrage de MySQL (port 3306)..." "INFO"
+        Start-Process -FilePath $mysqld -ArgumentList "--datadir=$data","--basedir=$base","--port=3306","--max_allowed_packet=1G" -WindowStyle Hidden | Out-Null
+        $up = $false
+        foreach ($i in 1..30) {
+            Start-Sleep -Milliseconds 1000
+            if ((& $mysqladmin --host=127.0.0.1 --port=3306 -u root ping 2>&1) -match 'alive') { $up = $true; break }
+        }
+        if (-not $up) { Write-LogMessage "MySQL ne répond pas après 30s." "ERROR"; return $false }
+    }
+    Write-LogMessage "MySQL opérationnel (port 3306)." "SUCCESS"
+
+    $dbExists = & $mysql --host=127.0.0.1 --port=3306 -u root -N -e "SHOW DATABASES LIKE 'fashionista';" 2>$null
+    if (-not $dbExists) {
+        if (Test-Path -LiteralPath $dump) {
+            Write-LogMessage "Import de la base de prod (plusieurs minutes au premier lancement)..." "INFO"
+            & $mysql --host=127.0.0.1 --port=3306 -u root -e "SET GLOBAL max_allowed_packet=1073741824;" 2>$null
+            cmd /c "`"$mysql`" --host=127.0.0.1 --port=3306 -u root --max-allowed-packet=1G --default-character-set=utf8mb4 < `"$dump`""
+            if ($LASTEXITCODE -ne 0) { Write-LogMessage "Échec de l'import de la base de prod." "ERROR"; return $false }
+            Write-LogMessage "Base de prod importée." "SUCCESS"
+        }
+        else {
+            Write-LogMessage "Base 'fashionista' absente ; création vide (les migrations feront le schéma)." "WARNING"
+            & $mysql --host=127.0.0.1 --port=3306 -u root -e "CREATE DATABASE IF NOT EXISTS fashionista CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>$null
+        }
+    }
+
+    $grant = "CREATE USER IF NOT EXISTS 'fashionista'@'%' IDENTIFIED WITH mysql_native_password BY 'fashionista';" +
+             "ALTER USER 'fashionista'@'%' IDENTIFIED WITH mysql_native_password BY 'fashionista';" +
+             "GRANT ALL PRIVILEGES ON fashionista.* TO 'fashionista'@'%'; FLUSH PRIVILEGES;"
+    & $mysql --host=127.0.0.1 --port=3306 -u root -e $grant 2>$null
+
     return $true
 }
 
@@ -594,42 +774,23 @@ function Start-DofusFashionista {
     # Configurer l'environnement Python
     Set-PythonEnvironment
 
-    # La base 'fashionista_migration' n'a de sens que pour le scénario de migration
-    # AWS (import de migrated_production.sql). Sans ce dump, on utilise la base
-    # locale normale ('fashionista' par défaut) ; sinon Django pointe vers une base
-    # inexistante / sans droits -> erreur 1044 "Access denied ... fashionista_migration".
-    $defaultDump = "C:\Users\jems3\Documents\AWS\migrated_production.sql"
-    if (Test-Path -Path $defaultDump) {
-        $env:DB_NAME = 'fashionista_migration'
-        Write-LogMessage "Dump de prod migré trouvé : DB_NAME défini sur $env:DB_NAME." "INFO"
-    } elseif (-not $env:DB_NAME) {
-        $env:DB_NAME = 'fashionista'
-        Write-LogMessage "DB_NAME défini sur $env:DB_NAME pour cette session." "INFO"
-    } else {
-        Write-LogMessage "DB_NAME conservé : $env:DB_NAME." "INFO"
+    $env:DJANGO_SETTINGS_MODULE = 'fashionsite.settings'
+    $env:DB_HOST = '127.0.0.1'
+    $env:DB_PORT = '3306'
+    $env:DB_NAME = 'fashionista'
+    $env:DB_USER = 'fashionista'
+    $env:DB_PASSWORD = 'fashionista'
+    Write-LogMessage "Mode local : MySQL 8.0 (réplique de la prod)." "INFO"
+
+    if (-not (Ensure-LocalMysql)) {
+        Read-Host "Appuyez sur Entrée pour quitter"
+        return
     }
 
-    # S'assurer que le fichier dump existe
-    Ensure-DumpFile
-
-    # Importer le dump de prod migré si présent
-    if (Test-Path -Path $defaultDump) {
-        Import-MySqlDump -SqlPath $defaultDump -DbName $env:DB_NAME
-    } else {
-        Write-LogMessage "Dump de prod non trouvé à $defaultDump (étape d'import ignorée)." "WARNING"
-    }
-
-    # Nettoyer le cache des solutions
-    Clear-SolutionCache
-    
-    # Nettoyer et réinitialiser la base de données pour éviter les erreurs de tables existantes
-    Reset-Database
-    
-    # Compiler les messages
-    Invoke-DjangoCompileMessages
-    
-    # Vérifier et configurer la base de données
+    Initialize-FashionistaConfig
     Invoke-DatabaseMigration
+    Clear-SolutionCache
+    Invoke-DjangoCompileMessages
     
     # Démarrer le serveur avec système de redémarrage automatique
     $maxRetries = 3

@@ -23,9 +23,13 @@ def site_stats(request):
 ACTIVE_GAME_VERSIONS = [
     ('dofus3', 'Dofus 3'),
     ('beta', 'Beta'),
+    ('dofus2', 'Dofus 2'),
+    ('retro', 'Retro'),
 ]
 
-_VERSION_PREFIXES = ('beta/', 'retro/', 'touch/')
+_GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
+
+_VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
 _CHAR_ID_RE = re.compile(r'/\d+/')
 
 
@@ -48,6 +52,7 @@ def game_version(request):
 
     return {
         'current_game_version': gv,
+        'current_game_version_label': _GAME_VERSION_LABELS.get(gv, 'Dofus 3'),
         'active_game_versions': ACTIVE_GAME_VERSIONS,
         'version_switch_base_path': base_path,
         'api_base': api_base,

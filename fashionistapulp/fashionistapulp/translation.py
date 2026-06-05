@@ -18,9 +18,9 @@ from django.conf import settings
 from django.utils import translation
 
 
-NON_EN_LANGUAGES = ['fr', 'pt', 'it', 'es', 'de']
+NON_EN_LANGUAGES = ['fr', 'pt', 'es', 'de']
 LANGUAGES = ['en'] + NON_EN_LANGUAGES
-SUPPORTED_LANGUAGES = ['en', 'fr', 'es', 'pt', 'de', 'it']
+SUPPORTED_LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
 
 def get_supported_language():

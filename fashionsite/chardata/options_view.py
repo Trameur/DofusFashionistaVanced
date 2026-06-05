@@ -18,7 +18,7 @@ import json
 
 from chardata.lock_forbid import add_items_to_exclusions, remove_items_from_exclusions
 from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
-    get_dofus_not_for_char
+    get_dofus_not_for_char, get_available_options
 from chardata.util import set_response, get_char_or_raise, HttpResponseJson
 from fashionistapulp.structure import get_structure
 from chardata.views import forbidden
@@ -30,9 +30,10 @@ def options(request, char_id):
     options = get_options(char)
     
     return set_response(request, 
-                        'chardata/options.html', 
+                        'chardata/options.html',
                         {'advanced': True,
                          'options': json.dumps(options),
+                         'version_options': get_available_options(),
                          'char_id': char_id},
                         char)
 
@@ -45,15 +46,17 @@ def options_post(request, char_id):
     too_high = get_dofus_not_for_char(char)
     forbidden_dofus = []
     allowed_dofus = []
+    structure = get_structure()
     for (red, item) in DOFUS_OPTIONS.items():
         if red not in too_high:
             forbidden = request.POST.get(red) is None
-            structure = get_structure()
-            item_id = structure.get_item_by_name(item).id
+            dofus = structure.get_item_by_name(item)
+            if dofus is None:
+                continue  # dofus not in this version (Retro/Dofus 2)
             if forbidden:
-                forbidden_dofus.append(int(item_id))
+                forbidden_dofus.append(int(dofus.id))
             else:
-                allowed_dofus.append(int(item_id))
+                allowed_dofus.append(int(dofus.id))
     add_items_to_exclusions(char, forbidden_dofus)
     remove_items_from_exclusions(char, allowed_dofus)
     

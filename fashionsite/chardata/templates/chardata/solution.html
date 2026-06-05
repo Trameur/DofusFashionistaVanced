@@ -6,6 +6,23 @@
 
 {% block title %}The Dofus Fashionista: {% trans "Outfit Suggestion" %}{% endblock %}
 
+{% block meta_description %}{% if link_shared %}{{ char.char_class }} {% trans "level" %} {{ char.level }} {% trans "build optimized on Dofus Fashionista" %}.{% else %}Get Dofus sets created automatically, based on your specific needs.{% endif %}{% endblock %}
+
+{% block og_meta %}
+{% if link_shared %}
+    <meta property="og:title" content="{{ char.char_name|default:char.name }} — {{ char.char_class }} {% trans 'lvl' %} {{ char.level }}">
+    <meta property="og:description" content="{{ char.char_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}">
+    <meta property="og:type" content="article">
+    {% if class_avatar %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ class_avatar }}">{% endif %}
+    <meta name="twitter:card" content="summary">
+{% else %}
+    <meta property="og:title" content="Dofus Fashionista - Equipment Set Optimizer">
+    <meta property="og:description" content="Create optimized Dofus equipment sets automatically based on your character's needs.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+{% endif %}
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/solution.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
@@ -17,14 +34,292 @@
             color: #000 !important;
             font-weight: bold;
         }
+
+        .char-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            max-width: 720px;
+            margin: 4px auto 14px;
+            padding: 6px 10px;
+            border: 1px solid rgba(128,128,128,0.25);
+            border-radius: 4px;
+        }
+        .char-banner-avatar {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .char-banner-info {
+            min-width: 0;
+            flex: 1;
+        }
+        .char-banner-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .char-banner-meta {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .char-banner-tags {
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+        .build-tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 1px 8px;
+            font-size: 0.8em;
+            border: 1px solid rgba(128,128,128,0.4);
+            border-radius: 10px;
+        }
+        .build-tag-chip a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .build-tag-chip a:hover {
+            text-decoration: underline;
+        }
+        .build-tag-remove {
+            background: none;
+            border: none;
+            color: inherit;
+            opacity: 0.55;
+            cursor: pointer;
+            padding: 0 2px;
+            font-size: 1em;
+            line-height: 1;
+        }
+        .build-tag-remove:hover {
+            opacity: 1;
+        }
+        .build-tag-add input {
+            border: 1px dashed rgba(128,128,128,0.45);
+            background: transparent;
+            color: inherit;
+            padding: 1px 6px;
+            font-size: 0.8em;
+            border-radius: 10px;
+            width: 100px;
+        }
+
+        .comments-section {
+            max-width: 720px;
+            margin: 30px auto 20px;
+            padding: 0 10px;
+        }
+        .comments-title {
+            margin: 0 0 12px;
+            font-weight: normal;
+        }
+        .comment-form {
+            margin-bottom: 16px;
+        }
+        .comment-textarea {
+            width: 100%;
+            box-sizing: border-box;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.95em;
+            padding: 6px 8px;
+        }
+        .comment-form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+        .comment-error {
+            color: #c33;
+            font-size: 0.9em;
+        }
+        .comment-login-prompt {
+            font-size: 0.95em;
+            margin: 0 0 16px;
+        }
+        .comments-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .comment-item {
+            padding: 8px 0;
+            border-top: 1px solid rgba(128,128,128,0.25);
+        }
+        .comment-item:first-child {
+            border-top: none;
+        }
+        .comment-meta {
+            font-size: 0.85em;
+            opacity: 0.75;
+            margin-bottom: 4px;
+        }
+        .comment-author {
+            font-weight: bold;
+            margin-right: 6px;
+            color: inherit;
+            text-decoration: none;
+        }
+        .comment-author:hover {
+            text-decoration: underline;
+        }
+        .comment-date {
+            margin-right: 6px;
+        }
+        .comment-delete,
+        .comment-report {
+            font-size: 0.85em;
+            opacity: 0.6;
+            text-decoration: none;
+            margin-left: 6px;
+        }
+        .comment-delete:hover,
+        .comment-report:hover {
+            opacity: 1;
+        }
+
+        .report-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .report-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+        }
+        .report-modal-content {
+            position: relative;
+            max-width: 420px;
+            width: calc(100% - 32px);
+            background: var(--card-bg, #fff);
+            color: inherit;
+            padding: 18px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+        .report-modal-title {
+            margin: 0 0 8px;
+            font-weight: normal;
+        }
+        .report-modal-help {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin: 0 0 12px;
+        }
+        .report-modal-label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+        .report-modal-label select {
+            display: block;
+            margin-top: 4px;
+            width: 100%;
+            padding: 4px 6px;
+        }
+        .report-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .report-modal-actions .comment-error {
+            margin-right: auto;
+        }
+        .comment-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .comment-empty {
+            font-style: italic;
+            opacity: 0.7;
+            margin: 0;
+        }
     </style>
 {% endblock %}
 
 {% block main %}
     <h1 align="center">{% trans "Outfit Suggestion" %}</h1>
-    
+
+    {% if class_avatar %}
+    <div class="char-banner">
+        <img src="{{ class_avatar }}" alt="{{ char.char_class }}" class="char-banner-avatar">
+        <div class="char-banner-info">
+            <div class="char-banner-name">{{ char.char_name|default:char.name }}</div>
+            <div class="char-banner-meta">
+                {{ char.char_class }} · {% trans "level" %} {{ char.level }}
+                {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
+            </div>
+            {% if share_text %}
+            <div style="margin-top: 6px;">
+                <button type="button" id="copy_text_btn" class="button-generic" style="font-size: 0.85em; padding: 2px 10px;"
+                        onclick="copyBuildText();">{% trans "Copy as text" %}</button>
+                <span id="copy_text_feedback" style="font-size: 0.8em; opacity: 0.8; margin-left: 6px;"></span>
+                <textarea id="build_share_text" style="position:absolute; left:-9999px; top:-9999px;" readonly>{{ share_text }}</textarea>
+            </div>
+            {% endif %}
+            <div class="char-banner-tags" id="char_tags_box">
+                {% for tag in build_tags %}
+                <span class="build-tag-chip" data-tag-id="{{ tag.id }}">
+                    <a href="{% game_url 'shared_builds' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                    {% if can_edit_tags %}
+                    <button type="button" class="build-tag-remove" data-tag-id="{{ tag.id }}" title="{% trans 'Remove tag' %}">×</button>
+                    {% endif %}
+                </span>
+                {% endfor %}
+                {% if can_edit_tags %}
+                <span class="build-tag-add">
+                    <input type="text" id="char_tag_input" maxlength="40" placeholder="{% trans '+ Add tag' %}">
+                </span>
+                {% if not build_tags %}
+                <span class="build-tag-suggestions" style="opacity: 0.65; font-size: 0.8em; margin-left: 6px;">
+                    {% trans "Suggestions:" %}
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">PvM</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">PvP</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">Solo</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">Group</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">Farm</a>
+                </span>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if build_check.has_hints %}
+    <div class="build-check" align="center">
+        <div class="build-check-inner">
+            <strong>{% trans "Build check" %}:</strong>
+            {% trans "Some items may have stronger options for your build:" %}
+            {% for s in build_check.suggestions %}<span class="build-check-item">{{ s.name }}{% if not forloop.last %},{% endif %}</span> {% endfor %}
+        </div>
+    </div>
+    <style>
+        .build-check { margin: 0 auto 12px; max-width: 720px; }
+        .build-check-inner {
+            display: inline-block; padding: 6px 14px; font-size: 0.88em;
+            border: 1px solid rgba(200,160,40,0.5); border-radius: 4px; opacity: 0.92;
+        }
+        .build-check-item { white-space: nowrap; }
+    </style>
+    {% endif %}
+
     {% if not is_guest %}
-    
+
     {% if is_generated %}
     <p class="text">
     {% if char.char_name %}
@@ -128,13 +423,25 @@
 
     {% if not is_guest %}
     <div align="center">
-    
-      
 
     <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
-    
-  
-    
+
+    </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div align="center" style="margin-top: 8px;">
+        <button id="add_to_workshop_btn" type="button" class="button-generic" onclick="addSolutionToWorkshop();">
+            {% trans "Add all items to my Workshop" %}
+        </button>
+        <button id="show_ingredients_btn" type="button" class="button-generic" onclick="toggleSolutionIngredients();">
+            {% trans "Show crafting ingredients" %}
+        </button>
+        <span id="workshop_feedback" style="margin-left: 8px; font-size: 0.9em; opacity: 0.85;"></span>
+    </div>
+    <div id="solution_ingredients" style="display: none; max-width: 520px; margin: 10px auto 0; text-align: left;">
+        <div id="solution_ingredients_meta" style="opacity: 0.7; font-size: 0.85em; margin-bottom: 6px;"></div>
+        <ul id="solution_ingredients_list" style="list-style: none; padding: 0; margin: 0;"></ul>
     </div>
     {% endif %}
 
@@ -152,6 +459,14 @@
                         <input type="radio" name="total_mode" value="equip"><span class="checkbox-text">{% trans "Equip" %}</span>
                     </label>
                 </div>
+                {% if has_spell_buffs %}
+                <div class="solution-stat-summary-mode-option-container" style="margin-top: 4px;">
+                    <label title="{% trans 'Stats with your class self-buffs fully active.' %}">
+                        <input type="checkbox" name="apply_buffs" id="apply_buffs_toggle">
+                        <span class="checkbox-text">{% trans "With buffs" %}</span>
+                    </label>
+                </div>
+                {% endif %}
             </td></tr>
             <tr class="solution-stat-summary-line">
                 <td class="solution-stat-summary-icon-header"></td>
@@ -270,9 +585,34 @@
             {% trans "% Weapon Resist" as Res_Per_Wea %}
             {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Wea stat_key="resperwea" %}
             {% trans "% Ranged Resist" as Res_Per_Dis %}
+            {% if current_game_version == 'retro' %}
             {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Dis stat_key="resperran" %}
-            {% trans "% Weapon Resist" as Res_Per_Wea %}
-            <tr>
+            {# PVP resists exist on Retro gear (removed from Dofus 3). #}
+            {% include "chardata/solution_stat_line_empty.html" %}
+            {% trans "Neutral Resist (PvP)" as Neutral_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Neutral_Res_PvP stat_key="pvpneutres" %}
+            {% trans "Earth Resist (PvP)" as Earth_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Strength.png" stat_name=Earth_Res_PvP stat_key="pvpearthres" %}
+            {% trans "Fire Resist (PvP)" as Fire_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Intelligence.png" stat_name=Fire_Res_PvP stat_key="pvpfireres" %}
+            {% trans "Water Resist (PvP)" as Water_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Water_Res_PvP stat_key="pvpwaterres" %}
+            {% trans "Air Resist (PvP)" as Air_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Air_Res_PvP stat_key="pvpairres" %}
+            {% include "chardata/solution_stat_line_empty.html" %}
+            {% trans "% Neutral Resist (PvP)" as Per_Neutral_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Per_Neutral_Res_PvP stat_key="pvpneutresper" %}
+            {% trans "% Earth Resist (PvP)" as Per_Earth_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Strength.png" stat_name=Per_Earth_Res_PvP stat_key="pvpearthresper" %}
+            {% trans "% Fire Resist (PvP)" as Per_Fire_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Intelligence.png" stat_name=Per_Fire_Res_PvP stat_key="pvpfireresper" %}
+            {% trans "% Water Resist (PvP)" as Per_Water_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Per_Water_Res_PvP stat_key="pvpwaterresper" %}
+            {% trans "% Air Resist (PvP)" as Per_Air_Res_PvP %}
+            {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res_PvP stat_key="pvpairresper" is_last=True %}
+            {% else %}
+            {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Dis stat_key="resperran" is_last=True %}
+            {% endif %}
         </table>
     </td>
     </tr></table>
@@ -295,11 +635,85 @@
         </tr>
         </table>
     </div>
+
+    {% if link_shared %}
+    <div id="comments_section" class="comments-section">
+        <h3 class="comments-title">{% trans "Comments" %} (<span id="comments_count">{{ comments|length }}</span>)</h3>
+
+        {% if user.is_authenticated %}
+        <form id="comment_form" class="comment-form" onsubmit="return postComment(event);">
+            <textarea id="comment_content" name="content" rows="3" maxlength="2000"
+                      placeholder="{% trans 'Share your thoughts on this build...' %}"
+                      class="comment-textarea" required></textarea>
+            <div class="comment-form-actions">
+                <span id="comment_error" class="comment-error"></span>
+                <button type="submit" class="button-generic">{% trans "Post Comment" %}</button>
+            </div>
+        </form>
+        {% else %}
+        <p class="comment-login-prompt">
+            <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+            {% trans "to leave a comment." %}
+        </p>
+        {% endif %}
+
+        <ul id="comments_list" class="comments-list">
+            {% for comment in comments %}
+            <li class="comment-item" data-comment-id="{{ comment.id }}">
+                <div class="comment-meta">
+                    <a class="comment-author" href="{% game_url 'user_profile' comment.author %}">{{ comment.author }}</a>
+                    <span class="comment-date">{{ comment.created_time }}</span>
+                    {% if comment.can_delete %}
+                    <a href="#" class="comment-delete" onclick="deleteComment(event, {{ comment.id }});">{% trans "delete" %}</a>
+                    {% endif %}
+                    {% if comment.can_report %}
+                    <a href="#" class="comment-report" onclick="openReportModal(event, {{ comment.id }});">{% trans "report" %}</a>
+                    {% endif %}
+                </div>
+                <div class="comment-content">{{ comment.content|linebreaksbr }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        <p id="comments_empty" class="comment-empty"{% if comments %} style="display:none;"{% endif %}>
+            {% trans "No comments yet." %}
+        </p>
+    </div>
+
+    <div id="report_modal" class="report-modal" style="display:none;">
+        <div class="report-modal-backdrop" onclick="closeReportModal();"></div>
+        <div class="report-modal-content">
+            <h3 class="report-modal-title">{% trans "Report this comment" %}</h3>
+            <p class="report-modal-help">{% trans "Tell us why you are reporting it. An admin will review the report." %}</p>
+            <label class="report-modal-label">
+                {% trans "Reason" %}
+                <select id="report_reason">
+                    <option value="spam">{% trans "Spam" %}</option>
+                    <option value="harassment">{% trans "Harassment / insult" %}</option>
+                    <option value="off_topic">{% trans "Off-topic" %}</option>
+                    <option value="other">{% trans "Other" %}</option>
+                </select>
+            </label>
+            <div class="report-modal-actions">
+                <span id="report_error" class="comment-error"></span>
+                <button type="button" class="button-generic" onclick="closeReportModal();">{% trans "Cancel" %}</button>
+                <button type="button" class="button-generic" id="report_submit">{% trans "Send report" %}</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <p align="center" class="text" style="margin: 0; padding: 0;">
         {% trans "Built using data from " %}
+        {% if current_game_version == 'retro' %}
+        <a href="http://www.ankama-games.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
+            Ankama
+        </a>
+        (<a href="https://github.com/Trameur/DofusFashionistaVanced/blob/main/docs/retro_data_from_ankama.md" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">{% trans "how the data is parsed" %}</a>)
+        {% else %}
         <a href="https://docs.dofusdu.de/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
             dofusdude
         </a>
+        {% endif %}
     </p>
 {% include "chardata/jqueryui.html" %}
     <script>
@@ -388,12 +802,27 @@
             return Math.round(Number(value)).toString();
         }
 
+        // The character's class self-buffs, fully active. Computed server-side
+        // from the same per-version spell data as the spells page "Fully Buff"
+        // button ({stat: bonus}); only universal stat buffs are included.
+        var SPELL_BUFFS = {{ spell_buff_stats_json|safe }};
+
+        function applyBuffsToStats(stats) {
+            if (!$('#apply_buffs_toggle').is(':checked')) return stats;
+            var buffed = {};
+            $.each(stats, function(k, v) { buffed[k] = v; });
+            $.each(SPELL_BUFFS, function(k, b) {
+                if (k in buffed) buffed[k] += b;
+            });
+            return buffed;
+        }
+
         function update_stats() {
             if ($("input[name='total_mode']:checked").val() == "equip") {
-                new_stats = stats_gear;
+                new_stats = applyBuffsToStats(stats_gear);
                 $(".solution-stat-summary-value-header").text('{% trans "Equip" %}');
             } else {
-                new_stats = stats_total;
+                new_stats = applyBuffsToStats(stats_total);
                 $(".solution-stat-summary-value-header").text('{% trans "Total" %}');
             }
 
@@ -860,6 +1289,7 @@
         $(document).ready(function() {
             update_stats();
             $("input[name='total_mode']").change(update_stats);
+            $('#apply_buffs_toggle').change(update_stats);
             rebuildOverriddenItems();
 
             $("#expand_button").click(function(e) {
@@ -1093,6 +1523,291 @@
                 }
             });
         }
-        
+
+        // Post a new comment on this shared build
+        function postComment(event) {
+            event.preventDefault();
+            var $form = $('#comment_form');
+            var $textarea = $('#comment_content');
+            var $error = $('#comment_error');
+            var content = ($textarea.val() || '').trim();
+            $error.text('');
+            if (!content) {
+                $error.text("{% trans 'Comment is empty' %}");
+                return false;
+            }
+            $form.find('button[type=submit]').prop('disabled', true);
+            $.ajax({
+                url: apiBase + '/postcomment/{{ char_id }}/',
+                type: 'POST',
+                data: {
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        appendComment(response.comment);
+                        $textarea.val('');
+                        var count = parseInt($('#comments_count').text(), 10) || 0;
+                        $('#comments_count').text(count + 1);
+                        $('#comments_empty').hide();
+                    }
+                },
+                error: function(xhr) {
+                    $error.text(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not post comment' %}");
+                },
+                complete: function() {
+                    $form.find('button[type=submit]').prop('disabled', false);
+                }
+            });
+            return false;
+        }
+
+        function appendComment(comment) {
+            var $li = $('<li>').addClass('comment-item').attr('data-comment-id', comment.id);
+            var $meta = $('<div>').addClass('comment-meta');
+            var profileUrl = '{{ api_base }}/user/' + encodeURIComponent(comment.author) + '/';
+            $meta.append($('<a>').addClass('comment-author').attr('href', profileUrl).text(comment.author));
+            $meta.append(' ');
+            $meta.append($('<span>').addClass('comment-date').text(comment.created_time));
+            if (comment.can_delete) {
+                $meta.append(' ');
+                $meta.append($('<a>').attr('href', '#').addClass('comment-delete')
+                    .text("{% trans 'delete' %}")
+                    .on('click', function(e) { deleteComment(e, comment.id); }));
+            }
+            if (comment.can_report) {
+                $meta.append(' ');
+                $meta.append($('<a>').attr('href', '#').addClass('comment-report')
+                    .text("{% trans 'report' %}")
+                    .on('click', function(e) { openReportModal(e, comment.id); }));
+            }
+            $li.append($meta);
+            // textContent (not html) -> safe from XSS
+            var $content = $('<div>').addClass('comment-content').text(comment.content);
+            $li.append($content);
+            $('#comments_list').append($li);
+        }
+
+        var _reportTargetCommentId = null;
+        function openReportModal(event, commentId) {
+            if (event) event.preventDefault();
+            _reportTargetCommentId = commentId;
+            $('#report_reason').val('spam');
+            $('#report_error').text('');
+            $('#report_submit').prop('disabled', false);
+            $('#report_modal').show();
+            return false;
+        }
+        function closeReportModal() {
+            $('#report_modal').hide();
+            _reportTargetCommentId = null;
+        }
+        $(document).on('click', '#report_submit', function() {
+            if (_reportTargetCommentId == null) return;
+            var reason = $('#report_reason').val();
+            $('#report_submit').prop('disabled', true);
+            $('#report_error').text('');
+            $.ajax({
+                url: apiBase + '/reportcomment/' + _reportTargetCommentId + '/',
+                type: 'POST',
+                data: {
+                    'reason': reason,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        if (response.auto_hidden) {
+                            $('[data-comment-id="' + _reportTargetCommentId + '"]').remove();
+                            var count = parseInt($('#comments_count').text(), 10) || 0;
+                            count = Math.max(0, count - 1);
+                            $('#comments_count').text(count);
+                            if (count === 0) $('#comments_empty').show();
+                        } else {
+                            // Hide the report link for this user on this comment
+                            $('[data-comment-id="' + _reportTargetCommentId + '"] .comment-report').hide();
+                        }
+                        closeReportModal();
+                    }
+                },
+                error: function(xhr) {
+                    $('#report_error').text(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not send report' %}");
+                    $('#report_submit').prop('disabled', false);
+                }
+            });
+        });
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape' && $('#report_modal').is(':visible')) {
+                closeReportModal();
+            }
+        });
+
+        function addBuildTag(name) {
+            $.ajax({
+                url: apiBase + '/addtag/{{ char_id }}/',
+                type: 'POST',
+                data: { 'tag': name, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                success: function(resp) {
+                    if (resp.success) {
+                        var $chip = $('<span>').addClass('build-tag-chip')
+                            .attr('data-tag-id', resp.tag.id);
+                        var $link = $('<a>').attr('href', apiBase + '/sharedbuilds/?tag=' + resp.tag.slug)
+                            .text(resp.tag.display_name);
+                        $chip.append($link);
+                        var $btn = $('<button type="button">').addClass('build-tag-remove')
+                            .attr('data-tag-id', resp.tag.id).text('×');
+                        $chip.append(' ').append($btn);
+                        $('#char_tags_box .build-tag-add').before($chip);
+                        $('#char_tag_input').val('');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        alert(xhr.responseJSON.error);
+                    }
+                }
+            });
+        }
+
+        $(document).on('keydown', '#char_tag_input', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                var v = $(this).val().trim();
+                if (v) addBuildTag(v);
+            }
+        });
+
+        $(document).on('click', '.build-tag-suggest', function(e) {
+            e.preventDefault();
+            addBuildTag($(this).text());
+            $(this).remove();
+        });
+
+        $(document).on('click', '.build-tag-remove', function() {
+            var id = $(this).data('tag-id');
+            $.post(apiBase + '/removetag/' + id + '/',
+                   { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                   function(resp) {
+                       if (resp.success) {
+                           $('.build-tag-chip[data-tag-id="' + id + '"]').remove();
+                       }
+                   });
+        });
+
+        function copyBuildText() {
+            var ta = document.getElementById('build_share_text');
+            if (!ta) return;
+            var txt = ta.value;
+            function done() { $('#copy_text_feedback').text("{% trans 'Copied!' %}"); }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(txt).then(done, function() {
+                    ta.select(); document.execCommand('copy'); done();
+                });
+            } else {
+                ta.select(); document.execCommand('copy'); done();
+            }
+        }
+
+        function addSolutionToWorkshop() {
+            var $btn = $('#add_to_workshop_btn');
+            var $fb = $('#workshop_feedback');
+            $btn.prop('disabled', true);
+            $fb.text('');
+            $.ajax({
+                url: apiBase + '/workshop/addsolution/{{ char_id }}/',
+                type: 'POST',
+                data: { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                success: function(resp) {
+                    if (resp.success) {
+                        $fb.text("{% trans 'Added' %} (" + resp.added + ").");
+                    }
+                },
+                error: function(xhr) {
+                    $fb.text(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not add to workshop' %}");
+                },
+                complete: function() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        }
+
+        var solutionIngredientsLoaded = false;
+        function toggleSolutionIngredients() {
+            var $box = $('#solution_ingredients');
+            var $btn = $('#show_ingredients_btn');
+            if ($box.is(':visible')) {
+                $box.slideUp(120);
+                $btn.text("{% trans 'Show crafting ingredients' %}");
+                return;
+            }
+            $btn.text("{% trans 'Hide crafting ingredients' %}");
+            $box.slideDown(120);
+            if (solutionIngredientsLoaded) return;
+
+            var ingSingular = "{% trans 'ingredient' %}";
+            var ingPlural = "{% trans 'ingredients' %}";
+            var totalWord = "{% trans 'total' %}";
+            $('#solution_ingredients_meta').text("{% trans 'Loading...' %}");
+            $.get(apiBase + '/workshop/solutioningredients/{{ char_id }}/', function(resp) {
+                solutionIngredientsLoaded = true;
+                var $list = $('#solution_ingredients_list').empty();
+                if (!resp || !resp.recipes_available || !resp.ingredients.length) {
+                    $('#solution_ingredients_meta').text("{% trans 'No recipe data for this build.' %}");
+                    return;
+                }
+                var kinds = resp.ingredient_kinds;
+                $('#solution_ingredients_meta').text(
+                    kinds + ' ' + (kinds === 1 ? ingSingular : ingPlural)
+                    + ' · ' + resp.ingredient_total_units + ' ' + totalWord);
+                resp.ingredients.forEach(function(ing) {
+                    var $name = $('<span></span>').css('flex', '1');
+                    if (ing.local_item_url) {
+                        $name.append($('<a></a>').attr('href', ing.local_item_url).text(ing.name));
+                    } else {
+                        $name.text(ing.name);
+                    }
+                    $('<li></li>')
+                        .css({display: 'flex', gap: '10px', padding: '4px 2px',
+                              'border-top': '1px solid rgba(128,128,128,0.25)'})
+                        .append($name)
+                        .append($('<span></span>').css('font-weight', '700').text('×' + ing.quantity))
+                        .appendTo($list);
+                });
+            }).fail(function() {
+                $('#solution_ingredients_meta').text("{% trans 'No recipe data for this build.' %}");
+            });
+        }
+
+        function deleteComment(event, commentId) {
+            event.preventDefault();
+            if (!confirm("{% trans 'Delete this comment?' %}")) return false;
+            $.ajax({
+                url: apiBase + '/deletecomment/' + commentId + '/',
+                type: 'POST',
+                data: { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                success: function(response) {
+                    if (response.success) {
+                        $('[data-comment-id="' + commentId + '"]').remove();
+                        var count = parseInt($('#comments_count').text(), 10) || 0;
+                        count = Math.max(0, count - 1);
+                        $('#comments_count').text(count);
+                        if (count === 0) $('#comments_empty').show();
+                    }
+                },
+                error: function(xhr) {
+                    alert(xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : "{% trans 'Could not delete comment' %}");
+                }
+            });
+            return false;
+        }
+
     </script>
 {% endblock %}

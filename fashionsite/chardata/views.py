@@ -146,8 +146,19 @@ def license_page(request, char_id=0):
                          'char_id': char_id})
 
 def faq(request, char_id=0):
-    return set_response(request, 
-                        'chardata/faq.html', 
+    return set_response(request,
+                        'chardata/faq.html',
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id})
+
+def support(request, char_id=0):
+    # Donation links are opt-in via settings.SUPPORT_LINKS = [{'label','url'}].
+    # When none are configured the page still works, showing the free ways to help.
+    support_links = getattr(settings, 'SUPPORT_LINKS', []) or []
+    return set_response(request,
+                        'chardata/support.html',
+                        {'request': request,
+                         'user': request.user,
+                         'char_id': char_id,
+                         'support_links': support_links})

@@ -77,6 +77,20 @@
             {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("% Fire Resist") stat_key="fireresper" classes="weight-percentres" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("% Water Resist") stat_key="waterresper" classes="weight-percentres" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("% Air Resist") stat_key="airresper" classes="weight-percentres" %}
+            {% if current_game_version == 'retro' %}
+            {# PVP resists exist on Retro gear (removed from Dofus 3). #}
+            <tr class="weight-stat-line"><td style="height: 20px;"></td><td></td><td></td></tr>
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=_("Neutral Resist (PvP)") stat_key="pvpneutres" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Strength.png" stat_name=_("Earth Resist (PvP)") stat_key="pvpearthres" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("Fire Resist (PvP)") stat_key="pvpfireres" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("Water Resist (PvP)") stat_key="pvpwaterres" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("Air Resist (PvP)") stat_key="pvpairres" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=_("% Neutral Resist (PvP)") stat_key="pvpneutresper" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Strength.png" stat_name=_("% Earth Resist (PvP)") stat_key="pvpearthresper" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("% Fire Resist (PvP)") stat_key="pvpfireresper" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("% Water Resist (PvP)") stat_key="pvpwaterresper" %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("% Air Resist (PvP)") stat_key="pvpairresper" %}
+            {% endif %}
             <tr class="weight-stat-line"><td style="height: 20px;"></td><td></td><td></td></tr>
             {% include "chardata/weight_stat_line.html" with stat_name=_("% Melee Resist") stat_key="respermee" %}
             {% include "chardata/weight_stat_line.html" with stat_name=_("% Weapon Resist") stat_key="resperwea" %}

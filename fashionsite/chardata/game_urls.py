@@ -6,10 +6,13 @@ from chardata import (
     exclusions_view, wizard_view, fashion_action, solution_view, spells_view,
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
+    comment_view, coaching_view, workshop_view, profile_view,
+    tag_view, nl_build_view,
 )
 
 urlpatterns = [
     re_path(r'^$', home_view.home, name='home'),
+    re_path(r'^random/$', home_view.random_build, name='random_build'),
 
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),
@@ -26,7 +29,16 @@ urlpatterns = [
     re_path(r'^duplicateproject/', projects_view.duplicate_project, name='duplicate_project'),
     re_path(r'^duplicatemyproject/(?P<char_id>\d+)/', projects_view.duplicate_my_project, name='duplicate_my_project'),
     re_path(r'^sharedbuilds/', shared_builds_view.shared_builds, name='shared_builds'),
+    re_path(r'^user/(?P<alias>[^/]+)/$', profile_view.user_profile, name='user_profile'),
+    re_path(r'^follow/(?P<user_id>\d+)/$', profile_view.follow_user, name='follow_user'),
+    re_path(r'^unfollow/(?P<user_id>\d+)/$', profile_view.unfollow_user, name='unfollow_user'),
+    re_path(r'^feed/$', profile_view.feed, name='feed'),
     re_path(r'^votebuild/(?P<build_id>\d+)/', shared_builds_view.vote_build, name='vote_build'),
+    re_path(r'^postcomment/(?P<build_id>\d+)/$', comment_view.post_comment, name='post_comment'),
+    re_path(r'^deletecomment/(?P<comment_id>\d+)/$', comment_view.delete_comment, name='delete_comment'),
+    re_path(r'^reportcomment/(?P<comment_id>\d+)/$', comment_view.report_comment, name='report_comment'),
+    re_path(r'^addtag/(?P<char_id>\d+)/$', tag_view.add_tag, name='add_tag'),
+    re_path(r'^removetag/(?P<tag_id>\d+)/$', tag_view.remove_tag, name='remove_tag'),
     re_path(r'^duplicatesomeonesproject/(?P<encoded_char_id>.+)/', projects_view.duplicate_someones_project, name='duplicate_someones_project'),
 
     re_path(r'^setup/(?P<char_id>\d+)/', base_stats_view.setup_base_stats, name='setup_base_stats'),
@@ -35,6 +47,16 @@ urlpatterns = [
     re_path(r'^initbasestatspost/(?P<char_id>\d+)/', base_stats_view.init_base_stats_post, name='init_base_stats_post'),
 
     re_path(r'^setup/$', create_project_view.setup, name='setup'),
+    re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
+    re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
+    re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
+    re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
+    re_path(r'^workshop/add/$', workshop_view.add_to_workshop, name='workshop_add'),
+    re_path(r'^workshop/addsolution/(?P<char_id>\d+)/$', workshop_view.add_solution_to_workshop, name='workshop_add_solution'),
+    re_path(r'^workshop/solutioningredients/(?P<char_id>\d+)/$', workshop_view.solution_ingredients, name='workshop_solution_ingredients'),
+    re_path(r'^workshop/setqty/(?P<workshop_item_id>\d+)/$', workshop_view.set_workshop_quantity, name='workshop_set_qty'),
+    re_path(r'^workshop/remove/(?P<workshop_item_id>\d+)/$', workshop_view.remove_from_workshop, name='workshop_remove'),
+    re_path(r'^workshop/clear/$', workshop_view.clear_workshop, name='workshop_clear'),
     re_path(r'^createproject/', create_project_view.create_project, name='create_project'),
     re_path(r'^saveprojecttouser/', create_project_view.save_project_to_user, name='save_project_to_user'),
     re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),
@@ -82,6 +104,7 @@ urlpatterns = [
 
     re_path(r'^about/', views.about, name='about'),
     re_path(r'^faq/', views.faq, name='faq'),
+    re_path(r'^support/', views.support, name='support'),
     re_path(r'^license/', views.license_page, name='license_page'),
     re_path(r'^contact/thankyou/', contact_view.thankyou, name='thankyou'),
     re_path(r'^contact/nomessage/', contact_view.nomessage, name='nomessage'),

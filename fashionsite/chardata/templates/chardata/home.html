@@ -20,9 +20,10 @@
     {% for list in items %}
     <tr>
         <td>
+        {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
         {% for item in list %}
             <div class="home-pic-holder">
-                <img src="{{ item.file }}" title="{{ item.name }}" class="home-pic">
+                <img src="{{ item.file }}" title="{{ item.name }}" class="home-pic" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
         {% endfor %}
        </td>
@@ -32,14 +33,96 @@
     
     {% for button in buttons %}
     <div class="giant-button {{button.class}}" align="center">
-        <div class="giant-button-pic"> 
-             <img src="{{button.pic}}"> 
+        <div class="giant-button-pic">
+             <img src="{{button.pic}}">
         </div>
         <div>
             <a class="giant-button-text" href="{{button.link}}">{{button.label}}</a>
         </div>
-    </div>     
-    {% endfor %} 
+    </div>
+    {% endfor %}
+
+    {% load version_url %}
+    <p align="center" style="margin-top: 18px; opacity: 0.8;">
+        {% trans "New to Dofus Fashionista?" %}
+        <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
+        · <a href="{% game_url 'smart_build' %}">{% trans "Describe your build in words" %}</a>
+        · <a href="{% game_url 'random_build' %}">{% trans "Discover a random build" %}</a>.
+    </p>
+
+    {% if featured_builds %}
+    <div class="featured-builds-wrap">
+        <h2 class="featured-builds-title">{% trans "Top community builds" %}</h2>
+        <div class="featured-builds-grid">
+            {% for fb in featured_builds %}
+            <a class="featured-build-card" href="{{ fb.link }}">
+                <img src="{{ fb.avatar }}" alt="{{ fb.char_class }}" class="featured-build-avatar">
+                <div class="featured-build-info">
+                    <div class="featured-build-name">{{ fb.name }}</div>
+                    <div class="featured-build-meta">
+                        {{ fb.char_class }} · {% trans "lvl" %} {{ fb.level }}
+                    </div>
+                    <div class="featured-build-stats">
+                        ❤️ {{ fb.like_count }} · ⭐ {{ fb.favorite_count }} · 👁 {{ fb.view_count }}
+                    </div>
+                    <div class="featured-build-author">{% trans "by" %} {{ fb.creator }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <p align="center" style="margin-top: 10px;">
+            <a href="{% game_url 'shared_builds' %}?order_by=likes">{% trans "Browse all shared builds →" %}</a>
+        </p>
+    </div>
+    <style>
+        .featured-builds-wrap {
+            max-width: 980px;
+            margin: 28px auto 8px;
+            padding: 0 12px;
+        }
+        .featured-builds-title {
+            text-align: center;
+            font-size: 1.15em;
+            font-weight: normal;
+            margin: 0 0 14px;
+        }
+        .featured-builds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .featured-build-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border: 1px solid rgba(128,128,128,0.3);
+            border-radius: 4px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.15s;
+        }
+        .featured-build-card:hover {
+            background: rgba(128,128,128,0.1);
+        }
+        .featured-build-avatar {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .featured-build-info { min-width: 0; flex: 1; }
+        .featured-build-name {
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .featured-build-meta { font-size: 0.85em; opacity: 0.8; }
+        .featured-build-stats { font-size: 0.8em; opacity: 0.85; margin-top: 2px; }
+        .featured-build-author { font-size: 0.8em; opacity: 0.7; }
+    </style>
+    {% endif %}
 </div>         
            
     

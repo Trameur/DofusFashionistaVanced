@@ -1,0 +1,63 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{% trans "My Feed" %} — Dofus Fashionista{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+        .feed-wrap { max-width: 820px; margin: 20px auto; padding: 0 12px; }
+        .feed-row {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 4px;
+            border-top: 1px solid rgba(128,128,128,0.2);
+            text-decoration: none; color: inherit;
+        }
+        .feed-row:first-child { border-top: none; }
+        .feed-row:hover { background: rgba(128,128,128,0.1); }
+        .feed-name { flex: 1; min-width: 0; }
+        .feed-author { opacity: 0.75; font-size: 0.9em; margin-right: 4px; }
+        .feed-meta { font-size: 0.85em; opacity: 0.8; white-space: nowrap; }
+        .feed-empty { text-align: center; opacity: 0.7; margin: 40px 0; font-style: italic; }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <h1 align="center">{% trans "My Feed" %}</h1>
+    <div class="feed-wrap">
+        <p style="text-align: center; opacity: 0.85;">
+            {% blocktrans count counter=follow_count %}
+            Latest builds from the {{ counter }} person you follow.
+            {% plural %}
+            Latest builds from the {{ counter }} people you follow.
+            {% endblocktrans %}
+        </p>
+
+        {% if builds %}
+            {% for b in builds %}
+            <a class="feed-row" href="{{ b.link }}">
+                <div class="feed-name">
+                    <span class="feed-author">{{ b.creator }} ·</span>
+                    {{ b.char.char_name|default:b.char.name }}
+                    {% if b.build_name_translated %}— {{ b.build_name_translated }}{% endif %}
+                </div>
+                <div class="feed-meta">
+                    {{ b.char.char_class }} · {% trans "lvl" %} {{ b.char.level }}
+                    · ❤️ {{ b.like_count }} · ⭐ {{ b.favorite_count }} · 👁 {{ b.view_count }}
+                </div>
+            </a>
+            {% endfor %}
+        {% else %}
+            <p class="feed-empty">
+                {% if follow_count == 0 %}
+                {% trans "You aren't following anyone yet. Visit a build's page and click on its author's name to discover their profile." %}
+                {% else %}
+                {% trans "The people you follow haven't shared any builds yet." %}
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -2,7 +2,7 @@
 {% load chardata_stat_icons %}
 {% stat_icon_path stat_key as resolved_icon %}
 <tr class="solution-stat-summary-line">
-    <td class="solution-stat-summary-icon-cell {% if stat_key == 'resperran' %}bottom-left-cell{% endif %}"">
+    <td class="solution-stat-summary-icon-cell {% if is_last %}bottom-left-cell{% endif %}">
         {% if resolved_icon %}
             <img class="solution-stat-summary-icon" src="{% static resolved_icon %}">
         {% elif icon %}
@@ -20,6 +20,6 @@
         <span class="solution-stat-summary-name">{{stat_name}}</span>
     </td>
     {% endif %}
-    <td name="stat_value_{{stat_key}}" class="solution-stat-summary-value-cell {% if stat_key == 'resperran' %}bottom-right-cell{% endif %}"">
+    <td name="stat_value_{{stat_key}}" class="solution-stat-summary-value-cell {% if is_last %}bottom-right-cell{% endif %}">
     </td>
 </tr>

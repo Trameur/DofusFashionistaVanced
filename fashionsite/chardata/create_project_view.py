@@ -25,7 +25,7 @@ import json
 
 from chardata.aspect_parser import parse_aspects
 from chardata.lock_forbid import (remove_invalid_inclusions, get_default_exclusions,
-    set_exclusions_list_by_name)
+    set_exclusions_list_and_check_inclusions)
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
@@ -34,6 +34,8 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
                            TESTER_USERS, HttpResponseText,
     get_theme, remove_cache_for_char, version_reverse)
+from chardata.version_compat import (filter_classes_for_version,
+                                     class_exists_in_version)
 from fashionistapulp.dofus_constants import STATS_NAMES, CHARACTER_CLASSES
 from chardata.themes import get_questionmark_URL
 
@@ -69,8 +71,9 @@ def setup(request, char_id=0):
             can_create = False
             too_many_projects_problem = True
     
-    classes = list(_get_class_to_name().keys())
-    
+    game_version = getattr(request, 'game_version', 'dofus3')
+    classes = filter_classes_for_version(_get_class_to_name().keys(), game_version)
+
     return set_response(request,
                         'chardata/projdetails.html',
                         {'classes': sorted(classes),
@@ -152,7 +155,7 @@ def create_project(request):
     
     
     set_char_aspects(char, state['char_build_aspects_set'], True, state['where_to_go'] == 'wizard')
-    set_exclusions_list_by_name(char, get_default_exclusions(char))
+    set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     set_options(char, {'ap_exo': char.level >= 200,
                        'mp_exo': char.level >= 200,
                        'turq_dofus': char.level >= 199,
@@ -207,9 +210,14 @@ def _save_state_to_char(state, char):
     char.name = state['proj_name']
     char.char_name = state['char_name']
     char.level = state['char_level']
-    char.char_class = (state['char_class']
-                       if state['char_class'] in CHARACTER_CLASSES
-                       else CHARACTER_CLASSES[0])
+    requested_class = state['char_class']
+    char_version = getattr(char, 'game_version', None) or 'dofus3'
+    if (requested_class in CHARACTER_CLASSES
+            and class_exists_in_version(requested_class, char_version)):
+        char.char_class = requested_class
+    else:
+        available = filter_classes_for_version(CHARACTER_CLASSES, char_version)
+        char.char_class = available[0] if available else CHARACTER_CLASSES[0]
 
 def _get_aspect_checklist(aspect_list):
     aspect_checklist = {aspect: aspect in aspect_list for aspect in ALL_ASPECTS}

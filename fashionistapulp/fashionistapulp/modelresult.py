@@ -677,7 +677,10 @@ class ModelResultSet():
         self.localized_name = item_set.localized_names[get_supported_language()]
 
     def get_bonus(self):
-        return self.bonus_per_num_items[self.number_of_items]
+        # Some sets (notably many Retro sets) define no bonus for a given piece
+        # count -- equipping that many pieces simply grants nothing rather than
+        # being an error, so missing counts yield an empty bonus.
+        return self.bonus_per_num_items.get(self.number_of_items, {})
 
     def get_max_caps(self):
         structure = get_structure()

@@ -1,0 +1,105 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}The Dofus Fashionista: {% trans "Quick Start" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+    <style>
+        .coaching-card {
+            max-width: 520px;
+            margin: 30px auto 20px;
+            padding: 0 14px;
+        }
+        .coaching-intro {
+            text-align: center;
+            margin: 0 0 18px;
+            opacity: 0.85;
+        }
+        .coaching-field {
+            display: block;
+            margin-bottom: 14px;
+        }
+        .coaching-field-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .coaching-field select {
+            width: 100%;
+            padding: 6px 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        .coaching-actions {
+            text-align: center;
+            margin-top: 18px;
+        }
+        .coaching-login-warn {
+            color: #c33;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <h1 align="center">{% trans "Quick Start" %}</h1>
+
+    <div class="coaching-card">
+        <p class="coaching-intro">
+            {% trans "Three questions, one ready-to-play build. No wizard, no jargon — just pick your class, level and playstyle." %}
+        </p>
+
+        {% if login_problem %}
+        <p class="coaching-login-warn">
+            {% trans "You need to be logged in to save this build to your account." %}
+            <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+        </p>
+        {% endif %}
+
+        <form method="post" id="coaching_form">
+            {% csrf_token %}
+            <label class="coaching-field">
+                <span class="coaching-field-label">{% trans "Class" %}</span>
+                <select name="char_class" required>
+                    {% for key, label in class_options %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label class="coaching-field">
+                <span class="coaching-field-label">{% trans "Level" %}</span>
+                <select name="char_level" required>
+                    {% for lvl in level_options %}
+                    <option value="{{ lvl }}"{% if lvl == 200 %} selected{% endif %}>{{ lvl }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label class="coaching-field">
+                <span class="coaching-field-label">{% trans "Playstyle" %}</span>
+                <select name="play_style" required>
+                    {% for key, label in play_styles %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <div class="coaching-actions">
+                <button type="submit" class="button-generic">
+                    {% trans "Generate my build" %}
+                </button>
+            </div>
+        </form>
+
+        <p class="coaching-intro" style="margin-top: 20px; font-size: 0.9em;">
+            {% trans "Want full control over every stat?" %}
+            <a href="{% game_url 'setup' %}">{% trans "Use the full builder instead" %}</a>.
+        </p>
+    </div>
+{% endblock %}

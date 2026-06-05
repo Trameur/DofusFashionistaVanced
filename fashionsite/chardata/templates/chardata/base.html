@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Get Dofus sets created automatically, based on your specific needs.">
+    <meta name="description" content="{% block meta_description %}Get Dofus sets created automatically, based on your specific needs.{% endblock %}">
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="index, follow">
+    {% block og_meta %}
     <meta property="og:title" content="Dofus Fashionista - Equipment Set Optimizer">
     <meta property="og:description" content="Create optimized Dofus equipment sets automatically based on your character's needs.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fashionistavanced.com/">
+    <meta name="twitter:card" content="summary">
+    {% endblock %}
     <title>{% block title %}Dofus Fashionista{% endblock %}</title>
 
     {% load i18n %}
@@ -25,6 +28,20 @@
     {% block css %}{% endblock %}
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#1b1b1b">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Fashionista">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(){});
+            });
+        }
+    </script>
 
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
     <script data-ad-client="ca-pub-3961330018791408" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -81,6 +98,8 @@
           <br>   
           {% if current_game_version == 'beta' %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.png" %}"></img></a>
+          {% elif current_game_version == 'dofus2' or current_game_version == 'retro' %}
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}"></img></a>
           {% else %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
           {% endif %}
@@ -136,8 +155,21 @@
                 <a class="menu_link menu_link_middle" href="{% game_url 'shared_builds' %}">{% trans "Shared Builds" %}</a>
               </div>
               <div>
+                <a class="menu_link menu_link_middle" href="{% game_url 'random_build' %}">{% trans "Random Build" %}</a>
+              </div>
+              {% if user.is_authenticated %}
+              <div>
+                <a class="menu_link menu_link_middle" href="{% game_url 'feed' %}">{% trans "My Feed" %}</a>
+              </div>
+              {% endif %}
+              <div>
                                 <a class="menu_link menu_link_middle" href="{% game_url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
                             </div>
+                            {% if user.is_authenticated %}
+                            <div>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'workshop' %}">{% trans "Workshop" %}</a>
+                            </div>
+                            {% endif %}
                             <div>
                                 <a class="menu_link menu_link_bottom" href="{% game_url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
               </div>
@@ -228,12 +260,13 @@
         
         {% include "chardata/loading.html" with char=char language=language %}
             <div align="center" class="footer">
-                {% trans "Items up to update" %} {{ SITE_VERSION }}
+                {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->
                 <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &ndash;
                 <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &ndash;
                 <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &ndash;
+                <a href="{% game_url 'support' %}">{% trans "Support the project" %}</a> &ndash;
                 <a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a>
                 <br><br> <!-- Adds space between general links and Discord links -->
             
@@ -478,9 +511,6 @@
         });
         $("#flag-de").click(function() {
             chooseLanguage('de');
-        });
-        $("#flag-it").click(function() {
-            chooseLanguage('it');
         });
     }
     

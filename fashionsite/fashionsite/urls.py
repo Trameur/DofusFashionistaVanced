@@ -26,7 +26,8 @@ import os
 from chardata import home_view, login_view, views, projects_view, base_stats_view, create_project_view, \
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
-  compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view
+  compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
+    coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -35,6 +36,84 @@ def ads_txt_view(request):
     """Serve the ads.txt file"""
     content = "google.com, pub-3961330018791408, DIRECT, f08c47fec0942fa0"
     return HttpResponse(content, content_type='text/plain')
+
+def manifest_view(request):
+    """PWA web app manifest (served from root so scope covers the whole site)."""
+    from django.templatetags.static import static as dj_static
+    try:
+        from static_s3.templatetags.static_s3 import static as s3_static
+        icon = s3_static('chardata/favicon.ico')
+        banner = s3_static('chardata/fashionista_banner.jpg')
+    except Exception:
+        icon = dj_static('chardata/favicon.ico')
+        banner = dj_static('chardata/fashionista_banner.jpg')
+    import json as _json
+    manifest = {
+        "name": "Dofus Fashionista",
+        "short_name": "Fashionista",
+        "description": "Automatic Dofus equipment set optimizer.",
+        "start_url": "/",
+        "scope": "/",
+        "display": "standalone",
+        "background_color": "#1b1b1b",
+        "theme_color": "#1b1b1b",
+        "icons": [
+            {"src": icon, "sizes": "64x64", "type": "image/x-icon", "purpose": "any"},
+            {"src": banner, "sizes": "512x256", "type": "image/jpeg", "purpose": "any"},
+        ],
+    }
+    return HttpResponse(_json.dumps(manifest), content_type='application/manifest+json')
+
+def service_worker_view(request):
+    """Minimal offline-first service worker. Served at root for full scope.
+
+    Network-first for navigation (so users always get fresh builds when online)
+    with a tiny cached offline fallback; cache-first for static assets."""
+    sw = """
+const CACHE = 'fashionista-v1';
+const OFFLINE_URL = '/offline/';
+self.addEventListener('install', function(e) {
+    e.waitUntil(caches.open(CACHE).then(function(c) { return c.add(OFFLINE_URL); }));
+    self.skipWaiting();
+});
+self.addEventListener('activate', function(e) {
+    e.waitUntil(caches.keys().then(function(keys) {
+        return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));
+    }));
+    self.clients.claim();
+});
+self.addEventListener('fetch', function(e) {
+    var req = e.request;
+    if (req.method !== 'GET') return;
+    var url = new URL(req.url);
+    if (url.origin !== self.location.origin) return;
+    if (req.mode === 'navigate') {
+        e.respondWith(fetch(req).catch(function() { return caches.match(OFFLINE_URL); }));
+        return;
+    }
+    if (/\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?)$/.test(url.pathname)) {
+        e.respondWith(caches.match(req).then(function(cached) {
+            return cached || fetch(req).then(function(resp) {
+                var copy = resp.clone();
+                caches.open(CACHE).then(function(c){ c.put(req, copy); });
+                return resp;
+            });
+        }));
+    }
+});
+"""
+    return HttpResponse(sw, content_type='application/javascript')
+
+def offline_view(request):
+    return HttpResponse(
+        "<!doctype html><html><head><meta charset='utf-8'>"
+        "<meta name='viewport' content='width=device-width, initial-scale=1'>"
+        "<title>Offline - Dofus Fashionista</title></head>"
+        "<body style='font-family:sans-serif;text-align:center;padding:40px;'>"
+        "<h1>You are offline</h1>"
+        "<p>Dofus Fashionista needs a connection to optimize builds. "
+        "Reconnect and try again.</p></body></html>",
+        content_type='text/html')
 
 def sitemap_view(request):
     """Generate a comprehensive sitemap.xml for AdSense and SEO
@@ -151,30 +230,6 @@ def sitemap_view(request):
     
     return HttpResponse(sitemap_content, content_type='application/xml')
 
-def service_worker_view(request):
-    """Tombstone service worker.
-
-    An earlier build of the site registered a service worker at /sw.js. The
-    worker persists in visitors' browsers and keeps re-requesting /sw.js (404
-    spam) and can serve stale cached CSS/JS. Serving this self-unregistering
-    worker makes those browsers tear the old worker down and drop its caches."""
-    sw = """
-self.addEventListener('install', function() { self.skipWaiting(); });
-self.addEventListener('activate', function(event) {
-    event.waitUntil((async function() {
-        if (self.registration) { await self.registration.unregister(); }
-        var keys = await caches.keys();
-        await Promise.all(keys.map(function(k) { return caches.delete(k); }));
-        var clientsList = await self.clients.matchAll({ type: 'window' });
-        clientsList.forEach(function(client) { client.navigate(client.url); });
-    })());
-});
-"""
-    response = HttpResponse(sw, content_type='application/javascript')
-    # Never let the tombstone itself get cached.
-    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    return response
-
 js_info_dict = {
     'packages': 'chardata',
 }
@@ -182,9 +237,18 @@ js_info_dict = {
 urlpatterns = [
     re_path(r'^ads\.txt$', ads_txt_view, name='ads_txt'),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
+    re_path(r'^manifest\.webmanifest$', manifest_view, name='manifest'),
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
+    re_path(r'^offline/$', offline_view, name='offline'),
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
     re_path(r'^$', home_view.home, name='home'),
+    re_path(r'^random/$', home_view.random_build, name='random_build'),
+
+    # Public read-only REST API (no auth, CORS open, cached 60s)
+    re_path(r'^api/v1/$', api_view.api_meta, name='api_meta'),
+    re_path(r'^api/v1/shared-builds/$', api_view.api_shared_builds, name='api_shared_builds'),
+    re_path(r'^api/v1/shared-builds/(?P<encoded_id>[^/]+)/$', api_view.api_shared_build_detail, name='api_shared_build_detail'),
+    re_path(r'^api/v1/tier-list/$', api_view.api_tier_list, name='api_tier_list'),
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),
     re_path(r'^register/', login_view.register, name='register'),
@@ -205,7 +269,16 @@ urlpatterns = [
     re_path(r'^duplicateproject/', projects_view.duplicate_project, name='duplicate_project'),
     re_path(r'^duplicatemyproject/(?P<char_id>\d+)/', projects_view.duplicate_my_project, name='duplicate_my_project'),
     re_path(r'^sharedbuilds/', shared_builds_view.shared_builds, name='shared_builds'),
+    re_path(r'^user/(?P<alias>[^/]+)/$', profile_view.user_profile, name='user_profile'),
+    re_path(r'^follow/(?P<user_id>\d+)/$', profile_view.follow_user, name='follow_user'),
+    re_path(r'^unfollow/(?P<user_id>\d+)/$', profile_view.unfollow_user, name='unfollow_user'),
+    re_path(r'^feed/$', profile_view.feed, name='feed'),
     re_path(r'^votebuild/(?P<build_id>\d+)/', shared_builds_view.vote_build, name='vote_build'),
+    re_path(r'^postcomment/(?P<build_id>\d+)/$', comment_view.post_comment, name='post_comment'),
+    re_path(r'^deletecomment/(?P<comment_id>\d+)/$', comment_view.delete_comment, name='delete_comment'),
+    re_path(r'^reportcomment/(?P<comment_id>\d+)/$', comment_view.report_comment, name='report_comment'),
+    re_path(r'^addtag/(?P<char_id>\d+)/$', tag_view.add_tag, name='add_tag'),
+    re_path(r'^removetag/(?P<tag_id>\d+)/$', tag_view.remove_tag, name='remove_tag'),
     re_path(r'^duplicatesomeonesproject/(?P<encoded_char_id>.+)/', projects_view.duplicate_someones_project, name='duplicate_someones_project'),
 
     re_path(r'^setup/(?P<char_id>\d+)/', base_stats_view.setup_base_stats, name='setup_base_stats'),
@@ -214,10 +287,18 @@ urlpatterns = [
     re_path(r'^initbasestatspost/(?P<char_id>\d+)/', base_stats_view.init_base_stats_post, name='init_base_stats_post'),
 
     re_path(r'^setup/$', create_project_view.setup, name='setup'),
+    re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
+    re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
+    re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
+    re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
+    re_path(r'^workshop/add/$', workshop_view.add_to_workshop, name='workshop_add'),
+    re_path(r'^workshop/addsolution/(?P<char_id>\d+)/$', workshop_view.add_solution_to_workshop, name='workshop_add_solution'),
+    re_path(r'^workshop/solutioningredients/(?P<char_id>\d+)/$', workshop_view.solution_ingredients, name='workshop_solution_ingredients'),
+    re_path(r'^workshop/setqty/(?P<workshop_item_id>\d+)/$', workshop_view.set_workshop_quantity, name='workshop_set_qty'),
+    re_path(r'^workshop/remove/(?P<workshop_item_id>\d+)/$', workshop_view.remove_from_workshop, name='workshop_remove'),
+    re_path(r'^workshop/clear/$', workshop_view.clear_workshop, name='workshop_clear'),
     re_path(r'^createproject/', create_project_view.create_project, name='create_project'),
     re_path(r'^saveprojecttouser/', create_project_view.save_project_to_user, name='save_project_to_user'),
-    re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),
-    re_path(r'^saveproject/(?P<char_id>\d+)/', create_project_view.save_project, name='save_project'),
     re_path(r'^project/(?P<char_id>\d+)/', create_project_view.setup, name='project_setup'),
     re_path(r'^saveproject/(?P<char_id>\d+)/', create_project_view.save_project, name='save_project'),
     re_path(r'^understandbuild/', create_project_view.understand_build_post, name='understand_build_post'),
@@ -263,6 +344,7 @@ urlpatterns = [
     re_path(r'^about/', views.about, name='about'),
     re_path(r'^license/', views.license_page, name='license_page'),
     re_path(r'^faq/', views.faq, name='faq'),
+    re_path(r'^support/', views.support, name='support'),
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
             encyclopedia_view.encyclopedia_item,
@@ -335,6 +417,7 @@ urlpatterns += staticfiles_urlpatterns()
 _game_urls = ('chardata.game_urls', 'chardata')
 urlpatterns += [
     path('beta/', include(_game_urls, namespace='beta')),
+    path('dofus2/', include(_game_urls, namespace='dofus2')),
     path('retro/', include(_game_urls, namespace='retro')),
     path('touch/', include(_game_urls, namespace='touch')),
 ]

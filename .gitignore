@@ -3,6 +3,7 @@
 .svn
 *.mo
 *.bak
+itemscraper/retro_raw/
 fashionsite/staticfiles/chardata/spells/Con.png
 /logs
 /itemscraper/raw
@@ -19,3 +20,6 @@ itemscraper/transformed_class_spells_beta.json
 docker/gen_config*.json
 docker/certs/
 .discord_token
+*.sqlite3
+prod_dump.sql
+prod_gen_config.json
