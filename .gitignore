@@ -13,13 +13,11 @@ migrated_data.json
 itemscraper/spell_icons_test
 itemscraper/spell_images
 fashionsite/chardata/static/chardata/spells/Con.png
-itemscraper/transformed_spells.json
-itemscraper/transformed_spells_beta.json
-itemscraper/transformed_class_spells.json
-itemscraper/transformed_class_spells_beta.json
 docker/gen_config*.json
 docker/certs/
 .discord_token
 *.sqlite3
 prod_dump.sql
 prod_gen_config.json
+itemscraper/transformed_class_spells_beta.json
+itemscraper/transformed_spells_beta.json
