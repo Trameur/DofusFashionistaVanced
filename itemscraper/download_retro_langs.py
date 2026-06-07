@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-download_retro_langs.py — Stage 1 of the Dofus Retro data pipeline.
+Download and parse the Dofus Retro "lang" files from Ankama's CDN.
 
-Source (confirmed authoritative + always up to date): Ankama's official
-Dofus Retro "lang" CDN.
+These are the same localisation files the Retro client itself downloads, so they're
+the authoritative source for items, stats, sets and recipes.
 
   manifest : https://dofusretro.cdn.ankama.com/lang/versions_<lang>.txt
              body: "&f=items,fr,1260|itemstats,fr,1259|itemsets,fr,1254|..."
@@ -11,16 +11,12 @@ Dofus Retro "lang" CDN.
   swf file : https://dofusretro.cdn.ankama.com/lang/swf/<category>_<lang>_<version>.swf
              CWS = zlib-compressed SWF (decompress from byte 8).
 
-This stage downloads + decompresses the categories we need and dumps:
+For each category we want, this downloads and decompresses the SWF and writes:
   - the raw decompressed SWF bytes      -> retro_raw/<category>_<lang>.swfdata
   - the parsed data as JSON             -> retro_raw/<category>_<lang>.json
-    (via retro_swf_parser — pure-Python AS2 extraction, no JPEXS/Java)
 
-Verified: items -> globals['I']['u'] = 11203 records {n,l,t,e,c,s,…}.
-
-Stage 3 (TODO) maps these Retro records onto the internal item model and feeds
-the transform/dump/load pipeline to produce items_retro.db, then conditions the
-LP solver / smart_build by game_version == 'retro'.
+The parsing (retro_swf_parser) reads the AS2 data in pure Python, so there's no
+dependency on JPEXS or a JVM. get_equipments_retro.py takes it from here.
 """
 
 from __future__ import annotations
@@ -110,8 +106,6 @@ def main(argv=None):
         except Exception as exc:
             print(f"  FAILED {cat}: {exc}", file=sys.stderr)
     print(f"Done. Decompressed .swfdata + parsed .json in {dest_dir}/")
-    print("Next (stage 3): map the parsed Retro records onto the internal item "
-          "model -> items_retro.db, and condition the LP solver by game_version.")
     return 0
 
 

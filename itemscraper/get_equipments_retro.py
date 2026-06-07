@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
 """
-get_equipments_retro.py — Stage 3 transform for the Dofus Retro pipeline.
+Turn the parsed Retro lang JSON (from download_retro_langs.py) into
+transformed_equipment.json and transformed_sets.json, in the same shape
+get_equipments2.py produces for Dofus 3. That way get_equipments3.py and
+load_item_db.py reuse the existing dump/load path unchanged via --input-dir.
 
-Reads the parsed Retro lang JSON (produced by download_retro_langs.py) and emits
-transformed_equipment.json + transformed_sets.json in the SAME shape that
-get_equipments2.py produces for Dofus 3 — so the existing get_equipments3.py
-(dump) + load_item_db.py (load) work unchanged with --input-dir.
+A few items to sanity-check the stat decoding against: the Gobball headgear gives
+1-40 Strength / 1-40 Intelligence, the Gobball amulet 1-10 of each, and Gelano /
+the Ochre Dofus +1 AP.
 
-Stat decoding validated against known items:
-  Coiffe du Bouftou -> 1-40 Strength / 1-40 Intelligence
-  Amulette du Bouftou -> 1-10 Strength / 1-10 Intelligence
-  Gelano / Dofus Ocre -> +1 AP
-
-Effect convention: ISTA entry = "<effectId_hex>#<jetMin_hex>#<jetMax_hex>#<dice>".
-The optimizer wants the best roll, so value = jetMax (fallback jetMin).
+Effects come as ISTA entries "<effectId_hex>#<jetMin_hex>#<jetMax_hex>#<dice>". We
+use the best roll, so value = jetMax (falling back to jetMin).
 """
 
 from __future__ import annotations

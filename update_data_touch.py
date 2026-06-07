@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+"""
+update_data_touch.py - DofusFashionista data pipeline for Dofus Touch.
+
+Usage:
+    python update_data_touch.py                  # full update (latest live Touch data)
+    python update_data_touch.py --skip-images    # skip the item-icon download
+    python update_data_touch.py --skip-translations  # FR names only (faster)
+
+Like Retro, there's no version tag to bump: the data comes straight from the live
+Touch backend, so download_touch_data.py always pulls the current tables. See
+docs/touch_data_sources.md for where that data lives and how it's structured.
+
+Steps:
+    data/download    download_touch_data.py   -> touch_raw/{Items,ItemSets,ItemTypes,Effects,Recipes,Breeds}_<lang>.json
+    items/transform  get_equipments_touch.py  -> touch/transformed_{equipment,sets}.json
+    items/dump       get_equipments3.py        -> item_db_dumped_touch.dump
+    items/load-db    load_item_db.py           -> items_touch.db
+    item-images      download_touch_images.py  -> static/chardata/{items,pets}/touch/60x60/
+
+Touch is a Dofus 2 fork with its own quirks (it keeps PvP resists, AP/MP parry and
+reduction, dodge/lock and trap stats, and has 15 classes); get_equipments_touch.py
+and version_compat.py handle those.
+"""
+
+from __future__ import annotations
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
+ROOT = Path(__file__).resolve().parent
+ITEMSCRAPER = ROOT / "itemscraper"
+PY = sys.executable
+
+TOUCH_RAW_DIR = str(ITEMSCRAPER / "touch_raw")
+TOUCH_WORK_DIR = str(ITEMSCRAPER / "touch")
+TOUCH_DUMP = str(ROOT / "fashionistapulp" / "fashionistapulp" / "item_db_dumped_touch.dump")
+
+NOTICE_KEYWORDS = ["attention", "warning", "could not", "missing", "not found",
+                   "failed", "mismatch", "error"]
+NOISE_PATTERNS = [
+    r"^\s*$", r"successfully saved", r"database import completed", r"permissions set",
+    r"^wrote \d+", r"^\s*ok ", r"^done", r"^\s*\.\.\. \d+ written",
+    r"^skipping ",                 # dump routes weapon hit lines out of stats_of_item
+]
+
+
+def _is_noise(line: str) -> bool:
+    low = line.lower()
+    return any(re.search(p, low) for p in NOISE_PATTERNS)
+
+
+def _is_notice(line: str) -> bool:
+    low = line.lower()
+    return any(k in low for k in NOTICE_KEYWORDS)
+
+
+def get_env() -> dict:
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(ROOT)
+    env["PYTHONIOENCODING"] = "utf-8"
+    return env
+
+
+def run_step(label: str, cmd: list, cwd: Path | None = None) -> tuple[bool, list[str]]:
+    print(f"\n[{label}]")
+    t0 = time.time()
+    proc = subprocess.Popen(cmd, cwd=str(cwd or ROOT), env=get_env(),
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                            text=True, encoding="utf-8", errors="replace")
+    lines: list[str] = []
+    for raw in proc.stdout:
+        line = raw.rstrip()
+        lines.append(line)
+        if not _is_noise(line):
+            print(f"  {line}")
+    proc.wait()
+    elapsed = time.time() - t0
+    ok = proc.returncode == 0
+    print(f"  {'ok' if ok else 'FAILED'} ({elapsed:.1f}s)")
+    return ok, lines
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="DofusFashionista data pipeline for Dofus Touch",
+        formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
+    parser.add_argument("--skip-images", action="store_true",
+                        help="Skip the item/pet icon download from the Touch CDN")
+    parser.add_argument("--skip-translations", action="store_true",
+                        help="Skip the EN/ES/PT/DE name downloads (use FR names everywhere)")
+    args = parser.parse_args()
+
+    t_total = time.time()
+    all_notices: list[str] = []
+    failed_steps: list[str] = []
+
+    print(f"\n{'-'*60}")
+    print("  DofusFashionista update - DOFUS TOUCH")
+    print(f"{'-'*60}")
+
+    def step(label: str, cmd: list, cwd: Path | None = None) -> bool:
+        ok, lines = run_step(label, cmd, cwd)
+        all_notices.extend(l.strip() for l in lines if _is_notice(l))
+        if not ok:
+            failed_steps.append(label)
+        return ok
+
+    download_cmd = [PY, "download_touch_data.py", "--lang", "fr", "--dest", TOUCH_RAW_DIR]
+    if not args.skip_translations:
+        download_cmd.append("--all-langs")
+    step("data/download", download_cmd, cwd=ITEMSCRAPER)
+
+    step("items/transform", [
+        PY, "get_equipments_touch.py",
+        "--raw-dir", TOUCH_RAW_DIR, "--out-dir", TOUCH_WORK_DIR,
+    ], cwd=ITEMSCRAPER)
+
+    step("items/dump", [
+        PY, "get_equipments3.py",
+        "--input-dir", TOUCH_WORK_DIR, "--dump-output", TOUCH_DUMP,
+    ], cwd=ITEMSCRAPER)
+
+    step("items/load-db", [PY, "load_item_db.py", "--game-version", "touch"])
+
+    if not args.skip_images:
+        step("item-images", [PY, "download_touch_images.py", "--raw-dir", TOUCH_RAW_DIR],
+             cwd=ITEMSCRAPER)
+
+    elapsed = time.time() - t_total
+    print(f"\n{'='*60}")
+    print(f"  Dofus Touch update complete - {elapsed:.0f}s")
+    print(f"{'='*60}")
+
+    if failed_steps:
+        print(f"\nFAILED steps ({len(failed_steps)}):")
+        for s in failed_steps:
+            print(f"   - {s}")
+
+    seen: set[str] = set()
+    unique = [n for n in all_notices if not (n in seen or seen.add(n))]
+    if unique:
+        print(f"\nWarnings / items to review ({len(unique)}):")
+        for n in unique:
+            print(f"   - {n}")
+    else:
+        print("\nNo warnings")
+
+    if failed_steps:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

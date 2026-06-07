@@ -55,7 +55,7 @@ def get_fashionista_path():
 
 _DB_FILES = {
     'dofus3': 'items.db',
-    'touch': 'items.db',
+    'touch': 'items_touch.db',
     'beta': 'items_beta.db',
     'retro': 'items_retro.db',
     'dofus2': 'items_dofus2.db',
@@ -63,7 +63,7 @@ _DB_FILES = {
 
 _DUMP_FILES = {
     'dofus3': 'item_db_dumped.dump',
-    'touch': 'item_db_dumped.dump',
+    'touch': 'item_db_dumped_touch.dump',
     'beta': 'item_db_dumped_beta.dump',
     'retro': 'item_db_dumped_retro.dump',
     'dofus2': 'item_db_dumped_dofus2.dump',

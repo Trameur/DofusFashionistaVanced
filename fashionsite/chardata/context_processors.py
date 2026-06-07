@@ -24,6 +24,7 @@ ACTIVE_GAME_VERSIONS = [
     ('dofus3', 'Dofus 3'),
     ('beta', 'Beta'),
     ('dofus2', 'Dofus 2'),
+    ('touch', 'Touch'),
     ('retro', 'Retro'),
 ]
 
