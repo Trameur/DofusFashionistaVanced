@@ -83,6 +83,14 @@ ELEMENT_BY_EFFECT = {
     96: 'Water', 97: 'Earth', 98: 'Air', 99: 'Fire', 100: 'Neutral',
 }
 
+# Life-steal (vol de vie) damage effect ids -> element label. Same element order
+# as ELEMENT_BY_EFFECT but 5 lower. On a weapon these are steal hit lines that
+# deal damage and heal the caster; without them, vol-de-vie weapons (e.g. Sceptre
+# du Minotot, Marteau de la Terps) lose those damage lines entirely.
+STEAL_BY_EFFECT = {
+    91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: 'Neutral',
+}
+
 # Set bonuses are NOT in the Ankama lang CDN (1.29 set bonuses are server-side),
 # so they're sourced from a vendored community snapshot (retro-craft/scrapstuff,
 # scraped from barbok.eratz.fr). Those use French stat labels; map them here.
@@ -192,9 +200,12 @@ def decode_stats(ista_string, is_weapon=False):
     """ISTA string -> (stats, hits).
 
     stats = list of [min, max, english_stat_name] (characteristic bonuses).
-    hits  = list of [min, max, '(<Element> damage)'] weapon hit lines (weapons only).
-    On a weapon the elemental-damage effects are the weapon's damage roll, not a
-    flat +damage characteristic, so they are routed to hit lines instead of stats.
+    hits  = list of [min, max, '(<Element> damage)' / '(<Element> steal)'] weapon
+            hit lines (weapons only). Life-steal (vol de vie) rolls use a separate
+            effect-id range and are emitted as steal lines.
+    On a weapon the elemental-damage/steal effects are the weapon's damage roll,
+    not a flat +damage characteristic, so they are routed to hit lines instead of
+    stats.
     """
     stats = []
     hits = []
@@ -208,12 +219,17 @@ def decode_stats(ista_string, is_weapon=False):
         jmin = _hex(fields[1]) if len(fields) > 1 and fields[1] != '' else None
         jmax = _hex(fields[2]) if len(fields) > 2 and fields[2] != '' else None
         dice = fields[3] if len(fields) > 3 else ''
-        if is_weapon and eid in ELEMENT_BY_EFFECT and _is_die_roll(dice):
+        hit_element = ELEMENT_BY_EFFECT.get(eid)
+        hit_kind = 'damage'
+        if hit_element is None and eid in STEAL_BY_EFFECT:
+            hit_element = STEAL_BY_EFFECT[eid]
+            hit_kind = 'steal'
+        if is_weapon and hit_element is not None and _is_die_roll(dice):
             lo = jmin if jmin is not None else jmax
             hi = jmax if jmax is not None else jmin
             if hi is not None:
                 hits.append([lo if lo is not None else 0, hi,
-                             '(%s damage)' % ELEMENT_BY_EFFECT[eid]])
+                             '(%s %s)' % (hit_element, hit_kind)])
             continue
         if eid not in EFFECT_MAP:
             continue
