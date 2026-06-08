@@ -75,6 +75,10 @@
           data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
         });
 
+// Version prefix used by solution_popup.js for AJAX calls (e.g. '/retro').
+// Empty for dofus3. Without this the weapon picker throws and never opens.
+var apiBase = '{{ api_base }}';
+
 var initialData = {{ wizard_data | safe }};
 var constantData = {{ constant_data | safe }};
 var triangleURL = {{ triangle_url | safe }};
