@@ -130,7 +130,7 @@ constantData.inclusions.images_urls);
     
     $("#button-reset-sliders").click(function() {
         if (confirm('{{_("This will reset the tuning sliders back to the default for your build.")|escapejs}}')) {
-            $.post("/wizardgetsliders/{{char_id}}/",
+            $.post(apiBase + "/wizardgetsliders/{{char_id}}/",
                    {},
                    function(data) {               
                        var sliders_data = data;

@@ -7,7 +7,9 @@ function inclusionsUpdateLine(item_id, slot, allItemsPerType, slotToType) {
     var type = slotToType[slot];
     var itemName = allItemsPerType[type][item_id];
     $("#" + slot + "-name").text(itemName);
-    $.post("/getitemdetails/",
+    // apiBase ('' on dofus3, '/retro' etc.) keeps the lookup on the current
+    // game version; without it the line shows the dofus3 item's level/image.
+    $.post(apiBase + "/getitemdetails/",
            {item: item_id},
            function(data) {
                $("#item-level-" + slot).text(gettext("Lvl.") + " " + data.level);
