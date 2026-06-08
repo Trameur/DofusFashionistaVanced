@@ -16,6 +16,7 @@ Steps:
     items/transform  get_equipments_touch.py  -> touch/transformed_{equipment,sets}.json
     items/dump       get_equipments3.py        -> item_db_dumped_touch.dump
     items/load-db    load_item_db.py           -> items_touch.db
+    items/recipes    store_touch_recipes.py    -> item_recipes in items_touch.db (re-dumped)
     item-images      download_touch_images.py  -> static/chardata/{items,pets}/touch/60x60/
 
 Touch is a Dofus 2 fork with its own quirks (it keeps PvP resists, AP/MP parry and
@@ -130,6 +131,10 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     step("items/load-db", [PY, "load_item_db.py", "--game-version", "touch"])
+
+    # Recipes are added after load-db (the dump from get_equipments3 doesn't carry
+    # them); this fills item_recipes in items_touch.db and re-dumps it.
+    step("items/recipes", [PY, "store_touch_recipes.py"], cwd=ITEMSCRAPER)
 
     if not args.skip_images:
         step("item-images", [PY, "download_touch_images.py", "--raw-dir", TOUCH_RAW_DIR],

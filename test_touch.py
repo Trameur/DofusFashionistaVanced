@@ -158,6 +158,20 @@ def main():
         "(SELECT id FROM sets WHERE name LIKE '%Gobball%' OR name LIKE '%Bouftou%')").fetchall()
     check("Gobball 7-piece set grants +1 AP", any(r[0] == 1 for r in ap_at_7), f"ap_rows={ap_at_7}")
 
+    print("\n== recipes ==")
+    has_recipes = con.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='item_recipes'").fetchone()
+    check("item_recipes table exists", has_recipes is not None)
+    if has_recipes:
+        n_recipes = con.execute("SELECT COUNT(DISTINCT item) FROM item_recipes").fetchone()[0]
+        check("recipes populated (1000+ items)", n_recipes >= 1000, f"got {n_recipes}")
+        # Twiggy Sword (ankama_id 42) is crafted from 3 Iron + 2 Ash Wood.
+        twiggy = con.execute(
+            "SELECT ir.quantity, ir.ingredient_ankama_id FROM item_recipes ir "
+            "JOIN items i ON ir.item=i.id WHERE i.ankama_id=42 ORDER BY ir.position").fetchall()
+        check("Twiggy Sword has its 2-ingredient recipe", twiggy == [(3, 312), (2, 303)],
+              f"got {twiggy}")
+
     print(f"\n{len(_passed)} passed, {len(_failed)} failed")
     if _failed:
         print("FAILED: " + ", ".join(_failed))

@@ -262,7 +262,7 @@ class Structure:
     def read_stats_of_item_table(self):
         c = self.conn.cursor()
         for entry in c.execute('SELECT item, stat, value FROM stats_of_item'):
-            item_id = entry[0]         
+            item_id = entry[0]
             stat_id = entry[1]
             value = entry[2]
             item = self.get_item_by_id(item_id)
