@@ -29,6 +29,18 @@ ACTIVE_GAME_VERSIONS = [
 
 _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
+# Word inserted between "Dofus" and "Fashionista" for SEO titles/descriptions,
+# e.g. "Dofus Retro Fashionista". Empty for the default (dofus3) version so it
+# stays "Dofus Fashionista". Distinct from the dropdown label ("Dofus 2") to
+# avoid awkward duplication like "Dofus Dofus 2 Fashionista".
+_GAME_VERSION_SEO_WORDS = {
+    'dofus3': '',
+    'beta': 'Beta',
+    'dofus2': '2',
+    'retro': 'Retro',
+    'touch': 'Touch',
+}
+
 _VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
 _CHAR_ID_RE = re.compile(r'/\d+/')
 # Shared / linked build pages ('/s/<name>/<id>/', '/spells_linked/<name>/<id>/')
@@ -58,6 +70,7 @@ def game_version(request):
     return {
         'current_game_version': gv,
         'current_game_version_label': _GAME_VERSION_LABELS.get(gv, 'Dofus 3'),
+        'current_game_version_seo': _GAME_VERSION_SEO_WORDS.get(gv, ''),
         'active_game_versions': ACTIVE_GAME_VERSIONS,
         'version_switch_base_path': base_path,
         'api_base': api_base,

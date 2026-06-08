@@ -122,7 +122,7 @@ def sitemap_view(request):
     Google will also discover more pages by following links on your site.
     """
     # Always use HTTPS for sitemap URLs to avoid redirect issues
-    base_url = 'https://fashionistavanced.com'
+    base_url = 'https://dofusfashionista.gg'
     
     # Build URLs for shared solutions (limit to 50 most recently shared)
     shared_solutions = []
@@ -156,7 +156,20 @@ def sitemap_view(request):
         pass
     
     shared_solutions_xml = '\n'.join(shared_solutions) if shared_solutions else '  <!-- No shared solutions yet -->'
-    
+
+    # Version-specific landing pages so each game version is indexed as its own
+    # entry point (beta, dofus2, retro). dofus3 is the default, covered above.
+    version_pages = []
+    for version_slug in ('beta', 'dofus2', 'retro'):
+        version_base = f"{base_url}/{version_slug}/"
+        for sub_path, priority in (('', '1.0'), ('setup/', '0.9'), ('sharedbuilds/', '0.85')):
+            version_pages.append(f"""  <url>
+    <loc>{version_base}{sub_path}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>{priority}</priority>
+  </url>""")
+    version_pages_xml = '\n'.join(version_pages)
+
     sitemap_content = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Pages -->
@@ -224,6 +237,9 @@ def sitemap_view(request):
     <priority>0.4</priority>
   </url>
   
+  <!-- Game Version Landing Pages -->
+{version_pages_xml}
+
   <!-- Sample of Popular Shared Solutions -->
 {shared_solutions_xml}
 </urlset>"""

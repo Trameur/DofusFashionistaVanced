@@ -23,7 +23,7 @@ from subprocess import call
 
 def is_localhost_down():
     try:
-        home_page = urllib.request.urlopen('http://fashionistavanced.com', timeout=120)
+        home_page = urllib.request.urlopen('https://dofusfashionista.gg', timeout=120)
         first_bytes = home_page.read(200)
         if first_bytes:
             # print_with_time('Home page ok.')

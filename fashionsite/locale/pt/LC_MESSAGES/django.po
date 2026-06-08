@@ -5144,8 +5144,8 @@ msgstr "Migração de servidor e infraestrutura"
 msgid "Site migrated to Hetzner dedicated server (dofusfashionista.gg)"
 msgstr "Site migrado para servidor dedicado Hetzner (dofusfashionista.gg)"
 
-msgid "Multi-version framework: separate routes and databases for dofus3, beta, retro, touch"
-msgstr "Framework multi-versão: rotas e bancos de dados separados para dofus3, beta, retro, touch"
+msgid "Multi-version framework: separate routes and databases for dofus3, beta, retro (touch coming later)"
+msgstr "Framework multi-versão: rotas e bancos de dados separados para dofus3, beta, retro (touch em breve)"
 
 msgid "Shared builds page load time reduced from 1900ms to 140ms"
 msgstr "Tempo de carregamento da página de builds compartilhados reduzido de 1900ms para 140ms"
