@@ -5624,6 +5624,9 @@ msgstr "joueurs"
 msgid "builds"
 msgstr "stuffs"
 
+msgid "characters created"
+msgstr "personnages créés"
+
 msgid "solver runs"
 msgstr "stuffs générés"
 

@@ -5,18 +5,32 @@ from django.db.models import Sum
 
 
 def site_stats(request):
-    stats = cache.get('site_stats')
+    # 'site_stats_v2': the shape changed (per-version breakdown), so use a fresh
+    # key rather than serve a stale old-format dict from cache after a deploy.
+    stats = cache.get('site_stats_v2')
     if stats is None:
         from django.contrib.auth.models import User
         from chardata.models import Char, SolutionCounter
-        solver_runs = SolutionCounter.objects.aggregate(t=Sum('get_count'))['t'] or 0
+        per_version = []
+        for slug, label in ACTIVE_GAME_VERSIONS:
+            characters = Char.objects.filter(game_version=slug).count()
+            shared = Char.objects.filter(link_shared=True, deleted=False,
+                                         game_version=slug).count()
+            runs = (SolutionCounter.objects.filter(game_version=slug)
+                    .aggregate(t=Sum('get_count'))['t']) or 0
+            # Skip versions with no activity so the sidebar stays uncluttered.
+            if characters or shared or runs:
+                per_version.append({
+                    'label': label,
+                    'characters': f"{characters:,}",
+                    'solver_runs': f"{runs:,}",
+                    'shared_builds': f"{shared:,}",
+                })
         stats = {
             'stat_users': f"{User.objects.count():,}",
-            'stat_characters': f"{Char.objects.count():,}",
-            'stat_solver_runs': f"{solver_runs:,}",
-            'stat_shared_builds': f"{Char.objects.filter(link_shared=True, deleted=False).count():,}",
+            'stat_per_version': per_version,
         }
-        cache.set('site_stats', stats, 600)
+        cache.set('site_stats_v2', stats, 600)
     return stats
 
 

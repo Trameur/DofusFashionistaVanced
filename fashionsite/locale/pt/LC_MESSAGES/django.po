@@ -5031,6 +5031,9 @@ msgstr "jogadores"
 msgid "builds"
 msgstr "sets"
 
+msgid "characters created"
+msgstr "personagens criados"
+
 msgid "solver runs"
 msgstr "sets gerados"
 

@@ -4681,6 +4681,9 @@ msgstr ""
 msgid "builds"
 msgstr ""
 
+msgid "characters created"
+msgstr ""
+
 msgid "solver runs"
 msgstr ""
 

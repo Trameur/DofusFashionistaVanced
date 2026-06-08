@@ -1,7 +1,12 @@
 {% load i18n %}
 <div class="sidebar-stats">
     <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ stat_users }}</span> {% trans "users" %}</div>
-    <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ stat_characters }}</span> {% trans "builds" %}</div>
-    <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ stat_solver_runs }}</span> {% trans "solver runs" %}</div>
-    <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ stat_shared_builds }}</span> {% trans "shared builds" %}</div>
+    {% for v in stat_per_version %}
+    <div class="sidebar-stats-version">
+        <div class="sidebar-stats-version-name">{{ v.label }}</div>
+        <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.characters }}</span> {% trans "characters created" %}</div>
+        <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.solver_runs }}</span> {% trans "solver runs" %}</div>
+        <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.shared_builds }}</span> {% trans "shared builds" %}</div>
+    </div>
+    {% endfor %}
 </div>

@@ -21,6 +21,7 @@ import pickle
 from django.db.models import F
 
 from chardata.models import SolutionCounter, SolutionMemory, SolutionMemoryHits
+from fashionistapulp.structure import get_current_game_version
 
 THRESHOLD = 1
 
@@ -59,7 +60,9 @@ class DatabaseSolutionMemory(object):
     def get(self, model_input):
         today = datetime.date.today()
         input_hash = model_input.__hash__()
-        SolutionCounter.objects.get_or_create(input_hash=input_hash)
+        SolutionCounter.objects.get_or_create(
+            input_hash=input_hash,
+            defaults={'game_version': get_current_game_version()})
         SolutionCounter.objects.filter(input_hash=input_hash).update(get_count=F('get_count')+1)
         memoized_solution = SolutionMemory.objects.filter(input_hash=input_hash).first()
         SolutionMemoryHits.objects.get_or_create(day=today)
@@ -73,7 +76,9 @@ class DatabaseSolutionMemory(object):
         
     def put(self, model_input, result_tuple):
         input_hash = model_input.__hash__()
-        SolutionCounter.objects.get_or_create(input_hash=input_hash)
+        SolutionCounter.objects.get_or_create(
+            input_hash=input_hash,
+            defaults={'game_version': get_current_game_version()})
         counter = SolutionCounter.objects.filter(input_hash=input_hash).first()
 
         if counter.get_count >= THRESHOLD:

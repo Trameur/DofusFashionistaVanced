@@ -51,6 +51,21 @@
     white-space: nowrap;
 }
 
+.sidebar-stats-version {
+    margin-top: 8px;
+}
+
+.sidebar-stats-version-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 10px;
+    opacity: 0.75;
+    border-top: 1px solid currentColor;
+    padding-top: 6px;
+    margin-bottom: 2px;
+}
+
 .banner {
     margin: 0px 0px 0px 0px;
     width:1044px;
