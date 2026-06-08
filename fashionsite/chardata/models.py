@@ -189,6 +189,7 @@ class ContactForm(forms.Form):
 class SolutionCounter(models.Model):
     input_hash = models.BigIntegerField(unique=True)
     get_count = models.IntegerField(default=0)
+    game_version = models.CharField(max_length=20, default='dofus3')
     created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     modified_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
