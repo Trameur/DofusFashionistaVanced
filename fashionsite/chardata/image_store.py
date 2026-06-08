@@ -40,7 +40,7 @@ def get_image_url(type, name, game_version=None):
         game_version = get_current_game_version()
     type_dir = 'items' if type != 'Pet' else 'pets'
     dofus3_path = 'chardata/%s/60x60/%s-60-60.png' % (type_dir, normalize_name(name))
-    if game_version in ('dofus3', 'touch'):
+    if game_version == 'dofus3':
         return dofus3_path
     versioned_path = 'chardata/%s/%s/60x60/%s-60-60.png' % (type_dir, game_version, normalize_name(name))
     if _static_exists(versioned_path):

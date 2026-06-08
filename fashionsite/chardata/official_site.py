@@ -73,6 +73,6 @@ def get_item_link(ankama_type, ankama_id, name, game_version='dofus3'):
     category_map = ANKAMA_TYPE_TO_SITE_CATEGORY.get(lang, ANKAMA_TYPE_TO_SITE_CATEGORY['en'])
     category = category_map.get(ankama_type, 'equipment')
     path = BASE_URLS[lang] % (category, ankama_id, name)
-    if game_version not in ('dofus3', 'touch'):
+    if game_version != 'dofus3':
         return f'/{game_version}{path}'
     return path

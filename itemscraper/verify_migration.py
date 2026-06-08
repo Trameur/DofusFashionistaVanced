@@ -49,4 +49,4 @@ for row in cursor.fetchall():
     print(f"ID: {row[0]}, Ankama ID: {row[1]}, Name: {row[2]}")
 
 conn.close()
-print("\n✅ Migration verification complete!")
+print("\nMigration verification complete.")

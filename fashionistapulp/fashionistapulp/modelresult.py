@@ -566,10 +566,14 @@ class ModelResultItem():
     
             self.stats = {}
             self.base_stats = {}
+            # An item can list the same characteristic more than once (Ankama does
+            # this on a few items, e.g. the retro Minotot Sceptre = 6% + 6% Water
+            # Resist). In game these stack, so sum repeats here rather than letting
+            # the later line overwrite the earlier one.
             for stat_id, stat_value in item.stats:
                 stat = structure.get_stat_by_id(stat_id)
-                self.stats[stat.key] = stat_value
-                self.base_stats[stat.key] = stat_value
+                self.stats[stat.key] = self.stats.get(stat.key, 0) + stat_value
+                self.base_stats[stat.key] = self.base_stats.get(stat.key, 0) + stat_value
 
             _EXO_KEYS = {'ap', 'mp', 'range'}
             self.exo_overrides = {}

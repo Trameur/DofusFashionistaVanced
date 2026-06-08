@@ -20,6 +20,8 @@ import pickle
 
 from django.db.models import F
 
+from fashionistapulp.structure import get_current_game_version
+
 from chardata.models import SolutionCounter, SolutionMemory, SolutionMemoryHits
 from fashionistapulp.structure import get_current_game_version
 

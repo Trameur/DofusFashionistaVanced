@@ -11,7 +11,10 @@ CLASSES_NOT_IN_VERSION = {
     # Retro is Dofus 1.29: only the original 12 classes exist.
     'retro': {'Forgelance', 'Eliotrope', 'Huppermage', 'Ouginak',
               'Masqueraider', 'Foggernaut', 'Rogue'},
-    # 'touch': set(),  # TODO once a Touch data source is identified
+    # Dofus Touch has 15 classes: the original 12 + Rogue (Roublard),
+    # Masqueraider (Zobal) and Foggernaut (Steamer). Eliotrope, Huppermage,
+    # Ouginak and Forgelance never shipped on Touch.
+    'touch': {'Forgelance', 'Eliotrope', 'Huppermage', 'Ouginak'},
 }
 
 

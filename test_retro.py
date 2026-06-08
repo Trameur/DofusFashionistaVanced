@@ -57,7 +57,7 @@ def main():
     from fashionistapulp.structure import set_current_game_version, get_structure
     from fashionistapulp.model import Model, ModelInput
     from fashionistapulp.modelresult import model_result_from_minimal
-    from chardata.spells_view import _damage_spells_for_version
+    from chardata.spell_buffs import get_damage_spells_for_version
     from fashionistapulp.dofus_constants import DAMAGE_SPELLS as D3
     from fashionistapulp.fashionista_config import get_items_db_path
     import sqlite3
@@ -144,14 +144,14 @@ def main():
               pvp_total.get("pvpfireres", 0) > 0, f"got {pvp_total.get('pvpfireres')}")
 
     print("\n== spells ==")
-    retro_spells = _damage_spells_for_version("retro")
+    retro_spells = get_damage_spells_for_version("retro")
     classes_with_spells = [c for c in retro_spells
                            if c != "default" and retro_spells[c]]
     check("retro spells cover all 12 classes",
           len(classes_with_spells) == 12, f"got {len(classes_with_spells)}")
     check("Sram has damage spells (Add2 parser fix)",
           len(retro_spells.get("Sram", [])) > 0)
-    check("dofus3 spells unchanged by retro wiring", _damage_spells_for_version("dofus3") is D3)
+    check("dofus3 spells unchanged by retro wiring", get_damage_spells_for_version("dofus3") is D3)
     iop_spells = {s.name: s for s in retro_spells.get("Iop", [])}
     check("Iop has 'Colère de Iop'", "Colère de Iop" in iop_spells)
     # every retro spell digest builds and respects crit >= non-crit
@@ -172,15 +172,16 @@ def main():
     n_bonus = con.execute("SELECT COUNT(*) FROM set_bonus").fetchone()[0]
     n_sets = con.execute("SELECT COUNT(DISTINCT item_set) FROM set_bonus").fetchone()[0]
     check("set bonuses populated (50+ sets)", n_sets >= 50, f"{n_sets} sets, {n_bonus} rows")
-    # Bouftou full set (7 pieces) grants +1 AP -- the iconic bonus.
-    bouftou = con.execute(
-        "SELECT s.id FROM sets s WHERE s.name LIKE '%Bouftou%'").fetchall()
+    # Gobball full set (7 pieces) grants +1 AP -- the iconic bonus. Set names are
+    # canonicalised to English, so "Panoplie du Bouftou" -> "Gobball Set".
+    gobball = con.execute(
+        "SELECT s.id FROM sets s WHERE s.name LIKE '%Gobball%'").fetchall()
     ap_at_7 = con.execute(
         "SELECT sb.value FROM set_bonus sb JOIN stats st ON sb.stat=st.id "
         "WHERE st.name='AP' AND sb.num_pieces_used=7 AND sb.item_set IN "
-        "(SELECT id FROM sets WHERE name LIKE '%Bouftou%')").fetchall()
-    check("Bouftou 7-piece set grants +1 AP", any(r[0] == 1 for r in ap_at_7),
-          f"bouftou sets={len(bouftou)} ap_rows={ap_at_7}")
+        "(SELECT id FROM sets WHERE name LIKE '%Gobball%')").fetchall()
+    check("Gobball 7-piece set grants +1 AP", any(r[0] == 1 for r in ap_at_7),
+          f"gobball sets={len(gobball)} ap_rows={ap_at_7}")
 
     print(f"\n{len(_passed)} passed, {len(_failed)} failed")
     if _failed:

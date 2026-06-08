@@ -43,7 +43,7 @@ print(f"Unique new IDs: {len(set(new_ids))}")
 # Check for duplicates
 dupes = {k: v for k, v in Counter(new_ids).items() if v > 1}
 if dupes:
-    print(f"\n❌ DUPLICATES FOUND: {len(dupes)}")
+    print(f"\nDUPLICATES FOUND: {len(dupes)}")
     for dup_id, count in list(dupes.items())[:5]:
         print(f"  ID {dup_id}: appears {count} times")
         # Find which items have this ID
@@ -52,9 +52,9 @@ if dupes:
             if item_id_mapping[old_id] == dup_id:
                 print(f"    - {item['name_en']} (ankama_type: {item.get('ankama_type')})")
 else:
-    print("\n✅ No duplicates - mapping is valid!")
+    print("\nNo duplicates - mapping is valid")
 
 # Check for None/NULL values
 none_count = sum(1 for v in new_ids if v is None)
 if none_count:
-    print(f"\n⚠️ Found {none_count} None values in mapping")
+    print(f"\nFound {none_count} None values in mapping")
