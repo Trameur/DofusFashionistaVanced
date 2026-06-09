@@ -278,8 +278,8 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
        ✅ Encyclopedia     
        
 ✅ Dofus 3 Unity             
-❌ Dofus Touch            
-❌ Dofus Retro             
+✅ Dofus Touch            
+✅ Dofus Retro             
 
 # Reference
 
