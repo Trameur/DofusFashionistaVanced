@@ -21,3 +21,4 @@ prod_dump.sql
 prod_gen_config.json
 itemscraper/transformed_class_spells_beta.json
 itemscraper/transformed_spells_beta.json
+/daily_reports

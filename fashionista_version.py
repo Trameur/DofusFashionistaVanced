@@ -5,6 +5,7 @@ FASHIONISTA_VERSION = "3.5.17.24"
 FASHIONISTA_BETA_VERSION = "3.6.4.3"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.48"
+FASHIONISTA_TOUCH_VERSION = "3.11.0"
 
 
 def get_version() -> str:
@@ -22,6 +23,10 @@ def get_dofus2_version() -> str:
 
 def get_retro_version() -> str:
     return FASHIONISTA_RETRO_VERSION
+
+
+def get_touch_version() -> str:
+    return FASHIONISTA_TOUCH_VERSION
 
 
 if __name__ == "__main__":

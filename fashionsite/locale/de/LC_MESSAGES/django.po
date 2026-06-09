@@ -5636,3 +5636,11 @@ msgstr "oder komm auf unseren"
 #: fashionsite/chardata/templates/chardata/support.html
 msgid "Leave helpful comments on shared builds."
 msgstr "Hinterlasse hilfreiche Kommentare zu geteilten Builds."
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Touch launched"
+msgstr "Dofus Touch veröffentlicht"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Dofus Touch launched at /touch/ with its own item, set, recipe, and spell database"
+msgstr "Dofus Touch unter /touch/ veröffentlicht, mit eigener Gegenstands-, Set-, Rezept- und Zauberdatenbank"

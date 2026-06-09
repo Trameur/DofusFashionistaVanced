@@ -23,8 +23,12 @@ pip install -r requirements_win.txt
 ```
 
 # Dofus Fashionista
-The Dofus Fashionista, an equipment advisor for Dofus    
-This is a fork and an attempt at putting back up the website and update it to the latest version of Dofus
+The Dofus Fashionista, an equipment advisor for Dofus.
+
+This is a fork that keeps the site running and up to date. Beyond the live game, it
+now supports several game versions side by side — **Dofus 3**, **Beta**, **Dofus 2**,
+**Dofus Retro** and **Dofus Touch** — each with its own item, set, spell and mount
+data, reachable under its own URL prefix (`/retro/`, `/touch/`, …).
 
 # Install Fashionista:
 
@@ -283,5 +287,10 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
 
 # Reference
 
-This is a fork of https://github.com/PiwiSlayer/DofusFashionista      
-All items data comes from https://github.com/dofusdude/doduapi
+This is a fork of https://github.com/PiwiSlayer/DofusFashionista
+
+Item data is sourced per game version, straight from each version's own data:
+
+- **Dofus 3 / Beta / Dofus 2** — https://github.com/dofusdude/doduapi
+- **Dofus Retro** — Ankama's official Retro "lang" CDN, parsed in pure Python (see [docs/retro_data_from_ankama.md](docs/retro_data_from_ankama.md))
+- **Dofus Touch** — the Touch client's own data backend, with mounts and spell data from the Touch encyclopedia/CDN (see [docs/touch_data_sources.md](docs/touch_data_sources.md))
