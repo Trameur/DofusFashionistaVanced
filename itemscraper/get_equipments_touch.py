@@ -276,6 +276,30 @@ def build_sets(sets_by_lang, effects, valid_item_ids):
     return out
 
 
+def load_mounts(raw_dir: Path):
+    """Read the scraped Touch mounts (download_touch_mounts.py) as Pet-slot records.
+
+    Mounts share Ankama ids with equipment, so get_equipments3 offsets their db id;
+    the model's dragoturkey toggle gates them by "Dragoturkey" in the English name.
+    """
+    path = raw_dir / 'mounts.json'
+    if not path.exists():
+        return []
+    out = []
+    for m in json.loads(path.read_text(encoding='utf-8')):
+        out.append({
+            'ankama_id': m['ankama_id'],
+            'ankama_type': 'mounts',
+            'name_en': m['name_en'], 'name_fr': m['name_fr'], 'name_es': m['name_es'],
+            'name_pt': m['name_pt'], 'name_de': m['name_de'],
+            'level': m.get('level', 60),
+            'w_type': 'Pet',
+            'stats': m['stats'],
+            'conditions': [],
+        })
+    return out
+
+
 def _load_lang_tables(raw_dir: Path, table: str):
     out = {}
     for lang in LANGS:
@@ -300,6 +324,8 @@ def main(argv=None):
     sets_by_lang = _load_lang_tables(raw_dir, 'ItemSets')
 
     equipment = build_equipment(items_by_lang, effects)
+    mounts = load_mounts(raw_dir)
+    equipment += mounts
     valid_item_ids = {e['ankama_id'] for e in equipment}
     sets = build_sets(sets_by_lang, effects, valid_item_ids)
 
@@ -308,7 +334,8 @@ def main(argv=None):
     (out_dir / 'transformed_sets.json').write_text(
         json.dumps(sets, ensure_ascii=False, indent=4), encoding='utf-8')
 
-    print('wrote %d equipment, %d sets to %s/' % (len(equipment), len(sets), out_dir))
+    print('wrote %d equipment (incl. %d mounts), %d sets to %s/'
+          % (len(equipment), len(mounts), len(sets), out_dir))
     return 0
 
 

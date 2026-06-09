@@ -1,0 +1,1922 @@
+[
+    {
+        "ankama_id": 3,
+        "ankama_type": "mounts",
+        "name_en": "Ebony Dragoturkey",
+        "name_fr": "Dragodinde Ebène",
+        "name_es": "Dragopavo ébano",
+        "name_pt": "Dragoperu Ébano",
+        "name_de": "Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                80,
+                80,
+                "Agility"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=1245184,2=393216,3=1245184|120}"
+    },
+    {
+        "ankama_id": 9,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Ivory Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Ivoire",
+        "name_es": "Dragopavo ébano y marfil",
+        "name_pt": "Dragoperu Ébano e Marfim",
+        "name_de": "Ebenholz und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                40,
+                40,
+                "Agility"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=1182992,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 10,
+        "ankama_type": "mounts",
+        "name_en": "Ginger Dragoturkey",
+        "name_fr": "Dragodinde Rousse",
+        "name_es": "Dragopavo pelirrojo",
+        "name_pt": "Dragoperu Ruivo",
+        "name_de": "Roter Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                400,
+                400,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16747520,2=16747520,3=16301825|120}"
+    },
+    {
+        "ankama_id": 11,
+        "ankama_type": "mounts",
+        "name_en": "Ivory and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Ivoire et Rousse",
+        "name_es": "Dragopavo marfil y pelirrojo",
+        "name_pt": "Dragoperu Marfim e Ruivo",
+        "name_de": "Rot und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16747520,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 12,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Rousse",
+        "name_es": "Dragopavo ébano y pelirrojo",
+        "name_pt": "Dragoperu Ébano e Ruivo",
+        "name_de": "Rot und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Agility"
+            ],
+            [
+                200,
+                200,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16747520,2=1703936,3=1774084|120}"
+    },
+    {
+        "ankama_id": 15,
+        "ankama_type": "mounts",
+        "name_en": "Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Turquoise",
+        "name_es": "Dragopavo turquesa",
+        "name_pt": "Dragoperu Turquesa",
+        "name_de": "Türkis-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                80,
+                80,
+                "Prospecting"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4251856,2=4251856,3=16301825|120}"
+    },
+    {
+        "ankama_id": 16,
+        "ankama_type": "mounts",
+        "name_en": "Ivory Dragoturkey",
+        "name_fr": "Dragodinde Ivoire",
+        "name_es": "Dragopavo marfil",
+        "name_pt": "Dragoperu Marfim",
+        "name_de": "Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                70,
+                70,
+                "Power"
+            ]
+        ],
+        "look": "{639||1=16777200,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 17,
+        "ankama_type": "mounts",
+        "name_en": "Indigo Dragoturkey",
+        "name_fr": "Dragodinde Indigo",
+        "name_es": "Dragopavo índigo",
+        "name_pt": "Dragoperu Índigo",
+        "name_de": "Indigo-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                80,
+                80,
+                "Chance"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4915330,2=4915330,3=16301825|120}"
+    },
+    {
+        "ankama_id": 18,
+        "ankama_type": "mounts",
+        "name_en": "Golden Dragoturkey",
+        "name_fr": "Dragodinde Dorée",
+        "name_es": "Dragopavo dorado",
+        "name_pt": "Dragoperu Dourado",
+        "name_de": "Goldener Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                8,
+                8,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=16766720,3=16766720|120}"
+    },
+    {
+        "ankama_id": 19,
+        "ankama_type": "mounts",
+        "name_en": "Crimson Dragoturkey",
+        "name_fr": "Dragodinde Pourpre",
+        "name_es": "Dragopavo púrpura",
+        "name_pt": "Dragoperu Púrpura",
+        "name_de": "Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                80,
+                80,
+                "Strength"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14423100,2=14423100,3=16301825|120}"
+    },
+    {
+        "ankama_id": 20,
+        "ankama_type": "mounts",
+        "name_en": "Almond Dragoturkey",
+        "name_fr": "Dragodinde Amande",
+        "name_es": "Dragopavo almendrado",
+        "name_pt": "Dragoperu Amêndoa",
+        "name_de": "Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                2,
+                2,
+                "Summon"
+            ],
+            [
+                1500,
+                1500,
+                "Initiative"
+            ]
+        ],
+        "look": "{639||1=16772045,2=16772045,3=16301825|120}"
+    },
+    {
+        "ankama_id": 21,
+        "ankama_type": "mounts",
+        "name_en": "Emerald Dragoturkey",
+        "name_fr": "Dragodinde Emeraude",
+        "name_es": "Dragopavo esmeralda",
+        "name_pt": "Dragoperu Esmeralda",
+        "name_de": "Smaragd-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=3329330,3=16301825|120}"
+    },
+    {
+        "ankama_id": 22,
+        "ankama_type": "mounts",
+        "name_en": "Orchid Dragoturkey",
+        "name_fr": "Dragodinde Orchidée",
+        "name_es": "Dragopavo orquídeo",
+        "name_pt": "Dragoperu Orquídea",
+        "name_de": "Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                80,
+                80,
+                "Intelligence"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=15859954,3=16777200,2=15859954|120}"
+    },
+    {
+        "ankama_id": 23,
+        "ankama_type": "mounts",
+        "name_en": "Plum Dragoturkey",
+        "name_fr": "Dragodinde Prune",
+        "name_es": "Dragopavo ciruela",
+        "name_pt": "Dragoperu Ameixa",
+        "name_de": "Pflaumen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                2,
+                2,
+                "Range"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=14524637,3=16301825|120}"
+    },
+    {
+        "ankama_id": 33,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Golden Dragoturkey",
+        "name_fr": "Dragodinde Amande et Dorée",
+        "name_es": "Dragopavo almendrado y dorado",
+        "name_pt": "Dragoperu Amêndoa e Dourado",
+        "name_de": "Gold und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16772045,2=16766720,3=16766720|120}"
+    },
+    {
+        "ankama_id": 34,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Ebony Dragoturkey",
+        "name_fr": "Dragodinde Amande et Ebène",
+        "name_es": "Dragopavo almendrado y ébano",
+        "name_pt": "Dragoperu Amêndoa e Ébano",
+        "name_de": "Ebenholz und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Agility"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16772045,2=1245184,3=1245184|120}"
+    },
+    {
+        "ankama_id": 35,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Emerald Dragoturkey",
+        "name_fr": "Dragodinde Amande et Emeraude",
+        "name_es": "Dragopavo almendrado y esmeralda",
+        "name_pt": "Dragoperu Amêndoa e Esmeralda",
+        "name_de": "Smaragd und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ]
+        ],
+        "look": "{639||1=16772045,2=3329330,3=3329330|120}"
+    },
+    {
+        "ankama_id": 36,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Indigo Dragoturkey",
+        "name_fr": "Dragodinde Amande et Indigo",
+        "name_es": "Dragopavo almendrado e índigo",
+        "name_pt": "Dragoperu Amêndoa e Índigo",
+        "name_de": "Indigo und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Chance"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ]
+        ],
+        "look": "{639||1=16772045,2=4915330,3=4915330|120}"
+    },
+    {
+        "ankama_id": 37,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Ivory Dragoturkey",
+        "name_fr": "Dragodinde Amande et Ivoire",
+        "name_es": "Dragopavo almendrado y marfil",
+        "name_pt": "Dragoperu Amêndoa e Marfim",
+        "name_de": "Elfenbein und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                80,
+                80,
+                "Vitality"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ]
+        ],
+        "look": "{639||1=16772045,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 38,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Amande et Rousse",
+        "name_es": "Dragopavo almendrado y pelirrojo",
+        "name_pt": "Dragoperu Amêndoa e Ruivo",
+        "name_de": "Rot und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                2,
+                2,
+                "Summon"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16772045,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 39,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Amande et Turquoise",
+        "name_es": "Dragopavo almendrado y turquesa",
+        "name_pt": "Dragoperu Amêndoa e Turquesa",
+        "name_de": "Türkis und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ]
+        ],
+        "look": "{639||1=16772045,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 40,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Amande et Orchidée",
+        "name_es": "Dragopavo almendrado y orquídeo",
+        "name_pt": "Dragoperu Amêndoa e Orquídea",
+        "name_de": "Orchideen und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                60,
+                60,
+                "Intelligence"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16772045,2=15859954,3=15859954|120}"
+    },
+    {
+        "ankama_id": 41,
+        "ankama_type": "mounts",
+        "name_en": "Almond and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Amande et Pourpre",
+        "name_es": "Dragopavo almendrado y púrpura",
+        "name_pt": "Dragoperu Amêndoa e Púrpura",
+        "name_de": "Purpur und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Strength"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16772045,2=14423100,3=14423100|120}"
+    },
+    {
+        "ankama_id": 42,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Ebony Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Ebène",
+        "name_es": "Dragopavo dorado y ébano",
+        "name_pt": "Dragoperu Dourado e Ébano",
+        "name_de": "Gold und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Agility"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=1245184,2=16766720,3=16766720|120}"
+    },
+    {
+        "ankama_id": 43,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Emerald Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Emeraude",
+        "name_es": "Dragopavo dorado y esmeralda",
+        "name_pt": "Dragoperu Dourado e Esmeralda",
+        "name_de": "Gold und Smaragd-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=3329330,3=3329330|120}"
+    },
+    {
+        "ankama_id": 44,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Indigo Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Indigo",
+        "name_es": "Dragopavo dorado e índigo",
+        "name_pt": "Dragoperu Dourado e Índigo",
+        "name_de": "Gold und Indigo-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Chance"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=4915330,3=4915330|120}"
+    },
+    {
+        "ankama_id": 45,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Ivory Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Ivoire",
+        "name_es": "Dragopavo dorado y marfil",
+        "name_pt": "Dragoperu Dourado e Marfim",
+        "name_de": "Gold und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 46,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Rousse",
+        "name_es": "Dragopavo dorado y pelirrojo",
+        "name_pt": "Dragoperu Dourado e Ruivo",
+        "name_de": "Rotgoldener Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 47,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Turquoise",
+        "name_es": "Dragopavo dorado y turquesa",
+        "name_pt": "Dragoperu Dourado e Turquesa",
+        "name_de": "Gold und Türkis-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 48,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Orchidée",
+        "name_es": "Dragopavo dorado y orquídeo",
+        "name_pt": "Dragoperu Dourado e Orquídea",
+        "name_de": "Gold und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Intelligence"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=15859954,3=15859954|120}"
+    },
+    {
+        "ankama_id": 49,
+        "ankama_type": "mounts",
+        "name_en": "Golden and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Dorée et Pourpre",
+        "name_es": "Dragopavo dorado y púrpura",
+        "name_pt": "Dragoperu Dourado e Púrpura",
+        "name_de": "Gold und Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Strength"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=16766720,2=14423100,3=14423100|120}"
+    },
+    {
+        "ankama_id": 50,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Emerald Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Emeraude",
+        "name_es": "Dragopavo ébano y esmeralda",
+        "name_pt": "Dragoperu Ébano e Esmeralda",
+        "name_de": "Smaragd und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                30,
+                30,
+                "Agility"
+            ],
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=1245184,2=3329330,3=3329330|120}"
+    },
+    {
+        "ankama_id": 51,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Indigo Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Indigo",
+        "name_es": "Dragopavo ébano e índigo",
+        "name_pt": "Dragoperu Ébano e Índigo",
+        "name_de": "Indigo und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                50,
+                50,
+                "Agility"
+            ],
+            [
+                50,
+                50,
+                "Chance"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4915330,2=1245184,3=1245184|120}"
+    },
+    {
+        "ankama_id": 52,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Turquoise",
+        "name_es": "Dragopavo ébano y turquesa",
+        "name_pt": "Dragoperu Ébano e Turquesa",
+        "name_de": "Türkis und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Agility"
+            ],
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=1245184,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 53,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Orchidée",
+        "name_es": "Dragopavo ébano y orquídeo",
+        "name_pt": "Dragoperu Ébano e Orquídea",
+        "name_de": "Orchideen und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                50,
+                50,
+                "Agility"
+            ],
+            [
+                50,
+                50,
+                "Intelligence"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=15859954,2=1245184,3=1245184|120}"
+    },
+    {
+        "ankama_id": 54,
+        "ankama_type": "mounts",
+        "name_en": "Ebony and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Ebène et Pourpre",
+        "name_es": "Dragopavo ébano y púrpura",
+        "name_pt": "Dragoperu Ébano e Púrpura",
+        "name_de": "Purpur und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                50,
+                50,
+                "Agility"
+            ],
+            [
+                50,
+                50,
+                "Strength"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14423100,2=1245184,3=1245184|120}"
+    },
+    {
+        "ankama_id": 55,
+        "ankama_type": "mounts",
+        "name_en": "Emerald and Indigo Dragoturkey",
+        "name_fr": "Dragodinde Emeraude et Indigo",
+        "name_es": "Dragopavo esmeralda e índigo",
+        "name_pt": "Dragoperu Esmeralda e Índigo",
+        "name_de": "Indigo und Smaragd-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                30,
+                30,
+                "Chance"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=4915330,3=4915330|120}"
+    },
+    {
+        "ankama_id": 56,
+        "ankama_type": "mounts",
+        "name_en": "Emerald and Ivory Dragoturkey",
+        "name_fr": "Dragodinde Emeraude et Ivoire",
+        "name_es": "Dragopavo esmeralda y marfil",
+        "name_pt": "Dragoperu Esmeralda e Marfim",
+        "name_de": "Smaragd und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                30,
+                30,
+                "Power"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 57,
+        "ankama_type": "mounts",
+        "name_en": "Emerald and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Emeraude et Rousse",
+        "name_es": "Dragopavo esmeralda y pelirrojo",
+        "name_pt": "Dragoperu Esmeralda e Ruivo",
+        "name_de": "Rot und Smaragd-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                400,
+                400,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 58,
+        "ankama_type": "mounts",
+        "name_en": "Emerald and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Emeraude et Turquoise",
+        "name_es": "Dragopavo esmeralda y turquesa",
+        "name_pt": "Dragoperu Esmeralda e Turquesa",
+        "name_de": "Smaragd und Türkis-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 59,
+        "ankama_type": "mounts",
+        "name_en": "Emerald and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Emeraude et Orchidée",
+        "name_es": "Dragopavo esmeralda y orquídeo",
+        "name_pt": "Dragoperu Esmeralda e Orquídea",
+        "name_de": "Smaragd und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                30,
+                30,
+                "Intelligence"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=15859954,3=15859954|120}"
+    },
+    {
+        "ankama_id": 60,
+        "ankama_type": "mounts",
+        "name_en": "Emerald and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Emeraude et Pourpre",
+        "name_es": "Dragopavo esmeralda y púrpura",
+        "name_pt": "Dragoperu Esmeralda e Púrpura",
+        "name_de": "Smaragd und Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                30,
+                30,
+                "Strength"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=3329330,2=14423100,3=14423100|120}"
+    },
+    {
+        "ankama_id": 61,
+        "ankama_type": "mounts",
+        "name_en": "Indigo and Ivory Dragoturkey",
+        "name_fr": "Dragodinde Indigo et Ivoire",
+        "name_es": "Dragopavo índigo y marfil",
+        "name_pt": "Dragoperu Índigo e Marfim",
+        "name_de": "Indigo und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Chance"
+            ],
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4915330,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 62,
+        "ankama_type": "mounts",
+        "name_en": "Indigo and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Indigo et Rousse",
+        "name_es": "Dragopavo índigo y pelirrojo",
+        "name_pt": "Dragoperu Índigo e Ruivo",
+        "name_de": "Rot und Indigo-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Chance"
+            ],
+            [
+                200,
+                200,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4915330,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 63,
+        "ankama_type": "mounts",
+        "name_en": "Indigo and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Indigo et Turquoise",
+        "name_es": "Dragopavo índigo y turquesa",
+        "name_pt": "Dragoperu Índigo e Turquesa",
+        "name_de": "Türkis und Indigo-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Chance"
+            ],
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4915330,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 64,
+        "ankama_type": "mounts",
+        "name_en": "Indigo and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Indigo et Orchidée",
+        "name_es": "Dragopavo índigo y orquídeo",
+        "name_pt": "Dragoperu Índigo e Orquídea",
+        "name_de": "Indigo und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                50,
+                50,
+                "Chance"
+            ],
+            [
+                50,
+                50,
+                "Intelligence"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4915330,2=15859954,3=15859954|120}"
+    },
+    {
+        "ankama_id": 65,
+        "ankama_type": "mounts",
+        "name_en": "Indigo and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Indigo et Pourpre",
+        "name_es": "Dragopavo índigo y púrpura",
+        "name_pt": "Dragoperu Índigo e Púrpura",
+        "name_de": "Indigo und Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                50,
+                50,
+                "Chance"
+            ],
+            [
+                50,
+                50,
+                "Strength"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14423100,2=4915330,3=4915330|120}"
+    },
+    {
+        "ankama_id": 66,
+        "ankama_type": "mounts",
+        "name_en": "Ivory and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Ivoire et Turquoise",
+        "name_es": "Dragopavo marfil y turquesa",
+        "name_pt": "Dragoperu Marfim e Turquesa",
+        "name_de": "Türkis und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16777200,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 67,
+        "ankama_type": "mounts",
+        "name_en": "Ivory and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Ivoire et Orchidée",
+        "name_es": "Dragopavo marfil y orquídeo",
+        "name_pt": "Dragoperu Marfim e Orquídea",
+        "name_de": "Elfenbein und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Intelligence"
+            ],
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=16777200,2=16731355,3=16711910|120}"
+    },
+    {
+        "ankama_id": 68,
+        "ankama_type": "mounts",
+        "name_en": "Ivory and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Ivoire et Pourpre",
+        "name_es": "Dragopavo marfil y púrpura",
+        "name_pt": "Dragoperu Marfim e Marfim",
+        "name_de": "Elfenbein und Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Strength"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                60,
+                60,
+                "Power"
+            ]
+        ],
+        "look": "{639||1=14423100,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 69,
+        "ankama_type": "mounts",
+        "name_en": "Turquoise and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Turquoise et Rousse",
+        "name_es": "Dragopavo turquesa y pelirrojo",
+        "name_pt": "Dragoperu Turquesa e Ruivo",
+        "name_de": "Rot und Türkis-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=4251856,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 70,
+        "ankama_type": "mounts",
+        "name_en": "Orchid and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Orchidée et Rousse",
+        "name_es": "Dragopavo orquídeo y pelirrojo",
+        "name_pt": "Dragoperu Orquídea e Ruivo",
+        "name_de": "Rot und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Intelligence"
+            ],
+            [
+                200,
+                200,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14315734,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 71,
+        "ankama_type": "mounts",
+        "name_en": "Crimson and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Pourpre et Rousse",
+        "name_es": "Dragopavo púrpura y pelirrojo",
+        "name_pt": "Dragoperu Púrpura e Ruivo",
+        "name_de": "Rot und Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Strength"
+            ],
+            [
+                200,
+                200,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14423100,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 72,
+        "ankama_type": "mounts",
+        "name_en": "Turquoise and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Turquoise et Orchidée",
+        "name_es": "Dragopavo turquesa y orquídeo",
+        "name_pt": "Dragoperu Turquesa e Orquídea",
+        "name_de": "Türkis und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Intelligence"
+            ],
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=15859954,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 73,
+        "ankama_type": "mounts",
+        "name_en": "Turquoise and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Turquoise et Pourpre",
+        "name_es": "Dragopavo turquesa y púrpura",
+        "name_pt": "Dragoperu Turquesa e Púrpura",
+        "name_de": "Türkis und Purpur-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Strength"
+            ],
+            [
+                40,
+                40,
+                "Prospecting"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14423100,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 76,
+        "ankama_type": "mounts",
+        "name_en": "Orchid and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Orchidée et Pourpre",
+        "name_es": "Dragopavo orquídeo y púrpura",
+        "name_pt": "Dragoperu Orquídea e Púrpura",
+        "name_de": "Purpur und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                50,
+                50,
+                "Intelligence"
+            ],
+            [
+                50,
+                50,
+                "Strength"
+            ],
+            [
+                150,
+                150,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14315734,2=14423100,3=14423100|120}"
+    },
+    {
+        "ankama_id": 77,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Almond Dragoturkey",
+        "name_fr": "Dragodinde Prune et Amande",
+        "name_es": "Dragopavo ciruela y almendrado",
+        "name_pt": "Dragoperu Ameixa e Amêndoa",
+        "name_de": "Pflaumen und Mandel-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                800,
+                800,
+                "Initiative"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=16772045,3=16772045|120}"
+    },
+    {
+        "ankama_id": 78,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Golden Dragoturkey",
+        "name_fr": "Dragodinde Prune et Dorée",
+        "name_es": "Dragopavo ciruela y dorado",
+        "name_pt": "Dragoperu Ameixa e Dourado",
+        "name_de": "Goldener Pflaumen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Critical Hits"
+            ]
+        ],
+        "look": "{639||1=14524637,2=16766720,3=16766720|120}"
+    },
+    {
+        "ankama_id": 79,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Ebony Dragoturkey",
+        "name_fr": "Dragodinde Prune et Ebène",
+        "name_es": "Dragopavo ciruela y ébano",
+        "name_pt": "Dragoperu Ameixa e Ébano",
+        "name_de": "Pflaumen und Ebenholz-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                60,
+                60,
+                "Agility"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=1245184,3=1245184|120}"
+    },
+    {
+        "ankama_id": 80,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Emerald Dragoturkey",
+        "name_fr": "Dragodinde Prune et Emeraude",
+        "name_es": "Dragopavo ciruela y esmeralda",
+        "name_pt": "Dragoperu Ameixa e Esmeralda",
+        "name_de": "Pflaumen und Smaragd-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=3329330,3=3329330|120}"
+    },
+    {
+        "ankama_id": 82,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Indigo Dragoturkey",
+        "name_fr": "Dragodinde Prune et Indigo",
+        "name_es": "Dragopavo ciruela e índigo",
+        "name_pt": "Dragoperu Ameixa e Índigo",
+        "name_de": "Indigo und Pflaumen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Chance"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=4915330,3=4915330|120}"
+    },
+    {
+        "ankama_id": 83,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Ivory Dragoturkey",
+        "name_fr": "Dragodinde Prune et Ivoire",
+        "name_es": "Dragopavo ciruela y marfil",
+        "name_pt": "Dragoperu Ameixa e Marfim",
+        "name_de": "Pflaumen und Elfenbein-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                60,
+                60,
+                "Power"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=16777200,3=16777200|120}"
+    },
+    {
+        "ankama_id": 84,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Ginger Dragoturkey",
+        "name_fr": "Dragodinde Prune et Rousse",
+        "name_es": "Dragopavo ciruela y pelirrojo",
+        "name_pt": "Dragoperu Ameixa e Ruivo",
+        "name_de": "Rot und Pflaumen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                400,
+                400,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=16747520,3=16747520|120}"
+    },
+    {
+        "ankama_id": 85,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Turquoise Dragoturkey",
+        "name_fr": "Dragodinde Prune et Turquoise",
+        "name_es": "Dragopavo ciruela y turquesa",
+        "name_pt": "Dragoperu Ameixa e Turquesa",
+        "name_de": "Türkis und Pflaumen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                60,
+                60,
+                "Prospecting"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=4251856,3=4251856|120}"
+    },
+    {
+        "ankama_id": 86,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Orchid Dragoturkey",
+        "name_fr": "Dragodinde Prune et Orchidée",
+        "name_es": "Dragopavo ciruela y orquídeo",
+        "name_pt": "Dragoperu Ameixa e Orquídea",
+        "name_de": "Pflaumen und Orchideen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                60,
+                60,
+                "Intelligence"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=15859954,3=15859954|120}"
+    },
+    {
+        "ankama_id": 87,
+        "ankama_type": "mounts",
+        "name_en": "Plum and Crimson Dragoturkey",
+        "name_fr": "Dragodinde Prune et Pourpre",
+        "name_es": "Dragopavo ciruela y púrpura",
+        "name_pt": "Dragoperu Ameixa e Púrpura",
+        "name_de": "Purpur und Pflaumen-Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                60,
+                60,
+                "Strength"
+            ],
+            [
+                250,
+                250,
+                "Vitality"
+            ]
+        ],
+        "look": "{639||1=14524637,2=14423100,3=14423100|120}"
+    },
+    {
+        "ankama_id": 88,
+        "ankama_type": "mounts",
+        "name_en": "Armoured Dragoturkey",
+        "name_fr": "Dragodinde en armure",
+        "name_es": "Dragopavo con armadura",
+        "name_pt": "Dragoperu com armadura",
+        "name_de": "Gepanzerter Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                5,
+                5,
+                "% Air Resist"
+            ],
+            [
+                5,
+                5,
+                "% Water Resist"
+            ],
+            [
+                5,
+                5,
+                "% Fire Resist"
+            ],
+            [
+                5,
+                5,
+                "% Earth Resist"
+            ],
+            [
+                5,
+                5,
+                "% Neutral Resist"
+            ],
+            [
+                70,
+                70,
+                "Power"
+            ]
+        ],
+        "look": "{639|1247|1=#FFA433,2=#722B19,3=#7B4835|120}"
+    },
+    {
+        "ankama_id": 89,
+        "ankama_type": "mounts",
+        "name_en": "Feathered Dragoturkey",
+        "name_fr": "Dragodinde à Plumes",
+        "name_es": "Dragopavo con plumas",
+        "name_pt": "Dragoperu emplumado",
+        "name_de": "Befiederter Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Pushback Damage"
+            ],
+            [
+                200,
+                200,
+                "Vitality"
+            ]
+        ],
+        "look": "{1824||1=14877997,2=13173535,3=14575892|120}"
+    },
+    {
+        "ankama_id": 90,
+        "ankama_type": "mounts",
+        "name_en": "Royal Dragoturkey",
+        "name_fr": "Dragodinde Royale",
+        "name_es": "Dragopavo reales",
+        "name_pt": "Dragoperu real",
+        "name_de": "Königliche Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                5,
+                5,
+                "% Air Resist"
+            ],
+            [
+                5,
+                5,
+                "% Water Resist"
+            ],
+            [
+                5,
+                5,
+                "% Fire Resist"
+            ],
+            [
+                5,
+                5,
+                "% Earth Resist"
+            ],
+            [
+                5,
+                5,
+                "% Neutral Resist"
+            ],
+            [
+                70,
+                70,
+                "Power"
+            ]
+        ],
+        "look": "{639|3116|1=#2F0000,2=#2F0000,3=#2F0000,4=#FFC600|120}"
+    },
+    {
+        "ankama_id": 101,
+        "ankama_type": "mounts",
+        "name_en": "Armouralive Dragoturkey",
+        "name_fr": "Dragodinde Armurivante",
+        "name_es": "Dragopavo armaduvivo",
+        "name_pt": "Dragoperu Armaduvivo",
+        "name_de": "Farbenfroh-Gepanzerter Dracotruter",
+        "level": 60,
+        "stats": [
+            [
+                40,
+                40,
+                "Critical Resist"
+            ],
+            [
+                200,
+                200,
+                "Vitality"
+            ]
+        ],
+        "look": "{639|1247|1=#FFA433,2=#722B19,3=#7B4835|120}"
+    }
+]

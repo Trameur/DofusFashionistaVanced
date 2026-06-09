@@ -36,6 +36,10 @@ FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
                        "3.2.1_7fTvG3ZsRr-pTNWR6-JvD0Qb4fXI0CMG")
 USER_AGENT = "Dofus/2 CFNetwork"
 STATIC = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata'
+# Mounts have no icon; the Touch CDN renders them from their "look" string.
+MOUNT_RENDERER = 'https://static.ankama.com/dofustouch/renderer/look/%s/full/1/60_60-10.png'
+WEB_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/120 Safari/537.36")
 
 
 def resolve_assets_url() -> str:
@@ -126,6 +130,39 @@ def main(argv=None):
 
     print(f'Done. written={written} skipped(existing)={skipped} missing(no CDN icon)={missing} '
           f'bad-filename(OS)={bad_name}, unique icons fetched={sum(1 for v in cache.values() if v)}')
+
+    # Mounts: rendered by the Touch CDN from their look string (download_touch_mounts.py).
+    mounts_path = raw / 'mounts.json'
+    if mounts_path.exists():
+        mounts = json.loads(mounts_path.read_text(encoding='utf-8'))
+        m_written = m_skipped = m_missing = 0
+        for m in mounts:
+            look = m.get('look')
+            name = m.get('name_en')
+            if not look or not name:
+                continue
+            dest = STATIC / 'pets' / 'touch' / '60x60' / ('%s-60-60.png' % normalize_name(name))
+            try:
+                if dest.exists() and not args.force:
+                    m_skipped += 1
+                    continue
+            except OSError:
+                continue
+            try:
+                r = session.get(MOUNT_RENDERER % look.encode('utf-8').hex(),
+                                headers={'User-Agent': WEB_UA}, timeout=30)
+                if r.status_code != 200 or not r.content:
+                    m_missing += 1
+                    continue
+                img = Image.open(io.BytesIO(r.content)).convert('RGBA').resize((60, 60), Image.LANCZOS)
+                out = io.BytesIO()
+                img.save(out, format='PNG')
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_bytes(out.getvalue())
+                m_written += 1
+            except Exception:
+                m_missing += 1
+        print(f'Mounts: written={m_written} skipped(existing)={m_skipped} missing={m_missing}')
     return 0
 
 

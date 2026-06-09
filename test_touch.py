@@ -95,6 +95,18 @@ def main():
              ("AP Loss Resist", "MP Loss Resist") for sid, _ in it.stats)]
     check("touch items carry AP/MP parry stats", len(parry) > 20, f"got {len(parry)}")
 
+    print("\n== pets & mounts ==")
+    pet_slot = [it for it in items if STRUCT.get_type_name_by_id(it.type) == "Pet"]
+    mounts = [it for it in pet_slot if it.name and "Dragoturkey" in it.name]
+    check("pets present in Pet slot", len(pet_slot) - len(mounts) > 50,
+          f"got {len(pet_slot) - len(mounts)}")
+    check("Touch mounts (Dragoturkeys) present", len(mounts) >= 60, f"got {len(mounts)}")
+    # Ginger Dragoturkey gives 400 Vitality (real Touch encyclopedia data).
+    ginger = item_by_name("Ginger Dragoturkey")
+    check("Ginger Dragoturkey = 400 Vitality",
+          ginger is not None and stat_value(ginger, "Vitality") == 400,
+          f"got {stat_value(ginger, 'Vitality') if ginger else None}")
+
     print("\n== weapons ==")
     weapons = [it for it in items if STRUCT.get_type_name_by_id(it.type) == "Weapon"]
     check("weapons present", len(weapons) > 500, f"got {len(weapons)}")
@@ -171,6 +183,27 @@ def main():
             "JOIN items i ON ir.item=i.id WHERE i.ankama_id=42 ORDER BY ir.position").fetchall()
         check("Twiggy Sword has its 2-ingredient recipe", twiggy == [(3, 312), (2, 303)],
               f"got {twiggy}")
+
+    print("\n== spells ==")
+    from chardata.spell_buffs import get_damage_spells_for_version
+    from fashionistapulp.dofus_constants import DAMAGE_SPELLS as D3
+    touch_spells = get_damage_spells_for_version("touch")
+    classes_with_spells = [c for c in touch_spells if c != "default" and touch_spells[c]]
+    check("touch damage spells cover all 15 classes", len(classes_with_spells) == 15,
+          f"got {len(classes_with_spells)}")
+    check("touch spells are not the dofus3 set", touch_spells is not D3)
+    check("Iop has damage spells", len(touch_spells.get("Iop", [])) > 0)
+    crit_ok, built = True, 0
+    for spells in touch_spells.values():
+        for spell in spells:
+            dig = spell.get_effects_digest()
+            built += 1
+            for lvl in range(len(dig.non_crit_dams)):
+                for nc, cr in zip(dig.non_crit_dams[lvl], dig.crit_dams[lvl]):
+                    if cr.max_dam < nc.max_dam:
+                        crit_ok = False
+    check("all touch spell digests build", built > 100, f"built {built}")
+    check("crit >= non-crit for every spell/level", crit_ok)
 
     print(f"\n{len(_passed)} passed, {len(_failed)} failed")
     if _failed:

@@ -20,7 +20,10 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
 from django.core.cache import cache
 import json
+import logging
 import pickle
+
+logger = logging.getLogger(__name__)
 
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
@@ -203,7 +206,9 @@ def _build_share_text(request, char, solution):
         if chips:
             lines += ['', ' / '.join(chips)]
     except Exception:
-        pass
+        # Stats are a nice-to-have in the share text; don't fail the share if they
+        # can't be computed, but surface it so the underlying bug gets noticed.
+        logger.exception('Failed to build stats chips for share text (char %s)', char.id)
     lines.append('')
     if char.link_shared:
         lines.append(generate_link(request, char))

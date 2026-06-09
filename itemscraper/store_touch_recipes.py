@@ -80,6 +80,41 @@ def _equipment_ankama_ids(cursor):
     return set(row[0] for row in cursor.fetchall())
 
 
+def _load_descriptions():
+    """ankama id -> {lang: description}, from each language's Items table."""
+    descs = {}
+    for lang in LANGUAGES:
+        path = os.path.join(RAW_DIR, 'Items_%s.json' % lang)
+        if not os.path.exists(path):
+            continue
+        for ankama_id, record in _load_table('Items', lang).items():
+            if isinstance(record, dict) and record.get('descriptionId'):
+                descs.setdefault(int(ankama_id), {})[lang] = record['descriptionId']
+    return descs
+
+
+def _store_descriptions(cursor):
+    """Fill item_descriptions (localized) and item_extra_info.pods (item weight)
+    from the items' descriptionId / realWeight."""
+    descriptions = _load_descriptions()
+    weights = {int(k): v.get('realWeight')
+               for k, v in _load_table('Items', 'fr').items()
+               if isinstance(v, dict) and v.get('realWeight') is not None}
+    cursor.execute("SELECT id, ankama_id FROM items WHERE ankama_type = 'equipment'")
+    rows = cursor.fetchall()
+    stored = 0
+    for item_id, ankama_id in rows:
+        for lang, desc in (descriptions.get(ankama_id) or {}).items():
+            cursor.execute(
+                "INSERT OR REPLACE INTO item_descriptions(item, language, description) "
+                "VALUES (?, ?, ?)", (item_id, lang, desc))
+            stored += 1
+        if ankama_id in weights:
+            cursor.execute("INSERT OR REPLACE INTO item_extra_info(item, pods) VALUES (?, ?)",
+                           (item_id, weights[ankama_id]))
+    return stored
+
+
 def main():
     recipes = _load_recipes()
     print('Loaded %d touch recipes.' % len(recipes))
@@ -128,11 +163,13 @@ def main():
                 )
         stored += 1
 
+    desc_stored = _store_descriptions(cursor)
+
     conn.commit()
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
-    print('[touch] Stored recipes for %d items (%d recipes had no hosted item).'
-          % (stored, missing_item))
+    print('[touch] Stored recipes for %d items (%d recipes had no hosted item); '
+          '%d item descriptions.' % (stored, missing_item, desc_stored))
 
 
 if __name__ == '__main__':

@@ -259,7 +259,9 @@ with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    # Keep app loggers (chardata.*, fashionistapulp.*) alive so their errors reach
+    # the root handler below instead of being silently disabled.
+    'disable_existing_loggers': False,
     'formatters': {
         'standard': {
             'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
@@ -330,7 +332,16 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
         },
-    }
+    },
+    # Catch-all. Any ERROR logged anywhere that a more specific logger above didn't
+    # already handle propagates here and gets emailed: app-code logger.error /
+    # logger.exception (including exceptions a view caught and logged instead of
+    # letting them 500), library errors, management commands, etc. django.request
+    # and django.security set propagate=False, so unhandled 500s are not sent twice.
+    'root': {
+        'handlers': ['console', 'mail_admins'],
+        'level': 'ERROR',
+    },
 }
 
 CACHES = {

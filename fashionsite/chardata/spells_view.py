@@ -107,11 +107,17 @@ def _create_weapon_web_digest(weapon):
     return web_digest
 
 def _localized_spell_name(name, language, game_version):
-    # Retro spell names live in a version-specific map keyed by the French name
-    # (Spell.name); other versions use the shared English-keyed localization.
+    # Retro and Touch spell names live in a version-specific map keyed by the French
+    # name (Spell.name); other versions use the shared English-keyed localization.
+    version_names = None
     if game_version == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
-        names = RETRO_SPELL_NAMES.get(name)
+        version_names = RETRO_SPELL_NAMES
+    elif game_version == 'touch':
+        from fashionistapulp.dofus_constants_touch_spells import TOUCH_SPELL_NAMES
+        version_names = TOUCH_SPELL_NAMES
+    if version_names is not None:
+        names = version_names.get(name)
         if names:
             lang = (language or 'en').split('-')[0].lower()
             return names.get(lang) or names.get('fr') or name
@@ -131,6 +137,8 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
         spell_dir = 'chardata/spells/beta/'
     elif game_version == 'retro':
         spell_dir = 'chardata/spells/retro/'
+    elif game_version == 'touch':
+        spell_dir = 'chardata/spells/touch/'
     else:
         spell_dir = 'chardata/spells/'
     web_digest['image_url'] = static(spell_dir + spell.name + '.png')

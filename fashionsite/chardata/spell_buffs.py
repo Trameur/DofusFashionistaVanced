@@ -34,11 +34,14 @@ _BUFF_STATS_WITHOUT_ROW = {'final', 'finalheals'}
 
 
 def get_damage_spells_for_version(game_version):
-    # Retro has its own decoded damage spells; other versions share the dofus3
-    # set (Beta/Dofus 2 are close enough that they reuse it, as before).
+    # Retro and Touch have their own decoded damage spells; Beta/Dofus 2 are close
+    # enough to Dofus 3 that they reuse its set, as before.
     if game_version == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import RETRO_DAMAGE_SPELLS
         return RETRO_DAMAGE_SPELLS
+    if game_version == 'touch':
+        from fashionistapulp.dofus_constants_touch_spells import TOUCH_DAMAGE_SPELLS
+        return TOUCH_DAMAGE_SPELLS
     return DAMAGE_SPELLS
 
 
