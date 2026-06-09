@@ -61,7 +61,10 @@
     letter-spacing: 0.5px;
     font-size: 10px;
     opacity: 0.75;
-    border-top: 1px solid currentColor;
+    /* Explicit colour (not currentColor): the inherited text colour comes from the
+       swappable theme stylesheet, so a JS theme-swap can leave the separator with no
+       resolvable colour on a cached reload. A fixed faint line is reload-proof. */
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
     padding-top: 6px;
     margin-bottom: 2px;
 }
