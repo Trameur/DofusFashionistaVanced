@@ -103287,7 +103287,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17699-128.png"
             },
-            "description": "Elles comportent des ailes si vous voulez planer et des nageoires si vous voulez respirer sous l'eau. Aucune d'entre elles ne fonctionne.",
+            "description": "Ne vous fiez pas à ses appendices tranchants : cette cape n'offre aucun aérodynamisme et s'avère d'une lourdeur catastrophique sous l'eau. En revanche, son styliste a juré qu'elle extermine le mauvais goût à coup sûr. C'est déjà ça de pris, non ?",
             "effects": [
                 {
                     "int_minimum": 0,
