@@ -45,6 +45,8 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     27280,  # Khardboard Bowisse's Shield
     6713,   # Lordsoth Daggers
     13063,  # Split Splinter Sprinter
+    8422,   # [wip] (Touch work-in-progress placeholder)
+    12596,  # [!] WIP (Touch work-in-progress placeholder)
 ]
 
 def get_default_exclusions(char):
