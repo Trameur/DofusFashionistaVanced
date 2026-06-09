@@ -289,7 +289,7 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
 
 This is a fork of https://github.com/PiwiSlayer/DofusFashionista
 
-Item data is sourced per game version, straight from each version's own data:
+Item data is sourced per game version:
 
 - **Dofus 3 / Beta / Dofus 2** — https://github.com/dofusdude/doduapi
 - **Dofus Retro** — Ankama's official Retro "lang" CDN, parsed in pure Python (see [docs/retro_data_from_ankama.md](docs/retro_data_from_ankama.md))
