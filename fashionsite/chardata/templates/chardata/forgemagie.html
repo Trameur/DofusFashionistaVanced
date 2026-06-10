@@ -189,6 +189,65 @@
 .fm-remove-btn {
     cursor: pointer;
 }
+.fm-sim-meters {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    font-weight: 600;
+}
+.fm-sim-meters .fm-sim-meter-value {
+    font-size: 1.25em;
+    font-weight: 800;
+}
+.fm-sim-controls {
+    margin-top: 10px;
+}
+.fm-sim-suggestion {
+    margin: 8px 0;
+    font-weight: 600;
+}
+.fm-sim-side {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(260px, 2fr);
+    gap: 16px;
+    margin-top: 12px;
+}
+.fm-sim-history {
+    max-height: 220px;
+    overflow-y: auto;
+    line-height: 1.45;
+}
+.fm-sim-history .fm-sim-h-sc { color: #2e7d32; font-weight: 700; }
+.fm-sim-history .fm-sim-h-sn { color: #b26a00; font-weight: 700; }
+.fm-sim-history .fm-sim-h-ec { color: #d64d42; font-weight: 700; }
+.fm-sim-done {
+    font-size: 1.1em;
+}
+.fm-sim-profit {
+    margin-top: 14px;
+}
+.fm-kamas-input {
+    width: 130px;
+    box-sizing: border-box;
+    padding: 4px;
+}
+.fm-rune-price-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+}
+.fm-rune-price-line input {
+    width: 90px;
+    box-sizing: border-box;
+    padding: 2px 4px;
+}
+@media (max-width: 700px) {
+    .fm-sim-side {
+        grid-template-columns: 1fr;
+    }
+}
 @media (max-width: 600px) {
     .fm-search-wrapper {
         max-width: none;
@@ -250,6 +309,76 @@
             </div>
             <div class="fm-totals" id="fm-totals"></div>
             <div class="fm-verdict" id="fm-verdict"></div>
+        </div>
+    </div>
+
+    <div class="fm-box brown-box" id="fm-sim-box" style="display:none;">
+        <div class="fm-section-title big-text">{{ t.sim_title }}</div>
+        <p class="small-explain">{{ t.sim_intro }}</p>
+        <div class="fm-exo-row">
+            <button type="button" class="button-generic" id="fm-sim-start">{{ t.sim_start }}</button>
+            <button type="button" class="button-thin" id="fm-sim-undo" style="display:none;">{{ t.sim_undo }}</button>
+            <button type="button" class="button-thin" id="fm-sim-reset" style="display:none;">{{ t.sim_reset }}</button>
+        </div>
+
+        <div id="fm-sim-panel" style="display:none;">
+            <div class="fm-sim-meters" id="fm-sim-meters"></div>
+            <div class="fm-table-wrapper">
+                <table class="fm-table">
+                    <thead>
+                        <tr>
+                            <th>{{ t.wb_stat }}</th>
+                            <th>{{ t.sim_now }}</th>
+                            <th>{{ t.sim_target }}</th>
+                            <th>{{ t.sim_remaining }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fm-sim-rows"></tbody>
+                </table>
+            </div>
+
+            <div class="fm-sim-controls">
+                <div class="fm-sim-suggestion" id="fm-sim-suggestion"></div>
+                <div class="fm-exo-row">
+                    <span>{{ t.sim_rune_label }}:</span>
+                    <select class="pretty-input" id="fm-sim-rune-select"></select>
+                    <span id="fm-sim-chance" class="small-explain"></span>
+                </div>
+                <div class="fm-exo-row">
+                    <button type="button" class="button-generic" id="fm-sim-throw">{{ t.sim_throw }}</button>
+                </div>
+                <div class="fm-exo-row">
+                    <span class="small-explain">{{ t.sim_record_hint }}</span>
+                    <button type="button" class="button-thin" id="fm-sim-record-sc">{{ t.sim_sc }}</button>
+                    <button type="button" class="button-thin" id="fm-sim-record-sn">{{ t.sim_sn }}</button>
+                    <button type="button" class="button-thin" id="fm-sim-record-ec">{{ t.sim_ec }}</button>
+                </div>
+            </div>
+
+            <div class="fm-sim-side">
+                <div>
+                    <div class="fm-section-title">{{ t.sim_runes_used }}</div>
+                    <div id="fm-sim-runes-used" class="small-explain"></div>
+                </div>
+                <div>
+                    <div class="fm-section-title">{{ t.sim_history }}</div>
+                    <div id="fm-sim-history" class="fm-sim-history small-explain"></div>
+                </div>
+            </div>
+
+            <div class="fm-sim-profit">
+                <div class="fm-section-title">{{ t.sim_profit_title }}</div>
+                <div class="fm-exo-row">
+                    <label for="fm-sim-item-cost">{{ t.sim_item_cost }}</label>
+                    <input class="pretty-input fm-kamas-input" id="fm-sim-item-cost"
+                           type="number" min="0" step="1000">
+                    <label for="fm-sim-sale-price">{{ t.sim_sale_price }}</label>
+                    <input class="pretty-input fm-kamas-input" id="fm-sim-sale-price"
+                           type="number" min="0" step="1000">
+                </div>
+                <div class="fm-totals" id="fm-sim-profit-lines"></div>
+            </div>
+            <p class="fm-footer-note">{{ t.sim_disclaimer }}</p>
         </div>
     </div>
 
@@ -463,6 +592,7 @@
                 item.type_name + ' | ' + t.item_level + ' ' + item.level;
             workbench.style.display = 'block';
             renderRows();
+            initSimForItem();
         }
 
         function makeNumberInput(value, onChange) {
@@ -516,6 +646,7 @@
                     var targetTd = document.createElement('td');
                     targetTd.appendChild(makeNumberInput(row.target, function(value) {
                         row.target = isNaN(value) ? 0 : value;
+                        syncSessionTarget(row.key, row.target);
                     }));
                     tr.appendChild(targetTd);
 
@@ -692,6 +823,731 @@
                 exo: true
             });
             renderRows();
+        });
+
+        /* ---------------- Maging session simulator ---------------- */
+
+        var simBox = document.getElementById('fm-sim-box');
+        var simPanel = document.getElementById('fm-sim-panel');
+        var simStartBtn = document.getElementById('fm-sim-start');
+        var simUndoBtn = document.getElementById('fm-sim-undo');
+        var simResetBtn = document.getElementById('fm-sim-reset');
+        var simRowsBody = document.getElementById('fm-sim-rows');
+        var simMeters = document.getElementById('fm-sim-meters');
+        var simSuggestionDiv = document.getElementById('fm-sim-suggestion');
+        var simRuneSelect = document.getElementById('fm-sim-rune-select');
+        var simChanceSpan = document.getElementById('fm-sim-chance');
+        var simThrowBtn = document.getElementById('fm-sim-throw');
+        var simHistoryDiv = document.getElementById('fm-sim-history');
+        var simRunesUsedDiv = document.getElementById('fm-sim-runes-used');
+        var itemCostInput = document.getElementById('fm-sim-item-cost');
+        var salePriceInput = document.getElementById('fm-sim-sale-price');
+        var profitLinesDiv = document.getElementById('fm-sim-profit-lines');
+
+        var session = null;
+        var undoStack = [];
+
+        function round2(value) {
+            return Math.round(value * 100) / 100;
+        }
+
+        function storageKey() {
+            return 'fm-session-' + config.gameVersion + '-' +
+                   (currentItem ? currentItem.id : 'none');
+        }
+
+        function saveSession() {
+            try {
+                localStorage.setItem(storageKey(), JSON.stringify(session));
+            } catch (err) { /* storage unavailable: session stays in-memory */ }
+        }
+
+        function loadSavedSession() {
+            try {
+                var raw = localStorage.getItem(storageKey());
+                return raw ? JSON.parse(raw) : null;
+            } catch (err) {
+                return null;
+            }
+        }
+
+        function clearSavedSession() {
+            try {
+                localStorage.removeItem(storageKey());
+            } catch (err) { /* ignore */ }
+        }
+
+        function initSimForItem() {
+            simBox.style.display = 'block';
+            undoStack = [];
+            var saved = loadSavedSession();
+            if (saved && saved.rows && saved.rows.length) {
+                session = saved;
+                session.runePrices = session.runePrices || {};
+                simPanel.style.display = 'block';
+                renderSession();
+            } else {
+                session = null;
+                simPanel.style.display = 'none';
+                simResetBtn.style.display = 'none';
+                simUndoBtn.style.display = 'none';
+            }
+        }
+
+        function startSession() {
+            session = {
+                rows: rows.filter(function(row) {
+                    return row.editable || row.exo;
+                }).map(function(row) {
+                    return {
+                        key: row.key,
+                        name: row.name,
+                        icon: row.icon,
+                        max: row.exo ? 0 : row.max,
+                        start: row.exo ? 0 : row.current,
+                        value: row.exo ? 0 : row.current,
+                        target: row.target,
+                        exo: !!row.exo
+                    };
+                }),
+                sink: 0,
+                throws: 0,
+                runesUsed: {},
+                runePrices: {},
+                itemCost: null,
+                salePrice: null,
+                history: []
+            };
+            undoStack = [];
+            saveSession();
+            simPanel.style.display = 'block';
+            renderSession();
+        }
+
+        function pushUndo() {
+            undoStack.push(JSON.stringify(session));
+            if (undoStack.length > 100) {
+                undoStack.shift();
+            }
+        }
+
+        // Keep an ongoing session in step with target edits made in the
+        // workbench, so lowering a stat there immediately switches the
+        // suggestions (e.g. into sacrifice mode).
+        function syncSessionTarget(key, target) {
+            if (!session) {
+                return;
+            }
+            for (var i = 0; i < session.rows.length; i++) {
+                if (session.rows[i].key === key) {
+                    session.rows[i].target = target;
+                    saveSession();
+                    renderSession();
+                    return;
+                }
+            }
+        }
+
+        function findOrCreateSessionRow(key) {
+            for (var i = 0; i < session.rows.length; i++) {
+                if (session.rows[i].key === key) {
+                    return i;
+                }
+            }
+            var info = statInfo(key);
+            session.rows.push({
+                key: key,
+                name: info.name,
+                icon: info.icon,
+                max: 0,
+                start: 0,
+                value: 0,
+                target: 0,
+                exo: true
+            });
+            return session.rows.length - 1;
+        }
+
+        // Weight this rune would put past the stat's best roll (the whole
+        // bonus for an exo line). The game refuses anything past the 101 cap.
+        function overWeightAfter(row, tier) {
+            var info = statInfo(row.key);
+            var maxRoll = row.exo ? 0 : row.max;
+            return Math.max(0, row.value + tier.bonus - maxRoll) * info.density;
+        }
+
+        function wouldExceedCap(row, tier) {
+            return overWeightAfter(row, tier) > config.overCap + 0.001;
+        }
+
+        // Community-estimated outcome odds: the fuller the stat (vs the 20x
+        // rune bonus rule), the harder the rune; over/exo placements are
+        // capped lower; AP/MP/Range exos are the well-known ~1% case.
+        function chancesFor(row, tier) {
+            if (row.exo && config.onePercentExo.indexOf(row.key) !== -1) {
+                return {sc: 0.01, sn: 0, ec: 0.99};
+            }
+            var ratio = (row.value + tier.bonus) / (20 * tier.bonus);
+            var pass = 1.02 - 0.45 * ratio;
+            if (row.exo || row.value + tier.bonus > row.max) {
+                pass = Math.min(pass, 0.45);
+            }
+            pass = Math.max(0.03, Math.min(0.98, pass));
+            return {sc: pass * 0.25, sn: pass * 0.75, ec: 1 - pass};
+        }
+
+        // Losses drain the sink first, then stat lines: exo lines are the
+        // most fragile, then over-maged lines, then normal rolls. A heavy
+        // line eaten by a small loss banks the surplus as sink.
+        function applyLoss(weight, excludeIndex, lost) {
+            var fromSink = Math.min(session.sink, weight);
+            session.sink = round2(session.sink - fromSink);
+            weight = round2(weight - fromSink);
+            var guard = 0;
+            while (weight > 0.001 && guard++ < 300) {
+                var exoLines = [];
+                var overLines = [];
+                var normalLines = [];
+                session.rows.forEach(function(row, index) {
+                    if (index === excludeIndex || row.value <= 0) {
+                        return;
+                    }
+                    var info = statInfo(row.key);
+                    if (!info) {
+                        return;
+                    }
+                    if (row.exo) {
+                        exoLines.push(index);
+                    } else if (row.value > row.max) {
+                        overLines.push(index);
+                    } else {
+                        normalLines.push(index);
+                    }
+                });
+                var pool = exoLines.length ? exoLines
+                         : (overLines.length ? overLines : normalLines);
+                if (!pool.length) {
+                    break;
+                }
+                var index = pool[Math.floor(Math.random() * pool.length)];
+                var row = session.rows[index];
+                var density = statInfo(row.key).density;
+                var points = Math.min(row.value, Math.ceil((weight - 0.001) / density));
+                row.value -= points;
+                lost.push({name: row.name, points: points});
+                var removed = points * density;
+                if (removed >= weight) {
+                    session.sink = round2(session.sink + (removed - weight));
+                    weight = 0;
+                } else {
+                    weight = round2(weight - removed);
+                }
+            }
+        }
+
+        function throwRune(key, tier, forcedOutcome) {
+            var rowIndex = findOrCreateSessionRow(key);
+            if (wouldExceedCap(session.rows[rowIndex], tier)) {
+                simChanceSpan.textContent =
+                    t.verdict_cap.replace('%s', statInfo(key).name);
+                simChanceSpan.className = 'fm-bad';
+                return;
+            }
+            simChanceSpan.className = 'small-explain';
+            pushUndo();
+            var row = session.rows[rowIndex];
+            var outcome = forcedOutcome;
+            if (!outcome) {
+                var chances = chancesFor(row, tier);
+                var roll = Math.random();
+                outcome = roll < chances.sc ? 'sc'
+                        : (roll < chances.sc + chances.sn ? 'sn' : 'ec');
+            }
+            var lost = [];
+            if (outcome === 'sc') {
+                row.value += tier.bonus;
+            } else if (outcome === 'sn') {
+                row.value += tier.bonus;
+                applyLoss(tier.weight, rowIndex, lost);
+            } else {
+                applyLoss(tier.weight, -1, lost);
+            }
+            session.throws += 1;
+            session.runesUsed[tier.name] = (session.runesUsed[tier.name] || 0) + 1;
+            session.history.unshift({
+                rune: tier.name,
+                outcome: outcome,
+                lost: lost,
+                sink: session.sink
+            });
+            if (session.history.length > 1000) {
+                session.history.pop();
+            }
+            saveSession();
+            renderSession();
+        }
+
+        // Cheapest possible throw: each time the unwanted heavy stat drops,
+        // the sink gained is its weight minus this rune's weight, so the
+        // lighter the rune the better.
+        function smallestRune() {
+            var best = null;
+            config.statOrder.forEach(function(key) {
+                var info = statInfo(key);
+                if (!info || !info.tiers.length) {
+                    return;
+                }
+                info.tiers.forEach(function(tier) {
+                    if (!best || tier.weight < best.tier.weight ||
+                            (tier.weight === best.tier.weight &&
+                             tier.bonus < best.tier.bonus)) {
+                        best = {key: key, name: info.name, tier: tier,
+                                sacrifice: true};
+                    }
+                });
+            });
+            return best;
+        }
+
+        function suggestThrow() {
+            // Sacrifice phase first: a lowered target means the user wants
+            // that stat knocked off to bank its weight as sink.
+            var needsSacrifice = session.rows.some(function(row) {
+                return row.target < row.start && row.value > row.target;
+            });
+            if (needsSacrifice) {
+                return smallestRune();
+            }
+            var best = null;
+            session.rows.forEach(function(row, index) {
+                var remaining = row.target - row.value;
+                if (remaining <= 0) {
+                    return;
+                }
+                var info = statInfo(row.key);
+                if (!info || !info.tiers.length) {
+                    return;
+                }
+                var candidates = info.tiers.filter(function(tier) {
+                    return !wouldExceedCap(row, tier);
+                });
+                if (!candidates.length) {
+                    return;
+                }
+                // A rune landing above the best roll takes its weight back
+                // out of the item on a neutral success, so it is only safe
+                // while the sink can absorb it: adapt the rune size to the
+                // current sink. In-roll runes are not constrained.
+                var maxRoll = row.exo ? 0 : row.max;
+                var affordable = candidates.filter(function(tier) {
+                    var over = row.value + tier.bonus > maxRoll;
+                    return !over || tier.weight <= session.sink + 0.001;
+                });
+                if (!affordable.length) {
+                    // Sink too small for even the smallest over rune: fall
+                    // back to it (least damage per failure); the rebuild-the-
+                    // sink hint shows alongside.
+                    affordable = [candidates.slice().sort(function(a, b) {
+                        return a.weight - b.weight;
+                    })[0]];
+                }
+                var descending = affordable.sort(function(a, b) {
+                    return b.bonus - a.bonus;
+                });
+                var chosen = null;
+                descending.forEach(function(tier) {
+                    if (chosen) {
+                        return;
+                    }
+                    // Biggest rune that does not overshoot the target and
+                    // stays inside the ~20x reliability rule.
+                    if (tier.bonus <= remaining &&
+                            row.value + tier.bonus <= 20 * tier.bonus) {
+                        chosen = tier;
+                    }
+                });
+                if (!chosen) {
+                    var ascending = descending.slice().reverse();
+                    chosen = null;
+                    ascending.forEach(function(tier) {
+                        if (!chosen && tier.bonus <= remaining) {
+                            chosen = tier;
+                        }
+                    });
+                    chosen = chosen || ascending[0];
+                }
+                var remainingWeight = remaining * info.density;
+                if (!best || remainingWeight > best.remainingWeight) {
+                    best = {key: row.key, name: info.name, tier: chosen,
+                            remainingWeight: remainingWeight};
+                }
+            });
+            return best;
+        }
+
+        function refreshRuneSelect(preferred) {
+            simRuneSelect.innerHTML = '';
+            config.statOrder.forEach(function(key) {
+                var info = statInfo(key);
+                if (!info || !info.tiers.length) {
+                    return;
+                }
+                var group = document.createElement('optgroup');
+                group.label = info.name;
+                info.tiers.forEach(function(tier, tierIndex) {
+                    var option = document.createElement('option');
+                    option.value = key + '|' + tierIndex;
+                    option.textContent = tier.name + ' (+' + tier.bonus + ')';
+                    if (preferred && preferred.key === key &&
+                            preferred.tier.bonus === tier.bonus) {
+                        option.selected = true;
+                    }
+                    group.appendChild(option);
+                });
+                simRuneSelect.appendChild(group);
+            });
+            updateChanceDisplay();
+        }
+
+        function selectedRune() {
+            var value = simRuneSelect.value;
+            if (!value) {
+                return null;
+            }
+            var parts = value.split('|');
+            var info = statInfo(parts[0]);
+            if (!info) {
+                return null;
+            }
+            var tier = info.tiers[parseInt(parts[1], 10)];
+            return tier ? {key: parts[0], tier: tier} : null;
+        }
+
+        function updateChanceDisplay() {
+            if (!session) {
+                simChanceSpan.textContent = '';
+                return;
+            }
+            var selected = selectedRune();
+            if (!selected) {
+                simChanceSpan.textContent = '';
+                return;
+            }
+            var rowIndex = -1;
+            for (var i = 0; i < session.rows.length; i++) {
+                if (session.rows[i].key === selected.key) {
+                    rowIndex = i;
+                    break;
+                }
+            }
+            var row = rowIndex !== -1 ? session.rows[rowIndex]
+                    : {key: selected.key, value: 0, max: 0, exo: true};
+            if (wouldExceedCap(row, selected.tier)) {
+                simChanceSpan.textContent =
+                    t.verdict_cap.replace('%s', statInfo(selected.key).name);
+                simChanceSpan.className = 'fm-bad';
+                return;
+            }
+            simChanceSpan.className = 'small-explain';
+            var chances = chancesFor(row, selected.tier);
+            var passPercent = Math.round((chances.sc + chances.sn) * 100);
+            simChanceSpan.textContent = t.sim_chance + ': ~' + passPercent + '%';
+        }
+
+        function formatKamas(value) {
+            return Math.round(value).toLocaleString();
+        }
+
+        function renderProfit() {
+            if (!session) {
+                return;
+            }
+            var runesCost = 0;
+            Object.keys(session.runesUsed).forEach(function(name) {
+                runesCost += session.runesUsed[name] *
+                             (session.runePrices[name] || 0);
+            });
+            var itemCost = session.itemCost || 0;
+            var totalCost = itemCost + runesCost;
+
+            profitLinesDiv.innerHTML = '';
+            [
+                [t.sim_runes_cost, formatKamas(runesCost), ''],
+                [t.sim_total_cost, formatKamas(totalCost), '']
+            ].forEach(function(entry) {
+                var line = document.createElement('div');
+                line.textContent = entry[0] + ': ' + entry[1];
+                profitLinesDiv.appendChild(line);
+            });
+            if (session.salePrice || session.salePrice === 0) {
+                var profit = session.salePrice - totalCost;
+                var line = document.createElement('div');
+                var label = document.createElement('span');
+                label.textContent = t.sim_profit + ': ';
+                var value = document.createElement('span');
+                value.textContent = (profit >= 0 ? '+' : '') + formatKamas(profit);
+                value.className = profit >= 0 ? 'fm-ok' : 'fm-bad';
+                line.appendChild(label);
+                line.appendChild(value);
+                profitLinesDiv.appendChild(line);
+            }
+        }
+
+        function renderSession() {
+            if (!session) {
+                return;
+            }
+            simResetBtn.style.display = 'inline-block';
+            simUndoBtn.style.display = undoStack.length ? 'inline-block' : 'none';
+
+            simMeters.innerHTML = '';
+            var sinkMeter = document.createElement('div');
+            var sinkLabel = document.createElement('span');
+            sinkLabel.textContent = t.sim_sink + ': ';
+            var sinkInput = document.createElement('input');
+            sinkInput.type = 'number';
+            sinkInput.step = '0.25';
+            sinkInput.min = '0';
+            sinkInput.className = 'pretty-input fm-input';
+            sinkInput.value = session.sink;
+            sinkInput.addEventListener('change', function() {
+                var value = parseFloat(sinkInput.value);
+                session.sink = isNaN(value) || value < 0 ? 0 : round2(value);
+                saveSession();
+            });
+            sinkMeter.appendChild(sinkLabel);
+            sinkMeter.appendChild(sinkInput);
+            simMeters.appendChild(sinkMeter);
+
+            var throwsMeter = document.createElement('div');
+            throwsMeter.textContent = t.sim_throws + ': ';
+            var throwsValue = document.createElement('span');
+            throwsValue.className = 'fm-sim-meter-value';
+            throwsValue.textContent = session.throws;
+            throwsMeter.appendChild(throwsValue);
+            simMeters.appendChild(throwsMeter);
+
+            simRowsBody.innerHTML = '';
+            var anyTarget = false;
+            var allReached = true;
+            session.rows.forEach(function(row) {
+                // A raised target wants the stat at or above it; a lowered
+                // one wants the stat knocked down (sacrifice). Stats with an
+                // untouched target still have to stay at their roll, so a
+                // lost AP keeps the goal unreached.
+                var raised = row.target >= row.start;
+                var remaining = raised ? row.target - row.value
+                                       : row.value - row.target;
+                var reached = remaining <= 0;
+                if (row.target !== row.start) {
+                    anyTarget = true;
+                }
+                if (!reached) {
+                    allReached = false;
+                }
+                var tr = document.createElement('tr');
+
+                var statTd = document.createElement('td');
+                var statCell = document.createElement('span');
+                statCell.className = 'fm-stat-cell';
+                if (row.icon) {
+                    var icon = document.createElement('img');
+                    icon.src = row.icon;
+                    icon.alt = '';
+                    statCell.appendChild(icon);
+                }
+                var statName = document.createElement('span');
+                statName.textContent = row.name;
+                statCell.appendChild(statName);
+                statTd.appendChild(statCell);
+                tr.appendChild(statTd);
+
+                var nowTd = document.createElement('td');
+                nowTd.textContent = row.value;
+                if (row.value > row.start) {
+                    nowTd.className = 'fm-ok';
+                } else if (row.value < row.start) {
+                    nowTd.className = 'fm-bad';
+                }
+                tr.appendChild(nowTd);
+
+                var targetTd = document.createElement('td');
+                targetTd.textContent = (row.target > 0 || row.target < row.start)
+                    ? row.target : '-';
+                tr.appendChild(targetTd);
+
+                var remainingTd = document.createElement('td');
+                if (reached) {
+                    remainingTd.textContent = '✓';
+                    remainingTd.className = 'fm-ok';
+                } else {
+                    remainingTd.textContent = raised ? String(remaining)
+                                                     : remaining + ' ↓';
+                }
+                tr.appendChild(remainingTd);
+
+                simRowsBody.appendChild(tr);
+            });
+
+            var suggestion = suggestThrow();
+            simSuggestionDiv.innerHTML = '';
+            if (!anyTarget) {
+                simSuggestionDiv.textContent = '{{ t.sim_no_target|escapejs }}';
+            } else if (allReached) {
+                var done = document.createElement('span');
+                done.className = 'fm-ok fm-sim-done';
+                done.textContent = t.sim_done;
+                simSuggestionDiv.appendChild(done);
+            } else if (suggestion && suggestion.sacrifice) {
+                simSuggestionDiv.textContent =
+                    t.sim_suggested + ': ' + suggestion.tier.name +
+                    ' — ' + t.sim_sacrifice;
+            } else if (suggestion) {
+                simSuggestionDiv.textContent =
+                    t.sim_suggested + ': ' + suggestion.tier.name +
+                    ' (' + suggestion.name + ')';
+                // Placing over/exo weight with an empty sink: nudge toward
+                // sacrificing an expendable stat first.
+                var suggestedRow = null;
+                session.rows.forEach(function(row) {
+                    if (row.key === suggestion.key) {
+                        suggestedRow = row;
+                    }
+                });
+                if (suggestedRow &&
+                        overWeightAfter(suggestedRow, suggestion.tier) > 0 &&
+                        session.sink < suggestion.tier.weight) {
+                    var hint = document.createElement('div');
+                    hint.className = 'small-explain fm-warn';
+                    hint.textContent = t.sim_sacrifice_hint;
+                    simSuggestionDiv.appendChild(hint);
+                }
+            }
+            refreshRuneSelect(suggestion);
+
+            simRunesUsedDiv.innerHTML = '';
+            var usedNames = Object.keys(session.runesUsed);
+            if (!usedNames.length) {
+                simRunesUsedDiv.textContent = '-';
+            } else {
+                usedNames.sort();
+                usedNames.forEach(function(name) {
+                    var line = document.createElement('div');
+                    line.className = 'fm-rune-price-line';
+                    var label = document.createElement('span');
+                    label.textContent = session.runesUsed[name] + '× ' + name;
+                    line.appendChild(label);
+                    var priceInput = document.createElement('input');
+                    priceInput.type = 'number';
+                    priceInput.min = '0';
+                    priceInput.className = 'pretty-input';
+                    priceInput.placeholder = t.sim_unit_price;
+                    var price = session.runePrices[name];
+                    priceInput.value = (price || price === 0) ? price : '';
+                    priceInput.addEventListener('input', function() {
+                        var value = parseFloat(priceInput.value);
+                        if (isNaN(value) || value < 0) {
+                            delete session.runePrices[name];
+                        } else {
+                            session.runePrices[name] = value;
+                        }
+                        saveSession();
+                        renderProfit();
+                    });
+                    line.appendChild(priceInput);
+                    simRunesUsedDiv.appendChild(line);
+                });
+            }
+
+            itemCostInput.value = (session.itemCost || session.itemCost === 0)
+                ? session.itemCost : '';
+            salePriceInput.value = (session.salePrice || session.salePrice === 0)
+                ? session.salePrice : '';
+            renderProfit();
+
+            simHistoryDiv.innerHTML = '';
+            session.history.forEach(function(entry) {
+                var line = document.createElement('div');
+                var badge = document.createElement('span');
+                badge.className = 'fm-sim-h-' + entry.outcome;
+                badge.textContent = '[' + entry.outcome.toUpperCase() + '] ';
+                line.appendChild(badge);
+                var text = entry.rune;
+                if (entry.lost && entry.lost.length) {
+                    text += ' — ' + entry.lost.map(function(loss) {
+                        return '-' + loss.points + ' ' + loss.name;
+                    }).join(', ');
+                }
+                text += ' (' + t.sim_sink_gain + ' ' + formatWeight(entry.sink) + ')';
+                line.appendChild(document.createTextNode(text));
+                simHistoryDiv.appendChild(line);
+            });
+        }
+
+        simStartBtn.addEventListener('click', function() {
+            if (!currentItem) {
+                return;
+            }
+            startSession();
+        });
+
+        simResetBtn.addEventListener('click', function() {
+            clearSavedSession();
+            session = null;
+            undoStack = [];
+            simPanel.style.display = 'none';
+            simResetBtn.style.display = 'none';
+            simUndoBtn.style.display = 'none';
+        });
+
+        simUndoBtn.addEventListener('click', function() {
+            if (!undoStack.length) {
+                return;
+            }
+            session = JSON.parse(undoStack.pop());
+            saveSession();
+            renderSession();
+        });
+
+        simThrowBtn.addEventListener('click', function() {
+            var selected = selectedRune();
+            if (!session || !selected) {
+                return;
+            }
+            throwRune(selected.key, selected.tier, null);
+        });
+
+        [['fm-sim-record-sc', 'sc'], ['fm-sim-record-sn', 'sn'],
+         ['fm-sim-record-ec', 'ec']].forEach(function(pair) {
+            document.getElementById(pair[0]).addEventListener('click', function() {
+                var selected = selectedRune();
+                if (!session || !selected) {
+                    return;
+                }
+                throwRune(selected.key, selected.tier, pair[1]);
+            });
+        });
+
+        simRuneSelect.addEventListener('change', updateChanceDisplay);
+
+        itemCostInput.addEventListener('input', function() {
+            if (!session) {
+                return;
+            }
+            var value = parseFloat(itemCostInput.value);
+            session.itemCost = isNaN(value) || value < 0 ? null : value;
+            saveSession();
+            renderProfit();
+        });
+
+        salePriceInput.addEventListener('input', function() {
+            if (!session) {
+                return;
+            }
+            var value = parseFloat(salePriceInput.value);
+            session.salePrice = isNaN(value) || value < 0 ? null : value;
+            saveSession();
+            renderProfit();
         });
 
         searchInput.addEventListener('input', function() {
