@@ -1,0 +1,719 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{{ t.title }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+.fm-page {
+    padding: 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+.fm-title {
+    margin: 4px 0;
+    font-weight: 800;
+    text-align: left;
+}
+.fm-subtitle {
+    margin: 2px 0 4px;
+    opacity: 0.9;
+    text-align: left;
+}
+.fm-version-note {
+    margin: 0 0 16px;
+    font-style: italic;
+    opacity: 0.85;
+}
+.fm-box {
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0 0 16px;
+    width: 100%;
+    max-width: none;
+    display: block;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.fm-section-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+.fm-search-wrapper {
+    position: relative;
+    max-width: 420px;
+}
+.fm-search-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+}
+.fm-search-results {
+    position: absolute;
+    z-index: 30;
+    left: 0;
+    right: 0;
+    top: 100%;
+    max-height: 320px;
+    overflow-y: auto;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+.fm-search-result {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+.fm-search-result:hover {
+    filter: brightness(1.15);
+}
+.fm-search-result img {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+}
+.fm-search-hint {
+    margin-top: 6px;
+}
+.fm-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.fm-item-header img {
+    width: 48px;
+    height: 48px;
+}
+.fm-item-header-name {
+    font-weight: 700;
+}
+.fm-table-wrapper {
+    overflow-x: auto;
+}
+.fm-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95em;
+}
+.fm-table th,
+.fm-table td {
+    padding: 4px 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+    white-space: nowrap;
+}
+.fm-table th {
+    font-weight: 700;
+}
+.fm-table td.fm-cell-runes {
+    white-space: normal;
+    min-width: 180px;
+}
+.fm-stat-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.fm-stat-cell img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+.fm-input {
+    width: 76px;
+    box-sizing: border-box;
+    padding: 4px;
+}
+.fm-muted {
+    opacity: 0.65;
+    font-style: italic;
+}
+.fm-ok {
+    color: #2e7d32;
+    font-weight: 700;
+}
+.fm-bad {
+    color: #d64d42;
+    font-weight: 700;
+}
+.fm-warn {
+    color: #b26a00;
+    font-weight: 600;
+}
+.fm-totals {
+    margin-top: 10px;
+    line-height: 1.5;
+}
+.fm-verdict {
+    margin-top: 8px;
+    font-weight: 600;
+}
+.fm-exo-row {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.fm-exo-row select {
+    padding: 5px;
+    min-width: 200px;
+}
+.fm-list {
+    margin: 6px 0 0;
+    padding-left: 20px;
+}
+.fm-list li {
+    margin: 3px 0;
+}
+.fm-how p {
+    margin: 6px 0;
+}
+.fm-footer-note {
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin: 12px 0 4px;
+}
+.fm-ref-tier {
+    display: block;
+}
+.fm-remove-btn {
+    cursor: pointer;
+}
+@media (max-width: 600px) {
+    .fm-search-wrapper {
+        max-width: none;
+    }
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="fm-page text" id="fm-page">
+    <h1 class="fm-title">{{ t.title }}</h1>
+    <p class="fm-subtitle small-explain">{{ t.subtitle }}</p>
+    <p class="fm-version-note small-explain">{{ version_note }}</p>
+
+    <div class="fm-box brown-box">
+        <div class="fm-section-title big-text">{{ t.wb_title }}</div>
+        <label for="fm-search">{{ t.search_label }}</label>
+        <div class="fm-search-wrapper">
+            <input class="pretty-input" id="fm-search" type="text" autocomplete="off"
+                   placeholder="{{ t.search_placeholder }}">
+            <div class="fm-search-results brown-box" id="fm-search-results" style="display:none;"></div>
+        </div>
+        <div class="fm-search-hint small-explain">{{ t.search_hint }}</div>
+
+        <div id="fm-workbench" style="display:none;">
+            <hr>
+            <div class="fm-item-header">
+                {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+                <img id="fm-item-image" src="" alt=""
+                     onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                <div>
+                    <div class="fm-item-header-name" id="fm-item-name"></div>
+                    <div class="small-explain" id="fm-item-meta"></div>
+                </div>
+            </div>
+            <div class="fm-table-wrapper">
+                <table class="fm-table">
+                    <thead>
+                        <tr>
+                            <th>{{ t.wb_stat }}</th>
+                            <th>{{ t.wb_best_roll }}</th>
+                            <th>{{ t.wb_current }}</th>
+                            <th>{{ t.wb_target }}</th>
+                            <th>{{ t.wb_unit_weight }}</th>
+                            <th>{{ t.wb_missing_weight }}</th>
+                            <th>{{ t.wb_needed_weight }}</th>
+                            <th class="fm-cell-runes">{{ t.wb_runes }}</th>
+                            <th>{{ t.wb_difficulty }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="fm-rows"></tbody>
+                </table>
+            </div>
+            <div class="fm-exo-row">
+                <span>{{ t.wb_add_exo }}:</span>
+                <select class="pretty-input" id="fm-exo-select"></select>
+                <button type="button" class="button-thin" id="fm-exo-add">{{ t.wb_add }}</button>
+            </div>
+            <div class="fm-totals" id="fm-totals"></div>
+            <div class="fm-verdict" id="fm-verdict"></div>
+        </div>
+    </div>
+
+    <div class="fm-box brown-box fm-how">
+        <div class="fm-section-title big-text">{{ t.how_title }}</div>
+        <p>{{ t.how_p1 }}</p>
+        <ul class="fm-list">
+            <li>{{ t.how_sc }}</li>
+            <li>{{ t.how_sn }}</li>
+            <li>{{ t.how_ec }}</li>
+        </ul>
+        <p>{{ t.how_sink }}</p>
+        <p>{{ t.how_over }}</p>
+        <p>{{ t.how_exo }}</p>
+        <p>{{ t.how_rule20 }}</p>
+        <p class="fm-warn">{{ t.how_sink_loss }}</p>
+        <p class="small-explain">{{ t.how_disclaimer }}</p>
+        <div class="fm-section-title" style="margin-top:12px;">{{ t.tips_title }}</div>
+        <ul class="fm-list">
+            {% for tip in tips %}
+            <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="fm-box brown-box">
+        <div class="fm-section-title big-text">{{ t.ref_title }}</div>
+        <div class="fm-table-wrapper">
+            <table class="fm-table">
+                <thead>
+                    <tr>
+                        <th>{{ t.ref_stat }}</th>
+                        <th>{{ t.ref_density }}</th>
+                        <th class="fm-cell-runes">{{ t.ref_runes }}</th>
+                        <th>{{ t.ref_max_over }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in reference_rows %}
+                    <tr>
+                        <td>
+                            <span class="fm-stat-cell">
+                                {% if row.icon_url %}<img src="{{ row.icon_url }}" alt="">{% endif %}
+                                <span>{{ row.name }}</span>
+                            </span>
+                        </td>
+                        <td>{{ row.density }}{% if row.approx %} <span class="fm-muted">({{ t.ref_approx }})</span>{% endif %}</td>
+                        <td class="fm-cell-runes">
+                            {% if row.no_rune %}
+                            <span class="fm-muted">{{ t.ref_no_rune }}</span>
+                            {% else %}
+                            {% for rune in row.runes %}
+                            <span class="fm-ref-tier">{{ rune }}</span>
+                            {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>{% if not row.no_rune %}+{{ row.max_over }}{% else %}<span class="fm-muted">-</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="fm-footer-note">{{ t.footer_sources }}</p>
+    </div>
+
+    {{ js_config|json_script:"fm-config" }}
+    <script>
+    (function() {
+        var config = JSON.parse(document.getElementById('fm-config').textContent);
+        var t = config.t;
+
+        var searchInput = document.getElementById('fm-search');
+        var searchResults = document.getElementById('fm-search-results');
+        var workbench = document.getElementById('fm-workbench');
+        var rowsBody = document.getElementById('fm-rows');
+        var exoSelect = document.getElementById('fm-exo-select');
+        var exoAddButton = document.getElementById('fm-exo-add');
+        var totalsDiv = document.getElementById('fm-totals');
+        var verdictDiv = document.getElementById('fm-verdict');
+
+        var currentItem = null;
+        var rows = [];
+        var searchTimer = null;
+
+        function formatWeight(value) {
+            var rounded = Math.round(value * 100) / 100;
+            return String(rounded);
+        }
+
+        function statInfo(key) {
+            return config.stats[key] || null;
+        }
+
+        function runePlan(info, delta) {
+            // Greedy largest-first plan; the smallest tier absorbs the remainder.
+            var tiers = info.tiers.slice().sort(function(a, b) { return b.bonus - a.bonus; });
+            var plan = [];
+            var remaining = delta;
+            for (var i = 0; i < tiers.length; i++) {
+                var tier = tiers[i];
+                var isLast = (i === tiers.length - 1);
+                var count = isLast ? Math.ceil(remaining / tier.bonus)
+                                   : Math.floor(remaining / tier.bonus);
+                if (count > 0) {
+                    plan.push({tier: tier, count: count});
+                    remaining -= count * tier.bonus;
+                }
+                if (remaining <= 0) {
+                    break;
+                }
+            }
+            return plan;
+        }
+
+        function planText(plan) {
+            return plan.map(function(entry) {
+                return entry.count + '× ' + entry.tier.name;
+            }).join(' + ');
+        }
+
+        function difficultyFor(row, info, plan) {
+            if (row.exo && config.onePercentExo.indexOf(row.key) !== -1) {
+                return {label: t.diff_exo, cls: 'fm-bad'};
+            }
+            if (row.target > row.max) {
+                return {label: t.diff_over, cls: 'fm-warn'};
+            }
+            if (!plan.length) {
+                return null;
+            }
+            var finishing = plan[plan.length - 1].tier.bonus;
+            var ratio = row.target / (20 * finishing);
+            if (ratio < 0.7) {
+                return {label: t.diff_safe, cls: 'fm-ok'};
+            }
+            if (ratio < 1.0) {
+                return {label: t.diff_likely, cls: ''};
+            }
+            if (ratio < 1.5) {
+                return {label: t.diff_risky, cls: 'fm-warn'};
+            }
+            return {label: t.diff_hard, cls: 'fm-bad'};
+        }
+
+        function searchItems(query) {
+            fetch(config.searchUrl + '?q=' + encodeURIComponent(query), {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                renderSearchResults(data.items || []);
+            }).catch(function() {
+                renderSearchResults([]);
+            });
+        }
+
+        function renderSearchResults(items) {
+            searchResults.innerHTML = '';
+            if (!items.length) {
+                var empty = document.createElement('div');
+                empty.className = 'fm-search-result fm-muted';
+                empty.textContent = t.search_no_results;
+                searchResults.appendChild(empty);
+            }
+            items.forEach(function(item) {
+                var row = document.createElement('div');
+                row.className = 'fm-search-result';
+                var img = document.createElement('img');
+                img.src = item.image_url;
+                img.alt = '';
+                img.onerror = function() { this.style.visibility = 'hidden'; };
+                var label = document.createElement('span');
+                label.textContent = item.name + ' (' + t.item_level + ' ' + item.level + ')';
+                row.appendChild(img);
+                row.appendChild(label);
+                row.onclick = function() {
+                    selectItem(item);
+                };
+                searchResults.appendChild(row);
+            });
+            searchResults.style.display = 'block';
+        }
+
+        function hideSearchResults() {
+            searchResults.style.display = 'none';
+        }
+
+        function selectItem(item) {
+            currentItem = item;
+            hideSearchResults();
+            searchInput.value = item.name;
+
+            rows = item.stats.map(function(stat) {
+                var info = statInfo(stat.key);
+                var editable = !!info && info.tiers.length > 0 && stat.value > 0;
+                return {
+                    key: stat.key,
+                    name: stat.name,
+                    icon: stat.icon,
+                    max: stat.value,
+                    current: stat.value,
+                    target: stat.value,
+                    editable: editable,
+                    exo: false
+                };
+            });
+
+            document.getElementById('fm-item-image').src = item.image_url;
+            document.getElementById('fm-item-name').textContent = item.name;
+            document.getElementById('fm-item-meta').textContent =
+                item.type_name + ' | ' + t.item_level + ' ' + item.level;
+            workbench.style.display = 'block';
+            renderRows();
+        }
+
+        function makeNumberInput(value, onChange) {
+            var input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'pretty-input fm-input';
+            input.value = value;
+            input.addEventListener('input', function() {
+                onChange(parseInt(input.value, 10));
+                recompute();
+            });
+            return input;
+        }
+
+        function renderRows() {
+            rowsBody.innerHTML = '';
+            rows.forEach(function(row, index) {
+                var info = statInfo(row.key);
+                var tr = document.createElement('tr');
+
+                var statTd = document.createElement('td');
+                var statCell = document.createElement('span');
+                statCell.className = 'fm-stat-cell';
+                if (row.icon) {
+                    var icon = document.createElement('img');
+                    icon.src = row.icon;
+                    icon.alt = '';
+                    statCell.appendChild(icon);
+                }
+                var statName = document.createElement('span');
+                statName.textContent = row.name;
+                statCell.appendChild(statName);
+                statTd.appendChild(statCell);
+                tr.appendChild(statTd);
+
+                var maxTd = document.createElement('td');
+                maxTd.textContent = row.exo ? '-' : row.max;
+                tr.appendChild(maxTd);
+
+                if (row.editable || row.exo) {
+                    var currentTd = document.createElement('td');
+                    if (row.exo) {
+                        currentTd.textContent = '0';
+                    } else {
+                        currentTd.appendChild(makeNumberInput(row.current, function(value) {
+                            row.current = isNaN(value) ? 0 : value;
+                        }));
+                    }
+                    tr.appendChild(currentTd);
+
+                    var targetTd = document.createElement('td');
+                    targetTd.appendChild(makeNumberInput(row.target, function(value) {
+                        row.target = isNaN(value) ? 0 : value;
+                    }));
+                    tr.appendChild(targetTd);
+
+                    var densityTd = document.createElement('td');
+                    densityTd.textContent = formatWeight(info.density);
+                    tr.appendChild(densityTd);
+
+                    var missingTd = document.createElement('td');
+                    missingTd.className = 'fm-cell-missing';
+                    tr.appendChild(missingTd);
+
+                    var neededTd = document.createElement('td');
+                    neededTd.className = 'fm-cell-needed';
+                    tr.appendChild(neededTd);
+
+                    var runesTd = document.createElement('td');
+                    runesTd.className = 'fm-cell-runes';
+                    tr.appendChild(runesTd);
+
+                    var diffTd = document.createElement('td');
+                    diffTd.className = 'fm-cell-diff';
+                    tr.appendChild(diffTd);
+
+                    var removeTd = document.createElement('td');
+                    if (row.exo) {
+                        var removeButton = document.createElement('button');
+                        removeButton.type = 'button';
+                        removeButton.className = 'button-thin fm-remove-btn';
+                        removeButton.textContent = t.wb_remove;
+                        removeButton.onclick = function() {
+                            rows.splice(index, 1);
+                            renderRows();
+                        };
+                        removeTd.appendChild(removeButton);
+                    }
+                    tr.appendChild(removeTd);
+                } else {
+                    var lockedTd = document.createElement('td');
+                    lockedTd.colSpan = 8;
+                    lockedTd.className = 'fm-muted';
+                    lockedTd.textContent = row.max + ' — ' + t.wb_not_mageable;
+                    tr.appendChild(lockedTd);
+                }
+
+                tr.dataset.index = index;
+                rowsBody.appendChild(tr);
+            });
+            refreshExoOptions();
+            recompute();
+        }
+
+        function refreshExoOptions() {
+            var present = {};
+            rows.forEach(function(row) { present[row.key] = true; });
+            exoSelect.innerHTML = '';
+            var placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = t.wb_exo_pick;
+            exoSelect.appendChild(placeholder);
+            config.statOrder.forEach(function(key) {
+                var info = statInfo(key);
+                if (!info || !info.tiers.length || present[key]) {
+                    return;
+                }
+                var option = document.createElement('option');
+                option.value = key;
+                option.textContent = info.name;
+                exoSelect.appendChild(option);
+            });
+        }
+
+        function recompute() {
+            if (!currentItem) {
+                return;
+            }
+            var totalSink = 0;
+            var totalNeeded = 0;
+            var capProblemStat = null;
+            var hasOnePercentExo = false;
+
+            rows.forEach(function(row, index) {
+                if (!row.editable && !row.exo) {
+                    return;
+                }
+                var info = statInfo(row.key);
+                var tr = rowsBody.querySelector('tr[data-index="' + index + '"]');
+                if (!tr) {
+                    return;
+                }
+                var current = row.exo ? 0 : row.current;
+                var missing = row.exo ? 0 : Math.max(0, row.max - current) * info.density;
+                var delta = Math.max(0, row.target - current);
+                var needed = delta * info.density;
+                var overWeight = Math.max(0, row.target - (row.exo ? 0 : row.max)) * info.density;
+
+                totalSink += missing;
+                totalNeeded += needed;
+                if (overWeight > config.overCap && !capProblemStat) {
+                    capProblemStat = info.name;
+                }
+                if (row.exo && config.onePercentExo.indexOf(row.key) !== -1 && row.target > 0) {
+                    hasOnePercentExo = true;
+                }
+
+                var plan = delta > 0 ? runePlan(info, delta) : [];
+
+                tr.querySelector('.fm-cell-missing').textContent = formatWeight(missing);
+                var neededCell = tr.querySelector('.fm-cell-needed');
+                neededCell.textContent = formatWeight(needed);
+                neededCell.className = 'fm-cell-needed' + (overWeight > 0 ? ' fm-warn' : '');
+                tr.querySelector('.fm-cell-runes').textContent = plan.length ? planText(plan) : '-';
+                var diffCell = tr.querySelector('.fm-cell-diff');
+                var difficulty = delta > 0 ? difficultyFor(row, info, plan) : null;
+                diffCell.textContent = difficulty ? difficulty.label : '-';
+                diffCell.className = 'fm-cell-diff ' + (difficulty ? difficulty.cls : '');
+            });
+
+            var balance = totalSink - totalNeeded;
+            totalsDiv.innerHTML = '';
+            [
+                ['{{ t.total_sink|escapejs }}', formatWeight(totalSink), ''],
+                ['{{ t.total_needed|escapejs }}', formatWeight(totalNeeded), ''],
+                ['{{ t.total_balance|escapejs }}', formatWeight(balance),
+                 balance >= 0 ? 'fm-ok' : 'fm-bad']
+            ].forEach(function(entry) {
+                var line = document.createElement('div');
+                var label = document.createElement('span');
+                label.textContent = entry[0] + ': ';
+                var value = document.createElement('span');
+                value.textContent = entry[1];
+                if (entry[2]) {
+                    value.className = entry[2];
+                }
+                line.appendChild(label);
+                line.appendChild(value);
+                totalsDiv.appendChild(line);
+            });
+
+            verdictDiv.innerHTML = '';
+            var verdictLine = document.createElement('div');
+            if (capProblemStat) {
+                verdictLine.className = 'fm-bad';
+                verdictLine.textContent = t.verdict_cap.replace('%s', capProblemStat);
+            } else if (balance >= 0) {
+                verdictLine.className = 'fm-ok';
+                verdictLine.textContent = t.verdict_ok;
+            } else {
+                verdictLine.className = 'fm-warn';
+                verdictLine.textContent = t.verdict_over.replace('%s', formatWeight(-balance));
+            }
+            verdictDiv.appendChild(verdictLine);
+            if (hasOnePercentExo) {
+                var exoLine = document.createElement('div');
+                exoLine.className = 'fm-bad';
+                exoLine.textContent = t.exo_one_percent;
+                verdictDiv.appendChild(exoLine);
+            }
+        }
+
+        exoAddButton.addEventListener('click', function() {
+            var key = exoSelect.value;
+            if (!key) {
+                return;
+            }
+            var info = statInfo(key);
+            rows.push({
+                key: key,
+                name: info.name,
+                icon: info.icon,
+                max: 0,
+                current: 0,
+                target: info.tiers[0].bonus,
+                editable: true,
+                exo: true
+            });
+            renderRows();
+        });
+
+        searchInput.addEventListener('input', function() {
+            var query = searchInput.value.trim();
+            if (searchTimer) {
+                clearTimeout(searchTimer);
+            }
+            if (query.length < 2) {
+                hideSearchResults();
+                return;
+            }
+            searchTimer = setTimeout(function() {
+                searchItems(query);
+            }, 250);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!searchResults.contains(event.target) && event.target !== searchInput) {
+                hideSearchResults();
+            }
+        });
+    })();
+    </script>
+</div>
+{% endblock %}

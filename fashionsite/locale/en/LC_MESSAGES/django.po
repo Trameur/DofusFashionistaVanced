@@ -5023,3 +5023,7 @@ msgstr ""
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
 msgstr ""
+
+#: fashionsite/chardata/templates/chardata/base.html
+msgid "Smithmagic"
+msgstr ""

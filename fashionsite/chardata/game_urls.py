@@ -7,7 +7,7 @@ from chardata import (
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, profile_view,
-    tag_view, nl_build_view,
+    tag_view, nl_build_view, forgemagie_view,
 )
 
 urlpatterns = [
@@ -114,6 +114,8 @@ urlpatterns = [
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
             encyclopedia_view.encyclopedia_item, name='encyclopedia_item'),
+    re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
+    re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),
 
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),

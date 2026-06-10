@@ -5662,3 +5662,7 @@ msgstr "Lançamento do Dofus Touch"
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus Touch launched at /touch/ with its own item, set, recipe, and spell database"
 msgstr "Dofus Touch lançado em /touch/ com a sua própria base de itens, conjuntos, receitas e feitiços"
+
+#: fashionsite/chardata/templates/chardata/base.html
+msgid "Smithmagic"
+msgstr "Forjamagia"

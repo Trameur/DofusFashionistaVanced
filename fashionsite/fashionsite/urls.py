@@ -27,7 +27,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
-    coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view
+    coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, forgemagie_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -365,6 +365,8 @@ urlpatterns = [
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
             encyclopedia_view.encyclopedia_item,
             name='encyclopedia_item'),
+    re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
+    re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),
 
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),
