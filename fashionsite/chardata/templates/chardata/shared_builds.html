@@ -718,6 +718,8 @@
             {% trans "No shared builds found matching your criteria. Try adjusting your filters." %}
         </div>
     {% endif %}
+
+    {% include "chardata/ad_unit.html" with slot=adsense_slots.shared_builds name="shared builds" %}
 </div>
 
 <script>

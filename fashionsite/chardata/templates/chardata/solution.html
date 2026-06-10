@@ -248,6 +248,29 @@
             opacity: 0.7;
             margin: 0;
         }
+
+        .support-cta {
+            max-width: 720px;
+            margin: 18px auto 6px;
+            padding: 12px 16px;
+            text-align: center;
+            border: 1px solid rgba(128,128,128,0.25);
+            border-radius: 4px;
+        }
+        .support-cta-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .support-cta-text {
+            font-size: 0.92em;
+            opacity: 0.85;
+            margin-bottom: 10px;
+        }
+        .support-cta-button {
+            text-decoration: none;
+            display: inline-block;
+            padding: 6px 16px;
+        }
     </style>
 {% endblock %}
 
@@ -616,6 +639,15 @@
         </table>
     </td>
     </tr></table>
+
+    <div class="support-cta">
+        <div class="support-cta-title">{% trans "Enjoying the Fashionista?" %}</div>
+        <div class="support-cta-text">{% trans "This tool is free and run by volunteers. If it helped with your build, consider supporting the servers!" %}</div>
+        <a href="https://ko-fi.com/T6T81MWTYO" target="_blank" rel="noopener noreferrer" class="button-generic support-cta-button">❤️ {% trans "Support Fashionista" %}</a>
+    </div>
+
+    {% include "chardata/ad_unit.html" with slot=adsense_slots.solution name="solution" %}
+
     <div id="blanket" style="display:none;"></div>
     <div id="popUpDiv" style="display:none;">
         <div class="removing-div"></div>

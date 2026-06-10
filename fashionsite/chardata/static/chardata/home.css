@@ -169,6 +169,30 @@
     margin: 0 0 0 200px;
 }
 
+.ad-slot {
+    text-align: center;
+    margin: 8px auto 10px;
+    overflow: hidden;
+}
+
+.ad-slot-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    max-width: 728px;
+    border: 2px dashed rgba(128, 128, 128, 0.6);
+    border-radius: 6px;
+    opacity: 0.7;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.ad-slot-placeholder-horizontal {
+    min-height: 90px;
+}
+
 .secondcolumn {
     margin: 0 0 0 1044px;
     padding: 20px;

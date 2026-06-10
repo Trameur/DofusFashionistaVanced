@@ -1,0 +1,21 @@
+{% comment %}
+Manual AdSense unit. Usage:
+  {% include "chardata/ad_unit.html" with slot=adsense_slots.leaderboard format="horizontal" name="leaderboard" %}
+Renders the real ad when the slot ID is configured (gen_config.json "adsense_slots"),
+a placeholder box in DEBUG mode, and nothing otherwise.
+{% endcomment %}
+{% if slot %}
+<div class="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-3961330018791408"
+         data-ad-slot="{{ slot }}"
+         data-ad-format="{{ format|default:'auto' }}"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{% elif debug_mode %}
+<div class="ad-slot ad-slot-placeholder{% if format == 'horizontal' %} ad-slot-placeholder-horizontal{% endif %}">
+    AD &mdash; {{ name|default:"unit" }}
+</div>
+{% endif %}

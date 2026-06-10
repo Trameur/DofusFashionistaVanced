@@ -45,7 +45,8 @@
     </script>
 
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
-    <script data-ad-client="ca-pub-3961330018791408" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta name="google-adsense-account" content="ca-pub-3961330018791408">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3961330018791408" crossorigin="anonymous"></script>
     <script src="https://fundingchoicesmessages.google.com/i/pub-3961330018791408?ers=1" nonce="{{ request.csp_nonce }}"></script>
 
     {% if google_analytics_id %}
@@ -249,6 +250,7 @@
         </div>
 
         <div class="maincolumn">
+        {% include "chardata/ad_unit.html" with slot=adsense_slots.leaderboard format="horizontal" name="leaderboard" %}
         {% if not home %}
             <div class="maincontent" >
                 {% include "chardata/main-header.html" with char=char %}

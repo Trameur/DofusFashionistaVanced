@@ -142,6 +142,7 @@ def set_response(request, path, params, char=None):
     params['css_files'] = get_css_for_theme(get_theme(request), request)
     params['theme'] = get_theme(request)
     params['google_analytics_id'] = settings.GEN_CONFIGS['google_analytics_id']
+    params['adsense_slots'] = settings.GEN_CONFIGS.get('adsense_slots', {})
     
     no_pic = True
     if 'pic' in request.COOKIES:    

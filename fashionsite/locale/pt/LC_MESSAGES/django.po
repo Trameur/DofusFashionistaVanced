@@ -4992,39 +4992,6 @@ msgstr "Curas finais"
 msgid "Hit in best element"
 msgstr "Golpeia no melhor elemento"
 
-#~ msgid "Send"
-#~ msgstr "Enviar"
-
-#~ msgid "Buy Kamas"
-#~ msgstr "Comprar Kamas"
-
-#~ msgid "Glifo de Cegueira"
-#~ msgstr "Glifo Flamejante"
-
-#~ msgid "Glyph of Repulsion"
-#~ msgstr "Glifo de Repulsão"
-
-#~ msgid "Glyph of Blindness"
-#~ msgstr "Glifo de Cegueira"
-
-#~ msgid "Fulmination"
-#~ msgstr "Fulminação"
-
-#~ msgid "Elemental Loop"
-#~ msgstr "Círculo Elementar"
-
-#~ msgid "Snuggletooth"
-#~ msgstr "Caninos"
-
-#~ msgid "Ferocity"
-#~ msgstr "Ferocidade"
-
-#~ msgid "Exos"
-#~ msgstr "Exos"
-
-#~ msgid "Neu"
-#~ msgstr "Neu"
-
 msgid "users"
 msgstr "jogadores"
 
@@ -5064,8 +5031,6 @@ msgstr ""
 msgid "Steals %(min)d to %(max)d MP"
 msgstr ""
 
-
-
 msgid "Attracts"
 msgstr "Atrai"
 
@@ -5075,12 +5040,10 @@ msgstr "Empurra"
 msgid "Advances"
 msgstr "Avança"
 
-
 msgid "cell(s)"
 msgstr ""
 
 # Changelog entries
-
 msgid "Changelog"
 msgstr "Registro de alterações"
 
@@ -5093,23 +5056,38 @@ msgstr "Maio de 2026"
 msgid "Item customization & optimizer fixes"
 msgstr "Personalização de itens e correções do otimizador"
 
-msgid "Cire Momore's Curse set caps now correctly enforced in the optimizer (MP/Summon/Range hard caps per tier)"
-msgstr "Os limites da set Maldição de Cire Momore são agora corretamente aplicados no otimizador (PM/Invocações/Alcance por nível)"
+msgid ""
+"Cire Momore's Curse set caps now correctly enforced in the optimizer "
+"(MP/Summon/Range hard caps per tier)"
+msgstr ""
+"Os limites da set Maldição de Cire Momore são agora corretamente aplicados "
+"no otimizador (PM/Invocações/Alcance por nível)"
 
-msgid "Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is equipped"
-msgstr "O painel da set exibe agora os efeitos de limite (ex. Máx. PM 2) quando uma set limitante está equipada"
+msgid ""
+"Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is "
+"equipped"
+msgstr ""
+"O painel da set exibe agora os efeitos de limite (ex. Máx. PM 2) quando uma "
+"set limitante está equipada"
 
-msgid "New: Customize Stats — modify the stats of a specific item for your build (undercrafted items, familiars below max level)"
-msgstr "Novo: Personalizar Estatísticas — modifique as stats de um item específico para a sua build (itens subcraftados, familiares abaixo do nível máximo)"
+msgid ""
+"New: Customize Stats — modify the stats of a specific item for your build "
+"(undercrafted items, familiars below max level)"
+msgstr ""
+"Novo: Personalizar Estatísticas — modifique as stats de um item específico "
+"para a sua build (itens subcraftados, familiares abaixo do nível máximo)"
 
 msgid "Exo mage stats now handled correctly in the custom stats editor"
-msgstr "Stats exo agora tratadas corretamente no editor de estatísticas personalizadas"
+msgstr ""
+"Stats exo agora tratadas corretamente no editor de estatísticas "
+"personalizadas"
 
 msgid "Lock an empty slot to prevent the optimizer from filling it"
 msgstr "Bloqueie um slot vazio para evitar que o otimizador o preencha"
 
 msgid "Stat filter in the item picker is now visible by default"
-msgstr "O filtro de estatísticas no seletor de itens agora está visível por padrão"
+msgstr ""
+"O filtro de estatísticas no seletor de itens agora está visível por padrão"
 
 msgid "Added Gelano AP/PM ring variant"
 msgstr "Variante do anel Gelano PA/PM adicionada"
@@ -5117,8 +5095,11 @@ msgstr "Variante do anel Gelano PA/PM adicionada"
 msgid "Better leech and prospecting preset"
 msgstr "Melhor predefinição de leech e prospecção"
 
-msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
-msgstr "Correções de dano de feitiços, flags de itens e dados de golpes de armas para itens do Dofus 3.5"
+msgid ""
+"Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
+msgstr ""
+"Correções de dano de feitiços, flags de itens e dados de golpes de armas "
+"para itens do Dofus 3.5"
 
 msgid "Mobile UI overhaul"
 msgstr "Reformulação da interface móvel"
@@ -5147,14 +5128,21 @@ msgstr "Migração de servidor e infraestrutura"
 msgid "Site migrated to Hetzner dedicated server (dofusfashionista.gg)"
 msgstr "Site migrado para servidor dedicado Hetzner (dofusfashionista.gg)"
 
-msgid "Multi-version framework: separate routes and databases for dofus3, beta, retro (touch coming later)"
-msgstr "Framework multi-versão: rotas e bancos de dados separados para dofus3, beta, retro (touch em breve)"
+msgid ""
+"Multi-version framework: separate routes and databases for dofus3, beta, "
+"retro (touch coming later)"
+msgstr ""
+"Framework multi-versão: rotas e bancos de dados separados para dofus3, beta,"
+" retro (touch em breve)"
 
 msgid "Shared builds page load time reduced from 1900ms to 140ms"
-msgstr "Tempo de carregamento da página de builds compartilhados reduzido de 1900ms para 140ms"
+msgstr ""
+"Tempo de carregamento da página de builds compartilhados reduzido de 1900ms "
+"para 140ms"
 
 msgid "Mail spam protection added; password reset fixed"
-msgstr "Proteção anti-spam de e-mail adicionada; redefinição de senha corrigida"
+msgstr ""
+"Proteção anti-spam de e-mail adicionada; redefinição de senha corrigida"
 
 msgid "Maintenance page added for planned downtime"
 msgstr "Página de manutenção adicionada para indisponibilidade planejada"
@@ -5172,13 +5160,19 @@ msgid "Docker support & security fixes"
 msgstr "Suporte a Docker e correções de segurança"
 
 msgid "Docker support added for local development; Python upgraded to 3.14"
-msgstr "Suporte a Docker adicionado para desenvolvimento local; Python atualizado para 3.14"
+msgstr ""
+"Suporte a Docker adicionado para desenvolvimento local; Python atualizado "
+"para 3.14"
 
 msgid "Google OAuth login and logout fixed after HTTPS migration"
 msgstr "Login e logout do Google OAuth corrigidos após migração HTTPS"
 
-msgid "Fixed XSS reflected injection, DOM text reinterpretation, and deserialization vulnerabilities"
-msgstr "Corrigidas vulnerabilidades de injeção XSS, reinterpretação de texto DOM e deserialização"
+msgid ""
+"Fixed XSS reflected injection, DOM text reinterpretation, and "
+"deserialization vulnerabilities"
+msgstr ""
+"Corrigidas vulnerabilidades de injeção XSS, reinterpretação de texto DOM e "
+"deserialização"
 
 msgid "jQuery upgraded to 3.6.4; Django updated to 5.1.14"
 msgstr "jQuery atualizado para 3.6.4; Django atualizado para 5.1.14"
@@ -5193,10 +5187,13 @@ msgid "Encyclopedia"
 msgstr "Enciclopédia"
 
 msgid "Encyclopedia launched: browse all items with stats and craft recipes"
-msgstr "Enciclopédia lançada: navegue por todos os itens com estatísticas e receitas de fabricação"
+msgstr ""
+"Enciclopédia lançada: navegue por todos os itens com estatísticas e receitas"
+" de fabricação"
 
 msgid "Crafting recipes added to encyclopedia item pages"
-msgstr "Receitas de fabricação adicionadas às páginas de itens da enciclopédia"
+msgstr ""
+"Receitas de fabricação adicionadas às páginas de itens da enciclopédia"
 
 msgid "Weapon stats correctly displayed in the encyclopedia"
 msgstr "Estatísticas de armas exibidas corretamente na enciclopédia"
@@ -5210,23 +5207,34 @@ msgstr "Corrigidos itens com condições de equipamento do tipo OU"
 msgid "Stat icons & display improvements"
 msgstr "Ícones de estatísticas e melhorias de exibição"
 
-msgid "Stat icons added across the interface (build page, shared builds, encyclopedia)"
-msgstr "Ícones de estatísticas adicionados em toda a interface (página de build, builds compartilhados, enciclopédia)"
+msgid ""
+"Stat icons added across the interface (build page, shared builds, "
+"encyclopedia)"
+msgstr ""
+"Ícones de estatísticas adicionados em toda a interface (página de build, "
+"builds compartilhados, enciclopédia)"
 
 msgid "Fixed decimal rounding for displayed stat values"
-msgstr "Correção do arredondamento decimal para valores de estatísticas exibidos"
+msgstr ""
+"Correção do arredondamento decimal para valores de estatísticas exibidos"
 
 msgid "Better shared builds page: faster loading and cleaner stat display"
-msgstr "Página de builds compartilhados melhorada: carregamento mais rápido e exibição de stats mais limpa"
+msgstr ""
+"Página de builds compartilhados melhorada: carregamento mais rápido e "
+"exibição de stats mais limpa"
 
 msgid "Translations & item updates"
 msgstr "Traduções e atualizações de itens"
 
-msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
-msgstr "Cobertura de tradução a 100% para todos os 5 idiomas suportados (en, fr, de, es, pt)"
+msgid ""
+"100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgstr ""
+"Cobertura de tradução a 100% para todos os 5 idiomas suportados (en, fr, de,"
+" es, pt)"
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
-msgstr "Bloqueio/Proibição do Seemyool Selvagem adicionado às restrições de itens"
+msgstr ""
+"Bloqueio/Proibição do Seemyool Selvagem adicionado às restrições de itens"
 
 msgid "Fixed weapon damage display"
 msgstr "Correção da exibição de dano de armas"
@@ -5240,8 +5248,11 @@ msgstr "Dezembro de 2025 – Fevereiro de 2026"
 msgid "Spell damage simulator — extended"
 msgstr "Simulador de dano de feitiços — extendido"
 
-msgid "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
-msgstr "Simulador de feitiços extendido: curas, roubos, acúmulos, buffs de poder e glifos"
+msgid ""
+"Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
+msgstr ""
+"Simulador de feitiços extendido: curas, roubos, acúmulos, buffs de poder e "
+"glifos"
 
 msgid "Spell images scraped and displayed per spell in the simulator"
 msgstr "Imagens de feitiços coletadas e exibidas por feitiço no simulador"
@@ -5262,7 +5273,9 @@ msgid "Spell damage simulator v1"
 msgstr "Simulador de dano de feitiços v1"
 
 msgid "Spell damage simulator v1: auto-scraped hit data for all classes"
-msgstr "Simulador de dano de feitiços v1: dados de golpes coletados automaticamente para todas as classes"
+msgstr ""
+"Simulador de dano de feitiços v1: dados de golpes coletados automaticamente "
+"para todas as classes"
 
 msgid "Best element, MP cost, and base damage shown per spell"
 msgstr "Melhor elemento, custo em PM e dano base exibidos por feitiço"
@@ -5270,8 +5283,12 @@ msgstr "Melhor elemento, custo em PM e dano base exibidos por feitiço"
 msgid "Shared builds"
 msgstr "Builds compartilhados"
 
-msgid "Shared builds: publish your build with a unique link, visible to the community"
-msgstr "Builds compartilhados: publique sua build com um link único, visível para a comunidade"
+msgid ""
+"Shared builds: publish your build with a unique link, visible to the "
+"community"
+msgstr ""
+"Builds compartilhados: publique sua build com um link único, visível para a "
+"comunidade"
 
 msgid "Community voting system for shared builds"
 msgstr "Sistema de votação da comunidade para builds compartilhados"
@@ -5279,11 +5296,17 @@ msgstr "Sistema de votação da comunidade para builds compartilhados"
 msgid "Build creator attribution shown on each shared build"
 msgstr "Atribuição do criador da build exibida em cada build compartilhado"
 
-msgid "Migrated internal item references to ankama_id for stability across game updates"
-msgstr "Referências internas de itens migradas para ankama_id para estabilidade em atualizações do jogo"
+msgid ""
+"Migrated internal item references to ankama_id for stability across game "
+"updates"
+msgstr ""
+"Referências internas de itens migradas para ankama_id para estabilidade em "
+"atualizações do jogo"
 
 msgid "Fixed old saved builds broken by item lock/forbid data migration"
-msgstr "Corrigidas builds antigas salvas danificadas pela migração de dados de bloqueio/proibição de itens"
+msgstr ""
+"Corrigidas builds antigas salvas danificadas pela migração de dados de "
+"bloqueio/proibição de itens"
 
 msgid "October 2025"
 msgstr "Outubro de 2025"
@@ -5306,8 +5329,11 @@ msgstr "Agosto de 2023"
 msgid "Site relaunch on AWS"
 msgstr "Relaçamento do site na AWS"
 
-msgid "Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
-msgstr "Site relaçado como DofusFashionistaVanced na AWS com Django e armazenamento S3"
+msgid ""
+"Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
+msgstr ""
+"Site relaçado como DofusFashionistaVanced na AWS com Django e armazenamento "
+"S3"
 
 msgid "Compare sets: side-by-side comparison of two builds"
 msgstr "Comparar sets: comparação lado a lado de duas builds"
@@ -5325,7 +5351,8 @@ msgid "Python 3 fork & Windows support"
 msgstr "Fork Python 3 e suporte a Windows"
 
 msgid "Forked from original DofusFashionista; converted entirely to Python 3"
-msgstr "Fork do DofusFashionista original; convertido completamente para Python 3"
+msgstr ""
+"Fork do DofusFashionista original; convertido completamente para Python 3"
 
 msgid "Windows compatibility and standalone executable added"
 msgstr "Compatibilidade com Windows e executável independente adicionados"
@@ -5336,11 +5363,14 @@ msgstr "2020 – 2021"
 msgid "Original DofusFashionista"
 msgstr "DofusFashionista original"
 
-msgid "Original DofusFashionista by PiwiSlayer: linear programming optimizer for Dofus 2 equipment"
-msgstr "DofusFashionista original por PiwiSlayer: otimizador de programação linear para equipamentos do Dofus 2"
+msgid ""
+"Original DofusFashionista by PiwiSlayer: linear programming optimizer for "
+"Dofus 2 equipment"
+msgstr ""
+"DofusFashionista original por PiwiSlayer: otimizador de programação linear "
+"para equipamentos do Dofus 2"
 
 # Changelog 2024-2025 era entries
-
 msgid "December 2024"
 msgstr "Dezembro de 2024"
 
@@ -5354,10 +5384,13 @@ msgid "Compatibility & stability updates"
 msgstr "Atualizações de compatibilidade e estabilidade"
 
 msgid "Site adapted to Dofus 3.0: new item format, stats, and database"
-msgstr "Site adaptado ao Dofus 3.0: novo formato de itens, estatísticas e banco de dados"
+msgstr ""
+"Site adaptado ao Dofus 3.0: novo formato de itens, estatísticas e banco de "
+"dados"
 
 msgid "Item database updated through Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
-msgstr "Banco de dados de itens atualizado para Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
+msgstr ""
+"Banco de dados de itens atualizado para Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
 
 msgid "Windows 11 compatibility improvements"
 msgstr "Melhorias de compatibilidade com Windows 11"
@@ -5372,7 +5405,8 @@ msgid "Fixed percentage resistance cap"
 msgstr "Corrigido o limite de resistência percentual"
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
-msgstr "Banco de dados de itens atualizado para Dofus 3.1 e 3.2 (3.1.2.1 → 3.2.7.9)"
+msgstr ""
+"Banco de dados de itens atualizado para Dofus 3.1 e 3.2 (3.1.2.1 → 3.2.7.9)"
 
 msgid "Neutral Resist in PVP"
 msgstr "Resistência Neutra em PvP"
@@ -5481,7 +5515,8 @@ msgstr "Com buffs"
 
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "Stats with your class self-buffs fully active."
-msgstr "Estatísticas com os autobuffs de feitiço da tua classe totalmente ativos."
+msgstr ""
+"Estatísticas com os autobuffs de feitiço da tua classe totalmente ativos."
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
@@ -5500,8 +5535,12 @@ msgid "Community, sharing & tools"
 msgstr "Comunidade, partilha e ferramentas"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus Retro launched at /retro/ with its own item database, built from Ankama's official Retro data"
-msgstr "Dofus Retro lançado em /retro/ com a sua própria base de itens, criada a partir dos dados oficiais do Retro da Ankama"
+msgid ""
+"Dofus Retro launched at /retro/ with its own item database, built from "
+"Ankama's official Retro data"
+msgstr ""
+"Dofus Retro lançado em /retro/ com a sua própria base de itens, criada a "
+"partir dos dados oficiais do Retro da Ankama"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Retro is now selectable in the version switcher"
@@ -5509,11 +5548,17 @@ msgstr "O Retro já pode ser selecionado no seletor de versão"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Retro spell damage simulator added, with damage spells per class"
-msgstr "Adicionado o simulador de dano de feitiços do Retro, com feitiços de dano por classe"
+msgstr ""
+"Adicionado o simulador de dano de feitiços do Retro, com feitiços de dano "
+"por classe"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "PvP resistances supported on Retro items: shown on the solution page and weightable in the stats page"
-msgstr "Resistências PvP suportadas nos itens do Retro: mostradas na página de sugestão e ponderáveis na página de estatísticas"
+msgid ""
+"PvP resistances supported on Retro items: shown on the solution page and "
+"weightable in the stats page"
+msgstr ""
+"Resistências PvP suportadas nos itens do Retro: mostradas na página de "
+"sugestão e ponderáveis na página de estatísticas"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Retro shields and Dragoturkey mounts added"
@@ -5521,55 +5566,91 @@ msgstr "Adicionados escudos do Retro e montarias Dragoperu"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Set bonuses for Retro sets, with the full per-piece bonus tables"
-msgstr "Bónus de conjunto para os conjuntos do Retro, com as tabelas completas por número de peças"
+msgstr ""
+"Bónus de conjunto para os conjuntos do Retro, com as tabelas completas por "
+"número de peças"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Familiars: the stats they can be fed are shown in the encyclopedia and used by the optimizer"
-msgstr "Familiares: as estatísticas que podem comer são mostradas na enciclopédia e usadas pelo otimizador"
+msgid ""
+"Familiars: the stats they can be fed are shown in the encyclopedia and used "
+"by the optimizer"
+msgstr ""
+"Familiares: as estatísticas que podem comer são mostradas na enciclopédia e "
+"usadas pelo otimizador"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Craft recipes added, and item, set and spell names localized in all 5 languages"
-msgstr "Adicionadas receitas de fabrico, e nomes de itens, conjuntos e feitiços traduzidos nas 5 línguas"
+msgid ""
+"Craft recipes added, and item, set and spell names localized in all 5 "
+"languages"
+msgstr ""
+"Adicionadas receitas de fabrico, e nomes de itens, conjuntos e feitiços "
+"traduzidos nas 5 línguas"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages or prysmaradite)"
-msgstr "Otimizador adaptado às regras do Retro (12 classes, sem duplicação de anel, sem exo magia nem prysmaradite)"
+msgid ""
+"Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages"
+" or prysmaradite)"
+msgstr ""
+"Otimizador adaptado às regras do Retro (12 classes, sem duplicação de anel, "
+"sem exo magia nem prysmaradite)"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus 2 version added at /dofus2/ with its own item and set database"
-msgstr "Versão Dofus 2 adicionada em /dofus2/ com a sua própria base de itens e conjuntos"
+msgstr ""
+"Versão Dofus 2 adicionada em /dofus2/ com a sua própria base de itens e "
+"conjuntos"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Comments on builds, with comment counts on shared-build cards"
-msgstr "Comentários nos builds, com o número de comentários nos cartões de builds partilhados"
+msgstr ""
+"Comentários nos builds, com o número de comentários nos cartões de builds "
+"partilhados"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "User profiles with follow / unfollow, a following feed, and author links on builds"
-msgstr "Perfis de utilizador com seguir / deixar de seguir, um feed de seguidos e ligações para o autor nos builds"
+msgid ""
+"User profiles with follow / unfollow, a following feed, and author links on "
+"builds"
+msgstr ""
+"Perfis de utilizador com seguir / deixar de seguir, um feed de seguidos e "
+"ligações para o autor nos builds"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Free-form tags on builds, with filtering and tag suggestions"
 msgstr "Tags livres nos builds, com filtragem e sugestões de tags"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Discover builds: top community builds on the home page and a random build link"
-msgstr "Descobrir builds: melhores builds da comunidade na página inicial e uma ligação de build aleatório"
+msgid ""
+"Discover builds: top community builds on the home page and a random build "
+"link"
+msgstr ""
+"Descobrir builds: melhores builds da comunidade na página inicial e uma "
+"ligação de build aleatório"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Smart Build: describe a build in plain language and get a starting setup (multilingual)"
-msgstr "Smart Build: descreva um build em linguagem natural e obtenha uma base inicial (multilíngue)"
+msgid ""
+"Smart Build: describe a build in plain language and get a starting setup "
+"(multilingual)"
+msgstr ""
+"Smart Build: descreva um build em linguagem natural e obtenha uma base "
+"inicial (multilíngue)"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Workshop: craft ingredient list, with recipes for every version"
-msgstr "Oficina: lista de ingredientes de fabrico, com receitas para todas as versões"
+msgstr ""
+"Oficina: lista de ingredientes de fabrico, com receitas para todas as "
+"versões"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Quick start coaching flow for new players"
 msgstr "Fluxo de iniciação rápida para novos jogadores"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Share builds anywhere: copy a build as text for Discord/forums, plus richer link previews"
-msgstr "Partilhe os seus builds em qualquer lugar: copie o build como texto para Discord/fóruns, e pré-visualizações de ligações melhoradas"
+msgid ""
+"Share builds anywhere: copy a build as text for Discord/forums, plus richer "
+"link previews"
+msgstr ""
+"Partilhe os seus builds em qualquer lugar: copie o build como texto para "
+"Discord/fóruns, e pré-visualizações de ligações melhoradas"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Class avatar banner on the solution page"
@@ -5577,7 +5658,8 @@ msgstr "Banner de avatar de classe na página de sugestão"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "'With buffs' stat preview on the stats panel"
-msgstr "Pré-visualização de estatísticas «Com buffs» no painel de estatísticas"
+msgstr ""
+"Pré-visualização de estatísticas «Com buffs» no painel de estatísticas"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Public read-only REST API (v1)"
@@ -5592,20 +5674,28 @@ msgid "Support page with donation links"
 msgstr "Página de apoio com ligações de doação"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Build check now flags low-level equipped items, and password reset was fixed"
-msgstr "A verificação do build agora assinala os itens equipados de nível baixo, e a reposição da palavra-passe foi corrigida"
+msgid ""
+"Build check now flags low-level equipped items, and password reset was fixed"
+msgstr ""
+"A verificação do build agora assinala os itens equipados de nível baixo, e a"
+" reposição da palavra-passe foi corrigida"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus Retro version launched at /retro/ with its own item database"
 msgstr "Versão Dofus Retro lançada em /retro/ com a sua própria base de itens"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Build check now flags slots where the equipped item is less than ideal for the slot"
-msgstr "A verificação do build agora assinala os slots onde o item equipado não é o ideal"
+msgid ""
+"Build check now flags slots where the equipped item is less than ideal for "
+"the slot"
+msgstr ""
+"A verificação do build agora assinala os slots onde o item equipado não é o "
+"ideal"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus Retro launched at /retro/ with its own item and set database"
-msgstr "Dofus Retro lançado em /retro/ com a sua própria base de itens e conjuntos"
+msgstr ""
+"Dofus Retro lançado em /retro/ com a sua própria base de itens e conjuntos"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus 2 launched"
@@ -5613,7 +5703,8 @@ msgstr "Lançamento do Dofus 2"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus 2 launched at /dofus2/ with its own item and set database"
-msgstr "Dofus 2 lançado em /dofus2/ com a sua própria base de itens e conjuntos"
+msgstr ""
+"Dofus 2 lançado em /dofus2/ com a sua própria base de itens e conjuntos"
 
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "how the data is parsed"
@@ -5624,8 +5715,14 @@ msgid "Support the project"
 msgstr "Apoiar o projeto"
 
 #: fashionsite/chardata/templates/chardata/support.html
-msgid "Dofus Fashionista is free and always will be — the optimizer, sharing and encyclopedia stay open to everyone. If the tool saves you time and kamas, here are a few ways to give back."
-msgstr "O Dofus Fashionista é gratuito e será sempre — o otimizador, a partilha e a enciclopédia continuam abertos a todos. Se a ferramenta te poupa tempo e kamas, aqui ficam algumas formas de contribuir."
+msgid ""
+"Dofus Fashionista is free and always will be — the optimizer, sharing and "
+"encyclopedia stay open to everyone. If the tool saves you time and kamas, "
+"here are a few ways to give back."
+msgstr ""
+"O Dofus Fashionista é gratuito e será sempre — o otimizador, a partilha e a "
+"enciclopédia continuam abertos a todos. Se a ferramenta te poupa tempo e "
+"kamas, aqui ficam algumas formas de contribuir."
 
 #: fashionsite/chardata/templates/chardata/support.html
 msgid "Donate"
@@ -5660,5 +5757,54 @@ msgid "Dofus Touch launched"
 msgstr "Lançamento do Dofus Touch"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus Touch launched at /touch/ with its own item, set, recipe, and spell database"
-msgstr "Dofus Touch lançado em /touch/ com a sua própria base de itens, conjuntos, receitas e feitiços"
+msgid ""
+"Dofus Touch launched at /touch/ with its own item, set, recipe, and spell "
+"database"
+msgstr ""
+"Dofus Touch lançado em /touch/ com a sua própria base de itens, conjuntos, "
+"receitas e feitiços"
+
+#: chardata/templates/chardata/solution.html
+msgid "Enjoying the Fashionista?"
+msgstr "Gostando da Fashionista?"
+
+#: chardata/templates/chardata/solution.html
+msgid ""
+"This tool is free and run by volunteers. If it helped with your build, "
+"consider supporting the servers!"
+msgstr ""
+"Esta ferramenta é gratuita e mantida por voluntários. Se ela ajudou com o "
+"seu equipamento, considere apoiar os servidores!"
+
+#~ msgid "Send"
+#~ msgstr "Enviar"
+
+#~ msgid "Buy Kamas"
+#~ msgstr "Comprar Kamas"
+
+#~ msgid "Glifo de Cegueira"
+#~ msgstr "Glifo Flamejante"
+
+#~ msgid "Glyph of Repulsion"
+#~ msgstr "Glifo de Repulsão"
+
+#~ msgid "Glyph of Blindness"
+#~ msgstr "Glifo de Cegueira"
+
+#~ msgid "Fulmination"
+#~ msgstr "Fulminação"
+
+#~ msgid "Elemental Loop"
+#~ msgstr "Círculo Elementar"
+
+#~ msgid "Snuggletooth"
+#~ msgstr "Caninos"
+
+#~ msgid "Ferocity"
+#~ msgstr "Ferocidade"
+
+#~ msgid "Exos"
+#~ msgstr "Exos"
+
+#~ msgid "Neu"
+#~ msgstr "Neu"

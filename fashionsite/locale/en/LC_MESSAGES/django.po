@@ -238,7 +238,8 @@ msgstr ""
 msgid "Linear Damage"
 msgstr ""
 
-#: chardata/smart_build.py:45 chardata/templates/chardata/compare_sets.html:148
+#: chardata/smart_build.py:45
+#: chardata/templates/chardata/compare_sets.html:148
 #: chardata/templates/chardata/solution.html:167
 #: chardata/templates/chardata/stats.html:39 chardata/translation_util.py:73
 #: chardata/wizard_sliders.py:50
@@ -273,7 +274,8 @@ msgstr ""
 msgid "Traps"
 msgstr ""
 
-#: chardata/smart_build.py:53 chardata/templates/chardata/compare_sets.html:147
+#: chardata/smart_build.py:53
+#: chardata/templates/chardata/compare_sets.html:147
 #: chardata/templates/chardata/solution.html:165
 #: chardata/templates/chardata/stats.html:38 chardata/translation_util.py:71
 #: chardata/translation_util.py:580 chardata/wizard_sliders.py:92
@@ -284,14 +286,16 @@ msgstr ""
 msgid "Pushback"
 msgstr ""
 
-#: chardata/smart_build.py:55 chardata/templates/chardata/compare_sets.html:154
+#: chardata/smart_build.py:55
+#: chardata/templates/chardata/compare_sets.html:154
 #: chardata/templates/chardata/solution.html:172
 #: chardata/templates/chardata/stats.html:42 chardata/translation_util.py:75
 #: chardata/wizard_sliders.py:96
 msgid "Prospecting"
 msgstr ""
 
-#: chardata/smart_build.py:56 chardata/templates/chardata/compare_sets.html:163
+#: chardata/smart_build.py:56
+#: chardata/templates/chardata/compare_sets.html:163
 #: chardata/templates/chardata/solution.html:190
 #: chardata/templates/chardata/stats.html:51 chardata/translation_util.py:84
 msgid "Pods"
@@ -369,15 +373,15 @@ msgstr ""
 msgid ""
 "If someone sent you this link, have them send you the 'Share' link at the "
 "bottom of their Outfit Suggestion page instead. If that is not the case and "
-"this keeps happening, you can contact us <a href=\"%(contact_url)s\">here</"
-"a>."
+"this keeps happening, you can contact us <a "
+"href=\"%(contact_url)s\">here</a>."
 msgstr ""
 
 #: chardata/templates/chardata/403.html:24
 #, python-format
 msgid ""
-"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a href="
-"\"%(create_project_url)s\">create a project</a> of your own."
+"Or you can go back to the <a href=\"%(home_url)s\">home</a> page or <a "
+"href=\"%(create_project_url)s\">create a project</a> of your own."
 msgstr ""
 
 #: chardata/templates/chardata/404.html:10
@@ -411,8 +415,8 @@ msgstr ""
 #: chardata/templates/chardata/500.html:21
 #, python-format
 msgid ""
-"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a> "
-"and tell us all about this problem."
+"If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a>"
+" and tell us all about this problem."
 msgstr ""
 
 #: chardata/templates/chardata/about.html:6
@@ -421,8 +425,9 @@ msgstr ""
 
 #: chardata/templates/chardata/about.html:19
 msgid ""
-"The Dofus Fashionista is a fan site about <a href='http://www.dofus."
-"com'>Dofus</a>. It uses mathematical programming, a branch of <a "
+"The Dofus Fashionista is a fan site about <a "
+"href='http://www.dofus.com'>Dofus</a>. It uses mathematical programming, a "
+"branch of <a "
 "href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, "
 "to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 "
 "MP with as much Intelligence as possible) the player provides."
@@ -430,8 +435,8 @@ msgstr ""
 
 #: chardata/templates/chardata/about.html:20
 msgid ""
-"When a new project is created, the Wizard tries to figure what the character "
-"is about by reading the build and class specified. It then creates an "
+"When a new project is created, the Wizard tries to figure what the character"
+" is about by reading the build and class specified. It then creates an "
 "initial configuration for the first run."
 msgstr ""
 
@@ -451,14 +456,15 @@ msgstr ""
 
 #: chardata/templates/chardata/about.html:26
 #: chardata/templates/chardata/license.html:19
-msgid "The Dofus Fashionista is open source software. The code can be found in"
+msgid ""
+"The Dofus Fashionista is open source software. The code can be found in"
 msgstr ""
 
 #: chardata/templates/chardata/about.html:27
 #, python-format
 msgid ""
-"To report problems, suggest new features, or rant about the lack of skill of "
-"your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
+"To report problems, suggest new features, or rant about the lack of skill of"
+" your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
 msgstr ""
 
 #: chardata/templates/chardata/about.html:28
@@ -486,8 +492,8 @@ msgstr ""
 #: chardata/templates/chardata/base.html:87
 #, python-format
 msgid ""
-"Welcome, <a id=\"logged_user_alias\" href=\"%(manage_account_link)s\">"
-"%(user)s</a>! "
+"Welcome, <a id=\"logged_user_alias\" "
+"href=\"%(manage_account_link)s\">%(user)s</a>! "
 msgstr ""
 
 #: chardata/templates/chardata/base.html:92
@@ -683,7 +689,8 @@ msgid ""
 msgstr ""
 
 #: chardata/templates/chardata/choose_compare_sets.html:17
-msgid "To compare other people's projects paste the sharing link, for example:"
+msgid ""
+"To compare other people's projects paste the sharing link, for example:"
 msgstr ""
 
 #: chardata/templates/chardata/choose_compare_sets.html:23
@@ -971,9 +978,9 @@ msgstr ""
 
 #: chardata/templates/chardata/exclusions.html:20
 msgid ""
-"Declare items that cannot be used on your character's set. By doing this you "
-"can avoid items that are expensive, hard to obtain, require a dungeon to be "
-"complete, or are just plain ugly."
+"Declare items that cannot be used on your character's set. By doing this you"
+" can avoid items that are expensive, hard to obtain, require a dungeon to be"
+" complete, or are just plain ugly."
 msgstr ""
 
 #: chardata/templates/chardata/exclusions.html:27
@@ -1023,25 +1030,25 @@ msgstr ""
 
 #: chardata/templates/chardata/faq.html:42
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"10 points, equipment A will have a score of 2100 points, while equipment B "
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 10 points, equipment A will have a score of 2100 points, while equipment B "
 "will have a score of 1400 points, and the program will choose Item A."
 msgstr ""
 
 #: chardata/templates/chardata/faq.html:49
 msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"1 point, equipment A will have a score of 300 points, while equipment B will "
-"have a score of 500 points, and the program will choose Item B."
+"If you say each intelligence is worth 10 points and each initiative is worth"
+" 1 point, equipment A will have a score of 300 points, while equipment B "
+"will have a score of 500 points, and the program will choose Item B."
 msgstr ""
 
 #: chardata/templates/chardata/faq.html:51
 msgid ""
 "That is our way of telling the program what to optimize. The ranges you see "
-"on each slider is the range that is most effective for each attribute, based "
-"on our experience. If you wish to use values outside of the range we "
-"defined, you can go to the Characteristics Weights page (under More) and set "
-"them manually."
+"on each slider is the range that is most effective for each attribute, based"
+" on our experience. If you wish to use values outside of the range we "
+"defined, you can go to the Characteristics Weights page (under More) and set"
+" them manually."
 msgstr ""
 
 #: chardata/templates/chardata/faq.html:53
@@ -1052,8 +1059,8 @@ msgstr ""
 msgid ""
 "We don’t assign the exos to any particular equipment because we think you "
 "are the best person to know where it is most convenient to have them. Maybe "
-"a particular item is cheaper to buy/mage in your server, or you already have "
-"an exo in a piece of equipment and want to use it. It is still important "
+"a particular item is cheaper to buy/mage in your server, or you already have"
+" an exo in a piece of equipment and want to use it. It is still important "
 "that you tell us whether or not you are gonna have exos, because otherwise "
 "we may use some items with AP conditions that make them unequipable if you "
 "get an extra AP on your set."
@@ -1080,8 +1087,8 @@ msgid ""
 "If you don’t lock a weapon, the site will disregard the weapon damages and "
 "treat it like any other item, so you don’t always get an option that hits "
 "well. You will usually get a weapon with good attributes to your build, "
-"which tend to hit the element you chose. It is common to get AP weapons that "
-"aren’t really for hitting with. Forbid them and run again to see the next "
+"which tend to hit the element you chose. It is common to get AP weapons that"
+" aren’t really for hitting with. Forbid them and run again to see the next "
 "better option. "
 msgstr ""
 
@@ -1091,19 +1098,19 @@ msgstr ""
 
 #: chardata/templates/chardata/faq.html:66
 msgid ""
-"Those options are there for characters that need specially high vitality (or "
-"resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
+"Those options are there for characters that need specially high vitality (or"
+" resists). For instance, Sacriers, Masqueraiders and Foggernauts may want a "
 "lot of vitality and not care much about their main element. Others, like "
 "Osamodas, may need a vit/res build with just a little bit of intelligence, "
-"and that's how they declare that defense is more important to them. Checking "
-"a focus box trades points in your main element (and other stats) for a boost "
-"on the focus you chose."
+"and that's how they declare that defense is more important to them. Checking"
+" a focus box trades points in your main element (and other stats) for a "
+"boost on the focus you chose."
 msgstr ""
 
 #: chardata/templates/chardata/faq.html:67
 msgid ""
-"Not checking any focus boxes is fine and correct for a lot of cases. It will "
-"give you an all-around set."
+"Not checking any focus boxes is fine and correct for a lot of cases. It will"
+" give you an all-around set."
 msgstr ""
 
 #: chardata/templates/chardata/home_post.html:17
@@ -1297,8 +1304,8 @@ msgstr ""
 #: chardata/templates/chardata/load_projects.html:56
 #, python-format
 msgid ""
-"You don't have any projects yet. Create one <a href=\"%(create_project_link)s"
-"\">here</a>."
+"You don't have any projects yet. Create one <a "
+"href=\"%(create_project_link)s\">here</a>."
 msgstr ""
 
 #: chardata/templates/chardata/load_projects.html:61
@@ -1382,8 +1389,8 @@ msgstr ""
 
 #: chardata/templates/chardata/login.html:78
 msgid ""
-"We will <b>never</b> post anything to either of your walls.<br> This step is "
-"just an authentication so you are able to save and share projects."
+"We will <b>never</b> post anything to either of your walls.<br> This step is"
+" just an authentication so you are able to save and share projects."
 msgstr ""
 
 #: chardata/templates/chardata/login.html:91
@@ -1392,8 +1399,8 @@ msgstr ""
 
 #: chardata/templates/chardata/login.html:94
 msgid ""
-"Remember to never use your Dofus login and password on any external websites "
-"(which includes this one)"
+"Remember to never use your Dofus login and password on any external websites"
+" (which includes this one)"
 msgstr ""
 
 #: chardata/templates/chardata/login.html:111
@@ -1731,8 +1738,8 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:68
 msgid ""
-"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</"
-"span>"
+"Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to "
+"2)</span>"
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:81
@@ -1751,15 +1758,16 @@ msgstr ""
 #, python-format
 msgid ""
 " You need to <a href=\"%(login_link)s\">login</a> before you can create "
-"another project. Your current project can be found <a href="
-"\"%(load_proj_link)s\">here</a>. "
+"another project. Your current project can be found <a "
+"href=\"%(load_proj_link)s\">here</a>. "
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:105
 #, python-format
 msgid ""
 " You have reached the maximum number of projects allowed. To create a new "
-"project, please delete some old ones <a href=\"%(load_proj_link)s\">here</a>."
+"project, please delete some old ones <a "
+"href=\"%(load_proj_link)s\">here</a>."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:126
@@ -1781,8 +1789,8 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:129
 msgid ""
-"1 vs. 1 Duelers should check this. Increases importance of initiative a lot. "
-"Enables shields."
+"1 vs. 1 Duelers should check this. Increases importance of initiative a lot."
+" Enables shields."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:130
@@ -1809,14 +1817,14 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:134
 msgid ""
-"Chars that want +Damage over the main stat, for hitting with low base damage "
-"attacks. Increases importance of +Damage and +Elemental Damages."
+"Chars that want +Damage over the main stat, for hitting with low base damage"
+" attacks. Increases importance of +Damage and +Elemental Damages."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:135
 msgid ""
-"Healers that prefer +Heals over intelligence for low base heals spells/"
-"weapons. For example, Enis should check this if they intend to heal "
+"Healers that prefer +Heals over intelligence for low base heals "
+"spells/weapons. For example, Enis should check this if they intend to heal "
 "primarily with Healing Word and Revitalizing Word rather than Word of "
 "Sacrifice and Word of Altruism."
 msgstr ""
@@ -1860,8 +1868,8 @@ msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:142
 msgid ""
-"Summon spammers should check this. It will increase the minimum summons by 1 "
-"and increase importance of summons."
+"Summon spammers should check this. It will increase the minimum summons by 1"
+" and increase importance of summons."
 msgstr ""
 
 #: chardata/templates/chardata/projdetails.html:143
@@ -1913,23 +1921,21 @@ msgstr ""
 #, python-format
 msgid ""
 "If you don't like an item, click the forbid ( <img style='position: "
-"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button "
-"under its name and <a href=\"%(run_again_link)s\" class=\"rerun-button\">run "
-"again</a>. If, on the contrary, you want to lock in an item for future sets "
-"for this char, click the lock (<img style='position: relative; bottom: -1px; "
-"left: 0px;' src=%(lock)s title='Lock'>) button. You can also switch any item "
-"for another you like best by clicking the switch (<img class='solution-item-"
-"button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
-"title='Switch'>) button."
+"relative; bottom: -3px; left: -2px;' src=%(delete)s title='Forbid'> ) button"
+" under its name and <a href=\"%(run_again_link)s\" class=\"rerun-"
+"button\">run again</a>. If, on the contrary, you want to lock in an item for"
+" future sets for this char, click the lock (<img style='position: relative; "
+"bottom: -1px; left: 0px;' src=%(lock)s title='Lock'>) button. You can also "
+"switch any item for another you like best by clicking the switch (<img "
+"class='solution-item-button' style='position: relative; bottom: -5px; left: "
+"0px;' src=%(switch)s title='Switch'>) button."
 msgstr ""
 
 #: chardata/templates/chardata/solution.html:34
 #, python-format
 msgid ""
 "\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
+"    This set was generated from scratch. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose items and build a set for you."
 msgstr ""
 
 #: chardata/templates/chardata/solution.html:42
@@ -1959,8 +1965,8 @@ msgstr ""
 #: chardata/templates/chardata/solution.html:68
 #, python-format
 msgid ""
-"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-link"
-"\">copy</a> it to your workspace.</p>"
+"If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
+"link\">copy</a> it to your workspace.</p>"
 msgstr ""
 
 #: chardata/templates/chardata/solution.html:79
@@ -2197,8 +2203,8 @@ msgstr ""
 msgid ""
 "Dofus Fashionista maximizes the total value of all your character's "
 "attributes. Increasing the weight of an attribute will cause others to be "
-"sacrificed for it. Decreasing the weight of an attribute will cause it to be "
-"sacrificed for others."
+"sacrificed for it. Decreasing the weight of an attribute will cause it to be"
+" sacrificed for others."
 msgstr ""
 
 #: chardata/templates/chardata/stats.html:30 chardata/translation_util.py:102
@@ -2307,9 +2313,9 @@ msgstr ""
 #: chardata/templates/chardata/wizard_scrolling.html:17
 #, python-format
 msgid ""
-"If you wish to set your base stats yourself, you can do it at the <i><a href="
-"\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> page, "
-"under <i>More</i>"
+"If you wish to set your base stats yourself, you can do it at the <i><a "
+"href=\"%(base_stats_url)s\" target=\"_blank\">Base Characteristics</a></i> "
+"page, under <i>More</i>"
 msgstr ""
 
 #: chardata/templates/chardata/wizard_sliders.html:3
@@ -4561,7 +4567,9 @@ msgid "Advances %(min)d to %(max)d cells"
 msgstr "Advances %(min)d to %(max)d cells"
 
 #: chardata/templates/chardata/shared_builds.html
-msgid "Browse and discover builds shared by the community. Click on any build to view details."
+msgid ""
+"Browse and discover builds shared by the community. Click on any build to "
+"view details."
 msgstr ""
 
 #: chardata/templates/chardata/shared_builds.html
@@ -4668,12 +4676,21 @@ msgid "View Build"
 msgstr ""
 
 #: chardata/templates/chardata/shared_builds.html
-msgid "No shared builds found matching your criteria. Try adjusting your filters."
+msgid ""
+"No shared builds found matching your criteria. Try adjusting your filters."
 msgstr ""
 
 #: chardata/templates/chardata/license.html
-msgid "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
-msgstr "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner."
+msgid ""
+"The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to "
+"improve user experience, display relevant ads, and provide authentication. "
+"These services may collect anonymous usage data. You can manage your consent"
+" preferences through the privacy settings banner."
+msgstr ""
+"The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to "
+"improve user experience, display relevant ads, and provide authentication. "
+"These services may collect anonymous usage data. You can manage your consent"
+" preferences through the privacy settings banner."
 
 msgid "users"
 msgstr ""
@@ -4714,8 +4731,6 @@ msgstr ""
 msgid "Steals %(min)d to %(max)d MP"
 msgstr ""
 
-
-
 msgid "Attracts"
 msgstr ""
 
@@ -4725,12 +4740,10 @@ msgstr ""
 msgid "Advances"
 msgstr ""
 
-
 msgid "cell(s)"
 msgstr ""
 
 # Changelog entries
-
 msgid "Changelog"
 msgstr ""
 
@@ -4743,13 +4756,19 @@ msgstr ""
 msgid "Item customization & optimizer fixes"
 msgstr ""
 
-msgid "Cire Momore's Curse set caps now correctly enforced in the optimizer (MP/Summon/Range hard caps per tier)"
+msgid ""
+"Cire Momore's Curse set caps now correctly enforced in the optimizer "
+"(MP/Summon/Range hard caps per tier)"
 msgstr ""
 
-msgid "Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is equipped"
+msgid ""
+"Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is "
+"equipped"
 msgstr ""
 
-msgid "New: Customize Stats — modify the stats of a specific item for your build (undercrafted items, familiars below max level)"
+msgid ""
+"New: Customize Stats — modify the stats of a specific item for your build "
+"(undercrafted items, familiars below max level)"
 msgstr ""
 
 msgid "Exo mage stats now handled correctly in the custom stats editor"
@@ -4767,7 +4786,8 @@ msgstr ""
 msgid "Better leech and prospecting preset"
 msgstr ""
 
-msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
+msgid ""
+"Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
 msgstr ""
 
 msgid "Mobile UI overhaul"
@@ -4797,7 +4817,9 @@ msgstr ""
 msgid "Site migrated to Hetzner dedicated server (dofusfashionista.gg)"
 msgstr ""
 
-msgid "Multi-version framework: separate routes and databases for dofus3, beta, retro (touch coming later)"
+msgid ""
+"Multi-version framework: separate routes and databases for dofus3, beta, "
+"retro (touch coming later)"
 msgstr ""
 
 msgid "Shared builds page load time reduced from 1900ms to 140ms"
@@ -4827,7 +4849,9 @@ msgstr ""
 msgid "Google OAuth login and logout fixed after HTTPS migration"
 msgstr ""
 
-msgid "Fixed XSS reflected injection, DOM text reinterpretation, and deserialization vulnerabilities"
+msgid ""
+"Fixed XSS reflected injection, DOM text reinterpretation, and "
+"deserialization vulnerabilities"
 msgstr ""
 
 msgid "jQuery upgraded to 3.6.4; Django updated to 5.1.14"
@@ -4860,7 +4884,9 @@ msgstr ""
 msgid "Stat icons & display improvements"
 msgstr ""
 
-msgid "Stat icons added across the interface (build page, shared builds, encyclopedia)"
+msgid ""
+"Stat icons added across the interface (build page, shared builds, "
+"encyclopedia)"
 msgstr ""
 
 msgid "Fixed decimal rounding for displayed stat values"
@@ -4872,7 +4898,8 @@ msgstr ""
 msgid "Translations & item updates"
 msgstr ""
 
-msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgid ""
+"100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
 msgstr ""
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
@@ -4890,7 +4917,8 @@ msgstr ""
 msgid "Spell damage simulator — extended"
 msgstr ""
 
-msgid "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
+msgid ""
+"Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
 msgstr ""
 
 msgid "Spell images scraped and displayed per spell in the simulator"
@@ -4920,7 +4948,9 @@ msgstr ""
 msgid "Shared builds"
 msgstr ""
 
-msgid "Shared builds: publish your build with a unique link, visible to the community"
+msgid ""
+"Shared builds: publish your build with a unique link, visible to the "
+"community"
 msgstr ""
 
 msgid "Community voting system for shared builds"
@@ -4929,7 +4959,9 @@ msgstr ""
 msgid "Build creator attribution shown on each shared build"
 msgstr ""
 
-msgid "Migrated internal item references to ankama_id for stability across game updates"
+msgid ""
+"Migrated internal item references to ankama_id for stability across game "
+"updates"
 msgstr ""
 
 msgid "Fixed old saved builds broken by item lock/forbid data migration"
@@ -4956,7 +4988,8 @@ msgstr ""
 msgid "Site relaunch on AWS"
 msgstr ""
 
-msgid "Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
+msgid ""
+"Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
 msgstr ""
 
 msgid "Compare sets: side-by-side comparison of two builds"
@@ -4986,11 +5019,12 @@ msgstr ""
 msgid "Original DofusFashionista"
 msgstr ""
 
-msgid "Original DofusFashionista by PiwiSlayer: linear programming optimizer for Dofus 2 equipment"
+msgid ""
+"Original DofusFashionista by PiwiSlayer: linear programming optimizer for "
+"Dofus 2 equipment"
 msgstr ""
 
 # Changelog 2024-2025 era entries
-
 msgid "December 2024"
 msgstr ""
 
@@ -5022,4 +5056,14 @@ msgid "Fixed percentage resistance cap"
 msgstr ""
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid "Enjoying the Fashionista?"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html
+msgid ""
+"This tool is free and run by volunteers. If it helped with your build, "
+"consider supporting the servers!"
 msgstr ""
