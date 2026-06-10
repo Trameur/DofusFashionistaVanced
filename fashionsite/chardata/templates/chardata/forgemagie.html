@@ -227,6 +227,27 @@
 .fm-sim-profit {
     margin-top: 14px;
 }
+.fm-quality {
+    margin: 10px 0;
+    max-width: 420px;
+}
+.fm-quality-label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+.fm-quality-track {
+    height: 14px;
+    border-radius: 7px;
+    background: rgba(128, 128, 128, 0.25);
+    overflow: hidden;
+}
+.fm-quality-fill {
+    height: 100%;
+    border-radius: 7px;
+    transition: width 0.3s ease;
+}
 .fm-kamas-input {
     width: 130px;
     box-sizing: border-box;
@@ -302,6 +323,7 @@
                     <tbody id="fm-rows"></tbody>
                 </table>
             </div>
+            <div class="fm-quality" id="fm-quality" style="display:none;"></div>
             <div class="fm-exo-row">
                 <span>{{ t.wb_add_exo }}:</span>
                 <select class="pretty-input" id="fm-exo-select"></select>
@@ -323,6 +345,7 @@
 
         <div id="fm-sim-panel" style="display:none;">
             <div class="fm-sim-meters" id="fm-sim-meters"></div>
+            <div class="fm-quality" id="fm-sim-quality" style="display:none;"></div>
             <div class="fm-table-wrapper">
                 <table class="fm-table">
                     <thead>
@@ -470,6 +493,74 @@
 
         function statInfo(key) {
             return config.stats[key] || null;
+        }
+
+        // Weight-based roll quality: current total FM weight vs the perfect
+        // item's. Over/exo weight pushes past 100%.
+        function rollQuality(entries) {
+            var current = 0;
+            var perfect = 0;
+            entries.forEach(function(entry) {
+                var info = statInfo(entry.key);
+                if (!info) {
+                    return;
+                }
+                if (entry.max > 0) {
+                    perfect += entry.max * info.density;
+                }
+                if (entry.value > 0) {
+                    current += entry.value * info.density;
+                }
+            });
+            if (perfect <= 0) {
+                return null;
+            }
+            var percent = current / perfect * 100;
+            var label;
+            var color;
+            if (percent > 100.05) {
+                label = t.quality_overperfect; color = '#8e24aa';
+            } else if (percent >= 99.95) {
+                label = t.quality_perfect; color = '#c9a227';
+            } else if (percent >= 95) {
+                label = t.quality_amazing; color = '#2e7d32';
+            } else if (percent >= 80) {
+                label = t.quality_good; color = '#7cb342';
+            } else if (percent >= 60) {
+                label = t.quality_ok; color = '#b26a00';
+            } else {
+                label = t.quality_bad; color = '#d64d42';
+            }
+            return {percent: percent, label: label, color: color};
+        }
+
+        function renderQuality(container, entries) {
+            var quality = rollQuality(entries);
+            if (!quality) {
+                container.style.display = 'none';
+                return;
+            }
+            container.style.display = 'block';
+            container.innerHTML = '';
+            var labelRow = document.createElement('div');
+            labelRow.className = 'fm-quality-label';
+            var title = document.createElement('span');
+            title.textContent = t.quality_title;
+            var value = document.createElement('span');
+            value.textContent =
+                (Math.round(quality.percent * 10) / 10) + '% — ' + quality.label;
+            value.style.color = quality.color;
+            labelRow.appendChild(title);
+            labelRow.appendChild(value);
+            var track = document.createElement('div');
+            track.className = 'fm-quality-track';
+            var fill = document.createElement('div');
+            fill.className = 'fm-quality-fill';
+            fill.style.width = Math.min(100, quality.percent) + '%';
+            fill.style.backgroundColor = quality.color;
+            track.appendChild(fill);
+            container.appendChild(labelRow);
+            container.appendChild(track);
         }
 
         function runePlan(info, delta) {
@@ -804,6 +895,15 @@
                 exoLine.textContent = t.exo_one_percent;
                 verdictDiv.appendChild(exoLine);
             }
+
+            renderQuality(document.getElementById('fm-quality'),
+                rows.map(function(row) {
+                    return {
+                        key: row.key,
+                        value: row.exo ? 0 : row.current,
+                        max: row.exo ? 0 : row.max
+                    };
+                }));
         }
 
         exoAddButton.addEventListener('click', function() {
@@ -1326,6 +1426,11 @@
             throwsValue.textContent = session.throws;
             throwsMeter.appendChild(throwsValue);
             simMeters.appendChild(throwsMeter);
+
+            renderQuality(document.getElementById('fm-sim-quality'),
+                session.rows.map(function(row) {
+                    return {key: row.key, value: row.value, max: row.max};
+                }));
 
             simRowsBody.innerHTML = '';
             var anyTarget = false;
