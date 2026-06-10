@@ -250,7 +250,7 @@
         </div>
 
         <div class="maincolumn">
-        {% include "chardata/ad_unit.html" with slot=adsense_slots.leaderboard format="horizontal" name="leaderboard" %}
+        {% block ad_top %}{% include "chardata/ad_unit.html" with slot=adsense_slots.leaderboard format="horizontal" name="leaderboard" %}{% endblock %}
         {% if not home %}
             <div class="maincontent" >
                 {% include "chardata/main-header.html" with char=char %}
@@ -262,6 +262,7 @@
         {% endif %}
         
         {% include "chardata/loading.html" with char=char language=language %}
+        {% block ad_bottom %}{% include "chardata/ad_unit.html" with slot=adsense_slots.footer format="horizontal" name="footer" %}{% endblock %}
             <div align="center" class="footer">
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>

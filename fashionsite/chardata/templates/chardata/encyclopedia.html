@@ -614,6 +614,8 @@
     </div>
     {% endif %}
 
+    {% include "chardata/ad_unit.html" with slot=adsense_slots.incontent name="encyclopedia" %}
+
     {% else %}
     <p>{{ t.no_results }}</p>
     {% endif %}

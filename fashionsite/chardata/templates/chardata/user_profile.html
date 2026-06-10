@@ -117,6 +117,8 @@
             </div>
         </div>
 
+        {% include "chardata/ad_unit.html" with slot=adsense_slots.incontent name="profile" %}
+
         <h3 class="profile-builds-title">{% trans "Shared builds" %}</h3>
         {% if builds %}
             {% for b in builds %}
