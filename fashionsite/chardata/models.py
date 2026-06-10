@@ -154,6 +154,43 @@ class WorkshopItem(models.Model):
         ]
 
 
+class InventoryFolder(models.Model):
+    """A named group of items the user owns ("Imagiro", "Bank alt", ...).
+
+    Scoped to a game version so a server folder never mixes items across
+    versions. Folders double as the unit the solver can be restricted to
+    ("only use items from this folder")."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    game_version = models.CharField(max_length=20, default='dofus3')
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'name', 'game_version')
+        indexes = [
+            models.Index(fields=['user', 'game_version', 'name']),
+        ]
+
+
+class InventoryItem(models.Model):
+    """One physical item the user owns, in a folder.
+
+    The same item can appear several times (two Gelanos with different
+    rolls). custom_stats holds the real rolls as a JSON {stat_key: value}
+    map when known (e.g. saved from the smithmagic page or from a solution's
+    stat editor); empty means "stats as listed in the encyclopedia"."""
+    folder = models.ForeignKey(InventoryFolder, on_delete=models.CASCADE,
+                               related_name='items')
+    item_id = models.IntegerField()  # internal id from structure.items_dict
+    custom_stats = models.TextField(default='', blank=True)
+    added_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['folder', 'added_time']),
+        ]
+
+
 class CommentReport(models.Model):
     """Player-submitted report on a comment. unique_together prevents a single
     user from spamming reports on the same comment. When 3 distinct users have

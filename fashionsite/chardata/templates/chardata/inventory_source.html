@@ -1,0 +1,11 @@
+{% load i18n %}
+{% load version_url %}
+<b>{% trans "Which items can the solver use?" %}</b><br><br>
+<label><input type="radio" name="inventory_mode" class="change-modifies-state" value="all" {% if inventory_mode == 'all' %}checked{% endif %}>{% trans "Only encyclopedia items" %}</label><br>
+<label><input type="radio" name="inventory_mode" class="change-modifies-state" value="mixed" {% if inventory_mode == 'mixed' %}checked{% endif %}>{% trans "Encyclopedia items + my inventory" %}</label><br>
+<label><input type="radio" name="inventory_mode" class="change-modifies-state" value="only" {% if inventory_mode == 'only' %}checked{% endif %}>{% trans "Only items from my inventory" %}</label><br><br>
+<select name="inventory_folder" class="change-modifies-state pretty-input">
+    {% for folder in inventory_folders %}
+    <option value="{{ folder.id }}" {% if folder.id == selected_inventory_folder %}selected{% endif %}>{{ folder.name }} ({{ folder.count }})</option>
+    {% endfor %}
+</select>

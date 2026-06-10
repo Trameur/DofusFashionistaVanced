@@ -7,7 +7,7 @@ from chardata import (
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, profile_view,
-    tag_view, nl_build_view, forgemagie_view,
+    tag_view, nl_build_view, forgemagie_view, inventory_view,
 )
 
 urlpatterns = [
@@ -116,6 +116,13 @@ urlpatterns = [
             encyclopedia_view.encyclopedia_item, name='encyclopedia_item'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
     re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),
+    re_path(r'^inventory/$', inventory_view.inventory, name='inventory'),
+    re_path(r'^inventory/folders/$', inventory_view.inventory_folders, name='inventory_folders'),
+    re_path(r'^inventory/folder/add/$', inventory_view.inventory_folder_add, name='inventory_folder_add'),
+    re_path(r'^inventory/folder/delete/$', inventory_view.inventory_folder_delete, name='inventory_folder_delete'),
+    re_path(r'^inventory/add/$', inventory_view.inventory_add, name='inventory_add'),
+    re_path(r'^inventory/update/$', inventory_view.inventory_update, name='inventory_update'),
+    re_path(r'^inventory/remove/$', inventory_view.inventory_remove, name='inventory_remove'),
 
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),

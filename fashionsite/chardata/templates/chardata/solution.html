@@ -1217,6 +1217,50 @@
             });
             addRow.append(statSelect).append(addInput).append(addBtn).append(addFeedback);
             statLines.append(addRow);
+
+            {% if user.is_authenticated %}
+            // Save this item (with the rolls as edited) into the user's
+            // inventory. Falls back to creating a default folder when the
+            // user has none yet.
+            var invRow = $("<div style='margin-top:6px;display:flex;gap:4px;align-items:center;flex-wrap:wrap;'></div>");
+            var invSelect = $("<select style='font-size:0.85em;max-width:130px;'></select>");
+            var invBtn = $("<button type='button' class='button-generic' style='font-size:0.8em;padding:2px 6px;'>{% trans "Add to inventory" %}</button>");
+            var invFeedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'>&#10003;</span>");
+            $.get(apiBase + "/inventory/folders/", function(data) {
+                var folders = (data && data.folders) || [];
+                $.each(folders, function(_, folder) {
+                    invSelect.append($("<option>").val(folder.id).text(folder.name));
+                });
+                if (!folders.length) {
+                    invSelect.hide();
+                }
+            });
+            invBtn.click(function() {
+                var statsPayload = {};
+                $.each(itemStats, function(_, stat) {
+                    var key = statIdToKey[String(stat.stat_id)];
+                    if (!key) return;
+                    var overrideVal = (statOverrides[String(itemId)] || {})[String(stat.stat_id)];
+                    var displayVal = overrideVal !== undefined ? overrideVal : stat.value;
+                    if (displayVal > 0) statsPayload[key] = displayVal;
+                });
+                var postData = {item_id: itemId, stats: JSON.stringify(statsPayload)};
+                if (invSelect.val()) {
+                    postData.folder_id = invSelect.val();
+                } else {
+                    postData.new_folder_name = '{% trans "Inventory" %}';
+                }
+                $.post(apiBase + "/inventory/add/", postData, function(resp) {
+                    invFeedback.stop(true).show().delay(1200).fadeOut(400);
+                    if (resp && resp.folder_id && !invSelect.find('option').length) {
+                        invSelect.append($("<option>").val(resp.folder_id).text('{% trans "Inventory" %}'));
+                        invSelect.show();
+                    }
+                });
+            });
+            invRow.append(invSelect).append(invBtn).append(invFeedback);
+            statLines.append(invRow);
+            {% endif %}
         }
 
         function updateLockButtonState(button, key) {

@@ -5027,3 +5027,35 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/base.html
 msgid "Smithmagic"
 msgstr ""
+
+#: fashionsite/chardata/templates
+msgid "Inventory"
+msgstr ""
+
+#: fashionsite/chardata/templates
+msgid "Add to inventory"
+msgstr ""
+
+#: fashionsite/chardata/templates
+msgid "Use only items from my inventory"
+msgstr ""
+
+#: fashionsite/chardata/templates
+msgid "No, use all items"
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Which items can the solver use?"
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Only encyclopedia items"
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Encyclopedia items + my inventory"
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Only items from my inventory"
+msgstr ""

@@ -27,7 +27,8 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
-    coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, forgemagie_view
+    coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, forgemagie_view, \
+    inventory_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -36,6 +37,11 @@ def ads_txt_view(request):
     """Serve the ads.txt file"""
     content = "google.com, pub-3961330018791408, DIRECT, f08c47fec0942fa0"
     return HttpResponse(content, content_type='text/plain')
+
+def chrome_devtools_view(request):
+    """Chrome DevTools probes this on localhost (automatic workspace folders);
+    answer 204 quietly instead of spamming the dev log with 404 warnings."""
+    return HttpResponse(status=204)
 
 def manifest_view(request):
     """PWA web app manifest (served from root so scope covers the whole site)."""
@@ -252,6 +258,7 @@ js_info_dict = {
 
 urlpatterns = [
     re_path(r'^ads\.txt$', ads_txt_view, name='ads_txt'),
+    re_path(r'^\.well-known/appspecific/com\.chrome\.devtools\.json$', chrome_devtools_view),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
     re_path(r'^manifest\.webmanifest$', manifest_view, name='manifest'),
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
@@ -367,6 +374,13 @@ urlpatterns = [
             name='encyclopedia_item'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
     re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),
+    re_path(r'^inventory/$', inventory_view.inventory, name='inventory'),
+    re_path(r'^inventory/folders/$', inventory_view.inventory_folders, name='inventory_folders'),
+    re_path(r'^inventory/folder/add/$', inventory_view.inventory_folder_add, name='inventory_folder_add'),
+    re_path(r'^inventory/folder/delete/$', inventory_view.inventory_folder_delete, name='inventory_folder_delete'),
+    re_path(r'^inventory/add/$', inventory_view.inventory_add, name='inventory_add'),
+    re_path(r'^inventory/update/$', inventory_view.inventory_update, name='inventory_update'),
+    re_path(r'^inventory/remove/$', inventory_view.inventory_remove, name='inventory_remove'),
 
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),

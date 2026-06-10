@@ -114,6 +114,24 @@ def _hide_removed_item(item):
         return False
     return True
 
+def _owned_item_ids(request, char):
+    """Item ids in the project owner's inventory (any folder of this game
+    version), or None when the inventory does not apply (guest/anonymous)."""
+    if not request.user.is_authenticated or char.owner_id != request.user.id:
+        return None
+    from chardata.models import InventoryItem
+    return set(InventoryItem.objects.filter(
+        folder__user=request.user,
+        folder__game_version=char.game_version).values_list('item_id', flat=True))
+
+def _is_owned(structure, item, owned_ids):
+    if item.id in owned_ids:
+        return True
+    if item.name in structure.or_items:
+        return any(variant.id in owned_ids
+                   for variant in structure.get_or_item_by_name(item.name))
+    return False
+
 def _order_by_hits(item_type, char, search_term, stat_filters=None):
     structure = get_structure()
     items = structure.get_unique_items_by_type_and_level(item_type, char.level)
@@ -183,20 +201,30 @@ def get_items_of_type(request, char_id):
     if items == None:
         items = _order_items(itype, char, search_term, stat_filters)
     cache.set(cache_key, items, 300)
+
+    # Filtered after the cache so inventory edits show up immediately.
+    owned_ids = _owned_item_ids(request, char)
+    if request.POST.get('inventory_only') == 'true' and owned_ids is not None:
+        items = [i for i in items if _is_owned(structure, i, owned_ids)]
+
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
-    
-    
+
+
     itemResults = []
     for item in items_to_return:
         if item.name in structure.or_items:
             for or_item in structure.get_or_item_by_name(item.name):
                 result_item = ModelResultItem(or_item)
                 evolve_result_item(result_item)
+                result_item.owned = (owned_ids is not None
+                                     and or_item.id in owned_ids)
                 itemResults.append(result_item)
-        else:  
+        else:
             result_item = ModelResultItem(item)
             evolve_result_item(result_item)
+            result_item.owned = (owned_ids is not None
+                                 and _is_owned(structure, item, owned_ids))
             itemResults.append(result_item)
         
     response = {'items': itemResults,
@@ -240,9 +268,15 @@ def get_items_to_exchange(request, char_id):
             items_to_exchange = _order_items(structure.get_type_name_by_id(item_type), char,
                                                                                          search_term, stat_filters)
     cache.set(cache_key, items_to_exchange, 300)
-    
+
+    # Filtered after the cache so inventory edits show up immediately.
+    owned_ids = _owned_item_ids(request, char)
+    if request.POST.get('inventory_only') == 'true' and owned_ids is not None:
+        items_to_exchange = [i for i in items_to_exchange
+                             if _is_owned(structure, i, owned_ids)]
+
     max_page = math.ceil(len(items_to_exchange) / 10.0)
-    
+
     items_to_return = items_to_exchange[(page - 1) * 10 : page * 10]
     violations = {}
     differences = {}
@@ -254,6 +288,8 @@ def get_items_to_exchange(request, char_id):
                 result_item = ModelResultItem(or_item)
                 result_item.set_slot(slot)
                 evolve_result_item(result_item)
+                result_item.owned = (owned_ids is not None
+                                     and or_item.id in owned_ids)
                 itemResults.append(result_item)
                 vlist = []
                 for vio in check_if_violates(or_item, slot, char):
@@ -262,10 +298,12 @@ def get_items_to_exchange(request, char_id):
                 differences[or_item.name] = _get_difference(or_item, slot, char)
                 if slot == 'weapon':
                     weapon_info[or_item.name] = _get_weapon_info(or_item, char)
-        else:  
+        else:
             result_item = ModelResultItem(item)
             result_item.set_slot(slot)
             evolve_result_item(result_item)
+            result_item.owned = (owned_ids is not None
+                                 and _is_owned(structure, item, owned_ids))
             itemResults.append(result_item)
             vlist = []
             for vio in check_if_violates(item, slot, char):

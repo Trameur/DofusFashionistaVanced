@@ -5648,3 +5648,35 @@ msgstr "Dofus Touch unter /touch/ veröffentlicht, mit eigener Gegenstands-, Set
 #: fashionsite/chardata/templates/chardata/base.html
 msgid "Smithmagic"
 msgstr "Schmiedemagie"
+
+#: fashionsite/chardata/templates
+msgid "Inventory"
+msgstr "Inventar"
+
+#: fashionsite/chardata/templates
+msgid "Add to inventory"
+msgstr "Zum Inventar hinzufuegen"
+
+#: fashionsite/chardata/templates
+msgid "Use only items from my inventory"
+msgstr "Nur Gegenstaende aus meinem Inventar verwenden"
+
+#: fashionsite/chardata/templates
+msgid "No, use all items"
+msgstr "Nein, alle Gegenstaende verwenden"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Which items can the solver use?"
+msgstr "Welche Gegenstaende darf der Solver verwenden?"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Only encyclopedia items"
+msgstr "Nur Enzyklopaedie-Gegenstaende"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Encyclopedia items + my inventory"
+msgstr "Enzyklopaedie-Gegenstaende + mein Inventar"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Only items from my inventory"
+msgstr "Nur Gegenstaende aus meinem Inventar"

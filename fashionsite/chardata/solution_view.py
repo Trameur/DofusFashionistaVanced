@@ -399,7 +399,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     params.update(solution_params)
 
     if not is_guest:
-        raw_overrides = get_stat_overrides(char)
+        from chardata.inventory_solver import get_effective_stat_overrides
+        raw_overrides = get_effective_stat_overrides(char)
         stat_overrides_json = {str(item_id): {str(stat_id): val for stat_id, val in stats.items()}
                                for item_id, stats in raw_overrides.items()}
         params['stat_overrides_json'] = json.dumps(stat_overrides_json)

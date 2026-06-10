@@ -141,6 +141,10 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfect',
         'quality_overperfect': 'beyond perfect',
         'ref_hunt_note': 'Special case: the Hunting rune (weight 5) adds no stat - it turns a weapon into a hunting weapon.',
+        'inv_save': 'Save to my inventory',
+        'inv_save_smithed': 'Save the smithed item to my inventory',
+        'inv_new_folder': 'New folder…',
+        'inv_saved': 'Saved!',
     },
     'fr': {
         'title': 'Atelier de Forgemagie',
@@ -246,6 +250,10 @@ LOCALIZED_UI = {
         'quality_perfect': 'parfait',
         'quality_overperfect': 'plus que parfait',
         'ref_hunt_note': 'Cas particulier : la rune de chasse (poids 5) n’ajoute aucune stat - elle transforme une arme en arme de chasse.',
+        'inv_save': 'Sauvegarder dans mon inventaire',
+        'inv_save_smithed': 'Sauvegarder l’objet forgemagé dans mon inventaire',
+        'inv_new_folder': 'Nouveau dossier…',
+        'inv_saved': 'Enregistré !',
     },
     'es': {
         'title': 'Taller de Forjamagia',
@@ -351,6 +359,10 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfecta',
         'quality_overperfect': 'más que perfecta',
         'ref_hunt_note': 'Caso especial: la runa de caza (peso 5) no añade ninguna característica - convierte un arma en arma de caza.',
+        'inv_save': 'Guardar en mi inventario',
+        'inv_save_smithed': 'Guardar el objeto forjado en mi inventario',
+        'inv_new_folder': 'Nueva carpeta…',
+        'inv_saved': '¡Guardado!',
     },
     'pt': {
         'title': 'Oficina de Forjamagia',
@@ -456,6 +468,10 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfeita',
         'quality_overperfect': 'além do perfeito',
         'ref_hunt_note': 'Caso especial: a runa de caça (peso 5) não adiciona nenhum atributo - ela transforma uma arma em arma de caça.',
+        'inv_save': 'Salvar no meu inventário',
+        'inv_save_smithed': 'Salvar o item forjado no meu inventário',
+        'inv_new_folder': 'Nova pasta…',
+        'inv_saved': 'Salvo!',
     },
     'de': {
         'title': 'Schmiedemagie-Labor',
@@ -561,6 +577,10 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfekt',
         'quality_overperfect': 'besser als perfekt',
         'ref_hunt_note': 'Sonderfall: Die Jagdrune (Gewicht 5) fuegt keinen Wert hinzu - sie macht aus einer Waffe eine Jagdwaffe.',
+        'inv_save': 'In meinem Inventar speichern',
+        'inv_save_smithed': 'Den geschmiedeten Gegenstand in meinem Inventar speichern',
+        'inv_new_folder': 'Neuer Ordner…',
+        'inv_saved': 'Gespeichert!',
     },
 }
 
@@ -680,6 +700,8 @@ def forgemagie(request):
         'statOrder': _ordered_fm_stat_keys(structure, get_fm_stats(game_version)),
         'searchUrl': version_reverse(request, 'forgemagie_items'),
         'gameVersion': game_version,
+        'inventoryFoldersUrl': version_reverse(request, 'inventory_folders'),
+        'inventoryAddUrl': version_reverse(request, 'inventory_add'),
         't': {
             key: t[key] for key in (
                 'search_no_results', 'item_level', 'wb_not_mageable',
@@ -694,7 +716,7 @@ def forgemagie(request):
                 'sim_runes_cost', 'sim_total_cost', 'sim_profit',
                 'sim_unit_price', 'quality_title', 'quality_bad',
                 'quality_ok', 'quality_good', 'quality_amazing',
-                'quality_perfect', 'quality_overperfect',
+                'quality_perfect', 'quality_overperfect', 'inv_new_folder',
             )
         },
     }

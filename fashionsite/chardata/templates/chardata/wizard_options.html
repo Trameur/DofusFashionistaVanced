@@ -62,3 +62,9 @@
     </div>
 </div>
 </div>
+{% if inventory_folders %}
+<br><br>
+<div class="wizard-div min-stat-name" align="center">
+    {% include "chardata/inventory_source.html" %}
+</div>
+{% endif %}

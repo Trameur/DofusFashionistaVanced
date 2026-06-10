@@ -21,6 +21,8 @@ import pickle
 
 from chardata.lock_forbid import get_all_exclusions_en_names, get_all_inclusions_en_names,\
     get_inclusions_dict, get_all_exclusions_ids, get_empty_slots, get_stat_overrides
+from chardata.inventory_solver import (get_inventory_solver_settings,
+    apply_inventory_restriction, get_effective_stat_overrides)
 from chardata.min_stats import get_min_stats_digested
 from chardata.models import CharBaseStats
 from chardata.solution import set_minimal_solution
@@ -80,7 +82,12 @@ def fashion(request, char_id, spells=False):
     
     inclusions_dic = get_inclusions_dict(char)
     exclusions = get_all_exclusions_ids(char)
-    stat_overrides = get_stat_overrides(char)
+    inv_mode, inv_folder = get_inventory_solver_settings(char)
+    if inv_mode == 'only':
+        exclusions = apply_inventory_restriction(char, exclusions, inv_folder)
+    # Inventory rolls become stat overrides; manual per-project overrides
+    # (edited on the solution page) keep priority over them.
+    stat_overrides = get_effective_stat_overrides(char)
 
     if stat_overrides:
         structure = get_structure()

@@ -53,12 +53,16 @@
     box-sizing: border-box;
     padding: 7px;
 }
-.fm-search-results {
+.fm-search-results.brown-box {
     position: absolute;
     z-index: 30;
     left: 0;
     right: 0;
     top: 100%;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
     max-height: 320px;
     overflow-y: auto;
     border-radius: 0 0 8px 8px;
@@ -331,6 +335,17 @@
             </div>
             <div class="fm-totals" id="fm-totals"></div>
             <div class="fm-verdict" id="fm-verdict"></div>
+            {% if user.is_authenticated %}
+            <form id="fm-csrf" style="display:none;">{% csrf_token %}</form>
+            <div class="fm-exo-row" id="fm-inv-row">
+                <span>{{ t.inv_save }}:</span>
+                <select class="pretty-input" id="fm-inv-folder"></select>
+                <input class="pretty-input" id="fm-inv-new-name" type="text" maxlength="50"
+                       placeholder="{{ t.inv_new_folder }}" style="display:none;width:180px;">
+                <button type="button" class="button-thin" id="fm-inv-save">{{ t.wb_add }}</button>
+                <span class="fm-ok" id="fm-inv-feedback" style="display:none;">{{ t.inv_saved }}</span>
+            </div>
+            {% endif %}
         </div>
     </div>
 
@@ -388,6 +403,17 @@
                     <div id="fm-sim-history" class="fm-sim-history small-explain"></div>
                 </div>
             </div>
+
+            {% if user.is_authenticated %}
+            <div class="fm-exo-row" id="fm-sim-inv-row">
+                <span>{{ t.inv_save_smithed }}:</span>
+                <select class="pretty-input" id="fm-sim-inv-folder"></select>
+                <input class="pretty-input" id="fm-sim-inv-new-name" type="text" maxlength="50"
+                       placeholder="{{ t.inv_new_folder }}" style="display:none;width:180px;">
+                <button type="button" class="button-thin" id="fm-sim-inv-save">{{ t.wb_add }}</button>
+                <span class="fm-ok" id="fm-sim-inv-feedback" style="display:none;">{{ t.inv_saved }}</span>
+            </div>
+            {% endif %}
 
             <div class="fm-sim-profit">
                 <div class="fm-section-title">{{ t.sim_profit_title }}</div>
@@ -688,6 +714,7 @@
             workbench.style.display = 'block';
             renderRows();
             initSimForItem();
+            loadInventoryFolders();
         }
 
         function makeNumberInput(value, onChange) {
@@ -1638,6 +1665,140 @@
         });
 
         simRuneSelect.addEventListener('change', updateChanceDisplay);
+
+        /* ---------------- Save to inventory (logged-in users) ---------------- */
+
+        var invFoldersLoaded = false;
+
+        // Two save spots share the folder widgets: the workbench one saves
+        // the starting rolls ("Your roll"), the session one saves the item
+        // as smithed so far (current session values, exo lines included).
+        var invWidgets = [
+            {
+                select: document.getElementById('fm-inv-folder'),
+                newName: document.getElementById('fm-inv-new-name'),
+                button: document.getElementById('fm-inv-save'),
+                feedback: document.getElementById('fm-inv-feedback'),
+                stats: function() {
+                    var stats = {};
+                    rows.forEach(function(row) {
+                        if (row.editable && !row.exo && row.current > 0) {
+                            stats[row.key] = row.current;
+                        }
+                    });
+                    return stats;
+                }
+            },
+            {
+                select: document.getElementById('fm-sim-inv-folder'),
+                newName: document.getElementById('fm-sim-inv-new-name'),
+                button: document.getElementById('fm-sim-inv-save'),
+                feedback: document.getElementById('fm-sim-inv-feedback'),
+                stats: function() {
+                    if (!session) {
+                        return null;
+                    }
+                    var stats = {};
+                    session.rows.forEach(function(row) {
+                        if (row.value > 0) {
+                            stats[row.key] = row.value;
+                        }
+                    });
+                    return stats;
+                }
+            }
+        ].filter(function(widget) {
+            return widget.select && widget.button;
+        });
+
+        function invCsrf() {
+            var input = document.querySelector('#fm-csrf input[name=csrfmiddlewaretoken]');
+            return input ? input.value : '';
+        }
+
+        function loadInventoryFolders() {
+            if (invFoldersLoaded || !invWidgets.length) {
+                return;
+            }
+            invFoldersLoaded = true;
+            fetch(config.inventoryFoldersUrl, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                var folders = data.folders || [];
+                invWidgets.forEach(function(widget) {
+                    var previous = widget.select.value;
+                    widget.select.innerHTML = '';
+                    folders.forEach(function(folder) {
+                        var option = document.createElement('option');
+                        option.value = folder.id;
+                        option.textContent = folder.name;
+                        widget.select.appendChild(option);
+                    });
+                    var newOption = document.createElement('option');
+                    newOption.value = '__new__';
+                    newOption.textContent = t.inv_new_folder;
+                    widget.select.appendChild(newOption);
+                    if (previous) {
+                        widget.select.value = previous;
+                    }
+                    if (!folders.length || !widget.select.value) {
+                        widget.select.value = folders.length ? String(folders[0].id) : '__new__';
+                    }
+                    syncInvNewName(widget);
+                });
+            })['catch'](function() {});
+        }
+
+        function syncInvNewName(widget) {
+            widget.newName.style.display =
+                widget.select.value === '__new__' ? 'inline-block' : 'none';
+        }
+
+        invWidgets.forEach(function(widget) {
+            widget.select.addEventListener('change', function() {
+                syncInvNewName(widget);
+            });
+            widget.button.addEventListener('click', function() {
+                if (!currentItem) {
+                    return;
+                }
+                var stats = widget.stats();
+                if (!stats) {
+                    return;
+                }
+                var body = new URLSearchParams();
+                body.append('csrfmiddlewaretoken', invCsrf());
+                body.append('item_id', currentItem.id);
+                body.append('stats', JSON.stringify(stats));
+                if (widget.select.value === '__new__') {
+                    if (!widget.newName.value.trim()) {
+                        widget.newName.focus();
+                        return;
+                    }
+                    body.append('new_folder_name', widget.newName.value.trim());
+                } else {
+                    body.append('folder_id', widget.select.value);
+                }
+                fetch(config.inventoryAddUrl, {
+                    method: 'POST',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    body: body
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    if (data.ok) {
+                        widget.feedback.style.display = 'inline';
+                        setTimeout(function() {
+                            widget.feedback.style.display = 'none';
+                        }, 1500);
+                        invFoldersLoaded = false;
+                        loadInventoryFolders();
+                    }
+                })['catch'](function() {});
+            });
+        });
 
         itemCostInput.addEventListener('input', function() {
             if (!session) {

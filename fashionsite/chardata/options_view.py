@@ -15,32 +15,83 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import json
+import pickle
 
+from chardata.inventory_solver import get_inventory_mode
 from chardata.lock_forbid import add_items_to_exclusions, remove_items_from_exclusions
 from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
     get_dofus_not_for_char, get_available_options
-from chardata.util import set_response, get_char_or_raise, HttpResponseJson
+from chardata.util import safe_int, set_response, get_char_or_raise, HttpResponseJson
 from fashionistapulp.structure import get_structure
 from chardata.views import forbidden
+
+
+def _inventory_folders_for(request, char):
+    """Folders the project owner can restrict the solver to (own chars only)."""
+    if not request.user.is_authenticated or char.owner != request.user:
+        return []
+    from chardata.inventory_view import get_user_folders
+    return [{'id': folder.id, 'name': folder.name,
+             'count': folder.items.count()}
+            for folder in get_user_folders(request.user, char.game_version)]
+
+
+def parse_inventory_options(request, char, options):
+    """Read the item-source choice posted by the options page or the wizard
+    into `options`. No-op when the form did not include the controls."""
+    if ('inventory_mode' not in request.POST
+            and 'inventory_folder' not in request.POST):
+        return
+    mode = request.POST.get('inventory_mode', 'all')
+    if mode not in ('all', 'mixed', 'only'):
+        mode = 'all'
+    folder_id = safe_int(request.POST.get('inventory_folder'), None)
+    if folder_id is not None:
+        from chardata.models import InventoryFolder
+        owned = (request.user.is_authenticated and
+                 InventoryFolder.objects.filter(
+                     id=folder_id, user=request.user,
+                     game_version=char.game_version).exists())
+        if not owned:
+            folder_id = None
+    if folder_id is None:
+        mode = 'all'
+    options['inventory_mode'] = mode
+    options['inventory_folder'] = folder_id
+
+
+def inventory_source_context(request, char):
+    """Template context for the shared item-source widget."""
+    options = {}
+    if char.options:
+        options = pickle.loads(char.options)
+    return {
+        'inventory_folders': _inventory_folders_for(request, char),
+        'inventory_mode': get_inventory_mode(options),
+        'selected_inventory_folder': options.get('inventory_folder'),
+    }
 
 
 def options(request, char_id):
     char = get_char_or_raise(request, char_id)
 
     options = get_options(char)
-    
-    return set_response(request, 
+
+    context = {'advanced': True,
+               'options': json.dumps(options),
+               'version_options': get_available_options(),
+               'char_id': char_id}
+    context.update(inventory_source_context(request, char))
+    return set_response(request,
                         'chardata/options.html',
-                        {'advanced': True,
-                         'options': json.dumps(options),
-                         'version_options': get_available_options(),
-                         'char_id': char_id},
+                        context,
                         char)
 
 def options_post(request, char_id):
     char = get_char_or_raise(request, char_id)
-    
+
     options = parse_options_post(request)
+    parse_inventory_options(request, char, options)
     set_options(char, options)
     
     too_high = get_dofus_not_for_char(char)

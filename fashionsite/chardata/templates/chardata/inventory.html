@@ -1,0 +1,544 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{{ t.title }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+.inv-page {
+    padding: 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+.inv-title {
+    margin: 4px 0;
+    font-weight: 800;
+}
+.inv-subtitle {
+    margin: 2px 0 4px;
+    opacity: 0.9;
+}
+.inv-hint {
+    margin: 0 0 16px;
+    font-style: italic;
+    opacity: 0.85;
+}
+.inv-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+.inv-box.brown-box {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.inv-section-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+.inv-folder-link {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin: 2px 0;
+}
+.inv-folder-link.inv-folder-selected {
+    outline: 2px solid rgba(128, 128, 128, 0.55);
+    font-weight: 700;
+}
+.inv-folder-count {
+    opacity: 0.75;
+}
+.inv-folder-form input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    margin-bottom: 6px;
+}
+.inv-folder-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.inv-search-wrapper {
+    position: relative;
+    max-width: 420px;
+}
+.inv-search-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+}
+.inv-search-results.brown-box {
+    position: absolute;
+    z-index: 30;
+    left: 0;
+    right: 0;
+    top: 100%;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+.inv-search-result {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+.inv-search-result:hover {
+    filter: brightness(1.15);
+}
+.inv-search-result img {
+    width: 32px;
+    height: 32px;
+}
+.inv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+.inv-card.brown-box {
+    display: flex;
+    gap: 10px;
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.inv-card img.inv-card-img {
+    width: 48px;
+    height: 48px;
+}
+.inv-card-body {
+    min-width: 0;
+    flex: 1;
+}
+.inv-card-name {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+.inv-card-meta {
+    font-size: 0.9em;
+    opacity: 0.85;
+}
+.inv-card-stats {
+    font-size: 0.88em;
+    margin-top: 4px;
+    line-height: 1.3;
+}
+.inv-stat-line {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.inv-stat-line img {
+    width: 13px;
+    height: 13px;
+}
+.inv-stat-over {
+    color: #4a9fd5;
+}
+.inv-stat-under {
+    color: #C47A00;
+}
+.inv-card-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.inv-editor-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+}
+.inv-editor-row img {
+    width: 13px;
+    height: 13px;
+}
+.inv-editor-row input {
+    width: 64px;
+    box-sizing: border-box;
+    padding: 2px 4px;
+}
+.inv-editor-base {
+    opacity: 0.65;
+    font-size: 0.85em;
+}
+.inv-editor-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.inv-editor-actions select {
+    max-width: 150px;
+}
+.inv-feedback {
+    color: #2e7d32;
+    font-weight: 700;
+    margin-left: 8px;
+}
+@media (max-width: 800px) {
+    .inv-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="inv-page text">
+    <h1 class="inv-title">{{ t.title }}</h1>
+    <p class="inv-subtitle small-explain">{{ t.subtitle }}</p>
+    <p class="inv-hint small-explain">{{ t.solver_hint }}</p>
+
+    <form id="inv-csrf" style="display:none;">{% csrf_token %}</form>
+
+    <div class="inv-layout">
+        <div class="inv-box brown-box">
+            <div class="inv-section-title big-text">{{ t.folders }}</div>
+            {% if folders %}
+            {% for folder in folders %}
+            <a class="inv-folder-link {% if folder.selected %}inv-folder-selected{% endif %}"
+               href="{% game_url 'inventory' %}?folder={{ folder.id }}">
+                <span>{{ folder.name }}</span>
+                <span class="inv-folder-count">{{ folder.count }}</span>
+            </a>
+            {% endfor %}
+            {% else %}
+            <p class="small-explain">{{ t.folders_none }}</p>
+            {% endif %}
+            <hr>
+            <form class="inv-folder-form" method="post" action="{% game_url 'inventory_folder_add' %}">
+                {% csrf_token %}
+                <input class="pretty-input" type="text" name="name" maxlength="50"
+                       placeholder="{{ t.folder_placeholder }}" required>
+                <div class="inv-folder-actions">
+                    <button class="button-thin" type="submit">{{ t.folder_create }}</button>
+                </div>
+            </form>
+            {% if selected_folder %}
+            <form method="post" action="{% game_url 'inventory_folder_delete' %}"
+                  onsubmit="return confirm('{{ t.folder_delete_confirm|escapejs }}');"
+                  style="margin-top:8px;">
+                {% csrf_token %}
+                <input type="hidden" name="folder_id" value="{{ selected_folder.id }}">
+                <button class="button-thin" type="submit">{{ t.folder_delete }}</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <div class="inv-box brown-box">
+            {% if selected_folder %}
+            <div class="inv-section-title big-text">{{ t.items_title }} — {{ selected_folder.name }} ({{ items_count }})</div>
+
+            <label for="inv-search">{{ t.add_item_label }}</label>
+            <div class="inv-search-wrapper">
+                <input class="pretty-input" id="inv-search" type="text" autocomplete="off"
+                       placeholder="{{ t.add_item_placeholder }}">
+                <div class="inv-search-results brown-box" id="inv-search-results" style="display:none;"></div>
+                <span class="inv-feedback" id="inv-add-feedback" style="display:none;">{{ t.item_added }}</span>
+            </div>
+
+            {% if inventory_items %}
+            <div class="inv-grid">
+                {% for item in inventory_items %}
+                <div class="inv-card brown-box" id="inv-item-{{ item.id }}">
+                    {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+                    <img class="inv-card-img" src="{{ item.image_url }}" alt=""
+                         onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <div class="inv-card-body">
+                        <div class="inv-card-name">{{ item.name }}</div>
+                        {% if not item.missing %}
+                        <div class="inv-card-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                        {% endif %}
+                        <div class="inv-card-stats">
+                            {% if item.custom_lines %}
+                            <div class="small-explain">{{ t.custom_rolls }}:</div>
+                            {% for line in item.custom_lines %}
+                            <div class="inv-stat-line {% if line.over %}inv-stat-over{% elif line.under %}inv-stat-under{% endif %}">
+                                {% if line.icon_url %}<img src="{{ line.icon_url }}" alt="">{% endif %}
+                                <span>{{ line.text }}</span>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <span class="small-explain">{{ t.stats_as_listed }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="inv-card-actions">
+                            {% if not item.missing %}
+                            <button type="button" class="button-thin inv-edit"
+                                    data-inv-id="{{ item.id }}">{{ t.edit_rolls }}</button>
+                            {% endif %}
+                            <button type="button" class="button-thin inv-remove"
+                                    data-inv-id="{{ item.id }}">{{ t.remove_item }}</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="small-explain" style="margin-top:12px;">{{ t.no_items }}</p>
+            {% endif %}
+            {% else %}
+            <p class="small-explain">{{ t.folders_none }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {{ editor_data|json_script:"inv-editor-data" }}
+    {{ stat_options|json_script:"inv-stat-options" }}
+    <script>
+    (function() {
+        var searchUrl = '{{ search_url }}';
+        var addUrl = '{{ add_url }}';
+        var removeUrl = '{{ remove_url }}';
+        var updateUrl = '{{ update_url }}';
+        var folderId = '{{ selected_folder.id|default:"" }}';
+        var csrf = document.querySelector('#inv-csrf input[name=csrfmiddlewaretoken]').value;
+        var editorData = JSON.parse(document.getElementById('inv-editor-data').textContent);
+        var statOptions = JSON.parse(document.getElementById('inv-stat-options').textContent);
+
+        function postForm(url, data) {
+            var body = new URLSearchParams(data);
+            body.append('csrfmiddlewaretoken', csrf);
+            return fetch(url, {
+                method: 'POST',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                body: body
+            });
+        }
+
+        document.querySelectorAll('.inv-remove').forEach(function(button) {
+            button.addEventListener('click', function() {
+                postForm(removeUrl, {id: button.getAttribute('data-inv-id')})
+                    .then(function() {
+                        var card = document.getElementById(
+                            'inv-item-' + button.getAttribute('data-inv-id'));
+                        if (card) {
+                            card.remove();
+                        }
+                    });
+            });
+        });
+
+        function openEditor(invId) {
+            var card = document.getElementById('inv-item-' + invId);
+            var data = editorData[invId];
+            if (!card || !data || card.querySelector('.inv-editor')) {
+                return;
+            }
+            var body = card.querySelector('.inv-card-body');
+            var statsDiv = card.querySelector('.inv-card-stats');
+            var actionsDiv = card.querySelector('.inv-card-actions');
+
+            var editor = document.createElement('div');
+            editor.className = 'inv-editor';
+            var inputs = {};
+
+            var actions = document.createElement('div');
+            actions.className = 'inv-editor-actions';
+            // Attached before the stat lines so addEditorRow can always
+            // insert above it (insertBefore needs an attached reference).
+            editor.appendChild(actions);
+
+            function addEditorRow(row) {
+                var line = document.createElement('div');
+                line.className = 'inv-editor-row';
+                if (row.icon) {
+                    var icon = document.createElement('img');
+                    icon.src = row.icon;
+                    icon.alt = '';
+                    line.appendChild(icon);
+                }
+                var input = document.createElement('input');
+                input.type = 'number';
+                input.className = 'pretty-input';
+                input.value = row.value;
+                inputs[row.key] = input;
+                line.appendChild(input);
+                var name = document.createElement('span');
+                name.textContent = row.name;
+                line.appendChild(name);
+                var base = document.createElement('span');
+                base.className = 'inv-editor-base';
+                base.textContent = '/ ' + row.base;
+                line.appendChild(base);
+                editor.insertBefore(line, actions);
+            }
+
+            data.rows.forEach(addEditorRow);
+
+            var addSelect = document.createElement('select');
+            addSelect.className = 'pretty-input';
+            var placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '{{ t.editor_add_stat|escapejs }}';
+            addSelect.appendChild(placeholder);
+            statOptions.forEach(function(option) {
+                if (option.key in inputs) {
+                    return;
+                }
+                var element = document.createElement('option');
+                element.value = option.key;
+                element.textContent = option.name;
+                addSelect.appendChild(element);
+            });
+            addSelect.addEventListener('change', function() {
+                var key = addSelect.value;
+                if (!key || inputs[key]) {
+                    return;
+                }
+                var option = statOptions.filter(function(entry) {
+                    return entry.key === key;
+                })[0];
+                addEditorRow({key: key, name: option.name, icon: option.icon,
+                              base: 0, value: 0});
+                addSelect.querySelector('option[value="' + key + '"]').remove();
+                addSelect.value = '';
+                inputs[key].focus();
+            });
+
+            var saveButton = document.createElement('button');
+            saveButton.type = 'button';
+            saveButton.className = 'button-generic';
+            saveButton.textContent = '{{ t.editor_save|escapejs }}';
+            saveButton.addEventListener('click', function() {
+                var stats = {};
+                Object.keys(inputs).forEach(function(key) {
+                    var value = parseInt(inputs[key].value, 10);
+                    if (!isNaN(value) && value !== 0) {
+                        stats[key] = value;
+                    }
+                });
+                postForm(updateUrl, {id: invId, stats: JSON.stringify(stats)})
+                    .then(function() { window.location.reload(); });
+            });
+
+            var cancelButton = document.createElement('button');
+            cancelButton.type = 'button';
+            cancelButton.className = 'button-thin';
+            cancelButton.textContent = '{{ t.editor_cancel|escapejs }}';
+            cancelButton.addEventListener('click', function() {
+                editor.remove();
+                statsDiv.style.display = '';
+                actionsDiv.style.display = '';
+            });
+
+            actions.appendChild(addSelect);
+            actions.appendChild(saveButton);
+            actions.appendChild(cancelButton);
+
+            statsDiv.style.display = 'none';
+            actionsDiv.style.display = 'none';
+            body.appendChild(editor);
+        }
+
+        document.querySelectorAll('.inv-edit').forEach(function(button) {
+            button.addEventListener('click', function() {
+                openEditor(button.getAttribute('data-inv-id'));
+            });
+        });
+
+        var searchInput = document.getElementById('inv-search');
+        if (!searchInput || !folderId) {
+            return;
+        }
+        var searchResults = document.getElementById('inv-search-results');
+        var feedback = document.getElementById('inv-add-feedback');
+        var timer = null;
+
+        function hideResults() {
+            searchResults.style.display = 'none';
+        }
+
+        function renderResults(items) {
+            searchResults.innerHTML = '';
+            if (!items.length) {
+                var empty = document.createElement('div');
+                empty.className = 'inv-search-result';
+                empty.style.opacity = '0.7';
+                empty.textContent = '{{ t.no_results|escapejs }}';
+                searchResults.appendChild(empty);
+            }
+            items.forEach(function(item) {
+                var row = document.createElement('div');
+                row.className = 'inv-search-result';
+                var img = document.createElement('img');
+                img.src = item.image_url;
+                img.alt = '';
+                img.onerror = function() { this.style.visibility = 'hidden'; };
+                var label = document.createElement('span');
+                label.textContent = item.name + ' ({{ t.item_level|escapejs }} ' + item.level + ')';
+                row.appendChild(img);
+                row.appendChild(label);
+                row.onclick = function() {
+                    postForm(addUrl, {folder_id: folderId, item_id: item.id})
+                        .then(function(response) { return response.json(); })
+                        .then(function() {
+                            feedback.style.display = 'inline';
+                            setTimeout(function() { window.location.reload(); }, 350);
+                        });
+                    hideResults();
+                };
+                searchResults.appendChild(row);
+            });
+            searchResults.style.display = 'block';
+        }
+
+        searchInput.addEventListener('input', function() {
+            var query = searchInput.value.trim();
+            if (timer) {
+                clearTimeout(timer);
+            }
+            if (query.length < 2) {
+                hideResults();
+                return;
+            }
+            timer = setTimeout(function() {
+                fetch(searchUrl + '?q=' + encodeURIComponent(query), {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    renderResults(data.items || []);
+                });
+            }, 250);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!searchResults.contains(event.target) && event.target !== searchInput) {
+                hideResults();
+            }
+        });
+    })();
+    </script>
+</div>
+{% endblock %}

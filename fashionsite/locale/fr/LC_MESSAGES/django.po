@@ -6262,3 +6262,35 @@ msgstr "Dofus Touch lancé sur /touch/ avec sa propre base d'objets, de panoplie
 #: fashionsite/chardata/templates/chardata/base.html
 msgid "Smithmagic"
 msgstr "Forgemagie"
+
+#: fashionsite/chardata/templates
+msgid "Inventory"
+msgstr "Inventaire"
+
+#: fashionsite/chardata/templates
+msgid "Add to inventory"
+msgstr "Ajouter à l’inventaire"
+
+#: fashionsite/chardata/templates
+msgid "Use only items from my inventory"
+msgstr "Utiliser uniquement les objets de mon inventaire"
+
+#: fashionsite/chardata/templates
+msgid "No, use all items"
+msgstr "Non, utiliser tous les objets"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Which items can the solver use?"
+msgstr "Quels objets le solveur peut-il utiliser ?"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Only encyclopedia items"
+msgstr "Uniquement les objets de l’encyclopédie"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Encyclopedia items + my inventory"
+msgstr "Les objets de l’encyclopédie + mon inventaire"
+
+#: fashionsite/chardata/templates/chardata/inventory_source.html
+msgid "Only items from my inventory"
+msgstr "Uniquement les objets de mon inventaire"
