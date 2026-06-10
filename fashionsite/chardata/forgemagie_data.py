@@ -89,7 +89,7 @@ _MODERN_STATS = {
     'fireresper': _stat(6, 'Ré Per Feu', [('', 1)]),
     'waterresper': _stat(6, 'Ré Per Eau', [('', 1)]),
     'airresper': _stat(6, 'Ré Per Air', [('', 1)]),
-    'neutdam': _stat(5, '', [], approx=True),
+    'neutdam': _stat(5, 'Do Neutre', [('', 1), ('Pa', 3)]),
     'earthdam': _stat(5, 'Do Terre', [('', 1), ('Pa', 3)]),
     'firedam': _stat(5, 'Do Feu', [('', 1), ('Pa', 3)]),
     'waterdam': _stat(5, 'Do Eau', [('', 1), ('Pa', 3)]),
@@ -113,7 +113,7 @@ _MODERN_STATS = {
     'perspedam': _stat(15, 'Do Per So', [('', 1)]),
     'respermee': _stat(15, 'Ré Per Mé', [('', 1)]),
     'resperran': _stat(15, 'Ré Per Di', [('', 1)]),
-    'resperwea': _stat(15, '', [], approx=True),
+    'resperwea': _stat(15, 'Ré Per Ar', [('', 1)]),
 }
 
 # Touch froze the pre-2.29 values and never received the per-attack-type

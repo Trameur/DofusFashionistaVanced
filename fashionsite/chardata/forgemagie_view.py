@@ -140,6 +140,7 @@ LOCALIZED_UI = {
         'quality_amazing': 'amazing',
         'quality_perfect': 'perfect',
         'quality_overperfect': 'beyond perfect',
+        'ref_hunt_note': 'Special case: the Hunting rune (weight 5) adds no stat - it turns a weapon into a hunting weapon.',
     },
     'fr': {
         'title': 'Atelier de Forgemagie',
@@ -244,6 +245,7 @@ LOCALIZED_UI = {
         'quality_amazing': 'incroyable',
         'quality_perfect': 'parfait',
         'quality_overperfect': 'plus que parfait',
+        'ref_hunt_note': 'Cas particulier : la rune de chasse (poids 5) n’ajoute aucune stat - elle transforme une arme en arme de chasse.',
     },
     'es': {
         'title': 'Taller de Forjamagia',
@@ -348,6 +350,7 @@ LOCALIZED_UI = {
         'quality_amazing': 'increíble',
         'quality_perfect': 'perfecta',
         'quality_overperfect': 'más que perfecta',
+        'ref_hunt_note': 'Caso especial: la runa de caza (peso 5) no añade ninguna característica - convierte un arma en arma de caza.',
     },
     'pt': {
         'title': 'Oficina de Forjamagia',
@@ -452,6 +455,7 @@ LOCALIZED_UI = {
         'quality_amazing': 'incrível',
         'quality_perfect': 'perfeita',
         'quality_overperfect': 'além do perfeito',
+        'ref_hunt_note': 'Caso especial: a runa de caça (peso 5) não adiciona nenhum atributo - ela transforma uma arma em arma de caça.',
     },
     'de': {
         'title': 'Schmiedemagie-Labor',
@@ -556,6 +560,7 @@ LOCALIZED_UI = {
         'quality_amazing': 'unglaublich',
         'quality_perfect': 'perfekt',
         'quality_overperfect': 'besser als perfekt',
+        'ref_hunt_note': 'Sonderfall: Die Jagdrune (Gewicht 5) fuegt keinen Wert hinzu - sie macht aus einer Waffe eine Jagdwaffe.',
     },
 }
 

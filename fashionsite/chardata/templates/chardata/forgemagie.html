@@ -464,6 +464,7 @@
                 </tbody>
             </table>
         </div>
+        <p class="fm-footer-note">{{ t.ref_hunt_note }}</p>
         <p class="fm-footer-note">{{ t.footer_sources }}</p>
     </div>
 
@@ -531,7 +532,8 @@
             } else {
                 label = t.quality_bad; color = '#d64d42';
             }
-            return {percent: percent, label: label, color: color};
+            return {percent: percent, label: label, color: color,
+                    current: current, perfect: perfect};
         }
 
         function renderQuality(container, entries) {
@@ -541,6 +543,8 @@
                 return;
             }
             container.style.display = 'block';
+            container.title = formatWeight(quality.current) + ' / ' +
+                              formatWeight(quality.perfect);
             container.innerHTML = '';
             var labelRow = document.createElement('div');
             labelRow.className = 'fm-quality-label';
