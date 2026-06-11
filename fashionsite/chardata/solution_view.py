@@ -400,10 +400,13 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
 
     if not is_guest:
         from chardata.inventory_solver import get_effective_stat_overrides
+        from chardata.item_exchange import _owned_item_ids
         raw_overrides = get_effective_stat_overrides(char)
         stat_overrides_json = {str(item_id): {str(stat_id): val for stat_id, val in stats.items()}
                                for item_id, stats in raw_overrides.items()}
         params['stat_overrides_json'] = json.dumps(stat_overrides_json)
+        owned_ids = _owned_item_ids(request, char)
+        params['owned_item_ids_json'] = json.dumps(sorted(owned_ids)) if owned_ids else None
         params['base_options_json'] = json.dumps(get_options(request, char_id))
 
     response = set_response(request,

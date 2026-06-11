@@ -5059,3 +5059,15 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/inventory_source.html
 msgid "Only items from my inventory"
 msgstr ""
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smithmagic Lab & My Inventory"
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smithmagic Lab: plan and simulate your maging with version-accurate runes, sink tracking and rune suggestions"
+msgstr ""
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "My Inventory: save the items you own with their real rolls (screenshot import included) and let the optimizer build with them"
+msgstr ""

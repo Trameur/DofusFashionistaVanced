@@ -727,6 +727,7 @@
         });
 
         var isGuest = {{is_guest_json | safe}};
+        var popupUserAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};
         var options = {{options_json | safe}};
         var baseOptions = {% if base_options_json %}{{base_options_json | safe}}{% else %}options{% endif %};
         var external = {{link_external_image | safe}};
@@ -1373,6 +1374,16 @@
                     itemTitle.css('color', '#AA0000');
                 }
             });
+
+            {% if owned_item_ids_json %}
+            var ownedItemIds = {{owned_item_ids_json | safe}};
+            $.each(itemIds, function(slot, itemId) {
+                if (itemId && ownedItemIds.indexOf(itemId) !== -1) {
+                    $("#item-name-" + slot).append(
+                        " <span title='" + gettext("In my inventory") + "'>🎒</span>");
+                }
+            });
+            {% endif %}
 
             $.each(itemIsLocked, function(key, value) {
                 var itemContainer = $("#item-container-" + key);

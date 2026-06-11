@@ -5680,3 +5680,15 @@ msgstr "Enzyklopaedie-Gegenstaende + mein Inventar"
 #: fashionsite/chardata/templates/chardata/inventory_source.html
 msgid "Only items from my inventory"
 msgstr "Nur Gegenstaende aus meinem Inventar"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smithmagic Lab & My Inventory"
+msgstr "Schmiedemagie-Labor & Mein Inventar"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smithmagic Lab: plan and simulate your maging with version-accurate runes, sink tracking and rune suggestions"
+msgstr "Schmiedemagie-Labor: plane und simuliere deine Schmiedemagie mit versionsgetreuen Runen, Senken-Verfolgung und Runen-Vorschlägen"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "My Inventory: save the items you own with their real rolls (screenshot import included) and let the optimizer build with them"
+msgstr "Mein Inventar: speichere die Gegenstände, die du besitzt, mit ihren echten Werten (Screenshot-Import inklusive) und lass den Optimierer damit bauen"

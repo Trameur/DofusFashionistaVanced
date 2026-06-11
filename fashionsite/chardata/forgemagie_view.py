@@ -28,7 +28,7 @@ from chardata.forgemagie_data import (
 )
 from chardata.image_store import get_image_url
 from chardata.stat_icons import get_stat_icon_path
-from chardata.util import set_response, version_reverse
+from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER
 from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
@@ -90,7 +90,7 @@ LOCALIZED_UI = {
         'tips_title': 'Strategy tips',
         'tip_1': 'Mage one stat at a time: big runes first while the stat is low, small runes to finish near the cap.',
         'tip_2': 'Build sink before expensive runes: sacrifice a heavy stat you do not need and its weight will absorb later losses.',
-        'tip_3': 'Throw AP/MP exo runes on an item with a full sink, so critical failures eat the sink instead of your good rolls.',
+        'tip_3': 'Keep AP/MP for the very end: place your other stats in the sink first, then attempt the big rune with as much sink as possible - critical failures eat the sink instead of your good rolls.',
         'tip_4': 'Compare prices both ways: crushing items into runes versus buying runes directly - whichever is cheaper that day.',
         'ref_title': 'Rune & weight reference',
         'ref_stat': 'Stat',
@@ -145,6 +145,12 @@ LOCALIZED_UI = {
         'inv_save_smithed': 'Save the smithed item to my inventory',
         'inv_new_folder': 'New folder…',
         'inv_saved': 'Saved!',
+        'search_inventory': 'Search my inventory (loads my saved rolls)',
+        'sim_sink_empty': '⚠ Sink empty - STOP throwing runes: the next failures will eat your placed stats. Rebuild some sink before continuing.',
+        'inv_update': 'Update my saved item',
+        'inv_save_copy': 'Save a new copy',
+        'sim_improve': 'bonus - spend the spare sink on a free upgrade; enough sink stays reserved for the big rune',
+        'sim_improve_done': 'Sink left over: you can still push %s for free.',
     },
     'fr': {
         'title': 'Atelier de Forgemagie',
@@ -199,7 +205,7 @@ LOCALIZED_UI = {
         'tips_title': 'Conseils de stratégie',
         'tip_1': 'Forgemagez une stat à la fois : grosses runes d’abord quand la stat est basse, petites runes pour finir près du max.',
         'tip_2': 'Créez du puits avant les runes chères : sacrifiez une stat lourde dont vous ne voulez pas, son poids absorbera les pertes suivantes.',
-        'tip_3': 'Lancez les runes exo PA/PM sur un objet au puits plein : les échecs critiques mangeront le puits au lieu de vos bons jets.',
+        'tip_3': 'Gardez le PA/PM pour la toute fin : montez d’abord vos autres stats dans le puits, puis tentez la grosse rune avec le puits le plus plein possible - les échecs critiques mangeront le puits au lieu de vos bons jets.',
         'tip_4': 'Comparez les prix dans les deux sens : briser des objets en runes ou acheter les runes directement - selon ce qui est le moins cher ce jour-là.',
         'ref_title': 'Référence des runes et des poids',
         'ref_stat': 'Caractéristique',
@@ -254,6 +260,12 @@ LOCALIZED_UI = {
         'inv_save_smithed': 'Sauvegarder l’objet forgemagé dans mon inventaire',
         'inv_new_folder': 'Nouveau dossier…',
         'inv_saved': 'Enregistré !',
+        'search_inventory': 'Chercher dans mon inventaire (charge mes jets sauvegardés)',
+        'sim_sink_empty': '⚠ Puits épuisé - STOP, ne lancez plus de runes : les prochains échecs mangeront vos stats posées. Refaites du puits avant de continuer.',
+        'inv_update': 'Mettre à jour l’objet enregistré',
+        'inv_save_copy': 'Enregistrer une nouvelle copie',
+        'sim_improve': 'bonus - profitez du puits excédentaire pour monter encore cette stat sans risque ; il reste assez de puits en réserve pour la grosse rune',
+        'sim_improve_done': 'Il reste du puits : vous pouvez encore monter %s gratuitement.',
     },
     'es': {
         'title': 'Taller de Forjamagia',
@@ -308,7 +320,7 @@ LOCALIZED_UI = {
         'tips_title': 'Consejos de estrategia',
         'tip_1': 'Forja una característica a la vez: runas grandes primero cuando la característica está baja, runas pequeñas para terminar cerca del máximo.',
         'tip_2': 'Genera pozo antes de las runas caras: sacrifica una característica pesada que no necesites y su peso absorberá las pérdidas siguientes.',
-        'tip_3': 'Lanza las runas exo de PA/PM sobre un objeto con el pozo lleno: los fracasos críticos se comerán el pozo en lugar de tus buenas tiradas.',
+        'tip_3': 'Deja el PA/PM para el final: coloca primero las demás estadísticas en el pozo y luego intenta la runa grande con el pozo lo más lleno posible - los fracasos críticos se comerán el pozo en lugar de tus buenas tiradas.',
         'tip_4': 'Compara precios en ambos sentidos: romper objetos en runas o comprar las runas directamente, según lo que esté más barato ese día.',
         'ref_title': 'Referencia de runas y pesos',
         'ref_stat': 'Característica',
@@ -363,6 +375,12 @@ LOCALIZED_UI = {
         'inv_save_smithed': 'Guardar el objeto forjado en mi inventario',
         'inv_new_folder': 'Nueva carpeta…',
         'inv_saved': '¡Guardado!',
+        'search_inventory': 'Buscar en mi inventario (carga mis tiradas guardadas)',
+        'sim_sink_empty': '⚠ Pozo agotado - PARA de lanzar runas: los próximos fracasos se comerán tus estadísticas colocadas. Recupera pozo antes de continuar.',
+        'inv_update': 'Actualizar mi objeto guardado',
+        'inv_save_copy': 'Guardar una copia nueva',
+        'sim_improve': 'extra - usa el pozo sobrante para subir esta estadística sin riesgo; queda pozo reservado para la runa grande',
+        'sim_improve_done': 'Queda pozo: aún puedes subir %s gratis.',
     },
     'pt': {
         'title': 'Oficina de Forjamagia',
@@ -417,7 +435,7 @@ LOCALIZED_UI = {
         'tips_title': 'Dicas de estratégia',
         'tip_1': 'Forje um atributo de cada vez: runas grandes primeiro enquanto o atributo está baixo, runas pequenas para terminar perto do máximo.',
         'tip_2': 'Crie poço antes das runas caras: sacrifique um atributo pesado que você não precisa e o peso dele absorverá as perdas seguintes.',
-        'tip_3': 'Lance runas exo de PA/PM em um item com o poço cheio: as falhas críticas comerão o poço em vez das suas boas rolagens.',
+        'tip_3': 'Deixe o PA/PM para o final: coloque primeiro os outros atributos no poço e então tente a runa grande com o poço o mais cheio possível - as falhas críticas comerão o poço em vez das suas boas rolagens.',
         'tip_4': 'Compare preços dos dois lados: quebrar itens em runas ou comprar runas diretamente - o que estiver mais barato no dia.',
         'ref_title': 'Referência de runas e pesos',
         'ref_stat': 'Atributo',
@@ -472,6 +490,12 @@ LOCALIZED_UI = {
         'inv_save_smithed': 'Salvar o item forjado no meu inventário',
         'inv_new_folder': 'Nova pasta…',
         'inv_saved': 'Salvo!',
+        'search_inventory': 'Buscar no meu inventário (carrega minhas rolagens salvas)',
+        'sim_sink_empty': '⚠ Poço esgotado - PARE de lançar runas: as próximas falhas vão comer seus atributos colocados. Refaça o poço antes de continuar.',
+        'inv_update': 'Atualizar meu item salvo',
+        'inv_save_copy': 'Salvar uma nova cópia',
+        'sim_improve': 'bônus - use o poço excedente para subir este atributo sem risco; ainda fica poço reservado para a runa grande',
+        'sim_improve_done': 'Ainda há poço: você ainda pode subir %s de graça.',
     },
     'de': {
         'title': 'Schmiedemagie-Labor',
@@ -526,7 +550,7 @@ LOCALIZED_UI = {
         'tips_title': 'Strategie-Tipps',
         'tip_1': 'Schmiede einen Wert nach dem anderen: grosse Runen zuerst, solange der Wert niedrig ist, kleine Runen zum Abschluss nahe dem Maximum.',
         'tip_2': 'Baue Senke auf, bevor du teure Runen wirfst: Opfere einen schweren Wert, den du nicht brauchst - sein Gewicht faengt spaetere Verluste ab.',
-        'tip_3': 'Wirf AP/BP-Exo-Runen auf einen Gegenstand mit voller Senke, damit kritische Misserfolge die Senke fressen statt deiner guten Wuerfe.',
+        'tip_3': 'Hebe AP/BP fuer ganz zum Schluss auf: setze erst die anderen Werte in die Senke und versuche die grosse Rune dann mit moeglichst voller Senke - kritische Misserfolge fressen die Senke statt deiner guten Wuerfe.',
         'tip_4': 'Vergleiche die Preise in beide Richtungen: Gegenstaende zu Runen zerbrechen oder Runen direkt kaufen - je nachdem, was an dem Tag guenstiger ist.',
         'ref_title': 'Runen- und Gewichtsreferenz',
         'ref_stat': 'Wert',
@@ -581,6 +605,12 @@ LOCALIZED_UI = {
         'inv_save_smithed': 'Den geschmiedeten Gegenstand in meinem Inventar speichern',
         'inv_new_folder': 'Neuer Ordner…',
         'inv_saved': 'Gespeichert!',
+        'search_inventory': 'In meinem Inventar suchen (laedt meine gespeicherten Wuerfe)',
+        'sim_sink_empty': '⚠ Senke leer - STOPP, keine Runen mehr werfen: die naechsten Fehlschlaege fressen deine gesetzten Werte. Baue erst wieder Senke auf.',
+        'inv_update': 'Gespeicherten Gegenstand aktualisieren',
+        'inv_save_copy': 'Neue Kopie speichern',
+        'sim_improve': 'Bonus - nutze die ueberschuessige Senke fuer eine risikofreie Verbesserung; genug Senke bleibt fuer die grosse Rune reserviert',
+        'sim_improve_done': 'Senke uebrig: du kannst %s noch gratis erhoehen.',
     },
 }
 
@@ -702,6 +732,7 @@ def forgemagie(request):
         'gameVersion': game_version,
         'inventoryFoldersUrl': version_reverse(request, 'inventory_folders'),
         'inventoryAddUrl': version_reverse(request, 'inventory_add'),
+        'inventoryUpdateUrl': version_reverse(request, 'inventory_update'),
         't': {
             key: t[key] for key in (
                 'search_no_results', 'item_level', 'wb_not_mageable',
@@ -717,9 +748,15 @@ def forgemagie(request):
                 'sim_unit_price', 'quality_title', 'quality_bad',
                 'quality_ok', 'quality_good', 'quality_amazing',
                 'quality_perfect', 'quality_overperfect', 'inv_new_folder',
+                'sim_sink_empty', 'inv_save_copy', 'wb_add',
+                'sim_improve', 'sim_improve_done',
             )
         },
     }
+
+    preload = _inventory_preload(request, structure, language, game_version)
+    if preload is not None:
+        js_config['preload'] = preload
 
     return set_response(
         request,
@@ -743,11 +780,89 @@ def _normalized_text(value):
     return strip_accents(value).lower().strip()
 
 
+def _item_payload(structure, item, language, display_name=None):
+    """The JSON shape the workbench expects for a selectable item."""
+    type_name = structure.get_type_name_by_id(item.type)
+    stats = []
+    for stat_id, stat_value in item.stats:
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is None:
+            continue
+        stats.append({
+            'key': stat.key,
+            'name': _localized_label(stat.name, language),
+            'icon': _get_stat_icon_url(stat.key),
+            'value': int(round(stat_value)),
+        })
+    stats.sort(key=lambda entry: STAT_ORDER.get(entry['key'], 9999))
+    return {
+        'id': item.id,
+        'name': display_name or structure.get_item_name_in_language(item, language),
+        'level': item.level,
+        'type_name': _localized_label(type_name, language),
+        'image_url': static(get_image_url(type_name, item.name)),
+        'stats': stats,
+    }
+
+
+def _inventory_preload(request, structure, language, game_version):
+    """Workbench preload for /forgemagie/?inv=<inventory item id>."""
+    inv_id = safe_int(request.GET.get('inv'), None)
+    if inv_id is None or not request.user.is_authenticated:
+        return None
+    from chardata.models import InventoryItem
+    from chardata.inventory_view import parse_custom_stats
+    row = (InventoryItem.objects
+           .filter(id=inv_id, folder__user=request.user,
+                   folder__game_version=game_version)
+           .select_related('folder').first())
+    if row is None:
+        return None
+    item = structure.get_item_by_id(row.item_id)
+    if item is None:
+        return None
+    return {
+        'item': _item_payload(structure, item, language),
+        'stats': parse_custom_stats(row.custom_stats, structure),
+        'inv_id': row.id,
+    }
+
+
 def forgemagie_items(request):
-    """Item autocomplete for the workbench: name search over mageable items."""
+    """Item autocomplete for the workbench: name search over mageable items,
+    or over the user's inventory (with saved rolls) when inventory=1."""
     structure = get_structure()
     language = get_supported_language()
     query = _normalized_text(request.GET.get('q') or '')
+
+    if request.GET.get('inventory') == '1':
+        if not request.user.is_authenticated:
+            return JsonResponse({'items': []})
+        from chardata.models import InventoryItem
+        from chardata.inventory_view import parse_custom_stats
+        game_version = getattr(request, 'game_version', 'dofus3')
+        results = []
+        inventory_rows = (InventoryItem.objects
+                          .filter(folder__user=request.user,
+                                  folder__game_version=game_version)
+                          .select_related('folder').order_by('-added_time')[:300])
+        for row in inventory_rows:
+            item = structure.get_item_by_id(row.item_id)
+            if item is None:
+                continue
+            localized_name = structure.get_item_name_in_language(item, language)
+            candidate = _normalized_text('%s %s' % (localized_name, item.or_name or ''))
+            if query and query not in candidate:
+                continue
+            payload = _item_payload(structure, item, language, localized_name)
+            payload['custom'] = parse_custom_stats(row.custom_stats, structure)
+            payload['folder'] = row.folder.name
+            payload['inv_id'] = row.id
+            results.append(payload)
+            if len(results) >= 20:
+                break
+        return JsonResponse({'items': results})
+
     if len(query) < 2:
         return JsonResponse({'items': []})
 

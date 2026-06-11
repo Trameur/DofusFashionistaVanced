@@ -244,8 +244,8 @@ class ModelResult():
                         self.stats_total[stat_key] = min(self.stats_total[stat_key], max_cap)
         return self.stats_total
         
-    def switch_item(self, item, slot):
-        result_item = ModelResultItem(item)
+    def switch_item(self, item, slot, stat_overrides=None):
+        result_item = ModelResultItem(item, stat_overrides)
         result_item.set_slot(slot)
         to_remove = None
         for candidate_item in self.item_list:

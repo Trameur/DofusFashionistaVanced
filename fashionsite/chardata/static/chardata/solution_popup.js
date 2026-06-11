@@ -34,6 +34,15 @@ var itemTemplate =
 
 var loadUrl = "";
 var popupStatFilters = [];
+var popupInventoryOnly = false;
+
+function popupInventoryAvailable() {
+    // Only for the logged-in project owner (the inventory is theirs); the
+    // page defines popupUserAuthenticated/isGuest, other popup users
+    // (e.g. the wizard weapon picker) may not.
+    return typeof popupUserAuthenticated !== 'undefined' && popupUserAuthenticated
+        && typeof isGuest !== 'undefined' && !isGuest;
+}
 var popupStatOptions =
     (typeof statFilterOptions !== 'undefined' && Array.isArray(statFilterOptions) && statFilterOptions.length > 0)
         ? statFilterOptions
@@ -217,6 +226,20 @@ function populateSwitchDivInitial(key, page, itemNames, char_id, thisItemName, c
         <button id='button-add-stat-filter' class='button-generic' style='margin-left: 6px;'>" + addFilterString + "</button>\
     </div>\
     <div class='stat-filters-div' style='margin-top: 8px;'></div>"));
+    if (popupInventoryAvailable()) {
+        var inventoryLabel = $("<label style='display:block;margin-top:6px;text-align:left;cursor:pointer;'>\
+            <input type='checkbox' id='popup-inventory-only'> " + gettext("Only my items") + "</label>");
+        inventoryLabel.find('input').prop('checked', popupInventoryOnly)
+            .on('change', function() {
+                popupInventoryOnly = $(this).is(':checked');
+                populateSwitchDiv(key, 1, itemNames, char_id,
+                                  $('#input-search-term').val() || null,
+                                  callBack, showComparison, orderByStat);
+            });
+        $(".search-div").append(inventoryLabel);
+    } else {
+        popupInventoryOnly = false;
+    }
     if (popupStatFilters.length === 0) {
         popupStatFilters.push({key: '', min: ''});
     }
@@ -324,7 +347,7 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
     var statFiltersPayload = JSON.stringify(getStatFiltersPayload());
     if (itemNames) {
         $.post(apiBase + "/itemexchange/" + char_id + "/",
-               {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload},
+               {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload, inventory_only: popupInventoryOnly},
                function(data) {
                    var response = data;
                    populateItems(response.items, response.violations, char_id, searchTerm, key.toString(), response.differences, callBack, showComparison, response.weapon_info);
@@ -341,7 +364,7 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
                });
     } else {
         $.post(apiBase + "/itemadd/" + char_id + "/",
-               {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload},
+               {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload, inventory_only: popupInventoryOnly},
                function(data) {
                    var response = data;
                    populateItems(response.items, response.violations, char_id, searchTerm, key.toString(), response.differences, callBack, showComparison, 0);
@@ -559,7 +582,11 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
     }
     
     $.each(items, function(key, item) {
-        var headerString = item.localized_name + '<br>' + gettext('Lvl.')+ ' ' + item.level;
+        var headerString = item.localized_name;
+        if (item.owned) {
+            headerString += " <span title='" + gettext("In my inventory") + "'>🎒</span>";
+        }
+        headerString += '<br>' + gettext('Lvl.')+ ' ' + item.level;
         var violationsString = setItemViolations(item, violations, char_id);
         var violationsAreFatal = checkIfViolationsAreFatal(item, violations, char_id);
         var stats = setStats(item, weaponInfo);

@@ -5698,3 +5698,15 @@ msgstr "Itens da enciclopédia + meu inventário"
 #: fashionsite/chardata/templates/chardata/inventory_source.html
 msgid "Only items from my inventory"
 msgstr "Apenas itens do meu inventário"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smithmagic Lab & My Inventory"
+msgstr "Oficina de Forjamagia & Meu Inventário"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "Smithmagic Lab: plan and simulate your maging with version-accurate runes, sink tracking and rune suggestions"
+msgstr "Oficina de Forjamagia: planeje e simule sua forjamagia com as runas exatas de cada versão, acompanhamento do poço e sugestões de runas"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html
+msgid "My Inventory: save the items you own with their real rolls (screenshot import included) and let the optimizer build with them"
+msgstr "Meu Inventário: salve os itens que você possui com suas rolagens reais (importação por captura de tela incluída) e deixe o otimizador usá-los"

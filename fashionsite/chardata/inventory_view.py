@@ -29,9 +29,15 @@ from chardata.models import InventoryFolder, InventoryItem
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER
+from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
+
+
+# Languages the screenshot reader supports, with their Tesseract model names.
+OCR_LANGUAGES = [('en', 'eng'), ('fr', 'fra'), ('es', 'spa'),
+                 ('pt', 'por'), ('de', 'deu')]
 
 
 MAX_FOLDERS_PER_VERSION = 30
@@ -62,6 +68,18 @@ LOCALIZED_UI = {
         'editor_save': 'Save',
         'editor_cancel': 'Cancel',
         'editor_add_stat': 'Add a stat…',
+        'ocr_button': 'Add from a screenshot',
+        'ocr_hint': 'Paste the image (Ctrl+V) or choose a file - a screenshot of the item tooltip works best. Detected values stay editable before adding.',
+        'ocr_choose': 'Choose an image…',
+        'ocr_lang': 'Screenshot language',
+        'ocr_loading': 'Loading the OCR engine…',
+        'ocr_reading': 'Reading the screenshot…',
+        'ocr_failed': 'Could not read the screenshot.',
+        'ocr_pick_item': 'Detected item',
+        'ocr_no_item': 'Item not recognized - try the search above instead.',
+        'ocr_stats': 'Detected stats',
+        'ocr_add': 'Add to this folder',
+        'to_forgemagie': 'Open in Smithmagic',
     },
     'fr': {
         'title': 'Mon Inventaire',
@@ -87,6 +105,18 @@ LOCALIZED_UI = {
         'editor_save': 'Enregistrer',
         'editor_cancel': 'Annuler',
         'editor_add_stat': 'Ajouter une stat…',
+        'ocr_button': 'Ajouter depuis une capture d’écran',
+        'ocr_hint': 'Collez l’image (Ctrl+V) ou choisissez un fichier - une capture de l’infobulle de l’objet marche le mieux. Les valeurs détectées restent modifiables avant l’ajout.',
+        'ocr_choose': 'Choisir une image…',
+        'ocr_lang': 'Langue de la capture',
+        'ocr_loading': 'Chargement du moteur OCR…',
+        'ocr_reading': 'Lecture de la capture…',
+        'ocr_failed': 'Impossible de lire la capture.',
+        'ocr_pick_item': 'Objet détecté',
+        'ocr_no_item': 'Objet non reconnu - utilisez plutôt la recherche ci-dessus.',
+        'ocr_stats': 'Stats détectées',
+        'ocr_add': 'Ajouter dans ce dossier',
+        'to_forgemagie': 'Ouvrir en forgemagie',
     },
     'es': {
         'title': 'Mi Inventario',
@@ -112,6 +142,18 @@ LOCALIZED_UI = {
         'editor_save': 'Guardar',
         'editor_cancel': 'Cancelar',
         'editor_add_stat': 'Añadir una estadística…',
+        'ocr_button': 'Añadir desde una captura de pantalla',
+        'ocr_hint': 'Pega la imagen (Ctrl+V) o elige un archivo - una captura de la descripción del objeto funciona mejor. Los valores detectados se pueden editar antes de añadir.',
+        'ocr_choose': 'Elegir una imagen…',
+        'ocr_lang': 'Idioma de la captura',
+        'ocr_loading': 'Cargando el motor OCR…',
+        'ocr_reading': 'Leyendo la captura…',
+        'ocr_failed': 'No se pudo leer la captura.',
+        'ocr_pick_item': 'Objeto detectado',
+        'ocr_no_item': 'Objeto no reconocido - usa la búsqueda de arriba.',
+        'ocr_stats': 'Estadísticas detectadas',
+        'ocr_add': 'Añadir a esta carpeta',
+        'to_forgemagie': 'Abrir en forjamagia',
     },
     'pt': {
         'title': 'Meu Inventário',
@@ -137,6 +179,18 @@ LOCALIZED_UI = {
         'editor_save': 'Salvar',
         'editor_cancel': 'Cancelar',
         'editor_add_stat': 'Adicionar um atributo…',
+        'ocr_button': 'Adicionar a partir de uma captura de tela',
+        'ocr_hint': 'Cole a imagem (Ctrl+V) ou escolha um arquivo - uma captura da janela do item funciona melhor. Os valores detectados podem ser editados antes de adicionar.',
+        'ocr_choose': 'Escolher uma imagem…',
+        'ocr_lang': 'Idioma da captura',
+        'ocr_loading': 'Carregando o mecanismo de OCR…',
+        'ocr_reading': 'Lendo a captura…',
+        'ocr_failed': 'Não foi possível ler a captura.',
+        'ocr_pick_item': 'Item detectado',
+        'ocr_no_item': 'Item não reconhecido - use a busca acima.',
+        'ocr_stats': 'Atributos detectados',
+        'ocr_add': 'Adicionar a esta pasta',
+        'to_forgemagie': 'Abrir na forjamagia',
     },
     'de': {
         'title': 'Mein Inventar',
@@ -162,6 +216,18 @@ LOCALIZED_UI = {
         'editor_save': 'Speichern',
         'editor_cancel': 'Abbrechen',
         'editor_add_stat': 'Wert hinzufuegen…',
+        'ocr_button': 'Aus einem Screenshot hinzufuegen',
+        'ocr_hint': 'Fuege das Bild ein (Strg+V) oder waehle eine Datei - ein Screenshot des Gegenstand-Tooltips funktioniert am besten. Erkannte Werte bleiben vor dem Hinzufuegen bearbeitbar.',
+        'ocr_choose': 'Bild auswaehlen…',
+        'ocr_lang': 'Sprache des Screenshots',
+        'ocr_loading': 'OCR-Engine wird geladen…',
+        'ocr_reading': 'Screenshot wird gelesen…',
+        'ocr_failed': 'Screenshot konnte nicht gelesen werden.',
+        'ocr_pick_item': 'Erkannter Gegenstand',
+        'ocr_no_item': 'Gegenstand nicht erkannt - nutze stattdessen die Suche oben.',
+        'ocr_stats': 'Erkannte Werte',
+        'ocr_add': 'In diesen Ordner hinzufuegen',
+        'to_forgemagie': 'In der Schmiedemagie oeffnen',
     },
 }
 
@@ -265,6 +331,80 @@ def _editor_rows(structure, item, custom_stats, language):
     return rows
 
 
+# In-game tooltips abbreviate stat words ("Dmg Neutre", "% Rés. Terre");
+# replacements applied to the localized names to also register those forms.
+_OCR_ABBREVIATIONS = {
+    'fr': [('dommages', 'dmg'), ('dommage', 'dmg'), ('resistance', 'res')],
+    'en': [('damage', 'dmg'), ('resistance', 'res'), ('resist', 'res')],
+    'es': [('danos', 'dmg'), ('dano', 'dmg'), ('resistencia', 'res')],
+    'pt': [('danos', 'dmg'), ('dano', 'dmg'), ('resistencia', 'res')],
+    'de': [('schaden', 'dmg'), ('resistenz', 'res')],
+}
+
+# Tooltip labels with no derivable mapping from our stat names ("% Critique"
+# vs "Coups Critiques").
+_OCR_MANUAL_ALIASES = {
+    'fr': {'critique': 'ch', 'soin': 'heals', 'po': 'range'},
+    'en': {'critical': 'ch', 'heal': 'heals'},
+    'es': {'critico': 'ch', 'curacion': 'heals'},
+    'pt': {'critico': 'ch', 'cura': 'heals'},
+    'de': {'kritisch': 'ch', 'heilung': 'heals'},
+}
+
+
+def _ocr_normalize(value):
+    """Server twin of the page's JS normalizer: accentless, lowercase, dots
+    and apostrophes spaced out, whitespace collapsed."""
+    value = strip_accents(value).lower()
+    for char in ".'’":
+        value = value.replace(char, ' ')
+    return ' '.join(value.split())
+
+
+def _ocr_name_variants(normalized, lang):
+    variants = {normalized}
+    for old, new in _OCR_ABBREVIATIONS.get(lang, []):
+        variants.update(v.replace(old, new) for v in list(variants) if old in v)
+    # Singular forms ("invocations" -> "invocation").
+    for variant in list(variants):
+        singular = ' '.join(word[:-1] if len(word) > 3 and word.endswith('s')
+                            else word for word in variant.split(' '))
+        variants.add(singular)
+    return variants
+
+
+def _ocr_stat_lexicon(structure):
+    """{lang: {normalized stat name: stat key}} for every supported language,
+    so the screenshot reader can map OCR'd stat lines to stat keys and guess
+    the screenshot's language by which lexicon matches most lines. Exact
+    names are registered first; abbreviations, singulars and de-percented
+    forms never shadow them."""
+    lexicon = {}
+    for lang, _tess in OCR_LANGUAGES:
+        names = []
+        for stat in structure.get_stats_list():
+            if stat.key == 'hp' or stat.key.startswith('pvp'):
+                continue
+            normalized = _ocr_normalize(_localized_label(stat.name, lang))
+            if normalized:
+                names.append((normalized, stat.key))
+
+        entries = {}
+        for normalized, key in names:
+            entries[normalized] = key
+        for normalized, key in names:
+            sources = {normalized}
+            if normalized.startswith('% '):
+                sources.add(normalized[2:])
+            for source in sources:
+                for variant in _ocr_name_variants(source, lang):
+                    entries.setdefault(variant, key)
+        for alias, key in _OCR_MANUAL_ALIASES.get(lang, {}).items():
+            entries.setdefault(alias, key)
+        lexicon[lang] = entries
+    return lexicon
+
+
 def _addable_stat_options(structure, language):
     options = []
     for stat in structure.get_stats_list():
@@ -345,6 +485,10 @@ def inventory(request):
         'items_count': len(items),
         'editor_data': editor_data,
         'stat_options': _addable_stat_options(structure, language),
+        'ocr_lexicon': _ocr_stat_lexicon(structure),
+        'ocr_languages': [{'code': code, 'tesseract': tess,
+                           'selected': code == language}
+                          for code, tess in OCR_LANGUAGES],
         'search_url': version_reverse(request, 'forgemagie_items'),
         'add_url': version_reverse(request, 'inventory_add'),
         'remove_url': version_reverse(request, 'inventory_remove'),

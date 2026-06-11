@@ -25,6 +25,7 @@ from django.core.cache import cache
 from fashionistapulp.fashion_util import strip_accents
 #import cProfile
 
+from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
 from chardata.solution_result import evolve_result_item, AttributeLine
@@ -172,11 +173,11 @@ def _rate(structure, item, weights):
             rating += stat[1] * weights[structure.get_stat_by_id(stat[0]).key]
     return rating
     
-def check_if_violates(item, slot, char):
+def check_if_violates(item, slot, char, stat_overrides=None):
     result = get_solution(char)
     if result is None:
         return []
-    result.switch_item(item, slot)
+    result.switch_item(item, slot, stat_overrides)
     minimums = get_min_stats_digested_by_key(char)
     return result.get_all_project_violations(item.type, minimums)
 
@@ -204,24 +205,33 @@ def get_items_of_type(request, char_id):
 
     # Filtered after the cache so inventory edits show up immediately.
     owned_ids = _owned_item_ids(request, char)
-    if request.POST.get('inventory_only') == 'true' and owned_ids is not None:
+    inventory_only = (request.POST.get('inventory_only') == 'true'
+                      and owned_ids is not None)
+    if inventory_only:
         items = [i for i in items if _is_owned(structure, i, owned_ids)]
 
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
 
+    # Saved inventory rolls / manual overrides, so listed items show the
+    # stats the solver actually counts.
+    effective_overrides = get_effective_stat_overrides(char) or None
 
     itemResults = []
     for item in items_to_return:
         if item.name in structure.or_items:
             for or_item in structure.get_or_item_by_name(item.name):
-                result_item = ModelResultItem(or_item)
+                owned = owned_ids is not None and or_item.id in owned_ids
+                # The whole or-group passes the inventory filter as soon as
+                # one variant is owned; only surface the owned roll(s).
+                if inventory_only and not owned:
+                    continue
+                result_item = ModelResultItem(or_item, effective_overrides)
                 evolve_result_item(result_item)
-                result_item.owned = (owned_ids is not None
-                                     and or_item.id in owned_ids)
+                result_item.owned = owned
                 itemResults.append(result_item)
         else:
-            result_item = ModelResultItem(item)
+            result_item = ModelResultItem(item, effective_overrides)
             evolve_result_item(result_item)
             result_item.owned = (owned_ids is not None
                                  and _is_owned(structure, item, owned_ids))
@@ -271,7 +281,9 @@ def get_items_to_exchange(request, char_id):
 
     # Filtered after the cache so inventory edits show up immediately.
     owned_ids = _owned_item_ids(request, char)
-    if request.POST.get('inventory_only') == 'true' and owned_ids is not None:
+    inventory_only = (request.POST.get('inventory_only') == 'true'
+                      and owned_ids is not None)
+    if inventory_only:
         items_to_exchange = [i for i in items_to_exchange
                              if _is_owned(structure, i, owned_ids)]
 
@@ -282,36 +294,47 @@ def get_items_to_exchange(request, char_id):
     differences = {}
     itemResults = []
     weapon_info = {}
+    # Saved inventory rolls / manual overrides, so listed items show the
+    # stats the solver actually counts.
+    effective_overrides = get_effective_stat_overrides(char) or None
     for item in items_to_return:
         if item.name in structure.or_items:
             for or_item in structure.get_or_item_by_name(item.name):
-                result_item = ModelResultItem(or_item)
+                owned = owned_ids is not None and or_item.id in owned_ids
+                # The whole or-group passes the inventory filter as soon as
+                # one variant is owned; only surface the owned roll(s).
+                if inventory_only and not owned:
+                    continue
+                result_item = ModelResultItem(or_item, effective_overrides)
                 result_item.set_slot(slot)
                 evolve_result_item(result_item)
-                result_item.owned = (owned_ids is not None
-                                     and or_item.id in owned_ids)
+                result_item.owned = owned
                 itemResults.append(result_item)
                 vlist = []
-                for vio in check_if_violates(or_item, slot, char):
+                for vio in check_if_violates(or_item, slot, char, effective_overrides):
                     vlist.append(vio)
                 violations[or_item.name] = vlist
-                differences[or_item.name] = _get_difference(or_item, slot, char)
+                differences[or_item.name] = _get_difference(or_item, slot, char,
+                                                            effective_overrides)
                 if slot == 'weapon':
-                    weapon_info[or_item.name] = _get_weapon_info(or_item, char)
+                    weapon_info[or_item.name] = _get_weapon_info(or_item, char,
+                                                                 effective_overrides)
         else:
-            result_item = ModelResultItem(item)
+            result_item = ModelResultItem(item, effective_overrides)
             result_item.set_slot(slot)
             evolve_result_item(result_item)
             result_item.owned = (owned_ids is not None
                                  and _is_owned(structure, item, owned_ids))
             itemResults.append(result_item)
             vlist = []
-            for vio in check_if_violates(item, slot, char):
+            for vio in check_if_violates(item, slot, char, effective_overrides):
                 vlist.append(vio)
             violations[item.name] = vlist
-            differences[item.name] = _get_difference(item, slot, char)
+            differences[item.name] = _get_difference(item, slot, char,
+                                                     effective_overrides)
             if slot == 'weapon':
-                weapon_info[item.name] = _get_weapon_info(item, char)
+                weapon_info[item.name] = _get_weapon_info(item, char,
+                                                          effective_overrides)
     
             
     response = {'items': itemResults,
@@ -333,7 +356,8 @@ def switch_item(request, char_id):
     
     structure = get_structure()
     result = get_solution(char)
-    result.switch_item(structure.get_item_by_id(int(item_name)), slot)
+    result.switch_item(structure.get_item_by_id(int(item_name)), slot,
+                       get_effective_stat_overrides(char) or None)
     set_solution(char, result)
     remove_cache_for_char(char_id)
 
@@ -352,12 +376,12 @@ def remove_item(request, char_id):
     
     return HttpResponseText('ok')
 
-def _get_difference(item, slot, char):
+def _get_difference(item, slot, char, stat_overrides=None):
     result = get_solution(char)
     if result is None:
         return []
     current_stats = result.stats_total.copy()
-    result.switch_item(item, slot)
+    result.switch_item(item, slot, stat_overrides)
     new_stats = result.stats_total.copy()
 
     difference = {}
@@ -380,9 +404,9 @@ def _get_difference(item, slot, char):
         stats_lines.append(AttributeLine(stat_key, stat_value, stat_name))
     return stats_lines
 
-def _get_weapon_rate(weapon, char, result):
+def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     structure = get_structure()
-    result_item = result.switch_item(weapon, 'weapon')
+    result_item = result.switch_item(weapon, 'weapon', stat_overrides)
     new_stats = result.stats_total.copy()
     weapon_obj = structure.get_weapon_by_name(weapon.name)
     if weapon_obj is None:
@@ -439,11 +463,11 @@ def _get_weapon_rate(weapon, char, result):
 
     return rating if rating > 0 else -rating
 
-def _get_weapon_info(weapon, char):
+def _get_weapon_info(weapon, char, stat_overrides=None):
     weapon_info = {}
     structure = get_structure()
     result = get_solution(char)
-    result_item = result.switch_item(weapon, 'weapon')
+    result_item = result.switch_item(weapon, 'weapon', stat_overrides)
     new_stats = result.stats_total.copy()
     weapon_obj = structure.get_weapon_by_name(weapon.name)
     if weapon_obj is None:
@@ -508,7 +532,7 @@ def _get_weapon_info(weapon, char):
     
     
     solution = get_solution(char)
-    rating = _get_weapon_rate(weapon, char, solution)
+    rating = _get_weapon_rate(weapon, char, solution, stat_overrides)
     weapon_info['rating'] = rating
-    
+
     return weapon_info

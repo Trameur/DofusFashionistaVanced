@@ -668,3 +668,11 @@ msgstr "F"
 msgctxt "one letter Saturday"
 msgid "S"
 msgstr "S"
+
+#: fashionsite/chardata/static/chardata/solution_popup.js
+msgid "Only my items"
+msgstr "Nur meine Gegenstaende"
+
+#: fashionsite/chardata/static/chardata/solution_popup.js
+msgid "In my inventory"
+msgstr "In meinem Inventar"

@@ -228,6 +228,14 @@
 .fm-sim-done {
     font-size: 1.1em;
 }
+.fm-sim-stop {
+    margin: 8px 0;
+    padding: 8px 10px;
+    border: 2px solid #d64d42;
+    border-radius: 8px;
+    color: #d64d42;
+    font-weight: 800;
+}
 .fm-sim-profit {
     margin-top: 14px;
 }
@@ -296,6 +304,11 @@
             <div class="fm-search-results brown-box" id="fm-search-results" style="display:none;"></div>
         </div>
         <div class="fm-search-hint small-explain">{{ t.search_hint }}</div>
+        {% if user.is_authenticated %}
+        <label class="small-explain" style="display:block;margin-top:4px;cursor:pointer;">
+            <input type="checkbox" id="fm-search-inventory"> 🎒 {{ t.search_inventory }}
+        </label>
+        {% endif %}
 
         <div id="fm-workbench" style="display:none;">
             <hr>
@@ -339,6 +352,8 @@
             <form id="fm-csrf" style="display:none;">{% csrf_token %}</form>
             <div class="fm-exo-row" id="fm-inv-row">
                 <span>{{ t.inv_save }}:</span>
+                <button type="button" class="button-thin" id="fm-inv-update"
+                        style="display:none;">{{ t.inv_update }}</button>
                 <select class="pretty-input" id="fm-inv-folder"></select>
                 <input class="pretty-input" id="fm-inv-new-name" type="text" maxlength="50"
                        placeholder="{{ t.inv_new_folder }}" style="display:none;width:180px;">
@@ -360,6 +375,7 @@
 
         <div id="fm-sim-panel" style="display:none;">
             <div class="fm-sim-meters" id="fm-sim-meters"></div>
+            <div class="fm-sim-stop" id="fm-sim-stop" style="display:none;">{{ t.sim_sink_empty }}</div>
             <div class="fm-quality" id="fm-sim-quality" style="display:none;"></div>
             <div class="fm-table-wrapper">
                 <table class="fm-table">
@@ -407,6 +423,8 @@
             {% if user.is_authenticated %}
             <div class="fm-exo-row" id="fm-sim-inv-row">
                 <span>{{ t.inv_save_smithed }}:</span>
+                <button type="button" class="button-thin" id="fm-sim-inv-update"
+                        style="display:none;">{{ t.inv_update }}</button>
                 <select class="pretty-input" id="fm-sim-inv-folder"></select>
                 <input class="pretty-input" id="fm-sim-inv-new-name" type="text" maxlength="50"
                        placeholder="{{ t.inv_new_folder }}" style="display:none;width:180px;">
@@ -510,6 +528,7 @@
         var verdictDiv = document.getElementById('fm-verdict');
 
         var currentItem = null;
+        var currentInvId = null;
         var rows = [];
         var searchTimer = null;
 
@@ -644,8 +663,18 @@
             return {label: t.diff_hard, cls: 'fm-bad'};
         }
 
+        var searchInventoryBox = document.getElementById('fm-search-inventory');
+
+        function searchingInventory() {
+            return !!(searchInventoryBox && searchInventoryBox.checked);
+        }
+
         function searchItems(query) {
-            fetch(config.searchUrl + '?q=' + encodeURIComponent(query), {
+            var url = config.searchUrl + '?q=' + encodeURIComponent(query);
+            if (searchingInventory()) {
+                url += '&inventory=1';
+            }
+            fetch(url, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function(response) {
                 return response.json();
@@ -672,11 +701,13 @@
                 img.alt = '';
                 img.onerror = function() { this.style.visibility = 'hidden'; };
                 var label = document.createElement('span');
-                label.textContent = item.name + ' (' + t.item_level + ' ' + item.level + ')';
+                label.textContent = item.name +
+                    (item.folder ? ' [' + item.folder + ']' : '') +
+                    ' (' + t.item_level + ' ' + item.level + ')';
                 row.appendChild(img);
                 row.appendChild(label);
                 row.onclick = function() {
-                    selectItem(item);
+                    selectItem(item, item.custom || null, item.inv_id || null);
                 };
                 searchResults.appendChild(row);
             });
@@ -687,8 +718,9 @@
             searchResults.style.display = 'none';
         }
 
-        function selectItem(item) {
+        function selectItem(item, currentRolls, invId) {
             currentItem = item;
+            currentInvId = invId || null;
             hideSearchResults();
             searchInput.value = item.name;
 
@@ -707,6 +739,41 @@
                 };
             });
 
+            // Saved rolls from the inventory: actual values for known stats,
+            // extra keys become already-present exo lines.
+            if (currentRolls) {
+                rows.forEach(function(row) {
+                    if (row.editable && currentRolls[row.key] !== undefined) {
+                        row.current = currentRolls[row.key];
+                        if (row.current > row.target) {
+                            row.target = row.current;
+                        }
+                    }
+                });
+                Object.keys(currentRolls).forEach(function(key) {
+                    var present = rows.some(function(row) {
+                        return row.key === key;
+                    });
+                    if (present) {
+                        return;
+                    }
+                    var info = statInfo(key);
+                    if (!info || !info.tiers.length) {
+                        return;
+                    }
+                    rows.push({
+                        key: key,
+                        name: info.name,
+                        icon: info.icon,
+                        max: 0,
+                        current: currentRolls[key],
+                        target: currentRolls[key],
+                        editable: true,
+                        exo: true
+                    });
+                });
+            }
+
             document.getElementById('fm-item-image').src = item.image_url;
             document.getElementById('fm-item-name').textContent = item.name;
             document.getElementById('fm-item-meta').textContent =
@@ -715,6 +782,7 @@
             renderRows();
             initSimForItem();
             loadInventoryFolders();
+            syncInvButtons();
         }
 
         function makeNumberInput(value, onChange) {
@@ -756,13 +824,9 @@
 
                 if (row.editable || row.exo) {
                     var currentTd = document.createElement('td');
-                    if (row.exo) {
-                        currentTd.textContent = '0';
-                    } else {
-                        currentTd.appendChild(makeNumberInput(row.current, function(value) {
-                            row.current = isNaN(value) ? 0 : value;
-                        }));
-                    }
+                    currentTd.appendChild(makeNumberInput(row.current || 0, function(value) {
+                        row.current = isNaN(value) ? 0 : value;
+                    }));
                     tr.appendChild(currentTd);
 
                     var targetTd = document.createElement('td');
@@ -858,8 +922,8 @@
                 if (!tr) {
                     return;
                 }
-                var current = row.exo ? 0 : row.current;
-                var missing = row.exo ? 0 : Math.max(0, row.max - current) * info.density;
+                var current = row.current || 0;
+                var missing = Math.max(0, row.max - current) * info.density;
                 var delta = Math.max(0, row.target - current);
                 var needed = delta * info.density;
                 var overWeight = Math.max(0, row.target - (row.exo ? 0 : row.max)) * info.density;
@@ -931,7 +995,7 @@
                 rows.map(function(row) {
                     return {
                         key: row.key,
-                        value: row.exo ? 0 : row.current,
+                        value: row.current || 0,
                         max: row.exo ? 0 : row.max
                     };
                 }));
@@ -1035,8 +1099,8 @@
                         name: row.name,
                         icon: row.icon,
                         max: row.exo ? 0 : row.max,
-                        start: row.exo ? 0 : row.current,
-                        value: row.exo ? 0 : row.current,
+                        start: row.current || 0,
+                        value: row.current || 0,
                         target: row.target,
                         exo: !!row.exo
                     };
@@ -1240,6 +1304,35 @@
             return best;
         }
 
+        // Free upgrade with the spare sink: push the cheapest-density stat
+        // already on the item further over, while keeping `reserve` weight of
+        // sink untouched (insurance for the big rune still to come).
+        function suggestImprovement(reserve) {
+            var best = null;
+            session.rows.forEach(function(row) {
+                var info = statInfo(row.key);
+                if (!info || !info.tiers.length || info.density >= 51
+                        || row.value <= 0) {
+                    return;
+                }
+                var affordable = info.tiers.filter(function(tier) {
+                    return tier.weight <= session.sink - reserve + 0.001
+                        && !wouldExceedCap(row, tier);
+                });
+                if (!affordable.length) {
+                    return;
+                }
+                var tier = affordable.sort(function(a, b) {
+                    return b.bonus - a.bonus;
+                })[0];
+                if (!best || info.density < best.density) {
+                    best = {key: row.key, name: info.name, tier: tier,
+                            density: info.density, improvement: true};
+                }
+            });
+            return best;
+        }
+
         function suggestThrow() {
             // Sacrifice phase first: a lowered target means the user wants
             // that stat knocked off to bank its weight as sink.
@@ -1249,7 +1342,12 @@
             if (needsSacrifice) {
                 return smallestRune();
             }
+            // Heavy lines (AP/MP/Range, density >= 51) are attempted last,
+            // once everything else sits at its target: every failure on them
+            // costs a fortune, and passing them early just exposes them to
+            // the losses of the remaining throws.
             var best = null;
+            var bestHeavy = null;
             session.rows.forEach(function(row, index) {
                 var remaining = row.target - row.value;
                 if (remaining <= 0) {
@@ -1308,12 +1406,25 @@
                     chosen = chosen || ascending[0];
                 }
                 var remainingWeight = remaining * info.density;
-                if (!best || remainingWeight > best.remainingWeight) {
-                    best = {key: row.key, name: info.name, tier: chosen,
-                            remainingWeight: remainingWeight};
+                var candidate = {key: row.key, name: info.name, tier: chosen,
+                                 remainingWeight: remainingWeight};
+                if (info.density >= 51) {
+                    if (!bestHeavy || remainingWeight > bestHeavy.remainingWeight) {
+                        bestHeavy = candidate;
+                    }
+                } else if (!best || remainingWeight > best.remainingWeight) {
+                    best = candidate;
                 }
             });
-            return best;
+            if (!best && bestHeavy) {
+                // Only the big rune is left: spend the sink surplus on free
+                // upgrades first, keeping its weight in reserve.
+                var improvement = suggestImprovement(bestHeavy.tier.weight);
+                if (improvement) {
+                    return improvement;
+                }
+            }
+            return best || bestHeavy;
         }
 
         function refreshRuneSelect(preferred) {
@@ -1463,6 +1574,19 @@
                     return {key: row.key, value: row.value, max: row.max};
                 }));
 
+            // Empty sink while over/exo weight sits on the item: every next
+            // failure eats placed stats, so shout STOP.
+            var placedOverWeight = 0;
+            session.rows.forEach(function(row) {
+                var info = statInfo(row.key);
+                if (info) {
+                    placedOverWeight +=
+                        Math.max(0, row.value - (row.exo ? 0 : row.max)) * info.density;
+                }
+            });
+            document.getElementById('fm-sim-stop').style.display =
+                (session.sink < 1 && placedOverWeight > 0) ? 'block' : 'none';
+
             simRowsBody.innerHTML = '';
             var anyTarget = false;
             var allReached = true;
@@ -1534,6 +1658,20 @@
                 done.className = 'fm-ok fm-sim-done';
                 done.textContent = t.sim_done;
                 simSuggestionDiv.appendChild(done);
+                // Goals met but sink remains: it can still buy free stats.
+                var bonus = session.sink >= 1 ? suggestImprovement(0) : null;
+                if (bonus) {
+                    var bonusLine = document.createElement('div');
+                    bonusLine.className = 'small-explain';
+                    bonusLine.textContent =
+                        t.sim_improve_done.replace('%s', bonus.tier.name);
+                    simSuggestionDiv.appendChild(bonusLine);
+                    suggestion = bonus;
+                }
+            } else if (suggestion && suggestion.improvement) {
+                simSuggestionDiv.textContent =
+                    t.sim_suggested + ': ' + suggestion.tier.name +
+                    ' (' + suggestion.name + ') — ' + t.sim_improve;
             } else if (suggestion && suggestion.sacrifice) {
                 simSuggestionDiv.textContent =
                     t.sim_suggested + ': ' + suggestion.tier.name +
@@ -1678,6 +1816,7 @@
                 select: document.getElementById('fm-inv-folder'),
                 newName: document.getElementById('fm-inv-new-name'),
                 button: document.getElementById('fm-inv-save'),
+                update: document.getElementById('fm-inv-update'),
                 feedback: document.getElementById('fm-inv-feedback'),
                 stats: function() {
                     var stats = {};
@@ -1693,6 +1832,7 @@
                 select: document.getElementById('fm-sim-inv-folder'),
                 newName: document.getElementById('fm-sim-inv-new-name'),
                 button: document.getElementById('fm-sim-inv-save'),
+                update: document.getElementById('fm-sim-inv-update'),
                 feedback: document.getElementById('fm-sim-inv-feedback'),
                 stats: function() {
                     if (!session) {
@@ -1756,10 +1896,52 @@
                 widget.select.value === '__new__' ? 'inline-block' : 'none';
         }
 
+        // When the loaded item comes from the inventory, offer updating it
+        // in place; the regular save button then reads "save a new copy".
+        function syncInvButtons() {
+            invWidgets.forEach(function(widget) {
+                if (widget.update) {
+                    widget.update.style.display =
+                        currentInvId ? 'inline-block' : 'none';
+                }
+                widget.button.textContent =
+                    currentInvId ? t.inv_save_copy : t.wb_add;
+            });
+        }
+
         invWidgets.forEach(function(widget) {
             widget.select.addEventListener('change', function() {
                 syncInvNewName(widget);
             });
+            if (widget.update) {
+                widget.update.addEventListener('click', function() {
+                    if (!currentItem || !currentInvId) {
+                        return;
+                    }
+                    var stats = widget.stats();
+                    if (!stats) {
+                        return;
+                    }
+                    var body = new URLSearchParams();
+                    body.append('csrfmiddlewaretoken', invCsrf());
+                    body.append('id', currentInvId);
+                    body.append('stats', JSON.stringify(stats));
+                    fetch(config.inventoryUpdateUrl, {
+                        method: 'POST',
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        body: body
+                    }).then(function(response) {
+                        return response.json();
+                    }).then(function(data) {
+                        if (data.ok) {
+                            widget.feedback.style.display = 'inline';
+                            setTimeout(function() {
+                                widget.feedback.style.display = 'none';
+                            }, 1500);
+                        }
+                    })['catch'](function() {});
+                });
+            }
             widget.button.addEventListener('click', function() {
                 if (!currentItem) {
                     return;
@@ -1825,7 +2007,7 @@
             if (searchTimer) {
                 clearTimeout(searchTimer);
             }
-            if (query.length < 2) {
+            if (!searchingInventory() && query.length < 2) {
                 hideSearchResults();
                 return;
             }
@@ -1834,11 +2016,22 @@
             }, 250);
         });
 
+        if (searchInventoryBox) {
+            searchInventoryBox.addEventListener('change', function() {
+                searchItems(searchInput.value.trim());
+            });
+        }
+
         document.addEventListener('click', function(event) {
             if (!searchResults.contains(event.target) && event.target !== searchInput) {
                 hideSearchResults();
             }
         });
+
+        if (config.preload) {
+            selectItem(config.preload.item, config.preload.stats || null,
+                       config.preload.inv_id || null);
+        }
     })();
     </script>
 </div>
