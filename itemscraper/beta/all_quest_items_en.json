@@ -16020,8 +16020,8 @@
             "ankama_id": 12838,
             "name": "Bronze Chocolate Kama",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -16035,8 +16035,8 @@
             "ankama_id": 12839,
             "name": "Silver Chocolate Kama",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -16050,8 +16050,8 @@
             "ankama_id": 12840,
             "name": "Gold Chocolate Kama",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -23665,21 +23665,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 15263,
-            "name": "Rose of the Sands",
-            "type": {
-                "name": "Token",
-                "id": 40
-            },
-            "level": 10,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/50720-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/50720-128.png"
-            },
-            "description": "It's not red, but at least it won't wilt.",
-            "pods": 0
-        },
-        {
             "ankama_id": 15281,
             "name": "Orichometre",
             "type": {
@@ -24709,7 +24694,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/100056-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/100056-128.png"
             },
-            "description": "This pouch contains about enough kamas to buy a paddock in the Cania Plains.",
+            "description": "This pouch contains just enough kamas to buy a personal safe in the Treasure Chest.",
             "pods": 0
         },
         {
@@ -35017,6 +35002,21 @@
             "pods": 0
         },
         {
+            "ankama_id": 18342,
+            "name": "Rad Max",
+            "type": {
+                "name": "Ohwymi",
+                "id": 74
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
+            },
+            "description": "Max is under the effects of the tranquiliser Shool Suk gave you. Take Max to him while you find a solution to cure him.",
+            "pods": 0
+        },
+        {
             "ankama_id": 18343,
             "name": "Foggernaut Decryption Key",
             "type": {
@@ -42404,8 +42404,8 @@
             "ankama_id": 20915,
             "name": "Chocolate Coupon",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 60,
             "image_urls": {
@@ -42419,8 +42419,8 @@
             "ankama_id": 20916,
             "name": "Hazelnut Coupon",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 130,
             "image_urls": {
@@ -42434,8 +42434,8 @@
             "ankama_id": 20917,
             "name": "Praline Coupon",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 200,
             "image_urls": {
@@ -42803,8 +42803,8 @@
             "ankama_id": 21170,
             "name": "Festoken",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -43489,8 +43489,8 @@
             "ankama_id": 21449,
             "name": "Ankama Kama",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -49953,7 +49953,7 @@
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 0,
+                    "int_maximum": 1,
                     "type": {
                         "name": "Gainsx",
                         "id": 255,
@@ -49961,7 +49961,7 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": true,
+                    "ignore_int_max": false,
                     "formatted": "Gains 1x"
                 }
             ],
@@ -54922,8 +54922,8 @@
             "ankama_id": 29674,
             "name": "Buzzeer",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -55287,7 +55287,7 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24999-128.png"
             },
             "description": "Put 100 kamas in the begging bowl and give it to the disciple of Elgero in front of the Temple of Scriptures.",
-            "pods": 1
+            "pods": 0
         },
         {
             "ankama_id": 30135,
@@ -55638,8 +55638,8 @@
             "ankama_id": 30831,
             "name": "Betatoken",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -60459,8 +60459,8 @@
             "ankama_id": 31434,
             "name": "Counterfeit Kolossoken",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61829,8 +61829,8 @@
             "ankama_id": 32123,
             "name": "Monstrous Tournoken",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61844,8 +61844,8 @@
             "ankama_id": 32124,
             "name": "Warrior Tournoken",
             "type": {
-                "name": "Token",
-                "id": 40
+                "name": "Event Tokens",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61942,7 +61942,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-128.png"
             },
-            "description": "The wind gently caresses you, the feather of Aerafal stirs and reveals the auspice to you.",
+            "description": "The wind gently caresses you, Aerafal's feather stirs and reveals the auspice to you.",
             "effects": [
                 {
                     "int_minimum": 713,
@@ -61972,7 +61972,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-128.png"
             },
-            "description": "The wind gently caresses you, the feather of Aerafal stirs and reveals the auspice to you.",
+            "description": "The wind gently caresses you, Aerafal's feather stirs and reveals the auspice to you.",
             "effects": [
                 {
                     "int_minimum": 714,
@@ -62002,7 +62002,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-128.png"
             },
-            "description": "The wind gently caresses you, the feather of Aerafal stirs and reveals the auspice to you.",
+            "description": "The wind gently caresses you, Aerafal's feather stirs and reveals the auspice to you.",
             "effects": [
                 {
                     "int_minimum": 715,
@@ -62032,7 +62032,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-128.png"
             },
-            "description": "The wind gently caresses you, the feather of Aerafal stirs and reveals the auspice to you.",
+            "description": "The wind gently caresses you, Aerafal's feather stirs and reveals the auspice to you.",
             "effects": [
                 {
                     "int_minimum": 716,
@@ -62062,7 +62062,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-128.png"
             },
-            "description": "The wind gently caresses you, the feather of Aerafal stirs and reveals the auspice to you.",
+            "description": "The wind gently caresses you, Aerafal's feather stirs and reveals the auspice to you.",
             "effects": [
                 {
                     "int_minimum": 717,
@@ -62092,7 +62092,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/14006-128.png"
             },
-            "description": "The wind gently caresses you, the feather of Aerafal stirs and reveals the auspice to you.",
+            "description": "The wind gently caresses you, Aerafal's feather stirs and reveals the auspice to you.",
             "effects": [
                 {
                     "int_minimum": 718,
@@ -62112,7 +62112,7 @@
         },
         {
             "ankama_id": 34132,
-            "name": "[!] Âme de Lafairé Danlsak",
+            "name": "Kack Handed Soul",
             "type": {
                 "name": "Frigost Island",
                 "id": 85
@@ -62122,12 +62122,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette pierre contient l'âme de Lafairé Danlsak, père de Germain Danlsak.",
+            "description": "This stone contains the soul of Kack Handed, father of Fred Handed.",
             "pods": 1
         },
         {
             "ankama_id": 34133,
-            "name": "[!] Âme de Bersekoffre",
+            "name": "Captured Soul: Hurtful Locker",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62137,12 +62137,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Super capture has enabled you to capture the soul of this Strongboxer.",
             "pods": 1
         },
         {
             "ankama_id": 34134,
-            "name": "[!] Âme de Boursoin",
+            "name": "Captured Soul: Persaport",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62152,12 +62152,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Super capture has enabled you to capture the soul of this Strongboxer.",
             "pods": 1
         },
         {
             "ankama_id": 34135,
-            "name": "[!] Âme de Mimikado",
+            "name": "Captured Soul: Mimicasket",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62167,12 +62167,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Super capture has enabled you to capture the soul of this Strongboxer.",
             "pods": 1
         },
         {
             "ankama_id": 34136,
-            "name": "[!] Âme de Trésantène",
+            "name": "Captured Soul: Antrezure",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62182,12 +62182,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Super capture has enabled you to capture the soul of this Strongboxer.",
             "pods": 1
         },
         {
             "ankama_id": 34209,
-            "name": "[!] Âme capturée : Tournesol Sauvage",
+            "name": "Captured Soul: Wild Sunflower",
             "type": {
                 "name": "Towers of the Brotherhood of the Forgotten",
                 "id": 86
@@ -62197,12 +62197,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "This monster's soul is to be used in one of Howard Nidian's experiments.",
             "pods": 0
         },
         {
             "ankama_id": 34210,
-            "name": "[!] Âme capturée : Rose Démoniaque",
+            "name": "Captured Soul: Demonic Rose",
             "type": {
                 "name": "Towers of the Brotherhood of the Forgotten",
                 "id": 86
@@ -62212,12 +62212,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "This monster's soul is to be used in one of Howard Nidian's experiments.",
             "pods": 0
         },
         {
             "ankama_id": 34211,
-            "name": "[!] Âme capturée : Pissenlit Diabolique",
+            "name": "Captured Soul: Evil Dandelion",
             "type": {
                 "name": "Towers of the Brotherhood of the Forgotten",
                 "id": 86
@@ -62227,12 +62227,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "This monster's soul is to be used in one of Howard Nidian's experiments.",
             "pods": 0
         },
         {
             "ankama_id": 34212,
-            "name": "[!] Âme capturée : Petit Gloot",
+            "name": "Captured Soul: L'il Gloot",
             "type": {
                 "name": "Towers of the Brotherhood of the Forgotten",
                 "id": 86
@@ -62242,12 +62242,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "This monster's soul is to be used in one of Howard Nidian's experiments.",
             "pods": 0
         },
         {
             "ankama_id": 34225,
-            "name": "[!] Âme de Trantroâ",
+            "name": "Thirtree Soul",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62257,12 +62257,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "This captured soul can be used as currency.",
             "pods": 1
         },
         {
             "ankama_id": 34226,
-            "name": "[!] Âme de Seith",
+            "name": "Sethen Soul",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62272,12 +62272,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "This captured soul can be used as currency.",
             "pods": 1
         },
         {
             "ankama_id": 34227,
-            "name": "[!] Âme de Vindeux",
+            "name": "Twentoo Soul",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62287,12 +62287,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "This captured soul can be used as currency.",
             "pods": 1
         },
         {
             "ankama_id": 34228,
-            "name": "[!] Âme de Trezz",
+            "name": "Thriten Soul",
             "type": {
                 "name": "Divine Dimensions",
                 "id": 14
@@ -62302,12 +62302,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "This captured soul can be used as currency.",
             "pods": 1
         },
         {
             "ankama_id": 34234,
-            "name": "[!] Âme de Boulanger Sombre",
+            "name": "Dark Baker Soul",
             "type": {
                 "name": "Alignment",
                 "id": 10
@@ -62317,12 +62317,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme de bandit est destinée à être souillée par le puits sans fond.",
+            "description": "This bandit's soul is to be defiled by the bottomless well.",
             "pods": 1
         },
         {
             "ankama_id": 34235,
-            "name": "[!] Âme de Forgeron Sombre",
+            "name": "Dark Smith Soul",
             "type": {
                 "name": "Alignment",
                 "id": 10
@@ -62332,12 +62332,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme de bandit est destinée à être souillée par le puits sans fond.",
+            "description": "This bandit's soul is to be defiled by the bottomless well.",
             "pods": 1
         },
         {
             "ankama_id": 34236,
-            "name": "[!] Âme de Mineur Sombre",
+            "name": "Dark Miner Soul",
             "type": {
                 "name": "Alignment",
                 "id": 10
@@ -62347,12 +62347,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme de bandit est destinée à être souillée par le puits sans fond.",
+            "description": "This bandit's soul is to be defiled by the bottomless well.",
             "pods": 1
         },
         {
             "ankama_id": 34238,
-            "name": "[!] Cobaye Craqueleur",
+            "name": "Crackler Guinea Pig",
             "type": {
                 "name": "Alignment",
                 "id": 10
@@ -62362,12 +62362,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
-            "description": "[!] Ce craqueleur est destiné à subir les expérimentations du docteur Walterbychop.",
+            "description": "This crackler is going to be a test subject for Doctor Walter-Bychop's experiments.",
             "pods": 0
         },
         {
             "ankama_id": 34239,
-            "name": "[!] Cobaye Macien",
+            "name": "Macian Guinea Pig",
             "type": {
                 "name": "Alignment",
                 "id": 10
@@ -62377,12 +62377,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
-            "description": "[!] Ce Macien est destiné à subir les expérimentations du docteur Walterbychop.",
+            "description": "This macian is going to be a test subject for Doctor Walter-Bychop's experiments.",
             "pods": 0
         },
         {
             "ankama_id": 34240,
-            "name": "[!] Cobaye Noeul",
+            "name": "Neye Guinea Pig",
             "type": {
                 "name": "Alignment",
                 "id": 10
@@ -62392,7 +62392,572 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
-            "description": "[!] Ce Noeul est destiné à subir les expérimentations du docteur Walterbychop.",
+            "description": "This neye is going to be a test subject for Doctor Walter-Bychop's experiments.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34376,
+            "name": "Water Clock Sand",
+            "type": {
+                "name": "Frigost Island",
+                "id": 85
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/48260-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/48260-128.png"
+            },
+            "description": "Some people say they've noticed a mysterious phenomenon in the Water Clock Tower after pouring this sand in one of its strange mechanisms.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34445,
+            "name": "Archaeologist Shovel",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "A shovel as standard as they come. Be sure to give it back to the owner once you've dug up what you're looking for!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34446,
+            "name": "Archaeologist Shovel",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "A shovel as standard as they come. Be sure to give it back to the owner once you've dug up what you're looking for!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34447,
+            "name": "Archaeologist Shovel",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "A shovel as standard as they come. Be sure to give it back to the owner once you've dug up what you're looking for!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34448,
+            "name": "Archaeologist Shovel",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "A shovel as standard as they come. Be sure to give it back to the owner once you've dug up what you're looking for!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34449,
+            "name": "Archaeologist Shovel",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "A shovel as standard as they come. Be sure to give it back to the owner once you've dug up what you're looking for!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34450,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34451,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34452,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34453,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34454,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34455,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34456,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34457,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34458,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34459,
+            "name": "Archaeologist Compass",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "A compass with a needle that moves all over the place in the presence of fossilised amber.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Different area to: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34467,
+            "name": "Fossilised Amber",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/176047-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/176047-128.png"
+            },
+            "description": "Bring this piece of amber to Archie Ologist to get your reward.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34469,
+            "name": "Sandy Patty",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/48691-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/48691-128.png"
+            },
+            "description": "This isn't what you were looking for, but your inner child loves it. Why don't you dig up some sand and make the big castle you've always dreamed of?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34475,
+            "name": "The Spot Marked With the X",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24007-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24007-128.png"
+            },
+            "description": "The compass needle moves all over the place and then points downwards. You're in the right place!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34476,
+            "name": "Getting Closer!",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/87002-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/87002-128.png"
+            },
+            "description": "You notice you're getting closer, but the compass is still acting erratically.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34479,
+            "name": "Dirt Patty",
+            "type": {
+                "name": "Archipelago of Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25140-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25140-128.png"
+            },
+            "description": "This isn't what you were looking for, and it isn't as nice and versatile as a sandy patty... But you can't always get what you want in life!",
             "pods": 0
         }
     ]

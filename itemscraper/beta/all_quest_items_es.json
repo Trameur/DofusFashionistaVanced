@@ -16020,8 +16020,8 @@
             "ankama_id": 12838,
             "name": "Kama de bronce de chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -16035,8 +16035,8 @@
             "ankama_id": 12839,
             "name": "Kama plateado de chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -16050,8 +16050,8 @@
             "ankama_id": 12840,
             "name": "Kama dorado de chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -23665,21 +23665,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 15263,
-            "name": "Rosa del desierto",
-            "type": {
-                "name": "Fichas",
-                "id": 40
-            },
-            "level": 10,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/50720-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/50720-128.png"
-            },
-            "description": "No es roja, pero míralo por el lado bueno: no se marchitará.",
-            "pods": 0
-        },
-        {
             "ankama_id": 15281,
             "name": "Oricómetro",
             "type": {
@@ -24709,7 +24694,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/100056-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/100056-128.png"
             },
-            "description": "Esta bolsa contiene apenas los kamas suficientes para comprar un cercado en la llanura de Cania.",
+            "description": "Esta bolsa contiene los kamas justos para comprar un cofre personal en el Cofre de los Tesoros.",
             "pods": 0
         },
         {
@@ -35017,6 +35002,21 @@
             "pods": 0
         },
         {
+            "ankama_id": 18342,
+            "name": "Max, el Loco",
+            "type": {
+                "name": "Picahari",
+                "id": 74
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
+            },
+            "description": "Max está bajo los efectos del tranquilizante que te dio Eolo Suk. Llévalo ante Eolo mientras encuentras una solución para curarlo.",
+            "pods": 0
+        },
+        {
             "ankama_id": 18343,
             "name": "Llave de descifre steamer",
             "type": {
@@ -42404,8 +42404,8 @@
             "ankama_id": 20915,
             "name": "Cupón chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 60,
             "image_urls": {
@@ -42419,8 +42419,8 @@
             "ankama_id": 20916,
             "name": "Cupón avellana",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 130,
             "image_urls": {
@@ -42434,8 +42434,8 @@
             "ankama_id": 20917,
             "name": "Cupón praliné",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 200,
             "image_urls": {
@@ -42803,8 +42803,8 @@
             "ankama_id": 21170,
             "name": "Festicha",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -43489,8 +43489,8 @@
             "ankama_id": 21449,
             "name": "Kama de Ankama",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -49953,7 +49953,7 @@
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 0,
+                    "int_maximum": 1,
                     "type": {
                         "name": "Gana x",
                         "id": 255,
@@ -49961,7 +49961,7 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": true,
+                    "ignore_int_max": false,
                     "formatted": "Gana x1"
                 }
             ],
@@ -54922,8 +54922,8 @@
             "ankama_id": 29674,
             "name": "Cervecicha",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -55287,7 +55287,7 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24999-128.png"
             },
             "description": "Echa 100 kamas en este platillo y entrégaselo al discípulo de Elgero que está delante del Bibliotemplo.",
-            "pods": 1
+            "pods": 0
         },
         {
             "ankama_id": 30135,
@@ -55638,8 +55638,8 @@
             "ankama_id": 30831,
             "name": "Betaficha",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -60459,8 +60459,8 @@
             "ankama_id": 31434,
             "name": "Kolicha de imitación",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61829,8 +61829,8 @@
             "ankama_id": 32123,
             "name": "Torneficha monstruosa",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61844,8 +61844,8 @@
             "ankama_id": 32124,
             "name": "Torneficha guerrera",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de evento",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -62112,7 +62112,7 @@
         },
         {
             "ankama_id": 34132,
-            "name": "[!] Âme de Lafairé Danlsak",
+            "name": "Alma de Guzmán Onelsako",
             "type": {
                 "name": "Isla de Frigost",
                 "id": 85
@@ -62122,12 +62122,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette pierre contient l'âme de Lafairé Danlsak, père de Germain Danlsak.",
+            "description": "Esta piedra contiene el alma de Guzmán Onelsako, padre de Germán Onelsako.",
             "pods": 1
         },
         {
             "ankama_id": 34133,
-            "name": "[!] Âme de Bersekoffre",
+            "name": "Alma capturada de berserkofre",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62137,12 +62137,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Gracias a la supercaptura, has logrado apoderarte del alma de este cofrefuerte.",
             "pods": 1
         },
         {
             "ankama_id": 34134,
-            "name": "[!] Âme de Boursoin",
+            "name": "Alma capturada de sacurador",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62152,12 +62152,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Gracias a la supercaptura, has logrado apoderarte del alma de este cofrefuerte.",
             "pods": 1
         },
         {
             "ankama_id": 34135,
-            "name": "[!] Âme de Mimikado",
+            "name": "Alma capturada de mimicofre",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62167,12 +62167,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Gracias a la supercaptura, has logrado apoderarte del alma de este cofrefuerte.",
             "pods": 1
         },
         {
             "ankama_id": 34136,
-            "name": "[!] Âme de Trésantène",
+            "name": "Alma capturada de antesoro",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62182,12 +62182,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Grâce à la super capture, vous êtes parvenu à vous emparer de l'âme de ce Koffrefor.",
+            "description": "Gracias a la supercaptura, has logrado apoderarte del alma de este cofrefuerte.",
             "pods": 1
         },
         {
             "ankama_id": 34209,
-            "name": "[!] Âme capturée : Tournesol Sauvage",
+            "name": "Alma capturada: Girasol salvaje",
             "type": {
                 "name": "Torres de la Hermandad",
                 "id": 86
@@ -62197,12 +62197,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "El alma de este monstruo está destinada a utilizarse en un experimento de Jauel Indio.",
             "pods": 0
         },
         {
             "ankama_id": 34210,
-            "name": "[!] Âme capturée : Rose Démoniaque",
+            "name": "Alma capturada: Rosa demoníaca",
             "type": {
                 "name": "Torres de la Hermandad",
                 "id": 86
@@ -62212,12 +62212,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "El alma de este monstruo está destinada a utilizarse en un experimento de Jauel Indio.",
             "pods": 0
         },
         {
             "ankama_id": 34211,
-            "name": "[!] Âme capturée : Pissenlit Diabolique",
+            "name": "Alma capturada: Diente de león diabólico",
             "type": {
                 "name": "Torres de la Hermandad",
                 "id": 86
@@ -62227,12 +62227,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "El alma de este monstruo está destinada a utilizarse en un experimento de Jauel Indio.",
             "pods": 0
         },
         {
             "ankama_id": 34212,
-            "name": "[!] Âme capturée : Petit Gloot",
+            "name": "Alma capturada: Gootita",
             "type": {
                 "name": "Torres de la Hermandad",
                 "id": 86
@@ -62242,12 +62242,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] L'âme de ce monstre est destinée à être utilisée au cours d'une expérience de Hugues Lindien.",
+            "description": "El alma de este monstruo está destinada a utilizarse en un experimento de Jauel Indio.",
             "pods": 0
         },
         {
             "ankama_id": 34225,
-            "name": "[!] Âme de Trantroâ",
+            "name": "Alma de trentytrés",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62257,12 +62257,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "Esta alma capturada podrá servir como moneda de cambio.",
             "pods": 1
         },
         {
             "ankama_id": 34226,
-            "name": "[!] Âme de Seith",
+            "name": "Alma de sieth",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62272,12 +62272,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "Esta alma capturada podrá servir como moneda de cambio.",
             "pods": 1
         },
         {
             "ankama_id": 34227,
-            "name": "[!] Âme de Vindeux",
+            "name": "Alma de vintydós",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62287,12 +62287,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "Esta alma capturada podrá servir como moneda de cambio.",
             "pods": 1
         },
         {
             "ankama_id": 34228,
-            "name": "[!] Âme de Trezz",
+            "name": "Alma de trezz",
             "type": {
                 "name": "Dimensiones divinas",
                 "id": 14
@@ -62302,12 +62302,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme capturée va pouvoir servir de monnaie d'échange.",
+            "description": "Esta alma capturada podrá servir como moneda de cambio.",
             "pods": 1
         },
         {
             "ankama_id": 34234,
-            "name": "[!] Âme de Boulanger Sombre",
+            "name": "Alma de panadero oscuro",
             "type": {
                 "name": "Alineamiento",
                 "id": 10
@@ -62317,12 +62317,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme de bandit est destinée à être souillée par le puits sans fond.",
+            "description": "Esta alma de bandido está destinada a ser mancillada por el pozo sin fondo.",
             "pods": 1
         },
         {
             "ankama_id": 34235,
-            "name": "[!] Âme de Forgeron Sombre",
+            "name": "Alma de herrero oscuro",
             "type": {
                 "name": "Alineamiento",
                 "id": 10
@@ -62332,12 +62332,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme de bandit est destinée à être souillée par le puits sans fond.",
+            "description": "Esta alma de bandido está destinada a ser mancillada por el pozo sin fondo.",
             "pods": 1
         },
         {
             "ankama_id": 34236,
-            "name": "[!] Âme de Mineur Sombre",
+            "name": "Alma de minero oscuro",
             "type": {
                 "name": "Alineamiento",
                 "id": 10
@@ -62347,12 +62347,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/85001-128.png"
             },
-            "description": "[!] Cette âme de bandit est destinée à être souillée par le puits sans fond.",
+            "description": "Esta alma de bandido está destinada a ser mancillada por el pozo sin fondo.",
             "pods": 1
         },
         {
             "ankama_id": 34238,
-            "name": "[!] Cobaye Craqueleur",
+            "name": "Cobaya crujidora",
             "type": {
                 "name": "Alineamiento",
                 "id": 10
@@ -62362,12 +62362,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
-            "description": "[!] Ce craqueleur est destiné à subir les expérimentations du docteur Walterbychop.",
+            "description": "El destino de este crujidor es ser el conejillo de Indias del doctor Walterbychop.",
             "pods": 0
         },
         {
             "ankama_id": 34239,
-            "name": "[!] Cobaye Macien",
+            "name": "Cobaya mata",
             "type": {
                 "name": "Alineamiento",
                 "id": 10
@@ -62377,12 +62377,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
-            "description": "[!] Ce Macien est destiné à subir les expérimentations du docteur Walterbychop.",
+            "description": "El destino de este mata es ser el conejillo de Indias del doctor Walterbychop.",
             "pods": 0
         },
         {
             "ankama_id": 34240,
-            "name": "[!] Cobaye Noeul",
+            "name": "Cobaya nujil",
             "type": {
                 "name": "Alineamiento",
                 "id": 10
@@ -62392,7 +62392,572 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
-            "description": "[!] Ce Noeul est destiné à subir les expérimentations du docteur Walterbychop.",
+            "description": "El destino de este nujo es ser el conejillo de Indias del doctor Walterbychop.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34376,
+            "name": "Arena de clepsidra",
+            "type": {
+                "name": "Isla de Frigost",
+                "id": 85
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/48260-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/48260-128.png"
+            },
+            "description": "Hay quienes aseguran haber presenciado un fenómeno misterioso en la torre de la clepsidra después de haber vertido esta arena en sus extraños mecanismos.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34445,
+            "name": "Pala de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Una pala de lo más común. ¡Acuérdate de devolverla a su propietario cuando hayas desenterrado lo que estabas buscando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34446,
+            "name": "Pala de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Una pala de lo más común. ¡Acuérdate de devolverla a su propietario cuando hayas desenterrado lo que estabas buscando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34447,
+            "name": "Pala de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Una pala de lo más común. ¡Acuérdate de devolverla a su propietario cuando hayas desenterrado lo que estabas buscando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34448,
+            "name": "Pala de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Una pala de lo más común. ¡Acuérdate de devolverla a su propietario cuando hayas desenterrado lo que estabas buscando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34449,
+            "name": "Pala de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Una pala de lo más común. ¡Acuérdate de devolverla a su propietario cuando hayas desenterrado lo que estabas buscando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona distinta de {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34450,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34451,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34452,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34453,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34454,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34455,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34456,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34457,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34458,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34459,
+            "name": "Brújula de arqueólogo",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Una brújula cuyas agujas se desorientan en presencia de ámbar fósil.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona distinta de {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34467,
+            "name": "Ámbar fósil",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/176047-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/176047-128.png"
+            },
+            "description": "Llévale este trozo de ámbar a Edgar Keólogo para obtener tu recompensa.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34469,
+            "name": "Pastel de arena",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/48691-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/48691-128.png"
+            },
+            "description": "No es lo que estabas buscando, pero mira cómo titila tu alma de niño. ¿Por qué no darle algunos palazos más para levantar el castillo con el que siempre has soñado?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34475,
+            "name": "La X marca el lugar",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24007-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24007-128.png"
+            },
+            "description": "La brújula se desorienta y luego apunta hacia abajo, ¡estás en el lugar correcto!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34476,
+            "name": "¡Nos estamos acercando!",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/87002-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/87002-128.png"
+            },
+            "description": "Notas cómo has avanzado, pero la brújula sigue girando de forma errática.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34479,
+            "name": "Pastel de tierra",
+            "type": {
+                "name": "Archipielago de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25140-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25140-128.png"
+            },
+            "description": "No es lo que estabas buscando y no es tan guay ni tan polivalente como un pastel de arena... ¡Pero no se puede tener todo en esta vida!",
             "pods": 0
         }
     ]

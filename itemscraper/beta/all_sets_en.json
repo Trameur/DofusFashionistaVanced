@@ -13767,7 +13767,7 @@
         },
         {
             "ankama_id": 42,
-            "name": "Turko Set",
+            "name": "Turkoset",
             "items": 4,
             "level": 50,
             "contains_cosmetics": false,
@@ -52167,7 +52167,7 @@
         },
         {
             "ankama_id": 245,
-            "name": "Ogivol Scalarcin Set",
+            "name": "Ogivol Set",
             "items": 3,
             "level": 195,
             "contains_cosmetics": false,
@@ -54808,7 +54808,7 @@
         },
         {
             "ankama_id": 260,
-            "name": "Nomarow Transplent Set",
+            "name": "Nomarow Set",
             "items": 3,
             "level": 198,
             "contains_cosmetics": false,
@@ -85203,17 +85203,30 @@
                         "formatted": "15 MP Reduction"
                     },
                     {
-                        "int_minimum": 50,
+                        "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Power",
-                            "id": 32,
+                            "name": "Dodge",
+                            "id": 59,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "50 Power"
+                        "formatted": "15 Dodge"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Range",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Range"
                     },
                     {
                         "int_minimum": 500,
@@ -85229,48 +85242,7 @@
                         "formatted": "500 Initiative"
                     },
                     {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Range",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Range"
-                    },
-                    {
-                        "int_minimum": 15,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Dodge",
-                            "id": 59,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "15 Dodge"
-                    }
-                ],
-                "3": [
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "AP",
-                            "id": 12,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 AP"
-                    },
-                    {
-                        "int_minimum": 100,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "Power",
@@ -85280,46 +85252,74 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "100 Power"
-                    },
+                        "formatted": "50 Power"
+                    }
+                ],
+                "3": [
                     {
-                        "int_minimum": 1000,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Initiative",
-                            "id": 24,
+                            "name": "Air damage",
+                            "id": 47,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1000 Initiative"
+                        "formatted": "10 Air damage"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 12,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Range",
-                            "id": 31,
+                            "name": "Water Damage",
+                            "id": 27,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Range"
+                        "formatted": "12 Water Damage"
+                    },
+                    {
+                        "int_minimum": 12,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Fire Damage",
+                            "id": 61,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "12 Fire Damage"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Earth Damage",
+                            "id": 48,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Earth Damage"
                     },
                     {
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "AP Reduction",
-                            "id": 64,
+                            "name": "Dodge",
+                            "id": 59,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 AP Reduction"
+                        "formatted": "30 Dodge"
                     },
                     {
                         "int_minimum": 30,
@@ -85338,66 +85338,79 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dodge",
-                            "id": 59,
+                            "name": "AP Reduction",
+                            "id": 64,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Dodge"
+                        "formatted": "30 AP Reduction"
                     },
                     {
-                        "int_minimum": 15,
+                        "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Earth Damage",
-                            "id": 48,
+                            "name": "Range",
+                            "id": 31,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 Earth Damage"
+                        "formatted": "1 Range"
                     },
                     {
-                        "int_minimum": 12,
+                        "int_minimum": 1000,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Fire Damage",
-                            "id": 61,
+                            "name": "Initiative",
+                            "id": 24,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 Fire Damage"
+                        "formatted": "1000 Initiative"
                     },
                     {
-                        "int_minimum": 12,
+                        "int_minimum": 100,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Water Damage",
-                            "id": 27,
+                            "name": "Power",
+                            "id": 32,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 Water Damage"
+                        "formatted": "100 Power"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
                     },
                     {
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Air damage",
-                            "id": 47,
+                            "name": "Neutral Damage",
+                            "id": 49,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 Air damage"
+                        "formatted": "10 Neutral Damage"
                     }
                 ]
             },
@@ -94256,7 +94269,7 @@
         },
         {
             "ankama_id": 513,
-            "name": "Berylbell Copperbeard Set",
+            "name": "Berylbell Set",
             "items": 3,
             "level": 194,
             "contains_cosmetics": false,
@@ -96562,7 +96575,7 @@
         {
             "ankama_id": 579,
             "name": "Iop Ceremonial Set",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96574,7 +96587,8 @@
                 21415,
                 21416,
                 23002,
-                30245
+                30245,
+                34404
             ]
         },
         {
@@ -96597,7 +96611,7 @@
         {
             "ankama_id": 581,
             "name": "Rogue Ceremonial Set",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96608,7 +96622,8 @@
                 21480,
                 21481,
                 21482,
-                23004
+                23004,
+                34407
             ]
         },
         {
@@ -96739,7 +96754,7 @@
         {
             "ankama_id": 589,
             "name": "Masqueraider Ceremonial Set",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96750,7 +96765,8 @@
                 22455,
                 22458,
                 22460,
-                23647
+                23647,
+                34406
             ]
         },
         {
@@ -96827,7 +96843,7 @@
         {
             "ankama_id": 594,
             "name": "Eniripsa Ceremonial Set",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96839,7 +96855,8 @@
                 24973,
                 24974,
                 24975,
-                25996
+                25996,
+                34405
             ]
         },
         {
@@ -98915,7 +98932,7 @@
             "ankama_id": 745,
             "name": "Tailblazer Ceremonial Set",
             "items": 3,
-            "level": 10,
+            "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
@@ -99411,14 +99428,15 @@
         },
         {
             "ankama_id": 787,
-            "name": "Vader Ceremonial Set",
-            "items": 2,
+            "name": "Empire Ceremonial Set",
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9936,
-                9938
+                9938,
+                9945
             ]
         },
         {
@@ -109695,14 +109713,15 @@
         {
             "ankama_id": 969,
             "name": "Solary Ceremonial Set",
-            "items": 3,
-            "level": 1,
+            "items": 4,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30971,
                 30976,
-                30981
+                30981,
+                34381
             ]
         },
         {
@@ -109721,14 +109740,15 @@
         {
             "ankama_id": 971,
             "name": "Karmine Corp Ceremonial Set",
-            "items": 3,
-            "level": 1,
+            "items": 4,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30973,
                 30979,
-                30983
+                30983,
+                34380
             ]
         },
         {
@@ -121291,7 +121311,7 @@
         },
         {
             "ankama_id": 1082,
-            "name": "Centoror Ceremonial Set",
+            "name": "Horseman Ceremonial Set",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
@@ -121307,7 +121327,7 @@
         },
         {
             "ankama_id": 1083,
-            "name": "[!] Panoplie d'apparat du Démon V",
+            "name": "Demon V Ceremonial Set",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121321,7 +121341,7 @@
         },
         {
             "ankama_id": 1084,
-            "name": "[!] Panoplie d'apparat diaprée du Démon V",
+            "name": "Many-Hued Demon V Ceremonial Set",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121335,7 +121355,7 @@
         },
         {
             "ankama_id": 1085,
-            "name": "[!] Panoplie Pourpre",
+            "name": "Crimson Lottery Ceremonial Set",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121349,7 +121369,7 @@
         },
         {
             "ankama_id": 1086,
-            "name": "[!] Panomuldo",
+            "name": "Seemyoolset",
             "items": 3,
             "level": 55,
             "contains_cosmetics": false,
@@ -121512,7 +121532,7 @@
         },
         {
             "ankama_id": 1087,
-            "name": "[!] Panovolko",
+            "name": "Rhineetleset",
             "items": 3,
             "level": 60,
             "contains_cosmetics": false,
@@ -121675,7 +121695,7 @@
         },
         {
             "ankama_id": 1088,
-            "name": "[!] Panoplie d'apparat flamboyante du Phénix",
+            "name": "Flamboyant Ceremonial Set of the Phoenix",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
@@ -121687,6 +121707,483 @@
                 34262,
                 34263,
                 34264
+            ]
+        },
+        {
+            "ankama_id": 1089,
+            "name": "Supercharged Ceremonial Set",
+            "items": 8,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34278,
+                34279,
+                34280,
+                34281,
+                34282,
+                34283,
+                34295,
+                34296
+            ]
+        },
+        {
+            "ankama_id": 1090,
+            "name": "Eternal Gardens Sanctuary Set",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Heal",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Heals"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Power"
+                    },
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Air Resistance",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% Air Resistance"
+                    },
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Water Resistance",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% Water Resistance"
+                    },
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Earth Resistance",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% Earth Resistance"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7 Damage"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Range",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Range"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Air Resistance",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Air Resistance"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Water Resistance",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Water Resistance"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Earth Resistance",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Earth Resistance"
+                    },
+                    {
+                        "int_minimum": 12,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "12 Damage"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Power"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Heal",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Heals"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Range",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Range"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34327,
+                34328,
+                34329
+            ]
+        },
+        {
+            "ankama_id": 1091,
+            "name": "Chasm Set",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Chance"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Critical",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7% Critical"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Lock",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Lock"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "AP",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 AP"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Critical",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7% Critical"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Lock",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Lock"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Chance",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Chance"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34330,
+                34331,
+                34332
+            ]
+        },
+        {
+            "ankama_id": 1092,
+            "name": "Joblife Ceremonial Set",
+            "items": 4,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34382,
+                34387,
+                34388,
+                34389
+            ]
+        },
+        {
+            "ankama_id": 1093,
+            "name": "Peps Ceremonial Set",
+            "items": 4,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34383,
+                34384,
+                34385,
+                34386
+            ]
+        },
+        {
+            "ankama_id": 1097,
+            "name": "Exterminator Ceremonial Set",
+            "items": 8,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34409,
+                34410,
+                34411,
+                34412,
+                34413,
+                34414,
+                34415,
+                34416
+            ]
+        },
+        {
+            "ankama_id": 1098,
+            "name": "Ochre Lottery Ceremonial Set",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34441,
+                34442,
+                34443,
+                34444
+            ]
+        },
+        {
+            "ankama_id": 1099,
+            "name": "Raider Ceremonial Set",
+            "items": 7,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34480,
+                34481,
+                34482,
+                34483,
+                34484,
+                34485,
+                34486
+            ]
+        },
+        {
+            "ankama_id": 1100,
+            "name": "[!] Panoplie d'apparat de Scoreur",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34503,
+                34505,
+                34507,
+                34509,
+                34511
+            ]
+        },
+        {
+            "ankama_id": 1101,
+            "name": "[!] Panoplie d'apparat de Skale",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34502,
+                34504,
+                34506,
+                34508,
+                34510
             ]
         }
     ]

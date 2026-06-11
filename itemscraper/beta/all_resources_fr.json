@@ -47019,7 +47019,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/107737-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/107737-128.png"
             },
-            "description": "Ce métal patiné par le temps ne vient pas du fond des âges, mais plutôt du fond de l'océan. Les Mercemers l'utilisent aussi bien pour leur scaphandres que pour leurs casseroles.",
+            "description": "Ce métal patiné par le temps ne vient pas du fond des âges, mais plutôt du fond de l'océan. Les Mercemers l'utilisent aussi bien pour leurs scaphandres que pour leurs casseroles.",
             "pods": 2
         },
         {
@@ -53655,7 +53655,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/12780-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/12780-128.png"
             },
-            "description": "Bien qu'il ne contienne qu'une infime parcelle de la puissance d'un Bébémoth, cet objet permettra à votre familier, votre montilier ou votre monture de dévoiler son potentiel caché.",
+            "description": "Bien qu'il ne contienne qu'une infime parcelle de la puissance d'un Bébémoth, cet objet permettra à votre familier ou votre montilier de dévoiler son potentiel caché.",
             "recipe": [
                 {
                     "item_ankama_id": 20961,
@@ -53935,7 +53935,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/12780-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/12780-128.png"
             },
-            "description": "Bien qu'il ne contienne qu'une infime parcelle de la puissance d'un Babamute, cet objet permettra à votre familier, votre montilier ou votre monture de dévoiler son potentiel caché.",
+            "description": "Bien qu'il ne contienne qu'une infime parcelle de la puissance d'un Babamute, cet objet permettra à votre familier ou votre montilier de dévoiler son potentiel caché.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -64900,36 +64900,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 32120,
-            "name": "Ovaton",
-            "type": {
-                "name": "Ressource diverse",
-                "id": 231
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-128.png"
-            },
-            "description": "« Je n'étais pas le meilleur parce que je frappais plus vite, j'étais le meilleur parce que la foule m'aimait. Gagne la foule, Maximor, et tu auras ta liberté. »\n\n— Proximor, gladiateur vétéran.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 32129,
             "name": "Légende d'Oto Mustam",
             "type": {
@@ -65241,7 +65211,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/80049-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/80049-128.png"
             },
-            "description": "Ceci n'est qu'un fragment de l'âme du Chevalier de Glace. Ce dernier ne risque pas de faire grand-chose vu son état.",
+            "description": "Ceci n'est qu'un fragment de l'âme du Chevalier de Glace. Ce dernier ne risque pas d'en faire grand-chose vu son état.",
             "pods": 1
         },
         {
@@ -67181,6 +67151,246 @@
             },
             "description": "Ce fragment vous permettra de reconstituer la carte de Psikopompe.",
             "pods": 1
+        },
+        {
+            "ankama_id": 32464,
+            "name": "Sel des profondeurs",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51519-128.png"
+            },
+            "description": "Vous croyez que l'obscurité est votre alliée ? Eux, ils sont nés dedans, ils ont été façonnés par elle. Ils n'ont découvert la lumière que lors de votre venue, et elle leur a juste paru aveuglante.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32465,
+            "name": "Quartz",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51512-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51512-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32466,
+            "name": "Opale",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51513-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51513-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32467,
+            "name": "Amazonite",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51514-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51514-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32468,
+            "name": "Aventurine",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51515-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51515-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32469,
+            "name": "Lapiz",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51516-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51516-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32470,
+            "name": "Onyx",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51518-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51518-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32471,
+            "name": "Jais",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/51517-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/51517-128.png"
+            },
+            "description": "Une pierre précieuse d'une valeur relative.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
         },
         {
             "ankama_id": 32501,
@@ -72559,7 +72769,7 @@
             "name": "Minuscule Extrait de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 5,
             "image_urls": {
@@ -72601,7 +72811,7 @@
             "name": "Minuscule Extrait de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 5,
             "image_urls": {
@@ -72643,7 +72853,7 @@
             "name": "Minuscule Extrait de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 5,
             "image_urls": {
@@ -72685,7 +72895,7 @@
             "name": "Minuscule Extrait de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 5,
             "image_urls": {
@@ -72727,7 +72937,7 @@
             "name": "Minuscule Extrait d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 5,
             "image_urls": {
@@ -72769,7 +72979,7 @@
             "name": "Minuscule Extrait de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 5,
             "image_urls": {
@@ -72811,7 +73021,7 @@
             "name": "Petit Extrait de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 15,
             "image_urls": {
@@ -72853,7 +73063,7 @@
             "name": "Petit Extrait de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 15,
             "image_urls": {
@@ -72895,7 +73105,7 @@
             "name": "Petit Extrait de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 15,
             "image_urls": {
@@ -72937,7 +73147,7 @@
             "name": "Petit Extrait de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 15,
             "image_urls": {
@@ -72979,7 +73189,7 @@
             "name": "Petit Extrait d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 15,
             "image_urls": {
@@ -73021,7 +73231,7 @@
             "name": "Petit Extrait de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 15,
             "image_urls": {
@@ -73238,7 +73448,7 @@
             "name": "Extrait de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 25,
             "image_urls": {
@@ -73280,7 +73490,7 @@
             "name": "Extrait de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 25,
             "image_urls": {
@@ -73322,7 +73532,7 @@
             "name": "Extrait de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 25,
             "image_urls": {
@@ -73364,7 +73574,7 @@
             "name": "Extrait de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 25,
             "image_urls": {
@@ -73406,7 +73616,7 @@
             "name": "Extrait d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 25,
             "image_urls": {
@@ -73448,7 +73658,7 @@
             "name": "Extrait de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 25,
             "image_urls": {
@@ -73633,7 +73843,7 @@
             "name": "Grand Extrait de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 35,
             "image_urls": {
@@ -73675,7 +73885,7 @@
             "name": "Grand Extrait de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 35,
             "image_urls": {
@@ -73717,7 +73927,7 @@
             "name": "Grand Extrait de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 35,
             "image_urls": {
@@ -73759,7 +73969,7 @@
             "name": "Grand Extrait de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 35,
             "image_urls": {
@@ -73801,7 +74011,7 @@
             "name": "Grand Extrait d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 35,
             "image_urls": {
@@ -73843,7 +74053,7 @@
             "name": "Grand Extrait de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 35,
             "image_urls": {
@@ -74060,7 +74270,7 @@
             "name": "Gigantesque Extrait de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 45,
             "image_urls": {
@@ -74102,7 +74312,7 @@
             "name": "Gigantesque Extrait de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 45,
             "image_urls": {
@@ -74144,7 +74354,7 @@
             "name": "Gigantesque Extrait de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 45,
             "image_urls": {
@@ -74186,7 +74396,7 @@
             "name": "Gigantesque Extrait de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 45,
             "image_urls": {
@@ -74228,7 +74438,7 @@
             "name": "Gigantesque Extrait d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 45,
             "image_urls": {
@@ -74270,7 +74480,7 @@
             "name": "Gigantesque Extrait de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 45,
             "image_urls": {
@@ -74455,7 +74665,7 @@
             "name": "Minuscule Philtre de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 55,
             "image_urls": {
@@ -74502,7 +74712,7 @@
             "name": "Minuscule Philtre de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 55,
             "image_urls": {
@@ -74549,7 +74759,7 @@
             "name": "Minuscule Philtre de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 55,
             "image_urls": {
@@ -74596,7 +74806,7 @@
             "name": "Minuscule Philtre de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 55,
             "image_urls": {
@@ -74643,7 +74853,7 @@
             "name": "Minuscule Philtre d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 55,
             "image_urls": {
@@ -74690,7 +74900,7 @@
             "name": "Minuscule Philtre de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 55,
             "image_urls": {
@@ -74912,7 +75122,7 @@
             "name": "Petit Philtre de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 65,
             "image_urls": {
@@ -74959,7 +75169,7 @@
             "name": "Petit Philtre de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 65,
             "image_urls": {
@@ -75006,7 +75216,7 @@
             "name": "Petit Philtre de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 65,
             "image_urls": {
@@ -75053,7 +75263,7 @@
             "name": "Petit Philtre de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 65,
             "image_urls": {
@@ -75100,7 +75310,7 @@
             "name": "Petit Philtre d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 65,
             "image_urls": {
@@ -75147,7 +75357,7 @@
             "name": "Petit Philtre de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 65,
             "image_urls": {
@@ -75337,7 +75547,7 @@
             "name": "Philtre de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 75,
             "image_urls": {
@@ -75384,7 +75594,7 @@
             "name": "Philtre de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 75,
             "image_urls": {
@@ -75431,7 +75641,7 @@
             "name": "Philtre de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 75,
             "image_urls": {
@@ -75478,7 +75688,7 @@
             "name": "Philtre de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 75,
             "image_urls": {
@@ -75525,7 +75735,7 @@
             "name": "Philtre d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 75,
             "image_urls": {
@@ -75572,7 +75782,7 @@
             "name": "Philtre de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 75,
             "image_urls": {
@@ -75794,7 +76004,7 @@
             "name": "Grand Philtre de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 85,
             "image_urls": {
@@ -75841,7 +76051,7 @@
             "name": "Grand Philtre de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 85,
             "image_urls": {
@@ -75888,7 +76098,7 @@
             "name": "Grand Philtre de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 85,
             "image_urls": {
@@ -75935,7 +76145,7 @@
             "name": "Grand Philtre de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 85,
             "image_urls": {
@@ -75982,7 +76192,7 @@
             "name": "Grand Philtre d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 85,
             "image_urls": {
@@ -76029,7 +76239,7 @@
             "name": "Grand Philtre de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 85,
             "image_urls": {
@@ -76219,7 +76429,7 @@
             "name": "Gigantesque Philtre de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 95,
             "image_urls": {
@@ -76266,7 +76476,7 @@
             "name": "Gigantesque Philtre de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 95,
             "image_urls": {
@@ -76313,7 +76523,7 @@
             "name": "Gigantesque Philtre de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 95,
             "image_urls": {
@@ -76360,7 +76570,7 @@
             "name": "Gigantesque Philtre de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 95,
             "image_urls": {
@@ -76407,7 +76617,7 @@
             "name": "Gigantesque Philtre d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 95,
             "image_urls": {
@@ -76454,7 +76664,7 @@
             "name": "Gigantesque Philtre de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 95,
             "image_urls": {
@@ -76676,7 +76886,7 @@
             "name": "Minuscule Potion de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 105,
             "image_urls": {
@@ -76728,7 +76938,7 @@
             "name": "Minuscule Potion de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 105,
             "image_urls": {
@@ -76780,7 +76990,7 @@
             "name": "Minuscule Potion de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 105,
             "image_urls": {
@@ -76832,7 +77042,7 @@
             "name": "Minuscule Potion de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 105,
             "image_urls": {
@@ -76884,7 +77094,7 @@
             "name": "Minuscule Potion d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 105,
             "image_urls": {
@@ -76936,7 +77146,7 @@
             "name": "Minuscule Potion de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 105,
             "image_urls": {
@@ -77131,7 +77341,7 @@
             "name": "Petite Potion de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 115,
             "image_urls": {
@@ -77183,7 +77393,7 @@
             "name": "Petite Potion de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 115,
             "image_urls": {
@@ -77235,7 +77445,7 @@
             "name": "Petite Potion de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 115,
             "image_urls": {
@@ -77287,7 +77497,7 @@
             "name": "Petite Potion de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 115,
             "image_urls": {
@@ -77339,7 +77549,7 @@
             "name": "Petite Potion d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 115,
             "image_urls": {
@@ -77391,7 +77601,7 @@
             "name": "Petite Potion de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 115,
             "image_urls": {
@@ -77618,7 +77828,7 @@
             "name": "Potion de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 125,
             "image_urls": {
@@ -77670,7 +77880,7 @@
             "name": "Potion de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 125,
             "image_urls": {
@@ -77722,7 +77932,7 @@
             "name": "Potion de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 125,
             "image_urls": {
@@ -77774,7 +77984,7 @@
             "name": "Potion de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 125,
             "image_urls": {
@@ -77826,7 +78036,7 @@
             "name": "Potion d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 125,
             "image_urls": {
@@ -77878,7 +78088,7 @@
             "name": "Potion de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 125,
             "image_urls": {
@@ -78073,7 +78283,7 @@
             "name": "Grande Potion de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 135,
             "image_urls": {
@@ -78125,7 +78335,7 @@
             "name": "Grande Potion de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 135,
             "image_urls": {
@@ -78177,7 +78387,7 @@
             "name": "Grande Potion de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 135,
             "image_urls": {
@@ -78229,7 +78439,7 @@
             "name": "Grande Potion de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 135,
             "image_urls": {
@@ -78281,7 +78491,7 @@
             "name": "Grande Potion d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 135,
             "image_urls": {
@@ -78333,7 +78543,7 @@
             "name": "Grande Potion de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 135,
             "image_urls": {
@@ -78560,7 +78770,7 @@
             "name": "Gigantesque Potion de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 145,
             "image_urls": {
@@ -78612,7 +78822,7 @@
             "name": "Gigantesque Potion de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 145,
             "image_urls": {
@@ -78664,7 +78874,7 @@
             "name": "Gigantesque Potion de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 145,
             "image_urls": {
@@ -78716,7 +78926,7 @@
             "name": "Gigantesque Potion de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 145,
             "image_urls": {
@@ -78768,7 +78978,7 @@
             "name": "Gigantesque Potion d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 145,
             "image_urls": {
@@ -78820,7 +79030,7 @@
             "name": "Gigantesque Potion de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 145,
             "image_urls": {
@@ -79015,7 +79225,7 @@
             "name": "Minuscule Élixir de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 155,
             "image_urls": {
@@ -79072,7 +79282,7 @@
             "name": "Minuscule Élixir de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 155,
             "image_urls": {
@@ -79129,7 +79339,7 @@
             "name": "Minuscule Élixir de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 155,
             "image_urls": {
@@ -79186,7 +79396,7 @@
             "name": "Minuscule Élixir de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 155,
             "image_urls": {
@@ -79243,7 +79453,7 @@
             "name": "Minuscule Élixir d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 155,
             "image_urls": {
@@ -79300,7 +79510,7 @@
             "name": "Minuscule Élixir de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 155,
             "image_urls": {
@@ -79458,7 +79668,7 @@
             "name": "Petit Élixir de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 165,
             "image_urls": {
@@ -79515,7 +79725,7 @@
             "name": "Petit Élixir de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 165,
             "image_urls": {
@@ -79572,7 +79782,7 @@
             "name": "Petit Élixir de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 165,
             "image_urls": {
@@ -79629,7 +79839,7 @@
             "name": "Petit Élixir de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 165,
             "image_urls": {
@@ -79686,7 +79896,7 @@
             "name": "Petit Élixir d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 165,
             "image_urls": {
@@ -79743,7 +79953,7 @@
             "name": "Petit Élixir de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 165,
             "image_urls": {
@@ -79906,7 +80116,7 @@
             "name": "Élixir de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 175,
             "image_urls": {
@@ -79963,7 +80173,7 @@
             "name": "Élixir de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 175,
             "image_urls": {
@@ -80020,7 +80230,7 @@
             "name": "Élixir de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 175,
             "image_urls": {
@@ -80077,7 +80287,7 @@
             "name": "Élixir de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 175,
             "image_urls": {
@@ -80134,7 +80344,7 @@
             "name": "Élixir d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 175,
             "image_urls": {
@@ -80191,7 +80401,7 @@
             "name": "Élixir de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 175,
             "image_urls": {
@@ -80349,7 +80559,7 @@
             "name": "Grand Élixir de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 185,
             "image_urls": {
@@ -80406,7 +80616,7 @@
             "name": "Grand Élixir de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 185,
             "image_urls": {
@@ -80463,7 +80673,7 @@
             "name": "Grand Élixir de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 185,
             "image_urls": {
@@ -80520,7 +80730,7 @@
             "name": "Grand Élixir de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 185,
             "image_urls": {
@@ -80577,7 +80787,7 @@
             "name": "Grand Élixir d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 185,
             "image_urls": {
@@ -80634,7 +80844,7 @@
             "name": "Grand Élixir de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 185,
             "image_urls": {
@@ -80797,7 +81007,7 @@
             "name": "Gigantesque Élixir de Baffeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 195,
             "image_urls": {
@@ -80854,7 +81064,7 @@
             "name": "Gigantesque Élixir de Caresseur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 195,
             "image_urls": {
@@ -80911,7 +81121,7 @@
             "name": "Gigantesque Élixir de Dragofesse",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 195,
             "image_urls": {
@@ -80968,7 +81178,7 @@
             "name": "Gigantesque Élixir de Foudroyeur",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 195,
             "image_urls": {
@@ -81025,7 +81235,7 @@
             "name": "Gigantesque Élixir d'Abreuvoir",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 195,
             "image_urls": {
@@ -81082,7 +81292,7 @@
             "name": "Gigantesque Élixir de Mangeoire",
             "type": {
                 "name": "Carburant d'enclos",
-                "id": 243
+                "id": 254
             },
             "level": 195,
             "image_urls": {
@@ -81206,7 +81416,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/15295-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15295-128.png"
             },
-            "description": "La légende raconte qu'une dragodinde nait avec seulement deux neurones. Chirurgicalement extraite, il lui en reste malheureusement plus qu'un.",
+            "description": "La légende raconte qu'une dragodinde nait avec seulement deux neurones. Chirurgicalement extrait, il ne lui en reste malheureusement plus qu'un.",
             "pods": 1
         },
         {
@@ -81256,7 +81466,7 @@
         },
         {
             "ankama_id": 33523,
-            "name": "Moustache de muldo ebène",
+            "name": "Moustache de muldo ébène",
             "type": {
                 "name": "Poil",
                 "id": 36
@@ -81301,7 +81511,7 @@
         },
         {
             "ankama_id": 33526,
-            "name": "Aile de volkorne ebène",
+            "name": "Aile de volkorne ébène",
             "type": {
                 "name": "Aile",
                 "id": 142
@@ -81425,8 +81635,8 @@
             },
             "level": 165,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/93128-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/93128-128.png"
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/93129-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/93129-128.png"
             },
             "description": "Cette makina permet d'appliquer une capacité spéciale aléatoire à un bébé Muldo de génération 9 ou inférieure lors d'un accouplement.",
             "recipe": [
@@ -81597,36 +81807,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 34204,
-            "name": "Ovaton",
-            "type": {
-                "name": "Ressource diverse",
-                "id": 231
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-128.png"
-            },
-            "description": "« Je n'étais pas le meilleur parce que je frappais plus vite, j'étais le meilleur parce que la foule m'aimait. Gagne la foule, Maximor, et tu auras ta liberté. »\n\n— Proximor, gladiateur vétéran.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 34205,
             "name": "Baffeur en Bambou",
             "type": {
@@ -81793,6 +81973,261 @@
                 }
             ],
             "pods": 10
+        },
+        {
+            "ankama_id": 34323,
+            "name": "Fleur des protecteurs du Sanctuaire",
+            "type": {
+                "name": "Fleur",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24526-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24526-128.png"
+            },
+            "description": "« Les pleurs des protecteurs murés dans le silence se muent en fleurs... mais le mauve est mauvais, à ce qu'on dit. Maudits maux sans mots dits ! Ces muets vous émeuvent ? Quelle mauviette. »\n— Belladone",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34324,
+            "name": "Pièce d'armure des Gardiens du Sanctuaire",
+            "type": {
+                "name": "Ressource diverse",
+                "id": 231
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24527-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24527-128.png"
+            },
+            "description": "Rien de tel qu'une visière de pierre pour arborer un visage marmoréen en toutes circonstances. Très utile pour rester imperturbable devant les provocations de votre belle-mère, ce qui ne manquera pas de la faire enrager.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34325,
+            "name": "Pommeau brisé de la Reine Écarlate",
+            "type": {
+                "name": "Ressource diverse",
+                "id": 231
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24528-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24528-128.png"
+            },
+            "description": "« La jalousie peut vous mener à la haine. Embrassez-la. Chérissez-la. Ne craignez pas de commettre le pire : un cœur brisé vaut mieux qu'une pomme pourrie. »\n— Éphèdre, souveraine déchue",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34326,
+            "name": "Bouquet de lianes de la Princesse Maudite",
+            "type": {
+                "name": "Fleur",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24529-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24529-128.png"
+            },
+            "description": "« Et marions les lianes,\nlions les mariés\ndans la mort, sans la vie,\nles lianes font un beau bouquet\nquand elles sont jolies. »\n— Chant de quête d'Ephedrya",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34334,
+            "name": "Unité de Mureine",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24533-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24533-128.png"
+            },
+            "description": "Une ressource rare d'une valeur élevée.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34335,
+            "name": "Rancune d'Exécrabe",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24537-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24537-128.png"
+            },
+            "description": "Une ressource rare d'une valeur élevée.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34336,
+            "name": "Noirceur de Willorque",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24532-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24532-128.png"
+            },
+            "description": "Une ressource rare d'une valeur élevée.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valeur d'un objet",
+                        "id": 276,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valeur d'un objet"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34337,
+            "name": "Venin de Mureine",
+            "type": {
+                "name": "Liquide",
+                "id": 72
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/15301-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15301-128.png"
+            },
+            "description": "Ce venin est la combinaison de trois puissants poisons. Il est si concentré qu'une simple goutte vous rendrait aveugle.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34338,
+            "name": "Carapace d'Exécrabe",
+            "type": {
+                "name": "Carapace",
+                "id": 0
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24534-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24534-128.png"
+            },
+            "description": "Cette carapace semble changer de forme aléatoirement, seule sa structure reste stable, la rendant ultra-solide.",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34339,
+            "name": "Aileron de Willorque",
+            "type": {
+                "name": "Ressource diverse",
+                "id": 231
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24535-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24535-128.png"
+            },
+            "description": "Beaucoup de braconniers ont traqué Willorque pour son aileron. Très peu sont revenus avant d'abandonner la profession.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34340,
+            "name": "Lueur abyssale",
+            "type": {
+                "name": "Ressource diverse",
+                "id": 231
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24536-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24536-128.png"
+            },
+            "description": "Lorsque l'obscurité vous entoure, accrochez-vous à la moindre lueur visible. Qu'elle soit d'espoir, ou dans les yeux de vos ennemis.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34394,
+            "name": "Pince d'Exécrabe",
+            "type": {
+                "name": "Ressource de raid",
+                "id": 260
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24531-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24531-128.png"
+            },
+            "description": "Une pince puissante, qui pourrait couper n'importe quoi.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34478,
+            "name": "Ovaton",
+            "type": {
+                "name": "Ressource diverse",
+                "id": 231
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-128.png"
+            },
+            "description": "« Je n'étais pas le meilleur parce que je frappais plus vite, j'étais le meilleur parce que la foule m'aimait. Gagne la foule, Maximor, et tu auras ta liberté. »\n\n— Proximor, gladiateur vétéran.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 0
         }
     ]
 }

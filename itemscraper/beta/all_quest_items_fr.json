@@ -16020,8 +16020,8 @@
             "ankama_id": 12838,
             "name": "Kama Bronzé en Chocolat",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -16035,8 +16035,8 @@
             "ankama_id": 12839,
             "name": "Kama Argenté en Chocolat",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -16050,8 +16050,8 @@
             "ankama_id": 12840,
             "name": "Kama Doré en Chocolat",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -23662,21 +23662,6 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15883-128.png"
             },
             "description": "Cette ressource divine est très recherchée par les Voyageurs Dimensionnels. Échangez-la auprès des collecteurs contre des récompenses qui vous transporteront de joie... à défaut de vous transporter dans d'autres mondes.",
-            "pods": 0
-        },
-        {
-            "ankama_id": 15263,
-            "name": "Rose des sables",
-            "type": {
-                "name": "Jetons",
-                "id": 40
-            },
-            "level": 10,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/50720-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/50720-128.png"
-            },
-            "description": "Elle n'est pas rouge, mais elle ne fanera pas.",
             "pods": 0
         },
         {
@@ -35017,6 +35002,21 @@
             "pods": 0
         },
         {
+            "ankama_id": 18342,
+            "name": "Max le Fou",
+            "type": {
+                "name": "Saharach",
+                "id": 74
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
+            },
+            "description": "Max est sous l'effet du tranquillisant que vous a donné Eole Suk. Ramenez-le auprès de lui en attendant de trouver une solution pour le soigner.",
+            "pods": 0
+        },
+        {
             "ankama_id": 18343,
             "name": "Clé de déchiffrement steamer",
             "type": {
@@ -42404,8 +42404,8 @@
             "ankama_id": 20915,
             "name": "Coupon chocolat",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 60,
             "image_urls": {
@@ -42419,8 +42419,8 @@
             "ankama_id": 20916,
             "name": "Coupon noisette",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 130,
             "image_urls": {
@@ -42434,8 +42434,8 @@
             "ankama_id": 20917,
             "name": "Coupon praliné",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 200,
             "image_urls": {
@@ -42803,8 +42803,8 @@
             "ankama_id": 21170,
             "name": "Festiton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -43489,8 +43489,8 @@
             "ankama_id": 21449,
             "name": "Kama d'Ankama",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -49953,7 +49953,7 @@
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 0,
+                    "int_maximum": 1,
                     "type": {
                         "name": "Gagne x",
                         "id": 255,
@@ -49961,7 +49961,7 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": true,
+                    "ignore_int_max": false,
                     "formatted": "Gagne x1"
                 }
             ],
@@ -54922,8 +54922,8 @@
             "ankama_id": 29674,
             "name": "Binouzeton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -55287,7 +55287,7 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24999-128.png"
             },
             "description": "Jetez 100 kamas dans cette sébile et offrez-la au disiciple d'Elgero qui se trouve devant le Bibliotemple.",
-            "pods": 1
+            "pods": 0
         },
         {
             "ankama_id": 30135,
@@ -55638,8 +55638,8 @@
             "ankama_id": 30831,
             "name": "Bétâton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -60459,8 +60459,8 @@
             "ankama_id": 31434,
             "name": "Kolizéton contrefait",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61829,8 +61829,8 @@
             "ankama_id": 32123,
             "name": "Tournoton monstrueux",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -61844,8 +61844,8 @@
             "ankama_id": 32124,
             "name": "Tournoton guerrier",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Jetons événementiels",
+                "id": 262
             },
             "level": 1,
             "image_urls": {
@@ -62127,7 +62127,7 @@
         },
         {
             "ankama_id": 34133,
-            "name": "Âme de Bersekoffre",
+            "name": "Âme capturée de Bersekoffre",
             "type": {
                 "name": "Dimensions Divines",
                 "id": 14
@@ -62142,7 +62142,7 @@
         },
         {
             "ankama_id": 34134,
-            "name": "Âme de Boursoin",
+            "name": "Âme capturée de Boursoin",
             "type": {
                 "name": "Dimensions Divines",
                 "id": 14
@@ -62157,7 +62157,7 @@
         },
         {
             "ankama_id": 34135,
-            "name": "Âme de Mimikado",
+            "name": "Âme capturée de Mimikado",
             "type": {
                 "name": "Dimensions Divines",
                 "id": 14
@@ -62172,7 +62172,7 @@
         },
         {
             "ankama_id": 34136,
-            "name": "Âme de Trésantène",
+            "name": "Âme capturée de Trésantène",
             "type": {
                 "name": "Dimensions Divines",
                 "id": 14
@@ -62393,6 +62393,571 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/32154-128.png"
             },
             "description": "Ce Noeul est destiné à subir les expérimentations du docteur Walterbychop.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34376,
+            "name": "Sable de clepsydre",
+            "type": {
+                "name": "Île de Frigost",
+                "id": 85
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/48260-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/48260-128.png"
+            },
+            "description": "Certaines personnes racontent qu'elles ont pu observer un mystérieux phénomène dans la tour de la clepsydre après avoir versé ce sable dans un de ses étranges mécanismes.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34445,
+            "name": "Pelle d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Une pelle tout ce qu'il y a de plus classique. Pensez à la rendre à son propriétaire après avoir déterré ce que vous cherchiez !",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34446,
+            "name": "Pelle d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Une pelle tout ce qu'il y a de plus classique. Pensez à la rendre à son propriétaire après avoir déterré ce que vous cherchiez !",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34447,
+            "name": "Pelle d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Une pelle tout ce qu'il y a de plus classique. Pensez à la rendre à son propriétaire après avoir déterré ce que vous cherchiez !",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34448,
+            "name": "Pelle d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Une pelle tout ce qu'il y a de plus classique. Pensez à la rendre à son propriétaire après avoir déterré ce que vous cherchiez !",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34449,
+            "name": "Pelle d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8001-128.png"
+            },
+            "description": "Une pelle tout ce qu'il y a de plus classique. Pensez à la rendre à son propriétaire après avoir déterré ce que vous cherchiez !",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zone différente de : {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34450,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34451,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34452,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34453,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34454,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34455,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34456,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34457,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34458,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34459,
+            "name": "Boussole d'archéologue",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126018-128.png"
+            },
+            "description": "Une boussole dont les aiguilles s'affolent en présence d'ambre fossile.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zone différente de : {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34467,
+            "name": "Ambre fossile",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/176047-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/176047-128.png"
+            },
+            "description": "Rapportez ce morceau d'ambre à Edgar Kéolog pour obtenir votre récompense.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34469,
+            "name": "Pâté de sable",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/48691-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/48691-128.png"
+            },
+            "description": "Ce n'est pas ce que vous recherchiez, mais voilà qui titille votre âme d'enfant. Pourquoi ne pas donner quelques autres coups de pelle pour bâtir le château dont vous avez toujours rêvé ?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34475,
+            "name": "Le lieu marqué d'un X",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24007-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24007-128.png"
+            },
+            "description": "La boussole s'affole puis pointe vers le bas, vous êtes au bon endroit !",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34476,
+            "name": "On se rapproche !",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/87002-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/87002-128.png"
+            },
+            "description": "Vous notez votre avancée, mais la boussole continue de tourner de manière erratique.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34479,
+            "name": "Pâté de terre",
+            "type": {
+                "name": "Archipel de Vulkania",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25140-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25140-128.png"
+            },
+            "description": "Ce n'est pas ce que vous recherchiez et c'est moins sympa et polyvalent qu'un pâté de sable... Mais on n'a pas toujours ce que l'on veut dans la vie !",
             "pods": 0
         }
     ]

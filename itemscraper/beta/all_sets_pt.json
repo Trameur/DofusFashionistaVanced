@@ -13767,7 +13767,7 @@
         },
         {
             "ankama_id": 42,
-            "name": "Conjunto Perueiro",
+            "name": "Conjuperueiro",
             "items": 4,
             "level": 50,
             "contains_cosmetics": false,
@@ -52167,7 +52167,7 @@
         },
         {
             "ankama_id": 245,
-            "name": "Conjunto de Ogivol Scafurtado",
+            "name": "Conjunto de Ogivol",
             "items": 3,
             "level": 195,
             "contains_cosmetics": false,
@@ -54808,7 +54808,7 @@
         },
         {
             "ankama_id": 260,
-            "name": "Conjunto de Nondome Dula",
+            "name": "Conjunto de Nondome",
             "items": 3,
             "level": 198,
             "contains_cosmetics": false,
@@ -85203,17 +85203,30 @@
                         "formatted": "15 Retirada de PM"
                     },
                     {
-                        "int_minimum": 50,
+                        "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Potência",
-                            "id": 32,
+                            "name": "Fuga",
+                            "id": 59,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "50 Potência"
+                        "formatted": "15 Fuga"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de alcance",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 de alcance"
                     },
                     {
                         "int_minimum": 500,
@@ -85229,48 +85242,7 @@
                         "formatted": "500 Iniciativa"
                     },
                     {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "de alcance",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 de alcance"
-                    },
-                    {
-                        "int_minimum": 15,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Fuga",
-                            "id": 59,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "15 Fuga"
-                    }
-                ],
-                "3": [
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "PA",
-                            "id": 12,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 PA"
-                    },
-                    {
-                        "int_minimum": 100,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "Potência",
@@ -85280,46 +85252,74 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "100 Potência"
-                    },
+                        "formatted": "50 Potência"
+                    }
+                ],
+                "3": [
                     {
-                        "int_minimum": 1000,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Iniciativa",
-                            "id": 24,
+                            "name": "de dano de ar",
+                            "id": 47,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1000 Iniciativa"
+                        "formatted": "10 de danos de ar"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 12,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de alcance",
-                            "id": 31,
+                            "name": "de dano de água",
+                            "id": 27,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 de alcance"
+                        "formatted": "12 de danos de água"
+                    },
+                    {
+                        "int_minimum": 12,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de dano de fogo",
+                            "id": 61,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "12 de danos de fogo"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de dano de terra",
+                            "id": 48,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 de danos de terra"
                     },
                     {
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Retirada de PA",
-                            "id": 64,
+                            "name": "Fuga",
+                            "id": 59,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Retirada de PA"
+                        "formatted": "30 Fuga"
                     },
                     {
                         "int_minimum": 30,
@@ -85338,66 +85338,79 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Fuga",
-                            "id": 59,
+                            "name": "Retirada de PA",
+                            "id": 64,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Fuga"
+                        "formatted": "30 Retirada de PA"
                     },
                     {
-                        "int_minimum": 15,
+                        "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano de terra",
-                            "id": 48,
+                            "name": "de alcance",
+                            "id": 31,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de danos de terra"
+                        "formatted": "1 de alcance"
                     },
                     {
-                        "int_minimum": 12,
+                        "int_minimum": 1000,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano de fogo",
-                            "id": 61,
+                            "name": "Iniciativa",
+                            "id": 24,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 de danos de fogo"
+                        "formatted": "1000 Iniciativa"
                     },
                     {
-                        "int_minimum": 12,
+                        "int_minimum": 100,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano de água",
-                            "id": 27,
+                            "name": "Potência",
+                            "id": 32,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 de danos de água"
+                        "formatted": "100 Potência"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
                     },
                     {
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de dano de ar",
-                            "id": 47,
+                            "name": "de dano neutros",
+                            "id": 49,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de danos de ar"
+                        "formatted": "10 de danos neutros"
                     }
                 ]
             },
@@ -94256,7 +94269,7 @@
         },
         {
             "ankama_id": 513,
-            "name": "Conjunto de Barberila Sinocobre",
+            "name": "Conjunto de Barberila",
             "items": 3,
             "level": 194,
             "contains_cosmetics": false,
@@ -96562,7 +96575,7 @@
         {
             "ankama_id": 579,
             "name": "Conjunto de Aparência Iop",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96574,7 +96587,8 @@
                 21415,
                 21416,
                 23002,
-                30245
+                30245,
+                34404
             ]
         },
         {
@@ -96597,7 +96611,7 @@
         {
             "ankama_id": 581,
             "name": "Conjunto de Aparência Ladino",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96608,7 +96622,8 @@
                 21480,
                 21481,
                 21482,
-                23004
+                23004,
+                34407
             ]
         },
         {
@@ -96739,7 +96754,7 @@
         {
             "ankama_id": 589,
             "name": "Conjunto de Aparência Zobal",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96750,7 +96765,8 @@
                 22455,
                 22458,
                 22460,
-                23647
+                23647,
+                34406
             ]
         },
         {
@@ -96827,7 +96843,7 @@
         {
             "ankama_id": 594,
             "name": "Conjunto de Aparência Eniripsa",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96839,7 +96855,8 @@
                 24973,
                 24974,
                 24975,
-                25996
+                25996,
+                34405
             ]
         },
         {
@@ -98915,7 +98932,7 @@
             "ankama_id": 745,
             "name": "Conjunto de Aparência de Kekê",
             "items": 3,
-            "level": 10,
+            "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
@@ -99411,14 +99428,15 @@
         },
         {
             "ankama_id": 787,
-            "name": "Conjunto de Aparência Vader",
-            "items": 2,
+            "name": "Conjunto de Aparência do Império",
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9936,
-                9938
+                9938,
+                9945
             ]
         },
         {
@@ -109695,14 +109713,15 @@
         {
             "ankama_id": 969,
             "name": "Conjunto de Aparência Solary",
-            "items": 3,
-            "level": 1,
+            "items": 4,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30971,
                 30976,
-                30981
+                30981,
+                34381
             ]
         },
         {
@@ -109721,14 +109740,15 @@
         {
             "ankama_id": 971,
             "name": "Conjunto de Aparência Karmine Corp",
-            "items": 3,
-            "level": 1,
+            "items": 4,
+            "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30973,
                 30979,
-                30983
+                30983,
+                34380
             ]
         },
         {
@@ -121291,7 +121311,7 @@
         },
         {
             "ankama_id": 1082,
-            "name": "Conjunto de Aparência do Centoro",
+            "name": "Conjunto de Aparência Cavaleira",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
@@ -121307,7 +121327,7 @@
         },
         {
             "ankama_id": 1083,
-            "name": "[!] Panoplie d'apparat du Démon V",
+            "name": "Conjunto de Aparência do Demônio V",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121321,7 +121341,7 @@
         },
         {
             "ankama_id": 1084,
-            "name": "[!] Panoplie d'apparat diaprée du Démon V",
+            "name": "Conjunto de Aparência Matizado do Demônio V",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121335,7 +121355,7 @@
         },
         {
             "ankama_id": 1085,
-            "name": "[!] Panoplie Pourpre",
+            "name": "Conjunto de Aparência da Loteria Púrpura",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121349,7 +121369,7 @@
         },
         {
             "ankama_id": 1086,
-            "name": "[!] Panomuldo",
+            "name": "Marmujunto",
             "items": 3,
             "level": 55,
             "contains_cosmetics": false,
@@ -121512,7 +121532,7 @@
         },
         {
             "ankama_id": 1087,
-            "name": "[!] Panovolko",
+            "name": "Vulkonjunto",
             "items": 3,
             "level": 60,
             "contains_cosmetics": false,
@@ -121675,7 +121695,7 @@
         },
         {
             "ankama_id": 1088,
-            "name": "[!] Panoplie d'apparat flamboyante du Phénix",
+            "name": "Conjunto de Aparência Flamejante da Fênix",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
@@ -121687,6 +121707,483 @@
                 34262,
                 34263,
                 34264
+            ]
+        },
+        {
+            "ankama_id": 1089,
+            "name": "Conjunto de Aparência do Eletrizado",
+            "items": 8,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34278,
+                34279,
+                34280,
+                34281,
+                34282,
+                34283,
+                34295,
+                34296
+            ]
+        },
+        {
+            "ankama_id": 1090,
+            "name": "Conjunto do Santuário dos Jardins Eternos",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de cura",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 de curas"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Potência",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Potência"
+                    },
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência ao ar",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% resistência ao ar"
+                    },
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência à água",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% resistência à água"
+                    },
+                    {
+                        "int_minimum": 3,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência à terra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "3% resistência à terra"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de dano",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7 de danos"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de alcance",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 de alcance"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Invocação",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Invocação"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência ao ar",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistência ao ar"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência à água",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistência à água"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência à terra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistência à terra"
+                    },
+                    {
+                        "int_minimum": 12,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de dano",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "12 de danos"
+                    },
+                    {
+                        "int_minimum": 30,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Potência",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "30 Potência"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de cura",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 de curas"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de alcance",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 de alcance"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Invocação",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Invocação"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34327,
+                34328,
+                34329
+            ]
+        },
+        {
+            "ankama_id": 1091,
+            "name": "Conjunto da Fenda",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Sorte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Sorte"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% de crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7% de crítico"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Bloqueio",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Bloqueio"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% de crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7% de crítico"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Bloqueio",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Bloqueio"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Sorte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Sorte"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34330,
+                34331,
+                34332
+            ]
+        },
+        {
+            "ankama_id": 1092,
+            "name": "Conjunto de Aparência Joblife",
+            "items": 4,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34382,
+                34387,
+                34388,
+                34389
+            ]
+        },
+        {
+            "ankama_id": 1093,
+            "name": "Conjunto de Aparência Peps",
+            "items": 4,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34383,
+                34384,
+                34385,
+                34386
+            ]
+        },
+        {
+            "ankama_id": 1097,
+            "name": "Conjunto de Aparência do Exterminador",
+            "items": 8,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34409,
+                34410,
+                34411,
+                34412,
+                34413,
+                34414,
+                34415,
+                34416
+            ]
+        },
+        {
+            "ankama_id": 1098,
+            "name": "Conjunto de Aparência da Loteria Ocre",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34441,
+                34442,
+                34443,
+                34444
+            ]
+        },
+        {
+            "ankama_id": 1099,
+            "name": "Conjunto de Aparência do Incursor",
+            "items": 7,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34480,
+                34481,
+                34482,
+                34483,
+                34484,
+                34485,
+                34486
+            ]
+        },
+        {
+            "ankama_id": 1100,
+            "name": "[!] Panoplie d'apparat de Scoreur",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34503,
+                34505,
+                34507,
+                34509,
+                34511
+            ]
+        },
+        {
+            "ankama_id": 1101,
+            "name": "[!] Panoplie d'apparat de Skale",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34502,
+                34504,
+                34506,
+                34508,
+                34510
             ]
         }
     ]
