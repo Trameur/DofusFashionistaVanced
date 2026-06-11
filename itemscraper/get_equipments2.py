@@ -125,6 +125,7 @@ STAT_TRANSLATE = {
     ': - AP': ': - AP',
     ': - cooldown': ': - cooldown',
     ': + Maximum Range': ': + Maximum Range',
+    ': - Minimum Range': ': - Minimum Range',
     'Changes speech': 'Changes speech',
     ': + cast(s) per target': ': + cast(s) per target',
     ': +% Critical': ': +% Critical',
