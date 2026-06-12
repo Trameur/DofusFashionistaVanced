@@ -121751,7 +121751,7 @@
                         "formatted": "60 de curas"
                     },
                     {
-                        "int_minimum": 30,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "Potência",
@@ -121761,7 +121761,59 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Potência"
+                        "formatted": "50 Potência"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Invocação",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Invocação"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de dano",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 de danos"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência à terra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistência à terra"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistência à água",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistência à água"
                     },
                     {
                         "int_minimum": 3,
@@ -121777,57 +121829,20 @@
                         "formatted": "3% resistência ao ar"
                     },
                     {
-                        "int_minimum": 3,
+                        "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% resistência à água",
-                            "id": 17,
+                            "name": "% resistência ao fogo",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "3% resistência à água"
-                    },
-                    {
-                        "int_minimum": 3,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% resistência à terra",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "3% resistência à terra"
-                    },
-                    {
-                        "int_minimum": 7,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "de dano",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "7 de danos"
-                    },
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "de alcance",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 de alcance"
-                    },
+                        "formatted": "5% resistência ao fogo"
+                    }
+                ],
+                "3": [
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
@@ -121840,34 +121855,58 @@
                         "ignore_int_min": false,
                         "ignore_int_max": true,
                         "formatted": "1 Invocação"
-                    }
-                ],
-                "3": [
+                    },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 60,
                         "int_maximum": 0,
                         "type": {
-                            "name": "PA",
-                            "id": 12,
+                            "name": "de cura",
+                            "id": 121,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 PA"
+                        "formatted": "60 de curas"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Potência",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Potência"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de dano",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 de danos"
                     },
                     {
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% resistência ao ar",
-                            "id": 16,
+                            "name": "% resistência à terra",
+                            "id": 63,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% resistência ao ar"
+                        "formatted": "5% resistência à terra"
                     },
                     {
                         "int_minimum": 5,
@@ -121886,79 +121925,40 @@
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% resistência à terra",
-                            "id": 63,
+                            "name": "% resistência ao ar",
+                            "id": 16,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% resistência à terra"
-                    },
-                    {
-                        "int_minimum": 12,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "de dano",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "12 de danos"
-                    },
-                    {
-                        "int_minimum": 30,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Potência",
-                            "id": 32,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "30 Potência"
-                    },
-                    {
-                        "int_minimum": 60,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "de cura",
-                            "id": 121,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "60 de curas"
+                        "formatted": "5% resistência ao ar"
                     },
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de alcance",
-                            "id": 31,
+                            "name": "PA",
+                            "id": 12,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 de alcance"
+                        "formatted": "1 PA"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Invocação",
-                            "id": 28,
+                            "name": "% resistência ao fogo",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Invocação"
+                        "formatted": "10% resistência ao fogo"
                     }
                 ]
             },

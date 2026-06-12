@@ -550966,7 +550966,7 @@
                     "formatted": "11 to 15% Air Resistance"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Critical",
@@ -550976,10 +550976,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% Critical"
+                    "formatted": "-7% Critical"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Critical Resistance",
@@ -550989,7 +550989,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Critical Resistance"
+                    "formatted": "-15 Critical Resistance"
                 }
             ],
             "is_weapon": false,
@@ -551173,7 +551173,7 @@
                     "formatted": "11 to 15% Earth Resistance"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Critical",
@@ -551183,10 +551183,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% Critical"
+                    "formatted": "-7% Critical"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Critical Resistance",
@@ -551196,7 +551196,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Critical Resistance"
+                    "formatted": "-15 Critical Resistance"
                 },
                 {
                     "int_minimum": 1,
@@ -551393,7 +551393,7 @@
                     "formatted": "9 to 13 Air damage"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Critical",
@@ -551403,10 +551403,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% Critical"
+                    "formatted": "-7% Critical"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Critical Resistance",
@@ -551416,7 +551416,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Critical Resistance"
+                    "formatted": "-15 Critical Resistance"
                 },
                 {
                     "int_minimum": 1,

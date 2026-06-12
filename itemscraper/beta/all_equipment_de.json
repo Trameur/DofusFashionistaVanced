@@ -550966,7 +550966,7 @@
                     "formatted": "11 bis 15% Luftresistenz"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% auf kritische Treffer",
@@ -550976,10 +550976,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% auf kritische Treffer"
+                    "formatted": "-7% auf kritische Treffer"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Kritische Treffer",
@@ -550989,7 +550989,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Resistenz gegen Kritische Treffer"
+                    "formatted": "-15 Resistenz gegen Kritische Treffer"
                 }
             ],
             "is_weapon": false,
@@ -551173,7 +551173,7 @@
                     "formatted": "11 bis +15% Erdresistenz"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% auf kritische Treffer",
@@ -551183,10 +551183,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% auf kritische Treffer"
+                    "formatted": "-7% auf kritische Treffer"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Kritische Treffer",
@@ -551196,7 +551196,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Resistenz gegen Kritische Treffer"
+                    "formatted": "-15 Resistenz gegen Kritische Treffer"
                 },
                 {
                     "int_minimum": 1,
@@ -551393,7 +551393,7 @@
                     "formatted": "9 bis 13 Luftschaden"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% auf kritische Treffer",
@@ -551403,10 +551403,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% auf kritische Treffer"
+                    "formatted": "-7% auf kritische Treffer"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Kritische Treffer",
@@ -551416,7 +551416,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Resistenz gegen Kritische Treffer"
+                    "formatted": "-15 Resistenz gegen Kritische Treffer"
                 },
                 {
                     "int_minimum": 1,

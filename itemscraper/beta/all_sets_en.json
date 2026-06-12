@@ -121751,7 +121751,7 @@
                         "formatted": "60 Heals"
                     },
                     {
-                        "int_minimum": 30,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "Power",
@@ -121761,7 +121761,59 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Power"
+                        "formatted": "50 Power"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Summons",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Summons"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Damage"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Earth Resistance",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Earth Resistance"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Water Resistance",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Water Resistance"
                     },
                     {
                         "int_minimum": 3,
@@ -121777,57 +121829,20 @@
                         "formatted": "3% Air Resistance"
                     },
                     {
-                        "int_minimum": 3,
+                        "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Water Resistance",
-                            "id": 17,
+                            "name": "% Fire Resistance",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "3% Water Resistance"
-                    },
-                    {
-                        "int_minimum": 3,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Earth Resistance",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "3% Earth Resistance"
-                    },
-                    {
-                        "int_minimum": 7,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Damage",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "7 Damage"
-                    },
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Range",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Range"
-                    },
+                        "formatted": "5% Fire Resistance"
+                    }
+                ],
+                "3": [
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
@@ -121840,34 +121855,58 @@
                         "ignore_int_min": false,
                         "ignore_int_max": true,
                         "formatted": "1 Summons"
-                    }
-                ],
-                "3": [
+                    },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 60,
                         "int_maximum": 0,
                         "type": {
-                            "name": "AP",
-                            "id": 12,
+                            "name": "Heal",
+                            "id": 121,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 AP"
+                        "formatted": "60 Heals"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Power",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Power"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Damage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Damage"
                     },
                     {
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Air Resistance",
-                            "id": 16,
+                            "name": "% Earth Resistance",
+                            "id": 63,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% Air Resistance"
+                        "formatted": "5% Earth Resistance"
                     },
                     {
                         "int_minimum": 5,
@@ -121886,79 +121925,40 @@
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Earth Resistance",
-                            "id": 63,
+                            "name": "% Air Resistance",
+                            "id": 16,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% Earth Resistance"
-                    },
-                    {
-                        "int_minimum": 12,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Damage",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "12 Damage"
-                    },
-                    {
-                        "int_minimum": 30,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Power",
-                            "id": 32,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "30 Power"
-                    },
-                    {
-                        "int_minimum": 60,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Heal",
-                            "id": 121,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "60 Heals"
+                        "formatted": "5% Air Resistance"
                     },
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Range",
-                            "id": 31,
+                            "name": "AP",
+                            "id": 12,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Range"
+                        "formatted": "1 AP"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Summons",
-                            "id": 28,
+                            "name": "% Fire Resistance",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Summons"
+                        "formatted": "10% Fire Resistance"
                     }
                 ]
             },

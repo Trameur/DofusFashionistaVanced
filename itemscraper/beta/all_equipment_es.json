@@ -550966,7 +550966,7 @@
                     "formatted": "11 a 15% resistencia al aire"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% crítico",
@@ -550976,10 +550976,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% crítico"
+                    "formatted": "-7% crítico"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistencia a críticos",
@@ -550989,7 +550989,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 de resistencia a críticos"
+                    "formatted": "-15 de resistencia a críticos"
                 }
             ],
             "is_weapon": false,
@@ -551173,7 +551173,7 @@
                     "formatted": "11 a 15% resistencia a la tierra"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% crítico",
@@ -551183,10 +551183,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% crítico"
+                    "formatted": "-7% crítico"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistencia a críticos",
@@ -551196,7 +551196,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 de resistencia a críticos"
+                    "formatted": "-15 de resistencia a críticos"
                 },
                 {
                     "int_minimum": 1,
@@ -551393,7 +551393,7 @@
                     "formatted": "9 a 13 de daños de aire"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% crítico",
@@ -551403,10 +551403,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% crítico"
+                    "formatted": "-7% crítico"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistencia a críticos",
@@ -551416,7 +551416,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 de resistencia a críticos"
+                    "formatted": "-15 de resistencia a críticos"
                 },
                 {
                     "int_minimum": 1,

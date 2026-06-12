@@ -59701,7 +59701,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Robustesse du Craqueleur (niveau 200) :\n• Au début du combat, le porteur sacrifie 2% de résistance par allié pour en donner 3% à ses alliés. Les résistances sacrifiées pour un allié sont récupérées à sa mort."
+                    "formatted": "Robustesse du Craqueleur (niveau 200) :\n• Au début du combat, le porteur sacrifie 2% de résistance par allié pour en donner 3% à ses alliés. Les résistances sacrifiées pour un allié sont récupérées à sa mort.\n• Les effets sont retirés à la mort du porteur."
                 }
             ],
             "pods": 2

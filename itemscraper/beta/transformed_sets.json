@@ -61546,9 +61546,29 @@
                         "Heals"
                     ],
                     [
-                        30,
+                        50,
                         null,
                         "Power"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Water Resist"
                     ],
                     [
                         3,
@@ -61556,29 +61576,9 @@
                         "% Air Resist"
                     ],
                     [
-                        3,
+                        5,
                         null,
-                        "% Water Resist"
-                    ],
-                    [
-                        3,
-                        null,
-                        "% Earth Resist"
-                    ],
-                    [
-                        7,
-                        null,
-                        "Damage"
-                    ],
-                    [
-                        1,
-                        null,
-                        "Range"
-                    ],
-                    [
-                        1,
-                        null,
-                        "Summon"
+                        "% Fire Resist"
                     ]
                 ]
             },
@@ -61588,12 +61588,27 @@
                     [
                         1,
                         null,
-                        "AP"
+                        "Summon"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Damage"
                     ],
                     [
                         5,
                         null,
-                        "% Air Resist"
+                        "% Earth Resist"
                     ],
                     [
                         5,
@@ -61603,32 +61618,17 @@
                     [
                         5,
                         null,
-                        "% Earth Resist"
-                    ],
-                    [
-                        12,
-                        null,
-                        "Damage"
-                    ],
-                    [
-                        30,
-                        null,
-                        "Power"
-                    ],
-                    [
-                        60,
-                        null,
-                        "Heals"
+                        "% Air Resist"
                     ],
                     [
                         1,
                         null,
-                        "Range"
+                        "AP"
                     ],
                     [
-                        1,
+                        10,
                         null,
-                        "Summon"
+                        "% Fire Resist"
                     ]
                 ]
             }

@@ -121751,7 +121751,7 @@
                         "formatted": "60 Soins"
                     },
                     {
-                        "int_minimum": 30,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "Puissance",
@@ -121761,7 +121761,59 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Puissance"
+                        "formatted": "50 Puissance"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Invocation",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Invocation"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dommage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Dommages"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Terre",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Résistance Terre"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Eau",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Résistance Eau"
                     },
                     {
                         "int_minimum": 3,
@@ -121777,57 +121829,20 @@
                         "formatted": "3% Résistance Air"
                     },
                     {
-                        "int_minimum": 3,
+                        "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Résistance Eau",
-                            "id": 17,
+                            "name": "% Résistance Feu",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "3% Résistance Eau"
-                    },
-                    {
-                        "int_minimum": 3,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Résistance Terre",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "3% Résistance Terre"
-                    },
-                    {
-                        "int_minimum": 7,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Dommage",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "7 Dommages"
-                    },
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Portée",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Portée"
-                    },
+                        "formatted": "5% Résistance Feu"
+                    }
+                ],
+                "3": [
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
@@ -121840,34 +121855,58 @@
                         "ignore_int_min": false,
                         "ignore_int_max": true,
                         "formatted": "1 Invocation"
-                    }
-                ],
-                "3": [
+                    },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 60,
                         "int_maximum": 0,
                         "type": {
-                            "name": "PA",
-                            "id": 12,
+                            "name": "Soin",
+                            "id": 121,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 PA"
+                        "formatted": "60 Soins"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Puissance",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Puissance"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dommage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Dommages"
                     },
                     {
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Résistance Air",
-                            "id": 16,
+                            "name": "% Résistance Terre",
+                            "id": 63,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% Résistance Air"
+                        "formatted": "5% Résistance Terre"
                     },
                     {
                         "int_minimum": 5,
@@ -121886,79 +121925,40 @@
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Résistance Terre",
-                            "id": 63,
+                            "name": "% Résistance Air",
+                            "id": 16,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% Résistance Terre"
-                    },
-                    {
-                        "int_minimum": 12,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Dommage",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "12 Dommages"
-                    },
-                    {
-                        "int_minimum": 30,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Puissance",
-                            "id": 32,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "30 Puissance"
-                    },
-                    {
-                        "int_minimum": 60,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Soin",
-                            "id": 121,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "60 Soins"
+                        "formatted": "5% Résistance Air"
                     },
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Portée",
-                            "id": 31,
+                            "name": "PA",
+                            "id": 12,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Portée"
+                        "formatted": "1 PA"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Invocation",
-                            "id": 28,
+                            "name": "% Résistance Feu",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Invocation"
+                        "formatted": "10% Résistance Feu"
                     }
                 ]
             },

@@ -121751,7 +121751,7 @@
                         "formatted": "60 Heilung"
                     },
                     {
-                        "int_minimum": 30,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "Schlagkraft",
@@ -121761,7 +121761,59 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 Schlagkraft"
+                        "formatted": "50 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schaden"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Erdresistenz",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Erdresistenz"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Wasserresistenz",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Wasserresistenz"
                     },
                     {
                         "int_minimum": 3,
@@ -121777,57 +121829,20 @@
                         "formatted": "3% Luftresistenz"
                     },
                     {
-                        "int_minimum": 3,
+                        "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Wasserresistenz",
-                            "id": 17,
+                            "name": "% Feuerresistenz",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "3% Wasserresistenz"
-                    },
-                    {
-                        "int_minimum": 3,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Erdresistenz",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "3% Erdresistenz"
-                    },
-                    {
-                        "int_minimum": 7,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Schaden",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "7 Schaden"
-                    },
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "RW",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 RW"
-                    },
+                        "formatted": "5% Feuerresistenz"
+                    }
+                ],
+                "3": [
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
@@ -121840,34 +121855,58 @@
                         "ignore_int_min": false,
                         "ignore_int_max": true,
                         "formatted": "1 Beschwörung"
-                    }
-                ],
-                "3": [
+                    },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 60,
                         "int_maximum": 0,
                         "type": {
-                            "name": "AP",
-                            "id": 12,
+                            "name": "Heilung",
+                            "id": 121,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 AP"
+                        "formatted": "60 Heilung"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Schaden"
                     },
                     {
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Luftresistenz",
-                            "id": 16,
+                            "name": "% Erdresistenz",
+                            "id": 63,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% Luftresistenz"
+                        "formatted": "5% Erdresistenz"
                     },
                     {
                         "int_minimum": 5,
@@ -121886,79 +121925,40 @@
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Erdresistenz",
-                            "id": 63,
+                            "name": "% Luftresistenz",
+                            "id": 16,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "5% Erdresistenz"
-                    },
-                    {
-                        "int_minimum": 12,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Schaden",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "12 Schaden"
-                    },
-                    {
-                        "int_minimum": 30,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Schlagkraft",
-                            "id": 32,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "30 Schlagkraft"
-                    },
-                    {
-                        "int_minimum": 60,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Heilung",
-                            "id": 121,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "60 Heilung"
+                        "formatted": "5% Luftresistenz"
                     },
                     {
                         "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "RW",
-                            "id": 31,
+                            "name": "AP",
+                            "id": 12,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 RW"
+                        "formatted": "1 AP"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Beschwörung",
-                            "id": 28,
+                            "name": "% Feuerresistenz",
+                            "id": 37,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 Beschwörung"
+                        "formatted": "10% Feuerresistenz"
                     }
                 ]
             },

@@ -424274,7 +424274,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois)."
+                    "formatted": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible."
                 },
                 {
                     "int_minimum": 351,
@@ -439070,7 +439070,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 3% de résistances à son attaquant pendant 2 tours (cumulable 4 fois)."
+                    "formatted": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur."
                 },
                 {
                     "int_minimum": 8,
@@ -509146,7 +509146,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 4 fois, partagé entre les effets) :\n • Terre & Eau : 10 Retrait PM\n • Feu & Air : 10 Retrait PA"
+                    "formatted": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA"
                 },
                 {
                     "int_minimum": 151,
@@ -550966,7 +550966,7 @@
                     "formatted": "11 à 15% Résistance Air"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Critique",
@@ -550976,10 +550976,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% Critique"
+                    "formatted": "-7% Critique"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Critiques",
@@ -550989,7 +550989,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Résistances Critiques"
+                    "formatted": "-15 Résistances Critiques"
                 }
             ],
             "is_weapon": false,
@@ -551173,7 +551173,7 @@
                     "formatted": "11 à 15% Résistance Terre"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Critique",
@@ -551183,10 +551183,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% Critique"
+                    "formatted": "-7% Critique"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Critiques",
@@ -551196,7 +551196,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Résistances Critiques"
+                    "formatted": "-15 Résistances Critiques"
                 },
                 {
                     "int_minimum": 1,
@@ -551393,7 +551393,7 @@
                     "formatted": "9 à 13 Dommages Air"
                 },
                 {
-                    "int_minimum": -5,
+                    "int_minimum": -7,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Critique",
@@ -551403,10 +551403,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-5% Critique"
+                    "formatted": "-7% Critique"
                 },
                 {
-                    "int_minimum": -20,
+                    "int_minimum": -15,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Critiques",
@@ -551416,7 +551416,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-20 Résistances Critiques"
+                    "formatted": "-15 Résistances Critiques"
                 },
                 {
                     "int_minimum": 1,

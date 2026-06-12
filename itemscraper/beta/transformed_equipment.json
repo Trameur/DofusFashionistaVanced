@@ -158660,7 +158660,7 @@
             ]
         ],
         "special_spell_en": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).",
-        "special_spell_fr": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).",
+        "special_spell_fr": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible.",
         "special_spell_es": "Rey Bajo la Montaña:\n• Cuando el portador realiza o sufre un intento de retirada de PA o PM, gana un 2% de daños finales durante 2 turnos (acumulable 5 veces).",
         "special_spell_pt": "Rei Debaixo da Montanha:\n• Ao realizar ou sofrer uma tentativa de retirada de PA ou PM, o portador ganha 2% de danos finais durante 2 turnos (acumula até 5 vezes).",
         "special_spell_de": "König unter dem Berg:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Endschaden 2 Runden lang um 2 % (5-mal kumulierbar).",
@@ -164234,7 +164234,7 @@
             ]
         ],
         "special_spell_en": "Trial of the Scales:\n• When the bearer suffers an attempted AP, MP or Range removal, they steal 2% resistance from their attacker for 2 turns (stackable 5 times).",
-        "special_spell_fr": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 3% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).",
+        "special_spell_fr": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur.",
         "special_spell_es": "Prueba de la Balanza:\n• Cuando el portador sufre un intento de retirada de PA, PM o alcance, roba un 2% de resistencias a su atacante durante 2 turnos (acumulable 5 veces).",
         "special_spell_pt": "Prova da Balança:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula 5 vezes).",
         "special_spell_de": "Prüfung der Waage:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (5-mal kumulierbar).",
@@ -182464,7 +182464,7 @@
             ]
         ],
         "special_spell_en": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction depending on the element for 2 turns (stackable 4 times, shared among effects):\n • Earth & Water: 10 MP Reduction\n• Fire & Air: 10 AP Reduction",
-        "special_spell_fr": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 4 fois, partagé entre les effets) :\n • Terre & Eau : 10 Retrait PM\n • Feu & Air : 10 Retrait PA",
+        "special_spell_fr": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA",
         "special_spell_es": "Clarividencia de Mériana:\n• Cuando el portador ocasiona daños elementales, gana retirada según el elemento durante 2 turnos (acumulable 4 veces, compartido entre los efectos):\n • Tierra y agua: 10 de retirada de PM\n• Fuego y aire: 10 de retirada de PA",
         "special_spell_pt": "Clarividência de Meriana:\n• Quando o portador inflige danos elementares, ele ganha Retirada de acordo com o elemento durante 2 turnos (acumula até 4 vezes, repartido entre os efeitos):\n • Terra e Água: 10 de retirada de PM\n• Fogo e Ar: 10 de retirada de PA",
         "special_spell_de": "Merianas Hellsicht:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang einen Entzug im jeweiligen Element (4-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde und Wasser: 10 BP-Entzug\n• Feuer und Luft: 10 AP-Entzug",
@@ -200616,12 +200616,12 @@
                 "% Air Resist"
             ],
             [
-                -5,
+                -7,
                 null,
                 "Critical Hits"
             ],
             [
-                -20,
+                -15,
                 null,
                 "Critical Resist"
             ]
@@ -200687,12 +200687,12 @@
                 "% Earth Resist"
             ],
             [
-                -5,
+                -7,
                 null,
                 "Critical Hits"
             ],
             [
-                -20,
+                -15,
                 null,
                 "Critical Resist"
             ],
@@ -200763,12 +200763,12 @@
                 "Air Damage"
             ],
             [
-                -5,
+                -7,
                 null,
                 "Critical Hits"
             ],
             [
-                -20,
+                -15,
                 null,
                 "Critical Resist"
             ],
