@@ -42,7 +42,7 @@ jsonschema==4.26.0
 libcomps==0.1.21.post1
 lockfile==0.12.2
 MarkupSafe==3.0.2
-mod-wsgi==4.9.4
+mod-wsgi==6.0.4
 mysql-connector-python==9.7.0
 oauthlib==3.2.2
 packaging==26.2
