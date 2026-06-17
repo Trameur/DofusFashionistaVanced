@@ -25801,6 +25801,13 @@
     "fr": "Exécution",
     "pt": "Execução"
   },
+  "Execution of the Escaped": {
+    "de": "Hinrichtung des Geflüchteten",
+    "en": "Execution of the Escaped",
+    "es": "Ejecución del Fugado",
+    "fr": "Exécution de l'Évadé",
+    "pt": "Execução do Fugitivo"
+  },
   "Exhaler": {
     "de": "Bombastischer Schub",
     "en": "Exhaler",
@@ -52071,6 +52078,13 @@
     "es": "Obstinación Güina",
     "fr": "Mansobtination",
     "pt": "Pingstinação"
+  },
+  "Pingwoxygen": {
+    "de": "Pingoxid",
+    "en": "Pingwoxygen",
+    "es": "Morsaxígeno",
+    "fr": "Mansoxygène",
+    "pt": "Pingoxigênio"
   },
   "Pingwrath": {
     "de": "Pingwut",
@@ -80429,13 +80443,6 @@
     "fr": "Extraction",
     "pt": "[!] Extraction"
   },
-  "[!] Exécution de l'Évadé": {
-    "de": "[!] Exécution de l'Évadé",
-    "en": "[!] Exécution de l'Évadé",
-    "es": "[!] Exécution de l'Évadé",
-    "fr": "Exécution de l'Évadé",
-    "pt": "[!] Exécution de l'Évadé"
-  },
   "[!] Faire le mur": {
     "de": "[!] Faire le mur",
     "en": "[!] Faire le mur",
@@ -84154,7 +84161,7 @@
     "pt": "[!] Étreinte Sylvestre"
   },
   "[!] Évasion de l'Exil": {
-    "de": "[!] Évasion de l'Exil",
+    "de": "Flucht aus dem Exil",
     "en": "[!] Évasion de l'Exil",
     "es": "[!] Évasion de l'Exil",
     "fr": "Évasion de l'Exil",
