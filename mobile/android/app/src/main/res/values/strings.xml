@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Dofus Fashionista</string>
+    <string name="title_activity_main">Dofus Fashionista</string>
+    <string name="package_name">gg.dofusfashionista.app</string>
+    <string name="custom_url_scheme">gg.dofusfashionista.app</string>
+</resources>

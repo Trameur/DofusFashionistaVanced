@@ -1,0 +1,143 @@
+/* ============================================================================
+   Dofus Fashionista - Mobile responsive layer
+   ----------------------------------------------------------------------------
+   Make the existing desktop design usable on phones WITHOUT changing desktop.
+   Everything is scoped to <= 900px, so the > 900px (PC) rendering is unchanged.
+   Loaded LAST in base.html; structural overrides use !important because some
+   pages re-import the fixed-width desktop CSS inside their {% block css %}.
+   ============================================================================ */
+
+/* Hamburger toggle is desktop-hidden by default; shown only on mobile below. */
+.mobile-nav-toggle { display: none; }
+
+@media (max-width: 900px) {
+
+  /* ---- Global: stop the horizontal "zoomed-out" overflow ---- */
+  html, body { max-width: 100%; overflow-x: hidden; }
+  body.body-base { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  .add-banner {
+    width: 100% !important; max-width: 100% !important; margin: 0 !important;
+    padding: 0 6px; box-sizing: border-box;
+  }
+  .everything {
+    width: 100% !important; max-width: 100% !important; margin: 0 !important;
+    box-sizing: border-box;
+  }
+
+  /* Banner scales to the screen width */
+  .banner { width: 100% !important; height: auto !important; margin: 0 auto !important; }
+  .banner img { width: 100%; max-width: 100%; height: auto; max-height: none; }
+
+  /* The desktop character overlay is pulled up (top:-230px); neutralise it. */
+  .char-overlay { position: static !important; top: auto !important; left: auto !important; height: auto !important; }
+  .char { display: none !important; }
+
+  /* ---- Header controls (language / theme / version / login) ---- */
+  .space.header-controls {
+    height: auto !important; display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: center; gap: 10px; padding: 8px 4px; clear: both;
+  }
+  .space.header-controls .login,
+  .space.header-controls .base-language-selector-div,
+  .space.header-controls .base-theme-selector-div,
+  .space.header-controls .version-selector {
+    float: none !important; margin: 0 !important; position: relative; top: auto;
+  }
+  .version-link { padding: 7px 12px; font-size: 12px; }
+
+  /* ---- Hamburger + collapsible sidebar navigation ---- */
+  .mobile-nav-toggle {
+    display: block; width: calc(100% - 12px); margin: 8px 6px; padding: 12px 14px;
+    font-weight: bold; font-size: 16px; text-align: left; cursor: pointer;
+    border: 1px solid rgba(128, 128, 128, 0.5); border-radius: 8px;
+    background: rgba(128, 128, 128, 0.16); color: inherit;
+  }
+  .mobile-nav-toggle .chev { float: right; transition: transform 0.2s; }
+  .mobile-nav-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
+  .sidebar {
+    float: none !important; width: 100% !important; display: none;
+    box-sizing: border-box; padding: 4px 6px 14px;
+  }
+  .sidebar.open { display: block; }
+  .mini-menu, .sidebar-stats { width: 100% !important; box-sizing: border-box; }
+  .menu_link:link, .menu_link:visited,
+  .menu-collapse-link:link, .menu-collapse-link:visited {
+    width: auto !important; padding: 13px 12px; font-size: 15px;
+  }
+  .sidebar .space { height: 12px !important; }
+
+  /* ---- Main content spans the full width ---- */
+  .maincolumn { margin: 0 !important; }
+  .maincontent, .loading { padding: 12px !important; border-radius: 0 !important; font-size: 15px; }
+  .proj_info { margin-left: -12px !important; margin-right: -12px !important; margin-top: -12px !important; }
+
+  /* ---- Home page: CTA buttons first, decorative grid faded at the bottom ---- */
+  .main-div { display: flex; flex-direction: column; position: static !important; }
+  .giant-button {
+    position: static !important; order: -1; width: auto !important;
+    left: auto !important; right: auto !important; top: auto !important;
+    margin: 6px 4px !important; padding: 12px !important; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .giant-button-pic img { height: 50px; width: auto; }
+  .giant-button-text { font-size: 16px !important; }
+
+  .main-div > table { order: 5; }
+  .main-div table, .main-div tbody, .main-div tr, .main-div td {
+    display: block !important; width: 100% !important; max-width: 100% !important;
+  }
+  .main-div td { text-align: center; padding: 0 !important; }
+  .main-div table {
+    max-height: 36vh; overflow: hidden; margin-top: 12px; opacity: 0.8;
+    -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
+            mask-image: linear-gradient(to bottom, #000 65%, transparent);
+  }
+  .home-pic-holder, .home-pic { width: 46px !important; height: 46px !important; }
+
+  .featured-builds-grid { grid-template-columns: 1fr !important; }
+  .featured-builds-wrap { padding: 0 4px; }
+
+  /* ---- Forms & fixed-width boxes: keep everything inside the viewport ---- */
+  .maincontent input, .maincontent select, .maincontent textarea,
+  .pretty-input, .white-pretty-input, .disabled-pretty-input {
+    max-width: 100%; box-sizing: border-box;
+  }
+  .wizard-div, .brown-box, .brown-table, .small-brown-box,
+  .compare-link-input, .edit-item-long-input, .load-project-table {
+    width: auto !important; max-width: 100% !important; box-sizing: border-box;
+  }
+  .input-value input[type="text"],
+  .compare-link-input, .edit-item-long-input,
+  .smart-build-input, input.big-text { width: 100% !important; }
+  .crits-table, .weight-stat-table {
+    display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+
+  /* ---- Solution page: ONE item column on the left, stats STAY on the right ---- */
+  /* Desktop lays item slots out in 2-3 columns next to a stat panel; on a phone
+     that overflowed and clipped the stats. We collapse the item slots to a
+     single column and slim the stat table so both stay side by side and fit. */
+  .solution-item-section { display: block; }
+  .solution-item-section-column { display: block; width: 100% !important; }
+  .solution-item-expand-header { width: auto !important; }
+  .solution-set-expand-header,
+  .solution-set-expand-content { width: auto !important; max-width: 100%; box-sizing: border-box; }
+  .solution-item-summary { width: 56% !important; }
+  .solution-stat-summary { width: 44% !important; font-size: 12px; }
+  .solution-stat-table { width: 100%; }
+  .solution-stat-summary-name-header { width: auto; }
+  .solution-stat-summary-base-value-header,
+  .solution-stat-summary-value-header { width: 30px; }
+  .solution-stat-summary-icon-header { width: 16px; }
+
+  /* ---- Generic safety ---- */
+  .footer { padding: 10px; font-size: 13px; }
+}
+
+/* Phones (narrow) fine-tuning */
+@media (max-width: 480px) {
+  h1, h1:first-letter { font-size: 22pt; }
+  .home-pic-holder, .home-pic { width: 40px !important; height: 40px !important; }
+}
