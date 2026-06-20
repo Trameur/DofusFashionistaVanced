@@ -27,7 +27,7 @@ django-htmlmin==0.11.0
 django-sslserver==0.22
 docutils==0.23
 ec2-hibinit-agent==1.0.2
-filelock==3.20.3
+filelock==3.29.4
 gpg==1.15.1
 html5lib==1.1
 hyperlink==21.0.0
