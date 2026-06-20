@@ -121,136 +121,120 @@ def offline_view(request):
         "Reconnect and try again.</p></body></html>",
         content_type='text/html')
 
-def sitemap_view(request):
-    """Generate a comprehensive sitemap.xml for AdSense and SEO
-    
-    Includes static pages and a sample of popular shared solutions.
-    Google will also discover more pages by following links on your site.
+# --- Sitemap ---------------------------------------------------------------
+import time as _sitemap_time
+
+# Cache the (expensive) encyclopedia item URL list so Googlebot sitemap fetches
+# do not re-query the item database on every request.
+_SITEMAP_ITEM_CACHE = {'ts': 0.0, 'xml': ''}
+_SITEMAP_ITEM_TTL = 6 * 3600
+
+
+def _sitemap_url(loc, changefreq, priority):
+    return ('  <url>\n    <loc>%s</loc>\n    <changefreq>%s</changefreq>\n'
+            '    <priority>%s</priority>\n  </url>') % (loc, changefreq, priority)
+
+
+def _sitemap_encyclopedia_items(base_url):
+    """Best-effort <url> block for dofus3 encyclopedia item pages.
+
+    Cached for a few hours and fully defensive: any failure yields the
+    previously cached value (or an empty string), so the sitemap never breaks.
     """
-    # Always use HTTPS for sitemap URLs to avoid redirect issues
-    base_url = 'https://dofusfashionista.gg'
-    
-    # Build URLs for shared solutions (limit to 50 most recently shared)
-    shared_solutions = []
+    now = _sitemap_time.time()
+    cached = _SITEMAP_ITEM_CACHE
+    if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
+        return cached['xml']
     try:
-        shared_chars = Char.objects.filter(link_shared=True, deleted=False).order_by('-modified_time')[:50]
+        from chardata import encyclopedia_view
+        from chardata.official_site import get_item_link
+        structure = encyclopedia_view.get_structure()
+        seen = set()
+        rows = []
+        for item in encyclopedia_view._collect_unique_items(structure):
+            ankama_id = getattr(item, 'ankama_id', None)
+            ankama_type = getattr(item, 'ankama_type', None)
+            if not ankama_id or not ankama_type:
+                continue
+            link = get_item_link(ankama_type, ankama_id, getattr(item, 'name', '') or '',
+                                 game_version='dofus3')
+            if not link or link in seen:
+                continue
+            seen.add(link)
+            rows.append(_sitemap_url(base_url + link, 'monthly', '0.6'))
+        xml = '\n'.join(rows)
+    except Exception:
+        return cached['xml'] or ''
+    cached['ts'] = now
+    cached['xml'] = xml
+    return xml
+
+
+def sitemap_view(request):
+    """Comprehensive sitemap.xml for AdSense and SEO.
+
+    Lists static pages, every public feature page (encyclopedia, smithmagic,
+    workshop, quick start, smart build, compare, shared builds), the per-version
+    entry points (beta, dofus2, retro, touch), a sample of recently shared
+    builds, and (best-effort, cached) encyclopedia item pages.
+    """
+    base_url = 'https://dofusfashionista.gg'
+    blocks = []
+
+    static_paths = [
+        ('/', 'daily', '1.0'),
+        ('/about/', 'monthly', '0.8'),
+        ('/faq/', 'monthly', '0.8'),
+        ('/privacy/', 'yearly', '0.5'),
+        ('/license/', 'yearly', '0.4'),
+        ('/contact/', 'monthly', '0.5'),
+        ('/support/', 'monthly', '0.5'),
+        ('/setup/', 'weekly', '0.9'),
+        ('/quickstart/', 'monthly', '0.7'),
+        ('/smartbuild/', 'monthly', '0.7'),
+        ('/sharedbuilds/', 'daily', '0.9'),
+        ('/random/', 'weekly', '0.6'),
+        ('/choose_compare_sets/', 'weekly', '0.7'),
+        ('/encyclopedia/', 'daily', '0.9'),
+        ('/forgemagie/', 'weekly', '0.8'),
+        ('/workshop/', 'weekly', '0.6'),
+        ('/loadprojects/', 'weekly', '0.5'),
+    ]
+    for path, freq, prio in static_paths:
+        blocks.append(_sitemap_url(base_url + path, freq, prio))
+
+    for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
+        vbase = '%s/%s' % (base_url, version_slug)
+        for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
+                          ('/encyclopedia/', '0.8'), ('/forgemagie/', '0.6')):
+            blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
+
+    try:
+        from urllib.parse import quote
+        shared_chars = Char.objects.filter(link_shared=True, deleted=False).order_by('-modified_time')[:200]
         for char in shared_chars:
             try:
                 encoded_id = encode_char_id(int(char.id))
-                char_name = char.char_name or 'shared'
-                # Escape special characters in char_name for URL safety
-                from urllib.parse import quote
-                char_name_safe = quote(char_name.encode('utf-8'), safe='')
-                shared_url = f"{base_url}/s/{char_name_safe}/{encoded_id}/"
-                
-                # Use modified_time as lastmod if available
-                lastmod = ""
+                char_name_safe = quote((char.char_name or 'shared').encode('utf-8'), safe='')
+                loc = '%s/s/%s/%s/' % (base_url, char_name_safe, encoded_id)
+                lastmod = ''
                 if char.modified_time:
-                    # Convert date to ISO format (YYYY-MM-DD)
-                    lastmod = f"<lastmod>{char.modified_time.isoformat()}</lastmod>"
-                
-                shared_solutions.append(f"""  <url>
-    <loc>{shared_url}</loc>{lastmod}
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>""")
+                    lastmod = '\n    <lastmod>%s</lastmod>' % char.modified_time.date().isoformat()
+                blocks.append('  <url>\n    <loc>%s</loc>%s\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>' % (loc, lastmod))
             except Exception:
-                # Skip individual chars that fail
                 continue
     except Exception:
-        # If there's any error querying shared solutions, continue without them
         pass
-    
-    shared_solutions_xml = '\n'.join(shared_solutions) if shared_solutions else '  <!-- No shared solutions yet -->'
 
-    # Version-specific landing pages so each game version is indexed as its own
-    # entry point (beta, dofus2, retro). dofus3 is the default, covered above.
-    version_pages = []
-    for version_slug in ('beta', 'dofus2', 'retro'):
-        version_base = f"{base_url}/{version_slug}/"
-        for sub_path, priority in (('', '1.0'), ('setup/', '0.9'), ('sharedbuilds/', '0.85')):
-            version_pages.append(f"""  <url>
-    <loc>{version_base}{sub_path}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>{priority}</priority>
-  </url>""")
-    version_pages_xml = '\n'.join(version_pages)
+    items_xml = _sitemap_encyclopedia_items(base_url)
+    if items_xml:
+        blocks.append(items_xml)
 
-    sitemap_content = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Pages -->
-  <url>
-    <loc>{base_url}/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  
-  <!-- Information Pages -->
-  <url>
-    <loc>{base_url}/about/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>{base_url}/faq/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>{base_url}/contact/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>{base_url}/license/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <!-- User Authentication -->
-  <url>
-    <loc>{base_url}/login_page/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>{base_url}/register/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Main Features -->
-  <url>
-    <loc>{base_url}/setup/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>{base_url}/loadprojects/</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>{base_url}/choose_compare_sets/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <!-- Thank You / Confirmation Pages -->
-  <url>
-    <loc>{base_url}/contact/thankyou/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  
-  <!-- Game Version Landing Pages -->
-{version_pages_xml}
-
-  <!-- Sample of Popular Shared Solutions -->
-{shared_solutions_xml}
-</urlset>"""
-    
+    sitemap_content = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                       + '\n'.join(blocks) + '\n</urlset>')
     return HttpResponse(sitemap_content, content_type='application/xml')
+
 
 js_info_dict = {
     'packages': 'chardata',
@@ -367,6 +351,7 @@ urlpatterns = [
     re_path(r'^about/', views.about, name='about'),
     re_path(r'^license/', views.license_page, name='license_page'),
     re_path(r'^faq/', views.faq, name='faq'),
+    re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^support/', views.support, name='support'),
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',

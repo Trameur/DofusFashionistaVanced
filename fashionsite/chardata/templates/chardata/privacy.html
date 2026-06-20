@@ -1,0 +1,96 @@
+{% extends 'chardata/base.html' %}
+
+{% load static_s3 %}
+{% load i18n %}
+{% load version_url %}
+
+{% block title %}Privacy Policy - Dofus Fashionista{% endblock %}
+
+{% block meta_description %}How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google AdSense and Analytics, consent, and your privacy rights.{% endblock %}
+
+{% block main %}
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+
+<h1 align="center">Privacy Policy</h1>
+
+<div class="big-text" style="max-width: 820px; margin: 0 auto; text-align: left;">
+
+<p><em>Last updated: June 2026</em></p>
+
+<p>The Dofus Fashionista ("we", "the site") is a free, open-source fan site that
+automatically generates and optimizes equipment sets for the game Dofus. This page
+explains what data we collect, why, and the choices you have. We are not affiliated
+with Ankama Games.</p>
+
+<h2>Information we collect</h2>
+<ul>
+    <li><b>Account information.</b> If you create an account, we store your email
+        address and an encrypted password. If you sign in with Google, we store your
+        email address and Google account ID instead of a password &mdash; we never see
+        or store your Google password.</li>
+    <li><b>Content you create.</b> The characters, projects, builds, tags, comments and
+        shared links you make are stored so the site can provide its features and so you
+        can return to your work.</li>
+    <li><b>Messages.</b> If you contact us, we keep the message and the address you
+        provide so we can reply.</li>
+    <li><b>Technical data.</b> Like most websites, our servers and content-delivery
+        provider automatically log standard information such as IP address, browser type
+        and pages visited, for security and to keep the service running.</li>
+</ul>
+
+<h2>Cookies and local storage</h2>
+<p>We use a small number of cookies and browser-local storage to make the site work:
+a session cookie when you are logged in, and preferences such as your chosen theme,
+language and interface options. Third-party services described below may also set their
+own cookies.</p>
+
+<h2>Advertising and third-party services</h2>
+<p>To keep the Dofus Fashionista free we display ads and use a few third-party services:</p>
+<ul>
+    <li><b>Google AdSense.</b> Google and its partners use cookies to serve ads based on
+        your prior visits to this and other websites. You can learn how Google uses data
+        from sites that use its services at
+        <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">policies.google.com/technologies/partner-sites</a>,
+        and manage ad personalization at
+        <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer">My Ad Center</a>.</li>
+    <li><b>Consent (EEA, UK and Switzerland).</b> If you visit from a region that
+        requires it, a Google-certified consent message lets you accept or refuse the use
+        of cookies for personalized advertising before any non-essential cookies are set.</li>
+    <li><b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the
+        site is used so we can improve it.</li>
+    <li><b>Google Sign-In.</b> Optional authentication, as described above.</li>
+    <li><b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and
+        served through a content-delivery network that processes requests on our behalf.</li>
+</ul>
+
+<h2>How we use your data</h2>
+<p>We use the information above only to operate and improve the site, provide your saved
+builds and account, display advertising that funds the service, respond to your
+messages, and keep the site secure. We do not sell your personal data.</p>
+
+<h2>Your rights and choices</h2>
+<p>You can view and edit your projects at any time while logged in, and you can request
+deletion of your account and associated data by contacting us. Depending on where you
+live, you may have rights to access, correct, delete or object to the processing of your
+personal data. You can also control advertising cookies through the consent message and
+through your Google Ad settings.</p>
+
+<h2>Data retention</h2>
+<p>We keep account and build data for as long as your account is active or as needed to
+provide the service. If you delete your account, the associated data is removed.</p>
+
+<h2>Children</h2>
+<p>The Dofus Fashionista is not directed to children under the age required to consent to
+online services in their country, and we do not knowingly collect their personal data.</p>
+
+<h2>Changes to this policy</h2>
+<p>We may update this policy from time to time. Material changes will be reflected by the
+"last updated" date above.</p>
+
+<h2>Contact</h2>
+<p>For any question about this policy or your data, please
+<a href="{% game_url 'contact' %}">contact us</a>.</p>
+
+</div>
+{% endblock %}

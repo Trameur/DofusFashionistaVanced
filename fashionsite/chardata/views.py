@@ -91,25 +91,34 @@ def infeasible(request, char_id=0):
                         char)
                                                          
 def forbidden(request, exception=None, char_id=0):
-    return set_response(request, 
+    response = set_response(request, 
                         'chardata/403.html', 
                         {'request': request,
                          'user': request.user,
-                         'char_id': char_id})
+                         'char_id': char_id,
+                         'noindex': True})
+    response.status_code = 403
+    return response
                          
 def not_found(request, exception=None, char_id=0):
-    return set_response(request, 
+    response = set_response(request, 
                         'chardata/404.html', 
                         {'request': request,
                          'user': request.user,
-                         'char_id': char_id})
+                         'char_id': char_id,
+                         'noindex': True})
+    response.status_code = 404
+    return response
                                                         
 def app_error(request, char_id=0):
-    return set_response(request, 
+    response = set_response(request, 
                         'chardata/500.html', 
                         {'request': request,
                          'user': request.user,
-                         'char_id': char_id})
+                         'char_id': char_id,
+                         'noindex': True})
+    response.status_code = 500
+    return response
                                                         
 def contact(request, char_id=0):
     return set_response(request, 
@@ -148,6 +157,13 @@ def license_page(request, char_id=0):
 def faq(request, char_id=0):
     return set_response(request,
                         'chardata/faq.html',
+                        {'request': request,
+                         'user': request.user,
+                         'char_id': char_id})
+
+def privacy(request, char_id=0):
+    return set_response(request,
+                        'chardata/privacy.html',
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id})
