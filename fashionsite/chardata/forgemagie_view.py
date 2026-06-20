@@ -151,6 +151,11 @@ LOCALIZED_UI = {
         'inv_save_copy': 'Save a new copy',
         'sim_improve': 'bonus - spend the spare sink on a free upgrade; enough sink stays reserved for the big rune',
         'sim_improve_done': 'Sink left over: you can still push %s for free.',
+        'sim_mode_label': 'Mode',
+        'sim_mode_sim': 'Simulation',
+        'sim_mode_real': 'Real maging',
+        'sim_mode_sim_hint': 'The tool throws the runes and estimates the outcomes and losses for you.',
+        'sim_mode_real_hint': 'You mage in game: after each throw, pick the rune and tap the outcome (SC/SN/EC), then type your item’s new stats below. The Now and Target cells are editable.',
     },
     'fr': {
         'title': 'Atelier de Forgemagie',
@@ -266,6 +271,11 @@ LOCALIZED_UI = {
         'inv_save_copy': 'Enregistrer une nouvelle copie',
         'sim_improve': 'bonus - profitez du puits excédentaire pour monter encore cette stat sans risque ; il reste assez de puits en réserve pour la grosse rune',
         'sim_improve_done': 'Il reste du puits : vous pouvez encore monter %s gratuitement.',
+        'sim_mode_label': 'Mode',
+        'sim_mode_sim': 'Simulation',
+        'sim_mode_real': 'Forge réelle',
+        'sim_mode_sim_hint': 'L’outil lance les runes et estime les résultats et les pertes à votre place.',
+        'sim_mode_real_hint': 'Vous forgez en jeu : après chaque coup, choisissez la rune et indiquez le résultat (SC/SN/EC), puis saisissez les nouvelles stats de votre objet ci-dessous. Les cases Actuel et Objectif sont modifiables.',
     },
     'es': {
         'title': 'Taller de Forjamagia',
@@ -381,6 +391,11 @@ LOCALIZED_UI = {
         'inv_save_copy': 'Guardar una copia nueva',
         'sim_improve': 'extra - usa el pozo sobrante para subir esta estadística sin riesgo; queda pozo reservado para la runa grande',
         'sim_improve_done': 'Queda pozo: aún puedes subir %s gratis.',
+        'sim_mode_label': 'Modo',
+        'sim_mode_sim': 'Simulación',
+        'sim_mode_real': 'Forja real',
+        'sim_mode_sim_hint': 'La herramienta lanza las runas y estima los resultados y las pérdidas por ti.',
+        'sim_mode_real_hint': 'Forjas en el juego: tras cada tirada, elige la runa e indica el resultado (SC/SN/EC), luego escribe abajo las nuevas estadísticas de tu objeto. Las casillas Ahora y Objetivo son editables.',
     },
     'pt': {
         'title': 'Oficina de Forjamagia',
@@ -496,6 +511,11 @@ LOCALIZED_UI = {
         'inv_save_copy': 'Salvar uma nova cópia',
         'sim_improve': 'bônus - use o poço excedente para subir este atributo sem risco; ainda fica poço reservado para a runa grande',
         'sim_improve_done': 'Ainda há poço: você ainda pode subir %s de graça.',
+        'sim_mode_label': 'Modo',
+        'sim_mode_sim': 'Simulação',
+        'sim_mode_real': 'Forja real',
+        'sim_mode_sim_hint': 'A ferramenta lança as runas e estima os resultados e as perdas para você.',
+        'sim_mode_real_hint': 'Você forja no jogo: após cada tentativa, escolha a runa e indique o resultado (SC/SN/EC), depois digite abaixo os novos atributos do seu item. As células Agora e Objetivo são editáveis.',
     },
     'de': {
         'title': 'Schmiedemagie-Labor',
@@ -611,6 +631,11 @@ LOCALIZED_UI = {
         'inv_save_copy': 'Neue Kopie speichern',
         'sim_improve': 'Bonus - nutze die ueberschuessige Senke fuer eine risikofreie Verbesserung; genug Senke bleibt fuer die grosse Rune reserviert',
         'sim_improve_done': 'Senke uebrig: du kannst %s noch gratis erhoehen.',
+        'sim_mode_label': 'Modus',
+        'sim_mode_sim': 'Simulation',
+        'sim_mode_real': 'Echte Schmiede',
+        'sim_mode_sim_hint': 'Das Tool wirft die Runen und schaetzt die Ergebnisse und Verluste fuer dich.',
+        'sim_mode_real_hint': 'Du schmiedest im Spiel: nach jedem Wurf die Rune waehlen und das Ergebnis angeben (SC/SN/EC), dann unten die neuen Werte deines Gegenstands eintippen. Die Felder Jetzt und Ziel sind bearbeitbar.',
     },
 }
 
@@ -750,6 +775,8 @@ def forgemagie(request):
                 'quality_perfect', 'quality_overperfect', 'inv_new_folder',
                 'sim_sink_empty', 'inv_save_copy', 'wb_add',
                 'sim_improve', 'sim_improve_done',
+                'sim_mode_sim', 'sim_mode_real',
+                'sim_mode_sim_hint', 'sim_mode_real_hint',
             )
         },
     }
