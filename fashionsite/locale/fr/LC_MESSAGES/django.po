@@ -6306,3 +6306,615 @@ msgstr "Atelier de Forgemagie : planifiez et simulez votre forgemagie avec les r
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "My Inventory: save the items you own with their real rolls (screenshot import included) and let the optimizer build with them"
 msgstr "Mon Inventaire : enregistrez les objets que vous possédez avec leurs vrais jets (import par capture d'écran inclus) et laissez l'optimiseur composer avec"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Create the best Dofus equipment set, automatically"
+msgstr "Créez le meilleur équipement Dofus, automatiquement"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Dofus Fashionista is a free set optimizer. Choose your class, level and the stats you want, and it automatically finds the best combination of equipment — weapons, armor, rings, dofus and more — for your build. Then compare different sets, save your characters, and share your builds with the community."
+msgstr "Dofus Fashionista est un optimiseur d'équipement gratuit. Choisissez votre classe, votre niveau et les caractéristiques souhaitées, et il trouve automatiquement la meilleure combinaison d'équipement — armes, armures, anneaux, dofus et plus encore — pour votre build. Comparez ensuite différentes panoplies, enregistrez vos personnages et partagez vos builds avec la communauté."
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "New to Dofus Fashionista?"
+msgstr "Nouveau sur Dofus Fashionista ?"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Get a quick build in 3 clicks"
+msgstr "Obtenez un build en 3 clics"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Describe your build in words"
+msgstr "Décrivez votre build en quelques mots"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Discover a random build"
+msgstr "Découvrez un build aléatoire"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "Top community builds"
+msgstr "Meilleurs builds de la communauté"
+
+#: fashionsite/chardata/templates/chardata/home.html
+msgid "lvl"
+msgstr "niv."
+
+#: privacy/meta i18n
+msgid "Get Dofus %(version)s sets created automatically, based on your specific needs."
+msgstr "Obtenez des panoplies Dofus %(version)s générées automatiquement, selon vos besoins précis."
+
+#: privacy/meta i18n
+msgid "Get Dofus sets created automatically, based on your specific needs."
+msgstr "Obtenez des panoplies Dofus générées automatiquement, selon vos besoins précis."
+
+#: privacy/meta i18n
+msgid "Answers to common questions about the Dofus Fashionista: how the automatic set optimizer works, sharing builds, supported Dofus versions, accounts and more."
+msgstr "Réponses aux questions fréquentes sur le Dofus Fashionista : fonctionnement de l'optimiseur de panoplies automatique, partage de builds, versions de Dofus prises en charge, comptes et plus encore."
+
+#: privacy/meta i18n
+msgid "Browse the full Dofus item encyclopedia: stats, effects, equip conditions and craft recipes for every item, with search by name, type and level."
+msgstr "Parcourez l'encyclopédie complète des objets Dofus : caractéristiques, effets, conditions d'équipement et recettes de craft pour chaque objet, avec recherche par nom, type et niveau."
+
+#: privacy/meta i18n
+msgid "%(item_name)s: Dofus stats, effects, equip conditions and craft recipe. Discover builds using %(item_name)s and optimize your set with the Dofus Fashionista."
+msgstr "%(item_name)s : caractéristiques Dofus, effets, conditions d'équipement et recette de craft. Découvrez des builds utilisant %(item_name)s et optimisez votre panoplie avec le Dofus Fashionista."
+
+#: privacy/meta i18n
+msgid "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own."
+msgstr "Parcourez les builds Dofus partagés par la communauté : panoplies optimisées par classe et niveau, avec toutes les caractéristiques. Trouvez l'inspiration et créez le vôtre."
+
+#: privacy/meta i18n
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: privacy/meta i18n
+msgid "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google AdSense and Analytics, consent, and your privacy rights."
+msgstr "Comment le Dofus Fashionista traite vos données : comptes, builds enregistrés, cookies, Google AdSense et Analytics, consentement et vos droits en matière de confidentialité."
+
+#: privacy/meta i18n
+msgid "Last updated: June 2026"
+msgstr "Dernière mise à jour : juin 2026"
+
+#: privacy/meta i18n
+msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically generates and optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
+msgstr "Le Dofus Fashionista (« nous », « le site ») est un site de fans gratuit et open-source qui génère et optimise automatiquement des panoplies d'équipement pour le jeu Dofus. Cette page explique quelles données nous collectons, pourquoi, et les choix dont vous disposez. Nous ne sommes pas affiliés à Ankama Games."
+
+#: privacy/meta i18n
+msgid "Information we collect"
+msgstr "Informations que nous collectons"
+
+#: privacy/meta i18n
+msgid "<b>Account information.</b> If you create an account, we store your email address and an encrypted password. If you sign in with Google, we store your email address and Google account ID instead of a password &mdash; we never see or store your Google password."
+msgstr "<b>Informations de compte.</b> Si vous créez un compte, nous stockons votre adresse e-mail et un mot de passe chiffré. Si vous vous connectez avec Google, nous stockons votre adresse e-mail et votre identifiant de compte Google au lieu d'un mot de passe &mdash; nous ne voyons ni ne stockons jamais votre mot de passe Google."
+
+#: privacy/meta i18n
+msgid "<b>Content you create.</b> The characters, projects, builds, tags, comments and shared links you make are stored so the site can provide its features and so you can return to your work."
+msgstr "<b>Contenu que vous créez.</b> Les personnages, projets, builds, tags, commentaires et liens de partage que vous créez sont stockés afin que le site puisse fournir ses fonctionnalités et que vous puissiez retrouver votre travail."
+
+#: privacy/meta i18n
+msgid "<b>Messages.</b> If you contact us, we keep the message and the address you provide so we can reply."
+msgstr "<b>Messages.</b> Si vous nous contactez, nous conservons le message et l'adresse que vous fournissez afin de pouvoir vous répondre."
+
+#: privacy/meta i18n
+msgid "<b>Technical data.</b> Like most websites, our servers and content-delivery provider automatically log standard information such as IP address, browser type and pages visited, for security and to keep the service running."
+msgstr "<b>Données techniques.</b> Comme la plupart des sites web, nos serveurs et notre fournisseur de diffusion de contenu enregistrent automatiquement des informations standard telles que l'adresse IP, le type de navigateur et les pages visitées, pour la sécurité et le bon fonctionnement du service."
+
+#: privacy/meta i18n
+msgid "We use a small number of cookies and browser-local storage to make the site work: a session cookie when you are logged in, and preferences such as your chosen theme, language and interface options. Third-party services described below may also set their own cookies."
+msgstr "Nous utilisons un petit nombre de cookies et le stockage local du navigateur pour faire fonctionner le site : un cookie de session lorsque vous êtes connecté, et des préférences telles que le thème, la langue et les options d'interface que vous avez choisis. Les services tiers décrits ci-dessous peuvent également déposer leurs propres cookies."
+
+#: privacy/meta i18n
+msgid "To keep the Dofus Fashionista free we display ads and use a few third-party services:"
+msgstr "Pour que le Dofus Fashionista reste gratuit, nous affichons des publicités et utilisons quelques services tiers :"
+
+#: privacy/meta i18n
+msgid "<b>Google AdSense.</b> Google and its partners use cookies to serve ads based on your prior visits to this and other websites. You can learn how Google uses data from sites that use its services at <a href=\"https://policies.google.com/technologies/partner-sites\" target=\"_blank\" rel=\"noopener noreferrer\">policies.google.com/technologies/partner-sites</a>, and manage ad personalization at <a href=\"https://myadcenter.google.com/\" target=\"_blank\" rel=\"noopener noreferrer\">My Ad Center</a>."
+msgstr "<b>Google AdSense.</b> Google et ses partenaires utilisent des cookies pour diffuser des publicités basées sur vos visites précédentes sur ce site et d'autres. Vous pouvez découvrir comment Google utilise les données des sites qui font appel à ses services sur <a href=\"https://policies.google.com/technologies/partner-sites\" target=\"_blank\" rel=\"noopener noreferrer\">policies.google.com/technologies/partner-sites</a>, et gérer la personnalisation des annonces dans <a href=\"https://myadcenter.google.com/\" target=\"_blank\" rel=\"noopener noreferrer\">My Ad Center</a>."
+
+#: privacy/meta i18n
+msgid "<b>Consent (EEA, UK and Switzerland).</b> If you visit from a region that requires it, a Google-certified consent message lets you accept or refuse the use of cookies for personalized advertising before any non-essential cookies are set."
+msgstr "<b>Consentement (EEE, Royaume-Uni et Suisse).</b> Si vous nous visitez depuis une région qui l'exige, un message de consentement certifié par Google vous permet d'accepter ou de refuser l'utilisation de cookies à des fins de publicité personnalisée avant le dépôt de tout cookie non essentiel."
+
+#: privacy/meta i18n
+msgid "<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it."
+msgstr "<b>Google Analytics.</b> Nous utilisons Analytics pour comprendre, de manière agrégée, comment le site est utilisé afin de l'améliorer."
+
+#: privacy/meta i18n
+msgid "<b>Google Sign-In.</b> Optional authentication, as described above."
+msgstr "<b>Connexion Google.</b> Authentification facultative, comme décrit ci-dessus."
+
+#: privacy/meta i18n
+msgid "<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and served through a content-delivery network that processes requests on our behalf."
+msgstr "<b>Hébergement et infrastructure.</b> Le site est hébergé sur un serveur dédié et diffusé via un réseau de diffusion de contenu qui traite les requêtes pour notre compte."
+
+#: privacy/meta i18n
+msgid "We use the information above only to operate and improve the site, provide your saved builds and account, display advertising that funds the service, respond to your messages, and keep the site secure. We do not sell your personal data."
+msgstr "Nous utilisons les informations ci-dessus uniquement pour exploiter et améliorer le site, fournir vos builds et votre compte enregistrés, afficher la publicité qui finance le service, répondre à vos messages et assurer la sécurité du site. Nous ne vendons pas vos données personnelles."
+
+#: privacy/meta i18n
+msgid "You can view and edit your projects at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data. You can also control advertising cookies through the consent message and through your Google Ad settings."
+msgstr "Vous pouvez consulter et modifier vos projets à tout moment lorsque vous êtes connecté, et vous pouvez demander la suppression de votre compte et des données associées en nous contactant. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles. Vous pouvez également contrôler les cookies publicitaires via le message de consentement et via les paramètres de vos annonces Google."
+
+#: privacy/meta i18n
+msgid "We keep account and build data for as long as your account is active or as needed to provide the service. If you delete your account, the associated data is removed."
+msgstr "Nous conservons les données de compte et de build tant que votre compte est actif ou aussi longtemps que nécessaire pour fournir le service. Si vous supprimez votre compte, les données associées sont supprimées."
+
+#: privacy/meta i18n
+msgid "The Dofus Fashionista is not directed to children under the age required to consent to online services in their country, and we do not knowingly collect their personal data."
+msgstr "Le Dofus Fashionista ne s'adresse pas aux enfants n'ayant pas l'âge requis pour consentir aux services en ligne dans leur pays, et nous ne collectons pas sciemment leurs données personnelles."
+
+#: privacy/meta i18n
+msgid "We may update this policy from time to time. Material changes will be reflected by the \"last updated\" date above."
+msgstr "Nous pouvons mettre à jour cette politique de temps à autre. Les modifications importantes seront indiquées par la date de « dernière mise à jour » ci-dessus."
+
+#: privacy/meta i18n
+msgid "For any question about this policy or your data, please <a href=\"%(contact_url)s\">contact us</a>."
+msgstr "Pour toute question concernant cette politique ou vos données, veuillez <a href=\"%(contact_url)s\">nous contacter</a>."
+
+#: privacy/meta i18n
+msgid "How we use your data"
+msgstr "Comment nous utilisons vos données"
+
+#: privacy/meta i18n
+msgid "Cookies and local storage"
+msgstr "Cookies et stockage local"
+
+#: privacy/meta i18n
+msgid "Advertising and third-party services"
+msgstr "Publicité et services tiers"
+
+#: privacy/meta i18n
+msgid "Your rights and choices"
+msgstr "Vos droits et vos choix"
+
+#: privacy/meta i18n
+msgid "Data retention"
+msgstr "Conservation des données"
+
+#: privacy/meta i18n
+msgid "Changes to this policy"
+msgstr "Modifications de cette politique"
+
+#: privacy/meta i18n
+msgid "Children"
+msgstr "Enfants"
+
+#: privacy/meta i18n
+msgid "Contact"
+msgstr "Contact"
+
+#: ui-i18n
+msgid "Menu"
+msgstr "Menu"
+
+#: ui-i18n
+msgid "Random Build"
+msgstr "Build aléatoire"
+
+#: ui-i18n
+msgid "My Feed"
+msgstr "Mon fil"
+
+#: ui-i18n
+msgid "Workshop"
+msgstr "Atelier"
+
+#: ui-i18n
+msgid "Spell auto-scrapper — extended"
+msgstr "Récupérateur de sorts automatique — étendu"
+
+#: ui-i18n
+msgid "Spell images scraped automatically for all classes"
+msgstr "Images des sorts récupérées automatiquement pour toutes les classes"
+
+#: ui-i18n
+msgid "Spell auto-scrapper"
+msgstr "Récupérateur de sorts automatique"
+
+#: ui-i18n
+msgid "December 2023"
+msgstr "Décembre 2023"
+
+#: ui-i18n
+msgid "Site relaunched as DofusFashionistaVanced on AWS"
+msgstr "Site relancé sous le nom de DofusFashionistaVanced sur AWS"
+
+#: ui-i18n
+msgid "2012 – 2021"
+msgstr "2012 – 2021"
+
+#: ui-i18n
+msgid "Quick Start"
+msgstr "Démarrage rapide"
+
+#: ui-i18n
+msgid "Three questions, one ready-to-play build. No wizard, no jargon — just pick your class, level and playstyle."
+msgstr "Trois questions, un build prêt à jouer. Pas d'assistant, pas de jargon — choisissez simplement votre classe, votre niveau et votre style de jeu."
+
+#: ui-i18n
+msgid "You need to be logged in to save this build to your account."
+msgstr "Vous devez être connecté pour enregistrer ce build sur votre compte."
+
+#: ui-i18n
+msgid "Log in"
+msgstr "Se connecter"
+
+#: ui-i18n
+msgid "Playstyle"
+msgstr "Style de jeu"
+
+#: ui-i18n
+msgid "Generate my build"
+msgstr "Générer mon build"
+
+#: ui-i18n
+msgid "Want full control over every stat?"
+msgstr "Vous voulez un contrôle total sur chaque caractéristique ?"
+
+#: ui-i18n
+msgid "Use the full builder instead"
+msgstr "Utilisez plutôt le générateur complet"
+
+#: ui-i18n
+msgid "You aren't following anyone yet. Visit a build's page and click on its author's name to discover their profile."
+msgstr "Vous ne suivez encore personne. Visitez la page d'un build et cliquez sur le nom de son auteur pour découvrir son profil."
+
+#: ui-i18n
+msgid "The people you follow haven't shared any builds yet."
+msgstr "Les personnes que vous suivez n'ont pas encore partagé de builds."
+
+#: ui-i18n
+msgid "Once an item is selected, a <b>Customize stats</b> button will appear — use it to adjust individual stats (e.g. for a partially forged item)."
+msgstr "Une fois un objet sélectionné, un bouton <b>Personnaliser les caractéristiques</b> apparaît — utilisez-le pour ajuster les caractéristiques individuelles (par ex. pour un objet partiellement forgé)."
+
+#: ui-i18n
+msgid "Customize stats"
+msgstr "Personnaliser les caractéristiques"
+
+#: ui-i18n
+msgid "Email notifications"
+msgstr "Notifications par e-mail"
+
+#: ui-i18n
+msgid "Email me when someone comments on my shared builds"
+msgstr "M'envoyer un e-mail lorsque quelqu'un commente mes builds partagés"
+
+#: ui-i18n
+msgid "Please check the captcha and try again."
+msgstr "Veuillez vérifier le captcha et réessayer."
+
+#: ui-i18n
+msgid "Choose a New Password"
+msgstr "Choisir un nouveau mot de passe"
+
+#: ui-i18n
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: ui-i18n
+msgid "Confirm new password"
+msgstr "Confirmer le nouveau mot de passe"
+
+#: ui-i18n
+msgid "Reset password"
+msgstr "Réinitialiser le mot de passe"
+
+#: ui-i18n
+msgid "Choose a new password for <b>%(username)s</b>."
+msgstr "Choisissez un nouveau mot de passe pour <b>%(username)s</b>."
+
+#: ui-i18n
+msgid "The password for <b>%(username)s</b> has been reset successfully."
+msgstr "Le mot de passe de <b>%(username)s</b> a été réinitialisé avec succès."
+
+#: ui-i18n
+msgid "We could not send the recovery email right now because the email service is not authenticated or unavailable. Please try again later or contact support."
+msgstr "Nous n'avons pas pu envoyer l'e-mail de récupération pour le moment car le service d'e-mail n'est pas authentifié ou est indisponible. Veuillez réessayer plus tard ou contacter le support."
+
+#: ui-i18n
+msgid "Filtered by tag:"
+msgstr "Filtré par tag :"
+
+#: ui-i18n
+msgid "(clear)"
+msgstr "(effacer)"
+
+#: ui-i18n
+msgid "Comments"
+msgstr "Commentaires"
+
+#: ui-i18n
+msgid "You can select up to 2 focus aspects only."
+msgstr "Vous pouvez sélectionner au maximum 2 aspects prioritaires."
+
+#: ui-i18n
+msgid "Smart Build"
+msgstr "Build intelligent"
+
+#: ui-i18n
+msgid "Describe your character in plain words — class, level, element, playstyle — and we'll build it. Works in English, French, Spanish and Portuguese."
+msgstr "Décrivez votre personnage avec des mots simples — classe, niveau, élément, style de jeu — et nous le construisons. Fonctionne en anglais, français, espagnol et portugais."
+
+#: ui-i18n
+msgid "Log in to save this build to your account."
+msgstr "Connectez-vous pour enregistrer ce build sur votre compte."
+
+#: ui-i18n
+msgid "Build it"
+msgstr "Construire"
+
+#: ui-i18n
+msgid "Try:"
+msgstr "Essayez :"
+
+#: ui-i18n
+msgid "e.g. Iop 200 earth PvM"
+msgstr "ex. Iop 200 terre PvM"
+
+#: ui-i18n
+msgid "level"
+msgstr "niveau"
+
+#: ui-i18n
+msgid "build optimized on Dofus Fashionista"
+msgstr "build optimisé sur Dofus Fashionista"
+
+#: ui-i18n
+msgid "Copy as text"
+msgstr "Copier en texte"
+
+#: ui-i18n
+msgid "Suggestions:"
+msgstr "Suggestions :"
+
+#: ui-i18n
+msgid "Build check"
+msgstr "Vérification du build"
+
+#: ui-i18n
+msgid "Add all items to my Workshop"
+msgstr "Ajouter tous les objets à mon atelier"
+
+#: ui-i18n
+msgid "Neutral Resist (PvP)"
+msgstr "Résistance Neutre (PvP)"
+
+#: ui-i18n
+msgid "Earth Resist (PvP)"
+msgstr "Résistance Terre (PvP)"
+
+#: ui-i18n
+msgid "Fire Resist (PvP)"
+msgstr "Résistance Feu (PvP)"
+
+#: ui-i18n
+msgid "Water Resist (PvP)"
+msgstr "Résistance Eau (PvP)"
+
+#: ui-i18n
+msgid "Air Resist (PvP)"
+msgstr "Résistance Air (PvP)"
+
+#: ui-i18n
+msgid "% Neutral Resist (PvP)"
+msgstr "% Résistance Neutre (PvP)"
+
+#: ui-i18n
+msgid "% Earth Resist (PvP)"
+msgstr "% Résistance Terre (PvP)"
+
+#: ui-i18n
+msgid "% Fire Resist (PvP)"
+msgstr "% Résistance Feu (PvP)"
+
+#: ui-i18n
+msgid "% Water Resist (PvP)"
+msgstr "% Résistance Eau (PvP)"
+
+#: ui-i18n
+msgid "% Air Resist (PvP)"
+msgstr "% Résistance Air (PvP)"
+
+#: ui-i18n
+msgid "Post Comment"
+msgstr "Publier le commentaire"
+
+#: ui-i18n
+msgid "to leave a comment."
+msgstr "pour laisser un commentaire."
+
+#: ui-i18n
+msgid "delete"
+msgstr "supprimer"
+
+#: ui-i18n
+msgid "report"
+msgstr "signaler"
+
+#: ui-i18n
+msgid "No comments yet."
+msgstr "Aucun commentaire pour le moment."
+
+#: ui-i18n
+msgid "Report this comment"
+msgstr "Signaler ce commentaire"
+
+#: ui-i18n
+msgid "Tell us why you are reporting it. An admin will review the report."
+msgstr "Dites-nous pourquoi vous le signalez. Un administrateur examinera le signalement."
+
+#: ui-i18n
+msgid "Reason"
+msgstr "Motif"
+
+#: ui-i18n
+msgid "Spam"
+msgstr "Spam"
+
+#: ui-i18n
+msgid "Harassment / insult"
+msgstr "Harcèlement / insulte"
+
+#: ui-i18n
+msgid "Off-topic"
+msgstr "Hors sujet"
+
+#: ui-i18n
+msgid "Send report"
+msgstr "Envoyer le signalement"
+
+#: ui-i18n
+msgid "Add a stat..."
+msgstr "Ajouter une caractéristique..."
+
+#: ui-i18n
+msgid "Done"
+msgstr "Terminé"
+
+#: ui-i18n
+msgid "build optimized on Dofus Fashionista. Like it, comment it, copy it."
+msgstr "build optimisé sur Dofus Fashionista. Aimez-le, commentez-le, copiez-le."
+
+#: ui-i18n
+msgid "Remove tag"
+msgstr "Retirer le tag"
+
+#: ui-i18n
+msgid "+ Add tag"
+msgstr "+ Ajouter un tag"
+
+#: ui-i18n
+msgid "Share your thoughts on this build..."
+msgstr "Partagez votre avis sur ce build..."
+
+#: ui-i18n
+msgid "Comment is empty"
+msgstr "Le commentaire est vide"
+
+#: ui-i18n
+msgid "Could not post comment"
+msgstr "Impossible de publier le commentaire"
+
+#: ui-i18n
+msgid "Could not send report"
+msgstr "Impossible d'envoyer le signalement"
+
+#: ui-i18n
+msgid "Copied!"
+msgstr "Copié !"
+
+#: ui-i18n
+msgid "Added"
+msgstr "Ajouté"
+
+#: ui-i18n
+msgid "Could not add to workshop"
+msgstr "Impossible d'ajouter à l'atelier"
+
+#: ui-i18n
+msgid "Delete this comment?"
+msgstr "Supprimer ce commentaire ?"
+
+#: ui-i18n
+msgid "Could not delete comment"
+msgstr "Impossible de supprimer le commentaire"
+
+#: ui-i18n
+msgid "Lock empty"
+msgstr "Verrouiller à vide"
+
+#: ui-i18n
+msgid "per summon"
+msgstr "par invocation"
+
+#: ui-i18n
+msgid "per MP"
+msgstr "par PM"
+
+#: ui-i18n
+msgid "MP used"
+msgstr "PM utilisés"
+
+#: ui-i18n
+msgid "follower"
+msgstr "abonné"
+
+#: ui-i18n
+msgid "following"
+msgstr "abonnements"
+
+#: ui-i18n
+msgid "Unfollow"
+msgstr "Ne plus suivre"
+
+#: ui-i18n
+msgid "Follow"
+msgstr "Suivre"
+
+#: ui-i18n
+msgid "likes received"
+msgstr "j'aime reçus"
+
+#: ui-i18n
+msgid "favorites received"
+msgstr "favoris reçus"
+
+#: ui-i18n
+msgid "views"
+msgstr "vues"
+
+#: ui-i18n
+msgid "No shared builds yet."
+msgstr "Aucun build partagé pour le moment."
+
+#: ui-i18n
+msgid "My Workshop"
+msgstr "Mon atelier"
+
+#: ui-i18n
+msgid "Clear all"
+msgstr "Tout effacer"
+
+#: ui-i18n
+msgid "Your workshop is empty."
+msgstr "Votre atelier est vide."
+
+#: ui-i18n
+msgid "Open a build and click 'Add to workshop' on items you need to craft or acquire."
+msgstr "Ouvrez un build et cliquez sur « Ajouter à l'atelier » pour les objets que vous devez fabriquer ou obtenir."
+
+#: ui-i18n
+msgid "Quantity"
+msgstr "Quantité"
+
+#: ui-i18n
+msgid "Clear all items from your workshop?"
+msgstr "Effacer tous les objets de votre atelier ?"
+
+#: ui-i18n
+msgid "View the comment"
+msgstr "Voir le commentaire"
+
+#: ui-i18n
+msgid "You can disable these notifications in your account settings."
+msgstr "Vous pouvez désactiver ces notifications dans les paramètres de votre compte."
+
+#: ui-i18n
+msgid "Hi,"
+msgstr "Bonjour,"
+
+#: ui-i18n
+msgid "<strong>%(commenter_name)s</strong> just commented on your build <strong>\"%(build_name)s\"</strong>:"
+msgstr "<strong>%(commenter_name)s</strong> vient de commenter votre build <strong>« %(build_name)s »</strong> :"
+
+#: ui-i18n-plural
+msgid "Latest builds from the %(counter)s person you follow."
+msgid_plural "Latest builds from the %(counter)s people you follow."
+msgstr[0] "Derniers builds de %(counter)s personne que vous suivez."
+msgstr[1] "Derniers builds de %(counter)s personnes que vous suivez."
+
+#: ui-i18n-plural
+msgid "%(counter)s item · %(workshop_total_units)s total"
+msgid_plural "%(counter)s items · %(workshop_total_units)s total"
+msgstr[0] "%(counter)s objet · %(workshop_total_units)s au total"
+msgstr[1] "%(counter)s objets · %(workshop_total_units)s au total"

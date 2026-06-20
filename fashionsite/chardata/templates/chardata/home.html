@@ -3,7 +3,7 @@
 
 {% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - Equipment Set Optimizer{% endblock %}
 
-{% block meta_description %}Get Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} sets created automatically, based on your specific needs.{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}
 
     {% load static_s3 %}
     

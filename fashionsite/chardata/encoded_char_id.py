@@ -17,6 +17,7 @@
 # Warning: black magic ahead
 
 import base64
+import binascii
 import hashlib
 from django.conf import settings
 
@@ -35,10 +36,10 @@ def encode_char_id(char_id):
     return encoded_bytes.decode('utf-8').translate(URL_SAFE_BASE_64_ENCODE)
     
 def decode_char_id(encoded_char_id):
-    half_decoded_id = base64.b64decode(str(encoded_char_id).translate(URL_SAFE_BASE_64_DECODE))
     try:
+        half_decoded_id = base64.b64decode(str(encoded_char_id).translate(URL_SAFE_BASE_64_DECODE))
         candidate_id = int(half_decoded_id[:-4].decode('utf-8'))
-    except ValueError:
+    except (ValueError, binascii.Error):
         return None
     signature = half_decoded_id[-4:]
     if signature != _sign(candidate_id):

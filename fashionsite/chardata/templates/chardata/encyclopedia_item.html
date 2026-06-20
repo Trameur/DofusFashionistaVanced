@@ -1,10 +1,11 @@
 {% extends "chardata/base.html" %}
 {% load version_url %}
 {% load static_s3 %}
+{% load i18n %}
 
 {% block title %}{{ item.name }} - {{ t.title }}{% endblock %}
 
-{% block meta_description %}{{ item.name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item.name }} and optimize your set with the Dofus Fashionista.{% endblock %}
+{% block meta_description %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 
 {% block css %}
 <style>

@@ -191,7 +191,7 @@ def get_char_or_raise(request, char_id):
 def get_char_encoded_or_raise(encoded_char_id):
     char_id = decode_char_id(encoded_char_id)
     if char_id is None:
-        raise ValidationError('Failed to decode char id from string "%s"' % encoded_char_id)
+        raise Http404('Could not decode char id: %s' % encoded_char_id)
 
     char = get_object_or_404(Char, pk=char_id)
     if not char.link_shared:

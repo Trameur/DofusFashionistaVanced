@@ -161,7 +161,7 @@ def spells(request, char_id=0):
 def spells_linked(request, char_name, encoded_char_id):
     char_id = decode_char_id(encoded_char_id)
     if char_id is None:
-        raise ValidationError('Could not decode char id from: string "%s"' % encoded_char_id)
+        raise Http404('Could not decode char id: %s' % encoded_char_id)
 
     char = get_object_or_404(Char, pk=char_id)
     if not char.link_shared:

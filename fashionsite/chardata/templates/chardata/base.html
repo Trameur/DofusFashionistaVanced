@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+{% load i18n %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{% block meta_description %}Get Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} sets created automatically, based on your specific needs.{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}">
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
