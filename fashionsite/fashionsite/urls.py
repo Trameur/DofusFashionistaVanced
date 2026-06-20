@@ -257,6 +257,7 @@ urlpatterns = [
     re_path(r'^api/v1/shared-builds/(?P<encoded_id>[^/]+)/$', api_view.api_shared_build_detail, name='api_shared_build_detail'),
     re_path(r'^api/v1/tier-list/$', api_view.api_tier_list, name='api_tier_list'),
     re_path(r'^login_page/', login_view.login_page, name='login_page'),
+    re_path(r'^login/$', login_view.login_page, name='login'),
     re_path(r'^local_login/', login_view.local_login, name='local_login'),
     re_path(r'^register/', login_view.register, name='register'),
     re_path(r'^check_your_email/', login_view.check_your_email, name='check_your_email'),

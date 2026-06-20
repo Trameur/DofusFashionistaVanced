@@ -87,7 +87,7 @@ def _post(request, char_id):
         assert 0 <= basestats.scrolled_value and basestats.scrolled_value <= 101
         basestats.save()
         
-    allow_point_distribution = request.POST.get('choose_stats', False)
+    allow_point_distribution = str(request.POST.get('choose_stats', '')).strip().lower() in ('true', 'on', '1', 'yes')
     char.allow_points_distribution = allow_point_distribution
     char.save()
     
