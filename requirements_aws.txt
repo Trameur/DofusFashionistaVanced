@@ -66,7 +66,7 @@ PySocks==1.7.1
 python-daemon==2.3.0
 python-dateutil==2.9.0.post0
 python-memcached==1.62
-python-social-auth==0.2.21
+python-social-auth==0.3.6
 python3-openid==3.2.0
 pytz==2022.7.1
 PyYAML==5.4.1
