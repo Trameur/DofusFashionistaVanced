@@ -17,7 +17,6 @@
 
 {% block main %}
     {% get_current_language as LANGUAGE_CODE %}
-<div class="main-div" >    
     <!-- home-intro -->
     <h1 align="center" style="font-size:1.5em;font-weight:bold;margin:6px 0 4px;line-height:1.25;">
         {% trans "Create the best Dofus equipment set, automatically" %}{% if current_game_version_seo %} · {{ current_game_version_seo }}{% endif %}
@@ -25,6 +24,7 @@
     <p align="center" style="max-width:760px;margin:0 auto 16px;opacity:0.85;line-height:1.5;">
         {% trans "Dofus Fashionista is a free set optimizer. Choose your class, level and the stats you want, and it automatically finds the best combination of equipment — weapons, armor, rings, dofus and more — for your build. Then compare different sets, save your characters, and share your builds with the community." %}
     </p>
+<div class="main-div" >    
     <table>
     {% for list in items %}
     <tr>
