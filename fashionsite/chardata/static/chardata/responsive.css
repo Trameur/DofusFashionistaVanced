@@ -159,10 +159,10 @@
     font-size: 13px; line-height: 1.25;
   }
   .solution-item-name-div span { white-space: normal !important; overflow-wrap: anywhere; word-break: break-word; }
-  .solution-item-level { order: 2; display: inline-block; margin: 0 !important; font-size: 11px; opacity: 0.85; white-space: nowrap; }
-  .solution-item-link-div { order: 3; float: none !important; display: inline-flex; align-items: center; width: auto !important; margin: 0 !important; }
+  .solution-item-level { display: inline; margin-left: 5px !important; font-size: 11px; opacity: 0.85; white-space: nowrap; }
+  .solution-item-link-div { order: 2; float: none !important; display: inline-flex; align-items: center; width: auto !important; margin: 0 !important; }
   .item-external-image-link { width: 15px !important; height: 15px !important; }
-  .solution-item-icons { order: 4; display: inline-flex; align-items: center; gap: 5px; margin: 0 !important; line-height: 1; }
+  .solution-item-icons { order: 3; display: inline-flex; align-items: center; gap: 6px; margin: 0 !important; line-height: 1; }
   .solution-item-button { width: 16px !important; height: 16px !important; }
 
   /* ---- Per-page overflow fixes (content that was clipped by overflow-x) ---- */
@@ -216,4 +216,10 @@
 @media (max-width: 480px) {
   h1, h1:first-letter { font-size: 22pt; }
   .home-pic-holder, .home-pic { width: 40px !important; height: 40px !important; }
+}
+
+/* Desktop (>900px) unchanged: the level moved into the name div for mobile, so
+   on PC put it back on its own line at the original size. */
+@media (min-width: 901px) {
+  .solution-item-name-div .solution-item-level { display: block; margin-left: 0; opacity: 1; font-size: 14px; }
 }

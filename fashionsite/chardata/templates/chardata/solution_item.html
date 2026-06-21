@@ -10,7 +10,7 @@
             </div>
         </td>
         <td class="solution-item-info">
-            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span></div>
+            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}</div>
             {% if item.link %}
             <div class="solution-item-link-div">
                 <a class="item-external-link" target="_blank" rel="noopener noreferrer" href="{{item.link}}">
@@ -19,8 +19,6 @@
             </div>
             {% endif %}
         
-            <br>
-            <span class="solution-item-level">{% if item.level %}{% trans "Lvl." %} {{item.level}}{% endif %}</span><br>
             <div class="solution-item-icons">
             {% if item.id %}
                 <img src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-button" title='{% trans "Lock" context "button name" %}'>
