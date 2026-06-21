@@ -111,26 +111,91 @@
   .input-value input[type="text"],
   .compare-link-input, .edit-item-long-input,
   .smart-build-input, input.big-text { width: 100% !important; }
+  .pretty-input, .white-pretty-input { width: 100% !important; box-sizing: border-box; }
   .crits-table, .weight-stat-table {
     display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
   }
 
-  /* ---- Solution page: ONE item column on the left, stats STAY on the right ---- */
-  /* Desktop lays item slots out in 2-3 columns next to a stat panel; on a phone
-     that overflowed and clipped the stats. We collapse the item slots to a
-     single column and slim the stat table so both stay side by side and fit. */
+  /* ---- Solution page: compact item column (left), stats panel on the right ---- */
+  /* Outer table forced to fixed widths so the stat panel can't be pushed off
+     screen. Each item keeps the icon BESIDE the name/buttons (flex row); the
+     name is a wrapping block (width:100% + min-width:0 on the info cell) so it
+     never overflows onto the stats, and the cards stay compact (no tall gap). */
+  .solution-table { table-layout: fixed; width: 100%; }
+  .solution-item-summary { width: 55% !important; vertical-align: top; }
+  .solution-stat-summary { width: 45% !important; vertical-align: top; font-size: 12px; }
+  .solution-stat-table { width: 100%; }
+  .solution-stat-summary-base-value-header,
+  .solution-stat-summary-value-header { width: 26px; }
+  .solution-stat-summary-icon-header { width: 14px; }
+
   .solution-item-section { display: block; }
   .solution-item-section-column { display: block; width: 100% !important; }
-  .solution-item-expand-header { width: auto !important; }
+  .solution-item-expand-header { width: auto !important; padding: 6px !important; }
   .solution-set-expand-header,
   .solution-set-expand-content { width: auto !important; max-width: 100%; box-sizing: border-box; }
-  .solution-item-summary { width: 56% !important; }
-  .solution-stat-summary { width: 44% !important; font-size: 12px; }
-  .solution-stat-table { width: 100%; }
-  .solution-stat-summary-name-header { width: auto; }
-  .solution-stat-summary-base-value-header,
-  .solution-stat-summary-value-header { width: 30px; }
-  .solution-stat-summary-icon-header { width: 16px; }
+
+  /* Item row: icon beside the info (name/level/buttons), info shrinks & wraps */
+  .solution-item-expand-header table,
+  .solution-item-expand-header tbody { display: block !important; width: 100% !important; }
+  .solution-item-expand-header tr { display: flex !important; align-items: flex-start; gap: 8px; }
+  .solution-item-expand-header td { display: block !important; }
+  .solution-item-expand-header td:first-child { flex: 0 0 44px; width: 44px !important; }
+  .solution-item-info { flex: 1 1 auto; min-width: 0; width: auto !important; }
+  .solution-item-icon-container { display: inline-block; margin-right: 0 !important; }
+  .solution-items-icon, .solution-item-icon-container { width: 42px !important; height: 42px !important; }
+  .solution-item-name-div, .solution-item-link-div { display: block !important; float: none !important; width: 100% !important; box-sizing: border-box; }
+  .solution-item-name-div,
+  .solution-item-name-div span { white-space: normal !important; overflow-wrap: anywhere; word-break: break-word; font-size: 13px; line-height: 1.2; }
+  .solution-item-level { font-size: 11px; }
+  /* drop the template's <br> gaps so the card is tight (icon | name/level/buttons) */
+  .solution-item-expand-header .solution-item-info br { display: none; }
+  .solution-item-level { display: block; margin-top: 3px; }
+  .solution-item-icons { margin-top: 4px; line-height: 1; }
+  .solution-item-button { width: 16px !important; height: 16px !important; }
+
+  /* ---- Per-page overflow fixes (content that was clipped by overflow-x) ---- */
+  /* Images never exceed the screen */
+  .maincontent img, .main-div img, .big-text img { max-width: 100%; height: auto; }
+
+  /* Login / register: drop the decorative side images, unfix the 400px note box */
+  img[src*="MyLogin"], img[src*="myRegister"] { display: none !important; }
+  .maincontent div[style*="width: 400px"],
+  .maincontent div[style*="width:400px"] { width: auto !important; max-width: 100% !important; }
+
+  /* Smithmagic (forgemagie): the wide rune table scrolls instead of being clipped */
+  .fm-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+
+  /* Shared builds: single-column cards + shrinkable filter groups */
+  .builds-grid { grid-template-columns: 1fr !important; }
+  .filter-group { min-width: 0 !important; }
+  /* The Elements/Options/Focus filter (also on setup) scrolls if it can't fit */
+  .build-boxes-section { display: block; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+
+  /* ---- Char config pages (wizard / inclusions / exclusions / base stats) ---- */
+  /* Wizard sliders: shrink the fixed 140px label + 200px slider so a row fits */
+  .wizard-slider-label { width: auto !important; padding-right: 6px !important; }
+  .wizard-slider-main-slider { width: 120px !important; }
+  .wizard-slider-value { width: 34px !important; padding-left: 6px !important; }
+  .wizard-slider-arrow-cell { width: 16px !important; }
+  .wizard-section-sliders, .wizard-slider-container { max-width: 100%; }
+  /* The wizard's outer centered layout table is shrink-to-fit -> force it to the
+     viewport so the inner boxes (capped to 100%) actually fit. */
+  #wizard-form > table { width: 100% !important; table-layout: fixed; }
+  #wizard-form > table > tbody > tr > td { width: 100% !important; }
+  .wizard-div { width: 100% !important; }
+  .wizard-div, .min-stat-name, .wizard-slider-label, .small-brown-box { overflow-wrap: anywhere; word-break: break-word; }
+
+  /* Inclusions & exclusions: stack the two columns, unfix the 360px type cells */
+  .columns-section, .columns-column,
+  .exclusions-types-section, .exclusions-types-column {
+    display: block !important; width: 100% !important;
+  }
+  .exclusions-types-cell { width: auto !important; max-width: 100% !important; }
+  .small-brown-box { margin: 10px 6px !important; }
+
+  /* Base characteristics: the softcap stat table scrolls if slightly too wide */
+  .table-softcap-stat { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
   /* ---- Generic safety ---- */
   .footer { padding: 10px; font-size: 13px; }

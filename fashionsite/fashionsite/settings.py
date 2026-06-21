@@ -46,6 +46,8 @@ if platform.system() == 'Windows':
 else:
     CONFIG_DIR = '/etc/fashionista'
 
+CONFIG_DIR = os.environ.get('FASHIONISTA_CONFIG_DIR', CONFIG_DIR)
+
 # Use the appropriate paths for the current platform
 with open(os.path.join(CONFIG_DIR, 'gen_config.json'), 'r') as f:
     GEN_CONFIGS = json.loads(f.read())

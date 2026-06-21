@@ -1,0 +1,30 @@
+# Normalize line endings. Git stores text as LF; each OS checks out natively
+# (CRLF on Windows). This stops the spurious "file modified (LF<->CRLF)" diffs.
+* text=auto
+
+# Scripts that must keep a specific EOL regardless of OS
+*.sh   text eol=lf
+*.bat  text eol=crlf
+*.ps1  text eol=crlf
+*.cmd  text eol=crlf
+
+# Binary assets — never modify
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.pdf  binary
+*.zip  binary
+*.jar  binary
+*.apk  binary
+*.aab  binary
+*.keystore binary
+*.db   binary
+*.dump binary
+*.mo   binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.eot  binary

@@ -26,3 +26,7 @@ itemscraper/transformed_spells.json
 fashionsite/staticfiles/chardata/spells/beta/Con.png
 fashionsite/chardata/static/chardata/spells/beta/Con.png
 /docs
+
+# Local dev / test artifacts (not for the repo)
+fashionsite/fashionsite/settings_dev.py
+*.sqlite3-journal
