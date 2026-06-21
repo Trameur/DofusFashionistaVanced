@@ -1007,9 +1007,9 @@ class Structure:
         #print self.weapons_dict_by_name.get(name)
         if name in self.or_items:
             if dofus_touch:
-                return self.dt_weapons_dict_by_name[self.dt_or_items[name][0].name]
+                return self.dt_weapons_dict_by_name.get(self.dt_or_items[name][0].name)
             else:
-                return self.weapons_dict_by_name[self.or_items[name][0].name]
+                return self.weapons_dict_by_name.get(self.or_items[name][0].name)
         if dofus_touch:
             return self.dt_weapons_dict_by_name.get(name)
         else:

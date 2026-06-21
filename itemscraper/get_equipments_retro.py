@@ -269,6 +269,21 @@ def decode_conditions(c_string):
     return out
 
 
+def min_player_level(c_string):
+    """Minimum character level required by a 'PL>NN' condition.
+
+    Retro encodes the level needed to *use* an item (e.g. mount certificates,
+    i.e. dragodindes) as 'PL>NN' (player level strictly greater than NN ->
+    NN+1). Returns 1 when there is no such condition. 'PL<NN' (max-level)
+    conditions are intentionally ignored as they do not raise the minimum
+    usable level.
+    """
+    best = 1
+    for val in re.findall(r'PL\s*>\s*(\d+)', str(c_string or '')):
+        best = max(best, int(val) + 1)
+    return best
+
+
 def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
           set_names_by_lang=None):
     items = items_root['u']
@@ -298,6 +313,12 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             level = int(it.get('l', 1))
         except (TypeError, ValueError):
             level = 1
+        # Mount certificates (dragodindes) and a few other retro items gate
+        # usage by character level via a "PL>NN" condition, not the item-level
+        # field `l` (which for a certificate is just the mount tier, 1..10).
+        # Honour it so the item only appears for characters that can actually
+        # equip it (dragodindes: PL>59 -> level 60).
+        level = max(level, min_player_level(it.get('c', '')))
         level = max(1, min(level, 200))  # structure.py indexes types by level 1..200
         is_weapon = weapon_type is not None
         stats, hits = decode_stats(it.get('istats', ''), is_weapon=is_weapon)

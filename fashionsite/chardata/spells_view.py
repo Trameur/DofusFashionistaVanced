@@ -46,7 +46,7 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     weapons = solution.items['Weapon']
     if len(weapons) > 0:
         weapon = weapons[0]
-        if weapon.item_added:
+        if weapon.item_added and hasattr(weapon, 'non_crit_hits'):
             web_digest = _create_weapon_web_digest(weapon)
             digests.append(web_digest)
     game_version = getattr(request, 'game_version', 'dofus3')

@@ -788,6 +788,15 @@ def encyclopedia(request):
 
     for _, variants in grouped_items.items():
         item = _get_group_representative(variants)
+        # 'or'-group placeholders (e.g. Gelano) carry no ankama id or stats; the real
+        # data lives on the named variants in or_items. Use the variant that has an
+        # ankama id so the card shows the stat line and a working details link.
+        if not getattr(item, 'ankama_id', None):
+            _or_variants = (structure.or_items.get(item.name)
+                            or structure.dt_or_items.get(item.name) or [])
+            _real_variant = next((v for v in _or_variants if getattr(v, 'ankama_id', None)), None)
+            if _real_variant is not None:
+                item = _real_variant
         display_name = _get_display_name_for_group(structure, variants, language)
         stat_lines = _get_stat_lines(structure, item, language)
         type_name = structure.get_type_name_by_id(item.type)
