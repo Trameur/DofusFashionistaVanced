@@ -141,17 +141,28 @@
   .solution-item-expand-header tr { display: flex !important; align-items: flex-start; gap: 8px; }
   .solution-item-expand-header td { display: block !important; }
   .solution-item-expand-header td:first-child { flex: 0 0 44px; width: 44px !important; }
-  .solution-item-info { flex: 1 1 auto; min-width: 0; width: auto !important; }
+  /* info = compact flex that fills the space: [name] [level] then, on the next
+     row, [encyclopedia link] + [lock/forbid/switch/remove] all together.
+     flex `order` lets us group the enc link (which is before the level in the
+     HTML) with the action buttons. */
+  .solution-item-info {
+    flex: 1 1 auto; min-width: 0; width: auto !important;
+    display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; row-gap: 4px;
+  }
+  .solution-item-expand-header .solution-item-info br { display: none !important; }
   .solution-item-icon-container { display: inline-block; margin-right: 0 !important; }
   .solution-items-icon, .solution-item-icon-container { width: 42px !important; height: 42px !important; }
-  .solution-item-name-div, .solution-item-link-div { display: block !important; float: none !important; width: 100% !important; box-sizing: border-box; }
-  .solution-item-name-div,
-  .solution-item-name-div span { white-space: normal !important; overflow-wrap: anywhere; word-break: break-word; font-size: 13px; line-height: 1.2; }
-  .solution-item-level { font-size: 11px; }
-  /* drop the template's <br> gaps so the card is tight (icon | name/level/buttons) */
-  .solution-item-expand-header .solution-item-info br { display: none; }
-  .solution-item-level { display: block; margin-top: 3px; }
-  .solution-item-icons { margin-top: 4px; line-height: 1; }
+  .solution-item-name-div {
+    order: 1; float: none !important; display: block !important;
+    flex: 0 0 100%; width: 100% !important; max-width: 100%; margin: 0 !important;
+    white-space: normal !important; overflow-wrap: anywhere; word-break: break-word;
+    font-size: 13px; line-height: 1.25;
+  }
+  .solution-item-name-div span { white-space: normal !important; overflow-wrap: anywhere; word-break: break-word; }
+  .solution-item-level { order: 2; display: inline-block; margin: 0 !important; font-size: 11px; opacity: 0.85; white-space: nowrap; }
+  .solution-item-link-div { order: 3; float: none !important; display: inline-flex; align-items: center; width: auto !important; margin: 0 !important; }
+  .item-external-image-link { width: 15px !important; height: 15px !important; }
+  .solution-item-icons { order: 4; display: inline-flex; align-items: center; gap: 5px; margin: 0 !important; line-height: 1; }
   .solution-item-button { width: 16px !important; height: 16px !important; }
 
   /* ---- Per-page overflow fixes (content that was clipped by overflow-x) ---- */
