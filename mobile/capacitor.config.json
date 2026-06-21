@@ -1,0 +1,19 @@
+{
+  "appId": "gg.dofusfashionista.app",
+  "appName": "Dofus Fashionista",
+  "webDir": "www",
+  "server": {
+    "url": "https://dofusfashionista.gg",
+    "androidScheme": "https",
+    "iosScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "backgroundColor": "#1b1b1b",
+    "allowMixedContent": false
+  },
+  "ios": {
+    "backgroundColor": "#1b1b1b",
+    "limitsNavigationsToAppBoundDomains": false
+  }
+}

@@ -27,6 +27,8 @@
     <link rel="stylesheet" type="text/css" href="{% static css_files.common %}" class="common-css">
     <link rel="stylesheet" type="text/css" href="{% static css_files.changelog %}" class="changelog-css">
     {% block css %}{% endblock %}
+    <!-- Mobile responsive layer (loaded last; scoped to <=900px) -->
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/responsive.css" %}">
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
 
@@ -106,12 +108,12 @@
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
           {% endif %}
         </div>
-        <div style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
+        <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
           <a href="{% game_url 'home' %}"><img  class='char' src="{% static pic %}"></img></a>
         </div>
         
         
-        <div class='space'>
+        <div class='space header-controls'>
        {% include "chardata/language-selector.html" %}
        {% include "chardata/theme-selector.html" %}
        {% include "chardata/version-selector.html" %}
@@ -139,7 +141,8 @@
           </div>
        {% endif %}
         </div>
-        <div class="sidebar" background="#00ff00">
+        <button type="button" class="mobile-nav-toggle" aria-expanded="false" aria-controls="main-sidebar" onclick="toggleMobileNav(this)">{% trans "Menu" %}<span class="chev">&#9662;</span></button>
+        <div class="sidebar" id="main-sidebar" background="#00ff00">
           <div class="mini-menu">
               <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}">{% trans "Home" %}</a></div>
               <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}">{% trans "Help & About" %}</a></div>
@@ -541,6 +544,8 @@
     
     }
     
+    function toggleMobileNav(btn){var sb=document.getElementById("main-sidebar");if(!sb)return;var o=sb.classList.toggle("open");if(btn)btn.setAttribute("aria-expanded",o?"true":"false");}
+
     $(document).ready(function() {
         checkAutoTheme();
         setFlags();

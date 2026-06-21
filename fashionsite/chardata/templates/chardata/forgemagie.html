@@ -204,6 +204,24 @@
     font-size: 1.25em;
     font-weight: 800;
 }
+.fm-sim-mode {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 10px;
+}
+.fm-sim-mode > span:first-child {
+    font-weight: 700;
+}
+.fm-sim-mode-btn.fm-active {
+    background: #2e7d32;
+    color: #fff;
+    border-color: #2e7d32;
+}
+.fm-sim-mode-hint {
+    flex-basis: 100%;
+}
 .fm-sim-controls {
     margin-top: 10px;
 }
@@ -374,6 +392,12 @@
         </div>
 
         <div id="fm-sim-panel" style="display:none;">
+            <div class="fm-sim-mode" id="fm-sim-mode">
+                <span>{{ t.sim_mode_label }}:</span>
+                <button type="button" class="button-thin fm-sim-mode-btn" id="fm-sim-mode-sim">{{ t.sim_mode_sim }}</button>
+                <button type="button" class="button-thin fm-sim-mode-btn" id="fm-sim-mode-real">{{ t.sim_mode_real }}</button>
+                <div class="small-explain fm-sim-mode-hint" id="fm-sim-mode-hint"></div>
+            </div>
             <div class="fm-sim-meters" id="fm-sim-meters"></div>
             <div class="fm-sim-stop" id="fm-sim-stop" style="display:none;">{{ t.sim_sink_empty }}</div>
             <div class="fm-quality" id="fm-sim-quality" style="display:none;"></div>
@@ -398,11 +422,11 @@
                     <select class="pretty-input" id="fm-sim-rune-select"></select>
                     <span id="fm-sim-chance" class="small-explain"></span>
                 </div>
-                <div class="fm-exo-row">
+                <div class="fm-exo-row" id="fm-sim-throw-row">
                     <button type="button" class="button-generic" id="fm-sim-throw">{{ t.sim_throw }}</button>
                 </div>
                 <div class="fm-exo-row">
-                    <span class="small-explain">{{ t.sim_record_hint }}</span>
+                    <span class="small-explain" id="fm-sim-record-hint">{{ t.sim_record_hint }}</span>
                     <button type="button" class="button-thin" id="fm-sim-record-sc">{{ t.sim_sc }}</button>
                     <button type="button" class="button-thin" id="fm-sim-record-sn">{{ t.sim_sn }}</button>
                     <button type="button" class="button-thin" id="fm-sim-record-ec">{{ t.sim_ec }}</button>
@@ -1033,6 +1057,11 @@
         var simRuneSelect = document.getElementById('fm-sim-rune-select');
         var simChanceSpan = document.getElementById('fm-sim-chance');
         var simThrowBtn = document.getElementById('fm-sim-throw');
+        var simThrowRow = document.getElementById('fm-sim-throw-row');
+        var simRecordHint = document.getElementById('fm-sim-record-hint');
+        var simModeSimBtn = document.getElementById('fm-sim-mode-sim');
+        var simModeRealBtn = document.getElementById('fm-sim-mode-real');
+        var simModeHint = document.getElementById('fm-sim-mode-hint');
         var simHistoryDiv = document.getElementById('fm-sim-history');
         var simRunesUsedDiv = document.getElementById('fm-sim-runes-used');
         var itemCostInput = document.getElementById('fm-sim-item-cost');
@@ -1079,6 +1108,7 @@
             if (saved && saved.rows && saved.rows.length) {
                 session = saved;
                 session.runePrices = session.runePrices || {};
+                session.mode = session.mode === 'real' ? 'real' : 'sim';
                 simPanel.style.display = 'block';
                 renderSession();
             } else {
@@ -1111,11 +1141,45 @@
                 runePrices: {},
                 itemCost: null,
                 salePrice: null,
-                history: []
+                history: [],
+                mode: session && session.mode === 'real' ? 'real' : 'sim'
             };
             undoStack = [];
             saveSession();
             simPanel.style.display = 'block';
+            renderSession();
+        }
+
+        // Two ways to drive the session: 'sim' lets the tool roll the outcome
+        // and estimate the losses; 'real' is for maging in game — you tap the
+        // outcome you actually got and type your item's new stats (the Now and
+        // Target cells become editable, and no losses are guessed for you).
+        function applyModeUI() {
+            var real = !!session && session.mode === 'real';
+            if (simModeSimBtn) {
+                simModeSimBtn.classList.toggle('fm-active', !real);
+            }
+            if (simModeRealBtn) {
+                simModeRealBtn.classList.toggle('fm-active', real);
+            }
+            if (simModeHint) {
+                simModeHint.textContent =
+                    real ? t.sim_mode_real_hint : t.sim_mode_sim_hint;
+            }
+            if (simThrowRow) {
+                simThrowRow.style.display = real ? 'none' : '';
+            }
+            if (simRecordHint) {
+                simRecordHint.style.display = real ? 'none' : '';
+            }
+        }
+
+        function setMode(mode) {
+            if (!session) {
+                return;
+            }
+            session.mode = mode === 'real' ? 'real' : 'sim';
+            saveSession();
             renderSession();
         }
 
@@ -1248,6 +1312,11 @@
                 simChanceSpan.className = 'fm-bad';
                 return;
             }
+            var realMode = session.mode === 'real';
+            // Real maging needs an explicit outcome: there is nothing to roll.
+            if (realMode && !forcedOutcome) {
+                return;
+            }
             simChanceSpan.className = 'small-explain';
             pushUndo();
             var row = session.rows[rowIndex];
@@ -1259,13 +1328,21 @@
                         : (roll < chances.sc + chances.sn ? 'sn' : 'ec');
             }
             var lost = [];
+            // The bonus on a success is deterministic, so apply it in both
+            // modes. The losses on SN/EC are unpredictable in game, so in real
+            // mode we never guess them — the player edits the actual stats and
+            // sink afterwards (the Now cells are editable).
             if (outcome === 'sc') {
                 row.value += tier.bonus;
             } else if (outcome === 'sn') {
                 row.value += tier.bonus;
-                applyLoss(tier.weight, rowIndex, lost);
+                if (!realMode) {
+                    applyLoss(tier.weight, rowIndex, lost);
+                }
             } else {
-                applyLoss(tier.weight, -1, lost);
+                if (!realMode) {
+                    applyLoss(tier.weight, -1, lost);
+                }
             }
             session.throws += 1;
             session.runesUsed[tier.name] = (session.runesUsed[tier.name] || 0) + 1;
@@ -1273,7 +1350,8 @@
                 rune: tier.name,
                 outcome: outcome,
                 lost: lost,
-                sink: session.sink
+                sink: session.sink,
+                manual: realMode
             });
             if (session.history.length > 1000) {
                 session.history.pop();
@@ -1539,6 +1617,7 @@
             if (!session) {
                 return;
             }
+            applyModeUI();
             simResetBtn.style.display = 'inline-block';
             simUndoBtn.style.display = undoStack.length ? 'inline-block' : 'none';
 
@@ -1623,17 +1702,48 @@
                 tr.appendChild(statTd);
 
                 var nowTd = document.createElement('td');
-                nowTd.textContent = row.value;
-                if (row.value > row.start) {
-                    nowTd.className = 'fm-ok';
-                } else if (row.value < row.start) {
-                    nowTd.className = 'fm-bad';
+                if (session.mode === 'real') {
+                    // Real maging: the player reads the value off their item.
+                    var nowInput = document.createElement('input');
+                    nowInput.type = 'number';
+                    nowInput.className = 'pretty-input fm-input';
+                    nowInput.value = row.value;
+                    nowInput.addEventListener('change', function() {
+                        var parsed = parseInt(nowInput.value, 10);
+                        pushUndo();
+                        row.value = isNaN(parsed) ? 0 : parsed;
+                        saveSession();
+                        renderSession();
+                    });
+                    nowTd.appendChild(nowInput);
+                } else {
+                    nowTd.textContent = row.value;
+                    if (row.value > row.start) {
+                        nowTd.className = 'fm-ok';
+                    } else if (row.value < row.start) {
+                        nowTd.className = 'fm-bad';
+                    }
                 }
                 tr.appendChild(nowTd);
 
                 var targetTd = document.createElement('td');
-                targetTd.textContent = (row.target > 0 || row.target < row.start)
-                    ? row.target : '-';
+                if (session.mode === 'real') {
+                    var targetInput = document.createElement('input');
+                    targetInput.type = 'number';
+                    targetInput.className = 'pretty-input fm-input';
+                    targetInput.value = row.target;
+                    targetInput.addEventListener('change', function() {
+                        var parsed = parseInt(targetInput.value, 10);
+                        pushUndo();
+                        row.target = isNaN(parsed) ? 0 : parsed;
+                        saveSession();
+                        renderSession();
+                    });
+                    targetTd.appendChild(targetInput);
+                } else {
+                    targetTd.textContent = (row.target > 0 || row.target < row.start)
+                        ? row.target : '-';
+                }
                 tr.appendChild(targetTd);
 
                 var remainingTd = document.createElement('td');
@@ -1790,6 +1900,17 @@
             }
             throwRune(selected.key, selected.tier, null);
         });
+
+        if (simModeSimBtn) {
+            simModeSimBtn.addEventListener('click', function() {
+                setMode('sim');
+            });
+        }
+        if (simModeRealBtn) {
+            simModeRealBtn.addEventListener('click', function() {
+                setMode('real');
+            });
+        }
 
         [['fm-sim-record-sc', 'sc'], ['fm-sim-record-sn', 'sn'],
          ['fm-sim-record-ec', 'ec']].forEach(function(pair) {
