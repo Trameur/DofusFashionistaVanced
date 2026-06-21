@@ -14,11 +14,11 @@
 
   /* ---- Global: stop the horizontal "zoomed-out" overflow ---- */
   html, body { max-width: 100%; overflow-x: hidden; }
-  body.body-base { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body.body-base { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; margin: 0 !important; }
 
   .add-banner {
     width: 100% !important; max-width: 100% !important; margin: 0 !important;
-    padding: 0 6px; box-sizing: border-box;
+    padding: 0; box-sizing: border-box;
   }
   .everything {
     width: 100% !important; max-width: 100% !important; margin: 0 !important;
@@ -112,6 +112,8 @@
   .compare-link-input, .edit-item-long-input,
   .smart-build-input, input.big-text { width: 100% !important; }
   .pretty-input, .white-pretty-input { width: 100% !important; box-sizing: border-box; }
+  /* but small number inputs (base/min stats, weights) must stay compact */
+  .stat-input { width: 46px !important; }
   .crits-table, .weight-stat-table {
     display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
   }
@@ -128,6 +130,9 @@
   .solution-stat-summary-base-value-header,
   .solution-stat-summary-value-header { width: 26px; }
   .solution-stat-summary-icon-header { width: 14px; }
+  /* bigger, visible stat icons */
+  .solution-stat-summary-icon { width: 17px !important; height: 17px !important; }
+  .solution-stat-summary-icon-cell { padding: 1px !important; }
 
   .solution-item-section { display: block; }
   .solution-item-section-column { display: block; width: 100% !important; }
@@ -176,12 +181,23 @@
 
   /* Smithmagic (forgemagie): the wide rune table scrolls instead of being clipped */
   .fm-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+  .fm-table { table-layout: fixed; width: 100% !important; }
+  .fm-table th, .fm-table td { white-space: normal !important; padding: 2px 3px !important; font-size: 10px; overflow-wrap: anywhere; word-break: break-word; }
+  .fm-table th.fm-cell-runes, .fm-table td.fm-cell-runes { min-width: 0 !important; }
+  .fm-stat-cell { gap: 3px; }
+  .fm-stat-cell img { width: 13px; height: 13px; }
 
   /* Shared builds: single-column cards + shrinkable filter groups */
   .builds-grid { grid-template-columns: 1fr !important; }
   .filter-group { min-width: 0 !important; }
+  /* the full-width 'Build Type' filter group must keep the whole row (flex:1 collapsed it) */
+  .filter-group[style*="width: 100%"] { flex: 1 1 100% !important; }
   /* The Elements/Options/Focus filter (also on setup) scrolls if it can't fit */
-  .build-boxes-section { display: block; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+  .build-boxes-section { table-layout: fixed; width: 100% !important; }
+  .build-boxes-section td, .build-boxes-section th { overflow-wrap: anywhere; word-break: break-word; font-size: 12px; padding: 2px !important; vertical-align: top; }
+  .build-boxes-section label { font-size: 12px; line-height: 1.25; }
+  /* desktop sets .build-boxes-column to 190px which forces the fixed table to 3x190; unset it */
+  .build-boxes-column { width: auto !important; }
 
   /* ---- Char config pages (wizard / inclusions / exclusions / base stats) ---- */
   /* Wizard sliders: shrink the fixed 140px label + 200px slider so a row fits */
@@ -206,7 +222,28 @@
   .small-brown-box { margin: 10px 6px !important; }
 
   /* Base characteristics: the softcap stat table scrolls if slightly too wide */
-  .table-softcap-stat { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-softcap-stat { table-layout: fixed; width: 100% !important; }
+  .table-softcap-stat td, .table-softcap-stat th { font-size: 10px; padding: 1px !important; overflow-wrap: anywhere; word-break: break-word; }
+
+  /* Load a project: the cells wrap fixed-width inner divs (~624px total) -> unfix them */
+  .load-project-table { width: 100% !important; font-size: 12px; }
+  .load-project-table td > div, .load-project-cell > div { width: auto !important; max-width: none !important; overflow-wrap: anywhere; word-break: break-word; }
+  .load-project-cell, .load-project-header { padding: 3px 4px !important; }
+
+  /* Wizard: the sliders sit in an inline-block width:500px wrapper -> unfix it */
+  div[style*="width: 500px"], div[style*="width:500px"] { width: auto !important; max-width: 100% !important; display: block !important; }
+
+  /* Base characteristics: the points table fits the width */
+  .register-stat { table-layout: fixed; width: 100% !important; }
+  .register-stat td, .register-stat th { padding: 2px 2px !important; overflow-wrap: anywhere; word-break: break-word; }
+  .register-stat .stat-title, .register-stat .input-stat-name { font-size: 11px; }
+  .register-stat .stat-input { width: 100% !important; box-sizing: border-box; }
+
+  /* Spells Damage page: unfix the 800px buttons row + wide cells; table can scroll */
+  .spell-buttons { width: auto !important; max-width: 100% !important; flex-wrap: wrap; }
+  #spells-table { width: 100% !important; }
+  .spells-td, .outer-cell { max-width: 100%; overflow-wrap: anywhere; }
+  #spells-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
   /* ---- Generic safety ---- */
   .footer { padding: 10px; font-size: 13px; }
