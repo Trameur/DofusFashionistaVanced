@@ -90,10 +90,12 @@ def get_wizard_sliders(char):
         main_special_slider.add_subslider(Slider('heals', _('Heals'), False))
     if 'summon' in aspects or param_for_build(race, elements, 'summons_are_important'):
         main_special_slider.add_subslider(Slider('summon', _('Summons'), False))
-    if 'wis' in aspects:
-        main_special_slider.add_subslider(Slider('wis', _('Wisdom'), False))
-    if 'pp' in aspects:
-        main_special_slider.add_subslider(Slider('pp', _('Prospecting'), False))
+    # Wisdom (XP) and Prospecting (drop rate) apply to any build, not just
+    # specific archetypes, so always offer them here for discoverability
+    # (users reported not finding them). They default to weight 0, so builds
+    # that ignore them are unaffected.
+    main_special_slider.add_subslider(Slider('wis', _('Wisdom'), False))
+    main_special_slider.add_subslider(Slider('pp', _('Prospecting'), False))
 
     weights = get_stats_weights(char)
     for slider in all_sliders:
