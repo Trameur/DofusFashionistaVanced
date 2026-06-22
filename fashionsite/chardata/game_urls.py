@@ -106,6 +106,7 @@ urlpatterns = [
     re_path(r'^faq/', views.faq, name='faq'),
     re_path(r'^support/', views.support, name='support'),
     re_path(r'^license/', views.license_page, name='license_page'),
+    re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^contact/thankyou/', contact_view.thankyou, name='thankyou'),
     re_path(r'^contact/nomessage/', contact_view.nomessage, name='nomessage'),
     re_path(r'^contact/', contact_view.contact, name='contact'),

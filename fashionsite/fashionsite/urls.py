@@ -76,7 +76,7 @@ def service_worker_view(request):
     Network-first for navigation (so users always get fresh builds when online)
     with a tiny cached offline fallback; cache-first for static assets."""
     sw = """
-const CACHE = 'fashionista-v1';
+const CACHE = 'fashionista-v2';
 const OFFLINE_URL = '/offline/';
 self.addEventListener('install', function(e) {
     e.waitUntil(caches.open(CACHE).then(function(c) { return c.add(OFFLINE_URL); }));
@@ -97,7 +97,17 @@ self.addEventListener('fetch', function(e) {
         e.respondWith(fetch(req).catch(function() { return caches.match(OFFLINE_URL); }));
         return;
     }
-    if (/\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?)$/.test(url.pathname)) {
+    // CSS/JS: network-first so style/script updates always apply (cache = offline fallback)
+    if (/\\.(css|js)$/.test(url.pathname)) {
+        e.respondWith(fetch(req).then(function(resp) {
+            var copy = resp.clone();
+            caches.open(CACHE).then(function(c){ c.put(req, copy); });
+            return resp;
+        }).catch(function(){ return caches.match(req); }));
+        return;
+    }
+    // images/fonts: cache-first (rarely change)
+    if (/\\.(png|jpg|jpeg|gif|svg|ico|woff2?)$/.test(url.pathname)) {
         e.respondWith(caches.match(req).then(function(cached) {
             return cached || fetch(req).then(function(resp) {
                 var copy = resp.clone();

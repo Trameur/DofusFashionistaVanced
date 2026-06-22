@@ -24,7 +24,8 @@
     <p align="center" style="max-width:760px;margin:0 auto 16px;opacity:0.85;line-height:1.5;">
         {% trans "Dofus Fashionista is a free set optimizer. Choose your class, level and the stats you want, and it automatically finds the best combination of equipment — weapons, armor, rings, dofus and more — for your build. Then compare different sets, save your characters, and share your builds with the community." %}
     </p>
-<div class="main-div" >    
+<div class="main-div" >
+    {% include "chardata/ad_slot.html" with ad_slot=ad_slot_home_top extra_class="fm-ad-top" %}    
     <table>
     {% for list in items %}
     <tr>
@@ -72,7 +73,7 @@
                         {{ fb.char_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
                     <div class="featured-build-stats">
-                        ❤️ {{ fb.like_count }} · ⭐ {{ fb.favorite_count }} · 👁 {{ fb.view_count }}
+                        <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true">👁</span> {{ fb.view_count }}
                     </div>
                     <div class="featured-build-author">{% trans "by" %} {{ fb.creator }}</div>
                 </div>

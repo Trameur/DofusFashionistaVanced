@@ -1,0 +1,593 @@
+/* ============================================================================
+   Dofus Fashionista — MODERN skin (opt-in)  v2
+   Active only when <html> has class `fm-modern` (the "New look" toggle, saved
+   in localStorage). Without the class the classic design is 100% untouched.
+   Keeps the original gold / brown / parchment identity, adapting to light/dark
+   via fm-light / fm-dark. Fully responsive & theme-aware.
+   ============================================================================ */
+
+/* ---------- Design tokens ---------- */
+html.fm-modern{
+  --fm-accent:#e3bf4d; --fm-accent-2:#f4d774; --fm-accent-strong:#b8902a;
+  --fm-accent-soft:rgba(227,191,77,.15); --fm-accent-line:rgba(227,191,77,.45);
+  --fm-radius:16px; --fm-radius-sm:11px; --fm-radius-xs:8px;
+  --fm-gap:16px; --fm-maxw:1200px;
+  --fm-font:"Segoe UI",Roboto,"Helvetica Neue",Arial,system-ui,sans-serif;
+  --fm-shadow:0 10px 30px rgba(0,0,0,.18); --fm-shadow-sm:0 3px 12px rgba(0,0,0,.12);
+  --fm-ring:0 0 0 3px var(--fm-accent-soft);
+  --fm-trans:.16s cubic-bezier(.22,.61,.36,1);
+}
+html.fm-modern.fm-light{
+  --fm-bg:#ece8dc; --fm-bg-2:#e3ded0;
+  --fm-surface:#fffdf8; --fm-surface-2:#f6f2e7; --fm-surface-3:#efe9da;
+  --fm-text:#2a2114; --fm-head:#3a2c16; --fm-muted:#6b6048;
+  --fm-border:rgba(60,46,20,.13); --fm-border-strong:rgba(176,144,42,.42);
+  --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.20),transparent 70%);
+  --fm-banner-grad:linear-gradient(180deg,rgba(20,12,4,0) 42%,rgba(20,12,4,.30) 100%);
+  --fm-accent-text:#8a6a14;
+}
+html.fm-modern.fm-dark{
+  --fm-bg:#120e08; --fm-bg-2:#181209;
+  --fm-surface:#211a10; --fm-surface-2:#2a2114; --fm-surface-3:#342817;
+  --fm-text:#ece6d6; --fm-head:#f6efdc; --fm-muted:#b3a585;
+  --fm-border:rgba(255,255,255,.10); --fm-border-strong:rgba(227,191,77,.28);
+  --fm-glow:radial-gradient(1100px 480px at 50% -140px,rgba(227,191,77,.16),transparent 70%);
+  --fm-banner-grad:linear-gradient(180deg,rgba(0,0,0,0) 28%,rgba(0,0,0,.60) 100%);
+  --fm-accent-text:#e3bf4d;
+}
+html.fm-modern:not(.fm-light):not(.fm-dark){
+  --fm-bg:#ece8dc; --fm-bg-2:#e3ded0; --fm-surface:#fffdf8; --fm-surface-2:#f6f2e7;
+  --fm-surface-3:#efe9da; --fm-text:#2a2114; --fm-head:#3a2c16; --fm-muted:#6b6048;
+  --fm-border:rgba(60,46,20,.13); --fm-border-strong:rgba(176,144,42,.42);
+  --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.20),transparent 70%);
+  --fm-accent-text:#8a6a14;
+}
+
+/* ---------- Base ---------- */
+html.fm-modern body.body-base{
+  background:var(--fm-bg) !important; color:var(--fm-text); font-family:var(--fm-font);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  margin:0 !important; position:relative; min-height:100vh;
+}
+html.fm-modern body.body-base::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; background:var(--fm-glow);
+}
+/* no z-index here: a stacking context would trap the theme/language popups
+   (inside .everything) below the body-level blanket overlay. */
+html.fm-modern .add-banner, html.fm-modern .everything{ position:relative; }
+html.fm-modern *{ font-family:var(--fm-font); }
+html.fm-modern a{ color:var(--fm-accent-text); }
+html.fm-modern ::selection{ background:rgba(227,191,77,.30); color:inherit; }
+html.fm-modern.fm-dark *::-webkit-scrollbar{ width:11px; height:11px; }
+html.fm-modern.fm-dark *::-webkit-scrollbar-thumb{ background:#3c2f1b; border-radius:8px; border:2px solid var(--fm-bg); }
+html.fm-modern.fm-dark *::-webkit-scrollbar-track{ background:transparent; }
+
+html.fm-modern .add-banner{
+  width:100% !important; max-width:var(--fm-maxw) !important; margin:0 auto !important;
+  padding:0 20px !important; box-sizing:border-box; text-align:left;
+}
+html.fm-modern .everything{ width:100% !important; max-width:100% !important; margin:0 !important; box-sizing:border-box; }
+
+/* ---------- Hero / banner ---------- */
+html.fm-modern .banner{
+  width:100% !important; height:auto !important; margin:18px 0 0 !important; padding:0 !important;
+  border-radius:var(--fm-radius); overflow:hidden; position:relative; line-height:0;
+  box-shadow:var(--fm-shadow); border:1px solid var(--fm-border);
+}
+html.fm-modern .banner br{ display:none; }
+html.fm-modern .banner::after{ content:""; position:absolute; inset:0; background:var(--fm-banner-grad); pointer-events:none; }
+html.fm-modern .banner img{ width:100% !important; max-width:100% !important; height:auto !important; max-height:190px; object-fit:cover; object-position:center 38%; display:block; }
+/* The banner already carries rich character art; the extra class-avatar overlay
+   reads as clutter/overlap on top of it, so hide it in the modern skin. */
+html.fm-modern .char-overlay{ display:none !important; }
+
+/* ---------- Top control bar ---------- */
+html.fm-modern .space.header-controls{
+  height:auto !important; display:flex; flex-wrap:wrap; align-items:center; gap:8px;
+  padding:12px 0 8px !important; clear:both; justify-content:flex-end;
+}
+html.fm-modern .space.header-controls .login,
+html.fm-modern .space.header-controls .base-language-selector-div,
+html.fm-modern .space.header-controls .base-theme-selector-div,
+html.fm-modern .space.header-controls .version-selector{ float:none !important; margin:0 !important; position:relative; top:auto; }
+/* All controls share one pill height for a clean, aligned toolbar */
+html.fm-modern .fm-design-toggle,
+html.fm-modern .base-language-selector-div,
+html.fm-modern .current-theme,
+html.fm-modern .login,
+html.fm-modern .version-selector{ height:34px; box-sizing:border-box; display:inline-flex; align-items:center; border-radius:999px; }
+/* language: flag in a pill */
+html.fm-modern .base-language-selector-div{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 10px; cursor:pointer; transition:background .16s,border-color .16s; }
+html.fm-modern .base-language-selector-div:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
+html.fm-modern #language-selector{ display:flex; align-items:center; margin:0; }
+html.fm-modern #flag{ width:22px !important; height:22px !important; border-radius:4px; display:block; cursor:pointer; }
+/* theme: clean pill (override classic dark-brown 'current') */
+html.fm-modern .current-theme, html.fm-modern .auto-current{
+  background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
+  border-radius:999px !important; padding:0 14px !important; height:34px; display:inline-flex; align-items:center;
+  cursor:pointer; font-size:13px; font-weight:600; transition:background .16s,border-color .16s;
+}
+html.fm-modern .current-theme:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
+/* version: segmented control */
+html.fm-modern .version-selector{ border:1px solid var(--fm-border) !important; overflow:hidden; background:var(--fm-surface); padding:0; }
+html.fm-modern .version-link{ padding:0 13px !important; height:32px; display:inline-flex; align-items:center; font-size:12px; font-weight:700; color:var(--fm-muted) !important; background:transparent !important; border:0 !important; text-decoration:none; transition:background .16s,color .16s; }
+html.fm-modern .version-link + .version-link{ border-left:1px solid var(--fm-border) !important; }
+html.fm-modern .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
+html.fm-modern .version-link.active{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
+/* login pill */
+html.fm-modern .login{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 16px; font-size:13px; }
+html.fm-modern .login:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
+html.fm-modern .login a{ color:var(--fm-accent-text) !important; font-weight:700; text-decoration:none; }
+/* theme / language dropdown popups -> modern cards */
+html.fm-modern #other-themes, html.fm-modern #other-flags{
+  background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important;
+  border-radius:var(--fm-radius-sm) !important; box-shadow:var(--fm-shadow) !important; padding:6px !important; margin-top:6px;
+}
+html.fm-modern .theme-selector{ display:block; padding:8px 12px !important; border-radius:var(--fm-radius-xs) !important; color:var(--fm-text) !important; cursor:pointer; white-space:nowrap; font-weight:600; }
+/* the theme swatch classes carry a classic dark-brown bg; neutralise it */
+html.fm-modern .lighttheme-selector, html.fm-modern .darktheme-selector, html.fm-modern .auto-selector{ background:transparent !important; border:0 !important; color:var(--fm-text) !important; }
+html.fm-modern .theme-selector:hover,
+html.fm-modern .lighttheme-selector:hover, html.fm-modern .darktheme-selector:hover, html.fm-modern .auto-selector:hover{ background:var(--fm-accent-soft) !important; }
+html.fm-modern .flag-choose{ width:24px !important; height:24px !important; border-radius:4px; margin:3px; cursor:pointer; }
+
+.fm-design-toggle{
+  display:inline-flex; align-items:center; gap:6px; height:34px; box-sizing:border-box;
+  border:1px solid rgba(227,191,77,.55);
+  background:linear-gradient(180deg,rgba(227,191,77,.28),rgba(227,191,77,.12)); color:inherit;
+  padding:0 16px; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer;
+  line-height:1; white-space:nowrap; position:relative; z-index:6;
+  transition:background .16s ease,transform .16s ease,border-color .16s;
+}
+html.fm-modern .fm-design-toggle span[aria-hidden]{ display:none; }
+.fm-design-toggle:hover{ background:rgba(227,191,77,.30); transform:translateY(-1px); }
+.fm-design-toggle:active{ transform:translateY(0); }
+/* CLASSIC mode: float the toggle into the top-right control cluster so it can
+   never sit under the banner / character home-link (z-index 1-2), which would
+   otherwise swallow the click and bounce the user to the home page. */
+html:not(.fm-modern) .space.header-controls .fm-design-toggle{ float:right; margin:5px 6px 0 0; }
+
+/* ---------- Layout shell ---------- */
+html.fm-modern .sidebar{
+  float:left; width:236px !important; box-sizing:border-box; padding:14px !important; margin-top:18px;
+  background:var(--fm-surface); border:1px solid var(--fm-border); border-radius:var(--fm-radius); box-shadow:var(--fm-shadow-sm);
+}
+html.fm-modern .maincolumn{ margin:18px 0 0 264px !important; }
+html.fm-modern .maincontent, html.fm-modern .loading{
+  background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
+  border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); padding:26px !important;
+}
+html.fm-modern .maincontent{ animation:fmFade .25s ease; }
+@keyframes fmFade{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ html.fm-modern *{ animation:none !important; transition:none !important; } }
+
+/* ---------- Sidebar nav ---------- */
+html.fm-modern .mini-menu{ width:100% !important; border-radius:var(--fm-radius-sm); overflow:visible; margin-bottom:4px; background:transparent !important; }
+html.fm-modern .menu_link:link, html.fm-modern .menu_link:visited,
+html.fm-modern .menu-collapse-link:link, html.fm-modern .menu-collapse-link:visited{
+  width:auto !important; display:block; text-align:left; padding:10px 13px !important; border-radius:var(--fm-radius-xs) !important;
+  margin:3px 0; font-weight:600; font-size:14px; color:var(--fm-text) !important; background:var(--fm-surface-2) !important;
+  border:1px solid transparent !important; border-left:3px solid transparent !important;
+  transition:background var(--fm-trans),border-color var(--fm-trans),transform var(--fm-trans);
+}
+html.fm-modern .menu_link:hover, html.fm-modern .menu-collapse-link:hover{
+  background:var(--fm-accent-soft) !important; border-left-color:var(--fm-accent) !important; transform:translateX(2px);
+}
+html.fm-modern .menu_link_top{ font-weight:700; }
+html.fm-modern .menu-collapse-link{ margin-left:8px !important; font-size:13px; }
+/* Advanced ("More/Less") collapsible group: clean grouped sub-nav, NOT the
+   classic dark-brown box (#menu-collapse had bg rgb(80,54,37)). */
+html.fm-modern #menu-collapse{ background:transparent !important; border-left:2px solid var(--fm-border) !important; margin:2px 0 4px 8px !important; padding-left:3px !important; }
+html.fm-modern #menu-collapse .menu-collapse-link{ margin-left:3px !important; }
+/* "More/Less" toggle as a clear chevron expander (not a nav pill) */
+html.fm-modern #advanced-button{ background:transparent !important; color:var(--fm-muted) !important; border:0 !important; border-left:0 !important; text-align:center; font-size:12px !important; font-weight:700 !important; letter-spacing:.3px; padding:7px 12px !important; }
+html.fm-modern #advanced-button:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; transform:none !important; }
+html.fm-modern #advanced-text::after{ content:" \25BE"; font-size:11px; opacity:.85; }
+html.fm-modern #advanced-button.fm-open #advanced-text::after{ content:" \25B4"; }
+html.fm-modern .rerun-button img.button-img{ vertical-align:middle; margin-right:6px; }
+html.fm-modern .sidebar-stats{ width:100% !important; box-sizing:border-box; background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); padding:12px 14px; font-size:12px; line-height:1.5; color:var(--fm-muted); }
+/* readable, theme-aware stat text (was white/pale gold on cream = invisible) */
+html.fm-modern .sidebar-stats-row{ color:var(--fm-muted) !important; }
+html.fm-modern .sidebar-stats-value{ color:var(--fm-head) !important; font-weight:700; }
+html.fm-modern .sidebar-stats-version{ margin-top:10px; padding-top:9px; border-top:1px solid var(--fm-border); }
+html.fm-modern .sidebar-stats-version-name{ color:var(--fm-accent-text) !important; font-weight:800; letter-spacing:.6px; text-transform:uppercase; font-size:11px; margin-bottom:3px; }
+html.fm-modern .menu-hor-line{ display:none; }
+html.fm-modern .space{ height:14px; background:transparent !important; }
+
+/* ---------- Headings ---------- */
+html.fm-modern h1{
+  font-variant:small-caps; letter-spacing:.4px; color:var(--fm-head);
+  font-size:clamp(1.8rem,1.15rem + 2.4vw,2.6rem) !important; margin:4px 0 14px !important; line-height:1.12;
+  position:relative; padding-bottom:12px; font-weight:800;
+}
+html.fm-modern h1::after{ content:""; position:absolute; left:0; bottom:0; width:64px; height:4px; border-radius:4px;
+  background:linear-gradient(90deg,var(--fm-accent),transparent); }
+html.fm-modern .maincontent h1, html.fm-modern .main-div h1{ text-align:left; }
+html.fm-modern h2{ color:var(--fm-head); font-size:clamp(1.2rem,1rem + 1vw,1.55rem); font-weight:700; }
+html.fm-modern h3{ color:var(--fm-head); }
+html.fm-modern .big-text{ color:var(--fm-head); }
+html.fm-modern .small-explain, html.fm-modern .small-text{ color:var(--fm-muted); }
+
+/* ---------- Generic panels (brown-box etc.) ---------- */
+html.fm-modern .brown-box, html.fm-modern .small-brown-box{
+  background:var(--fm-surface-2) !important; color:var(--fm-text) !important;
+  border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important;
+  box-shadow:var(--fm-shadow-sm); padding:18px !important; box-sizing:border-box;
+}
+html.fm-modern .small-brown-box{ border-radius:var(--fm-radius-sm) !important; padding:12px !important; }
+
+/* ---------- Buttons ---------- */
+html.fm-modern .button-generic, html.fm-modern .button-generic-foreground, html.fm-modern .submit-button,
+html.fm-modern .rerun-button, html.fm-modern input[type="submit"], html.fm-modern button.button-generic,
+html.fm-modern .filter-button{
+  background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important;
+  border:none !important; border-radius:999px !important; padding:10px 20px !important; font-weight:700 !important;
+  cursor:pointer; box-shadow:var(--fm-shadow-sm); text-decoration:none; display:inline-block;
+  white-space:nowrap; transition:transform var(--fm-trans), filter var(--fm-trans), box-shadow var(--fm-trans);
+}
+html.fm-modern .button-generic:hover, html.fm-modern .submit-button:hover, html.fm-modern .rerun-button:hover,
+html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:hover, html.fm-modern .filter-button:hover{
+  filter:brightness(1.05); transform:translateY(-2px); box-shadow:var(--fm-shadow);
+}
+html.fm-modern .button-generic:active{ transform:translateY(0); }
+html.fm-modern .button-generic:focus-visible, html.fm-modern input:focus-visible, html.fm-modern select:focus-visible,
+html.fm-modern button:focus-visible, html.fm-modern a:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
+/* secondary / thin buttons -> outlined */
+html.fm-modern .button-thin, html.fm-modern .button-thin-foreground, html.fm-modern .button-thin-chardata{ white-space:nowrap;
+  background:var(--fm-surface) !important; color:var(--fm-accent-text) !important;
+  border:1px solid var(--fm-accent-line) !important; border-radius:999px !important; font-weight:700; cursor:pointer;
+  transition:background var(--fm-trans),transform var(--fm-trans);
+}
+html.fm-modern .button-thin:hover, html.fm-modern .button-thin-chardata:hover{ background:var(--fm-accent-soft) !important; transform:translateY(-1px); }
+
+/* ---------- Forms ---------- */
+html.fm-modern input[type="text"], html.fm-modern input[type="password"], html.fm-modern input[type="email"],
+html.fm-modern input[type="number"], html.fm-modern select, html.fm-modern textarea,
+html.fm-modern .pretty-input, html.fm-modern .white-pretty-input, html.fm-modern .filter-input,
+html.fm-modern .edit-item-long-input{
+  background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
+  border-radius:var(--fm-radius-xs) !important; padding:9px 11px !important; box-sizing:border-box; outline:none;
+  transition:border-color var(--fm-trans), box-shadow var(--fm-trans);
+}
+html.fm-modern input:focus, html.fm-modern select:focus, html.fm-modern textarea:focus,
+html.fm-modern .pretty-input:focus, html.fm-modern .filter-input:focus{ border-color:var(--fm-accent) !important; box-shadow:var(--fm-ring) !important; }
+html.fm-modern .input-name, html.fm-modern .min-stat-name, html.fm-modern .stat-label, html.fm-modern .filter-label{ color:var(--fm-muted); font-weight:600; }
+html.fm-modern .register-line{ margin:10px 0; }
+html.fm-modern input.input-value[type="number"]{ min-width:64px; text-align:center; }
+/* base characteristics: stat inputs must show 100/3000 (hide number spinners
+   that eat horizontal space; widen slightly; non-wrapping total). */
+html.fm-modern .stat-input{ width:52px !important; padding:6px 4px !important; text-align:center; box-sizing:border-box; }
+html.fm-modern .stat-input::-webkit-inner-spin-button, html.fm-modern .stat-input::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
+html.fm-modern .stat-input[type=number]{ -moz-appearance:textfield; }
+html.fm-modern .stat-softcap{ white-space:nowrap; }
+
+/* ---------- Light theme guards: always-readable hover/active states ----------
+   (defends against the classic light theme's dark-brown hover backgrounds that
+   could leave dark text unreadable if cascade/cache gets inconsistent) */
+html.fm-modern.fm-light .menu_link:hover, html.fm-modern.fm-light .menu-collapse-link:hover{
+  background:var(--fm-accent-soft) !important; color:var(--fm-text) !important;
+  border-left-color:var(--fm-accent-strong) !important;
+}
+html.fm-modern.fm-light .menu_link, html.fm-modern.fm-light .menu_link:link, html.fm-modern.fm-light .menu_link:visited,
+html.fm-modern.fm-light .menu-collapse-link, html.fm-modern.fm-light .menu-collapse-link:link, html.fm-modern.fm-light .menu-collapse-link:visited{ color:var(--fm-text) !important; }
+html.fm-modern.fm-light a:hover{ color:var(--fm-accent-strong); }
+html.fm-modern.fm-light .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
+html.fm-modern.fm-light .build-link:hover, html.fm-modern.fm-light .filter-button:hover{ color:#2a2010 !important; }
+
+/* ---------- Tables (stats, weights, encyclopedia, compare) ---------- */
+html.fm-modern .maincontent table.register-table,
+html.fm-modern .maincontent .styled-table{ border-collapse:separate; border-spacing:0; }
+html.fm-modern .stat-title, html.fm-modern .build-boxes-title, html.fm-modern .load-project-header{
+  color:var(--fm-head) !important; font-weight:700;
+}
+
+/* ---------- Footer ---------- */
+html.fm-modern .footer{ margin-top:22px; padding:22px 18px; color:var(--fm-muted); font-size:13px; border-top:1px solid var(--fm-border); text-align:center; }
+html.fm-modern .footer a{ color:var(--fm-accent-text); text-decoration:none; }
+html.fm-modern .footer a:hover{ text-decoration:underline; }
+
+/* ---------- Ad slots ---------- */
+html.fm-modern .fm-ad{ display:block; margin:18px 0; padding:8px; background:var(--fm-surface-2); border:1px solid var(--fm-border);
+  border-radius:var(--fm-radius-sm); text-align:center; min-height:90px; overflow:hidden; }
+html.fm-modern .fm-ad::before{ content:"Publicité"; display:block; font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--fm-muted); opacity:.55; margin-bottom:4px; }
+html.fm-modern .fm-ad:empty{ display:none; }
+html.fm-modern .fm-ad ins{ display:block; }
+html.fm-modern .fm-ad-top{ margin:14px 0 4px; }
+html.fm-modern .fm-ad-inline{ margin:22px auto; max-width:728px; }
+html.fm-modern .fm-ad-sidebar{ position:sticky; top:16px; margin-top:14px; }
+@media (max-width:900px){ html.fm-modern .fm-ad-sidebar{ position:static; } }
+
+/* ============================================================================
+   HOME
+   ============================================================================ */
+html.fm-modern .main-div{ position:relative; text-align:center; }
+html.fm-modern .main-div > h1{ font-size:clamp(2rem,1.2rem + 3vw,3rem) !important; }
+/* The classic home uses a decorative item-icon <table> as wallpaper with the CTA
+   cards positioned absolutely on top (top/left px hack). That dated pattern does
+   not adapt; drop the wallpaper and lay the cards out in normal flow. */
+html.fm-modern .main-div > table{ display:none !important; }
+/* primary CTA cards: undo the classic absolute positioning, make a responsive row */
+html.fm-modern .giant-button{
+  position:static !important; top:auto !important; left:auto !important; right:auto !important; z-index:auto !important;
+  display:inline-block; vertical-align:top; box-sizing:border-box;
+  width:min(31%,300px); margin:16px 1% 6px; text-align:center;
+  background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important;
+  box-shadow:var(--fm-shadow-sm) !important; padding:18px !important;
+  transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .giant-button:hover{ transform:translateY(-4px); box-shadow:var(--fm-shadow) !important; border-color:var(--fm-accent-line) !important; }
+html.fm-modern .giant-button-pic img{ max-width:100%; height:auto; }
+html.fm-modern .giant-button-text, html.fm-modern .giant-button-text:link, html.fm-modern .giant-button-text:visited{
+  color:var(--fm-head) !important; font-weight:700; font-size:16px; text-decoration:none;
+}
+html.fm-modern .featured-builds-wrap{ margin-top:26px; text-align:left; }
+html.fm-modern .featured-builds-title{ color:var(--fm-head); font-weight:800; }
+html.fm-modern .featured-builds-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+html.fm-modern .featured-build-card{
+  background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important;
+  box-shadow:var(--fm-shadow-sm); transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .featured-build-card:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line) !important; }
+html.fm-modern .featured-build-name{ color:var(--fm-head); font-weight:700; }
+html.fm-modern .featured-build-author{ color:var(--fm-muted); }
+
+/* ============================================================================
+   SHARED BUILDS
+   ============================================================================ */
+html.fm-modern .shared-builds-container{ max-width:100% !important; margin:0 !important; padding:0 !important; }
+html.fm-modern .filters-section{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border); border-radius:var(--fm-radius); padding:18px; margin-bottom:22px; box-shadow:var(--fm-shadow-sm); }
+html.fm-modern .build-card{
+  background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important;
+  box-shadow:var(--fm-shadow-sm); transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
+}
+html.fm-modern .build-card:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line) !important; }
+
+/* ============================================================================
+   SOLUTION
+   ============================================================================ */
+html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header{
+  background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important;
+  transition:border-color var(--fm-trans), box-shadow var(--fm-trans);
+}
+html.fm-modern .solution-item-expand-header:hover{ border-color:var(--fm-accent-line) !important; box-shadow:var(--fm-shadow-sm); }
+html.fm-modern .char-banner{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; }
+html.fm-modern .build-boxes-column{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important; }
+html.fm-modern .solution-stat-summary-line{ border-color:var(--fm-border) !important; }
+/* JS-injected crafting ingredients + workshop feedback inherit a near-black
+   color from the classic solution column → unreadable on the modern dark
+   surface. Force theme-aware, readable colors. */
+html.fm-modern #solution_ingredients, html.fm-modern #solution_ingredients *,
+html.fm-modern #solution_ingredients_meta, html.fm-modern #workshop_feedback{ color:var(--fm-text) !important; }
+html.fm-modern #solution_ingredients a{ color:var(--fm-accent-text) !important; }
+html.fm-modern #solution_ingredients_list li{ border-top-color:var(--fm-border) !important; }
+
+/* ============================================================================
+   ENCYCLOPEDIA
+   ============================================================================ */
+html.fm-modern .encyclopedia-section{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; padding:14px !important; margin-bottom:16px; }
+html.fm-modern .encyclopedia-small-btn, html.fm-modern .encyclopedia-page-link{
+  background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important; color:var(--fm-accent-text) !important;
+}
+html.fm-modern .encyclopedia-page-link:hover, html.fm-modern .encyclopedia-small-btn:hover{ background:var(--fm-accent-soft) !important; }
+
+/* ============================================================================
+   WIZARD / form-heavy pages
+   ============================================================================ */
+html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
+html.fm-modern .error-message{ color:#e0584f; }
+
+/* ============================================================================
+   Responsive — modern collapses the float layout into one column
+   ============================================================================ */
+@media (max-width: 900px){
+  html.fm-modern .add-banner{ padding:0 12px !important; }
+  html.fm-modern h1{ font-size:clamp(1.4rem,1rem + 3vw,1.9rem) !important; }
+  html.fm-modern .main-div > h1{ font-size:clamp(1.5rem,1rem + 4vw,2.1rem) !important; }
+  html.fm-modern .sidebar{ float:none !important; width:100% !important; margin-top:12px; display:none; }
+  html.fm-modern .sidebar.open{ display:block; }
+  html.fm-modern .maincolumn{ margin:12px 0 0 0 !important; }
+  html.fm-modern .maincontent, html.fm-modern .loading{ padding:16px !important; }
+  html.fm-modern .char-overlay{ display:none !important; }
+  html.fm-modern .space.header-controls{ justify-content:center; }
+  html.fm-modern .banner{ margin-top:10px !important; }
+  html.fm-modern .banner img{ max-height:130px; }
+  html.fm-modern .fm-ad-sidebar{ position:static; }
+  html.fm-modern .giant-button{ display:block; width:100% !important; margin:10px 0 !important; }
+  html.fm-modern .giant-button-pic img{ height:64px; width:auto; }
+  html.fm-modern .featured-builds-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 520px){
+  html.fm-modern .featured-builds-grid{ grid-template-columns:1fr; }
+  html.fm-modern .add-banner{ padding:0 8px !important; }
+  html.fm-modern .maincontent, html.fm-modern .loading{ padding:13px !important; }
+}
+
+/* ============================================================================
+   Bespoke-page overrides — force modern surfaces/text on pages that ship their
+   own <style> blocks (shared builds, encyclopedia item, smithmagic).
+   ============================================================================ */
+/* --- Shared builds cards --- */
+html.fm-modern .build-card{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; }
+html.fm-modern .build-card:hover{ border-color:var(--fm-accent-line) !important; box-shadow:var(--fm-shadow) !important; }
+html.fm-modern .build-title, html.fm-modern .build-label, html.fm-modern .stat-value, html.fm-modern .build-compact-stat{ color:var(--fm-accent-text) !important; }
+html.fm-modern .build-value{ color:var(--fm-text) !important; }
+html.fm-modern .build-char-name, html.fm-modern .stat-label{ color:var(--fm-muted) !important; }
+html.fm-modern .no-builds{ color:var(--fm-muted) !important; background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; padding:24px !important; }
+html.fm-modern .build-preview-items{ background:rgba(0,0,0,.10) !important; border-color:var(--fm-border) !important; }
+html.fm-modern .build-preview-item, html.fm-modern .build-compact-stat{ border-color:var(--fm-border) !important; }
+html.fm-modern .build-link, html.fm-modern .vote-btn{ background:var(--fm-surface) !important; color:var(--fm-accent-text) !important; border:1px solid var(--fm-accent-line) !important; }
+html.fm-modern .build-link:hover{ background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important; }
+html.fm-modern .filter-input option{ background:var(--fm-surface); color:var(--fm-text); }
+html.fm-modern .pagination a, html.fm-modern .pagination .disabled, html.fm-modern .pagination .current{ border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important; }
+
+/* --- Encyclopedia item detail --- */
+html.fm-modern .encyclopedia-item-card{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; color:var(--fm-text) !important; border-radius:var(--fm-radius) !important; }
+html.fm-modern .encyclopedia-item-name{ color:var(--fm-head) !important; }
+html.fm-modern .encyclopedia-item-meta, html.fm-modern .encyclopedia-list-stat{ color:var(--fm-text) !important; }
+html.fm-modern .encyclopedia-back{ color:var(--fm-accent-text) !important; }
+
+/* --- Smithmagic / forgemagie --- */
+html.fm-modern .fm-box{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
+html.fm-modern .fm-title{ color:var(--fm-head); font-variant:small-caps; letter-spacing:.4px; font-weight:800; }
+html.fm-modern .fm-section-title{ color:var(--fm-head); }
+html.fm-modern .fm-table th{ color:var(--fm-head); }
+html.fm-modern .fm-table th, html.fm-modern .fm-table td{ border-bottom-color:var(--fm-border) !important; }
+html.fm-modern .fm-search-results.brown-box{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; }
+html.fm-modern .fm-search-result:hover{ background:var(--fm-accent-soft); filter:none; }
+/* Smithmagic rune-weight table: fit the 10 columns without horizontal scroll
+   (wrap headers, compact padding, compact number inputs). */
+html.fm-modern .fm-table{ font-size:0.86em; width:100%; }
+html.fm-modern .fm-table th{ white-space:normal !important; vertical-align:bottom; line-height:1.15; }
+html.fm-modern .fm-table th, html.fm-modern .fm-table td{ padding:4px 6px !important; }
+html.fm-modern .fm-table td.fm-cell-runes{ white-space:normal; }
+html.fm-modern .fm-table input[type="number"], html.fm-modern .fm-table .fm-input{
+  min-width:0 !important; width:46px !important; padding:4px 5px !important; text-align:center; box-sizing:border-box;
+}
+/* selected simulation mode must read as selected (my .button-thin override was
+   hiding the classic green active state) -> use the design-system gold accent */
+html.fm-modern .fm-sim-mode-btn.fm-active, html.fm-modern .button-thin.fm-active{
+  background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important;
+  color:#2a2010 !important; border-color:var(--fm-accent) !important; font-weight:800;
+}
+
+/* --- Inventory / workshop / feed / profile generic cards --- */
+html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern .feed-item, html.fm-modern .profile-card{
+  background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important;
+}
+
+/* ============================================================================
+   Mobile overflow safety (modern) — pages that ship fixed-width tables/links
+   ============================================================================ */
+@media (max-width: 900px){
+  /* contact form: stack label/field, full width */
+  html.fm-modern #c_form, html.fm-modern #theform, html.fm-modern #theform table,
+  html.fm-modern #theform tbody, html.fm-modern #theform tr{ width:100% !important; max-width:100% !important; box-sizing:border-box; }
+  html.fm-modern #theform td{ display:block; width:100% !important; box-sizing:border-box; }
+  html.fm-modern #theform input, html.fm-modern #theform textarea, html.fm-modern #theform select{ width:100% !important; box-sizing:border-box; }
+  /* long links / labels wrap instead of overflowing */
+  html.fm-modern .link-text, html.fm-modern .maincontent a, html.fm-modern .main-div a,
+  html.fm-modern p a, html.fm-modern .small-explain a{ overflow-wrap:anywhere; word-break:break-word; }
+  /* error / generic meta tables */
+  html.fm-modern table.meta{ width:100% !important; }
+  html.fm-modern table.meta td{ white-space:normal !important; word-break:break-word; }
+  /* spells stack selects fit */
+  html.fm-modern .select-stack{ max-width:100%; box-sizing:border-box; }
+  /* universal guard: nothing wider than the column */
+  html.fm-modern .maincontent table:not(.fm-table):not(.encyclopedia-list){ max-width:100%; }
+}
+
+/* error/500 image+text tables stack on mobile -- but NOT data tables that
+   legitimately contain item icons (solution / smithmagic / encyclopedia / spells) */
+@media (max-width: 900px){
+  html.fm-modern .maincontent table td img{ max-width:100% !important; height:auto !important; }
+  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(#spells-table){ display:block; width:100% !important; }
+  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(#spells-table) td{ display:block; width:100% !important; text-align:center; }
+  /* Solution: keep two side-by-side columns on mobile (items | stats), per responsive.css 55/45 */
+  html.fm-modern .solution-table{ display:table !important; width:100% !important; }
+  html.fm-modern .solution-table > tbody{ display:table-row-group !important; }
+  html.fm-modern .solution-table > tbody > tr{ display:table-row !important; }
+  html.fm-modern .solution-item-summary, html.fm-modern .solution-stat-summary{ display:table-cell !important; }
+  /* Spells: 2 columns on mobile (was forced to 1) */
+  html.fm-modern #spells-table, html.fm-modern #spells-table tbody, html.fm-modern #spells-table tr{ display:block !important; width:100% !important; }
+  html.fm-modern #spells-table .spells-td{ display:inline-block !important; width:49% !important; vertical-align:top; box-sizing:border-box; }
+}
+
+/* Solution awkward band (901-1099px): sidebar still visible but 2 item columns +
+   stats panel overflow and the stats get cut -> collapse items to a single column. */
+@media (min-width: 901px) and (max-width: 1099px){
+  html.fm-modern .solution-item-section{ display:block !important; width:100% !important; }
+  html.fm-modern .solution-item-section-column{ display:block !important; width:100% !important; }
+  html.fm-modern .solution-table{ width:100% !important; table-layout:fixed; }
+  html.fm-modern .solution-item-summary{ width:58% !important; vertical-align:top; }
+  html.fm-modern .solution-stat-summary{ width:42% !important; vertical-align:top; }
+}
+
+/* ============================================================================
+   Unified modern icon set (modern skin only) — replaces mismatched raster
+   control icons via CSS content:url(SVG). Classic keeps its own icons.
+   Gold = neutral action, muted red = destructive. (Colors baked: content:url
+   can't use currentColor; chosen to read on both light & dark surfaces.)
+   ============================================================================ */
+html.fm-modern .solution-item-button{
+  width:17px !important; height:17px !important; padding:5px !important; border-radius:9px;
+  box-sizing:content-box !important; cursor:pointer; vertical-align:middle; object-fit:contain;
+  transition:background .15s ease, transform .1s ease;
+}
+html.fm-modern .solution-item-button:hover{ background:var(--fm-accent-soft); transform:translateY(-1px); }
+html.fm-modern .solution-item-lock-button, html.fm-modern .solution-item-lock-empty-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%275%27%20y=%2711%27%20width=%2714%27%20height=%279%27%20rx=%272%27/%3E%3Cpath%20d=%27M8%2011V7a4%204%200%200%201%208%200v4%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-forbid-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23d6594a%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%278.5%27/%3E%3Cline%20x1=%276%27%20y1=%276%27%20x2=%2718%27%20y2=%2718%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-switch-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M3%209h14%27/%3E%3Cpath%20d=%27M14%206l3%203-3%203%27/%3E%3Cpath%20d=%27M21%2015H7%27/%3E%3Cpath%20d=%27M10%2012l-3%203%203%203%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-remove-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23d6594a%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%276%27%20y1=%276%27%20x2=%2718%27%20y2=%2718%27/%3E%3Cline%20x1=%2718%27%20y1=%276%27%20x2=%276%27%20y2=%2718%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-add-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%2712%27%20y1=%275%27%20x2=%2712%27%20y2=%2719%27/%3E%3Cline%20x1=%275%27%20y1=%2712%27%20x2=%2719%27%20y2=%2712%27/%3E%3C/svg%3E"); }
+html.fm-modern .item-external-image-link{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204h6v6%27/%3E%3Cpath%20d=%27M20%204l-9%209%27/%3E%3Cpath%20d=%27M18%2013v6a1%201%200%200%201-1%201H5a1%201%200%200%201-1-1V7a1%201%200%200%201%201-1h6%27/%3E%3C/svg%3E") !important; width:15px !important; height:15px !important; vertical-align:middle; opacity:.9; }
+
+/* Build micro-stat icons: classic keeps the emoji; modern swaps for themed SVG
+   (emojis ignore `color`, so we use image-replacement: hide glyph, show bg). */
+html.fm-modern .fm-st{ display:inline-block; width:1.05em; height:1.05em; vertical-align:-0.18em;
+  overflow:hidden; text-indent:130%; white-space:nowrap; background:center/contain no-repeat; }
+html.fm-modern .fm-st-like{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20fill=%27%23d6594a%27%20d=%27M12%2021s-6.7-4.3-9.3-8.2C.9%209.9%202.4%206.2%206%206.2c2.1%200%203.4%201.3%204.6%202.8l1.4%201.7%201.4-1.7c1.2-1.5%202.5-2.8%204.6-2.8%203.6%200%205.1%203.7%203.3%206.6C18.7%2016.7%2012%2021%2012%2021z%27/%3E%3C/svg%3E"); }
+html.fm-modern .fm-st-fav{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20fill=%27%23e0a82e%27%20d=%27M12%202.6l2.7%205.6%206.1.6-4.6%204.1%201.3%206L12%2016.9%206.5%2018.9l1.3-6L3.2%208.8l6.1-.6z%27/%3E%3C/svg%3E"); }
+html.fm-modern .fm-st-view{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%239a8a66%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M2%2012s4-7%2010-7%2010%207%2010%207-4%207-10%207S2%2012%202%2012z%27/%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%273%27/%3E%3C/svg%3E"); }
+
+/* Solution item: keep the encyclopedia link (↗) pinned top-right of the item
+   card on small screens instead of letting it drop inline below the name. */
+@media (max-width: 900px){
+  html.fm-modern .solution-item-expand-header{ position:relative; }
+  html.fm-modern .solution-item-link-div{ position:absolute !important; top:6px; right:8px; margin:0 !important; width:auto !important; z-index:2; }
+  html.fm-modern .solution-item-name-div{ padding-right:26px; }
+}
+
+/* ============================================================================
+   Premium gold buttons — richer minted-gold gradient, soft top sheen + warm
+   shadow + hairline border (replaces the flat lemon look).
+   ============================================================================ */
+html.fm-modern .button-generic, html.fm-modern .button-generic-foreground, html.fm-modern .submit-button,
+html.fm-modern .rerun-button, html.fm-modern input[type="submit"], html.fm-modern button.button-generic,
+html.fm-modern .filter-button, html.fm-modern .build-link:hover, html.fm-modern .version-link.active{
+  background:linear-gradient(180deg,#efcb63 0%,#d8ab36 100%) !important; color:#3a2a0c !important;
+  border:1px solid rgba(150,110,25,.45) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45), 0 2px 8px rgba(150,110,30,.22) !important;
+  letter-spacing:.2px;
+}
+html.fm-modern .button-generic, html.fm-modern .submit-button, html.fm-modern .rerun-button,
+html.fm-modern input[type="submit"], html.fm-modern button.button-generic, html.fm-modern .filter-button{
+  padding:9px 18px !important;
+}
+html.fm-modern .button-generic:hover, html.fm-modern .submit-button:hover, html.fm-modern .rerun-button:hover,
+html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:hover, html.fm-modern .filter-button:hover{
+  filter:brightness(1.04) !important; transform:translateY(-2px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), 0 7px 18px rgba(150,110,30,.34) !important;
+}
+html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:translateY(0); box-shadow:inset 0 1px 3px rgba(120,85,15,.4) !important; }
+
+/* ============================================================================
+   Solution stats panel — modern segmented toggle + clean tabular rows.
+   ============================================================================ */
+/* Total / Equip / With-buffs as a segmented pill control (no :has needed) */
+html.fm-modern .solution-stat-summary-mode-option-container{ float:none !important; width:auto !important; display:inline-flex !important; vertical-align:middle; margin:0 5px 6px 0 !important; }
+/* sidebar action buttons (e.g. "Generate a new outfit") must wrap long translations
+   -- the global button nowrap was cutting them in the narrow sidebar */
+html.fm-modern .sidebar .rerun-button, html.fm-modern .menu_link.rerun-button{ white-space:normal !important; }
+html.fm-modern .solution-stat-summary-mode-option-container label{ cursor:pointer; display:inline-block; }
+html.fm-modern .solution-stat-summary-mode-option-container input{ position:absolute !important; opacity:0; width:1px; height:1px; pointer-events:none; }
+html.fm-modern .solution-stat-summary-mode-option-container .checkbox-text{
+  display:inline-block; padding:5px 13px; border:1px solid var(--fm-border); border-radius:999px;
+  background:var(--fm-surface); color:var(--fm-text); font-size:12px; font-weight:600; transition:all .15s ease;
+}
+html.fm-modern .solution-stat-summary-mode-option-container input:checked + .checkbox-text{
+  background:linear-gradient(180deg,#efcb63,#d8ab36); color:#3a2a0c; border-color:rgba(150,110,25,.5); font-weight:800;
+}
+html.fm-modern .solution-stat-summary-mode-option-container label:hover .checkbox-text{ border-color:var(--fm-accent-line); }
+/* rows: zebra + tabular bold values + muted names */
+html.fm-modern .solution-stat-table{ background:var(--fm-surface-2) !important; }
+html.fm-modern .solution-stat-summary-line, html.fm-modern .solution-stat-summary-line td{ background:transparent !important; }
+html.fm-modern .solution-stat-summary-line:nth-child(even){ background:rgba(128,110,70,.08) !important; }
+html.fm-modern .solution-stat-summary-line td{ padding:3px 7px !important; }
+/* the stat panel background is theme-swapped (light in light theme, dark in dark),
+   so its text must be theme-relative. */
+html.fm-modern .solution-stat-summary-name{ color:var(--fm-muted) !important; font-size:12px; }
+html.fm-modern .solution-stat-summary-value-cell{ text-align:right; font-weight:700; color:var(--fm-head) !important; font-variant-numeric:tabular-nums; }
+html.fm-modern .solution-stat-summary-base-value-header, html.fm-modern .solution-stat-summary-value-header{
+  color:var(--fm-accent-text) !important; font-size:10px; text-transform:uppercase; letter-spacing:.6px; font-weight:700; text-align:right;
+}
+html.fm-modern .solution-stat-summary-icon{ width:16px !important; height:16px !important; vertical-align:middle; }

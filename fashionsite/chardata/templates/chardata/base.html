@@ -1,9 +1,16 @@
-{% load i18n %}<!DOCTYPE html>
-<html lang="en">
+{% load i18n %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    (function(){try{var h=document.documentElement;
+    if(localStorage.getItem('fm_design')!=='classic')h.classList.add('fm-modern');
+    var t=(document.cookie.match(/(?:^|;\s*)theme=([^;]+)/)||[])[1]||'lighttheme';
+    if(t==='auto'){var hr=new Date().getHours();t=(hr<6||hr>=18)?'darktheme':'lighttheme';}
+    h.classList.add(t==='darktheme'?'fm-dark':'fm-light');}catch(e){}})();
+    </script>
     <meta name="description" content="{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}">
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
@@ -29,6 +36,8 @@
     {% block css %}{% endblock %}
     <!-- Mobile responsive layer (loaded last; scoped to <=900px) -->
     <link rel="stylesheet" type="text/css" href="{% static "chardata/responsive.css" %}">
+    <!-- Modern skin (opt-in via .fm-modern on <html>) -->
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/modern.css" %}">
 
     <link rel="shortcut icon" type="image/png" href="{% static "chardata/favicon.ico" %}"/>
 
@@ -93,6 +102,10 @@
     
     </script>
     
+<script>
+    function fmToggleDesign(){var on=document.documentElement.classList.toggle('fm-modern');try{localStorage.setItem('fm_design',on?'modern':'classic');}catch(e){}var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';}
+    document.addEventListener('DOMContentLoaded',function(){var on=document.documentElement.classList.contains('fm-modern');var l=document.querySelector('.fm-design-label');if(l)l.textContent=on?'{{ _("Classic look")|escapejs }}':'{{ _("New look")|escapejs }}';});
+    </script>
 </head>
 <body class='body-base'>
     <div class='add-banner'>
@@ -113,7 +126,7 @@
         </div>
         
         
-        <div class='space header-controls'>
+        <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span aria-hidden="true">&#10024;</span> <span class="fm-design-label">{% trans "New look" %}</span></button>
        {% include "chardata/language-selector.html" %}
        {% include "chardata/theme-selector.html" %}
        {% include "chardata/version-selector.html" %}
@@ -472,7 +485,16 @@
         }
     }
     
+    function fmApplyThemeClass(theme){
+        var t = theme;
+        if (t === 'auto') { var h = new Date().getHours(); t = (h < 6 || h >= 18) ? 'darktheme' : 'lighttheme'; }
+        var el = document.documentElement;
+        el.classList.remove('fm-light','fm-dark');
+        el.classList.add(t === 'darktheme' ? 'fm-dark' : 'fm-light');
+    }
+
     function chooseTheme(theme){
+        fmApplyThemeClass(theme);
         $.post("/changetheme/",
            {theme: theme},
            function(data) {
@@ -577,6 +599,7 @@
             var spantext = $("#advanced-text");
             spantext.text('{{ _("More")|escapejs }}');
         {% endif %}
+        $("#advanced-button").toggleClass('fm-open', !$("#menu-collapse").is(":hidden"));
         $("#advanced-button").click(function(e){
             var menu = $("#menu-collapse");
             var spantext = $("#advanced-text");
@@ -584,9 +607,11 @@
             if (menu.is(":hidden")){
                 menu.slideDown("slow");
                 spantext.text('{{ _("Less")|escapejs }}');
+                $("#advanced-button").addClass('fm-open');
             } else {
                 menu.slideUp("slow");
                 spantext.text('{{ _("More")|escapejs }}');
+                $("#advanced-button").removeClass('fm-open');
             }
     });
 });

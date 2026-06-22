@@ -560,6 +560,7 @@
             ({% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }})
         </div>
         
+        {% include "chardata/ad_slot.html" with ad_slot=ad_slot_shared_inline extra_class="fm-ad-inline" %}
         <div class="builds-grid">
             {% for build in builds %}
                 <div class="build-card">
@@ -675,13 +676,13 @@
                                 onclick="vote({{ build.char.id }}, 'like', this)"
                                 data-build-id="{{ build.char.id }}"
                                 data-vote-type="like">
-                            ❤️ {% trans "Like" %}
+                            <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> {% trans "Like" %}
                         </button>
                         <button class="vote-btn {% if build.user_favorited %}active{% endif %}"
                                 onclick="vote({{ build.char.id }}, 'favorite', this)"
                                 data-build-id="{{ build.char.id }}"
                                 data-vote-type="favorite">
-                            ⭐ {% trans "Favorite" %}
+                            <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> {% trans "Favorite" %}
                         </button>
                     </div>
                     {% endif %}
