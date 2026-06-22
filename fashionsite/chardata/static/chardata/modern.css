@@ -564,7 +564,10 @@ html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ tra
    Solution stats panel — modern segmented toggle + clean tabular rows.
    ============================================================================ */
 /* Total / Equip / With-buffs as a segmented pill control (no :has needed) */
-html.fm-modern .solution-stat-summary-mode-option-container{ display:inline-block; margin:0 4px 8px 0; }
+html.fm-modern .solution-stat-summary-mode-option-container{ float:none !important; width:auto !important; display:inline-flex !important; vertical-align:middle; margin:0 5px 6px 0 !important; }
+/* sidebar action buttons (e.g. "Generate a new outfit") must wrap long translations
+   -- the global button nowrap was cutting them in the narrow sidebar */
+html.fm-modern .sidebar .rerun-button, html.fm-modern .menu_link.rerun-button{ white-space:normal !important; }
 html.fm-modern .solution-stat-summary-mode-option-container label{ cursor:pointer; display:inline-block; }
 html.fm-modern .solution-stat-summary-mode-option-container input{ position:absolute !important; opacity:0; width:1px; height:1px; pointer-events:none; }
 html.fm-modern .solution-stat-summary-mode-option-container .checkbox-text{
@@ -576,7 +579,9 @@ html.fm-modern .solution-stat-summary-mode-option-container input:checked + .che
 }
 html.fm-modern .solution-stat-summary-mode-option-container label:hover .checkbox-text{ border-color:var(--fm-accent-line); }
 /* rows: zebra + tabular bold values + muted names */
-html.fm-modern .solution-stat-summary-line:nth-child(even){ background:rgba(128,110,70,.07); }
+html.fm-modern .solution-stat-table{ background:var(--fm-surface-2) !important; }
+html.fm-modern .solution-stat-summary-line, html.fm-modern .solution-stat-summary-line td{ background:transparent !important; }
+html.fm-modern .solution-stat-summary-line:nth-child(even){ background:rgba(128,110,70,.08) !important; }
 html.fm-modern .solution-stat-summary-line td{ padding:3px 7px !important; }
 /* the stat panel background is theme-swapped (light in light theme, dark in dark),
    so its text must be theme-relative. */
