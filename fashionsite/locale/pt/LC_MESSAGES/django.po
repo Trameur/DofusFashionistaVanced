@@ -1879,11 +1879,9 @@ msgid "Password Reset"
 msgstr "Senha Resetada"
 
 #: chardata/templates/chardata/password_was_reset.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "The password for <b>%(username | safe)s</b> has been reset to:"
+#, python-format
 msgid "The password for <b>%(username)s</b> has been reset to:"
-msgstr "A senha para <b>%(username | safe)s</b> for resetada para:"
+msgstr "A senha para <b>%(username)s</b> foi redefinida para:"
 
 #: chardata/templates/chardata/password_was_reset.html:24
 msgid "Proceed to logging in"
@@ -4479,7 +4477,6 @@ msgid "Carving Up"
 msgstr "Desmembramento"
 
 #: chardata/translation_util.py:555
-#, fuzzy, python-format
 msgid "25% chance of"
 msgstr "25% de chance de"
 
@@ -5044,25 +5041,25 @@ msgid "Best element"
 msgstr "Melhor elemento"
 
 msgid "Hunting Weapon"
-msgstr ""
+msgstr "Arma de caça"
 
 msgid "Exchangeable"
 msgstr "Trocável"
 
 msgid "Linked to the character"
-msgstr ""
+msgstr "Vinculado ao personagem"
 
 msgid "Cooperative crafting impossible"
-msgstr ""
+msgstr "Fabricação cooperativa impossível"
 
 msgid "Fertile"
 msgstr "Fértil"
 
 msgid "Steals %(mp)d MP"
-msgstr ""
+msgstr "Rouba %(mp)d PM"
 
 msgid "Steals %(min)d to %(max)d MP"
-msgstr ""
+msgstr "Rouba de %(min)d a %(max)d PM"
 
 
 

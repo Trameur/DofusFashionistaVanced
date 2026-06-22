@@ -1983,11 +1983,9 @@ msgid "Password Reset"
 msgstr "Changement de mot de passe"
 
 #: fashionsite/chardata/templates/chardata/password_was_reset.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "The password for <b>%(username | safe)s</b> has been reset to:"
+#, python-format
 msgid "The password for <b>%(username)s</b> has been reset to:"
-msgstr "Le mot de passe de <b>%(username | safe)s</b> a été changé pour :"
+msgstr "Le mot de passe de <b>%(username)s</b> a été changé pour :"
 
 #: fashionsite/chardata/templates/chardata/password_was_reset.html:24
 msgid "Proceed to logging in"
@@ -4895,7 +4893,6 @@ msgid "Stretcher"
 msgstr "Force"
 
 #: fashionsite/chardata/translation_util.py:622
-#, fuzzy, python-format
 msgid "25% chance of"
 msgstr "25% de chance de:"
 
@@ -4916,64 +4913,44 @@ msgid "Charged twice"
 msgstr "Chargée deux fois"
 
 #: fashionsite/chardata/translation_util.py:627
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 3 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 3 fois"
 
 #: fashionsite/chardata/translation_util.py:628
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 4 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 4 fois"
 
 #: fashionsite/chardata/translation_util.py:629
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 5 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 5 fois"
 
 #: fashionsite/chardata/translation_util.py:630
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 6 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 6 fois"
 
 #: fashionsite/chardata/translation_util.py:631
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 7 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 7 fois"
 
 #: fashionsite/chardata/translation_util.py:632
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 8 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 8 fois"
 
 #: fashionsite/chardata/translation_util.py:633
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 9 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 9 fois"
 
 #: fashionsite/chardata/translation_util.py:634
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 10 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 10 fois"
 
 #: fashionsite/chardata/translation_util.py:635
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 11 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 11 fois"
 
 #: fashionsite/chardata/translation_util.py:636
-#, fuzzy
-#| msgid "Charged twice"
 msgid "Charged 12 times"
-msgstr "Chargée deux fois"
+msgstr "Chargée 12 fois"
 
 #: fashionsite/chardata/translation_util.py:637
 #, fuzzy
