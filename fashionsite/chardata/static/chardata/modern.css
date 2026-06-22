@@ -491,3 +491,98 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern #spells-table, html.fm-modern #spells-table tbody, html.fm-modern #spells-table tr{ display:block !important; width:100% !important; }
   html.fm-modern #spells-table .spells-td{ display:inline-block !important; width:49% !important; vertical-align:top; box-sizing:border-box; }
 }
+
+/* Solution awkward band (901-1099px): sidebar still visible but 2 item columns +
+   stats panel overflow and the stats get cut -> collapse items to a single column. */
+@media (min-width: 901px) and (max-width: 1099px){
+  html.fm-modern .solution-item-section{ display:block !important; width:100% !important; }
+  html.fm-modern .solution-item-section-column{ display:block !important; width:100% !important; }
+  html.fm-modern .solution-table{ width:100% !important; table-layout:fixed; }
+  html.fm-modern .solution-item-summary{ width:58% !important; vertical-align:top; }
+  html.fm-modern .solution-stat-summary{ width:42% !important; vertical-align:top; }
+}
+
+/* ============================================================================
+   Unified modern icon set (modern skin only) — replaces mismatched raster
+   control icons via CSS content:url(SVG). Classic keeps its own icons.
+   Gold = neutral action, muted red = destructive. (Colors baked: content:url
+   can't use currentColor; chosen to read on both light & dark surfaces.)
+   ============================================================================ */
+html.fm-modern .solution-item-button{
+  width:17px !important; height:17px !important; padding:5px !important; border-radius:9px;
+  box-sizing:content-box !important; cursor:pointer; vertical-align:middle; object-fit:contain;
+  transition:background .15s ease, transform .1s ease;
+}
+html.fm-modern .solution-item-button:hover{ background:var(--fm-accent-soft); transform:translateY(-1px); }
+html.fm-modern .solution-item-lock-button, html.fm-modern .solution-item-lock-empty-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%275%27%20y=%2711%27%20width=%2714%27%20height=%279%27%20rx=%272%27/%3E%3Cpath%20d=%27M8%2011V7a4%204%200%200%201%208%200v4%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-forbid-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23d6594a%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%278.5%27/%3E%3Cline%20x1=%276%27%20y1=%276%27%20x2=%2718%27%20y2=%2718%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-switch-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M3%209h14%27/%3E%3Cpath%20d=%27M14%206l3%203-3%203%27/%3E%3Cpath%20d=%27M21%2015H7%27/%3E%3Cpath%20d=%27M10%2012l-3%203%203%203%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-remove-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23d6594a%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%276%27%20y1=%276%27%20x2=%2718%27%20y2=%2718%27/%3E%3Cline%20x1=%2718%27%20y1=%276%27%20x2=%276%27%20y2=%2718%27/%3E%3C/svg%3E"); }
+html.fm-modern .solution-item-add-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%2712%27%20y1=%275%27%20x2=%2712%27%20y2=%2719%27/%3E%3Cline%20x1=%275%27%20y1=%2712%27%20x2=%2719%27%20y2=%2712%27/%3E%3C/svg%3E"); }
+html.fm-modern .item-external-image-link{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204h6v6%27/%3E%3Cpath%20d=%27M20%204l-9%209%27/%3E%3Cpath%20d=%27M18%2013v6a1%201%200%200%201-1%201H5a1%201%200%200%201-1-1V7a1%201%200%200%201%201-1h6%27/%3E%3C/svg%3E") !important; width:15px !important; height:15px !important; vertical-align:middle; opacity:.9; }
+
+/* Build micro-stat icons: classic keeps the emoji; modern swaps for themed SVG
+   (emojis ignore `color`, so we use image-replacement: hide glyph, show bg). */
+html.fm-modern .fm-st{ display:inline-block; width:1.05em; height:1.05em; vertical-align:-0.18em;
+  overflow:hidden; text-indent:130%; white-space:nowrap; background:center/contain no-repeat; }
+html.fm-modern .fm-st-like{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20fill=%27%23d6594a%27%20d=%27M12%2021s-6.7-4.3-9.3-8.2C.9%209.9%202.4%206.2%206%206.2c2.1%200%203.4%201.3%204.6%202.8l1.4%201.7%201.4-1.7c1.2-1.5%202.5-2.8%204.6-2.8%203.6%200%205.1%203.7%203.3%206.6C18.7%2016.7%2012%2021%2012%2021z%27/%3E%3C/svg%3E"); }
+html.fm-modern .fm-st-fav{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20fill=%27%23e0a82e%27%20d=%27M12%202.6l2.7%205.6%206.1.6-4.6%204.1%201.3%206L12%2016.9%206.5%2018.9l1.3-6L3.2%208.8l6.1-.6z%27/%3E%3C/svg%3E"); }
+html.fm-modern .fm-st-view{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%239a8a66%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M2%2012s4-7%2010-7%2010%207%2010%207-4%207-10%207S2%2012%202%2012z%27/%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%273%27/%3E%3C/svg%3E"); }
+
+/* Solution item: keep the encyclopedia link (↗) pinned top-right of the item
+   card on small screens instead of letting it drop inline below the name. */
+@media (max-width: 900px){
+  html.fm-modern .solution-item-expand-header{ position:relative; }
+  html.fm-modern .solution-item-link-div{ position:absolute !important; top:6px; right:8px; margin:0 !important; width:auto !important; z-index:2; }
+  html.fm-modern .solution-item-name-div{ padding-right:26px; }
+}
+
+/* ============================================================================
+   Premium gold buttons — richer minted-gold gradient, soft top sheen + warm
+   shadow + hairline border (replaces the flat lemon look).
+   ============================================================================ */
+html.fm-modern .button-generic, html.fm-modern .button-generic-foreground, html.fm-modern .submit-button,
+html.fm-modern .rerun-button, html.fm-modern input[type="submit"], html.fm-modern button.button-generic,
+html.fm-modern .filter-button, html.fm-modern .build-link:hover, html.fm-modern .version-link.active{
+  background:linear-gradient(180deg,#efcb63 0%,#d8ab36 100%) !important; color:#3a2a0c !important;
+  border:1px solid rgba(150,110,25,.45) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45), 0 2px 8px rgba(150,110,30,.22) !important;
+  letter-spacing:.2px;
+}
+html.fm-modern .button-generic, html.fm-modern .submit-button, html.fm-modern .rerun-button,
+html.fm-modern input[type="submit"], html.fm-modern button.button-generic, html.fm-modern .filter-button{
+  padding:9px 18px !important;
+}
+html.fm-modern .button-generic:hover, html.fm-modern .submit-button:hover, html.fm-modern .rerun-button:hover,
+html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:hover, html.fm-modern .filter-button:hover{
+  filter:brightness(1.04) !important; transform:translateY(-2px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), 0 7px 18px rgba(150,110,30,.34) !important;
+}
+html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:translateY(0); box-shadow:inset 0 1px 3px rgba(120,85,15,.4) !important; }
+
+/* ============================================================================
+   Solution stats panel — modern segmented toggle + clean tabular rows.
+   ============================================================================ */
+/* Total / Equip / With-buffs as a segmented pill control (no :has needed) */
+html.fm-modern .solution-stat-summary-mode-option-container{ display:inline-block; margin:0 4px 8px 0; }
+html.fm-modern .solution-stat-summary-mode-option-container label{ cursor:pointer; display:inline-block; }
+html.fm-modern .solution-stat-summary-mode-option-container input{ position:absolute !important; opacity:0; width:1px; height:1px; pointer-events:none; }
+html.fm-modern .solution-stat-summary-mode-option-container .checkbox-text{
+  display:inline-block; padding:5px 13px; border:1px solid var(--fm-border); border-radius:999px;
+  background:var(--fm-surface); color:var(--fm-text); font-size:12px; font-weight:600; transition:all .15s ease;
+}
+html.fm-modern .solution-stat-summary-mode-option-container input:checked + .checkbox-text{
+  background:linear-gradient(180deg,#efcb63,#d8ab36); color:#3a2a0c; border-color:rgba(150,110,25,.5); font-weight:800;
+}
+html.fm-modern .solution-stat-summary-mode-option-container label:hover .checkbox-text{ border-color:var(--fm-accent-line); }
+/* rows: zebra + tabular bold values + muted names */
+html.fm-modern .solution-stat-summary-line:nth-child(even){ background:rgba(128,110,70,.07); }
+html.fm-modern .solution-stat-summary-line td{ padding:3px 7px !important; }
+/* the stat panel background is theme-swapped (light in light theme, dark in dark),
+   so its text must be theme-relative. */
+html.fm-modern .solution-stat-summary-name{ color:var(--fm-muted) !important; font-size:12px; }
+html.fm-modern .solution-stat-summary-value-cell{ text-align:right; font-weight:700; color:var(--fm-head) !important; font-variant-numeric:tabular-nums; }
+html.fm-modern .solution-stat-summary-base-value-header, html.fm-modern .solution-stat-summary-value-header{
+  color:var(--fm-accent-text) !important; font-size:10px; text-transform:uppercase; letter-spacing:.6px; font-weight:700; text-align:right;
+}
+html.fm-modern .solution-stat-summary-icon{ width:16px !important; height:16px !important; vertical-align:middle; }

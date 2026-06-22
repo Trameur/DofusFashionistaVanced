@@ -73,7 +73,7 @@
                         {{ fb.char_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
                     <div class="featured-build-stats">
-                        ❤️ {{ fb.like_count }} · ⭐ {{ fb.favorite_count }} · 👁 {{ fb.view_count }}
+                        <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true">👁</span> {{ fb.view_count }}
                     </div>
                     <div class="featured-build-author">{% trans "by" %} {{ fb.creator }}</div>
                 </div>
