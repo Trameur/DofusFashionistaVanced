@@ -41,7 +41,7 @@ jsonpointer==2.0
 jsonschema==4.26.0
 #libcomps==0.1.18
 lockfile==0.12.2
-MarkupSafe==3.0.2
+MarkupSafe==3.0.3
 #mod-wsgi==4.9.4
 mysql-connector-python==9.7.0
 oauthlib==3.2.2
