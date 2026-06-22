@@ -599,6 +599,7 @@
             var spantext = $("#advanced-text");
             spantext.text('{{ _("More")|escapejs }}');
         {% endif %}
+        $("#advanced-button").toggleClass('fm-open', !$("#menu-collapse").is(":hidden"));
         $("#advanced-button").click(function(e){
             var menu = $("#menu-collapse");
             var spantext = $("#advanced-text");
@@ -606,9 +607,11 @@
             if (menu.is(":hidden")){
                 menu.slideDown("slow");
                 spantext.text('{{ _("Less")|escapejs }}');
+                $("#advanced-button").addClass('fm-open');
             } else {
                 menu.slideUp("slow");
                 spantext.text('{{ _("More")|escapejs }}');
+                $("#advanced-button").removeClass('fm-open');
             }
     });
 });

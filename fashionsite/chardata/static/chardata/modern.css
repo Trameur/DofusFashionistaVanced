@@ -174,6 +174,15 @@ html.fm-modern .menu_link:hover, html.fm-modern .menu-collapse-link:hover{
 }
 html.fm-modern .menu_link_top{ font-weight:700; }
 html.fm-modern .menu-collapse-link{ margin-left:8px !important; font-size:13px; }
+/* Advanced ("More/Less") collapsible group: clean grouped sub-nav, NOT the
+   classic dark-brown box (#menu-collapse had bg rgb(80,54,37)). */
+html.fm-modern #menu-collapse{ background:transparent !important; border-left:2px solid var(--fm-border) !important; margin:2px 0 4px 8px !important; padding-left:3px !important; }
+html.fm-modern #menu-collapse .menu-collapse-link{ margin-left:3px !important; }
+/* "More/Less" toggle as a clear chevron expander (not a nav pill) */
+html.fm-modern #advanced-button{ background:transparent !important; color:var(--fm-muted) !important; border:0 !important; border-left:0 !important; text-align:center; font-size:12px !important; font-weight:700 !important; letter-spacing:.3px; padding:7px 12px !important; }
+html.fm-modern #advanced-button:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; transform:none !important; }
+html.fm-modern #advanced-text::after{ content:" \25BE"; font-size:11px; opacity:.85; }
+html.fm-modern #advanced-button.fm-open #advanced-text::after{ content:" \25B4"; }
 html.fm-modern .rerun-button img.button-img{ vertical-align:middle; margin-right:6px; }
 html.fm-modern .sidebar-stats{ width:100% !important; box-sizing:border-box; background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); padding:12px 14px; font-size:12px; line-height:1.5; color:var(--fm-muted); }
 /* readable, theme-aware stat text (was white/pale gold on cream = invisible) */
@@ -213,7 +222,7 @@ html.fm-modern .filter-button{
   background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important; color:#2a2010 !important;
   border:none !important; border-radius:999px !important; padding:10px 20px !important; font-weight:700 !important;
   cursor:pointer; box-shadow:var(--fm-shadow-sm); text-decoration:none; display:inline-block;
-  transition:transform var(--fm-trans), filter var(--fm-trans), box-shadow var(--fm-trans);
+  white-space:nowrap; transition:transform var(--fm-trans), filter var(--fm-trans), box-shadow var(--fm-trans);
 }
 html.fm-modern .button-generic:hover, html.fm-modern .submit-button:hover, html.fm-modern .rerun-button:hover,
 html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:hover, html.fm-modern .filter-button:hover{
@@ -223,7 +232,7 @@ html.fm-modern .button-generic:active{ transform:translateY(0); }
 html.fm-modern .button-generic:focus-visible, html.fm-modern input:focus-visible, html.fm-modern select:focus-visible,
 html.fm-modern button:focus-visible, html.fm-modern a:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
 /* secondary / thin buttons -> outlined */
-html.fm-modern .button-thin, html.fm-modern .button-thin-foreground, html.fm-modern .button-thin-chardata{
+html.fm-modern .button-thin, html.fm-modern .button-thin-foreground, html.fm-modern .button-thin-chardata{ white-space:nowrap;
   background:var(--fm-surface) !important; color:var(--fm-accent-text) !important;
   border:1px solid var(--fm-accent-line) !important; border-radius:999px !important; font-weight:700; cursor:pointer;
   transition:background var(--fm-trans),transform var(--fm-trans);
@@ -244,6 +253,12 @@ html.fm-modern .pretty-input:focus, html.fm-modern .filter-input:focus{ border-c
 html.fm-modern .input-name, html.fm-modern .min-stat-name, html.fm-modern .stat-label, html.fm-modern .filter-label{ color:var(--fm-muted); font-weight:600; }
 html.fm-modern .register-line{ margin:10px 0; }
 html.fm-modern input.input-value[type="number"]{ min-width:64px; text-align:center; }
+/* base characteristics: stat inputs must show 100/3000 (hide number spinners
+   that eat horizontal space; widen slightly; non-wrapping total). */
+html.fm-modern .stat-input{ width:52px !important; padding:6px 4px !important; text-align:center; box-sizing:border-box; }
+html.fm-modern .stat-input::-webkit-inner-spin-button, html.fm-modern .stat-input::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
+html.fm-modern .stat-input[type=number]{ -moz-appearance:textfield; }
+html.fm-modern .stat-softcap{ white-space:nowrap; }
 
 /* ---------- Light theme guards: always-readable hover/active states ----------
    (defends against the classic light theme's dark-brown hover backgrounds that
@@ -461,10 +476,18 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .maincontent table:not(.fm-table):not(.encyclopedia-list){ max-width:100%; }
 }
 
-/* error/500 image+text tables, and spells 3-column grid: stack on mobile */
+/* error/500 image+text tables stack on mobile -- but NOT data tables that
+   legitimately contain item icons (solution / smithmagic / encyclopedia / spells) */
 @media (max-width: 900px){
   html.fm-modern .maincontent table td img{ max-width:100% !important; height:auto !important; }
-  html.fm-modern .maincontent > table:has(img){ display:block; width:100% !important; }
-  html.fm-modern .maincontent > table:has(img) td{ display:block; width:100% !important; text-align:center; }
-  html.fm-modern .spells-td{ display:block !important; width:100% !important; }
+  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(#spells-table){ display:block; width:100% !important; }
+  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(#spells-table) td{ display:block; width:100% !important; text-align:center; }
+  /* Solution: keep two side-by-side columns on mobile (items | stats), per responsive.css 55/45 */
+  html.fm-modern .solution-table{ display:table !important; width:100% !important; }
+  html.fm-modern .solution-table > tbody{ display:table-row-group !important; }
+  html.fm-modern .solution-table > tbody > tr{ display:table-row !important; }
+  html.fm-modern .solution-item-summary, html.fm-modern .solution-stat-summary{ display:table-cell !important; }
+  /* Spells: 2 columns on mobile (was forced to 1) */
+  html.fm-modern #spells-table, html.fm-modern #spells-table tbody, html.fm-modern #spells-table tr{ display:block !important; width:100% !important; }
+  html.fm-modern #spells-table .spells-td{ display:inline-block !important; width:49% !important; vertical-align:top; box-sizing:border-box; }
 }
