@@ -419,6 +419,21 @@ html.fm-modern .fm-table th{ color:var(--fm-head); }
 html.fm-modern .fm-table th, html.fm-modern .fm-table td{ border-bottom-color:var(--fm-border) !important; }
 html.fm-modern .fm-search-results.brown-box{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; }
 html.fm-modern .fm-search-result:hover{ background:var(--fm-accent-soft); filter:none; }
+/* Smithmagic rune-weight table: fit the 10 columns without horizontal scroll
+   (wrap headers, compact padding, compact number inputs). */
+html.fm-modern .fm-table{ font-size:0.86em; width:100%; }
+html.fm-modern .fm-table th{ white-space:normal !important; vertical-align:bottom; line-height:1.15; }
+html.fm-modern .fm-table th, html.fm-modern .fm-table td{ padding:4px 6px !important; }
+html.fm-modern .fm-table td.fm-cell-runes{ white-space:normal; }
+html.fm-modern .fm-table input[type="number"], html.fm-modern .fm-table .fm-input{
+  min-width:0 !important; width:46px !important; padding:4px 5px !important; text-align:center; box-sizing:border-box;
+}
+/* selected simulation mode must read as selected (my .button-thin override was
+   hiding the classic green active state) -> use the design-system gold accent */
+html.fm-modern .fm-sim-mode-btn.fm-active, html.fm-modern .button-thin.fm-active{
+  background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important;
+  color:#2a2010 !important; border-color:var(--fm-accent) !important; font-weight:800;
+}
 
 /* --- Inventory / workshop / feed / profile generic cards --- */
 html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern .feed-item, html.fm-modern .profile-card{
