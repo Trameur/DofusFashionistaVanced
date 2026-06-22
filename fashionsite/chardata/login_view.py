@@ -299,6 +299,11 @@ def recover_password(request, username, recover_token):
                              'error_message': error_message})
 
     user.set_password(_prehash_password(new_password))
+    # Completing the reset proves the user owns the account's email (the link was
+    # emailed to them), so activate the account too. Otherwise a user who never
+    # confirmed their email can reset their password but still never log in
+    # (local_login rejects inactive accounts) -> permanent lockout.
+    user.is_active = True
     user.save()
 
     return set_response(request,

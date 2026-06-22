@@ -180,3 +180,21 @@ class SocialAuthCancelTests(TestCase):
             AuthCanceled('google-oauth2'))
         self.assertEqual(resp.status_code, 302)
         self.assertIn('/login', resp['Location'])
+
+
+class PasswordResetTests(TestCase):
+    """Completing a password reset must also activate the account, so a user who
+    never confirmed their email isn't locked out forever (reset works but login
+    rejects inactive accounts)."""
+
+    def test_reset_activates_inactive_account(self):
+        from django.contrib.auth.models import User
+        from chardata.login_view import _generate_token_for_password_reset
+        u = User.objects.create_user('vida', 'vida@example.com', 'oldhash')
+        u.is_active = False
+        u.save()
+        token = _generate_token_for_password_reset('vida', u.password)
+        self.client.post('/do_recover_password/vida/%s/' % token,
+                         {'new_password': 'newpass', 'confirm_password': 'newpass'})
+        u.refresh_from_db()
+        self.assertTrue(u.is_active)
