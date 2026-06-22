@@ -164,3 +164,19 @@ class RegistrationTests(TestCase):
         self.assertContains(taken, 'username-error')
         free = self.client.post('/check_username/', {'username': 'totally-new-name'})
         self.assertContains(free, 'ok')
+
+
+class SocialAuthCancelTests(TestCase):
+    """Cancelling the Google OAuth consent (AuthCanceled) must redirect to login,
+    not raise a 500 + admin error email."""
+
+    def test_auth_canceled_redirects_to_login(self):
+        from django.test import RequestFactory
+        from social_core.exceptions import AuthCanceled
+        from chardata.SocialAuthExceptionMiddleware import SocialAuthExceptionMiddleware
+        mw = SocialAuthExceptionMiddleware(lambda r: None)
+        resp = mw.process_exception(
+            RequestFactory().get('/complete/google-oauth2/'),
+            AuthCanceled('google-oauth2'))
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn('/login', resp['Location'])

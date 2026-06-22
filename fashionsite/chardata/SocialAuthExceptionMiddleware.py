@@ -17,13 +17,15 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from social_django.middleware import SocialAuthExceptionMiddleware
-from social_django.exceptions import AuthCanceled
+from social_core.exceptions import AuthCanceled
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
     def process_exception(self, request, exception):
-        if type(exception) == AuthCanceled:
+        # A user cancelling/denying the OAuth consent (AuthCanceled) is normal, not a
+        # server error -> redirect to login quietly instead of 500ing + emailing admins.
+        if isinstance(exception, AuthCanceled):
             return HttpResponseRedirect(reverse('login_page'))
-        else:
-            pass
+        # Let the parent handle any other social-auth exception as before.
+        return super().process_exception(request, exception)
