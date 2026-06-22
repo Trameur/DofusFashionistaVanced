@@ -151,3 +151,16 @@ class CanonicalUrlTests(TestCase):
         # The version IS meaningful content here, so canonical stays self-referential.
         self.assertEqual(self._canonical('/retro/'),
                          'https://dofusfashionista.gg/retro/')
+
+
+class RegistrationTests(TestCase):
+    """Username uniqueness must be case-insensitive (MySQL's unique index is), so a
+    case-only variant is detected as taken instead of 500ing later in create_user."""
+
+    def test_check_username_is_case_insensitive(self):
+        from django.contrib.auth.models import User
+        User.objects.create_user('Egabesta', 'egabesta@example.com', 'x')
+        taken = self.client.post('/check_username/', {'username': 'egabesta'})
+        self.assertContains(taken, 'username-error')
+        free = self.client.post('/check_username/', {'username': 'totally-new-name'})
+        self.assertContains(free, 'ok')
