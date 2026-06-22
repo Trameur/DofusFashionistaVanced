@@ -24,6 +24,7 @@ from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.db import IntegrityError
 from django.utils.crypto import get_random_string, salted_hmac
 from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused, SMTPException
@@ -87,7 +88,9 @@ def register(request):
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
-    users = User.objects.filter(username=username)
+    # Case-insensitive: MySQL's auth_user.username unique index is case-insensitive,
+    # so a case-only variant must be rejected here too (else create_user 500s).
+    users = User.objects.filter(username__iexact=username)
     if users:
         raise PermissionDenied
         
@@ -115,7 +118,12 @@ def register(request):
                              'from_register': False,
                              'email_send_failed': True})
         
-    user = User.objects.create_user(username, email, password)
+    try:
+        user = User.objects.create_user(username, email, password)
+    except IntegrityError:
+        # Username taken despite the check above (race during the email send, or a
+        # case-only variant the DB index rejects) -> treat as "already taken".
+        raise PermissionDenied
     user.is_active = False
     user.save()
     alias = UserAlias()
@@ -156,7 +164,7 @@ def email_confirmed_page(request, username, already_confirmed):
 
 def check_if_taken(request):
     username = request.POST.get('username', None)
-    users = User.objects.filter(username=username)
+    users = User.objects.filter(username__iexact=username)
     if users:
         return HttpResponseText('username-error')
     return HttpResponseText('ok')
@@ -291,6 +299,11 @@ def recover_password(request, username, recover_token):
                              'error_message': error_message})
 
     user.set_password(_prehash_password(new_password))
+    # Completing the reset proves the user owns the account's email (the link was
+    # emailed to them), so activate the account too. Otherwise a user who never
+    # confirmed their email can reset their password but still never log in
+    # (local_login rejects inactive accounts) -> permanent lockout.
+    user.is_active = True
     user.save()
 
     return set_response(request,

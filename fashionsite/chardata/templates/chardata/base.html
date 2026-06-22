@@ -15,7 +15,7 @@
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
-    <link rel="canonical" href="https://dofusfashionista.gg{{ request.path }}">
+    {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{{ request.path }}">{% endblock %}
     {% block og_meta %}
     <meta property="og:title" content="Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - Equipment Set Optimizer">
     <meta property="og:description" content="Create optimized Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} equipment sets automatically based on your character's needs.">

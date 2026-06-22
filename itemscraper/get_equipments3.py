@@ -442,16 +442,22 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                 if max_value is None:
                     max_value = min_value
 
-                # Parse weapon hit lines, handling both "(Fire heals)" and "Fire Steal" variants.
+                # Parse weapon hit lines, handling "(Fire heals)", "((Fire damage))"
+                # (the dofus2 source double-wraps hit lines) and legacy "Fire Steal".
                 normalized_description = description.strip()
                 is_parenthesized_hit = (
                     normalized_description.startswith("(")
                     and normalized_description.endswith(")")
                 )
-                if is_parenthesized_hit:
+                # Strip every surrounding parenthesis layer (single or double).
+                while (normalized_description.startswith("(")
+                       and normalized_description.endswith(")")):
                     normalized_description = normalized_description[1:-1].strip()
 
                 parts = normalized_description.lower().split()
+                # "Best Element" arrives as two words; the element set uses "best-element".
+                if len(parts) >= 2 and parts[0] == 'best' and parts[1] == 'element':
+                    parts = ['best-element'] + parts[2:]
                 if len(parts) >= 2:
                     element = parts[0]
                     damage_type = parts[1]

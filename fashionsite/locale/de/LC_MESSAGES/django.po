@@ -181,7 +181,7 @@ msgstr "AP"
 #: chardata/templates/chardata/wizard_min_stats.html:10
 #: chardata/translation_util.py:69
 msgid "MP"
-msgstr "Abgeordneter"
+msgstr "BP"
 
 #: chardata/min_stats_view.py:53
 #: chardata/templates/chardata/compare_sets.html:146
@@ -275,7 +275,7 @@ msgstr "AP-Entfernung"
 
 #: chardata/smart_build.py:49
 msgid "MP Removal"
-msgstr "MP-Entfernung"
+msgstr "BP-Entfernung"
 
 #: chardata/smart_build.py:50
 msgid "Group PVP"
@@ -5026,25 +5026,25 @@ msgid "Best element"
 msgstr "Bestes Element"
 
 msgid "Hunting Weapon"
-msgstr ""
+msgstr "Jagdwaffe"
 
 msgid "Exchangeable"
 msgstr "Tauschbar"
 
 msgid "Linked to the character"
-msgstr ""
+msgstr "Mit dem Charakter verknüpft"
 
 msgid "Cooperative crafting impossible"
-msgstr ""
+msgstr "Kooperatives Handwerk nicht möglich"
 
 msgid "Fertile"
 msgstr "Fruchtbar"
 
 msgid "Steals %(mp)d MP"
-msgstr ""
+msgstr "Stiehlt %(mp)d BP"
 
 msgid "Steals %(min)d to %(max)d MP"
-msgstr ""
+msgstr "Stiehlt %(min)d bis %(max)d BP"
 
 msgid "Attracts"
 msgstr "Zieht an"
