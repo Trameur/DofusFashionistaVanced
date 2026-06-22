@@ -416,6 +416,10 @@ html.fm-modern .error-message{ color:#e0584f; }
   html.fm-modern .fm-ad-sidebar{ position:static; }
   html.fm-modern .giant-button{ display:block; width:100% !important; margin:10px 0 !important; }
   html.fm-modern .giant-button-pic img{ height:64px; width:auto; }
+  /* Full-width stacked cards would cover the item-grid backdrop; hide it on mobile/tablet
+     so the cards stay clean (the grid is a desktop hero flourish, shown >900px). */
+  html.fm-modern .main-div{ padding-top:0 !important; }
+  html.fm-modern .main-div > table{ display:none !important; }
   html.fm-modern .featured-builds-grid{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width: 520px){
