@@ -302,15 +302,35 @@ html.fm-modern .fm-ad-sidebar{ position:sticky; top:16px; margin-top:14px; }
    ============================================================================ */
 html.fm-modern .main-div{ position:relative; text-align:center; }
 html.fm-modern .main-div > h1{ font-size:clamp(2rem,1.2rem + 3vw,3rem) !important; }
-/* The classic home uses a decorative item-icon <table> as wallpaper with the CTA
-   cards positioned absolutely on top (top/left px hack). That dated pattern does
-   not adapt; drop the wallpaper and lay the cards out in normal flow. */
-html.fm-modern .main-div > table{ display:none !important; }
+/* Modernised item wallpaper: the decorative item-icon <table> becomes a faded,
+   masked grid backdrop of real item sprites behind the CTAs. The cards (and all
+   other content) sit on top via z-index; the classic absolute-card hack is undone
+   below. */
+html.fm-modern .main-div{ padding-top:clamp(12px,2.5vw,28px); }
+html.fm-modern .main-div > *:not(table){ position:relative; z-index:1; }
+html.fm-modern .main-div > table{
+  position:absolute !important; top:0; left:0; right:0; z-index:0; margin:0 !important;
+  pointer-events:none; height:clamp(300px,42vw,460px); overflow:hidden;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(38px,1fr));
+  justify-content:center; align-content:start; gap:8px; padding:12px;
+  opacity:.45;
+  -webkit-mask:linear-gradient(180deg,#000 0%,#000 72%,transparent 100%);
+  mask:linear-gradient(180deg,#000 0%,#000 72%,transparent 100%);
+}
+html.fm-modern .main-div > table > tbody,
+html.fm-modern .main-div > table tr,
+html.fm-modern .main-div > table td{ display:contents !important; }
+html.fm-modern .main-div .home-pic-holder{
+  aspect-ratio:1; width:auto !important; height:auto !important; margin:0 !important;
+  padding:5px; box-sizing:border-box; display:flex; align-items:center; justify-content:center;
+  background:rgba(212,175,55,.10); border:1px solid rgba(212,175,55,.22); border-radius:9px;
+}
+html.fm-modern .main-div .home-pic{ width:100% !important; height:100% !important; object-fit:contain; }
 /* primary CTA cards: undo the classic absolute positioning, make a responsive row */
 html.fm-modern .giant-button{
-  position:static !important; top:auto !important; left:auto !important; right:auto !important; z-index:auto !important;
+  position:relative !important; top:auto !important; left:auto !important; right:auto !important; z-index:1;
   display:inline-block; vertical-align:top; box-sizing:border-box;
-  width:min(31%,300px); margin:16px 1% 6px; text-align:center;
+  width:clamp(168px,26%,224px); margin:14px 12px 8px; text-align:center;
   background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important;
   box-shadow:var(--fm-shadow-sm) !important; padding:18px !important;
   transition:transform var(--fm-trans), box-shadow var(--fm-trans), border-color var(--fm-trans);
@@ -319,7 +339,9 @@ html.fm-modern .giant-button:hover{ transform:translateY(-4px); box-shadow:var(-
 html.fm-modern .giant-button-pic img{ max-width:100%; height:auto; }
 html.fm-modern .giant-button-text, html.fm-modern .giant-button-text:link, html.fm-modern .giant-button-text:visited{
   color:var(--fm-head) !important; font-weight:700; font-size:16px; text-decoration:none;
+  text-shadow:0 1px 2px rgba(0,0,0,.55); letter-spacing:.2px;
 }
+html.fm-modern .giant-button:hover .giant-button-text{ color:var(--fm-accent-text) !important; }
 html.fm-modern .featured-builds-wrap{ margin-top:26px; text-align:left; }
 html.fm-modern .featured-builds-title{ color:var(--fm-head); font-weight:800; }
 html.fm-modern .featured-builds-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
