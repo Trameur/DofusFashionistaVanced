@@ -71052,7 +71052,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2652,
+                    "item_ankama_id": 2649,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -71148,7 +71148,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2649,
+                    "item_ankama_id": 2652,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmony of Pandala:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 150% of the bearer's level as shield for 1 turn."
+                    "formatted": "Harmony of Pandala:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 100% of the bearer's level as shield for 1 turn."
                 },
                 {
                     "int_minimum": 0,
@@ -143441,20 +143441,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13047,
+                    "int_minimum": 32453,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Optical Arrow: -1 AP"
+                    "formatted": "Abolition Arrow: +1 cast(s) per turn"
                 },
                 {
-                    "int_minimum": 13059,
+                    "int_minimum": 32433,
                     "int_maximum": 0,
                     "type": {
                         "name": ": - AP",
@@ -143464,85 +143464,85 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Raining Arrows: -1 AP"
+                    "formatted": "Persecuting Arrow: -1 AP"
                 },
                 {
-                    "int_minimum": 13049,
+                    "int_minimum": 32427,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Frozen Arrow: -1 AP"
+                    "formatted": "Lashing Arrow: +1 cast(s) per turn"
                 },
                 {
-                    "int_minimum": 13063,
+                    "int_minimum": 32458,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": modifiable Range",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Slow Down Arrow: -1 AP"
+                    "formatted": "Assailing Arrow: modifiable Range"
                 },
                 {
-                    "int_minimum": 13072,
+                    "int_minimum": 32444,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Repulsive Shot: -1 AP"
+                    "formatted": "Exploding Arrow: +1 cast(s) per turn"
                 },
                 {
-                    "int_minimum": 13051,
+                    "int_minimum": 32439,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + base damage",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Burning Arrows: -1 AP"
+                    "formatted": "Slow-Down Arrow: +6 base damage"
                 },
                 {
-                    "int_minimum": 13069,
+                    "int_minimum": 32436,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + cast(s) per target",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Lashing Arrow: -1 AP"
+                    "formatted": "Immobilising Arrow: +1 cast(s) per target"
                 },
                 {
-                    "int_minimum": 14636,
+                    "int_minimum": 32448,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + Maximum Range",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Covering Fire: -1 AP"
+                    "formatted": "Tyrannical Arrow: +3 Maximum Range"
                 }
             ],
             "is_weapon": false,
@@ -145377,7 +145377,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13056,
+                    "int_minimum": 32426,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + cast(s) per target",
@@ -145387,98 +145387,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Immobilising Arrow: +1 cast(s) per target"
+                    "formatted": "Retreat Arrow: +1 cast(s) per target"
                 },
                 {
-                    "int_minimum": 13077,
+                    "int_minimum": 32449,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": +% Critical",
-                        "id": 226,
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Assailing Arrow: +35% Critical"
+                    "formatted": "Radiant Arrow: +1 cast(s) per turn"
                 },
                 {
-                    "int_minimum": 13055,
+                    "int_minimum": 32428,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Retreating Shot: line of sight off"
+                    "formatted": "Dispersing Arrow: +1 cast(s) per turn"
                 },
                 {
-                    "int_minimum": 13083,
+                    "int_minimum": 32447,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": modifiable Range",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Barricade Shot: line of sight off"
+                    "formatted": "Burning Arrows: modifiable Range"
                 },
                 {
-                    "int_minimum": 13050,
+                    "int_minimum": 32455,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erosive Arrows: -1 AP"
+                    "formatted": "Vagabond Arrow: +1 cast(s) per turn"
                 },
                 {
-                    "int_minimum": 13070,
+                    "int_minimum": 32531,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": + cast(s) per target",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Withdrawal Arrows: line of sight off"
+                    "formatted": "Evasive Arrow: +1 cast(s) per target"
                 },
                 {
-                    "int_minimum": 23499,
+                    "int_minimum": 32454,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": + Maximum Range",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Lark Mirror: line of sight off"
+                    "formatted": "Eye for Eye: +3 Maximum Range"
                 },
                 {
-                    "int_minimum": 23508,
+                    "int_minimum": 32441,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": + base damage",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Eye for Eye: line of sight off"
+                    "formatted": "Paralysing Arrow: +6 base damage"
                 }
             ],
             "is_weapon": false,
@@ -147383,33 +147383,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13052,
+                    "int_minimum": 32435,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - cooldown",
-                        "id": 227,
+                        "name": ": + base damage",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Powerful Shots: -1 cooldown"
+                    "formatted": "Frozen Arrow: +4 base damage"
                 },
                 {
-                    "int_minimum": 13085,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + cast(s) per turn",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Exploding Arrow: +1 cast(s) per turn"
-                },
-                {
-                    "int_minimum": 13064,
+                    "int_minimum": 32708,
                     "int_maximum": 0,
                     "type": {
                         "name": ": - AP",
@@ -147419,10 +147406,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tormenting Arrow: -1 AP"
+                    "formatted": "Plaguing Arrow: -1 AP"
                 },
                 {
-                    "int_minimum": 13080,
+                    "int_minimum": 32437,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Bat's Eye: -1 AP"
+                },
+                {
+                    "int_minimum": 32431,
                     "int_maximum": 0,
                     "type": {
                         "name": ": +% Critical",
@@ -147432,10 +147432,49 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Piercing Shot: +35% Critical"
+                    "formatted": "Raining Arrows: +35% Critical"
                 },
                 {
-                    "int_minimum": 13084,
+                    "int_minimum": 32438,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - Minimum Range",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Atonement Arrow: -5 Minimum Range"
+                },
+                {
+                    "int_minimum": 32442,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - Minimum Range",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Redemption Arrow: -3 Minimum Range"
+                },
+                {
+                    "int_minimum": 32429,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Maximum Range",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Piercing Arrow: +3 Maximum Range"
+                },
+                {
+                    "int_minimum": 32432,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + cast(s) per turn",
@@ -147445,46 +147484,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Devouring Arrow: +1 cast(s) per turn"
-                },
-                {
-                    "int_minimum": 13065,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Maximum Range",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Explosive Arrow: +2 Maximum Range"
-                },
-                {
-                    "int_minimum": 13086,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Maximum Range",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Fulminating Arrow: +2 Maximum Range"
-                },
-                {
-                    "int_minimum": 13066,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - cooldown",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Piercing Shots: -1 cooldown"
+                    "formatted": "Boomerang Arrow: +1 cast(s) per turn"
                 }
             ],
             "is_weapon": false,
@@ -150362,33 +150362,33 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13076,
+                    "int_minimum": 32443,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": line of sight off",
-                        "id": 205,
+                        "name": ": + Maximum Range",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Recall Beacon: line of sight off"
+                    "formatted": "Barricade Arrow: +3 Maximum Range"
                 },
                 {
-                    "int_minimum": 13068,
+                    "int_minimum": 32459,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + cast(s) per turn",
-                        "id": 206,
+                        "name": ": + Maximum Range",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Concentration Arrow: +1 cast(s) per turn"
+                    "formatted": "Destructive Bolts: +2 Maximum Range"
                 },
                 {
-                    "int_minimum": 13061,
+                    "int_minimum": 32445,
                     "int_maximum": 0,
                     "type": {
                         "name": ": +% Critical",
@@ -150398,62 +150398,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Destructive Bolts: +35% Critical"
+                    "formatted": "Explosive Arrow: +30% Critical"
                 },
                 {
-                    "int_minimum": 13054,
+                    "int_minimum": 32457,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - AP",
-                        "id": 207,
+                        "name": ": + Maximum Range",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Bat's Eye: -1 AP"
+                    "formatted": "Slaughtering Arrow: +3 Maximum Range"
                 },
                 {
-                    "int_minimum": 13075,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Crushing Arrow: -1 AP"
-                },
-                {
-                    "int_minimum": 13062,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": straight-line casting off",
-                        "id": 209,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Persecuting Arrow: straight-line casting off"
-                },
-                {
-                    "int_minimum": 13082,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tyrannical Arrow: -1 AP"
-                },
-                {
-                    "int_minimum": 13079,
+                    "int_minimum": 32456,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + cast(s) per turn",
@@ -150463,7 +150424,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tactical Beacon: +1 cast(s) per turn"
+                    "formatted": "Punitive Arrow: +1 cast(s) per turn"
+                },
+                {
+                    "int_minimum": 32460,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Arrow of Judgement: -1 AP"
+                },
+                {
+                    "int_minimum": 32446,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Devouring Arrow: +1 cast(s) per turn"
+                },
+                {
+                    "int_minimum": 32450,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Fulminating Arrow: -1 AP"
                 }
             ],
             "is_weapon": false,
@@ -152725,59 +152725,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13058,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Distant Shots: -1 AP"
-                },
-                {
-                    "int_minimum": 13073,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Absolute Acuteness: -1 AP"
-                },
-                {
-                    "int_minimum": 13060,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Poisoned Arrow: -1 AP"
-                },
-                {
-                    "int_minimum": 13071,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Paralysing Arrow: -1 AP"
-                },
-                {
-                    "int_minimum": 13057,
+                    "int_minimum": 32464,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + Maximum Range",
@@ -152787,46 +152735,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Punitive Arrow: +2 Maximum Range"
+                    "formatted": "Sidestep: +1 Maximum Range"
                 },
                 {
-                    "int_minimum": 13078,
+                    "int_minimum": 32467,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Maximum Range",
-                        "id": 208,
+                        "name": ": - cooldown",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Arrow of Judgement: +2 Maximum Range"
+                    "formatted": "Tactical Beacon: -1 cooldown"
                 },
                 {
-                    "int_minimum": 13053,
+                    "int_minimum": 32465,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Maximum Range",
-                        "id": 208,
+                        "name": ": - cooldown",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Atonement Arrow: +2 Maximum Range"
+                    "formatted": "Distant Shots: -1 cooldown"
                 },
                 {
-                    "int_minimum": 13074,
+                    "int_minimum": 32471,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Maximum Range",
-                        "id": 208,
+                        "name": ": + cast(s) per target",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Redemption Arrow: +2 Maximum Range"
+                    "formatted": "Piercing Shot: +1 cast(s) per target"
+                },
+                {
+                    "int_minimum": 32474,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Survival Beacon: -1 AP"
+                },
+                {
+                    "int_minimum": 32472,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Reprisal: -1 AP"
+                },
+                {
+                    "int_minimum": 32470,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + cast(s) per target",
+                        "id": 231,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Withdrawal Shot: +1 cast(s) per target"
+                },
+                {
+                    "int_minimum": 32473,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + cast(s) per turn",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Vendetta: +1 cast(s) per turn"
                 },
                 {
                     "int_minimum": 1,
@@ -296341,7 +296341,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/10246-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/10246-128.png"
             },
-            "description": "If you wear this belt for long enough, you'll suddenly crave bacon and eggs for breakfast and want to drink tea all the time. You'll take great pride in the monarchy, and develop a strange sense of humour and a fondness for battered fish and fried potatoes. Mind you, you were hardly a shining example of normality before you put it on, so your friends might not notice the difference.",
+            "description": "The Jolly Good Belt has some inexplicable effects on one's behaviour. If you wear this belt for long enough, you'll suddenly crave bacon and eggs for breakfast and want to drink tea all the time. You'll take great pride in the monarchy, and develop a strange sense of humour and a fondness for battered fish and fried potatoes. Mind you, you were hardly a shining example of normality before you put it on, so your friends might not notice the difference.",
             "recipe": [
                 {
                     "item_ankama_id": 13988,
@@ -422812,6 +422812,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Promise of Silver:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (once per fight)."
+                },
+                {
+                    "int_minimum": 300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "300 Vitality"
                 }
             ],
             "is_weapon": false,
@@ -423282,8 +423295,8 @@
             ],
             "is_weapon": true,
             "pods": 10,
-            "critical_hit_probability": 0,
-            "critical_hit_bonus": 0,
+            "critical_hit_probability": 100,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -423333,7 +423346,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -423358,7 +423371,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Novamaire Cold:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle."
+                    "formatted": "Novamaire Cold:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle."
                 },
                 {
                     "int_minimum": 351,
@@ -423806,7 +423819,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell cross, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn. The glyph disappears on the next turn or if it is moved."
+                    "formatted": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn. The glyph disappears on the next turn or if it is moved."
                 },
                 {
                     "int_minimum": 251,
@@ -424186,7 +424199,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% close-combat damage for 2 turns (stackable 5 times)."
+                    "formatted": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target."
                 },
                 {
                     "int_minimum": 351,
@@ -425076,7 +425089,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns and loses 1 MP on even turns."
+                    "formatted": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns."
                 },
                 {
                     "int_minimum": 501,
@@ -431127,7 +431140,7 @@
                     "formatted": "The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Neutral Resistance",
@@ -431137,10 +431150,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Neutral Resistance"
+                    "formatted": "40 Neutral Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Earth Resistance",
@@ -431150,10 +431163,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Earth Resistance"
+                    "formatted": "40 Earth Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Fire Resistance",
@@ -431163,10 +431176,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Fire Resistance"
+                    "formatted": "40 Fire Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Water Resistance",
@@ -431176,10 +431189,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Water Resistance"
+                    "formatted": "40 Water Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Air Resistance",
@@ -431189,7 +431202,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Air Resistance"
+                    "formatted": "40 Air Resistance"
                 },
                 {
                     "int_minimum": -100,
@@ -431278,7 +431291,7 @@
                     "formatted": "The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Neutral Resistance",
@@ -431288,10 +431301,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Neutral Resistance"
+                    "formatted": "40 Neutral Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Earth Resistance",
@@ -431301,10 +431314,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Earth Resistance"
+                    "formatted": "40 Earth Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Fire Resistance",
@@ -431314,10 +431327,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Fire Resistance"
+                    "formatted": "40 Fire Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Water Resistance",
@@ -431327,10 +431340,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Water Resistance"
+                    "formatted": "40 Water Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Air Resistance",
@@ -431340,7 +431353,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Air Resistance"
+                    "formatted": "40 Air Resistance"
                 },
                 {
                     "int_minimum": -100,
@@ -431429,7 +431442,7 @@
                     "formatted": "The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Neutral Resistance",
@@ -431439,10 +431452,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Neutral Resistance"
+                    "formatted": "40 Neutral Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Earth Resistance",
@@ -431452,10 +431465,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Earth Resistance"
+                    "formatted": "40 Earth Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Fire Resistance",
@@ -431465,10 +431478,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Fire Resistance"
+                    "formatted": "40 Fire Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Water Resistance",
@@ -431478,10 +431491,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Water Resistance"
+                    "formatted": "40 Water Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Air Resistance",
@@ -431491,7 +431504,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Air Resistance"
+                    "formatted": "40 Air Resistance"
                 },
                 {
                     "int_minimum": -100,
@@ -432837,7 +432850,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Heals 80% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn."
+                    "formatted": "Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn."
                 },
                 {
                     "int_minimum": 200,
@@ -433895,7 +433908,7 @@
                     "formatted": "The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Neutral Resistance",
@@ -433905,7 +433918,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Neutral Resistance"
+                    "formatted": "40 Neutral Resistance"
                 },
                 {
                     "int_minimum": -1000,
@@ -433921,7 +433934,7 @@
                     "formatted": "-1000 Initiative"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Earth Resistance",
@@ -433931,10 +433944,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Earth Resistance"
+                    "formatted": "40 Earth Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Fire Resistance",
@@ -433944,10 +433957,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Fire Resistance"
+                    "formatted": "40 Fire Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Water Resistance",
@@ -433957,10 +433970,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Water Resistance"
+                    "formatted": "40 Water Resistance"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Air Resistance",
@@ -433970,7 +433983,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Air Resistance"
+                    "formatted": "40 Air Resistance"
                 }
             ],
             "is_weapon": false,
@@ -434043,20 +434056,20 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start of their first turn."
+                    "formatted": "The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn."
                 },
                 {
-                    "int_minimum": 30,
+                    "int_minimum": 6,
                     "int_maximum": 0,
                     "type": {
-                        "name": "reflected damage",
-                        "id": 249,
+                        "name": "% Weapon Damage",
+                        "id": 41,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 reflected damage"
+                    "formatted": "6% Weapon Damage"
                 },
                 {
                     "int_minimum": -30,
@@ -438170,7 +438183,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Attrition Warfare:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When the bearer finishes off an enemy fighter, they gain 1 MP until the end of the fight (stackable 5 times)."
+                    "formatted": "Attrition Warfare:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times)."
                 },
                 {
                     "int_minimum": 7,
@@ -438879,68 +438892,6 @@
                     "quantity": 2
                 }
             ],
-            "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "is_operand": false,
-                                "relation": "and",
-                                "children": [
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Agility",
-                                                "id": 36
-                                            }
-                                        },
-                                        "is_operand": true
-                                    },
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Chance",
-                                                "id": 22
-                                            }
-                                        },
-                                        "is_operand": true
-                                    }
-                                ]
-                            },
-                            {
-                                "condition": {
-                                    "operator": ">",
-                                    "int_value": 299,
-                                    "element": {
-                                        "name": "Intelligence",
-                                        "id": 13
-                                    }
-                                },
-                                "is_operand": true
-                            }
-                        ]
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 299,
-                            "element": {
-                                "name": "Strength",
-                                "id": 45
-                            }
-                        },
-                        "is_operand": true
-                    }
-                ]
-            },
             "effects": [
                 {
                     "int_minimum": 301,
@@ -439044,7 +438995,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Trial of the Scales:\n• When the bearer suffers an attempted AP, MP or Range removal, they steal 2% resistance from their attacker for 2 turns (stackable 5 times)."
+                    "formatted": "Trial of the Scales:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer."
                 },
                 {
                     "int_minimum": 8,
@@ -439281,7 +439232,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ink River:\n• Starting on turn 5, the bearer and their summons gain up to 64 Damage until the end of the fight.\n• This bonus is reduced each time the bearer inflicts damage on an enemy during their turn for each of the first 4 turns of the fight:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage"
+                    "formatted": "Ink River:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage"
                 },
                 {
                     "int_minimum": 1,
@@ -490860,7 +490811,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Country Ranger:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 10% of their health."
+                    "formatted": "Country Ranger:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health."
                 }
             ],
             "is_weapon": false,
@@ -491499,20 +491450,7 @@
                     "formatted": "6% Ranged Resistance"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Melee Damage",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Melee Damage"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Ranged Damage",
@@ -491522,7 +491460,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Ranged Damage"
+                    "formatted": "-6% Ranged Damage"
                 }
             ],
             "is_weapon": false,
@@ -491598,20 +491536,7 @@
                     "formatted": "6% Melee Resistance"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Melee Damage",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Melee Damage"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Ranged Damage",
@@ -491621,7 +491546,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Ranged Damage"
+                    "formatted": "-6% Ranged Damage"
                 }
             ],
             "is_weapon": false,
@@ -491697,20 +491622,7 @@
                     "formatted": "6% Ranged Damage"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Melee Resistance",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Melee Resistance"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Ranged Resistance",
@@ -491720,7 +491632,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Ranged Resistance"
+                    "formatted": "-6% Ranged Resistance"
                 }
             ],
             "is_weapon": false,
@@ -491796,20 +491708,7 @@
                     "formatted": "6% Melee Damage"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Melee Resistance",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Melee Resistance"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Ranged Resistance",
@@ -491819,7 +491718,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Ranged Resistance"
+                    "formatted": "-6% Ranged Resistance"
                 }
             ],
             "is_weapon": false,
@@ -491895,7 +491794,7 @@
                     "formatted": "6% Spell Damage"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Melee Resistance",
@@ -491905,10 +491804,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Melee Resistance"
+                    "formatted": "-6% Melee Resistance"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Ranged Resistance",
@@ -491918,7 +491817,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Ranged Resistance"
+                    "formatted": "-6% Ranged Resistance"
                 }
             ],
             "is_weapon": false,
@@ -491994,7 +491893,7 @@
                     "formatted": "6% Weapon Damage"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Melee Resistance",
@@ -492004,10 +491903,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Melee Resistance"
+                    "formatted": "-3% Melee Resistance"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Ranged Resistance",
@@ -492017,7 +491916,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Ranged Resistance"
+                    "formatted": "-3% Ranged Resistance"
                 }
             ],
             "is_weapon": false,
@@ -505640,7 +505539,7 @@
                     "formatted": "Explosive Hatching:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons."
                 },
                 {
-                    "int_minimum": 1,
+                    "int_minimum": 2,
                     "int_maximum": 0,
                     "type": {
                         "name": "Summons",
@@ -505650,7 +505549,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "1 Summons"
+                    "formatted": "2 Summons"
                 }
             ],
             "is_weapon": false,
@@ -507585,7 +507484,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Blinding Reflection:\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they're Invisible (stackable 1 time)."
+                    "formatted": "Blinding Reflection:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time)."
                 },
                 {
                     "int_minimum": 251,
@@ -507750,7 +507649,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -507775,7 +507674,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Order of Thunder:\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).\n• When an allied fighter dies, the bearer increases the final damage of all others by 4% until the end of the fight (stackable 2 times).\n• When the bearer inflicts weapon damage, they gain 25 Pushback Damage for 2 turns.\n• The effects are removed when the bearer dies."
+                    "formatted": "Order of Thunder:\n• At the end of each turn, the bearer gives 1 MP and 40 Pushback Damage to all allies in their line of sight for 1 turn (stackable 1 time).\n• When an allied fighter dies, the bearer increases the final damage of all others by 4% until the end of the fight (stackable 2 times).\n• The effects are removed when the bearer dies."
                 },
                 {
                     "int_minimum": 401,
@@ -507921,7 +507820,7 @@
                     "formatted": "47 to 52 best-element damage"
                 },
                 {
-                    "int_minimum": 2,
+                    "int_minimum": 3,
                     "int_maximum": 0,
                     "type": {
                         "name": "Pushes back cell",
@@ -507931,7 +507830,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Pushes back 2 cells"
+                    "formatted": "Pushes back 3 cells"
                 }
             ],
             "is_weapon": true,
@@ -508012,7 +507911,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Thanatena's Judgement:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. The effects are halved if it's a summons."
+                    "formatted": "Thanatena's Judgement:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons."
                 },
                 {
                     "int_minimum": 81,
@@ -508255,7 +508154,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 12728,
@@ -508275,7 +508174,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 8% of their health within 2 cells or less around them (once per turn)."
+                    "formatted": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 8% of their health within 3 cells or less around them (once per turn)."
                 },
                 {
                     "int_minimum": 451,
@@ -508694,7 +508593,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain characteristics depending on the element for 2 turns (stackable 6 times, shared among effects):\n • Earth: 10 Dodge\n • Fire: 10 Lock\n • Water: 10 MP Reduction\n• Air: 10 AP Reduction"
+                    "formatted": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction"
                 },
                 {
                     "int_minimum": 151,
@@ -550338,6 +550237,1425 @@
             "parent_set": {
                 "id": 1087,
                 "name": "Rhineetleset"
+            }
+        },
+        {
+            "ankama_id": 34327,
+            "name": "Sanctuary Guardian Helm",
+            "type": {
+                "name": "Hat",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16912-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16912-128.png"
+            },
+            "description": "An old tale of Valonia recounts the adventures of a stubborn knight whose noggin was as hard as a rock. Is this the reason Belladonna used statues to guard her sanctuary, as a reference to this tale? Unless she just wanted her armoured henchman to be part of the decor... In any case, wearing a helm as massive as it is abrasive is the best way to go bald as a coot for good.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27401,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 27403,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34324,
+                    "item_subtype": "resources",
+                    "quantity": 8
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 to 500 Vitality"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Power",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 to 80 Power"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Wisdom",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 to 50 Wisdom"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecting",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Prospecting"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Heal",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Heals"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Earth Damage",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Earth Damage"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Air damage",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Air damage"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "AP Parry",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 12 AP Parry"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Air Resistance",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15% Air Resistance"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Critical",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% Critical"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Critical Resistance",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Critical Resistance"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Eternal Gardens Sanctuary Set"
+            }
+        },
+        {
+            "ankama_id": 34328,
+            "name": "Scarlet Greaves",
+            "type": {
+                "name": "Boots",
+                "id": 45
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/11390-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/11390-128.png"
+            },
+            "description": "These metal leggings inspired by Ephedra's armour can be worn by anyone, even by people who suffer from heavy legs. In fact, these have been designed to stimulate the flow of blood, especially other people's. So, yeah, if you go around trampling all over the weak and defenceless, you might end up with a heavy conscience, but, then again maybe not, since you have to one to begin with.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27398,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27400,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34325,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 26870,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 to 450 Vitality"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Power",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 to 80 Power"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Wisdom",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 to 40 Wisdom"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecting",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Prospecting"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Heal",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Heals"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Water Damage",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Water Damage"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Fire Damage",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Fire Damage"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "MP Parry",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 12 MP Parry"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Earth Resistance",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15% Earth Resistance"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Critical",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% Critical"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Critical Resistance",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Critical Resistance"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "MP",
+                        "id": 8,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 MP"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Eternal Gardens Sanctuary Set"
+            }
+        },
+        {
+            "ankama_id": 34329,
+            "name": "Vegegrip",
+            "type": {
+                "name": "Amulet",
+                "id": 33
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1343-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1343-128.png"
+            },
+            "description": "Wear this pretty flower of evil around your neck, and it might just put you six feet under if you stay rooted to the spot doing nothing – no doubt some kind of trauma from its own childhood, being stuck in one place and all that. So make sure you run around like you usually do, or it'll stick you in the ground for good.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27399,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27397,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34326,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27518,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 16460,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 to 450 Vitality"
+                },
+                {
+                    "int_minimum": 51,
+                    "int_maximum": 70,
+                    "type": {
+                        "name": "Power",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "51 to 70 Power"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Wisdom",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 to 40 Wisdom"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecting",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Prospecting"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Heal",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10 Heals"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Water Damage",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 13 Water Damage"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Fire Damage",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 13 Fire Damage"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Earth Damage",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 13 Earth Damage"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Air damage",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 13 Air damage"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Critical",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% Critical"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Critical Resistance",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Critical Resistance"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "AP",
+                        "id": 12,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 AP"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Water Resistance",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15% Water Resistance"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Eternal Gardens Sanctuary Set"
+            }
+        },
+        {
+            "ankama_id": 34330,
+            "name": "Moraympress Face",
+            "type": {
+                "name": "Hat",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16913-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16913-128.png"
+            },
+            "description": "The bearer of this headgear regularly inhales small doses of venom. This prolonged exposure gradually makes them naturally resistant to any kind of poison.",
+            "recipe": [
+                {
+                    "item_ankama_id": 17983,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17974,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34337,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17864,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 to 500 Vitality"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Chance",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 to 80 Chance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Wisdom",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 to 50 Wisdom"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% Critical",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 to 5% Critical"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Prospecting",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Prospecting"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Water Damage",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Water Damage"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Critical Damage",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10 Critical Damage"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Lock",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Lock"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Summons",
+                        "id": 28,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 Summons"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Water Resistance",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10% Water Resistance"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Air Resistance",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 to 7% Air Resistance"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Dodge",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Dodge"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Chasm Set"
+            }
+        },
+        {
+            "ankama_id": 34331,
+            "name": "Crabinator Pincerlance",
+            "type": {
+                "name": "Lance",
+                "id": 111
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183018-128.png"
+            },
+            "description": "This lance is equipped with a pincer that lets you carve up the guts of the enemies you stab. As if a normal lance wasn't enough... ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17971,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17988,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34338,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 to 500 Vitality"
+                },
+                {
+                    "int_minimum": 71,
+                    "int_maximum": 90,
+                    "type": {
+                        "name": "Chance",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "71 to 90 Chance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Wisdom",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 to 50 Wisdom"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% Critical",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 to 5% Critical"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecting",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Prospecting"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Water Damage",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 12 Water Damage"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Critical Damage",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 20 Critical Damage"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Lock",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10 Lock"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "MP Reduction",
+                        "id": 50,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 12 MP Reduction"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Fire Resistance",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 to 7% Fire Resistance"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Water Resistance",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10% Water Resistance"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "AP Parry",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 AP Parry"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Water damage",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 13 Water damage"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Water damage",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 13 Water damage"
+                },
+                {
+                    "int_minimum": 27,
+                    "int_maximum": 33,
+                    "type": {
+                        "name": "Water steal",
+                        "id": 203,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "27 to 33 Water steal"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Attracts by cell",
+                        "id": 255,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Attracts by 1 cell"
+                }
+            ],
+            "is_weapon": true,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Chasm Set"
+            },
+            "critical_hit_probability": 10,
+            "critical_hit_bonus": 3,
+            "max_cast_per_turn": 1,
+            "ap_cost": 5,
+            "range": {
+                "min": 1,
+                "max": 1
+            }
+        },
+        {
+            "ankama_id": 34332,
+            "name": "Willorka Dorsal Fin",
+            "type": {
+                "name": "Cloak",
+                "id": 43
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17698-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17698-128.png"
+            },
+            "description": "At the bottom of the chasm, it's so dark you can't even see yourself. This cape has a vibrating fin and emits sound waves, giving you echolocation, which is way more accurate than sight. ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17978,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17981,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34339,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 19975,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitality",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 to 500 Vitality"
+                },
+                {
+                    "int_minimum": 81,
+                    "int_maximum": 100,
+                    "type": {
+                        "name": "Chance",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "81 to 100 Chance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Wisdom",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 to 50 Wisdom"
+                },
+                {
+                    "int_minimum": 4,
+                    "int_maximum": 6,
+                    "type": {
+                        "name": "% Critical",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "4 to 6% Critical"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecting",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 to 15 Prospecting"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Water Damage",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10 Water Damage"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "Critical Damage",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 to 25 Critical Damage"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Lock",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10 Lock"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Heal",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 to 12 Heals"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Earth Resistance",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 to 7% Earth Resistance"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Water Resistance",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 to 10% Water Resistance"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "MP Parry",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 MP Parry"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Chasm Set"
             }
         }
     ]

@@ -71052,7 +71052,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2652,
+                    "item_ankama_id": 2649,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -71148,7 +71148,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2649,
+                    "item_ankama_id": 2652,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmonia de Pandala:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o {{item,23408::Dorigami}} ganham 20 de danos por 1 turno (acumula 1 vez).\n• Se não causar dano, ele e seus aliados portadores do {{item,23237::Domakuro}} ganharão 150% de seu nível em escudo durante 1 turno."
+                    "formatted": "Harmonia de Pandala:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o {{item,23408::Dorigami}} ganham 20 de danos por 1 turno (acumula 1 vez).\n• Se não causar dano, ele e seus aliados portadores do {{item,23237::Domakuro}} ganharão 100% de seu nível em escudo durante 1 turno."
                 },
                 {
                     "int_minimum": 0,
@@ -143441,20 +143441,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13047,
+                    "int_minimum": 32453,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Óptica: -1 PA"
+                    "formatted": "Flecha de Abolição: +1 lançamento(s) por turno"
                 },
                 {
-                    "int_minimum": 13059,
+                    "int_minimum": 32433,
                     "int_maximum": 0,
                     "type": {
                         "name": ": - PA",
@@ -143464,85 +143464,85 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Chuva de Flechas: -1 PA"
+                    "formatted": "Flecha Perseguidora: -1 PA"
                 },
                 {
-                    "int_minimum": 13049,
+                    "int_minimum": 32427,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Congelada: -1 PA"
+                    "formatted": "Flecha Fustigante: +1 lançamento(s) por turno"
                 },
                 {
-                    "int_minimum": 13063,
+                    "int_minimum": 32458,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": alcance modificável",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Desaceleradora: -1 PA"
+                    "formatted": "Flecha Agressora: alcance modificável"
                 },
                 {
-                    "int_minimum": 13072,
+                    "int_minimum": 32444,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tiro Repulsivo: -1 PA"
+                    "formatted": "Flecha Detonante: +1 lançamento(s) por turno"
                 },
                 {
-                    "int_minimum": 13051,
+                    "int_minimum": 32439,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + de danos de base",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flechas Flamejantes: -1 PA"
+                    "formatted": "Flecha Desaceleradora: +6 de danos de base"
                 },
                 {
-                    "int_minimum": 13069,
+                    "int_minimum": 32436,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lançamento(s) por alvo",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Fustigante: -1 PA"
+                    "formatted": "Flecha de Imobilização: +1 lançamento(s) por alvo"
                 },
                 {
-                    "int_minimum": 14636,
+                    "int_minimum": 32448,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + de alcance máximo",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tiro de Cobertura: -1 PA"
+                    "formatted": "Flecha Tirânica: +3 de alcance máximo"
                 }
             ],
             "is_weapon": false,
@@ -145377,7 +145377,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13056,
+                    "int_minimum": 32426,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + lançamento(s) por alvo",
@@ -145387,98 +145387,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha de Imobilização: +1 lançamento(s) por alvo"
+                    "formatted": "Flecha de Recuo: +1 lançamento(s) por alvo"
                 },
                 {
-                    "int_minimum": 13077,
+                    "int_minimum": 32449,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": +% de crítico",
-                        "id": 226,
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Agressora: +35% de crítico"
+                    "formatted": "Flecha Brilhante: +1 lançamento(s) por turno"
                 },
                 {
-                    "int_minimum": 13055,
+                    "int_minimum": 32428,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": linha de visão desativada",
-                        "id": 205,
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tiro de Recuo: linha de visão desativada"
+                    "formatted": "Flecha Dispersante: +1 lançamento(s) por turno"
                 },
                 {
-                    "int_minimum": 13083,
+                    "int_minimum": 32447,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": linha de visão desativada",
-                        "id": 205,
+                        "name": ": alcance modificável",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tiro de Barricada: linha de visão desativada"
+                    "formatted": "Flechas Flamejantes: alcance modificável"
                 },
                 {
-                    "int_minimum": 13050,
+                    "int_minimum": 32455,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flechas Erosivas: -1 PA"
+                    "formatted": "Flecha Andarilha: +1 lançamento(s) por turno"
                 },
                 {
-                    "int_minimum": 13070,
+                    "int_minimum": 32531,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": linha de visão desativada",
-                        "id": 205,
+                        "name": ": + lançamento(s) por alvo",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flechas de Retirada: linha de visão desativada"
+                    "formatted": "Flecha Evasiva: +1 lançamento(s) por alvo"
                 },
                 {
-                    "int_minimum": 23499,
+                    "int_minimum": 32454,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": linha de visão desativada",
-                        "id": 205,
+                        "name": ": + de alcance máximo",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ar-dil: linha de visão desativada"
+                    "formatted": "Olho por Olho: +3 de alcance máximo"
                 },
                 {
-                    "int_minimum": 23508,
+                    "int_minimum": 32441,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": linha de visão desativada",
-                        "id": 205,
+                        "name": ": + de danos de base",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Olho por Olho: linha de visão desativada"
+                    "formatted": "Flecha Paralisante: +6 de danos de base"
                 }
             ],
             "is_weapon": false,
@@ -147383,33 +147383,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13052,
+                    "int_minimum": 32435,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - de relançamento",
-                        "id": 227,
+                        "name": ": + de danos de base",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tiros Poderosos: -1 de relançamento"
+                    "formatted": "Flecha Congelada: +4 de danos de base"
                 },
                 {
-                    "int_minimum": 13085,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + lançamento(s) por turno",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Detonante: +1 lançamento(s) por turno"
-                },
-                {
-                    "int_minimum": 13064,
+                    "int_minimum": 32708,
                     "int_maximum": 0,
                     "type": {
                         "name": ": - PA",
@@ -147419,10 +147406,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha de Tormento: -1 PA"
+                    "formatted": "Flecha Inconveniente: -1 PA"
                 },
                 {
-                    "int_minimum": 13080,
+                    "int_minimum": 32437,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Olho de Toupeira: -1 PA"
+                },
+                {
+                    "int_minimum": 32431,
                     "int_maximum": 0,
                     "type": {
                         "name": ": +% de crítico",
@@ -147432,10 +147432,49 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tiro Penetrante: +35% de crítico"
+                    "formatted": "Chuva de Flechas: +35% de crítico"
                 },
                 {
-                    "int_minimum": 13084,
+                    "int_minimum": 32438,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - de alcance mínimo",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flecha de Expiação: -5 de alcance mínimo"
+                },
+                {
+                    "int_minimum": 32442,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - de alcance mínimo",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flecha de Redenção: -3 de alcance mínimo"
+                },
+                {
+                    "int_minimum": 32429,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + de alcance máximo",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flecha Perfurante: +3 de alcance máximo"
+                },
+                {
+                    "int_minimum": 32432,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + lançamento(s) por turno",
@@ -147445,46 +147484,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Devoradora: +1 lançamento(s) por turno"
-                },
-                {
-                    "int_minimum": 13065,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + de alcance máximo",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Explosiva: +2 de alcance máximo"
-                },
-                {
-                    "int_minimum": 13086,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + de alcance máximo",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Fulminante: +2 de alcance máximo"
-                },
-                {
-                    "int_minimum": 13066,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - de relançamento",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tiros Perfurantes: -1 de relançamento"
+                    "formatted": "Flecha Bumerangue: +1 lançamento(s) por turno"
                 }
             ],
             "is_weapon": false,
@@ -150362,33 +150362,33 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13076,
+                    "int_minimum": 32443,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": linha de visão desativada",
-                        "id": 205,
+                        "name": ": + de alcance máximo",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Baliza de Recuo: linha de visão desativada"
+                    "formatted": "Flecha de Barricada: +3 de alcance máximo"
                 },
                 {
-                    "int_minimum": 13068,
+                    "int_minimum": 32459,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + lançamento(s) por turno",
-                        "id": 206,
+                        "name": ": + de alcance máximo",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha de Concentração: +1 lançamento(s) por turno"
+                    "formatted": "Ladrilhos Destruidores: +2 de alcance máximo"
                 },
                 {
-                    "int_minimum": 13061,
+                    "int_minimum": 32445,
                     "int_maximum": 0,
                     "type": {
                         "name": ": +% de crítico",
@@ -150398,62 +150398,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ladrilhos Destruidores: +35% de crítico"
+                    "formatted": "Flecha Explosiva: +30% de crítico"
                 },
                 {
-                    "int_minimum": 13054,
+                    "int_minimum": 32457,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + de alcance máximo",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Olho de Toupeira: -1 PA"
+                    "formatted": "Flecha Massacrante: +3 de alcance máximo"
                 },
                 {
-                    "int_minimum": 13075,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Esmagadora: -1 PA"
-                },
-                {
-                    "int_minimum": 13062,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": lançamento em linha desativado",
-                        "id": 209,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Perseguidora: lançamento em linha desativado"
-                },
-                {
-                    "int_minimum": 13082,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Tirânica: -1 PA"
-                },
-                {
-                    "int_minimum": 13079,
+                    "int_minimum": 32456,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + lançamento(s) por turno",
@@ -150463,7 +150424,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Baliza Tática: +1 lançamento(s) por turno"
+                    "formatted": "Flecha Punitiva: +1 lançamento(s) por turno"
+                },
+                {
+                    "int_minimum": 32460,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flecha do Julgamento: -1 PA"
+                },
+                {
+                    "int_minimum": 32446,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flecha Devoradora: +1 lançamento(s) por turno"
+                },
+                {
+                    "int_minimum": 32450,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flecha Fulminante: -1 PA"
                 }
             ],
             "is_weapon": false,
@@ -152725,59 +152725,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13058,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tiros Distantes: -1 PA"
-                },
-                {
-                    "int_minimum": 13073,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Acuidade Absoluta: -1 PA"
-                },
-                {
-                    "int_minimum": 13060,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Envenenada: -1 PA"
-                },
-                {
-                    "int_minimum": 13071,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flecha Paralisante: -1 PA"
-                },
-                {
-                    "int_minimum": 13057,
+                    "int_minimum": 32464,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + de alcance máximo",
@@ -152787,46 +152735,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha Punitiva: +2 de alcance máximo"
+                    "formatted": "Passinho do Caçador: +1 de alcance máximo"
                 },
                 {
-                    "int_minimum": 13078,
+                    "int_minimum": 32467,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + de alcance máximo",
-                        "id": 208,
+                        "name": ": - de relançamento",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha do Julgamento: +2 de alcance máximo"
+                    "formatted": "Baliza Tática: -1 de relançamento"
                 },
                 {
-                    "int_minimum": 13053,
+                    "int_minimum": 32465,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + de alcance máximo",
-                        "id": 208,
+                        "name": ": - de relançamento",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha de Expiação: +2 de alcance máximo"
+                    "formatted": "Tiros Distantes: -1 de relançamento"
                 },
                 {
-                    "int_minimum": 13074,
+                    "int_minimum": 32471,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + de alcance máximo",
-                        "id": 208,
+                        "name": ": + lançamento(s) por alvo",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flecha de Redenção: +2 de alcance máximo"
+                    "formatted": "Tiro Perfurante: +1 lançamento(s) por alvo"
+                },
+                {
+                    "int_minimum": 32474,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Baliza de Sobrevivência: -1 PA"
+                },
+                {
+                    "int_minimum": 32472,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Represália: -1 PA"
+                },
+                {
+                    "int_minimum": 32470,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + lançamento(s) por alvo",
+                        "id": 231,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Tiro de Retirada: +1 lançamento(s) por alvo"
+                },
+                {
+                    "int_minimum": 32473,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + lançamento(s) por turno",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Vendetta: +1 lançamento(s) por turno"
                 },
                 {
                     "int_minimum": 1,
@@ -296341,7 +296341,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/10246-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/10246-128.png"
             },
-            "description": "A Correia Inglesa tem efeitos incompreensíveis sobre o comportamento. Ela te faz sentir vontade de comer linguiça no café da manhã, de tomar chá às 17h e de comer quantidades enormes de peixe empanado com batatas fritas, além de te deixar com um senso de humor esquisito. Mas os seus hábitos também são meio bizarros, então... Sei lá.",
+            "description": "A Correia Inglesa afeta o nosso comportamento de um jeito bem estranho. Ela nos faz sentir vontade de comer linguiça no café da manhã, tomar chá às cinco da tarde e comer quantidades enormes de peixe empanado com batata frita, além de nos deixar com um senso de humor esquisito. Porém, como os seus próprios hábitos já são um tanto questionáveis...",
             "recipe": [
                 {
                     "item_ankama_id": 13988,
@@ -362036,7 +362036,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tormenta: -1 PA"
+                    "formatted": "Orage: -1 PA"
                 },
                 {
                     "int_minimum": 13718,
@@ -422812,6 +422812,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Promessa de Prata:\n• Quando o lançador estiver com menos de 20% de sua vida, ele será curado em 30% da vida e ganhará 20% de danos finais durante 1 turno no começo do próximo turno dele (1 vez por combate)."
+                },
+                {
+                    "int_minimum": 300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "300 Vitalidade"
                 }
             ],
             "is_weapon": false,
@@ -423282,8 +423295,8 @@
             ],
             "is_weapon": true,
             "pods": 10,
-            "critical_hit_probability": 0,
-            "critical_hit_bonus": 0,
+            "critical_hit_probability": 100,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -423333,7 +423346,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -423358,7 +423371,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Frio de Novemeiro:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula 1 vez).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3."
+                    "formatted": "Frio de Novemeiro:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PA durante 1 turno (acumula até 2 vezes).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3."
                 },
                 {
                     "int_minimum": 351,
@@ -423806,7 +423819,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Retidão de Fallanster:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em uma cruz de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno. O glifo desaparece no próximo turno ou ao ser movido."
+                    "formatted": "Retidão de Fallanster:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em um quadrado de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno. O glifo desaparece no próximo turno ou ao ser movido."
                 },
                 {
                     "int_minimum": 251,
@@ -424186,7 +424199,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rei Debaixo da Montanha:\n• Ao realizar ou sofrer uma tentativa de retirada de PA ou PM, o portador ganha 2% de danos corpo a corpo durante 2 turnos (acumula até 5 vezes)."
+                    "formatted": "Rei Debaixo da Montanha:\n• Ao realizar ou sofrer uma tentativa de retirada de PA ou PM, o portador ganha 2% de danos finais durante 2 turnos (acumula até 5 vezes).\n• Os efeitos não poderão ser acionados se o portador for, ao mesmo tempo, atacante e alvo."
                 },
                 {
                     "int_minimum": 351,
@@ -425076,7 +425089,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Mil Léguas:\n• O carregador ganha 2 PM nos turnos ímpares e perde 1 PM nos turnos pares."
+                    "formatted": "Mil Léguas:\n• O portador ganha 2 PM nos turnos ímpares."
                 },
                 {
                     "int_minimum": 501,
@@ -431127,7 +431140,7 @@
                     "formatted": "O portador ganha 550% de seu nível em escudo no primeiro turno, 200% no segundo e 100% no terceiro."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a neutro",
@@ -431137,10 +431150,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a neutro"
+                    "formatted": "40 de resistências a neutro"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a terra",
@@ -431150,10 +431163,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a terra"
+                    "formatted": "40 de resistências a terra"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a fogo",
@@ -431163,10 +431176,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a fogo"
+                    "formatted": "40 de resistências a fogo"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a água",
@@ -431176,10 +431189,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a água"
+                    "formatted": "40 de resistências a água"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a ar",
@@ -431189,7 +431202,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a ar"
+                    "formatted": "40 de resistências a ar"
                 },
                 {
                     "int_minimum": -100,
@@ -431278,7 +431291,7 @@
                     "formatted": "O portador ganha 150% de seu nível em escudo no primeiro turno, 450% no segundo e 150% no terceiro."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a neutro",
@@ -431288,10 +431301,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a neutro"
+                    "formatted": "40 de resistências a neutro"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a terra",
@@ -431301,10 +431314,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a terra"
+                    "formatted": "40 de resistências a terra"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a fogo",
@@ -431314,10 +431327,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a fogo"
+                    "formatted": "40 de resistências a fogo"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a água",
@@ -431327,10 +431340,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a água"
+                    "formatted": "40 de resistências a água"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a ar",
@@ -431340,7 +431353,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a ar"
+                    "formatted": "40 de resistências a ar"
                 },
                 {
                     "int_minimum": -100,
@@ -431429,7 +431442,7 @@
                     "formatted": "O portador ganha 100% de seu nível em escudo no primeiro turno, 200% no segundo e 350% no terceiro."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a neutro",
@@ -431439,10 +431452,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a neutro"
+                    "formatted": "40 de resistências a neutro"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a terra",
@@ -431452,10 +431465,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a terra"
+                    "formatted": "40 de resistências a terra"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a fogo",
@@ -431465,10 +431478,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a fogo"
+                    "formatted": "40 de resistências a fogo"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a água",
@@ -431478,10 +431491,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a água"
+                    "formatted": "40 de resistências a água"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a ar",
@@ -431491,7 +431504,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a ar"
+                    "formatted": "40 de resistências a ar"
                 },
                 {
                     "int_minimum": -100,
@@ -432837,7 +432850,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Cura 80% dos danos inimigos sofridos no primeiro turno, 30% no segundo e 10% no terceiro."
+                    "formatted": "Cura 60% dos danos inimigos sofridos no primeiro turno, 30% no segundo e 10% no terceiro."
                 },
                 {
                     "int_minimum": 200,
@@ -433895,7 +433908,7 @@
                     "formatted": "O portador ganha 200% de seu nível em escudo até o fim do combate no começo do primeiro turno de jogo de cada combatente inimigo que jogar antes dele."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a neutro",
@@ -433905,7 +433918,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a neutro"
+                    "formatted": "40 de resistências a neutro"
                 },
                 {
                     "int_minimum": -1000,
@@ -433921,7 +433934,7 @@
                     "formatted": "-1000 iniciativa"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a terra",
@@ -433931,10 +433944,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a terra"
+                    "formatted": "40 de resistências a terra"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a fogo",
@@ -433944,10 +433957,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a fogo"
+                    "formatted": "40 de resistências a fogo"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a água",
@@ -433957,10 +433970,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a água"
+                    "formatted": "40 de resistências a água"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "de resistência a ar",
@@ -433970,7 +433983,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 de resistências a ar"
+                    "formatted": "40 de resistências a ar"
                 }
             ],
             "is_weapon": false,
@@ -434043,20 +434056,20 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "O portador ganha 2% de danos corpo a corpo durante 3 turnos para cada combatente inimigo a até 3 células dele no começo de seu primeiro turno."
+                    "formatted": "O portador ganha 2% de danos corpo a corpo durante 3 turnos para cada combatente inimigo a até 3 células dele no começo e no fim de seu primeiro turno."
                 },
                 {
-                    "int_minimum": 30,
+                    "int_minimum": 6,
                     "int_maximum": 0,
                     "type": {
-                        "name": "de danos reenviados",
-                        "id": 249,
+                        "name": "% de danos de armas",
+                        "id": 41,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 de danos reenviados"
+                    "formatted": "6% de danos de armas"
                 },
                 {
                     "int_minimum": -30,
@@ -438170,7 +438183,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Guerra de Posição:\n• No final de cada turno, o portador retira 2 PM dos inimigos em contato com ele durante 1 turno (acumula 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PM até o final do combate (acumula até 5 vezes)."
+                    "formatted": "Guerra de Posição:\n• No final de cada turno, o portador retira 2 PM dos inimigos em contato com ele durante 1 turno (acumula 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PM até o fim do combate (acumula até 5 vezes)."
                 },
                 {
                     "int_minimum": 7,
@@ -438879,68 +438892,6 @@
                     "quantity": 2
                 }
             ],
-            "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "is_operand": false,
-                                "relation": "and",
-                                "children": [
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Agilidade",
-                                                "id": 36
-                                            }
-                                        },
-                                        "is_operand": true
-                                    },
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Sorte",
-                                                "id": 22
-                                            }
-                                        },
-                                        "is_operand": true
-                                    }
-                                ]
-                            },
-                            {
-                                "condition": {
-                                    "operator": ">",
-                                    "int_value": 299,
-                                    "element": {
-                                        "name": "Inteligência",
-                                        "id": 13
-                                    }
-                                },
-                                "is_operand": true
-                            }
-                        ]
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 299,
-                            "element": {
-                                "name": "Força",
-                                "id": 45
-                            }
-                        },
-                        "is_operand": true
-                    }
-                ]
-            },
             "effects": [
                 {
                     "int_minimum": 301,
@@ -439044,7 +438995,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Prova da Balança:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula 5 vezes)."
+                    "formatted": "Prova da Balança:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula até 4 vezes).\n• Os efeitos não podem ser acionados pelo portador."
                 },
                 {
                     "int_minimum": 8,
@@ -439281,7 +439232,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rio de Tinta:\n• A partir do 5º turno, o portador e suas invocações ganham até 64 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador inflige danos a um inimigo durante seu turno para cada um dos 4 primeiros turnos do combate:\n • Nenhum ataque: 16 de danos.\n • 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos."
+                    "formatted": "Rio de Tinta:\n• Ao final de cada turno nos 4 primeiros turnos, o portador e suas invocações ganham até 16 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador ataca um inimigo durante seu turno:\n • Nenhum ataque: 16 de danos.\n • 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos."
                 },
                 {
                     "int_minimum": 1,
@@ -490860,7 +490811,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Guarda Campestre:\n• O portador ganha 8 de potência durante 2 turnos para cada PM que ele utilizar.\n• Se ele não tiver usado PM durante seu turno, ele será curado em 10% da vida."
+                    "formatted": "Guarda Campestre:\n• O portador ganha 8 de potência durante 2 turnos para cada PM que ele utilizar.\n• Se ele não tiver usado PM durante seu turno, ele será curado em 8% da vida."
                 }
             ],
             "is_weapon": false,
@@ -491499,20 +491450,7 @@
                     "formatted": "6% de resistência à distância"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% de danos no corpo a corpo",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% de danos no corpo a corpo"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de danos à distância",
@@ -491522,7 +491460,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de danos à distância"
+                    "formatted": "-6% de danos à distância"
                 }
             ],
             "is_weapon": false,
@@ -491598,20 +491536,7 @@
                     "formatted": "6% de resistência ao corpo a corpo"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% de danos no corpo a corpo",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% de danos no corpo a corpo"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de danos à distância",
@@ -491621,7 +491546,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de danos à distância"
+                    "formatted": "-6% de danos à distância"
                 }
             ],
             "is_weapon": false,
@@ -491697,20 +491622,7 @@
                     "formatted": "6% de danos à distância"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% de resistência ao corpo a corpo",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% de resistência ao corpo a corpo"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de resistência à distância",
@@ -491720,7 +491632,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de resistência à distância"
+                    "formatted": "-6% de resistência à distância"
                 }
             ],
             "is_weapon": false,
@@ -491796,20 +491708,7 @@
                     "formatted": "6% de danos no corpo a corpo"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% de resistência ao corpo a corpo",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% de resistência ao corpo a corpo"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de resistência à distância",
@@ -491819,7 +491718,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de resistência à distância"
+                    "formatted": "-6% de resistência à distância"
                 }
             ],
             "is_weapon": false,
@@ -491895,7 +491794,7 @@
                     "formatted": "6% de danos de feitiços"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de resistência ao corpo a corpo",
@@ -491905,10 +491804,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de resistência ao corpo a corpo"
+                    "formatted": "-6% de resistência ao corpo a corpo"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de resistência à distância",
@@ -491918,7 +491817,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de resistência à distância"
+                    "formatted": "-6% de resistência à distância"
                 }
             ],
             "is_weapon": false,
@@ -491994,7 +491893,7 @@
                     "formatted": "6% de danos de armas"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de resistência ao corpo a corpo",
@@ -492004,10 +491903,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de resistência ao corpo a corpo"
+                    "formatted": "-3% de resistência ao corpo a corpo"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% de resistência à distância",
@@ -492017,7 +491916,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% de resistência à distância"
+                    "formatted": "-3% de resistência à distância"
                 }
             ],
             "is_weapon": false,
@@ -505640,7 +505539,7 @@
                     "formatted": "Eclosão Explosiva:\n• Quando uma invocação do portador é atacada, ele recebe 1% de danos finais por 2 turnos (acumula 10 vezes).\n• Se ela for eliminada por um inimigo, o portador inflige 10 danos em seu melhor elemento aos inimigos em um círculo de tamanho 2 ao redor dela."
                 },
                 {
-                    "int_minimum": 1,
+                    "int_minimum": 2,
                     "int_maximum": 0,
                     "type": {
                         "name": "Invocação",
@@ -505650,7 +505549,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "1 Invocação"
+                    "formatted": "2 Invocações"
                 }
             ],
             "is_weapon": false,
@@ -507585,7 +507484,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Reflexo Cegante:\n• No fim de cada turno, o portador retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula 1 vez)."
+                    "formatted": "Reflexo Cegante:\n• O portador reduz e reflete 75% dos danos iniciais do primeiro ataque aliado sofrido ao inimigo mais próximo dele em sua linha de visão (uma vez por turno).\n• No fim de cada turno, ele retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula até 1 vez)."
                 },
                 {
                     "int_minimum": 251,
@@ -507750,7 +507649,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -507775,7 +507674,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ordem do Trovão:\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula 1 vez).\n• Quando um combatente aliado morre, o portador aumenta os danos finais de todos os outros em 4% até o fim do combate (acumula até 2 vezes).\n• Quando o portador inflige danos de armas, ele ganha 25 de danos de empurrão durante 2 turnos.\n• Os efeitos são retirados quando o portador morre."
+                    "formatted": "Ordem do Trovão:\n• No fim de cada turno, o portador concede 1 PM e 40 danos de empurrão durante 1 turno a todos os aliados em sua linha de visão (acumula até 1 vez).\n• Quando um combatente aliado morre, o portador aumenta os danos finais de todos os outros em 4% até o fim do combate (acumula até 2 vezes).\n• Os efeitos são retirados quando o portador morre."
                 },
                 {
                     "int_minimum": 401,
@@ -507921,7 +507820,7 @@
                     "formatted": "47 a 52 de danos do melhor elemento"
                 },
                 {
-                    "int_minimum": 2,
+                    "int_minimum": 3,
                     "int_maximum": 0,
                     "type": {
                         "name": "Empurra por célula",
@@ -507931,7 +507830,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Empurra por 2 células"
+                    "formatted": "Empurra por 3 células"
                 }
             ],
             "is_weapon": true,
@@ -508012,7 +507911,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Julgamento de Tanatena:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. Os efeitos são reduzidos pela metade se for uma invocação."
+                    "formatted": "Julgamento de Tanatena:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. As curas são de 5% da vida dele se for uma invocação."
                 },
                 {
                     "int_minimum": 81,
@@ -508255,7 +508154,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 12728,
@@ -508275,7 +508174,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Amor de Helsefina:\n• Ao aplicar escudo ou infligir danos corpo a corpo, o portador cura 8% da vida dos aliados a até 2 células ao redor de si (uma vez por turno)."
+                    "formatted": "Amor de Helsefina:\n• Ao aplicar escudo ou infligir danos corpo a corpo, o portador cura 8% da vida dos aliados a até 3 células ao redor de si (uma vez por turno)."
                 },
                 {
                     "int_minimum": 451,
@@ -508694,7 +508593,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Clarividência de Meriana:\n• Quando o portador inflige danos elementares, ele ganha características de acordo com o elemento durante 2 turnos (pode ser acumulado 6 vezes, repartido entre os efeitos):\n • Terra: 10 de fuga\n • Fogo: 10 de bloqueio\n • Água: 10 de retirada de PM\n• Ar: 10 de retirada de PA"
+                    "formatted": "Clarividência de Meriana:\n• Quando o portador inflige danos elementares, ele ganha Retirada de acordo com o elemento durante 2 turnos (acumula até 8 vezes, repartido entre os efeitos):\n • Terra e Água: 5 de retirada de PM\n• Fogo e Ar: 5 de retirada de PA"
                 },
                 {
                     "int_minimum": 151,
@@ -550338,6 +550237,1425 @@
             "parent_set": {
                 "id": 1087,
                 "name": "Vulkonjunto"
+            }
+        },
+        {
+            "ankama_id": 34327,
+            "name": "Elmo dos Guardiões do Santuário",
+            "type": {
+                "name": "Chapéu",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16912-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16912-128.png"
+            },
+            "description": "Uma lenda antiga de Valonia narra as aventuras de um cavaleiro teimoso cuja cabeça era dura que nem rocha. Será que foi em referência a essa história que Beladona utilizou estátuas para proteger o santuário dela? Ou talvez ela só quisesse que seus lacaios de armadura fizessem parte da decoração... De qualquer jeito, portar um elmo enorme e abrasivo é a melhor forma de ficar com a cabeça lisa feito pedra.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27401,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 27403,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34324,
+                    "item_subtype": "resources",
+                    "quantity": 8
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 a 500 Vitalidade"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Potência",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 a 80 Potência"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sabedoria",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 50 Sabedoria"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecção",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 Prospecção"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "de cura",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 de curas"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "de dano de terra",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 de danos de terra"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "de dano de ar",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 de danos de ar"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Esquiva PA",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12 Esquiva PA"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% resistência ao ar",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15% resistência ao ar"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% de crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% de crítico"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "de resistência a crítico",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 de resistências a crítico"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Conjunto do Santuário dos Jardins Eternos"
+            }
+        },
+        {
+            "ankama_id": 34328,
+            "name": "Grevas Escarlates",
+            "type": {
+                "name": "Botas",
+                "id": 45
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/11390-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/11390-128.png"
+            },
+            "description": "Estas perneiras de metal inspiradas na armadura de Ephedra podem ser usadas por todos, até por quem sente as pernas pesadas. Inclusive, elas foram concebidas para estimular a circulação sanguínea, principalmente a alheia. Então, sim, de tanto pisar nas viúvas e nos órfãos, você vai acabar ficando com um peso na consciência, mas, para isso, é preciso ter uma.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27398,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27400,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34325,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 26870,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 a 450 Vitalidade"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Potência",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 a 80 Potência"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Sabedoria",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 40 Sabedoria"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecção",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 Prospecção"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "de cura",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 de curas"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "de dano de água",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 de danos de água"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "de dano de fogo",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 de danos de fogo"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Esquiva PM",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12 Esquiva PM"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% resistência à terra",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15% resistência à terra"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% de crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% de crítico"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "de resistência a crítico",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 de resistências a crítico"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "PM",
+                        "id": 8,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 PM"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Conjunto do Santuário dos Jardins Eternos"
+            }
+        },
+        {
+            "ankama_id": 34329,
+            "name": "Aperto Vegetal",
+            "type": {
+                "name": "Amuleto",
+                "id": 33
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1343-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1343-128.png"
+            },
+            "description": "Portada no pescoço, esta bela flor do mal pode estrangular você se você ficar plantado sem fazer nada. Provavelmente por ter dado uma estufada. Então trate de sair correndo por aí, como sempre. É correr para o abraço.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27399,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27397,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34326,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27518,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 16460,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 a 450 Vitalidade"
+                },
+                {
+                    "int_minimum": 51,
+                    "int_maximum": 70,
+                    "type": {
+                        "name": "Potência",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "51 a 70 Potência"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Sabedoria",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 40 Sabedoria"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecção",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 Prospecção"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "de cura",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 de curas"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "de dano de água",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 13 de danos de água"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "de dano de fogo",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 13 de danos de fogo"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "de dano de terra",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 13 de danos de terra"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "de dano de ar",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 13 de danos de ar"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% de crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% de crítico"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "de resistência a crítico",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 de resistências a crítico"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "PA",
+                        "id": 12,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 PA"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% resistência à água",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15% resistência à água"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Conjunto do Santuário dos Jardins Eternos"
+            }
+        },
+        {
+            "ankama_id": 34330,
+            "name": "Rosto de Morestade",
+            "type": {
+                "name": "Chapéu",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16913-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16913-128.png"
+            },
+            "description": "O portador deste chapéu inala doses fracas de peçonha regularmente. Essa exposição prolongada aos poucos vai lhe oferecendo uma resistência natural a todo tipo de veneno.",
+            "recipe": [
+                {
+                    "item_ankama_id": 17983,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17974,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34337,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17864,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 a 500 Vitalidade"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Sorte",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 a 80 Sorte"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sabedoria",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 50 Sabedoria"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% de crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 5% de crítico"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Prospecção",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 Prospecção"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "de dano de água",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 de danos de água"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "de dano críticos",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 de danos críticos"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Bloqueio",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 Bloqueio"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Invocação",
+                        "id": 28,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 Invocação"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% resistência à água",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10% resistência à água"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% resistência ao ar",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 a 7% resistência ao ar"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "iniciativa",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 iniciativa"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "de fuga",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 de fuga"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Conjunto da Fenda"
+            }
+        },
+        {
+            "ankama_id": 34331,
+            "name": "Lançapinça de Carangnante",
+            "type": {
+                "name": "Lança",
+                "id": 111
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183018-128.png"
+            },
+            "description": "Esta lança dispõe de uma pinça para cortar as tripas dos inimigos que trespassou. Como se uma lança normal não desse conta... ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17971,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17988,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34338,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 a 500 Vitalidade"
+                },
+                {
+                    "int_minimum": 71,
+                    "int_maximum": 90,
+                    "type": {
+                        "name": "Sorte",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "71 a 90 Sorte"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sabedoria",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 50 Sabedoria"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% de crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 5% de crítico"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecção",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 Prospecção"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "de dano de água",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12 de danos de água"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "de dano críticos",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 de danos críticos"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Bloqueio",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 Bloqueio"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Retirada de PM",
+                        "id": 50,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12 Retirada de PM"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% resistência ao fogo",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 a 7% resistência ao fogo"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% resistência à água",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10% resistência à água"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "iniciativa",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 iniciativa"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "de esquiva PA",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 de esquiva PA"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "de danos de água",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 13 de danos de água"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "de danos de água",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 13 de danos de água"
+                },
+                {
+                    "int_minimum": 27,
+                    "int_maximum": 33,
+                    "type": {
+                        "name": "de roubo de água",
+                        "id": 203,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "27 a 33 de roubo de água"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Atrai por célula",
+                        "id": 255,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Atrai por 1 célula"
+                }
+            ],
+            "is_weapon": true,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Conjunto da Fenda"
+            },
+            "critical_hit_probability": 10,
+            "critical_hit_bonus": 3,
+            "max_cast_per_turn": 1,
+            "ap_cost": 5,
+            "range": {
+                "min": 1,
+                "max": 1
+            }
+        },
+        {
+            "ankama_id": 34332,
+            "name": "Dorsal de Willorca",
+            "type": {
+                "name": "Capa",
+                "id": 43
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17698-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17698-128.png"
+            },
+            "description": "Nas profundezas da fenda, é muito escuro para se orientar. Esta capa dotada de uma barbatana vibrante emite ondas para proporcionar uma ecolocalização mais precisa que qualquer olho. ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17978,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17981,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34339,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 19975,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalidade",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 a 500 Vitalidade"
+                },
+                {
+                    "int_minimum": 81,
+                    "int_maximum": 100,
+                    "type": {
+                        "name": "Sorte",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "81 a 100 Sorte"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sabedoria",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 50 Sabedoria"
+                },
+                {
+                    "int_minimum": 4,
+                    "int_maximum": 6,
+                    "type": {
+                        "name": "% de crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "4 a 6% de crítico"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospecção",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 Prospecção"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "de dano de água",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 de danos de água"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "de dano críticos",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 25 de danos críticos"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Bloqueio",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 Bloqueio"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "de cura",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12 de curas"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% resistência à terra",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 a 7% resistência à terra"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% resistência à água",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10% resistência à água"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "iniciativa",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 iniciativa"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "de esquiva PM",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 de esquiva PM"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Conjunto da Fenda"
             }
         }
     ]

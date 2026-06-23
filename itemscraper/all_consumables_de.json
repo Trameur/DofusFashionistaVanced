@@ -2974,8 +2974,8 @@
             },
             "level": 50,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12139-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/23121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png"
             },
             "description": "Dieser magische Trank ist als einziger stark genug, ineinander verknotete Lederschlüpfer des Chafer-Offiziers zu verzaubern. Das spricht Bände über die magische Macht, die diesem Trank innewohnt.",
             "pods": 10
@@ -40005,466 +40005,6 @@
             "pods": 2
         },
         {
-            "ankama_id": 15248,
-            "name": "Unbedeutende Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Das klingt hohl, aber es gibt eine geringe Wahrscheinlichkeit, dass sie etwas Interessantes wie einen Backenzahn, Haare oder einen haarigen Backenzahn enthält.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 400,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 bis 400 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15260,
-            "name": "Verrostete Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Schwieriger zu öffnen, als zu schließen, aber einfacher zu vergessen, als zu finden.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 401,
-                    "int_maximum": 800,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "401 bis 800 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15261,
-            "name": "Kuriose Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Da kann alles Mögliche drin sein, das heißt, alles ist möglich.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 601,
-                    "int_maximum": 1200,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "601 bis 1200 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15262,
-            "name": "Überraschungstruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Es sieht so aus, als enthalte sie zumindest eine Überraschung. Gut oder böse.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 801,
-                    "int_maximum": 1600,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "801 bis 1600 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15264,
-            "name": "Stabile Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Diese Truhe ist stark genug, um auf die Person geworfen zu werden, die sie euch geschenkt hat, falls euch der Inhalt nicht gefällt. Undank ist der Welten Lohn!",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 1001,
-                    "int_maximum": 2000,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1001 bis 2000 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15265,
-            "name": "Schwere Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Da wird euch beim Entdecken des Inhalts dieser schweren Truhe ganz leicht ums Herz.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 1201,
-                    "int_maximum": 2400,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1201 bis 2400 Kamas"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 15266,
-            "name": "Glitzernde Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "Wenn man zwei Glitzernde Truhen aneinander schlägt, dann sprühen Funken und mit denen könnt ihr ein Feuer machen, um vor Wut zu glühen, weil euch der Inhalt so sauer macht.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 1401,
-                    "int_maximum": 2800,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1401 bis 2800 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15267,
-            "name": "Imposante Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Auch wenn ihr es niemals schafft, diese Truhe zu öffnen, seht ihr im Besitz dieser Truhe fast wie ein Schatzjäger aus.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 1601,
-                    "int_maximum": 3200,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1601 bis 3200 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15268,
-            "name": "Beeindruckende Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "Wenn ihr euch in dieser Truhe versteckt, könnt ihr damit Eindruck schinden.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 1801,
-                    "int_maximum": 3600,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1801 bis 3600 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15269,
-            "name": "Mächtige Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Diese Truhe ist riesig. Aber nicht groß genug, um alle eure Fehltritte aus der Jugend hineinzustopfen.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                },
-                {
-                    "int_minimum": 2001,
-                    "int_maximum": 4000,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "2001 bis 4000 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15270,
-            "name": "Lotterie-Truhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Diese Truhe enthält eine Truhe, die eine Truhe enthält, die eine Truhe...\nNoch so eine dieser schönen Erfindungen des berühmten Imre Kursiv.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 15312,
             "name": "Emote-Schriftrolle: \"Reicher als reich\"",
             "type": {
@@ -55432,8 +54972,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73036-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73036-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png"
             },
             "description": "Mit dieser Schriftrolle kannst du den Todesstoß des Gottes Iop lernen.",
             "effects": [
@@ -57024,8 +56564,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73026-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73026-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png"
             },
             "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß der Göttin Eniripsa erlernen.",
             "effects": [
@@ -93691,306 +93231,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 29502,
-            "name": "Unbedeutende Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Das klingt hohl, aber es gibt eine geringe Wahrscheinlichkeit, dass sie etwas Interessantes wie einen Backenzahn, Haare oder einen haarigen Backenzahn enthält.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29503,
-            "name": "Verrostete Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Schwieriger zu öffnen, als zu schließen, aber einfacher zu vergessen, als zu finden.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29504,
-            "name": "Kuriose Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Da kann alles Mögliche drin sein, das heißt, alles ist möglich.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29505,
-            "name": "Überraschungs-Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Es sieht so aus, als enthalte sie zumindest eine Überraschung. Gut oder böse.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29506,
-            "name": "Stabile Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Diese Truhe ist stark genug, um auf die Person geworfen zu werden, die sie euch geschenkt hat, falls euch der Inhalt nicht gefällt. Undank ist der Welten Lohn!",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29507,
-            "name": "Schwere Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Da wird euch beim Entdecken des Inhalts dieser schweren Truhe ganz leicht ums Herz.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 29508,
-            "name": "Glitzernde Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "Wenn man zwei Glitzernde Truhen aneinander schlägt, dann sprühen Funken und mit denen könnt ihr ein Feuer machen, um vor Wut zu glühen, weil euch der Inhalt so sauer macht.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29509,
-            "name": "Imposante Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Auch wenn ihr es niemals schafft, diese Truhe zu öffnen, seht ihr im Besitz dieser Truhe fast wie ein Schatzjäger aus.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29510,
-            "name": "Beeindruckende Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "Wenn ihr euch in dieser Truhe versteckt, könnt ihr damit Eindruck schinden.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29511,
-            "name": "Mächtige Lotterietruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Diese Truhe ist riesig. Aber nicht groß genug, um alle eure Fehltritte aus der Jugend hineinzustopfen.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 29512,
             "name": "Schriftrolle der Beherrschung der Beschwörungen",
             "type": {
@@ -109130,156 +108370,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 31775,
-            "name": "Enutrosor-Schatztruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Diese Truhe ist aus einem Riss herausgefallen, der in eine göttliche Dimension führt.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31776,
-            "name": "Srambad-Schatztruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Diese Truhe ist aus einem Riss herausgefallen, der in eine göttliche Dimension führt.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31777,
-            "name": "Ecaflipus-Schatztruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Diese Truhe ist aus einem Riss herausgefallen, der in eine göttliche Dimension führt.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31778,
-            "name": "Xélorium-Schatztruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Diese Truhe ist aus einem Riss herausgefallen, der in eine göttliche Dimension führt.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31779,
-            "name": "Osavora-Schatztruhe",
-            "type": {
-                "name": "Schatztruhe",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Diese Truhe ist aus einem Riss herausgefallen, der in eine göttliche Dimension führt.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Was ist da drin?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Was ist da drin?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 31824,
             "name": "Erfinder-Aura",
             "type": {
@@ -109980,7 +109070,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erhalte x1"
+                    "formatted": "Erhalte x1 Übermächtige Belagerung"
                 },
                 {
                     "int_minimum": 0,
@@ -112256,7 +111346,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erhalte x1 Elementarzyklus"
+                    "formatted": "Erhalte x1 Quadrelementarströmung"
                 },
                 {
                     "int_minimum": 1,
@@ -114910,8 +114000,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Dieses Diplom verleiht den Titel „Ursprünglicher Freund“.",
             "effects": [
@@ -114953,8 +114043,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Dieses Diplom verleiht den Titel „Verdammt guter Kamerad“.",
             "effects": [
@@ -115830,8 +114920,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
             "description": "Dieses Diplom verleiht den Titel „Ankamaskottchen“.",
             "effects": [
@@ -126902,7 +125992,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erhalte x10"
+                    "formatted": "Erhalte x10 Vergeltungsmaßnahmen"
                 }
             ],
             "pods": 10
@@ -127048,7 +126138,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erhalte x1000"
+                    "formatted": "Erhalte x1000 Blumenglyphe"
                 },
                 {
                     "int_minimum": 0,
@@ -127067,8 +126157,754 @@
             "pods": 10
         },
         {
+            "ankama_id": 34284,
+            "name": "Truhe des Söldners (1–20)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14112-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14112-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34285,
+            "name": "Truhe des Söldners (21–40)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 40,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14113-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14113-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34286,
+            "name": "Truhe des Söldners (41–60)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14114-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14114-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34287,
+            "name": "Truhe des Söldners (61–80)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 80,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14115-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14115-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34288,
+            "name": "Truhe des Söldners (81–100)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 100,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14116-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14116-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34289,
+            "name": "Truhe des Söldners (101–120)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 120,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14118-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14118-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34290,
+            "name": "Truhe des Söldners (121–140)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 140,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14119-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14119-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34291,
+            "name": "Truhe des Söldners (141–160)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 160,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14120-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14120-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34292,
+            "name": "Truhe des Söldners (161–180)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 180,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14121-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34293,
+            "name": "Truhe des Söldners (181–199)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 199,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14122-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14122-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34294,
+            "name": "Truhe des Söldners (200)",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14123-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14123-128.png"
+            },
+            "description": "Diese Truhe hast du als Belohnung für die Tapferkeit erhalten, die du bei deiner Hilfe für Abenteurer in Not bewiesen hast.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ermöglicht eine Auswahl",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ermöglicht eine Auswahl"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34297,
+            "name": "Antitrool-Trank von Madame Mimagie",
+            "type": {
+                "name": "Trank",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12816-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12816-128.png"
+            },
+            "description": "Ein wirksames Mittel gegen die ungewollten Veränderungen, die von als Abenteurer getarnten Trools verursacht werden. Seine Wirkung ist dauerhaft. Wenn ihr jedoch eure Meinung ändert oder der Ansicht seid, dass Orange einfach die beste Farbe überhaupt ist, könnt ihr Madame Mimagie bitten, die Macht des Trankes aufzuheben. Begebt euch zum Jahrmarkt des Trools, wenn ihr sie darauf ansprechen wollt.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34304,
+            "name": "Erste Seite des Manuskripts",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Ihr habt diese Seite im Monochrom-Werk gefunden.",
+            "effects": [
+                {
+                    "int_minimum": 745,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34305,
+            "name": "Zweite Seite des Manuskripts",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Ihr habt diese Seite im Areal der Beschützer gefunden.",
+            "effects": [
+                {
+                    "int_minimum": 746,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34306,
+            "name": "Dritte Seite des Manuskripts",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Ihr habt diese Seite in Belladonnas Reservat gefunden.",
+            "effects": [
+                {
+                    "int_minimum": 747,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34307,
+            "name": "Vierte Seite des Manuskripts",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Ihr habt diese Seite in Ephedras Hof gefunden.",
+            "effects": [
+                {
+                    "int_minimum": 748,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34308,
+            "name": "Fünfte Seite des Manuskripts",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Ihr habt diese Seite in der Schlossallee gefunden.",
+            "effects": [
+                {
+                    "int_minimum": 749,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34309,
+            "name": "Manuskript des Heiligtums der Ewigen Gärten",
+            "type": {
+                "name": "Schriftstück",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25008-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25008-128.png"
+            },
+            "description": "In diesem Buch, geschrieben von Belladonna, werden die verschiedenen Seiten gesammelt, die in den Ewigen Gärten zu finden sind. Es scheint sehr umfangreich zu sein, aber das dient nur der Einschüchterung.",
+            "effects": [
+                {
+                    "int_minimum": 744,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34311,
-            "name": "Peps-Standarte",
+            "name": "Peps unterstützen",
             "type": {
                 "name": "Emote-Schriftrolle",
                 "id": 46
@@ -127078,7 +126914,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25279-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25279-128.png"
             },
-            "description": "Mit dieser Schriftrolle könnt ihr das Emote „Peps-Standarte“ erlernen.",
+            "description": "Mit dieser Schriftrolle könnt ihr das Emote „Peps unterstützen“ erlernen.",
             "effects": [
                 {
                     "int_minimum": 349,
@@ -127111,7 +126947,7 @@
         },
         {
             "ankama_id": 34312,
-            "name": "JL-Standarte",
+            "name": "Joblife unterstützen",
             "type": {
                 "name": "Emote-Schriftrolle",
                 "id": 46
@@ -127121,7 +126957,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25280-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25280-128.png"
             },
-            "description": "Mit dieser Schriftrolle könnt ihr das Emote „JL-Standarte“ erlernen.",
+            "description": "Mit dieser Schriftrolle könnt ihr das Emote „Joblife unterstützen“ erlernen.",
             "effects": [
                 {
                     "int_minimum": 348,
@@ -127498,7 +127334,7 @@
         },
         {
             "ankama_id": 34333,
-            "name": "[!] Siffloter",
+            "name": "Vor sich hin pfeifen",
             "type": {
                 "name": "Emote-Schriftrolle",
                 "id": 46
@@ -127508,7 +127344,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25278-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25278-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Siffloter.",
+            "description": "Mit dieser Schriftrolle könnt ihr das Emote „Vor sich hin pfeifen“ erlernen.",
             "effects": [
                 {
                     "int_minimum": 350,
@@ -127535,6 +127371,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34342,
+            "name": "Schatztruhe des Heiligtums",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89067-128.png"
+            },
+            "description": "Diese Schatztruhe ist die ultimative Belohnung für unerschütterliche Koordination. Wer großes Glück hat, findet darin Ausrüstung von legendärer Seltenheit.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34344,
+            "name": "Majestätische Schatztruhe des Heiligtums",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89068-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89068-128.png"
+            },
+            "description": "Diese Schatztruhe ist die ultimative Belohnung für unerschütterliche Koordination. Wer großes Glück hat, findet darin Ausrüstung von legendärer Seltenheit.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
                 }
             ],
             "pods": 1
@@ -127815,6 +127737,916 @@
             "pods": 1
         },
         {
+            "ankama_id": 34353,
+            "name": "Schatztruhe des Abgrunds",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89069-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89069-128.png"
+            },
+            "description": "Diese Schatztruhe belohnt Abenteurerinnen und Abenteurern, die sich in Gigalodons Abgrund gewagt und mit heiler Haut wieder herausgekommen sind. Sie enthält gewöhnliche und seltene Ressourcen des Raids.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34354,
+            "name": "Majestätische Schatztruhe des Abgrunds",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89070-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89070-128.png"
+            },
+            "description": "Diese Schatztruhe belohnt Abenteurerinnen und Abenteurern, die sich in Gigalodons Abgrund gewagt und mit heiler Haut wieder herausgekommen sind. Sie enthält seltene Ressourcen und Ausrüstung des Raids.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34356,
+            "name": "Fantastische vergängliche Panzanker-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78279-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png"
+            },
+            "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34357,
+            "name": "Fantastische vergängliche Looth-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png"
+            },
+            "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34358,
+            "name": "Fantastische vergängliche Kratzeisen-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78291-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png"
+            },
+            "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34359,
+            "name": "Fantastische temporäre Panzanker-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78278-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png"
+            },
+            "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34360,
+            "name": "Fantastische temporäre Looth-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78284-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png"
+            },
+            "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34361,
+            "name": "Fantastische temporäre Kratzeisen-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78290-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png"
+            },
+            "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34362,
+            "name": "Einfache vergängliche Panzanker-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78275-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png"
+            },
+            "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34363,
+            "name": "Einfache vergängliche Looth-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png"
+            },
+            "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34364,
+            "name": "Einfache vergängliche Kratzeisen-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78287-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png"
+            },
+            "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34365,
+            "name": "Einfache temporäre Panzanker-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78274-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png"
+            },
+            "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34366,
+            "name": "Einfache temporäre Looth-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78280-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png"
+            },
+            "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34367,
+            "name": "Einfache temporäre Kratzeisen-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78286-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png"
+            },
+            "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34368,
+            "name": "Hübsche vergängliche Panzanker-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78277-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png"
+            },
+            "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34369,
+            "name": "Hübsche vergängliche Looth-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78283-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png"
+            },
+            "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34370,
+            "name": "Hübsche vergängliche Kratzeisen-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78289-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png"
+            },
+            "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34371,
+            "name": "Hübsche temporäre Panzanker-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78276-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png"
+            },
+            "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34372,
+            "name": "Hübsche temporäre Looth-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png"
+            },
+            "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34373,
+            "name": "Hübsche temporäre Kratzeisen-Tätowierung",
+            "type": {
+                "name": "Tätowierung vom Jahrmarkt des Trools",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78288-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png"
+            },
+            "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Mindestens Stufe {0}",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34374,
+            "name": "Diplom „Eiskratzer“",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Dieses Diplom verleiht den Titel „Eiskratzer“.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Eiskratzer"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34375,
+            "name": "Diplom „Frigosts Bollwerk“",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Dieses Diplom verleiht den Titel „Frigosts Bollwerk“.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Frigosts Bollwerk"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34390,
             "name": "Solary-Diplom",
             "type": {
@@ -127969,6 +128801,557 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Titel: What's the color?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34418,
+            "name": "Giftiger Schatz",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89071-128.png"
+            },
+            "description": "Enthält diese Truhe aus den Ewigen Gärten etwa todbringende Erinnerungen? Wenn ihr es wissen wollt, bleibt euch nichts anderes übrig, als sie zu öffnen.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34419,
+            "name": "Unergründlicher Schatz",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89073-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89073-128.png"
+            },
+            "description": "Enthält diese Schatztruhe aus Gigalodons Abgrund etwa unergründliche Erinnerungen? Wenn ihr es wissen wollt, bleibt euch nichts anderes übrig, als sie zu öffnen.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34420,
+            "name": "Sommerlicher Schatz",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Enthält diese Schatztruhe aus den Tiefen von Vulkania etwa Urlaubserinnerungen? Wenn ihr es wissen wollt, bleibt euch nichts anderes übrig, als sie zu öffnen.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34427,
+            "name": "Schmutziges Vermächtnis",
+            "type": {
+                "name": "Gebrauchsgegenstände",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Euch mangelt es an Appetit? Dann verspeist doch diesen Salzblock. Danach werdet ihr einen ganzen Fischschwarm verschlingen wollen! Aber nicht vergessen: Auch Meereszähne wollen geputzt werden, sonst wird euer Mundgeruch bald dem Aroma einer Algenpest ähneln.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Auf/Absteigen von einem Reittier",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Auf/Absteigen von einem Reittier"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34429,
+            "name": "Blumiges Vermächtnis",
+            "type": {
+                "name": "Gebrauchsgegenstände",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/35638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/35638-128.png"
+            },
+            "description": "Der obere Teil der Tollkirsche soll mit Härchen bedeckt sein, die einen höchst unangenehmen Geruch verströmen. Ihr zweifelt ein wenig an seinen Behauptungen? Als ihr an der Blume riecht, seid ihr euch sicher: Ihr werdet euer Näschen in nächster Zeit etwas höher tragen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Auf/Absteigen von einem Reittier",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Auf/Absteigen von einem Reittier"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34460,
+            "name": "Vermächtnis des Weichschockers",
+            "type": {
+                "name": "Gebrauchsgegenstände",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/111005-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/111005-128.png"
+            },
+            "description": "Wer auf Eiern geht, erwartet nicht unbedingt, dass diese zurückschlagen. Die erstaunten Touristen, die durch die Wälder von Vulkania spazieren, müssen das zu ihrem Leidwesen oft auf die harte Tour lernen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Auf/Absteigen von einem Reittier",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Auf/Absteigen von einem Reittier"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34462,
+            "name": "Vergessener Schatz",
+            "type": {
+                "name": "Schatztruhe",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Enthält diese Schatztruhe von einem geschichtsträchtigen Ort etwa verdrängte Erinnerungen? Wenn ihr es wissen wollt, bleibt euch nichts anderes übrig, als sie zu öffnen.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34468,
+            "name": "Schuppiges Vermächtnis",
+            "type": {
+                "name": "Gebrauchsgegenstände",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Ocker-Dragooner, Dickbäuchiger Godron oder Träumerischer Terrak: Terrakourial hat unterschiedlichste Nachkommen hervorgebracht.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Auf/Absteigen von einem Reittier",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Auf/Absteigen von einem Reittier"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34473,
+            "name": "Schuppiges Vermächtnis",
+            "type": {
+                "name": "Gebrauchsgegenstände",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Ocker-Dragooner, Dickbäuchiger Godron oder Träumerischer Terrak: Terrakourial hat unterschiedlichste Nachkommen hervorgebracht.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Auf/Absteigen von einem Reittier",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Auf/Absteigen von einem Reittier"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34474,
+            "name": "Schuppiges Vermächtnis",
+            "type": {
+                "name": "Gebrauchsgegenstände",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Ocker-Dragooner, Dickbäuchiger Godron oder Träumerischer Terrak: Terrakourial hat unterschiedlichste Nachkommen hervorgebracht.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Auf/Absteigen von einem Reittier",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Auf/Absteigen von einem Reittier"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Was ist da drin?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Was ist da drin?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34495,
+            "name": "Diplom: „Meister der Warteschlangen“",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Dieses Diplom verleiht den Titel „Meister der Warteschlangen“.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Meister der Warteschlangen"
                 },
                 {
                     "int_minimum": 0,

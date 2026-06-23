@@ -50,6 +50,62 @@
             "pods": 1
         },
         {
+            "ankama_id": 1710,
+            "name": "Lua crescente",
+            "type": {
+                "name": "Item diverso de aparência",
+                "id": 252
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1019-128.png"
+            },
+            "description": "As origens deste amuleto, na forma de uma lua crescente, são desconhecidas para quase todo mundo... Quem sabe os segredos que esta joia guarda...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Filho da Lua"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 1907,
             "name": "Orelhas de Coelha",
             "type": {
@@ -1456,8 +1512,8 @@
             "ankama_id": 8067,
             "name": "Botas do Campeão",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1585,8 +1641,8 @@
             "ankama_id": 8070,
             "name": "Cinto do Campeão",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -8000,8 +8056,8 @@
             "ankama_id": 10904,
             "name": "Grozillamuleto",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -10089,8 +10145,8 @@
             "ankama_id": 10984,
             "name": "Amuleto do YeCh'Ti",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -10833,8 +10889,8 @@
             "ankama_id": 11191,
             "name": "Botas do Campeão dos Calabouços",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11577,8 +11633,8 @@
             "ankama_id": 11808,
             "name": "Colar de pérolas das ilhas",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11732,8 +11788,8 @@
             "ankama_id": 11812,
             "name": "Anel Elia",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12160,8 +12216,8 @@
             "ankama_id": 12273,
             "name": "Cinto de Glurdorak",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12835,8 +12891,8 @@
             "ankama_id": 12528,
             "name": "Amuleto do Mister Amakna",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12891,8 +12947,8 @@
             "ankama_id": 12529,
             "name": "Amuleto da Miss Amakna",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12947,8 +13003,8 @@
             "ankama_id": 12530,
             "name": "Amuleto do Mister Mundo dos Doze",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13003,8 +13059,8 @@
             "ankama_id": 12531,
             "name": "Amuleto da Miss Mundo dos Doze",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13661,8 +13717,8 @@
             "ankama_id": 12776,
             "name": "Amuleto do Bibliotecário",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13834,8 +13890,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82056-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82056-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82593-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82593-128.png"
             },
             "description": "Você é um dos menores mamíferos do mundo que sobreviveu após ter testemunhado a extinção de Grozilla e Grasmera, além do apocalipse que se seguiu. Com um pouco de sorte, vai seguir o exemplo dos seus ancestrais distantes e evoluir para uma espécie superior. É bom mesmo, porque você precisa evoluir.",
             "effects": [
@@ -14062,8 +14118,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82059-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82059-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82594-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82594-128.png"
             },
             "description": "Um aviso às mentes mais poluídas: a rodela flatosa é nada mais, nada menos que um escudo. Pode até não cheirar muito bem, mas é um escudo.",
             "effects": [
@@ -14689,8 +14745,8 @@
             "ankama_id": 13252,
             "name": "Anel Dysseia",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14745,8 +14801,8 @@
             "ankama_id": 13271,
             "name": "Amuleto da Mini-Miss Amakna",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14801,8 +14857,8 @@
             "ankama_id": 13272,
             "name": "Amuleto do Mini-Mister Amakna",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15630,7 +15686,7 @@
                 "name": "Arma de aparência",
                 "id": 34
             },
-            "level": 10,
+            "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/6720-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/6720-128.png"
@@ -16014,8 +16070,8 @@
             "ankama_id": 14300,
             "name": "Gugolmuleto",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -22228,8 +22284,8 @@
             "ankama_id": 15964,
             "name": "Cinturão decodificado",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -24103,8 +24159,8 @@
             "ankama_id": 17386,
             "name": "Tamanco Tingente",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -37967,8 +38023,8 @@
             "ankama_id": 21181,
             "name": "Anel Musical",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52876,8 +52932,8 @@
             "ankama_id": 25000,
             "name": "Maufiamuleto",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52932,8 +52988,8 @@
             "ankama_id": 25001,
             "name": "Waufiamuleto",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52988,8 +53044,8 @@
             "ankama_id": 25010,
             "name": "Paskwanel de Chocolate",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53044,8 +53100,8 @@
             "ankama_id": 25011,
             "name": "Lepowanel de Chocolate",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53100,8 +53156,8 @@
             "ankama_id": 25012,
             "name": "Ovanel de Chocolate",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53156,8 +53212,8 @@
             "ankama_id": 25013,
             "name": "Dofanel de Chocolate",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55286,8 +55342,8 @@
             "ankama_id": 25240,
             "name": "Anel Coxalho",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55342,8 +55398,8 @@
             "ankama_id": 25241,
             "name": "Anel Ectracústico",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58517,8 +58573,8 @@
             "ankama_id": 25955,
             "name": "Anormanel",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -60433,8 +60489,8 @@
             "ankama_id": 26242,
             "name": "Anel Invernal",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65803,8 +65859,8 @@
             "ankama_id": 27192,
             "name": "Anel de Pinglamur",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65859,8 +65915,8 @@
             "ankama_id": 27193,
             "name": "Anel de Pancadaruga",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65915,8 +65971,8 @@
             "ankama_id": 27194,
             "name": "Anel de Cicalafrio",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65971,8 +66027,8 @@
             "ankama_id": 27195,
             "name": "Anel de Abutrovão",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -68418,8 +68474,8 @@
             "ankama_id": 27458,
             "name": "Anel de Tokageko",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -68879,8 +68935,8 @@
             "ankama_id": 27499,
             "name": "Anel do Caçador",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -76935,8 +76991,8 @@
             "ankama_id": 29267,
             "name": "Anel de Anfibolha",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -76991,8 +77047,8 @@
             "ankama_id": 29268,
             "name": "Anel de Changuru",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -77047,8 +77103,8 @@
             "ankama_id": 29269,
             "name": "Anel de Mimistral",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -77103,8 +77159,8 @@
             "ankama_id": 29270,
             "name": "Anel de Anteca",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -90085,7 +90141,7 @@
                     "formatted": "Trocável: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 31061,
@@ -96964,8 +97020,8 @@
             "ankama_id": 32453,
             "name": "Amuleto do YeCh'Ti",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97140,8 +97196,8 @@
             "ankama_id": 32458,
             "name": "Cinto de Glurdorak",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97183,8 +97239,8 @@
             "ankama_id": 32459,
             "name": "Tamanco Tingente",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97352,6 +97408,62 @@
             },
             "description": "Você sempre sonhou em se parecer com o belo e valente Gultar? Com esta cabeleira, a ilusão poderia ser perfeita se o seu cheiro não entregasse você.",
             "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 32473,
+            "name": "Corporativista",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121185-128.png"
+            },
+            "description": "Com esta montascote, exiba com orgulho o estandarte da sua guilda em todos os seus deslocamentos.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -97806,8 +97918,8 @@
             "ankama_id": 32541,
             "name": "Anel de Lã",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97862,8 +97974,8 @@
             "ankama_id": 32542,
             "name": "Anel de Pena",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97918,8 +98030,8 @@
             "ankama_id": 32543,
             "name": "Anel de Espinho",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97974,8 +98086,8 @@
             "ankama_id": 32544,
             "name": "Anel de Seda",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -98030,8 +98142,8 @@
             "ankama_id": 32545,
             "name": "Anel de Rocha",
             "type": {
-                "name": "Outro item de aparência",
-                "id": 97
+                "name": "Item diverso de aparência",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -99563,7 +99675,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33655,
@@ -99606,7 +99718,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33656,
@@ -99649,7 +99761,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33657,
@@ -99692,7 +99804,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33658,
@@ -99735,7 +99847,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33659,
@@ -99778,7 +99890,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33660,
@@ -99864,7 +99976,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33662,
@@ -99950,7 +100062,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33664,
@@ -100410,7 +100522,7 @@
                     "formatted": "Compatível com: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33814,
@@ -102306,7 +102418,7 @@
         },
         {
             "ankama_id": 34273,
-            "name": "[!] Minoclier",
+            "name": "Minoscudo",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -102316,7 +102428,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82590-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82590-128.png"
             },
-            "description": "[!] Ce bouclier prouve que vous avez enfin pris le Minotoror par les cornes.",
+            "description": "Este escudo é a maior prova de que você pegou o Minotoror pelos chifres.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102343,6 +102455,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34277,
+            "name": "Camaleadfox",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18347-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18347-128.png"
+            },
+            "description": "Esta adorável bolinha de pelos tende a se parecer com seu dono. Seu mimetismo é tão intenso que ela copia até o mau gosto dele.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -102666,8 +102821,68 @@
             "pods": 1
         },
         {
+            "ankama_id": 34343,
+            "name": "Espinhaw",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18942-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18942-128.png"
+            },
+            "description": "Esta adorável pestinha foi gerada pela mascote de Beladona, ou será que é uma falsificação? Não importa. E lembre-se de acariciar Espinhaw no sentido dos espinhos, senão você pode acabar se machucando, o que a faria ronronar de alegria.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34352,
+            "name": "Minilodon",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18943-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18943-128.png"
+            },
+            "description": "Dizem por aí que se a coragem do Minilodon for como sua raiva, ele deve ser o mais valente dos abismos. Siga esse exemplo e expulse o covarde que há em você para se tornar o aventureiro que sonha ser.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34355,
-            "name": "[!] Ailes printanières",
+            "name": "Asas Primaveris",
             "type": {
                 "name": "Asas",
                 "id": 218
@@ -102677,7 +102892,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
             },
-            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "description": "Os pássaros estão de volta após uma longa viagem, as flores estão desabrochando gentilmente... Pois é, a primavera chegou. Desfile com as primeiras folhas desse renascimento da natureza.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103100,8 +103315,446 @@
             "pods": 1
         },
         {
+            "ankama_id": 34396,
+            "name": "Capa do Demônio VI",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17696-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17696-128.png"
+            },
+            "description": "A couraça de pedra e bandagens que protege VI lhe dá resistência aos efeitos do tempo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34397,
+            "name": "Capa Matizada do Demônio VI",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17696-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17696-128.png"
+            },
+            "description": "A couraça de pedra e bandagens que protege VI lhe dá resistência aos efeitos do tempo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34398,
+            "name": "Chapéu do Demônio VI",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16910-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16910-128.png"
+            },
+            "description": "Como demônio cardeal, VI passa a maior parte do tempo olhando em direção ao sul. De cabeça erguida e cheio de estratagemas, ele só tem um objetivo: derrubar o principal rival, Meia-noite.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34399,
+            "name": "Chapéu Matizado do Demônio VI",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16911-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16911-128.png"
+            },
+            "description": "Como demônio cardeal, VI passa a maior parte do tempo olhando em direção ao sul. De cabeça erguida e cheio de estratagemas, ele só tem um objetivo: derrubar o principal rival, Meia-noite.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34400,
+            "name": "Escudo do Demônio VI",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82591-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82591-128.png"
+            },
+            "description": "A eloquência, os modos e o senso de estratégia fazem de VI um adversário temível.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34401,
+            "name": "Escudo Matizado do Demônio VI",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82592-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82592-128.png"
+            },
+            "description": "A eloquência, os modos e o senso de estratégia fazem de VI um adversário temível.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34402,
+            "name": "Ombreiras do Demônio VI",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164973-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164973-128.png"
+            },
+            "description": "Estas ombreiras vão deixar você com um porte altivo, quase tanto quanto o do Demônio VI.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34403,
+            "name": "Ombreiras Matizadas do Demônio VI",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164974-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164974-128.png"
+            },
+            "description": "Estas ombreiras vão deixar você com um porte altivo, quase tanto quanto o do Demônio VI.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34404,
+            "name": "Gola Iop",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164307-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164307-128.png"
+            },
+            "description": "Com uma gola dessas, você com certeza vai virar uma lenda!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34405,
+            "name": "Cinto Eniripsa",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164308-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164308-128.png"
+            },
+            "description": "Aquele que ostenta um coração na cintura sem dúvida está de bem com a vida. Ele a celebra, canta, dança! Ou seja, é puro amor.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34406,
+            "name": "Torso Zobal",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164310-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164310-128.png"
+            },
+            "description": "Um torso com tantas facetas que parece até ter sentimentos... Costuma fazer careta quando o aproximam da água.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34407,
+            "name": "Ombreiras de Ladino",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164309-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164309-128.png"
+            },
+            "description": "Podem explodir sem o consentimento do proprietário. Cuidado.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
-            "name": "[!] Coiffe d'apparat de l'exterminateur",
+            "name": "Chapéu do Exterminador",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -103111,7 +103764,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16914-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16914-128.png"
             },
-            "description": "[!] Il protège efficacement de toute sorte de chose qui peut tomber du ciel.",
+            "description": "Protege muito bem contra qualquer coisa que possa cair do céu.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103144,7 +103797,7 @@
         },
         {
             "ankama_id": 34410,
-            "name": "[!] Bouclier d'apparat de l'exterminateur",
+            "name": "Escudo do Exterminador",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -103154,7 +103807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82595-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82595-128.png"
             },
-            "description": "[!] La façon dont vous interprétez la forme dessus en dit probablement beaucoup sur vous...",
+            "description": "A sua interpretação da forma deve dizer muito sobre você...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103187,7 +103840,7 @@
         },
         {
             "ankama_id": 34411,
-            "name": "[!] Épaulières d'apparat de l'exterminateur",
+            "name": "Ombreiras do Exterminador",
             "type": {
                 "name": "Ombreira",
                 "id": 248
@@ -103197,7 +103850,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165970-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165970-128.png"
             },
-            "description": "[!] Un exterminateur digne de ce nom se doit d'avoir des choses coupantes sur tout son apparat, même sur ses épaulettes !",
+            "description": "Todo exterminador que se preze precisa pôr coisas cortantes nos acessórios, inclusive nas ombreiras!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103217,7 +103870,7 @@
         },
         {
             "ankama_id": 34412,
-            "name": "[!] Costume d'apparat de l'exterminateur",
+            "name": "Traje do Exterminador",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -103227,7 +103880,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165972-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165972-128.png"
             },
-            "description": "[!] Idéal pour que vos amis se tiennent à carreau quand ils seront à côté de vous.",
+            "description": "Ideal para os seus amigos ficarem espertos quando estiverem andando com você.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103247,7 +103900,7 @@
         },
         {
             "ankama_id": 34413,
-            "name": "[!] Ailes de l'exterminateur",
+            "name": "Asas do Exterminador",
             "type": {
                 "name": "Asas",
                 "id": 218
@@ -103257,7 +103910,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165971-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165971-128.png"
             },
-            "description": "[!] Elles coupent très bien en plus de donner du style.",
+            "description": "Cortam muito bem, além de serem estilosas.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103277,7 +103930,7 @@
         },
         {
             "ankama_id": 34414,
-            "name": "[!] Cape d'apparat de l'exterminateur",
+            "name": "Capa do Exterminador",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -103287,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17699-128.png"
             },
-            "description": "[!] Ne vous fiez pas à ses appendices tranchants : cette cape n'offre aucun aérodynamisme et s'avère d'une lourdeur catastrophique sous l'eau. En revanche, son styliste a juré qu'elle extermine le mauvais goût à coup sûr. C'est déjà ça de pris, non ?",
+            "description": "Não se deixe enganar pelas protuberâncias afiadas: esta capa não apresenta nenhuma aerodinâmica e acaba tendo um peso catastrófico debaixo d'água. Por outro lado, o estilista que a criou jura que ela é infalível para eliminar o mau gosto. Melhor que nada, né?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103320,7 +103973,7 @@
         },
         {
             "ankama_id": 34415,
-            "name": "[!] Dessssstrier",
+            "name": "Corsssssel",
             "type": {
                 "name": "Montascote de aparência",
                 "id": 59
@@ -103330,7 +103983,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121180-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121180-128.png"
             },
-            "description": "[!] Il vous portera où vous voudrez sans aucun sssssouci.",
+            "description": "Ele vai te levar aonde você quiser no maior sssssosssssego.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103376,7 +104029,7 @@
         },
         {
             "ankama_id": 34416,
-            "name": "[!] Ssssserpentin",
+            "name": "Ssssserpentino",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -103386,7 +104039,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18944-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18944-128.png"
             },
-            "description": "[!] Il sssssuivra toujours vos pas.",
+            "description": "Vai ssssseguir você por toda a parte.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103413,6 +104066,1635 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34441,
+            "name": "Cumes do Destino",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16915-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16915-128.png"
+            },
+            "description": "Esculpido com um único pedaço de madeira da copa de uma árvore milenar, este capacete único, sólido e cortante feito pedra é o legado que Terrakurial deixa para os aventureiros que o reverenciam.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34442,
+            "name": "Casca Protetora",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17700-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17700-128.png"
+            },
+            "description": "Esta capa resiste ao desgaste do tempo e aos golpes baixos, mas pode se deixar entalhar com uma condição: que sejam dois nomes com um coração em volta.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34443,
+            "name": "Falha Terrestre",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82596-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82596-128.png"
+            },
+            "description": "Este escudo deixa os agressores desorientados: eles acham que estão acertando em cheio, mas estão bem longe... Tão longe quanto a minhoca do topo da árvore! Por sua vez, quando ele recai sobre eles, é como se fossem acometidos por um terremoto.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34444,
+            "name": "Rakuri",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18945-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18945-128.png"
+            },
+            "description": "Em meio às árvores e à terra lamacenta, esse Dragoneto se sente um Pesk dentro d'água. Pode tudo ir pro brejo!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34480,
+            "name": "Máscara de Mergulho da Fenda",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16917-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16917-128.png"
+            },
+            "description": "Se você não consegue manter a cabeça fora d'água, esta máscara foi feita para você!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34481,
+            "name": "Capa de Mergulho da Fenda",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17702-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17702-128.png"
+            },
+            "description": "Sim, existem capas de mergulho. Elas não permitem nadar mais rápido, mas dão uma proteção adicional considerável contra os predadores da Fenda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34482,
+            "name": "Escudo-lanterna da Fenda",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82598-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82598-128.png"
+            },
+            "description": "Qualquer semelhança com as criaturas horríveis que você pode encontrar no fundo do oceano é mera coincidência.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34483,
+            "name": "Roupa de Mergulho da Fenda",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164311-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164311-128.png"
+            },
+            "description": "Justa, brilhante e impermeável, esta roupa foi concebida para explorar as profundezas insondáveis de Sufokia. Cabe mencionar que ela também pode ser usada em certas festinhas para adultos. Nesse caso, os tentáculos enrolados ao redor da cintura devem ser utilizados com cautela.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34484,
+            "name": "Nadadeiras da Fenda",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164312-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164312-128.png"
+            },
+            "description": "Estas ombreiras em forma de nadadeiras proporcionarão uma excelente hidrodinâmica quando chegar a hora de fugir com todas as suas forças dos monstros que assombram a Fenda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34485,
+            "name": "Kofomedusa",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18948-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18948-128.png"
+            },
+            "description": "Como este Pekewabbit Kofome veio parar aqui? De qualquer forma, ele parece seguro neste pequeno batiscafo em forma de medusa.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34486,
+            "name": "Abispocampo",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121182-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121182-128.png"
+            },
+            "description": "Nos hipocampos dos abismos, são os machos que se encarregam da gestação dos bebês. Uma característica surpreendente, mas não chega a ser muito rara no reino animal.\nEssas criaturas também são excelentes montarias submarinas, tão velozes quanto polnecas e sereias.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34497,
+            "name": "Asas Flutuantes",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164316-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164316-128.png"
+            },
+            "description": "Com estas asas, talvez você não voe tão alto assim, mas uma coisa é certa: você não vai afundar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34500,
+            "name": "Traje Pravivo",
+            "type": {
+                "name": "Itens vivos",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164313-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164313-128.png"
+            },
+            "description": "Esta roupa de banho é perfeita para aproveitar a orla sob um sol radiante. Ainda assim, tome cuidado com o calor intenso: alimente-se adequadamente e hidrate-se regularmente para reduzir os riscos de fadiga, dores de cabeça, tonturas, náuseas, e para não começar a dizer coisas sem sentido.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34502,
+            "name": "Multimeka Skalo",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121183-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121183-128.png"
+            },
+            "description": "Olho por olho, dente por dente. Você derrotará tudo o que cruzar seu caminho, com um sorriso no rosto.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34503,
+            "name": "Multimeka Skoria",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121184-128.png"
+            },
+            "description": "Este multimeka é a arma perfeita para um exterminador de pragas, capaz de esmagar tudo o que aparecer pela frente como se fossem meros insetos.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34504,
+            "name": "Viseira Subaquática de Skalo",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16918-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16918-128.png"
+            },
+            "description": "Esta viseira resiste a impactos e funciona como brânquias. Mas não se esqueça de retirá-la quando quiser fazer um lanche.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34505,
+            "name": "Máscara Ardente de Skoria",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16919-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16919-128.png"
+            },
+            "description": "Com esse jeitão de Scarafolha, você dará um show. O inseto não será você, mas sim quem tentar colocar obstáculos no seu caminho.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34506,
+            "name": "Lâmina de Ondas de Skalo",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82599-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82599-128.png"
+            },
+            "description": "Esta lâmina, feita com dentes de tubarão, consegue fatiar qualquer coisa ou pessoa. Dizem até que Skalo a utilizou para abrir o mar no meio.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34507,
+            "name": "Bidente Fundido de Skoria",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82600-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82600-128.png"
+            },
+            "description": "Com seu metal fundido, este bidente foi usado por Skoria para escoriar tanto seus adversários quanto seus aliados.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34508,
+            "name": "Traje Anfíbio de Skalo",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648905-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648905-128.png"
+            },
+            "description": "Este traje é perfeito para a pesca de alevinos.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34509,
+            "name": "Traje Ignífugo de Skoria",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648907-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648907-128.png"
+            },
+            "description": "Este traje resiste tanto a temperaturas extremamente altas quanto a temperaturas extremamente baixas. Ele também permite manter e concentrar todo o fervor de quem o veste.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34510,
+            "name": "Nadadeiras de Skalo",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648904-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648904-128.png"
+            },
+            "description": "Estas nadadeiras hidrodinâmicas podem permitir que você se movimente como um tubarão no mar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34511,
+            "name": "Carapaças de Skoria",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648906-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648906-128.png"
+            },
+            "description": "Tão resistentes quanto ardentes, estas ombreiras refletem a fúria de Skoria.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34512,
+            "name": "Tapa-olho dos 25 Anos do Krosmoz",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16916-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16916-128.png"
+            },
+            "description": "Há 25 anos, quem poderia imaginar uma longevidade dessas?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34513,
+            "name": "Capa dos 25 Anos do Krosmoz",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17701-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17701-128.png"
+            },
+            "description": "Acomode-se em um canto, embrulhe-se nesta capa e escute as maravilhosas histórias do Krosmoz.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34514,
+            "name": "Escudo dos 25 Anos do Krosmoz",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82597-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82597-128.png"
+            },
+            "description": "Não faltam batalhas épicas no Krosmoz, então é prudente ter um escudo ao seu alcance.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34515,
+            "name": "Asas dos 25 Anos do Krosmoz",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164976-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164976-128.png"
+            },
+            "description": "Voe de uma missão a outra para reunir os tão cobiçados Dofus.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34516,
+            "name": "Traje dos 25 Anos do Krosmoz",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164978-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164978-128.png"
+            },
+            "description": "Apenas os exploradores mais corajosos do Krosmoz são dignos de vestir este traje.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34517,
+            "name": "Ombreiras dos 25 Anos do Krosmoz",
+            "type": {
+                "name": "Ombreira",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164977-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164977-128.png"
+            },
+            "description": "O peso do Krosmoz recai sobre seus ombros.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34518,
+            "name": "Machado do Temerário",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/19088-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/19088-128.png"
+            },
+            "description": "Dizem que este machado foi forjado com o sopro de Ignemikhal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34519,
+            "name": "Foice do Temerário",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/22020-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/22020-128.png"
+            },
+            "description": "Dizem que esta foice foi forjada com o sopro de Ignemikhal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34520,
+            "name": "Martelo do Fuliginoso",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/7754-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/7754-128.png"
+            },
+            "description": "Dizem que este martelo foi forjado com o sopro de Grugalorasalar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34521,
+            "name": "Pá do Enlameado",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8887-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8887-128.png"
+            },
+            "description": "Dizem que esta pá foi forjada com o sopro de Terrakurial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34522,
+            "name": "Lança do Enlameado",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183019-128.png"
+            },
+            "description": "Dizem que esta lança foi forjada com o sopro de Terrakurial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34523,
+            "name": "Adagas do Escoador",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/5111-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/5111-128.png"
+            },
+            "description": "Dizem que estas adagas foram forjadas com o sopro de Aguabrial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34524,
+            "name": "Varinha do Escoador",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/3099-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/3099-128.png"
+            },
+            "description": "Dizem que esta varinha foi talhada sob o olhar atento de Aguabrial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34525,
+            "name": "Arco do Ventoso",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/2100-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/2100-128.png"
+            },
+            "description": "Dizem que este arco foi talhado sob o olhar atento de Aerafal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34526,
+            "name": "Bastão do Ventoso",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/4146-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/4146-128.png"
+            },
+            "description": "Dizem que este bastão foi talhado sob o olhar atento de Aerafal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34527,
+            "name": "Espada do Sábio",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/6766-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/6766-128.png"
+            },
+            "description": "Dizem que esta espada foi forjada com o sopro de Dardondakal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34528,
+            "name": "Krosmozor",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121181-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121181-128.png"
+            },
+            "description": "Ah, kro, kro kro, kro, kro, kro, krosmozor...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
                 }
             ],
             "pods": 1

@@ -2974,8 +2974,8 @@
             },
             "level": 50,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12139-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/23121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png"
             },
             "description": "Esta pócima mágica es la única que puede darle magia a los calzoncillos de cuero de Capitán Chafer trenzados entre ellos, eso lo dice todo acerca del poder de esta pócima.",
             "pods": 10
@@ -40005,466 +40005,6 @@
             "pods": 2
         },
         {
-            "ankama_id": 15248,
-            "name": "Cofre insignificante",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Suena como si estuviera vacía, pero existe una pequeña posibilidad de que contenga algo interesante, como un molar, pelos o, quizás, un molar peludo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 400,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 a 400 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15260,
-            "name": "Cofre oxidado",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Es más difícil abrirlo que volver a cerrarlo, y más fácil olvidarlo que encontrarlo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 401,
-                    "int_maximum": 800,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "401 a 800 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15261,
-            "name": "Cofre intrigante",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Podría contener de todo: desde grandes riquezas hasta cualquier tontería, pero, sobre todo, cualquier tontería.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 601,
-                    "int_maximum": 1200,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "601 a 1200 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15262,
-            "name": "Cofre sorprendente",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Es evidente que, al menos, contiene una sorpresa. Buena, o mala.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 801,
-                    "int_maximum": 1600,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "801 a 1600 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15264,
-            "name": "Cofre sólido",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Este cofre es lo bastante sólido como para que se lo tires a quien te lo acaba de regalar si no te gusta lo que contiene. Aprovecha.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 1001,
-                    "int_maximum": 2000,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1001 a 2000 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15265,
-            "name": "Cofre pesado",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Sentirás que te quitas un peso de encima cuando descubras el contenido de este cofre pesado.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 1201,
-                    "int_maximum": 2400,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1201 a 2400 kamas"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 15266,
-            "name": "Cofre chispeante",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "Si golpeas muy fuerte dos cofres chispeantes entre sí, podrás producir algunas chispas y encender un fuego para quemar, de rabia, su decepcionante contenido.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 1401,
-                    "int_maximum": 2800,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1401 a 2800 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15267,
-            "name": "Cofre imponente",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Incluso si no consigues abrirlo jamás, casi parecerás un gran buscador de tesoros con un cofre así.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 1601,
-                    "int_maximum": 3200,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1601 a 3200 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15268,
-            "name": "Cofre impresionante",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "Si te escondes en este cofre, por fin dirán de ti que eres impresionante.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 1801,
-                    "int_maximum": 3600,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1801 a 3600 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15269,
-            "name": "Cofre magistral",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Este cofre es enorme, pero no lo suficiente para albergar una lista de tus errores de juventud.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                },
-                {
-                    "int_minimum": 2001,
-                    "int_maximum": 4000,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "2001 a 4000 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15270,
-            "name": "Cofre de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este cofre contiene un cofre que contiene un cofre que contiene un cofre que...\nOtro magnífico invento del célebre Matt Rioska.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 15312,
             "name": "Riquísimo",
             "type": {
@@ -55432,8 +54972,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73036-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73036-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png"
             },
             "description": "Con este pergamino podrás aprender el golpe de gracia del dios Yopuka.",
             "effects": [
@@ -57024,8 +56564,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73026-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73026-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png"
             },
             "description": "Con este pergamino podrás aprender el golpe de gracia de la diosa Aniripsa.",
             "effects": [
@@ -93691,306 +93231,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 29502,
-            "name": "Cofre insignificante de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Suena como si estuviera vacía, pero existe una pequeña posibilidad de que contenga algo interesante, como un molar, pelos o, quizás, un molar peludo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29503,
-            "name": "Cofre oxidado de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Es más difícil abrirlo que volver a cerrarlo, y más fácil olvidarlo que encontrarlo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29504,
-            "name": "Cofre intrigante de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Podría contener de todo: desde grandes riquezas hasta cualquier tontería, pero, sobre todo, cualquier tontería.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29505,
-            "name": "Cofre sorprendente de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Es evidente que, al menos, contiene una sorpresa. Buena, o mala.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29506,
-            "name": "Cofre sólido de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Este cofre es lo bastante sólido como para que se lo tires a quien te lo acaba de regalar si no te gusta lo que contiene. Aprovecha.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29507,
-            "name": "Cofre pesado de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Sentirás que te quitas un peso de encima cuando descubras el contenido de este cofre pesado.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 29508,
-            "name": "Cofre chispeante de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "Si golpeas muy fuerte dos cofres chispeantes entre sí, podrás producir algunas chispas y encender un fuego para quemar, de rabia, su decepcionante contenido.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29509,
-            "name": "Cofre imponente de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Incluso si no consigues abrirlo jamás, casi parecerás un gran buscador de tesoros con un cofre así.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29510,
-            "name": "Cofre impresionante de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "Si te escondes en este cofre, por fin dirán de ti que eres impresionante.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29511,
-            "name": "Cofre magistral de lotería",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Este cofre es enorme, pero no lo suficiente para albergar una lista de tus errores de juventud.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 29512,
             "name": "Pergamino de Dominio de Invocaciones",
             "type": {
@@ -109130,156 +108370,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 31775,
-            "name": "Cofre de Anutropía",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este cofre cayó de una grieta que conducía a una dimensión divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31776,
-            "name": "Cofre de Sramvil",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este cofre cayó de una grieta que conducía a una dimensión divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31777,
-            "name": "Cofre de Zurcalia",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este cofre cayó de una grieta que conducía a una dimensión divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31778,
-            "name": "Cofre de Xelorium",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este cofre cayó de una grieta que conducía a una dimensión divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31779,
-            "name": "Cofre de Osavora",
-            "type": {
-                "name": "Cofre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este cofre cayó de una grieta que conducía a una dimensión divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "¿Qué hay ahí dentro?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "¿Qué hay ahí dentro?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 31824,
             "name": "Aura del inventor",
             "type": {
@@ -109980,7 +109070,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gana x1"
+                    "formatted": "Gana x1 Supremasedio"
                 },
                 {
                     "int_minimum": 0,
@@ -112256,7 +111346,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gana x1 Ciclo Elemental"
+                    "formatted": "Gana x1 Corriente Cuadramental"
                 },
                 {
                     "int_minimum": 1,
@@ -114910,8 +114000,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Este diploma otorga el título de «Compi para cualquier movida».",
             "effects": [
@@ -114953,8 +114043,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Este diploma otorga el título de «Camarada incondicional».",
             "effects": [
@@ -115830,8 +114920,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
             "description": "Este diploma otorga el título de «Ankamascota».",
             "effects": [
@@ -122464,7 +121554,7 @@
         },
         {
             "ankama_id": 34031,
-            "name": "Alma capturada: Cortazador el Inconformista",
+            "name": "Alma capturada: Herranor el Pizzaiolo",
             "type": {
                 "name": "Alma de archimonstruo",
                 "id": 243
@@ -126902,7 +125992,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gana x10"
+                    "formatted": "Gana x10 Represalias"
                 }
             ],
             "pods": 10
@@ -127048,7 +126138,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gana x1000"
+                    "formatted": "Gana x1000 Glifo Floral"
                 },
                 {
                     "int_minimum": 0,
@@ -127067,8 +126157,754 @@
             "pods": 10
         },
         {
+            "ankama_id": 34284,
+            "name": "Cofre de mercenario (1-20)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14112-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14112-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34285,
+            "name": "Cofre de mercenario (21-40)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 40,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14113-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14113-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34286,
+            "name": "Cofre de mercenario (41-60)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14114-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14114-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34287,
+            "name": "Cofre de mercenario (61-80)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 80,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14115-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14115-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34288,
+            "name": "Cofre de mercenario (81-100)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 100,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14116-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14116-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34289,
+            "name": "Cofre de mercenario (101-120)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 120,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14118-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14118-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34290,
+            "name": "Cofre de mercenario (121-140)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 140,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14119-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14119-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34291,
+            "name": "Cofre de mercenario (141-160)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 160,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14120-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14120-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34292,
+            "name": "Cofre de mercenario (161-180)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 180,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14121-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34293,
+            "name": "Cofre de mercenario (181-199)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 199,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14122-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14122-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34294,
+            "name": "Cofre de mercenario (200)",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14123-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14123-128.png"
+            },
+            "description": "Al ofrecer tu ayuda a los aventureros que la necesitaban, has obtenido este cofre para recompensar tu valentía.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propone una elección",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propone una elección"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34297,
+            "name": "Pócima antitrool de Madam Mimagia",
+            "type": {
+                "name": "Pócima",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12816-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12816-128.png"
+            },
+            "description": "Aquí tienes un remedio infalible contra los cambios repentinos que imponen los trools disfrazados de aventureros. Sus efectos son permanentes. Sin embargo, si cambias de opinión o piensas que todos deberían vestirse de naranja, puedes pedirle a Madam Mimagia que anule el poder de la pócima. Ve a la Feria del Trool y coméntaselo.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34304,
+            "name": "Primera página del manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Has encontrado esta página en la obra monocromática.",
+            "effects": [
+                {
+                    "int_minimum": 745,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34305,
+            "name": "Segunda página del manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Has encontrado esta página en el enclave de los protectores.",
+            "effects": [
+                {
+                    "int_minimum": 746,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34306,
+            "name": "Tercera página del manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Has encontrado esta página en la reserva de Belladona.",
+            "effects": [
+                {
+                    "int_minimum": 747,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34307,
+            "name": "Cuarta página del manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Has encontrado esta página en el patio de Efedra.",
+            "effects": [
+                {
+                    "int_minimum": 748,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34308,
+            "name": "Quinta página del manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Has encontrado esta página en el pasaje del castillo.",
+            "effects": [
+                {
+                    "int_minimum": 749,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34309,
+            "name": "Manuscrito del Santuario de los Jardines Eternos",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25008-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25008-128.png"
+            },
+            "description": "Este libro, escrito de puño y letra por Belladona, reúne las distintas páginas encontradas en los Jardines Eternos. Parece grueso, pero es solo para intimidarte.",
+            "effects": [
+                {
+                    "int_minimum": 744,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34311,
-            "name": "Estandarte Peps",
+            "name": "Hincha de Peps",
             "type": {
                 "name": "Pergamino de actitud",
                 "id": 46
@@ -127078,7 +126914,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25279-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25279-128.png"
             },
-            "description": "Con este pergamino, podrás aprender la actitud Estandarte Peps.",
+            "description": "Con este pergamino, podrás aprender la actitud Hincha de Peps.",
             "effects": [
                 {
                     "int_minimum": 349,
@@ -127111,7 +126947,7 @@
         },
         {
             "ankama_id": 34312,
-            "name": "Estandarte JL",
+            "name": "Hincha de Joblife",
             "type": {
                 "name": "Pergamino de actitud",
                 "id": 46
@@ -127121,7 +126957,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25280-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25280-128.png"
             },
-            "description": "Con este pergamino, podrás aprender la actitud Estandarte JL.",
+            "description": "Con este pergamino, podrás aprender la actitud Hincha de Joblife.",
             "effects": [
                 {
                     "int_minimum": 348,
@@ -127498,7 +127334,7 @@
         },
         {
             "ankama_id": 34333,
-            "name": "[!] Siffloter",
+            "name": "Silbar",
             "type": {
                 "name": "Pergamino de actitud",
                 "id": 46
@@ -127508,7 +127344,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25278-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25278-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Siffloter.",
+            "description": "Con este pergamino, podrás aprender la actitud Silbar.",
             "effects": [
                 {
                     "int_minimum": 350,
@@ -127535,6 +127371,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34342,
+            "name": "Cofre del santuario",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89067-128.png"
+            },
+            "description": "Este cofre es la recompensa suprema a una coordinación impecable. Solo los más afortunados hallarán en su interior piezas de rareza legendaria.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34344,
+            "name": "Cofre majestuoso del santuario",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89068-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89068-128.png"
+            },
+            "description": "Este cofre es la recompensa suprema a una coordinación impecable. Solo los más afortunados hallarán en su interior piezas de rareza legendaria.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
                 }
             ],
             "pods": 1
@@ -127815,6 +127737,916 @@
             "pods": 1
         },
         {
+            "ankama_id": 34353,
+            "name": "Cofre de la sima",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89069-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89069-128.png"
+            },
+            "description": "Este cofre recompensa a los héroes y heroínas que se han atrevido a adentrarse en la Sima del Gigalodón... y han logrado salir de allí. Contiene recursos comunes y raros de la raid.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34354,
+            "name": "Cofre majestuoso de la sima",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89070-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89070-128.png"
+            },
+            "description": "Este cofre recompensa a los héroes y heroínas que se han atrevido a adentrarse en la Sima del Gigalodón... y han logrado salir de allí. Contiene recursos raros y objetos equipables de la raid.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34356,
+            "name": "Tatuaje efímero precioso de Anquet",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78279-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png"
+            },
+            "description": "El capitán Anquet era un portento de la naturaleza, un coloso de desbordante vitalidad. Su barco parecía estar en todas partes al mismo tiempo, del mar Kantil al mar Rano, de la bahía de Cania a la costa de los Dientes de Piedra. Su carrera de filibustero acabó de manera trágica: una oscura historia de anclas, tintas y kralamares gigantes.\nEste tatuaje te otorgará una mínima fracción de la vitalidad de Anquet.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34357,
+            "name": "Tatuaje efímero precioso de Botine",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png"
+            },
+            "description": "Botine no tenía rival cuando se trataba de explorar metódicamente una zona o de desvalijar el cadáver de un enemigo derrotado para apropiarse de sus escasas posesiones. Rechazaba la idea de pertenecer a un clan o a una banda, como los rufianes de Cania, y su única motivación era el ánimo de lucro. Su muerte fue un reflejo de su vida: violenta y expeditiva.\nEste tatuaje te otorgará una mínima fracción de los talentos de prospección de Botine.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34358,
+            "name": "Tatuaje efímero precioso de Max Riñas",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78291-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png"
+            },
+            "description": "Max Riñas era un espadachín temido en las llanuras de Cania. Atacaba a los viajeros que se cruzaban en su camino, supuestamente para demostrar sus habilidades con la espada. Se dice que acabó desgraciándose a sí mismo en un arrebato de entusiasmo.\nEste tatuaje te otorgará una mínima fracción de la potencia de Max Riñas.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34359,
+            "name": "Tatuaje temporal precioso de Anquet",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78278-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png"
+            },
+            "description": "El capitán Anquet era un portento de la naturaleza, un coloso de desbordante vitalidad. Su barco parecía estar en todas partes al mismo tiempo, del mar Kantil al mar Rano, de la bahía de Cania a la costa de los Dientes de Piedra. Su carrera de filibustero acabó de manera trágica: una oscura historia de anclas, tintas y kralamares gigantes.\nEste tatuaje te otorgará una mínima fracción de la vitalidad de Anquet.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34360,
+            "name": "Tatuaje temporal precioso de Botine",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78284-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png"
+            },
+            "description": "Botine no tenía rival cuando se trataba de explorar metódicamente una zona o de desvalijar el cadáver de un enemigo derrotado para apropiarse de sus escasas posesiones. Rechazaba la idea de pertenecer a un clan o a una banda, como los rufianes de Cania, y su única motivación era el ánimo de lucro. Su muerte fue un reflejo de su vida: violenta y expeditiva.\nEste tatuaje te otorgará una mínima fracción de los talentos de prospección de Botine.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34361,
+            "name": "Tatuaje temporal precioso de Max Riñas",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78290-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png"
+            },
+            "description": "Max Riñas era un espadachín temido en las llanuras de Cania. Atacaba a los viajeros que se cruzaban en su camino, supuestamente para demostrar sus habilidades con la espada. Se dice que acabó desgraciándose a sí mismo en un arrebato de entusiasmo.\nEste tatuaje te otorgará una mínima fracción de la potencia de Max Riñas.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34362,
+            "name": "Tatuaje efímero sencillo de Anquet",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78275-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png"
+            },
+            "description": "El capitán Anquet era un portento de la naturaleza, un coloso de desbordante vitalidad. Su barco parecía estar en todas partes al mismo tiempo, del mar Kantil al mar Rano, de la bahía de Cania a la costa de los Dientes de Piedra. Su carrera de filibustero acabó de manera trágica: una oscura historia de anclas, tintas y kralamares gigantes.\nEste tatuaje te otorgará una mínima fracción de la vitalidad de Anquet.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34363,
+            "name": "Tatuaje efímero sencillo de Botine",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png"
+            },
+            "description": "Botine no tenía rival cuando se trataba de explorar metódicamente una zona o de desvalijar el cadáver de un enemigo derrotado para apropiarse de sus escasas posesiones. Rechazaba la idea de pertenecer a un clan o a una banda, como los rufianes de Cania, y su única motivación era el ánimo de lucro. Su muerte fue un reflejo de su vida: violenta y expeditiva.\nEste tatuaje te otorgará una mínima fracción de los talentos de prospección de Botine.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34364,
+            "name": "Tatuaje efímero sencillo de Max Riñas",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78287-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png"
+            },
+            "description": "Max Riñas era un espadachín temido en las llanuras de Cania. Atacaba a los viajeros que se cruzaban en su camino, supuestamente para demostrar sus habilidades con la espada. Se dice que acabó desgraciándose a sí mismo en un arrebato de entusiasmo.\nEste tatuaje te otorgará una mínima fracción de la potencia de Max Riñas.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34365,
+            "name": "Tatuaje temporal sencillo de Anquet",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78274-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png"
+            },
+            "description": "El capitán Anquet era un portento de la naturaleza, un coloso de desbordante vitalidad. Su barco parecía estar en todas partes al mismo tiempo, del mar Kantil al mar Rano, de la bahía de Cania a la costa de los Dientes de Piedra. Su carrera de filibustero acabó de manera trágica: una oscura historia de anclas, tintas y kralamares gigantes.\nEste tatuaje te otorgará una mínima fracción de la vitalidad de Anquet.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34366,
+            "name": "Tatuaje temporal sencillo de Botine",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78280-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png"
+            },
+            "description": "Botine no tenía rival cuando se trataba de explorar metódicamente una zona o de desvalijar el cadáver de un enemigo derrotado para apropiarse de sus escasas posesiones. Rechazaba la idea de pertenecer a un clan o a una banda, como los rufianes de Cania, y su única motivación era el ánimo de lucro. Su muerte fue un reflejo de su vida: violenta y expeditiva.\nEste tatuaje te otorgará una mínima fracción de los talentos de prospección de Botine.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34367,
+            "name": "Tatuaje temporal sencillo de Max Riñas",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78286-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png"
+            },
+            "description": "Max Riñas era un espadachín temido en las llanuras de Cania. Atacaba a los viajeros que se cruzaban en su camino, supuestamente para demostrar sus habilidades con la espada. Se dice que acabó desgraciándose a sí mismo en un arrebato de entusiasmo.\nEste tatuaje te otorgará una mínima fracción de la potencia de Max Riñas.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34368,
+            "name": "Tatuaje efímero bonito de Anquet",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78277-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png"
+            },
+            "description": "El capitán Anquet era un portento de la naturaleza, un coloso de desbordante vitalidad. Su barco parecía estar en todas partes al mismo tiempo, del mar Kantil al mar Rano, de la bahía de Cania a la costa de los Dientes de Piedra. Su carrera de filibustero acabó de manera trágica: una oscura historia de anclas, tintas y kralamares gigantes.\nEste tatuaje te otorgará una mínima fracción de la vitalidad de Anquet.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34369,
+            "name": "Tatuaje efímero bonito de Botine",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78283-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png"
+            },
+            "description": "Botine no tenía rival cuando se trataba de explorar metódicamente una zona o de desvalijar el cadáver de un enemigo derrotado para apropiarse de sus escasas posesiones. Rechazaba la idea de pertenecer a un clan o a una banda, como los rufianes de Cania, y su única motivación era el ánimo de lucro. Su muerte fue un reflejo de su vida: violenta y expeditiva.\nEste tatuaje te otorgará una mínima fracción de los talentos de prospección de Botine.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34370,
+            "name": "Tatuaje efímero bonito de Max Riñas",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78289-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png"
+            },
+            "description": "Max Riñas era un espadachín temido en las llanuras de Cania. Atacaba a los viajeros que se cruzaban en su camino, supuestamente para demostrar sus habilidades con la espada. Se dice que acabó desgraciándose a sí mismo en un arrebato de entusiasmo.\nEste tatuaje te otorgará una mínima fracción de la potencia de Max Riñas.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34371,
+            "name": "Tatuaje temporal bonito de Anquet",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78276-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png"
+            },
+            "description": "El capitán Anquet era un portento de la naturaleza, un coloso de desbordante vitalidad. Su barco parecía estar en todas partes al mismo tiempo, del mar Kantil al mar Rano, de la bahía de Cania a la costa de los Dientes de Piedra. Su carrera de filibustero acabó de manera trágica: una oscura historia de anclas, tintas y kralamares gigantes.\nEste tatuaje te otorgará una mínima fracción de la vitalidad de Anquet.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34372,
+            "name": "Tatuaje temporal bonito de Botine",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png"
+            },
+            "description": "Botine no tenía rival cuando se trataba de explorar metódicamente una zona o de desvalijar el cadáver de un enemigo derrotado para apropiarse de sus escasas posesiones. Rechazaba la idea de pertenecer a un clan o a una banda, como los rufianes de Cania, y su única motivación era el ánimo de lucro. Su muerte fue un reflejo de su vida: violenta y expeditiva.\nEste tatuaje te otorgará una mínima fracción de los talentos de prospección de Botine.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34373,
+            "name": "Tatuaje temporal bonito de Max Riñas",
+            "type": {
+                "name": "Tatuaje de la Feria del Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78288-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png"
+            },
+            "description": "Max Riñas era un espadachín temido en las llanuras de Cania. Atacaba a los viajeros que se cruzaban en su camino, supuestamente para demostrar sus habilidades con la espada. Se dice que acabó desgraciándose a sí mismo en un arrebato de entusiasmo.\nEste tatuaje te otorgará una mínima fracción de la potencia de Max Riñas.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Tener nivel {0} o mayor",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34374,
+            "name": "Diploma de limpiacristales",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Este diploma otorga el título de «Limpiacristales».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Limpiacristales."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34375,
+            "name": "Diploma de Muralla de Frigost",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Este diploma otorga el título de «Muralla de Frigost».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Muralla de Frigost."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34390,
             "name": "Diploma de Solary",
             "type": {
@@ -127969,6 +128801,557 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Título: What's the color?."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34418,
+            "name": "Tesoro venenoso",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89071-128.png"
+            },
+            "description": "¿Puede que este cofre arrancado de los Jardines Eternos contenga recuerdos deletéreos? Si te pica la curiosidad, no hay otra que abrirlo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34419,
+            "name": "Tesoro abisal",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89073-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89073-128.png"
+            },
+            "description": "¿Puede que este cofre extraído de la Sima del Gigalodón contenga recuerdos insondables? Si te pica la curiosidad, no hay otra que abrirlo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34420,
+            "name": "Tesoro estival",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "¿Puede que este cofre extirpado de las profundidades de Vulkania contenga recuerdos vacacionales? Si te pica la curiosidad, no hay otra que abrirlo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34427,
+            "name": "Legado salado",
+            "type": {
+                "name": "Objeto utilizable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Si te comes este bloque de sal, es muy posible que se te abra el apetito. ¡Tanto que serás capaz de zamparte todo un banco de peces! Y no lo olvides: incluso los dientes de tiburón necesitan un cepillado, a menos que quieras tener un aliento que maree como la marea.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/Bajar de una montura",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/Bajar de una montura"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34429,
+            "name": "Legado florido",
+            "type": {
+                "name": "Objeto utilizable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/35638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/35638-128.png"
+            },
+            "description": "Dicen que la parte superior de la belladona está cubierta de pelos que desprenden un olor desagradable. ¿Lo dudas? Respira el perfume de esta flor y tendrás que admitirlo... Sin duda, te subirá el aire de superioridad.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/Bajar de una montura",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/Bajar de una montura"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34460,
+            "name": "Legado cascocido",
+            "type": {
+                "name": "Objeto utilizable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/111005-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/111005-128.png"
+            },
+            "description": "Cuando uno va pisando huevos, no espera que los huevos le devuelvan el pisotón. Los turistas despistados que pasean por los bosques vulkanianos suelen aprenderlo por las malas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/Bajar de una montura",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/Bajar de una montura"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34462,
+            "name": "Tesoro olvidado",
+            "type": {
+                "name": "Cofre",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "¿Puede que este cofre descubierto en un lugar repleto de historia contenga recuerdos reprimidos? Si te pica la curiosidad, no hay otra que abrirlo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ligado a un personaje",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Ligado a un personaje"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34468,
+            "name": "Legado escamoso",
+            "type": {
+                "name": "Objeto utilizable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Dragún ocre, gongón tripudo o Terrak onírico: los herederos de Terrakurial pueden manifestarse bajo muchas apariencias.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/Bajar de una montura",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/Bajar de una montura"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34473,
+            "name": "Legado escamoso",
+            "type": {
+                "name": "Objeto utilizable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Dragún ocre, gongón tripudo o Terrak onírico: los herederos de Terrakurial pueden manifestarse bajo muchas apariencias.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/Bajar de una montura",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/Bajar de una montura"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34474,
+            "name": "Legado escamoso",
+            "type": {
+                "name": "Objeto utilizable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Dragún ocre, gongón tripudo o Terrak onírico: los herederos de Terrakurial pueden manifestarse bajo muchas apariencias.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/Bajar de una montura",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/Bajar de una montura"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "¿Qué hay ahí dentro?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "¿Qué hay ahí dentro?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34495,
+            "name": "Diploma: Maestro de las colas de espera",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Este diploma otorga el título de «Maestro de las colas de espera».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Maestro de las colas de espera."
                 },
                 {
                     "int_minimum": 0,

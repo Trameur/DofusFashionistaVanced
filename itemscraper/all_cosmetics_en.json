@@ -50,6 +50,62 @@
             "pods": 1
         },
         {
+            "ankama_id": 1710,
+            "name": "Crescent Moon",
+            "type": {
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1019-128.png"
+            },
+            "description": "No one knows the origins of this crescent-shaped amulet. Well, almost no one. Who knows what might happen if you put it on.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Son of the Moon"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 1907,
             "name": "Bunny Ears",
             "type": {
@@ -1456,8 +1512,8 @@
             "ankama_id": 8067,
             "name": "Champion Boots",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1585,8 +1641,8 @@
             "ankama_id": 8070,
             "name": "Champion Belt",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -8000,8 +8056,8 @@
             "ankama_id": 10904,
             "name": "Grozillamulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -10089,8 +10145,8 @@
             "ankama_id": 10984,
             "name": "YeCh'Ti Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -10833,8 +10889,8 @@
             "ankama_id": 11191,
             "name": "Legend of the Dungeons Boots",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11577,8 +11633,8 @@
             "ankama_id": 11808,
             "name": "Island Pearl Necklace",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11732,8 +11788,8 @@
             "ankama_id": 11812,
             "name": "Elia Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12160,8 +12216,8 @@
             "ankama_id": 12273,
             "name": "Bearendizer's Belt",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12835,8 +12891,8 @@
             "ankama_id": 12528,
             "name": "Mr. Amakna Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12891,8 +12947,8 @@
             "ankama_id": 12529,
             "name": "Miss Amakna Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12947,8 +13003,8 @@
             "ankama_id": 12530,
             "name": "Mr. World of Twelve Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13003,8 +13059,8 @@
             "ankama_id": 12531,
             "name": "Miss World of Twelve Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13661,8 +13717,8 @@
             "ankama_id": 12776,
             "name": "Librarian Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13834,8 +13890,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82056-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82056-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82593-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82593-128.png"
             },
             "description": "You are one of the smallest mammals in the World to have witnessed Grozilla and Grasmera's extinction and the apocalypses which followed, and to have survived. With a bit of luck, you'll take a leaf out of your distant ancestors' book and set about evolving into something better now. I mean, you kind of need it.",
             "effects": [
@@ -14062,8 +14118,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82059-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82059-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82594-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82594-128.png"
             },
             "description": "Sick of seeing their roundels continually smashed to pieces, the three adventurers and cousins, Anne, Al and Arty Fissial, had a new one made that allowed them to do a little smashing of their own... until the day they met the Kwismas Minotoball, that is.",
             "effects": [
@@ -14689,8 +14745,8 @@
             "ankama_id": 13252,
             "name": "Ringomontade",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14745,8 +14801,8 @@
             "ankama_id": 13271,
             "name": "Mini-Miss Amakna Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14801,8 +14857,8 @@
             "ankama_id": 13272,
             "name": "Mini-Mr. Amakna Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15630,7 +15686,7 @@
                 "name": "Ceremonial weapon",
                 "id": 34
             },
-            "level": 10,
+            "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/6720-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/6720-128.png"
@@ -16014,8 +16070,8 @@
             "ankama_id": 14300,
             "name": "Chromulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -22228,8 +22284,8 @@
             "ankama_id": 15964,
             "name": "Decoded Corset",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -24103,8 +24159,8 @@
             "ankama_id": 17386,
             "name": "Rando Geta",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -37967,8 +38023,8 @@
             "ankama_id": 21181,
             "name": "Musical Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52876,8 +52932,8 @@
             "ankama_id": 25000,
             "name": "Meowfiamulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52932,8 +52988,8 @@
             "ankama_id": 25001,
             "name": "Woofiamulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52988,8 +53044,8 @@
             "ankama_id": 25010,
             "name": "Chocolate Pwakring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53044,8 +53100,8 @@
             "ankama_id": 25011,
             "name": "Chocolate Wabbiring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53100,8 +53156,8 @@
             "ankama_id": 25012,
             "name": "Chocolegg Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53156,8 +53212,8 @@
             "ankama_id": 25013,
             "name": "Dofolat Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55286,8 +55342,8 @@
             "ankama_id": 25240,
             "name": "Sacaram Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55342,8 +55398,8 @@
             "ankama_id": 25241,
             "name": "Swing Band",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58517,8 +58573,8 @@
             "ankama_id": 25955,
             "name": "B'Wilda Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -60433,8 +60489,8 @@
             "ankama_id": 26242,
             "name": "Wintering",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65803,8 +65859,8 @@
             "ankama_id": 27192,
             "name": "Penglamour Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65859,8 +65915,8 @@
             "ankama_id": 27193,
             "name": "Slamshell Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65915,8 +65971,8 @@
             "ankama_id": 27194,
             "name": "Jitterscar Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65971,8 +66027,8 @@
             "ankama_id": 27195,
             "name": "Vulturricane Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -68418,8 +68474,8 @@
             "ankama_id": 27458,
             "name": "Tokagecko Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -68879,8 +68935,8 @@
             "ankama_id": 27499,
             "name": "Trapper Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -76935,8 +76991,8 @@
             "ankama_id": 29267,
             "name": "Amphibubble Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -76991,8 +77047,8 @@
             "ankama_id": 29268,
             "name": "Scorcheroo Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -77047,8 +77103,8 @@
             "ankama_id": 29269,
             "name": "Gustiful Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -77103,8 +77159,8 @@
             "ankama_id": 29270,
             "name": "Sweetapir Ring",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -90085,7 +90141,7 @@
                     "formatted": "Exchangeable: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 31061,
@@ -96964,8 +97020,8 @@
             "ankama_id": 32453,
             "name": "YeCh'Ti Amulet",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97140,8 +97196,8 @@
             "ankama_id": 32458,
             "name": "Bearendizer's Belt",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97183,8 +97239,8 @@
             "ankama_id": 32459,
             "name": "Rando Geta",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97352,6 +97408,62 @@
             },
             "description": "Have you always dreamed of being like the brave and handsome Goultard? The illusion be perfect with these flowing locks... if only your odour didn't give you away.",
             "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 32473,
+            "name": "Incorporated",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121185-128.png"
+            },
+            "description": "With this petsmount, you can proudly display your guild banner wherever you go.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -97806,8 +97918,8 @@
             "ankama_id": 32541,
             "name": "Woolly Band",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97862,8 +97974,8 @@
             "ankama_id": 32542,
             "name": "Feathery Band",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97918,8 +98030,8 @@
             "ankama_id": 32543,
             "name": "Spiny Band",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97974,8 +98086,8 @@
             "ankama_id": 32544,
             "name": "Silky Band",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -98030,8 +98142,8 @@
             "ankama_id": 32545,
             "name": "Rocky Band",
             "type": {
-                "name": "Miscellaneous ceremonial item",
-                "id": 97
+                "name": "Miscellaneous Ceremonial Item",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -99563,7 +99675,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33655,
@@ -99606,7 +99718,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33656,
@@ -99649,7 +99761,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33657,
@@ -99692,7 +99804,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33658,
@@ -99735,7 +99847,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33659,
@@ -99778,7 +99890,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33660,
@@ -99864,7 +99976,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33662,
@@ -99950,7 +100062,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33664,
@@ -100410,7 +100522,7 @@
                     "formatted": "Compatible with: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33814,
@@ -100457,7 +100569,7 @@
         },
         {
             "ankama_id": 33818,
-            "name": "[!] Ticentor",
+            "name": "Lilcentor",
             "type": {
                 "name": "Ceremonial pet",
                 "id": 24
@@ -100467,7 +100579,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18349-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18349-128.png"
             },
-            "description": "[!] Il est une légende qui a la vie dure, celle selon laquelle les centorors voleraient le butin des aventuriers à la fin de leurs combats. En réalité, ils ne font que collecter ce que les aventuriers ont laissé de côté. De ce fait, ne craignez rien, même accompagné de ce familier votre butin ne craint rien.",
+            "description": "There's a persistent legend that centorors steal adventurers' loot at the end of their fights. But actually, they only collect what adventurers leave behind. So don't worry – even with this pet by your side, your loot is completely safe.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102306,7 +102418,7 @@
         },
         {
             "ankama_id": 34273,
-            "name": "[!] Minoclier",
+            "name": "Minotarge",
             "type": {
                 "name": "Ceremonial shield",
                 "id": 19
@@ -102316,7 +102428,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82590-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82590-128.png"
             },
-            "description": "[!] Ce bouclier prouve que vous avez enfin pris le Minotoror par les cornes.",
+            "description": "This shield proves you have finally grabbed the bull by the horns.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102343,6 +102455,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34277,
+            "name": "Chamelefoux",
+            "type": {
+                "name": "Ceremonial pet",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18347-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18347-128.png"
+            },
+            "description": "This charming little hairball has a tendency to copy its master's appearance. It mimics them so well that it even copies their questionable choices in colour.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
                 }
             ],
             "pods": 1
@@ -102666,8 +102821,68 @@
             "pods": 1
         },
         {
+            "ankama_id": 34343,
+            "name": "Thistle Bow Meow",
+            "type": {
+                "name": "Ceremonial pet",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18942-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18942-128.png"
+            },
+            "description": "Is this adorable little pest the offspring of Belladonna's pet, or is it a fake? It doesn't really matter. Don't forget to pet Thistle Bow Meow in the direction of her thorns, or else you might get hurt, which would make her purr with pleasure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34352,
+            "name": "Minilodon",
+            "type": {
+                "name": "Ceremonial pet",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18943-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18943-128.png"
+            },
+            "description": "It is said that although the Minilodon's courage matches its fury, it is surely the bravest creature in the abysses. Follow its example and scare off your inner coward to finally become the adventurer you've always dreamed of being.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34355,
-            "name": "[!] Ailes printanières",
+            "name": "Spring Wings",
             "type": {
                 "name": "Wings",
                 "id": 218
@@ -102677,7 +102892,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
             },
-            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "description": "The birds are returning from their long migration, the flowers are timidly starting to bloom... spring is definitely here! And now you can wear the first leaves of nature's rebirth.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103100,8 +103315,446 @@
             "pods": 1
         },
         {
+            "ankama_id": 34396,
+            "name": "Demon VI Cloak",
+            "type": {
+                "name": "Ceremonial cape",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17696-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17696-128.png"
+            },
+            "description": "The stone plating and bandages protecting VI make him resistant to the test of time.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34397,
+            "name": "Many-Hued Demon VI Cloak",
+            "type": {
+                "name": "Ceremonial cape",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17696-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17696-128.png"
+            },
+            "description": "The stone plating and bandages protecting VI make him resistant to the test of time.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34398,
+            "name": "Demon VI Headgear",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16910-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16910-128.png"
+            },
+            "description": "As a cardinal demon, VI spends the majority of his time looking towards the south. With his head held high, his many ploys have but one goal: bring down his main rival, Midnight.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34399,
+            "name": "Many-Hued Demon VI Headgear",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16911-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16911-128.png"
+            },
+            "description": "As a cardinal demon, VI spends the majority of his time looking towards the south. With his head held high, his many ploys have but one goal: bring down his main rival, Midnight.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34400,
+            "name": "Demon VI Shield",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82591-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82591-128.png"
+            },
+            "description": "His eloquence, his manners and his sense of strategy make VI a fearsome opponent.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34401,
+            "name": "Many-Hued Demon VI Shield",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82592-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82592-128.png"
+            },
+            "description": "His eloquence, his manners and his sense of strategy make VI a fearsome opponent.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34402,
+            "name": "Demon VI Shoulder Pads",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164973-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164973-128.png"
+            },
+            "description": "These shoulder pads will no doubt give you a more stately demeanour, almost as stately as Demon VI.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34403,
+            "name": "Many-Hued Demon VI Shoulder Pads",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164974-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164974-128.png"
+            },
+            "description": "These shoulder pads will no doubt give you a more stately demeanour, almost as stately as Demon VI.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34404,
+            "name": "Iop Collar",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164307-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164307-128.png"
+            },
+            "description": "With a collar like this, you'll go down as a legend for sure!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34405,
+            "name": "Eniripsa Belt",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164308-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164308-128.png"
+            },
+            "description": "Anyone who wears a heart on their belt most certainly smiles at life. Giving thanks, singing and dancing! In one word, it's simply love.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34406,
+            "name": "Masqueraider Torso",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164310-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164310-128.png"
+            },
+            "description": "A torso with so many facets, you'd think it feels emotions... It tends to grimace when you get it near water.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34407,
+            "name": "Rogue Shoulder Pads",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164309-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164309-128.png"
+            },
+            "description": "They can explode without their owner's consent. Keep your eye on this.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
-            "name": "[!] Coiffe d'apparat de l'exterminateur",
+            "name": "Exterminator Headgear",
             "type": {
                 "name": "Ceremonial hat",
                 "id": 6
@@ -103111,7 +103764,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16914-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16914-128.png"
             },
-            "description": "[!] Il protège efficacement de toute sorte de chose qui peut tomber du ciel.",
+            "description": "It provides effective protection from anything that might fall from the sky.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103144,7 +103797,7 @@
         },
         {
             "ankama_id": 34410,
-            "name": "[!] Bouclier d'apparat de l'exterminateur",
+            "name": "Exterminator Shield",
             "type": {
                 "name": "Ceremonial shield",
                 "id": 19
@@ -103154,7 +103807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82595-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82595-128.png"
             },
-            "description": "[!] La façon dont vous interprétez la forme dessus en dit probablement beaucoup sur vous...",
+            "description": "How you interpret the image on it probably says a lot about you...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103187,7 +103840,7 @@
         },
         {
             "ankama_id": 34411,
-            "name": "[!] Épaulières d'apparat de l'exterminateur",
+            "name": "Exterminator Shoulder Pads",
             "type": {
                 "name": "Shoulder Pad",
                 "id": 248
@@ -103197,7 +103850,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165970-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165970-128.png"
             },
-            "description": "[!] Un exterminateur digne de ce nom se doit d'avoir des choses coupantes sur tout son apparat, même sur ses épaulettes !",
+            "description": "Any exterminator worth their salt ought to have sharp things all over their outfit – and that includes their shoulder pads!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103217,7 +103870,7 @@
         },
         {
             "ankama_id": 34412,
-            "name": "[!] Costume d'apparat de l'exterminateur",
+            "name": "Exterminator Costume",
             "type": {
                 "name": "Costume",
                 "id": 16
@@ -103227,7 +103880,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165972-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165972-128.png"
             },
-            "description": "[!] Idéal pour que vos amis se tiennent à carreau quand ils seront à côté de vous.",
+            "description": "That'll make your friends think: \"don't stand so close to him...\"",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103247,7 +103900,7 @@
         },
         {
             "ankama_id": 34413,
-            "name": "[!] Ailes de l'exterminateur",
+            "name": "Exterminator Wings",
             "type": {
                 "name": "Wings",
                 "id": 218
@@ -103257,7 +103910,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165971-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165971-128.png"
             },
-            "description": "[!] Elles coupent très bien en plus de donner du style.",
+            "description": "Not only do they cut cleanly – they look stylish too.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103277,7 +103930,7 @@
         },
         {
             "ankama_id": 34414,
-            "name": "[!] Cape d'apparat de l'exterminateur",
+            "name": "Exterminator Cape",
             "type": {
                 "name": "Ceremonial cape",
                 "id": 18
@@ -103287,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17699-128.png"
             },
-            "description": "[!] Ne vous fiez pas à ses appendices tranchants : cette cape n'offre aucun aérodynamisme et s'avère d'une lourdeur catastrophique sous l'eau. En revanche, son styliste a juré qu'elle extermine le mauvais goût à coup sûr. C'est déjà ça de pris, non ?",
+            "description": "Don't be fooled by its sharp protrusions, because there's nothing aerodynamic about this cape, and it'll just weigh you down underwater. However, the person who designed it swore blind that it would wipe out bad taste. That's the next best thing, right?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103320,7 +103973,7 @@
         },
         {
             "ankama_id": 34415,
-            "name": "[!] Dessssstrier",
+            "name": "Sssssteed",
             "type": {
                 "name": "Ceremonial petsmount",
                 "id": 59
@@ -103330,7 +103983,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121180-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121180-128.png"
             },
-            "description": "[!] Il vous portera où vous voudrez sans aucun sssssouci.",
+            "description": "It'll take you sssssimply everywhere.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103376,7 +104029,7 @@
         },
         {
             "ankama_id": 34416,
-            "name": "[!] Ssssserpentin",
+            "name": "Plisssssken",
             "type": {
                 "name": "Ceremonial pet",
                 "id": 24
@@ -103386,7 +104039,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18944-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18944-128.png"
             },
-            "description": "[!] Il sssssuivra toujours vos pas.",
+            "description": "It'll always follow in your footssssstepsssss.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103413,6 +104066,1635 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34441,
+            "name": "Apex of Destiny",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16915-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16915-128.png"
+            },
+            "description": "A single piece of wood crafted from the crown of a thousand-year-old tree, this unique headgear, solid and sharp as stone, is passed down from Terrakourial to adventurers who revere him.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34442,
+            "name": "Protective Bark",
+            "type": {
+                "name": "Ceremonial cape",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17700-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17700-128.png"
+            },
+            "description": "This cape can withstand the ravages of time along with any traitorous blows – especially if those traitorous blows involve carving a heart around a pair of initials.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34443,
+            "name": "Earthly Rift",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82596-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82596-128.png"
+            },
+            "description": "This shield disorients your aggressors: they'll think they're hitting it straight on, but they're actually so far away... As far as an earthworm from the treetop! And when it finally comes down on them, it'll be like an earthquake.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34444,
+            "name": "Tirrakou",
+            "type": {
+                "name": "Ceremonial pet",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18945-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18945-128.png"
+            },
+            "description": "Among the trees and muddy earth, this wyrmling feels like a fish in water. Who knew muck could be so cosy?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34480,
+            "name": "Chasm Diving Mask",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16917-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16917-128.png"
+            },
+            "description": "If you struggle to keep your head above water, then this mask is perfect for you!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34481,
+            "name": "Chasm Diving Cape",
+            "type": {
+                "name": "Ceremonial cape",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17702-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17702-128.png"
+            },
+            "description": "Yes, diving capes are a thing. They don't make you swim any faster, but they do offer worthwhile extra protection from the Chasm's predators.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34482,
+            "name": "Chasm Lanternshield",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82598-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82598-128.png"
+            },
+            "description": "Any resemblance to the horrid creatures you might encounter in the ocean depths is purely coincidental.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34483,
+            "name": "Chasm Diving Suit",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164311-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164311-128.png"
+            },
+            "description": "Skin-tight, shiny and waterproof, this suit is made for exploring the unfathomable depths of Sufokia. Please note that it should also work just fine for certain adult-themed nights. But in that case, be careful with the tentacles wrapped around the belt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34484,
+            "name": "Chasm Fins",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164312-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164312-128.png"
+            },
+            "description": "These fin-shaped shoulder pads will make you glide through the water when you need to swim for your life at the sight of the monsters haunting the Chasm.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34485,
+            "name": "Jelliwabbit",
+            "type": {
+                "name": "Ceremonial pet",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18948-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18948-128.png"
+            },
+            "description": "How did this Tiwabbit Wosungwee end up here? At any rate, he seems to be safe in this little jellyfish-shaped bathyscaphe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34486,
+            "name": "Abysseahorse",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121182-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121182-128.png"
+            },
+            "description": "Among seahorses living in the abysses, the males carry the young. While this might be a surprising trait, it's not actually that uncommon in the animal kingdom.\nThese creatures also make for brilliant underwater steeds, because only octodolls and mermaids can match their speed.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34497,
+            "name": "Floating Wings",
+            "type": {
+                "name": "Wings",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164316-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164316-128.png"
+            },
+            "description": "You might not fly very high with these wings, but one thing's for sure – they'll stop you from sinking.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34500,
+            "name": "Beachalive Swimsuit",
+            "type": {
+                "name": "Living object",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164313-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164313-128.png"
+            },
+            "description": "This swimsuit is perfect for spending time in glorious sunshine at the seaside. The usual warnings apply: take care in the intense heat, make sure you eat enough and drink plenty of fluids to reduce the risk of fatigue, headaches, dizziness, nausea and speaking gibberish.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34502,
+            "name": "Skale the Multimeka",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121183-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121183-128.png"
+            },
+            "description": "An eye for an eye, a tooth for a tooth. You'll level everything in your path... with a smile.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34503,
+            "name": "Beelzebug the Multimeka",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121184-128.png"
+            },
+            "description": "This Multimeka is the perfect weapon for an exterminator because it can crush anything in its path like common insects.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34504,
+            "name": "Skale Submersible Visor",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16918-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16918-128.png"
+            },
+            "description": "This visor can withstand impacts and act as gills. Just don't forget to take it off when you fancy a bite to eat.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34505,
+            "name": "Beelzebug Burning Mask",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16919-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16919-128.png"
+            },
+            "description": "Wearing this and looking like a scaraleaf, others won't be able to hold a candle to you. You're not the pest – it's those who'll try to get in your way.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34506,
+            "name": "Skale Bluewave Blade",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82599-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82599-128.png"
+            },
+            "description": "This blade made of shark teeth can cut through anything and anyone. Some people even say that Skale used it to slice the sea in two.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34507,
+            "name": "Beelzebug Molten Bident",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82600-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82600-128.png"
+            },
+            "description": "With its molten metal, Beelzebug used this bident to scorify opponents and allies alike.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34508,
+            "name": "Skale Amphibious Suit",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648905-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648905-128.png"
+            },
+            "description": "This suit is perfect for fishing for fingerlings.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34509,
+            "name": "Beelzebug Fireproof Suit",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648907-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648907-128.png"
+            },
+            "description": "This suit can withstand extremely high and low temperatures alike. It also helps sustain and focus its wearer's zeal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34510,
+            "name": "Skale Fins",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648904-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648904-128.png"
+            },
+            "description": "These hydrodynamic fins might even let you move around like a shark in the sea.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34511,
+            "name": "Beelzebug Carapaces",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648906-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648906-128.png"
+            },
+            "description": "Just as enduring as they are fiery, these shoulder pads are a reflection of Beelzebug's fury.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34512,
+            "name": "Krosmoz 25th Anniversary Eye Patch",
+            "type": {
+                "name": "Ceremonial hat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16916-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16916-128.png"
+            },
+            "description": "Who would've expected such staying power 25 years ago?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34513,
+            "name": "Krosmoz 25th Anniversary Cape",
+            "type": {
+                "name": "Ceremonial cape",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17701-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17701-128.png"
+            },
+            "description": "Settle in, wrap yourself in this cape and listen to the wondrous tales of the Krosmoz.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34514,
+            "name": "Krosmoz 25th Anniversary Shield",
+            "type": {
+                "name": "Ceremonial shield",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82597-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82597-128.png"
+            },
+            "description": "There's no shortage of epic battles in the Krosmoz, so it's wise to always have a shield at hand.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34515,
+            "name": "Krosmoz 25th Anniversary Wings",
+            "type": {
+                "name": "Wings",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164976-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164976-128.png"
+            },
+            "description": "Flutter from quest to quest in search of those coveted Dofus.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34516,
+            "name": "Krosmoz 25th Anniversary Costume",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164978-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164978-128.png"
+            },
+            "description": "Only the bravest explorers of the Krosmoz are worthy enough to wear this costume.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34517,
+            "name": "Krosmoz 25th Anniversary Shoulder Pads",
+            "type": {
+                "name": "Shoulder Pad",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164977-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164977-128.png"
+            },
+            "description": "The weight of the Krosmoz is on your shoulders.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34518,
+            "name": "Axe of the Reckless",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/19088-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/19088-128.png"
+            },
+            "description": "This axe seems to have been forged using Ignemikal's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34519,
+            "name": "Scythe of the Reckless",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/22020-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/22020-128.png"
+            },
+            "description": "This scythe seems to have been forged using Ignemikal's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34520,
+            "name": "Hammer of the Ashen",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/7754-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/7754-128.png"
+            },
+            "description": "This hammer seems to have been forged using Grougalorasalar's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34521,
+            "name": "Shovel of the Muddy",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8887-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8887-128.png"
+            },
+            "description": "This shovel seems to have been forged using Terrakourial's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34522,
+            "name": "Lance of the Muddy",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183019-128.png"
+            },
+            "description": "This lance seems to have been forged using Terrakourial's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34523,
+            "name": "Daggers of the Flowing",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/5111-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/5111-128.png"
+            },
+            "description": "These daggers seem to have been forged using Aguabrial's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34524,
+            "name": "Wand of the Flowing",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/3099-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/3099-128.png"
+            },
+            "description": "This wand seems to have been carved under Aguabrial's sharp eye.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34525,
+            "name": "Bow of the Windy",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/2100-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/2100-128.png"
+            },
+            "description": "This bow seems to have been carved under Aerafal's sharp eye.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34526,
+            "name": "Staff of the Windy",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/4146-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/4146-128.png"
+            },
+            "description": "This staff seems to have been carved under Aerafal's sharp eye.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34527,
+            "name": "Sword of the Wise",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/6766-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/6766-128.png"
+            },
+            "description": "This sword seems to have been forged using Dardondakal's breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34528,
+            "name": "Krosmozaur",
+            "type": {
+                "name": "Ceremonial petsmount",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121181-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121181-128.png"
+            },
+            "description": "Welcome to Krosmozic Park...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
                 }
             ],
             "pods": 1

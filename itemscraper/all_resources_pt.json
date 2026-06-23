@@ -3960,7 +3960,7 @@
         },
         {
             "ankama_id": 1461,
-            "name": "Veneno fustigante",
+            "name": "Veneno Fustigante",
             "type": {
                 "name": "Preparação",
                 "id": 168
@@ -33534,7 +33534,7 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/50719-128.png"
             },
             "description": "Muitos Enutrofs vendem os pais para obter seu peso em Turmalina.",
-            "pods": 0
+            "pods": 2
         },
         {
             "ankama_id": 15272,
@@ -47019,7 +47019,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/107737-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/107737-128.png"
             },
-            "description": "A aparência patinada deste metal não é devida ao tempo, mas ao fato de que ele esteve mergulhado por muito tempo no fundo do oceano. Os Mercemares o utilizam tanto nos seus escafandros quanto nas suas panelas.",
+            "description": "A aparência patinada deste metal não é culpa do tempo, mas do fato de que ele passou muito tempo no fundo do oceano. Os Mercemares o utilizam tanto nos escafandros quanto nas panelas.",
             "pods": 2
         },
         {
@@ -53655,7 +53655,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12780-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12780-128.png"
             },
-            "description": "Embora ele só contenha uma parcela ínfima do poder de um Bebemoth, este item fará sua mascote, montascote ou montaria revelar seu potencial oculto.",
+            "description": "Embora ele só contenha uma parcela ínfima do poder de um Bebemoth, este item fará sua mascote ou montascote revelar seu potencial oculto.",
             "recipe": [
                 {
                     "item_ankama_id": 20961,
@@ -59671,7 +59671,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Robustez do Smagador (Nível 200):\n• No começo do combate, o carregador sacrifica 2% de resistência por aliado para dar 3% de resistência aos seus aliados. As resistências sacrificadas para um aliado são recuperadas quando ele morre."
+                    "formatted": "Robustez do Smagador (Nível 200):\n• No começo do combate, o carregador sacrifica 2% de resistência por aliado para dar 3% de resistência aos seus aliados. As resistências sacrificadas para um aliado são recuperadas quando ele morre.\n• Os efeitos são retirados quando o portador morre."
                 }
             ],
             "pods": 2
@@ -64957,7 +64957,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/80049-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/80049-128.png"
             },
-            "description": "Este é só um fragmento da alma do Cavaleiro de Gelo. Este último não vai conseguir fazer muita coisa, dado seu estado.",
+            "description": "Este é só um fragmento da alma do Cavaleiro de Gelo. Ele não vai conseguir fazer muita coisa, dado seu estado.",
             "pods": 1
         },
         {
@@ -66897,6 +66897,246 @@
             },
             "description": "Com este fragmento, você poderá reconstituir o mapa do Psikopompo.",
             "pods": 1
+        },
+        {
+            "ankama_id": 32464,
+            "name": "Sal das Profundezas",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Você acha que a obscuridade é sua aliada? Eles nasceram nela e foram moldados por ela. Eles só conheceram a luz quando você chegou, e para eles, ela foi apenas ofuscante.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32465,
+            "name": "Quartzo",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51512-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51512-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32466,
+            "name": "Opala",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51513-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51513-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32467,
+            "name": "Amazonita",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51514-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51514-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32468,
+            "name": "Aventurina",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51515-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51515-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32469,
+            "name": "Lápis-lazúli",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51516-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51516-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32470,
+            "name": "Ônix",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51518-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51518-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32471,
+            "name": "Azeviche",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51517-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51517-128.png"
+            },
+            "description": "Uma pedra preciosa de valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
         },
         {
             "ankama_id": 32501,
@@ -81141,8 +81381,8 @@
             },
             "level": 165,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93128-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93128-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93129-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93129-128.png"
             },
             "description": "Esta mákina permite aplicar uma habilidade especial aleatória em um bebê Marmula de geração 9 ou inferior durante o cruzamento.",
             "recipe": [
@@ -81313,36 +81553,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 34204,
-            "name": "Ovaficha",
-            "type": {
-                "name": "Recurso diverso",
-                "id": 229
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
-            },
-            "description": "\"Eu não era o melhor porque batia mais rápido, eu era o melhor porque a multidão me amava. Ganhe a multidão, Maximor, e você vai ganhar sua liberdade.\"\n\n— Proximor, gladiador veterano.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Trocável:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Trocável: 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 34205,
             "name": "Esbofeteador de Bambu",
             "type": {
@@ -81509,6 +81719,261 @@
                 }
             ],
             "pods": 10
+        },
+        {
+            "ankama_id": 34323,
+            "name": "Flor dos Protetores do Santuário",
+            "type": {
+                "name": "Flor",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24526-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24526-128.png"
+            },
+            "description": "\"Os prantos dos protetores confinados no silêncio se transformam em flores... mas o violeta é violento, pelo que dizem. Malditos males mudos! Essa mudez te emociona? Que molenga.\"\n— Beladona",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34324,
+            "name": "Peça de Armadura dos Guardiões do Santuário",
+            "type": {
+                "name": "Recurso diverso",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24527-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24527-128.png"
+            },
+            "description": "Nada melhor do que uma viseira de pedra para ostentar um rosto marmóreo em qualquer circunstância. Muito útil para permanecer inabalável diante das provocações da sua sogra, o que com certeza a deixará furiosa.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34325,
+            "name": "Cabo Partido da Rainha Escarlate",
+            "type": {
+                "name": "Recurso diverso",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24528-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24528-128.png"
+            },
+            "description": "\"O ciúme pode levar você ao ódio. Beije-o. Valorize-o. Não tenha medo de cometer o pior: mais vale um coração partido do que uma maçã podre.\"\n— Ephedra, soberana deposta",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34326,
+            "name": "Buquê de Cipós da Princesa Amaldiçoada",
+            "type": {
+                "name": "Flor",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24529-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24529-128.png"
+            },
+            "description": "\"Casemos os cipós,\nentrelacemos os noivos\nna morte, sem a vida,\nos cipós formam um belo buquê\nquando são bonitos.\"\n— Canto de missão de Ephedrya",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34334,
+            "name": "Unidade de Morestade",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24533-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24533-128.png"
+            },
+            "description": "Um recurso raro de valor elevado.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34335,
+            "name": "Rancor de Carangnante",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24537-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24537-128.png"
+            },
+            "description": "Um recurso raro de valor elevado.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34336,
+            "name": "Escuridão de Willorca",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24532-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24532-128.png"
+            },
+            "description": "Um recurso raro de valor elevado.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de um item",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de um item"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34337,
+            "name": "Peçonha de Morestade",
+            "type": {
+                "name": "Líquido",
+                "id": 72
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15301-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15301-128.png"
+            },
+            "description": "Esta peçonha é a combinação de três venenos poderosos. É tão concentrada que uma simples gota é capaz de cegar.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34338,
+            "name": "Carapaça de Carangnante",
+            "type": {
+                "name": "Carapaça",
+                "id": 0
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24534-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24534-128.png"
+            },
+            "description": "Esta carapaça parece mudar de forma ao acaso. Só a estrutura permanece estável, deixando-a supersólida.",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34339,
+            "name": "Barbatana de Willorca",
+            "type": {
+                "name": "Recurso diverso",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24535-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24535-128.png"
+            },
+            "description": "Vários caçadores foram atrás de Willorca por causa da barbatana. Pouquíssimos voltaram sem abandonar a profissão.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34340,
+            "name": "Lampejo Abissal",
+            "type": {
+                "name": "Recurso diverso",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24536-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24536-128.png"
+            },
+            "description": "Quando a escuridão cercar você, agarre-se ao menor sinal de luz, seja ela uma centelha de esperança ou o brilho no olhar dos inimigos.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34394,
+            "name": "Pinça de Carangnante",
+            "type": {
+                "name": "Recurso de incursão",
+                "id": 253
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24531-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24531-128.png"
+            },
+            "description": "Uma pinça poderosa que corta de tudo.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34478,
+            "name": "Ovaficha",
+            "type": {
+                "name": "Recurso diverso",
+                "id": 229
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
+            },
+            "description": "\"Eu não era o melhor porque batia mais rápido, eu era o melhor porque a multidão me amava. Ganhe a multidão, Maximor, e você vai ganhar sua liberdade.\"\n\n— Proximor, gladiador veterano.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 0
         }
     ]
 }

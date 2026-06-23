@@ -8914,7 +8914,7 @@
         },
         {
             "ankama_id": 2586,
-            "name": "Flügel eines wilden, roten Dracotruters",
+            "name": "Flügel eines wilden Fuchsrot-Dracotruters",
             "type": {
                 "name": "Flügel",
                 "id": 142
@@ -26392,7 +26392,7 @@
         },
         {
             "ankama_id": 13488,
-            "name": "Goldener Dracotruterflügel",
+            "name": "Flügel eines Gold-Dracotruters",
             "type": {
                 "name": "Flügel",
                 "id": 142
@@ -29827,7 +29827,7 @@
         },
         {
             "ankama_id": 14280,
-            "name": "Goldene Dracotruterschuppe",
+            "name": "Schuppe eines Gold-Dracotruters",
             "type": {
                 "name": "Knochen",
                 "id": 2
@@ -33534,7 +33534,7 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/50719-128.png"
             },
             "description": "Mehr als ein Enutrof hat seine Großmutter verkauft, um an sein Gewicht in Turmalin zu kommen.",
-            "pods": 0
+            "pods": 2
         },
         {
             "ankama_id": 15272,
@@ -47019,7 +47019,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/107737-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/107737-128.png"
             },
-            "description": "Dieses patinierte Metall stammt nicht aus den Tiefen vergangener Zeiten, sondern eher aus denen des Ozeans. Die Meerkatoren nutzen es nicht nur für ihre Taucheranzüge, sondern auch für ihre Kochtöpfe.",
+            "description": "Dieses angelaufene Metall kommt nicht aus den Tiefen vergangener Zeiten, sondern aus den Tiefen des Ozeans. Die Meerkatoren nutzen es für ihre Taucheranzüge ebenso wie für ihre Kochtöpfe.",
             "pods": 2
         },
         {
@@ -53655,7 +53655,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12780-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12780-128.png"
             },
-            "description": "Obwohl dieser Gegenstand nur einen klitzekleinen Teil der Macht eines Babymoth enthält, ermöglicht er es, das verborgene Potenzial eures Vertrauten, Reitbegleiters oder Reittiers zu enthüllen.",
+            "description": "Obwohl dieser Gegenstand nur einen klitzekleinen Teil der Macht eines Babymoths enthält, könnt ihr damit das verborgene Potenzial eures Vertrauten oder Reitbegleiters enthüllen.",
             "recipe": [
                 {
                     "item_ankama_id": 20961,
@@ -59671,7 +59671,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Robustheit des Krachlers (Stufe 200):\n• Zu Beginn des Kampfes opfert der Träger pro Verbündetem 2 % Resistenz und verleiht seinen Verbündeten 3 % Resistenz. Die für einen Verbündeten geopferte Resistenz wird zurückgewonnen, wenn dieser stirbt."
+                    "formatted": "Robustheit des Krachlers (Stufe 200):\n• Zu Beginn des Kampfes opfert der Träger pro Verbündetem 2 % Resistenz und verleiht seinen Verbündeten 3 % Resistenz. Die für einen Verbündeten geopferte Resistenz wird zurückgewonnen, wenn dieser stirbt.\n• Die Effekte werden aufgehoben, wenn der Träger stirbt."
                 }
             ],
             "pods": 2
@@ -66897,6 +66897,246 @@
             },
             "description": "Mit diesem Fragment könnt ihr die Karte von Psychopomps wieder zusammensetzen.",
             "pods": 1
+        },
+        {
+            "ankama_id": 32464,
+            "name": "Salz der Tiefen",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Ihr denkt, die Dunkelheit ist euer Verbündeter? Sie wurden darin geboren, von ihr geformt. Sie haben das Licht erst durch euer Kommen kennengelernt, und da war es für sie nichts als blendend.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32465,
+            "name": "Quarz",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51512-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51512-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32466,
+            "name": "Opal",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51513-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51513-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32467,
+            "name": "Amazonit",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51514-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51514-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32468,
+            "name": "Aventurin",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51515-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51515-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32469,
+            "name": "Lapis",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51516-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51516-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32470,
+            "name": "Onyx",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51518-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51518-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32471,
+            "name": "Gagat",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51517-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51517-128.png"
+            },
+            "description": "Ein Edelstein mit gewissem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
         },
         {
             "ankama_id": 32501,
@@ -81141,8 +81381,8 @@
             },
             "level": 165,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93128-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93128-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93129-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93129-128.png"
             },
             "description": "Mit dieser Makina lässt sich bei einer Paarung eine zufällige Spezialfähigkeit auf ein Seequagga-Baby der 9. Generation oder niedriger anwenden.",
             "recipe": [
@@ -81313,36 +81553,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 34204,
-            "name": "Ovaton",
-            "type": {
-                "name": "Diverse Ressource",
-                "id": 229
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
-            },
-            "description": "„Ich war nicht der Beste, weil ich schnell getötet habe; ich war der Beste, weil die Menge mich liebte. Gewinne die Menge, Maximor, und du bekommst deine Freiheit.“\n\n– Proximor, Gladiatorenveteran",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Austauschbar:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Austauschbar: 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 34205,
             "name": "Prügler aus Bambusholz",
             "type": {
@@ -81509,6 +81719,261 @@
                 }
             ],
             "pods": 10
+        },
+        {
+            "ankama_id": 34323,
+            "name": "Blume der Beschützer des Heiligtums",
+            "type": {
+                "name": "Blume",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24526-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24526-128.png"
+            },
+            "description": "„Die Tränen der in Schweigen gehüllten Beschützer verwandeln sich in Blumen ... doch oh weh, lila soll ein böses Omen sein. Verflucht seien die lautlosen Boten des Bösen! Die Verwandlung hat euch zutiefst aufgewühlt? Ihr seid nichts als ein Angsthase.“\n– Belladonna",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34324,
+            "name": "Rüstungsteil der Wächter des Heiligtums",
+            "type": {
+                "name": "Diverse Ressource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24527-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24527-128.png"
+            },
+            "description": "Es geht doch nichts über einen Visierhelm aus Stein, damit euer Gesicht unter allen Umständen wie versteinert aussieht. So sieht es aus, als würden die Sticheleien eurer Schwiegermutter einfach an euch abprallen – was sie bestimmt zur Weißglut treibt.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34325,
+            "name": "Zersplitterter Schwertgriff der Scharlachroten Königin",
+            "type": {
+                "name": "Diverse Ressource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24528-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24528-128.png"
+            },
+            "description": "„Eifersucht kann zu Hass führen. Akzeptiert ihn. Schürt ihn. Scheut euch nicht, schreckliche Handlungen zu begehen: ein gebrochenes Herz ist besser als ein verfaulter Apfel.“\n– Ephedra, gestürzte Herrscherin",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34326,
+            "name": "Lianenstrauß der Verfluchten Prinzessin",
+            "type": {
+                "name": "Blume",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24529-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24529-128.png"
+            },
+            "description": "„Lasst uns einen Lianenstrauß binden,\nRanken ineinanderwinden,\nauf dass Verliebte zueinanderfinden –\nein Lianensträußchen in Ehren\nwird wohl niemand verwehren.“\n– Questengesang von Ephedrya",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34334,
+            "name": "Einheit der Muräne",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24533-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24533-128.png"
+            },
+            "description": "Eine seltene Ressource mit hohem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34335,
+            "name": "Groll der Gruselkrabbe",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24537-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24537-128.png"
+            },
+            "description": "Eine seltene Ressource mit hohem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34336,
+            "name": "Finsternis von Willorca",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24532-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24532-128.png"
+            },
+            "description": "Eine seltene Ressource mit hohem Wert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Wert eines Gegenstands",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Wert eines Gegenstands"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34337,
+            "name": "Gift der Königsmuräne",
+            "type": {
+                "name": "Flüssig",
+                "id": 72
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15301-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15301-128.png"
+            },
+            "description": "Dieses Gift wurde aus drei starken Giften zusammengemischt. Es hat eine so hohe Konzentration, dass schon ein einziger Tropfen euch erblinden lassen würde.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34338,
+            "name": "Panzer der Gruselkrabbe",
+            "type": {
+                "name": "Panzer",
+                "id": 0
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24534-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24534-128.png"
+            },
+            "description": "Dieser Panzer scheint seine Form willkürlich zu verändern, nur seine Struktur bleibt stabil. Das macht ihn extrem robust.",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34339,
+            "name": "Flosse von Willorca",
+            "type": {
+                "name": "Diverse Ressource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24535-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24535-128.png"
+            },
+            "description": "Viele Wilderer haben Willorca wegen seiner Flosse gejagt. Von denen wenigen, die zurückgekehrt sind, haben viele danach ihren Beruf an den Nagel gehängt.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34340,
+            "name": "Lichtschein aus dem Abgrund",
+            "type": {
+                "name": "Diverse Ressource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24536-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24536-128.png"
+            },
+            "description": "Wenn ihr von Dunkelheit umgeben seid, klammert euch an jeden noch so kleinen Lichtschimmer. Sei es der Funken der Hoffnung oder das Funkeln in den Augen eurer Feinde.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34394,
+            "name": "Zange der Gruselkrabbe",
+            "type": {
+                "name": "Überfallsressource",
+                "id": 253
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24531-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24531-128.png"
+            },
+            "description": "Eine mächtige Zange, die alles durchtrennen kann.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34478,
+            "name": "Ovaton",
+            "type": {
+                "name": "Diverse Ressource",
+                "id": 229
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
+            },
+            "description": "„Ich war nicht der Beste, weil ich schnell getötet habe; ich war der Beste, weil die Menge mich liebte. Gewinne die Menge, Maximor, und du bekommst deine Freiheit.“\n\n– Proximor, Gladiatorenveteran",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 0
         }
     ]
 }
