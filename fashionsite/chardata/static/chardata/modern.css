@@ -528,6 +528,25 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .solution-stat-summary{ width:42% !important; vertical-align:top; }
 }
 
+/* Very small screens (<=480px): the 2-column items|stats table no longer fits, so the
+   item action buttons overflow their box and the stats column gets clipped. Stack the
+   table into a single full-width column (items, then stats). */
+@media (max-width: 480px){
+  html.fm-modern .solution-table,
+  html.fm-modern .solution-table > tbody,
+  html.fm-modern .solution-table > tbody > tr{ display:block !important; width:100% !important; }
+  html.fm-modern .solution-item-summary,
+  html.fm-modern .solution-stat-summary{ display:block !important; width:100% !important; box-sizing:border-box; }
+}
+
+/* Load-projects table has fixed-width inner divs (~644px total) that overflow small
+   screens and cut the page. Let the table respect the column and the cell contents
+   shrink/wrap instead of forcing their pixel widths. */
+@media (max-width: 600px){
+  html.fm-modern .load-project-table{ width:100% !important; table-layout:fixed; }
+  html.fm-modern .load-project-cell > div{ width:auto !important; max-width:100% !important; overflow-wrap:anywhere; }
+}
+
 /* ============================================================================
    Unified modern icon set (modern skin only) — replaces mismatched raster
    control icons via CSS content:url(SVG). Classic keeps its own icons.
