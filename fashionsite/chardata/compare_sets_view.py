@@ -20,6 +20,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 import json
 import jsonpickle
 from urllib.parse import urlparse
@@ -155,9 +156,15 @@ def choose_compare_sets(request):
                         'chardata/choose_compare_sets.html',
                         params)
 
+@require_POST
 def choose_compare_sets_post(request):
     links_json = request.POST.get('links', None)
-    links = json.loads(links_json)
+    if links_json is None:
+        return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
+    try:
+        links = json.loads(links_json)
+    except (ValueError, TypeError):
+        return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
     links_digested = [_process_link(l) for l in links]
     
     if len(links_digested) <= 1:
