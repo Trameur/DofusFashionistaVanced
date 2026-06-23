@@ -198,3 +198,16 @@ class PasswordResetTests(TestCase):
                          {'new_password': 'newpass', 'confirm_password': 'newpass'})
         u.refresh_from_db()
         self.assertTrue(u.is_active)
+
+
+class ProjectActionRobustnessTests(TestCase):
+    """POST-only project endpoints must not 500 when hit by a bare GET (bots/crawlers).
+    Regression: /deleteprojects/ did json.loads(None) -> TypeError -> 500."""
+
+    def test_delete_projects_get_does_not_500(self):
+        resp = self.client.get('/deleteprojects/')
+        self.assertNotEqual(resp.status_code, 500)
+
+    def test_duplicate_project_get_does_not_500(self):
+        resp = self.client.get('/duplicateproject/')
+        self.assertNotEqual(resp.status_code, 500)

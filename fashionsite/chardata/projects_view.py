@@ -30,7 +30,12 @@ from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText, ver
 
 def delete_projects(request):
     projects_json = request.POST.get('projects', None)
-    projects = json.loads(projects_json)
+    if projects_json is None:
+        return HttpResponseText('error')
+    try:
+        projects = json.loads(projects_json)
+    except (ValueError, TypeError):
+        return HttpResponseText('error')
     for proj_id in projects:
         char = get_char_or_raise(request, proj_id) 
         char.deleted = True
@@ -43,7 +48,13 @@ def duplicate_project(request):
     if request.user is None or request.user.is_anonymous:
         return HttpResponseText('error')
 
-    proj_id_to_copy = json.loads(request.POST.get('project_id', None))
+    project_id_json = request.POST.get('project_id', None)
+    if project_id_json is None:
+        return HttpResponseText('error')
+    try:
+        proj_id_to_copy = json.loads(project_id_json)
+    except (ValueError, TypeError):
+        return HttpResponseText('error')
     worked = _unchecked_duplicate_project(request, proj_id_to_copy)
     if worked:
         return HttpResponseText('ok')
