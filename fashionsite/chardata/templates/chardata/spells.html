@@ -20,7 +20,11 @@
         {% else %}
             {% blocktrans %}How much damage your weapon and spells will deal with the suggested set.{% endblocktrans %}
         {% endif %}</p>
-    
+
+    {% if no_class_spells %}
+    <p align="center" class="text" style="opacity:.85;font-style:italic;">{% trans "Class spells aren't available for this class yet." %}</p>
+    {% endif %}
+
     <div id="spell-buttons">
         <table width="100%">
             <tr>

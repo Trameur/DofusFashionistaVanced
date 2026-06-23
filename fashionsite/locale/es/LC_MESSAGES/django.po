@@ -6722,6 +6722,9 @@ msgid ""
 msgstr ""
 "El aspecto clásico sigue disponible — vuelve cuando quieras con el botón"
 
+msgid "Class spells aren't available for this class yet."
+msgstr "Los hechizos de clase aún no están disponibles para esta clase."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

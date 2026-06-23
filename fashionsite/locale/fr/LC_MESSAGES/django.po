@@ -7248,6 +7248,9 @@ msgstr ""
 "L'ancien look classique reste disponible — rebasculez quand vous voulez avec"
 " le bouton"
 
+msgid "Class spells aren't available for this class yet."
+msgstr "Les sorts de classe ne sont pas encore disponibles pour cette classe."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

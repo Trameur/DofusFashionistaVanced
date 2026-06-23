@@ -51,7 +51,8 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
             digests.append(web_digest)
     game_version = getattr(request, 'game_version', 'dofus3')
     spells_by_class = get_damage_spells_for_version(game_version)
-    for spell in spells_by_class.get(char_class, []) + spells_by_class.get('default', []):
+    class_spells = spells_by_class.get(char_class, [])
+    for spell in class_spells + spells_by_class.get('default', []):
         web_digest = _create_spell_web_digest(spell, game_version)
         digests.append(web_digest)
     digests_json = jsonpickle.encode(digests, unpicklable=False)
@@ -65,7 +66,8 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'digests_json': digests_json,
                          'char_id': char_id,
                          'char_level': char.level,
-                         'char_stats_json': stats_json},
+                         'char_stats_json': stats_json,
+                         'no_class_spells': len(class_spells) == 0},
                         char)
 
 def _create_weapon_web_digest(weapon):

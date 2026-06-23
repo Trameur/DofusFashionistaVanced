@@ -6713,6 +6713,9 @@ msgid ""
 msgstr ""
 "O visual clássico continua disponível — volte quando quiser com o botão"
 
+msgid "Class spells aren't available for this class yet."
+msgstr "Os feitiços de classe ainda não estão disponíveis para esta classe."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

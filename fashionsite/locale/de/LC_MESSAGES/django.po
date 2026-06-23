@@ -6735,3 +6735,6 @@ msgid ""
 msgstr ""
 "Das klassische Design bleibt verfügbar — jederzeit über den Schalter "
 "umschaltbar"
+
+msgid "Class spells aren't available for this class yet."
+msgstr "Klassenzauber sind für diese Klasse noch nicht verfügbar."
