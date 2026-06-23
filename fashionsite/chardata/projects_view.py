@@ -20,6 +20,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
 import json
 
 from chardata.create_project_view import MAXIMUM_NUMBER_OF_PROJECTS
@@ -28,6 +29,7 @@ from chardata.models import CharBaseStats, Char
 from chardata.util import get_char_or_raise, TESTER_USERS, HttpResponseText, version_reverse
 
 
+@require_POST
 def delete_projects(request):
     projects_json = request.POST.get('projects', None)
     if projects_json is None:
@@ -44,6 +46,7 @@ def delete_projects(request):
             del request.session['char_id']
     return HttpResponseText('ok')
         
+@require_POST
 def duplicate_project(request):
     if request.user is None or request.user.is_anonymous:
         return HttpResponseText('error')

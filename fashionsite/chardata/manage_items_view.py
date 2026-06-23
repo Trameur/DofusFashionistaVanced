@@ -16,6 +16,7 @@
 
 import json
 
+from django.views.decorators.http import require_POST
 from chardata.util import set_response, safe_int, HttpResponseText, HttpResponseJson
 from fashionistapulp.dofus_constants import (ELEMENT_KEY_TO_NAME, ELEMENT_NAME_TO_KEY,
                                              DamageDigest, STAT_ORDER, STAT_KEY_TO_NAME)
@@ -48,6 +49,7 @@ def edit_set(request):
                         {'stats_order': json.dumps(structure.get_stats_list_names_sorted()),
                          'languages': NON_EN_LANGUAGES})
 
+@require_POST
 def update_item_post(request):
     item_json = request.POST.get('item', None)
     if item_json is None:
@@ -69,6 +71,7 @@ def update_item_post(request):
         _insert_item(item)
         return HttpResponseText('ok')
 
+@require_POST
 def update_set_post(request):
     set_json = request.POST.get('set', None)
     if set_json is None:
