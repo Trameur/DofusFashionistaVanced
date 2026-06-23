@@ -6702,6 +6702,12 @@ msgstr ""
 msgid "Characteristics rework and Crâ overhaul reflected in the data"
 msgstr "Reformulação das características e do Cra refletida nos dados"
 
+msgid "New modern look"
+msgstr "Novo visual moderno"
+
+msgid "A modern redesign of the whole site, with light and dark themes"
+msgstr "Redesign moderno de todo o site, com temas claro e escuro"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
