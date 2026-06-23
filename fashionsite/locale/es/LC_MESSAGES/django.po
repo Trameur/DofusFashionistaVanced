@@ -6717,6 +6717,11 @@ msgstr "Nuevo aspecto moderno"
 msgid "A modern redesign of the whole site, with light and dark themes"
 msgstr "Rediseño moderno de todo el sitio, con temas claro y oscuro"
 
+msgid ""
+"The classic look is still available — switch back anytime with the toggle"
+msgstr ""
+"El aspecto clásico sigue disponible — vuelve cuando quieras con el botón"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

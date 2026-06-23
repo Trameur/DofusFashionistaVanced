@@ -6729,3 +6729,9 @@ msgstr "Neues modernes Design"
 
 msgid "A modern redesign of the whole site, with light and dark themes"
 msgstr "Modernes Redesign der gesamten Website, mit hellem und dunklem Theme"
+
+msgid ""
+"The classic look is still available — switch back anytime with the toggle"
+msgstr ""
+"Das klassische Design bleibt verfügbar — jederzeit über den Schalter "
+"umschaltbar"
