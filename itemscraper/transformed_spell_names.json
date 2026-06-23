@@ -25353,6 +25353,13 @@
     "fr": "Cavale",
     "pt": "Escapadela"
   },
+  "Escape from Exile": {
+    "de": "Flucht aus dem Exil",
+    "en": "Escape from Exile",
+    "es": "Evasión del Exilio",
+    "fr": "Évasion de l'Exil",
+    "pt": "Evasão do Exílio"
+  },
   "Eshincity": {
     "de": "Eshincity",
     "en": "Eshincity",
@@ -80611,13 +80618,6 @@
     "fr": "Flou expérimental",
     "pt": "[!] Flou expérimental"
   },
-  "[!] Flèche Assaillante": {
-    "de": "[!] Flèche Assaillante",
-    "en": "[!] Flèche Assaillante",
-    "es": "[!] Flèche Assaillante",
-    "fr": "Flèche Assaillante",
-    "pt": "[!] Flèche Assaillante"
-  },
   "[!] Flèche Destructrice Trahison": {
     "de": "[!] Flèche Destructrice Trahison",
     "en": "[!] Flèche Destructrice Trahison",
@@ -84159,13 +84159,6 @@
     "es": "[!] Étreinte Sylvestre",
     "fr": "Étreinte Sylvestre",
     "pt": "[!] Étreinte Sylvestre"
-  },
-  "[!] Évasion de l'Exil": {
-    "de": "Flucht aus dem Exil",
-    "en": "[!] Évasion de l'Exil",
-    "es": "[!] Évasion de l'Exil",
-    "fr": "Évasion de l'Exil",
-    "pt": "[!] Évasion de l'Exil"
   },
   "[!] Évolution magmatique": {
     "de": "[!] Évolution magmatique",

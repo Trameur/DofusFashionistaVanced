@@ -2974,8 +2974,8 @@
             },
             "level": 50,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12139-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/23121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png"
             },
             "description": "Cette potion magique est la seule à même de rendre magiques des Slips en Cuir de Captain Chafer tressés entre eux, voilà qui en dit long sur la puissance d'une telle potion.",
             "pods": 10
@@ -40005,466 +40005,6 @@
             "pods": 2
         },
         {
-            "ankama_id": 15248,
-            "name": "Coffre insignifiant",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Il sonne creux, mais il existe une probabilité très faible pour qu'il contienne quelque chose d'intéressant, comme une molaire, des poils, ou peut-être une molaire poilue.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 400,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 à 400 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15260,
-            "name": "Coffre rouillé",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Plus difficile à ouvrir qu'à refermer, mais plus facile à oublier qu'à trouver.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 401,
-                    "int_maximum": 800,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "401 à 800 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15261,
-            "name": "Coffre intrigant",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Il pourrait contenir tout et n'importe quoi, mais surtout n'importe quoi.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 601,
-                    "int_maximum": 1200,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "601 à 1200 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15262,
-            "name": "Coffre surprenant",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Il contient de toute évidence au moins une surprise. Bonne ou mauvaise.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 801,
-                    "int_maximum": 1600,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "801 à 1600 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15264,
-            "name": "Coffre solide",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Ce coffre est assez solide pour être lancé sur celui qui vient de vous l'offrir si vous n'êtes pas satisfait par son contenu. Profitez-en.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 1001,
-                    "int_maximum": 2000,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1001 à 2000 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15265,
-            "name": "Coffre lourd",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Vous aurez le cœur léger en découvrant le contenu de ce coffre lourd.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 1201,
-                    "int_maximum": 2400,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1201 à 2400 Kamas"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 15266,
-            "name": "Coffre étincelant",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "En frappant très fort deux coffres étincelants l'un contre l'autre, vous pourrez produire quelques étincelles et allumer un feu pour brûler de rage, leur contenu décevant.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 1401,
-                    "int_maximum": 2800,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1401 à 2800 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15267,
-            "name": "Coffre imposant",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Même si vous ne parvenez jamais à l'ouvrir, vous ressemblerez presque à un chasseur de trésors si vous possédez un tel coffre.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 1601,
-                    "int_maximum": 3200,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1601 à 3200 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15268,
-            "name": "Coffre impressionnant",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "En vous cachant dans ce coffre, vous pourrez enfin devenir impressionnant.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 1801,
-                    "int_maximum": 3600,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1801 à 3600 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15269,
-            "name": "Coffre magistral",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Ce coffre est énorme. Mais pas assez pour stocker l'historique de vos erreurs de jeunesse.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                },
-                {
-                    "int_minimum": 2001,
-                    "int_maximum": 4000,
-                    "type": {
-                        "name": "Kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "2001 à 4000 Kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15270,
-            "name": "Coffre de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Ce coffre contient un coffre qui contient un coffre qui contient un coffre qui...\nEncore une belle invention du célèbre André Kursif.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 15312,
             "name": "Richissime",
             "type": {
@@ -55432,8 +54972,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73036-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73036-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png"
             },
             "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Iop.",
             "effects": [
@@ -57024,8 +56564,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73026-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73026-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png"
             },
             "description": "Ce parchemin vous permet d'apprendre le coup fatal de la déesse Eniripsa.",
             "effects": [
@@ -93691,306 +93231,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 29502,
-            "name": "Coffre insignifiant de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Il sonne creux, mais il existe une probabilité très faible pour qu'il contienne quelque chose d'intéressant, comme une molaire, des poils, ou peut-être une molaire poilue.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29503,
-            "name": "Coffre rouillé de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Plus difficile à ouvrir qu'à refermer, mais plus facile à oublier qu'à trouver.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29504,
-            "name": "Coffre intrigant de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Il pourrait contenir tout et n'importe quoi, mais surtout n'importe quoi.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29505,
-            "name": "Coffre surprenant de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Il contient de toute évidence au moins une surprise. Bonne ou mauvaise.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29506,
-            "name": "Coffre solide de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Ce coffre est assez solide pour être lancé sur celui qui vient de vous l'offrir si vous n'êtes pas satisfait par son contenu. Profitez-en.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29507,
-            "name": "Coffre lourd de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Vous aurez le cœur léger en découvrant le contenu de ce coffre lourd.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 29508,
-            "name": "Coffre étincelant de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "En frappant très fort deux coffres étincelants l'un contre l'autre, vous pourrez produire quelques étincelles et allumer un feu pour brûler de rage, leur contenu décevant.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29509,
-            "name": "Coffre imposant de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Même si vous ne parvenez jamais à l'ouvrir, vous ressemblerez presque à un chasseur de trésors si vous possédez un tel coffre.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29510,
-            "name": "Coffre impressionnant de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "En vous cachant dans ce coffre, vous pourrez enfin devenir impressionnant.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29511,
-            "name": "Coffre magistral de loterie",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Ce coffre est énorme. Mais pas assez pour stocker l'historique de vos erreurs de jeunesse.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 29512,
             "name": "Parchemin de la Maîtrise des Invocations",
             "type": {
@@ -109130,156 +108370,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 31775,
-            "name": "Coffre d'Enutrosor",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Ce coffre est tombé d'une fissure menant à une dimension divine.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31776,
-            "name": "Coffre de Srambad",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Ce coffre est tombé d'une fissure menant à une dimension divine.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31777,
-            "name": "Coffre d'Ecaflipus",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Ce coffre est tombé d'une fissure menant à une dimension divine.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31778,
-            "name": "Coffre du Xélorium",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Ce coffre est tombé d'une fissure menant à une dimension divine.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31779,
-            "name": "Coffre d'Osavora",
-            "type": {
-                "name": "Coffre",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Ce coffre est tombé d'une fissure menant à une dimension divine.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Qu'y a-t-il là-dedans ?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Qu'y a-t-il là-dedans ?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 31824,
             "name": "Aura de l'Inventeur",
             "type": {
@@ -109980,7 +109070,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gagne x1"
+                    "formatted": "Gagne x1 Supremasiège"
                 },
                 {
                     "int_minimum": 0,
@@ -114910,8 +114000,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Ce diplôme confère le titre « Copain d'abord ».",
             "effects": [
@@ -114953,8 +114043,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Ce diplôme confère le titre « Sacré camarade ».",
             "effects": [
@@ -115830,8 +114920,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
             "description": "Ce diplôme confère le titre « Ankamascotte ».",
             "effects": [
@@ -126902,7 +125992,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gagne x10"
+                    "formatted": "Gagne x10 Représailles"
                 }
             ],
             "pods": 10
@@ -127048,7 +126138,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gagne x1000"
+                    "formatted": "Gagne x1000 Glyphe Floral"
                 },
                 {
                     "int_minimum": 0,
@@ -127065,6 +126155,752 @@
                 }
             ],
             "pods": 10
+        },
+        {
+            "ankama_id": 34284,
+            "name": "Coffre du mercenaire (1-20)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14112-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14112-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34285,
+            "name": "Coffre du mercenaire (21-40)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 40,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14113-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14113-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34286,
+            "name": "Coffre du mercenaire (41-60)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14114-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14114-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34287,
+            "name": "Coffre du mercenaire (61-80)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 80,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14115-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14115-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34288,
+            "name": "Coffre du mercenaire (81-100)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 100,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14116-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14116-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34289,
+            "name": "Coffre du mercenaire (101-120)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 120,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14118-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14118-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34290,
+            "name": "Coffre du mercenaire (121-140)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 140,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14119-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14119-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34291,
+            "name": "Coffre du mercenaire (141-160)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 160,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14120-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14120-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34292,
+            "name": "Coffre du mercenaire (161-180)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 180,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14121-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34293,
+            "name": "Coffre du mercenaire (181-199)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 199,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14122-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14122-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34294,
+            "name": "Coffre du mercenaire (200)",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14123-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14123-128.png"
+            },
+            "description": "En offrant votre aide à des aventuriers dans le besoin, vous avez obtenu ce coffre pour récompenser votre bravoure.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propose un choix",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propose un choix"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34297,
+            "name": "Potion antitrooll de Madame Mimagie",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12816-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12816-128.png"
+            },
+            "description": "Voilà un remède souverain contre les changements intempestifs qui sont imposés par les Troolls déguisés en aventuriers. Ses effets sont permanents. Toutefois, si vous changez d'avis ou si vous estimez que tout le monde devrait se mettre à l'orange, vous pouvez demander à Madame Mimagie de dissiper le pouvoir de la potion. Rendez-vous à la Foire du Trool pour lui en toucher un mot.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34304,
+            "name": "Première page du manuscrit",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Vous avez trouvé cette page dans l'Ouvrage Monochrome.",
+            "effects": [
+                {
+                    "int_minimum": 745,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34305,
+            "name": "Deuxième page du manuscrit",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Vous avez trouvé cette page dans le Clos des Protecteurs.",
+            "effects": [
+                {
+                    "int_minimum": 746,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34306,
+            "name": "Troisième page du manuscrit",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Vous avez trouvé cette page dans la Réserve de Belladone.",
+            "effects": [
+                {
+                    "int_minimum": 747,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34307,
+            "name": "Quatrième page du manuscrit",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Vous avez trouvé cette page dans la Cour d'Éphèdre.",
+            "effects": [
+                {
+                    "int_minimum": 748,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34308,
+            "name": "Cinquième page du manuscrit",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Vous avez trouvé cette page dans l'Allée du Château.",
+            "effects": [
+                {
+                    "int_minimum": 749,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34309,
+            "name": "Manuscrit du Sanctuaire des Jardins éternels",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25008-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25008-128.png"
+            },
+            "description": "Ce livre écrit de la main de Belladone rassemble les différentes pages trouvées dans les Jardins éternels. Il semble épais, mais c'est juste pour vous intimider.",
+            "effects": [
+                {
+                    "int_minimum": 744,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
         },
         {
             "ankama_id": 34311,
@@ -127540,6 +127376,92 @@
             "pods": 1
         },
         {
+            "ankama_id": 34342,
+            "name": "Coffre du Sanctuaire",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89067-128.png"
+            },
+            "description": "Ce coffre est la récompense ultime d'une coordination sans faille. Les plus chanceux y trouveront des pièces d'une rareté légendaire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34344,
+            "name": "Coffre majestueux du Sanctuaire",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89068-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89068-128.png"
+            },
+            "description": "Ce coffre est la récompense ultime d'une coordination sans faille. Les plus chanceux y trouveront des pièces d'une rareté légendaire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34345,
             "name": "Dragobon Vanille survolté",
             "type": {
@@ -127815,6 +127737,916 @@
             "pods": 1
         },
         {
+            "ankama_id": 34353,
+            "name": "Coffre du Gouffre",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89069-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89069-128.png"
+            },
+            "description": "Ce coffre récompense les héros et les héroïnes qui ont osé s'aventurer dans le Gouffre du Gigalodon, et qui en sont ressortis. Il contient des ressources communes et rares du raid.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34354,
+            "name": "Coffre majestueux du Gouffre",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89070-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89070-128.png"
+            },
+            "description": "Ce coffre récompense les héros et les héroïnes qui ont osé s'aventurer dans le Gouffre du Gigalodon, et qui en sont ressortis. Il contient des ressources rares et des équipements du raid.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34356,
+            "name": "Superbe tatouage éphémère de Tankr",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78279-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png"
+            },
+            "description": "Le capitaine Tankr était une force de la nature, un colosse d'une vitalité débordante. Son navire semblait partout à la fois, de la Mer Kantil à la Mer d'Asse, de la Baie de Cania à la côte des Dents de Pierre. Sa carrière de flibustier s'est achevée tragiquement : une sombre histoire d'ancre, d'encre et de kralamoure géant.\nCe tatouage vous apportera une infime fraction de la vitalité de Tankr.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34357,
+            "name": "Superbe tatouage éphémère de Looth",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png"
+            },
+            "description": "Looth n'avait pas d'égale quand il s'agissait d'explorer méthodiquement un endroit ou de fouiller le corps d'un ennemi vaincu pour s'approprier ses maigres possessions. Rejetant toute appartenance à un clan ou à une bande comme les ruffians de Cania, elle n'était motivée que par l'appât du gain. Sa mort fut à l'image de sa vie : violente et expéditive.\nCe tatouage vous apportera une infime fraction des talents de prospection de Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34358,
+            "name": "Superbe tatouage éphémère de Brett",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78291-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png"
+            },
+            "description": "Brett était un spadassin redouté dans toutes les Plaines de Cania. Il attaquait les voyageurs qui croisaient son chemin, soi-disant pour leur faire une démonstration de ses talents à l'épée. On dit qu'il a fini par se pourfendre lui-même dans un élan d'enthousiasme.\nCe tatouage vous apportera une infime fraction de la puissance de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34359,
+            "name": "Superbe tatouage temporaire de Tankr",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78278-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png"
+            },
+            "description": "Le capitaine Tankr était une force de la nature, un colosse d'une vitalité débordante. Son navire semblait partout à la fois, de la Mer Kantil à la Mer d'Asse, de la Baie de Cania à la côte des Dents de Pierre. Sa carrière de flibustier s'est achevée tragiquement : une sombre histoire d'ancre, d'encre et de kralamoure géant.\nCe tatouage vous apportera une infime fraction de la vitalité de Tankr.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34360,
+            "name": "Superbe tatouage temporaire de Looth",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78284-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png"
+            },
+            "description": "Looth n'avait pas d'égale quand il s'agissait d'explorer méthodiquement un endroit ou de fouiller le corps d'un ennemi vaincu pour s'approprier ses maigres possessions. Rejetant toute appartenance à un clan ou à une bande comme les ruffians de Cania, elle n'était motivée que par l'appât du gain. Sa mort fut à l'image de sa vie : violente et expéditive.\nCe tatouage vous apportera une infime fraction des talents de prospection de Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34361,
+            "name": "Superbe tatouage temporaire de Brett",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78290-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png"
+            },
+            "description": "Brett était un spadassin redouté dans toutes les Plaines de Cania. Il attaquait les voyageurs qui croisaient son chemin, soi-disant pour leur faire une démonstration de ses talents à l'épée. On dit qu'il a fini par se pourfendre lui-même dans un élan d'enthousiasme.\nCe tatouage vous apportera une infime fraction de la puissance de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34362,
+            "name": "Simple tatouage éphémère de Tankr",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78275-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png"
+            },
+            "description": "Le capitaine Tankr était une force de la nature, un colosse d'une vitalité débordante. Son navire semblait partout à la fois, de la Mer Kantil à la Mer d'Asse, de la Baie de Cania à la côte des Dents de Pierre. Sa carrière de flibustier s'est achevée tragiquement : une sombre histoire d'ancre, d'encre et de kralamoure géant.\nCe tatouage vous apportera une infime fraction de la vitalité de Tankr.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34363,
+            "name": "Simple tatouage éphémère de Looth",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png"
+            },
+            "description": "Looth n'avait pas d'égale quand il s'agissait d'explorer méthodiquement un endroit ou de fouiller le corps d'un ennemi vaincu pour s'approprier ses maigres possessions. Rejetant toute appartenance à un clan ou à une bande comme les ruffians de Cania, elle n'était motivée que par l'appât du gain. Sa mort fut à l'image de sa vie : violente et expéditive.\nCe tatouage vous apportera une infime fraction des talents de prospection de Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34364,
+            "name": "Simple tatouage éphémère de Brett",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78287-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png"
+            },
+            "description": "Brett était un spadassin redouté dans toutes les Plaines de Cania. Il attaquait les voyageurs qui croisaient son chemin, soi-disant pour leur faire une démonstration de ses talents à l'épée. On dit qu'il a fini par se pourfendre lui-même dans un élan d'enthousiasme.\nCe tatouage vous apportera une infime fraction de la puissance de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34365,
+            "name": "Simple tatouage temporaire de Tankr",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78274-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png"
+            },
+            "description": "Le capitaine Tankr était une force de la nature, un colosse d'une vitalité débordante. Son navire semblait partout à la fois, de la Mer Kantil à la Mer d'Asse, de la Baie de Cania à la côte des Dents de Pierre. Sa carrière de flibustier s'est achevée tragiquement : une sombre histoire d'ancre, d'encre et de kralamoure géant.\nCe tatouage vous apportera une infime fraction de la vitalité de Tankr.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34366,
+            "name": "Simple tatouage temporaire de Looth",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78280-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png"
+            },
+            "description": "Looth n'avait pas d'égale quand il s'agissait d'explorer méthodiquement un endroit ou de fouiller le corps d'un ennemi vaincu pour s'approprier ses maigres possessions. Rejetant toute appartenance à un clan ou à une bande comme les ruffians de Cania, elle n'était motivée que par l'appât du gain. Sa mort fut à l'image de sa vie : violente et expéditive.\nCe tatouage vous apportera une infime fraction des talents de prospection de Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34367,
+            "name": "Simple tatouage temporaire de Brett",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78286-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png"
+            },
+            "description": "Brett était un spadassin redouté dans toutes les Plaines de Cania. Il attaquait les voyageurs qui croisaient son chemin, soi-disant pour leur faire une démonstration de ses talents à l'épée. On dit qu'il a fini par se pourfendre lui-même dans un élan d'enthousiasme.\nCe tatouage vous apportera une infime fraction de la puissance de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34368,
+            "name": "Beau tatouage éphémère de Tankr",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78277-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png"
+            },
+            "description": "Le capitaine Tankr était une force de la nature, un colosse d'une vitalité débordante. Son navire semblait partout à la fois, de la Mer Kantil à la Mer d'Asse, de la Baie de Cania à la côte des Dents de Pierre. Sa carrière de flibustier s'est achevée tragiquement : une sombre histoire d'ancre, d'encre et de kralamoure géant.\nCe tatouage vous apportera une infime fraction de la vitalité de Tankr.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34369,
+            "name": "Beau tatouage éphémère de Looth",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78283-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png"
+            },
+            "description": "Looth n'avait pas d'égale quand il s'agissait d'explorer méthodiquement un endroit ou de fouiller le corps d'un ennemi vaincu pour s'approprier ses maigres possessions. Rejetant toute appartenance à un clan ou à une bande comme les ruffians de Cania, elle n'était motivée que par l'appât du gain. Sa mort fut à l'image de sa vie : violente et expéditive.\nCe tatouage vous apportera une infime fraction des talents de prospection de Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34370,
+            "name": "Beau tatouage éphémère de Brett",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78289-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png"
+            },
+            "description": "Brett était un spadassin redouté dans toutes les Plaines de Cania. Il attaquait les voyageurs qui croisaient son chemin, soi-disant pour leur faire une démonstration de ses talents à l'épée. On dit qu'il a fini par se pourfendre lui-même dans un élan d'enthousiasme.\nCe tatouage vous apportera une infime fraction de la puissance de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34371,
+            "name": "Beau tatouage temporaire de Tankr",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78276-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png"
+            },
+            "description": "Le capitaine Tankr était une force de la nature, un colosse d'une vitalité débordante. Son navire semblait partout à la fois, de la Mer Kantil à la Mer d'Asse, de la Baie de Cania à la côte des Dents de Pierre. Sa carrière de flibustier s'est achevée tragiquement : une sombre histoire d'ancre, d'encre et de kralamoure géant.\nCe tatouage vous apportera une infime fraction de la vitalité de Tankr.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34372,
+            "name": "Beau tatouage temporaire de Looth",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png"
+            },
+            "description": "Looth n'avait pas d'égale quand il s'agissait d'explorer méthodiquement un endroit ou de fouiller le corps d'un ennemi vaincu pour s'approprier ses maigres possessions. Rejetant toute appartenance à un clan ou à une bande comme les ruffians de Cania, elle n'était motivée que par l'appât du gain. Sa mort fut à l'image de sa vie : violente et expéditive.\nCe tatouage vous apportera une infime fraction des talents de prospection de Looth.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34373,
+            "name": "Beau tatouage temporaire de Brett",
+            "type": {
+                "name": "Tatouage de la Foire du Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78288-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png"
+            },
+            "description": "Brett était un spadassin redouté dans toutes les Plaines de Cania. Il attaquait les voyageurs qui croisaient son chemin, soi-disant pour leur faire une démonstration de ses talents à l'épée. On dit qu'il a fini par se pourfendre lui-même dans un élan d'enthousiasme.\nCe tatouage vous apportera une infime fraction de la puissance de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Être niveau {0} ou plus",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34374,
+            "name": "Diplôme d'Essuie-glace",
+            "type": {
+                "name": "Parchemin de titre",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Ce diplôme confère le titre « Essuie-glace ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titre :",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titre : Essuie-glace"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34375,
+            "name": "Diplôme de Rempart de Frigost",
+            "type": {
+                "name": "Parchemin de titre",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Ce diplôme confère le titre « Rempart de Frigost ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titre :",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titre : Rempart de Frigost"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34390,
             "name": "Diplôme Solary",
             "type": {
@@ -127969,6 +128801,557 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Titre : What's the color ?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34418,
+            "name": "Trésor vénéneux",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89071-128.png"
+            },
+            "description": "Ce coffre arraché aux Jardins éternels contient-il des souvenirs délétères ? Pour le savoir, il ne vous reste plus qu'à l'ouvrir.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34419,
+            "name": "Trésor abyssal",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89073-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89073-128.png"
+            },
+            "description": "Ce coffre remonté du Gouffre du Gigalodon contient-il des souvenirs insondables ? Pour le savoir, il ne vous reste plus qu'à l'ouvrir.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34420,
+            "name": "Trésor estival",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Ce coffre extirpé des profondeurs de Vulkania contient-il des souvenirs de vacances ? Pour le savoir, il ne vous reste plus qu'à l'ouvrir.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34427,
+            "name": "Héritage salé",
+            "type": {
+                "name": "Objet utilisable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Consommer ce bloc de sel pourrait bien décupler votre appétit. Vous serez capable d'engloutir tout un banc de poissons ! Et n'oubliez pas : même les dents de la mer nécessitent d'être brossées, à moins que vous ne souhaitiez avoir une haleine qui rappelle la marée.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Monter/Descendre d'une monture",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Monter/Descendre d'une monture"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34429,
+            "name": "Héritage fleuri",
+            "type": {
+                "name": "Objet utilisable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/35638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/35638-128.png"
+            },
+            "description": "Il paraît que les parties supérieures de la belladone sont couvertes de poils qui répandent une odeur désagréable. Vous en doutez ? En respirant le parfum de cette fleur, vous devrez vous rendre à l'évidence... Vous prendrez indéniablement un air supérieur.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Monter/Descendre d'une monture",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Monter/Descendre d'une monture"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34460,
+            "name": "Héritage à la kroke",
+            "type": {
+                "name": "Objet utilisable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/111005-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/111005-128.png"
+            },
+            "description": "Quand on marche sur des œufs, on ne s'attend pas forcément à ce qu'ils réagissent. Les touristes étourdis qui se promènent dans les forêts vulkaines l'apprennent souvent à leurs dépens.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Monter/Descendre d'une monture",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Monter/Descendre d'une monture"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34462,
+            "name": "Trésor oublié",
+            "type": {
+                "name": "Coffre",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Ce coffre découvert dans un lieu chargé d'histoire contient-il des souvenirs refoulés ? Pour le savoir, il ne vous reste plus qu'à l'ouvrir.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Lié au personnage",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Lié au personnage"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34468,
+            "name": "Héritage écailleux",
+            "type": {
+                "name": "Objet utilisable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Dragoune ocre, godron ventru ou Terrak onirique : les héritiers de Terrakourial peuvent prendre bien des apparences.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Monter/Descendre d'une monture",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Monter/Descendre d'une monture"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34473,
+            "name": "Héritage écailleux",
+            "type": {
+                "name": "Objet utilisable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Dragoune ocre, godron ventru ou Terrak onirique : les héritiers de Terrakourial peuvent prendre bien des apparences.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Monter/Descendre d'une monture",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Monter/Descendre d'une monture"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34474,
+            "name": "Héritage écailleux",
+            "type": {
+                "name": "Objet utilisable",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Dragoune ocre, godron ventru ou Terrak onirique : les héritiers de Terrakourial peuvent prendre bien des apparences.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Monter/Descendre d'une monture",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Monter/Descendre d'une monture"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34495,
+            "name": "Diplôme Maître des files d'attente",
+            "type": {
+                "name": "Parchemin de titre",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Ce diplôme confère le titre « Maître des files d'attente ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titre :",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titre : Maître des files d'attente"
                 },
                 {
                     "int_minimum": 0,

@@ -71052,7 +71052,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2652,
+                    "item_ankama_id": 2649,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -71148,7 +71148,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2649,
+                    "item_ankama_id": 2652,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmonie von Pandala:\n• Wenn der Träger während seiner Runde Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23408::Dorigami}} bei sich tragen, 1 Runde lang 20 Schaden (1-mal kumulierbar).\n• Wenn er keinen Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23237::Domakuro}} bei sich tragen, 1 Runde lang 150 % seiner Stufe als Schild."
+                    "formatted": "Harmonie von Pandala:\n• Wenn der Träger während seiner Runde Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23408::Dorigami}} bei sich tragen, 1 Runde lang 20 Schaden (1-mal kumulierbar).\n• Wenn er keinen Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23237::Domakuro}} bei sich tragen, 1 Runde lang 100 % seiner Stufe als Schild."
                 },
                 {
                     "int_minimum": 0,
@@ -105746,7 +105746,7 @@
         },
         {
             "ankama_id": 7809,
-            "name": "Wilder roter Dracotruter",
+            "name": "Wilder Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -105773,7 +105773,7 @@
         },
         {
             "ankama_id": 7810,
-            "name": "Ebenholz und Elfenbein-Dracotruter",
+            "name": "Ebenholz-Elfenbein-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -105800,7 +105800,7 @@
         },
         {
             "ankama_id": 7811,
-            "name": "Roter Dracotruter",
+            "name": "Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -105827,7 +105827,7 @@
         },
         {
             "ankama_id": 7812,
-            "name": "Rot und Elfenbein-Dracotruter",
+            "name": "Elfenbein-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -105854,7 +105854,7 @@
         },
         {
             "ankama_id": 7813,
-            "name": "Rot und Ebenholz-Dracotruter",
+            "name": "Ebenholz-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -105962,7 +105962,7 @@
         },
         {
             "ankama_id": 7817,
-            "name": "Goldener Dracotruter",
+            "name": "Gold-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106070,7 +106070,7 @@
         },
         {
             "ankama_id": 7821,
-            "name": "Orchideen-Dracotruter",
+            "name": "Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106097,7 +106097,7 @@
         },
         {
             "ankama_id": 7822,
-            "name": "Pflaumen-Dracotruter",
+            "name": "Pflaume-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106124,7 +106124,7 @@
         },
         {
             "ankama_id": 7823,
-            "name": "Gold und Mandel-Dracotruter",
+            "name": "Mandel-Gold-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106151,7 +106151,7 @@
         },
         {
             "ankama_id": 7824,
-            "name": "Ebenholz und Mandel-Dracotruter",
+            "name": "Mandel-Ebenholz-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106178,7 +106178,7 @@
         },
         {
             "ankama_id": 7825,
-            "name": "Smaragd und Mandel-Dracotruter",
+            "name": "Mandel-Smaragd-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106205,7 +106205,7 @@
         },
         {
             "ankama_id": 7826,
-            "name": "Indigo und Mandel-Dracotruter",
+            "name": "Mandel-Indigo-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106232,7 +106232,7 @@
         },
         {
             "ankama_id": 7827,
-            "name": "Elfenbein und Mandel-Dracotruter",
+            "name": "Mandel-Elfenbein-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106259,7 +106259,7 @@
         },
         {
             "ankama_id": 7828,
-            "name": "Rot und Mandel-Dracotruter",
+            "name": "Mandel-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106286,7 +106286,7 @@
         },
         {
             "ankama_id": 7829,
-            "name": "Türkis und Mandel-Dracotruter",
+            "name": "Mandel-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106313,7 +106313,7 @@
         },
         {
             "ankama_id": 7830,
-            "name": "Orchideen und Mandel-Dracotruter",
+            "name": "Mandel-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106340,7 +106340,7 @@
         },
         {
             "ankama_id": 7831,
-            "name": "Purpur und Mandel-Dracotruter",
+            "name": "Mandel-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106367,7 +106367,7 @@
         },
         {
             "ankama_id": 7832,
-            "name": "Gold und Ebenholz-Dracotruter",
+            "name": "Gold-Ebenholz-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106394,7 +106394,7 @@
         },
         {
             "ankama_id": 7833,
-            "name": "Gold und Smaragd-Dracotruter",
+            "name": "Gold-Smaragd-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106421,7 +106421,7 @@
         },
         {
             "ankama_id": 7834,
-            "name": "Gold und Indigo-Dracotruter",
+            "name": "Gold-Indigo-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106448,7 +106448,7 @@
         },
         {
             "ankama_id": 7835,
-            "name": "Gold und Elfenbein-Dracotruter",
+            "name": "Gold-Elfenbein-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106475,7 +106475,7 @@
         },
         {
             "ankama_id": 7836,
-            "name": "Rot und Goldener Dracotruter",
+            "name": "Gold-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106502,7 +106502,7 @@
         },
         {
             "ankama_id": 7837,
-            "name": "Gold und Türkis-Dracotruter",
+            "name": "Gold-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106529,7 +106529,7 @@
         },
         {
             "ankama_id": 7838,
-            "name": "Gold und Orchideen-Dracotruter",
+            "name": "Gold-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106556,7 +106556,7 @@
         },
         {
             "ankama_id": 7839,
-            "name": "Gold und Purpur-Dracotruter",
+            "name": "Gold-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106583,7 +106583,7 @@
         },
         {
             "ankama_id": 7840,
-            "name": "Smaragd und Ebenholz-Dracotruter",
+            "name": "Ebenholz-Smaragd-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106610,7 +106610,7 @@
         },
         {
             "ankama_id": 7841,
-            "name": "Indigo und Ebenholz-Dracotruter",
+            "name": "Ebenholz-Indigo-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106637,7 +106637,7 @@
         },
         {
             "ankama_id": 7842,
-            "name": "Türkis und Ebenholz-Dracotruter",
+            "name": "Ebenholz-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106664,7 +106664,7 @@
         },
         {
             "ankama_id": 7843,
-            "name": "Orchideen und Ebenholz-Dracotruter",
+            "name": "Ebenholz-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106691,7 +106691,7 @@
         },
         {
             "ankama_id": 7844,
-            "name": "Purpur und Ebenholz-Dracotruter",
+            "name": "Ebenholz-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106718,7 +106718,7 @@
         },
         {
             "ankama_id": 7845,
-            "name": "Indigo und Smaragd-Dracotruter",
+            "name": "Smaragd-Indigo-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106745,7 +106745,7 @@
         },
         {
             "ankama_id": 7846,
-            "name": "Smaragd und Elfenbein-Dracotruter",
+            "name": "Smaragd-Elfenbein-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106772,7 +106772,7 @@
         },
         {
             "ankama_id": 7847,
-            "name": "Rot und Smaragd-Dracotruter",
+            "name": "Smaragd-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106799,7 +106799,7 @@
         },
         {
             "ankama_id": 7848,
-            "name": "Smaragd und Türkis-Dracotruter",
+            "name": "Smaragd-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106826,7 +106826,7 @@
         },
         {
             "ankama_id": 7849,
-            "name": "Smaragd und Orchideen-Dracotruter",
+            "name": "Smaragd-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106853,7 +106853,7 @@
         },
         {
             "ankama_id": 7850,
-            "name": "Smaragd und Purpur-Dracotruter",
+            "name": "Smaragd-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106880,7 +106880,7 @@
         },
         {
             "ankama_id": 7851,
-            "name": "Indigo und Elfenbein-Dracotruter",
+            "name": "Indigo-Elfenbein-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106907,7 +106907,7 @@
         },
         {
             "ankama_id": 7852,
-            "name": "Rot und Indigo-Dracotruter",
+            "name": "Indigo-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106923,7 +106923,7 @@
         },
         {
             "ankama_id": 7853,
-            "name": "Türkis und Indigo-Dracotruter",
+            "name": "Indigo-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106939,7 +106939,7 @@
         },
         {
             "ankama_id": 7854,
-            "name": "Indigo und Orchideen-Dracotruter",
+            "name": "Indigo-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106955,7 +106955,7 @@
         },
         {
             "ankama_id": 7855,
-            "name": "Indigo und Purpur-Dracotruter",
+            "name": "Indigo-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106982,7 +106982,7 @@
         },
         {
             "ankama_id": 7856,
-            "name": "Türkis und Elfenbein-Dracotruter",
+            "name": "Elfenbein-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -106998,7 +106998,7 @@
         },
         {
             "ankama_id": 7857,
-            "name": "Elfenbein und Orchideen-Dracotruter",
+            "name": "Elfenbein-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107025,7 +107025,7 @@
         },
         {
             "ankama_id": 7858,
-            "name": "Elfenbein und Purpur-Dracotruter",
+            "name": "Elfenbein-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107052,7 +107052,7 @@
         },
         {
             "ankama_id": 7859,
-            "name": "Rot und Türkis-Dracotruter",
+            "name": "Türkis-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107079,7 +107079,7 @@
         },
         {
             "ankama_id": 7860,
-            "name": "Rot und Orchideen-Dracotruter",
+            "name": "Orchidee-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107106,7 +107106,7 @@
         },
         {
             "ankama_id": 7861,
-            "name": "Rot und Purpur-Dracotruter",
+            "name": "Purpur-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107133,7 +107133,7 @@
         },
         {
             "ankama_id": 7862,
-            "name": "Türkis und Orchideen-Dracotruter",
+            "name": "Türkis-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107160,7 +107160,7 @@
         },
         {
             "ankama_id": 7863,
-            "name": "Türkis und Purpur-Dracotruter",
+            "name": "Türkis-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107187,7 +107187,7 @@
         },
         {
             "ankama_id": 7864,
-            "name": "Wilder goldener Dracotruter",
+            "name": "Wilder Gold-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107214,7 +107214,7 @@
         },
         {
             "ankama_id": 7866,
-            "name": "Purpur und Orchideen-Dracotruter",
+            "name": "Orchidee-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107241,7 +107241,7 @@
         },
         {
             "ankama_id": 7867,
-            "name": "Pflaumen und Mandel-Dracotruter",
+            "name": "Pflaume-Mandel-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107268,7 +107268,7 @@
         },
         {
             "ankama_id": 7868,
-            "name": "Goldener Pflaumen-Dracotruter",
+            "name": "Pflaume-Gold-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107295,7 +107295,7 @@
         },
         {
             "ankama_id": 7869,
-            "name": "Pflaumen und Ebenholz-Dracotruter",
+            "name": "Pflaume-Ebenholz-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107322,7 +107322,7 @@
         },
         {
             "ankama_id": 7870,
-            "name": "Pflaumen und Smaragd-Dracotruter",
+            "name": "Pflaume-Smaragd-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107349,7 +107349,7 @@
         },
         {
             "ankama_id": 7871,
-            "name": "Indigo und Pflaumen-Dracotruter",
+            "name": "Pflaume-Indigo-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107376,7 +107376,7 @@
         },
         {
             "ankama_id": 7872,
-            "name": "Pflaumen und Elfenbein-Dracotruter",
+            "name": "Pflaume-Elfenbein-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107403,7 +107403,7 @@
         },
         {
             "ankama_id": 7873,
-            "name": "Rot und Pflaumen-Dracotruter",
+            "name": "Pflaume-Fuchsrot-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107430,7 +107430,7 @@
         },
         {
             "ankama_id": 7874,
-            "name": "Türkis und Pflaumen-Dracotruter",
+            "name": "Pflaume-Türkis-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107457,7 +107457,7 @@
         },
         {
             "ankama_id": 7875,
-            "name": "Pflaumen und Orchideen-Dracotruter",
+            "name": "Pflaume-Orchidee-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -107484,7 +107484,7 @@
         },
         {
             "ankama_id": 7876,
-            "name": "Purpur- und Pflaumen-Dracotruter",
+            "name": "Pflaume-Purpur-Dracotruter",
             "type": {
                 "name": "Dracotruterzertifikat",
                 "id": 22
@@ -143441,20 +143441,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13047,
+                    "int_minimum": 32453,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Optischer Pfeil: –1 AP"
+                    "formatted": "Pfeil der Abschaffung : +1 Zauber pro Runde"
                 },
                 {
-                    "int_minimum": 13059,
+                    "int_minimum": 32433,
                     "int_maximum": 0,
                     "type": {
                         "name": ": – AP",
@@ -143464,85 +143464,85 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Pfeilregen: –1 AP"
+                    "formatted": "Heimsuchender Pfeil: –1 AP"
                 },
                 {
-                    "int_minimum": 13049,
+                    "int_minimum": 32427,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Eispfeil: –1 AP"
+                    "formatted": "Peitschender Pfeil : +1 Zauber pro Runde"
                 },
                 {
-                    "int_minimum": 13063,
+                    "int_minimum": 32458,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": Veränderbare Reichweite",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Verlangsamungspfeil: –1 AP"
+                    "formatted": "Angriffspfeil: Veränderbare Reichweite"
                 },
                 {
-                    "int_minimum": 13072,
+                    "int_minimum": 32444,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Abstoßender Schuss: –1 AP"
+                    "formatted": "Detonationspfeil : +1 Zauber pro Runde"
                 },
                 {
-                    "int_minimum": 13051,
+                    "int_minimum": 32439,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Grundschaden",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flammenpfeile: –1 AP"
+                    "formatted": "Verlangsamungspfeil: +6 Grundschaden"
                 },
                 {
-                    "int_minimum": 13069,
+                    "int_minimum": 32436,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Zauber pro Ziel",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Peitschender Pfeil: –1 AP"
+                    "formatted": "Lähmpfeil : +1 Zauber pro Ziel"
                 },
                 {
-                    "int_minimum": 14636,
+                    "int_minimum": 32448,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Deckungsfeuer: –1 AP"
+                    "formatted": "Tyrannischer Pfeil: +3 Maximale Reichweite"
                 }
             ],
             "is_weapon": false,
@@ -145377,7 +145377,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13056,
+                    "int_minimum": 32426,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + Zauber pro Ziel",
@@ -145387,98 +145387,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Lähmpfeil : +1 Zauber pro Ziel"
+                    "formatted": "Rückstoßpfeil : +1 Zauber pro Ziel"
                 },
                 {
-                    "int_minimum": 13077,
+                    "int_minimum": 32449,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + % Kritische Treffer",
-                        "id": 226,
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Angriffspfeil: +35 % Kritische Treffer"
+                    "formatted": "Leuchtpfeil : +1 Zauber pro Runde"
                 },
                 {
-                    "int_minimum": 13055,
+                    "int_minimum": 32428,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Rückstoßschuss: Sichtlinie deaktiviert"
+                    "formatted": "Zerstreuungspfeil : +1 Zauber pro Runde"
                 },
                 {
-                    "int_minimum": 13083,
+                    "int_minimum": 32447,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": Veränderbare Reichweite",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Sperrfeuer: Sichtlinie deaktiviert"
+                    "formatted": "Flammenpfeile: Veränderbare Reichweite"
                 },
                 {
-                    "int_minimum": 13050,
+                    "int_minimum": 32455,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erosionspfeile: –1 AP"
+                    "formatted": "Landstreicherpfeil : +1 Zauber pro Runde"
                 },
                 {
-                    "int_minimum": 13070,
+                    "int_minimum": 32531,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": + Zauber pro Ziel",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Rückzugspfeile: Sichtlinie deaktiviert"
+                    "formatted": "Ausweichpfeil : +1 Zauber pro Ziel"
                 },
                 {
-                    "int_minimum": 23499,
+                    "int_minimum": 32454,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Lerchenspiegel: Sichtlinie deaktiviert"
+                    "formatted": "Auge um Auge: +3 Maximale Reichweite"
                 },
                 {
-                    "int_minimum": 23508,
+                    "int_minimum": 32441,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": + Grundschaden",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Auge um Auge: Sichtlinie deaktiviert"
+                    "formatted": "Lähmender Pfeil: +6 Grundschaden"
                 }
             ],
             "is_weapon": false,
@@ -147383,33 +147383,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13052,
+                    "int_minimum": 32435,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Abklingzeit verringert um –",
-                        "id": 227,
+                        "name": ": + Grundschaden",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Powerschüsse: Abklingzeit verringert um –1"
+                    "formatted": "Eispfeil: +4 Grundschaden"
                 },
                 {
-                    "int_minimum": 13085,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Zauber pro Runde",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Detonationspfeil : +1 Zauber pro Runde"
-                },
-                {
-                    "int_minimum": 13064,
+                    "int_minimum": 32708,
                     "int_maximum": 0,
                     "type": {
                         "name": ": – AP",
@@ -147419,10 +147406,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Peinigender Pfeil: –1 AP"
+                    "formatted": "Plagender Pfeil: –1 AP"
                 },
                 {
-                    "int_minimum": 13080,
+                    "int_minimum": 32437,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Maulwurfssicht: –1 AP"
+                },
+                {
+                    "int_minimum": 32431,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + % Kritische Treffer",
@@ -147432,10 +147432,49 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Durchdringender Schuss: +35 % Kritische Treffer"
+                    "formatted": "Pfeilregen: +35 % Kritische Treffer"
                 },
                 {
-                    "int_minimum": 13084,
+                    "int_minimum": 32438,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – Minimale Reichweite",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Sühnepfeil: –5 Minimale Reichweite"
+                },
+                {
+                    "int_minimum": 32442,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – Minimale Reichweite",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Erlösungspfeil: –3 Minimale Reichweite"
+                },
+                {
+                    "int_minimum": 32429,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Durchdringender Pfeil: +3 Maximale Reichweite"
+                },
+                {
+                    "int_minimum": 32432,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + Zauber pro Runde",
@@ -147445,46 +147484,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Verheerender Pfeil : +1 Zauber pro Runde"
-                },
-                {
-                    "int_minimum": 13065,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Maximale Reichweite",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Explosionspfeil: +2 Maximale Reichweite"
-                },
-                {
-                    "int_minimum": 13086,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Maximale Reichweite",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tobender Pfeil: +2 Maximale Reichweite"
-                },
-                {
-                    "int_minimum": 13066,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": Abklingzeit verringert um –",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Durchbohrende Schüsse: Abklingzeit verringert um –1"
+                    "formatted": "Boomerangpfeil : +1 Zauber pro Runde"
                 }
             ],
             "is_weapon": false,
@@ -150362,33 +150362,33 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13076,
+                    "int_minimum": 32443,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Sichtlinie deaktiviert",
-                        "id": 205,
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Leitmarkierung der Erinnerung: Sichtlinie deaktiviert"
+                    "formatted": "Sperrpfeil: +3 Maximale Reichweite"
                 },
                 {
-                    "int_minimum": 13068,
+                    "int_minimum": 32459,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Zauber pro Runde",
-                        "id": 206,
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Pfeil der Konzentration : +1 Zauber pro Runde"
+                    "formatted": "Zerstörerische Karos: +2 Maximale Reichweite"
                 },
                 {
-                    "int_minimum": 13061,
+                    "int_minimum": 32445,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + % Kritische Treffer",
@@ -150398,62 +150398,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Zerstörerische Karos: +35 % Kritische Treffer"
+                    "formatted": "Explosionspfeil: +30 % Kritische Treffer"
                 },
                 {
-                    "int_minimum": 13054,
+                    "int_minimum": 32457,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": – AP",
-                        "id": 207,
+                        "name": ": + Maximale Reichweite",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Maulwurfssicht: –1 AP"
+                    "formatted": "Mörderpfeil: +3 Maximale Reichweite"
                 },
                 {
-                    "int_minimum": 13075,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": – AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Zermalmungspfeil: –1 AP"
-                },
-                {
-                    "int_minimum": 13062,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": Lineare Wirkungsweise deaktiviert",
-                        "id": 209,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Heimsuchender Pfeil: Lineare Wirkungsweise deaktiviert"
-                },
-                {
-                    "int_minimum": 13082,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": – AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tyrannischer Pfeil: –1 AP"
-                },
-                {
-                    "int_minimum": 13079,
+                    "int_minimum": 32456,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + Zauber pro Runde",
@@ -150463,7 +150424,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Taktische Markierung : +1 Zauber pro Runde"
+                    "formatted": "Strafender Pfeil : +1 Zauber pro Runde"
+                },
+                {
+                    "int_minimum": 32460,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Pfeil der Verurteilung: –1 AP"
+                },
+                {
+                    "int_minimum": 32446,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Verheerender Pfeil : +1 Zauber pro Runde"
+                },
+                {
+                    "int_minimum": 32450,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Tobender Pfeil: –1 AP"
                 }
             ],
             "is_weapon": false,
@@ -152725,59 +152725,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13058,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": – AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Weitschüsse: –1 AP"
-                },
-                {
-                    "int_minimum": 13073,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": – AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Absolute Intensität: –1 AP"
-                },
-                {
-                    "int_minimum": 13060,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": – AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Giftpfeil: –1 AP"
-                },
-                {
-                    "int_minimum": 13071,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": – AP",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Lähmender Pfeil: –1 AP"
-                },
-                {
-                    "int_minimum": 13057,
+                    "int_minimum": 32464,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + Maximale Reichweite",
@@ -152787,46 +152735,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Strafender Pfeil: +2 Maximale Reichweite"
+                    "formatted": "Gehetzter Schritt: +1 Maximale Reichweite"
                 },
                 {
-                    "int_minimum": 13078,
+                    "int_minimum": 32467,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Maximale Reichweite",
-                        "id": 208,
+                        "name": ": Abklingzeit verringert um –",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Pfeil der Verurteilung: +2 Maximale Reichweite"
+                    "formatted": "Taktische Markierung: Abklingzeit verringert um –1"
                 },
                 {
-                    "int_minimum": 13053,
+                    "int_minimum": 32465,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Maximale Reichweite",
-                        "id": 208,
+                        "name": ": Abklingzeit verringert um –",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Sühnepfeil: +2 Maximale Reichweite"
+                    "formatted": "Weitschüsse: Abklingzeit verringert um –1"
                 },
                 {
-                    "int_minimum": 13074,
+                    "int_minimum": 32471,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Maximale Reichweite",
-                        "id": 208,
+                        "name": ": + Zauber pro Ziel",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Erlösungspfeil: +2 Maximale Reichweite"
+                    "formatted": "Durchbohrender Schuss : +1 Zauber pro Ziel"
+                },
+                {
+                    "int_minimum": 32474,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Markierung des Überlebens: –1 AP"
+                },
+                {
+                    "int_minimum": 32472,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": – AP",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Vergeltungsmaßnahmen: –1 AP"
+                },
+                {
+                    "int_minimum": 32470,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Zauber pro Ziel",
+                        "id": 231,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Rückzugsschuss : +1 Zauber pro Ziel"
+                },
+                {
+                    "int_minimum": 32473,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Zauber pro Runde",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Vendetta : +1 Zauber pro Runde"
                 },
                 {
                     "int_minimum": 1,
@@ -296341,7 +296341,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/10246-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/10246-128.png"
             },
-            "description": "Dieser Gürtel übt einen großen Einfluss auf das tägliche Leben aus. Die Ohren fangen an zu wachsen, die Haare werden länger und die Muskeln bilden sich zurück. Außerdem wird man von einer plötzlichen, unwiderstehlichen Liebe zur Natur beseelt. Zu spät! Selbst das Ablegen kann jetzt die Wirkung nicht mehr umkehren!",
+            "description": "Der Gürtel Bisch hat unerklärliche Auswirkungen auf das Verhalten. Er weckt die Lust auf ein herzhaft gesalzenes Frühstück, auf Monarchie als Staatsform, auf Tee zu festgelegten Tageszeiten, panierten Fisch mit Pommes und verleiht seinem Träger einen eigenartig schwarzen Humor. Aber eure eigenen Angewohnheiten sind im Grunde nicht weniger bizarr, insofern ...",
             "recipe": [
                 {
                     "item_ankama_id": 13988,
@@ -371340,7 +371340,7 @@
         },
         {
             "ankama_id": 17874,
-            "name": "Ebenholz und Indigo-Seequagga",
+            "name": "Ebenholz-Indigo-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371367,7 +371367,7 @@
         },
         {
             "ankama_id": 17875,
-            "name": "Orchideen-Seequagga",
+            "name": "Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371502,7 +371502,7 @@
         },
         {
             "ankama_id": 17880,
-            "name": "Fuxrot-Seequagga",
+            "name": "Fuchsrot-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371610,7 +371610,7 @@
         },
         {
             "ankama_id": 17884,
-            "name": "Pflaumen-Seequagga",
+            "name": "Pflaume-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371664,7 +371664,7 @@
         },
         {
             "ankama_id": 17886,
-            "name": "Gold und Purpur-Seequagga",
+            "name": "Gold-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371691,7 +371691,7 @@
         },
         {
             "ankama_id": 17887,
-            "name": "Indigo und Purpur-Seequagga",
+            "name": "Indigo-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371718,7 +371718,7 @@
         },
         {
             "ankama_id": 17888,
-            "name": "Ebenholz und Purpur-Seequagga",
+            "name": "Ebenholz-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371745,7 +371745,7 @@
         },
         {
             "ankama_id": 17889,
-            "name": "Orchideen und Purpur-Seequagga",
+            "name": "Orchidee-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371772,7 +371772,7 @@
         },
         {
             "ankama_id": 17890,
-            "name": "Gold und Ebenholz-Seequagga",
+            "name": "Gold-Ebenholz-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371799,7 +371799,7 @@
         },
         {
             "ankama_id": 17891,
-            "name": "Indigo und Orchideen-Seequagga",
+            "name": "Indigo-Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371826,7 +371826,7 @@
         },
         {
             "ankama_id": 17892,
-            "name": "Ebenholz und Orchideen-Seequagga",
+            "name": "Ebenholz-Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371853,7 +371853,7 @@
         },
         {
             "ankama_id": 17893,
-            "name": "Gold und Orchideen-Seequagga",
+            "name": "Gold-Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371880,7 +371880,7 @@
         },
         {
             "ankama_id": 17894,
-            "name": "Fuxrot und Purpur-Seequagga",
+            "name": "Fuchsrot-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371907,7 +371907,7 @@
         },
         {
             "ankama_id": 17895,
-            "name": "Fuxrot und Orchideen-Seequagga",
+            "name": "Fuchsrot-Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371934,7 +371934,7 @@
         },
         {
             "ankama_id": 17896,
-            "name": "Fuxrot und Indigo-Seequagga",
+            "name": "Fuchsrot-Indigo-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371961,7 +371961,7 @@
         },
         {
             "ankama_id": 17897,
-            "name": "Fuxrot und Ebenholz-Seequagga",
+            "name": "Fuchsrot-Ebenholz-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -371988,7 +371988,7 @@
         },
         {
             "ankama_id": 17898,
-            "name": "Fuxrot und Gold-Seequagga",
+            "name": "Fuchsrot-Gold-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372015,7 +372015,7 @@
         },
         {
             "ankama_id": 17899,
-            "name": "Fuxrot und Mandel-Seequagga",
+            "name": "Fuchsrot-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372042,7 +372042,7 @@
         },
         {
             "ankama_id": 17900,
-            "name": "Purpur und Mandel-Seequagga",
+            "name": "Purpur-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372069,7 +372069,7 @@
         },
         {
             "ankama_id": 17901,
-            "name": "Orchideen und Mandel-Seequagga",
+            "name": "Orchidee-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372096,7 +372096,7 @@
         },
         {
             "ankama_id": 17902,
-            "name": "Indigo und Mandel-Seequagga",
+            "name": "Indigo-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372123,7 +372123,7 @@
         },
         {
             "ankama_id": 17903,
-            "name": "Ebenholz und Mandel-Seequagga",
+            "name": "Ebenholz-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372150,7 +372150,7 @@
         },
         {
             "ankama_id": 17904,
-            "name": "Gold und Mandel-Seequagga",
+            "name": "Gold-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372177,7 +372177,7 @@
         },
         {
             "ankama_id": 17905,
-            "name": "Purpur und Elfenbein-Seequagga",
+            "name": "Purpur-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372204,7 +372204,7 @@
         },
         {
             "ankama_id": 17906,
-            "name": "Orchideen und Elfenbein-Seequagga",
+            "name": "Orchidee-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372231,7 +372231,7 @@
         },
         {
             "ankama_id": 17907,
-            "name": "Indigo und Elfenbein-Seequagga",
+            "name": "Indigo-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372258,7 +372258,7 @@
         },
         {
             "ankama_id": 17908,
-            "name": "Ebenholz und Elfenbein-Seequagga",
+            "name": "Ebenholz-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372285,7 +372285,7 @@
         },
         {
             "ankama_id": 17909,
-            "name": "Gold und Elfenbein-Seequagga",
+            "name": "Gold-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372312,7 +372312,7 @@
         },
         {
             "ankama_id": 17910,
-            "name": "Fuxrot und Elfenbein-Seequagga",
+            "name": "Fuchsrot-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372339,7 +372339,7 @@
         },
         {
             "ankama_id": 17911,
-            "name": "Elfenbein und Mandel-Seequagga",
+            "name": "Mandel-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372366,7 +372366,7 @@
         },
         {
             "ankama_id": 17912,
-            "name": "Türkis und Elfenbein-Seequagga",
+            "name": "Türkis-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372393,7 +372393,7 @@
         },
         {
             "ankama_id": 17913,
-            "name": "Türkis und Purpur-Seequagga",
+            "name": "Türkis-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372420,7 +372420,7 @@
         },
         {
             "ankama_id": 17914,
-            "name": "Türkis und Orchideen-Seequagga",
+            "name": "Türkis-Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372447,7 +372447,7 @@
         },
         {
             "ankama_id": 17915,
-            "name": "Türkis und Indigo-Seequagga",
+            "name": "Türkis-Indigo-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372474,7 +372474,7 @@
         },
         {
             "ankama_id": 17916,
-            "name": "Türkis und Ebenholz-Seequagga",
+            "name": "Türkis-Ebenholz-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372501,7 +372501,7 @@
         },
         {
             "ankama_id": 17917,
-            "name": "Türkis und Fuxrot-Seequagga",
+            "name": "Türkis-Fuchsrot-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372528,7 +372528,7 @@
         },
         {
             "ankama_id": 17918,
-            "name": "Türkis und Mandel-Seequagga",
+            "name": "Türkis-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372555,7 +372555,7 @@
         },
         {
             "ankama_id": 17919,
-            "name": "Türkis und Gold-Seequagga",
+            "name": "Türkis-Gold-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372582,7 +372582,7 @@
         },
         {
             "ankama_id": 17920,
-            "name": "Pflaumen und Purpur-Seequagga",
+            "name": "Pflaume-Purpur-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372609,7 +372609,7 @@
         },
         {
             "ankama_id": 17921,
-            "name": "Pflaumen und Orchideen-Seequagga",
+            "name": "Pflaume-Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372636,7 +372636,7 @@
         },
         {
             "ankama_id": 17922,
-            "name": "Pflaumen und Indigo-Seequagga",
+            "name": "Pflaume-Indigo-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372663,7 +372663,7 @@
         },
         {
             "ankama_id": 17923,
-            "name": "Pflaumen und Ebenholz-Seequagga",
+            "name": "Pflaume-Ebenholz-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372690,7 +372690,7 @@
         },
         {
             "ankama_id": 17924,
-            "name": "Pflaumen und Gold-Seequagga",
+            "name": "Pflaume-Gold-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372717,7 +372717,7 @@
         },
         {
             "ankama_id": 17925,
-            "name": "Pflaumen und Fuxrot-Seequagga",
+            "name": "Pflaume-Fuchsrot-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372744,7 +372744,7 @@
         },
         {
             "ankama_id": 17926,
-            "name": "Pflaumen und Mandel-Seequagga",
+            "name": "Pflaume-Mandel-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372771,7 +372771,7 @@
         },
         {
             "ankama_id": 17927,
-            "name": "Pflaumen und Elfenbein-Seequagga",
+            "name": "Pflaume-Elfenbein-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372798,7 +372798,7 @@
         },
         {
             "ankama_id": 17928,
-            "name": "Pflaumen und Türkis-Seequagga",
+            "name": "Pflaume-Türkis-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372825,7 +372825,7 @@
         },
         {
             "ankama_id": 17929,
-            "name": "Pflaumen und Smaragd-Seequagga",
+            "name": "Pflaume-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372852,7 +372852,7 @@
         },
         {
             "ankama_id": 17930,
-            "name": "Purpur und Smaragd-Seequagga",
+            "name": "Purpur-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372879,7 +372879,7 @@
         },
         {
             "ankama_id": 17931,
-            "name": "Orchideen und Smaragd-Seequagga",
+            "name": "Orchidee-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372906,7 +372906,7 @@
         },
         {
             "ankama_id": 17932,
-            "name": "Indigo und Smaragd-Seequagga",
+            "name": "Indigo-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372933,7 +372933,7 @@
         },
         {
             "ankama_id": 17933,
-            "name": "Ebenholz und Smaragd-Seequagga",
+            "name": "Ebenholz-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372960,7 +372960,7 @@
         },
         {
             "ankama_id": 17934,
-            "name": "Gold und Smaragd-Seequagga",
+            "name": "Gold-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -372987,7 +372987,7 @@
         },
         {
             "ankama_id": 17935,
-            "name": "Fuxrot und Smaragd-Seequagga",
+            "name": "Fuchsrot-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -373014,7 +373014,7 @@
         },
         {
             "ankama_id": 17936,
-            "name": "Mandel und Smaragd-Seequagga",
+            "name": "Mandel-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -373041,7 +373041,7 @@
         },
         {
             "ankama_id": 17937,
-            "name": "Elfenbein und Smaragd-Seequagga",
+            "name": "Elfenbein-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -373068,7 +373068,7 @@
         },
         {
             "ankama_id": 17938,
-            "name": "Türkis und Smaragd-Seequagga",
+            "name": "Türkis-Smaragd-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -373095,7 +373095,7 @@
         },
         {
             "ankama_id": 17939,
-            "name": "Gold und Indigo-Seequagga",
+            "name": "Gold-Indigo-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -373176,7 +373176,7 @@
         },
         {
             "ankama_id": 17958,
-            "name": "Wilder Orchideen-Seequagga",
+            "name": "Wilder Orchidee-Seequagga",
             "type": {
                 "name": "Seequaggazertifikat",
                 "id": 126
@@ -417061,7 +417061,7 @@
         },
         {
             "ankama_id": 19784,
-            "name": "Wilder Orchideen-Naskäfer",
+            "name": "Wilder Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417169,7 +417169,7 @@
         },
         {
             "ankama_id": 19788,
-            "name": "Orchideen-Naskäfer",
+            "name": "Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417277,7 +417277,7 @@
         },
         {
             "ankama_id": 19792,
-            "name": "Türkis-Naskäfer",
+            "name": "Türkiser Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417304,7 +417304,7 @@
         },
         {
             "ankama_id": 19793,
-            "name": "Pflaumen-Naskäfer",
+            "name": "Pflaume-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417493,7 +417493,7 @@
         },
         {
             "ankama_id": 19800,
-            "name": "Purpur- und Orchideen-Naskäfer",
+            "name": "Purpur-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417520,7 +417520,7 @@
         },
         {
             "ankama_id": 19801,
-            "name": "Purpur- und Indigo-Naskäfer",
+            "name": "Purpur-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417547,7 +417547,7 @@
         },
         {
             "ankama_id": 19802,
-            "name": "Purpur- und Ebenholz-Naskäfer",
+            "name": "Purpur-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417574,7 +417574,7 @@
         },
         {
             "ankama_id": 19803,
-            "name": "Orchideen- und Indigo-Naskäfer",
+            "name": "Orchidee-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417601,7 +417601,7 @@
         },
         {
             "ankama_id": 19804,
-            "name": "Orchideen- und Ebenholz-Naskäfer",
+            "name": "Orchidee-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417628,7 +417628,7 @@
         },
         {
             "ankama_id": 19805,
-            "name": "Indigo- und Ebenholz-Naskäfer",
+            "name": "Indigo-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417655,7 +417655,7 @@
         },
         {
             "ankama_id": 19806,
-            "name": "Mandel- und Purpur-Naskäfer",
+            "name": "Mandel-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417682,7 +417682,7 @@
         },
         {
             "ankama_id": 19807,
-            "name": "Mandel- und Orchideen-Naskäfer",
+            "name": "Mandel-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417709,7 +417709,7 @@
         },
         {
             "ankama_id": 19808,
-            "name": "Mandel- und Indigo-Naskäfer",
+            "name": "Mandel-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417736,7 +417736,7 @@
         },
         {
             "ankama_id": 19809,
-            "name": "Mandel- und Ebenholz-Naskäfer",
+            "name": "Mandel-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417763,7 +417763,7 @@
         },
         {
             "ankama_id": 19810,
-            "name": "Mandel- und Fuchsrot-Naskäfer",
+            "name": "Mandel-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417790,7 +417790,7 @@
         },
         {
             "ankama_id": 19811,
-            "name": "Mandel- und Elfenbein-Naskäfer",
+            "name": "Mandel-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417817,7 +417817,7 @@
         },
         {
             "ankama_id": 19812,
-            "name": "Mandel- und Türkis-Naskäfer",
+            "name": "Mandel-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417844,7 +417844,7 @@
         },
         {
             "ankama_id": 19813,
-            "name": "Fuchsrot- und Purpur-Naskäfer",
+            "name": "Fuchsrot-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417871,7 +417871,7 @@
         },
         {
             "ankama_id": 19814,
-            "name": "Fuchsrot- und Orchideen-Naskäfer",
+            "name": "Fuchsrot-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417898,7 +417898,7 @@
         },
         {
             "ankama_id": 19815,
-            "name": "Fuchsrot- und Indigo-Naskäfer",
+            "name": "Fuchsrot-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417925,7 +417925,7 @@
         },
         {
             "ankama_id": 19816,
-            "name": "Fuchsrot- und Ebenholz-Naskäfer",
+            "name": "Fuchsrot-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417952,7 +417952,7 @@
         },
         {
             "ankama_id": 19817,
-            "name": "Fuchsrot- und Elfenbein-Naskäfer",
+            "name": "Fuchsrot-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -417979,7 +417979,7 @@
         },
         {
             "ankama_id": 19818,
-            "name": "Fuchsrot- und Türkis-Naskäfer",
+            "name": "Fuchsrot-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418006,7 +418006,7 @@
         },
         {
             "ankama_id": 19819,
-            "name": "Elfenbein- und Purpur-Naskäfer",
+            "name": "Elfenbein-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418033,7 +418033,7 @@
         },
         {
             "ankama_id": 19820,
-            "name": "Elfenbein- und Orchideen-Naskäfer",
+            "name": "Elfenbein-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418060,7 +418060,7 @@
         },
         {
             "ankama_id": 19821,
-            "name": "Elfenbein- und Indigo-Naskäfer",
+            "name": "Elfenbein-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418087,7 +418087,7 @@
         },
         {
             "ankama_id": 19822,
-            "name": "Elfenbein- und Ebenholz-Naskäfer",
+            "name": "Elfenbein-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418114,7 +418114,7 @@
         },
         {
             "ankama_id": 19823,
-            "name": "Elfenbein- und Türkis-Naskäfer",
+            "name": "Elfenbein-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418141,7 +418141,7 @@
         },
         {
             "ankama_id": 19824,
-            "name": "Türkis- und Purpur-Naskäfer",
+            "name": "Türkis-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418168,7 +418168,7 @@
         },
         {
             "ankama_id": 19825,
-            "name": "Türkis- und Orchideen-Naskäfer",
+            "name": "Türkis-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418195,7 +418195,7 @@
         },
         {
             "ankama_id": 19826,
-            "name": "Türkis- und Indigo-Naskäfer",
+            "name": "Türkis-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418222,7 +418222,7 @@
         },
         {
             "ankama_id": 19827,
-            "name": "Türkis- und Ebenholz-Naskäfer",
+            "name": "Türkis-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418249,7 +418249,7 @@
         },
         {
             "ankama_id": 19828,
-            "name": "Pflaumen- und Orchideen-Naskäfer",
+            "name": "Pflaume-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418276,7 +418276,7 @@
         },
         {
             "ankama_id": 19829,
-            "name": "Pflaumen- und Indigo-Naskäfer",
+            "name": "Pflaume-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418303,7 +418303,7 @@
         },
         {
             "ankama_id": 19830,
-            "name": "Pflaumen- und Ebenholz-Naskäfer",
+            "name": "Pflaume-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418330,7 +418330,7 @@
         },
         {
             "ankama_id": 19831,
-            "name": "Pflaumen- und Mandel-Naskäfer",
+            "name": "Pflaume-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418357,7 +418357,7 @@
         },
         {
             "ankama_id": 19832,
-            "name": "Pflaumen- und Fuchsrot-Naskäfer",
+            "name": "Pflaume-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418384,7 +418384,7 @@
         },
         {
             "ankama_id": 19833,
-            "name": "Pflaumen- und Elfenbein-Naskäfer",
+            "name": "Pflaume-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418411,7 +418411,7 @@
         },
         {
             "ankama_id": 19834,
-            "name": "Pflaumen- und Türkis-Naskäfer",
+            "name": "Pflaume-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418438,7 +418438,7 @@
         },
         {
             "ankama_id": 19835,
-            "name": "Pflaumen- und Smaragd-Naskäfer",
+            "name": "Pflaume-Smaragd-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418465,7 +418465,7 @@
         },
         {
             "ankama_id": 19836,
-            "name": "Pflaumen- und Purpur-Naskäfer",
+            "name": "Pflaume-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418492,7 +418492,7 @@
         },
         {
             "ankama_id": 19837,
-            "name": "Smaragd- und Purpur-Naskäfer",
+            "name": "Smaragd-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418519,7 +418519,7 @@
         },
         {
             "ankama_id": 19838,
-            "name": "Smaragd- und Orchideen-Naskäfer",
+            "name": "Smaragd-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418546,7 +418546,7 @@
         },
         {
             "ankama_id": 19839,
-            "name": "Smaragd- und Indigo-Naskäfer",
+            "name": "Smaragd-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418573,7 +418573,7 @@
         },
         {
             "ankama_id": 19840,
-            "name": "Smaragd- und Ebenholz-Naskäfer",
+            "name": "Smaragd-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418600,7 +418600,7 @@
         },
         {
             "ankama_id": 19841,
-            "name": "Smaragd- und Mandel-Naskäfer",
+            "name": "Smaragd-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418627,7 +418627,7 @@
         },
         {
             "ankama_id": 19842,
-            "name": "Smaragd- und Fuchsrot-Naskäfer",
+            "name": "Smaragd-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418654,7 +418654,7 @@
         },
         {
             "ankama_id": 19843,
-            "name": "Smaragd- und Elfenbein-Naskäfer",
+            "name": "Smaragd-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418681,7 +418681,7 @@
         },
         {
             "ankama_id": 19844,
-            "name": "Smaragd- und Türkis-Naskäfer",
+            "name": "Smaragd-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418708,7 +418708,7 @@
         },
         {
             "ankama_id": 19845,
-            "name": "Gold- und Purpur-Naskäfer",
+            "name": "Gold-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418735,7 +418735,7 @@
         },
         {
             "ankama_id": 19846,
-            "name": "Gold- und Orchideen-Naskäfer",
+            "name": "Gold-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418762,7 +418762,7 @@
         },
         {
             "ankama_id": 19847,
-            "name": "Gold- und Indigo-Naskäfer",
+            "name": "Gold-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418789,7 +418789,7 @@
         },
         {
             "ankama_id": 19848,
-            "name": "Gold- und Ebenholz-Naskäfer",
+            "name": "Gold-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418816,7 +418816,7 @@
         },
         {
             "ankama_id": 19849,
-            "name": "Jade- und Purpur-Naskäfer",
+            "name": "Jade-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418843,7 +418843,7 @@
         },
         {
             "ankama_id": 19850,
-            "name": "Jade- und Orchideen-Naskäfer",
+            "name": "Jade-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418870,7 +418870,7 @@
         },
         {
             "ankama_id": 19851,
-            "name": "Jade- und Indigo-Naskäfer",
+            "name": "Jade-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418897,7 +418897,7 @@
         },
         {
             "ankama_id": 19852,
-            "name": "Jade- und Ebenholz-Naskäfer",
+            "name": "Jade-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418924,7 +418924,7 @@
         },
         {
             "ankama_id": 19853,
-            "name": "Jade- und Mandel-Naskäfer",
+            "name": "Jade-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418951,7 +418951,7 @@
         },
         {
             "ankama_id": 19854,
-            "name": "Jade- und Fuchsrot-Naskäfer",
+            "name": "Jade-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -418978,7 +418978,7 @@
         },
         {
             "ankama_id": 19855,
-            "name": "Jade- und Elfenbein-Naskäfer",
+            "name": "Jade-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419005,7 +419005,7 @@
         },
         {
             "ankama_id": 19856,
-            "name": "Jade- und Türkis-Naskäfer",
+            "name": "Jade-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419032,7 +419032,7 @@
         },
         {
             "ankama_id": 19857,
-            "name": "Jade- und Pflaumen-Naskäfer",
+            "name": "Jade-Pflaume-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419059,7 +419059,7 @@
         },
         {
             "ankama_id": 19858,
-            "name": "Jade- und Smaragd-Naskäfer",
+            "name": "Jade-Smaragd-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419086,7 +419086,7 @@
         },
         {
             "ankama_id": 19859,
-            "name": "Jade- und Gold-Naskäfer",
+            "name": "Jade-Gold-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419113,7 +419113,7 @@
         },
         {
             "ankama_id": 19860,
-            "name": "Jade- und Rubin-Naskäfer",
+            "name": "Jade-Rubin-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419140,7 +419140,7 @@
         },
         {
             "ankama_id": 19861,
-            "name": "Jade- und Saphir-Naskäfer",
+            "name": "Jade-Saphir-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419167,7 +419167,7 @@
         },
         {
             "ankama_id": 19862,
-            "name": "Jade- und Amethyst-Naskäfer",
+            "name": "Jade-Amethyst-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419194,7 +419194,7 @@
         },
         {
             "ankama_id": 19863,
-            "name": "Rubin- und Purpur-Naskäfer",
+            "name": "Rubin-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419221,7 +419221,7 @@
         },
         {
             "ankama_id": 19864,
-            "name": "Rubin- und Orchideen-Naskäfer",
+            "name": "Rubin-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419248,7 +419248,7 @@
         },
         {
             "ankama_id": 19865,
-            "name": "Rubin- und Indigo-Naskäfer",
+            "name": "Rubin-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419275,7 +419275,7 @@
         },
         {
             "ankama_id": 19866,
-            "name": "Rubin- und Ebenholz-Naskäfer",
+            "name": "Rubin-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419302,7 +419302,7 @@
         },
         {
             "ankama_id": 19867,
-            "name": "Rubin- und Mandel-Naskäfer",
+            "name": "Rubin-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419329,7 +419329,7 @@
         },
         {
             "ankama_id": 19868,
-            "name": "Rubin- und Fuchsrot-Naskäfer",
+            "name": "Rubin-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419356,7 +419356,7 @@
         },
         {
             "ankama_id": 19869,
-            "name": "Rubin- und Elfenbein-Naskäfer",
+            "name": "Rubin-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419383,7 +419383,7 @@
         },
         {
             "ankama_id": 19870,
-            "name": "Rubin- und Türkis-Naskäfer",
+            "name": "Rubin-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419410,7 +419410,7 @@
         },
         {
             "ankama_id": 19871,
-            "name": "Rubin- und Pflaumen-Naskäfer",
+            "name": "Rubin-Pflaume-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419437,7 +419437,7 @@
         },
         {
             "ankama_id": 19872,
-            "name": "Rubin- und Smaragd-Naskäfer",
+            "name": "Rubin-Smaragd-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419464,7 +419464,7 @@
         },
         {
             "ankama_id": 19873,
-            "name": "Rubin- und Gold-Naskäfer",
+            "name": "Rubin-Gold-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419491,7 +419491,7 @@
         },
         {
             "ankama_id": 19874,
-            "name": "Rubin- und Saphir-Naskäfer",
+            "name": "Rubin-Saphir-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419518,7 +419518,7 @@
         },
         {
             "ankama_id": 19875,
-            "name": "Rubin- und Amethyst-Naskäfer",
+            "name": "Rubin-Amethyst-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419545,7 +419545,7 @@
         },
         {
             "ankama_id": 19876,
-            "name": "Saphir- und Purpur-Naskäfer",
+            "name": "Saphir-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419572,7 +419572,7 @@
         },
         {
             "ankama_id": 19877,
-            "name": "Saphir- und Orchideen-Naskäfer",
+            "name": "Saphir-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419599,7 +419599,7 @@
         },
         {
             "ankama_id": 19878,
-            "name": "Saphir- und Indigo-Naskäfer",
+            "name": "Saphir-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419626,7 +419626,7 @@
         },
         {
             "ankama_id": 19879,
-            "name": "Saphir- und Ebenholz-Naskäfer",
+            "name": "Saphir-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419653,7 +419653,7 @@
         },
         {
             "ankama_id": 19880,
-            "name": "Saphir- und Mandel-Naskäfer",
+            "name": "Saphir-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419680,7 +419680,7 @@
         },
         {
             "ankama_id": 19881,
-            "name": "Saphir- und Fuchsrot-Naskäfer",
+            "name": "Saphir-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419707,7 +419707,7 @@
         },
         {
             "ankama_id": 19882,
-            "name": "Saphir- und Elfenbein-Naskäfer",
+            "name": "Saphir-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419734,7 +419734,7 @@
         },
         {
             "ankama_id": 19883,
-            "name": "Saphir- und Türkis-Naskäfer",
+            "name": "Saphir-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419761,7 +419761,7 @@
         },
         {
             "ankama_id": 19884,
-            "name": "Saphir- und Pflaumen-Naskäfer",
+            "name": "Saphir-Pflaume-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419788,7 +419788,7 @@
         },
         {
             "ankama_id": 19885,
-            "name": "Saphir- und Smaragd-Naskäfer",
+            "name": "Saphir-Smaragd-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419815,7 +419815,7 @@
         },
         {
             "ankama_id": 19886,
-            "name": "Saphir- und Gold-Naskäfer",
+            "name": "Saphir-Gold-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419842,7 +419842,7 @@
         },
         {
             "ankama_id": 19887,
-            "name": "Saphir- und Amethyst-Naskäfer",
+            "name": "Saphir-Amethyst-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419869,7 +419869,7 @@
         },
         {
             "ankama_id": 19888,
-            "name": "Amethyst- und Purpur-Naskäfer",
+            "name": "Amethyst-Purpur-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419896,7 +419896,7 @@
         },
         {
             "ankama_id": 19889,
-            "name": "Amethyst- und Orchideen-Naskäfer",
+            "name": "Amethyst-Orchidee-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419923,7 +419923,7 @@
         },
         {
             "ankama_id": 19890,
-            "name": "Amethyst- und Indigo-Naskäfer",
+            "name": "Amethyst-Indigo-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419950,7 +419950,7 @@
         },
         {
             "ankama_id": 19891,
-            "name": "Amethyst- und Ebenholz-Naskäfer",
+            "name": "Amethyst-Ebenholz-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -419977,7 +419977,7 @@
         },
         {
             "ankama_id": 19892,
-            "name": "Amethyst- und Mandel-Naskäfer",
+            "name": "Amethyst-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420004,7 +420004,7 @@
         },
         {
             "ankama_id": 19893,
-            "name": "Amethyst- und Fuchsrot-Naskäfer",
+            "name": "Amethyst-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420031,7 +420031,7 @@
         },
         {
             "ankama_id": 19894,
-            "name": "Amethyst- und Elfenbein-Naskäfer",
+            "name": "Amethyst-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420058,7 +420058,7 @@
         },
         {
             "ankama_id": 19895,
-            "name": "Amethyst- und Türkis-Naskäfer",
+            "name": "Amethyst-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420085,7 +420085,7 @@
         },
         {
             "ankama_id": 19896,
-            "name": "Amethyst- und Pflaumen-Naskäfer",
+            "name": "Amethyst-Pflaume-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420112,7 +420112,7 @@
         },
         {
             "ankama_id": 19897,
-            "name": "Amethyst- und Smaragd-Naskäfer",
+            "name": "Amethyst-Smaragd-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420139,7 +420139,7 @@
         },
         {
             "ankama_id": 19898,
-            "name": "Amethyst- und Gold-Naskäfer",
+            "name": "Amethyst-Gold-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420166,7 +420166,7 @@
         },
         {
             "ankama_id": 19899,
-            "name": "Gold- und Fuchsrot-Naskäfer",
+            "name": "Gold-Fuchsrot-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420193,7 +420193,7 @@
         },
         {
             "ankama_id": 19900,
-            "name": "Gold- und Mandel-Naskäfer",
+            "name": "Gold-Mandel-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420220,7 +420220,7 @@
         },
         {
             "ankama_id": 19901,
-            "name": "Gold- und Elfenbein-Naskäfer",
+            "name": "Gold-Elfenbein-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420247,7 +420247,7 @@
         },
         {
             "ankama_id": 19902,
-            "name": "Gold- und Türkis-Naskäfer",
+            "name": "Gold-Türkis-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420274,7 +420274,7 @@
         },
         {
             "ankama_id": 19903,
-            "name": "Gold- und Pflaumen-Naskäfer",
+            "name": "Gold-Pflaume-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -420301,7 +420301,7 @@
         },
         {
             "ankama_id": 19904,
-            "name": "Gold- und Smaragd-Naskäfer",
+            "name": "Gold-Smaragd-Naskäfer",
             "type": {
                 "name": "Naskäferzertifikat",
                 "id": 71
@@ -422812,6 +422812,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Silbernes Versprechen:\nWenn der Träger weniger als 20 % seiner Lebenspunkte besitzt, wird er um 30 % seiner LP geheilt und erhält zu Beginn seiner nächsten Runde 1 Runde lang 20 % Endschaden (1 Mal pro Kampf)."
+                },
+                {
+                    "int_minimum": 300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "300 Vitalität"
                 }
             ],
             "is_weapon": false,
@@ -423282,8 +423295,8 @@
             ],
             "is_weapon": true,
             "pods": 10,
-            "critical_hit_probability": 0,
-            "critical_hit_bonus": 0,
+            "critical_hit_probability": 100,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -423333,7 +423346,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -423358,7 +423371,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Kälte von Novamaire:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 1 AP (1-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, platziert er eine Aura-Glyphe, die seine Verbündeten im Umkreis von 3 Feldern 1 Runde lang unsichtbar macht."
+                    "formatted": "Kälte von Novamaire:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 1 AP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger 1 Runde lang 1 AP (2-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, platziert er eine Aura-Glyphe, die seine Verbündeten im Umkreis von 3 Feldern 1 Runde lang unsichtbar macht."
                 },
                 {
                     "int_minimum": 351,
@@ -423806,7 +423819,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem kreuzförmigen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert. Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
+                    "formatted": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem quadratischen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert. Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
                 },
                 {
                     "int_minimum": 251,
@@ -424186,7 +424199,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "König unter dem Berg:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Nahkampfschaden 2 Runden lang um 2 % (5-mal kumulierbar)."
+                    "formatted": "König unter dem Berg:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Endschaden 2 Runden lang um 2 % (5-mal kumulierbar).\n• Wenn der Träger sowohl der Angreifer als auch das Ziel ist, wird die Wirkung nicht ausgelöst."
                 },
                 {
                     "int_minimum": 351,
@@ -425076,7 +425089,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Tausend Meilen:\n• Der Träger erhält in den ungeraden Runden 2 BP und verliert in den geraden Runden 1 BP."
+                    "formatted": "Tausend Meilen:\n• Der Träger erhält in den ungeraden Runden 2 BP."
                 },
                 {
                     "int_minimum": 501,
@@ -431127,7 +431140,7 @@
                     "formatted": "In der ersten Runde erhält der Träger 550 % seiner Stufe als Schild, in der zweiten Runde 200 % und in der dritten Runde 100 %."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Neutralschaden",
@@ -431137,10 +431150,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Neutralschaden"
+                    "formatted": "40 Resistenz gegen Neutralschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Erdschaden",
@@ -431150,10 +431163,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Erdschaden"
+                    "formatted": "40 Resistenz gegen Erdschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Feuerschaden",
@@ -431163,10 +431176,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Feuerschaden"
+                    "formatted": "40 Resistenz gegen Feuerschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Wasserschaden",
@@ -431176,10 +431189,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Wasserschaden"
+                    "formatted": "40 Resistenz gegen Wasserschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Luftschaden",
@@ -431189,7 +431202,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Luftschaden"
+                    "formatted": "40 Resistenz gegen Luftschaden"
                 },
                 {
                     "int_minimum": -100,
@@ -431278,7 +431291,7 @@
                     "formatted": "In der ersten Runde erhält der Träger 150 % seiner Stufe als Schild, in der zweiten Runde 450 % und in der dritten Runde 150 %."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Neutralschaden",
@@ -431288,10 +431301,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Neutralschaden"
+                    "formatted": "40 Resistenz gegen Neutralschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Erdschaden",
@@ -431301,10 +431314,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Erdschaden"
+                    "formatted": "40 Resistenz gegen Erdschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Feuerschaden",
@@ -431314,10 +431327,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Feuerschaden"
+                    "formatted": "40 Resistenz gegen Feuerschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Wasserschaden",
@@ -431327,10 +431340,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Wasserschaden"
+                    "formatted": "40 Resistenz gegen Wasserschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Luftschaden",
@@ -431340,7 +431353,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Luftschaden"
+                    "formatted": "40 Resistenz gegen Luftschaden"
                 },
                 {
                     "int_minimum": -100,
@@ -431429,7 +431442,7 @@
                     "formatted": "In der ersten Runde erhält der Träger 100 % seiner Stufe als Schild, in der zweiten Runde 200 % und in der dritten Runde 350 %."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Neutralschaden",
@@ -431439,10 +431452,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Neutralschaden"
+                    "formatted": "40 Resistenz gegen Neutralschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Erdschaden",
@@ -431452,10 +431465,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Erdschaden"
+                    "formatted": "40 Resistenz gegen Erdschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Feuerschaden",
@@ -431465,10 +431478,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Feuerschaden"
+                    "formatted": "40 Resistenz gegen Feuerschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Wasserschaden",
@@ -431478,10 +431491,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Wasserschaden"
+                    "formatted": "40 Resistenz gegen Wasserschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Luftschaden",
@@ -431491,7 +431504,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Luftschaden"
+                    "formatted": "40 Resistenz gegen Luftschaden"
                 },
                 {
                     "int_minimum": -100,
@@ -432837,7 +432850,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Heilt in der ersten Runde 80 % des durch Gegner erlittenen Schadens, in der zweiten Runde 30 % und in der dritten Runde 10 %."
+                    "formatted": "Heilt in der ersten Runde 60 % des durch Gegner erlittenen Schadens, in der zweiten Runde 30 % und in der dritten Runde 10 %."
                 },
                 {
                     "int_minimum": 200,
@@ -433895,7 +433908,7 @@
                     "formatted": "Der Träger erhält zu Beginn der ersten Spielrunde jedes gegnerischen Kämpfers, der vor ihm an der Reihe ist, bis zum Ende des Kampfes 200 % seiner Stufe als Schild."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Neutralschaden",
@@ -433905,7 +433918,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Neutralschaden"
+                    "formatted": "40 Resistenz gegen Neutralschaden"
                 },
                 {
                     "int_minimum": -1000,
@@ -433921,7 +433934,7 @@
                     "formatted": "-1000 Initiative"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Erdschaden",
@@ -433931,10 +433944,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Erdschaden"
+                    "formatted": "40 Resistenz gegen Erdschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Feuerschaden",
@@ -433944,10 +433957,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Feuerschaden"
+                    "formatted": "40 Resistenz gegen Feuerschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Wasserschaden",
@@ -433957,10 +433970,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Wasserschaden"
+                    "formatted": "40 Resistenz gegen Wasserschaden"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Resistenz gegen Luftschaden",
@@ -433970,7 +433983,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Resistenz gegen Luftschaden"
+                    "formatted": "40 Resistenz gegen Luftschaden"
                 }
             ],
             "is_weapon": false,
@@ -434043,20 +434056,20 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Der Träger erhält zu Beginn seiner ersten Runde 3 Runden lang 2 % Nahkampfschaden pro gegnerischem Kämpfer, der nicht mehr als 3 Felder von ihm entfernt ist."
+                    "formatted": "Der Träger erhält zu Beginn und am Ende seiner ersten Runde 3 Runden lang 2 % Nahkampfschaden pro gegnerischem Kämpfer, der nicht mehr als 3 Felder von ihm entfernt ist."
                 },
                 {
-                    "int_minimum": 30,
+                    "int_minimum": 6,
                     "int_maximum": 0,
                     "type": {
-                        "name": "zurückgeworfener Schaden",
-                        "id": 249,
+                        "name": "% Waffenschaden",
+                        "id": 41,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 zurückgeworfener Schaden"
+                    "formatted": "6 % Waffenschaden"
                 },
                 {
                     "int_minimum": -30,
@@ -438170,7 +438183,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Stellungskrieg:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 2 BP (1-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, erhält er bis zum Ende des Kampfes 1 BP (5-mal kumulierbar)."
+                    "formatted": "Stellungskrieg:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 2 BP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger bis zum Ende des Kampfes 1 BP (5-mal kumulierbar)."
                 },
                 {
                     "int_minimum": 7,
@@ -438879,68 +438892,6 @@
                     "quantity": 2
                 }
             ],
-            "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "is_operand": false,
-                                "relation": "and",
-                                "children": [
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Flinkheit",
-                                                "id": 36
-                                            }
-                                        },
-                                        "is_operand": true
-                                    },
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Glück",
-                                                "id": 22
-                                            }
-                                        },
-                                        "is_operand": true
-                                    }
-                                ]
-                            },
-                            {
-                                "condition": {
-                                    "operator": ">",
-                                    "int_value": 299,
-                                    "element": {
-                                        "name": "Intelligenz",
-                                        "id": 13
-                                    }
-                                },
-                                "is_operand": true
-                            }
-                        ]
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 299,
-                            "element": {
-                                "name": "Stärke",
-                                "id": 45
-                            }
-                        },
-                        "is_operand": true
-                    }
-                ]
-            },
             "effects": [
                 {
                     "int_minimum": 301,
@@ -439044,7 +438995,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Prüfung der Waage:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (5-mal kumulierbar)."
+                    "formatted": "Prüfung der Waage:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (4-mal kumulierbar).\n• Die Wirkungen können nicht durch den Träger ausgelöst werden."
                 },
                 {
                     "int_minimum": 8,
@@ -439281,7 +439232,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Tintenfluss:\n• Ab Runde 5 erhalten der Träger und seine Beschwörungen bis zu 64 Schaden bis zum Ende des Kampfes.\n• Dieser Bonus verringert sich jedes Mal, wenn der Träger einem Gegner während der ersten 4 Kampfrunden Schaden zufügt:\n • Kein Angriff: 16 Schaden.\n • 1 Angriff: 8 Schaden.\n• Ab 2 Angriffen: 0 Schaden."
+                    "formatted": "Tintenfluss:\n• In den ersten 4 Runden erhalten der Träger und seine Beschwörungen jeweils am Rundenende bis zu 16 Schadenspunkte zusätzlich, die sie bis zum Ende des Kampfes behalten.\n• Jedes Mal, wenn der Träger während seiner Runde einen Gegner angreift, verringert sich dieser Bonus:\n • Kein Angriff: 16 Schaden.\n • 1 Angriff: 8 Schaden.\n• Ab 2 Angriffen: 0 Schaden."
                 },
                 {
                     "int_minimum": 1,
@@ -490860,7 +490811,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Feldschütz:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 8 Schlagkraft.\n• Hat er in seiner Runde keinen BP verwendet, wird er um 10 % seiner LP geheilt."
+                    "formatted": "Feldschütz:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 8 Schlagkraft.\n• Hat er in seiner Runde keinen BP verwendet, wird er um 8 % seiner LP geheilt."
                 }
             ],
             "is_weapon": false,
@@ -491441,7 +491392,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/151269-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/151269-128.png"
             },
-            "description": "Man kann nie vorsichtig genug sein, es sei denn, man wird dadurch bei jeder Lebensentscheidung gelähmt.",
+            "description": "Man kann nie vorsichtig genug sein, außer man wird dadurch bei jeder Lebensentscheidung gelähmt.",
             "recipe": [
                 {
                     "item_ankama_id": 7035,
@@ -491499,20 +491450,7 @@
                     "formatted": "6 % Fernkampfresistenz"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Nahkampfschaden",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9 % Nahkampfschaden"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Fernkampfschaden",
@@ -491522,7 +491460,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Fernkampfschaden"
+                    "formatted": "-6 % Fernkampfschaden"
                 }
             ],
             "is_weapon": false,
@@ -491598,20 +491536,7 @@
                     "formatted": "6 % Nahkampfresistenz"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Nahkampfschaden",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9 % Nahkampfschaden"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Fernkampfschaden",
@@ -491621,7 +491546,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Fernkampfschaden"
+                    "formatted": "-6 % Fernkampfschaden"
                 }
             ],
             "is_weapon": false,
@@ -491697,20 +491622,7 @@
                     "formatted": "6 % Fernkampfschaden"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Nahkampfresistenz",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9 % Nahkampfresistenz"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Fernkampfresistenz",
@@ -491720,7 +491632,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Fernkampfresistenz"
+                    "formatted": "-6 % Fernkampfresistenz"
                 }
             ],
             "is_weapon": false,
@@ -491796,20 +491708,7 @@
                     "formatted": "6 % Nahkampfschaden"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Nahkampfresistenz",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9 % Nahkampfresistenz"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Fernkampfresistenz",
@@ -491819,7 +491718,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Fernkampfresistenz"
+                    "formatted": "-6 % Fernkampfresistenz"
                 }
             ],
             "is_weapon": false,
@@ -491895,7 +491794,7 @@
                     "formatted": "6 % Zauberschaden"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Nahkampfresistenz",
@@ -491905,10 +491804,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Nahkampfresistenz"
+                    "formatted": "-6 % Nahkampfresistenz"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Fernkampfresistenz",
@@ -491918,7 +491817,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Fernkampfresistenz"
+                    "formatted": "-6 % Fernkampfresistenz"
                 }
             ],
             "is_weapon": false,
@@ -491994,7 +491893,7 @@
                     "formatted": "6 % Waffenschaden"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Nahkampfresistenz",
@@ -492004,10 +491903,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Nahkampfresistenz"
+                    "formatted": "-3 % Nahkampfresistenz"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Fernkampfresistenz",
@@ -492017,7 +491916,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9 % Fernkampfresistenz"
+                    "formatted": "-3 % Fernkampfresistenz"
                 }
             ],
             "is_weapon": false,
@@ -505640,7 +505539,7 @@
                     "formatted": "Explosives Ausschlüpfen:\n• Wenn eine Beschwörung des Trägers angegriffen wird, erhöht sich der Endschaden des Trägers 2 Runden lang um 1 % (10-mal kumulierbar).\n• Wenn sie von einem Gegner besiegt wurde, fügt der Träger Gegnern im Umkreis von 2 Feldern um sie 10 Schaden in seinem besten Element zu."
                 },
                 {
-                    "int_minimum": 1,
+                    "int_minimum": 2,
                     "int_maximum": 0,
                     "type": {
                         "name": "Beschwörung",
@@ -505650,7 +505549,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "1 Beschwörung"
+                    "formatted": "2 Beschwörung"
                 }
             ],
             "is_weapon": false,
@@ -507585,7 +507484,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Blendende Spiegelung:\n• Am Ende jeder Runde entzieht der Träger allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und enthüllt sie, wenn sie unsichtbar sind (1-mal kumulierbar)."
+                    "formatted": "Blendende Spiegelung:\n• Der Träger verringert den anfänglichen Schaden des ersten von einem Verbündeten erlittenen Angriffs und wirft 75 % dieses Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar)."
                 },
                 {
                     "int_minimum": 251,
@@ -507750,7 +507649,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -507775,7 +507674,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Orden des Donners:\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP (1-mal kumulierbar).\n• Wenn ein verbündeter Kämpfer stirbt, erhöht der Träger den Endschaden aller anderen bis zum Ende des Kampfes um 4 % (2-mal kumulierbar).\n• Wenn der Träger Waffenschaden verursacht, erhält er 2 Runden lang 25 Schubsschaden.\n• Die Effekte werden aufgehoben, wenn der Träger stirbt."
+                    "formatted": "Orden des Donners:\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP und 40 Schubsschaden (1-mal kumulierbar).\n• Wenn ein verbündeter Kämpfer stirbt, erhöht der Träger den Endschaden aller anderen bis zum Ende des Kampfes um 4 % (2-mal kumulierbar).\n• Die Effekte werden aufgehoben, wenn der Träger stirbt."
                 },
                 {
                     "int_minimum": 401,
@@ -507921,7 +507820,7 @@
                     "formatted": "47 bis 52 Schaden im besten Element"
                 },
                 {
-                    "int_minimum": 2,
+                    "int_minimum": 3,
                     "int_maximum": 0,
                     "type": {
                         "name": "Schubst um Feld zurück",
@@ -507931,7 +507830,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Schubst um 2 Feld zurück"
+                    "formatted": "Schubst um 3 Feld zurück"
                 }
             ],
             "is_weapon": true,
@@ -508012,7 +507911,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Thanatenas Urteil:\n• Zu Beginn jeder Runde erodiert der Träger alle und erhöht den von ihnen erlittenen Schaden 1 Runde lang um 4 % (1-mal kumulierbar).\n• Wenn er einen Gegner besiegt, wird er um 20 % seiner LP geheilt und sein Endschaden erhöht sich 1 Runde lang um 10 %. Handelt es sich um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
+                    "formatted": "Thanatenas Urteil:\n• Zu Beginn jeder Runde erodiert der Träger alle und erhöht den von ihnen erlittenen Schaden 1 Runde lang um 4 % (1-mal kumulierbar).\n• Wenn er einen Gegner besiegt, wird er um 20 % seiner LP geheilt und sein Endschaden erhöht sich 1 Runde lang um 10 %. Wenn es sich um eine Beschwörung handelt, wird sie um 5 % ihrer LP geheilt."
                 },
                 {
                     "int_minimum": 81,
@@ -508255,7 +508154,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 12728,
@@ -508275,7 +508174,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Helsefines Liebe:\n• Wenn der Träger einen Schild wirkt oder Nahkampfschaden verursacht, heilt er Verbündete, die nicht weiter als 2 Felder von ihm entfernt sind, um 8 % ihrer LP (einmal pro Runde)."
+                    "formatted": "Helsefines Liebe:\n• Wenn der Träger einen Schild wirkt oder Nahkampfschaden verursacht, heilt er Verbündete, die nicht weiter als 3 Felder von ihm entfernt sind, um 8 % ihrer LP (einmal pro Runde)."
                 },
                 {
                     "int_minimum": 451,
@@ -508694,7 +508593,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Merianas Hellsicht:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang auf dem jeweiligen Element basierende Attribute (6-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde: 10 Ausweichen\n • Feuer: 10 Blocken\n • Wasser: 10 BP-Entzug\n• Luft: 10 AP-Entzug"
+                    "formatted": "Merianas Hellsicht:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang einen Entzug im jeweiligen Element (8-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde und Wasser: 5 BP-Entzug\n• Feuer und Luft: 5 AP-Entzug"
                 },
                 {
                     "int_minimum": 151,
@@ -550338,6 +550237,1425 @@
             "parent_set": {
                 "id": 1087,
                 "name": "Naskset"
+            }
+        },
+        {
+            "ankama_id": 34327,
+            "name": "Helm der Wächter des Heiligtums",
+            "type": {
+                "name": "Hut",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16912-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16912-128.png"
+            },
+            "description": "Eine alte Erzählung aus Valonia berichtet von den Abenteuern eines eigensinnigen Ritters, dessen Kopf hart wie Stein war. Hat Belladonna aufgrund dieser Geschichte steinerne Statuen aufgestellt, um ihr Heiligtum zu bewachen? Oder wollte sie einfach nur ein paar gepanzerte Gefolgsleute als Deko ...? Wie dem auch sei, ein so massiver und scheuernder Helm ist der sicherste Weg zur Glatze.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27401,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 27403,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34324,
+                    "item_subtype": "resources",
+                    "quantity": 8
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 bis +500 Vitalität"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Schlagkraft",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 bis +80 Schlagkraft"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +50 Weisheit"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Heilung",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis 15 Heilung"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Erdschaden",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 20 Erdschaden"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Luftschaden",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 20 Luftschaden"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Res. gg. AP-Entzug",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis +12 Res. gg. AP-Entzug"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Luftresistenz",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis 15% Luftresistenz"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% auf kritische Treffer",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% auf kritische Treffer"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Resistenz gegen Kritische Treffer",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Resistenz gegen Kritische Treffer"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Set des Heiligtums der Ewigen Gärten"
+            }
+        },
+        {
+            "ankama_id": 34328,
+            "name": "Scharlachrote Schienen",
+            "type": {
+                "name": "Stiefel",
+                "id": 45
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/11390-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/11390-128.png"
+            },
+            "description": "Diese Beinschienen aus Metall ähneln denen der Rüstung von Ephedra. Jeder kann sie tragen, auch wer unter schweren Beinen leidet. Sie wurden nämlich dazu entwickelt, um die Durchblutung anzuregen – insbesondere die von anderen. Wenn ihr weiter ständig auf Witwen und Waisen herumtrampelt, plagt euch vielleicht irgendwann ein schlechtes Gewissen. Falls ihr überhaupt eines habt.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27398,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27400,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34325,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 26870,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 bis +450 Vitalität"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Schlagkraft",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 bis +80 Schlagkraft"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +40 Weisheit"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Heilung",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis 15 Heilung"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 20 Wasserschaden"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Feuerschaden",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 20 Feuerschaden"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Res. gg. BP-Entzug",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis +12 Res. gg. BP-Entzug"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Erdresistenz",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15% Erdresistenz"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% auf kritische Treffer",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% auf kritische Treffer"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Resistenz gegen Kritische Treffer",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Resistenz gegen Kritische Treffer"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "BP",
+                        "id": 8,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 BP"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Set des Heiligtums der Ewigen Gärten"
+            }
+        },
+        {
+            "ankama_id": 34329,
+            "name": "Blumige Erdrosselung",
+            "type": {
+                "name": "Amulett",
+                "id": 33
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1343-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1343-128.png"
+            },
+            "description": "Wenn ihr diese hübsche Blume des Bösen um den Hals tragt, könnte sie euch erwürgen, wenn ihr einfach nur dasteht und nichts tut. Das liegt wahrscheinlich daran, dass sie im Gewächshaus gezogen wurde. Ihr solltet also ständig in Bewegung bleiben, wie sonst auch. Wer rastet, der verrottet.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27399,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27397,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34326,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27518,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 16460,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 bis +450 Vitalität"
+                },
+                {
+                    "int_minimum": 51,
+                    "int_maximum": 70,
+                    "type": {
+                        "name": "Schlagkraft",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "51 bis +70 Schlagkraft"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +40 Weisheit"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Heilung",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis 10 Heilung"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 13 Wasserschaden"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Feuerschaden",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 13 Feuerschaden"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Erdschaden",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 13 Erdschaden"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Luftschaden",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 13 Luftschaden"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% auf kritische Treffer",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% auf kritische Treffer"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Resistenz gegen Kritische Treffer",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Resistenz gegen Kritische Treffer"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "AP",
+                        "id": 12,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 AP"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis 15% Wasserresistenz"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Set des Heiligtums der Ewigen Gärten"
+            }
+        },
+        {
+            "ankama_id": 34330,
+            "name": "Gesicht der Königsmuräne",
+            "type": {
+                "name": "Hut",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16913-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16913-128.png"
+            },
+            "description": "Der Träger dieser Kopfbedeckung inhaliert regelmäßig geringe Mengen an Gift. Dies verleiht ihm mit der Zeit natürliche Abwehrkräfte gegen jede Art von Gift.",
+            "recipe": [
+                {
+                    "item_ankama_id": 17983,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17974,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34337,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17864,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 bis +500 Vitalität"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Glück",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 bis +80 Glück"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +50 Weisheit"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% KT",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 5% KT"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis +20 Filzpunkte"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 20 Wasserschaden"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Kritischer Schaden",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis 10 Kritischer Schaden"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Blocken",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15 Blocken"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Beschwörung",
+                        "id": 28,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 Beschwörung"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis 10% Wasserresistenz"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Luftresistenz",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 bis 7% Luftresistenz"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ausweichen",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Ausweichen"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Set des Abgrunds"
+            }
+        },
+        {
+            "ankama_id": 34331,
+            "name": "Scherenlanze der Gruselkrabbe",
+            "type": {
+                "name": "Wurfspeer",
+                "id": 111
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183018-128.png"
+            },
+            "description": "Diese Lanze verfügt über eine Schere, mit der sich die Eingeweide der Gegner herausschneiden lassen, nachdem man sie durchbohrt hat. Als ob eine normale Lanze nicht ausreichen würde ... ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17971,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17988,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34338,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 bis +500 Vitalität"
+                },
+                {
+                    "int_minimum": 71,
+                    "int_maximum": 90,
+                    "type": {
+                        "name": "Glück",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "71 bis +90 Glück"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +50 Weisheit"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% KT",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 5% KT"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 12 Wasserschaden"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Kritischer Schaden",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 20 Kritischer Schaden"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Blocken",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis +10 Blocken"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "BP-Entzug",
+                        "id": 50,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis +12 BP-Entzug"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Feuerresistenz",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 bis 7% Feuerresistenz"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis 10% Wasserresistenz"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Resist. AP-Entzug",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 Resist. AP-Entzug"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 13 Wasserschaden"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 13 Wasserschaden"
+                },
+                {
+                    "int_minimum": 27,
+                    "int_maximum": 33,
+                    "type": {
+                        "name": "Entzug von Punkten im Element Wasser",
+                        "id": 203,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "Entzug von 27 bis 33 Punkten im Element Wasser"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Zieht um Feld heran",
+                        "id": 255,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Zieht um 1 Feld heran"
+                }
+            ],
+            "is_weapon": true,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Set des Abgrunds"
+            },
+            "critical_hit_probability": 10,
+            "critical_hit_bonus": 3,
+            "max_cast_per_turn": 1,
+            "ap_cost": 5,
+            "range": {
+                "min": 1,
+                "max": 1
+            }
+        },
+        {
+            "ankama_id": 34332,
+            "name": "Rückenflosse von Willorca",
+            "type": {
+                "name": "Umhang",
+                "id": 43
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17698-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17698-128.png"
+            },
+            "description": "Tief unten im Abgrund ist es viel zu dunkel, um sich zu orientieren. Dieser Umhang hat einen Schwingflügel und sendet Wellen aus, die eine präzisere Ortung ermöglichen als jedes Auge. ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17978,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17981,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34339,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 19975,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 bis +500 Vitalität"
+                },
+                {
+                    "int_minimum": 81,
+                    "int_maximum": 100,
+                    "type": {
+                        "name": "Glück",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "81 bis +100 Glück"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +50 Weisheit"
+                },
+                {
+                    "int_minimum": 4,
+                    "int_maximum": 6,
+                    "type": {
+                        "name": "% KT",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "4 bis 6% KT"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Wasserschaden",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis 10 Wasserschaden"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "Kritischer Schaden",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis 25 Kritischer Schaden"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Blocken",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis +10 Blocken"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Heilung",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 12 Heilung"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Erdresistenz",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 bis +7% Erdresistenz"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis 10% Wasserresistenz"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Resist. BP-Entzug",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 Resist. BP-Entzug"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Set des Abgrunds"
             }
         }
     ]

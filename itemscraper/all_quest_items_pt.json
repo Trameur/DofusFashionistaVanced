@@ -16020,8 +16020,8 @@
             "ankama_id": 12838,
             "name": "Kama bronzeado de chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -16035,8 +16035,8 @@
             "ankama_id": 12839,
             "name": "Kama prateado de chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -16050,8 +16050,8 @@
             "ankama_id": 12840,
             "name": "Kama dourado de chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -23662,21 +23662,6 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15883-128.png"
             },
             "description": "Este recurso divino é muito procurado pelos Viajantes Dimensionais. Troque-o com os coletores por recompensas que o farão sonhar com outros mundos... já que elas não o transportarão para eles.",
-            "pods": 0
-        },
-        {
-            "ankama_id": 15263,
-            "name": "Rosa do deserto",
-            "type": {
-                "name": "Fichas",
-                "id": 40
-            },
-            "level": 10,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/50720-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/50720-128.png"
-            },
-            "description": "Ela pode até não ser vermelha, mas em compensação não murcha nunca.",
             "pods": 0
         },
         {
@@ -35002,6 +34987,21 @@
             "pods": 0
         },
         {
+            "ankama_id": 18342,
+            "name": "Max Louco",
+            "type": {
+                "name": "Espetárida",
+                "id": 74
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/32154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/32154-128.png"
+            },
+            "description": "Max está sob efeito do tranquilizante que Skola Suk deu a você. Leve-o até Skola enquanto não encontra uma solução para curá-lo.",
+            "pods": 0
+        },
+        {
             "ankama_id": 18343,
             "name": "Chave de leitura Steamer",
             "type": {
@@ -42374,8 +42374,8 @@
             "ankama_id": 20915,
             "name": "Cupom de Chocolate",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 60,
             "image_urls": {
@@ -42389,8 +42389,8 @@
             "ankama_id": 20916,
             "name": "Cupom de Avelã",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 130,
             "image_urls": {
@@ -42404,8 +42404,8 @@
             "ankama_id": 20917,
             "name": "Cupom de Pralina",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 200,
             "image_urls": {
@@ -42773,8 +42773,8 @@
             "ankama_id": 21170,
             "name": "Festificha",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -43459,8 +43459,8 @@
             "ankama_id": 21449,
             "name": "Kama de Ankama",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -49923,7 +49923,7 @@
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 0,
+                    "int_maximum": 1,
                     "type": {
                         "name": "Ganha x",
                         "id": 260,
@@ -49931,7 +49931,7 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": true,
+                    "ignore_int_max": false,
                     "formatted": "Ganha x1"
                 }
             ],
@@ -54907,8 +54907,8 @@
             "ankama_id": 29674,
             "name": "Cervaficha",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -55272,7 +55272,7 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24999-128.png"
             },
             "description": "Deixe 100 kamas nesta tigela e ofereça-a ao discípulo de Elgero que está diante do Bibliotemplo.",
-            "pods": 1
+            "pods": 0
         },
         {
             "ankama_id": 30135,
@@ -60414,8 +60414,8 @@
             "ankama_id": 31434,
             "name": "Kolificha Falsificada",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -61784,8 +61784,8 @@
             "ankama_id": 32123,
             "name": "Tornoficha Monstruosa",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -61799,8 +61799,8 @@
             "ankama_id": 32124,
             "name": "Tornoficha Guerreira",
             "type": {
-                "name": "Fichas",
-                "id": 40
+                "name": "Fichas de eventos",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -62348,6 +62348,586 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/32154-128.png"
             },
             "description": "O destino deste Nolho é ser submetido aos experimentos do Doutor Walterbychop.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34376,
+            "name": "Areia de Clepsidra",
+            "type": {
+                "name": "Ilha de Frigost",
+                "id": 85
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/48260-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/48260-128.png"
+            },
+            "description": "Algumas pessoas afirmam que conseguiram observar um misterioso fenômeno na Torre da Clepsidra quando colocaram esta areia em um de seus estranhos mecanismos.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34417,
+            "name": "Lembrança de Terrakurial",
+            "type": {
+                "name": "A Fonte: Herança dos Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24530-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24530-128.png"
+            },
+            "description": "Estes fragmentos que se parecem com um Dofus estilhaçado são muito mais do que simples pedaços de casca...\nO dragão ocre se abrigou em seu Dofus já faz muitos anos. Ele sonha com dias melhores. Ao longo de suas sucessivas existências, ele deixou muitas lembranças pelo caminho. Talvez você devesse mostrar a ele as que encontrou antes que elas desapareçam, levadas pelo esquecimento.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34445,
+            "name": "Pá de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Uma pá completamente normal. Devolva ao dono depois que você desenterrar o que está procurando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34446,
+            "name": "Pá de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Uma pá completamente normal. Devolva ao dono depois que você desenterrar o que está procurando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34447,
+            "name": "Pá de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Uma pá completamente normal. Devolva ao dono depois que você desenterrar o que está procurando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34448,
+            "name": "Pá de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Uma pá completamente normal. Devolva ao dono depois que você desenterrar o que está procurando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34449,
+            "name": "Pá de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Uma pá completamente normal. Devolva ao dono depois que você desenterrar o que está procurando!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34450,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34451,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34452,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34453,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34454,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34455,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34456,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34457,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34458,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34459,
+            "name": "Bússola de Arqueólogo",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "Bússola cujas agulhas ficam descontroladas na presença de âmbar fossilizado.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Zona diferente de: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34467,
+            "name": "Âmbar Fossilizado",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/176047-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/176047-128.png"
+            },
+            "description": "Leve este pedaço de âmbar a Edgar Keólogo para obter sua recompensa.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34469,
+            "name": "Baldinho de Areia",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/48691-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/48691-128.png"
+            },
+            "description": "Não é o que estava procurando, mas você se sente criança de novo. Por que não aproveitar a pá para construir o castelo dos seus sonhos?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34475,
+            "name": "Lugar Marcado com X",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24007-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24007-128.png"
+            },
+            "description": "A bússola fica descontrolada e depois aponta para baixo. Você está no lugar certo!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34476,
+            "name": "Estamos chegando!",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/87002-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/87002-128.png"
+            },
+            "description": "Você percebe que avançou, mas a bússola continua a girar de forma errática.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34479,
+            "name": "Baldinho de Terra",
+            "type": {
+                "name": "Arquipélago de Vulkânia",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25140-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
+            },
+            "description": "Não é o que você estava procurando e é menos simpático e polivalente que um baldinho de areia... Mas não se pode ter tudo!",
             "pods": 0
         }
     ]

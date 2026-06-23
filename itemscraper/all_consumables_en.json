@@ -2974,8 +2974,8 @@
             },
             "level": 50,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12139-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/23121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png"
             },
             "description": "This magic potion is the only one that can cast magic into the lattice-work leather panties of Captain Chafer...It speaks volumes about the power of such a potion.",
             "pods": 10
@@ -40005,466 +40005,6 @@
             "pods": 2
         },
         {
-            "ankama_id": 15248,
-            "name": "Insignificant Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "When you knock on the lid, it sounds empty, but maybe, just maybe, there's something interesting in here. A molar? Some hair? A hairy molar? The sky's the limit.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 400,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 to 400 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15260,
-            "name": "Rusty Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Harder to open than to close, but easier to forget than to find.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 401,
-                    "int_maximum": 800,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "401 to 800 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15261,
-            "name": "Intriguing Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "It could contain anything and everything, but it's more likely to contain next to nothing.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 601,
-                    "int_maximum": 1200,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "601 to 1200 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15262,
-            "name": "Surprising Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "One thing's for sure: it contains a surprise. Good or bad, only time will tell.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 801,
-                    "int_maximum": 1600,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "801 to 1600 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15264,
-            "name": "Solid Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "This chest is solid enough to be thrown at the head of the person who gave it to you if you don't like what's inside. Bear that in mind.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 1001,
-                    "int_maximum": 2000,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1001 to 2000 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15265,
-            "name": "Heavy Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "You'll be light-headed with joy when you reveal the contents of this heavy chest.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 1201,
-                    "int_maximum": 2400,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1201 to 2400 kamas"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 15266,
-            "name": "Sparkling Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "If you hit two sparkling chests together hard enough, you just might produce some sparks and start a fire to burn their disappointing contents and quell your rage.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 1401,
-                    "int_maximum": 2800,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1401 to 2800 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15267,
-            "name": "Imposing Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Even if you never manage to open it, this chest makes you look like a genuine treasure hunter.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 1601,
-                    "int_maximum": 3200,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1601 to 3200 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15268,
-            "name": "Impressive Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "If you hide inside this chest, even you can be impressive!",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 1801,
-                    "int_maximum": 3600,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1801 to 3600 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15269,
-            "name": "Superior Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "This chest is enormous, but not enormous enough to file away all the archives on your superiority complex.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                },
-                {
-                    "int_minimum": 2001,
-                    "int_maximum": 4000,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "2001 to 4000 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15270,
-            "name": "Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "This chest contains a chest, which contains a chest, which contains a chest, ...\nAnother piece of tourist tat sold at inflated prices by that cad, Dushan Roll.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 15312,
             "name": "Emote Scroll: Greed",
             "type": {
@@ -55432,8 +54972,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73036-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73036-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png"
             },
             "description": "Use this scroll to learn the god Iop's Fatal Blow.",
             "effects": [
@@ -57024,8 +56564,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73026-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73026-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png"
             },
             "description": "Use this scroll to learn the goddess Eniripsa's Fatal Blow.",
             "effects": [
@@ -93691,306 +93231,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 29502,
-            "name": "Insignificant Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "When you knock on the lid, it sounds empty, but maybe, just maybe, there's something interesting in here. A molar? Some hair? A hairy molar? The sky's the limit.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29503,
-            "name": "Rusty Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Harder to open than to close, but easier to forget than to find.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29504,
-            "name": "Intriguing Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "It could contain anything and everything, but it's more likely to contain next to nothing.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29505,
-            "name": "Surprising Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "One thing's for sure: it contains a surprise. Good or bad, only time will tell.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29506,
-            "name": "Solid Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "This chest is solid enough to be thrown at the head of the person who gave it to you if you don't like what's inside. Bear that in mind.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29507,
-            "name": "Heavy Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "You'll be light-headed with joy when you reveal the contents of this heavy chest.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 29508,
-            "name": "Sparkling Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "If you hit two sparkling chests together hard enough, you just might produce some sparks and start a fire to burn their disappointing contents and quell your rage.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29509,
-            "name": "Imposing Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Even if you never manage to open it, this chest makes you look like a genuine treasure hunter.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29510,
-            "name": "Impressive Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "If you hide inside this chest, even you can be impressive!",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29511,
-            "name": "Superior Lottery Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "This chest is enormous, but not enormous enough to file away all the archives on your superiority complex.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 29512,
             "name": "Summons Skill Scroll",
             "type": {
@@ -109130,156 +108370,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 31775,
-            "name": "Enurado Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "This chest fell from a crack leading to a divine dimension.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31776,
-            "name": "Srambad Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "This chest fell from a crack leading to a divine dimension.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31777,
-            "name": "Ecaflipus Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "This chest fell from a crack leading to a divine dimension.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31778,
-            "name": "Xelorium Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "This chest fell from a crack leading to a divine dimension.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31779,
-            "name": "Osavora Chest",
-            "type": {
-                "name": "Chest",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "This chest fell from a crack leading to a divine dimension.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "What's inside?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "What's inside?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 31824,
             "name": "Inventor Aura",
             "type": {
@@ -109980,7 +109070,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gains 1x"
+                    "formatted": "Gains 1x Supremaseat"
                 },
                 {
                     "int_minimum": 0,
@@ -112256,7 +111346,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gains 1x Elemental Cycle"
+                    "formatted": "Gains 1x Quadramental Current"
                 },
                 {
                     "int_minimum": 1,
@@ -114910,8 +114000,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "This certificate awards you the title of \"Fellowship First\".",
             "effects": [
@@ -114953,8 +114043,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "This certificate awards you the title of \"Stalwart Companion\".",
             "effects": [
@@ -115830,8 +114920,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
             "description": "This certificate awards you the title of \"Ankamascot\".",
             "effects": [
@@ -122464,7 +121554,7 @@
         },
         {
             "ankama_id": 34031,
-            "name": "Captured Soul: Kojaklator the Lollipoper",
+            "name": "Captured Soul: Smitherz the Licker",
             "type": {
                 "name": "Archmonster Soul",
                 "id": 243
@@ -126902,7 +125992,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gains 10x"
+                    "formatted": "Gains 10x Reprisal"
                 }
             ],
             "pods": 10
@@ -127048,7 +126138,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gains 1000x"
+                    "formatted": "Gains 1000x Floral Glyph"
                 },
                 {
                     "int_minimum": 0,
@@ -127067,8 +126157,754 @@
             "pods": 10
         },
         {
+            "ankama_id": 34284,
+            "name": "Mercenary Chest (1-20)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14112-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14112-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34285,
+            "name": "Mercenary Chest (21-40)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 40,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14113-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14113-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34286,
+            "name": "Mercenary Chest (41-60)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14114-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14114-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34287,
+            "name": "Mercenary Chest (61-80)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 80,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14115-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14115-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34288,
+            "name": "Mercenary Chest (81-100)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 100,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14116-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14116-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34289,
+            "name": "Mercenary Chest (101-120)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 120,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14118-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14118-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34290,
+            "name": "Mercenary Chest (121-140)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 140,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14119-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14119-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34291,
+            "name": "Mercenary Chest (141-160)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 160,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14120-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14120-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34292,
+            "name": "Mercenary Chest (161-180)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 180,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14121-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34293,
+            "name": "Mercenary Chest (181-199)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 199,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14122-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14122-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34294,
+            "name": "Mercenary Chest (200)",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14123-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14123-128.png"
+            },
+            "description": "By coming to the aid of adventurers in need, you've obtained this chest as a reward for your bravery.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Offer a choice",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Offer a choice"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34297,
+            "name": "Madam Mimagic's Antitrool Potion",
+            "type": {
+                "name": "Potion",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12816-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12816-128.png"
+            },
+            "description": "Here's a sovereign remedy against unwelcome changes imposed by Trools disguised as adventurers. Its effects are permanent. However, if you change your mind or if you think everyone should turn orange, you can ask Madam Mimagic to dispel the potion's effects. Go to the Trool Fair to have a word with her.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34304,
+            "name": "Manuscript Page 1",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "You found this page in the Monochrome Text.",
+            "effects": [
+                {
+                    "int_minimum": 745,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34305,
+            "name": "Manuscript Page 2",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "You found this page in the Protectors' Field.",
+            "effects": [
+                {
+                    "int_minimum": 746,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34306,
+            "name": "Manuscript Page 3",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "You found this page in Belladonna's Reserve.",
+            "effects": [
+                {
+                    "int_minimum": 747,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34307,
+            "name": "Manuscript Page 4",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "You found this page in Ephedra's Court.",
+            "effects": [
+                {
+                    "int_minimum": 748,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34308,
+            "name": "Manuscript Page 5",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "You found this page in the Castle Path.",
+            "effects": [
+                {
+                    "int_minimum": 749,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34309,
+            "name": "Eternal Gardens Sanctuary Manuscript",
+            "type": {
+                "name": "Document",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25008-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25008-128.png"
+            },
+            "description": "This book, written by Belladonna, contains the various pages found in the Eternal Gardens. It looks thick, but it's only to intimidate you.",
+            "effects": [
+                {
+                    "int_minimum": 744,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34311,
-            "name": "Peps Battle Standard",
+            "name": "Peps Supporter",
             "type": {
                 "name": "Emote scroll",
                 "id": 46
@@ -127078,7 +126914,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25279-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25279-128.png"
             },
-            "description": "Use this scroll to learn the Peps Battle Standard emote.",
+            "description": "Use this scroll to learn the Peps Supporter emote.",
             "effects": [
                 {
                     "int_minimum": 349,
@@ -127111,7 +126947,7 @@
         },
         {
             "ankama_id": 34312,
-            "name": "JL Battle Standard",
+            "name": "Joblife Supporter",
             "type": {
                 "name": "Emote scroll",
                 "id": 46
@@ -127121,7 +126957,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25280-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25280-128.png"
             },
-            "description": "Use this scroll to learn the JL Battle Standard emote.",
+            "description": "Use this scroll to learn the Joblife Supporter emote.",
             "effects": [
                 {
                     "int_minimum": 348,
@@ -127498,7 +127334,7 @@
         },
         {
             "ankama_id": 34333,
-            "name": "[!] Siffloter",
+            "name": "Whistle",
             "type": {
                 "name": "Emote scroll",
                 "id": 46
@@ -127508,7 +127344,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25278-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25278-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Siffloter.",
+            "description": "Use this scroll to learn the Whistle emote.",
             "effects": [
                 {
                     "int_minimum": 350,
@@ -127535,6 +127371,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34342,
+            "name": "Sanctuary Chest",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89067-128.png"
+            },
+            "description": "This chest is the ultimate reward for flawless coordination. The luckiest players will find legendary items in it.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34344,
+            "name": "Majestic Sanctuary Chest",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89068-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89068-128.png"
+            },
+            "description": "This chest is the ultimate reward for flawless coordination. The luckiest players will find legendary items in it.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
                 }
             ],
             "pods": 1
@@ -127815,6 +127737,916 @@
             "pods": 1
         },
         {
+            "ankama_id": 34353,
+            "name": "Chasm Chest",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89069-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89069-128.png"
+            },
+            "description": "This chest rewards heroes who have dared venture into Gigalodon's Chasm and come out alive. It contains common and rare raid resources.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34354,
+            "name": "Majestic Chasm Chest",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89070-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89070-128.png"
+            },
+            "description": "This chest rewards heroes who have dared venture into Gigalodon's Chasm and come out alive. It contains rare resources and raid equipment.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34356,
+            "name": "Superb Ephemeral Tankhor Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78279-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png"
+            },
+            "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34357,
+            "name": "Superb Ephemeral Looth Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png"
+            },
+            "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34358,
+            "name": "Superb Ephemeral Brett Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78291-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png"
+            },
+            "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34359,
+            "name": "Superb Temporary Tankhor Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78278-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png"
+            },
+            "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34360,
+            "name": "Superb Temporary Looth Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78284-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png"
+            },
+            "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34361,
+            "name": "Superb Temporary Brett Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78290-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png"
+            },
+            "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34362,
+            "name": "Simple Ephemeral Tankhor Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78275-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png"
+            },
+            "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34363,
+            "name": "Simple Ephemeral Looth Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png"
+            },
+            "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34364,
+            "name": "Simple Ephemeral Brett Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78287-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png"
+            },
+            "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34365,
+            "name": "Simple Temporary Tankhor Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78274-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png"
+            },
+            "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34366,
+            "name": "Simple Temporary Looth Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78280-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png"
+            },
+            "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34367,
+            "name": "Simple Temporary Brett Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78286-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png"
+            },
+            "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34368,
+            "name": "Fancy Ephemeral Tankhor Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78277-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png"
+            },
+            "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34369,
+            "name": "Fancy Ephemeral Looth Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78283-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png"
+            },
+            "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34370,
+            "name": "Fancy Ephemeral Brett Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78289-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png"
+            },
+            "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34371,
+            "name": "Fancy Temporary Tankhor Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78276-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png"
+            },
+            "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34372,
+            "name": "Fancy Temporary Looth Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png"
+            },
+            "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34373,
+            "name": "Fancy Temporary Brett Tattoo",
+            "type": {
+                "name": "Trool Fair Tattoo",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78288-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png"
+            },
+            "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Be level {0} or higher",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34374,
+            "name": "Icebreaker Certificate",
+            "type": {
+                "name": "Title Scroll",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "This certificate awards you the title of \"Icebreaker\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Icebreaker"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34375,
+            "name": "Bastion of Frigost Certificate",
+            "type": {
+                "name": "Title Scroll",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "This certificate awards you the title of \"Bastion of Frigost\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Bastion of Frigost"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34390,
             "name": "Solary Certificate",
             "type": {
@@ -127969,6 +128801,557 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Title: What's the Colour?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34418,
+            "name": "Poisonous Treasure",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89071-128.png"
+            },
+            "description": "Does this chest, taken from the Eternal Gardens, contain harmful memories? The only way to find out is to open it up.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34419,
+            "name": "Abyssal Treasure",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89073-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89073-128.png"
+            },
+            "description": "Does this chest, brought up from Gigalodon's Chasm, contain unfathomable memories? The only way to find out is to open it up.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34420,
+            "name": "Summer Treasure",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Does this chest, extracted from the depths of Vulkania, contain holiday memories? The only way to find out is to open it up.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34427,
+            "name": "Salty Heirloom",
+            "type": {
+                "name": "Various",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Eating this block of salt might just give you a huge appetite. You'll be able to gobble up a whole shoal of fish! And don't forget to brush afterwards, unless you want that distinctive, fishy breath.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Get on/off a mount",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Get on/off a mount"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34429,
+            "name": "Floral Heirloom",
+            "type": {
+                "name": "Various",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/35638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/35638-128.png"
+            },
+            "description": "It seems the upper parts of the belladonna plant are covered in hair that gives off an unpleasant smell. Not quite convinced? Take a whiff of this flower's scent and watch what happens... You'll quickly turn your nose up.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Get on/off a mount",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Get on/off a mount"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34460,
+            "name": "Sauroshelled Heirloom",
+            "type": {
+                "name": "Various",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/111005-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/111005-128.png"
+            },
+            "description": "When you go walking on shells, you don't usually expect them to react. Absent-minded tourists walking through the forests of Vulkania often learn this the hard way.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Get on/off a mount",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Get on/off a mount"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34462,
+            "name": "Forgotten Treasure",
+            "type": {
+                "name": "Chest",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Does this chest, discovered in a place steeped in history, contain repressed memories? The only way to find out is to open it up.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Linked to the character",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Linked to the character"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34468,
+            "name": "Scaly Heirloom",
+            "type": {
+                "name": "Various",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "An ochre dragoone, a paunchy godron or a dreamy Terrak – Terrakourial's heirs can take on many forms.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Get on/off a mount",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Get on/off a mount"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34473,
+            "name": "Scaly Heirloom",
+            "type": {
+                "name": "Various",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "An ochre dragoone, a paunchy godron or a dreamy Terrak – Terrakourial's heirs can take on many forms.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Get on/off a mount",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Get on/off a mount"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34474,
+            "name": "Scaly Heirloom",
+            "type": {
+                "name": "Various",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "An ochre dragoone, a paunchy godron or a dreamy Terrak – Terrakourial's heirs can take on many forms.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Get on/off a mount",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Get on/off a mount"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34495,
+            "name": "Master Waitologist Certificate",
+            "type": {
+                "name": "Title Scroll",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "This certificate awards you the title of \"Master Waitologist\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Title:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Title: Master Waitologist"
                 },
                 {
                     "int_minimum": 0,

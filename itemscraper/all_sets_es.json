@@ -85203,17 +85203,30 @@
                         "formatted": "15 al retiro de PM"
                     },
                     {
-                        "int_minimum": 50,
+                        "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "potencia (daños generales)",
-                            "id": 32,
+                            "name": "huida",
+                            "id": 59,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "50 potencia (daños generales)"
+                        "formatted": "15 huida"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "alcance",
+                            "id": 31,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 alcance"
                     },
                     {
                         "int_minimum": 500,
@@ -85229,48 +85242,7 @@
                         "formatted": "500 iniciativa"
                     },
                     {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "alcance",
-                            "id": 31,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 alcance"
-                    },
-                    {
-                        "int_minimum": 15,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "huida",
-                            "id": 59,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "15 huida"
-                    }
-                ],
-                "3": [
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "PA",
-                            "id": 12,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 PA"
-                    },
-                    {
-                        "int_minimum": 100,
+                        "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
                             "name": "potencia (daños generales)",
@@ -85280,46 +85252,74 @@
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "100 potencia (daños generales)"
-                    },
+                        "formatted": "50 potencia (daños generales)"
+                    }
+                ],
+                "3": [
                     {
-                        "int_minimum": 1000,
+                        "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "iniciativa",
-                            "id": 24,
+                            "name": "de daño de aire",
+                            "id": 47,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1000 iniciativa"
+                        "formatted": "10 de daños de aire"
                     },
                     {
-                        "int_minimum": 1,
+                        "int_minimum": 12,
                         "int_maximum": 0,
                         "type": {
-                            "name": "alcance",
-                            "id": 31,
+                            "name": "de daño de agua",
+                            "id": 27,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "1 alcance"
+                        "formatted": "12 de daño de agua"
+                    },
+                    {
+                        "int_minimum": 12,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño de fuego",
+                            "id": 61,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "12 de daño de fuego"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño de tierra",
+                            "id": 48,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 de daño de tierra"
                     },
                     {
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "al retiro de PA",
-                            "id": 64,
+                            "name": "huida",
+                            "id": 59,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 al retiro de PA"
+                        "formatted": "30 huida"
                     },
                     {
                         "int_minimum": 30,
@@ -85338,66 +85338,79 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "huida",
-                            "id": 59,
+                            "name": "al retiro de PA",
+                            "id": 64,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "30 huida"
+                        "formatted": "30 al retiro de PA"
                     },
                     {
-                        "int_minimum": 15,
+                        "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de daño de tierra",
-                            "id": 48,
+                            "name": "alcance",
+                            "id": 31,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "15 de daño de tierra"
+                        "formatted": "1 alcance"
                     },
                     {
-                        "int_minimum": 12,
+                        "int_minimum": 1000,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de daño de fuego",
-                            "id": 61,
+                            "name": "iniciativa",
+                            "id": 24,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 de daño de fuego"
+                        "formatted": "1000 iniciativa"
                     },
                     {
-                        "int_minimum": 12,
+                        "int_minimum": 100,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de daño de agua",
-                            "id": 27,
+                            "name": "potencia (daños generales)",
+                            "id": 32,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "12 de daño de agua"
+                        "formatted": "100 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
                     },
                     {
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "de daño de aire",
-                            "id": 47,
+                            "name": "de daño neutro",
+                            "id": 49,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10 de daños de aire"
+                        "formatted": "10 de daño neutro"
                     }
                 ]
             },
@@ -96562,7 +96575,7 @@
         {
             "ankama_id": 579,
             "name": "Set cosmético de yopuka",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96574,7 +96587,8 @@
                 21415,
                 21416,
                 23002,
-                30245
+                30245,
+                34404
             ]
         },
         {
@@ -96597,7 +96611,7 @@
         {
             "ankama_id": 581,
             "name": "Set cosmético de tymador",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96608,7 +96622,8 @@
                 21480,
                 21481,
                 21482,
-                23004
+                23004,
+                34407
             ]
         },
         {
@@ -96739,7 +96754,7 @@
         {
             "ankama_id": 589,
             "name": "Set cosmético de zobal",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96750,7 +96765,8 @@
                 22455,
                 22458,
                 22460,
-                23647
+                23647,
+                34406
             ]
         },
         {
@@ -96827,7 +96843,7 @@
         {
             "ankama_id": 594,
             "name": "Set cosmético aniripsa",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96839,7 +96855,8 @@
                 24973,
                 24974,
                 24975,
-                25996
+                25996,
+                34405
             ]
         },
         {
@@ -98915,7 +98932,7 @@
             "ankama_id": 745,
             "name": "Set cosmético de Keké",
             "items": 3,
-            "level": 10,
+            "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
@@ -99411,14 +99428,15 @@
         },
         {
             "ankama_id": 787,
-            "name": "Set cosmético Vader",
-            "items": 2,
+            "name": "Set cosmético del imperio",
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9936,
-                9938
+                9938,
+                9945
             ]
         },
         {
@@ -118195,11 +118213,12 @@
         {
             "ankama_id": 1053,
             "name": "Set cosmético de Corpo",
-            "items": 19,
+            "items": 20,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
+                32473,
                 32531,
                 32532,
                 32533,
@@ -121293,7 +121312,7 @@
         },
         {
             "ankama_id": 1082,
-            "name": "Set cosmético de centauroro",
+            "name": "Set cosmético caballero",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,
@@ -121337,7 +121356,7 @@
         },
         {
             "ankama_id": 1085,
-            "name": "Set púrpura",
+            "name": "Set cosmético de la lotería Púrpura",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121710,6 +121729,358 @@
             ]
         },
         {
+            "ankama_id": 1090,
+            "name": "Set del Santuario de los Jardines Eternos",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de cura",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 de cura"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al fuego",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia al fuego"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al aire",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia al aire"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al agua",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia al agua"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia a la tierra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia a la tierra"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 de daño"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al fuego",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% resistencia al fuego"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al aire",
+                            "id": 16,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia al aire"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia al agua",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia al agua"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% resistencia a la tierra",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% resistencia a la tierra"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de daño",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 de daño"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "potencia (daños generales)",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 potencia (daños generales)"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "de cura",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 de cura"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "invocaciones",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 invocaciones"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34327,
+                34328,
+                34329
+            ]
+        },
+        {
+            "ankama_id": 1091,
+            "name": "Set de la sima",
+            "items": 3,
+            "level": 200,
+            "contains_cosmetics": false,
+            "contains_cosmetics_only": false,
+            "effects": {
+                "1": null,
+                "2": [
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 suerte"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7 % crítico"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "placaje",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 placaje"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "PA",
+                            "id": 12,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 PA"
+                    },
+                    {
+                        "int_minimum": 7,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% crítico",
+                            "id": 29,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "7 % crítico"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "placaje",
+                            "id": 26,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 placaje"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "suerte",
+                            "id": 22,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 suerte"
+                    }
+                ]
+            },
+            "equipment_ids": [
+                34330,
+                34331,
+                34332
+            ]
+        },
+        {
             "ankama_id": 1092,
             "name": "Set cosmético de Joblife",
             "items": 4,
@@ -121738,8 +122109,36 @@
             ]
         },
         {
+            "ankama_id": 1094,
+            "name": "Set cosmético del Demonio VI",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34396,
+                34398,
+                34400,
+                34402
+            ]
+        },
+        {
+            "ankama_id": 1095,
+            "name": "Set cosmético matizado del Demonio VI",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34397,
+                34399,
+                34401,
+                34403
+            ]
+        },
+        {
             "ankama_id": 1097,
-            "name": "[!] Panoplie d'apparat de l'exterminateur",
+            "name": "Set cosmético del exterminador",
             "items": 8,
             "level": 60,
             "contains_cosmetics": true,
@@ -121753,6 +122152,94 @@
                 34414,
                 34415,
                 34416
+            ]
+        },
+        {
+            "ankama_id": 1098,
+            "name": "Set cosmético de la lotería Ocre",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34441,
+                34442,
+                34443,
+                34444
+            ]
+        },
+        {
+            "ankama_id": 1099,
+            "name": "Set cosmético de la sima",
+            "items": 7,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34480,
+                34481,
+                34482,
+                34483,
+                34484,
+                34485,
+                34486
+            ]
+        },
+        {
+            "ankama_id": 1100,
+            "name": "Set cosmético de Escario",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34503,
+                34505,
+                34507,
+                34509,
+                34511
+            ]
+        },
+        {
+            "ankama_id": 1101,
+            "name": "Set cosmético de Skalo",
+            "items": 5,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34502,
+                34504,
+                34506,
+                34508,
+                34510
+            ]
+        },
+        {
+            "ankama_id": 1102,
+            "name": "Set de los 25 años del Krosmoz",
+            "items": 17,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34502,
+                34512,
+                34513,
+                34514,
+                34515,
+                34516,
+                34517,
+                34518,
+                34519,
+                34520,
+                34521,
+                34522,
+                34523,
+                34524,
+                34525,
+                34526,
+                34527
             ]
         }
     ]

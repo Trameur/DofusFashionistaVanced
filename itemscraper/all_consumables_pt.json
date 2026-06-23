@@ -2974,8 +2974,8 @@
             },
             "level": 50,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12139-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/23121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png"
             },
             "description": "Esta poção mágica é a única capaz de fazer mágica nas ceroulas de couro entrelaçado do Capitão Chafer...Fala-se muito sobre o poder de tal poção.",
             "pods": 10
@@ -40005,466 +40005,6 @@
             "pods": 2
         },
         {
-            "ankama_id": 15248,
-            "name": "Baú insignificante",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Ele parece estar vazio, mas há uma probabilidade mínima de que este baú contenha algo de interessante, como um dente, um tufo de pelos ou talvez um dente peludo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 400,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 a 400 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15260,
-            "name": "Baú enferrujado",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Mais difícil de abrir do que fechar, mas mais fácil de abrir do que encontrar.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 401,
-                    "int_maximum": 800,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "401 a 800 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15261,
-            "name": "Baú intrigante",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Ele poderia conter qualquer coisa, principalmente uma coisa qualquer.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 601,
-                    "int_maximum": 1200,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "601 a 1200 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15262,
-            "name": "Baú surpreendente",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Ele certamente contém ao menos uma surpresa. Boa ou ruim.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 801,
-                    "int_maximum": 1600,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "801 a 1600 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15264,
-            "name": "Baú resistente",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Este baú é resistente o suficiente para ser arremessado na cabeça de quem o ofereceu a você se o conteúdo não lhe agradar. Aproveite.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 1001,
-                    "int_maximum": 2000,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1001 a 2000 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15265,
-            "name": "Baú pesado",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Você vai ficar com a consciência leve quando descobrir o que há dentro deste baú pesado.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 1201,
-                    "int_maximum": 2400,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1201 a 2400 kamas"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 15266,
-            "name": "Baú cintilante",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "Se você pegar dois baús cintilantes e chocá-los um contra o outro, poderá produzir algumas faíscas e acender uma fogueira para queimar, de raiva, seu conteúdo decepcionante.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 1401,
-                    "int_maximum": 2800,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1401 a 2800 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15267,
-            "name": "Baú imponente",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Mesmo se nunca conseguir abri-lo, você quase se parecerá com um verdadeiro caçador de tesouros com um baú como este.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 1601,
-                    "int_maximum": 3200,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1601 a 3200 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15268,
-            "name": "Baú impressionante",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "Se você se esconder neste baú, poderá, enfim, se tornar impressionante.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 1801,
-                    "int_maximum": 3600,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "1801 a 3600 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15269,
-            "name": "Baú magistral",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Este baú é enorme, mas não o suficiente para guardar todos os erros que você cometeu na juventude.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                },
-                {
-                    "int_minimum": 2001,
-                    "int_maximum": 4000,
-                    "type": {
-                        "name": "kamas",
-                        "id": 197,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "2001 a 4000 kamas"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 15270,
-            "name": "Baú de loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este baú contém um baú que contém um baú que contém um baú que...\nMais uma grande invenção do célebre Pierre Kursivo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 15312,
             "name": "Ricaço",
             "type": {
@@ -55432,8 +54972,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73036-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73036-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png"
             },
             "description": "Este pergaminho lhe ensina o golpe fatal do deus Iop.",
             "effects": [
@@ -57024,8 +56564,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73026-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73026-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png"
             },
             "description": "Este pergaminho ensina o golpe fatal da deusa Eniripsa.",
             "effects": [
@@ -93691,306 +93231,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 29502,
-            "name": "Baú Insignificante de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172000-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172000-128.png"
-            },
-            "description": "Ele parece estar vazio, mas há uma probabilidade mínima de que este baú contenha algo de interessante, como um dente, um tufo de pelos ou talvez um dente peludo.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29503,
-            "name": "Baú Enferrujado de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 40,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172001-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172001-128.png"
-            },
-            "description": "Mais difícil de abrir do que fechar, mas mais fácil de abrir do que encontrar.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29504,
-            "name": "Baú Intrigante de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 60,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172002-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172002-128.png"
-            },
-            "description": "Ele poderia conter qualquer coisa, principalmente uma coisa qualquer.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29505,
-            "name": "Baú Surpreendente de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 80,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172003-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172003-128.png"
-            },
-            "description": "Ele certamente contém ao menos uma surpresa. Boa ou ruim.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29506,
-            "name": "Baú Sólido de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 100,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172004-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172004-128.png"
-            },
-            "description": "Este baú é resistente o suficiente para ser arremessado na cabeça de quem o ofereceu a você se o conteúdo não lhe agradar. Aproveite.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29507,
-            "name": "Baú Pesado de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 120,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172005-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172005-128.png"
-            },
-            "description": "Você vai ficar com a consciência leve quando descobrir o que há dentro deste baú pesado.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 2
-        },
-        {
-            "ankama_id": 29508,
-            "name": "Baú Cintilante de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 140,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172006-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172006-128.png"
-            },
-            "description": "Se você pegar dois baús cintilantes e chocá-los um contra o outro, poderá produzir algumas faíscas e acender uma fogueira para queimar, de raiva, seu conteúdo decepcionante.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29509,
-            "name": "Baú Imponente de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 160,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172007-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172007-128.png"
-            },
-            "description": "Mesmo se nunca conseguir abri-lo, você quase se parecerá com um verdadeiro caçador de tesouros com um baú como este.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29510,
-            "name": "Baú Impressionante de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 180,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172008-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172008-128.png"
-            },
-            "description": "Se você se esconder neste baú, poderá, enfim, se tornar impressionante.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 29511,
-            "name": "Baú Magistral de Loteria",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172009-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172009-128.png"
-            },
-            "description": "Este baú é enorme, mas não o suficiente para guardar todos os erros que você cometeu na juventude.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 29512,
             "name": "Pergaminho do Domínio das Invocações",
             "type": {
@@ -109130,156 +108370,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 31775,
-            "name": "Baú de Enutropia",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este baú caiu de uma fissura que leva a uma dimensão divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31776,
-            "name": "Baú de Sramvil",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este baú caiu de uma fissura que leva a uma dimensão divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31777,
-            "name": "Baú de Ecafliperama",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este baú caiu de uma fissura que leva a uma dimensão divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31778,
-            "name": "Baú do Xelorium",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este baú caiu de uma fissura que leva a uma dimensão divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
-            "ankama_id": 31779,
-            "name": "Baú de Osavora",
-            "type": {
-                "name": "Baú",
-                "id": 84
-            },
-            "level": 20,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/172010-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/172010-128.png"
-            },
-            "description": "Este baú caiu de uma fissura que leva a uma dimensão divina.",
-            "effects": [
-                {
-                    "int_minimum": 1,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "O que tem aí?",
-                        "id": 196,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "O que tem aí?"
-                }
-            ],
-            "pods": 1
-        },
-        {
             "ankama_id": 31824,
             "name": "Aura do Inventor",
             "type": {
@@ -109980,7 +109070,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ganha x1"
+                    "formatted": "Ganha x1 Supremacerco"
                 },
                 {
                     "int_minimum": 0,
@@ -112256,7 +111346,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ganha x1 Ciclo Elementar"
+                    "formatted": "Ganha x1 Corrente Quadramental"
                 },
                 {
                     "int_minimum": 1,
@@ -114910,8 +114000,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Este diploma confere o título de \"Amigo do Peito\".",
             "effects": [
@@ -114953,8 +114043,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
             },
             "description": "Este diploma confere o título de \"Bom Camarada\".",
             "effects": [
@@ -115830,8 +114920,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
             },
             "description": "Este diploma confere o título de \"Ankamascote\".",
             "effects": [
@@ -126902,7 +125992,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ganha x10"
+                    "formatted": "Ganha x10 Represália"
                 }
             ],
             "pods": 10
@@ -127048,7 +126138,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Ganha x1000"
+                    "formatted": "Ganha x1000 Glifo Floral"
                 },
                 {
                     "int_minimum": 0,
@@ -127067,8 +126157,754 @@
             "pods": 10
         },
         {
+            "ankama_id": 34284,
+            "name": "Baú do Mercenário (1-20)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14112-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14112-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34285,
+            "name": "Baú do Mercenário (21-40)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 40,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14113-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14113-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34286,
+            "name": "Baú do Mercenário (41-60)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14114-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14114-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34287,
+            "name": "Baú do Mercenário (61-80)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 80,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14115-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14115-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34288,
+            "name": "Baú do Mercenário (81-100)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 100,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14116-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14116-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34289,
+            "name": "Baú do Mercenário (101-120)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 120,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14118-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14118-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34290,
+            "name": "Baú do Mercenário (121-140)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 140,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14119-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14119-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34291,
+            "name": "Baú do Mercenário (141-160)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 160,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14120-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14120-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34292,
+            "name": "Baú do Mercenário (161-180)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 180,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14121-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14121-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34293,
+            "name": "Baú do Mercenário (181-199)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 199,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14122-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14122-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34294,
+            "name": "Baú do Mercenário (200)",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/14123-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/14123-128.png"
+            },
+            "description": "Ao oferecer ajuda a aventureiros no aperto, você ganhou este baú de recompensa pela sua bravura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Propõe uma escolha",
+                        "id": 250,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Propõe uma escolha"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34297,
+            "name": "Poção Antitrool da Madame Magimin",
+            "type": {
+                "name": "Poção",
+                "id": 96
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12816-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12816-128.png"
+            },
+            "description": "Aqui está um remédio infalível contra as mudanças repentinas impostas por Trools disfarçados de aventureiros. Seus efeitos são permanentes. Mas, se você mudar de ideia ou se achar que todo mundo deveria ficar laranja, pode pedir para a Madame Magimin desfazer o efeito da poção. Vá até a Feira do Trool e fale com ela.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34304,
+            "name": "Primeira Página do Manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Você encontrou esta página na Obra Monocromática.",
+            "effects": [
+                {
+                    "int_minimum": 745,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34305,
+            "name": "Segunda Página do Manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Você encontrou esta página no Claustro dos Protetores.",
+            "effects": [
+                {
+                    "int_minimum": 746,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34306,
+            "name": "Terceira Página do Manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Você encontrou esta página na Reserva de Beladona.",
+            "effects": [
+                {
+                    "int_minimum": 747,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34307,
+            "name": "Quarta Página do Manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Você encontrou esta página na Corte de Ephedra.",
+            "effects": [
+                {
+                    "int_minimum": 748,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34308,
+            "name": "Quinta Página do Manuscrito",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24176-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24176-128.png"
+            },
+            "description": "Você encontrou esta página na Alameda do Castelo.",
+            "effects": [
+                {
+                    "int_minimum": 749,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34309,
+            "name": "Manuscrito do Santuário dos Jardins Eternos",
+            "type": {
+                "name": "Documento",
+                "id": 76
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25008-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25008-128.png"
+            },
+            "description": "Este livro escrito pela própria Beladona reúne as diversas páginas encontradas nos Jardins Eternos. Ele parece grande, mas é só para intimidar você.",
+            "effects": [
+                {
+                    "int_minimum": 744,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34311,
-            "name": "Estandarte de Peps",
+            "name": "Torcedor Peps",
             "type": {
                 "name": "Pergaminho de emote",
                 "id": 46
@@ -127078,7 +126914,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25279-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25279-128.png"
             },
-            "description": "Com este pergaminho, você poderá aprender o emote Estandarte de Peps.",
+            "description": "Com este pergaminho, você poderá aprender o emote \"Torcedor Peps\".",
             "effects": [
                 {
                     "int_minimum": 349,
@@ -127111,7 +126947,7 @@
         },
         {
             "ankama_id": 34312,
-            "name": "Estandarte de JL",
+            "name": "Torcedor Joblife",
             "type": {
                 "name": "Pergaminho de emote",
                 "id": 46
@@ -127121,7 +126957,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25280-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25280-128.png"
             },
-            "description": "Com este pergaminho, você poderá aprender o emote Estandarte de JL.",
+            "description": "Com este pergaminho, você poderá aprender o emote \"Torcedor Joblife\".",
             "effects": [
                 {
                     "int_minimum": 348,
@@ -127498,7 +127334,7 @@
         },
         {
             "ankama_id": 34333,
-            "name": "[!] Siffloter",
+            "name": "Assoviar",
             "type": {
                 "name": "Pergaminho de emote",
                 "id": 46
@@ -127508,7 +127344,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25278-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25278-128.png"
             },
-            "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Siffloter.",
+            "description": "Com este pergaminho, você poderá aprender o emote Assoviar.",
             "effects": [
                 {
                     "int_minimum": 350,
@@ -127535,6 +127371,92 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34342,
+            "name": "Baú do Santuário",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89067-128.png"
+            },
+            "description": "Este baú é a recompensa máxima de uma coordenação impecável. Os mais sortudos encontrarão nele moedas de raridade lendária.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34344,
+            "name": "Baú Majestoso do Santuário",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89068-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89068-128.png"
+            },
+            "description": "Este baú é a recompensa máxima de uma coordenação impecável. Os mais sortudos encontrarão nele moedas de raridade lendária.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
                 }
             ],
             "pods": 1
@@ -127815,6 +127737,916 @@
             "pods": 1
         },
         {
+            "ankama_id": 34353,
+            "name": "Baú da Fenda",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89069-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89069-128.png"
+            },
+            "description": "Este baú recompensa os heróis e as heroínas que ousaram se aventurar pela Fenda do Megalodon e que conseguiram sair de lá. Ele contém recursos comuns e raros da incursão.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34354,
+            "name": "Baú Majestoso da Fenda",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89070-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89070-128.png"
+            },
+            "description": "Este baú recompensa os heróis e as heroínas que ousaram se aventurar pela Fenda do Megalodon e que conseguiram sair de lá. Ele contém recursos raros e equipamentos da incursão.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34356,
+            "name": "Magnífica Tatuagem Temporária de Tânkora",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78279-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png"
+            },
+            "description": "O capitão Tânkora era uma força da natureza, um colosso de vitalidade sem limites. Seu navio parecia estar em todos os lugares ao mesmo tempo, do Mar Kador ao Mar Mota, da Baía de Cania à costa dos Dentes de Pedra. A carreira dele como bucaneiro teve um fim trágico: uma história sombria envolvendo âncora, tinta e um Kralamor gigante.\nEssa tatuagem lhe dará uma minúscula fração da vitalidade de Tânkora.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34357,
+            "name": "Magnífica Tatuagem Temporária de Loote",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78285-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png"
+            },
+            "description": "Loote era incomparável quando se tratava de explorar metodicamente uma área ou vasculhar o corpo de um inimigo derrotado para se apropriar de suas escassas posses. Rejeitando totalmente a ideia de pertencer a um clã ou gangue, como os Vigaristas de Cania, ela era motivada apenas pela atração do lucro. Sua morte foi um reflexo de sua vida: violenta e rápida.\nEssa tatuagem lhe dará uma minúscula fração das habilidades de prospecção de Loote.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34358,
+            "name": "Magnífica Tatuagem Temporária de Brett",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78291-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png"
+            },
+            "description": "Brett era um espadachim muito temido nas planícies de Cania. Ele atacava os viajantes que cruzavam seu caminho, supostamente para demonstrar sua habilidade com a espada. Dizem que ele acabou se cortando em um acesso de entusiasmo.\nEssa tatuagem lhe dará uma minúscula fração do poder de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34359,
+            "name": "Magnífica Tatuagem Temporária de Tânkora",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78278-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png"
+            },
+            "description": "O capitão Tânkora era uma força da natureza, um colosso de vitalidade sem limites. Seu navio parecia estar em todos os lugares ao mesmo tempo, do Mar Kador ao Mar Mota, da Baía de Cania à costa dos Dentes de Pedra. A carreira dele como bucaneiro teve um fim trágico: uma história sombria envolvendo âncora, tinta e um Kralamor gigante.\nEssa tatuagem lhe dará uma minúscula fração da vitalidade de Tânkora.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34360,
+            "name": "Magnífica Tatuagem Temporária de Loote",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78284-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png"
+            },
+            "description": "Loote era incomparável quando se tratava de explorar metodicamente uma área ou vasculhar o corpo de um inimigo derrotado para se apropriar de suas escassas posses. Rejeitando totalmente a ideia de pertencer a um clã ou gangue, como os Vigaristas de Cania, ela era motivada apenas pela atração do lucro. Sua morte foi um reflexo de sua vida: violenta e rápida.\nEssa tatuagem lhe dará uma minúscula fração das habilidades de prospecção de Loote.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34361,
+            "name": "Magnífica Tatuagem Temporária de Brett",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78290-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png"
+            },
+            "description": "Brett era um espadachim muito temido nas planícies de Cania. Ele atacava os viajantes que cruzavam seu caminho, supostamente para demonstrar sua habilidade com a espada. Dizem que ele acabou se cortando em um acesso de entusiasmo.\nEssa tatuagem lhe dará uma minúscula fração do poder de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34362,
+            "name": "Simples Tatuagem Temporária de Tânkora",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78275-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png"
+            },
+            "description": "O capitão Tânkora era uma força da natureza, um colosso de vitalidade sem limites. Seu navio parecia estar em todos os lugares ao mesmo tempo, do Mar Kador ao Mar Mota, da Baía de Cania à costa dos Dentes de Pedra. A carreira dele como bucaneiro teve um fim trágico: uma história sombria envolvendo âncora, tinta e um Kralamor gigante.\nEssa tatuagem lhe dará uma minúscula fração da vitalidade de Tânkora.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34363,
+            "name": "Simples Tatuagem Temporária de Loote",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78281-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png"
+            },
+            "description": "Loote era incomparável quando se tratava de explorar metodicamente uma área ou vasculhar o corpo de um inimigo derrotado para se apropriar de suas escassas posses. Rejeitando totalmente a ideia de pertencer a um clã ou gangue, como os Vigaristas de Cania, ela era motivada apenas pela atração do lucro. Sua morte foi um reflexo de sua vida: violenta e rápida.\nEssa tatuagem lhe dará uma minúscula fração das habilidades de prospecção de Loote.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34364,
+            "name": "Simples Tatuagem Temporária de Brett",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78287-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png"
+            },
+            "description": "Brett era um espadachim muito temido nas planícies de Cania. Ele atacava os viajantes que cruzavam seu caminho, supostamente para demonstrar sua habilidade com a espada. Dizem que ele acabou se cortando em um acesso de entusiasmo.\nEssa tatuagem lhe dará uma minúscula fração do poder de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34365,
+            "name": "Simples Tatuagem Temporária de Tânkora",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78274-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png"
+            },
+            "description": "O capitão Tânkora era uma força da natureza, um colosso de vitalidade sem limites. Seu navio parecia estar em todos os lugares ao mesmo tempo, do Mar Kador ao Mar Mota, da Baía de Cania à costa dos Dentes de Pedra. A carreira dele como bucaneiro teve um fim trágico: uma história sombria envolvendo âncora, tinta e um Kralamor gigante.\nEssa tatuagem lhe dará uma minúscula fração da vitalidade de Tânkora.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34366,
+            "name": "Simples Tatuagem Temporária de Loote",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78280-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png"
+            },
+            "description": "Loote era incomparável quando se tratava de explorar metodicamente uma área ou vasculhar o corpo de um inimigo derrotado para se apropriar de suas escassas posses. Rejeitando totalmente a ideia de pertencer a um clã ou gangue, como os Vigaristas de Cania, ela era motivada apenas pela atração do lucro. Sua morte foi um reflexo de sua vida: violenta e rápida.\nEssa tatuagem lhe dará uma minúscula fração das habilidades de prospecção de Loote.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34367,
+            "name": "Simples Tatuagem Temporária de Brett",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78286-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png"
+            },
+            "description": "Brett era um espadachim muito temido nas planícies de Cania. Ele atacava os viajantes que cruzavam seu caminho, supostamente para demonstrar sua habilidade com a espada. Dizem que ele acabou se cortando em um acesso de entusiasmo.\nEssa tatuagem lhe dará uma minúscula fração do poder de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34368,
+            "name": "Bela Tatuagem Temporária de Tânkora",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78277-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png"
+            },
+            "description": "O capitão Tânkora era uma força da natureza, um colosso de vitalidade sem limites. Seu navio parecia estar em todos os lugares ao mesmo tempo, do Mar Kador ao Mar Mota, da Baía de Cania à costa dos Dentes de Pedra. A carreira dele como bucaneiro teve um fim trágico: uma história sombria envolvendo âncora, tinta e um Kralamor gigante.\nEssa tatuagem lhe dará uma minúscula fração da vitalidade de Tânkora.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34369,
+            "name": "Bela Tatuagem Temporária de Loote",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78283-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png"
+            },
+            "description": "Loote era incomparável quando se tratava de explorar metodicamente uma área ou vasculhar o corpo de um inimigo derrotado para se apropriar de suas escassas posses. Rejeitando totalmente a ideia de pertencer a um clã ou gangue, como os Vigaristas de Cania, ela era motivada apenas pela atração do lucro. Sua morte foi um reflexo de sua vida: violenta e rápida.\nEssa tatuagem lhe dará uma minúscula fração das habilidades de prospecção de Loote.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34370,
+            "name": "Bela Tatuagem Temporária de Brett",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78289-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png"
+            },
+            "description": "Brett era um espadachim muito temido nas planícies de Cania. Ele atacava os viajantes que cruzavam seu caminho, supostamente para demonstrar sua habilidade com a espada. Dizem que ele acabou se cortando em um acesso de entusiasmo.\nEssa tatuagem lhe dará uma minúscula fração do poder de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34371,
+            "name": "Bela Tatuagem Temporária de Tânkora",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78276-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png"
+            },
+            "description": "O capitão Tânkora era uma força da natureza, um colosso de vitalidade sem limites. Seu navio parecia estar em todos os lugares ao mesmo tempo, do Mar Kador ao Mar Mota, da Baía de Cania à costa dos Dentes de Pedra. A carreira dele como bucaneiro teve um fim trágico: uma história sombria envolvendo âncora, tinta e um Kralamor gigante.\nEssa tatuagem lhe dará uma minúscula fração da vitalidade de Tânkora.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34372,
+            "name": "Bela Tatuagem Temporária de Loote",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78282-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png"
+            },
+            "description": "Loote era incomparável quando se tratava de explorar metodicamente uma área ou vasculhar o corpo de um inimigo derrotado para se apropriar de suas escassas posses. Rejeitando totalmente a ideia de pertencer a um clã ou gangue, como os Vigaristas de Cania, ela era motivada apenas pela atração do lucro. Sua morte foi um reflexo de sua vida: violenta e rápida.\nEssa tatuagem lhe dará uma minúscula fração das habilidades de prospecção de Loote.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34373,
+            "name": "Bela Tatuagem Temporária de Brett",
+            "type": {
+                "name": "Tatuagem da Feira do Trool",
+                "id": 220
+            },
+            "level": 20,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/78288-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png"
+            },
+            "description": "Brett era um espadachim muito temido nas planícies de Cania. Ele atacava os viajantes que cruzavam seu caminho, supostamente para demonstrar sua habilidade com a espada. Dizem que ele acabou se cortando em um acesso de entusiasmo.\nEssa tatuagem lhe dará uma minúscula fração do poder de Brett.",
+            "conditions": {
+                "condition": {
+                    "operator": ">",
+                    "int_value": 19,
+                    "element": {
+                        "name": "Estar no nível {0} ou acima",
+                        "id": 200
+                    }
+                },
+                "is_operand": true
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34374,
+            "name": "Diploma de Enxuga-gelo",
+            "type": {
+                "name": "Pergaminho de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Este diploma confere o título de \"Enxuga-gelo\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Enxuga-gelo"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34375,
+            "name": "Diploma de Muralha de Frigost",
+            "type": {
+                "name": "Pergaminho de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76045-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76045-128.png"
+            },
+            "description": "Este diploma confere o título de \"Muralha de Frigost\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Muralha de Frigost"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34390,
             "name": "Diploma Solary",
             "type": {
@@ -127969,6 +128801,557 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Título: What's the color?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34418,
+            "name": "Tesouro Venenoso",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89071-128.png"
+            },
+            "description": "Este baú tirado dos Jardins Eternos contém lembranças nocivas? Para descobrir, basta abri-lo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34419,
+            "name": "Tesouro Abissal",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89073-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89073-128.png"
+            },
+            "description": "Este baú resgatado das profundezas da Fenda do Megalodon contém lembranças insondáveis? Para descobrir, basta abri-lo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34420,
+            "name": "Tesouro Estival",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Este baú extraído das profundezas de Vulkânia contém lembranças de férias? Para descobrir, basta abri-lo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34427,
+            "name": "Herança Salgada",
+            "type": {
+                "name": "Item usável",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "Consumir este bloco de sal poderá aumentar seu apetite. Você conseguirá devorar um cardume inteiro! E não se esqueça: até mesmo os dentes do mar precisam ser escovados, a não ser que você queira ficar com bafo de peixe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/descer de uma montaria",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/descer de uma montaria"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34429,
+            "name": "Herança Florida",
+            "type": {
+                "name": "Item usável",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/35638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/35638-128.png"
+            },
+            "description": "Parece que as partes superiores da beladona são cobertas de pelos que soltam um cheiro desagradável. Não acredita? Ao sentir o perfume desta flor, você terá de admitir o óbvio... Você com certeza ficará com um ar de superioridade.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/descer de uma montaria",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/descer de uma montaria"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34460,
+            "name": "Herança Kaskozida",
+            "type": {
+                "name": "Item usável",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/111005-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/111005-128.png"
+            },
+            "description": "Ao pisar em ovos, ninguém acha que eles vão reagir. Os turistas distraídos que passeiam pelas florestas vulkanianas costumam aprender isso da pior maneira.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/descer de uma montaria",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/descer de uma montaria"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34462,
+            "name": "Tesouro Esquecido",
+            "type": {
+                "name": "Baú",
+                "id": 84
+            },
+            "level": 30,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/89072-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/89072-128.png"
+            },
+            "description": "Este baú encontrado em um lugar repleto de histórias contém lembranças reprimidas? Para descobrir, basta abri-lo.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vinculado ao personagem",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Vinculado ao personagem"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34468,
+            "name": "Herança Escamosa",
+            "type": {
+                "name": "Item usável",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Draguna Ocre, Gadrão Barrigudo ou Terrak Onírico: os herdeiros de Terrakurial podem ter diversas aparências.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/descer de uma montaria",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/descer de uma montaria"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34473,
+            "name": "Herança Escamosa",
+            "type": {
+                "name": "Item usável",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Draguna Ocre, Gadrão Barrigudo ou Terrak Onírico: os herdeiros de Terrakurial podem ter diversas aparências.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/descer de uma montaria",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/descer de uma montaria"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34474,
+            "name": "Herança Escamosa",
+            "type": {
+                "name": "Item usável",
+                "id": 20
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/59638-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/59638-128.png"
+            },
+            "description": "Draguna Ocre, Gadrão Barrigudo ou Terrak Onírico: os herdeiros de Terrakurial podem ter diversas aparências.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Subir/descer de uma montaria",
+                        "id": 87,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Subir/descer de uma montaria"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34495,
+            "name": "Diploma de Mestre das Filas de Espera",
+            "type": {
+                "name": "Pergaminho de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png"
+            },
+            "description": "Este diploma confere o título de \"Mestre das Filas de Espera\".",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: Mestre das Filas de Espera"
                 },
                 {
                     "int_minimum": 0,

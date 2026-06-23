@@ -33534,7 +33534,7 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/50719-128.png"
             },
             "description": "Tons of Enutrofs have sold their parents for their weight in Tourmaline.",
-            "pods": 0
+            "pods": 2
         },
         {
             "ankama_id": 15272,
@@ -53655,7 +53655,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12780-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12780-128.png"
             },
-            "description": "Even though it contains only an infinitesimal speck of a Babyhemoth's power, this item will let your pet, petsmount, or mount reveal its hidden potential.",
+            "description": "Even though it contains only an infinitesimal speck of a Babyhemoth's power, this item will let your pet or petsmount reveal its hidden potential.",
             "recipe": [
                 {
                     "item_ankama_id": 20961,
@@ -59671,7 +59671,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Crackler Robustness (level 200):\n• At the start of combat, the bearer sacrifices 2% resistance per ally to give 3% resistance to their allies. The resistance sacrificed for an ally is recovered when they die."
+                    "formatted": "Crackler Robustness (level 200):\n• At the start of combat, the bearer sacrifices 2% resistance per ally to give 3% resistance to their allies. The resistance sacrificed for an ally is recovered when they die.\n• The effects are removed when the bearer dies."
                 }
             ],
             "pods": 2
@@ -66897,6 +66897,246 @@
             },
             "description": "This fragment will allow you to put Psychopump's map back together.",
             "pods": 1
+        },
+        {
+            "ankama_id": 32464,
+            "name": "Salt of the Depths",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "You think darkness is your ally? They were born in it, moulded by it. They didn't see the light until you arrived, and it was nothing to them but blinding.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32465,
+            "name": "Quartz",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51512-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51512-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32466,
+            "name": "Opal",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51513-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51513-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32467,
+            "name": "Amazonite",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51514-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51514-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32468,
+            "name": "Aventurine",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51515-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51515-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32469,
+            "name": "Lapis",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51516-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51516-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32470,
+            "name": "Onyx",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51518-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51518-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32471,
+            "name": "Jet",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51517-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51517-128.png"
+            },
+            "description": "A precious stone of some value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
         },
         {
             "ankama_id": 32501,
@@ -81141,8 +81381,8 @@
             },
             "level": 165,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93128-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93128-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93129-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93129-128.png"
             },
             "description": "This makina applies a random special ability to a baby Seemyool of generation 9 or lower during mating.",
             "recipe": [
@@ -81313,36 +81553,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 34204,
-            "name": "Ovatoken",
-            "type": {
-                "name": "Miscellaneous Resource",
-                "id": 229
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
-            },
-            "description": "\"I was not the best because I struck quickly. I was the best because the crowd loved me. Win the crowd, Maximor, and you will win your freedom.\"\n\n— Proximor, veteran gladiator.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Exchangeable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Exchangeable: 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 34205,
             "name": "Bamboo Slapper",
             "type": {
@@ -81509,6 +81719,261 @@
                 }
             ],
             "pods": 10
+        },
+        {
+            "ankama_id": 34323,
+            "name": "Sanctuary Protectors' Flower",
+            "type": {
+                "name": "Flower",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24526-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24526-128.png"
+            },
+            "description": "\"Tears fall from the silent protectors' eyes nourishing the flowers that in silence grow. Mauve petals of misfortune, they say. Mallow, does it leave your courage fallow? How cowardly.\"\n— Belladonna",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34324,
+            "name": "Piece of Sanctuary Guardian Armour",
+            "type": {
+                "name": "Miscellaneous Resource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24527-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24527-128.png"
+            },
+            "description": "Nothing's better than a stone visor to keep a stony face at all times. It'd be particularly useful when faced with your mother-in-law's snide remarks. As an added bonus, it'll likely send her round the bend.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34325,
+            "name": "Scarlet Queen's Broken Pommel",
+            "type": {
+                "name": "Miscellaneous Resource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24528-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24528-128.png"
+            },
+            "description": "\"Jealousy can lead to hatred. Embrace it. Cherish it. Don't be afraid to do your worst: a broken heart is better when combined with a good pummelling.\"\n— Ephedra, fallen sovereign",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34326,
+            "name": "Cursed Princess's Bouquet of Lianas",
+            "type": {
+                "name": "Flower",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24529-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24529-128.png"
+            },
+            "description": "\"And let us join lianas,\nlet us bind groom and bride\nwithin death, without life,\nlianas make a beautiful bouquet\nwhen they look so nice.\"\n— Song from Ephedrya's Quest",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34334,
+            "name": "Moraympress Unit",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24533-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24533-128.png"
+            },
+            "description": "A rare resource of high value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34335,
+            "name": "Crabinator Grudge",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24537-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24537-128.png"
+            },
+            "description": "A rare resource of high value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34336,
+            "name": "Willorka Blackness",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24532-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24532-128.png"
+            },
+            "description": "A rare resource of high value.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An item's value",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An item's value"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34337,
+            "name": "Moraympress Venom",
+            "type": {
+                "name": "Liquid",
+                "id": 72
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15301-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15301-128.png"
+            },
+            "description": "This venom is a combination of three powerful poisons. It's so concentrated, just one drop will make you go blind.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34338,
+            "name": "Crabinator Carapace",
+            "type": {
+                "name": "Carapace",
+                "id": 0
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24534-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24534-128.png"
+            },
+            "description": "This carapace seems to change shape randomly, only its structure doesn't, making it ultra-resistant.",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34339,
+            "name": "Willorka Fin",
+            "type": {
+                "name": "Miscellaneous Resource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24535-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24535-128.png"
+            },
+            "description": "Many poachers have attempted to hunt down Willorka for its fin. Very few have come back before quitting the profession.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34340,
+            "name": "Abyssal Glimmer",
+            "type": {
+                "name": "Miscellaneous Resource",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24536-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24536-128.png"
+            },
+            "description": "When darkness surrounds you, cling to any glimmer you can see. No matter if it's a glimmer of hope or the glimmer of your enemies' eyes.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34394,
+            "name": "Crabinator Pincer",
+            "type": {
+                "name": "Raid Resource",
+                "id": 253
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24531-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24531-128.png"
+            },
+            "description": "A powerful pincer that can cut anything.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34478,
+            "name": "Ovatoken",
+            "type": {
+                "name": "Miscellaneous Resource",
+                "id": 229
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
+            },
+            "description": "\"I was not the best because I struck quickly. I was the best because the crowd loved me. Win the crowd, Maximor, and you will win your freedom.\"\n\n— Proximor, veteran gladiator.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Exchangeable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Exchangeable: 0"
+                }
+            ],
+            "pods": 0
         }
     ]
 }

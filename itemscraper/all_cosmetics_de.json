@@ -50,6 +50,62 @@
             "pods": 1
         },
         {
+            "ankama_id": 1710,
+            "name": "Mondsichel",
+            "type": {
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1019-128.png"
+            },
+            "description": "Die Herkunft dieses Amuletts, das einen zunehmenden Viertelmond darstellt, ist völlig unbekannt... jedenfalls den meisten. Wer weiß, welche Geheimnisse diesem Stück Geschmeide innewohnen...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: Sohn des Mondes"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 1907,
             "name": "Häschenohren",
             "type": {
@@ -1456,8 +1512,8 @@
             "ankama_id": 8067,
             "name": "Stiefel des Champion",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -1585,8 +1641,8 @@
             "ankama_id": 8070,
             "name": "Gürtel des Champion",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -8000,8 +8056,8 @@
             "ankama_id": 10904,
             "name": "Amulett des Grozillaherausforderers",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -10089,8 +10145,8 @@
             "ankama_id": 10984,
             "name": "YeCh'Ti-Amulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -10833,8 +10889,8 @@
             "ankama_id": 11191,
             "name": "Stiefel des Dungeon-Säuberers",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11577,8 +11633,8 @@
             "ankama_id": 11808,
             "name": "Inselperlenkette",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -11732,8 +11788,8 @@
             "ankama_id": 11812,
             "name": "Eliaring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12160,8 +12216,8 @@
             "ankama_id": 12273,
             "name": "Barbärdizer-Gürtel",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12835,8 +12891,8 @@
             "ankama_id": 12528,
             "name": "Mister Amaknas Amulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12891,8 +12947,8 @@
             "ankama_id": 12529,
             "name": "Miss Amaknas Amulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -12947,8 +13003,8 @@
             "ankama_id": 12530,
             "name": "Mister Welt der Zwölfs Amulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13003,8 +13059,8 @@
             "ankama_id": 12531,
             "name": "Miss Welt der Zwölfs Amulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13661,8 +13717,8 @@
             "ankama_id": 12776,
             "name": "Amulett des Bibliothekars",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -13834,8 +13890,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82056-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82056-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82593-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82593-128.png"
             },
             "description": "Ihr seid eines der winzigsten Säugetiere der Welt, die die Ausrottung der Echsen Grozilla und Grasmera sowie die apokalyptischen Folgen überlebt haben, die sie auslösten. Mit ein bisschen Glück werdet ihr es euren entfernten Verwandten gleichtun und euch langsam zu einem höheren Wesen weiterentwickeln. Das kann euch wirklich nur guttun.",
             "effects": [
@@ -14062,8 +14118,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82059-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82059-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82594-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82594-128.png"
             },
             "description": "Da ihnen ständig ihr Rundschild eingedrückt wurde, entschieden sich die drei Abenteurer Blintz, Hintz und Kuntz Bahnause gemeinsam dazu, einen Schild herzustellen, mit dem selbst sie Eindruck schinden würden. Dummerweise vereitelte ihnen der Weißnachts-Minotoball ihr Vorhaben.",
             "effects": [
@@ -14689,8 +14745,8 @@
             "ankama_id": 13252,
             "name": "Ring von Meister Denbar",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14745,8 +14801,8 @@
             "ankama_id": 13271,
             "name": "Amulett der Mini-Miss Amakna",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -14801,8 +14857,8 @@
             "ankama_id": 13272,
             "name": "Amulett des Mini-Mister Amakna",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -15630,7 +15686,7 @@
                 "name": "Prunkwaffe",
                 "id": 34
             },
-            "level": 10,
+            "level": 1,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/6720-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/6720-128.png"
@@ -16014,8 +16070,8 @@
             "ankama_id": 14300,
             "name": "Guglette",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -22228,8 +22284,8 @@
             "ankama_id": 15964,
             "name": "corset decode",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -24103,8 +24159,8 @@
             "ankama_id": 17386,
             "name": "Glücks-Getas",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -37967,8 +38023,8 @@
             "ankama_id": 21181,
             "name": "Musikalischer Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52876,8 +52932,8 @@
             "ankama_id": 25000,
             "name": "Miaufiamulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52932,8 +52988,8 @@
             "ankama_id": 25001,
             "name": "Wuffiamulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -52988,8 +53044,8 @@
             "ankama_id": 25010,
             "name": "Schokoladen-Ostewring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53044,8 +53100,8 @@
             "ankama_id": 25011,
             "name": "Schokoladen-Wahasring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53100,8 +53156,8 @@
             "ankama_id": 25012,
             "name": "Schokoladen-Eierring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -53156,8 +53212,8 @@
             "ankama_id": 25013,
             "name": "Schokoladen-Dofuring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55286,8 +55342,8 @@
             "ankama_id": 25240,
             "name": "Sacaram-Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -55342,8 +55398,8 @@
             "ankama_id": 25241,
             "name": "Totuna-Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -58517,8 +58573,8 @@
             "ankama_id": 25955,
             "name": "Seltsamer Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -60433,8 +60489,8 @@
             "ankama_id": 26242,
             "name": "Winterring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65803,8 +65859,8 @@
             "ankama_id": 27192,
             "name": "Pinguschick-Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65859,8 +65915,8 @@
             "ankama_id": 27193,
             "name": "Flachschildkröten-Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65915,8 +65971,8 @@
             "ankama_id": 27194,
             "name": "Narbensausen-Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -65971,8 +66027,8 @@
             "ankama_id": 27195,
             "name": "Orkangeier-Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -68418,8 +68474,8 @@
             "ankama_id": 27458,
             "name": "Ring von Tokagecko",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -68879,8 +68935,8 @@
             "ankama_id": 27499,
             "name": "Ring des Fallenstellers",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -76935,8 +76991,8 @@
             "ankama_id": 29267,
             "name": "Amphiblases Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -76991,8 +77047,8 @@
             "ankama_id": 29268,
             "name": "Känglühs Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -77047,8 +77103,8 @@
             "ankama_id": 29269,
             "name": "Mimistrales Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -77103,8 +77159,8 @@
             "ankama_id": 29270,
             "name": "Tapirlichs Ring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -90085,7 +90141,7 @@
                     "formatted": "Austauschbar: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 31061,
@@ -96964,8 +97020,8 @@
             "ankama_id": 32453,
             "name": "YeCh'Ti-Amulett",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97140,8 +97196,8 @@
             "ankama_id": 32458,
             "name": "Barbärdizer-Gürtel",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97183,8 +97239,8 @@
             "ankama_id": 32459,
             "name": "Glücks-Getas",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97352,6 +97408,62 @@
             },
             "description": "Ihr habt schon immer davon geträumt, wie der schöne und tapfere Goultard auszusehen? Mit dieser Wuschelmähne hätte die Illusion vollkommen sein können, wenn ihr euch nicht durch euren Geruch verraten hättet.",
             "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 32473,
+            "name": "Corpo",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121185-128.png"
+            },
+            "description": "Mit diesem Reitbegleiter könnt ihr euer Banner stolz zur Schau tragen, während ihr unterwegs seid.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,
@@ -97806,8 +97918,8 @@
             "ankama_id": 32541,
             "name": "Wollring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97862,8 +97974,8 @@
             "ankama_id": 32542,
             "name": "Federring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97918,8 +98030,8 @@
             "ankama_id": 32543,
             "name": "Stachelring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -97974,8 +98086,8 @@
             "ankama_id": 32544,
             "name": "Seidenring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -98030,8 +98142,8 @@
             "ankama_id": 32545,
             "name": "Rokring",
             "type": {
-                "name": "Sonstiger Prunkgegenstand",
-                "id": 97
+                "name": "Verschiedene Prunkgegenstände",
+                "id": 252
             },
             "level": 1,
             "image_urls": {
@@ -99563,7 +99675,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33655,
@@ -99606,7 +99718,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33656,
@@ -99649,7 +99761,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33657,
@@ -99692,7 +99804,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33658,
@@ -99735,7 +99847,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33659,
@@ -99778,7 +99890,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33660,
@@ -99864,7 +99976,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33662,
@@ -99950,7 +100062,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33664,
@@ -100410,7 +100522,7 @@
                     "formatted": "Kompatibel zu: 0"
                 }
             ],
-            "pods": 0
+            "pods": 1
         },
         {
             "ankama_id": 33814,
@@ -102306,7 +102418,7 @@
         },
         {
             "ankama_id": 34273,
-            "name": "[!] Minoclier",
+            "name": "Minoschild",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -102316,7 +102428,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82590-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82590-128.png"
             },
-            "description": "[!] Ce bouclier prouve que vous avez enfin pris le Minotoror par les cornes.",
+            "description": "Dieser Schild beweist, dass ihr den Minotoror endlich bei den Hörnern gepackt habt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -102343,6 +102455,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34277,
+            "name": "Rotfuleon",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18347-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18347-128.png"
+            },
+            "description": "Dieses charmante kleine Fellknäuel passt sich gern seinem Meister an. Seine Nachahmung geht so weit, dass es sogar die fragwürdigen Farben seiner Outfits kopiert.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
                 }
             ],
             "pods": 1
@@ -102666,8 +102821,68 @@
             "pods": 1
         },
         {
+            "ankama_id": 34343,
+            "name": "Distelmaunzmiez",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18942-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18942-128.png"
+            },
+            "description": "Wurde dieser niedliche kleine Teufel von Belladonnas Vertrautem hervorgebracht, oder ist es eine Nachahmung? Ganz egal. Denkt immer daran, die Distelmaunzmiez in Richtung der Dornen zu streicheln. Sonst könntet ihr euch verletzen, was ihr ein wohliges Schnurren entlocken würde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34352,
+            "name": "Minilodon",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18943-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18943-128.png"
+            },
+            "description": "Man sagt über den Minilodon, dass er wohl das mutigste Geschöpf des Abgrunds sein muss, wenn seine Tapferkeit ebenso groß ist wie seine Wut. Nehmt euch ein Beispiel und verjagt euren inneren Feigling, um zu dem Abenteurer zu werden, der ihr immer sein wolltet.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34355,
-            "name": "[!] Ailes printanières",
+            "name": "Frühlingsflügel",
             "type": {
                 "name": "Flügel",
                 "id": 218
@@ -102677,7 +102892,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164975-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164975-128.png"
             },
-            "description": "[!] Les oiseaux rentrent de leur long voyage, les fleurs pointent gentiment le bout de leurs pétales, aucun doute le printemps est là. Arborez les premières feuilles de cette nature renaissante.",
+            "description": "Die Vögel kehren von ihrer langen Reise zurück, die Blumen beginnen zu sprießen ... es kann kein Zweifel bestehen, der Frühling ist da! Stellt die ersten Blätter dieser wiederauferstehenden Natur zur Schau.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103100,8 +103315,446 @@
             "pods": 1
         },
         {
+            "ankama_id": 34396,
+            "name": "Umhang von Dämon VI",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17696-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17696-128.png"
+            },
+            "description": "VI wird von einer Rüstung aus Steinen und Bändchen geschützt, die ihm eine zeitlose Widerstandsfähigkeit verleihen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34397,
+            "name": "Schillernder Umhang von Dämon VI",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17696-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17696-128.png"
+            },
+            "description": "VI wird von einer Rüstung aus Steinen und Bändchen geschützt, die ihm eine zeitlose Widerstandsfähigkeit verleihen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34398,
+            "name": "Kopfbedeckung von Dämon VI",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16910-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16910-128.png"
+            },
+            "description": "Als Kardinaldämon verbringt VI den größten Teil seiner Zeit damit, nach Süden zu blicken. Mit hoch erhobenem Kopf und voller List und Tücke verfolgt er nur ein Ziel – seine Hauptkonkurrentin Mittnacht zu stürzen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34399,
+            "name": "Schillernde Kopfbedeckung von Dämon VI",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16911-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16911-128.png"
+            },
+            "description": "Als Kardinaldämon verbringt VI den größten Teil seiner Zeit damit, nach Süden zu blicken. Mit hoch erhobenem Kopf und voller List und Tücke verfolgt er nur ein Ziel – seine Hauptkonkurrentin Mittnacht zu stürzen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34400,
+            "name": "Schild von Dämon VI",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82591-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82591-128.png"
+            },
+            "description": "Seine Redegewandtheit, sein Auftreten und sein strategisches Geschick machen VI zu einem gefürchteten Gegner.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34401,
+            "name": "Schillernder Schild von Dämon VI",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82592-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82592-128.png"
+            },
+            "description": "Seine Redegewandtheit, sein Auftreten und sein strategisches Geschick machen VI zu einem gefürchteten Gegner.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34402,
+            "name": "Schulterplatten von Dämon VI",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164973-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164973-128.png"
+            },
+            "description": "Diese Schulterplatten werden euch zweifellos ein stolzes Auftreten verleihen, fast so wie die von Dämon VI.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34403,
+            "name": "Schillernde Schulterplatten von Dämon VI",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164974-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164974-128.png"
+            },
+            "description": "Diese Schulterplatten werden euch zweifellos ein stolzes Auftreten verleihen, fast so wie die von Dämon VI.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34404,
+            "name": "Kragen des Iop",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164307-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164307-128.png"
+            },
+            "description": "Mit so einem Kragen werdet ihr garantiert zur Legende!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34405,
+            "name": "Gürtel des Eniripsa",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164308-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164308-128.png"
+            },
+            "description": "Wer ein Herz am Gürtel trägt, begegnet dem Leben zweifellos mit einem Lächeln. Er bedankt sich bei ihr, er singt und tanzt! Kurz gesagt ist er die Liebe selbst.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34406,
+            "name": "Maskerador-Torso",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164310-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164310-128.png"
+            },
+            "description": "Dieser Torso hat so vielen Facetten, dass man meinen könnte, er hätte Gefühle ... Wenn man ihn in die Nähe von Wasser bringt, verzieht er meist das Gesicht.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34407,
+            "name": "Schulterplatten des Halsabschneiders",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164309-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164309-128.png"
+            },
+            "description": "Sie können ohne Einverständnis ihres Besitzers explodieren. Stets im Auge behalten.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
-            "name": "[!] Coiffe d'apparat de l'exterminateur",
+            "name": "Kopfbedeckung des Vernichters",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -103111,7 +103764,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16914-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16914-128.png"
             },
-            "description": "[!] Il protège efficacement de toute sorte de chose qui peut tomber du ciel.",
+            "description": "Diese Kopfbedeckung schützt zuverlässig vor allem möglichen Zeug, das vom Himmel fallen kann.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103144,7 +103797,7 @@
         },
         {
             "ankama_id": 34410,
-            "name": "[!] Bouclier d'apparat de l'exterminateur",
+            "name": "Schild des Vernichters",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -103154,7 +103807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82595-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82595-128.png"
             },
-            "description": "[!] La façon dont vous interprétez la forme dessus en dit probablement beaucoup sur vous...",
+            "description": "Wie ihr die Form darauf deutet, sagt vermutlich mehr über euch aus als über das Schild selbst ...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103187,7 +103840,7 @@
         },
         {
             "ankama_id": 34411,
-            "name": "[!] Épaulières d'apparat de l'exterminateur",
+            "name": "Schulterplatten des Vernichters",
             "type": {
                 "name": "Schulterplatte",
                 "id": 248
@@ -103197,7 +103850,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165970-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165970-128.png"
             },
-            "description": "[!] Un exterminateur digne de ce nom se doit d'avoir des choses coupantes sur tout son apparat, même sur ses épaulettes !",
+            "description": "Ein Vernichter, der etwas auf sich hält, braucht überall scharfe Klingen an der Montur – sogar an den Schulterplatten!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103217,7 +103870,7 @@
         },
         {
             "ankama_id": 34412,
-            "name": "[!] Costume d'apparat de l'exterminateur",
+            "name": "Kleidung des Vernichters",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -103227,7 +103880,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165972-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165972-128.png"
             },
-            "description": "[!] Idéal pour que vos amis se tiennent à carreau quand ils seront à côté de vous.",
+            "description": "Ideal, um eure Freunde neben euch schön auf Abstand zu halten.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103247,7 +103900,7 @@
         },
         {
             "ankama_id": 34413,
-            "name": "[!] Ailes de l'exterminateur",
+            "name": "Flügel des Vernichters",
             "type": {
                 "name": "Flügel",
                 "id": 218
@@ -103257,7 +103910,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165971-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165971-128.png"
             },
-            "description": "[!] Elles coupent très bien en plus de donner du style.",
+            "description": "Diese Flügel schneiden nicht nur hervorragend, sondern sehen dabei auch noch gut aus.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103277,7 +103930,7 @@
         },
         {
             "ankama_id": 34414,
-            "name": "[!] Cape d'apparat de l'exterminateur",
+            "name": "Umhang des Vernichters",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -103287,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17699-128.png"
             },
-            "description": "[!] Ne vous fiez pas à ses appendices tranchants : cette cape n'offre aucun aérodynamisme et s'avère d'une lourdeur catastrophique sous l'eau. En revanche, son styliste a juré qu'elle extermine le mauvais goût à coup sûr. C'est déjà ça de pris, non ?",
+            "description": "Lasst euch von den spitzen Fortsätzen dieses Umhangs nicht täuschen: Er ist überhaupt nicht aerodynamisch und unter Wasser viel zu schwer. Wenn man dem Designer Glauben schenken darf, ist er aber ein eindeutiges Statement gegen den schlechten Geschmack. Das ist doch schon mal was, nicht wahr?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103320,7 +103973,7 @@
         },
         {
             "ankama_id": 34415,
-            "name": "[!] Dessssstrier",
+            "name": "Reittier",
             "type": {
                 "name": "Prunkreitbegleiter",
                 "id": 59
@@ -103330,7 +103983,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121180-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121180-128.png"
             },
-            "description": "[!] Il vous portera où vous voudrez sans aucun sssssouci.",
+            "description": "Dieses Reittier bringt euch ganz ohne Sssssorgen überall hin, wo ihr wollt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103376,7 +104029,7 @@
         },
         {
             "ankama_id": 34416,
-            "name": "[!] Ssssserpentin",
+            "name": "Ssssschlängelchen",
             "type": {
                 "name": "Prunkvertrauter",
                 "id": 24
@@ -103386,7 +104039,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18944-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18944-128.png"
             },
-            "description": "[!] Il sssssuivra toujours vos pas.",
+            "description": "Esssss wird euch immer auf Schritt und Tritt folgen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103413,6 +104066,1635 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34441,
+            "name": "Schicksalswipfel",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16915-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16915-128.png"
+            },
+            "description": "Dieser einzigartige Helm ist aus einem einzigen Stück Holz aus den Wipfeln eines uralten Baumes gefertigt und so robust und scharfkantig wie Stein. Terrakourial hinterließ ihn als Vermächtnis für all jene Abenteurer, die ihn verehren.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34442,
+            "name": "Schützende Rinde",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17700-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17700-128.png"
+            },
+            "description": "Dieser Umhang trotzt dem Zahn der Zeit ebenso wie heimtückischen Schlägen, lässt sich aber unter einer einzigen Bedingung einritzen: wenn es sich um ein Herz handelt, das zwei Namen umschließt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34443,
+            "name": "Erdspalte",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82596-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82596-128.png"
+            },
+            "description": "Dieser Schild bringt eure Angreifer völlig aus dem Gleichgewicht: Während sie glauben, ihn mit voller Wucht zu treffen, sind sie doch meilenweit davon entfernt ... Genauso weit wie ein Regenwurm von einem Baumwipfel! Und wenn er schließlich auf sie selbst niederkracht, fühlt es sich an wie ein Erdbeben.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34444,
+            "name": "Tirrakou",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18945-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18945-128.png"
+            },
+            "description": "Zwischen Bäumen und sumpfiger Erde fühlt sich dieser Drachennestling pudelwohl. Ganz in seinem Element – mitten im Matsch!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "An den Charakter gebunden",
+                        "id": 81,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "An den Charakter gebunden"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34480,
+            "name": "Taucherbrille des Abgrunds",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16917-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16917-128.png"
+            },
+            "description": "Wenn ihr es nicht schafft, euch über Wasser zu halten, dann ist diese Brille genau das Richtige für euch!",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34481,
+            "name": "Taucherumhang des Abgrunds",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17702-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17702-128.png"
+            },
+            "description": "Ja, ihr habt richtig gehört, das ist ein Taucherumhang. Er lässt euch nicht schneller schwimmen, bietet aber einen nicht unerheblichen zusätzlichen Schutz vor den Raubtieren des Abgrunds.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34482,
+            "name": "Laternenschild des Abgrunds",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82598-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82598-128.png"
+            },
+            "description": "Etwaige Ähnlichkeiten mit den Kreaturen, die sich in den Tiefen des Meeres tummeln, sind rein zufällig und nicht beabsichtigt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34483,
+            "name": "Taucheranzug des Abgrunds",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164311-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164311-128.png"
+            },
+            "description": "Dieser enganliegende, glänzende, wasserundurchlässige Anzug ist wie dafür gemacht, die unergründlichen Tiefen von Sufokia zu erkunden. Auch bei gewissen Abenden, an denen nur mündige Erwachsene teilnehmen dürfen, wäre er sicher der letzte Schrei. In so einem Fall solltet ihr die um die Taille geschlungenen Tentakel besser mit Vorsicht einsetzen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34484,
+            "name": "Flossen des Abgrunds",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164312-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164312-128.png"
+            },
+            "description": "Diese flossenförmigen Schulterplatten sorgen für die nötige Aquadynamik, wenn ihr verzweifelt versucht, den Monstern des Abgrunds zu entfliehen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34485,
+            "name": "Quallentiskaph",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18948-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18948-128.png"
+            },
+            "description": "Wie kommt dieser Tiwabbit Ischungrig nur hierher? In diesem kleinen Bathyskaph in Quallenform scheint er jedenfalls in Sicherheit zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34486,
+            "name": "Tiefseepferdchen",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121182-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121182-128.png"
+            },
+            "description": "Bei den Seepferdchen des Abgrunds tragen die Männchen den Nachwuchs aus. Das mag überraschend sein, kommt aber in der Tierwelt gar nicht so selten vor.\nIn der Regel sind diese Kreaturen ausgezeichnete Unterwasser-Schlachtrösser – nur Krakelige und Sirenen können ihnen beim Schwimmen das Wasser reichen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34497,
+            "name": "Schwebende Flügel",
+            "type": {
+                "name": "Flügel",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164316-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164316-128.png"
+            },
+            "description": "Mit diesen Flügeln werdet ihr euch zwar nicht in lichte Höhen aufschwingen, aber zumindest geht ihr damit nicht unter.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34500,
+            "name": "Standwind-Badeanzug",
+            "type": {
+                "name": "Lebending",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164313-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164313-128.png"
+            },
+            "description": "Dieser Badeanzug ist das perfekte Outfit für eine Auszeit an einem sonnigen Strand. Nehmt euch dabei aber vor Hitzeschlägen in Acht: Denkt daran, ausreichend zu essen und zu trinken, um Müdigkeit, Kopfweh, Schwindel und Übelkeit vorzubeugen und sicherzustellen, dass ihr nicht auf einmal wirres Zeug redet.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34502,
+            "name": "Skale-Multimek",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121183-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121183-128.png"
+            },
+            "description": "Auge um Auge, Zahn um Zahn. Ihr werdet alles, was euch im Weg steht, plattmachen – mit einem Lächeln auf den Lippen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34503,
+            "name": "Schlacker-Multimek",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121184-128.png"
+            },
+            "description": "Ihr sucht nach einer Waffe für die Schädlingsbekämpfung? Mit diesem Multimek zerquetscht ihr im Handumdrehen alles und jeden wie ein lästiges Insekt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34504,
+            "name": "Skales Unterwasser-Visierhelm",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16918-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16918-128.png"
+            },
+            "description": "Dieser Visierhelm ist äußerst widerstandsfähig und lässt euch wie durch Kiemen atmen. Vergesst nur nicht, ihn abzunehmen, wenn ihr einen großen Happen verdrücken wollt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34505,
+            "name": "Schlackers Glühmaske",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16919-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16919-128.png"
+            },
+            "description": "Mit dieser Maske, die euch wie ein Scarablatt aussehen lässt, liegt ihr voll im Trend. Nicht ihr seid das Insekt, sondern jene, die euch Steine in den Weg legen wollen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34506,
+            "name": "Skales Wellenklinge",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82599-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82599-128.png"
+            },
+            "description": "Mit dieser aus Haifischzähnen gefertigten Klinge könnt ihr alles und jeden zerteilen. Dem Hörensagen nach soll Skale sogar das Meer damit geteilt haben.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34507,
+            "name": "Schlackers Schmelz-Zweizack",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82600-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82600-128.png"
+            },
+            "description": "Dieser Zweizack besteht aus Metall, das gerade auf Schmelztemperatur gebracht wurde. Schlacker soll damit seine Gegner wie seine Verbündeten zu Schlacke verarbeitet haben.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34508,
+            "name": "Skales Amphibien-Taucheranzug",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648905-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648905-128.png"
+            },
+            "description": "Dieser Taucheranzug ist ideal, um junge Fischlein zu fangen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34509,
+            "name": "Schlackers feuersicherer Taucheranzug",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648907-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648907-128.png"
+            },
+            "description": "Dieser Taucheranzug hält sowohl sehr hohen als auch sehr tiefen Temperaturen problemlos stand. Außerdem hält er die Inbrunst des Trägers aufrecht und verstärkt sie sogar noch.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34510,
+            "name": "Skales Finnen",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648904-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648904-128.png"
+            },
+            "description": "Mit diesen hydrodynamischen Finnen könnt ihr euch wie ein Hai durchs Wasser bewegen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34511,
+            "name": "Schlackers Panzerplatten",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1648906-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1648906-128.png"
+            },
+            "description": "Diese Schulterplatten sind brennend heiß und äußerst beständig – wie Schlackers Zorn.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34512,
+            "name": "25-Jahre-Jubiläumsaugenklappe des Krosmoz",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16916-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16916-128.png"
+            },
+            "description": "Wer hätte vor 25 Jahren gedacht, dass dieses Projekt von Dauer ist?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34513,
+            "name": "25-Jahre-Jubiläumsumhang des Krosmoz",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17701-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17701-128.png"
+            },
+            "description": "Macht es euch in einer Ecke bequem, hüllt euch in diesen Umhang und lauscht den fantastischen Geschichten über den Krosmoz.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34514,
+            "name": "25-Jahre-Jubiläumsschild des Krosmoz",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82597-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82597-128.png"
+            },
+            "description": "An legendären Schlachten mangelt es im Krosmoz ja wohl nicht. Deshalb ist es nur vernünftig, immer einen Schild zur Hand zu haben.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34515,
+            "name": "25-Jahre-Jubiläumsflügel des Krosmoz",
+            "type": {
+                "name": "Flügel",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164976-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164976-128.png"
+            },
+            "description": "Flattert von Quest zu Quest und tragt die heiß begehrten Dofus zusammen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34516,
+            "name": "25-Jahre-Jubiläumskostüm des Krosmoz",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164978-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164978-128.png"
+            },
+            "description": "Nur den tapfersten Entdeckern des Krosmoz ist es vergönnt, dieses Kostüm zu tragen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34517,
+            "name": "25-Jahre-Jubiläumsschulterplatten des Krosmoz",
+            "type": {
+                "name": "Schulterplatte",
+                "id": 248
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164977-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164977-128.png"
+            },
+            "description": "Die Last des Krosmoz wiegt schwer auf euren Schultern.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34518,
+            "name": "Axt des Tollkühnen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/19088-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/19088-128.png"
+            },
+            "description": "Diese Axt scheint mit Ignemikhals Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34519,
+            "name": "Sense des Tollkühnen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/22020-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/22020-128.png"
+            },
+            "description": "Diese Sense scheint mit Ignemikhals Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34520,
+            "name": "Hammer des Rußigen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/7754-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/7754-128.png"
+            },
+            "description": "Dieser Hammer scheint mit Grougalorasalars Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34521,
+            "name": "Schaufel des Schlammigen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8887-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8887-128.png"
+            },
+            "description": "Diese Schaufel scheint mit Terrakourials Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34522,
+            "name": "Wurfspeer des Schlammigen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183019-128.png"
+            },
+            "description": "Dieser Wurfspeer scheint mit Terrakourials Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34523,
+            "name": "Dolche des Fließenden",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/5111-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/5111-128.png"
+            },
+            "description": "Diese Dolche scheinen mit Aguabrials Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34524,
+            "name": "Stab des Fließenden",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/3099-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/3099-128.png"
+            },
+            "description": "Dieser Stab scheint unter den wachsamen Augen von Aguabrial geschnitzt worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34525,
+            "name": "Bogen des Windigen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/2100-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/2100-128.png"
+            },
+            "description": "Dieser Bogen scheint unter den wachsamen Augen von Aerafal geschnitzt worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34526,
+            "name": "Stecken des Windigen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/4146-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/4146-128.png"
+            },
+            "description": "Dieser Stecken scheint unter den wachsamen Augen von Aerafal geschnitzt worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34527,
+            "name": "Schwert des Weisen",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/6766-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/6766-128.png"
+            },
+            "description": "Dieses Schwert scheint mit Dardondakals Odem geschmiedet worden zu sein.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34528,
+            "name": "Krosmozaurus",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121181-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121181-128.png"
+            },
+            "description": "Ah der Kro, der Kro, der Krosmozaurus ...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
                 }
             ],
             "pods": 1

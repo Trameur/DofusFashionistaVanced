@@ -71052,7 +71052,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2652,
+                    "item_ankama_id": 2649,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -71148,7 +71148,7 @@
                     "quantity": 6
                 },
                 {
-                    "item_ankama_id": 2649,
+                    "item_ankama_id": 2652,
                     "item_subtype": "resources",
                     "quantity": 1
                 },
@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmonie de Pandala :\n• Lorsque le porteur occasionne des dommages durant son tour de jeu, lui et ses alliés porteurs du {{item,23408::Dorigami}} gagnent 20 de Dommages pendant 1 tour (cumulable 1 fois).\n• S'il n'en occasionne pas, lui et ses alliés porteurs du {{item,23237::Domakuro}} gagnent 150% de son niveau en bouclier pendant 1 tour."
+                    "formatted": "Harmonie de Pandala :\n• Lorsque le porteur occasionne des dommages durant son tour de jeu, lui et ses alliés porteurs du {{item,23408::Dorigami}} gagnent 20 de Dommages pendant 1 tour (cumulable 1 fois).\n• S'il n'en occasionne pas, lui et ses alliés porteurs du {{item,23237::Domakuro}} gagnent 100% de son niveau en bouclier pendant 1 tour."
                 },
                 {
                     "int_minimum": 0,
@@ -105719,7 +105719,7 @@
         },
         {
             "ankama_id": 7808,
-            "name": "Dragodinde Ebène",
+            "name": "Dragodinde Ébène",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -105773,7 +105773,7 @@
         },
         {
             "ankama_id": 7810,
-            "name": "Dragodinde Ebène et Ivoire",
+            "name": "Dragodinde Ébène et Ivoire",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -105854,7 +105854,7 @@
         },
         {
             "ankama_id": 7813,
-            "name": "Dragodinde Ebène et Rousse",
+            "name": "Dragodinde Ébène et Rousse",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106043,7 +106043,7 @@
         },
         {
             "ankama_id": 7820,
-            "name": "Dragodinde Emeraude",
+            "name": "Dragodinde Émeraude",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106151,7 +106151,7 @@
         },
         {
             "ankama_id": 7824,
-            "name": "Dragodinde Amande et Ebène",
+            "name": "Dragodinde Amande et Ébène",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106178,7 +106178,7 @@
         },
         {
             "ankama_id": 7825,
-            "name": "Dragodinde Amande et Emeraude",
+            "name": "Dragodinde Amande et Émeraude",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106367,7 +106367,7 @@
         },
         {
             "ankama_id": 7832,
-            "name": "Dragodinde Dorée et Ebène",
+            "name": "Dragodinde Dorée et Ébène",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106394,7 +106394,7 @@
         },
         {
             "ankama_id": 7833,
-            "name": "Dragodinde Dorée et Emeraude",
+            "name": "Dragodinde Dorée et Émeraude",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106583,7 +106583,7 @@
         },
         {
             "ankama_id": 7840,
-            "name": "Dragodinde Ebène et Emeraude",
+            "name": "Dragodinde Ébène et Émeraude",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106610,7 +106610,7 @@
         },
         {
             "ankama_id": 7841,
-            "name": "Dragodinde Ebène et Indigo",
+            "name": "Dragodinde Ébène et Indigo",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106637,7 +106637,7 @@
         },
         {
             "ankama_id": 7842,
-            "name": "Dragodinde Ebène et Turquoise",
+            "name": "Dragodinde Ébène et Turquoise",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106664,7 +106664,7 @@
         },
         {
             "ankama_id": 7843,
-            "name": "Dragodinde Ebène et Orchidée",
+            "name": "Dragodinde Ébène et Orchidée",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106691,7 +106691,7 @@
         },
         {
             "ankama_id": 7844,
-            "name": "Dragodinde Ebène et Pourpre",
+            "name": "Dragodinde Ébène et Pourpre",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106718,7 +106718,7 @@
         },
         {
             "ankama_id": 7845,
-            "name": "Dragodinde Emeraude et Indigo",
+            "name": "Dragodinde Émeraude et Indigo",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106745,7 +106745,7 @@
         },
         {
             "ankama_id": 7846,
-            "name": "Dragodinde Emeraude et Ivoire",
+            "name": "Dragodinde Émeraude et Ivoire",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106772,7 +106772,7 @@
         },
         {
             "ankama_id": 7847,
-            "name": "Dragodinde Emeraude et Rousse",
+            "name": "Dragodinde Émeraude et Rousse",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106799,7 +106799,7 @@
         },
         {
             "ankama_id": 7848,
-            "name": "Dragodinde Emeraude et Turquoise",
+            "name": "Dragodinde Émeraude et Turquoise",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106826,7 +106826,7 @@
         },
         {
             "ankama_id": 7849,
-            "name": "Dragodinde Emeraude et Orchidée",
+            "name": "Dragodinde Émeraude et Orchidée",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -106853,7 +106853,7 @@
         },
         {
             "ankama_id": 7850,
-            "name": "Dragodinde Emeraude et Pourpre",
+            "name": "Dragodinde Émeraude et Pourpre",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -107295,7 +107295,7 @@
         },
         {
             "ankama_id": 7869,
-            "name": "Dragodinde Prune et Ebène",
+            "name": "Dragodinde Prune et Ébène",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -107322,7 +107322,7 @@
         },
         {
             "ankama_id": 7870,
-            "name": "Dragodinde Prune et Emeraude",
+            "name": "Dragodinde Prune et Émeraude",
             "type": {
                 "name": "Certificat de Dragodinde",
                 "id": 22
@@ -143441,20 +143441,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13047,
+                    "int_minimum": 32453,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Optique : -1 PA"
+                    "formatted": "Flèche d'Abolition : +1 lancer(s) par tour"
                 },
                 {
-                    "int_minimum": 13059,
+                    "int_minimum": 32433,
                     "int_maximum": 0,
                     "type": {
                         "name": ": - PA",
@@ -143464,85 +143464,85 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Pluie de Flèches : -1 PA"
+                    "formatted": "Flèche Persécutrice : -1 PA"
                 },
                 {
-                    "int_minimum": 13049,
+                    "int_minimum": 32427,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Glacée : -1 PA"
+                    "formatted": "Flèche Cinglante : +1 lancer(s) par tour"
                 },
                 {
-                    "int_minimum": 13063,
+                    "int_minimum": 32458,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": Portée modifiable",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Ralentissante : -1 PA"
+                    "formatted": "Flèche Assaillante : Portée modifiable"
                 },
                 {
-                    "int_minimum": 13072,
+                    "int_minimum": 32444,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tir Répulsif : -1 PA"
+                    "formatted": "Flèche Détonante : +1 lancer(s) par tour"
                 },
                 {
-                    "int_minimum": 13051,
+                    "int_minimum": 32439,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + dégâts de base",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèches Enflammées : -1 PA"
+                    "formatted": "Flèche Ralentissante : +6 dégâts de base"
                 },
                 {
-                    "int_minimum": 13069,
+                    "int_minimum": 32436,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lancer(s) par cible",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Cinglante : -1 PA"
+                    "formatted": "Flèche d'Immobilisation : +1 lancer(s) par cible"
                 },
                 {
-                    "int_minimum": 14636,
+                    "int_minimum": 32448,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + Portée maximale",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tir de Couverture : -1 PA"
+                    "formatted": "Flèche Tyrannique : +3 Portée maximale"
                 }
             ],
             "is_weapon": false,
@@ -145377,7 +145377,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13056,
+                    "int_minimum": 32426,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + lancer(s) par cible",
@@ -145387,98 +145387,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche d'Immobilisation : +1 lancer(s) par cible"
+                    "formatted": "Flèche de Recul : +1 lancer(s) par cible"
                 },
                 {
-                    "int_minimum": 13077,
+                    "int_minimum": 32449,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": +% Critique",
-                        "id": 226,
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Assaillante : +35% Critique"
+                    "formatted": "Flèche Éclatante : +1 lancer(s) par tour"
                 },
                 {
-                    "int_minimum": 13055,
+                    "int_minimum": 32428,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tir de Recul : ligne de vue désactivée"
+                    "formatted": "Flèche de Dispersion : +1 lancer(s) par tour"
                 },
                 {
-                    "int_minimum": 13083,
+                    "int_minimum": 32447,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": Portée modifiable",
+                        "id": 204,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tir de Barrage : ligne de vue désactivée"
+                    "formatted": "Flèches Enflammées : Portée modifiable"
                 },
                 {
-                    "int_minimum": 13050,
+                    "int_minimum": 32455,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèches Érosives : -1 PA"
+                    "formatted": "Flèche Vagabonde : +1 lancer(s) par tour"
                 },
                 {
-                    "int_minimum": 13070,
+                    "int_minimum": 32531,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": + lancer(s) par cible",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèches de Repli : ligne de vue désactivée"
+                    "formatted": "Flèche Évasive : +1 lancer(s) par cible"
                 },
                 {
-                    "int_minimum": 23499,
+                    "int_minimum": 32454,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": + Portée maximale",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Miroir aux Alouettes : ligne de vue désactivée"
+                    "formatted": "Œil pour Œil : +3 Portée maximale"
                 },
                 {
-                    "int_minimum": 23508,
+                    "int_minimum": 32441,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": + dégâts de base",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Œil pour Œil : ligne de vue désactivée"
+                    "formatted": "Flèche Paralysante : +6 dégâts de base"
                 }
             ],
             "is_weapon": false,
@@ -147383,33 +147383,20 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13052,
+                    "int_minimum": 32435,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - de relance",
-                        "id": 227,
+                        "name": ": + dégâts de base",
+                        "id": 243,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tirs Puissants : -1 de relance"
+                    "formatted": "Flèche Glacée : +4 dégâts de base"
                 },
                 {
-                    "int_minimum": 13085,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + lancer(s) par tour",
-                        "id": 206,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Détonante : +1 lancer(s) par tour"
-                },
-                {
-                    "int_minimum": 13064,
+                    "int_minimum": 32708,
                     "int_maximum": 0,
                     "type": {
                         "name": ": - PA",
@@ -147419,10 +147406,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche de Tourment : -1 PA"
+                    "formatted": "Flèche Harcelante : -1 PA"
                 },
                 {
-                    "int_minimum": 13080,
+                    "int_minimum": 32437,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Œil de Taupe : -1 PA"
+                },
+                {
+                    "int_minimum": 32431,
                     "int_maximum": 0,
                     "type": {
                         "name": ": +% Critique",
@@ -147432,10 +147432,49 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Tir Perforant : +35% Critique"
+                    "formatted": "Pluie de Flèches : +35% Critique"
                 },
                 {
-                    "int_minimum": 13084,
+                    "int_minimum": 32438,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - Portée minimale",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flèche d'Expiation : -5 Portée minimale"
+                },
+                {
+                    "int_minimum": 32442,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - Portée minimale",
+                        "id": 274,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flèche de Rédemption : -3 Portée minimale"
+                },
+                {
+                    "int_minimum": 32429,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + Portée maximale",
+                        "id": 208,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flèche Perforante : +3 Portée maximale"
+                },
+                {
+                    "int_minimum": 32432,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + lancer(s) par tour",
@@ -147445,46 +147484,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Dévorante : +1 lancer(s) par tour"
-                },
-                {
-                    "int_minimum": 13065,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Portée maximale",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Explosive : +2 Portée maximale"
-                },
-                {
-                    "int_minimum": 13086,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": + Portée maximale",
-                        "id": 208,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Fulminante : +2 Portée maximale"
-                },
-                {
-                    "int_minimum": 13066,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - de relance",
-                        "id": 227,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tirs Perçants : -1 de relance"
+                    "formatted": "Flèche Boomerang : +1 lancer(s) par tour"
                 }
             ],
             "is_weapon": false,
@@ -150362,33 +150362,33 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13076,
+                    "int_minimum": 32443,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": ligne de vue désactivée",
-                        "id": 205,
+                        "name": ": + Portée maximale",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Balise de Rappel : ligne de vue désactivée"
+                    "formatted": "Flèche de Barrage : +3 Portée maximale"
                 },
                 {
-                    "int_minimum": 13068,
+                    "int_minimum": 32459,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + lancer(s) par tour",
-                        "id": 206,
+                        "name": ": + Portée maximale",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche de Concentration : +1 lancer(s) par tour"
+                    "formatted": "Carreaux Destructeurs : +2 Portée maximale"
                 },
                 {
-                    "int_minimum": 13061,
+                    "int_minimum": 32445,
                     "int_maximum": 0,
                     "type": {
                         "name": ": +% Critique",
@@ -150398,62 +150398,23 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Carreaux Destructeurs : +35% Critique"
+                    "formatted": "Flèche Explosive : +30% Critique"
                 },
                 {
-                    "int_minimum": 13054,
+                    "int_minimum": 32457,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - PA",
-                        "id": 207,
+                        "name": ": + Portée maximale",
+                        "id": 208,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Œil de Taupe : -1 PA"
+                    "formatted": "Flèche Massacrante : +3 Portée maximale"
                 },
                 {
-                    "int_minimum": 13075,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Écrasante : -1 PA"
-                },
-                {
-                    "int_minimum": 13062,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": lancer en ligne désactivé",
-                        "id": 209,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Persécutrice : lancer en ligne désactivé"
-                },
-                {
-                    "int_minimum": 13082,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Tyrannique : -1 PA"
-                },
-                {
-                    "int_minimum": 13079,
+                    "int_minimum": 32456,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + lancer(s) par tour",
@@ -150463,7 +150424,46 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Balise Tactique : +1 lancer(s) par tour"
+                    "formatted": "Flèche Punitive : +1 lancer(s) par tour"
+                },
+                {
+                    "int_minimum": 32460,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flèche du Jugement : -1 PA"
+                },
+                {
+                    "int_minimum": 32446,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flèche Dévorante : +1 lancer(s) par tour"
+                },
+                {
+                    "int_minimum": 32450,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Flèche Fulminante : -1 PA"
                 }
             ],
             "is_weapon": false,
@@ -152725,59 +152725,7 @@
             ],
             "effects": [
                 {
-                    "int_minimum": 13058,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Tirs Éloignés : -1 PA"
-                },
-                {
-                    "int_minimum": 13073,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Acuité Absolue : -1 PA"
-                },
-                {
-                    "int_minimum": 13060,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Empoisonnée : -1 PA"
-                },
-                {
-                    "int_minimum": 13071,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": ": - PA",
-                        "id": 207,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "Flèche Paralysante : -1 PA"
-                },
-                {
-                    "int_minimum": 13057,
+                    "int_minimum": 32464,
                     "int_maximum": 0,
                     "type": {
                         "name": ": + Portée maximale",
@@ -152787,46 +152735,98 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche Punitive : +2 Portée maximale"
+                    "formatted": "Pas Chassé : +1 Portée maximale"
                 },
                 {
-                    "int_minimum": 13078,
+                    "int_minimum": 32467,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Portée maximale",
-                        "id": 208,
+                        "name": ": - de relance",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche du Jugement : +2 Portée maximale"
+                    "formatted": "Balise Tactique : -1 de relance"
                 },
                 {
-                    "int_minimum": 13053,
+                    "int_minimum": 32465,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Portée maximale",
-                        "id": 208,
+                        "name": ": - de relance",
+                        "id": 227,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche d'Expiation : +2 Portée maximale"
+                    "formatted": "Tirs Éloignés : -1 de relance"
                 },
                 {
-                    "int_minimum": 13074,
+                    "int_minimum": 32471,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": + Portée maximale",
-                        "id": 208,
+                        "name": ": + lancer(s) par cible",
+                        "id": 231,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Flèche de Rédemption : +2 Portée maximale"
+                    "formatted": "Tir Perçant : +1 lancer(s) par cible"
+                },
+                {
+                    "int_minimum": 32474,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Balise de Survie : -1 PA"
+                },
+                {
+                    "int_minimum": 32472,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": - PA",
+                        "id": 207,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Représailles : -1 PA"
+                },
+                {
+                    "int_minimum": 32470,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + lancer(s) par cible",
+                        "id": 231,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Tir de Repli : +1 lancer(s) par cible"
+                },
+                {
+                    "int_minimum": 32473,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": ": + lancer(s) par tour",
+                        "id": 206,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Vendetta : +1 lancer(s) par tour"
                 },
                 {
                     "int_minimum": 1,
@@ -296341,7 +296341,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/10246-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/10246-128.png"
             },
-            "description": "La Sangle Aise a d'incompréhensibles effets sur le comportement. Elle pousse à vouloir manger salé au petit-déjeuner, à devenir monarchiste, à avoir d'irrépréssibles envies de thé à heures fixes, à avoir un sens de l'humour étrange, ou encore à adorer le poisson pané et les frites. Mais vos propres habitudes ne sont pas moins bizarres, alors bon...",
+            "description": "La Sangle Aise a d'incompréhensibles effets sur le comportement. Elle pousse à vouloir manger salé au petit-déjeuner, à devenir monarchiste, à avoir d'irrépressibles envies de thé à heures fixes, à avoir un sens de l'humour étrange, ou encore à adorer le poisson pané et les frites. Mais vos propres habitudes ne sont pas moins bizarres, alors bon...",
             "recipe": [
                 {
                     "item_ankama_id": 13988,
@@ -371340,7 +371340,7 @@
         },
         {
             "ankama_id": 17874,
-            "name": "Muldo Ebène et Indigo",
+            "name": "Muldo Ébène et Indigo",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -371394,7 +371394,7 @@
         },
         {
             "ankama_id": 17876,
-            "name": "Muldo Ebène",
+            "name": "Muldo Ébène",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -371637,7 +371637,7 @@
         },
         {
             "ankama_id": 17885,
-            "name": "Muldo Emeraude",
+            "name": "Muldo Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -371718,7 +371718,7 @@
         },
         {
             "ankama_id": 17888,
-            "name": "Muldo Ebène et Pourpre",
+            "name": "Muldo Ébène et Pourpre",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -371772,7 +371772,7 @@
         },
         {
             "ankama_id": 17890,
-            "name": "Muldo Doré et Ebène",
+            "name": "Muldo Doré et Ébène",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -371826,7 +371826,7 @@
         },
         {
             "ankama_id": 17892,
-            "name": "Muldo Ebène et Orchidée",
+            "name": "Muldo Ébène et Orchidée",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -371961,7 +371961,7 @@
         },
         {
             "ankama_id": 17897,
-            "name": "Muldo Roux et Ebène",
+            "name": "Muldo Roux et Ébène",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372123,7 +372123,7 @@
         },
         {
             "ankama_id": 17903,
-            "name": "Muldo Ebène et Amande",
+            "name": "Muldo Ébène et Amande",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372258,7 +372258,7 @@
         },
         {
             "ankama_id": 17908,
-            "name": "Muldo Ebène et Ivoire",
+            "name": "Muldo Ébène et Ivoire",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372474,7 +372474,7 @@
         },
         {
             "ankama_id": 17916,
-            "name": "Muldo Turquoise et Ebène",
+            "name": "Muldo Turquoise et Ébène",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372663,7 +372663,7 @@
         },
         {
             "ankama_id": 17923,
-            "name": "Muldo Prune et Ebène",
+            "name": "Muldo Prune et Ébène",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372825,7 +372825,7 @@
         },
         {
             "ankama_id": 17929,
-            "name": "Muldo Prune et Emeraude",
+            "name": "Muldo Prune et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372852,7 +372852,7 @@
         },
         {
             "ankama_id": 17930,
-            "name": "Muldo Pourpre et Emeraude",
+            "name": "Muldo Pourpre et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372879,7 +372879,7 @@
         },
         {
             "ankama_id": 17931,
-            "name": "Muldo Orchidée et Emeraude",
+            "name": "Muldo Orchidée et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372906,7 +372906,7 @@
         },
         {
             "ankama_id": 17932,
-            "name": "Muldo Indigo et Emeraude",
+            "name": "Muldo Indigo et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372933,7 +372933,7 @@
         },
         {
             "ankama_id": 17933,
-            "name": "Muldo Ebène et Emeraude",
+            "name": "Muldo Ébène et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372960,7 +372960,7 @@
         },
         {
             "ankama_id": 17934,
-            "name": "Muldo Doré et Emeraude",
+            "name": "Muldo Doré et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -372987,7 +372987,7 @@
         },
         {
             "ankama_id": 17935,
-            "name": "Muldo Roux et Emeraude",
+            "name": "Muldo Roux et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -373014,7 +373014,7 @@
         },
         {
             "ankama_id": 17936,
-            "name": "Muldo Amande et Emeraude",
+            "name": "Muldo Amande et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -373041,7 +373041,7 @@
         },
         {
             "ankama_id": 17937,
-            "name": "Muldo Ivoire et Emeraude",
+            "name": "Muldo Ivoire et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -373068,7 +373068,7 @@
         },
         {
             "ankama_id": 17938,
-            "name": "Muldo Turquoise et Emeraude",
+            "name": "Muldo Turquoise et Émeraude",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -373122,7 +373122,7 @@
         },
         {
             "ankama_id": 17956,
-            "name": "Muldo Ebène Sauvage",
+            "name": "Muldo Ébène Sauvage",
             "type": {
                 "name": "Certificat de Muldo",
                 "id": 126
@@ -417034,7 +417034,7 @@
         },
         {
             "ankama_id": 19783,
-            "name": "Volkorne Ebène sauvage",
+            "name": "Volkorne Ébène sauvage",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417115,7 +417115,7 @@
         },
         {
             "ankama_id": 19786,
-            "name": "Volkorne Ebène",
+            "name": "Volkorne Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417331,7 +417331,7 @@
         },
         {
             "ankama_id": 19794,
-            "name": "Volkorne Emeraude",
+            "name": "Volkorne Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417547,7 +417547,7 @@
         },
         {
             "ankama_id": 19802,
-            "name": "Volkorne Pourpre et Ebène",
+            "name": "Volkorne Pourpre et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417601,7 +417601,7 @@
         },
         {
             "ankama_id": 19804,
-            "name": "Volkorne Orchidée et Ebène",
+            "name": "Volkorne Orchidée et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417628,7 +417628,7 @@
         },
         {
             "ankama_id": 19805,
-            "name": "Volkorne Indigo et Ebène",
+            "name": "Volkorne Indigo et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417736,7 +417736,7 @@
         },
         {
             "ankama_id": 19809,
-            "name": "Volkorne Amande et Ebène",
+            "name": "Volkorne Amande et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -417925,7 +417925,7 @@
         },
         {
             "ankama_id": 19816,
-            "name": "Volkorne Roux et Ebène",
+            "name": "Volkorne Roux et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418087,7 +418087,7 @@
         },
         {
             "ankama_id": 19822,
-            "name": "Volkorne Ivoire et Ebène",
+            "name": "Volkorne Ivoire et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418222,7 +418222,7 @@
         },
         {
             "ankama_id": 19827,
-            "name": "Volkorne Turquoise et Ebène",
+            "name": "Volkorne Turquoise et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418303,7 +418303,7 @@
         },
         {
             "ankama_id": 19830,
-            "name": "Volkorne Prune et Ebène",
+            "name": "Volkorne Prune et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418438,7 +418438,7 @@
         },
         {
             "ankama_id": 19835,
-            "name": "Volkorne Prune et Emeraude",
+            "name": "Volkorne Prune et Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418492,7 +418492,7 @@
         },
         {
             "ankama_id": 19837,
-            "name": "Volkorne Emeraude et Pourpre",
+            "name": "Volkorne Émeraude et Pourpre",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418519,7 +418519,7 @@
         },
         {
             "ankama_id": 19838,
-            "name": "Volkorne Emeraude et Orchidée",
+            "name": "Volkorne Émeraude et Orchidée",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418546,7 +418546,7 @@
         },
         {
             "ankama_id": 19839,
-            "name": "Volkorne Emeraude et Indigo",
+            "name": "Volkorne Émeraude et Indigo",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418573,7 +418573,7 @@
         },
         {
             "ankama_id": 19840,
-            "name": "Volkorne Emeraude et Ebène",
+            "name": "Volkorne Émeraude et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418600,7 +418600,7 @@
         },
         {
             "ankama_id": 19841,
-            "name": "Volkorne Emeraude et Amande",
+            "name": "Volkorne Émeraude et Amande",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418627,7 +418627,7 @@
         },
         {
             "ankama_id": 19842,
-            "name": "Volkorne Emeraude et Roux",
+            "name": "Volkorne Émeraude et Roux",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418654,7 +418654,7 @@
         },
         {
             "ankama_id": 19843,
-            "name": "Volkorne Emeraude et Ivoire",
+            "name": "Volkorne Émeraude et Ivoire",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418681,7 +418681,7 @@
         },
         {
             "ankama_id": 19844,
-            "name": "Volkorne Emeraude et Turquoise",
+            "name": "Volkorne Émeraude et Turquoise",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418789,7 +418789,7 @@
         },
         {
             "ankama_id": 19848,
-            "name": "Volkorne Doré et Ebène",
+            "name": "Volkorne Doré et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -418897,7 +418897,7 @@
         },
         {
             "ankama_id": 19852,
-            "name": "Volkorne Jade et Ebène",
+            "name": "Volkorne Jade et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -419059,7 +419059,7 @@
         },
         {
             "ankama_id": 19858,
-            "name": "Volkorne Jade et Emeraude",
+            "name": "Volkorne Jade et Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -419275,7 +419275,7 @@
         },
         {
             "ankama_id": 19866,
-            "name": "Volkorne Rubis et Ebène",
+            "name": "Volkorne Rubis et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -419437,7 +419437,7 @@
         },
         {
             "ankama_id": 19872,
-            "name": "Volkorne Rubis et Emeraude",
+            "name": "Volkorne Rubis et Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -419626,7 +419626,7 @@
         },
         {
             "ankama_id": 19879,
-            "name": "Volkorne Saphir et Ebène",
+            "name": "Volkorne Saphir et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -419788,7 +419788,7 @@
         },
         {
             "ankama_id": 19885,
-            "name": "Volkorne Saphir et Emeraude",
+            "name": "Volkorne Saphir et Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -419950,7 +419950,7 @@
         },
         {
             "ankama_id": 19891,
-            "name": "Volkorne Améthyste et Ebène",
+            "name": "Volkorne Améthyste et Ébène",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -420112,7 +420112,7 @@
         },
         {
             "ankama_id": 19897,
-            "name": "Volkorne Améthyste et Emeraude",
+            "name": "Volkorne Améthyste et Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -420301,7 +420301,7 @@
         },
         {
             "ankama_id": 19904,
-            "name": "Volkorne Doré et Emeraude",
+            "name": "Volkorne Doré et Émeraude",
             "type": {
                 "name": "Certificat de Volkorne",
                 "id": 71
@@ -422812,6 +422812,19 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Promesse d'Argent :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 30% de sa vie et gagne 20% de dommages finaux pendant 1 tour au début de son prochain tour (1 fois par combat)."
+                },
+                {
+                    "int_minimum": 300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "300 Vitalité"
                 }
             ],
             "is_weapon": false,
@@ -423282,8 +423295,8 @@
             ],
             "is_weapon": true,
             "pods": 10,
-            "critical_hit_probability": 0,
-            "critical_hit_bonus": 0,
+            "critical_hit_probability": 100,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -423333,7 +423346,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -423358,7 +423371,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Froid de Novamaire :\n• À chaque fin de tour, le porteur retire 1 PA aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsque le porteur achève un combattant ennemi, il pose un glyphe-aura qui rend les alliés invisibles pendant 1 tour dans un cercle de taille 3."
+                    "formatted": "Froid de Novamaire :\n• À chaque fin de tour, le porteur retire 1 PA aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PA pendant 1 tour (cumulable 2 fois).\n• Lorsque le porteur achève un combattant ennemi, il pose un glyphe-aura qui rend les alliés invisibles pendant 1 tour dans un cercle de taille 3."
                 },
                 {
                     "int_minimum": 351,
@@ -423806,7 +423819,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Droiture de Fallanster :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans une croix de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour. Le glyphe est dissipé au prochain tour ou s'il est déplacé."
+                    "formatted": "Droiture de Fallanster :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans un carré de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour. Le glyphe est dissipé au prochain tour ou s'il est déplacé."
                 },
                 {
                     "int_minimum": 251,
@@ -424186,7 +424199,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages en mêlée pendant 2 tours (cumulable 5 fois)."
+                    "formatted": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible."
                 },
                 {
                     "int_minimum": 351,
@@ -425076,7 +425089,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Mille Lieues :\n• Le porteur gagne 2 PM les tours impairs, et perd 1 PM les tours pairs."
+                    "formatted": "Mille Lieues :\n• Le porteur gagne 2 PM les tours impairs."
                 },
                 {
                     "int_minimum": 501,
@@ -431127,7 +431140,7 @@
                     "formatted": "Le porteur gagne 550% de son niveau en bouclier au premier tour, puis 200% au deuxième tour, et 100% au troisième tour."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Neutre",
@@ -431137,10 +431150,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Neutre"
+                    "formatted": "40 Résistances Neutre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Terre",
@@ -431150,10 +431163,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Terre"
+                    "formatted": "40 Résistances Terre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Feu",
@@ -431163,10 +431176,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Feu"
+                    "formatted": "40 Résistances Feu"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Eau",
@@ -431176,10 +431189,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Eau"
+                    "formatted": "40 Résistances Eau"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Air",
@@ -431189,7 +431202,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Air"
+                    "formatted": "40 Résistances Air"
                 },
                 {
                     "int_minimum": -100,
@@ -431278,7 +431291,7 @@
                     "formatted": "Le porteur gagne 150% de son niveau en bouclier au premier tour, puis 450% au deuxième tour et 150% au troisième tour."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Neutre",
@@ -431288,10 +431301,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Neutre"
+                    "formatted": "40 Résistances Neutre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Terre",
@@ -431301,10 +431314,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Terre"
+                    "formatted": "40 Résistances Terre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Feu",
@@ -431314,10 +431327,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Feu"
+                    "formatted": "40 Résistances Feu"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Eau",
@@ -431327,10 +431340,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Eau"
+                    "formatted": "40 Résistances Eau"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Air",
@@ -431340,7 +431353,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Air"
+                    "formatted": "40 Résistances Air"
                 },
                 {
                     "int_minimum": -100,
@@ -431429,7 +431442,7 @@
                     "formatted": "Le porteur gagne 100% de son niveau en bouclier au premier tour, puis 200% au deuxième tour et 350% au troisième tour."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Neutre",
@@ -431439,10 +431452,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Neutre"
+                    "formatted": "40 Résistances Neutre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Terre",
@@ -431452,10 +431465,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Terre"
+                    "formatted": "40 Résistances Terre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Feu",
@@ -431465,10 +431478,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Feu"
+                    "formatted": "40 Résistances Feu"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Eau",
@@ -431478,10 +431491,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Eau"
+                    "formatted": "40 Résistances Eau"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Air",
@@ -431491,7 +431504,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Air"
+                    "formatted": "40 Résistances Air"
                 },
                 {
                     "int_minimum": -100,
@@ -432837,7 +432850,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Soigne 80% des dommages ennemis subis au premier tour, puis 30% au deuxième tour, et 10% au troisième tour."
+                    "formatted": "Soigne 60% des dommages ennemis subis au premier tour, puis 30% au deuxième tour, et 10% au troisième tour."
                 },
                 {
                     "int_minimum": 200,
@@ -433895,7 +433908,7 @@
                     "formatted": "Le porteur gagne 200% de son niveau en bouclier jusqu'à la fin du combat au début du premier tour de jeu de chaque combattant ennemi qui joue avant lui."
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Neutre",
@@ -433905,7 +433918,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Neutre"
+                    "formatted": "40 Résistances Neutre"
                 },
                 {
                     "int_minimum": -1000,
@@ -433921,7 +433934,7 @@
                     "formatted": "-1000 Initiative"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Terre",
@@ -433931,10 +433944,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Terre"
+                    "formatted": "40 Résistances Terre"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Feu",
@@ -433944,10 +433957,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Feu"
+                    "formatted": "40 Résistances Feu"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Eau",
@@ -433957,10 +433970,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Eau"
+                    "formatted": "40 Résistances Eau"
                 },
                 {
-                    "int_minimum": 25,
+                    "int_minimum": 40,
                     "int_maximum": 0,
                     "type": {
                         "name": "Résistance Air",
@@ -433970,7 +433983,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "25 Résistances Air"
+                    "formatted": "40 Résistances Air"
                 }
             ],
             "is_weapon": false,
@@ -434043,20 +434056,20 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Le porteur gagne 2% de dommages en mêlée pendant 3 tours pour chaque combattant ennemi à 3 cases ou moins de lui au début de son premier tour."
+                    "formatted": "Le porteur gagne 2% de dommages en mêlée pendant 3 tours pour chaque combattant ennemi à 3 cases ou moins de lui au début et à la fin de son premier tour."
                 },
                 {
-                    "int_minimum": 30,
+                    "int_minimum": 6,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Dommages Renvoyés",
-                        "id": 249,
+                        "name": "% Dommages d'armes",
+                        "id": 41,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "30 Dommages Renvoyés"
+                    "formatted": "6% Dommages d'armes"
                 },
                 {
                     "int_minimum": -30,
@@ -438170,7 +438183,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Guerre de positions :\n• À chaque fin de tour, le porteur retire 2 PM aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsque le porteur achève un combattant ennemi, il gagne 1 PM jusqu'à la fin du combat (cumulable 5 fois)."
+                    "formatted": "Guerre de Positions :\n• À chaque fin de tour, le porteur retire 2 PM aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PM jusqu'à la fin du combat (cumulable 5 fois)."
                 },
                 {
                     "int_minimum": 7,
@@ -438879,68 +438892,6 @@
                     "quantity": 2
                 }
             ],
-            "conditions": {
-                "is_operand": false,
-                "relation": "and",
-                "children": [
-                    {
-                        "is_operand": false,
-                        "relation": "and",
-                        "children": [
-                            {
-                                "is_operand": false,
-                                "relation": "and",
-                                "children": [
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Agilité",
-                                                "id": 36
-                                            }
-                                        },
-                                        "is_operand": true
-                                    },
-                                    {
-                                        "condition": {
-                                            "operator": ">",
-                                            "int_value": 299,
-                                            "element": {
-                                                "name": "Chance",
-                                                "id": 22
-                                            }
-                                        },
-                                        "is_operand": true
-                                    }
-                                ]
-                            },
-                            {
-                                "condition": {
-                                    "operator": ">",
-                                    "int_value": 299,
-                                    "element": {
-                                        "name": "Intelligence",
-                                        "id": 13
-                                    }
-                                },
-                                "is_operand": true
-                            }
-                        ]
-                    },
-                    {
-                        "condition": {
-                            "operator": ">",
-                            "int_value": 299,
-                            "element": {
-                                "name": "Force",
-                                "id": 45
-                            }
-                        },
-                        "is_operand": true
-                    }
-                ]
-            },
             "effects": [
                 {
                     "int_minimum": 301,
@@ -439044,7 +438995,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 5 fois)."
+                    "formatted": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur."
                 },
                 {
                     "int_minimum": 8,
@@ -439281,7 +439232,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rivière d'Encre :\n• À partir du tour 5, le porteur et ses invocations gagnent jusqu'à 64 de Dommages jusqu'à la fin du combat.\n• Ce bonus est réduit à chaque fois que le porteur occasionne des dommages durant son tour à un ennemi pour chacun des 4 premiers tours du combat :\n • Aucune attaque : 16 Dommages\n • 1 attaque : 8 Dommages.\n • 2 attaques et plus : 0 Dommages."
+                    "formatted": "Rivière d'Encre :\n• À chaque fin de tour sur les 4 premiers tours, le porteur et ses invocations gagnent jusqu'à 16 Dommages jusqu'à la fin du combat.\n• Ce bonus est réduit à chaque fois que le porteur attaque un ennemi durant son tour :\n • Aucune attaque : 16 Dommages.\n • 1 attaque : 8 Dommages.\n • 2 attaques et plus : 0 Dommages."
                 },
                 {
                     "int_minimum": 1,
@@ -490860,7 +490811,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Garde Champêtre :\n• Le porteur gagne 8 de Puissance pendant 2 tours pour chaque PM qu'il utilise.\n• S'il n'a utilisé aucun PM durant son tour, il est soigné de 10% de sa vie."
+                    "formatted": "Garde Champêtre :\n• Le porteur gagne 8 de Puissance pendant 2 tours pour chaque PM qu'il utilise.\n• S'il n'a utilisé aucun PM durant son tour, il est soigné de 8% de sa vie."
                 }
             ],
             "is_weapon": false,
@@ -491441,7 +491392,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/151269-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/151269-128.png"
             },
-            "description": "On est jamais trop prudent, sauf si cela vous paralyse dans le moindre de vos choix de vie.",
+            "description": "On n'est jamais trop prudent, sauf si cela vous paralyse dans le moindre de vos choix de vie.",
             "recipe": [
                 {
                     "item_ankama_id": 7035,
@@ -491499,20 +491450,7 @@
                     "formatted": "6% Résistance distance"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Dommages mêlée",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Dommages mêlée"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Dommages distance",
@@ -491522,7 +491460,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Dommages distance"
+                    "formatted": "-6% Dommages distance"
                 }
             ],
             "is_weapon": false,
@@ -491598,20 +491536,7 @@
                     "formatted": "6% Résistance mêlée"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Dommages mêlée",
-                        "id": 40,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Dommages mêlée"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Dommages distance",
@@ -491621,7 +491546,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Dommages distance"
+                    "formatted": "-6% Dommages distance"
                 }
             ],
             "is_weapon": false,
@@ -491697,20 +491622,7 @@
                     "formatted": "6% Dommages distance"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Résistance mêlée",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Résistance mêlée"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Résistance distance",
@@ -491720,7 +491632,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Résistance distance"
+                    "formatted": "-6% Résistance distance"
                 }
             ],
             "is_weapon": false,
@@ -491796,20 +491708,7 @@
                     "formatted": "6% Dommages mêlée"
                 },
                 {
-                    "int_minimum": -9,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Résistance mêlée",
-                        "id": 65,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-9% Résistance mêlée"
-                },
-                {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Résistance distance",
@@ -491819,7 +491718,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Résistance distance"
+                    "formatted": "-6% Résistance distance"
                 }
             ],
             "is_weapon": false,
@@ -491895,7 +491794,7 @@
                     "formatted": "6% Dommages aux sorts"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Résistance mêlée",
@@ -491905,10 +491804,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Résistance mêlée"
+                    "formatted": "-6% Résistance mêlée"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -6,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Résistance distance",
@@ -491918,7 +491817,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Résistance distance"
+                    "formatted": "-6% Résistance distance"
                 }
             ],
             "is_weapon": false,
@@ -491994,7 +491893,7 @@
                     "formatted": "6% Dommages d'armes"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Résistance mêlée",
@@ -492004,10 +491903,10 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Résistance mêlée"
+                    "formatted": "-3% Résistance mêlée"
                 },
                 {
-                    "int_minimum": -9,
+                    "int_minimum": -3,
                     "int_maximum": 0,
                     "type": {
                         "name": "% Résistance distance",
@@ -492017,7 +491916,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "-9% Résistance distance"
+                    "formatted": "-3% Résistance distance"
                 }
             ],
             "is_weapon": false,
@@ -505640,7 +505539,7 @@
                     "formatted": "Éclosion Explosive :\n• Lorsqu'une invocation du porteur est attaquée, le porteur gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).\n• Si elle est achevée par un ennemi, le porteur occasionne 10 dommages dans son meilleur élément aux ennemis dans un cercle de taille 2 autour d'elle."
                 },
                 {
-                    "int_minimum": 1,
+                    "int_minimum": 2,
                     "int_maximum": 0,
                     "type": {
                         "name": "Invocation",
@@ -505650,7 +505549,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "1 Invocation"
+                    "formatted": "2 Invocations"
                 }
             ],
             "is_weapon": false,
@@ -507585,7 +507484,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Reflet Aveuglant :\n• À chaque fin de tour, le porteur retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois)."
+                    "formatted": "Reflet Aveuglant :\n• Le porteur réduit et renvoie 75% des dommages initiaux de la première attaque alliée subie à l'ennemi le plus proche de lui dans sa ligne de vue (une fois par tour).\n• À chaque fin de tour, il retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois)."
                 },
                 {
                     "int_minimum": 251,
@@ -507750,7 +507649,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 14635,
@@ -507775,7 +507674,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ordre du Tonnerre :\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).\n• Lorsqu'un combattant allié meurt, le porteur augmente les dommages finaux de tous les autres de 4% jusqu'à la fin du combat (cumulable 2 fois).\n• Lorsque le porteur occasionne des dommages d'armes, il gagne 25 de Dommages Poussée pendant 2 tours.\n• Les effets sont retirés à la mort du porteur."
+                    "formatted": "Ordre du Tonnerre :\n• À chaque fin de tour, le porteur donne 1 PM et 40 Dommages Poussée pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).\n• Lorsqu'un combattant allié meurt, le porteur augmente les dommages finaux de tous les autres de 4% jusqu'à la fin du combat (cumulable 2 fois).\n• Les effets sont retirés à la mort du porteur."
                 },
                 {
                     "int_minimum": 401,
@@ -507921,7 +507820,7 @@
                     "formatted": "47 à 52 dommages du meilleur élément"
                 },
                 {
-                    "int_minimum": 2,
+                    "int_minimum": 3,
                     "int_maximum": 0,
                     "type": {
                         "name": "Repousse de case",
@@ -507931,7 +507830,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Repousse de 2 cases"
+                    "formatted": "Repousse de 3 cases"
                 }
             ],
             "is_weapon": true,
@@ -508012,7 +507911,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Jugement de Thanatena :\n• À chaque début de tour, le porteur érode et augmente les dommages subis par tout le monde de 4% pendant 1 tour (cumulable 1 fois).\n• Lorsqu'il achève un ennemi, il est soigné de 20% de sa vie et gagne 10% dommages finaux pendant 1 tour. Les effets sont réduits de moitié si c'est une invocation."
+                    "formatted": "Jugement de Thanatena :\n• À chaque début de tour, le porteur érode et augmente les dommages subis par tout le monde de 4% pendant 1 tour (cumulable 1 fois).\n• Lorsqu'il achève un ennemi, il est soigné de 20% de sa vie et gagne 10% de dommages finaux pendant 1 tour. Les soins sont de 5% de sa vie si c'est une invocation."
                 },
                 {
                     "int_minimum": 81,
@@ -508255,7 +508154,7 @@
                 {
                     "item_ankama_id": 19975,
                     "item_subtype": "resources",
-                    "quantity": 10
+                    "quantity": 20
                 },
                 {
                     "item_ankama_id": 12728,
@@ -508275,7 +508174,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Amour d'Helséphine :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 8% de leur vie à 2 cases ou moins autour de lui (une fois par tour)."
+                    "formatted": "Amour d'Helséphine :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 8% de leur vie à 3 cases ou moins autour de lui (une fois par tour)."
                 },
                 {
                     "int_minimum": 451,
@@ -508694,7 +508593,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne des caractéristiques selon l'élément pendant 2 tours (cumulable 6 fois, partagé entre les effets) :\n • Terre : 10 Fuite\n • Feu : 10 Tacle\n • Eau : 10 Retrait PM\n • Air : 10 Retrait PA"
+                    "formatted": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA"
                 },
                 {
                     "int_minimum": 151,
@@ -519857,7 +519756,7 @@
         },
         {
             "ankama_id": 33003,
-            "name": "Dragodinde Amande et Ebène",
+            "name": "Dragodinde Amande et Ébène",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -519927,7 +519826,7 @@
         },
         {
             "ankama_id": 33004,
-            "name": "Dragodinde Amande et Emeraude",
+            "name": "Dragodinde Amande et Émeraude",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -520474,7 +520373,7 @@
         },
         {
             "ankama_id": 33012,
-            "name": "Dragodinde Dorée et Ebène",
+            "name": "Dragodinde Dorée et Ébène",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -520544,7 +520443,7 @@
         },
         {
             "ankama_id": 33013,
-            "name": "Dragodinde Dorée et Emeraude",
+            "name": "Dragodinde Dorée et Émeraude",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521034,7 +520933,7 @@
         },
         {
             "ankama_id": 33020,
-            "name": "Dragodinde Ebène",
+            "name": "Dragodinde Ébène",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521091,7 +520990,7 @@
         },
         {
             "ankama_id": 33021,
-            "name": "Dragodinde Ebène et Emeraude",
+            "name": "Dragodinde Ébène et Émeraude",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521231,7 +521130,7 @@
         },
         {
             "ankama_id": 33023,
-            "name": "Dragodinde Ebène et Ivoire",
+            "name": "Dragodinde Ébène et Ivoire",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521301,7 +521200,7 @@
         },
         {
             "ankama_id": 33024,
-            "name": "Dragodinde Ebène et Orchidée",
+            "name": "Dragodinde Ébène et Orchidée",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521371,7 +521270,7 @@
         },
         {
             "ankama_id": 33025,
-            "name": "Dragodinde Ebène et Pourpre",
+            "name": "Dragodinde Ébène et Pourpre",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521441,7 +521340,7 @@
         },
         {
             "ankama_id": 33026,
-            "name": "Dragodinde Ebène et Rousse",
+            "name": "Dragodinde Ébène et Rousse",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521511,7 +521410,7 @@
         },
         {
             "ankama_id": 33027,
-            "name": "Dragodinde Ebène et Turquoise",
+            "name": "Dragodinde Ébène et Turquoise",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521581,7 +521480,7 @@
         },
         {
             "ankama_id": 33028,
-            "name": "Dragodinde Emeraude",
+            "name": "Dragodinde Émeraude",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521638,7 +521537,7 @@
         },
         {
             "ankama_id": 33029,
-            "name": "Dragodinde Emeraude et Indigo",
+            "name": "Dragodinde Émeraude et Indigo",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521708,7 +521607,7 @@
         },
         {
             "ankama_id": 33030,
-            "name": "Dragodinde Emeraude et Ivoire",
+            "name": "Dragodinde Émeraude et Ivoire",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521778,7 +521677,7 @@
         },
         {
             "ankama_id": 33031,
-            "name": "Dragodinde Emeraude et Orchidée",
+            "name": "Dragodinde Émeraude et Orchidée",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521848,7 +521747,7 @@
         },
         {
             "ankama_id": 33032,
-            "name": "Dragodinde Emeraude et Pourpre",
+            "name": "Dragodinde Émeraude et Pourpre",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521918,7 +521817,7 @@
         },
         {
             "ankama_id": 33033,
-            "name": "Dragodinde Emeraude et Rousse",
+            "name": "Dragodinde Émeraude et Rousse",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -521988,7 +521887,7 @@
         },
         {
             "ankama_id": 33034,
-            "name": "Dragodinde Emeraude et Turquoise",
+            "name": "Dragodinde Émeraude et Turquoise",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -523419,7 +523318,7 @@
         },
         {
             "ankama_id": 33055,
-            "name": "Dragodinde Prune et Ebène",
+            "name": "Dragodinde Prune et Ébène",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -523489,7 +523388,7 @@
         },
         {
             "ankama_id": 33056,
-            "name": "Dragodinde Prune et Emeraude",
+            "name": "Dragodinde Prune et Émeraude",
             "type": {
                 "name": "Dragodinde",
                 "id": 247
@@ -524360,7 +524259,7 @@
         },
         {
             "ankama_id": 33070,
-            "name": "Muldo Amande et Emeraude",
+            "name": "Muldo Amande et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -524627,7 +524526,7 @@
         },
         {
             "ankama_id": 33074,
-            "name": "Muldo Doré et Ebène",
+            "name": "Muldo Doré et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -524697,7 +524596,7 @@
         },
         {
             "ankama_id": 33075,
-            "name": "Muldo Doré et Emeraude",
+            "name": "Muldo Doré et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525047,7 +524946,7 @@
         },
         {
             "ankama_id": 33080,
-            "name": "Muldo Ebène",
+            "name": "Muldo Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525104,7 +525003,7 @@
         },
         {
             "ankama_id": 33081,
-            "name": "Muldo Ebène et Amande",
+            "name": "Muldo Ébène et Amande",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525174,7 +525073,7 @@
         },
         {
             "ankama_id": 33082,
-            "name": "Muldo Ebène et Emeraude",
+            "name": "Muldo Ébène et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525244,7 +525143,7 @@
         },
         {
             "ankama_id": 33083,
-            "name": "Muldo Ebène et Indigo",
+            "name": "Muldo Ébène et Indigo",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525314,7 +525213,7 @@
         },
         {
             "ankama_id": 33084,
-            "name": "Muldo Ebène et Ivoire",
+            "name": "Muldo Ébène et Ivoire",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525384,7 +525283,7 @@
         },
         {
             "ankama_id": 33085,
-            "name": "Muldo Ebène et Orchidée",
+            "name": "Muldo Ébène et Orchidée",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525454,7 +525353,7 @@
         },
         {
             "ankama_id": 33086,
-            "name": "Muldo Ebène et Pourpre",
+            "name": "Muldo Ébène et Pourpre",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525524,7 +525423,7 @@
         },
         {
             "ankama_id": 33087,
-            "name": "Muldo Emeraude",
+            "name": "Muldo Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -525708,7 +525607,7 @@
         },
         {
             "ankama_id": 33090,
-            "name": "Muldo Indigo et Emeraude",
+            "name": "Muldo Indigo et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -526045,7 +525944,7 @@
         },
         {
             "ankama_id": 33095,
-            "name": "Muldo Ivoire et Emeraude",
+            "name": "Muldo Ivoire et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -526242,7 +526141,7 @@
         },
         {
             "ankama_id": 33098,
-            "name": "Muldo Orchidée et Emeraude",
+            "name": "Muldo Orchidée et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -526579,7 +526478,7 @@
         },
         {
             "ankama_id": 33103,
-            "name": "Muldo Pourpre et Emeraude",
+            "name": "Muldo Pourpre et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -526916,7 +526815,7 @@
         },
         {
             "ankama_id": 33108,
-            "name": "Muldo Prune et Ebène",
+            "name": "Muldo Prune et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -526986,7 +526885,7 @@
         },
         {
             "ankama_id": 33109,
-            "name": "Muldo Prune et Emeraude",
+            "name": "Muldo Prune et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -527673,7 +527572,7 @@
         },
         {
             "ankama_id": 33119,
-            "name": "Muldo Roux et Ebène",
+            "name": "Muldo Roux et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -527743,7 +527642,7 @@
         },
         {
             "ankama_id": 33120,
-            "name": "Muldo Roux et Emeraude",
+            "name": "Muldo Roux et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -528290,7 +528189,7 @@
         },
         {
             "ankama_id": 33128,
-            "name": "Muldo Turquoise et Ebène",
+            "name": "Muldo Turquoise et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -528360,7 +528259,7 @@
         },
         {
             "ankama_id": 33129,
-            "name": "Muldo Turquoise et Emeraude",
+            "name": "Muldo Turquoise et Émeraude",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -528837,7 +528736,7 @@
         },
         {
             "ankama_id": 33136,
-            "name": "Volkorne Amande et Ebène",
+            "name": "Volkorne Amande et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -529524,7 +529423,7 @@
         },
         {
             "ankama_id": 33146,
-            "name": "Volkorne Améthyste et Ebène",
+            "name": "Volkorne Améthyste et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -529594,7 +529493,7 @@
         },
         {
             "ankama_id": 33147,
-            "name": "Volkorne Améthyste et Emeraude",
+            "name": "Volkorne Améthyste et Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -530281,7 +530180,7 @@
         },
         {
             "ankama_id": 33157,
-            "name": "Volkorne Doré et Ebène",
+            "name": "Volkorne Doré et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -530351,7 +530250,7 @@
         },
         {
             "ankama_id": 33158,
-            "name": "Volkorne Doré et Emeraude",
+            "name": "Volkorne Doré et Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -530911,7 +530810,7 @@
         },
         {
             "ankama_id": 33166,
-            "name": "Volkorne Ebène",
+            "name": "Volkorne Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -530968,7 +530867,7 @@
         },
         {
             "ankama_id": 33167,
-            "name": "Volkorne Emeraude",
+            "name": "Volkorne Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531025,7 +530924,7 @@
         },
         {
             "ankama_id": 33168,
-            "name": "Volkorne Emeraude et Amande",
+            "name": "Volkorne Émeraude et Amande",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531095,7 +530994,7 @@
         },
         {
             "ankama_id": 33169,
-            "name": "Volkorne Emeraude et Ebène",
+            "name": "Volkorne Émeraude et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531165,7 +531064,7 @@
         },
         {
             "ankama_id": 33170,
-            "name": "Volkorne Emeraude et Indigo",
+            "name": "Volkorne Émeraude et Indigo",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531235,7 +531134,7 @@
         },
         {
             "ankama_id": 33171,
-            "name": "Volkorne Emeraude et Ivoire",
+            "name": "Volkorne Émeraude et Ivoire",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531305,7 +531204,7 @@
         },
         {
             "ankama_id": 33172,
-            "name": "Volkorne Emeraude et Orchidée",
+            "name": "Volkorne Émeraude et Orchidée",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531375,7 +531274,7 @@
         },
         {
             "ankama_id": 33173,
-            "name": "Volkorne Emeraude et Pourpre",
+            "name": "Volkorne Émeraude et Pourpre",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531445,7 +531344,7 @@
         },
         {
             "ankama_id": 33174,
-            "name": "Volkorne Emeraude et Roux",
+            "name": "Volkorne Émeraude et Roux",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531515,7 +531414,7 @@
         },
         {
             "ankama_id": 33175,
-            "name": "Volkorne Emeraude et Turquoise",
+            "name": "Volkorne Émeraude et Turquoise",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531642,7 +531541,7 @@
         },
         {
             "ankama_id": 33177,
-            "name": "Volkorne Indigo et Ebène",
+            "name": "Volkorne Indigo et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -531769,7 +531668,7 @@
         },
         {
             "ankama_id": 33179,
-            "name": "Volkorne Ivoire et Ebène",
+            "name": "Volkorne Ivoire et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -532386,7 +532285,7 @@
         },
         {
             "ankama_id": 33188,
-            "name": "Volkorne Jade et Ebène",
+            "name": "Volkorne Jade et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -532456,7 +532355,7 @@
         },
         {
             "ankama_id": 33189,
-            "name": "Volkorne Jade et Emeraude",
+            "name": "Volkorne Jade et Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -533213,7 +533112,7 @@
         },
         {
             "ankama_id": 33200,
-            "name": "Volkorne Orchidée et Ebène",
+            "name": "Volkorne Orchidée et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -533410,7 +533309,7 @@
         },
         {
             "ankama_id": 33203,
-            "name": "Volkorne Pourpre et Ebène",
+            "name": "Volkorne Pourpre et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -533747,7 +533646,7 @@
         },
         {
             "ankama_id": 33208,
-            "name": "Volkorne Prune et Ebène",
+            "name": "Volkorne Prune et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -533817,7 +533716,7 @@
         },
         {
             "ankama_id": 33209,
-            "name": "Volkorne Prune et Emeraude",
+            "name": "Volkorne Prune et Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -534364,7 +534263,7 @@
         },
         {
             "ankama_id": 33217,
-            "name": "Volkorne Roux et Ebène",
+            "name": "Volkorne Roux et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -535051,7 +534950,7 @@
         },
         {
             "ankama_id": 33227,
-            "name": "Volkorne Rubis et Ebène",
+            "name": "Volkorne Rubis et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -535121,7 +535020,7 @@
         },
         {
             "ankama_id": 33228,
-            "name": "Volkorne Rubis et Emeraude",
+            "name": "Volkorne Rubis et Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -536018,7 +535917,7 @@
         },
         {
             "ankama_id": 33241,
-            "name": "Volkorne Saphir et Ebène",
+            "name": "Volkorne Saphir et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -536088,7 +535987,7 @@
         },
         {
             "ankama_id": 33242,
-            "name": "Volkorne Saphir et Emeraude",
+            "name": "Volkorne Saphir et Émeraude",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -536705,7 +536604,7 @@
         },
         {
             "ankama_id": 33251,
-            "name": "Volkorne Turquoise et Ebène",
+            "name": "Volkorne Turquoise et Ébène",
             "type": {
                 "name": "Volkorne",
                 "id": 245
@@ -537283,7 +537182,7 @@
         },
         {
             "ankama_id": 33260,
-            "name": "Muldo Ambre et Ebène",
+            "name": "Muldo Ambre et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -538263,7 +538162,7 @@
         },
         {
             "ankama_id": 33274,
-            "name": "Muldo Corail et Ebène",
+            "name": "Muldo Corail et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -539173,7 +539072,7 @@
         },
         {
             "ankama_id": 33287,
-            "name": "Muldo Azur et Ebène",
+            "name": "Muldo Azur et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -540013,7 +539912,7 @@
         },
         {
             "ankama_id": 33299,
-            "name": "Muldo Aigue-marine et Ebène",
+            "name": "Muldo Aigue-marine et Ébène",
             "type": {
                 "name": "Muldo",
                 "id": 242
@@ -550338,6 +550237,1425 @@
             "parent_set": {
                 "id": 1087,
                 "name": "Panovolko"
+            }
+        },
+        {
+            "ankama_id": 34327,
+            "name": "Heaume des Gardiens du Sanctuaire",
+            "type": {
+                "name": "Chapeau",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16912-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16912-128.png"
+            },
+            "description": "Un vieux conte de Valonia narre les aventures d'un chevalier entêté dont la caboche était dure comme le roc. Est-ce pour faire référence à cette histoire que Belladone s'est servie de statues pour garder son sanctuaire ? À moins qu'elle n'ait simplement voulu que ses séides en armure fassent partie du décor... Dans tous les cas, se coiffer d'un heaume aussi massif qu'abrasif est le meilleur moyen de ne plus avoir un poil sur le caillou.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27401,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 27403,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34324,
+                    "item_subtype": "resources",
+                    "quantity": 8
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 à 500 Vitalité"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Puissance",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 à 80 Puissance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sagesse",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 à 50 Sagesse"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospection",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Prospection"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Soin",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Soins"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Dommage Terre",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Dommages Terre"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Dommage Air",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Dommages Air"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Esquive PA",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 12 Esquive PA"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Résistance Air",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15% Résistance Air"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Critique",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% Critique"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Résistance Critiques",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Résistances Critiques"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Panoplie du Sanctuaire des Jardins éternels"
+            }
+        },
+        {
+            "ankama_id": 34328,
+            "name": "Grèves Écarlates",
+            "type": {
+                "name": "Bottes",
+                "id": 45
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/11390-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/11390-128.png"
+            },
+            "description": "Ces jambières de métal inspirées de l'armure d'Éphèdre peuvent être portées par tous, même par ceux qui souffrent d'un problème de jambes lourdes. En effet, elles ont été conçues pour stimuler la circulation sanguine, en particulier celle des autres. Alors oui, à force de piétiner la veuve et l'orphelin, vous finirez peut-être par avoir un poids sur la conscience, mais encore faut-il en avoir une.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27398,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27400,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34325,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27517,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 26870,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 à 450 Vitalité"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Puissance",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 à 80 Puissance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Sagesse",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 à 40 Sagesse"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospection",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Prospection"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Soin",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Soins"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Dommage Eau",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Dommages Eau"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Dommage Feu",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Dommages Feu"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Esquive PM",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 12 Esquive PM"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Résistance Terre",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15% Résistance Terre"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Critique",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% Critique"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Résistance Critiques",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Résistances Critiques"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "PM",
+                        "id": 8,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 PM"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Panoplie du Sanctuaire des Jardins éternels"
+            }
+        },
+        {
+            "ankama_id": 34329,
+            "name": "Étreinte Végétale",
+            "type": {
+                "name": "Amulette",
+                "id": 33
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/1343-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/1343-128.png"
+            },
+            "description": "Portée autour du cou, cette jolie fleur du mal risque de vous étrangler si vous restez planté là sans rien faire. C'est sans doute parce qu'elle a été cultivée en serre. Assurez-vous donc de courir partout, comme à votre habitude. Qui trop embrasse mal étreint.",
+            "recipe": [
+                {
+                    "item_ankama_id": 27399,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 27397,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34323,
+                    "item_subtype": "resources",
+                    "quantity": 15
+                },
+                {
+                    "item_ankama_id": 34326,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27402,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 27518,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 16460,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 351,
+                    "int_maximum": 450,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "351 à 450 Vitalité"
+                },
+                {
+                    "int_minimum": 51,
+                    "int_maximum": 70,
+                    "type": {
+                        "name": "Puissance",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "51 à 70 Puissance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Sagesse",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 à 40 Sagesse"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospection",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Prospection"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Soin",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10 Soins"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Dommage Eau",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 13 Dommages Eau"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Dommage Feu",
+                        "id": 61,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 13 Dommages Feu"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Dommage Terre",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 13 Dommages Terre"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "Dommage Air",
+                        "id": 47,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 13 Dommages Air"
+                },
+                {
+                    "int_minimum": -7,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Critique",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-7% Critique"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Résistance Critiques",
+                        "id": 46,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Résistances Critiques"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "PA",
+                        "id": 12,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 PA"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "% Résistance Eau",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15% Résistance Eau"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1090,
+                "name": "Panoplie du Sanctuaire des Jardins éternels"
+            }
+        },
+        {
+            "ankama_id": 34330,
+            "name": "Visage de Mureine",
+            "type": {
+                "name": "Chapeau",
+                "id": 27
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16913-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16913-128.png"
+            },
+            "description": "Le porteur de cette coiffe inhale régulièrement de faibles doses de venin. Cette exposition prolongée lui offre petit à petit une résistance naturelle à tout type de poison.",
+            "recipe": [
+                {
+                    "item_ankama_id": 17983,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17974,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34337,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17864,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 14921,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 à 500 Vitalité"
+                },
+                {
+                    "int_minimum": 61,
+                    "int_maximum": 80,
+                    "type": {
+                        "name": "Chance",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "61 à 80 Chance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sagesse",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 à 50 Sagesse"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% Critique",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 à 5% Critique"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Prospection",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Prospection"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Dommage Eau",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Dommages Eau"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Dommage Critiques",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10 Dommages Critiques"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Tacle",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Tacle"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Invocation",
+                        "id": 28,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "1 Invocation"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Résistance Eau",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10% Résistance Eau"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Résistance Air",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 à 7% Résistance Air"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -15,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Fuite",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-15 Fuite"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Panoplie du Gouffre"
+            }
+        },
+        {
+            "ankama_id": 34331,
+            "name": "Lancepince d'Exécrabe",
+            "type": {
+                "name": "Lance",
+                "id": 111
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/183018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/183018-128.png"
+            },
+            "description": "Cette lance dispose d'une pince permettant de découper les entrailles des ennemis qu'elle a transpercés. Comme si une lance normale ne suffisait pas... ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17971,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17988,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34338,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17976,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 15271,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 33515,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 à 500 Vitalité"
+                },
+                {
+                    "int_minimum": 71,
+                    "int_maximum": 90,
+                    "type": {
+                        "name": "Chance",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "71 à 90 Chance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sagesse",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 à 50 Sagesse"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% Critique",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 à 5% Critique"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospection",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Prospection"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Dommage Eau",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 12 Dommages Eau"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Dommage Critiques",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 20 Dommages Critiques"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Tacle",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10 Tacle"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Retrait PM",
+                        "id": 50,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 12 Retrait PM"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Résistance Feu",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 à 7% Résistance Feu"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Résistance Eau",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10% Résistance Eau"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Esquive PA",
+                        "id": 75,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 Esquive PA"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "dommages Eau",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 13 dommages Eau"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 13,
+                    "type": {
+                        "name": "dommages Eau",
+                        "id": 214,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 13 dommages Eau"
+                },
+                {
+                    "int_minimum": 27,
+                    "int_maximum": 33,
+                    "type": {
+                        "name": "vol Eau",
+                        "id": 203,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "27 à 33 vol Eau"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Attire de case",
+                        "id": 255,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Attire de 1 case"
+                }
+            ],
+            "is_weapon": true,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Panoplie du Gouffre"
+            },
+            "critical_hit_probability": 10,
+            "critical_hit_bonus": 3,
+            "max_cast_per_turn": 1,
+            "ap_cost": 5,
+            "range": {
+                "min": 1,
+                "max": 1
+            }
+        },
+        {
+            "ankama_id": 34332,
+            "name": "Dorsale de Willorque",
+            "type": {
+                "name": "Cape",
+                "id": 43
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17698-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17698-128.png"
+            },
+            "description": "Au plus profond du gouffre, l'obscurité est bien trop intense pour se repérer. Cette cape dotée d'un aileron vibrant émet des ondes permettant une écholocalisation plus précise que n'importe quel œil. ",
+            "recipe": [
+                {
+                    "item_ankama_id": 17978,
+                    "item_subtype": "resources",
+                    "quantity": 85
+                },
+                {
+                    "item_ankama_id": 17981,
+                    "item_subtype": "resources",
+                    "quantity": 20
+                },
+                {
+                    "item_ankama_id": 34340,
+                    "item_subtype": "resources",
+                    "quantity": 12
+                },
+                {
+                    "item_ankama_id": 34339,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17989,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 17982,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 19975,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 12740,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 401,
+                    "int_maximum": 500,
+                    "type": {
+                        "name": "Vitalité",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "401 à 500 Vitalité"
+                },
+                {
+                    "int_minimum": 81,
+                    "int_maximum": 100,
+                    "type": {
+                        "name": "Chance",
+                        "id": 22,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "81 à 100 Chance"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 50,
+                    "type": {
+                        "name": "Sagesse",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 à 50 Sagesse"
+                },
+                {
+                    "int_minimum": 4,
+                    "int_maximum": 6,
+                    "type": {
+                        "name": "% Critique",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "4 à 6% Critique"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Prospection",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 à 15 Prospection"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Dommage Eau",
+                        "id": 27,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10 Dommages Eau"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "Dommage Critiques",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 à 25 Dommages Critiques"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Tacle",
+                        "id": 26,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10 Tacle"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "Soin",
+                        "id": 121,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 à 12 Soins"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "% Résistance Terre",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 à 7% Résistance Terre"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "% Résistance Eau",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 à 10% Résistance Eau"
+                },
+                {
+                    "int_minimum": -300,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-300 Initiative"
+                },
+                {
+                    "int_minimum": -10,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Esquive PM",
+                        "id": 39,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-10 Esquive PM"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1091,
+                "name": "Panoplie du Gouffre"
             }
         }
     ]

@@ -33534,7 +33534,7 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/50719-128.png"
             },
             "description": "Más de un anutrof ha vendido a sus padres para conseguir su peso en turmalina.",
-            "pods": 0
+            "pods": 2
         },
         {
             "ankama_id": 15272,
@@ -53655,7 +53655,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12780-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12780-128.png"
             },
-            "description": "Aunque solo contenga una ínfima parte del poder de un bebemot, este objeto permitirá a tu mascota, a tu mascotura o a tu montura desvelar su potencial oculto.",
+            "description": "Aunque solo contenga una ínfima parte del poder de un bebemot, este objeto permitirá a tu mascota o a tu mascotura desvelar su potencial oculto.",
             "recipe": [
                 {
                     "item_ankama_id": 20961,
@@ -59671,7 +59671,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Robustez de Crujidor (nivel 200):\n• Al principio del combate, el portador sacrifica un 2% de resistencia por aliado para darles un 3% a sus aliados. Las resistencias sacrificadas para un aliado se recuperan cuando este muere."
+                    "formatted": "Robustez de Crujidor (nivel 200):\n• Al principio del combate, el portador sacrifica un 2% de resistencia por aliado para darles un 3% a sus aliados. Las resistencias sacrificadas para un aliado se recuperan cuando este muere.\n• Los efectos se eliminan al morir el portador."
                 }
             ],
             "pods": 2
@@ -66897,6 +66897,246 @@
             },
             "description": "Gracias a este fragmento, podrás reconstruir el mapa de Psikopomzopato.",
             "pods": 1
+        },
+        {
+            "ankama_id": 32464,
+            "name": "Sal de las profundidades",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51519-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51519-128.png"
+            },
+            "description": "¿Crees que la oscuridad es tu aliada? Ellos nacieron en ella, fueron cincelados por ella. No vieron la luz hasta que llegaste y para ellos no fue más que ceguera.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32465,
+            "name": "Quartz",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51512-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51512-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32466,
+            "name": "Ópalo",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51513-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51513-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32467,
+            "name": "Amazonita",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51514-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51514-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32468,
+            "name": "Aventurina",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51515-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51515-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32469,
+            "name": "Lapyz",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51516-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51516-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32470,
+            "name": "Ónix",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51518-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51518-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32471,
+            "name": "Azabache",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/51517-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/51517-128.png"
+            },
+            "description": "Una piedra preciosa de un valor relativo.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
         },
         {
             "ankama_id": 32501,
@@ -81141,8 +81381,8 @@
             },
             "level": 165,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93128-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93128-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/93129-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/93129-128.png"
             },
             "description": "Esta mákina permite aplicar una capacidad especial aleatoria a una cría de mulagua de generación 9 o inferior durante un apareamiento.",
             "recipe": [
@@ -81313,36 +81553,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 34204,
-            "name": "Vitoricha",
-            "type": {
-                "name": "Recurso variado",
-                "id": 229
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
-            },
-            "description": "«No era el mejor porque fuera ágil matando, era el mejor porque el pueblo me amaba. Haz lo mismo, Máximorl, y te ganarás tu libertad».\n\n— Próximorl, gladiador veterano.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Intercambiable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Intercambiable: 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 34205,
             "name": "Aporreadora de bambú",
             "type": {
@@ -81509,6 +81719,261 @@
                 }
             ],
             "pods": 10
+        },
+        {
+            "ankama_id": 34323,
+            "name": "Flor de los protectores del santuario",
+            "type": {
+                "name": "Flor",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24526-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24526-128.png"
+            },
+            "description": "«Los lamentos de los protectores, amurallados en el silencio, mutan en flores... mas el color malva es malvado, o eso murmuran. ¡Males malditos, de vocablos marchitos! ¿Esos mudos os conmueven? ¡Menuda mamarrachada!».\n— Belladona",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34324,
+            "name": "Pieza de armadura de los guardianes del santuario",
+            "type": {
+                "name": "Recurso variado",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24527-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24527-128.png"
+            },
+            "description": "Nada como una visera de piedra para lucir un rostro marmóreo en cualquier circunstancia. Resulta muy útil para permanecer imperturbable ante las provocaciones de tu suegra, lo cual no dejará de sacarla de quicio.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34325,
+            "name": "Pomo roto de la Reina Escarlata",
+            "type": {
+                "name": "Recurso variado",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24528-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24528-128.png"
+            },
+            "description": "«Los celos pueden llevarte al odio. Abrázalos. Atésoralos. No temas cometer lo peor: un corazón roto vale más que mil manzanas podridas».\n— Efedra, soberana destronada",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34326,
+            "name": "Ramo de lianas de la Princesa Maldita",
+            "type": {
+                "name": "Flor",
+                "id": 37
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24529-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24529-128.png"
+            },
+            "description": "«A las lianas casemos,\na los novios trencemos,\nla enhoramuerta os damos,\nque ya os tenemos atados,\ny al hoyo con buen ramo».\n— Ronda de bodas de Efedria",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34334,
+            "name": "Unidad de Morreina",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24533-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24533-128.png"
+            },
+            "description": "Un recurso raro de alto valor.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34335,
+            "name": "Rencor de Cangrancio",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24537-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24537-128.png"
+            },
+            "description": "Un recurso raro de alto valor.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34336,
+            "name": "Tenebrosidad de Willorca",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24532-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24532-128.png"
+            },
+            "description": "Un recurso raro de alto valor.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Valor de un objeto",
+                        "id": 273,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Valor de un objeto"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34337,
+            "name": "Veneno de Morreina",
+            "type": {
+                "name": "Líquido",
+                "id": 72
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15301-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15301-128.png"
+            },
+            "description": "Este veneno es la combinación de tres venenos potentes. Es tan concentrado que una sola gota te dejaría sin vista.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34338,
+            "name": "Caparazón de Cangrancio",
+            "type": {
+                "name": "Caparazón",
+                "id": 0
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24534-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24534-128.png"
+            },
+            "description": "Este caparazón parece cambiar de forma aleatoriamente, solo su estructura es estable, lo que lo hace ultrasólido.",
+            "pods": 2
+        },
+        {
+            "ankama_id": 34339,
+            "name": "Alerón de Willorca",
+            "type": {
+                "name": "Recurso variado",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24535-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24535-128.png"
+            },
+            "description": "Muchos cazadores furtivos acosaron a Willorca por su alerón. Muy pocos volvieron para luego abandonar su profesión.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34340,
+            "name": "Luz abisal",
+            "type": {
+                "name": "Recurso variado",
+                "id": 229
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24536-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24536-128.png"
+            },
+            "description": "Cuando te envuelva la oscuridad, agárrate al más mínimo resplandor que veas. Ya sea de esperanza o esté en los ojos de tus enemigos.",
+            "pods": 1
+        },
+        {
+            "ankama_id": 34394,
+            "name": "Pinza de Cangrancio",
+            "type": {
+                "name": "Recurso de raid",
+                "id": 253
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24531-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24531-128.png"
+            },
+            "description": "Una pinza que aprieta que da gusto, que podría cortar cualquier cosa.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34478,
+            "name": "Vitoricha",
+            "type": {
+                "name": "Recurso variado",
+                "id": 229
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164184-128.png"
+            },
+            "description": "«No era el mejor porque fuera ágil matando, era el mejor porque el pueblo me amaba. Haz lo mismo, Máximorl, y te ganarás tu libertad».\n\n— Próximorl, gladiador veterano.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 0
         }
     ]
 }

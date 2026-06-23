@@ -6712,3 +6712,14 @@ msgid "%(counter)s item · %(workshop_total_units)s total"
 msgid_plural "%(counter)s items · %(workshop_total_units)s total"
 msgstr[0] "%(counter)s Gegenstand · %(workshop_total_units)s gesamt"
 msgstr[1] "%(counter)s Gegenstände · %(workshop_total_units)s gesamt"
+
+msgid "Dofus 3.6 update"
+msgstr "Dofus 3.6 Update"
+
+msgid "Updated to Dofus 3.6 items, sets, recipes and spells (3.6.2.1)"
+msgstr ""
+"Aktualisiert auf Gegenstände, Sets, Rezepte und Zauber von Dofus 3.6 "
+"(3.6.2.1)"
+
+msgid "Characteristics rework and Crâ overhaul reflected in the data"
+msgstr "Eigenschaften- und Cra-Überarbeitung in den Daten berücksichtigt"

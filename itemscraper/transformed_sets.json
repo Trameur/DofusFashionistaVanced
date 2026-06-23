@@ -40321,9 +40321,14 @@
                         "MP Reduction"
                     ],
                     [
-                        50,
+                        15,
                         null,
-                        "Power"
+                        "Dodge"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Range"
                     ],
                     [
                         500,
@@ -40331,14 +40336,9 @@
                         "Initiative"
                     ],
                     [
-                        1,
+                        50,
                         null,
-                        "Range"
-                    ],
-                    [
-                        15,
-                        null,
-                        "Dodge"
+                        "Power"
                     ]
                 ]
             },
@@ -40346,29 +40346,29 @@
                 "effect_key": "3",
                 "effects": [
                     [
-                        1,
+                        10,
                         null,
-                        "AP"
+                        "Air Damage"
                     ],
                     [
-                        100,
+                        12,
                         null,
-                        "Power"
+                        "Water Damage"
                     ],
                     [
-                        1000,
+                        12,
                         null,
-                        "Initiative"
+                        "Fire Damage"
                     ],
                     [
-                        1,
+                        15,
                         null,
-                        "Range"
+                        "Earth Damage"
                     ],
                     [
                         30,
                         null,
-                        "AP Reduction"
+                        "Dodge"
                     ],
                     [
                         30,
@@ -40378,27 +40378,32 @@
                     [
                         30,
                         null,
-                        "Dodge"
+                        "AP Reduction"
                     ],
                     [
-                        15,
+                        1,
                         null,
-                        "Earth Damage"
+                        "Range"
                     ],
                     [
-                        12,
+                        1000,
                         null,
-                        "Fire Damage"
+                        "Initiative"
                     ],
                     [
-                        12,
+                        100,
                         null,
-                        "Water Damage"
+                        "Power"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
                     ],
                     [
                         10,
                         null,
-                        "Air Damage"
+                        "Neutral Damage"
                     ]
                 ]
             }
@@ -46090,7 +46095,7 @@
         "name_es": "Set cosmético de yopuka",
         "name_pt": "Conjunto de Aparência Iop",
         "name_de": "Iop-Prunkset",
-        "items": 8,
+        "items": 9,
         "equipment_ids": [
             21319,
             21329,
@@ -46099,7 +46104,8 @@
             21415,
             21416,
             23002,
-            30245
+            30245,
+            34404
         ]
     },
     {
@@ -46127,7 +46133,7 @@
         "name_es": "Set cosmético de tymador",
         "name_pt": "Conjunto de Aparência Ladino",
         "name_de": "Halsabschneider-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             21454,
             21455,
@@ -46135,7 +46141,8 @@
             21480,
             21481,
             21482,
-            23004
+            23004,
+            34407
         ]
     },
     {
@@ -46277,7 +46284,7 @@
         "name_es": "Set cosmético de zobal",
         "name_pt": "Conjunto de Aparência Zobal",
         "name_de": "Maskerador-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             22452,
             22453,
@@ -46285,7 +46292,8 @@
             22455,
             22458,
             22460,
-            23647
+            23647,
+            34406
         ]
     },
     {
@@ -46370,7 +46378,7 @@
         "name_es": "Set cosmético aniripsa",
         "name_pt": "Conjunto de Aparência Eniripsa",
         "name_de": "Eniripsa-Prunkset",
-        "items": 8,
+        "items": 9,
         "equipment_ids": [
             24969,
             24970,
@@ -46379,7 +46387,8 @@
             24973,
             24974,
             24975,
-            25996
+            25996,
+            34405
         ]
     },
     {
@@ -49138,15 +49147,16 @@
     },
     {
         "ankama_id": 787,
-        "name_en": "Vader Ceremonial Set",
-        "name_fr": "Panoplie d'apparat Vader",
-        "name_es": "Set cosmético Vader",
-        "name_pt": "Conjunto de Aparência Vader",
-        "name_de": "Vader-Prunkset",
-        "items": 2,
+        "name_en": "Empire Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de l'empire",
+        "name_es": "Set cosmético del imperio",
+        "name_pt": "Conjunto de Aparência do Império",
+        "name_de": "Prunkset des Imperiums",
+        "items": 3,
         "equipment_ids": [
             9936,
-            9938
+            9938,
+            9945
         ]
     },
     {
@@ -59637,8 +59647,9 @@
         "name_es": "Set cosmético de Corpo",
         "name_pt": "Conjunto de Aparência Corporativa",
         "name_de": "Corpo-Prunkset",
-        "items": 19,
+        "items": 20,
         "equipment_ids": [
+            32473,
             32531,
             32532,
             32533,
@@ -61260,11 +61271,11 @@
     },
     {
         "ankama_id": 1082,
-        "name_en": "Centoror Ceremonial Set",
+        "name_en": "Horseman Ceremonial Set",
         "name_fr": "Panoplie d'apparat Cavalière",
-        "name_es": "Set cosmético de centauroro",
-        "name_pt": "Conjunto de Aparência do Centoro",
-        "name_de": "Zentoror-Prunkset",
+        "name_es": "Set cosmético caballero",
+        "name_pt": "Conjunto de Aparência Cavaleira",
+        "name_de": "Prunkset des Reiters",
         "items": 6,
         "equipment_ids": [
             33818,
@@ -61307,11 +61318,11 @@
     },
     {
         "ankama_id": 1085,
-        "name_en": "Crimson Set",
-        "name_fr": "Panoplie d'apparat Pourpre",
-        "name_es": "Set púrpura",
-        "name_pt": "Conjunto Púrpura",
-        "name_de": "Purpur-Ausrüstungsset",
+        "name_en": "Crimson Lottery Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de la loterie Poupre",
+        "name_es": "Set cosmético de la lotería Púrpura",
+        "name_pt": "Conjunto de Aparência da Loteria Púrpura",
+        "name_de": "Prunkset der Purpur-Lotterie",
         "items": 4,
         "equipment_ids": [
             34230,
@@ -61519,6 +61530,178 @@
         ]
     },
     {
+        "ankama_id": 1090,
+        "name_en": "Eternal Gardens Sanctuary Set",
+        "name_fr": "Panoplie du Sanctuaire des Jardins éternels",
+        "name_es": "Set del Santuario de los Jardines Eternos",
+        "name_pt": "Conjunto do Santuário dos Jardins Eternos",
+        "name_de": "Set des Heiligtums der Ewigen Gärten",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        60,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Air Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        10,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Air Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Water Resist"
+                    ],
+                    [
+                        5,
+                        null,
+                        "% Earth Resist"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Heals"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34327,
+            34328,
+            34329
+        ]
+    },
+    {
+        "ankama_id": 1091,
+        "name_en": "Chasm Set",
+        "name_fr": "Panoplie du Gouffre",
+        "name_es": "Set de la sima",
+        "name_pt": "Conjunto da Fenda",
+        "name_de": "Set des Abgrunds",
+        "items": 3,
+        "stats_list": [
+            {
+                "effect_key": "2",
+                "effects": [
+                    [
+                        60,
+                        null,
+                        "Chance"
+                    ],
+                    [
+                        7,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Lock"
+                    ]
+                ]
+            },
+            {
+                "effect_key": "3",
+                "effects": [
+                    [
+                        1,
+                        null,
+                        "AP"
+                    ],
+                    [
+                        7,
+                        null,
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Lock"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Chance"
+                    ]
+                ]
+            }
+        ],
+        "equipment_ids": [
+            34330,
+            34331,
+            34332
+        ]
+    },
+    {
         "ankama_id": 1092,
         "name_en": "Joblife Ceremonial Set",
         "name_fr": "Panoplie d'apparat Joblife",
@@ -61549,12 +61732,42 @@
         ]
     },
     {
+        "ankama_id": 1094,
+        "name_en": "Demon VI Ceremonial Set",
+        "name_fr": "Panoplie d'apparat du Démon VI",
+        "name_es": "Set cosmético del Demonio VI",
+        "name_pt": "Conjunto de Aparência do Demônio VI",
+        "name_de": "Prunkset von Dämon VI",
+        "items": 4,
+        "equipment_ids": [
+            34396,
+            34398,
+            34400,
+            34402
+        ]
+    },
+    {
+        "ankama_id": 1095,
+        "name_en": "Many-Hued Demon VI Ceremonial Set",
+        "name_fr": "Panoplie d'apparat diaprée du Démon VI",
+        "name_es": "Set cosmético matizado del Demonio VI",
+        "name_pt": "Conjunto de Aparência Matizado do Demônio VI",
+        "name_de": "Schillerndes Prunkset von Dämon VI",
+        "items": 4,
+        "equipment_ids": [
+            34397,
+            34399,
+            34401,
+            34403
+        ]
+    },
+    {
         "ankama_id": 1097,
-        "name_en": "[!] Panoplie d'apparat de l'exterminateur",
+        "name_en": "Exterminator Ceremonial Set",
         "name_fr": "Panoplie d'apparat de l'exterminateur",
-        "name_es": "[!] Panoplie d'apparat de l'exterminateur",
-        "name_pt": "[!] Panoplie d'apparat de l'exterminateur",
-        "name_de": "[!] Panoplie d'apparat de l'exterminateur",
+        "name_es": "Set cosmético del exterminador",
+        "name_pt": "Conjunto de Aparência do Exterminador",
+        "name_de": "Prunkset des Vernichters",
         "items": 8,
         "equipment_ids": [
             34409,
@@ -61565,6 +61778,99 @@
             34414,
             34415,
             34416
+        ]
+    },
+    {
+        "ankama_id": 1098,
+        "name_en": "Ochre Lottery Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de la loterie Ocre",
+        "name_es": "Set cosmético de la lotería Ocre",
+        "name_pt": "Conjunto de Aparência da Loteria Ocre",
+        "name_de": "Prunkset der Ocker-Lotterie",
+        "items": 4,
+        "equipment_ids": [
+            34441,
+            34442,
+            34443,
+            34444
+        ]
+    },
+    {
+        "ankama_id": 1099,
+        "name_en": "Chasm Ceremonial Set",
+        "name_fr": "Panoplie d'apparat du Gouffre",
+        "name_es": "Set cosmético de la sima",
+        "name_pt": "Conjunto de Aparência da Fenda",
+        "name_de": "Prunkset des Abgrunds",
+        "items": 7,
+        "equipment_ids": [
+            34480,
+            34481,
+            34482,
+            34483,
+            34484,
+            34485,
+            34486
+        ]
+    },
+    {
+        "ankama_id": 1100,
+        "name_en": "Beelzebug Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Scoreur",
+        "name_es": "Set cosmético de Escario",
+        "name_pt": "Conjunto de Aparência de Skoria",
+        "name_de": "Schlackers Prunkset",
+        "items": 5,
+        "equipment_ids": [
+            34503,
+            34505,
+            34507,
+            34509,
+            34511
+        ]
+    },
+    {
+        "ankama_id": 1101,
+        "name_en": "Skale Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Skale",
+        "name_es": "Set cosmético de Skalo",
+        "name_pt": "Conjunto de Aparência de Skalo",
+        "name_de": "Skales Prunkset",
+        "items": 5,
+        "equipment_ids": [
+            34502,
+            34504,
+            34506,
+            34508,
+            34510
+        ]
+    },
+    {
+        "ankama_id": 1102,
+        "name_en": "Krosmoz 25th Anniversary Set",
+        "name_fr": "Panoplie des 25 ans du Krosmoz",
+        "name_es": "Set de los 25 años del Krosmoz",
+        "name_pt": "Conjunto dos 25 Anos do Krosmoz",
+        "name_de": "25-Jahre-Jubiläumsset des Krosmoz",
+        "items": 17,
+        "equipment_ids": [
+            34502,
+            34512,
+            34513,
+            34514,
+            34515,
+            34516,
+            34517,
+            34518,
+            34519,
+            34520,
+            34521,
+            34522,
+            34523,
+            34524,
+            34525,
+            34526,
+            34527
         ]
     }
 ]

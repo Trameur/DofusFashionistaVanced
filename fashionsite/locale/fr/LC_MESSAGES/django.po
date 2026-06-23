@@ -5565,36 +5565,6 @@ msgstr "Degats finaux"
 msgid "Final Heals"
 msgstr "Soins finaux"
 
-#~ msgid "Send"
-#~ msgstr "Envoyer"
-
-#~ msgid "Buy Kamas"
-#~ msgstr "Acheter Kamas"
-
-#~ msgid "Glyph of Repulsion"
-#~ msgstr "Glyphe de Répulsion"
-
-#~ msgid "Glyph of Blindness"
-#~ msgstr "Glyphe d'Aveuglement"
-
-#~ msgid "Fulmination"
-#~ msgstr "Fulmination"
-
-#~ msgid "Elemental Loop"
-#~ msgstr "Boucle Élémentaire"
-
-#~ msgid "Snuggletooth"
-#~ msgstr "Caninos"
-
-#~ msgid "Ferocity"
-#~ msgstr "Férocité"
-
-#~ msgid "Exos"
-#~ msgstr "Exos"
-
-#~ msgid "Neu"
-#~ msgstr "Neu"
-
 msgid "users"
 msgstr "joueurs"
 
@@ -5634,8 +5604,6 @@ msgstr "Vole %(mp)d PM"
 msgid "Steals %(min)d to %(max)d MP"
 msgstr "Vole %(min)d à %(max)d PM"
 
-
-
 msgid "Attracts"
 msgstr "Attire"
 
@@ -5645,12 +5613,10 @@ msgstr "Repousse"
 msgid "Advances"
 msgstr "Avance"
 
-
 msgid "cell(s)"
 msgstr "case(s)"
 
 # Changelog entries
-
 msgid "Changelog"
 msgstr "Changelog"
 
@@ -5663,23 +5629,40 @@ msgstr "Mai 2026"
 msgid "Item customization & optimizer fixes"
 msgstr "Personnalisation d'objets et corrections de l'optimiseur"
 
-msgid "Cire Momore's Curse set caps now correctly enforced in the optimizer (MP/Summon/Range hard caps per tier)"
-msgstr "Les plafonds de la pano. Malédiction de Cire Momore sont correctement appliqués dans l'optimiseur (PM/Invocations/Portée par palier)"
+msgid ""
+"Cire Momore's Curse set caps now correctly enforced in the optimizer "
+"(MP/Summon/Range hard caps per tier)"
+msgstr ""
+"Les plafonds de la pano. Malédiction de Cire Momore sont correctement "
+"appliqués dans l'optimiseur (PM/Invocations/Portée par palier)"
 
-msgid "Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is equipped"
-msgstr "Le panneau de panoplie affiche les effets de plafonnement (ex. Max. PM 2) lorsqu'une panoplie plafonnante est équipée"
+msgid ""
+"Set panel now displays cap effects (e.g. Max. MP 2) when a capping set is "
+"equipped"
+msgstr ""
+"Le panneau de panoplie affiche les effets de plafonnement (ex. Max. PM 2) "
+"lorsqu'une panoplie plafonnante est équipée"
 
-msgid "New: Customize Stats — modify the stats of a specific item for your build (undercrafted items, familiars below max level)"
-msgstr "Nouveau : Personnaliser les stats — modifiez les stats d'un objet pour votre build (objets sous-craftés, familiers sous le niveau max)"
+msgid ""
+"New: Customize Stats — modify the stats of a specific item for your build "
+"(undercrafted items, familiars below max level)"
+msgstr ""
+"Nouveau : Personnaliser les stats — modifiez les stats d'un objet pour votre"
+" build (objets sous-craftés, familiers sous le niveau max)"
 
 msgid "Exo mage stats now handled correctly in the custom stats editor"
-msgstr "Les stats exo sont correctement prises en charge dans l'éditeur de stats personnalisées"
+msgstr ""
+"Les stats exo sont correctement prises en charge dans l'éditeur de stats "
+"personnalisées"
 
 msgid "Lock an empty slot to prevent the optimizer from filling it"
-msgstr "Verrouillez un emplacement vide pour empêcher l'optimiseur de le remplir"
+msgstr ""
+"Verrouillez un emplacement vide pour empêcher l'optimiseur de le remplir"
 
 msgid "Stat filter in the item picker is now visible by default"
-msgstr "Le filtre de statistiques dans le sélecteur d'objets est maintenant visible par défaut"
+msgstr ""
+"Le filtre de statistiques dans le sélecteur d'objets est maintenant visible "
+"par défaut"
 
 msgid "Added Gelano AP/PM ring variant"
 msgstr "Ajout du Gelano PA/PM"
@@ -5687,8 +5670,11 @@ msgstr "Ajout du Gelano PA/PM"
 msgid "Better leech and prospecting preset"
 msgstr "Meilleur preset leech et prospection"
 
-msgid "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
-msgstr "Corrections des dégâts de sorts, drapeaux d'objets et données d'armes pour les objets Dofus 3.5"
+msgid ""
+"Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
+msgstr ""
+"Corrections des dégâts de sorts, drapeaux d'objets et données d'armes pour "
+"les objets Dofus 3.5"
 
 msgid "Mobile UI overhaul"
 msgstr "Refonte de l'interface mobile"
@@ -5703,13 +5689,16 @@ msgid "Beta version launched"
 msgstr "Lancement de la version Bêta"
 
 msgid "Beta version launched at /beta/ with a dedicated item database"
-msgstr "Version Bêta lancée sur /beta/ avec une base de données d'objets dédiée"
+msgstr ""
+"Version Bêta lancée sur /beta/ avec une base de données d'objets dédiée"
 
 msgid "Beta spell simulator added"
 msgstr "Simulateur de sorts Bêta ajouté"
 
 msgid "Improved Dofus 3 / Beta version switcher in the navigation bar"
-msgstr "Amélioration du sélecteur de version Dofus 3 / Bêta dans la barre de navigation"
+msgstr ""
+"Amélioration du sélecteur de version Dofus 3 / Bêta dans la barre de "
+"navigation"
 
 msgid "Server migration & infrastructure"
 msgstr "Migration serveur et infrastructure"
@@ -5717,14 +5706,20 @@ msgstr "Migration serveur et infrastructure"
 msgid "Site migrated to Hetzner dedicated server (dofusfashionista.gg)"
 msgstr "Site migré vers un serveur dédié Hetzner (dofusfashionista.gg)"
 
-msgid "Multi-version framework: separate routes and databases for dofus3, beta, retro (touch coming later)"
-msgstr "Architecture multi-version : routes et bases de données séparées pour dofus3, bêta, rétro (touch à venir)"
+msgid ""
+"Multi-version framework: separate routes and databases for dofus3, beta, "
+"retro (touch coming later)"
+msgstr ""
+"Architecture multi-version : routes et bases de données séparées pour "
+"dofus3, bêta, rétro (touch à venir)"
 
 msgid "Shared builds page load time reduced from 1900ms to 140ms"
 msgstr "Temps de chargement des builds partagés réduit de 1900 ms à 140 ms"
 
 msgid "Mail spam protection added; password reset fixed"
-msgstr "Protection anti-spam des emails ajoutée ; réinitialisation du mot de passe corrigée"
+msgstr ""
+"Protection anti-spam des emails ajoutée ; réinitialisation du mot de passe "
+"corrigée"
 
 msgid "Maintenance page added for planned downtime"
 msgstr "Page de maintenance ajoutée pour les interruptions planifiées"
@@ -5742,13 +5737,20 @@ msgid "Docker support & security fixes"
 msgstr "Support Docker et corrections de sécurité"
 
 msgid "Docker support added for local development; Python upgraded to 3.14"
-msgstr "Support Docker ajouté pour le développement local ; Python mis à jour vers la version 3.14"
+msgstr ""
+"Support Docker ajouté pour le développement local ; Python mis à jour vers "
+"la version 3.14"
 
 msgid "Google OAuth login and logout fixed after HTTPS migration"
-msgstr "Connexion et déconnexion Google OAuth corrigées après la migration HTTPS"
+msgstr ""
+"Connexion et déconnexion Google OAuth corrigées après la migration HTTPS"
 
-msgid "Fixed XSS reflected injection, DOM text reinterpretation, and deserialization vulnerabilities"
-msgstr "Correction des vulnérabilités : injection XSS réfléchie, réinterprétation du texte DOM et désérialisation"
+msgid ""
+"Fixed XSS reflected injection, DOM text reinterpretation, and "
+"deserialization vulnerabilities"
+msgstr ""
+"Correction des vulnérabilités : injection XSS réfléchie, réinterprétation du"
+" texte DOM et désérialisation"
 
 msgid "jQuery upgraded to 3.6.4; Django updated to 5.1.14"
 msgstr "jQuery mis à jour vers 3.6.4 ; Django mis à jour vers 5.1.14"
@@ -5763,7 +5765,9 @@ msgid "Encyclopedia"
 msgstr "Encyclopédie"
 
 msgid "Encyclopedia launched: browse all items with stats and craft recipes"
-msgstr "Encyclopédie lancée : parcourez tous les objets avec leurs statistiques et recettes de craft"
+msgstr ""
+"Encyclopédie lancée : parcourez tous les objets avec leurs statistiques et "
+"recettes de craft"
 
 msgid "Crafting recipes added to encyclopedia item pages"
 msgstr "Recettes de craft ajoutées aux pages d'objets de l'encyclopédie"
@@ -5780,23 +5784,35 @@ msgstr "Correction des objets avec des conditions d'équipement de type OU"
 msgid "Stat icons & display improvements"
 msgstr "Icônes de statistiques et améliorations d'affichage"
 
-msgid "Stat icons added across the interface (build page, shared builds, encyclopedia)"
-msgstr "Icônes de statistiques ajoutées dans toute l'interface (page de build, builds partagés, encyclopédie)"
+msgid ""
+"Stat icons added across the interface (build page, shared builds, "
+"encyclopedia)"
+msgstr ""
+"Icônes de statistiques ajoutées dans toute l'interface (page de build, "
+"builds partagés, encyclopédie)"
 
 msgid "Fixed decimal rounding for displayed stat values"
-msgstr "Correction de l'arrondi décimal pour les valeurs de statistiques affichées"
+msgstr ""
+"Correction de l'arrondi décimal pour les valeurs de statistiques affichées"
 
 msgid "Better shared builds page: faster loading and cleaner stat display"
-msgstr "Meilleure page de builds partagés : chargement plus rapide et affichage des stats plus propre"
+msgstr ""
+"Meilleure page de builds partagés : chargement plus rapide et affichage des "
+"stats plus propre"
 
 msgid "Translations & item updates"
 msgstr "Traductions et mises à jour des objets"
 
-msgid "100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
-msgstr "Couverture de traduction à 100 % pour les 5 langues prises en charge (en, fr, de, es, pt)"
+msgid ""
+"100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
+msgstr ""
+"Couverture de traduction à 100 % pour les 5 langues prises en charge (en, "
+"fr, de, es, pt)"
 
 msgid "Lock/Forbid Wild Seemyool added to item restrictions"
-msgstr "Verrouillage/Interdiction du Sauvemule Farouche ajouté aux restrictions d'objets"
+msgstr ""
+"Verrouillage/Interdiction du Sauvemule Farouche ajouté aux restrictions "
+"d'objets"
 
 msgid "Fixed weapon damage display"
 msgstr "Correction de l'affichage des dégâts d'armes"
@@ -5810,8 +5826,11 @@ msgstr "Décembre 2025 – Février 2026"
 msgid "Spell damage simulator — extended"
 msgstr "Simulateur de dégâts de sorts — version étendue"
 
-msgid "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
-msgstr "Simulateur de sorts étendu : soins, vols, stacks, bonus de puissance et glyphes"
+msgid ""
+"Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
+msgstr ""
+"Simulateur de sorts étendu : soins, vols, stacks, bonus de puissance et "
+"glyphes"
 
 msgid "Spell images scraped and displayed per spell in the simulator"
 msgstr "Images de sorts récupérées et affichées par sort dans le simulateur"
@@ -5832,7 +5851,9 @@ msgid "Spell damage simulator v1"
 msgstr "Simulateur de dégâts de sorts v1"
 
 msgid "Spell damage simulator v1: auto-scraped hit data for all classes"
-msgstr "Simulateur de dégâts de sorts v1 : données de coups récupérées automatiquement pour toutes les classes"
+msgstr ""
+"Simulateur de dégâts de sorts v1 : données de coups récupérées "
+"automatiquement pour toutes les classes"
 
 msgid "Best element, MP cost, and base damage shown per spell"
 msgstr "Meilleur élément, coût en PM et dégâts de base affichés par sort"
@@ -5840,8 +5861,12 @@ msgstr "Meilleur élément, coût en PM et dégâts de base affichés par sort"
 msgid "Shared builds"
 msgstr "Builds partagés"
 
-msgid "Shared builds: publish your build with a unique link, visible to the community"
-msgstr "Builds partagés : publiez votre build avec un lien unique, visible par la communauté"
+msgid ""
+"Shared builds: publish your build with a unique link, visible to the "
+"community"
+msgstr ""
+"Builds partagés : publiez votre build avec un lien unique, visible par la "
+"communauté"
 
 msgid "Community voting system for shared builds"
 msgstr "Système de vote communautaire pour les builds partagés"
@@ -5849,11 +5874,17 @@ msgstr "Système de vote communautaire pour les builds partagés"
 msgid "Build creator attribution shown on each shared build"
 msgstr "Attribution du créateur du build affichée sur chaque build partagé"
 
-msgid "Migrated internal item references to ankama_id for stability across game updates"
-msgstr "Migration des références d'objets internes vers ankama_id pour la stabilité lors des mises à jour du jeu"
+msgid ""
+"Migrated internal item references to ankama_id for stability across game "
+"updates"
+msgstr ""
+"Migration des références d'objets internes vers ankama_id pour la stabilité "
+"lors des mises à jour du jeu"
 
 msgid "Fixed old saved builds broken by item lock/forbid data migration"
-msgstr "Correction des anciens builds sauvegardés cassés par la migration des données de verrouillage/interdiction d'objets"
+msgstr ""
+"Correction des anciens builds sauvegardés cassés par la migration des "
+"données de verrouillage/interdiction d'objets"
 
 msgid "October 2025"
 msgstr "Octobre 2025"
@@ -5876,8 +5907,11 @@ msgstr "Août 2023"
 msgid "Site relaunch on AWS"
 msgstr "Relancement du site sur AWS"
 
-msgid "Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
-msgstr "Site relancé sous le nom DofusFashionistaVanced sur AWS avec Django et le stockage S3"
+msgid ""
+"Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
+msgstr ""
+"Site relancé sous le nom DofusFashionistaVanced sur AWS avec Django et le "
+"stockage S3"
 
 msgid "Compare sets: side-by-side comparison of two builds"
 msgstr "Comparer les panoplies : comparaison côte à côte de deux builds"
@@ -5895,7 +5929,8 @@ msgid "Python 3 fork & Windows support"
 msgstr "Fork Python 3 et support Windows"
 
 msgid "Forked from original DofusFashionista; converted entirely to Python 3"
-msgstr "Forké depuis DofusFashionista original ; entièrement converti en Python 3"
+msgstr ""
+"Forké depuis DofusFashionista original ; entièrement converti en Python 3"
 
 msgid "Windows compatibility and standalone executable added"
 msgstr "Compatibilité Windows et exécutable autonome ajoutés"
@@ -5906,11 +5941,14 @@ msgstr "2020 – 2021"
 msgid "Original DofusFashionista"
 msgstr "DofusFashionista original"
 
-msgid "Original DofusFashionista by PiwiSlayer: linear programming optimizer for Dofus 2 equipment"
-msgstr "DofusFashionista original par PiwiSlayer : optimiseur par programmation linéaire pour les équipements Dofus 2"
+msgid ""
+"Original DofusFashionista by PiwiSlayer: linear programming optimizer for "
+"Dofus 2 equipment"
+msgstr ""
+"DofusFashionista original par PiwiSlayer : optimiseur par programmation "
+"linéaire pour les équipements Dofus 2"
 
 # Changelog 2024-2025 era entries
-
 msgid "December 2024"
 msgstr "Décembre 2024"
 
@@ -5924,10 +5962,14 @@ msgid "Compatibility & stability updates"
 msgstr "Mises à jour de compatibilité et de stabilité"
 
 msgid "Site adapted to Dofus 3.0: new item format, stats, and database"
-msgstr "Site adapté à Dofus 3.0 : nouveau format d'objets, statistiques et base de données"
+msgstr ""
+"Site adapté à Dofus 3.0 : nouveau format d'objets, statistiques et base de "
+"données"
 
 msgid "Item database updated through Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
-msgstr "Base de données des objets mise à jour jusqu'à Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
+msgstr ""
+"Base de données des objets mise à jour jusqu'à Dofus 3.0 (3.0.14.10 → "
+"3.0.51.48)"
 
 msgid "Windows 11 compatibility improvements"
 msgstr "Améliorations de la compatibilité Windows 11"
@@ -5942,7 +5984,9 @@ msgid "Fixed percentage resistance cap"
 msgstr "Correction du plafonnement des résistances en pourcentage"
 
 msgid "Item database updated through Dofus 3.1 and 3.2 (3.1.2.1 → 3.2.7.9)"
-msgstr "Base de données des objets mise à jour jusqu'à Dofus 3.1 et 3.2 (3.1.2.1 → 3.2.7.9)"
+msgstr ""
+"Base de données des objets mise à jour jusqu'à Dofus 3.1 et 3.2 (3.1.2.1 → "
+"3.2.7.9)"
 
 msgid "Neutral Resist in PVP"
 msgstr "Résistance Neutre en PvP"
@@ -6026,7 +6070,8 @@ msgstr "Parcourir toutes les builds partagées →"
 
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "Some items may have stronger options for your build:"
-msgstr "Certains objets pourraient avoir de meilleures options pour votre build :"
+msgstr ""
+"Certains objets pourraient avoir de meilleures options pour votre build :"
 
 #: fashionsite/chardata/templates/chardata/smart_build.html
 msgid "Here's what we understood:"
@@ -6073,8 +6118,12 @@ msgid "Community, sharing & tools"
 msgstr "Communauté, partage et outils"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus Retro launched at /retro/ with its own item database, built from Ankama's official Retro data"
-msgstr "Dofus Retro lancé sur /retro/ avec sa propre base d'objets, construite à partir des données officielles Ankama de Retro"
+msgid ""
+"Dofus Retro launched at /retro/ with its own item database, built from "
+"Ankama's official Retro data"
+msgstr ""
+"Dofus Retro lancé sur /retro/ avec sa propre base d'objets, construite à "
+"partir des données officielles Ankama de Retro"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Retro is now selectable in the version switcher"
@@ -6082,11 +6131,17 @@ msgstr "Retro est désormais sélectionnable dans le sélecteur de version"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Retro spell damage simulator added, with damage spells per class"
-msgstr "Simulateur de dégâts des sorts Retro ajouté, avec les sorts de dégâts par classe"
+msgstr ""
+"Simulateur de dégâts des sorts Retro ajouté, avec les sorts de dégâts par "
+"classe"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "PvP resistances supported on Retro items: shown on the solution page and weightable in the stats page"
-msgstr "Résistances PvP prises en charge sur les objets Retro : affichées sur la page de suggestion et pondérables dans la page des stats"
+msgid ""
+"PvP resistances supported on Retro items: shown on the solution page and "
+"weightable in the stats page"
+msgstr ""
+"Résistances PvP prises en charge sur les objets Retro : affichées sur la "
+"page de suggestion et pondérables dans la page des stats"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Retro shields and Dragoturkey mounts added"
@@ -6094,55 +6149,91 @@ msgstr "Boucliers Retro et montures Dragodinde ajoutés"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Set bonuses for Retro sets, with the full per-piece bonus tables"
-msgstr "Bonus de panoplie pour les panoplies Retro, avec les tableaux de bonus complets par nombre de pièces"
+msgstr ""
+"Bonus de panoplie pour les panoplies Retro, avec les tableaux de bonus "
+"complets par nombre de pièces"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Familiars: the stats they can be fed are shown in the encyclopedia and used by the optimizer"
-msgstr "Familiers : les stats qu'on peut leur faire manger sont affichées dans l'encyclopédie et utilisées par l'optimiseur"
+msgid ""
+"Familiars: the stats they can be fed are shown in the encyclopedia and used "
+"by the optimizer"
+msgstr ""
+"Familiers : les stats qu'on peut leur faire manger sont affichées dans "
+"l'encyclopédie et utilisées par l'optimiseur"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Craft recipes added, and item, set and spell names localized in all 5 languages"
-msgstr "Recettes de craft ajoutées, et noms des objets, panoplies et sorts traduits dans les 5 langues"
+msgid ""
+"Craft recipes added, and item, set and spell names localized in all 5 "
+"languages"
+msgstr ""
+"Recettes de craft ajoutées, et noms des objets, panoplies et sorts traduits "
+"dans les 5 langues"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages or prysmaradite)"
-msgstr "Optimiseur adapté aux règles Retro (12 classes, pas de doublage d'anneau, pas d'exo mage ni de prysmaradite)"
+msgid ""
+"Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages"
+" or prysmaradite)"
+msgstr ""
+"Optimiseur adapté aux règles Retro (12 classes, pas de doublage d'anneau, "
+"pas d'exo mage ni de prysmaradite)"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus 2 version added at /dofus2/ with its own item and set database"
-msgstr "Version Dofus 2 ajoutée sur /dofus2/ avec sa propre base d'objets et de panoplies"
+msgstr ""
+"Version Dofus 2 ajoutée sur /dofus2/ avec sa propre base d'objets et de "
+"panoplies"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Comments on builds, with comment counts on shared-build cards"
-msgstr "Commentaires sur les builds, avec le nombre de commentaires sur les cartes de builds partagés"
+msgstr ""
+"Commentaires sur les builds, avec le nombre de commentaires sur les cartes "
+"de builds partagés"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "User profiles with follow / unfollow, a following feed, and author links on builds"
-msgstr "Profils utilisateurs avec abonnement / désabonnement, un fil d'abonnements et des liens vers l'auteur sur les builds"
+msgid ""
+"User profiles with follow / unfollow, a following feed, and author links on "
+"builds"
+msgstr ""
+"Profils utilisateurs avec abonnement / désabonnement, un fil d'abonnements "
+"et des liens vers l'auteur sur les builds"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Free-form tags on builds, with filtering and tag suggestions"
 msgstr "Tags libres sur les builds, avec filtrage et suggestions de tags"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Discover builds: top community builds on the home page and a random build link"
-msgstr "Découvrir des builds : meilleurs builds de la communauté sur l'accueil et un lien de build aléatoire"
+msgid ""
+"Discover builds: top community builds on the home page and a random build "
+"link"
+msgstr ""
+"Découvrir des builds : meilleurs builds de la communauté sur l'accueil et un"
+" lien de build aléatoire"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Smart Build: describe a build in plain language and get a starting setup (multilingual)"
-msgstr "Smart Build : décrivez un build en langage naturel et obtenez une base de départ (multilingue)"
+msgid ""
+"Smart Build: describe a build in plain language and get a starting setup "
+"(multilingual)"
+msgstr ""
+"Smart Build : décrivez un build en langage naturel et obtenez une base de "
+"départ (multilingue)"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Workshop: craft ingredient list, with recipes for every version"
-msgstr "Atelier : liste des ingrédients de craft, avec les recettes pour toutes les versions"
+msgstr ""
+"Atelier : liste des ingrédients de craft, avec les recettes pour toutes les "
+"versions"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Quick start coaching flow for new players"
 msgstr "Parcours de prise en main rapide pour les nouveaux joueurs"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Share builds anywhere: copy a build as text for Discord/forums, plus richer link previews"
-msgstr "Partagez vos builds partout : copie du build en texte pour Discord/forums, et aperçus de liens enrichis"
+msgid ""
+"Share builds anywhere: copy a build as text for Discord/forums, plus richer "
+"link previews"
+msgstr ""
+"Partagez vos builds partout : copie du build en texte pour Discord/forums, "
+"et aperçus de liens enrichis"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Class avatar banner on the solution page"
@@ -6165,20 +6256,28 @@ msgid "Support page with donation links"
 msgstr "Page de soutien avec des liens de don"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Build check now flags low-level equipped items, and password reset was fixed"
-msgstr "La vérification du build signale désormais les objets équipés de bas niveau, et la réinitialisation du mot de passe a été corrigée"
+msgid ""
+"Build check now flags low-level equipped items, and password reset was fixed"
+msgstr ""
+"La vérification du build signale désormais les objets équipés de bas niveau,"
+" et la réinitialisation du mot de passe a été corrigée"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus Retro version launched at /retro/ with its own item database"
 msgstr "Version Dofus Retro lancée sur /retro/ avec sa propre base d'objets"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Build check now flags slots where the equipped item is less than ideal for the slot"
-msgstr "La vérification du build signale désormais les emplacements où l'objet équipé n'est pas idéal"
+msgid ""
+"Build check now flags slots where the equipped item is less than ideal for "
+"the slot"
+msgstr ""
+"La vérification du build signale désormais les emplacements où l'objet "
+"équipé n'est pas idéal"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus Retro launched at /retro/ with its own item and set database"
-msgstr "Dofus Retro lancé sur /retro/ avec sa propre base d'objets et de panoplies"
+msgstr ""
+"Dofus Retro lancé sur /retro/ avec sa propre base d'objets et de panoplies"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus 2 launched"
@@ -6186,7 +6285,8 @@ msgstr "Lancement de Dofus 2"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "Dofus 2 launched at /dofus2/ with its own item and set database"
-msgstr "Dofus 2 lancé sur /dofus2/ avec sa propre base d'objets et de panoplies"
+msgstr ""
+"Dofus 2 lancé sur /dofus2/ avec sa propre base d'objets et de panoplies"
 
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "how the data is parsed"
@@ -6197,8 +6297,14 @@ msgid "Support the project"
 msgstr "Soutenir le projet"
 
 #: fashionsite/chardata/templates/chardata/support.html
-msgid "Dofus Fashionista is free and always will be — the optimizer, sharing and encyclopedia stay open to everyone. If the tool saves you time and kamas, here are a few ways to give back."
-msgstr "Dofus Fashionista est gratuit et le restera toujours — l'optimiseur, le partage et l'encyclopédie restent ouverts à tous. Si l'outil vous fait gagner du temps et des kamas, voici quelques façons de nous soutenir."
+msgid ""
+"Dofus Fashionista is free and always will be — the optimizer, sharing and "
+"encyclopedia stay open to everyone. If the tool saves you time and kamas, "
+"here are a few ways to give back."
+msgstr ""
+"Dofus Fashionista est gratuit et le restera toujours — l'optimiseur, le "
+"partage et l'encyclopédie restent ouverts à tous. Si l'outil vous fait "
+"gagner du temps et des kamas, voici quelques façons de nous soutenir."
 
 #: fashionsite/chardata/templates/chardata/support.html
 msgid "Donate"
@@ -6233,8 +6339,12 @@ msgid "Dofus Touch launched"
 msgstr "Lancement de Dofus Touch"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus Touch launched at /touch/ with its own item, set, recipe, and spell database"
-msgstr "Dofus Touch lancé sur /touch/ avec sa propre base d'objets, de panoplies, de recettes et de sorts"
+msgid ""
+"Dofus Touch launched at /touch/ with its own item, set, recipe, and spell "
+"database"
+msgstr ""
+"Dofus Touch lancé sur /touch/ avec sa propre base d'objets, de panoplies, de"
+" recettes et de sorts"
 
 #: fashionsite/chardata/templates/chardata/base.html
 msgid "Smithmagic"
@@ -6277,20 +6387,40 @@ msgid "Smithmagic Lab & My Inventory"
 msgstr "Atelier de Forgemagie & Mon Inventaire"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Smithmagic Lab: plan and simulate your maging with version-accurate runes, sink tracking and rune suggestions"
-msgstr "Atelier de Forgemagie : planifiez et simulez votre forgemagie avec les runes exactes de chaque version, le suivi du puits et des suggestions de runes"
+msgid ""
+"Smithmagic Lab: plan and simulate your maging with version-accurate runes, "
+"sink tracking and rune suggestions"
+msgstr ""
+"Atelier de Forgemagie : planifiez et simulez votre forgemagie avec les runes"
+" exactes de chaque version, le suivi du puits et des suggestions de runes"
 
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "My Inventory: save the items you own with their real rolls (screenshot import included) and let the optimizer build with them"
-msgstr "Mon Inventaire : enregistrez les objets que vous possédez avec leurs vrais jets (import par capture d'écran inclus) et laissez l'optimiseur composer avec"
+msgid ""
+"My Inventory: save the items you own with their real rolls (screenshot "
+"import included) and let the optimizer build with them"
+msgstr ""
+"Mon Inventaire : enregistrez les objets que vous possédez avec leurs vrais "
+"jets (import par capture d'écran inclus) et laissez l'optimiseur composer "
+"avec"
 
 #: fashionsite/chardata/templates/chardata/home.html
 msgid "Create the best Dofus equipment set, automatically"
 msgstr "Créez le meilleur équipement Dofus, automatiquement"
 
 #: fashionsite/chardata/templates/chardata/home.html
-msgid "Dofus Fashionista is a free set optimizer. Choose your class, level and the stats you want, and it automatically finds the best combination of equipment — weapons, armor, rings, dofus and more — for your build. Then compare different sets, save your characters, and share your builds with the community."
-msgstr "Dofus Fashionista est un optimiseur d'équipement gratuit. Choisissez votre classe, votre niveau et les caractéristiques souhaitées, et il trouve automatiquement la meilleure combinaison d'équipement — armes, armures, anneaux, dofus et plus encore — pour votre build. Comparez ensuite différentes panoplies, enregistrez vos personnages et partagez vos builds avec la communauté."
+msgid ""
+"Dofus Fashionista is a free set optimizer. Choose your class, level and the "
+"stats you want, and it automatically finds the best combination of equipment"
+" — weapons, armor, rings, dofus and more — for your build. Then compare "
+"different sets, save your characters, and share your builds with the "
+"community."
+msgstr ""
+"Dofus Fashionista est un optimiseur d'équipement gratuit. Choisissez votre "
+"classe, votre niveau et les caractéristiques souhaitées, et il trouve "
+"automatiquement la meilleure combinaison d'équipement — armes, armures, "
+"anneaux, dofus et plus encore — pour votre build. Comparez ensuite "
+"différentes panoplies, enregistrez vos personnages et partagez vos builds "
+"avec la communauté."
 
 #: fashionsite/chardata/templates/chardata/home.html
 msgid "New to Dofus Fashionista?"
@@ -6317,116 +6447,278 @@ msgid "lvl"
 msgstr "niv."
 
 #: privacy/meta i18n
-msgid "Get Dofus %(version)s sets created automatically, based on your specific needs."
-msgstr "Obtenez des panoplies Dofus %(version)s générées automatiquement, selon vos besoins précis."
+msgid ""
+"Get Dofus %(version)s sets created automatically, based on your specific "
+"needs."
+msgstr ""
+"Obtenez des panoplies Dofus %(version)s générées automatiquement, selon vos "
+"besoins précis."
 
 #: privacy/meta i18n
 msgid "Get Dofus sets created automatically, based on your specific needs."
-msgstr "Obtenez des panoplies Dofus générées automatiquement, selon vos besoins précis."
+msgstr ""
+"Obtenez des panoplies Dofus générées automatiquement, selon vos besoins "
+"précis."
 
 #: privacy/meta i18n
-msgid "Answers to common questions about the Dofus Fashionista: how the automatic set optimizer works, sharing builds, supported Dofus versions, accounts and more."
-msgstr "Réponses aux questions fréquentes sur le Dofus Fashionista : fonctionnement de l'optimiseur de panoplies automatique, partage de builds, versions de Dofus prises en charge, comptes et plus encore."
+msgid ""
+"Answers to common questions about the Dofus Fashionista: how the automatic "
+"set optimizer works, sharing builds, supported Dofus versions, accounts and "
+"more."
+msgstr ""
+"Réponses aux questions fréquentes sur le Dofus Fashionista : fonctionnement "
+"de l'optimiseur de panoplies automatique, partage de builds, versions de "
+"Dofus prises en charge, comptes et plus encore."
 
 #: privacy/meta i18n
-msgid "Browse the full Dofus item encyclopedia: stats, effects, equip conditions and craft recipes for every item, with search by name, type and level."
-msgstr "Parcourez l'encyclopédie complète des objets Dofus : caractéristiques, effets, conditions d'équipement et recettes de craft pour chaque objet, avec recherche par nom, type et niveau."
+msgid ""
+"Browse the full Dofus item encyclopedia: stats, effects, equip conditions "
+"and craft recipes for every item, with search by name, type and level."
+msgstr ""
+"Parcourez l'encyclopédie complète des objets Dofus : caractéristiques, "
+"effets, conditions d'équipement et recettes de craft pour chaque objet, avec"
+" recherche par nom, type et niveau."
 
 #: privacy/meta i18n
-msgid "%(item_name)s: Dofus stats, effects, equip conditions and craft recipe. Discover builds using %(item_name)s and optimize your set with the Dofus Fashionista."
-msgstr "%(item_name)s : caractéristiques Dofus, effets, conditions d'équipement et recette de craft. Découvrez des builds utilisant %(item_name)s et optimisez votre panoplie avec le Dofus Fashionista."
+msgid ""
+"%(item_name)s: Dofus stats, effects, equip conditions and craft recipe. "
+"Discover builds using %(item_name)s and optimize your set with the Dofus "
+"Fashionista."
+msgstr ""
+"%(item_name)s : caractéristiques Dofus, effets, conditions d'équipement et "
+"recette de craft. Découvrez des builds utilisant %(item_name)s et optimisez "
+"votre panoplie avec le Dofus Fashionista."
 
 #: privacy/meta i18n
-msgid "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own."
-msgstr "Parcourez les builds Dofus partagés par la communauté : panoplies optimisées par classe et niveau, avec toutes les caractéristiques. Trouvez l'inspiration et créez le vôtre."
+msgid ""
+"Browse community Dofus builds shared by players: optimized equipment sets by"
+" class and level, with full stats. Find inspiration and build your own."
+msgstr ""
+"Parcourez les builds Dofus partagés par la communauté : panoplies optimisées"
+" par classe et niveau, avec toutes les caractéristiques. Trouvez "
+"l'inspiration et créez le vôtre."
 
 #: privacy/meta i18n
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
 #: privacy/meta i18n
-msgid "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google AdSense and Analytics, consent, and your privacy rights."
-msgstr "Comment le Dofus Fashionista traite vos données : comptes, builds enregistrés, cookies, Google AdSense et Analytics, consentement et vos droits en matière de confidentialité."
+msgid ""
+"How Dofus Fashionista handles your data: accounts, saved builds, cookies, "
+"Google AdSense and Analytics, consent, and your privacy rights."
+msgstr ""
+"Comment le Dofus Fashionista traite vos données : comptes, builds "
+"enregistrés, cookies, Google AdSense et Analytics, consentement et vos "
+"droits en matière de confidentialité."
 
 #: privacy/meta i18n
 msgid "Last updated: June 2026"
 msgstr "Dernière mise à jour : juin 2026"
 
 #: privacy/meta i18n
-msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically generates and optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
-msgstr "Le Dofus Fashionista (« nous », « le site ») est un site de fans gratuit et open-source qui génère et optimise automatiquement des panoplies d'équipement pour le jeu Dofus. Cette page explique quelles données nous collectons, pourquoi, et les choix dont vous disposez. Nous ne sommes pas affiliés à Ankama Games."
+msgid ""
+"The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site"
+" that automatically generates and optimizes equipment sets for the game "
+"Dofus. This page explains what data we collect, why, and the choices you "
+"have. We are not affiliated with Ankama Games."
+msgstr ""
+"Le Dofus Fashionista (« nous », « le site ») est un site de fans gratuit et "
+"open-source qui génère et optimise automatiquement des panoplies "
+"d'équipement pour le jeu Dofus. Cette page explique quelles données nous "
+"collectons, pourquoi, et les choix dont vous disposez. Nous ne sommes pas "
+"affiliés à Ankama Games."
 
 #: privacy/meta i18n
 msgid "Information we collect"
 msgstr "Informations que nous collectons"
 
 #: privacy/meta i18n
-msgid "<b>Account information.</b> If you create an account, we store your email address and an encrypted password. If you sign in with Google, we store your email address and Google account ID instead of a password &mdash; we never see or store your Google password."
-msgstr "<b>Informations de compte.</b> Si vous créez un compte, nous stockons votre adresse e-mail et un mot de passe chiffré. Si vous vous connectez avec Google, nous stockons votre adresse e-mail et votre identifiant de compte Google au lieu d'un mot de passe &mdash; nous ne voyons ni ne stockons jamais votre mot de passe Google."
+msgid ""
+"<b>Account information.</b> If you create an account, we store your email "
+"address and an encrypted password. If you sign in with Google, we store your"
+" email address and Google account ID instead of a password &mdash; we never "
+"see or store your Google password."
+msgstr ""
+"<b>Informations de compte.</b> Si vous créez un compte, nous stockons votre "
+"adresse e-mail et un mot de passe chiffré. Si vous vous connectez avec "
+"Google, nous stockons votre adresse e-mail et votre identifiant de compte "
+"Google au lieu d'un mot de passe &mdash; nous ne voyons ni ne stockons "
+"jamais votre mot de passe Google."
 
 #: privacy/meta i18n
-msgid "<b>Content you create.</b> The characters, projects, builds, tags, comments and shared links you make are stored so the site can provide its features and so you can return to your work."
-msgstr "<b>Contenu que vous créez.</b> Les personnages, projets, builds, tags, commentaires et liens de partage que vous créez sont stockés afin que le site puisse fournir ses fonctionnalités et que vous puissiez retrouver votre travail."
+msgid ""
+"<b>Content you create.</b> The characters, projects, builds, tags, comments "
+"and shared links you make are stored so the site can provide its features "
+"and so you can return to your work."
+msgstr ""
+"<b>Contenu que vous créez.</b> Les personnages, projets, builds, tags, "
+"commentaires et liens de partage que vous créez sont stockés afin que le "
+"site puisse fournir ses fonctionnalités et que vous puissiez retrouver votre"
+" travail."
 
 #: privacy/meta i18n
-msgid "<b>Messages.</b> If you contact us, we keep the message and the address you provide so we can reply."
-msgstr "<b>Messages.</b> Si vous nous contactez, nous conservons le message et l'adresse que vous fournissez afin de pouvoir vous répondre."
+msgid ""
+"<b>Messages.</b> If you contact us, we keep the message and the address you "
+"provide so we can reply."
+msgstr ""
+"<b>Messages.</b> Si vous nous contactez, nous conservons le message et "
+"l'adresse que vous fournissez afin de pouvoir vous répondre."
 
 #: privacy/meta i18n
-msgid "<b>Technical data.</b> Like most websites, our servers and content-delivery provider automatically log standard information such as IP address, browser type and pages visited, for security and to keep the service running."
-msgstr "<b>Données techniques.</b> Comme la plupart des sites web, nos serveurs et notre fournisseur de diffusion de contenu enregistrent automatiquement des informations standard telles que l'adresse IP, le type de navigateur et les pages visitées, pour la sécurité et le bon fonctionnement du service."
+msgid ""
+"<b>Technical data.</b> Like most websites, our servers and content-delivery "
+"provider automatically log standard information such as IP address, browser "
+"type and pages visited, for security and to keep the service running."
+msgstr ""
+"<b>Données techniques.</b> Comme la plupart des sites web, nos serveurs et "
+"notre fournisseur de diffusion de contenu enregistrent automatiquement des "
+"informations standard telles que l'adresse IP, le type de navigateur et les "
+"pages visitées, pour la sécurité et le bon fonctionnement du service."
 
 #: privacy/meta i18n
-msgid "We use a small number of cookies and browser-local storage to make the site work: a session cookie when you are logged in, and preferences such as your chosen theme, language and interface options. Third-party services described below may also set their own cookies."
-msgstr "Nous utilisons un petit nombre de cookies et le stockage local du navigateur pour faire fonctionner le site : un cookie de session lorsque vous êtes connecté, et des préférences telles que le thème, la langue et les options d'interface que vous avez choisis. Les services tiers décrits ci-dessous peuvent également déposer leurs propres cookies."
+msgid ""
+"We use a small number of cookies and browser-local storage to make the site "
+"work: a session cookie when you are logged in, and preferences such as your "
+"chosen theme, language and interface options. Third-party services described"
+" below may also set their own cookies."
+msgstr ""
+"Nous utilisons un petit nombre de cookies et le stockage local du navigateur"
+" pour faire fonctionner le site : un cookie de session lorsque vous êtes "
+"connecté, et des préférences telles que le thème, la langue et les options "
+"d'interface que vous avez choisis. Les services tiers décrits ci-dessous "
+"peuvent également déposer leurs propres cookies."
 
 #: privacy/meta i18n
-msgid "To keep the Dofus Fashionista free we display ads and use a few third-party services:"
-msgstr "Pour que le Dofus Fashionista reste gratuit, nous affichons des publicités et utilisons quelques services tiers :"
+msgid ""
+"To keep the Dofus Fashionista free we display ads and use a few third-party "
+"services:"
+msgstr ""
+"Pour que le Dofus Fashionista reste gratuit, nous affichons des publicités "
+"et utilisons quelques services tiers :"
 
 #: privacy/meta i18n
-msgid "<b>Google AdSense.</b> Google and its partners use cookies to serve ads based on your prior visits to this and other websites. You can learn how Google uses data from sites that use its services at <a href=\"https://policies.google.com/technologies/partner-sites\" target=\"_blank\" rel=\"noopener noreferrer\">policies.google.com/technologies/partner-sites</a>, and manage ad personalization at <a href=\"https://myadcenter.google.com/\" target=\"_blank\" rel=\"noopener noreferrer\">My Ad Center</a>."
-msgstr "<b>Google AdSense.</b> Google et ses partenaires utilisent des cookies pour diffuser des publicités basées sur vos visites précédentes sur ce site et d'autres. Vous pouvez découvrir comment Google utilise les données des sites qui font appel à ses services sur <a href=\"https://policies.google.com/technologies/partner-sites\" target=\"_blank\" rel=\"noopener noreferrer\">policies.google.com/technologies/partner-sites</a>, et gérer la personnalisation des annonces dans <a href=\"https://myadcenter.google.com/\" target=\"_blank\" rel=\"noopener noreferrer\">My Ad Center</a>."
+msgid ""
+"<b>Google AdSense.</b> Google and its partners use cookies to serve ads "
+"based on your prior visits to this and other websites. You can learn how "
+"Google uses data from sites that use its services at <a "
+"href=\"https://policies.google.com/technologies/partner-sites\" "
+"target=\"_blank\" rel=\"noopener "
+"noreferrer\">policies.google.com/technologies/partner-sites</a>, and manage "
+"ad personalization at <a href=\"https://myadcenter.google.com/\" "
+"target=\"_blank\" rel=\"noopener noreferrer\">My Ad Center</a>."
+msgstr ""
+"<b>Google AdSense.</b> Google et ses partenaires utilisent des cookies pour "
+"diffuser des publicités basées sur vos visites précédentes sur ce site et "
+"d'autres. Vous pouvez découvrir comment Google utilise les données des sites"
+" qui font appel à ses services sur <a "
+"href=\"https://policies.google.com/technologies/partner-sites\" "
+"target=\"_blank\" rel=\"noopener "
+"noreferrer\">policies.google.com/technologies/partner-sites</a>, et gérer la"
+" personnalisation des annonces dans <a "
+"href=\"https://myadcenter.google.com/\" target=\"_blank\" rel=\"noopener "
+"noreferrer\">My Ad Center</a>."
 
 #: privacy/meta i18n
-msgid "<b>Consent (EEA, UK and Switzerland).</b> If you visit from a region that requires it, a Google-certified consent message lets you accept or refuse the use of cookies for personalized advertising before any non-essential cookies are set."
-msgstr "<b>Consentement (EEE, Royaume-Uni et Suisse).</b> Si vous nous visitez depuis une région qui l'exige, un message de consentement certifié par Google vous permet d'accepter ou de refuser l'utilisation de cookies à des fins de publicité personnalisée avant le dépôt de tout cookie non essentiel."
+msgid ""
+"<b>Consent (EEA, UK and Switzerland).</b> If you visit from a region that "
+"requires it, a Google-certified consent message lets you accept or refuse "
+"the use of cookies for personalized advertising before any non-essential "
+"cookies are set."
+msgstr ""
+"<b>Consentement (EEE, Royaume-Uni et Suisse).</b> Si vous nous visitez "
+"depuis une région qui l'exige, un message de consentement certifié par "
+"Google vous permet d'accepter ou de refuser l'utilisation de cookies à des "
+"fins de publicité personnalisée avant le dépôt de tout cookie non essentiel."
 
 #: privacy/meta i18n
-msgid "<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it."
-msgstr "<b>Google Analytics.</b> Nous utilisons Analytics pour comprendre, de manière agrégée, comment le site est utilisé afin de l'améliorer."
+msgid ""
+"<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how "
+"the site is used so we can improve it."
+msgstr ""
+"<b>Google Analytics.</b> Nous utilisons Analytics pour comprendre, de "
+"manière agrégée, comment le site est utilisé afin de l'améliorer."
 
 #: privacy/meta i18n
 msgid "<b>Google Sign-In.</b> Optional authentication, as described above."
-msgstr "<b>Connexion Google.</b> Authentification facultative, comme décrit ci-dessus."
+msgstr ""
+"<b>Connexion Google.</b> Authentification facultative, comme décrit ci-"
+"dessus."
 
 #: privacy/meta i18n
-msgid "<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and served through a content-delivery network that processes requests on our behalf."
-msgstr "<b>Hébergement et infrastructure.</b> Le site est hébergé sur un serveur dédié et diffusé via un réseau de diffusion de contenu qui traite les requêtes pour notre compte."
+msgid ""
+"<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server "
+"and served through a content-delivery network that processes requests on our"
+" behalf."
+msgstr ""
+"<b>Hébergement et infrastructure.</b> Le site est hébergé sur un serveur "
+"dédié et diffusé via un réseau de diffusion de contenu qui traite les "
+"requêtes pour notre compte."
 
 #: privacy/meta i18n
-msgid "We use the information above only to operate and improve the site, provide your saved builds and account, display advertising that funds the service, respond to your messages, and keep the site secure. We do not sell your personal data."
-msgstr "Nous utilisons les informations ci-dessus uniquement pour exploiter et améliorer le site, fournir vos builds et votre compte enregistrés, afficher la publicité qui finance le service, répondre à vos messages et assurer la sécurité du site. Nous ne vendons pas vos données personnelles."
+msgid ""
+"We use the information above only to operate and improve the site, provide "
+"your saved builds and account, display advertising that funds the service, "
+"respond to your messages, and keep the site secure. We do not sell your "
+"personal data."
+msgstr ""
+"Nous utilisons les informations ci-dessus uniquement pour exploiter et "
+"améliorer le site, fournir vos builds et votre compte enregistrés, afficher "
+"la publicité qui finance le service, répondre à vos messages et assurer la "
+"sécurité du site. Nous ne vendons pas vos données personnelles."
 
 #: privacy/meta i18n
-msgid "You can view and edit your projects at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data. You can also control advertising cookies through the consent message and through your Google Ad settings."
-msgstr "Vous pouvez consulter et modifier vos projets à tout moment lorsque vous êtes connecté, et vous pouvez demander la suppression de votre compte et des données associées en nous contactant. Selon votre lieu de résidence, vous pouvez disposer de droits d'accès, de rectification, de suppression ou d'opposition au traitement de vos données personnelles. Vous pouvez également contrôler les cookies publicitaires via le message de consentement et via les paramètres de vos annonces Google."
+msgid ""
+"You can view and edit your projects at any time while logged in, and you can"
+" request deletion of your account and associated data by contacting us. "
+"Depending on where you live, you may have rights to access, correct, delete "
+"or object to the processing of your personal data. You can also control "
+"advertising cookies through the consent message and through your Google Ad "
+"settings."
+msgstr ""
+"Vous pouvez consulter et modifier vos projets à tout moment lorsque vous "
+"êtes connecté, et vous pouvez demander la suppression de votre compte et des"
+" données associées en nous contactant. Selon votre lieu de résidence, vous "
+"pouvez disposer de droits d'accès, de rectification, de suppression ou "
+"d'opposition au traitement de vos données personnelles. Vous pouvez "
+"également contrôler les cookies publicitaires via le message de consentement"
+" et via les paramètres de vos annonces Google."
 
 #: privacy/meta i18n
-msgid "We keep account and build data for as long as your account is active or as needed to provide the service. If you delete your account, the associated data is removed."
-msgstr "Nous conservons les données de compte et de build tant que votre compte est actif ou aussi longtemps que nécessaire pour fournir le service. Si vous supprimez votre compte, les données associées sont supprimées."
+msgid ""
+"We keep account and build data for as long as your account is active or as "
+"needed to provide the service. If you delete your account, the associated "
+"data is removed."
+msgstr ""
+"Nous conservons les données de compte et de build tant que votre compte est "
+"actif ou aussi longtemps que nécessaire pour fournir le service. Si vous "
+"supprimez votre compte, les données associées sont supprimées."
 
 #: privacy/meta i18n
-msgid "The Dofus Fashionista is not directed to children under the age required to consent to online services in their country, and we do not knowingly collect their personal data."
-msgstr "Le Dofus Fashionista ne s'adresse pas aux enfants n'ayant pas l'âge requis pour consentir aux services en ligne dans leur pays, et nous ne collectons pas sciemment leurs données personnelles."
+msgid ""
+"The Dofus Fashionista is not directed to children under the age required to "
+"consent to online services in their country, and we do not knowingly collect"
+" their personal data."
+msgstr ""
+"Le Dofus Fashionista ne s'adresse pas aux enfants n'ayant pas l'âge requis "
+"pour consentir aux services en ligne dans leur pays, et nous ne collectons "
+"pas sciemment leurs données personnelles."
 
 #: privacy/meta i18n
-msgid "We may update this policy from time to time. Material changes will be reflected by the \"last updated\" date above."
-msgstr "Nous pouvons mettre à jour cette politique de temps à autre. Les modifications importantes seront indiquées par la date de « dernière mise à jour » ci-dessus."
+msgid ""
+"We may update this policy from time to time. Material changes will be "
+"reflected by the \"last updated\" date above."
+msgstr ""
+"Nous pouvons mettre à jour cette politique de temps à autre. Les "
+"modifications importantes seront indiquées par la date de « dernière mise à "
+"jour » ci-dessus."
 
 #: privacy/meta i18n
-msgid "For any question about this policy or your data, please <a href=\"%(contact_url)s\">contact us</a>."
-msgstr "Pour toute question concernant cette politique ou vos données, veuillez <a href=\"%(contact_url)s\">nous contacter</a>."
+msgid ""
+"For any question about this policy or your data, please <a "
+"href=\"%(contact_url)s\">contact us</a>."
+msgstr ""
+"Pour toute question concernant cette politique ou vos données, veuillez <a "
+"href=\"%(contact_url)s\">nous contacter</a>."
 
 #: privacy/meta i18n
 msgid "How we use your data"
@@ -6505,8 +6797,12 @@ msgid "Quick Start"
 msgstr "Démarrage rapide"
 
 #: ui-i18n
-msgid "Three questions, one ready-to-play build. No wizard, no jargon — just pick your class, level and playstyle."
-msgstr "Trois questions, un build prêt à jouer. Pas d'assistant, pas de jargon — choisissez simplement votre classe, votre niveau et votre style de jeu."
+msgid ""
+"Three questions, one ready-to-play build. No wizard, no jargon — just pick "
+"your class, level and playstyle."
+msgstr ""
+"Trois questions, un build prêt à jouer. Pas d'assistant, pas de jargon — "
+"choisissez simplement votre classe, votre niveau et votre style de jeu."
 
 #: ui-i18n
 msgid "You need to be logged in to save this build to your account."
@@ -6533,16 +6829,25 @@ msgid "Use the full builder instead"
 msgstr "Utilisez plutôt le générateur complet"
 
 #: ui-i18n
-msgid "You aren't following anyone yet. Visit a build's page and click on its author's name to discover their profile."
-msgstr "Vous ne suivez encore personne. Visitez la page d'un build et cliquez sur le nom de son auteur pour découvrir son profil."
+msgid ""
+"You aren't following anyone yet. Visit a build's page and click on its "
+"author's name to discover their profile."
+msgstr ""
+"Vous ne suivez encore personne. Visitez la page d'un build et cliquez sur le"
+" nom de son auteur pour découvrir son profil."
 
 #: ui-i18n
 msgid "The people you follow haven't shared any builds yet."
 msgstr "Les personnes que vous suivez n'ont pas encore partagé de builds."
 
 #: ui-i18n
-msgid "Once an item is selected, a <b>Customize stats</b> button will appear — use it to adjust individual stats (e.g. for a partially forged item)."
-msgstr "Une fois un objet sélectionné, un bouton <b>Personnaliser les caractéristiques</b> apparaît — utilisez-le pour ajuster les caractéristiques individuelles (par ex. pour un objet partiellement forgé)."
+msgid ""
+"Once an item is selected, a <b>Customize stats</b> button will appear — use "
+"it to adjust individual stats (e.g. for a partially forged item)."
+msgstr ""
+"Une fois un objet sélectionné, un bouton <b>Personnaliser les "
+"caractéristiques</b> apparaît — utilisez-le pour ajuster les "
+"caractéristiques individuelles (par ex. pour un objet partiellement forgé)."
 
 #: ui-i18n
 msgid "Customize stats"
@@ -6582,11 +6887,17 @@ msgstr "Choisissez un nouveau mot de passe pour <b>%(username)s</b>."
 
 #: ui-i18n
 msgid "The password for <b>%(username)s</b> has been reset successfully."
-msgstr "Le mot de passe de <b>%(username)s</b> a été réinitialisé avec succès."
+msgstr ""
+"Le mot de passe de <b>%(username)s</b> a été réinitialisé avec succès."
 
 #: ui-i18n
-msgid "We could not send the recovery email right now because the email service is not authenticated or unavailable. Please try again later or contact support."
-msgstr "Nous n'avons pas pu envoyer l'e-mail de récupération pour le moment car le service d'e-mail n'est pas authentifié ou est indisponible. Veuillez réessayer plus tard ou contacter le support."
+msgid ""
+"We could not send the recovery email right now because the email service is "
+"not authenticated or unavailable. Please try again later or contact support."
+msgstr ""
+"Nous n'avons pas pu envoyer l'e-mail de récupération pour le moment car le "
+"service d'e-mail n'est pas authentifié ou est indisponible. Veuillez "
+"réessayer plus tard ou contacter le support."
 
 #: ui-i18n
 msgid "Filtered by tag:"
@@ -6609,8 +6920,13 @@ msgid "Smart Build"
 msgstr "Build intelligent"
 
 #: ui-i18n
-msgid "Describe your character in plain words — class, level, element, playstyle — and we'll build it. Works in English, French, Spanish and Portuguese."
-msgstr "Décrivez votre personnage avec des mots simples — classe, niveau, élément, style de jeu — et nous le construisons. Fonctionne en anglais, français, espagnol et portugais."
+msgid ""
+"Describe your character in plain words — class, level, element, playstyle — "
+"and we'll build it. Works in English, French, Spanish and Portuguese."
+msgstr ""
+"Décrivez votre personnage avec des mots simples — classe, niveau, élément, "
+"style de jeu — et nous le construisons. Fonctionne en anglais, français, "
+"espagnol et portugais."
 
 #: ui-i18n
 msgid "Log in to save this build to your account."
@@ -6718,7 +7034,9 @@ msgstr "Signaler ce commentaire"
 
 #: ui-i18n
 msgid "Tell us why you are reporting it. An admin will review the report."
-msgstr "Dites-nous pourquoi vous le signalez. Un administrateur examinera le signalement."
+msgstr ""
+"Dites-nous pourquoi vous le signalez. Un administrateur examinera le "
+"signalement."
 
 #: ui-i18n
 msgid "Reason"
@@ -6750,7 +7068,8 @@ msgstr "Terminé"
 
 #: ui-i18n
 msgid "build optimized on Dofus Fashionista. Like it, comment it, copy it."
-msgstr "build optimisé sur Dofus Fashionista. Aimez-le, commentez-le, copiez-le."
+msgstr ""
+"build optimisé sur Dofus Fashionista. Aimez-le, commentez-le, copiez-le."
 
 #: ui-i18n
 msgid "Remove tag"
@@ -6857,8 +7176,12 @@ msgid "Your workshop is empty."
 msgstr "Votre atelier est vide."
 
 #: ui-i18n
-msgid "Open a build and click 'Add to workshop' on items you need to craft or acquire."
-msgstr "Ouvrez un build et cliquez sur « Ajouter à l'atelier » pour les objets que vous devez fabriquer ou obtenir."
+msgid ""
+"Open a build and click 'Add to workshop' on items you need to craft or "
+"acquire."
+msgstr ""
+"Ouvrez un build et cliquez sur « Ajouter à l'atelier » pour les objets que "
+"vous devez fabriquer ou obtenir."
 
 #: ui-i18n
 msgid "Quantity"
@@ -6874,15 +7197,21 @@ msgstr "Voir le commentaire"
 
 #: ui-i18n
 msgid "You can disable these notifications in your account settings."
-msgstr "Vous pouvez désactiver ces notifications dans les paramètres de votre compte."
+msgstr ""
+"Vous pouvez désactiver ces notifications dans les paramètres de votre "
+"compte."
 
 #: ui-i18n
 msgid "Hi,"
 msgstr "Bonjour,"
 
 #: ui-i18n
-msgid "<strong>%(commenter_name)s</strong> just commented on your build <strong>\"%(build_name)s\"</strong>:"
-msgstr "<strong>%(commenter_name)s</strong> vient de commenter votre build <strong>« %(build_name)s »</strong> :"
+msgid ""
+"<strong>%(commenter_name)s</strong> just commented on your build "
+"<strong>\"%(build_name)s\"</strong>:"
+msgstr ""
+"<strong>%(commenter_name)s</strong> vient de commenter votre build <strong>«"
+" %(build_name)s »</strong> :"
 
 #: ui-i18n-plural
 msgid "Latest builds from the %(counter)s person you follow."
@@ -6895,3 +7224,44 @@ msgid "%(counter)s item · %(workshop_total_units)s total"
 msgid_plural "%(counter)s items · %(workshop_total_units)s total"
 msgstr[0] "%(counter)s objet · %(workshop_total_units)s au total"
 msgstr[1] "%(counter)s objets · %(workshop_total_units)s au total"
+
+msgid "Dofus 3.6 update"
+msgstr "Mise à jour Dofus 3.6"
+
+msgid "Updated to Dofus 3.6 items, sets, recipes and spells (3.6.2.1)"
+msgstr ""
+"Mise à jour vers les objets, panoplies, recettes et sorts de Dofus 3.6 "
+"(3.6.2.1)"
+
+msgid "Characteristics rework and Crâ overhaul reflected in the data"
+msgstr "Refonte des caractéristiques et du Crâ intégrée aux données"
+
+#~ msgid "Send"
+#~ msgstr "Envoyer"
+
+#~ msgid "Buy Kamas"
+#~ msgstr "Acheter Kamas"
+
+#~ msgid "Glyph of Repulsion"
+#~ msgstr "Glyphe de Répulsion"
+
+#~ msgid "Glyph of Blindness"
+#~ msgstr "Glyphe d'Aveuglement"
+
+#~ msgid "Fulmination"
+#~ msgstr "Fulmination"
+
+#~ msgid "Elemental Loop"
+#~ msgstr "Boucle Élémentaire"
+
+#~ msgid "Snuggletooth"
+#~ msgstr "Caninos"
+
+#~ msgid "Ferocity"
+#~ msgstr "Férocité"
+
+#~ msgid "Exos"
+#~ msgstr "Exos"
+
+#~ msgid "Neu"
+#~ msgstr "Neu"

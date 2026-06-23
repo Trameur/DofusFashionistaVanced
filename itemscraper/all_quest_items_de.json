@@ -9703,7 +9703,7 @@
         },
         {
             "ankama_id": 10787,
-            "name": "Perfekter Flügel eines wilden, roten Dracotruters",
+            "name": "Perfekter Flügel eines wilden Fuchsrot-Dracotruters",
             "type": {
                 "name": "Koalak-Gebirge",
                 "id": 192
@@ -16020,8 +16020,8 @@
             "ankama_id": 12838,
             "name": "Bronze-Kama aus Schokolade",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -16035,8 +16035,8 @@
             "ankama_id": 12839,
             "name": "Silber-Kama aus Schokolade",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -16050,8 +16050,8 @@
             "ankama_id": 12840,
             "name": "Gold-Kama aus Schokolade",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -23665,21 +23665,6 @@
             "pods": 0
         },
         {
-            "ankama_id": 15263,
-            "name": "Sandrose",
-            "type": {
-                "name": "Jetons",
-                "id": 40
-            },
-            "level": 10,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/50720-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/50720-128.png"
-            },
-            "description": "Sie ist zwar nicht rot, aber dafür verwelkt sie auch nicht.",
-            "pods": 0
-        },
-        {
             "ankama_id": 15281,
             "name": "Orichometer",
             "type": {
@@ -28396,7 +28381,7 @@
         },
         {
             "ankama_id": 16011,
-            "name": "Milch vom Goldenen Dracotruter",
+            "name": "Milch eines Gold-Dracotruters",
             "type": {
                 "name": "Gesinnung",
                 "id": 10
@@ -34999,6 +34984,21 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/79013-128.png"
             },
             "description": "Dieser hochprozentige Alkohol wurde vermutlich traditionell hergestellt und riecht kräftig.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 18342,
+            "name": "Matt Mexx",
+            "type": {
+                "name": "Saharach",
+                "id": 74
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/32154-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/32154-128.png"
+            },
+            "description": "Matt steht unter dem Einfluss des Beruhigungsmittels, das Jules Suk euch gegeben hat. Bringt ihn zu ihm und findet eine Möglichkeit, ihm zu helfen.",
             "pods": 0
         },
         {
@@ -42374,8 +42374,8 @@
             "ankama_id": 20915,
             "name": "Schokoladencoupon",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 60,
             "image_urls": {
@@ -42389,8 +42389,8 @@
             "ankama_id": 20916,
             "name": "Haselnusscoupon",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 130,
             "image_urls": {
@@ -42404,8 +42404,8 @@
             "ankama_id": 20917,
             "name": "Pralinencoupon",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 200,
             "image_urls": {
@@ -42773,8 +42773,8 @@
             "ankama_id": 21170,
             "name": "Festiton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -43459,8 +43459,8 @@
             "ankama_id": 21449,
             "name": "Ankama-Kama",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -49923,7 +49923,7 @@
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 0,
+                    "int_maximum": 1,
                     "type": {
                         "name": "Erhalte x",
                         "id": 260,
@@ -49931,7 +49931,7 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": true,
+                    "ignore_int_max": false,
                     "formatted": "Erhalte x1"
                 }
             ],
@@ -54907,8 +54907,8 @@
             "ankama_id": 29674,
             "name": "Biereton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -55272,7 +55272,7 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24999-128.png"
             },
             "description": "Werft 100 Kamas in diese Bettelschale und schenkt sie dem Schüler von Elgero vor dem Bibliotempel.",
-            "pods": 1
+            "pods": 0
         },
         {
             "ankama_id": 30135,
@@ -60414,8 +60414,8 @@
             "ankama_id": 31434,
             "name": "Gefälschter Kolosseum-Jeton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -61784,8 +61784,8 @@
             "ankama_id": 32123,
             "name": "Monsterturniereton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -61799,8 +61799,8 @@
             "ankama_id": 32124,
             "name": "Kriegerturniereton",
             "type": {
-                "name": "Jetons",
-                "id": 40
+                "name": "Event-Jetons",
+                "id": 254
             },
             "level": 1,
             "image_urls": {
@@ -62348,6 +62348,586 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/32154-128.png"
             },
             "description": "Dieser Eynaug soll bei den Experimenten von Doktor Walter B'Schopp als Versuchsobjekt dienen.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34376,
+            "name": "Clepsydres Sand",
+            "type": {
+                "name": "Insel Frigost",
+                "id": 85
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/48260-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/48260-128.png"
+            },
+            "description": "Manche Leute berichten, dass im Clepsydre-Turm ein mysteriöses Phänomen aufgetreten sei, nachdem sie diesen Sand in eines seiner seltsamen Getriebe gestreut hatten.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34417,
+            "name": "Erinnerung von Terrakourial",
+            "type": {
+                "name": "Die Quelle – Das Erbe der Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24530-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24530-128.png"
+            },
+            "description": "Bei diesen Fragmenten, die wie ein zerbrochener Dofus aussehen, handelt es sich nicht nur um einfache Schalenstücke ...\nDer Ocker-Drache hat sich seit vielen Jahren in seinen Dofus zurückgezogen. Er träumt von einer besseren Zukunft. Im Laufe seiner vielen Leben hat er zahlreiche Erinnerungen hinterlassen. Vielleicht solltet ihr ihm jene zeigen, die ihr schon gefunden habt, bevor sie wieder in Vergessenheit geraten.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34445,
+            "name": "Archäologische Schaufel",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Eine Schaufel, wie sie gewöhnlicher nicht sein könnte. Denkt daran, sie ihrem Besitzer zurückzugeben, nachdem ihr ausgegraben habt, wonach ihr sucht!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34446,
+            "name": "Archäologische Schaufel",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Eine Schaufel, wie sie gewöhnlicher nicht sein könnte. Denkt daran, sie ihrem Besitzer zurückzugeben, nachdem ihr ausgegraben habt, wonach ihr sucht!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34447,
+            "name": "Archäologische Schaufel",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Eine Schaufel, wie sie gewöhnlicher nicht sein könnte. Denkt daran, sie ihrem Besitzer zurückzugeben, nachdem ihr ausgegraben habt, wonach ihr sucht!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34448,
+            "name": "Archäologische Schaufel",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Eine Schaufel, wie sie gewöhnlicher nicht sein könnte. Denkt daran, sie ihrem Besitzer zurückzugeben, nachdem ihr ausgegraben habt, wonach ihr sucht!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34449,
+            "name": "Archäologische Schaufel",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/8001-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/8001-128.png"
+            },
+            "description": "Eine Schaufel, wie sie gewöhnlicher nicht sein könnte. Denkt daran, sie ihrem Besitzer zurückzugeben, nachdem ihr ausgegraben habt, wonach ihr sucht!",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 50,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    },
+                    {
+                        "condition": {
+                            "operator": "!",
+                            "int_value": 34467,
+                            "element": {
+                                "name": "Anderes Gebiet als: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34450,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34451,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34452,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34453,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34454,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34455,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34456,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34457,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34458,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34459,
+            "name": "Archäologischer Kompass",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/126018-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/126018-128.png"
+            },
+            "description": "In der Nähe von fossilem Bernstein spielen die Nadeln dieses Kompasses verrückt.",
+            "conditions": {
+                "condition": {
+                    "operator": "=",
+                    "int_value": 50,
+                    "element": {
+                        "name": "Anderes Gebiet als: {0}",
+                        "id": 216
+                    }
+                },
+                "is_operand": true
+            },
+            "pods": 0
+        },
+        {
+            "ankama_id": 34467,
+            "name": "Fossiler Bernstein",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/176047-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/176047-128.png"
+            },
+            "description": "Bringt dieses Stück Bernstein zu Edgar Chäolog, um eure Belohnung zu erhalten.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34469,
+            "name": "Nasser Sand",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/48691-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/48691-128.png"
+            },
+            "description": "Das ist zwar nicht das, wonach ihr gesucht habt, aber er erinnert euch an eure Kindheit. Warum nicht noch ein paar Schaufelstiche machen und die Sandburg bauen, von der ihr schon immer geträumt habt?",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34475,
+            "name": "Der mit einem X markierte Ort",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24007-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24007-128.png"
+            },
+            "description": "Der Kompass spielt verrückt, dann zeigt seine Nadel nach unten. Ihr seid am richtigen Ort!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34476,
+            "name": "Nichts wie hin!",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/87002-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/87002-128.png"
+            },
+            "description": "Ihr kommt voran, doch die Kompassnadel dreht sich weiterhin wie wild im Kreis.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34479,
+            "name": "Matsch",
+            "type": {
+                "name": "Vulkania-Archipel",
+                "id": 106
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25140-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
+            },
+            "description": "Das ist nicht das, wonach ihr gesucht habt, und außerdem deutlich unnützer als nasser Sand ... Aber man kann nicht immer alles haben!",
             "pods": 0
         }
     ]
