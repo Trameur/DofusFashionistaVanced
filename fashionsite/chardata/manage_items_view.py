@@ -49,8 +49,14 @@ def edit_set(request):
                          'languages': NON_EN_LANGUAGES})
 
 def update_item_post(request):
-    item = json.loads(request.POST.get('item', None))
-    if item == None:
+    item_json = request.POST.get('item', None)
+    if item_json is None:
+        return HttpResponseText('not ok')
+    try:
+        item = json.loads(item_json)
+    except (ValueError, TypeError):
+        return HttpResponseText('not ok')
+    if item is None:
         return HttpResponseText('not ok')
 
     item_id = safe_int(item['id'])
@@ -64,8 +70,14 @@ def update_item_post(request):
         return HttpResponseText('ok')
 
 def update_set_post(request):
-    s = json.loads(request.POST.get('set', None))
-    if s == None:
+    set_json = request.POST.get('set', None)
+    if set_json is None:
+        return HttpResponseText('not ok')
+    try:
+        s = json.loads(set_json)
+    except (ValueError, TypeError):
+        return HttpResponseText('not ok')
+    if s is None:
         return HttpResponseText('not ok')
 
     set_id = safe_int(s['id'])
