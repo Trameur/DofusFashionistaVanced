@@ -184,7 +184,7 @@ def check_if_violates(item, slot, char, stat_overrides=None):
 def get_items_of_type(request, char_id):
     char = get_char_or_raise(request, char_id)
         
-    page = int(request.POST.get('page', None))
+    page = int(request.POST.get('page') or 1)
     search_term = request.POST.get('search_term', None)
     slot = request.POST.get('slot', None)
     stat_filters = _parse_stat_filters(request)
