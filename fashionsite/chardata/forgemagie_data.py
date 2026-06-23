@@ -113,7 +113,9 @@ _MODERN_STATS = {
     'perspedam': _stat(15, 'Do Per So', [('', 1)]),
     'respermee': _stat(15, 'Ré Per Mé', [('', 1)]),
     'resperran': _stat(15, 'Ré Per Di', [('', 1)]),
-    'resperwea': _stat(15, 'Ré Per Ar', [('', 1)]),
+    # No "Ré Per Ar" rune exists in game: % weapon resist cannot be maged.
+    # The stat itself is kept (used by builds and item display) but rune-less.
+    'resperwea': _stat(15, '', [], approx=True),
 }
 
 # Touch froze the pre-2.29 values and never received the per-attack-type

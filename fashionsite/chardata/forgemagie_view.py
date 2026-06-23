@@ -26,6 +26,7 @@ from chardata.forgemagie_data import (
     MAGEABLE_TYPES, ONE_PERCENT_EXO_STATS, OVER_WEIGHT_CAP,
     get_fm_stats, get_ruleset,
 )
+from chardata.forgemagie_transcendance import get_transcendence_by_stat
 from chardata.image_store import get_image_url
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
@@ -738,6 +739,58 @@ def _build_reference_rows(structure, game_version, language, t):
     return rows
 
 
+# UI strings for the transcendence-rune panel (kept out of LOCALIZED_UI).
+TRANSCENDENCE_UI = {
+    'en': {
+        'title': 'Transcendence runes (lock smithmagic)',
+        'intro': 'Applied at 100% - they add a powerful bonus but permanently '
+                 'lock the item (no further smithmagic). Only possible if no '
+                 'line exceeds its max roll.',
+        'locked': 'Item transcended by %s - smithmagic locked.',
+        'over_block': 'Impossible: the item exceeds its max roll on a line. '
+                      'Remove the over before transcending.',
+    },
+    'fr': {
+        'title': 'Runes de transcendance (verrouillent la FM)',
+        'intro': 'Posees a 100 % - elles ajoutent un bonus puissant mais '
+                 'verrouillent definitivement l\u2019objet (plus aucune '
+                 'forgemagie). Possible seulement si aucune ligne ne depasse '
+                 'son jet max.',
+        'locked': 'Objet transcende par %s - forgemagie bloquee.',
+        'over_block': 'Impossible : l\u2019objet depasse son jet max sur une '
+                      'ligne. Retirez l\u2019over avant de transcender.',
+    },
+    'es': {
+        'title': 'Runas de trascendencia (bloquean la forja)',
+        'intro': 'Se aplican al 100 % - anaden un bono potente pero bloquean el '
+                 'objeto para siempre (no mas forja). Solo si ninguna linea '
+                 'supera su tirada maxima.',
+        'locked': 'Objeto trascendido con %s - forja bloqueada.',
+        'over_block': 'Imposible: el objeto supera su tirada maxima en una '
+                      'linea. Quita el over antes de trascender.',
+    },
+    'pt': {
+        'title': 'Runas de transcendencia (bloqueiam a FM)',
+        'intro': 'Aplicadas a 100% - adicionam um bonus poderoso mas bloqueiam '
+                 'o item para sempre (sem mais forjamagia). So se nenhuma linha '
+                 'ultrapassar sua rolagem maxima.',
+        'locked': 'Item transcendido por %s - forjamagia bloqueada.',
+        'over_block': 'Impossivel: o item ultrapassa sua rolagem maxima em uma '
+                      'linha. Remova o over antes de transcender.',
+    },
+    'de': {
+        'title': 'Transzendenz-Runen (sperren die Schmiedemagie)',
+        'intro': 'Mit 100% gesetzt - sie geben einen starken Bonus, sperren den '
+                 'Gegenstand aber dauerhaft (keine Schmiedemagie mehr). Nur '
+                 'moeglich, wenn keine Linie ihren Maximalwurf ueberschreitet.',
+        'locked': 'Gegenstand durch %s transzendiert - Schmiedemagie gesperrt.',
+        'over_block': 'Unmoeglich: Der Gegenstand ueberschreitet auf einer Linie '
+                      'seinen Maximalwurf. Entferne den Over vor dem '
+                      'Transzendieren.',
+    },
+}
+
+
 def forgemagie(request):
     structure = get_structure()
     language = get_supported_language()
@@ -779,6 +832,8 @@ def forgemagie(request):
                 'sim_mode_sim_hint', 'sim_mode_real_hint',
             )
         },
+        'transcendence': get_transcendence_by_stat(game_version),
+        'transT': TRANSCENDENCE_UI.get(language, TRANSCENDENCE_UI['en']),
     }
 
     preload = _inventory_preload(request, structure, language, game_version)

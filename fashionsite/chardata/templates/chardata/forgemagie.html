@@ -304,6 +304,11 @@
         max-width: none;
     }
 }
+.fm-trans-panel { margin-top: 12px; padding: 10px; border: 1px solid #c9a227; border-radius: 6px; }
+        .fm-trans-opt { display: inline-flex; align-items: center; gap: 6px; margin: 4px 6px 4px 0; padding: 4px 8px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; }
+        .fm-trans-opt img { width: 28px; height: 28px; }
+        .fm-trans-opt:hover { border-color: #8e24aa; }
+        .fm-trans-lock { margin-top: 10px; padding: 8px 10px; border-radius: 6px; background: #ede7f6; color: #4a148c; font-weight: 600; }
 </style>
 {% endblock %}
 
@@ -431,6 +436,17 @@
                     <button type="button" class="button-thin" id="fm-sim-record-sn">{{ t.sim_sn }}</button>
                     <button type="button" class="button-thin" id="fm-sim-record-ec">{{ t.sim_ec }}</button>
                 </div>
+            </div>
+
+            <div class="fm-trans-lock" id="fm-trans-lock" style="display:none;"></div>
+            <div class="fm-trans-panel" id="fm-trans-panel" style="display:none;">
+                <div class="fm-section-title" id="fm-trans-title"></div>
+                <div class="small-explain" id="fm-trans-intro"></div>
+                <div class="fm-exo-row">
+                    <select class="pretty-input" id="fm-trans-stat"></select>
+                </div>
+                <div id="fm-trans-options"></div>
+                <div class="small-explain fm-warn" id="fm-trans-msg"></div>
             </div>
 
             <div class="fm-sim-side">
@@ -954,7 +970,7 @@
 
                 totalSink += missing;
                 totalNeeded += needed;
-                if (overWeight > config.overCap && !capProblemStat) {
+                if (row.target > lineCeiling(row) + 0.001 && !capProblemStat) {
                     capProblemStat = info.name;
                 }
                 if (row.exo && config.onePercentExo.indexOf(row.key) !== -1 && row.target > 0) {
@@ -1142,6 +1158,8 @@
                 itemCost: null,
                 salePrice: null,
                 history: [],
+                locked: false,
+                transRune: null,
                 mode: session && session.mode === 'real' ? 'real' : 'sim'
             };
             undoStack = [];
@@ -1228,31 +1246,107 @@
         }
 
         // Weight this rune would put past the stat's best roll (the whole
-        // bonus for an exo line). The game refuses anything past the 101 cap.
+        // bonus for an exo line). Used for sink / over accounting.
         function overWeightAfter(row, tier) {
             var info = statInfo(row.key);
             var maxRoll = row.exo ? 0 : row.max;
             return Math.max(0, row.value + tier.bonus - maxRoll) * info.density;
         }
 
-        function wouldExceedCap(row, tier) {
-            return overWeightAfter(row, tier) > config.overCap + 0.001;
+        // Highest value a single line can reach. In game the TOTAL weight of a
+        // line (value * density) can never exceed the 101 cap, except that an
+        // item's natural best roll is always allowed even when it already
+        // weighs more (e.g. the Bavdur amulet's natural +2 AP = weight 200).
+        // So a Do Eau line (density 5) tops out at floor(101/5)=20, which is
+        // why pushing a perfect Volkorne ring to 21 water damage is impossible.
+        function lineCeiling(row) {
+            var info = statInfo(row.key);
+            if (!info) {
+                return Infinity;
+            }
+            var capValue = Math.floor((config.overCap + 0.001) / info.density);
+            var maxRoll = row.exo ? 0 : row.max;
+            return Math.max(maxRoll, capValue);
         }
 
-        // Community-estimated outcome odds: the fuller the stat (vs the 20x
-        // rune bonus rule), the harder the rune; over/exo placements are
-        // capped lower; AP/MP/Range exos are the well-known ~1% case.
+        function wouldExceedCap(row, tier) {
+            return row.value + tier.bonus > lineCeiling(row) + 0.001;
+        }
+
+        // ---- Smithmagic odds model (community estimates; tunable) ----
+        // A rune passes less often as: (1) the stat nears ~20x the rune bonus
+        // (the "rune limit"), very low beyond; (2) the line nears or passes its
+        // max roll (overmage); (3) the whole item gets heavier (total weight).
+        // Ankama never published the formula, so these knobs are deliberately
+        // tunable and validated against real maging feel (see docs/benchmarks).
+        var FM_ODDS = {
+            base: 0.98,        // best case: tiny rune, low stat, light item
+            scShare: 0.25,     // share of successes that are critical (no loss)
+            floor: 0.02,       // never show a flat 0% (except the 1% exos)
+            weightScale: 2600, // total item weight feeding the global penalty
+            weightFloor: 0.55  // strongest global-weight multiplier
+        };
+
+        function totalItemWeight() {
+            if (!session) {
+                return 0;
+            }
+            var sum = 0;
+            session.rows.forEach(function(r) {
+                var info = statInfo(r.key);
+                if (info && r.value > 0) {
+                    sum += r.value * info.density;
+                }
+            });
+            return sum;
+        }
+
+        // 1.0 at/below ~16x the bonus, 0.5 at the 20x limit, ~0 well beyond.
+        function passFactorRuneLimit(value, bonus) {
+            var rr = (value + bonus) / (20 * bonus);
+            if (rr <= 0.8) {
+                return 1.0;
+            }
+            if (rr <= 1.0) {
+                return 1.0 - 0.5 * ((rr - 0.8) / 0.2);
+            }
+            return Math.max(0.0, 0.5 * (1.0 - (rr - 1.0) / 0.6));
+        }
+
+        // 1.0 while comfortably under the max roll, 0.6 at the max, down to 0.1
+        // when overmaging; exo / no-natural-roll lines are inherently hard.
+        function passFactorFill(row, tier) {
+            var maxRoll = row.exo ? 0 : row.max;
+            if (maxRoll <= 0) {
+                return 0.30;
+            }
+            var fr = (row.value + tier.bonus) / maxRoll;
+            if (fr <= 0.8) {
+                return 1.0;
+            }
+            if (fr <= 1.0) {
+                return 1.0 - 0.4 * ((fr - 0.8) / 0.2);
+            }
+            return Math.max(0.1, 0.6 - 0.5 * (fr - 1.0));
+        }
+
+        function passFactorWeight() {
+            return Math.max(FM_ODDS.weightFloor,
+                            1.0 - totalItemWeight() / FM_ODDS.weightScale);
+        }
+
         function chancesFor(row, tier) {
             if (row.exo && config.onePercentExo.indexOf(row.key) !== -1) {
                 return {sc: 0.01, sn: 0, ec: 0.99};
             }
-            var ratio = (row.value + tier.bonus) / (20 * tier.bonus);
-            var pass = 1.02 - 0.45 * ratio;
-            if (row.exo || row.value + tier.bonus > row.max) {
-                pass = Math.min(pass, 0.45);
-            }
-            pass = Math.max(0.03, Math.min(0.98, pass));
-            return {sc: pass * 0.25, sn: pass * 0.75, ec: 1 - pass};
+            var pass = FM_ODDS.base
+                     * passFactorRuneLimit(row.value, tier.bonus)
+                     * passFactorFill(row, tier)
+                     * passFactorWeight();
+            pass = Math.max(FM_ODDS.floor, Math.min(0.98, pass));
+            return {sc: pass * FM_ODDS.scShare,
+                    sn: pass * (1 - FM_ODDS.scShare),
+                    ec: 1 - pass};
         }
 
         // Losses drain the sink first, then stat lines: exo lines are the
@@ -1305,6 +1399,9 @@
         }
 
         function throwRune(key, tier, forcedOutcome) {
+            if (session && session.locked) {
+                return;
+            }
             var rowIndex = findOrCreateSessionRow(key);
             if (wouldExceedCap(session.rows[rowIndex], tier)) {
                 simChanceSpan.textContent =
@@ -1411,98 +1508,119 @@
             return best;
         }
 
-        function suggestThrow() {
-            // Sacrifice phase first: a lowered target means the user wants
-            // that stat knocked off to bank its weight as sink.
-            var needsSacrifice = session.rows.some(function(row) {
-                return row.target < row.start && row.value > row.target;
-            });
-            if (needsSacrifice) {
-                return smallestRune();
+        // Best single throw for one line. The target is a MINIMUM (floor):
+        // we pick the biggest in-target rune that passes well. If the line is
+        // so close to its limit that no in-target rune passes, we allow a
+        // bigger rune that slightly overshoots but actually passes (the "Ra Cha
+        // to 101 chance" case), preferring sink-absorbable then lighter runes.
+        function bestThrowForRow(row) {
+            var info = statInfo(row.key);
+            if (!info || !info.tiers.length) {
+                return null;
             }
-            // Heavy lines (AP/MP/Range, density >= 51) are attempted last,
-            // once everything else sits at its target: every failure on them
-            // costs a fortune, and passing them early just exposes them to
-            // the losses of the remaining throws.
-            var best = null;
-            var bestHeavy = null;
-            session.rows.forEach(function(row, index) {
-                var remaining = row.target - row.value;
-                if (remaining <= 0) {
-                    return;
-                }
-                var info = statInfo(row.key);
-                if (!info || !info.tiers.length) {
-                    return;
-                }
-                var candidates = info.tiers.filter(function(tier) {
-                    return !wouldExceedCap(row, tier);
-                });
-                if (!candidates.length) {
-                    return;
-                }
-                // A rune landing above the best roll takes its weight back
-                // out of the item on a neutral success, so it is only safe
-                // while the sink can absorb it: adapt the rune size to the
-                // current sink. In-roll runes are not constrained.
-                var maxRoll = row.exo ? 0 : row.max;
-                var affordable = candidates.filter(function(tier) {
-                    var over = row.value + tier.bonus > maxRoll;
-                    return !over || tier.weight <= session.sink + 0.001;
-                });
-                if (!affordable.length) {
-                    // Sink too small for even the smallest over rune: fall
-                    // back to it (least damage per failure); the rebuild-the-
-                    // sink hint shows alongside.
-                    affordable = [candidates.slice().sort(function(a, b) {
-                        return a.weight - b.weight;
-                    })[0]];
-                }
-                var descending = affordable.sort(function(a, b) {
+            var remaining = row.target - row.value;
+            if (remaining <= 0) {
+                return null;
+            }
+            var legal = info.tiers.filter(function(tier) {
+                return !wouldExceedCap(row, tier);
+            });
+            if (!legal.length) {
+                return null;
+            }
+            var maxRoll = row.exo ? 0 : row.max;
+            function passOf(tier) {
+                var c = chancesFor(row, tier);
+                return c.sc + c.sn;
+            }
+            var inTarget = legal.filter(function(tier) {
+                return tier.bonus <= remaining + 0.001;
+            });
+            function pickEfficient(list) {
+                return list.slice().sort(function(a, b) {
+                    var pa = passOf(a), pb = passOf(b);
+                    if (Math.abs(pb - pa) > 0.02) {
+                        return pb - pa;
+                    }
                     return b.bonus - a.bonus;
+                })[0];
+            }
+            var chosen = inTarget.length ? pickEfficient(inTarget) : null;
+            var chosenPass = chosen ? passOf(chosen) : 0;
+            if (chosenPass < 0.45) {
+                var over = legal.filter(function(tier) {
+                    return tier.bonus > remaining + 0.001;
                 });
-                var chosen = null;
-                descending.forEach(function(tier) {
-                    if (chosen) {
-                        return;
-                    }
-                    // Biggest rune that does not overshoot the target and
-                    // stays inside the ~20x reliability rule.
-                    if (tier.bonus <= remaining &&
-                            row.value + tier.bonus <= 20 * tier.bonus) {
-                        chosen = tier;
-                    }
+                var absorbable = over.filter(function(tier) {
+                    var landsOver = row.value + tier.bonus > maxRoll;
+                    return !landsOver || tier.weight <= session.sink + 0.001;
                 });
-                if (!chosen) {
-                    var ascending = descending.slice().reverse();
-                    chosen = null;
-                    ascending.forEach(function(tier) {
-                        if (!chosen && tier.bonus <= remaining) {
-                            chosen = tier;
-                        }
-                    });
-                    chosen = chosen || ascending[0];
+                var pool = absorbable.length ? absorbable : over;
+                var bestOver = pool.slice().sort(function(a, b) {
+                    var pa = passOf(a), pb = passOf(b);
+                    if (Math.abs(pb - pa) > 0.02) {
+                        return pb - pa;
+                    }
+                    return a.weight - b.weight;
+                })[0];
+                if (bestOver && passOf(bestOver) > chosenPass + 0.05) {
+                    chosen = bestOver;
+                    chosenPass = passOf(bestOver);
                 }
-                var remainingWeight = remaining * info.density;
-                var candidate = {key: row.key, name: info.name, tier: chosen,
-                                 remainingWeight: remainingWeight};
-                if (info.density >= 51) {
-                    if (!bestHeavy || remainingWeight > bestHeavy.remainingWeight) {
-                        bestHeavy = candidate;
-                    }
-                } else if (!best || remainingWeight > best.remainingWeight) {
-                    best = candidate;
+            }
+            if (!chosen) {
+                return null;
+            }
+            return {key: row.key, name: info.name, tier: chosen,
+                    pass: chosenPass, weight: chosen.weight,
+                    density: info.density, heavy: info.density >= 51};
+        }
+
+        function suggestThrow() {
+            if (!session || session.locked) {
+                return null;
+            }
+            // Sacrifice is now explicit (a per-line choice), never inferred from
+            // a lowered target: the target is a minimum the player wants to keep.
+            for (var i = 0; i < session.rows.length; i++) {
+                if (session.rows[i].sacrifice && session.rows[i].value > 0) {
+                    return smallestRune();
+                }
+            }
+            var throws = [];
+            session.rows.forEach(function(row) {
+                var candidate = bestThrowForRow(row);
+                if (candidate) {
+                    throws.push(candidate);
                 }
             });
-            if (!best && bestHeavy) {
-                // Only the big rune is left: spend the sink surplus on free
-                // upgrades first, keeping its weight in reserve.
-                var improvement = suggestImprovement(bestHeavy.tier.weight);
+            if (!throws.length) {
+                return null;
+            }
+            // Heavy lines (AP/MP/Range, density >= 51) are kept for the very
+            // end. Otherwise suggest the rune most likely to pass; ties go to
+            // the lighter rune (less collateral on big lines), then to progress.
+            var light = throws.filter(function(c) { return !c.heavy; });
+            var pool = light.length ? light : throws;
+            pool.sort(function(a, b) {
+                if (Math.abs(b.pass - a.pass) > 0.02) {
+                    return b.pass - a.pass;
+                }
+                if (Math.abs(a.weight - b.weight) > 0.001) {
+                    return a.weight - b.weight;
+                }
+                return b.tier.bonus - a.tier.bonus;
+            });
+            var best = pool[0];
+            // Only heavy lines left: spend spare sink on a free upgrade / erode
+            // an over first, keeping the heavy rune's weight in reserve.
+            if (best.heavy) {
+                var improvement = suggestImprovement(best.tier.weight);
                 if (improvement) {
                     return improvement;
                 }
             }
-            return best || bestHeavy;
+            return best;
         }
 
         function refreshRuneSelect(preferred) {
@@ -1613,6 +1731,125 @@
             }
         }
 
+        // ---- Transcendence runes (legendary, lock smithmagic) ----
+        function renderTranscendenceOptions() {
+            var box = document.getElementById('fm-trans-options');
+            if (!box) {
+                return;
+            }
+            box.innerHTML = '';
+            var sel = document.getElementById('fm-trans-stat');
+            var trans = config.transcendence || {};
+            var entry = trans[sel.value];
+            if (!entry) {
+                return;
+            }
+            entry.runes.forEach(function(r) {
+                var opt = document.createElement('span');
+                opt.className = 'fm-trans-opt';
+                if (r.img) {
+                    var img = document.createElement('img');
+                    img.src = r.img;
+                    img.alt = '';
+                    opt.appendChild(img);
+                }
+                var label = document.createElement('span');
+                label.textContent = r.name_fr + ' (+' + r.bonus + ' ' + entry.label + ')';
+                opt.appendChild(label);
+                if (session && !session.locked) {
+                    opt.onclick = function() { applyTranscendence(r, entry.label); };
+                } else {
+                    opt.style.opacity = '0.5';
+                    opt.style.cursor = 'default';
+                }
+                box.appendChild(opt);
+            });
+        }
+
+        function applyTranscendence(rune, statLabel) {
+            if (!session || session.locked) {
+                return;
+            }
+            var tt = config.transT || {};
+            var msg = document.getElementById('fm-trans-msg');
+            if (msg) {
+                msg.textContent = '';
+            }
+            // Transcendence can only be applied while no line is over its max.
+            var hasOver = session.rows.some(function(row) {
+                return !row.exo && row.value > row.max;
+            });
+            if (hasOver) {
+                if (msg) {
+                    msg.textContent = tt.over_block || '';
+                }
+                return;
+            }
+            pushUndo();
+            var idx = -1;
+            for (var i = 0; i < session.rows.length; i++) {
+                if (session.rows[i].key === rune.stat_key) {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx < 0) {
+                var info = statInfo(rune.stat_key);
+                session.rows.push({key: rune.stat_key, name: info ? info.name : statLabel,
+                    icon: info ? info.icon : null, max: 0, start: 0, value: 0,
+                    target: 0, exo: true});
+                idx = session.rows.length - 1;
+            }
+            session.rows[idx].value += rune.bonus;
+            session.locked = true;
+            session.transRune = {name: rune.name_fr, stat: rune.stat_key,
+                bonus: rune.bonus, img: rune.img};
+            saveSession();
+            renderSession();
+        }
+
+        function renderTranscendence() {
+            var panel = document.getElementById('fm-trans-panel');
+            var lockBox = document.getElementById('fm-trans-lock');
+            if (!panel || !lockBox || !session) {
+                return;
+            }
+            var trans = config.transcendence || {};
+            var tt = config.transT || {};
+            var statKeys = Object.keys(trans);
+            if (!statKeys.length) {
+                panel.style.display = 'none';
+                lockBox.style.display = 'none';
+                return;
+            }
+            panel.style.display = 'block';
+            document.getElementById('fm-trans-title').textContent = tt.title || '';
+            document.getElementById('fm-trans-intro').textContent = tt.intro || '';
+            if (session.locked && session.transRune) {
+                lockBox.style.display = 'block';
+                lockBox.textContent =
+                    '\u26d4 ' + (tt.locked || '%s').replace('%s', session.transRune.name);
+            } else {
+                lockBox.style.display = 'none';
+            }
+            var sel = document.getElementById('fm-trans-stat');
+            if (!sel.dataset.built) {
+                statKeys.sort(function(a, b) {
+                    return config.statOrder.indexOf(a) - config.statOrder.indexOf(b);
+                });
+                statKeys.forEach(function(k) {
+                    var o = document.createElement('option');
+                    o.value = k;
+                    o.textContent = trans[k].label;
+                    sel.appendChild(o);
+                });
+                sel.dataset.built = '1';
+                sel.addEventListener('change', renderTranscendenceOptions);
+            }
+            sel.disabled = !!session.locked;
+            renderTranscendenceOptions();
+        }
+
         function renderSession() {
             if (!session) {
                 return;
@@ -1670,18 +1907,15 @@
             var anyTarget = false;
             var allReached = true;
             session.rows.forEach(function(row) {
-                // A raised target wants the stat at or above it; a lowered
-                // one wants the stat knocked down (sacrifice). Stats with an
-                // untouched target still have to stay at their roll, so a
-                // lost AP keeps the goal unreached.
-                var raised = row.target >= row.start;
-                var remaining = raised ? row.target - row.value
-                                       : row.value - row.target;
+                // The target is a MINIMUM (floor): the suggestion only ever
+                // raises a stat toward it. Sacrifice is a separate, explicit
+                // per-line choice (row.sacrifice).
+                var remaining = Math.max(0, row.target - row.value);
                 var reached = remaining <= 0;
-                if (row.target !== row.start) {
+                if (row.target > row.start || row.sacrifice) {
                     anyTarget = true;
                 }
-                if (!reached) {
+                if (!reached || (row.sacrifice && row.value > 0)) {
                     allReached = false;
                 }
                 var tr = document.createElement('tr');
@@ -1741,18 +1975,35 @@
                     });
                     targetTd.appendChild(targetInput);
                 } else {
-                    targetTd.textContent = (row.target > 0 || row.target < row.start)
-                        ? row.target : '-';
+                    var targetText = document.createElement('span');
+                    targetText.textContent = row.target > 0 ? row.target : '-';
+                    targetTd.appendChild(targetText);
+                }
+                if (row.value > 0) {
+                    var sacBtn = document.createElement('button');
+                    sacBtn.type = 'button';
+                    sacBtn.className = 'button-thin fm-sac-btn'
+                        + (row.sacrifice ? ' fm-active' : '');
+                    sacBtn.textContent = '✂';
+                    sacBtn.title = t.sim_sacrifice;
+                    sacBtn.onclick = function() {
+                        row.sacrifice = !row.sacrifice;
+                        saveSession();
+                        renderSession();
+                    };
+                    targetTd.appendChild(sacBtn);
                 }
                 tr.appendChild(targetTd);
 
                 var remainingTd = document.createElement('td');
-                if (reached) {
+                if (row.sacrifice && row.value > 0) {
+                    remainingTd.textContent = row.value + ' ✂';
+                    remainingTd.className = 'fm-warn';
+                } else if (reached) {
                     remainingTd.textContent = '✓';
                     remainingTd.className = 'fm-ok';
                 } else {
-                    remainingTd.textContent = raised ? String(remaining)
-                                                     : remaining + ' ↓';
+                    remainingTd.textContent = String(remaining);
                 }
                 tr.appendChild(remainingTd);
 
@@ -1761,7 +2012,9 @@
 
             var suggestion = suggestThrow();
             simSuggestionDiv.innerHTML = '';
-            if (!anyTarget) {
+            if (session.locked) {
+                // Transcended: smithmagic is locked, no further suggestions.
+            } else if (!anyTarget) {
                 simSuggestionDiv.textContent = '{{ t.sim_no_target|escapejs }}';
             } else if (allReached) {
                 var done = document.createElement('span');
@@ -1808,6 +2061,9 @@
                 }
             }
             refreshRuneSelect(suggestion);
+            if (simThrowBtn) { simThrowBtn.disabled = !!session.locked; }
+            if (simRuneSelect) { simRuneSelect.disabled = !!session.locked; }
+            renderTranscendence();
 
             simRunesUsedDiv.innerHTML = '';
             var usedNames = Object.keys(session.runesUsed);
