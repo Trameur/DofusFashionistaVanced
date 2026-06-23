@@ -547,6 +547,20 @@ html.fm-modern .solution-item-remove-button{ content:url("data:image/svg+xml,%3C
 html.fm-modern .solution-item-add-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%2712%27%20y1=%275%27%20x2=%2712%27%20y2=%2719%27/%3E%3Cline%20x1=%275%27%20y1=%2712%27%20x2=%2719%27%20y2=%2712%27/%3E%3C/svg%3E"); }
 html.fm-modern .item-external-image-link{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204h6v6%27/%3E%3Cpath%20d=%27M20%204l-9%209%27/%3E%3Cpath%20d=%27M18%2013v6a1%201%200%200%201-1%201H5a1%201%200%200%201-1-1V7a1%201%200%200%201%201-1h6%27/%3E%3C/svg%3E") !important; width:15px !important; height:15px !important; vertical-align:middle; opacity:.9; }
 
+/* The solution intro paragraph embeds the legacy PNG action icons (forbid/lock/
+   switch/add) inside a {% blocktrans %}, so they can't carry the button classes
+   above. Swap them for the same vector icons by matching the src (a template var,
+   identical in every language) inside the intro <p> -- keeps translations and the
+   real item buttons untouched; classic keeps the original PNGs. */
+html.fm-modern p.text img[src*="delete-icon"],
+html.fm-modern p.text img[src*="lock-icon"],
+html.fm-modern p.text img[src*="Left-right"],
+html.fm-modern p.text img[src*="add-icon"]{ width:16px; height:16px; vertical-align:middle; object-fit:contain; }
+html.fm-modern p.text img[src*="delete-icon"]{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23d6594a%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%278.5%27/%3E%3Cline%20x1=%276%27%20y1=%276%27%20x2=%2718%27%20y2=%2718%27/%3E%3C/svg%3E"); }
+html.fm-modern p.text img[src*="lock-icon"]{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%275%27%20y=%2711%27%20width=%2714%27%20height=%279%27%20rx=%272%27/%3E%3Cpath%20d=%27M8%2011V7a4%204%200%200%201%208%200v4%27/%3E%3C/svg%3E"); }
+html.fm-modern p.text img[src*="Left-right"]{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M3%209h14%27/%3E%3Cpath%20d=%27M14%206l3%203-3%203%27/%3E%3Cpath%20d=%27M21%2015H7%27/%3E%3Cpath%20d=%27M10%2012l-3%203%203%203%27/%3E%3C/svg%3E"); }
+html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%2712%27%20y1=%275%27%20x2=%2712%27%20y2=%2719%27/%3E%3Cline%20x1=%275%27%20y1=%2712%27%20x2=%2719%27%20y2=%2712%27/%3E%3C/svg%3E"); }
+
 /* Build micro-stat icons: classic keeps the emoji; modern swaps for themed SVG
    (emojis ignore `color`, so we use image-replacement: hide glyph, show bg). */
 html.fm-modern .fm-st{ display:inline-block; width:1.05em; height:1.05em; vertical-align:-0.18em;
