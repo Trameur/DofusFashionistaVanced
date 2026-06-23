@@ -18,13 +18,13 @@ html.fm-modern{
   --fm-trans:.16s cubic-bezier(.22,.61,.36,1);
 }
 html.fm-modern.fm-light{
-  --fm-bg:#ece8dc; --fm-bg-2:#e3ded0;
-  --fm-surface:#fffdf8; --fm-surface-2:#f6f2e7; --fm-surface-3:#efe9da;
-  --fm-text:#2a2114; --fm-head:#3a2c16; --fm-muted:#6b6048;
-  --fm-border:rgba(60,46,20,.13); --fm-border-strong:rgba(176,144,42,.42);
-  --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.20),transparent 70%);
+  --fm-bg:#e7dfcc; --fm-bg-2:#ddd3bd;
+  --fm-surface:#f2ebdb; --fm-surface-2:#e8dfcb; --fm-surface-3:#ded3bc;
+  --fm-text:#2c2417; --fm-head:#3a2c16; --fm-muted:#6a5f47;
+  --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
+  --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
   --fm-banner-grad:linear-gradient(180deg,rgba(20,12,4,0) 42%,rgba(20,12,4,.30) 100%);
-  --fm-accent-text:#8a6a14;
+  --fm-accent-text:#856713;
 }
 html.fm-modern.fm-dark{
   --fm-bg:#120e08; --fm-bg-2:#181209;
@@ -36,11 +36,11 @@ html.fm-modern.fm-dark{
   --fm-accent-text:#e3bf4d;
 }
 html.fm-modern:not(.fm-light):not(.fm-dark){
-  --fm-bg:#ece8dc; --fm-bg-2:#e3ded0; --fm-surface:#fffdf8; --fm-surface-2:#f6f2e7;
-  --fm-surface-3:#efe9da; --fm-text:#2a2114; --fm-head:#3a2c16; --fm-muted:#6b6048;
-  --fm-border:rgba(60,46,20,.13); --fm-border-strong:rgba(176,144,42,.42);
-  --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.20),transparent 70%);
-  --fm-accent-text:#8a6a14;
+  --fm-bg:#e7dfcc; --fm-bg-2:#ddd3bd; --fm-surface:#f2ebdb; --fm-surface-2:#e8dfcb;
+  --fm-surface-3:#ded3bc; --fm-text:#2c2417; --fm-head:#3a2c16; --fm-muted:#6a5f47;
+  --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
+  --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
+  --fm-accent-text:#856713;
 }
 
 /* ---------- Base ---------- */
@@ -528,15 +528,20 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .solution-stat-summary{ width:42% !important; vertical-align:top; }
 }
 
-/* Very small screens (<=480px): the 2-column items|stats table no longer fits, so the
-   item action buttons overflow their box and the stats column gets clipped. Stack the
-   table into a single full-width column (items, then stats). */
+/* Very narrow screens (<=480px): keep items | stats side by side (no stacking) but
+   compact the item box so the icon + 4 action buttons and the stats all fit without
+   overflowing — smaller icon, smaller buttons that wrap, tighter columns/padding. */
 @media (max-width: 480px){
-  html.fm-modern .solution-table,
-  html.fm-modern .solution-table > tbody,
-  html.fm-modern .solution-table > tbody > tr{ display:block !important; width:100% !important; }
-  html.fm-modern .solution-item-summary,
-  html.fm-modern .solution-stat-summary{ display:block !important; width:100% !important; box-sizing:border-box; }
+  html.fm-modern .solution-table{ table-layout:fixed; width:100% !important; }
+  html.fm-modern .solution-item-summary{ width:56% !important; vertical-align:top; }
+  html.fm-modern .solution-stat-summary{ width:44% !important; vertical-align:top; }
+  html.fm-modern .solution-item-expand-header td[width="62px"]{ width:42px !important; }
+  html.fm-modern .solution-item-icon-container, html.fm-modern .solution-items-icon{ width:38px !important; height:38px !important; }
+  html.fm-modern .solution-item-button{ width:13px !important; height:13px !important; padding:2px !important; border-radius:5px; }
+  html.fm-modern .solution-item-icons{ display:flex; flex-wrap:wrap; gap:2px; margin-top:2px; }
+  html.fm-modern .solution-item-name-div{ font-size:.86em; overflow-wrap:anywhere; }
+  html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header{ padding:4px !important; }
+  html.fm-modern .solution-stat-summary td{ padding:1px 4px !important; font-size:.82em; }
 }
 
 /* Load-projects table has fixed-width inner divs (~644px total) that overflow small
