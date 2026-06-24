@@ -112,6 +112,27 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_encyclopedia_item_shows_set_bonuses(self):
+        # The item page now surfaces the panoply's per-piece bonuses (the set_bonus
+        # data was loaded but only the set NAME was shown before).
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        target = None
+        for iset in s.sets_dict.values():
+            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
+                for iid in iset.items:
+                    it = s.get_item_by_id(iid)
+                    if it and getattr(it, 'ankama_type', None) and getattr(it, 'ankama_id', None):
+                        target = it
+                        break
+            if target:
+                break
+        self.assertIsNotNone(target, 'no set item found in the structure')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/'
+                               % (target.ankama_type, target.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Set bonuses')
+
     def test_sitemap_is_well_formed_xml(self):
         resp = self.client.get('/sitemap.xml')
         self.assertEqual(resp.status_code, 200)

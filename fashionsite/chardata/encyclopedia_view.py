@@ -416,6 +416,31 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language):
     return bonuses
 
 
+def _get_set_bonuses(structure, item_set, language):
+    """The bonuses a panoply grants per number of pieces worn, grouped, for the item
+    page. The data was already loaded (set_bonus table) but only the set name was shown."""
+    if item_set is None or not getattr(item_set, 'bonus', None):
+        return []
+    by_pieces = {}
+    for num_items, stat_id, value in item_set.bonus:
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is None:
+            continue
+        by_pieces.setdefault(num_items, []).append((
+            STAT_ORDER.get(stat.key, 9999),
+            {
+                'name': _localized_label(stat.name, language),
+                'value': int(round(value)),
+                'icon_url': _get_stat_icon_url(stat.key),
+            },
+        ))
+    groups = []
+    for num_pieces in sorted(by_pieces):
+        lines = [line for _, line in sorted(by_pieces[num_pieces], key=lambda pair: pair[0])]
+        groups.append({'num_pieces': num_pieces, 'lines': lines})
+    return groups
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -993,6 +1018,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         })
 
     pet_feedable_bonuses = _get_pet_feedable_bonuses(structure, grouped_variants, language)
+    set_bonuses = _get_set_bonuses(structure, item_set, language)
 
     condition_groups = _format_condition_groups(structure, grouped_variants, language)
 
@@ -1021,6 +1047,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 'image_url': static(get_image_url(type_name, representative_item.name)),
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
+            'set_bonuses': set_bonuses,
             'stats': stat_lines,
             'pet_feedable_bonuses': pet_feedable_bonuses,
             'condition_groups': condition_groups,

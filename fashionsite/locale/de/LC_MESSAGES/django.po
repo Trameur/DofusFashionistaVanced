@@ -6758,3 +6758,6 @@ msgid ""
 msgstr ""
 "Das moderne Design gilt jetzt auch für die Bereiche für Objektwechsel und "
 "Detailstatistiken"
+
+msgid "Set bonuses"
+msgstr "Set-Boni"

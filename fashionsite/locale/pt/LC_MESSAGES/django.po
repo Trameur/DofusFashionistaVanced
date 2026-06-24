@@ -6736,6 +6736,9 @@ msgstr ""
 "O visual moderno agora se aplica aos painéis de troca de item e de "
 "estatísticas detalhadas"
 
+msgid "Set bonuses"
+msgstr "Bônus de conjunto"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

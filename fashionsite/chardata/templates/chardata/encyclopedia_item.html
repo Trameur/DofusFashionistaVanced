@@ -128,6 +128,29 @@
         </div>
         {% endif %}
 
+        {% if set_bonuses %}
+        <div class="encyclopedia-section">
+            <b>{% trans "Set bonuses" %}</b>
+            {% for group in set_bonuses %}
+            <div class="encyclopedia-set-bonus-group">
+                <div class="encyclopedia-item-meta">{{ group.num_pieces }} {% trans "pieces" %}</div>
+                <ul class="encyclopedia-list">
+                    {% for line in group.lines %}
+                    <li>
+                        <div class="encyclopedia-list-stat">
+                            {% if line.icon_url %}
+                            <img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="">
+                            {% endif %}
+                            <span>{{ line.value }} {{ line.name }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% if pet_feedable_bonuses %}
         <div class="encyclopedia-section">
             <b>{{ t.pet_feedable_label }}</b>

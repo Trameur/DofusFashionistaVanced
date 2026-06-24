@@ -7271,6 +7271,9 @@ msgstr ""
 "Le look moderne s'applique maintenant aux panneaux de changement d'objet et "
 "de statistiques détaillées"
 
+msgid "Set bonuses"
+msgstr "Bonus de panoplie"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

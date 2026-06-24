@@ -6745,6 +6745,9 @@ msgstr ""
 "El aspecto moderno ahora se aplica a los paneles de cambio de objeto y de "
 "estadísticas detalladas"
 
+msgid "Set bonuses"
+msgstr "Bonus de conjunto"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
