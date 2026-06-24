@@ -33,7 +33,7 @@
         {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
         {% for item in list %}
             <div class="home-pic-holder">
-                <img src="{{ item.file }}" title="{{ item.name }}" class="home-pic" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                <img src="{{ item.file }}" title="{{ item.name }}" class="home-pic" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
         {% endfor %}
        </td>
@@ -66,7 +66,7 @@
         <div class="featured-builds-grid">
             {% for fb in featured_builds %}
             <a class="featured-build-card" href="{{ fb.link }}">
-                <img src="{{ fb.avatar }}" alt="{{ fb.char_class }}" class="featured-build-avatar">
+                <img src="{{ fb.avatar }}" alt="{{ fb.char_class }}" class="featured-build-avatar" loading="lazy" decoding="async">
                 <div class="featured-build-info">
                     <div class="featured-build-name">{{ fb.name }}</div>
                     <div class="featured-build-meta">
