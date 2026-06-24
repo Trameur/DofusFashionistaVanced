@@ -28,7 +28,9 @@ from fashionistapulp.fashion_util import strip_accents
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
+from chardata.image_store import get_image_url
 from chardata.solution_result import evolve_result_item, AttributeLine
+from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
     remove_cache_for_char
 from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
@@ -337,6 +339,12 @@ def get_items_to_exchange(request, char_id):
                                                           effective_overrides)
     
             
+    # The switch popup shows each item's icon via item.file. evolve_result_item
+    # only sets the slot placeholder, so set the real version-aware item icon here
+    # (like the solution page) — otherwise the popup shows broken/placeholder images.
+    for ri in itemResults:
+        ri.file = static(get_image_url(ri.type, ri.name))
+
     response = {'items': itemResults,
                 'violations': violations,
                 'page': page,
