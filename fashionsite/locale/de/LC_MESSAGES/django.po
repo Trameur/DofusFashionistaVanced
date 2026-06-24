@@ -6853,3 +6853,13 @@ msgstr "Du kannst bis zu 4 Builds vergleichen"
 
 msgid "Add at least 2 builds to compare"
 msgstr "Füge mindestens 2 Builds zum Vergleichen hinzu"
+
+msgid "Compare builds in one click"
+msgstr "Builds mit einem Klick vergleichen"
+
+msgid ""
+"Add any build to the comparison from its page, keep browsing, add more, then"
+" compare them all at once"
+msgstr ""
+"Füge einen beliebigen Build von seiner Seite zum Vergleich hinzu, stöbere "
+"weiter, füge weitere hinzu und vergleiche sie alle auf einmal"
