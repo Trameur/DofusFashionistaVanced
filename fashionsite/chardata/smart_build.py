@@ -715,7 +715,10 @@ def _set_weights(char, aspects, apply=True):
     w['agi'] = attack_factor * b if 'agi' in elements else 0
     w['cha'] = attack_factor * b if 'cha' in elements else 0
     w['agi'] = max(w['agi'], (w['dodge'] + w['lock']) / 10)
-    w['pow'] = {0: 0, 1: 3.2, 2: 5, 3: 5.2, 4: 5.5}[element_count] * b
+    # Power boosts damage in EVERY element you use, so its value scales with the number
+    # of damage elements (~Nx a single element characteristic, minus a discount for the
+    # element chars' secondary stats / set value). pow/element ratios: .67 / 1.6 / 2.67 / 4.25.
+    w['pow'] = {0: 0, 1: 4, 2: 8, 3: 8, 4: 8.5}[element_count] * b
     if 'glasscannon' in aspects:
         w['pow'] *= 1.5
     w['pow'] *= param_for_build(race, elements, 'pow_power', 'float_avg')
