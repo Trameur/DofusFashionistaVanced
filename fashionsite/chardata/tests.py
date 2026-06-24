@@ -243,6 +243,11 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('<?xml', body)
         self.assertIn('<urlset', body)
         self.assertIn('/privacy/', body)
+        # Global encyclopedia is listed; version-prefixed encyclopedia URLs are not
+        # (they canonicalize to the global one). Version-specific pages still are.
+        self.assertIn('https://dofusfashionista.gg/encyclopedia/', body)
+        self.assertNotIn('/retro/encyclopedia/', body)
+        self.assertIn('/retro/forgemagie/', body)
 
 
 @override_settings(
