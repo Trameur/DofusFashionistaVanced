@@ -122,7 +122,12 @@ class PublicRouteSmokeTests(TestCase):
             if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
                 for iid in iset.items:
                     it = s.get_item_by_id(iid)
-                    if it and getattr(it, 'ankama_type', None) and getattr(it, 'ankama_id', None):
+                    # The view resolves the set from the item's own .set (sets_dict
+                    # first), so only items whose .set lands on a bonus set qualify.
+                    if (it and getattr(it, 'ankama_type', None)
+                            and getattr(it, 'ankama_id', None)
+                            and getattr(it, 'set', None) is not None
+                            and getattr(s.sets_dict.get(it.set), 'bonus', None)):
                         target = it
                         break
             if target:
@@ -132,6 +137,30 @@ class PublicRouteSmokeTests(TestCase):
                                % (target.ankama_type, target.ankama_id))
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Set bonuses')
+
+    def test_gobball_set_item_shows_dofus3_set_name_not_touch(self):
+        # Regression: set id 1 is the dofus3 "Gobball Set" (with bonuses) AND, in
+        # dt_sets_dict, the touch "Jellix Set". get_set_by_id() checks dt first, so
+        # Gobball items wrongly showed "Jellix Set" and no bonuses.
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        gob = next((v for v in s.sets_dict.values()
+                    if v.localized_names.get('en') == 'Gobball Set'
+                    and getattr(v, 'bonus', None) and getattr(v, 'items', None)), None)
+        if not gob:
+            self.skipTest('Gobball Set not present in the structure')
+        it = None
+        for iid in gob.items:
+            cand = s.get_item_by_id(iid)
+            if cand and getattr(cand, 'set', None) is not None and s.sets_dict.get(cand.set) is gob:
+                it = cand
+                break
+        if not it:
+            self.skipTest('no Gobball item with a consistent back-link')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Gobball Set')
+        self.assertNotContains(resp, 'Jellix Set')
 
     def test_sitemap_is_well_formed_xml(self):
         resp = self.client.get('/sitemap.xml')

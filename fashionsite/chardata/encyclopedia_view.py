@@ -1000,8 +1000,14 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     localized_name = _get_display_name_for_group(structure, grouped_variants, language)
     type_name = structure.get_type_name_by_id(representative_item.type)
     localized_type_name = _localized_label(type_name, language)
-    item_set = (structure.get_set_by_id(representative_item.set)
-                if representative_item.set is not None else None)
+    # Resolve the set the way read_set_bonus_table stored its bonuses (sets_dict
+    # first). get_set_by_id() checks dt_sets_dict first, which for the one id that
+    # exists in both (1) returns the touch "Jellix Set" instead of the dofus3
+    # "Gobball Set" -> wrong name AND no .bonus to show.
+    item_set = None
+    if representative_item.set is not None:
+        item_set = (structure.sets_dict.get(representative_item.set)
+                    or structure.dt_sets_dict.get(representative_item.set))
 
     stat_lines = []
     for stat_id, stat_value in sorted(
