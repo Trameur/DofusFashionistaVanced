@@ -125,6 +125,14 @@ def stat_for_effect(eid: int, effects: dict):
     name = CHAR_TO_STAT.get(char)
     if name is None:
         return None
+    # A characteristic id is shared by the real item bonus AND by combat-only
+    # effects with the same characteristic: e.g. "removes 1-2 AP from the enemy",
+    # "AP lost by the caster", weapon hits, in-fight steals. Ankama flags wielder
+    # stats with bonusType 1 (bonus) / -1 (malus); bonusType 0 is an in-fight
+    # effect and must NOT become a flat characteristic (was turning "removes X AP"
+    # into a phantom "+X AP" bonus, e.g. Worn Koulosse Staff).
+    if e.get('bonusType') not in (1, -1):
+        return None
     return name, sign
 
 
