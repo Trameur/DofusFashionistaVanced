@@ -554,9 +554,9 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
 
 /* ============================================================================
    Unified modern icon set (modern skin only) — replaces mismatched raster
-   control icons via CSS content:url(SVG). Classic keeps its own icons.
-   Gold = neutral action, muted red = destructive. (Colors baked: content:url
-   can't use currentColor; chosen to read on both light & dark surfaces.)
+   control icons with inline SVG in the CSS content. Classic keeps its own
+   icons. Gold = neutral action, muted red = destructive. (Baked colors --
+   inline content cannot use currentColor; chosen to read on light & dark.)
    ============================================================================ */
 html.fm-modern .solution-item-button{
   width:17px !important; height:17px !important; padding:5px !important; border-radius:9px;

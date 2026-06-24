@@ -251,15 +251,24 @@ DEFAULT_CHARSET = 'utf-8'
 STATIC_FILES_BUCKET = 'fashionistavanced'
 with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
     serve_static = True #f.read().startswith('True')
+    #STATIC_URL = 'https://fashionistavanced.s3.eu-north-1.amazonaws.com/'
+    #ALLOWED_HOSTS = ['fashionistavanced.com', 'www.fashionistavanced.com']
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+    # Django 6 honours STORAGES, not the legacy STATICFILES_STORAGE (it silently
+    # ignores the latter -- which left production serving un-hashed static files
+    # behind nginx's 30-day cache, so CSS/JS changes never reached returning
+    # users). Hash them in production so every deploy busts the cache; plain
+    # storage in dev, where runserver serves static without collectstatic (and
+    # ManifestStaticFilesStorage.url() needs the manifest to exist).
     if not serve_static or not DEBUG:
-        #STATIC_URL = 'https://fashionistavanced.s3.eu-north-1.amazonaws.com/'
-        #ALLOWED_HOSTS = ['fashionistavanced.com', 'www.fashionistavanced.com']
-        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-        STATIC_URL = '/static/'
-        STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+        _staticfiles_backend = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
     else:
-        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-        STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+        _staticfiles_backend = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    STORAGES = {
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': _staticfiles_backend},
+    }
 
 LOGGING = {
     'version': 1,
