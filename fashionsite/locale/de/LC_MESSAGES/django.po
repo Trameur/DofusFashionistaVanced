@@ -6761,3 +6761,8 @@ msgstr ""
 
 msgid "Set bonuses"
 msgstr "Set-Boni"
+
+msgid "Set bonuses now show on each item's page in the encyclopedia"
+msgstr ""
+"Set-Boni werden jetzt auf der Seite jedes Gegenstands in der Enzyklopädie "
+"angezeigt"

@@ -7274,6 +7274,11 @@ msgstr ""
 msgid "Set bonuses"
 msgstr "Bonus de panoplie"
 
+msgid "Set bonuses now show on each item's page in the encyclopedia"
+msgstr ""
+"Les bonus de panoplie s'affichent désormais sur la page de chaque objet dans"
+" l'encyclopédie"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

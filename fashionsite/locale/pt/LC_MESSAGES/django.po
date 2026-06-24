@@ -6739,6 +6739,10 @@ msgstr ""
 msgid "Set bonuses"
 msgstr "Bônus de conjunto"
 
+msgid "Set bonuses now show on each item's page in the encyclopedia"
+msgstr ""
+"Os bônus de conjunto agora aparecem na página de cada item na enciclopédia"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
