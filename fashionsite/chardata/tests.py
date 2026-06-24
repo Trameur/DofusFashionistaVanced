@@ -259,6 +259,12 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('512x512', sizes)
         self.assertTrue(all(icon.get('type') == 'image/png' for icon in data['icons']))
 
+    def test_apple_touch_icon_present(self):
+        # iOS "add to home screen" uses apple-touch-icon (not the manifest).
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'apple-touch-icon')
+
 
 @override_settings(
     STORAGES={
