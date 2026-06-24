@@ -224,3 +224,9 @@ class ProjectActionRobustnessTests(TestCase):
     def test_choose_compare_sets_post_get_does_not_500(self):
         resp = self.client.get('/choose_compare_sets_post/')
         self.assertNotEqual(resp.status_code, 500)
+
+    def test_wizard_post_get_does_not_500(self):
+        # Regression: /wizardpost/<id>/ did safe_int('') -> None -> min(12, None)
+        # -> TypeError -> 500 on a bare GET.
+        resp = self.client.get('/wizardpost/1/')
+        self.assertNotEqual(resp.status_code, 500)

@@ -16,6 +16,7 @@
 
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_POST
 import jsonpickle
 
 from chardata.lock_forbid import get_inclusions_dict, set_item_included, set_excluded
@@ -65,12 +66,15 @@ def get_resetted_sliders(request, char_id):
     all_sliders_json = jsonpickle.encode(all_sliders)
     return HttpResponseJson(all_sliders_json)
 
+@require_POST
 def wizard_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 
     minimum_values = get_min_stats(char)
     for stat_name in STATS_WITH_CONFIG_MINS:
-        minimum = safe_int(request.POST.get('min_%s' % stat_name, ''))
+        # An empty/absent field (blank input, or a bot's bare GET) yields None;
+        # treat it as 0 (no minimum) so set_min_stats' min(cap, value) never sees None.
+        minimum = safe_int(request.POST.get('min_%s' % stat_name, '')) or 0
         minimum_values[stat_name] = minimum
         
     set_min_stats(char, minimum_values)
