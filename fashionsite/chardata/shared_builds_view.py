@@ -481,6 +481,7 @@ def shared_builds(request):
         builds_data.append({
             'char': char,
             'link': link,
+            'encoded_id': encoded_id,
             'total_stats': build_meta['total_stats'],
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],

@@ -687,6 +687,14 @@
                     </div>
                     {% endif %}
                     
+                    <button type="button" class="button-generic"
+                            style="font-size:0.82em; padding:3px 10px; margin:0 0 8px;"
+                            data-compare-add
+                            data-build-id="s{{ build.encoded_id }}"
+                            data-build-name="{{ build.char.char_name|default:build.char.name }}"
+                            data-build-cls="{{ build.char.char_class }}"
+                            data-build-level="{{ build.char.level }}"
+                            data-build-base="{{ api_base }}">+ {% trans "Add to comparison" %}</button>
                     <a href="{{ build.link }}" class="build-link" target="_blank">
                         {% trans "View Build" %} →
                     </a>
