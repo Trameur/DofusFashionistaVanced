@@ -1313,21 +1313,22 @@
             return Math.max(0.0, 0.5 * (1.0 - (rr - 1.0) / 0.6));
         }
 
-        // 1.0 while comfortably under the max roll, 0.6 at the max, down to 0.1
-        // when overmaging; exo / no-natural-roll lines are inherently hard.
+        // 1.0 up to the natural max roll (reaching it is reliable), then 0.85 at the
+        // max, falling off when overmaging; exo / no-natural-roll lines are inherently
+        // hard. The real difficulty above the max is carried by the 20x-rune limit.
         function passFactorFill(row, tier) {
             var maxRoll = row.exo ? 0 : row.max;
             if (maxRoll <= 0) {
                 return 0.30;
             }
             var fr = (row.value + tier.bonus) / maxRoll;
-            if (fr <= 0.8) {
+            if (fr <= 0.9) {
                 return 1.0;
             }
             if (fr <= 1.0) {
-                return 1.0 - 0.4 * ((fr - 0.8) / 0.2);
+                return 1.0 - 0.15 * ((fr - 0.9) / 0.1);
             }
-            return Math.max(0.1, 0.6 - 0.5 * (fr - 1.0));
+            return Math.max(0.15, 0.85 - 0.45 * (fr - 1.0));
         }
 
         function passFactorWeight() {
@@ -1344,8 +1345,15 @@
                      * passFactorFill(row, tier)
                      * passFactorWeight();
             pass = Math.max(FM_ODDS.floor, Math.min(0.98, pass));
-            return {sc: pass * FM_ODDS.scShare,
-                    sn: pass * (1 - FM_ODDS.scShare),
+            // While the stat is still low (below its natural roll) most passes are
+            // critical (no loss); near or above the max roll, neutral successes dominate.
+            var fillMax = row.exo ? 0 : row.max;
+            var fr = fillMax > 0 ? (row.value + tier.bonus) / fillMax : 1.0;
+            var scShare = fr <= 0.5 ? 0.55
+                        : (fr >= 1.0 ? FM_ODDS.scShare
+                           : 0.55 - (0.55 - FM_ODDS.scShare) * ((fr - 0.5) / 0.5));
+            return {sc: pass * scShare,
+                    sn: pass * (1 - scShare),
                     ec: 1 - pass};
         }
 
