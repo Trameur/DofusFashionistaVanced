@@ -2674,7 +2674,7 @@ msgstr "Kilorf"
 
 #: chardata/translation_util.py:40
 msgid "Forgelance"
-msgstr "Forgelance"
+msgstr "Forjalança"
 
 #: chardata/translation_util.py:44
 msgid "Fire"

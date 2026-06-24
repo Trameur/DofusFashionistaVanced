@@ -2693,7 +2693,7 @@ msgstr "Ouginak"
 
 #: chardata/translation_util.py:40
 msgid "Forgelance"
-msgstr "Vergebung"
+msgstr "Speerschmied"
 
 #: chardata/translation_util.py:44
 msgid "Fire"

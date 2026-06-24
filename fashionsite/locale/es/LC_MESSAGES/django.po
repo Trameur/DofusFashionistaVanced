@@ -2674,7 +2674,7 @@ msgstr "Uginak"
 
 #: chardata/translation_util.py:40
 msgid "Forgelance"
-msgstr "Forgelance"
+msgstr "Forjalanza"
 
 #: chardata/translation_util.py:44
 msgid "Fire"
