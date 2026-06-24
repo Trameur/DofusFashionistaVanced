@@ -7,6 +7,9 @@
 
 {% block meta_description %}{% trans "Browse the full Dofus item encyclopedia: stats, effects, equip conditions and craft recipes for every item, with search by name, type and level." %}{% endblock %}
 
+{# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">

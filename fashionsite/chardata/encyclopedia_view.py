@@ -949,6 +949,9 @@ def encyclopedia(request):
             'request': request,
             'char_id': 0,
             't': t,
+            # The encyclopedia is dofus3 data under every version prefix, so the
+            # /retro/, /touch/ ... copies are duplicates -> canonical to the global URL.
+            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/',
             'items_page': page_obj,
             'items_count': len(filtered_items),
             'search_text': search_text,
@@ -989,6 +992,7 @@ def encyclopedia_set(request, set_id):
             'request': request,
             'char_id': 0,
             't': t,
+            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/set/%d/' % set_id,
             'set_name': set_name,
             'set_items': _get_set_items(structure, item_set, language, game_version),
             'set_bonuses': _get_set_bonuses(structure, item_set, language),
@@ -1031,6 +1035,7 @@ def encyclopedia_sets(request):
             'request': request,
             'char_id': 0,
             't': t,
+            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/sets/',
             'sets': sets,
             'search_text': search_text,
             'sets_count': len(sets),
@@ -1141,6 +1146,13 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                       game_version=getattr(request, 'game_version', 'dofus3'))
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
+    # The item page is dofus3 data under every version prefix -> canonical to the
+    # global dofus3 item URL (also folds slug variations onto one URL).
+    canonical_path = get_item_link(representative_item.ankama_type,
+                                   representative_item.ankama_id, localized_name,
+                                   game_version='dofus3')
+    canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+
     return set_response(
         request,
         'chardata/encyclopedia_item.html',
@@ -1148,6 +1160,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'request': request,
             'char_id': 0,
             't': t,
+            'canonical_url': canonical_url,
             'item': {
                 'name': localized_name,
                 'or_name': representative_item.or_name,

@@ -6,6 +6,9 @@
 
 {% block meta_description %}{% trans "Browse every Dofus set (panoply) and its bonuses. Find a set and build it with the Dofus Fashionista." %}{% endblock %}
 
+{# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
 {% block css %}
 <style>
 .encyclopedia-sets { padding: 12px; }

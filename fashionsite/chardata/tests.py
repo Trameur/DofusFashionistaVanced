@@ -257,6 +257,36 @@ class CanonicalUrlTests(TestCase):
         self.assertEqual(self._canonical('/retro/'),
                          'https://dofusfashionista.gg/retro/')
 
+    def test_version_prefixed_encyclopedia_pages_canonical_to_global(self):
+        # The encyclopedia is dofus3 data under every prefix, so /retro/encyclopedia/...
+        # etc. are duplicates and must canonicalize to the global URL.
+        self.assertEqual(self._canonical('/retro/encyclopedia/'),
+                         'https://dofusfashionista.gg/encyclopedia/')
+        self.assertEqual(self._canonical('/beta/encyclopedia/sets/'),
+                         'https://dofusfashionista.gg/encyclopedia/sets/')
+        self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
+                         'https://dofusfashionista.gg/encyclopedia/set/1/')
+        # Item pages canonicalize to the global dofus3 item URL (prefix dropped).
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        it = None
+        for iset in s.sets_dict.values():
+            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
+                for iid in iset.items:
+                    cand = s.get_item_by_id(iid)
+                    if (cand and getattr(cand, 'ankama_id', None)
+                            and getattr(cand, 'ankama_type', None)):
+                        it = cand
+                        break
+            if it:
+                break
+        self.assertIsNotNone(it, 'no renderable set item found')
+        canon = self._canonical('/dofus2/encyclopedia/item/%s/%s-x/'
+                                % (it.ankama_type, it.ankama_id))
+        self.assertTrue(canon.startswith('https://dofusfashionista.gg/encyclopedia/item/'),
+                        msg=canon)
+        self.assertNotIn('/dofus2/', canon)
+
 
 class RegistrationTests(TestCase):
     """Username uniqueness must be case-insensitive (MySQL's unique index is), so a
