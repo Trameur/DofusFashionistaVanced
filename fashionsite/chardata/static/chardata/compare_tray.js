@@ -1,5 +1,6 @@
-// Comparison tray: collect builds from any page (localStorage) and compare them
-// in one click. Lightweight alternative to the old per-page compare flow.
+// Comparison cart: collect builds from any page (localStorage) and compare them
+// in one click. Shown as a small cart in the header -- hovering previews the
+// builds, clicking compares them. Lightweight alternative to the old flow.
 (function () {
     'use strict';
 
@@ -7,6 +8,7 @@
     var MAX = 4;
     var cfg = window.COMPARE_TRAY_CONFIG || {apiBase: '', i18n: {}};
     var t = cfg.i18n || {};
+    var hoverCapable = !(window.matchMedia && window.matchMedia('(hover: none)').matches);
 
     function esc(s) {
         return String(s == null ? '' : s)
@@ -44,7 +46,6 @@
         }
         var arr = load();
         if (has(arr, build.id)) {
-            render();
             flash(t.already || 'Already in comparison');
             return;
         }
@@ -81,61 +82,62 @@
         window.location.href = base + '/compare_sets/' + ids.join('/');
     }
 
-    function chipHtml(b) {
+    function rowHtml(b) {
         var av = b.avatar
-            ? '<img src="' + esc(b.avatar) + '" alt="" class="ct-chip-av">' : '';
+            ? '<img src="' + esc(b.avatar) + '" alt="" class="cc-av">' : '';
         var lvl = b.level
-            ? ' <span class="ct-chip-lvl">' + esc(b.level) + '</span>' : '';
-        return '<span class="ct-chip">' + av +
-            '<span class="ct-chip-txt">' + esc(b.name || ('#' + b.id)) + lvl + '</span>' +
-            '<button type="button" class="ct-chip-x" data-ct-remove="' + esc(b.id) +
-            '" aria-label="remove">×</button></span>';
+            ? ' <span class="cc-lvl">' + esc(b.level) + '</span>' : '';
+        return '<div class="cc-row">' + av +
+            '<span class="cc-name">' + esc(b.name || ('#' + b.id)) + lvl + '</span>' +
+            '<button type="button" class="cc-x" data-ct-remove="' + esc(b.id) +
+            '" aria-label="remove">&times;</button></div>';
     }
 
     function render() {
-        var el = document.getElementById('compare-tray');
-        if (!el) {
+        var cart = document.getElementById('compare-cart');
+        var panel = document.getElementById('compare-cart-panel');
+        if (!cart || !panel) {
             return;
         }
         var arr = load();
+        var count = cart.querySelector('.cc-count');
+        if (count) {
+            count.textContent = arr.length;
+        }
         if (!arr.length) {
-            el.hidden = true;
-            el.innerHTML = '';
+            cart.hidden = true;
+            cart.classList.remove('cc-open');
+            panel.innerHTML = '';
             return;
         }
+        cart.hidden = false;
         var canGo = arr.length >= 2;
-        el.hidden = false;
-        el.innerHTML =
-            '<div class="ct-inner">' +
-                '<span class="ct-label">' + esc(t.label || 'Compare') + '</span>' +
-                '<div class="ct-chips">' + arr.map(chipHtml).join('') + '</div>' +
-                '<div class="ct-actions">' +
-                    '<button type="button" class="ct-go button-generic"' +
-                        (canGo ? '' : ' disabled') + '>' +
-                        esc(t.compare || 'Compare') + ' (' + arr.length + ')</button>' +
-                    '<button type="button" class="ct-clear">' +
-                        esc(t.clear || 'Clear') + '</button>' +
-                '</div>' +
+        panel.innerHTML =
+            '<div class="cc-title">' + esc(t.label || 'Comparison') + '</div>' +
+            '<div class="cc-rows">' + arr.map(rowHtml).join('') + '</div>' +
+            '<div class="cc-actions">' +
+                '<button type="button" class="cc-go button-generic"' +
+                    (canGo ? '' : ' disabled') + '>' +
+                    esc(t.compare || 'Compare') + ' (' + arr.length + ')</button>' +
+                '<button type="button" class="cc-clear">' +
+                    esc(t.clear || 'Clear') + '</button>' +
             '</div>';
     }
 
     function flash(msg) {
-        var el = document.getElementById('compare-tray');
-        if (!el || el.hidden) {
-            return;
-        }
-        var f = el.querySelector('.ct-flash');
+        var f = document.getElementById('cc-toast');
         if (!f) {
             f = document.createElement('div');
-            f.className = 'ct-flash';
-            el.appendChild(f);
+            f.id = 'cc-toast';
+            f.className = 'cc-toast';
+            document.body.appendChild(f);
         }
         f.textContent = msg;
-        f.classList.add('ct-flash-show');
-        clearTimeout(f._timer);
-        f._timer = setTimeout(function () {
-            f.classList.remove('ct-flash-show');
-        }, 1800);
+        f.classList.add('cc-toast-show');
+        clearTimeout(f._t);
+        f._t = setTimeout(function () {
+            f.classList.remove('cc-toast-show');
+        }, 1600);
     }
 
     document.addEventListener('click', function (e) {
@@ -154,17 +156,34 @@
         }
         var rm = e.target.closest('[data-ct-remove]');
         if (rm) {
+            e.preventDefault();
             remove(rm.getAttribute('data-ct-remove'));
             return;
         }
-        if (e.target.closest('.ct-go')) {
+        if (e.target.closest('.cc-go')) {
             go();
-        } else if (e.target.closest('.ct-clear')) {
+            return;
+        }
+        if (e.target.closest('.cc-clear')) {
             clear();
+            return;
+        }
+        if (e.target.closest('.compare-cart-toggle')) {
+            var cart = document.getElementById('compare-cart');
+            if (hoverCapable) {
+                go();
+            } else if (cart) {
+                cart.classList.toggle('cc-open');
+            }
+            return;
+        }
+        var openCart = document.getElementById('compare-cart');
+        if (openCart && !e.target.closest('#compare-cart')) {
+            openCart.classList.remove('cc-open');
         }
     });
 
-    // Keep the tray in sync when builds are added from another tab.
+    // Keep the cart in sync when builds are added from another tab.
     window.addEventListener('storage', function (e) {
         if (e.key === KEY) {
             render();

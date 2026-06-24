@@ -699,56 +699,65 @@ html.fm-modern .pages-link{ color:var(--fm-accent-text) !important; }
 html.fm-modern .pages-current{ color:var(--fm-head) !important; }
 
 /* ============================================================
-   Comparison tray — floating bar to collect builds and compare
-   them in one click (theme-independent, self-contained colors).
+   Comparison cart — a small cart in the header. Hovering (or a tap
+   on touch) opens a dropdown of the collected builds; the panel's
+   button compares them. Self-contained colors so it reads on any
+   header theme (classic / light / dark / modern).
    ============================================================ */
-.compare-tray{
-  position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
-  z-index:9000; max-width:94vw;
+.compare-cart{ position:relative; display:inline-block; vertical-align:middle; }
+.compare-cart[hidden]{ display:none; }
+.compare-cart-toggle{
+  display:inline-flex; align-items:center; gap:5px; cursor:pointer; font:inherit;
+  line-height:1.2; color:inherit; background:transparent;
+  border:1px solid rgba(128,128,128,.35); border-radius:999px; padding:3px 10px;
 }
-.compare-tray[hidden]{ display:none; }
-.compare-tray .ct-inner{
-  position:relative; display:flex; align-items:center; gap:12px;
-  background:rgba(24,26,33,.93); -webkit-backdrop-filter:blur(8px);
-  backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.12);
-  border-radius:14px; padding:10px 14px; color:#f1f1f4;
-  box-shadow:0 10px 34px rgba(0,0,0,.45); animation:ct-rise .22s ease-out;
+.compare-cart-toggle:hover{ background:rgba(128,128,128,.16); }
+.compare-cart .cc-icon{ font-size:1.05em; }
+.compare-cart .cc-count{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:18px; height:18px; padding:0 5px; border-radius:999px;
+  background:#d8a528; color:#1c1407; font-size:.74em; font-weight:700;
 }
-@keyframes ct-rise{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
-.compare-tray .ct-label{ font-weight:600; font-size:.92em; white-space:nowrap; opacity:.85; }
-.compare-tray .ct-chips{ display:flex; gap:8px; flex-wrap:wrap; max-width:56vw; }
-.compare-tray .ct-chip{
-  display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
-  border-radius:999px; padding:3px 6px 3px 4px; font-size:.86em;
+.compare-cart-panel{
+  position:absolute; right:0; top:calc(100% + 8px); z-index:9500;
+  width:250px; max-width:80vw; display:none; text-align:left;
+  background:rgba(26,28,34,.97); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.13); border-radius:12px; padding:10px;
+  box-shadow:0 12px 34px rgba(0,0,0,.45); color:#f1f1f4;
 }
-.compare-tray .ct-chip-av{ width:22px; height:22px; border-radius:50%; object-fit:cover; }
-.compare-tray .ct-chip-txt{ white-space:nowrap; max-width:170px; overflow:hidden; text-overflow:ellipsis; }
-.compare-tray .ct-chip-lvl{ opacity:.6; }
-.compare-tray .ct-chip-x{
-  border:0; background:transparent; color:#f1f1f4; cursor:pointer;
-  font-size:1.1em; line-height:1; padding:0 2px; opacity:.65;
+.compare-cart-panel::before{ content:""; position:absolute; left:0; right:0; top:-8px; height:8px; }
+.compare-cart:hover .compare-cart-panel,
+.compare-cart.cc-open .compare-cart-panel{ display:block; }
+.compare-cart-panel .cc-title{ font-size:.74em; opacity:.7; margin-bottom:7px; text-transform:uppercase; letter-spacing:.5px; }
+.compare-cart-panel .cc-rows{ display:flex; flex-direction:column; gap:5px; }
+.compare-cart-panel .cc-row{
+  display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.06);
+  border-radius:8px; padding:4px 6px; font-size:.86em;
 }
-.compare-tray .ct-chip-x:hover{ opacity:1; }
-.compare-tray .ct-actions{ display:flex; align-items:center; gap:10px; }
-.compare-tray .ct-go{ white-space:nowrap; margin:0; }
-.compare-tray .ct-go[disabled]{ opacity:.5; cursor:not-allowed; }
-.compare-tray .ct-clear{
-  border:0; background:transparent; color:#c9c9d1; cursor:pointer;
-  font-size:.85em; text-decoration:underline; white-space:nowrap; padding:0;
+.compare-cart-panel .cc-av{ width:26px; height:26px; border-radius:50%; object-fit:cover; flex:0 0 auto; }
+.compare-cart-panel .cc-name{ flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.compare-cart-panel .cc-lvl{ opacity:.55; }
+.compare-cart-panel .cc-x{
+  border:0; background:transparent; color:#f1f1f4; cursor:pointer; flex:0 0 auto;
+  font-size:1.15em; line-height:1; padding:0 2px; opacity:.6;
 }
-.compare-tray .ct-clear:hover{ color:#fff; }
-.compare-tray .ct-flash{
-  position:absolute; left:50%; top:-34px; transform:translateX(-50%) translateY(6px);
-  background:#2ecc71; color:#fff; padding:5px 12px; border-radius:8px;
-  font-size:.82em; white-space:nowrap; opacity:0; pointer-events:none;
-  transition:opacity .2s, transform .2s;
+.compare-cart-panel .cc-x:hover{ opacity:1; }
+.compare-cart-panel .cc-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:9px; }
+.compare-cart-panel .cc-go{ flex:1; margin:0; white-space:nowrap; }
+.compare-cart-panel .cc-go[disabled]{ opacity:.5; cursor:not-allowed; }
+.compare-cart-panel .cc-clear{
+  border:0; background:transparent; color:#c9c9d1; cursor:pointer; padding:0;
+  font-size:.85em; text-decoration:underline; white-space:nowrap;
 }
-.compare-tray .ct-flash-show{ opacity:1; transform:translateX(-50%) translateY(0); }
-@media (max-width:600px){
-  .compare-tray{ left:8px; right:8px; bottom:8px; transform:none; max-width:none; }
-  .compare-tray .ct-inner{ flex-wrap:wrap; gap:8px; padding:8px 10px; }
-  .compare-tray .ct-chips{ max-width:100%; }
+.compare-cart-panel .cc-clear:hover{ color:#fff; }
+.cc-toast{
+  position:fixed; left:50%; top:14px; transform:translateX(-50%) translateY(-8px);
+  z-index:10000; background:#2ecc71; color:#fff; padding:7px 16px; border-radius:9px;
+  font-size:.9em; font-weight:500; white-space:nowrap; opacity:0; pointer-events:none;
+  box-shadow:0 6px 20px rgba(0,0,0,.3); transition:opacity .2s, transform .2s;
 }
+.cc-toast-show{ opacity:1; transform:translateX(-50%) translateY(0); }
+@media (max-width:600px){ .compare-cart-panel{ width:230px; } }
 
 /* ============================================================
    Comparison result page (compare_sets) — modern theme. The old

@@ -130,6 +130,12 @@
         
         
         <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span aria-hidden="true">&#10024;</span> <span class="fm-design-label">{% trans "New look" %}</span></button>
+       <div id="compare-cart" class="compare-cart" hidden>
+         <button type="button" class="compare-cart-toggle" aria-label="{% trans 'Comparison' %}" title="{% trans 'Comparison' %}">
+           <span class="cc-icon" aria-hidden="true">&#128722;</span><span class="cc-count">0</span>
+         </button>
+         <div class="compare-cart-panel" id="compare-cart-panel"></div>
+       </div>
        {% include "chardata/language-selector.html" %}
        {% include "chardata/theme-selector.html" %}
        {% include "chardata/version-selector.html" %}
@@ -620,8 +626,7 @@
 });
 </script>
 
-<!-- Comparison tray: collect builds from any page and compare them in one click -->
-<div id="compare-tray" class="compare-tray" hidden></div>
+<!-- Comparison cart (rendered into #compare-cart in the header) -->
 {% trans "Comparison" as ct_label %}
 {% trans "Compare" as ct_compare %}
 {% trans "Clear" as ct_clear %}
