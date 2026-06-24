@@ -480,3 +480,10 @@ class ProjectActionRobustnessTests(TestCase):
         set_min_stats(capped, {'AP': 99, 'MP': 99, 'Range': 99})
         stored = pickle.loads(capped.minimum_stats)
         self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
+
+    def test_compare_sets_skips_missing_builds(self):
+        # Regression: a build removed after being added to the comparison cart
+        # made the whole /compare_sets/ page raise. Stale ids are now skipped;
+        # with fewer than two left it's a clean 404, never a 500.
+        resp = self.client.get('/compare_sets/99999999/88888888/')
+        self.assertEqual(resp.status_code, 404)

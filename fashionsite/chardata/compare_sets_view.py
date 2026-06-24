@@ -16,7 +16,7 @@
 
 from collections import Counter
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
@@ -57,8 +57,18 @@ def _process_parameters(sets_params):
 def compare_sets(request, sets_params):
     char_strs = _process_parameters(sets_params)
     
-    chars = [get_char_possibly_encoded_or_raise(request, char_str)
-             for char_str in char_strs]
+    chars = []
+    for char_str in char_strs:
+        try:
+            chars.append(get_char_possibly_encoded_or_raise(request, char_str))
+        except (Http404, PermissionDenied):
+            # A build that was removed (or made private) since it was added to the
+            # comparison cart: drop it and compare the rest instead of 404ing the
+            # whole page.
+            continue
+    if len(chars) < 2:
+        # Fewer than two of the requested builds still exist -- nothing to compare.
+        raise Http404
     solutions = {}
     is_guest = {}
     links = {}
