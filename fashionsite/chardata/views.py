@@ -17,7 +17,6 @@
 import json
 
 from django.conf import settings
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
@@ -25,8 +24,7 @@ from django.utils.translation import get_language
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char
 from chardata.solution import get_solution
-from chardata.util import set_response, get_theme, version_reverse
-from static_s3.templatetags.static_s3 import static
+from chardata.util import set_response, version_reverse
 from chardata.themes import get_needle_URL
 
 
