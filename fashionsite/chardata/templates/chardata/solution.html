@@ -383,7 +383,7 @@
     <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
             <button type="button" class="button-generic" style="margin-right: 5px;"
                     data-compare-add
-                    data-build-id="{{ encoded_char_id }}"
+                    data-build-id="s{{ encoded_char_id }}"
                     data-build-name="{{ char.char_name|default:char.name }}"
                     data-build-cls="{{ char.char_class }}"
                     data-build-level="{{ char.level }}"
