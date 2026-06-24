@@ -63144,7 +63144,6 @@ INSERT INTO "stats_of_item" VALUES(7889,18,1);
 INSERT INTO "stats_of_item" VALUES(7889,30,5);
 INSERT INTO "stats_of_item" VALUES(7889,27,5);
 INSERT INTO "stats_of_item" VALUES(7889,45,10);
-INSERT INTO "stats_of_item" VALUES(7890,4,2);
 INSERT INTO "stats_of_item" VALUES(7890,11,-1);
 INSERT INTO "stats_of_item" VALUES(7890,7,-1);
 INSERT INTO "stats_of_item" VALUES(7890,14,-1);
