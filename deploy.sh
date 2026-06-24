@@ -3,8 +3,16 @@ set -e
 
 cd "$(dirname "$0")"
 
-echo ">>> git pull"
-git pull
+if [ -z "${DEPLOY_REEXECED:-}" ]; then
+    echo ">>> git pull"
+    git pull
+    # deploy.sh / nginx.conf may have just been updated by the pull. Bash is already
+    # running the PRE-pull version of this script, so its changes (the maintenance
+    # logic below included) would not take effect until the NEXT deploy. Re-exec the
+    # freshly pulled script so it applies on THIS run.
+    export DEPLOY_REEXECED=1
+    exec bash "$0" "$@"
+fi
 
 # Build the new web image first. The old web container keeps serving during the
 # build, so there is no downtime until the swap further down.
@@ -25,6 +33,12 @@ fi
 # (not Cloudflare's origin-down error) even while web is fully down.
 echo ">>> enable maintenance page"
 docker compose --profile production exec -T nginx touch /tmp/maintenance.on || true
+
+# Self-check: hit the origin directly (bypassing Cloudflare) and print the status.
+# It should be 503 + the "updating" page. If users still see Cloudflare's error while
+# this prints 503, the problem is Cloudflare-side (not the origin) -> share this line.
+sleep 1
+echo "    origin self-check (maintenance on): HTTP $(curl -sk -o /dev/null -w '%{http_code}' -H 'Host: dofusfashionista.gg' https://localhost/ 2>/dev/null || echo '??? (curl failed)')"
 
 # Swap in the freshly built web image (migrations, collectstatic, gunicorn boot).
 echo ">>> restart web"
