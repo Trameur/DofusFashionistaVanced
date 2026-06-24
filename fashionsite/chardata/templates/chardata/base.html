@@ -23,6 +23,7 @@
     <meta property="og:url" content="https://dofusfashionista.gg{{ request.path }}">
     <meta name="twitter:card" content="summary">
     {% endblock %}
+    {% block structured_data %}{% endblock %}
     <title>{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}</title>
 
     {% load i18n %}

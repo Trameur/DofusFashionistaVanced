@@ -466,6 +466,21 @@ def _get_set_items(structure, item_set, language, game_version):
     return cards
 
 
+def _breadcrumb_jsonld(crumbs):
+    """A schema.org BreadcrumbList for the page, as a JSON string (always valid).
+
+    crumbs: list of (name, absolute_url). Enables breadcrumb rich results in search.
+    """
+    return json.dumps({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+            {'@type': 'ListItem', 'position': i + 1, 'name': name, 'item': url}
+            for i, (name, url) in enumerate(crumbs)
+        ],
+    }, ensure_ascii=False)
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -984,6 +999,12 @@ def encyclopedia_set(request, set_id):
     game_version = getattr(request, 'game_version', 'dofus3')
     set_name = (item_set.localized_names.get(language)
                 or item_set.localized_names.get('en') or item_set.name)
+    canonical_url = 'https://dofusfashionista.gg/encyclopedia/set/%d/' % set_id
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (set_name, canonical_url),
+    ])
 
     return set_response(
         request,
@@ -992,7 +1013,8 @@ def encyclopedia_set(request, set_id):
             'request': request,
             'char_id': 0,
             't': t,
-            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/set/%d/' % set_id,
+            'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
             'set_name': set_name,
             'set_items': _get_set_items(structure, item_set, language, game_version),
             'set_bonuses': _get_set_bonuses(structure, item_set, language),
@@ -1152,6 +1174,11 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                    representative_item.ankama_id, localized_name,
                                    game_version='dofus3')
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (localized_name, canonical_url),
+    ])
 
     return set_response(
         request,
@@ -1161,6 +1188,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'char_id': 0,
             't': t,
             'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
             'item': {
                 'name': localized_name,
                 'or_name': representative_item.or_name,

@@ -198,6 +198,32 @@ class PublicRouteSmokeTests(TestCase):
         self.assertContains(resp, 'Set bonuses')
         self.assertContains(resp, '/encyclopedia/item/')  # at least one item links out
         self.assertContains(resp, 'property="og:image"')  # set-specific social preview
+        self.assertContains(resp, 'BreadcrumbList')  # breadcrumb structured data
+
+    def test_encyclopedia_item_has_valid_breadcrumb_jsonld(self):
+        import json
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        it = None
+        for iset in s.sets_dict.values():
+            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
+                for iid in iset.items:
+                    cand = s.get_item_by_id(iid)
+                    if (cand and getattr(cand, 'ankama_id', None)
+                            and getattr(cand, 'ankama_type', None)):
+                        it = cand
+                        break
+            if it:
+                break
+        self.assertIsNotNone(it, 'no renderable set item found')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        self.assertIsNotNone(m, 'no ld+json script on the item page')
+        data = json.loads(m.group(1))  # raises if the JSON-LD is malformed
+        self.assertEqual(data['@type'], 'BreadcrumbList')
+        self.assertGreaterEqual(len(data['itemListElement']), 2)
 
     def test_encyclopedia_unknown_set_redirects_to_encyclopedia(self):
         resp = self.client.get('/encyclopedia/set/99999999/')

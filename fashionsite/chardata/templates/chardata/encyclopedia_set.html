@@ -20,6 +20,8 @@
     <meta name="twitter:card" content="summary">
 {% endblock %}
 
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
+
 {% block css %}
 <style>
 .encyclopedia-item { padding: 12px; }
