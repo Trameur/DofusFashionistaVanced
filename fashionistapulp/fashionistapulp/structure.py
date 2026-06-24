@@ -974,10 +974,14 @@ class Structure:
         return [self.get_item_by_id(item_id)]
 
     def get_set_by_id(self, set_id):
-        if set_id in self.dt_sets_dict:
-            return self.dt_sets_dict.get(set_id)
-        else:
+        # Prefer sets_dict over dt_sets_dict, matching read_set_bonus_table (which
+        # stores .bonus on the sets_dict object). In a non-touch structure dt_sets_dict
+        # holds synthetic touch sets (Jellix/Gelano) whose ids can collide with real
+        # sets: id 1 is the dofus3 "Gobball Set" but also the touch "Jellix Set", so
+        # checking dt first returned the bonusless touch set for every Gobball build.
+        if set_id in self.sets_dict:
             return self.sets_dict.get(set_id)
+        return self.dt_sets_dict.get(set_id)
     
     def _is_item_dofus_touch(self, item_id):
         if item_id in self.dt_items_dict:

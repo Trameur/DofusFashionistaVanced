@@ -83,6 +83,20 @@ class TranslationRegressionTests(SimpleTestCase):
                                      msg='%r wrong for %s' % (msgid, lang))
 
 
+class StructureSetResolutionTests(SimpleTestCase):
+    """get_set_by_id must return the real (bonus-bearing) set, not a synthetic touch
+    set sharing its id. id 1 is the dofus3 "Gobball Set" (sets_dict, has bonuses) and
+    also the touch "Jellix Set" (dt_sets_dict, no bonuses); checking dt first showed
+    Gobball builds as "Jellix Set" with no set bonus."""
+
+    def test_get_set_by_id_prefers_real_bonus_set(self):
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        got = s.get_set_by_id(1)
+        self.assertIs(got, s.sets_dict.get(1))
+        self.assertTrue(got.bonus, 'set 1 should expose its bonuses')
+
+
 # Use the plain (non-manifest) static storage so template {% static %} calls do
 # not require a collectstatic manifest during tests (settings uses the manifest
 # storage when DEBUG is False, which the test runner forces).
