@@ -28,9 +28,11 @@ from fashionistapulp.fashion_util import strip_accents
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
+from chardata.image_store import get_image_url
 from chardata.solution_result import evolve_result_item, AttributeLine
+from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
-    remove_cache_for_char
+    remove_cache_for_char, safe_int
 from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
     DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME
 from fashionistapulp.modelresult import ModelResultItem
@@ -184,7 +186,7 @@ def check_if_violates(item, slot, char, stat_overrides=None):
 def get_items_of_type(request, char_id):
     char = get_char_or_raise(request, char_id)
         
-    page = int(request.POST.get('page') or 1)
+    page = safe_int(request.POST.get('page'), 1)
     search_term = request.POST.get('search_term', None)
     slot = request.POST.get('slot', None)
     stat_filters = _parse_stat_filters(request)
@@ -251,7 +253,7 @@ def get_items_to_exchange(request, char_id):
     char = get_char_or_raise(request, char_id)
         
     slot = request.POST.get('slot', None)
-    page = int(request.POST.get('page', 1))
+    page = safe_int(request.POST.get('page', 1), 1)
     search_term = request.POST.get('search_term', None)
     order_by_stats = request.POST.get('order_by_stat', True)
     stat_filters = _parse_stat_filters(request)
@@ -337,6 +339,12 @@ def get_items_to_exchange(request, char_id):
                                                           effective_overrides)
     
             
+    # The switch popup shows each item's icon via item.file. evolve_result_item
+    # only sets the slot placeholder, so set the real version-aware item icon here
+    # (like the solution page) — otherwise the popup shows broken/placeholder images.
+    for ri in itemResults:
+        ri.file = static(get_image_url(ri.type, ri.name))
+
     response = {'items': itemResults,
                 'violations': violations,
                 'page': page,

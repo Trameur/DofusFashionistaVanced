@@ -258,6 +258,11 @@ def evolve_result_item(result_item, r=None):
                     line = _('Steals %(mp)d MP') % {'mp': hit.min_dam}
                 else:
                     line = _('Steals %(min)d to %(max)d MP') % {'min': hit.min_dam, 'max': hit.max_dam}
+            elif hasattr(hit, 'element') and hit.element == 'removes_ap':
+                if hit.min_dam == hit.max_dam:
+                    line = _('Removes %(ap)d AP') % {'ap': hit.min_dam}
+                else:
+                    line = _('Removes %(min)d to %(max)d AP') % {'min': hit.min_dam, 'max': hit.max_dam}
             elif hasattr(hit, 'element') and hit.element == 'advances':
                 if hit.min_dam == hit.max_dam:
                     line = _('Advances %(cells)d cells') % {'cells': hit.min_dam}

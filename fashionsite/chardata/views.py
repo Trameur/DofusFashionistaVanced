@@ -17,7 +17,6 @@
 import json
 
 from django.conf import settings
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
@@ -25,8 +24,7 @@ from django.utils.translation import get_language
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char
 from chardata.solution import get_solution
-from chardata.util import set_response, get_theme, version_reverse
-from static_s3.templatetags.static_s3 import static
+from chardata.util import set_response, version_reverse
 from chardata.themes import get_needle_URL
 
 
@@ -53,6 +51,7 @@ def load_projects_error(request, error):
                         {'chars': [WrappedChar(char) for char in chars],
                          'char_id': 0,
                          'has_projects': has_projects,
+                         'compare_preselect': request.GET.get('compare') or '',
                          'needle': json.dumps(get_needle_URL(request)),
                          'error_msg': error})
 

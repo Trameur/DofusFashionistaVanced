@@ -7,6 +7,21 @@
 
 {% block meta_description %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 
+{# Version-prefixed copies (/retro/encyclopedia/item/... etc.) are dofus3 duplicates -> canonical to the global URL. #}
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{# Item-specific social preview (name + icon) instead of the generic site card. #}
+{% block og_meta %}
+    <meta property="og:title" content="{{ item.name }} — {{ t.title }}">
+    <meta property="og:description" content="{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ item.image_url }}">
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
+
 {% block css %}
 <style>
 .encyclopedia-item {
@@ -103,7 +118,7 @@
                 <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
                 <div class="encyclopedia-item-meta">ID: {{ item.ankama_id }} ({{ item.ankama_type }})</div>
                 {% if item_set_name %}
-                <div class="encyclopedia-item-meta">{{ t.set_label }}: {{ item_set_name }}</div>
+                <div class="encyclopedia-item-meta">{{ t.set_label }}: {% if item_set_id %}<a href="{% game_url 'encyclopedia_set' item_set_id %}">{{ item_set_name }}</a>{% else %}{{ item_set_name }}{% endif %}</div>
                 {% endif %}
             </div>
         </div>
@@ -125,6 +140,29 @@
                 <li>-</li>
                 {% endfor %}
             </ul>
+        </div>
+        {% endif %}
+
+        {% if set_bonuses %}
+        <div class="encyclopedia-section">
+            <b>{% trans "Set bonuses" %}</b>
+            {% for group in set_bonuses %}
+            <div class="encyclopedia-set-bonus-group">
+                <div class="encyclopedia-item-meta">{{ group.num_pieces }} {% trans "pieces" %}</div>
+                <ul class="encyclopedia-list">
+                    {% for line in group.lines %}
+                    <li>
+                        <div class="encyclopedia-list-stat">
+                            {% if line.icon_url %}
+                            <img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="">
+                            {% endif %}
+                            <span>{{ line.value }} {{ line.name }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
         </div>
         {% endif %}
 

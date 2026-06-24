@@ -416,6 +416,75 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language):
     return bonuses
 
 
+def _get_set_bonuses(structure, item_set, language):
+    """The bonuses a panoply grants per number of pieces worn, grouped, for the item
+    page. The data was already loaded (set_bonus table) but only the set name was shown."""
+    if item_set is None or not getattr(item_set, 'bonus', None):
+        return []
+    by_pieces = {}
+    for num_items, stat_id, value in item_set.bonus:
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is None:
+            continue
+        by_pieces.setdefault(num_items, []).append((
+            STAT_ORDER.get(stat.key, 9999),
+            {
+                'name': _localized_label(stat.name, language),
+                'value': int(round(value)),
+                'icon_url': _get_stat_icon_url(stat.key),
+            },
+        ))
+    groups = []
+    for num_pieces in sorted(by_pieces):
+        lines = [line for _, line in sorted(by_pieces[num_pieces], key=lambda pair: pair[0])]
+        groups.append({'num_pieces': num_pieces, 'lines': lines})
+    return groups
+
+
+def _get_set_items(structure, item_set, language, game_version):
+    """The items belonging to a panoply, as cards for the dedicated set page."""
+    cards = []
+    seen = set()
+    for item_id in getattr(item_set, 'items', None) or []:
+        item = structure.get_item_by_id(item_id)
+        if item is None or not getattr(item, 'ankama_id', None):
+            continue
+        if item.ankama_id in seen:
+            continue
+        seen.add(item.ankama_id)
+        type_name = structure.get_type_name_by_id(item.type)
+        display_name = _get_display_name_for_group(structure, [item], language)
+        cards.append({
+            'name': display_name,
+            'level': item.level,
+            'type_name': _localized_label(type_name, language),
+            'image_url': static(get_image_url(type_name, item.name)),
+            'detail_url': get_item_link(item.ankama_type, item.ankama_id,
+                                        display_name, game_version=game_version),
+        })
+    cards.sort(key=lambda card: (-(card['level'] or 0), (card['name'] or '').lower()))
+    return cards
+
+
+def _breadcrumb_jsonld(crumbs):
+    """A schema.org BreadcrumbList for the page, as a JSON string (always valid).
+
+    crumbs: list of (name, absolute_url). Enables breadcrumb rich results in search.
+    """
+    payload = json.dumps({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+            {'@type': 'ListItem', 'position': i + 1, 'name': name, 'item': url}
+            for i, (name, url) in enumerate(crumbs)
+        ],
+    }, ensure_ascii=False)
+    # Escape characters that could break out of the surrounding <script> tag (the JSON
+    # is rendered with |safe). Same approach as Django's json_script. Names come from
+    # the item DB, so this is defense-in-depth against any odd source value.
+    return payload.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -821,6 +890,10 @@ def encyclopedia(request):
 
         detail_url = get_item_link(item.ankama_type, item.ankama_id, display_name,
                                    game_version=getattr(request, 'game_version', 'dofus3'))
+        item_set = None
+        if getattr(item, 'set', None) is not None:
+            item_set = (structure.sets_dict.get(item.set)
+                        or structure.dt_sets_dict.get(item.set))
         filtered_items.append({
             'id': item.id,
             'ankama_id': item.ankama_id,
@@ -831,6 +904,9 @@ def encyclopedia(request):
             'type_name': localized_type_name,
             'image_url': static(get_image_url(type_name, item.name)),
             'detail_url': detail_url,
+            'set_id': item_set.id if item_set else None,
+            'set_name': (item_set.localized_names.get(language)
+                         or item_set.localized_names.get('en') or item_set.name) if item_set else None,
             'stat_lines': stat_lines,
             'stats_map': stats_map,
         })
@@ -892,6 +968,9 @@ def encyclopedia(request):
             'request': request,
             'char_id': 0,
             't': t,
+            # The encyclopedia is dofus3 data under every version prefix, so the
+            # /retro/, /touch/ ... copies are duplicates -> canonical to the global URL.
+            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/',
             'items_page': page_obj,
             'items_count': len(filtered_items),
             'search_text': search_text,
@@ -904,6 +983,88 @@ def encyclopedia(request):
             'selected_order_rows': selected_order_rows,
             'stat_options': stat_options,
             'page_query_prefix': page_query_prefix,
+        },
+    )
+
+
+def encyclopedia_set(request, set_id):
+    structure = get_structure()
+    language = get_supported_language()
+    t = _ui_text()
+
+    set_id = safe_int(set_id, None)
+    if set_id is None:
+        return redirect(version_reverse(request, 'encyclopedia'))
+    # sets_dict first, like read_set_bonus_table / get_set_by_id (the bonus-bearing set).
+    item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
+    if item_set is None:
+        return redirect(version_reverse(request, 'encyclopedia'))
+
+    game_version = getattr(request, 'game_version', 'dofus3')
+    set_name = (item_set.localized_names.get(language)
+                or item_set.localized_names.get('en') or item_set.name)
+    canonical_url = 'https://dofusfashionista.gg/encyclopedia/set/%d/' % set_id
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (set_name, canonical_url),
+    ])
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_set.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
+            'set_name': set_name,
+            'set_items': _get_set_items(structure, item_set, language, game_version),
+            'set_bonuses': _get_set_bonuses(structure, item_set, language),
+        },
+    )
+
+
+def encyclopedia_sets(request):
+    structure = get_structure()
+    language = get_supported_language()
+    t = _ui_text()
+
+    search_text = (request.GET.get('q') or '').strip()
+    needle = _normalized_slug(search_text) if search_text else ''
+
+    sets = []
+    for set_id, item_set in structure.sets_dict.items():
+        if not getattr(item_set, 'items', None):
+            continue
+        name = (item_set.localized_names.get(language)
+                or item_set.localized_names.get('en') or item_set.name)
+        if not name:
+            continue
+        if needle and needle not in _normalized_slug(name):
+            continue
+        max_pieces = 0
+        if getattr(item_set, 'bonus', None):
+            max_pieces = max((num for num, _, _ in item_set.bonus), default=0)
+        sets.append({
+            'name': name,
+            'max_pieces': max_pieces,
+            'url': version_reverse(request, 'encyclopedia_set', set_id),
+        })
+    sets.sort(key=lambda entry: (entry['name'] or '').lower())
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_sets.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/sets/',
+            'sets': sets,
+            'search_text': search_text,
+            'sets_count': len(sets),
         },
     )
 
@@ -975,8 +1136,14 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     localized_name = _get_display_name_for_group(structure, grouped_variants, language)
     type_name = structure.get_type_name_by_id(representative_item.type)
     localized_type_name = _localized_label(type_name, language)
-    item_set = (structure.get_set_by_id(representative_item.set)
-                if representative_item.set is not None else None)
+    # Resolve the set the way read_set_bonus_table stored its bonuses (sets_dict
+    # first). get_set_by_id() checks dt_sets_dict first, which for the one id that
+    # exists in both (1) returns the touch "Jellix Set" instead of the dofus3
+    # "Gobball Set" -> wrong name AND no .bonus to show.
+    item_set = None
+    if representative_item.set is not None:
+        item_set = (structure.sets_dict.get(representative_item.set)
+                    or structure.dt_sets_dict.get(representative_item.set))
 
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -993,6 +1160,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         })
 
     pet_feedable_bonuses = _get_pet_feedable_bonuses(structure, grouped_variants, language)
+    set_bonuses = _get_set_bonuses(structure, item_set, language)
 
     condition_groups = _format_condition_groups(structure, grouped_variants, language)
 
@@ -1004,6 +1172,18 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                       game_version=getattr(request, 'game_version', 'dofus3'))
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
+    # The item page is dofus3 data under every version prefix -> canonical to the
+    # global dofus3 item URL (also folds slug variations onto one URL).
+    canonical_path = get_item_link(representative_item.ankama_type,
+                                   representative_item.ankama_id, localized_name,
+                                   game_version='dofus3')
+    canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (localized_name, canonical_url),
+    ])
+
     return set_response(
         request,
         'chardata/encyclopedia_item.html',
@@ -1011,6 +1191,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'request': request,
             'char_id': 0,
             't': t,
+            'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
             'item': {
                 'name': localized_name,
                 'or_name': representative_item.or_name,
@@ -1021,6 +1203,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 'image_url': static(get_image_url(type_name, representative_item.name)),
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
+            'item_set_id': item_set.id if item_set else None,
+            'set_bonuses': set_bonuses,
             'stats': stat_lines,
             'pet_feedable_bonuses': pet_feedable_bonuses,
             'condition_groups': condition_groups,

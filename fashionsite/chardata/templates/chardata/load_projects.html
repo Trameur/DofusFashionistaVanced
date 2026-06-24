@@ -32,7 +32,7 @@
                 </tr>
                 {% for wrapped_char in chars %}
                     <tr class="load-project-line">
-                      <td class="load-project-cell checkbox-cell" align="center"><div style="width: 20px"><input type="checkbox" name={{wrapped_char.char.id}} value={{wrapped_char.char.id}} class="project-checkbox{% if wrapped_char.char.minimal_solution %} has-solution{% endif %}"></div></td>
+                      <td class="load-project-cell checkbox-cell" align="center"><div style="width: 20px"><input type="checkbox" name={{wrapped_char.char.id}} value={{wrapped_char.char.id}} class="project-checkbox{% if wrapped_char.char.minimal_solution %} has-solution{% endif %}"{% if compare_preselect and wrapped_char.char.id|stringformat:'s' == compare_preselect %} checked{% endif %}></div></td>
                       <td><div style="width: 24px">{% if wrapped_char.char.minimal_solution %}<img class="button-img needle-img" title="{% trans "A set suggestion has been generated for this project." %}">{% endif %}</div></td>
                       <td class="load-project-cell"><div style="width: 180px"><a href="{% game_url 'load_a_project' wrapped_char.char.id %}">{{wrapped_char.char.name}}</a></div></td>
                       <td class="load-project-cell"><div style="width: 150px" class='big-text'>{{wrapped_char.char.char_name}}</div></td>
@@ -44,6 +44,9 @@
             </table> 
             <span id='login-error' class='error-message'></span>
             <br>
+          {% if compare_preselect and experiments.COMPARE_SETS %}
+          <p class="text" id="compare-hint" align="center" style="margin: 6px 0;">{% trans "Tick the sets you want to compare (2 to 4), then click Compare." %}</p>
+          {% endif %}
           <input type="button" class="button-thin" id="button-delete-project" value="{% trans "Remove" %}" />
           {% if experiments.COMPARE_SETS %}
           <input type="button" class="button-thin" id="button-compare-projects" value="{% trans "Compare" %}" />
@@ -186,6 +189,12 @@ $(document).ready(function() {
     $("#button-compare-projects").click(compareProjects);
     {% endif %}
     setNeedleImage();
+
+    {% if compare_preselect and experiments.COMPARE_SETS %}
+    if ($("#button-compare-projects").length) {
+        $("#button-compare-projects")[0].scrollIntoView({behavior: "smooth", block: "center"});
+    }
+    {% endif %}
 });
 
 </script>

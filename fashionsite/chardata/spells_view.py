@@ -24,7 +24,7 @@ from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
 from chardata.util import set_response, get_char_or_raise
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from static_s3.templatetags.static_s3 import static
@@ -86,7 +86,7 @@ def _create_weapon_web_digest(weapon):
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
     web_digest['crit_dams'] = _convert_weapon_damage(weapon.crit_hits)
-    NON_DAMAGE_ELEMENTS = {'attracts', 'pushes', 'advances', 'steals_mp'}
+    NON_DAMAGE_ELEMENTS = {'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
     damage_indexes = []
     healing_indexes = []
     effect_indexes = []

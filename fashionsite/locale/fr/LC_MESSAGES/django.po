@@ -7251,6 +7251,99 @@ msgstr ""
 msgid "Class spells aren't available for this class yet."
 msgstr "Les sorts de classe ne sont pas encore disponibles pour cette classe."
 
+msgid "Removes %(ap)d AP"
+msgstr "Retire %(ap)d PA"
+
+msgid "Removes %(min)d to %(max)d AP"
+msgstr "Retire %(min)d à %(max)d PA"
+
+msgid "Fixes & polish"
+msgstr "Corrections et finitions"
+
+msgid "Forgelance now has its full damage spell list on the spells page"
+msgstr ""
+"Le Forgelance a désormais sa liste complète de sorts de dégâts sur la page "
+"des sorts"
+
+msgid ""
+"The modern look now extends to the item-switch and detailed-stats panels"
+msgstr ""
+"Le look moderne s'applique maintenant aux panneaux de changement d'objet et "
+"de statistiques détaillées"
+
+msgid "Set bonuses"
+msgstr "Bonus de panoplie"
+
+msgid "Set bonuses now show on each item's page in the encyclopedia"
+msgstr ""
+"Les bonus de panoplie s'affichent désormais sur la page de chaque objet dans"
+" l'encyclopédie"
+
+msgid "Compare with my other sets"
+msgstr "Comparer avec mes autres équipements"
+
+msgid "Tick the sets you want to compare (2 to 4), then click Compare."
+msgstr "Cochez les équipements à comparer (2 à 4), puis cliquez sur Comparer."
+
+msgid "All sets"
+msgstr "Toutes les panoplies"
+
+msgid "Items in this set"
+msgstr "Objets de cette panoplie"
+
+msgid "Sets"
+msgstr "Panoplies"
+
+msgid "Search a set"
+msgstr "Rechercher une panoplie"
+
+msgid "sets"
+msgstr "panoplies"
+
+msgid "No set found."
+msgstr "Aucune panoplie trouvée."
+
+msgid "Browse sets (panoplies)"
+msgstr "Parcourir les panoplies"
+
+msgid "View this set"
+msgstr "Voir cette panoplie"
+
+msgid "Up to %(n)s pieces"
+msgstr "Jusqu'à %(n)s pièces"
+
+msgid ""
+"%(set_name)s: all the items in this Dofus set and the panoply bonuses per "
+"number of pieces. Build and optimize this set with the Dofus Fashionista."
+msgstr ""
+"%(set_name)s : tous les objets de cette panoplie Dofus et les bonus de "
+"panoplie selon le nombre de pièces. Composez et optimisez cette panoplie "
+"avec le Dofus Fashionista."
+
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set and build it "
+"with the Dofus Fashionista."
+msgstr ""
+"Parcourez toutes les panoplies Dofus et leurs bonus. Trouvez une panoplie et"
+" composez-la avec le Dofus Fashionista."
+
+msgid "Set (panoply) pages"
+msgstr "Pages de panoplies"
+
+msgid ""
+"Each set now has its own page with its items and its bonuses per number of "
+"pieces"
+msgstr ""
+"Chaque panoplie a maintenant sa propre page, avec ses objets et ses bonus "
+"selon le nombre de pièces"
+
+msgid ""
+"Search all sets in the encyclopedia, and open a set from any item or from a "
+"generated build"
+msgstr ""
+"Recherchez toutes les panoplies dans l'encyclopédie, et ouvrez une panoplie "
+"depuis un objet ou un équipement généré"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

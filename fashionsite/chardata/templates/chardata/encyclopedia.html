@@ -7,6 +7,9 @@
 
 {% block meta_description %}{% trans "Browse the full Dofus item encyclopedia: stats, effects, equip conditions and craft recipes for every item, with search by name, type and level." %}{% endblock %}
 
+{# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
@@ -259,6 +262,7 @@
 <div class="encyclopedia-page text" id="encyclopedia-page">
     <h1 class="encyclopedia-title">{{ t.title }}</h1>
     <p class="encyclopedia-subtitle small-explain">{{ t.subtitle }}</p>
+    <p align="center" style="margin: 6px 0 10px;"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a></p>
 
     <form method="get" class="encyclopedia-filter-box brown-box">
         <input type="hidden" name="order_rows_json" id="order-rows-json" value="">
@@ -578,6 +582,7 @@
             <div>
                 <div class="encyclopedia-card-name">{{ item.name }}</div>
                 <div class="encyclopedia-card-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
+                {% if item.set_id %}<div class="encyclopedia-card-meta">{{ t.set_label }}: <a href="{% game_url 'encyclopedia_set' item.set_id %}">{{ item.set_name }}</a></div>{% endif %}
                 {% if item.stat_lines %}
                 <div class="encyclopedia-card-stats">
                     {% for stat_line in item.stat_lines %}

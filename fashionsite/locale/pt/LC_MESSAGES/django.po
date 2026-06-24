@@ -2674,7 +2674,7 @@ msgstr "Kilorf"
 
 #: chardata/translation_util.py:40
 msgid "Forgelance"
-msgstr "Forgelance"
+msgstr "Forjalança"
 
 #: chardata/translation_util.py:44
 msgid "Fire"
@@ -4861,7 +4861,7 @@ msgstr "Buscar e Filtrar"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Search"
-msgstr "Buscar"
+msgstr "Procurar"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Project or character name"
@@ -6715,6 +6715,97 @@ msgstr ""
 
 msgid "Class spells aren't available for this class yet."
 msgstr "Os feitiços de classe ainda não estão disponíveis para esta classe."
+
+msgid "Removes %(ap)d AP"
+msgstr "Remove %(ap)d PA"
+
+msgid "Removes %(min)d to %(max)d AP"
+msgstr "Remove de %(min)d a %(max)d PA"
+
+msgid "Fixes & polish"
+msgstr "Correções e ajustes"
+
+msgid "Forgelance now has its full damage spell list on the spells page"
+msgstr ""
+"O Forjalança agora tem sua lista completa de feitiços de dano na página de "
+"feitiços"
+
+msgid ""
+"The modern look now extends to the item-switch and detailed-stats panels"
+msgstr ""
+"O visual moderno agora se aplica aos painéis de troca de item e de "
+"estatísticas detalhadas"
+
+msgid "Set bonuses"
+msgstr "Bônus de conjunto"
+
+msgid "Set bonuses now show on each item's page in the encyclopedia"
+msgstr ""
+"Os bônus de conjunto agora aparecem na página de cada item na enciclopédia"
+
+msgid "Compare with my other sets"
+msgstr "Comparar com meus outros sets"
+
+msgid "Tick the sets you want to compare (2 to 4), then click Compare."
+msgstr "Marque os sets que deseja comparar (2 a 4) e clique em Comparar."
+
+msgid "All sets"
+msgstr "Todos os sets"
+
+msgid "Items in this set"
+msgstr "Itens deste set"
+
+msgid "Sets"
+msgstr "Sets"
+
+msgid "Search a set"
+msgstr "Procurar um set"
+
+msgid "sets"
+msgstr "sets"
+
+msgid "No set found."
+msgstr "Nenhum set encontrado."
+
+msgid "Browse sets (panoplies)"
+msgstr "Explorar os sets (panóplias)"
+
+msgid "View this set"
+msgstr "Ver este set"
+
+msgid "Up to %(n)s pieces"
+msgstr "Até %(n)s peças"
+
+msgid ""
+"%(set_name)s: all the items in this Dofus set and the panoply bonuses per "
+"number of pieces. Build and optimize this set with the Dofus Fashionista."
+msgstr ""
+"%(set_name)s: todos os itens deste set de Dofus e os bônus de conjunto por "
+"número de peças. Monte e otimize este set com o Dofus Fashionista."
+
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set and build it "
+"with the Dofus Fashionista."
+msgstr ""
+"Explore todos os sets (panóplias) de Dofus e seus bônus. Encontre um set e "
+"monte-o com o Dofus Fashionista."
+
+msgid "Set (panoply) pages"
+msgstr "Páginas de sets (panóplias)"
+
+msgid ""
+"Each set now has its own page with its items and its bonuses per number of "
+"pieces"
+msgstr ""
+"Cada set agora tem sua própria página, com seus itens e seus bônus por "
+"número de peças"
+
+msgid ""
+"Search all sets in the encyclopedia, and open a set from any item or from a "
+"generated build"
+msgstr ""
+"Pesquise todos os sets na enciclopédia e abra um set a partir de qualquer "
+"item ou de um equipamento gerado"
 
 #~ msgid "Send"
 #~ msgstr "Enviar"

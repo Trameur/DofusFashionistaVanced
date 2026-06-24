@@ -95,6 +95,12 @@ CHAR0_EFFECT_TO_STAT = {
 WEAPON_DAMAGE_BY_EFFECT = {96: 'Water', 97: 'Earth', 98: 'Air', 99: 'Fire', 100: 'Neutral'}
 WEAPON_STEAL_BY_EFFECT = {91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: 'Neutral'}
 
+# Weapon AP-removal hit: effect 101 ("removes X AP from the enemy", e.g. the Worn
+# Koulosse Staff). It shares characteristic id 1 with the +AP bonus but has
+# bonusType 0, so it isn't a wielder stat; on a weapon it's a hit line, routed to
+# "(removes ap)" so get_equipments3 stores it as a weapon_hit (like life/MP steal).
+WEAPON_AP_REMOVAL_BY_EFFECT = {101}
+
 # Equip-condition codes -> internal stat (only the 6 unambiguous primaries, like
 # Retro; alignment Ps/Pa and the rarer CP/CM are skipped to avoid mis-gating).
 CONDITION_MAP = {
@@ -125,6 +131,14 @@ def stat_for_effect(eid: int, effects: dict):
     name = CHAR_TO_STAT.get(char)
     if name is None:
         return None
+    # A characteristic id is shared by the real item bonus AND by combat-only
+    # effects with the same characteristic: e.g. "removes 1-2 AP from the enemy",
+    # "AP lost by the caster", weapon hits, in-fight steals. Ankama flags wielder
+    # stats with bonusType 1 (bonus) / -1 (malus); bonusType 0 is an in-fight
+    # effect and must NOT become a flat characteristic (was turning "removes X AP"
+    # into a phantom "+X AP" bonus, e.g. Worn Koulosse Staff).
+    if e.get('bonusType') not in (1, -1):
+        return None
     return name, sign
 
 
@@ -147,6 +161,9 @@ def decode_effects(possible_effects, effects, is_weapon):
             continue
         if is_weapon and eid in WEAPON_STEAL_BY_EFFECT:
             hits.append([lo, hi, '(%s steal)' % WEAPON_STEAL_BY_EFFECT[eid]])
+            continue
+        if is_weapon and eid in WEAPON_AP_REMOVAL_BY_EFFECT:
+            hits.append([lo, hi, '(removes ap)'])
             continue
         resolved = stat_for_effect(eid, effects)
         if resolved is None:

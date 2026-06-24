@@ -17,15 +17,21 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from social_django.middleware import SocialAuthExceptionMiddleware
-from social_core.exceptions import AuthCanceled
+from social_core.exceptions import (AuthCanceled, AuthMissingParameter,
+                                    AuthStateMissing, AuthStateForbidden)
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
+# OAuth callbacks that arrive cancelled, malformed, or with a missing/forbidden state
+# token (denied consent, crawlers hitting /complete/, stale or CSRF-failed redirects)
+# are normal client-side noise, not server errors. Redirect them to login quietly
+# instead of 500ing + emailing the admins on every bot hit. Real auth failures
+# (AuthFailed, AuthForbidden, AuthAlreadyAssociated…) still fall through to the parent.
+BENIGN_OAUTH_EXCEPTIONS = (AuthCanceled, AuthMissingParameter,
+                           AuthStateMissing, AuthStateForbidden)
+
 class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
     def process_exception(self, request, exception):
-        # A user cancelling/denying the OAuth consent (AuthCanceled) is normal, not a
-        # server error -> redirect to login quietly instead of 500ing + emailing admins.
-        if isinstance(exception, AuthCanceled):
+        if isinstance(exception, BENIGN_OAUTH_EXCEPTIONS):
             return HttpResponseRedirect(reverse('login_page'))
-        # Let the parent handle any other social-auth exception as before.
         return super().process_exception(request, exception)

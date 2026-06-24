@@ -341,8 +341,7 @@
 
     <div align="center">
         <div style="display: inline-block;">
-        <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{ request.scheme }}://{{ request.get_host }}{% game_url 'solution_2' char_id %}" name="char0"></input></form>
-            <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
+            <button id="compare_set_button_list" type="button" class="button-generic" style="margin-right: 5px;" onclick="window.location.href='{% game_url 'load_projects' %}?compare={{ char_id }}'">{% trans "Compare with my other sets" %}</button>
         </div>
         <div style="display: inline-block;">
             <button id="link_sharing_button" class="button-generic"></button>

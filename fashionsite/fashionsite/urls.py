@@ -48,11 +48,11 @@ def manifest_view(request):
     from django.templatetags.static import static as dj_static
     try:
         from static_s3.templatetags.static_s3 import static as s3_static
-        icon = s3_static('chardata/favicon.ico')
-        banner = s3_static('chardata/fashionista_banner.jpg')
+        icon192 = s3_static('chardata/icon-192.png')
+        icon512 = s3_static('chardata/icon-512.png')
     except Exception:
-        icon = dj_static('chardata/favicon.ico')
-        banner = dj_static('chardata/fashionista_banner.jpg')
+        icon192 = dj_static('chardata/icon-192.png')
+        icon512 = dj_static('chardata/icon-512.png')
     import json as _json
     manifest = {
         "name": "Dofus Fashionista",
@@ -63,9 +63,10 @@ def manifest_view(request):
         "display": "standalone",
         "background_color": "#1b1b1b",
         "theme_color": "#1b1b1b",
+        # Square PNG icons (>=192px) so the "add to home screen" install prompt works.
         "icons": [
-            {"src": icon, "sizes": "64x64", "type": "image/x-icon", "purpose": "any"},
-            {"src": banner, "sizes": "512x256", "type": "image/jpeg", "purpose": "any"},
+            {"src": icon192, "sizes": "192x192", "type": "image/png", "purpose": "any"},
+            {"src": icon512, "sizes": "512x512", "type": "image/png", "purpose": "any"},
         ],
     }
     return HttpResponse(_json.dumps(manifest), content_type='application/manifest+json')
@@ -180,6 +181,37 @@ def _sitemap_encyclopedia_items(base_url):
     return xml
 
 
+_SITEMAP_SET_CACHE = {'ts': 0.0, 'xml': ''}
+
+
+def _sitemap_encyclopedia_sets(base_url):
+    """Best-effort <url> block for dofus3 encyclopedia set (panoply) pages.
+
+    Same defensive, cached pattern as _sitemap_encyclopedia_items.
+    """
+    now = _sitemap_time.time()
+    cached = _SITEMAP_SET_CACHE
+    if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
+        return cached['xml']
+    try:
+        from chardata import encyclopedia_view
+        structure = encyclopedia_view.get_structure()
+        rows = []
+        for set_id, item_set in structure.sets_dict.items():
+            if not getattr(item_set, 'items', None):
+                continue
+            if not (item_set.localized_names.get('en') or item_set.name):
+                continue
+            rows.append(_sitemap_url('%s/encyclopedia/set/%s/' % (base_url, set_id),
+                                     'monthly', '0.6'))
+        xml = '\n'.join(rows)
+    except Exception:
+        return cached['xml'] or ''
+    cached['ts'] = now
+    cached['xml'] = xml
+    return xml
+
+
 def sitemap_view(request):
     """Comprehensive sitemap.xml for AdSense and SEO.
 
@@ -206,6 +238,7 @@ def sitemap_view(request):
         ('/random/', 'weekly', '0.6'),
         ('/choose_compare_sets/', 'weekly', '0.7'),
         ('/encyclopedia/', 'daily', '0.9'),
+        ('/encyclopedia/sets/', 'weekly', '0.8'),
         ('/forgemagie/', 'weekly', '0.8'),
         ('/workshop/', 'weekly', '0.6'),
         ('/loadprojects/', 'weekly', '0.5'),
@@ -215,8 +248,11 @@ def sitemap_view(request):
 
     for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
         vbase = '%s/%s' % (base_url, version_slug)
+        # /{version}/encyclopedia/ is dofus3 data that canonicalizes to the global
+        # /encyclopedia/, so it is intentionally omitted (a sitemap should list canonical
+        # URLs only). /setup/, /sharedbuilds/, /forgemagie/ are genuinely version-specific.
         for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
-                          ('/encyclopedia/', '0.8'), ('/forgemagie/', '0.6')):
+                          ('/forgemagie/', '0.6')):
             blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
 
     try:
@@ -239,6 +275,10 @@ def sitemap_view(request):
     items_xml = _sitemap_encyclopedia_items(base_url)
     if items_xml:
         blocks.append(items_xml)
+
+    sets_xml = _sitemap_encyclopedia_sets(base_url)
+    if sets_xml:
+        blocks.append(sets_xml)
 
     sitemap_content = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -368,6 +408,9 @@ urlpatterns = [
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
             encyclopedia_view.encyclopedia_item,
             name='encyclopedia_item'),
+    re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets, name='encyclopedia_sets'),
+    re_path(r'^encyclopedia/set/(?P<set_id>\d+)/$', encyclopedia_view.encyclopedia_set,
+            name='encyclopedia_set'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
     re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),
     re_path(r'^inventory/$', inventory_view.inventory, name='inventory'),

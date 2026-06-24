@@ -1,0 +1,109 @@
+{% extends "chardata/base.html" %}
+{% load version_url %}
+{% load static_s3 %}
+{% load i18n %}
+
+{% block title %}{{ set_name }} - {{ t.set_label }} - {{ t.title }}{% endblock %}
+
+{% block meta_description %}{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+
+{# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{# Set-specific social preview (set name + first item icon) instead of the generic card. #}
+{% block og_meta %}
+    <meta property="og:title" content="{{ set_name }} — {{ t.set_label }} — {{ t.title }}">
+    <meta property="og:description" content="{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% if set_items %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ set_items.0.image_url }}">{% endif %}
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
+
+{% block css %}
+<style>
+.encyclopedia-item { padding: 12px; }
+.encyclopedia-item-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; padding: 12px; box-sizing: border-box; }
+.encyclopedia-set-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 4px; }
+.encyclopedia-set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 8px; }
+.encyclopedia-set-item { display: flex; gap: 10px; align-items: center; border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; padding: 8px; text-decoration: none; }
+.encyclopedia-set-item img { width: 48px; height: 48px; flex: 0 0 auto; }
+.encyclopedia-set-item-name { font-weight: 600; }
+.encyclopedia-item-meta { opacity: 0.9; }
+.encyclopedia-section { margin-top: 14px; }
+.encyclopedia-list { margin: 4px 0 0; padding-left: 20px; }
+.encyclopedia-list-stat { display: flex; align-items: center; gap: 8px; }
+.encyclopedia-list-stat-icon { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
+.encyclopedia-set-bonus-group { margin-top: 6px; }
+.encyclopedia-back { margin-bottom: 10px; }
+.encyclopedia-back a { text-decoration: underline; }
+
+/* Improve readability when the active site theme is dark. */
+.dark-theme-active .encyclopedia-item-card { border-color: #5a5a5a; background: #1f1f1f; }
+.dark-theme-active .encyclopedia-item,
+.dark-theme-active .encyclopedia-item-card,
+.dark-theme-active .encyclopedia-item-card div,
+.dark-theme-active .encyclopedia-item-card span,
+.dark-theme-active .encyclopedia-item-card li { color: #f3efe6; }
+.dark-theme-active .encyclopedia-set-title,
+.dark-theme-active .encyclopedia-section b { color: #fff1d6; }
+.dark-theme-active .encyclopedia-set-item { border-color: #5a5a5a; }
+.dark-theme-active .encyclopedia-item a { color: #ffd8a8; }
+.dark-theme-active .encyclopedia-item a:hover { color: #ffe4bf; }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="encyclopedia-item text">
+    <div class="encyclopedia-back">
+        <a href="{% game_url 'encyclopedia_sets' %}">&lt; {% trans "All sets" %}</a>
+    </div>
+
+    <div class="encyclopedia-item-card brown-box">
+        <div class="encyclopedia-set-title">{{ set_name }}</div>
+
+        <div class="encyclopedia-section">
+            <b>{% trans "Items in this set" %}</b>
+            {% if set_items %}
+            {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+            <div class="encyclopedia-set-grid">
+                {% for set_item in set_items %}
+                <a class="encyclopedia-set-item" href="{{ set_item.detail_url }}">
+                    <img src="{{ set_item.image_url }}" alt="{{ set_item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <div>
+                        <div class="encyclopedia-set-item-name">{{ set_item.name }}</div>
+                        <div class="encyclopedia-item-meta">{{ set_item.type_name }} | {{ t.item_level }} {{ set_item.level }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="encyclopedia-item-meta">-</div>
+            {% endif %}
+        </div>
+
+        {% if set_bonuses %}
+        <div class="encyclopedia-section">
+            <b>{% trans "Set bonuses" %}</b>
+            {% for group in set_bonuses %}
+            <div class="encyclopedia-set-bonus-group">
+                <div class="encyclopedia-item-meta">{{ group.num_pieces }} {% trans "pieces" %}</div>
+                <ul class="encyclopedia-list">
+                    {% for line in group.lines %}
+                    <li>
+                        <div class="encyclopedia-list-stat">
+                            {% if line.icon_url %}<img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="">{% endif %}
+                            <span>{{ line.value }} {{ line.name }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -553,7 +553,16 @@ class SpellTransformer:
             entry["levels"] = levels
             entry["level_count"] = len(levels)
             entry["max_grade"] = max((lvl.get("grade") or 0 for lvl in levels), default=0)
-            breed_ids = sorted({lvl.get("spell_breed") for lvl in levels if lvl.get("spell_breed")})
+            breed_ids = {lvl.get("spell_breed") for lvl in levels if lvl.get("spell_breed")}
+            # Recent classes (e.g. Forgelance = breed 20) carry the player breed only
+            # in spell_variants (breedId); their spell levels' spell_breed is an
+            # unrelated id (2374/2376 for Forgelance), so spell_breed alone drops them
+            # from the class map. Fold in the variant breed; write_class_map then keeps
+            # only ids that are real breeds, dropping the unrelated spell_breed noise.
+            variant_link = self.variant_lookup.get(int(spell_id))
+            if variant_link and variant_link.breed_id:
+                breed_ids.add(variant_link.breed_id)
+            breed_ids = sorted(breed_ids)
             if breed_ids:
                 entry["breed_ids"] = breed_ids
             entry["level_requirements"] = [lvl.get("min_player_level") for lvl in levels]

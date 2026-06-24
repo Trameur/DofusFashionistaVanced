@@ -16784,11 +16784,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 151,
                 200,
                 "Initiative"
@@ -16822,6 +16817,11 @@
                 11,
                 15,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -22275,11 +22275,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 21,
                 35,
                 "Strength"
@@ -22308,6 +22303,11 @@
                 15,
                 29,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -34349,11 +34349,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 101,
                 150,
                 "Vitality"
@@ -34382,6 +34377,11 @@
                 9,
                 17,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -34729,11 +34729,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 6,
                 10,
                 "Damage"
@@ -34782,6 +34777,11 @@
                 2,
                 3,
                 "(Fire steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -35544,11 +35544,6 @@
                 "Power"
             ],
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 11,
                 15,
                 "Prospecting"
@@ -35567,6 +35562,11 @@
                 7,
                 16,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -36682,11 +36682,6 @@
                 "Agility"
             ],
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 300,
                 300,
                 "Initiative"
@@ -36715,6 +36710,11 @@
                 11,
                 20,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -38880,11 +38880,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 56,
                 75,
                 "Vitality"
@@ -38918,6 +38913,11 @@
                 2,
                 3,
                 "(Fire steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -39082,11 +39082,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 21,
                 40,
                 "Wisdom"
@@ -39120,6 +39115,11 @@
                 15,
                 24,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -40442,11 +40442,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                2,
-                "AP"
-            ],
-            [
                 -1,
                 -100,
                 "Intelligence"
@@ -40500,6 +40495,11 @@
                 16,
                 20,
                 "Heals"
+            ],
+            [
+                1,
+                2,
+                "(removes ap)"
             ],
             [
                 4,
@@ -50763,11 +50763,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 3,
                 4,
                 "Critical Hits"
@@ -50791,6 +50786,11 @@
                 3,
                 4,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -53764,11 +53764,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 151,
                 200,
                 "Vitality"
@@ -53802,6 +53797,11 @@
                 6,
                 10,
                 "% Neutral Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -56594,11 +56594,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 31,
                 50,
                 "Chance"
@@ -56657,6 +56652,11 @@
                 6,
                 8,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -58963,11 +58963,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 41,
                 60,
                 "Agility"
@@ -59046,6 +59041,11 @@
                 8,
                 14,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -73117,11 +73117,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 101,
                 150,
                 "Vitality"
@@ -73195,6 +73190,11 @@
                 16,
                 20,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -73214,11 +73214,6 @@
         "level": 154,
         "w_type": "Weapon",
         "stats": [
-            [
-                1,
-                1,
-                "AP"
-            ],
             [
                 151,
                 200,
@@ -73288,6 +73283,11 @@
                 12,
                 20,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -74838,11 +74838,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 201,
                 250,
                 "Vitality"
@@ -74926,6 +74921,11 @@
                 8,
                 14,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -78303,11 +78303,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 201,
                 250,
                 "Vitality"
@@ -78376,6 +78371,11 @@
                 4,
                 6,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -78494,11 +78494,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 151,
                 200,
                 "Vitality"
@@ -78577,6 +78572,11 @@
                 8,
                 15,
                 "(Water damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -80753,11 +80753,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 4,
                 5,
                 "Earth Damage"
@@ -80796,6 +80791,11 @@
                 16,
                 25,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -83242,11 +83242,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 151,
                 200,
                 "Vitality"
@@ -83320,6 +83315,11 @@
                 4,
                 6,
                 "(Fire steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -84276,11 +84276,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 151,
                 200,
                 "Vitality"
@@ -84359,6 +84354,11 @@
                 5,
                 7,
                 "(Air steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -95248,11 +95248,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 301,
                 350,
                 "Vitality"
@@ -95341,6 +95336,11 @@
                 9,
                 14,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -111421,11 +111421,6 @@
         "w_type": "Weapon",
         "stats": [
             [
-                1,
-                1,
-                "AP"
-            ],
-            [
                 301,
                 350,
                 "Vitality"
@@ -111489,6 +111484,11 @@
                 41,
                 55,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],

@@ -58,6 +58,15 @@ class TranslationRegressionTests(SimpleTestCase):
                 self.assertEqual(gettext('Steals %(mp)d MP') % {'mp': 3}, exp,
                                  msg='Steals MP wrong for %s' % lang)
 
+    def test_removes_ap_translated_per_language(self):
+        # Weapon "removes N AP" hit line (e.g. Worn Koulosse Staff on Touch).
+        expected = {'fr': 'Retire 3 PA', 'es': 'Quita 3 PA',
+                    'pt': 'Remove 3 PA', 'de': 'Entzieht 3 AP'}
+        for lang, exp in expected.items():
+            with translation.override(lang):
+                self.assertEqual(gettext('Removes %(ap)d AP') % {'ap': 3}, exp,
+                                 msg='Removes AP wrong for %s' % lang)
+
     def test_previously_untranslated_ui_strings(self):
         expected = {
             'Hunting Weapon': {'fr': 'Arme de chasse', 'es': 'Arma de caza',
@@ -72,6 +81,35 @@ class TranslationRegressionTests(SimpleTestCase):
                 with translation.override(lang):
                     self.assertEqual(gettext(msgid), exp,
                                      msg='%r wrong for %s' % (msgid, lang))
+
+
+class StructureSetResolutionTests(SimpleTestCase):
+    """get_set_by_id must return the real (bonus-bearing) set, not a synthetic touch
+    set sharing its id. id 1 is the dofus3 "Gobball Set" (sets_dict, has bonuses) and
+    also the touch "Jellix Set" (dt_sets_dict, no bonuses); checking dt first showed
+    Gobball builds as "Jellix Set" with no set bonus."""
+
+    def test_get_set_by_id_prefers_real_bonus_set(self):
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        got = s.get_set_by_id(1)
+        self.assertIs(got, s.sets_dict.get(1))
+        self.assertTrue(got.bonus, 'set 1 should expose its bonuses')
+
+
+class BreadcrumbJsonLdTests(SimpleTestCase):
+    """The breadcrumb JSON-LD is embedded in a <script> via |safe, so it must escape
+    characters that could break out of the tag (defense-in-depth)."""
+
+    def test_escapes_script_breakout(self):
+        import json
+        from chardata.encyclopedia_view import _breadcrumb_jsonld
+        out = _breadcrumb_jsonld([('a</script><img src=x>', 'https://x/')])
+        self.assertNotIn('</script>', out)
+        self.assertNotIn('<img', out)
+        self.assertIn('\\u003c', out)
+        self.assertEqual(json.loads(out)['itemListElement'][0]['name'],
+                         'a</script><img src=x>')
 
 
 # Use the plain (non-manifest) static storage so template {% static %} calls do
@@ -103,6 +141,116 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_encyclopedia_item_shows_set_bonuses(self):
+        # The item page now surfaces the panoply's per-piece bonuses (the set_bonus
+        # data was loaded but only the set NAME was shown before).
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        target = None
+        for iset in s.sets_dict.values():
+            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
+                for iid in iset.items:
+                    it = s.get_item_by_id(iid)
+                    # The view resolves the set from the item's own .set (sets_dict
+                    # first), so only items whose .set lands on a bonus set qualify.
+                    if (it and getattr(it, 'ankama_type', None)
+                            and getattr(it, 'ankama_id', None)
+                            and getattr(it, 'set', None) is not None
+                            and getattr(s.sets_dict.get(it.set), 'bonus', None)):
+                        target = it
+                        break
+            if target:
+                break
+        self.assertIsNotNone(target, 'no set item found in the structure')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/'
+                               % (target.ankama_type, target.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Set bonuses')
+
+    def test_gobball_set_item_shows_dofus3_set_name_not_touch(self):
+        # Regression: set id 1 is the dofus3 "Gobball Set" (with bonuses) AND, in
+        # dt_sets_dict, the touch "Jellix Set". get_set_by_id() checks dt first, so
+        # Gobball items wrongly showed "Jellix Set" and no bonuses.
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        gob = next((v for v in s.sets_dict.values()
+                    if v.localized_names.get('en') == 'Gobball Set'
+                    and getattr(v, 'bonus', None) and getattr(v, 'items', None)), None)
+        if not gob:
+            self.skipTest('Gobball Set not present in the structure')
+        it = None
+        for iid in gob.items:
+            cand = s.get_item_by_id(iid)
+            if cand and getattr(cand, 'set', None) is not None and s.sets_dict.get(cand.set) is gob:
+                it = cand
+                break
+        if not it:
+            self.skipTest('no Gobball item with a consistent back-link')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Gobball Set')
+        self.assertNotContains(resp, 'Jellix Set')
+        self.assertContains(resp, 'property="og:image"')  # item-specific social preview
+
+    def test_encyclopedia_sets_list_page_ok(self):
+        resp = self.client.get('/encyclopedia/sets/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Sets')
+
+    def test_encyclopedia_set_detail_shows_items_and_bonuses(self):
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        target_id = None
+        for sid, iset in s.sets_dict.items():
+            if (getattr(iset, 'bonus', None) and getattr(iset, 'items', None)
+                    and any(s.get_item_by_id(i) and getattr(s.get_item_by_id(i), 'ankama_id', None)
+                            for i in iset.items)):
+                target_id = sid
+                break
+        self.assertIsNotNone(target_id, 'no bonus set with items found')
+        resp = self.client.get('/encyclopedia/set/%s/' % target_id)
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Set bonuses')
+        self.assertContains(resp, '/encyclopedia/item/')  # at least one item links out
+        self.assertContains(resp, 'property="og:image"')  # set-specific social preview
+        self.assertContains(resp, 'BreadcrumbList')  # breadcrumb structured data
+
+    def test_encyclopedia_item_has_valid_breadcrumb_jsonld(self):
+        import json
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        it = None
+        for iset in s.sets_dict.values():
+            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
+                for iid in iset.items:
+                    cand = s.get_item_by_id(iid)
+                    if (cand and getattr(cand, 'ankama_id', None)
+                            and getattr(cand, 'ankama_type', None)):
+                        it = cand
+                        break
+            if it:
+                break
+        self.assertIsNotNone(it, 'no renderable set item found')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        self.assertIsNotNone(m, 'no ld+json script on the item page')
+        data = json.loads(m.group(1))  # raises if the JSON-LD is malformed
+        self.assertEqual(data['@type'], 'BreadcrumbList')
+        self.assertGreaterEqual(len(data['itemListElement']), 2)
+
+    def test_encyclopedia_unknown_set_redirects_to_encyclopedia(self):
+        resp = self.client.get('/encyclopedia/set/99999999/')
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn('/encyclopedia', resp['Location'])
+
+    def test_encyclopedia_list_card_links_to_set(self):
+        # Items in a panoply now expose a link to their set page from the list card.
+        resp = self.client.get('/encyclopedia/?q=gobball')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, '/encyclopedia/set/')
+
     def test_sitemap_is_well_formed_xml(self):
         resp = self.client.get('/sitemap.xml')
         self.assertEqual(resp.status_code, 200)
@@ -110,6 +258,27 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('<?xml', body)
         self.assertIn('<urlset', body)
         self.assertIn('/privacy/', body)
+        # Global encyclopedia is listed; version-prefixed encyclopedia URLs are not
+        # (they canonicalize to the global one). Version-specific pages still are.
+        self.assertIn('https://dofusfashionista.gg/encyclopedia/', body)
+        self.assertNotIn('/retro/encyclopedia/', body)
+        self.assertIn('/retro/forgemagie/', body)
+
+    def test_manifest_has_pwa_install_icons(self):
+        import json
+        resp = self.client.get('/manifest.webmanifest')
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.content.decode('utf-8'))
+        sizes = {icon.get('sizes') for icon in data.get('icons', [])}
+        self.assertIn('192x192', sizes)  # Chrome needs a >=192px PNG for the install prompt
+        self.assertIn('512x512', sizes)
+        self.assertTrue(all(icon.get('type') == 'image/png' for icon in data['icons']))
+
+    def test_apple_touch_icon_present(self):
+        # iOS "add to home screen" uses apple-touch-icon (not the manifest).
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'apple-touch-icon')
 
 
 @override_settings(
@@ -152,6 +321,36 @@ class CanonicalUrlTests(TestCase):
         self.assertEqual(self._canonical('/retro/'),
                          'https://dofusfashionista.gg/retro/')
 
+    def test_version_prefixed_encyclopedia_pages_canonical_to_global(self):
+        # The encyclopedia is dofus3 data under every prefix, so /retro/encyclopedia/...
+        # etc. are duplicates and must canonicalize to the global URL.
+        self.assertEqual(self._canonical('/retro/encyclopedia/'),
+                         'https://dofusfashionista.gg/encyclopedia/')
+        self.assertEqual(self._canonical('/beta/encyclopedia/sets/'),
+                         'https://dofusfashionista.gg/encyclopedia/sets/')
+        self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
+                         'https://dofusfashionista.gg/encyclopedia/set/1/')
+        # Item pages canonicalize to the global dofus3 item URL (prefix dropped).
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        it = None
+        for iset in s.sets_dict.values():
+            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
+                for iid in iset.items:
+                    cand = s.get_item_by_id(iid)
+                    if (cand and getattr(cand, 'ankama_id', None)
+                            and getattr(cand, 'ankama_type', None)):
+                        it = cand
+                        break
+            if it:
+                break
+        self.assertIsNotNone(it, 'no renderable set item found')
+        canon = self._canonical('/dofus2/encyclopedia/item/%s/%s-x/'
+                                % (it.ankama_type, it.ankama_id))
+        self.assertTrue(canon.startswith('https://dofusfashionista.gg/encyclopedia/item/'),
+                        msg=canon)
+        self.assertNotIn('/dofus2/', canon)
+
 
 class RegistrationTests(TestCase):
     """Username uniqueness must be case-insensitive (MySQL's unique index is), so a
@@ -178,6 +377,19 @@ class SocialAuthCancelTests(TestCase):
         resp = mw.process_exception(
             RequestFactory().get('/complete/google-oauth2/'),
             AuthCanceled('google-oauth2'))
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn('/login', resp['Location'])
+
+    def test_auth_missing_parameter_redirects_to_login(self):
+        # Bots/stale redirects hit /complete/ without the state param -> AuthMissingParameter.
+        # Must redirect to login, not 500 + email admins.
+        from django.test import RequestFactory
+        from social_core.exceptions import AuthMissingParameter
+        from chardata.SocialAuthExceptionMiddleware import SocialAuthExceptionMiddleware
+        mw = SocialAuthExceptionMiddleware(lambda r: None)
+        resp = mw.process_exception(
+            RequestFactory().get('/complete/google-oauth2/'),
+            AuthMissingParameter('google-oauth2', 'state'))
         self.assertEqual(resp.status_code, 302)
         self.assertIn('/login', resp['Location'])
 
@@ -214,4 +426,10 @@ class ProjectActionRobustnessTests(TestCase):
 
     def test_choose_compare_sets_post_get_does_not_500(self):
         resp = self.client.get('/choose_compare_sets_post/')
+        self.assertNotEqual(resp.status_code, 500)
+
+    def test_wizard_post_get_does_not_500(self):
+        # Regression: /wizardpost/<id>/ did safe_int('') -> None -> min(12, None)
+        # -> TypeError -> 500 on a bare GET.
+        resp = self.client.get('/wizardpost/1/')
         self.assertNotEqual(resp.status_code, 500)
