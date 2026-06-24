@@ -16817,6 +16817,11 @@
                 11,
                 15,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -22298,6 +22303,11 @@
                 15,
                 29,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -34367,6 +34377,11 @@
                 9,
                 17,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -34762,6 +34777,11 @@
                 2,
                 3,
                 "(Fire steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -35542,6 +35562,11 @@
                 7,
                 16,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -36685,6 +36710,11 @@
                 11,
                 20,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -38883,6 +38913,11 @@
                 2,
                 3,
                 "(Fire steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -39080,6 +39115,11 @@
                 15,
                 24,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -40455,6 +40495,11 @@
                 16,
                 20,
                 "Heals"
+            ],
+            [
+                1,
+                2,
+                "(removes ap)"
             ],
             [
                 4,
@@ -50741,6 +50786,11 @@
                 3,
                 4,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -53749,6 +53799,11 @@
                 "% Neutral Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 21,
                 40,
                 "(Neutral damage)"
@@ -56597,6 +56652,11 @@
                 6,
                 8,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -58981,6 +59041,11 @@
                 8,
                 14,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -73125,6 +73190,11 @@
                 16,
                 20,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -73213,6 +73283,11 @@
                 12,
                 20,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -74846,6 +74921,11 @@
                 8,
                 14,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -78291,6 +78371,11 @@
                 4,
                 6,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -78487,6 +78572,11 @@
                 8,
                 15,
                 "(Water damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -80701,6 +80791,11 @@
                 16,
                 25,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -83220,6 +83315,11 @@
                 4,
                 6,
                 "(Fire steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -84254,6 +84354,11 @@
                 5,
                 7,
                 "(Air steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [
@@ -95231,6 +95336,11 @@
                 9,
                 14,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],
@@ -111374,6 +111484,11 @@
                 41,
                 55,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "conditions": [],

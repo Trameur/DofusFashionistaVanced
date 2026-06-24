@@ -6725,6 +6725,12 @@ msgstr ""
 msgid "Class spells aren't available for this class yet."
 msgstr "Los hechizos de clase aún no están disponibles para esta clase."
 
+msgid "Removes %(ap)d AP"
+msgstr "Quita %(ap)d PA"
+
+msgid "Removes %(min)d to %(max)d AP"
+msgstr "Quita de %(min)d a %(max)d PA"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

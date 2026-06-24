@@ -86,7 +86,7 @@ def _create_weapon_web_digest(weapon):
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
     web_digest['crit_dams'] = _convert_weapon_damage(weapon.crit_hits)
-    NON_DAMAGE_ELEMENTS = {'attracts', 'pushes', 'advances', 'steals_mp'}
+    NON_DAMAGE_ELEMENTS = {'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
     damage_indexes = []
     healing_indexes = []
     effect_indexes = []

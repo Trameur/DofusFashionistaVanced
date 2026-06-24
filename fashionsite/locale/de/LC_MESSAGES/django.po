@@ -6738,3 +6738,9 @@ msgstr ""
 
 msgid "Class spells aren't available for this class yet."
 msgstr "Klassenzauber sind für diese Klasse noch nicht verfügbar."
+
+msgid "Removes %(ap)d AP"
+msgstr "Entzieht %(ap)d AP"
+
+msgid "Removes %(min)d to %(max)d AP"
+msgstr "Entzieht %(min)d bis %(max)d AP"

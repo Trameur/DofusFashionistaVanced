@@ -495,6 +495,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                             special_element = 'advances'
                         elif parts[0] == 'steals' and len(parts) >= 2 and parts[1] == 'mp':
                             special_element = 'steals_mp'
+                        elif parts[0] == 'removes' and len(parts) >= 2 and parts[1] == 'ap':
+                            special_element = 'removes_ap'
                         if special_element:
                             f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},0,0,'{special_element}');\n")
                             i += 1

@@ -58,6 +58,15 @@ class TranslationRegressionTests(SimpleTestCase):
                 self.assertEqual(gettext('Steals %(mp)d MP') % {'mp': 3}, exp,
                                  msg='Steals MP wrong for %s' % lang)
 
+    def test_removes_ap_translated_per_language(self):
+        # Weapon "removes N AP" hit line (e.g. Worn Koulosse Staff on Touch).
+        expected = {'fr': 'Retire 3 PA', 'es': 'Quita 3 PA',
+                    'pt': 'Remove 3 PA', 'de': 'Entzieht 3 AP'}
+        for lang, exp in expected.items():
+            with translation.override(lang):
+                self.assertEqual(gettext('Removes %(ap)d AP') % {'ap': 3}, exp,
+                                 msg='Removes AP wrong for %s' % lang)
+
     def test_previously_untranslated_ui_strings(self):
         expected = {
             'Hunting Weapon': {'fr': 'Arme de chasse', 'es': 'Arma de caza',

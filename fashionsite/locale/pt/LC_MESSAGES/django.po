@@ -6716,6 +6716,12 @@ msgstr ""
 msgid "Class spells aren't available for this class yet."
 msgstr "Os feitiços de classe ainda não estão disponíveis para esta classe."
 
+msgid "Removes %(ap)d AP"
+msgstr "Remove %(ap)d PA"
+
+msgid "Removes %(min)d to %(max)d AP"
+msgstr "Remove de %(min)d a %(max)d PA"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

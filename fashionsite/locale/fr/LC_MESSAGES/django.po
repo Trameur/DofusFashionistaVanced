@@ -7251,6 +7251,12 @@ msgstr ""
 msgid "Class spells aren't available for this class yet."
 msgstr "Les sorts de classe ne sont pas encore disponibles pour cette classe."
 
+msgid "Removes %(ap)d AP"
+msgstr "Retire %(ap)d PA"
+
+msgid "Removes %(min)d to %(max)d AP"
+msgstr "Retire %(min)d à %(max)d PA"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
