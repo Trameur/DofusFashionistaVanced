@@ -1547,26 +1547,31 @@
             }
             var chosen = inTarget.length ? pickEfficient(inTarget) : null;
             var chosenPass = chosen ? passOf(chosen) : 0;
-            if (chosenPass < 0.45) {
-                var over = legal.filter(function(tier) {
-                    return tier.bonus > remaining + 0.001;
-                });
-                var absorbable = over.filter(function(tier) {
-                    var landsOver = row.value + tier.bonus > maxRoll;
-                    return !landsOver || tier.weight <= session.sink + 0.001;
-                });
-                var pool = absorbable.length ? absorbable : over;
-                var bestOver = pool.slice().sort(function(a, b) {
-                    var pa = passOf(a), pb = passOf(b);
-                    if (Math.abs(pb - pa) > 0.02) {
-                        return pb - pa;
-                    }
-                    return a.weight - b.weight;
-                })[0];
-                if (bestOver && passOf(bestOver) > chosenPass + 0.05) {
-                    chosen = bestOver;
-                    chosenPass = passOf(bestOver);
+            // A single rune that overshoots the target in one throw beats stacking
+            // several smaller in-target runes (their success compounds, and the
+            // overshoot is banked as sink). Prefer the best absorbable over-target
+            // rune when its one-throw pass is at least as good AND the chosen in-target
+            // rune can't finish the target by itself (don't overshoot an exact fit).
+            var over = legal.filter(function(tier) {
+                return tier.bonus > remaining + 0.001;
+            });
+            var absorbable = over.filter(function(tier) {
+                var landsOver = row.value + tier.bonus > maxRoll;
+                return !landsOver || tier.weight <= session.sink + 0.001;
+            });
+            var overPool = absorbable.length ? absorbable : over;
+            var bestOver = overPool.slice().sort(function(a, b) {
+                var pa = passOf(a), pb = passOf(b);
+                if (Math.abs(pb - pa) > 0.02) {
+                    return pb - pa;
                 }
+                return a.weight - b.weight;
+            })[0];
+            if (bestOver
+                    && (!chosen
+                        || (passOf(bestOver) >= chosenPass && chosen.bonus < remaining - 0.001))) {
+                chosen = bestOver;
+                chosenPass = passOf(bestOver);
             }
             if (!chosen) {
                 return null;
