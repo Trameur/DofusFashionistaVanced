@@ -146,6 +146,22 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('COMPARE_TRAY_CONFIG', html)
         self.assertIn('compare_tray.js', html)
 
+    def test_non_retro_item_hides_pet_feeding_section(self):
+        # Regression: a belt (e.g. Belteen) carries a second entry at id
+        # 100M + ankama_id; the Retro pet-feeding logic mislabelled its stats as
+        # "Possible bonuses (when fed)". That section must not show outside Retro.
+        from fashionistapulp.structure import get_structure
+        structure = get_structure()
+        target = next((it for it in structure.get_concatenated_items_lists()
+                       if it.id >= 100000000 and it.ankama_id and it.ankama_type),
+                      None)
+        if target is None:
+            self.skipTest('no high-id duplicate variant in current data')
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/'
+                               % (target.ankama_type, target.ankama_id))
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn('when fed', resp.content.decode())
+
     def test_unknown_url_returns_real_404(self):
         # AdSense "low value content" regression: unknown URLs must be 404,
         # not a soft-200 error page.

@@ -1159,7 +1159,15 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'icon_url': _get_stat_icon_url(stat.key),
         })
 
-    pet_feedable_bonuses = _get_pet_feedable_bonuses(structure, grouped_variants, language)
+    # Feeding bonuses are a Retro-only pet feature -- the synthetic variant ids this
+    # reads are created solely for Retro pets. Other versions concatenate cross-
+    # version duplicates at overlapping high ids (e.g. a belt's second entry, id
+    # 100M + ankama_id), so guard by version to avoid mislabelling those stats as
+    # "fed" bonuses on a regular equipment page.
+    is_retro_version = getattr(request, 'game_version', None) == 'retro'
+    pet_feedable_bonuses = (
+        _get_pet_feedable_bonuses(structure, grouped_variants, language)
+        if is_retro_version else [])
     set_bonuses = _get_set_bonuses(structure, item_set, language)
 
     condition_groups = _format_condition_groups(structure, grouped_variants, language)
