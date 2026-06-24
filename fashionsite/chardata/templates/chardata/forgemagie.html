@@ -1688,8 +1688,9 @@
             }
             simChanceSpan.className = 'small-explain';
             var chances = chancesFor(row, selected.tier);
-            var passPercent = Math.round((chances.sc + chances.sn) * 100);
-            simChanceSpan.textContent = t.sim_chance + ': ~' + passPercent + '%';
+            var pct = function(x) { return Math.round(x * 100); };
+            simChanceSpan.textContent = t.sim_chance + ': SC ~' + pct(chances.sc)
+                + '% · SN ~' + pct(chances.sn) + '% · EC ~' + pct(chances.ec) + '%';
         }
 
         function formatKamas(value) {
