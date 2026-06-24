@@ -6766,3 +6766,10 @@ msgid "Set bonuses now show on each item's page in the encyclopedia"
 msgstr ""
 "Set-Boni werden jetzt auf der Seite jedes Gegenstands in der Enzyklopädie "
 "angezeigt"
+
+msgid "Compare with my other sets"
+msgstr "Mit meinen anderen Sets vergleichen"
+
+msgid "Tick the sets you want to compare (2 to 4), then click Compare."
+msgstr ""
+"Wähle die Sets zum Vergleichen aus (2 bis 4) und klicke auf Vergleichen."

@@ -6753,6 +6753,12 @@ msgstr ""
 "Los bonus de conjunto ahora se muestran en la página de cada objeto en la "
 "enciclopedia"
 
+msgid "Compare with my other sets"
+msgstr "Comparar con mis otros sets"
+
+msgid "Tick the sets you want to compare (2 to 4), then click Compare."
+msgstr "Marca los sets que quieres comparar (2 a 4) y haz clic en Comparar."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

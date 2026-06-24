@@ -6743,6 +6743,12 @@ msgid "Set bonuses now show on each item's page in the encyclopedia"
 msgstr ""
 "Os bônus de conjunto agora aparecem na página de cada item na enciclopédia"
 
+msgid "Compare with my other sets"
+msgstr "Comparar com meus outros sets"
+
+msgid "Tick the sets you want to compare (2 to 4), then click Compare."
+msgstr "Marque os sets que deseja comparar (2 a 4) e clique em Comparar."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

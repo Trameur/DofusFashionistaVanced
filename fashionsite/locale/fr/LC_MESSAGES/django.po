@@ -7279,6 +7279,12 @@ msgstr ""
 "Les bonus de panoplie s'affichent désormais sur la page de chaque objet dans"
 " l'encyclopédie"
 
+msgid "Compare with my other sets"
+msgstr "Comparer avec mes autres équipements"
+
+msgid "Tick the sets you want to compare (2 to 4), then click Compare."
+msgstr "Cochez les équipements à comparer (2 à 4), puis cliquez sur Comparer."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

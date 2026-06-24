@@ -53,6 +53,7 @@ def load_projects_error(request, error):
                         {'chars': [WrappedChar(char) for char in chars],
                          'char_id': 0,
                          'has_projects': has_projects,
+                         'compare_preselect': request.GET.get('compare') or '',
                          'needle': json.dumps(get_needle_URL(request)),
                          'error_msg': error})
 
