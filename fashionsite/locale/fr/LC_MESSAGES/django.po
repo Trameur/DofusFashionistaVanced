@@ -7327,6 +7327,23 @@ msgstr ""
 "Parcourez toutes les panoplies Dofus et leurs bonus. Trouvez une panoplie et"
 " composez-la avec le Dofus Fashionista."
 
+msgid "Set (panoply) pages"
+msgstr "Pages de panoplies"
+
+msgid ""
+"Each set now has its own page with its items and its bonuses per number of "
+"pieces"
+msgstr ""
+"Chaque panoplie a maintenant sa propre page, avec ses objets et ses bonus "
+"selon le nombre de pièces"
+
+msgid ""
+"Search all sets in the encyclopedia, and open a set from any item or from a "
+"generated build"
+msgstr ""
+"Recherchez toutes les panoplies dans l'encyclopédie, et ouvrez une panoplie "
+"depuis un objet ou un équipement généré"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

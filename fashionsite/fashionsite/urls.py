@@ -180,6 +180,37 @@ def _sitemap_encyclopedia_items(base_url):
     return xml
 
 
+_SITEMAP_SET_CACHE = {'ts': 0.0, 'xml': ''}
+
+
+def _sitemap_encyclopedia_sets(base_url):
+    """Best-effort <url> block for dofus3 encyclopedia set (panoply) pages.
+
+    Same defensive, cached pattern as _sitemap_encyclopedia_items.
+    """
+    now = _sitemap_time.time()
+    cached = _SITEMAP_SET_CACHE
+    if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
+        return cached['xml']
+    try:
+        from chardata import encyclopedia_view
+        structure = encyclopedia_view.get_structure()
+        rows = []
+        for set_id, item_set in structure.sets_dict.items():
+            if not getattr(item_set, 'items', None):
+                continue
+            if not (item_set.localized_names.get('en') or item_set.name):
+                continue
+            rows.append(_sitemap_url('%s/encyclopedia/set/%s/' % (base_url, set_id),
+                                     'monthly', '0.6'))
+        xml = '\n'.join(rows)
+    except Exception:
+        return cached['xml'] or ''
+    cached['ts'] = now
+    cached['xml'] = xml
+    return xml
+
+
 def sitemap_view(request):
     """Comprehensive sitemap.xml for AdSense and SEO.
 
@@ -206,6 +237,7 @@ def sitemap_view(request):
         ('/random/', 'weekly', '0.6'),
         ('/choose_compare_sets/', 'weekly', '0.7'),
         ('/encyclopedia/', 'daily', '0.9'),
+        ('/encyclopedia/sets/', 'weekly', '0.8'),
         ('/forgemagie/', 'weekly', '0.8'),
         ('/workshop/', 'weekly', '0.6'),
         ('/loadprojects/', 'weekly', '0.5'),
@@ -239,6 +271,10 @@ def sitemap_view(request):
     items_xml = _sitemap_encyclopedia_items(base_url)
     if items_xml:
         blocks.append(items_xml)
+
+    sets_xml = _sitemap_encyclopedia_sets(base_url)
+    if sets_xml:
+        blocks.append(sets_xml)
 
     sitemap_content = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
