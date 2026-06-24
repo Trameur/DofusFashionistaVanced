@@ -480,6 +480,7 @@ REBOUND_LABELS = [
 ] + ['%d rebounds' % n for n in range(2, 20)]
 
 
+# AUTO-GENERATED DAMAGE_SPELLS START
 # The block below is overwritten by itemscraper/generate_damage_spells.py.
 # Do not edit it manually.
 DAMAGE_SPELLS = {
@@ -2600,6 +2601,216 @@ DAMAGE_SPELLS = {
         ), is_linked=(2, 'Anchor')),
     ],
     'Forgelance': [
+        Spell('Biting Trident', [1, 66, 132], Effects(
+            [['13-15', '17-19', '21-24']],
+            [['16-18', '20-23', '25-29']],
+            [WATER],
+        ), is_linked=(1, 'Maelstrom')),
+        Spell('Collapse', [1, 67, 133], Effects(
+            [['13-15', '16-18', '20-22']],
+            [['16-18', '19-21', '24-26']],
+            [EARTH],
+        ), is_linked=(1, 'Cyclone Lancer')),
+        Spell('Burning Estoc', [1, 68, 134], Effects(
+            [['17-19', '22-25', '28-32']],
+            [['20-23', '26-30', '34-38']],
+            [FIRE],
+        ), is_linked=(1, 'Octave')),
+        Spell('Brass Volley', [1, 69, 136], Effects(
+            [['14-16', '18-20', '22-25']],
+            [['17-19', '21-24', '26-30']],
+            [AIR],
+        ), is_linked=(1, 'Upheaval')),
+        Spell('Heroic Charge', [10, 77, 144], Effects(
+            [['17-20', '23-27', '29-33'],
+             ['17-20', '23-27', '29-33'],
+             ['17-20', '23-27', '29-33'],
+             ['17-20', '23-27', '29-33']],
+            [['21-24', '28-32', '35-40'],
+             ['21-24', '28-32', '35-40'],
+             ['21-24', '28-32', '35-40'],
+             ['21-24', '28-32', '35-40']],
+            [EARTH, FIRE, WATER, AIR],
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])]),
+        Spell('Lance of the Lake', [15, 82, 149], Effects(
+            [['13-15', '17-20', '22-25']],
+            [['16-18', '21-23', '26-30']],
+            [WATER],
+        ), is_linked=(1, 'Seismic Pike')),
+        Spell('Slingshot', [20, 87, 154], Effects(
+            [['15-17', '19-21', '25-28']],
+            [['18-20', '22-25', '30-34']],
+            [EARTH],
+        ), is_linked=(1, 'Lightning-Javelin')),
+        Spell('Fire Lance', [30, 97, 164], Effects(
+            [['11-13', '14-17', '18-21'],
+             ['14-16', '18-21', '23-26'],
+             ['17-19', '22-25', '28-31'],
+             ['20-22', '26-29', '33-36'],
+             ['23-25', '30-33', '38-41']],
+            [['14-17', '18-21', '22-26'],
+             ['17-20', '22-25', '27-31'],
+             ['20-23', '26-29', '32-36'],
+             ['23-26', '30-33', '37-41'],
+             ['26-29', '34-37', '42-46']],
+            [FIRE, FIRE, FIRE, FIRE, FIRE],
+        ), aggregates=[('Stack 0', [0]),
+ ('Stack 1', [1]),
+ ('Stack 2', [2]),
+ ('Stack 3', [3]),
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Brass Rain')),
+        Spell('No Myr Javelin', [35, 102, 169], Effects(
+            [['16-18', '21-24', '26-30']],
+            [['19-21', '25-29', '31-36']],
+            [AIR],
+        ), is_linked=(1, 'Spicy Mill')),
+        Spell('Balestra', [40, 107, 174], Effects(
+            [['18-20', '23-25', '28-31']],
+            [['21-23', '27-30', '34-37']],
+            [WATER],
+        ), is_linked=(1, 'Windmill')),
+        Spell('Earthen Weakness', [45, 112, 179], Effects(
+            [['8-10', '11-13', '14-16']],
+            [['11-13', '14-16', '17-19']],
+            [EARTH],
+        ), is_linked=(1, 'Lunge')),
+        Spell('Kyrja', [50, 117, 184], Effects(
+            [['18-20', '24-27', '28-32'],
+             ['18-20', '24-27', '28-32'],
+             ['18-20', '24-27', '28-32'],
+             ['18-20', '24-27', '28-32'],
+             ['10', '10', '10']],
+            [['21-24', '29-33', '34-38'],
+             ['21-24', '29-33', '34-38'],
+             ['21-24', '29-33', '34-38'],
+             ['21-24', '29-33', '34-38'],
+             ['10', '10', '10']],
+            [EARTH, FIRE, WATER, AIR, 'buff_final'],
+            steals=[True, True, True, True, False],
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3]), ('', [4])], is_linked=(1, 'Vajra')),
+        Spell('Muspel', [55, 122, 189], Effects(
+            [['18-21', '24-28', '28-32'],
+             ['26-29', '34-38', '40-44'],
+             ['34-37', '44-48', '52-56'],
+             ['42-45', '54-58', '64-68'],
+             ['50-53', '64-68', '76-80']],
+            [['22-25', '29-33', '34-38'],
+             ['30-33', '39-43', '46-50'],
+             ['38-41', '49-53', '58-62'],
+             ['46-49', '59-63', '70-74'],
+             ['54-57', '69-73', '82-86']],
+            [FIRE, FIRE, FIRE, FIRE, FIRE],
+        ), aggregates=[('Stack 0', [0]),
+ ('Stack 1', [1]),
+ ('Stack 2', [2]),
+ ('Stack 3', [3]),
+ ('Stack 4', [4])], stacks=4, is_linked=(1, 'Ydra')),
+        Spell('Iron Prelude', [60, 127, 194], Effects(
+            [['100', '150', '200']],
+            None,
+            ['buff_pow'],
+        )),
+        Spell('Middle Earth', [65, 131, 198], Effects(
+            [['22-25', '27-30', '30-34'], ['30', '40', '50']],
+            [['27-30', '32-36', '36-41'], ['30', '40', '50']],
+            [EARTH, 'buff_pow'],
+        ), stacks=4, is_linked=(1, 'Disengaging')),
+        Spell('Jormun', [75, 142], Effects(
+            [['24-27', '30-34'], ['21-24', '26-30']],
+            [['29-33', '36-41'], ['25-29', '31-36']],
+            [WATER, WATER],
+        ), is_linked=(1, 'Hot Iron')),
+        Spell('Noa', [85, 152], Effects(
+            [['19-21', '23-26'], ['21-23', '26-29']],
+            [['22-25', '28-31'], ['25-28', '31-35']],
+            [AIR, AIR],
+        ), is_linked=(1, 'Elding')),
+        Spell('Maelstrom', [95, 162], Effects(
+            [['26-29', '32-36']],
+            [['31-35', '38-43']],
+            [FIRE],
+        ), is_linked=(2, 'Biting Trident')),
+        Spell('Cyclone Lancer', [100, 167], Effects(
+            [['25-27', '31-33']],
+            [['30-32', '37-40']],
+            [AIR],
+        ), is_linked=(2, 'Collapse')),
+        Spell('Octave', [105, 172], Effects(
+            [['13-15', '16-18']],
+            [['16-18', '19-22']],
+            [WATER],
+        ), is_linked=(2, 'Burning Estoc')),
+        Spell('Upheaval', [110, 177], Effects(
+            [['23-27', '29-33']],
+            [['28-32', '35-40']],
+            [EARTH],
+        ), is_linked=(2, 'Brass Volley')),
+        Spell('Parry', [115, 182], Effects(
+            [['21-24', '26-30'], ['21-24', '26-30'], ['21-24', '26-30'], ['21-24', '26-30']],
+            None,
+            [EARTH, FIRE, WATER, AIR],
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])]),
+        Spell('Seismic Pike', [125, 192], Effects(
+            [['21-24', '26-29']],
+            [['25-29', '31-36']],
+            [EARTH],
+        ), is_linked=(2, 'Lance of the Lake')),
+        Spell('Lightning-Javelin', [130, 197], Effects(
+            [['23-26', '28-32']],
+            [['28-31', '35-39']],
+            [WATER],
+        ), is_linked=(2, 'Slingshot')),
+        Spell('Brass Rain', [140], Effects(
+            [['19-21']],
+            [['23-25']],
+            [AIR],
+        ), stacks=2, is_linked=(2, 'Fire Lance')),
+        Spell('Spicy Mill', [145], Effects(
+            [['24-28'], ['24-28']],
+            [['29-34'], ['29-34']],
+            [FIRE, FIRE],
+        ), is_linked=(2, 'No Myr Javelin')),
+        Spell('Windmill', [150], Effects(
+            [['29-33']],
+            [['35-40']],
+            [AIR],
+        ), is_linked=(2, 'Balestra')),
+        Spell('Lunge', [155], Effects(
+            [['12-14']],
+            [['15-18']],
+            [FIRE],
+        ), is_linked=(2, 'Earthen Weakness')),
+        Spell('Vajra', [160], Effects(
+            [['39-44'], ['39-44'], ['39-44'], ['39-44']],
+            [['47-53'], ['47-53'], ['47-53'], ['47-53']],
+            [EARTH, FIRE, WATER, AIR],
+            steals=[True, True, True, True],
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(2, 'Kyrja')),
+        Spell('Ydra', [165], Effects(
+            [['44-50']],
+            [['53-60']],
+            [EARTH],
+        ), stacks=8, is_linked=(2, 'Muspel')),
+        Spell('Disengaging', [175], Effects(
+            [['29-32']],
+            [['35-38']],
+            [AIR],
+        ), is_linked=(2, 'Middle Earth')),
+        Spell('Hot Iron', [185], Effects(
+            [['30-34']],
+            [['36-41']],
+            [FIRE],
+        ), is_linked=(2, 'Jormun')),
+        Spell('Elding', [195], Effects(
+            [['36-40']],
+            [['43-48']],
+            [WATER],
+        ), is_linked=(2, 'Noa')),
+        Spell('Holmgang', [200], Effects(
+            [['34-38'], ['34-38'], ['34-38'], ['34-38']],
+            None,
+            [EARTH, FIRE, WATER, AIR],
+        )),
     ],
     'Huppermage': [
         Spell('Ether', [1, 66, 132], Effects(
