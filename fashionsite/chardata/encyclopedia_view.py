@@ -471,7 +471,7 @@ def _breadcrumb_jsonld(crumbs):
 
     crumbs: list of (name, absolute_url). Enables breadcrumb rich results in search.
     """
-    return json.dumps({
+    payload = json.dumps({
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         'itemListElement': [
@@ -479,6 +479,10 @@ def _breadcrumb_jsonld(crumbs):
             for i, (name, url) in enumerate(crumbs)
         ],
     }, ensure_ascii=False)
+    # Escape characters that could break out of the surrounding <script> tag (the JSON
+    # is rendered with |safe). Same approach as Django's json_script. Names come from
+    # the item DB, so this is defense-in-depth against any odd source value.
+    return payload.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
 
 
 def _get_stat_lines(structure, item, language):

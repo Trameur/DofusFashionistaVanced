@@ -97,6 +97,21 @@ class StructureSetResolutionTests(SimpleTestCase):
         self.assertTrue(got.bonus, 'set 1 should expose its bonuses')
 
 
+class BreadcrumbJsonLdTests(SimpleTestCase):
+    """The breadcrumb JSON-LD is embedded in a <script> via |safe, so it must escape
+    characters that could break out of the tag (defense-in-depth)."""
+
+    def test_escapes_script_breakout(self):
+        import json
+        from chardata.encyclopedia_view import _breadcrumb_jsonld
+        out = _breadcrumb_jsonld([('a</script><img src=x>', 'https://x/')])
+        self.assertNotIn('</script>', out)
+        self.assertNotIn('<img', out)
+        self.assertIn('\\u003c', out)
+        self.assertEqual(json.loads(out)['itemListElement'][0]['name'],
+                         'a</script><img src=x>')
+
+
 # Use the plain (non-manifest) static storage so template {% static %} calls do
 # not require a collectstatic manifest during tests (settings uses the manifest
 # storage when DEBUG is False, which the test runner forces).
