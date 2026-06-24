@@ -52,6 +52,11 @@ def set_min_stats(char, minimum_values):
         if minimum_values['Range'] == 0:
             del minimum_values['Range']
     for stat_name, stat_value in minimum_values.items():
+        # A min that was never set comes back as None (or '') from the char's stored
+        # values; skip it so the AP/MP/Range caps below never do min(cap, None). A GET
+        # on this POST view (bots, crawlers) reaches here with those stored mins.
+        if not isinstance(stat_value, int):
+            continue
         if stat_name == 'AP':
             minimum_values['AP'] = min(12, stat_value)
         if stat_name == 'MP':

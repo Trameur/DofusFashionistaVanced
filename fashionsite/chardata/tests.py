@@ -443,3 +443,23 @@ class ProjectActionRobustnessTests(TestCase):
         # -> TypeError -> 500 on a bare GET.
         resp = self.client.get('/wizardpost/1/')
         self.assertNotEqual(resp.status_code, 500)
+
+    def test_set_min_stats_tolerates_none_caps(self):
+        # Regression (prod /wizardpost/): a char whose *stored* AP/MP/Range min is
+        # None reaches set_min_stats -> min(12, None) -> TypeError. The earlier
+        # safe_int guard only covered POSTed fields, not the char's stored mins.
+        import pickle
+        from chardata.min_stats import set_min_stats
+
+        class _FakeChar:
+            def save(self):
+                pass
+
+        char = _FakeChar()
+        set_min_stats(char, {'AP': None, 'MP': None, 'Range': None, 'Vitality': 50})
+        self.assertEqual(pickle.loads(char.minimum_stats)['Vitality'], 50)
+
+        capped = _FakeChar()
+        set_min_stats(capped, {'AP': 99, 'MP': 99, 'Range': 99})
+        stored = pickle.loads(capped.minimum_stats)
+        self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
