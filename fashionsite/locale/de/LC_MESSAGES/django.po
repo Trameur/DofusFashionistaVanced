@@ -2661,7 +2661,7 @@ msgstr "Sadida"
 
 #: chardata/translation_util.py:32
 msgid "Cra"
-msgstr "Cra"
+msgstr "Crâ"
 
 #: chardata/translation_util.py:33
 msgid "Pandawa"
@@ -2669,7 +2669,7 @@ msgstr "Pandawa"
 
 #: chardata/translation_util.py:34
 msgid "Rogue"
-msgstr "Schurke"
+msgstr "Halsabschneider"
 
 #: chardata/translation_util.py:35
 msgid "Masqueraider"
@@ -2677,7 +2677,7 @@ msgstr "Maskerador"
 
 #: chardata/translation_util.py:36
 msgid "Foggernaut"
-msgstr "Foggernaut"
+msgstr "Steamer"
 
 #: chardata/translation_util.py:37
 msgid "Eliotrope"
