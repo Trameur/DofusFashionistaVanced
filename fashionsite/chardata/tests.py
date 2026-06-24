@@ -190,6 +190,19 @@ class SocialAuthCancelTests(TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertIn('/login', resp['Location'])
 
+    def test_auth_missing_parameter_redirects_to_login(self):
+        # Bots/stale redirects hit /complete/ without the state param -> AuthMissingParameter.
+        # Must redirect to login, not 500 + email admins.
+        from django.test import RequestFactory
+        from social_core.exceptions import AuthMissingParameter
+        from chardata.SocialAuthExceptionMiddleware import SocialAuthExceptionMiddleware
+        mw = SocialAuthExceptionMiddleware(lambda r: None)
+        resp = mw.process_exception(
+            RequestFactory().get('/complete/google-oauth2/'),
+            AuthMissingParameter('google-oauth2', 'state'))
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn('/login', resp['Location'])
+
 
 class PasswordResetTests(TestCase):
     """Completing a password reset must also activate the account, so a user who
