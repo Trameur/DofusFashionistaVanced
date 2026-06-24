@@ -871,6 +871,10 @@ def encyclopedia(request):
 
         detail_url = get_item_link(item.ankama_type, item.ankama_id, display_name,
                                    game_version=getattr(request, 'game_version', 'dofus3'))
+        item_set = None
+        if getattr(item, 'set', None) is not None:
+            item_set = (structure.sets_dict.get(item.set)
+                        or structure.dt_sets_dict.get(item.set))
         filtered_items.append({
             'id': item.id,
             'ankama_id': item.ankama_id,
@@ -881,6 +885,9 @@ def encyclopedia(request):
             'type_name': localized_type_name,
             'image_url': static(get_image_url(type_name, item.name)),
             'detail_url': detail_url,
+            'set_id': item_set.id if item_set else None,
+            'set_name': (item_set.localized_names.get(language)
+                         or item_set.localized_names.get('en') or item_set.name) if item_set else None,
             'stat_lines': stat_lines,
             'stats_map': stats_map,
         })

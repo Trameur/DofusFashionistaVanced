@@ -202,6 +202,12 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertIn('/encyclopedia', resp['Location'])
 
+    def test_encyclopedia_list_card_links_to_set(self):
+        # Items in a panoply now expose a link to their set page from the list card.
+        resp = self.client.get('/encyclopedia/?q=gobball')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, '/encyclopedia/set/')
+
     def test_sitemap_is_well_formed_xml(self):
         resp = self.client.get('/sitemap.xml')
         self.assertEqual(resp.status_code, 200)
