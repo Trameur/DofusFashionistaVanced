@@ -135,6 +135,16 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertEqual(resp.status_code, 200,
                                  msg='%s -> %s' % (path, resp.status_code))
 
+    def test_compare_tray_injected_in_base(self):
+        # The comparison tray (add a build from anywhere, compare in one click)
+        # is injected site-wide via base.html: container, i18n config, script.
+        resp = self.client.get('/encyclopedia/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode()
+        self.assertIn('id="compare-tray"', html)
+        self.assertIn('COMPARE_TRAY_CONFIG', html)
+        self.assertIn('compare_tray.js', html)
+
     def test_unknown_url_returns_real_404(self):
         # AdSense "low value content" regression: unknown URLs must be 404,
         # not a soft-200 error page.

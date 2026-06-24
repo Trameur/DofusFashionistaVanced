@@ -6832,3 +6832,24 @@ msgid ""
 msgstr ""
 "Durchsuche alle Sets in der Enzyklopädie und öffne ein Set von einem "
 "Gegenstand oder einem generierten Build aus"
+
+msgid "Add to comparison"
+msgstr "Zum Vergleich hinzufügen"
+
+msgid "Comparison"
+msgstr "Vergleich"
+
+msgid "Clear"
+msgstr "Leeren"
+
+msgid "Added to comparison"
+msgstr "Zum Vergleich hinzugefügt"
+
+msgid "Already in comparison"
+msgstr "Bereits im Vergleich"
+
+msgid "You can compare up to 4 builds"
+msgstr "Du kannst bis zu 4 Builds vergleichen"
+
+msgid "Add at least 2 builds to compare"
+msgstr "Füge mindestens 2 Builds zum Vergleichen hinzu"

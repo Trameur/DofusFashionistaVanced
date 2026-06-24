@@ -6818,6 +6818,27 @@ msgstr ""
 "Busca todos los sets en la enciclopedia y abre un set desde cualquier objeto"
 " o desde un equipo generado"
 
+msgid "Add to comparison"
+msgstr "Añadir a la comparación"
+
+msgid "Comparison"
+msgstr "Comparación"
+
+msgid "Clear"
+msgstr "Vaciar"
+
+msgid "Added to comparison"
+msgstr "Añadido a la comparación"
+
+msgid "Already in comparison"
+msgstr "Ya en la comparación"
+
+msgid "You can compare up to 4 builds"
+msgstr "Puedes comparar hasta 4 builds"
+
+msgid "Add at least 2 builds to compare"
+msgstr "Añade al menos 2 builds para comparar"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

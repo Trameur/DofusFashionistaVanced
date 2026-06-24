@@ -618,8 +618,32 @@
             }
     });
 });
-</script>        
-     
+</script>
+
+<!-- Comparison tray: collect builds from any page and compare them in one click -->
+<div id="compare-tray" class="compare-tray" hidden></div>
+{% trans "Comparison" as ct_label %}
+{% trans "Compare" as ct_compare %}
+{% trans "Clear" as ct_clear %}
+{% trans "Added to comparison" as ct_added %}
+{% trans "Already in comparison" as ct_already %}
+{% trans "You can compare up to 4 builds" as ct_full %}
+{% trans "Add at least 2 builds to compare" as ct_needtwo %}
+<script nonce="{{ request.csp_nonce }}">
+window.COMPARE_TRAY_CONFIG = {
+    apiBase: "{{ api_base|escapejs }}",
+    i18n: {
+        label: "{{ ct_label|escapejs }}",
+        compare: "{{ ct_compare|escapejs }}",
+        clear: "{{ ct_clear|escapejs }}",
+        added: "{{ ct_added|escapejs }}",
+        already: "{{ ct_already|escapejs }}",
+        full: "{{ ct_full|escapejs }}",
+        needTwo: "{{ ct_needtwo|escapejs }}"
+    }
+};
+</script>
+<script src="{% static 'chardata/compare_tray.js' %}"></script>
 </body>
 
 </html>

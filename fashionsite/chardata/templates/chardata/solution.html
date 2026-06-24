@@ -341,6 +341,16 @@
 
     <div align="center">
         <div style="display: inline-block;">
+            <button type="button" class="button-generic" style="margin-right: 5px;"
+                    data-compare-add
+                    data-build-id="{{ char_id }}"
+                    data-build-name="{{ char.char_name|default:char.name }}"
+                    data-build-cls="{{ char.char_class }}"
+                    data-build-level="{{ char.level }}"
+                    data-build-avatar="{{ class_avatar }}"
+                    data-build-base="{{ api_base }}">+ {% trans "Add to comparison" %}</button>
+        </div>
+        <div style="display: inline-block;">
             <button id="compare_set_button_list" type="button" class="button-generic" style="margin-right: 5px;" onclick="window.location.href='{% game_url 'load_projects' %}?compare={{ char_id }}'">{% trans "Compare with my other sets" %}</button>
         </div>
         <div style="display: inline-block;">
@@ -371,6 +381,14 @@
     
     <div align="center">
     <form id="compare_form" class="hidden-form" action="{% game_url 'choose_compare_sets' %}" method="post" style="display: none;">{% csrf_token %}<input  type="text" value="{{initial_link}}" name="char0"></input></form>
+            <button type="button" class="button-generic" style="margin-right: 5px;"
+                    data-compare-add
+                    data-build-id="{{ encoded_char_id }}"
+                    data-build-name="{{ char.char_name|default:char.name }}"
+                    data-build-cls="{{ char.char_class }}"
+                    data-build-level="{{ char.level }}"
+                    data-build-avatar="{{ class_avatar }}"
+                    data-build-base="{{ api_base }}">+ {% trans "Add to comparison" %}</button>
             <button id="compare_set_button" type="submit" class="button-generic" style="margin-right: 5px;">{% trans "Compare to another set" %}</button>
     </div>
     

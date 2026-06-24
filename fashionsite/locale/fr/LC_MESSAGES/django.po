@@ -7344,6 +7344,27 @@ msgstr ""
 "Recherchez toutes les panoplies dans l'encyclopédie, et ouvrez une panoplie "
 "depuis un objet ou un équipement généré"
 
+msgid "Add to comparison"
+msgstr "Ajouter à la comparaison"
+
+msgid "Comparison"
+msgstr "Comparaison"
+
+msgid "Clear"
+msgstr "Vider"
+
+msgid "Added to comparison"
+msgstr "Ajouté à la comparaison"
+
+msgid "Already in comparison"
+msgstr "Déjà dans la comparaison"
+
+msgid "You can compare up to 4 builds"
+msgstr "Vous pouvez comparer jusqu'à 4 builds"
+
+msgid "Add at least 2 builds to compare"
+msgstr "Ajoutez au moins 2 builds à comparer"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

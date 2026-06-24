@@ -6807,6 +6807,27 @@ msgstr ""
 "Pesquise todos os sets na enciclopédia e abra um set a partir de qualquer "
 "item ou de um equipamento gerado"
 
+msgid "Add to comparison"
+msgstr "Adicionar à comparação"
+
+msgid "Comparison"
+msgstr "Comparação"
+
+msgid "Clear"
+msgstr "Limpar"
+
+msgid "Added to comparison"
+msgstr "Adicionado à comparação"
+
+msgid "Already in comparison"
+msgstr "Já na comparação"
+
+msgid "You can compare up to 4 builds"
+msgstr "Você pode comparar até 4 builds"
+
+msgid "Add at least 2 builds to compare"
+msgstr "Adicione pelo menos 2 builds para comparar"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

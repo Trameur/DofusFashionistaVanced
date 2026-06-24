@@ -697,3 +697,55 @@ html.fm-modern #popUpDiv input, html.fm-modern #popUpDiv select{
 }
 html.fm-modern .pages-link{ color:var(--fm-accent-text) !important; }
 html.fm-modern .pages-current{ color:var(--fm-head) !important; }
+
+/* ============================================================
+   Comparison tray — floating bar to collect builds and compare
+   them in one click (theme-independent, self-contained colors).
+   ============================================================ */
+.compare-tray{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+  z-index:9000; max-width:94vw;
+}
+.compare-tray[hidden]{ display:none; }
+.compare-tray .ct-inner{
+  position:relative; display:flex; align-items:center; gap:12px;
+  background:rgba(24,26,33,.93); -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.12);
+  border-radius:14px; padding:10px 14px; color:#f1f1f4;
+  box-shadow:0 10px 34px rgba(0,0,0,.45); animation:ct-rise .22s ease-out;
+}
+@keyframes ct-rise{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
+.compare-tray .ct-label{ font-weight:600; font-size:.92em; white-space:nowrap; opacity:.85; }
+.compare-tray .ct-chips{ display:flex; gap:8px; flex-wrap:wrap; max-width:56vw; }
+.compare-tray .ct-chip{
+  display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
+  border-radius:999px; padding:3px 6px 3px 4px; font-size:.86em;
+}
+.compare-tray .ct-chip-av{ width:22px; height:22px; border-radius:50%; object-fit:cover; }
+.compare-tray .ct-chip-txt{ white-space:nowrap; max-width:170px; overflow:hidden; text-overflow:ellipsis; }
+.compare-tray .ct-chip-lvl{ opacity:.6; }
+.compare-tray .ct-chip-x{
+  border:0; background:transparent; color:#f1f1f4; cursor:pointer;
+  font-size:1.1em; line-height:1; padding:0 2px; opacity:.65;
+}
+.compare-tray .ct-chip-x:hover{ opacity:1; }
+.compare-tray .ct-actions{ display:flex; align-items:center; gap:10px; }
+.compare-tray .ct-go{ white-space:nowrap; margin:0; }
+.compare-tray .ct-go[disabled]{ opacity:.5; cursor:not-allowed; }
+.compare-tray .ct-clear{
+  border:0; background:transparent; color:#c9c9d1; cursor:pointer;
+  font-size:.85em; text-decoration:underline; white-space:nowrap; padding:0;
+}
+.compare-tray .ct-clear:hover{ color:#fff; }
+.compare-tray .ct-flash{
+  position:absolute; left:50%; top:-34px; transform:translateX(-50%) translateY(6px);
+  background:#2ecc71; color:#fff; padding:5px 12px; border-radius:8px;
+  font-size:.82em; white-space:nowrap; opacity:0; pointer-events:none;
+  transition:opacity .2s, transform .2s;
+}
+.compare-tray .ct-flash-show{ opacity:1; transform:translateX(-50%) translateY(0); }
+@media (max-width:600px){
+  .compare-tray{ left:8px; right:8px; bottom:8px; transform:none; max-width:none; }
+  .compare-tray .ct-inner{ flex-wrap:wrap; gap:8px; padding:8px 10px; }
+  .compare-tray .ct-chips{ max-width:100%; }
+}
