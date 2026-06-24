@@ -749,3 +749,33 @@ html.fm-modern .pages-current{ color:var(--fm-head) !important; }
   .compare-tray .ct-inner{ flex-wrap:wrap; gap:8px; padding:8px 10px; }
   .compare-tray .ct-chips{ max-width:100%; }
 }
+
+/* ============================================================
+   Comparison result page (compare_sets) — modern theme. The old
+   page leaned on .brown-table (beige skin) which clashed badly
+   with the modern look; restyle its panels to match the stats.
+   ============================================================ */
+html.fm-modern .compare-page{ border-collapse:separate; border-spacing:0; }
+html.fm-modern .compare-page .brown-table{
+  background:var(--fm-surface-2) !important;
+  border:1px solid var(--fm-border) !important;
+  border-radius:var(--fm-radius-sm) !important;
+  box-shadow:none !important;
+  color:var(--fm-text) !important;
+}
+html.fm-modern .compare-page .brown-table td,
+html.fm-modern .compare-page .brown-table .text,
+html.fm-modern .compare-page .brown-table b{ color:var(--fm-text) !important; }
+html.fm-modern .compare-page .brown-table a{ color:var(--fm-accent-text) !important; text-decoration:none; }
+html.fm-modern .compare-page .brown-table a:hover{ text-decoration:underline; }
+html.fm-modern .compare-page .solution-items-icon{ vertical-align:middle; }
+html.fm-modern .compare-page .solution-stat-table{
+  border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm);
+}
+/* Stack the items column above the stats column on narrow screens. */
+@media (max-width:760px){
+  html.fm-modern .compare-page,
+  html.fm-modern .compare-page > tbody,
+  html.fm-modern .compare-page > tbody > tr,
+  html.fm-modern .compare-page > tbody > tr > td{ display:block; width:100% !important; padding:6px 0 !important; }
+}
