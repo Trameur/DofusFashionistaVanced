@@ -10,6 +10,16 @@
 {# Version-prefixed copies (/retro/encyclopedia/item/... etc.) are dofus3 duplicates -> canonical to the global URL. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
+{# Item-specific social preview (name + icon) instead of the generic site card. #}
+{% block og_meta %}
+    <meta property="og:title" content="{{ item.name }} — {{ t.title }}">
+    <meta property="og:description" content="{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ item.image_url }}">
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
 {% block css %}
 <style>
 .encyclopedia-item {

@@ -10,6 +10,16 @@
 {# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
+{# Set-specific social preview (set name + first item icon) instead of the generic card. #}
+{% block og_meta %}
+    <meta property="og:title" content="{{ set_name }} — {{ t.set_label }} — {{ t.title }}">
+    <meta property="og:description" content="{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% if set_items %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ set_items.0.image_url }}">{% endif %}
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
 {% block css %}
 <style>
 .encyclopedia-item { padding: 12px; }

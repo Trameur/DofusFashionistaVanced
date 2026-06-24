@@ -175,6 +175,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Gobball Set')
         self.assertNotContains(resp, 'Jellix Set')
+        self.assertContains(resp, 'property="og:image"')  # item-specific social preview
 
     def test_encyclopedia_sets_list_page_ok(self):
         resp = self.client.get('/encyclopedia/sets/')
@@ -196,6 +197,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Set bonuses')
         self.assertContains(resp, '/encyclopedia/item/')  # at least one item links out
+        self.assertContains(resp, 'property="og:image"')  # set-specific social preview
 
     def test_encyclopedia_unknown_set_redirects_to_encyclopedia(self):
         resp = self.client.get('/encyclopedia/set/99999999/')
