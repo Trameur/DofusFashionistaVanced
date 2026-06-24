@@ -482,6 +482,7 @@ REBOUND_LABELS = [
 ] + ['%d rebounds' % n for n in range(2, 20)]
 
 
+# AUTO-GENERATED DAMAGE_SPELLS START
 # The block below is overwritten by itemscraper/generate_damage_spells.py.
 # Do not edit it manually.
 DAMAGE_SPELLS = {
