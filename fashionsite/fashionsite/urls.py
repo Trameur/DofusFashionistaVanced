@@ -48,11 +48,11 @@ def manifest_view(request):
     from django.templatetags.static import static as dj_static
     try:
         from static_s3.templatetags.static_s3 import static as s3_static
-        icon = s3_static('chardata/favicon.ico')
-        banner = s3_static('chardata/fashionista_banner.jpg')
+        icon192 = s3_static('chardata/icon-192.png')
+        icon512 = s3_static('chardata/icon-512.png')
     except Exception:
-        icon = dj_static('chardata/favicon.ico')
-        banner = dj_static('chardata/fashionista_banner.jpg')
+        icon192 = dj_static('chardata/icon-192.png')
+        icon512 = dj_static('chardata/icon-512.png')
     import json as _json
     manifest = {
         "name": "Dofus Fashionista",
@@ -63,9 +63,10 @@ def manifest_view(request):
         "display": "standalone",
         "background_color": "#1b1b1b",
         "theme_color": "#1b1b1b",
+        # Square PNG icons (>=192px) so the "add to home screen" install prompt works.
         "icons": [
-            {"src": icon, "sizes": "64x64", "type": "image/x-icon", "purpose": "any"},
-            {"src": banner, "sizes": "512x256", "type": "image/jpeg", "purpose": "any"},
+            {"src": icon192, "sizes": "192x192", "type": "image/png", "purpose": "any"},
+            {"src": icon512, "sizes": "512x512", "type": "image/png", "purpose": "any"},
         ],
     }
     return HttpResponse(_json.dumps(manifest), content_type='application/manifest+json')

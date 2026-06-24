@@ -249,6 +249,16 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotIn('/retro/encyclopedia/', body)
         self.assertIn('/retro/forgemagie/', body)
 
+    def test_manifest_has_pwa_install_icons(self):
+        import json
+        resp = self.client.get('/manifest.webmanifest')
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.content.decode('utf-8'))
+        sizes = {icon.get('sizes') for icon in data.get('icons', [])}
+        self.assertIn('192x192', sizes)  # Chrome needs a >=192px PNG for the install prompt
+        self.assertIn('512x512', sizes)
+        self.assertTrue(all(icon.get('type') == 'image/png' for icon in data['icons']))
+
 
 @override_settings(
     STORAGES={
