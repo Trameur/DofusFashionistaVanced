@@ -441,6 +441,31 @@ def _get_set_bonuses(structure, item_set, language):
     return groups
 
 
+def _get_set_items(structure, item_set, language, game_version):
+    """The items belonging to a panoply, as cards for the dedicated set page."""
+    cards = []
+    seen = set()
+    for item_id in getattr(item_set, 'items', None) or []:
+        item = structure.get_item_by_id(item_id)
+        if item is None or not getattr(item, 'ankama_id', None):
+            continue
+        if item.ankama_id in seen:
+            continue
+        seen.add(item.ankama_id)
+        type_name = structure.get_type_name_by_id(item.type)
+        display_name = _get_display_name_for_group(structure, [item], language)
+        cards.append({
+            'name': display_name,
+            'level': item.level,
+            'type_name': _localized_label(type_name, language),
+            'image_url': static(get_image_url(type_name, item.name)),
+            'detail_url': get_item_link(item.ankama_type, item.ankama_id,
+                                        display_name, game_version=game_version),
+        })
+    cards.sort(key=lambda card: (-(card['level'] or 0), (card['name'] or '').lower()))
+    return cards
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -933,6 +958,79 @@ def encyclopedia(request):
     )
 
 
+def encyclopedia_set(request, set_id):
+    structure = get_structure()
+    language = get_supported_language()
+    t = _ui_text()
+
+    set_id = safe_int(set_id, None)
+    if set_id is None:
+        return redirect(version_reverse(request, 'encyclopedia'))
+    # sets_dict first, like read_set_bonus_table / get_set_by_id (the bonus-bearing set).
+    item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
+    if item_set is None:
+        return redirect(version_reverse(request, 'encyclopedia'))
+
+    game_version = getattr(request, 'game_version', 'dofus3')
+    set_name = (item_set.localized_names.get(language)
+                or item_set.localized_names.get('en') or item_set.name)
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_set.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'set_name': set_name,
+            'set_items': _get_set_items(structure, item_set, language, game_version),
+            'set_bonuses': _get_set_bonuses(structure, item_set, language),
+        },
+    )
+
+
+def encyclopedia_sets(request):
+    structure = get_structure()
+    language = get_supported_language()
+    t = _ui_text()
+
+    search_text = (request.GET.get('q') or '').strip()
+    needle = _normalized_slug(search_text) if search_text else ''
+
+    sets = []
+    for set_id, item_set in structure.sets_dict.items():
+        if not getattr(item_set, 'items', None):
+            continue
+        name = (item_set.localized_names.get(language)
+                or item_set.localized_names.get('en') or item_set.name)
+        if not name:
+            continue
+        if needle and needle not in _normalized_slug(name):
+            continue
+        max_pieces = 0
+        if getattr(item_set, 'bonus', None):
+            max_pieces = max((num for num, _, _ in item_set.bonus), default=0)
+        sets.append({
+            'name': name,
+            'max_pieces': max_pieces,
+            'url': version_reverse(request, 'encyclopedia_set', set_id),
+        })
+    sets.sort(key=lambda entry: (entry['name'] or '').lower())
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_sets.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'sets': sets,
+            'search_text': search_text,
+            'sets_count': len(sets),
+        },
+    )
+
+
 def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     structure = get_structure()
     language = get_supported_language()
@@ -1053,6 +1151,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 'image_url': static(get_image_url(type_name, representative_item.name)),
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
+            'item_set_id': item_set.id if item_set else None,
             'set_bonuses': set_bonuses,
             'stats': stat_lines,
             'pet_feedable_bonuses': pet_feedable_bonuses,

@@ -669,6 +669,7 @@ class ModelResultSet():
 
     def __init__(self, item_set, number_of_items):
         structure = get_structure()
+        self.id = item_set.id
         self.name = item_set.name
         self.total_number_of_items = structure.get_number_of_items_in_set_by_id(item_set.id)
         self.number_of_items = number_of_items

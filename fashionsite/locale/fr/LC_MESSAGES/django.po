@@ -7285,6 +7285,48 @@ msgstr "Comparer avec mes autres équipements"
 msgid "Tick the sets you want to compare (2 to 4), then click Compare."
 msgstr "Cochez les équipements à comparer (2 à 4), puis cliquez sur Comparer."
 
+msgid "All sets"
+msgstr "Toutes les panoplies"
+
+msgid "Items in this set"
+msgstr "Objets de cette panoplie"
+
+msgid "Sets"
+msgstr "Panoplies"
+
+msgid "Search a set"
+msgstr "Rechercher une panoplie"
+
+msgid "sets"
+msgstr "panoplies"
+
+msgid "No set found."
+msgstr "Aucune panoplie trouvée."
+
+msgid "Browse sets (panoplies)"
+msgstr "Parcourir les panoplies"
+
+msgid "View this set"
+msgstr "Voir cette panoplie"
+
+msgid "Up to %(n)s pieces"
+msgstr "Jusqu'à %(n)s pièces"
+
+msgid ""
+"%(set_name)s: all the items in this Dofus set and the panoply bonuses per "
+"number of pieces. Build and optimize this set with the Dofus Fashionista."
+msgstr ""
+"%(set_name)s : tous les objets de cette panoplie Dofus et les bonus de "
+"panoplie selon le nombre de pièces. Composez et optimisez cette panoplie "
+"avec le Dofus Fashionista."
+
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set and build it "
+"with the Dofus Fashionista."
+msgstr ""
+"Parcourez toutes les panoplies Dofus et leurs bonus. Trouvez une panoplie et"
+" composez-la avec le Dofus Fashionista."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

@@ -4861,7 +4861,7 @@ msgstr "Buscar e Filtrar"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Search"
-msgstr "Buscar"
+msgstr "Procurar"
 
 #: chardata/templates/chardata/shared_builds.html
 msgid "Project or character name"
@@ -6748,6 +6748,47 @@ msgstr "Comparar com meus outros sets"
 
 msgid "Tick the sets you want to compare (2 to 4), then click Compare."
 msgstr "Marque os sets que deseja comparar (2 a 4) e clique em Comparar."
+
+msgid "All sets"
+msgstr "Todos os sets"
+
+msgid "Items in this set"
+msgstr "Itens deste set"
+
+msgid "Sets"
+msgstr "Sets"
+
+msgid "Search a set"
+msgstr "Procurar um set"
+
+msgid "sets"
+msgstr "sets"
+
+msgid "No set found."
+msgstr "Nenhum set encontrado."
+
+msgid "Browse sets (panoplies)"
+msgstr "Explorar os sets (panóplias)"
+
+msgid "View this set"
+msgstr "Ver este set"
+
+msgid "Up to %(n)s pieces"
+msgstr "Até %(n)s peças"
+
+msgid ""
+"%(set_name)s: all the items in this Dofus set and the panoply bonuses per "
+"number of pieces. Build and optimize this set with the Dofus Fashionista."
+msgstr ""
+"%(set_name)s: todos os itens deste set de Dofus e os bônus de conjunto por "
+"número de peças. Monte e otimize este set com o Dofus Fashionista."
+
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set and build it "
+"with the Dofus Fashionista."
+msgstr ""
+"Explore todos os sets (panóplias) de Dofus e seus bônus. Encontre um set e "
+"monte-o com o Dofus Fashionista."
 
 #~ msgid "Send"
 #~ msgstr "Enviar"

@@ -176,6 +176,32 @@ class PublicRouteSmokeTests(TestCase):
         self.assertContains(resp, 'Gobball Set')
         self.assertNotContains(resp, 'Jellix Set')
 
+    def test_encyclopedia_sets_list_page_ok(self):
+        resp = self.client.get('/encyclopedia/sets/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Sets')
+
+    def test_encyclopedia_set_detail_shows_items_and_bonuses(self):
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        target_id = None
+        for sid, iset in s.sets_dict.items():
+            if (getattr(iset, 'bonus', None) and getattr(iset, 'items', None)
+                    and any(s.get_item_by_id(i) and getattr(s.get_item_by_id(i), 'ankama_id', None)
+                            for i in iset.items)):
+                target_id = sid
+                break
+        self.assertIsNotNone(target_id, 'no bonus set with items found')
+        resp = self.client.get('/encyclopedia/set/%s/' % target_id)
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Set bonuses')
+        self.assertContains(resp, '/encyclopedia/item/')  # at least one item links out
+
+    def test_encyclopedia_unknown_set_redirects_to_encyclopedia(self):
+        resp = self.client.get('/encyclopedia/set/99999999/')
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn('/encyclopedia', resp['Location'])
+
     def test_sitemap_is_well_formed_xml(self):
         resp = self.client.get('/sitemap.xml')
         self.assertEqual(resp.status_code, 200)

@@ -6773,3 +6773,45 @@ msgstr "Mit meinen anderen Sets vergleichen"
 msgid "Tick the sets you want to compare (2 to 4), then click Compare."
 msgstr ""
 "Wähle die Sets zum Vergleichen aus (2 bis 4) und klicke auf Vergleichen."
+
+msgid "All sets"
+msgstr "Alle Sets"
+
+msgid "Items in this set"
+msgstr "Gegenstände dieses Sets"
+
+msgid "Sets"
+msgstr "Sets"
+
+msgid "Search a set"
+msgstr "Set suchen"
+
+msgid "sets"
+msgstr "Sets"
+
+msgid "No set found."
+msgstr "Kein Set gefunden."
+
+msgid "Browse sets (panoplies)"
+msgstr "Sets durchsuchen"
+
+msgid "View this set"
+msgstr "Dieses Set ansehen"
+
+msgid "Up to %(n)s pieces"
+msgstr "Bis zu %(n)s Teile"
+
+msgid ""
+"%(set_name)s: all the items in this Dofus set and the panoply bonuses per "
+"number of pieces. Build and optimize this set with the Dofus Fashionista."
+msgstr ""
+"%(set_name)s: alle Gegenstände dieses Dofus-Sets und die Set-Boni je nach "
+"Anzahl der Teile. Stelle dieses Set mit dem Dofus Fashionista zusammen und "
+"optimiere es."
+
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set and build it "
+"with the Dofus Fashionista."
+msgstr ""
+"Durchsuche alle Dofus-Sets (Panoplien) und ihre Boni. Finde ein Set und "
+"stelle es mit dem Dofus Fashionista zusammen."
