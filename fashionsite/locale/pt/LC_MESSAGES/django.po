@@ -6722,6 +6722,20 @@ msgstr "Remove %(ap)d PA"
 msgid "Removes %(min)d to %(max)d AP"
 msgstr "Remove de %(min)d a %(max)d PA"
 
+msgid "Fixes & polish"
+msgstr "Correções e ajustes"
+
+msgid "Forgelance now has its full damage spell list on the spells page"
+msgstr ""
+"O Forjalança agora tem sua lista completa de feitiços de dano na página de "
+"feitiços"
+
+msgid ""
+"The modern look now extends to the item-switch and detailed-stats panels"
+msgstr ""
+"O visual moderno agora se aplica aos painéis de troca de item e de "
+"estatísticas detalhadas"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

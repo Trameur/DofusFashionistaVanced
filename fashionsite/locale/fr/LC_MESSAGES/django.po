@@ -7257,6 +7257,20 @@ msgstr "Retire %(ap)d PA"
 msgid "Removes %(min)d to %(max)d AP"
 msgstr "Retire %(min)d à %(max)d PA"
 
+msgid "Fixes & polish"
+msgstr "Corrections et finitions"
+
+msgid "Forgelance now has its full damage spell list on the spells page"
+msgstr ""
+"Le Forgelance a désormais sa liste complète de sorts de dégâts sur la page "
+"des sorts"
+
+msgid ""
+"The modern look now extends to the item-switch and detailed-stats panels"
+msgstr ""
+"Le look moderne s'applique maintenant aux panneaux de changement d'objet et "
+"de statistiques détaillées"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
