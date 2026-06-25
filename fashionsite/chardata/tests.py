@@ -487,3 +487,22 @@ class ProjectActionRobustnessTests(TestCase):
         # with fewer than two left it's a clean 404, never a 500.
         resp = self.client.get('/compare_sets/99999999/88888888/')
         self.assertEqual(resp.status_code, 404)
+
+
+class StaticStorageRegressionTests(SimpleTestCase):
+    """Guards the encyclopedia 500: under the production ManifestStaticFilesStorage
+    a {% static %} reference to an asset that wasn't collected (a single missing
+    item icon -- 'Mister Penguin Chain') raised ValueError and 500'd the whole
+    listing. The lenient storage must degrade a missing asset to a URL, not raise.
+    """
+
+    @override_settings(STORAGES={
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'fashionsite.storage.LenientManifestStaticFilesStorage'},
+    })
+    def test_missing_asset_degrades_to_url(self):
+        from django.contrib.staticfiles.storage import staticfiles_storage
+        # Not in the manifest and not on disk: must return a (unhashed) URL
+        # instead of raising ValueError.
+        url = staticfiles_storage.url('chardata/definitely-missing-xyz.png')
+        self.assertIn('definitely-missing-xyz.png', url)
