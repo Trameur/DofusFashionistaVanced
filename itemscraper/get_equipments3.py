@@ -563,7 +563,9 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
     for item in original_data:
         item_id = item_to_id[id(item)]
         if 'conditions' in item:
-            if 'Set bonus < 3' in item["conditions"]: # dofus3beta/v1 new set bonus
+            _conds = item["conditions"]
+            _cond_text = _conds if isinstance(_conds, str) else ' '.join(str(c) for c in _conds)
+            if 'Set bonus <' in _cond_text:  # light_set: dofus3/beta '< 3', touch '< 2'
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 1);\n")
         if 'is_prysmaradite' in item:
             if item['is_prysmaradite']:

@@ -131671,7 +131671,9 @@
                 "Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19319,
@@ -131690,7 +131692,9 @@
                 "Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19321,
@@ -131709,7 +131713,9 @@
                 "Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19323,
@@ -131728,7 +131734,9 @@
                 "Power"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19325,
@@ -131747,7 +131755,9 @@
                 "Power"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19327,
@@ -131766,7 +131776,9 @@
                 "Power"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19329,
@@ -131785,7 +131797,9 @@
                 "Initiative"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19331,
@@ -131804,7 +131818,9 @@
                 "Initiative"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19333,
@@ -131823,7 +131839,9 @@
                 "Initiative"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19335,
@@ -131842,7 +131860,9 @@
                 "Pushback Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19337,
@@ -131861,7 +131881,9 @@
                 "Pushback Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19339,
@@ -131880,7 +131902,9 @@
                 "Pushback Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19340,
@@ -131938,7 +131962,9 @@
                 "Pushback Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19343,
@@ -131957,7 +131983,9 @@
                 "Pushback Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19345,
@@ -131976,7 +132004,9 @@
                 "Pushback Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19347,
@@ -131995,7 +132025,9 @@
                 "MP Loss Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19349,
@@ -132014,7 +132046,9 @@
                 "MP Loss Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19351,
@@ -132033,7 +132067,9 @@
                 "MP Loss Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19353,
@@ -132052,7 +132088,9 @@
                 "AP Loss Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19355,
@@ -132071,7 +132109,9 @@
                 "AP Loss Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19357,
@@ -132090,7 +132130,9 @@
                 "AP Loss Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19359,
@@ -132109,7 +132151,9 @@
                 "AP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19361,
@@ -132128,7 +132172,9 @@
                 "AP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19363,
@@ -132147,7 +132193,9 @@
                 "AP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19365,
@@ -132166,7 +132214,9 @@
                 "MP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19367,
@@ -132185,7 +132235,9 @@
                 "MP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19369,
@@ -132204,7 +132256,9 @@
                 "MP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19371,
@@ -132223,7 +132277,9 @@
                 "Air Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19373,
@@ -132242,7 +132298,9 @@
                 "Air Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19375,
@@ -132261,7 +132319,9 @@
                 "Air Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19377,
@@ -132280,7 +132340,9 @@
                 "Water Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19379,
@@ -132299,7 +132361,9 @@
                 "Water Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19381,
@@ -132318,7 +132382,9 @@
                 "Water Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19383,
@@ -132337,7 +132403,9 @@
                 "Fire Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19385,
@@ -132356,7 +132424,9 @@
                 "Fire Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19387,
@@ -132375,7 +132445,9 @@
                 "Fire Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19389,
@@ -132394,7 +132466,9 @@
                 "Neutral Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19391,
@@ -132413,7 +132487,9 @@
                 "Neutral Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19393,
@@ -132432,7 +132508,9 @@
                 "Neutral Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19395,
@@ -132451,7 +132529,9 @@
                 "Earth Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19397,
@@ -132470,7 +132550,9 @@
                 "Earth Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19399,
@@ -132489,7 +132571,9 @@
                 "Earth Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19401,
@@ -132508,7 +132592,9 @@
                 "Critical Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19403,
@@ -132527,7 +132613,9 @@
                 "Critical Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19405,
@@ -132546,7 +132634,9 @@
                 "Critical Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19407,
@@ -132565,7 +132655,9 @@
                 "Chance"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19409,
@@ -132584,7 +132676,9 @@
                 "Chance"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19411,
@@ -132603,7 +132697,9 @@
                 "Chance"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19413,
@@ -132622,7 +132718,9 @@
                 "Agility"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19415,
@@ -132641,7 +132739,9 @@
                 "Agility"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19417,
@@ -132660,7 +132760,9 @@
                 "Agility"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19419,
@@ -132679,7 +132781,9 @@
                 "Intelligence"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19421,
@@ -132698,7 +132802,9 @@
                 "Intelligence"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19423,
@@ -132717,7 +132823,9 @@
                 "Intelligence"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19425,
@@ -132736,7 +132844,9 @@
                 "Strength"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19427,
@@ -132755,7 +132865,9 @@
                 "Strength"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19429,
@@ -132774,7 +132886,9 @@
                 "Strength"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19431,
@@ -132793,7 +132907,9 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19433,
@@ -132812,7 +132928,9 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19435,
@@ -132831,7 +132949,9 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19437,
@@ -132850,7 +132970,9 @@
                 "Heals"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19439,
@@ -132869,7 +132991,9 @@
                 "Heals"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19441,
@@ -132888,7 +133012,9 @@
                 "Heals"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19443,
@@ -132907,7 +133033,9 @@
                 "Dodge"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19445,
@@ -132926,7 +133054,9 @@
                 "Dodge"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19447,
@@ -132945,7 +133075,9 @@
                 "Dodge"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19449,
@@ -132964,7 +133096,9 @@
                 "Lock"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19451,
@@ -132983,7 +133117,9 @@
                 "Lock"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19453,
@@ -133002,7 +133138,9 @@
                 "Lock"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19455,
@@ -133026,7 +133164,9 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19457,
@@ -133050,7 +133190,9 @@
                 "Vitality"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "Set bonus < 2"
+        ]
     },
     {
         "ankama_id": 19513,

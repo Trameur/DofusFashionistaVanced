@@ -176,7 +176,9 @@ def decode_effects(possible_effects, effects, is_weapon):
 
 
 def decode_conditions(criteria: str):
-    """'CS>20&CV>6' -> ['Strength > 20', 'Vitality > 6'] (AND, stat gates only)."""
+    """'CS>20&CV>6' -> ['Strength > 20', 'Vitality > 6'] (AND, stat gates). Also maps
+    the set-bonus gate 'Pk<N' -> 'Set bonus < N' so trophies that limit panoply bonuses
+    get the 'light_set' weird condition downstream (get_equipments3.py)."""
     out = []
     if not criteria or criteria == 'null':
         return out
@@ -184,6 +186,8 @@ def decode_conditions(criteria: str):
         stat = CONDITION_MAP.get(code)
         if stat:
             out.append('%s %s %s' % (stat, op, val))
+    for val in re.findall(r'Pk\s*<\s*(\d+)', criteria):
+        out.append('Set bonus < %s' % val)
     return out
 
 
