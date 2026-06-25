@@ -506,3 +506,32 @@ class StaticStorageRegressionTests(SimpleTestCase):
         # instead of raising ValueError.
         url = staticfiles_storage.url('chardata/definitely-missing-xyz.png')
         self.assertIn('definitely-missing-xyz.png', url)
+
+
+class RateLimitedErrorFilterTests(SimpleTestCase):
+    """The mail_admins rate-limiter must dedupe duplicate errors but never
+    suppress an email because of its own failure -- a cache hiccup must not make
+    us blind to production errors (prod went 3 days without a single error mail).
+    """
+
+    def test_dedupes_same_signature_once_per_window(self):
+        import logging
+        from unittest import mock
+        from chardata.log_filters import RateLimitedErrorFilter
+        rec = logging.makeLogRecord({'msg': 'boom'})
+        store = {}
+        with mock.patch('chardata.log_filters.cache.get', side_effect=store.get), \
+             mock.patch('chardata.log_filters.cache.set',
+                        side_effect=lambda k, v, t: store.__setitem__(k, v)):
+            f = RateLimitedErrorFilter()
+            self.assertTrue(f.filter(rec))    # first occurrence -> send
+            self.assertFalse(f.filter(rec))   # duplicate within window -> suppressed
+
+    def test_fails_open_on_cache_error(self):
+        import logging
+        from unittest import mock
+        from chardata.log_filters import RateLimitedErrorFilter
+        rec = logging.makeLogRecord({'msg': 'boom'})
+        with mock.patch('chardata.log_filters.cache.get',
+                        side_effect=Exception('cache down')):
+            self.assertTrue(RateLimitedErrorFilter().filter(rec))

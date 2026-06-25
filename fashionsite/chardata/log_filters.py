@@ -18,11 +18,17 @@ class RateLimitedErrorFilter(logging.Filter):
     RATE_LIMIT_SECONDS = 3600
 
     def filter(self, record):
-        signature = self._signature(record)
-        cache_key = f'error_email_sent:{signature}'
-        if cache.get(cache_key):
-            return False
-        cache.set(cache_key, True, self.RATE_LIMIT_SECONDS)
+        try:
+            signature = self._signature(record)
+            cache_key = f'error_email_sent:{signature}'
+            if cache.get(cache_key):
+                return False
+            cache.set(cache_key, True, self.RATE_LIMIT_SECONDS)
+        except Exception:
+            # The rate-limiter must never swallow an error email: a cache hiccup
+            # (or a malformed record) should make us send, not go blind to a
+            # production error. Fail open.
+            return True
         return True
 
     def _signature(self, record):
