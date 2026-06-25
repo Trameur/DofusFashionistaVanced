@@ -197,9 +197,9 @@ def emit_module(by_class, spell_names, path):
         "",
         "TOUCH_DAMAGE_SPELLS = {",
     ]
-    for cls, spells in by_class.items():
+    for cls, spells in sorted(by_class.items()):
         lines.append("    %s: [" % json.dumps(cls))
-        for s in spells:
+        for s in sorted(spells, key=lambda sp: (sp['name'], sp['id'])):
             elems = ", ".join(ELEMENT_TOKEN_TO_CONST[e] for e in s['elements'])
             lines.append("        Spell(%s, %s, Effects(" % (
                 json.dumps(s['name'], ensure_ascii=False), s['levels_req']))
@@ -211,7 +211,7 @@ def emit_module(by_class, spell_names, path):
     lines.append("    'default': [],")
     lines.append("}")
     lines.append("")
-    lines.append("TOUCH_SPELL_NAMES = " + json.dumps(spell_names, ensure_ascii=False, indent=1))
+    lines.append("TOUCH_SPELL_NAMES = " + json.dumps(spell_names, ensure_ascii=False, indent=1, sort_keys=True))
     Path(path).write_text("\n".join(lines) + "\n", encoding='utf-8')
 
 
@@ -219,7 +219,9 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--module-out',
-                   default='fashionistapulp/fashionistapulp/dofus_constants_touch_spells.py')
+                   default=str(Path(__file__).resolve().parent.parent
+                               / 'fashionistapulp' / 'fashionistapulp'
+                               / 'dofus_constants_touch_spells.py'))
     p.add_argument('--skip-images', action='store_true', help='Skip the spell-icon download')
     args = p.parse_args(argv)
 
