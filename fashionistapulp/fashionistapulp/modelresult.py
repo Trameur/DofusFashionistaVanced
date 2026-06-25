@@ -423,9 +423,12 @@ class ModelResult():
             for item in self.item_list:
                 if item.item_added:  
                     if item.weird_conditions['light_set']:
+                        cap = item.weird_conditions['light_set']
+                        cap = 2 if cap is True else cap
                         violation = Violation()
                         violation.item_name = item.localized_name
-                        violation.stat_name = _("Set bonus < 3")
+                        violation.stat_name = (_("Set bonus < 2") if cap <= 1
+                                               else _("Set bonus < 3"))
                         violation.condition_type = 'weird_light_set'
                         violation.is_red = True
                         violation.cant_equip = False
