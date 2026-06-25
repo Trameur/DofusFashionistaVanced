@@ -133,9 +133,9 @@ def emit_module(by_class, spell_names, path):
         "",
         "RETRO_DAMAGE_SPELLS = {",
     ]
-    for cls, spells in by_class.items():
+    for cls, spells in sorted(by_class.items()):
         lines.append("    %s: [" % json.dumps(cls))
-        for s in spells:
+        for s in sorted(spells, key=lambda sp: (sp['name'], sp['level_count'])):
             elems = ", ".join(ELEMENT_TOKEN_TO_CONST[e] for e in s['elements'])
             lines.append("        Spell(%s, %s, Effects(" % (
                 json.dumps(s['name'], ensure_ascii=False),
@@ -148,7 +148,7 @@ def emit_module(by_class, spell_names, path):
     lines.append("    'default': [],")
     lines.append("}")
     lines.append("")
-    lines.append("RETRO_SPELL_NAMES = " + json.dumps(spell_names, ensure_ascii=False, indent=1))
+    lines.append("RETRO_SPELL_NAMES = " + json.dumps(spell_names, ensure_ascii=False, indent=1, sort_keys=True))
     Path(path).write_text("\n".join(lines) + "\n", encoding='utf-8')
 
 
@@ -190,10 +190,13 @@ def build_spell_names(by_class, names_by_lang):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--raw-dir', default='itemscraper/retro_raw')
-    p.add_argument('--out', default='itemscraper/retro/retro_damage_spells.json')
+    _here = Path(__file__).resolve().parent  # itemscraper/
+    _root = _here.parent                     # repo root
+    p.add_argument('--raw-dir', default=str(_here / 'retro_raw'))
+    p.add_argument('--out', default=str(_here / 'retro' / 'retro_damage_spells.json'))
     p.add_argument('--module-out',
-                   default='fashionistapulp/fashionistapulp/dofus_constants_retro_spells.py',
+                   default=str(_root / 'fashionistapulp' / 'fashionistapulp'
+                               / 'dofus_constants_retro_spells.py'),
                    help='Path for the generated RETRO_DAMAGE_SPELLS Python module')
     p.add_argument('--lang', default='fr')
     args = p.parse_args(argv)
