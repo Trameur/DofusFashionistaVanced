@@ -262,7 +262,10 @@ with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
     # storage in dev, where runserver serves static without collectstatic (and
     # ManifestStaticFilesStorage.url() needs the manifest to exist).
     if not serve_static or not DEBUG:
-        _staticfiles_backend = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+        # Lenient: a missing manifest entry (an asset referenced by a template
+        # or CSS url() but not collected) degrades to the unhashed path instead
+        # of raising and 500-ing the whole page. Real files are still hashed.
+        _staticfiles_backend = 'fashionsite.storage.LenientManifestStaticFilesStorage'
     else:
         _staticfiles_backend = 'django.contrib.staticfiles.storage.StaticFilesStorage'
     STORAGES = {
