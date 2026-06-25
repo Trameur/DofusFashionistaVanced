@@ -7378,6 +7378,16 @@ msgstr ""
 msgid "Set bonus < 2"
 msgstr "Bonus de panoplies < 2"
 
+msgid "Trophy conditions on Dofus Touch"
+msgstr "Conditions des trophées sur Dofus Touch"
+
+msgid ""
+"Trophies limited to fewer than 2 set bonuses are now enforced and shown "
+"correctly"
+msgstr ""
+"Les trophées limités à moins de 2 bonus de panoplie sont désormais appliqués"
+" et affichés correctement"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

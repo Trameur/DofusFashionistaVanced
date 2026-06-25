@@ -5143,3 +5143,11 @@ msgstr ""
 
 msgid "Set bonus < 2"
 msgstr ""
+
+msgid "Trophy conditions on Dofus Touch"
+msgstr ""
+
+msgid ""
+"Trophies limited to fewer than 2 set bonuses are now enforced and shown "
+"correctly"
+msgstr ""

@@ -6852,6 +6852,16 @@ msgstr ""
 msgid "Set bonus < 2"
 msgstr "Bonus de set < 2"
 
+msgid "Trophy conditions on Dofus Touch"
+msgstr "Condiciones de los trofeos en Dofus Touch"
+
+msgid ""
+"Trophies limited to fewer than 2 set bonuses are now enforced and shown "
+"correctly"
+msgstr ""
+"Los trofeos limitados a menos de 2 bonus de set ahora se aplican y se "
+"muestran correctamente"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
