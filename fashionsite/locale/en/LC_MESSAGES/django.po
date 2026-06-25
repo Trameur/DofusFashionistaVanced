@@ -5140,3 +5140,6 @@ msgid ""
 msgstr ""
 "Add any build to the comparison from its page, keep browsing, add more, then"
 " compare them all at once"
+
+msgid "Set bonus < 2"
+msgstr ""

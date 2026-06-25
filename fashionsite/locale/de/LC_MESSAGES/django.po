@@ -6863,3 +6863,6 @@ msgid ""
 msgstr ""
 "Füge einen beliebigen Build von seiner Seite zum Vergleich hinzu, stöbere "
 "weiter, füge weitere hinzu und vergleiche sie alle auf einmal"
+
+msgid "Set bonus < 2"
+msgstr "Setbonus < 2"

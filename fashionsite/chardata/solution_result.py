@@ -198,7 +198,8 @@ def evolve_result_item(result_item, r=None):
             result_item.condition_lines.append(MaxConditionLine(stat_key, stat_value, stat_name, r))
 
     if result_item.weird_conditions['light_set']:
-        result_item.condition_lines.append(LightSetConditionLine(r))
+        result_item.condition_lines.append(
+            LightSetConditionLine(r, result_item.weird_conditions['light_set']))
 
     if result_item.weird_conditions['prysmaradite']:
         result_item.condition_lines.append(PrysmaraditeConditionLine(r))
@@ -334,8 +335,11 @@ class MaxConditionLine:
 
 class LightSetConditionLine:
 
-    def __init__(self, model_result):
-        self.text = _('Set bonus < 3')
+    def __init__(self, model_result, cap=2):
+        # cap = max weighted set-bonuses the trophy allows: dofus3/beta "< 3" -> 2,
+        # the stricter touch "< 2" -> 1. Show the matching threshold.
+        cap = 2 if cap is True else cap
+        self.text = _('Set bonus < 2') if cap <= 1 else _('Set bonus < 3')
         self.formatting = ''
         if model_result:
             if not model_result.check_if_set_is_light():

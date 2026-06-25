@@ -7375,6 +7375,9 @@ msgstr ""
 "Ajoutez n'importe quel build à la comparaison depuis sa page, continuez à "
 "naviguer, ajoutez-en d'autres, puis comparez-les tous d'un coup"
 
+msgid "Set bonus < 2"
+msgstr "Bonus de panoplies < 2"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

@@ -44,6 +44,14 @@ class TranslationRegressionTests(SimpleTestCase):
             self.assertEqual(gettext('Charged 3 times'), 'Chargée 3 fois')
             self.assertEqual(gettext('Charged 12 times'), 'Chargée 12 fois')
 
+    def test_touch_set_bonus_condition_shows_lt_2(self):
+        # Touch trophies cap at 1 set bonus, so their condition line must read
+        # "< 2"; dofus3/beta stay "< 3". Guards both the cap logic and the i18n.
+        from chardata.solution_result import LightSetConditionLine
+        with translation.override('fr'):
+            self.assertEqual(LightSetConditionLine(None, 1).text, 'Bonus de panoplies < 2')
+            self.assertEqual(LightSetConditionLine(None, 2).text, 'Bonus de panoplies < 3')
+
     def test_german_mp_is_bp_not_member_of_parliament(self):
         # Regression: DE "MP" had been mistranslated as "Abgeordneter" (= a
         # member of parliament). Movement Points must read "BP".

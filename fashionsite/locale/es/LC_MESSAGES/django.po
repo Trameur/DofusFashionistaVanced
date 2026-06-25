@@ -6849,6 +6849,9 @@ msgstr ""
 "Añade cualquier build a la comparación desde su página, sigue navegando, "
 "añade más y compáralos todos a la vez"
 
+msgid "Set bonus < 2"
+msgstr "Bonus de set < 2"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
