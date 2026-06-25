@@ -565,7 +565,11 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if 'conditions' in item:
             _conds = item["conditions"]
             _cond_text = _conds if isinstance(_conds, str) else ' '.join(str(c) for c in _conds)
-            if 'Set bonus <' in _cond_text:  # light_set: dofus3/beta '< 3', touch '< 2'
+            # light_set: dofus3/beta "Set bonus < 3" -> id 1 (cap 2); the stricter
+            # touch "Set bonus < 2" -> id 3 (cap 1). See LIGHT_SET_LIMIT_FROM_ID.
+            if 'Set bonus < 2' in _cond_text:
+                f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 3);\n")
+            elif 'Set bonus <' in _cond_text:
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 1);\n")
         if 'is_prysmaradite' in item:
             if item['is_prysmaradite']:

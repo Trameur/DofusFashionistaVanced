@@ -306,9 +306,15 @@ ELEMENT_KEY_TO_NAME = {
 }
 ELEMENT_NAME_TO_KEY = {v: k for k, v in ELEMENT_KEY_TO_NAME.items()}
 
-WEIRD_CONDITION_FROM_ID = {1: 'light_set', 2: 'prysmaradite'}
-WEIRD_CONDITION_TO_ID = {v: k for k, v in WEIRD_CONDITION_FROM_ID.items()}
-WEIRD_CONDITIONS = list(WEIRD_CONDITION_TO_ID.keys()) 
+WEIRD_CONDITION_FROM_ID = {1: 'light_set', 2: 'prysmaradite', 3: 'light_set'}
+# light_set has two variants by set-bonus threshold: id 1 = "Set bonus < 3"
+# (dofus3/beta -> at most 2 weighted set-bonuses while the trophy is worn),
+# id 3 = "Set bonus < 2" (touch -> at most 1). The LP enforces this cap.
+LIGHT_SET_LIMIT_FROM_ID = {1: 2, 3: 1}
+# Canonical write ids (light_set writes as the dofus3 variant; the stricter
+# touch id 3 is only emitted by the scraper, never by a manual edit).
+WEIRD_CONDITION_TO_ID = {'light_set': 1, 'prysmaradite': 2}
+WEIRD_CONDITIONS = ['light_set', 'prysmaradite']
 
 class Spell:
     def __init__(self, name, level_req, effects, aggregates=[], 

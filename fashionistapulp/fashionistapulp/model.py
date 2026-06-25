@@ -982,9 +982,17 @@ class Model:
         matrix = [(1, 'ss', '%d_%d' % (item_set.id, 2 + 1)) for item_set in self.sets_list]
         # Count 2 for each bonus 3 for all item sets tested
         matrix += [(2, 'ss', '%d_%d' % (item_set.id, 3 + 1)) for item_set in self.sets_list]
-        matrix.append((-N_TOTAL_SETS, 'ytrophy', 1))  
-        # restriction to 2 (either 1 bonus 3 or 2 bonus 2)
-        restriction = self.problem.restriction_lt_eq(2, matrix) 
+        matrix.append((-N_TOTAL_SETS, 'ytrophy', 1))
+        # Cap on weighted set-bonuses while a light-set trophy is worn: "Set bonus
+        # < 3" (dofus3) allows 2 (1 bonus 3 or 2 bonus 2); the stricter touch "Set
+        # bonus < 2" allows only 1. Use the strictest cap present in the item pool.
+        light_set_caps = []
+        for item in self.items_list:
+            cap = item.weird_conditions['light_set']
+            if cap:
+                light_set_caps.append(2 if cap is True else cap)
+        light_set_cap = min(light_set_caps) if light_set_caps else 2
+        restriction = self.problem.restriction_lt_eq(light_set_cap, matrix)
         self.restrictions.first_light_set_constraint = restriction
         
         restriction = self.problem.restriction_lt_eq(N_TOTAL_SETS, [(N_TOTAL_SETS, 'ytrophy', 1), 

@@ -25,7 +25,7 @@ import threading
 from threading import Lock
 
 from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL, STAT_ORDER,
-                             WEIRD_CONDITION_FROM_ID)
+                             WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID)
 from .dofus_stat import Stat
 from .fashion_util import normalize_name, strip_accents
 from .fashionista_config import (get_items_db_path, load_items_db_from_dump)
@@ -407,7 +407,13 @@ class Structure:
             item_id = entry[0]         
             condition_id = entry[1]
             item = self.get_item_by_id(item_id)
-            item.weird_conditions[WEIRD_CONDITION_FROM_ID[condition_id]] = True
+            name = WEIRD_CONDITION_FROM_ID[condition_id]
+            if name == 'light_set':
+                # Store the set-bonus cap (2 for "< 3", 1 for the stricter touch
+                # "< 2") instead of a bare True, so the LP enforces the right one.
+                item.weird_conditions['light_set'] = LIGHT_SET_LIMIT_FROM_ID.get(condition_id, 2)
+            else:
+                item.weird_conditions[name] = True
 
     def read_extra_lines_table(self):
         c = self.conn.cursor()
