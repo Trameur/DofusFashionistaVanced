@@ -497,6 +497,69 @@ class ProjectActionRobustnessTests(TestCase):
         self.assertEqual(resp.status_code, 404)
 
 
+class SharedBuildCompareIdTests(TestCase):
+    """Regression: a *shared* build added to the comparison cart must carry the
+    's' prefix on its encoded id. Commit 496a717e shipped it without the prefix,
+    so the cart stored the bare encoded blob and /compare_sets/ then did
+    int('<base64>') -> ValueError. The templates that emit the cart id for
+    shared builds rely on the contract guarded here:
+      - solution.html      data-build-id="s{{ encoded_char_id }}"
+      - shared_builds.html data-build-id="s{{ build.encoded_id }}"
+    i.e. 's' + encode_char_id(id) must round-trip back to the shared char, and
+    the bare encoded form must not be accepted as a build id.
+    """
+
+    def _make_shared_char(self, link_shared=True):
+        from chardata.models import Char
+        return Char.objects.create(
+            name='Shared build', char_name='hero', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            link_shared=link_shared, game_version='dofus3')
+
+    def test_s_prefixed_encoded_id_round_trips_to_char(self):
+        from chardata.encoded_char_id import encode_char_id
+        from chardata.util import get_char_id_possibly_encoded
+        char = self._make_shared_char()
+        char_id, was_encoded = get_char_id_possibly_encoded('s' + encode_char_id(char.id))
+        self.assertEqual(char_id, char.id)
+        self.assertTrue(was_encoded)
+
+    def test_bare_encoded_id_is_rejected_as_int(self):
+        # The exact symptom of the missing-prefix bug: without 's', the encoded
+        # blob is handed to int() -> ValueError. The 's' prefix is mandatory.
+        from chardata.encoded_char_id import encode_char_id
+        from chardata.util import get_char_id_possibly_encoded
+        char = self._make_shared_char()
+        with self.assertRaises(ValueError):
+            get_char_id_possibly_encoded(encode_char_id(char.id))
+
+    def test_get_char_possibly_encoded_returns_shared_char(self):
+        from django.contrib.auth.models import AnonymousUser
+        from django.test import RequestFactory
+        from chardata.encoded_char_id import encode_char_id
+        from chardata.util import get_char_possibly_encoded_or_raise
+        char = self._make_shared_char()
+        req = RequestFactory().get('/')
+        req.user = AnonymousUser()
+        resolved = get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
+        self.assertEqual(resolved.pk, char.pk)
+
+    def test_unshared_char_via_share_link_is_denied(self):
+        # A build that isn't shared must not be reachable through the 's' link.
+        from django.contrib.auth.models import AnonymousUser
+        from django.core.exceptions import PermissionDenied
+        from django.test import RequestFactory
+        from chardata.encoded_char_id import encode_char_id
+        from chardata.util import get_char_possibly_encoded_or_raise
+        char = self._make_shared_char(link_shared=False)
+        req = RequestFactory().get('/')
+        req.user = AnonymousUser()
+        with self.assertRaises(PermissionDenied):
+            get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
+
+
 class StaticStorageRegressionTests(SimpleTestCase):
     """Guards the encyclopedia 500: under the production ManifestStaticFilesStorage
     a {% static %} reference to an asset that wasn't collected (a single missing
