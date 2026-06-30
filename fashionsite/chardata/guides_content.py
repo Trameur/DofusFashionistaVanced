@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'game-modes', 'reading-an-item', 'versions-explained']
+ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'game-modes', 'reading-an-item', 'mono-vs-multi-element', 'versions-explained']
 
 
 GUIDES = {
@@ -814,6 +814,142 @@ GUIDES = {
 <p>Du musst dir nichts davon merken. Öffne ein Item in der <a href="/encyclopedia/">Enzyklopädie</a>, um alle Wertzeilen, Bedingungen und das Set zu sehen, und wenn du <a href="/setup/">ein Set baust</a>, legt dir die Lösungsseite jeden Bonus und jede Bedingung offen.</p>
 
 <p><em>Sieh es an einem echten Item: <a href="/encyclopedia/">öffne die Enzyklopädie.</a></em></p>
+''',
+            },
+        },
+    },
+
+    # ------------------------------------------------------------------ #
+    'mono-vs-multi-element': {
+        'i18n': {
+            'en': {
+                'title': "Mono-element or multi-element? Pick one and hit harder",
+                'desc': "Spreading your damage across two elements feels safe, but it usually hits softer than committing to one. Here's why mono almost always wins — and the few times it doesn't.",
+                'lead': "Spreading your damage across two elements feels safe, but it usually hits softer than committing to one. Here's why focusing pays off — and when it doesn't.",
+                'body': '''
+<h2>Why one element usually wins</h2>
+<p>Your damage scales with the matching mastery — fire damage with fire mastery, and so on. Split your gear across two elements and every point of mastery only helps half your hits; pour it all into one and every point counts every time. The same goes for the characteristic behind it (Strength, Intelligence, Agility, Chance). Concentration compounds: a focused mono-element set almost always out-damages a smeared two-element one of the same level.</p>
+
+<h2>It's really just your sliders</h2>
+<p>In the tool, mono-vs-multi isn't a separate setting — it's how you weight your elements. Crank one element and its mastery, leave the others low, and the optimizer builds you a focused hitter. Weight two elements equally and it'll happily split your gear between them. So if your build came out spread when you wanted focused, your weights are the place to look.</p>
+
+<h2>When multi-element is actually right</h2>
+<p>It's not always wrong. A few cases genuinely want two elements:</p>
+<ul>
+<li>Spells that hit in two elements, or a kit that mixes them — your damage really does scale on both.</li>
+<li>A set bonus or a key item that pushes a second element for free, so taking it costs you nothing.</li>
+<li>Utility over raw damage — a secondary element for a specific spell's effect rather than its hit.</li>
+</ul>
+<p>Outside those, splitting is usually just leaving damage on the table.</p>
+
+<h2>Pick the element your spells love</h2>
+<p>Choose the element your main damage spells scale on — check them on the spells page if you're not sure — and weight that one and its mastery high. Let the optimizer do the rest. One clean element beats two half-hearted ones nearly every time.</p>
+
+<p><em>Try both and compare: <a href="/setup/">build a set</a> and see the damage for yourself.</em></p>
+''',
+            },
+            'fr': {
+                'title': "Mono-élément ou multi-élément ? Choisis-en un et tape plus fort",
+                'desc': "Répartir tes dégâts sur deux éléments rassure, mais ça tape souvent moins fort que de tout miser sur un seul. Voilà pourquoi le mono gagne presque toujours — et les rares cas où non.",
+                'lead': "Répartir tes dégâts sur deux éléments rassure, mais ça tape souvent moins fort que de tout miser sur un seul. Voilà pourquoi se concentrer paie — et quand ça ne paie pas.",
+                'body': '''
+<h2>Pourquoi un seul élément gagne d'habitude</h2>
+<p>Tes dégâts scalent avec la maîtrise correspondante — dégâts feu avec maîtrise feu, etc. Répartis ton stuff sur deux éléments et chaque point de maîtrise n'aide que la moitié de tes coups ; mets tout sur un seul et chaque point compte à chaque fois. Pareil pour la caractéristique derrière (Force, Intelligence, Agilité, Chance). La concentration se cumule : un set mono-élément concentré tape presque toujours plus fort qu'un set bi-élément dilué du même niveau.</p>
+
+<h2>En vrai, c'est juste tes curseurs</h2>
+<p>Dans l'outil, le mono-vs-multi n'est pas un réglage à part — c'est la façon dont tu pondères tes éléments. Monte un élément et sa maîtrise, laisse les autres bas, et l'optimiseur te construit un frappeur concentré. Pondère deux éléments à égalité et il répartira ton stuff entre les deux sans souci. Donc si ton build est sorti dilué alors que tu le voulais concentré, c'est tes poids qu'il faut regarder.</p>
+
+<h2>Quand le multi-élément a vraiment du sens</h2>
+<p>C'est pas toujours un tort. Quelques cas veulent vraiment deux éléments :</p>
+<ul>
+<li>Des sorts qui tapent en deux éléments, ou un kit qui les mélange — tes dégâts scalent vraiment sur les deux.</li>
+<li>Un bonus de panoplie ou un item clé qui pousse un second élément gratuitement, donc le prendre ne te coûte rien.</li>
+<li>L'utilité plutôt que le dégât brut — un second élément pour l'effet d'un sort précis, pas pour son coup.</li>
+</ul>
+<p>En dehors de ça, répartir, c'est en général laisser du dégât sur la table.</p>
+
+<h2>Choisis l'élément que tes sorts préfèrent</h2>
+<p>Prends l'élément sur lequel scalent tes sorts de dégâts principaux — vérifie-les sur la page des sorts si tu hésites — et pondère celui-là et sa maîtrise haut. Laisse l'optimiseur faire le reste. Un élément propre bat deux éléments à moitié presque à chaque fois.</p>
+
+<p><em>Teste les deux et compare : <a href="/setup/">construis un set</a> et regarde les dégâts toi-même.</em></p>
+''',
+            },
+            'es': {
+                'title': "¿Monoelemento o multielemento? Elige uno y pega más fuerte",
+                'desc': "Repartir tu daño entre dos elementos da sensación de seguridad, pero suele pegar más flojo que apostar por uno solo. Aquí tienes por qué el mono casi siempre gana — y las pocas veces que no.",
+                'lead': "Repartir tu daño entre dos elementos da sensación de seguridad, pero suele pegar más flojo que apostar por uno solo. Aquí tienes por qué concentrarse compensa — y cuándo no.",
+                'body': '''
+<h2>Por qué un solo elemento suele ganar</h2>
+<p>Tu daño escala con el dominio correspondiente — daño de fuego con dominio de fuego, y así. Reparte tu equipo entre dos elementos y cada punto de dominio solo ayuda a la mitad de tus golpes; mételo todo en uno y cada punto cuenta siempre. Lo mismo con la característica detrás (Fuerza, Inteligencia, Agilidad, Suerte). La concentración se acumula: un set monoelemento concentrado casi siempre pega más que uno bielemento diluido del mismo nivel.</p>
+
+<h2>En realidad son tus deslizadores</h2>
+<p>En la herramienta, mono-vs-multi no es un ajuste aparte — es cómo ponderas tus elementos. Sube un elemento y su dominio, deja los demás bajos, y el optimizador te monta un pegador concentrado. Pondera dos elementos por igual y repartirá tu equipo entre ambos sin problema. Así que si tu build salió repartido cuando lo querías concentrado, mira tus pesos.</p>
+
+<h2>Cuándo el multielemento sí tiene sentido</h2>
+<p>No siempre está mal. Algunos casos quieren de verdad dos elementos:</p>
+<ul>
+<li>Hechizos que pegan en dos elementos, o un kit que los mezcla — tu daño escala de verdad en ambos.</li>
+<li>Un bonus de panoplia o un ítem clave que empuja un segundo elemento gratis, así que cogerlo no te cuesta nada.</li>
+<li>Utilidad antes que daño bruto — un segundo elemento por el efecto de un hechizo concreto, no por su golpe.</li>
+</ul>
+<p>Fuera de eso, repartir suele ser dejar daño sin aprovechar.</p>
+
+<h2>Elige el elemento que aman tus hechizos</h2>
+<p>Coge el elemento con el que escalan tus hechizos de daño principales — míralos en la página de hechizos si dudas — y pondera ese y su dominio alto. Deja que el optimizador haga el resto. Un elemento limpio gana a dos a medias casi siempre.</p>
+
+<p><em>Prueba ambos y compara: <a href="/setup/">monta un set</a> y mira el daño tú mismo.</em></p>
+''',
+            },
+            'pt': {
+                'title': "Mono-elemento ou multi-elemento? Escolha um e bata mais forte",
+                'desc': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco do que apostar em um só. Veja por que o mono quase sempre ganha — e as poucas vezes que não.",
+                'lead': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco do que apostar em um só. Veja por que se concentrar compensa — e quando não.",
+                'body': '''
+<h2>Por que um só elemento costuma ganhar</h2>
+<p>Seu dano escala com o domínio correspondente — dano de fogo com domínio de fogo, e por aí. Espalhe seu equipamento entre dois elementos e cada ponto de domínio só ajuda metade dos seus golpes; jogue tudo em um e cada ponto conta sempre. O mesmo vale pra característica por trás (Força, Inteligência, Agilidade, Sorte). A concentração acumula: um set mono-elemento concentrado quase sempre bate mais que um bi-elemento diluído do mesmo nível.</p>
+
+<h2>Na real, são seus controles</h2>
+<p>Na ferramenta, mono-vs-multi não é um ajuste à parte — é como você pondera seus elementos. Suba um elemento e seu domínio, deixe os outros baixos, e o otimizador monta um batedor concentrado. Pondere dois elementos igual e ele espalha seu equipamento entre os dois numa boa. Então se seu build saiu espalhado quando você queria concentrado, olhe seus pesos.</p>
+
+<h2>Quando o multi-elemento faz sentido mesmo</h2>
+<p>Nem sempre é errado. Alguns casos querem de verdade dois elementos:</p>
+<ul>
+<li>Feitiços que batem em dois elementos, ou um kit que os mistura — seu dano escala de verdade nos dois.</li>
+<li>Um bônus de conjunto ou um item-chave que empurra um segundo elemento de graça, então pegar não te custa nada.</li>
+<li>Utilidade em vez de dano bruto — um segundo elemento pelo efeito de um feitiço específico, não pelo golpe.</li>
+</ul>
+<p>Fora isso, espalhar costuma ser deixar dano na mesa.</p>
+
+<h2>Escolha o elemento que seus feitiços amam</h2>
+<p>Pegue o elemento com que seus feitiços de dano principais escalam — confira na página de feitiços se tiver dúvida — e pondere ele e seu domínio alto. Deixe o otimizador fazer o resto. Um elemento limpo ganha de dois pela metade quase sempre.</p>
+
+<p><em>Teste os dois e compare: <a href="/setup/">monte um set</a> e veja o dano você mesmo.</em></p>
+''',
+            },
+            'de': {
+                'title': "Mono-Element oder Multi-Element? Nimm eins und hau härter zu",
+                'desc': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Mono fast immer gewinnt — und die wenigen Fälle, in denen nicht.",
+                'lead': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Fokus sich lohnt — und wann nicht.",
+                'body': '''
+<h2>Warum ein Element meist gewinnt</h2>
+<p>Dein Schaden skaliert mit der passenden Beherrschung — Feuerschaden mit Feuerbeherrschung, und so weiter. Verteil deine Ausrüstung auf zwei Elemente, und jeder Beherrschungspunkt hilft nur der Hälfte deiner Treffer; steck alles in eins, und jeder Punkt zählt jedes Mal. Dasselbe gilt für den Wert dahinter (Stärke, Intelligenz, Beweglichkeit, Glück). Fokus summiert sich: Ein konzentriertes Mono-Element-Set macht fast immer mehr Schaden als ein verwässertes Zwei-Element-Set desselben Levels.</p>
+
+<h2>Es sind eigentlich nur deine Regler</h2>
+<p>Im Tool ist Mono-vs-Multi keine eigene Einstellung — es ist, wie du deine Elemente gewichtest. Dreh ein Element und seine Beherrschung hoch, lass die anderen niedrig, und der Optimierer baut dir einen fokussierten Schläger. Gewichte zwei Elemente gleich, und er verteilt deine Ausrüstung gern auf beide. Wenn dein Build also verstreut rauskam, obwohl du Fokus wolltest, schau bei deinen Gewichten.</p>
+
+<h2>Wann Multi-Element wirklich richtig ist</h2>
+<p>Es ist nicht immer falsch. Ein paar Fälle wollen echt zwei Elemente:</p>
+<ul>
+<li>Zauber, die in zwei Elementen treffen, oder ein Kit, das sie mischt — dein Schaden skaliert wirklich auf beiden.</li>
+<li>Ein Set-Bonus oder ein Schlüssel-Item, das ein zweites Element gratis mitbringt, sodass es dich nichts kostet.</li>
+<li>Nutzen statt rohem Schaden — ein zweites Element für den Effekt eines bestimmten Zaubers, nicht für seinen Treffer.</li>
+</ul>
+<p>Außerhalb davon lässt Verteilen meist Schaden liegen.</p>
+
+<h2>Wähl das Element, das deine Zauber lieben</h2>
+<p>Nimm das Element, auf dem deine Hauptschadenszauber skalieren — schau sie auf der Zauberseite an, wenn du unsicher bist — und gewichte dieses und seine Beherrschung hoch. Den Rest macht der Optimierer. Ein sauberes Element schlägt zwei halbe fast jedes Mal.</p>
+
+<p><em>Probier beide und vergleiche: <a href="/setup/">bau ein Set</a> und sieh dir den Schaden selbst an.</em></p>
 ''',
             },
         },
