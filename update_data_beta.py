@@ -14,6 +14,7 @@ Pipeline steps:
     items/transform     get_equipments2.py    -> itemscraper/transformed_equipment.json
     items/dump          get_equipments3.py    -> item_db_dumped_beta.dump
     items/load-db       load_item_db.py       -> items_beta.db
+    items/obtainment    store_item_obtainment.py -> recipes/descriptions in items_beta.db
     item-images         get_equipments4.py    -> static item images (shared with dofus3)
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_beta.json
@@ -194,6 +195,11 @@ def main() -> None:
         step("items/transform", [PY, "get_equipments2.py", "--work-dir", BETA_WORK_DIR], cwd=ITEMSCRAPER)
         step("items/dump", [PY, "get_equipments3.py", "--input-dir", BETA_WORK_DIR, "--dump-output", BETA_DUMP], cwd=ITEMSCRAPER)
         step("items/load-db", [PY, "load_item_db.py", "--game-version", "beta"])
+        step("items/obtainment", [
+            PY, "store_item_obtainment.py",
+            "--game-version", "beta",
+            str(ITEMSCRAPER / "beta"),
+        ], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [
