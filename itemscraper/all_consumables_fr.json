@@ -129368,6 +129368,49 @@
                 }
             ],
             "pods": 1
+        },
+        {
+            "ankama_id": 34551,
+            "name": "Panoplie du Gouffre",
+            "type": {
+                "name": "Panoplie d'apparat",
+                "id": 219
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165214-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png"
+            },
+            "description": "Une petite boîte remplie d'objets magnifiques.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Qu'y a-t-il là-dedans ?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Qu'y a-t-il là-dedans ?"
+                }
+            ],
+            "pods": 1
         }
     ]
 }
