@@ -6924,6 +6924,23 @@ msgstr "É a sua primeira vez?"
 msgid "or just dive in and make a build."
 msgstr "ou vá direto ao ponto e faça um build."
 
+msgid ""
+"Describe your Dofus build in plain words — like an agility Sram level 200 "
+"with 11 AP — and get a full optimized set in seconds with the Fashionista's "
+"smart build."
+msgstr ""
+"Descreva seu build de Dofus com suas palavras — por exemplo um Sram de "
+"agilidade nível 200 com 11 PA — e tenha um set completo e otimizado em "
+"segundos com o build inteligente da Fashionista."
+
+msgid ""
+"Plan your Dofus forgemagie (maging) runs: the Fashionista's simulator "
+"estimates rune throws, success odds and the best path to your target stats."
+msgstr ""
+"Prepare sua forjamagia de Dofus: o simulador da Fashionista estima as "
+"jogadas de runas, as probabilidades de sucesso e o melhor caminho até seus "
+"atributos-alvo."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
