@@ -4921,19 +4921,16 @@ msgid "Charged 12 times"
 msgstr "Chargée 12 fois"
 
 #: fashionsite/chardata/translation_util.py:637
-#, fuzzy
 #| msgid "Not charged"
 msgid "Shock Not charged"
 msgstr "Non chargée"
 
 #: fashionsite/chardata/translation_util.py:638
-#, fuzzy
 #| msgid "Charged once"
 msgid "Shock Charged once"
 msgstr "Chargée une fois"
 
 #: fashionsite/chardata/translation_util.py:639
-#, fuzzy
 #| msgid "Charged twice"
 msgid "Shock Charged twice"
 msgstr "Chargée deux fois"
