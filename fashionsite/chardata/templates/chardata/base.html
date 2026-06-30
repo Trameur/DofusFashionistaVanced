@@ -168,6 +168,7 @@
           <div class="mini-menu">
               <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}">{% trans "Home" %}</a></div>
               <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}">{% trans "Help & About" %}</a></div>
+              <div><a class="menu_link menu_link_middle"  href="{% url 'guides' %}">{% trans "Guides & tips" %}</a></div>
               <div><a class="menu_link menu_link_bottom"  href="{% game_url 'faq' %}">{% trans "FAQ" %}</a></div>
           </div>    
               <div class="space"></div>
@@ -298,6 +299,7 @@
                 <!-- General Site Links -->
                 <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &ndash;
                 <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &ndash;
+                <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> &ndash;
                 <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &ndash;
                 <a href="{% game_url 'support' %}">{% trans "Support the project" %}</a> &ndash;
                 <a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a> &ndash;

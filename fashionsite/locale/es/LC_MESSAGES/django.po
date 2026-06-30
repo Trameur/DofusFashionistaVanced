@@ -6862,6 +6862,78 @@ msgstr ""
 "Los trofeos limitados a menos de 2 bonus de set ahora se aplican y se "
 "muestran correctamente"
 
+msgid "Guides & tips"
+msgstr "Guías y trucos"
+
+msgid "Dofus build guides & tips"
+msgstr "Guías y trucos de builds de Dofus"
+
+msgid ""
+"Plain-language guides to building characters in Dofus: how to make your "
+"first set, how the optimizer works, what every stat is worth, and the "
+"differences between Dofus 3, Beta, Dofus 2, Retro and Touch."
+msgstr ""
+"Guías claras para montar tus personajes en Dofus: cómo hacer tu primer set, "
+"cómo funciona el optimizador, cuánto vale cada estadística y las diferencias"
+" entre Dofus 3, Beta, Dofus 2, Retro y Touch."
+
+msgid ""
+"Short, no-nonsense guides for getting the most out of the Fashionista — and "
+"out of your Dofus characters. No fluff, just the stuff that actually changes"
+" your build."
+msgstr ""
+"Guías cortas y sin rodeos para sacarle el máximo a la Fashionista — y a tus "
+"personajes de Dofus. Nada de relleno, solo lo que de verdad cambia tu build."
+
+msgid "Done reading?"
+msgstr "¿Terminaste de leer?"
+
+msgid "Keep reading"
+msgstr "Sigue leyendo"
+
+msgid "Read the guides"
+msgstr "Lee las guías"
+
+msgid "What is the Dofus Fashionista?"
+msgstr "¿Qué es la Dofus Fashionista?"
+
+msgid ""
+"It's a free, automatic equipment optimizer for Dofus. Instead of dragging "
+"items into a spreadsheet and adding up the numbers yourself, you tell it "
+"your class, your level and what you actually care about — damage, AP and MP,"
+" survivability — and it searches thousands of legal item combinations to "
+"find the best set for your build. No login required to try it."
+msgstr ""
+"Es un optimizador de equipo gratuito y automático para Dofus. En vez de "
+"arrastrar ítems a una hoja de cálculo y sumar los números tú mismo, le das "
+"tu clase, tu nivel y lo que de verdad te importa — daño, PA y PM, "
+"supervivencia — y recorre miles de combinaciones de ítems válidas para "
+"encontrar el mejor set para tu build. No hace falta cuenta para probarlo."
+
+msgid "Pick your class, level and Dofus version."
+msgstr "Elige tu clase, tu nivel y tu versión de Dofus."
+
+msgid "Set what matters to you with simple sliders."
+msgstr "Ajusta lo que te importa con deslizadores simples."
+
+msgid "Get an optimized set, then tweak it, save it and share it."
+msgstr "Consigue un set optimizado y luego ajústalo, guárdalo y compártelo."
+
+msgid ""
+"It covers five versions of the game — Dofus 3, the Beta, Dofus 2, Retro and "
+"Touch — each with its own item data, and it's kept up to date with the "
+"latest patch."
+msgstr ""
+"Cubre cinco versiones del juego — Dofus 3, la Beta, Dofus 2, Retro y Touch —"
+" cada una con sus propios datos de ítems, y se mantiene al día con el último"
+" parche."
+
+msgid "Brand new to it?"
+msgstr "¿Es tu primera vez?"
+
+msgid "or just dive in and make a build."
+msgstr "o lánzate directamente y haz un build."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

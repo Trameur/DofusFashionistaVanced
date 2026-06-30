@@ -1,0 +1,94 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{{ guide.title }} · Dofus Fashionista{% endblock %}
+{% block meta_description %}{{ guide.desc }}{% endblock %}
+{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'guide' guide.slug %}">{% endblock %}
+
+{% block og_meta %}
+    <meta property="og:title" content="{{ guide.title }}">
+    <meta property="og:description" content="{{ guide.desc }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://dofusfashionista.gg{% url 'guide' guide.slug %}">
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ guide.title|escapejs }}",
+  "description": "{{ guide.desc|escapejs }}",
+  "inLanguage": "{{ language|default:'en' }}",
+  "mainEntityOfPage": "https://dofusfashionista.gg{% url 'guide' guide.slug %}",
+  "author": {"@type": "Organization", "name": "Dofus Fashionista"},
+  "publisher": {"@type": "Organization", "name": "Dofus Fashionista"}
+}
+</script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% endblock %}
+
+{% block main %}
+<article class="fm-guide">
+    <nav class="fm-guide-crumbs" aria-label="Breadcrumb">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
+        <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> ›
+        <span>{{ guide.title }}</span>
+    </nav>
+
+    <h1 class="fm-guide-title"><span aria-hidden="true">{{ guide.icon }}</span> {{ guide.title }}</h1>
+    <p class="fm-guide-lead">{{ guide.lead }}</p>
+
+    <div class="fm-guide-body">
+        {{ guide.body|safe }}
+    </div>
+
+    <div class="fm-guide-foot-cta">
+        <a class="fm-guide-btn" href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
+        <a class="fm-guide-btn fm-guide-btn-ghost" href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
+    </div>
+
+    {% if other_guides %}
+    <div class="fm-guide-more">
+        <h2 class="fm-guide-more-title">{% trans "Keep reading" %}</h2>
+        <ul>
+            {% for g in other_guides %}
+            <li><a href="{% url 'guide' g.slug %}"><span aria-hidden="true">{{ g.icon }}</span> {{ g.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</article>
+
+<style>
+.fm-guide { max-width: 760px; margin: 0 auto; padding: 8px 16px 28px; line-height: 1.6; }
+.fm-guide-crumbs { font-size: 0.85em; opacity: 0.75; margin-bottom: 14px; }
+.fm-guide-crumbs a { text-decoration: none; }
+.fm-guide-crumbs a:hover { text-decoration: underline; }
+.fm-guide-title { font-size: 1.7em; line-height: 1.2; margin: 0 0 12px; }
+.fm-guide-lead { font-size: 1.12em; opacity: 0.9; margin: 0 0 20px; }
+.fm-guide-body h2 { font-size: 1.25em; margin: 26px 0 8px; }
+.fm-guide-body p { margin: 0 0 14px; }
+.fm-guide-body ul { margin: 0 0 14px; padding-left: 22px; }
+.fm-guide-body li { margin-bottom: 6px; }
+.fm-guide-body a { font-weight: 600; }
+.fm-guide-foot-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 30px 0 8px; }
+.fm-guide-btn { display: inline-block; padding: 10px 18px; border-radius: 6px; background: #6a8f3c; color: #fff !important; text-decoration: none; font-weight: bold; }
+.fm-guide-btn:hover { background: #5c7d33; }
+.fm-guide-btn-ghost { background: transparent; color: inherit !important; border: 1px solid rgba(128,128,128,0.5); }
+.fm-guide-btn-ghost:hover { background: rgba(128,128,128,0.12); }
+.fm-guide-more { margin-top: 30px; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 16px; }
+.fm-guide-more-title { font-size: 1.1em; margin: 0 0 10px; }
+.fm-guide-more ul { list-style: none; padding: 0; margin: 0; }
+.fm-guide-more li { margin-bottom: 8px; }
+.fm-guide-more a { text-decoration: none; }
+.fm-guide-more a:hover { text-decoration: underline; }
+</style>
+{% endblock %}

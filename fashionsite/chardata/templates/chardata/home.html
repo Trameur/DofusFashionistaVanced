@@ -57,7 +57,8 @@
         {% trans "New to Dofus Fashionista?" %}
         <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
         · <a href="{% game_url 'smart_build' %}">{% trans "Describe your build in words" %}</a>
-        · <a href="{% game_url 'random_build' %}">{% trans "Discover a random build" %}</a>.
+        · <a href="{% game_url 'random_build' %}">{% trans "Discover a random build" %}</a>
+        · <a href="{% url 'guides' %}">{% trans "Read the guides" %}</a>.
     </p>
 
     {% if featured_builds %}
@@ -133,7 +134,27 @@
         .featured-build-author { font-size: 0.8em; opacity: 0.7; }
     </style>
     {% endif %}
-</div>         
+
+    <section class="fm-home-about">
+        <h2>{% trans "What is the Dofus Fashionista?" %}</h2>
+        <p>{% trans "It's a free, automatic equipment optimizer for Dofus. Instead of dragging items into a spreadsheet and adding up the numbers yourself, you tell it your class, your level and what you actually care about — damage, AP and MP, survivability — and it searches thousands of legal item combinations to find the best set for your build. No login required to try it." %}</p>
+        <div class="fm-home-steps">
+            <div class="fm-home-step"><span class="fm-home-step-n">1</span> {% trans "Pick your class, level and Dofus version." %}</div>
+            <div class="fm-home-step"><span class="fm-home-step-n">2</span> {% trans "Set what matters to you with simple sliders." %}</div>
+            <div class="fm-home-step"><span class="fm-home-step-n">3</span> {% trans "Get an optimized set, then tweak it, save it and share it." %}</div>
+        </div>
+        <p>{% trans "It covers five versions of the game — Dofus 3, the Beta, Dofus 2, Retro and Touch — each with its own item data, and it's kept up to date with the latest patch." %}
+        {% trans "Brand new to it?" %} <a href="/guides/">{% trans "Read the guides" %}</a> {% trans "or just dive in and make a build." %}</p>
+    </section>
+    <style>
+        .fm-home-about { max-width: 820px; margin: 30px auto 6px; padding: 0 14px; line-height: 1.6; }
+        .fm-home-about h2 { text-align: center; font-size: 1.25em; font-weight: bold; margin: 0 0 12px; }
+        .fm-home-about p { margin: 0 0 14px; opacity: 0.88; }
+        .fm-home-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 16px 0; }
+        .fm-home-step { border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; padding: 12px 14px; }
+        .fm-home-step-n { display: inline-block; min-width: 1.6em; height: 1.6em; line-height: 1.6em; text-align: center; border-radius: 50%; background: #6a8f3c; color: #fff; font-weight: bold; margin-right: 6px; }
+    </style>
+</div>
            
     
     

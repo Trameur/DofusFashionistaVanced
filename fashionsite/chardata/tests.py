@@ -136,6 +136,9 @@ class PublicRouteSmokeTests(TestCase):
         for path in ['/', '/about/', '/faq/', '/privacy/', '/support/',
                      '/license/', '/encyclopedia/', '/sharedbuilds/',
                      '/quickstart/', '/smartbuild/', '/forgemagie/',
+                     '/guides/', '/guides/getting-started/',
+                     '/guides/how-it-works/', '/guides/stats-explained/',
+                     '/guides/versions-explained/',
                      '/offline/', '/robots.txt', '/manifest.webmanifest',
                      '/sw.js', '/ads.txt']:
             with self.subTest(path=path):
@@ -298,6 +301,9 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/encyclopedia/', body)
         self.assertNotIn('/retro/encyclopedia/', body)
         self.assertIn('/retro/forgemagie/', body)
+        # Original guide content is listed (hub + at least one article).
+        self.assertIn('https://dofusfashionista.gg/guides/', body)
+        self.assertIn('/guides/getting-started/', body)
 
     def test_manifest_has_pwa_install_icons(self):
         import json
@@ -606,3 +612,55 @@ class RateLimitedErrorFilterTests(SimpleTestCase):
         with mock.patch('chardata.log_filters.cache.get',
                         side_effect=Exception('cache down')):
             self.assertTrue(RateLimitedErrorFilter().filter(rec))
+
+
+@override_settings(
+    STORAGES={
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+    }
+)
+class GuidesContentTests(TestCase):
+    """The Guides section is original editorial content (AdSense "low value
+    content" remedy). It must render in every language, 404 on unknown slugs,
+    and stay self-canonical."""
+
+    def test_hub_lists_every_guide(self):
+        from chardata import guides_content
+        resp = self.client.get('/guides/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        for slug in guides_content.ORDER:
+            self.assertIn('/guides/%s/' % slug, html)
+
+    def test_unknown_guide_is_404(self):
+        self.assertEqual(self.client.get('/guides/not-a-real-guide/').status_code, 404)
+
+    def test_guide_is_self_canonical(self):
+        resp = self.client.get('/guides/getting-started/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        tag = re.search(r'<link[^>]*\brel=["\']?canonical["\']?[^>]*>', html)
+        self.assertIsNotNone(tag)
+        self.assertIn('https://dofusfashionista.gg/guides/getting-started/', tag.group(0))
+
+    def test_guide_body_links_back_into_the_tool(self):
+        # Internal links (SEO + UX): the article body points at real tool pages.
+        resp = self.client.get('/guides/getting-started/')
+        self.assertContains(resp, 'href="/setup/"')
+
+    def test_content_is_translated_per_language(self):
+        # Each language must serve its own hand-written title, not the English one.
+        cases = {
+            'fr': 'ton premier stuff',
+            'es': 'tu primer build',
+            'pt': 'seu primeiro build',
+            'de': 'dein erstes',
+        }
+        for lang, needle in cases.items():
+            with translation.override(lang):
+                resp = self.client.get('/guides/getting-started/',
+                                       headers={'accept-language': lang})
+            html = resp.content.decode('utf-8', 'replace').lower()
+            with self.subTest(lang=lang):
+                self.assertIn(needle, html, msg='%s title missing' % lang)

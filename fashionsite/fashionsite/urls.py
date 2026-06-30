@@ -28,7 +28,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
     coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, forgemagie_view, \
-    inventory_view
+    inventory_view, guides_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -246,6 +246,15 @@ def sitemap_view(request):
     for path, freq, prio in static_paths:
         blocks.append(_sitemap_url(base_url + path, freq, prio))
 
+    # Guides hub + each guide (original editorial content).
+    blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
+    try:
+        from chardata import guides_content
+        for slug in guides_content.ORDER:
+            blocks.append(_sitemap_url('%s/guides/%s/' % (base_url, slug), 'monthly', '0.7'))
+    except Exception:
+        pass
+
     for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
         vbase = '%s/%s' % (base_url, version_slug)
         # /{version}/encyclopedia/ is dofus3 data that canonicalizes to the global
@@ -399,6 +408,8 @@ urlpatterns = [
 
     re_path(r'^infeasible/(?P<char_id>\d+)/', views.infeasible, name='infeasible'),
     re_path(r'^error/(?P<char_id>\d+)/', util_views.error, name='error'),
+    re_path(r'^guides/$', guides_view.guides, name='guides'),
+    re_path(r'^guides/(?P<slug>[a-z0-9-]+)/$', guides_view.guide, name='guide'),
     re_path(r'^about/', views.about, name='about'),
     re_path(r'^license/', views.license_page, name='license_page'),
     re_path(r'^faq/', views.faq, name='faq'),

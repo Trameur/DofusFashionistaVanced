@@ -1,0 +1,53 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{% trans "Dofus build guides & tips" %} · Dofus Fashionista{% endblock %}
+{% block meta_description %}{% trans "Plain-language guides to building characters in Dofus: how to make your first set, how the optimizer works, what every stat is worth, and the differences between Dofus 3, Beta, Dofus 2, Retro and Touch." %}{% endblock %}
+{# Global page; keep a single canonical even if linked from a versioned context. #}
+{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'guides' %}">{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+{% endblock %}
+
+{% block main %}
+<div class="fm-guides-wrap">
+    <h1 class="fm-guides-h1">{% trans "Guides & tips" %}</h1>
+    <p class="fm-guides-intro">{% trans "Short, no-nonsense guides for getting the most out of the Fashionista — and out of your Dofus characters. No fluff, just the stuff that actually changes your build." %}</p>
+
+    <div class="fm-guides-grid">
+        {% for g in guides %}
+        <a class="fm-guide-card" href="{% url 'guide' g.slug %}">
+            <span class="fm-guide-icon" aria-hidden="true">{{ g.icon }}</span>
+            <span class="fm-guide-card-body">
+                <span class="fm-guide-card-title">{{ g.title }}</span>
+                <span class="fm-guide-card-desc">{{ g.desc }}</span>
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+
+    <p class="fm-guides-cta">
+        {% trans "Done reading?" %}
+        <a href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
+        · <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
+    </p>
+</div>
+
+<style>
+.fm-guides-wrap { max-width: 880px; margin: 0 auto; padding: 8px 14px 24px; }
+.fm-guides-h1 { text-align: center; margin: 6px 0 10px; }
+.fm-guides-intro { text-align: center; max-width: 640px; margin: 0 auto 22px; opacity: 0.85; line-height: 1.55; }
+.fm-guides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.fm-guide-card { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; text-decoration: none; color: inherit; transition: background 0.15s, border-color 0.15s; }
+.fm-guide-card:hover { background: rgba(128,128,128,0.10); border-color: rgba(128,128,128,0.55); }
+.fm-guide-icon { font-size: 1.7em; line-height: 1; flex-shrink: 0; }
+.fm-guide-card-body { display: flex; flex-direction: column; min-width: 0; }
+.fm-guide-card-title { font-weight: bold; font-size: 1.05em; margin-bottom: 4px; }
+.fm-guide-card-desc { font-size: 0.9em; opacity: 0.8; line-height: 1.45; }
+.fm-guides-cta { text-align: center; margin-top: 24px; opacity: 0.9; }
+</style>
+{% endblock %}
