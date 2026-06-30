@@ -4788,10 +4788,9 @@ msgid "Exploding Arrow"
 msgstr "Flèche Détonante"
 
 #: fashionsite/chardata/translation_util.py:604
-#, fuzzy
 #| msgid "Tormenting Arrow"
 msgid "Tormenting Arrow 1"
-msgstr "Flèche Persécutrice"
+msgstr "Flèche de Tourment"
 
 #: fashionsite/chardata/translation_util.py:605
 #| msgid "Repulsive Arrow"
@@ -4828,10 +4827,9 @@ msgid "Destructive Bolts"
 msgstr "Carreaux Destructeurs"
 
 #: fashionsite/chardata/translation_util.py:612
-#, fuzzy
 #| msgid "Tormenting Arrow"
 msgid "Tormenting Arrow 2"
-msgstr "Flèche Persécutrice"
+msgstr "Flèche de Tourment"
 
 #: fashionsite/chardata/translation_util.py:613
 #| msgid "Explosive Flask"
