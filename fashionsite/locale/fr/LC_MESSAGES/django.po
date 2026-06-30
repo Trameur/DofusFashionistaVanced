@@ -4727,10 +4727,9 @@ msgid "Darkli Moon Hammer"
 msgstr "Marteau de Darkli Moon"
 
 #: fashionsite/chardata/translation_util.py:591
-#, fuzzy
 #| msgid "No Tofus"
 msgid "Ebony Dofus"
-msgstr "Sans Tofus"
+msgstr "Dofus Ébène"
 
 #: fashionsite/chardata/translation_util.py:592
 msgid "Pestilential Fog"
