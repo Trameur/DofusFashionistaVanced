@@ -138,7 +138,8 @@ class PublicRouteSmokeTests(TestCase):
                      '/quickstart/', '/smartbuild/', '/forgemagie/',
                      '/guides/', '/guides/getting-started/',
                      '/guides/how-it-works/', '/guides/stats-explained/',
-                     '/guides/game-modes/', '/guides/versions-explained/',
+                     '/guides/game-modes/', '/guides/reading-an-item/',
+                     '/guides/versions-explained/',
                      '/offline/', '/robots.txt', '/manifest.webmanifest',
                      '/sw.js', '/ads.txt']:
             with self.subTest(path=path):
