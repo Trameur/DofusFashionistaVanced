@@ -21,7 +21,6 @@
     <div class="fm-guides-grid">
         {% for g in guides %}
         <a class="fm-guide-card" href="{% url 'guide' g.slug %}">
-            <span class="fm-guide-icon" aria-hidden="true">{{ g.icon }}</span>
             <span class="fm-guide-card-body">
                 <span class="fm-guide-card-title">{{ g.title }}</span>
                 <span class="fm-guide-card-desc">{{ g.desc }}</span>
@@ -44,7 +43,6 @@
 .fm-guides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
 .fm-guide-card { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; text-decoration: none; color: inherit; transition: background 0.15s, border-color 0.15s; }
 .fm-guide-card:hover { background: rgba(128,128,128,0.10); border-color: rgba(128,128,128,0.55); }
-.fm-guide-icon { font-size: 1.7em; line-height: 1; flex-shrink: 0; }
 .fm-guide-card-body { display: flex; flex-direction: column; min-width: 0; }
 .fm-guide-card-title { font-weight: bold; font-size: 1.05em; margin-bottom: 4px; }
 .fm-guide-card-desc { font-size: 0.9em; opacity: 0.8; line-height: 1.45; }

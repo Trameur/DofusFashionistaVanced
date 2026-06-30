@@ -43,7 +43,7 @@
         <span>{{ guide.title }}</span>
     </nav>
 
-    <h1 class="fm-guide-title"><span aria-hidden="true">{{ guide.icon }}</span> {{ guide.title }}</h1>
+    <h1 class="fm-guide-title">{{ guide.title }}</h1>
     <p class="fm-guide-lead">{{ guide.lead }}</p>
 
     <div class="fm-guide-body">
@@ -60,7 +60,7 @@
         <h2 class="fm-guide-more-title">{% trans "Keep reading" %}</h2>
         <ul>
             {% for g in other_guides %}
-            <li><a href="{% url 'guide' g.slug %}"><span aria-hidden="true">{{ g.icon }}</span> {{ g.title }}</a></li>
+            <li><a href="{% url 'guide' g.slug %}">{{ g.title }}</a></li>
             {% endfor %}
         </ul>
     </div>

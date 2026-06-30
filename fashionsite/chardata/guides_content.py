@@ -7,8 +7,8 @@ plain data structure rather than the gettext catalogs because long-form
 articles don't belong in .po files, and because every language is written by
 hand so it reads naturally instead of like a machine translation.
 
-Each guide: a slug, an emoji, and a per-language block with title, a short
-description (used for the listing card + meta description), and an HTML body.
+Each guide: a slug and a per-language block with title, a short description
+(used for the listing card + meta description), and an HTML body.
 The body uses simple markup (h2/p/ul/li/a/strong) and links back into the tool
 with root-relative URLs so the version namespace doesn't matter.
 """
@@ -20,7 +20,6 @@ ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'versions-explain
 GUIDES = {
     # ------------------------------------------------------------------ #
     'getting-started': {
-        'icon': '🧭',
         'i18n': {
             'en': {
                 'title': 'Your first Dofus build, step by step',
@@ -172,7 +171,6 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'how-it-works': {
-        'icon': '⚙️',
         'i18n': {
             'en': {
                 'title': 'How the optimizer actually works',
@@ -309,7 +307,6 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'stats-explained': {
-        'icon': '📊',
         'i18n': {
             'en': {
                 'title': 'Dofus stats, and how much each one is worth',
@@ -446,7 +443,6 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'versions-explained': {
-        'icon': '🗂️',
         'i18n': {
             'en': {
                 'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch — which one are you on?',
@@ -592,7 +588,7 @@ def _lang(code):
 
 
 def list_guides(language_code):
-    """Return [{slug, icon, title, desc}] in display order for a language."""
+    """Return [{slug, title, desc}] in display order for a language."""
     lang = _lang(language_code)
     out = []
     for slug in ORDER:
@@ -600,7 +596,6 @@ def list_guides(language_code):
         block = guide['i18n'].get(lang) or guide['i18n']['en']
         out.append({
             'slug': slug,
-            'icon': guide['icon'],
             'title': block['title'],
             'desc': block['desc'],
         })
@@ -608,12 +603,12 @@ def list_guides(language_code):
 
 
 def get_guide(slug, language_code):
-    """Return {slug, icon, title, desc, lead, body} or None if slug unknown."""
+    """Return {slug, title, desc, lead, body} or None if slug unknown."""
     guide = GUIDES.get(slug)
     if not guide:
         return None
     lang = _lang(language_code)
     block = guide['i18n'].get(lang) or guide['i18n']['en']
-    data = {'slug': slug, 'icon': guide['icon']}
+    data = {'slug': slug}
     data.update(block)
     return data
