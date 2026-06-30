@@ -397,19 +397,19 @@
     <div align="center" style="margin-top: 15px;">
         <button id="like_button" class="button-generic {% if user_liked %}button-voted{% endif %}" 
                 onclick="voteBuild({{ char_id }}, 'like')" style="margin-right: 10px;">
-            <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> <span id="like_text">{% if user_liked %}{% trans "Unlike" %}{% else %}{% trans "Like" %}{% endif %}</span> 
+            <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_text">{% if user_liked %}{% trans "Unlike" %}{% else %}{% trans "Like" %}{% endif %}</span> 
             (<span id="like_count">{{ like_count }}</span>)
         </button>
         <button id="favorite_button" class="button-generic {% if user_favorited %}button-voted{% endif %}"
                 onclick="voteBuild({{ char_id }}, 'favorite')">
-            <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> <span id="favorite_text">{% if user_favorited %}{% trans "Unfavorite" %}{% else %}{% trans "Favorite" %}{% endif %}</span> 
+            <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span id="favorite_text">{% if user_favorited %}{% trans "Unfavorite" %}{% else %}{% trans "Favorite" %}{% endif %}</span> 
             (<span id="favorite_count">{{ favorite_count }}</span>)
         </button>
     </div>
     {% elif link_shared %}
     <div align="center" style="margin-top: 15px; color: #888;">
-        <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> <span id="like_count">{{ like_count }}</span> {% trans "Likes" %} | 
-        <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> <span id="favorite_count">{{ favorite_count }}</span> {% trans "Favorites" %}
+        <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_count">{{ like_count }}</span> {% trans "Likes" %} | 
+        <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span id="favorite_count">{{ favorite_count }}</span> {% trans "Favorites" %}
     </div>
     {% endif %}
     {% endif %}
@@ -1402,7 +1402,7 @@
             $.each(itemIds, function(slot, itemId) {
                 if (itemId && ownedItemIds.indexOf(itemId) !== -1) {
                     $("#item-name-" + slot).append(
-                        " <span title='" + gettext("In my inventory") + "'>🎒</span>");
+                        " <span title='" + gettext("In my inventory") + "'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M21 8l-9-5-9 5v8l9 5 9-5z'/><path d='M3 8l9 5 9-5'/><path d='M12 13v8'/></svg></span>");
                 }
             });
             {% endif %}

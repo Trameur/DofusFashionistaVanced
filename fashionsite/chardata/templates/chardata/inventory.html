@@ -284,7 +284,7 @@
             </div>
 
             <div style="margin-top:8px;">
-                <button type="button" class="button-thin" id="inv-ocr-toggle">📷 {{ t.ocr_button }}</button>
+                <button type="button" class="button-thin" id="inv-ocr-toggle"><span class="fm-ico fm-ico-camera" aria-hidden="true"></span> {{ t.ocr_button }}</button>
             </div>
             <div class="inv-ocr-box" id="inv-ocr-box" style="display:none;">
                 <p class="small-explain">{{ t.ocr_hint }}</p>
@@ -342,7 +342,7 @@
                         <div class="inv-card-actions">
                             {% if not item.missing %}
                             <a class="button-thin"
-                               href="{% game_url 'forgemagie' %}?inv={{ item.id }}">⚒ {{ t.to_forgemagie }}</a>
+                               href="{% game_url 'forgemagie' %}?inv={{ item.id }}"><span class="fm-ico fm-ico-forge" aria-hidden="true"></span> {{ t.to_forgemagie }}</a>
                             <button type="button" class="button-thin inv-edit"
                                     data-inv-id="{{ item.id }}">{{ t.edit_rolls }}</button>
                             {% endif %}

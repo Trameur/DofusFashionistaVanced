@@ -100,19 +100,19 @@
 
         <div class="profile-stats">
             <div class="profile-stat">
-                <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> <span class="profile-stat-value">{{ total_likes_received }}</span>
+                <span class="fm-st fm-st-like" aria-hidden="true"></span> <span class="profile-stat-value">{{ total_likes_received }}</span>
                 {% trans "likes received" %}
             </div>
             <div class="profile-stat">
-                <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> <span class="profile-stat-value">{{ total_favorites_received }}</span>
+                <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span class="profile-stat-value">{{ total_favorites_received }}</span>
                 {% trans "favorites received" %}
             </div>
             <div class="profile-stat">
-                <span class="fm-st fm-st-view" aria-hidden="true">👁</span> <span class="profile-stat-value">{{ total_views }}</span>
+                <span class="fm-st fm-st-view" aria-hidden="true"></span> <span class="profile-stat-value">{{ total_views }}</span>
                 {% trans "views" %}
             </div>
             <div class="profile-stat">
-                📦 <span class="profile-stat-value">{{ builds|length }}</span>
+                <span class="fm-st fm-st-builds" aria-hidden="true"></span> <span class="profile-stat-value">{{ builds|length }}</span>
                 {% trans "shared builds" %}
             </div>
         </div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="profile-build-meta">
                     {{ b.char.char_class }} · {% trans "lvl" %} {{ b.char.level }}
-                    · <span class="fm-st fm-st-like" aria-hidden="true">❤️</span> {{ b.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true">⭐</span> {{ b.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true">👁</span> {{ b.view_count }}
+                    · <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ b.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ b.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ b.view_count }}
                 </div>
             </a>
             {% endfor %}

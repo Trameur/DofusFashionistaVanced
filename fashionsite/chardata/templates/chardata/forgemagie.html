@@ -329,7 +329,7 @@
         <div class="fm-search-hint small-explain">{{ t.search_hint }}</div>
         {% if user.is_authenticated %}
         <label class="small-explain" style="display:block;margin-top:4px;cursor:pointer;">
-            <input type="checkbox" id="fm-search-inventory"> 🎒 {{ t.search_inventory }}
+            <input type="checkbox" id="fm-search-inventory"> <span class="fm-ico fm-ico-bag" aria-hidden="true"></span> {{ t.search_inventory }}
         </label>
         {% endif %}
 
@@ -404,7 +404,7 @@
                 <div class="small-explain fm-sim-mode-hint" id="fm-sim-mode-hint"></div>
             </div>
             <div class="fm-sim-meters" id="fm-sim-meters"></div>
-            <div class="fm-sim-stop" id="fm-sim-stop" style="display:none;">{{ t.sim_sink_empty }}</div>
+            <div class="fm-sim-stop" id="fm-sim-stop" style="display:none;"><span class="fm-ico fm-ico-warn" aria-hidden="true"></span> {{ t.sim_sink_empty }}</div>
             <div class="fm-quality" id="fm-sim-quality" style="display:none;"></div>
             <div class="fm-table-wrapper">
                 <table class="fm-table">
@@ -1984,7 +1984,7 @@
                     sacBtn.type = 'button';
                     sacBtn.className = 'button-thin fm-sac-btn'
                         + (row.sacrifice ? ' fm-active' : '');
-                    sacBtn.textContent = '✂';
+                    sacBtn.innerHTML = '<span class="fm-ico fm-ico-cut" aria-hidden="true"></span>';
                     sacBtn.title = t.sim_sacrifice;
                     sacBtn.onclick = function() {
                         row.sacrifice = !row.sacrifice;
@@ -1997,10 +1997,10 @@
 
                 var remainingTd = document.createElement('td');
                 if (row.sacrifice && row.value > 0) {
-                    remainingTd.textContent = row.value + ' ✂';
+                    remainingTd.innerHTML = row.value + ' <span class="fm-ico fm-ico-cut" aria-hidden="true"></span>';
                     remainingTd.className = 'fm-warn';
                 } else if (reached) {
-                    remainingTd.textContent = '✓';
+                    remainingTd.innerHTML = '<span class="fm-ico fm-ico-check" aria-hidden="true"></span>';
                     remainingTd.className = 'fm-ok';
                 } else {
                     remainingTd.textContent = String(remaining);

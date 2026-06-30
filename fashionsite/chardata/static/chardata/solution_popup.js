@@ -584,7 +584,7 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
     $.each(items, function(key, item) {
         var headerString = item.localized_name;
         if (item.owned) {
-            headerString += " <span title='" + gettext("In my inventory") + "'>🎒</span>";
+            headerString += " <span title='" + gettext("In my inventory") + "'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M21 8l-9-5-9 5v8l9 5 9-5z'/><path d='M3 8l9 5 9-5'/><path d='M12 13v8'/></svg></span>";
         }
         headerString += '<br>' + gettext('Lvl.')+ ' ' + item.level;
         var violationsString = setItemViolations(item, violations, char_id);
