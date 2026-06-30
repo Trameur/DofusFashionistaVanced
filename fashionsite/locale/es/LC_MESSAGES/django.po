@@ -2292,10 +2292,10 @@ msgid "%% Ranged Resist"
 msgstr "% Resistencia Distancia"
 
 #: chardata/templates/chardata/solution.html:243
-#, fuzzy, python-format
+#, python-format
 #| msgid "%% Water Resist"
 msgid "%% Weapon Resist"
-msgstr "% Resistencia Agua"
+msgstr "% Resistencia Armas"
 
 #: chardata/templates/chardata/solution.html:375
 #: chardata/templates/chardata/solution.html:388
@@ -4765,10 +4765,9 @@ msgid "Scythe"
 msgstr "Guadaña"
 
 #: chardata/translation_util.py:633
-#, fuzzy
 #| msgid "Chance"
 msgid "Lance"
-msgstr "Suerte"
+msgstr "Pica"
 
 #: chardata/wizard_sliders.py:35
 msgctxt "Slider section"

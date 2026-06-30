@@ -4569,16 +4569,14 @@ msgid "Seismic Pike"
 msgstr "Seismic Pike"
 
 #: fashionsite/chardata/translation_util.py:555
-#, fuzzy
 #| msgid "Lightning Fist"
 msgid "Lightning-Javelin"
-msgstr "Poing Fulgurant"
+msgstr "Javelot-foudre"
 
 #: fashionsite/chardata/translation_util.py:556
-#, fuzzy
 #| msgid "Forgelance"
 msgid "Fire Lance"
-msgstr "Forgelance"
+msgstr "Lance à Incendie"
 
 #: fashionsite/chardata/translation_util.py:557
 msgid "No Myr Javelin"
@@ -4597,22 +4595,19 @@ msgid "Parry"
 msgstr "Parry"
 
 #: fashionsite/chardata/translation_util.py:561
-#, fuzzy
 #| msgid "Collapse All"
 msgid "Collapse"
-msgstr "Tout réduire"
+msgstr "Effondrement"
 
 #: fashionsite/chardata/translation_util.py:562
-#, fuzzy
 #| msgid "Trident"
 msgid "Biting Trident"
-msgstr "Foène"
+msgstr "Trident de la Mer"
 
 #: fashionsite/chardata/translation_util.py:563
-#, fuzzy
 #| msgid "Not Charged"
 msgid "Heroic Charge"
-msgstr "Non chargée"
+msgstr "Charge Héroïque"
 
 #: fashionsite/chardata/translation_util.py:564
 msgid "Brass Rain"
@@ -4623,10 +4618,9 @@ msgid "Spicy Mill"
 msgstr "Spicy Mill"
 
 #: fashionsite/chardata/translation_util.py:566
-#, fuzzy
 #| msgid "Burning Stroke"
 msgid "Burning Estoc"
-msgstr "Trait Ardent"
+msgstr "Estoc Brûlant"
 
 #: fashionsite/chardata/translation_util.py:567
 msgid "Brass Volley"
@@ -4649,10 +4643,9 @@ msgid "Windmill"
 msgstr "Windmill"
 
 #: fashionsite/chardata/translation_util.py:572
-#, fuzzy
 #| msgid "Earth Resist"
 msgid "Earthen Weakness"
-msgstr "Résistance Terre"
+msgstr "Talon d'Argile"
 
 #: fashionsite/chardata/translation_util.py:573
 msgid "Kyrja"
@@ -4679,16 +4672,14 @@ msgid "Iron Prelude"
 msgstr "Iron Prelude"
 
 #: fashionsite/chardata/translation_util.py:579
-#, fuzzy
 #| msgid "Sun Lance"
 msgid "Cyclone Lancer"
-msgstr "Lance Solaire"
+msgstr "Lance-cyclone"
 
 #: fashionsite/chardata/translation_util.py:580
-#, fuzzy
 #| msgid "Lightning Strike"
 msgid "Grunob's Lightning Strike"
-msgstr "Foudroiement"
+msgstr "Foudroiement de Grunob"
 
 #: fashionsite/chardata/translation_util.py:581
 msgid "Grunob's Lesson"
@@ -4705,16 +4696,14 @@ msgid "Muspell"
 msgstr "(sorts)"
 
 #: fashionsite/chardata/translation_util.py:584
-#, fuzzy
 #| msgid "Raiding"
 msgid "Elding"
-msgstr "Pillage"
+msgstr "Elding"
 
 #: fashionsite/chardata/translation_util.py:585
-#, fuzzy
 #| msgid "Burning Circle"
 msgid "Burnt Pie"
-msgstr "Cercle Brûlant"
+msgstr "Flamèche"
 
 #: fashionsite/chardata/translation_util.py:586
 msgid "Crocobur's Appetite"
@@ -4733,10 +4722,9 @@ msgid "Kanniboil"
 msgstr "Kanniboil"
 
 #: fashionsite/chardata/translation_util.py:590
-#, fuzzy
 #| msgid "Moon Hammer"
 msgid "Darkli Moon Hammer"
-msgstr "Marteau de Moon"
+msgstr "Marteau de Darkli Moon"
 
 #: fashionsite/chardata/translation_util.py:591
 #, fuzzy
@@ -4753,10 +4741,9 @@ msgid "Middle Earth"
 msgstr "Middle Earth"
 
 #: fashionsite/chardata/translation_util.py:594
-#, fuzzy
 #| msgid "No"
 msgid "Noa"
-msgstr "Non"
+msgstr "Noa"
 
 #: fashionsite/chardata/translation_util.py:595
 msgid "Mantiscroc"
@@ -4767,44 +4754,38 @@ msgid "Dart Mocles"
 msgstr "Dart Mocles"
 
 #: fashionsite/chardata/translation_util.py:597
-#, fuzzy
 #| msgid "Perfidious Boomerang"
 msgid "Diamondine Boomerang"
-msgstr "Boomerang Perfide"
+msgstr "Boomerang de Diamantine"
 
 #: fashionsite/chardata/translation_util.py:598
-#, fuzzy
 #| msgid "Tyrannical Arrow"
 msgid "Optical Arrow"
-msgstr "Flèche Tyrannique"
+msgstr "Flèche Optique"
 
 #: fashionsite/chardata/translation_util.py:599
-#, fuzzy
 #| msgid "Assailing Arrow"
 msgid "Raining Arrows"
-msgstr "Flèche Assaillante"
+msgstr "Pluie de Flèches"
 
 #: fashionsite/chardata/translation_util.py:600
-#, fuzzy
 #| msgid "Clobbering"
 msgid "Covering Fire"
-msgstr "Déchaînement"
+msgstr "Tir de Couverture"
 
 #: fashionsite/chardata/translation_util.py:601
-#, fuzzy
 #| msgid "Assailing Arrow"
 msgid "Immobilising Arrow"
-msgstr "Flèche Assaillante"
+msgstr "Flèche d'Immobilisation"
 
 #: fashionsite/chardata/translation_util.py:602
 msgid "Piercing Shots"
 msgstr "Piercing Shots"
 
 #: fashionsite/chardata/translation_util.py:603
-#, fuzzy
 #| msgid "Explosive Arrow"
 msgid "Exploding Arrow"
-msgstr "Flèche Explosive"
+msgstr "Flèche Détonante"
 
 #: fashionsite/chardata/translation_util.py:604
 #, fuzzy
@@ -4813,44 +4794,38 @@ msgid "Tormenting Arrow 1"
 msgstr "Flèche Persécutrice"
 
 #: fashionsite/chardata/translation_util.py:605
-#, fuzzy
 #| msgid "Repulsive Arrow"
 msgid "Repulsive Shot"
-msgstr "Flèche Répulsive"
+msgstr "Tir répulsif"
 
 #: fashionsite/chardata/translation_util.py:606
-#, fuzzy
 #| msgid "Burning Arrow"
 msgid "Burning Arrows"
-msgstr "Flèche Enflammée"
+msgstr "Flèches Enflammées"
 
 #: fashionsite/chardata/translation_util.py:607
-#, fuzzy
 #| msgid "Retreat Arrow"
 msgid "Retreating Shot"
-msgstr "Flèche de Recul"
+msgstr "Tir de Recul"
 
 #: fashionsite/chardata/translation_util.py:608
-#, fuzzy
 #| msgid "Paralyzing Arrow"
 msgid "Paralysing Arrow"
-msgstr "Flèche d'Immobilisation"
+msgstr "Flèche Paralysante"
 
 #: fashionsite/chardata/translation_util.py:609
 msgid "Piercing Shot"
 msgstr "Piercing Shot"
 
 #: fashionsite/chardata/translation_util.py:610
-#, fuzzy
 #| msgid "Powerful Shooting"
 msgid "Powerful Shots"
-msgstr "Tir Puissant"
+msgstr "Tirs Puissants"
 
 #: fashionsite/chardata/translation_util.py:611
-#, fuzzy
 #| msgid "Destructive Arrow"
 msgid "Destructive Bolts"
-msgstr "Flèche Destructrice"
+msgstr "Carreaux Destructeurs"
 
 #: fashionsite/chardata/translation_util.py:612
 #, fuzzy
@@ -4859,38 +4834,33 @@ msgid "Tormenting Arrow 2"
 msgstr "Flèche Persécutrice"
 
 #: fashionsite/chardata/translation_util.py:613
-#, fuzzy
 #| msgid "Explosive Flask"
 msgid "Explosive Palm"
-msgstr "Flasque Explosive"
+msgstr "Paume Explosive"
 
 #: fashionsite/chardata/translation_util.py:614
-#, fuzzy
 #| msgid "Last Breath"
 msgid "Fiery Breath"
-msgstr "Dernier Souffle"
+msgstr "Souffle enflammé"
 
 #: fashionsite/chardata/translation_util.py:615
 msgid "Brandy"
 msgstr "Brandy"
 
 #: fashionsite/chardata/translation_util.py:616
-#, fuzzy
 #| msgid "Water"
 msgid "Waterfall"
-msgstr "Eau"
+msgstr "Cascade"
 
 #: fashionsite/chardata/translation_util.py:617
-#, fuzzy
 #| msgid "Pandawa"
 msgid "Pandawa's Hand"
-msgstr "Pandawa"
+msgstr "Main de Pandawa"
 
 #: fashionsite/chardata/translation_util.py:618
-#, fuzzy
 #| msgid "Strength"
 msgid "Stretcher"
-msgstr "Force"
+msgstr "Brancard"
 
 #: fashionsite/chardata/translation_util.py:622
 msgid "25% chance of"
@@ -5278,10 +5248,9 @@ msgid "Scythe"
 msgstr "Faux"
 
 #: fashionsite/chardata/translation_util.py:721
-#, fuzzy
 #| msgid "Chance"
 msgid "Lance"
-msgstr "Chance"
+msgstr "Lance"
 
 #: fashionsite/chardata/wizard_sliders.py:35
 msgctxt "Slider section"
