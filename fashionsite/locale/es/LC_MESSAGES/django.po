@@ -2232,22 +2232,22 @@ msgid "Base"
 msgstr "Base"
 
 #: chardata/templates/chardata/solution.html:150
-#, fuzzy, python-format
+#, python-format
 msgid "%% Melee Damage"
 msgstr "% Daños CaC"
 
 #: chardata/templates/chardata/solution.html:152
-#, fuzzy, python-format
+#, python-format
 msgid "%% Ranged Damage"
 msgstr "% Daños Distancia"
 
 #: chardata/templates/chardata/solution.html:154
-#, fuzzy, python-format
+#, python-format
 msgid "%% Weapon Damage"
 msgstr "% Daños de Armas"
 
 #: chardata/templates/chardata/solution.html:156
-#, fuzzy, python-format
+#, python-format
 msgid "%% Spell Damage"
 msgstr "% Daños de hechizos"
 
@@ -2257,37 +2257,37 @@ msgid "%% Trap Damage"
 msgstr "Potencia (Trampas)"
 
 #: chardata/templates/chardata/solution.html:229
-#, fuzzy, python-format
+#, python-format
 msgid "%% Neutral Resist"
 msgstr "% Resistencia Neutral"
 
 #: chardata/templates/chardata/solution.html:231
-#, fuzzy, python-format
+#, python-format
 msgid "%% Earth Resist"
 msgstr "% Resistencia Tierra"
 
 #: chardata/templates/chardata/solution.html:233
-#, fuzzy, python-format
+#, python-format
 msgid "%% Fire Resist"
 msgstr "% Resistencia Fuego"
 
 #: chardata/templates/chardata/solution.html:235
-#, fuzzy, python-format
+#, python-format
 msgid "%% Water Resist"
 msgstr "% Resistencia Agua"
 
 #: chardata/templates/chardata/solution.html:237
-#, fuzzy, python-format
+#, python-format
 msgid "%% Air Resist"
 msgstr "% Resistencia Aire"
 
 #: chardata/templates/chardata/solution.html:239
-#, fuzzy, python-format
+#, python-format
 msgid "%% Melee Resist"
 msgstr "% Resistencia CaC"
 
 #: chardata/templates/chardata/solution.html:241
-#, fuzzy, python-format
+#, python-format
 msgid "%% Ranged Resist"
 msgstr "% Resistencia Distancia"
 

@@ -2230,22 +2230,22 @@ msgid "Base"
 msgstr "Base"
 
 #: chardata/templates/chardata/solution.html:150
-#, fuzzy, python-format
+#, python-format
 msgid "%% Melee Damage"
 msgstr "% danos corpo a corpo"
 
 #: chardata/templates/chardata/solution.html:152
-#, fuzzy, python-format
+#, python-format
 msgid "%% Ranged Damage"
 msgstr "% danos distância"
 
 #: chardata/templates/chardata/solution.html:154
-#, fuzzy, python-format
+#, python-format
 msgid "%% Weapon Damage"
 msgstr "% danos armas"
 
 #: chardata/templates/chardata/solution.html:156
-#, fuzzy, python-format
+#, python-format
 msgid "%% Spell Damage"
 msgstr "% danos feitiços"
 
