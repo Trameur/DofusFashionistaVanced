@@ -6885,11 +6885,12 @@ msgstr "Build intelligent"
 #: ui-i18n
 msgid ""
 "Describe your character in plain words — class, level, element, playstyle — "
-"and we'll build it. Works in English, French, Spanish and Portuguese."
+"and we'll build it. Works in English, French, Spanish, Portuguese and "
+"German."
 msgstr ""
 "Décrivez votre personnage avec des mots simples — classe, niveau, élément, "
 "style de jeu — et nous le construisons. Fonctionne en anglais, français, "
-"espagnol et portugais."
+"espagnol, portugais et allemand."
 
 #: ui-i18n
 msgid "Log in to save this build to your account."

@@ -9,7 +9,7 @@
 
 Turns a free-text query like "Iop 200 terre PvM" or "Cra agi pvp niveau 150"
 into structured build parameters. No LLM — pure multilingual keyword matching
-(FR / EN / ES / PT), so it works offline, instantly and for free.
+(FR / EN / ES / PT / DE), so it works offline, instantly and for free.
 
 Output: dict with char_class, level, element_aspect (str/int/cha/agi/omni or
 None), style (solo_pvm / group_pvm / pvp / farm) and the derived aspect set.
@@ -30,22 +30,27 @@ def _normalize(text):
 # Element keyword (normalized, accent-folded) -> elemental aspect.
 # Dofus mapping: Earth=Strength, Fire=Intelligence, Water=Chance, Air=Agility.
 _ELEMENT_WORDS = {
-    'str': ['terre', 'earth', 'tierra', 'terra', 'force', 'strength', 'fuerza', 'forca'],
-    'int': ['feu', 'fire', 'fuego', 'fogo', 'intelligence', 'intelligence', 'inteligencia', 'int'],
-    'cha': ['eau', 'water', 'agua', 'chance', 'luck', 'suerte', 'sorte', 'cha'],
-    'agi': ['air', 'aire', 'ar', 'agilite', 'agility', 'agilidad', 'agilidade', 'agi'],
+    'str': ['terre', 'earth', 'tierra', 'terra', 'erde', 'force', 'strength', 'fuerza',
+            'forca', 'starke'],
+    'int': ['feu', 'fire', 'fuego', 'fogo', 'feuer', 'intelligence', 'inteligencia', 'int',
+            'intelligenz'],
+    'cha': ['eau', 'water', 'agua', 'wasser', 'chance', 'luck', 'suerte', 'sorte', 'cha'],
+    'agi': ['air', 'aire', 'ar', 'luft', 'agilite', 'agility', 'agilidad', 'agilidade',
+            'agi', 'beweglichkeit'],
     'omni': ['omni', 'multi', 'multielement', 'multielemento', 'omnielement', 'polyvalent'],
 }
 
 # Style keyword -> coaching style key.
 _STYLE_WORDS = {
-    'pvp': ['pvp', 'kolizeum', 'koli', 'arene', 'arena', 'duel', 'duelo'],
+    'pvp': ['pvp', 'kolizeum', 'koli', 'arene', 'arena', 'duel', 'duelo', 'kolosseum', 'duell'],
     'group_pvm': ['tank', 'tanky', 'tanky', 'tanque', 'support', 'soutien', 'soin', 'heal',
                   'healer', 'soigneur', 'sanador', 'curandeiro', 'group', 'groupe', 'grupo',
-                  'donjon', 'dungeon', 'mazmorra', 'masmorra'],
+                  'donjon', 'dungeon', 'mazmorra', 'masmorra', 'verlies', 'gruppe', 'heilung',
+                  'heiler', 'unterstutzung'],
     'farm': ['farm', 'farming', 'drop', 'prospection', 'prospecting', 'pp', 'xp', 'exp',
-             'level', 'leveling', 'levelup', 'rush', 'sagesse', 'wisdom', 'recolte'],
-    'solo_pvm': ['pvm', 'pve', 'solo', 'dps', 'damage', 'degats', 'dmg', 'mono'],
+             'level', 'leveling', 'levelup', 'rush', 'sagesse', 'wisdom', 'recolte', 'farmen',
+             'prospektion', 'weisheit'],
+    'solo_pvm': ['pvm', 'pve', 'solo', 'dps', 'damage', 'degats', 'dmg', 'mono', 'schaden'],
 }
 
 _STYLE_BASE_ASPECTS = {
@@ -61,21 +66,21 @@ _STYLE_BASE_ASPECTS = {
 # aspects (ASPECT_TO_SHORT_NAME / ALL_ASPECTS_LIST).
 _ASPECT_WORDS = {
     'heal': ['heal', 'heals', 'healer', 'soin', 'soins', 'soigneur', 'sanador',
-             'curandeiro', 'cura'],
+             'curandeiro', 'cura', 'heilung', 'heiler'],
     'summon': ['summon', 'summons', 'summoner', 'invocation', 'invocations',
-               'invoc', 'invocateur', 'invocador', 'invocador'],
+               'invoc', 'invocateur', 'invocador', 'invocador', 'beschworung', 'beschworer'],
     'trap': ['trap', 'traps', 'piege', 'pieges', 'trampa', 'trampas',
-             'armadilha', 'armadilhas'],
+             'armadilha', 'armadilhas', 'falle', 'fallen'],
     'pushback': ['pushback', 'poussee', 'repousse', 'empuje', 'empurrao'],
     'crit': ['crit', 'crits', 'critique', 'critiques', 'critico', 'critica',
-             'critical'],
+             'critical', 'kritisch'],
     'res': ['res', 'resistance', 'resistances', 'resist', 'resistencia',
-            'resistencias'],
+            'resistencias', 'resistenz'],
     'vit': ['vit', 'vita', 'vitalite', 'vitality', 'vitalidad', 'vitalidade',
-            'tank', 'tanky', 'tanque'],
-    'pp': ['pp', 'prospection', 'prospecting', 'prospeccion', 'drop'],
-    'wis': ['wis', 'wisdom', 'sagesse', 'sabiduria', 'sabedoria'],
-    'pods': ['pods', 'pod', 'pano'],
+            'tank', 'tanky', 'tanque', 'vitalitat'],
+    'pp': ['pp', 'prospection', 'prospecting', 'prospeccion', 'drop', 'prospektion'],
+    'wis': ['wis', 'wisdom', 'sagesse', 'sabiduria', 'sabedoria', 'weisheit'],
+    'pods': ['pods', 'pod', 'pano', 'schoten'],
 }
 
 _CLASS_DEFAULT_ELEMENT = {
@@ -88,8 +93,8 @@ _CLASS_DEFAULT_ELEMENT = {
 
 
 # Extra class aliases on top of the canonical English names: official French
-# names (which differ for several classes) and the abbreviations players
-# actually type. All normalized/accent-folded at index build time.
+# and German names (which differ for several classes) and the abbreviations
+# players actually type. All normalized/accent-folded at index build time.
 _EXTRA_CLASS_ALIASES = {
     'Cra': ['craa', 'archer'],
     'Ecaflip': ['eca', 'ecaf', 'eca'],
@@ -97,16 +102,16 @@ _EXTRA_CLASS_ALIASES = {
     'Eniripsa': ['eni', 'enni', 'enirispa'],
     'Enutrof': ['enu', 'enutrofe'],
     'Feca': ['fec', 'feka'],
-    'Foggernaut': ['fog', 'fogger', 'steamer'],          # FR: Steamer
-    'Forgelance': ['forge', 'forgel'],
-    'Huppermage': ['hupper', 'hupp', 'huppe'],
+    'Foggernaut': ['fog', 'fogger', 'steamer'],          # FR/DE: Steamer
+    'Forgelance': ['forge', 'forgel', 'speerschmied'],   # DE: Speerschmied
+    'Huppermage': ['hupper', 'hupp', 'huppe', 'ubermagier'],  # DE: Übermagier
     'Iop': [],
-    'Masqueraider': ['masque', 'masq', 'masqu', 'zobal'],  # FR: Zobal
+    'Masqueraider': ['masque', 'masq', 'masqu', 'zobal', 'maskerador'],  # FR: Zobal, DE: Maskerador
     'Osamodas': ['osa', 'osamo'],
     'Ouginak': ['ougi', 'ougie'],
     'Pandawa': ['panda', 'panda'],
-    'Rogue': ['roub', 'roublard'],                         # FR: Roublard
-    'Sacrier': ['sacri', 'sacrieur', 'sacro', 'sacra'],    # FR: Sacrieur
+    'Rogue': ['roub', 'roublard', 'halsabschneider'],    # FR: Roublard, DE: Halsabschneider
+    'Sacrier': ['sacri', 'sacrieur', 'sacro', 'sacra'],  # FR/DE: Sacrieur
     'Sadida': ['sadi', 'sadid'],
     'Sram': ['srama'],
     'Xelor': ['xel', 'xelors'],
@@ -148,7 +153,7 @@ def _match_class(tokens):
 
 def _match_level(normalized_text):
     # Prefer a number near a level keyword, else any 1-3 digit number.
-    m = re.search(r'(?:niveau|level|nivel|nivel|lvl|niv)\s*[:.]?\s*(\d{1,3})', normalized_text)
+    m = re.search(r'(?:niveau|level|nivel|lvl|niv|stufe)\s*[:.]?\s*(\d{1,3})', normalized_text)
     if m:
         return _clamp_level(int(m.group(1)))
     nums = re.findall(r'\b(\d{1,3})\b', normalized_text)

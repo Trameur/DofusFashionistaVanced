@@ -666,3 +666,50 @@ class GuidesContentTests(TestCase):
             html = resp.content.decode('utf-8', 'replace').lower()
             with self.subTest(lang=lang):
                 self.assertIn(needle, html, msg='%s title missing' % lang)
+
+
+class NlParserTests(SimpleTestCase):
+    """The smart-build natural-language parser must understand all five UI
+    languages. German was added last; these lock in the German class names,
+    elements, styles and aspects (official Ankama names, sourced from the de
+    translations) so the feature stays complete."""
+
+    def _parse(self, text):
+        from chardata.nl_parser import parse_build_request
+        return parse_build_request(text)
+
+    def test_german_class_names(self):
+        cases = {
+            'Halsabschneider': 'Rogue',
+            'Speerschmied': 'Forgelance',
+            'Übermagier': 'Huppermage',
+            'Maskerador': 'Masqueraider',
+            'Steamer': 'Foggernaut',
+            'Sacrieur': 'Sacrier',
+        }
+        for word, expected in cases.items():
+            with self.subTest(word=word):
+                self.assertEqual(self._parse('%s 200' % word)['char_class'], expected)
+
+    def test_german_elements(self):
+        cases = {'Feuer': 'int', 'Erde': 'str', 'Wasser': 'cha', 'Luft': 'agi'}
+        for word, expected in cases.items():
+            with self.subTest(word=word):
+                self.assertEqual(self._parse('Iop %s' % word)['element'], expected)
+
+    def test_german_level_keyword(self):
+        self.assertEqual(self._parse('Cra Stufe 150 Luft')['level'], 150)
+
+    def test_german_styles_and_aspects(self):
+        r = self._parse('Maskerador Beweglichkeit Verlies Heiler')
+        self.assertEqual(r['char_class'], 'Masqueraider')
+        self.assertEqual(r['style'], 'group_pvm')
+        self.assertIn('heal', r['extra_aspects'])
+        self.assertEqual(self._parse('Enutrof Prospektion farmen')['style'], 'farm')
+        self.assertIn('trap', self._parse('Sram Falle')['extra_aspects'])
+
+    def test_existing_languages_still_parse(self):
+        # Guard against regressions in the FR/EN keyword sets while extending DE.
+        self.assertEqual(self._parse('Iop 200 terre PvM')['char_class'], 'Iop')
+        self.assertEqual(self._parse('Iop 200 terre PvM')['element'], 'str')
+        self.assertEqual(self._parse('Cra agi pvp niveau 150')['style'], 'pvp')
