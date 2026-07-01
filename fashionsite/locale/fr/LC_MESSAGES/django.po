@@ -2585,7 +2585,7 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/stats.html:33
 msgid "%% Spells Damage"
-msgstr "% Dommages aux Sorts"
+msgstr "%% Dommages aux Sorts"
 
 #: fashionsite/chardata/templates/chardata/stats.html:66
 msgid "All Resists"
@@ -2593,7 +2593,7 @@ msgstr "Toutes les Résistances (Fixe)"
 
 #: fashionsite/chardata/templates/chardata/stats.html:73
 msgid "All %% Resists"
-msgstr "Toutes les Résistances (%)"
+msgstr "Toutes les Résistances (%%)"
 
 #: fashionsite/chardata/templates/chardata/thankyou.html:12
 msgid "Your message has been sent."
