@@ -148,6 +148,15 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertEqual(resp.status_code, 200,
                                  msg='%s -> %s' % (path, resp.status_code))
 
+    def test_smart_build_understands_a_german_query(self):
+        # POST a German description (no confirm) -> the view echoes the parsed
+        # class, proving the German keywords work end to end (view + template),
+        # not just in the parser unit tests. "Halsabschneider" is the German
+        # class name for Rogue.
+        resp = self.client.post('/smartbuild/', {'q': 'Halsabschneider Stufe 150 Luft'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Rogue')
+
     def test_compare_cart_injected_in_base(self):
         # The comparison cart (add a build from anywhere, compare in one click)
         # is injected site-wide: header cart container, i18n config, script.
