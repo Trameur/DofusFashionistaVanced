@@ -8,12 +8,12 @@
 """Natural-language build generator (no LLM).
 
 A single text box: type "Iop 200 terre PvM" and get a ready build. Parsing is
-keyword-based (see nl_parser), works in FR/EN/ES/PT, offline and free — our
+keyword-based (see nl_parser), works in FR/EN/ES/PT/DE, offline and free — our
 answer to Dafous' conversational generator, backed by the LP solver.
 """
 
 from django.http import HttpResponseRedirect
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language
 
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
@@ -23,12 +23,27 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
 
 
-EXAMPLE_QUERIES = [
-    'Iop 200 terre PvM',
-    'Cra agi pvp niveau 150',
-    'Eniripsa feu soigneur',
-    'Enutrof farm drop 100',
-]
+# Example chips shown under the box, in the active UI language so they read like
+# what a player of that language would actually type (the parser understands all
+# five). Clicking one fills the box, so every example must itself parse to a
+# class. Keywords are the ones nl_parser recognizes per language.
+EXAMPLE_QUERIES_BY_LANG = {
+    'en': ['Iop 200 earth PvM', 'Cra agi pvp level 150', 'Eniripsa fire healer',
+           'Enutrof farm drop 100'],
+    'fr': ['Iop 200 terre PvM', 'Cra agi pvp niveau 150', 'Eniripsa feu soigneur',
+           'Enutrof farm drop 100'],
+    'es': ['Iop 200 tierra PvM', 'Cra agi pvp nivel 150', 'Eniripsa fuego sanador',
+           'Enutrof farm drop 100'],
+    'pt': ['Iop 200 terra PvM', 'Cra agi pvp nível 150', 'Eniripsa fogo cura',
+           'Enutrof farm drop 100'],
+    'de': ['Iop 200 Erde PvM', 'Crâ Beweglichkeit PvP Stufe 150', 'Eniripsa Feuer Heiler',
+           'Enutrof farmen Stufe 100'],
+}
+
+
+def _example_queries():
+    lang = (get_language() or 'en').split('-')[0]
+    return EXAMPLE_QUERIES_BY_LANG.get(lang, EXAMPLE_QUERIES_BY_LANG['en'])
 
 
 def _aspect_labels(aspects):
@@ -69,7 +84,7 @@ def smart_build(request):
                 'query': query,
                 'error': _("Tell us which class — e.g. \"Iop 200 earth PvM\"."),
                 'interpretation': _interpretation(parsed, confirmed=False),
-                'examples': EXAMPLE_QUERIES,
+                'examples': _example_queries(),
                 'login_problem': is_anon_cant_create(request),
             })
 
@@ -80,7 +95,7 @@ def smart_build(request):
                 'query': query,
                 'interpretation': _interpretation(parsed, confirmed=True),
                 'confirm': True,
-                'examples': EXAMPLE_QUERIES,
+                'examples': _example_queries(),
                 'login_problem': is_anon_cant_create(request),
             })
 
@@ -95,6 +110,6 @@ def smart_build(request):
 
     return set_response(request, 'chardata/smart_build.html', {
         'query': '',
-        'examples': EXAMPLE_QUERIES,
+        'examples': _example_queries(),
         'login_problem': is_anon_cant_create(request),
     })

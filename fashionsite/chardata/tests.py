@@ -713,3 +713,13 @@ class NlParserTests(SimpleTestCase):
         self.assertEqual(self._parse('Iop 200 terre PvM')['char_class'], 'Iop')
         self.assertEqual(self._parse('Iop 200 terre PvM')['element'], 'str')
         self.assertEqual(self._parse('Cra agi pvp niveau 150')['style'], 'pvp')
+
+    def test_every_example_chip_parses_to_a_class(self):
+        # The example chips are clickable and fill the box, so each one must
+        # itself resolve to a class in every language it is offered in.
+        from chardata.nl_build_view import EXAMPLE_QUERIES_BY_LANG
+        for lang, examples in EXAMPLE_QUERIES_BY_LANG.items():
+            for ex in examples:
+                with self.subTest(lang=lang, example=ex):
+                    self.assertIsNotNone(self._parse(ex)['char_class'],
+                                         msg='example %r has no class' % ex)
