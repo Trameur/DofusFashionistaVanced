@@ -4,7 +4,7 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% block title %}The Dofus Fashionista: {% trans "Outfit Suggestion" %}{% endblock %}
+{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Outfit Suggestion" %}{% endblock %}
 
 {% block meta_description %}{% if link_shared %}{{ char.char_class }} {% trans "level" %} {{ char.level }} {% trans "build optimized on Dofus Fashionista" %}.{% else %}Get Dofus sets created automatically, based on your specific needs.{% endif %}{% endblock %}
 

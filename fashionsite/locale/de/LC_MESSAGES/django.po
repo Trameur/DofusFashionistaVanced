@@ -7017,3 +7017,7 @@ msgid "Example prompts and the generated build name now follow your language"
 msgstr ""
 "Die Beispielvorschläge und der Name des erstellten Builds folgen jetzt "
 "deiner Sprache"
+
+#: chardata/templates/chardata/base.html:0
+msgid "The Dofus Fashionista"
+msgstr "Dofus Fashionista"

@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load version_url %}
 
-{% block title %}The Dofus Fashionista: {% trans "About" %}{% endblock %}
+{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "About" %}{% endblock %}
 {# Version-prefixed copies (/beta/about/ etc.) are duplicates -> canonical to the global page. #}
 {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'about' %}">{% endblock %}
 

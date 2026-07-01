@@ -1,9 +1,10 @@
 {% extends 'chardata/base.html' %}
+{% load i18n %}
 {% block meta_robots %}noindex, follow{% endblock %}
 
 {% load static_s3 %}
 
-{% block title %}The Dofus Fashionista: Error{% endblock %}
+{% block title %}{% trans "The Dofus Fashionista" %}: Error{% endblock %}
 
 {% block main %}
   {% load static_s3 %}

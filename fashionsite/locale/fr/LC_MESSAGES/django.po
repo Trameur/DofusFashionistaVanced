@@ -1489,9 +1489,9 @@ msgid ""
 "that the Dofus Fashionista does not store your password. However, the Dofus "
 "Fashionista does store your email address and your Google ID."
 msgstr ""
-"The Dofus Fashionista utilise Google OAuth pour authentifier les "
-"utilisateurs. Cela signifie que Dofus Fashionista ne stocke pas votre mot de"
-" passe. Cependant, Dofus Fashionista stocke votre adresse e-mail et votre "
+"Dofus Fashionista utilise Google OAuth pour authentifier les utilisateurs. "
+"Cela signifie que Dofus Fashionista ne stocke pas votre mot de passe. "
+"Cependant, Dofus Fashionista stocke votre adresse e-mail et votre "
 "identifiant Google."
 
 #: fashionsite/chardata/templates/chardata/license.html:60
@@ -7492,6 +7492,10 @@ msgid "Example prompts and the generated build name now follow your language"
 msgstr ""
 "Les exemples proposés et le nom du build généré suivent désormais votre "
 "langue"
+
+#: chardata/templates/chardata/base.html:0
+msgid "The Dofus Fashionista"
+msgstr "Dofus Fashionista"
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"

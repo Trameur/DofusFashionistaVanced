@@ -5167,3 +5167,7 @@ msgid ""
 msgstr ""
 "Plan your Dofus forgemagie (maging) runs: the Fashionista's simulator "
 "estimates rune throws, success odds and the best path to your target stats."
+
+#: chardata/templates/chardata/base.html:0
+msgid "The Dofus Fashionista"
+msgstr "The Dofus Fashionista"

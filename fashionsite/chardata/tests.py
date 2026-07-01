@@ -172,6 +172,23 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertEqual(resp.status_code, 200,
                                  msg='%s -> %s' % (path, resp.status_code))
 
+    def test_brand_name_localized_in_title(self):
+        # Branding: "The Dofus Fashionista" in English, "Dofus Fashionista"
+        # (no "The") in the other languages.
+        cases = {'en': 'The Dofus Fashionista:', 'fr': 'Dofus Fashionista :',
+                 'de': 'Dofus Fashionista:'}
+        for lang, expected in cases.items():
+            with self.subTest(lang=lang):
+                resp = self.client.get('/faq/', headers={'accept-language': lang})
+                self.assertEqual(resp.status_code, 200)
+                title = re.search(r'<title>([^<]*)</title>',
+                                  resp.content.decode('utf-8')).group(1)
+                if lang == 'en':
+                    self.assertIn('The Dofus Fashionista', title)
+                else:
+                    self.assertNotIn('The Dofus Fashionista', title)
+                    self.assertIn('Dofus Fashionista', title)
+
     def test_smart_build_understands_a_german_query(self):
         # POST a German description (no confirm) -> the view echoes the parsed
         # class, proving the German keywords work end to end (view + template),
