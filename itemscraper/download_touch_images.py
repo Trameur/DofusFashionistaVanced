@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'fashionistapulp'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from fashionistapulp.fashion_util import normalize_name
+from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 from get_equipments_touch import TYPE_MAP
 
 CONFIG_URL = "https://earlyproxy.touch.dofus.com/config.json"
@@ -103,7 +103,7 @@ def main(argv=None):
         if not name:
             continue
         type_dir = 'pets' if TYPE_MAP[it['typeId']][0] == 'Pet' else 'items'
-        dest = STATIC / type_dir / 'touch' / '60x60' / ('%s-60-60.png' % normalize_name(name))
+        dest = STATIC / type_dir / 'touch' / '60x60' / ('%s-60-60.png' % safe_icon_name(normalize_name(name)))
         try:
             if dest.exists() and not args.force:
                 skipped += 1

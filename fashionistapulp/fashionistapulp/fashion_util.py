@@ -23,5 +23,11 @@ def normalize_name(s):
         return s
 
 
+def safe_icon_name(s):
+    """Icon filenames must be materializable on every platform; strip the
+    characters Windows forbids (e.g. the '?' in "Wand Else?")."""
+    return ''.join(c for c in s if c not in '<>:"/\\|?*').strip()
+
+
 def strip_accents(s):
     return unidecode.unidecode(s)

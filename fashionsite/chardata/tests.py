@@ -836,6 +836,13 @@ class ItemIconFallbackTests(SimpleTestCase):
         self.assertEqual(get_image_url('Shield', 'Sponghield 2', 'dofus2'),
                          'chardata/items/60x60/Sponghield-60-60.png')
 
+    def test_windows_illegal_chars_stripped_from_icon_path(self):
+        # "Wand Else?" cannot exist as a filename on windows; the icon is
+        # stored (and must be looked up) without the question mark.
+        from chardata.image_store import get_image_url
+        self.assertEqual(get_image_url('Weapon', 'Wand Else?', 'touch'),
+                         'chardata/items/touch/60x60/Wand Else-60-60.png')
+
 
 class LocalizedUiParityTests(SimpleTestCase):
     """The inventory, forgemagie and encyclopedia pages each carry their own

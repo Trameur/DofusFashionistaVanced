@@ -20,7 +20,7 @@ import re
 from django.conf import settings
 from django.contrib.staticfiles import finders
 
-from fashionistapulp.fashion_util import normalize_name
+from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 from fashionistapulp.structure import get_current_game_version
 
 
@@ -41,10 +41,10 @@ _VARIANT_SUFFIX = re.compile(r' \d+$')
 
 
 def _icon_path(type_dir, name, version_dir=None):
+    fname = safe_icon_name(normalize_name(name))
     if version_dir:
-        return 'chardata/%s/%s/60x60/%s-60-60.png' % (type_dir, version_dir,
-                                                      normalize_name(name))
-    return 'chardata/%s/60x60/%s-60-60.png' % (type_dir, normalize_name(name))
+        return 'chardata/%s/%s/60x60/%s-60-60.png' % (type_dir, version_dir, fname)
+    return 'chardata/%s/60x60/%s-60-60.png' % (type_dir, fname)
 
 
 def get_image_url(type, name, game_version=None):
