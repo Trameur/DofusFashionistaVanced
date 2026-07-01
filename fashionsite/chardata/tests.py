@@ -816,6 +816,27 @@ class AspectParserTests(SimpleTestCase):
         self.assertIn('pvp', self._aspects('pvp kolo'))
 
 
+class ItemIconFallbackTests(SimpleTestCase):
+    """Variant items produced by the data pipeline ("Nomoon 2") reuse the base
+    item's artwork; only the base icon exists on disk. get_image_url must fall
+    back to the base icon instead of serving a broken image."""
+
+    def test_variant_falls_back_to_base_icon(self):
+        from chardata.image_store import get_image_url
+        self.assertEqual(get_image_url('Amulet', 'Nomoon 2', 'dofus3'),
+                         'chardata/items/60x60/Nomoon-60-60.png')
+
+    def test_regular_item_keeps_exact_path(self):
+        from chardata.image_store import get_image_url
+        self.assertEqual(get_image_url('Amulet', 'Nomoon', 'dofus3'),
+                         'chardata/items/60x60/Nomoon-60-60.png')
+
+    def test_dofus2_variant_falls_back(self):
+        from chardata.image_store import get_image_url
+        self.assertEqual(get_image_url('Shield', 'Sponghield 2', 'dofus2'),
+                         'chardata/items/60x60/Sponghield-60-60.png')
+
+
 class LocalizedUiParityTests(SimpleTestCase):
     """The inventory, forgemagie and encyclopedia pages each carry their own
     hand-maintained per-language UI dict. A key present in English but missing
