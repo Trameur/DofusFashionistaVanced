@@ -15,9 +15,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.http import Http404
-from django.urls import reverse
 from django.shortcuts import get_object_or_404
-from django.db.models import Count, Case, When, IntegerField
+from django.db.models import Count
 from django.core.cache import cache
 import json
 import logging
@@ -29,8 +28,9 @@ from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
                                   set_item_included,
-    get_all_inclusions_en_names, get_all_exclusions_en_names,
-    get_empty_slots, set_empty_slot, get_stat_overrides)
+                                  get_all_inclusions_en_names,
+                                  get_all_exclusions_en_names,
+                                  get_empty_slots, set_empty_slot)
 from chardata.comment_view import get_comments_for_build
 from chardata.models import Char, BuildVote, BuildView
 import chardata.smart_build

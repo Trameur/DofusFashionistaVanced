@@ -15,12 +15,10 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import pickle
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
-from static_s3.templatetags.static_s3 import static
 import json
 
 from chardata.aspect_parser import parse_aspects
@@ -33,7 +31,7 @@ from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECT
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
                            TESTER_USERS, HttpResponseText,
-    get_theme, remove_cache_for_char, version_reverse)
+                           remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
                                      class_exists_in_version)
 from fashionistapulp.dofus_constants import STATS_NAMES, CHARACTER_CLASSES

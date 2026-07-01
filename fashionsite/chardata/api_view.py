@@ -12,7 +12,6 @@ the community has shared on dofusfashionista. No auth, no DRF. CORS open
 because the data is already public. Cached for 60 s to absorb bursts.
 """
 
-from django.core.cache import cache
 from django.db.models import Count, Case, When, IntegerField
 from django.http import JsonResponse, Http404
 from django.views.decorators.cache import cache_page

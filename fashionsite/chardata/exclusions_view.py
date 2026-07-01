@@ -15,7 +15,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 import json

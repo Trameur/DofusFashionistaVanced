@@ -16,7 +16,7 @@
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render

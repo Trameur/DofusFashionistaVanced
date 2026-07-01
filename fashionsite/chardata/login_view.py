@@ -19,13 +19,12 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
-from django.core.exceptions import PermissionDenied, SuspiciousOperation
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
-from django.utils.crypto import get_random_string, salted_hmac
+from django.utils.crypto import salted_hmac
 from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
@@ -34,7 +33,7 @@ import logging
 import requests as http_requests
 
 from chardata.models import UserAlias
-from chardata.util import set_response, TESTER_USERS, HttpResponseText
+from chardata.util import set_response, HttpResponseText
 from django.utils.translation import gettext as _
 
 logger = logging.getLogger(__name__)

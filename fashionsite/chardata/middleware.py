@@ -1,4 +1,3 @@
-import threading
 
 from fashionistapulp.structure import set_current_game_version
 

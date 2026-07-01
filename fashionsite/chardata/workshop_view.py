@@ -17,14 +17,14 @@ a glance how many of each resource they need to craft everything."""
 import logging
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from chardata.image_store import get_image_url
 from chardata.models import WorkshopItem
 from chardata.recipe_util import aggregate_ingredients
-from chardata.util import set_response, version_reverse
+from chardata.util import set_response
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static

@@ -15,12 +15,11 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.conf import settings
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 import pickle
 
-from chardata.lock_forbid import get_all_exclusions_en_names, get_all_inclusions_en_names,\
-    get_inclusions_dict, get_all_exclusions_ids, get_empty_slots, get_stat_overrides
+from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
+                                  get_empty_slots)
 from chardata.inventory_solver import (get_inventory_solver_settings,
     apply_inventory_restriction, get_effective_stat_overrides)
 from chardata.min_stats import get_min_stats_digested
