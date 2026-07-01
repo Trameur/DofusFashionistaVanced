@@ -232,6 +232,18 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_404_page_is_translated(self):
+        # The error page is user-visible in every language; the fr heading had
+        # silently shipped in english.
+        cases = {'fr': '404 - Page non trouvée', 'es': '404 - Página no encontrada',
+                 'de': '404 – Seite nicht gefunden'}
+        for lang, needle in cases.items():
+            with self.subTest(lang=lang):
+                resp = self.client.get('/this-page-does-not-exist-xyz123/',
+                                       headers={'accept-language': lang})
+                self.assertEqual(resp.status_code, 404)
+                self.assertIn(needle, resp.content.decode('utf-8'))
+
     def test_encyclopedia_item_shows_set_bonuses(self):
         # The item page now surfaces the panoply's per-piece bonuses (the set_bonus
         # data was loaded but only the set NAME was shown before).

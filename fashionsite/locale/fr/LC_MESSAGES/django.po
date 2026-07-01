@@ -528,7 +528,7 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/404.html:10
 msgid "404 - Page Not Found"
-msgstr "404 - Page Not Found"
+msgstr "404 - Page non trouvée"
 
 #: fashionsite/chardata/templates/chardata/404.html:17
 msgid "We could not find the page you are looking for."
