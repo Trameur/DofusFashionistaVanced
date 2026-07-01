@@ -18,6 +18,7 @@ docker/certs/
 .discord_token
 *.sqlite3
 prod_dump.sql
+docker_db_backup*.sql
 prod_gen_config.json
 itemscraper/transformed_class_spells.json
 itemscraper/transformed_class_spells_beta.json
