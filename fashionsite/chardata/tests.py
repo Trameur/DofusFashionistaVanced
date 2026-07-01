@@ -163,6 +163,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/how-it-works/', '/guides/stats-explained/',
                      '/guides/game-modes/', '/guides/reading-an-item/',
                      '/guides/understanding-your-solution/',
+                     '/guides/tuning-your-weights/',
                      '/guides/mono-vs-multi-element/', '/guides/gearing-up/',
                      '/guides/comparing-builds/', '/guides/versions-explained/',
                      '/offline/', '/robots.txt', '/manifest.webmanifest',
