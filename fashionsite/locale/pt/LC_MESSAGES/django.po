@@ -6991,6 +6991,24 @@ msgstr ""
 msgid "The Dofus Fashionista"
 msgstr "Dofus Fashionista"
 
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "New: guides and tips"
+msgstr "Novo: guias e dicas"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid ""
+"A new Guides section with hand-written articles: first build, stats and "
+"weights, game modes, reading items, comparing builds and more"
+msgstr ""
+"Uma nova seção de Guias com artigos escritos à mão: primeiro build, "
+"atributos e pesos, modos de jogo, ler itens, comparar builds e mais"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid ""
+"Available in all five languages, linked from the menu and the home page"
+msgstr ""
+"Disponível nos cinco idiomas, acessível pelo menu e pela página inicial"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
