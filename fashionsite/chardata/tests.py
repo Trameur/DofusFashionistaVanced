@@ -25,10 +25,33 @@ coupling to exact page copy.
 """
 
 from django.test import SimpleTestCase, TestCase, override_settings
+import glob
+import os
 import re
+import shutil
+import subprocess
+import unittest
 
 from django.utils import translation
 from django.utils.translation import gettext
+
+
+class PoFileFormatTests(SimpleTestCase):
+    """The docker build runs compilemessages, whose msgfmt --check-format
+    rejects e.g. a bare % in a msgstr whose msgid uses %%. That exact mistake
+    broke a production deploy; catch it locally instead."""
+
+    @unittest.skipIf(shutil.which('msgfmt') is None, 'msgfmt not installed')
+    def test_every_po_passes_msgfmt_check_format(self):
+        locale_dir = os.path.join(os.path.dirname(__file__), '..', 'locale')
+        po_files = glob.glob(os.path.join(locale_dir, '*', 'LC_MESSAGES', '*.po'))
+        self.assertTrue(po_files, msg='no .po files found')
+        for po in po_files:
+            with self.subTest(po=os.path.relpath(po, locale_dir)):
+                proc = subprocess.run(
+                    ['msgfmt', '--check-format', '-o', os.devnull, po],
+                    capture_output=True, text=True)
+                self.assertEqual(proc.returncode, 0, msg=proc.stderr[:2000])
 
 
 class TranslationRegressionTests(SimpleTestCase):
