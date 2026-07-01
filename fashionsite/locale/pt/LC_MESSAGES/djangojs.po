@@ -509,15 +509,19 @@ msgstr "6 p.m."
 #, javascript-format
 msgid "Note: You are %s hour ahead of server time."
 msgid_plural "Note: You are %s hours ahead of server time."
-msgstr[0] "Nota: voce esta %s hora adiantado em relacao ao horario do servidor."
-msgstr[1] "Nota: voce esta %s horas adiantado em relacao ao horario do servidor."
+msgstr[0] ""
+"Nota: voce esta %s hora adiantado em relacao ao horario do servidor."
+msgstr[1] ""
+"Nota: voce esta %s horas adiantado em relacao ao horario do servidor."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:86
 #, javascript-format
 msgid "Note: You are %s hour behind server time."
 msgid_plural "Note: You are %s hours behind server time."
-msgstr[0] "Nota: voce esta %s hora atrasado em relacao ao horario do servidor."
-msgstr[1] "Nota: voce esta %s horas atrasado em relacao ao horario do servidor."
+msgstr[0] ""
+"Nota: voce esta %s hora atrasado em relacao ao horario do servidor."
+msgstr[1] ""
+"Nota: voce esta %s horas atrasado em relacao ao horario do servidor."
 
 #: staticfiles/admin/js/admin/DateTimeShortcuts.js:128
 msgid "Choose a Time"
@@ -529,53 +533,52 @@ msgstr "Choose a Date"
 
 #: staticfiles/admin/js/calendar.js:11
 msgid "January"
-msgstr "January"
+msgstr "janeiro"
 
 #: staticfiles/admin/js/calendar.js:12
 msgid "February"
-msgstr "February"
+msgstr "fevereiro"
 
 #: staticfiles/admin/js/calendar.js:13
-#, fuzzy
 #| msgid "Search"
 msgid "March"
-msgstr "Buscar"
+msgstr "março"
 
 #: staticfiles/admin/js/calendar.js:14
 msgid "April"
-msgstr "April"
+msgstr "abril"
 
 #: staticfiles/admin/js/calendar.js:15
 msgid "May"
-msgstr "May"
+msgstr "maio"
 
 #: staticfiles/admin/js/calendar.js:16
 msgid "June"
-msgstr "June"
+msgstr "junho"
 
 #: staticfiles/admin/js/calendar.js:17
 msgid "July"
-msgstr "July"
+msgstr "julho"
 
 #: staticfiles/admin/js/calendar.js:18
 msgid "August"
-msgstr "August"
+msgstr "agosto"
 
 #: staticfiles/admin/js/calendar.js:19
 msgid "September"
-msgstr "September"
+msgstr "setembro"
 
 #: staticfiles/admin/js/calendar.js:20
 msgid "October"
-msgstr "October"
+msgstr "outubro"
 
 #: staticfiles/admin/js/calendar.js:21
 msgid "November"
-msgstr "November"
+msgstr "novembro"
 
 #: staticfiles/admin/js/calendar.js:22
 msgid "December"
-msgstr "December"
+msgstr "dezembro"
 
 #: staticfiles/admin/js/calendar.js:25
 msgctxt "abbrev. month January"
@@ -600,7 +603,7 @@ msgstr "Apr"
 #: staticfiles/admin/js/calendar.js:29
 msgctxt "abbrev. month May"
 msgid "May"
-msgstr "May"
+msgstr "maio"
 
 #: staticfiles/admin/js/calendar.js:30
 msgctxt "abbrev. month June"

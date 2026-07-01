@@ -528,53 +528,52 @@ msgstr "Choose a Date"
 
 #: staticfiles/admin/js/calendar.js:11
 msgid "January"
-msgstr "January"
+msgstr "janvier"
 
 #: staticfiles/admin/js/calendar.js:12
 msgid "February"
-msgstr "February"
+msgstr "février"
 
 #: staticfiles/admin/js/calendar.js:13
-#, fuzzy
 #| msgid "Search"
 msgid "March"
-msgstr "Rechercher"
+msgstr "mars"
 
 #: staticfiles/admin/js/calendar.js:14
 msgid "April"
-msgstr "April"
+msgstr "avril"
 
 #: staticfiles/admin/js/calendar.js:15
 msgid "May"
-msgstr "May"
+msgstr "mai"
 
 #: staticfiles/admin/js/calendar.js:16
 msgid "June"
-msgstr "June"
+msgstr "juin"
 
 #: staticfiles/admin/js/calendar.js:17
 msgid "July"
-msgstr "July"
+msgstr "juillet"
 
 #: staticfiles/admin/js/calendar.js:18
 msgid "August"
-msgstr "August"
+msgstr "août"
 
 #: staticfiles/admin/js/calendar.js:19
 msgid "September"
-msgstr "September"
+msgstr "septembre"
 
 #: staticfiles/admin/js/calendar.js:20
 msgid "October"
-msgstr "October"
+msgstr "octobre"
 
 #: staticfiles/admin/js/calendar.js:21
 msgid "November"
-msgstr "November"
+msgstr "novembre"
 
 #: staticfiles/admin/js/calendar.js:22
 msgid "December"
-msgstr "December"
+msgstr "décembre"
 
 #: staticfiles/admin/js/calendar.js:25
 msgctxt "abbrev. month January"
@@ -599,7 +598,7 @@ msgstr "Apr"
 #: staticfiles/admin/js/calendar.js:29
 msgctxt "abbrev. month May"
 msgid "May"
-msgstr "May"
+msgstr "mai"
 
 #: staticfiles/admin/js/calendar.js:30
 msgctxt "abbrev. month June"

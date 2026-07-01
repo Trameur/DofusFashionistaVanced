@@ -4689,12 +4689,6 @@ msgstr "Grunob's Lesson"
 msgid "Jormun"
 msgstr "Jormun"
 
-#: fashionsite/chardata/translation_util.py:583
-#, fuzzy
-#| msgid "(spells)"
-msgid "Muspell"
-msgstr "(sorts)"
-
 #: fashionsite/chardata/translation_util.py:584
 #| msgid "Raiding"
 msgid "Elding"
@@ -5182,12 +5176,6 @@ msgstr "Sur le lanceur"
 #: fashionsite/chardata/translation_util.py:703
 msgid "Hit in worst element"
 msgstr "Frappe dans le pire element"
-
-#: fashionsite/chardata/translation_util.py:704
-#, fuzzy
-#| msgid "Pushback Damage"
-msgid "After pushback damage"
-msgstr "Dommages Poussée"
 
 #: fashionsite/chardata/translation_util.py:705
 msgid "If pushed or attracted"
