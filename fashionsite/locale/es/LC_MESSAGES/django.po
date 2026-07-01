@@ -6971,6 +6971,33 @@ msgstr "farmeo"
 msgid "%(cls)s %(style)s lvl %(lvl)s"
 msgstr "%(cls)s %(style)s nivel %(lvl)s"
 
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "July 2026"
+msgstr "Julio 2026"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "Describe your build — now in German too"
+msgstr "Describe tu build — ahora también en alemán"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid ""
+"The smart build generator understands German descriptions (class, element, "
+"playstyle), like English, French, Spanish and Portuguese"
+msgstr ""
+"El generador inteligente entiende descripciones en alemán (clase, elemento, "
+"estilo de juego), como en inglés, francés, español y portugués"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid ""
+"The 'understand my build' box now reads descriptions in all five languages"
+msgstr ""
+"El campo «entender mi build» ahora lee descripciones en los cinco idiomas"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "Example prompts and the generated build name now follow your language"
+msgstr ""
+"Los ejemplos sugeridos y el nombre del build generado ahora siguen tu idioma"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

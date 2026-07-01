@@ -6961,6 +6961,32 @@ msgstr "farm"
 msgid "%(cls)s %(style)s lvl %(lvl)s"
 msgstr "%(cls)s %(style)s nível %(lvl)s"
 
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "July 2026"
+msgstr "Julho 2026"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "Describe your build — now in German too"
+msgstr "Descreva seu build — agora também em alemão"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid ""
+"The smart build generator understands German descriptions (class, element, "
+"playstyle), like English, French, Spanish and Portuguese"
+msgstr ""
+"O gerador inteligente entende descrições em alemão (classe, elemento, estilo"
+" de jogo), como em inglês, francês, espanhol e português"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid ""
+"The 'understand my build' box now reads descriptions in all five languages"
+msgstr "O campo «entender meu build» agora lê descrições nos cinco idiomas"
+
+#: chardata/templates/chardata/changelog_modal.html:0
+msgid "Example prompts and the generated build name now follow your language"
+msgstr ""
+"Os exemplos sugeridos e o nome do build gerado agora seguem seu idioma"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
