@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'game-modes', 'reading-an-item', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'versions-explained']
+ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'versions-explained']
 
 
 GUIDES = {
@@ -1177,6 +1177,111 @@ GUIDES = {
 <p>Der naheliegende Einsatz ist "mein aktuelles Set vs. der Vorschlag des Optimierers". Aber es taugt genauso für "PvM- vs. Kolosseum-Variante", "günstige vs. teure Version" oder um einen Gildenstreit zu klären, indem du zwei geteilte Builds zusammenwirfst. Immer wenn du zwischen zwei Richtungen schwankst, vergleich sie, statt zu diskutieren.</p>
 
 <p><em>Zwei Builds im Kopf? <a href="/choose_compare_sets/">Vergleich sie jetzt.</a></em></p>
+''',
+            },
+        },
+    },
+
+    'understanding-your-solution': {
+        'i18n': {
+            'en': {
+                'title': "Reading your solution: what the optimizer's result page is actually telling you",
+                'desc': "The Fashionista handed you a full set — now what? How to read the solution page: the items it picked, the stats you end up with, and the warnings that actually matter.",
+                'lead': "You hit generate and a full set appears. Before you copy it into the game, it pays to understand what the solution page is showing you — and what to do when something looks off.",
+                'body': '''
+<h2>The set it built</h2>
+<p>Every slot shows the item the optimizer chose — weapon, hat, cloak, rings, the lot. Click any piece to see its stats or to <strong>switch it</strong> for another candidate; the totals update on the spot. The set isn't sacred: it's the best the solver found for the weights and limits you gave it, and it's yours to nudge.</p>
+
+<h2>The stats you actually get</h2>
+<p>The characteristics panel adds up every line across the whole set — power, damage, resistances, AP/MP, the works — including set bonuses. This is the number that matters, not what any single item shows. If a total looks low, that's usually the sign a weight needs bumping, not a broken build.</p>
+
+<h2>When something's flagged</h2>
+<p>Ask for a minimum the items can't reach — 12 AP, a resistance floor, a set-bonus condition — and the page tells you instead of quietly ignoring it. A flagged line means "no legal set hits this here." Loosen the minimum, raise the level, or accept the trade-off; the warning is information, not a failure.</p>
+
+<h2>Make it yours</h2>
+<p>Switch any slot, lock the pieces you love so the solver keeps them, forbid the ones you'll never farm, and run it again. Happy with it? Share the build, or drop it into the <a href="/choose_compare_sets/">comparison</a> against your current gear to see exactly what you'd gain.</p>
+
+<p><em>No solution yet? <a href="/setup/">Start a build.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': "Lire ta solution : ce que la page de résultat de l'optimiseur te dit vraiment",
+                'desc': "La Fashionista t'a sorti un set complet — et maintenant ? Comment lire la page de solution : les items choisis, les stats que t'obtiens au final, et les avertissements qui comptent vraiment.",
+                'lead': "Tu cliques sur générer et un set complet apparaît. Avant de le recopier en jeu, ça vaut le coup de comprendre ce que la page de solution te montre — et quoi faire quand un truc cloche.",
+                'body': '''
+<h2>Le set qu'elle a construit</h2>
+<p>Chaque emplacement affiche l'item que l'optimiseur a choisi — arme, chapeau, cape, anneaux, tout. Clique sur une pièce pour voir ses stats ou pour la <strong>remplacer</strong> par un autre candidat ; les totaux se mettent à jour direct. Le set n'est pas sacré : c'est le meilleur que le solveur a trouvé pour les poids et les limites que tu lui as donnés, et tu peux le retoucher.</p>
+
+<h2>Les stats que t'obtiens vraiment</h2>
+<p>Le panneau de caractéristiques additionne chaque ligne sur tout le set — puissance, dommages, résistances, PA/PM, tout — bonus de panoplie compris. C'est ce chiffre-là qui compte, pas ce qu'affiche un item isolé. Si un total te paraît faible, c'est en général le signe qu'un poids doit monter, pas que le build est cassé.</p>
+
+<h2>Quand un truc est signalé</h2>
+<p>Demande un minimum que les items ne peuvent pas atteindre — 12 PA, un plancher de résistance, une condition de panoplie — et la page te le dit au lieu de l'ignorer en douce. Une ligne signalée veut dire "aucun set légal n'atteint ça ici". Assouplis le minimum, monte le niveau, ou accepte le compromis ; l'avertissement est une info, pas un échec.</p>
+
+<h2>Fais-le tien</h2>
+<p>Remplace n'importe quel emplacement, verrouille les pièces que t'adores pour que le solveur les garde, interdis celles que tu ne farmeras jamais, et relance. Satisfait ? Partage le build, ou balance-le dans le <a href="/choose_compare_sets/">comparateur</a> face à ton stuff actuel pour voir exactement ce que tu gagnerais.</p>
+
+<p><em>Pas encore de solution ? <a href="/setup/">Lance un build.</a></em></p>
+''',
+            },
+            'es': {
+                'title': "Leer tu solución: lo que la página de resultado del optimizador te dice de verdad",
+                'desc': "La Fashionista te sacó un set completo — ¿y ahora? Cómo leer la página de solución: los ítems elegidos, las estadísticas que acabas teniendo y los avisos que de verdad importan.",
+                'lead': "Le das a generar y aparece un set completo. Antes de copiarlo al juego, vale la pena entender qué te muestra la página de solución — y qué hacer cuando algo no cuadra.",
+                'body': '''
+<h2>El set que montó</h2>
+<p>Cada ranura muestra el ítem que eligió el optimizador — arma, sombrero, capa, anillos, todo. Haz clic en cualquier pieza para ver sus estadísticas o para <strong>cambiarla</strong> por otro candidato; los totales se actualizan al momento. El set no es sagrado: es lo mejor que encontró el solucionador para los pesos y límites que le diste, y puedes ajustarlo.</p>
+
+<h2>Las estadísticas que consigues de verdad</h2>
+<p>El panel de características suma cada línea de todo el set — poder, daño, resistencias, PA/PM, todo — incluidos los bonus de conjunto. Ese es el número que importa, no lo que muestra un ítem suelto. Si un total te parece bajo, suele ser la señal de que hay que subir un peso, no de que el build esté roto.</p>
+
+<h2>Cuando algo sale marcado</h2>
+<p>Pide un mínimo que los ítems no pueden alcanzar — 12 PA, un suelo de resistencia, una condición de conjunto — y la página te lo dice en vez de ignorarlo en silencio. Una línea marcada significa "ningún set legal llega a esto aquí". Relaja el mínimo, sube el nivel o acepta el compromiso; el aviso es información, no un fallo.</p>
+
+<h2>Hazlo tuyo</h2>
+<p>Cambia cualquier ranura, bloquea las piezas que te encantan para que el solucionador las mantenga, prohíbe las que nunca vas a farmear y vuelve a lanzarlo. ¿Contento? Comparte el build, o mételo en el <a href="/choose_compare_sets/">comparador</a> frente a tu equipo actual para ver exactamente qué ganarías.</p>
+
+<p><em>¿Aún sin solución? <a href="/setup/">Empieza un build.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': "Ler sua solução: o que a página de resultado do otimizador está mesmo te dizendo",
+                'desc': "A Fashionista te entregou um set completo — e agora? Como ler a página de solução: os itens escolhidos, os atributos que você acaba tendo e os avisos que realmente importam.",
+                'lead': "Você clica em gerar e aparece um set completo. Antes de copiar pro jogo, vale entender o que a página de solução está mostrando — e o que fazer quando algo parece errado.",
+                'body': '''
+<h2>O set que ela montou</h2>
+<p>Cada slot mostra o item que o otimizador escolheu — arma, chapéu, capa, anéis, tudo. Clique em qualquer peça pra ver os atributos ou pra <strong>trocá-la</strong> por outro candidato; os totais atualizam na hora. O set não é sagrado: é o melhor que o solver achou pros pesos e limites que você deu, e dá pra ajustar.</p>
+
+<h2>Os atributos que você realmente ganha</h2>
+<p>O painel de características soma cada linha do set inteiro — potência, dano, resistências, PA/PM, tudo — incluindo bônus de conjunto. É esse número que importa, não o que um item isolado mostra. Se um total parece baixo, geralmente é sinal de que um peso precisa subir, não de que o build está quebrado.</p>
+
+<h2>Quando algo é sinalizado</h2>
+<p>Peça um mínimo que os itens não conseguem atingir — 12 PA, um piso de resistência, uma condição de conjunto — e a página te avisa em vez de ignorar em silêncio. Uma linha sinalizada quer dizer "nenhum set legal alcança isso aqui". Afrouxe o mínimo, suba o nível ou aceite o trade-off; o aviso é informação, não uma falha.</p>
+
+<h2>Deixe do seu jeito</h2>
+<p>Troque qualquer slot, trave as peças que você ama pra o solver mantê-las, proíba as que você nunca vai farmar e rode de novo. Curtiu? Compartilhe o build, ou jogue no <a href="/choose_compare_sets/">comparador</a> contra o seu equipamento atual pra ver exatamente o que você ganharia.</p>
+
+<p><em>Ainda sem solução? <a href="/setup/">Comece um build.</a></em></p>
+''',
+            },
+            'de': {
+                'title': "Deine Lösung lesen: was dir die Ergebnisseite des Optimierers wirklich sagt",
+                'desc': "Die Fashionista hat dir ein komplettes Set gebaut — und jetzt? Wie du die Lösungsseite liest: die gewählten Items, die Werte, die am Ende rauskommen, und die Warnungen, die wirklich zählen.",
+                'lead': "Du klickst auf Generieren und ein komplettes Set erscheint. Bevor du es ins Spiel überträgst, lohnt es sich zu verstehen, was die Lösungsseite dir zeigt — und was zu tun ist, wenn etwas nicht passt.",
+                'body': '''
+<h2>Das Set, das sie gebaut hat</h2>
+<p>Jeder Platz zeigt das Item, das der Optimierer gewählt hat — Waffe, Hut, Umhang, Ringe, alles. Klick auf ein Teil, um seine Werte zu sehen oder es gegen einen anderen Kandidaten <strong>auszutauschen</strong>; die Summen aktualisieren sich sofort. Das Set ist nicht in Stein gemeißelt: es ist das Beste, was der Solver für die Gewichte und Grenzen gefunden hat, die du ihm gegeben hast — und du darfst nachjustieren.</p>
+
+<h2>Die Werte, die du wirklich bekommst</h2>
+<p>Das Eigenschaften-Feld summiert jede Zeile über das ganze Set — Stärke, Schaden, Resistenzen, AP/BP, alles — Set-Boni inklusive. Diese Zahl zählt, nicht was ein einzelnes Item anzeigt. Wirkt eine Summe niedrig, ist das meist das Zeichen, dass ein Gewicht hoch muss, nicht dass das Build kaputt ist.</p>
+
+<h2>Wenn etwas markiert ist</h2>
+<p>Verlang ein Minimum, das die Items nicht erreichen können — 12 AP, eine Resistenz-Untergrenze, eine Set-Bedingung — und die Seite sagt es dir, statt es stillschweigend zu ignorieren. Eine markierte Zeile heißt "kein zulässiges Set schafft das hier". Lockere das Minimum, erhöhe die Stufe oder akzeptiere den Kompromiss; die Warnung ist eine Info, kein Fehler.</p>
+
+<h2>Mach es zu deinem</h2>
+<p>Tausch jeden Platz, sperr die Teile, die du liebst, damit der Solver sie behält, verbiete die, die du nie farmst, und lass es neu laufen. Zufrieden? Teil das Build oder wirf es in den <a href="/choose_compare_sets/">Vergleich</a> gegen deine aktuelle Ausrüstung, um genau zu sehen, was du gewinnen würdest.</p>
+
+<p><em>Noch keine Lösung? <a href="/setup/">Starte ein Build.</a></em></p>
 ''',
             },
         },
