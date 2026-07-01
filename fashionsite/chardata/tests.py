@@ -764,3 +764,34 @@ class AspectParserTests(SimpleTestCase):
     def test_english_still_parses(self):
         self.assertEqual(self._aspects('earth fire healer'), {'str', 'int', 'heal'})
         self.assertIn('pvp', self._aspects('pvp kolo'))
+
+
+class LocalizedUiParityTests(SimpleTestCase):
+    """The inventory, forgemagie and encyclopedia pages each carry their own
+    hand-maintained per-language UI dict. A key present in English but missing
+    in another language renders blank (or raises) for those users, so these keep
+    the five languages at strict key parity and catch future drift."""
+
+    LANGS = ['en', 'fr', 'es', 'pt', 'de']
+
+    def _assert_parity(self, dictionary, name):
+        for lang in self.LANGS:
+            self.assertIn(lang, dictionary, msg='%s missing %s' % (name, lang))
+        base = set(dictionary['en'].keys())
+        for lang in self.LANGS:
+            with self.subTest(dict=name, lang=lang):
+                self.assertEqual(set(dictionary[lang].keys()), base,
+                                 msg='%s[%s] keys differ from en' % (name, lang))
+
+    def test_inventory_ui_parity(self):
+        from chardata.inventory_view import LOCALIZED_UI
+        self._assert_parity(LOCALIZED_UI, 'inventory')
+
+    def test_forgemagie_ui_parity(self):
+        from chardata.forgemagie_view import LOCALIZED_UI, TRANSCENDENCE_UI
+        self._assert_parity(LOCALIZED_UI, 'forgemagie')
+        self._assert_parity(TRANSCENDENCE_UI, 'forgemagie_transcendence')
+
+    def test_encyclopedia_ui_parity(self):
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        self._assert_parity(LOCALIZED_UI, 'encyclopedia')
