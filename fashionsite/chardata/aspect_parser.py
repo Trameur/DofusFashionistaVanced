@@ -17,41 +17,61 @@
 from itertools import product
 
 import re
+import unicodedata
+
+
+def _fold(text):
+    # Lowercase + strip accents so localized markers (e.g. "degats", "piege")
+    # match however the user typed them ("dégâts", "piège").
+    folded = unicodedata.normalize('NFKD', text or '')
+    return ''.join(c for c in folded if not unicodedata.combining(c)).lower()
+
 
 def parse_aspects(build):
-    words = re.findall(r"\w+", build.lower())
+    words = re.findall(r"\w+", _fold(build))
     phrase = ' '.join(words)
 
     aspects = set()   
 
-    if _words_contain_marker(words, ['str', 'stre', 'strength', 'earth']):
+    if _words_contain_marker(words, ['str', 'stre', 'strength', 'earth',
+                                     'terre', 'force', 'tierra', 'fuerza',
+                                     'terra', 'forca', 'erde', 'starke']):
         aspects.add('str')
 
-    if _words_contain_marker(words, ['int', 'intel', 'intelligence', 'fire']):
+    if _words_contain_marker(words, ['int', 'intel', 'intelligence', 'fire',
+                                     'feu', 'fuego', 'fogo', 'feuer', 'intelligenz']):
         aspects.add('int')
 
-    if _words_contain_marker(words, ['agi', 'agility', 'air']):
+    if _words_contain_marker(words, ['agi', 'agility', 'air', 'agilite', 'aire',
+                                     'ar', 'agilidad', 'agilidade', 'luft',
+                                     'beweglichkeit']):
         aspects.add('agi')
 
-    if _words_contain_marker(words, ['cha', 'chance', 'water']):
+    if _words_contain_marker(words, ['cha', 'chance', 'water', 'eau', 'agua',
+                                     'wasser', 'suerte', 'sorte']):
         aspects.add('cha')
 
     if _words_contain_marker(words, ['wis', 'wisdom', 'leech', 'leecher', 'leeching',
                                      'leveling', 'training', 'xp', 'xping', 'exp',
-                                     'exping', 'wiswhore']):
+                                     'exping', 'wiswhore', 'sagesse', 'sabiduria',
+                                     'sabedoria', 'weisheit']):
         aspects.add('wis')
 
-    if _words_contain_marker(words, ['vit', 'vita', 'vital', 'vitality']):
+    if _words_contain_marker(words, ['vit', 'vita', 'vital', 'vitality', 'vitalite',
+                                     'vitalidad', 'vitalidade', 'vitalitat']):
         aspects.add('vit')
 
-    if _words_contain_marker(words, ['res', 'resist', 'resists']):
+    if _words_contain_marker(words, ['res', 'resist', 'resists', 'resistance',
+                                     'resistances', 'resistencia', 'resistencias',
+                                     'resistenz']):
         aspects.add('res')
 
     if _words_contain_marker(words, ['tank', 'tanker']):
         aspects.add('vit')
         aspects.add('res')
 
-    if _words_contain_marker(words, ['dam', 'damage']):
+    if _words_contain_marker(words, ['dam', 'damage', 'degats', 'dano', 'danos',
+                                     'schaden']):
         aspects.add('dam')
 
     #if _words_contain_marker(words, ['attack', 'attacker', 'dealer', 'dps', 'dpt', 'hitter']):
@@ -70,7 +90,8 @@ def parse_aspects(build):
         aspects.add('crit')
 
     if _words_contain_marker(words, ['omni', 'omnielement', 'omnielemental', 'allelement',
-                                'allelements', 'pow', 'power']):
+                                'allelements', 'pow', 'power', 'multi', 'multielement',
+                                'multielemento', 'polyvalent', 'puissance']):
         aspects.add('omni')
 
     ap_rape_phrases = [''.join(t) for t in product(
@@ -90,14 +111,19 @@ def parse_aspects(build):
         aspects.add('aprape')
         aspects.add('mprape')
     
-    if _words_contain_marker(words, ['heal', 'heals', 'healer', 'healing', 'healbot']):
+    if _words_contain_marker(words, ['heal', 'heals', 'healer', 'healing', 'healbot',
+                                     'soin', 'soins', 'soigneur', 'sanador', 'cura',
+                                     'curandeiro', 'heilung', 'heiler']):
         aspects.add('heal')
 
-    if _words_contain_marker(words, ['trap', 'traps', 'trapper', 'trapdam']):
+    if _words_contain_marker(words, ['trap', 'traps', 'trapper', 'trapdam', 'piege',
+                                     'pieges', 'trampa', 'trampas', 'armadilha',
+                                     'armadilhas', 'falle', 'fallen']):
         aspects.add('trap')
-        
+
     if _words_contain_marker(words, ['pp', 'prosp', 'prospecting', 'prospe', 'drop',
-                                     'dropwhore']):
+                                     'dropwhore', 'prospection', 'prospeccion',
+                                     'prospeccao', 'prospektion']):
         aspects.add('pp')
 
     if (_words_contain_marker(words, ['pod', 'pods', 'prof', 'profession',
@@ -113,15 +139,19 @@ def parse_aspects(build):
         aspects.add('pp')
         aspects.add('pods')
 
-    if _words_contain_marker(words, ['psh', 'pushback', 'push', 'pushbackdam']):
+    if _words_contain_marker(words, ['psh', 'pushback', 'push', 'pushbackdam',
+                                     'poussee', 'repousse', 'empuje', 'empurrao']):
         aspects.add('pushback')
 
     if _words_contain_marker(words, ['summon', 'summons', 'summoning', 'summo',
-                                     'summoner']):
+                                     'summoner', 'invocation', 'invocations', 'invoc',
+                                     'invocateur', 'invocador', 'invocacao',
+                                     'beschworung', 'beschworer']):
         aspects.add('summon')
 
     if _words_contain_marker(words, ['pvp', 'pvper', 'pvping', 'duel',
-                                     'kolo', 'kolossium', 'perc', 'perceptor']):
+                                     'kolo', 'kolossium', 'perc', 'perceptor',
+                                     'kolizeum', 'kolosseum', 'arene', 'arena']):
         aspects.add('pvp')
         
     if (_words_contain_marker(words, ['duel', 'dueler', 'dueling', '1v1', '1vs1', '1x1', 'x1'])

@@ -732,3 +732,35 @@ class NlParserTests(SimpleTestCase):
             self.assertEqual(_style_name('group_pvm'), 'PvM en groupe')
         with translation.override('de'):
             self.assertEqual(_style_name('solo_pvm'), 'Solo-PvM')
+
+
+class AspectParserTests(SimpleTestCase):
+    """The "understand my build" text field (build_confirmation.html ->
+    /understandbuild/) auto-checks aspect boxes from a free-text description.
+    It was English-only; these lock in the FR/ES/PT/DE keywords and the accent
+    folding so non-English players get their aspects recognized too."""
+
+    def _aspects(self, text):
+        from chardata.aspect_parser import parse_aspects
+        return parse_aspects(text)
+
+    def test_french_keywords(self):
+        self.assertEqual(self._aspects('Iop terre dégâts'), {'str', 'dam'})
+        self.assertEqual(self._aspects('Eni feu soigneur'), {'int', 'heal'})
+        self.assertIn('trap', self._aspects('Sram piège invocation'))
+        self.assertIn('summon', self._aspects('Sram piège invocation'))
+
+    def test_german_keywords(self):
+        self.assertEqual(self._aspects('Iop Erde Schaden'), {'str', 'dam'})
+        self.assertEqual(self._aspects('Eni Feuer Heiler'), {'int', 'heal'})
+
+    def test_spanish_keywords(self):
+        self.assertEqual(self._aspects('Cra agua sanador'), {'cha', 'heal'})
+
+    def test_accent_folding(self):
+        # "dégâts" must match the "degats" marker.
+        self.assertIn('dam', self._aspects('dégâts'))
+
+    def test_english_still_parses(self):
+        self.assertEqual(self._aspects('earth fire healer'), {'str', 'int', 'heal'})
+        self.assertIn('pvp', self._aspects('pvp kolo'))
