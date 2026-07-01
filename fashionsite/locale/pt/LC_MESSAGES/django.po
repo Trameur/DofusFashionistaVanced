@@ -6941,6 +6941,26 @@ msgstr ""
 "jogadas de runas, as probabilidades de sucesso e o melhor caminho até seus "
 "atributos-alvo."
 
+#: chardata/nl_build_view.py:0
+msgid "solo PvM"
+msgstr "PvM solo"
+
+#: chardata/nl_build_view.py:0
+msgid "group PvM"
+msgstr "PvM em grupo"
+
+#: chardata/nl_build_view.py:0
+msgid "PvP"
+msgstr "PvP"
+
+#: chardata/nl_build_view.py:0
+msgid "farm"
+msgstr "farm"
+
+#: chardata/nl_build_view.py:0
+msgid "%(cls)s %(style)s lvl %(lvl)s"
+msgstr "%(cls)s %(style)s nível %(lvl)s"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

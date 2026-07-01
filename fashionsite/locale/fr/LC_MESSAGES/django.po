@@ -7444,6 +7444,26 @@ msgstr ""
 "jets de runes, les probabilités de réussite et le meilleur chemin vers tes "
 "stats cibles."
 
+#: chardata/nl_build_view.py:0
+msgid "solo PvM"
+msgstr "PvM solo"
+
+#: chardata/nl_build_view.py:0
+msgid "group PvM"
+msgstr "PvM en groupe"
+
+#: chardata/nl_build_view.py:0
+msgid "PvP"
+msgstr "PvP"
+
+#: chardata/nl_build_view.py:0
+msgid "farm"
+msgstr "farm"
+
+#: chardata/nl_build_view.py:0
+msgid "%(cls)s %(style)s lvl %(lvl)s"
+msgstr "%(cls)s %(style)s niv %(lvl)s"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

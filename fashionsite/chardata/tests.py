@@ -723,3 +723,12 @@ class NlParserTests(SimpleTestCase):
                 with self.subTest(lang=lang, example=ex):
                     self.assertIsNotNone(self._parse(ex)['char_class'],
                                          msg='example %r has no class' % ex)
+
+    def test_build_name_style_is_localized(self):
+        # The auto-generated build name must not leak the raw "group_pvm" key;
+        # the style word is served in the active language.
+        from chardata.nl_build_view import _style_name
+        with translation.override('fr'):
+            self.assertEqual(_style_name('group_pvm'), 'PvM en groupe')
+        with translation.override('de'):
+            self.assertEqual(_style_name('solo_pvm'), 'Solo-PvM')

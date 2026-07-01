@@ -6951,6 +6951,26 @@ msgstr ""
 "tiradas de runas, las probabilidades de éxito y el mejor camino hacia tus "
 "estadísticas objetivo."
 
+#: chardata/nl_build_view.py:0
+msgid "solo PvM"
+msgstr "PvM en solitario"
+
+#: chardata/nl_build_view.py:0
+msgid "group PvM"
+msgstr "PvM en grupo"
+
+#: chardata/nl_build_view.py:0
+msgid "PvP"
+msgstr "PvP"
+
+#: chardata/nl_build_view.py:0
+msgid "farm"
+msgstr "farmeo"
+
+#: chardata/nl_build_view.py:0
+msgid "%(cls)s %(style)s lvl %(lvl)s"
+msgstr "%(cls)s %(style)s nivel %(lvl)s"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

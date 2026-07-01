@@ -46,6 +46,19 @@ def _example_queries():
     return EXAMPLE_QUERIES_BY_LANG.get(lang, EXAMPLE_QUERIES_BY_LANG['en'])
 
 
+def _style_name(style):
+    # Short localized style label for the auto-generated build name; the raw key
+    # ("group_pvm") would otherwise leak into the name. Distinct from
+    # coaching_view's verbose dropdown labels, which are too long here and omit
+    # "farm".
+    return {
+        'solo_pvm': _('solo PvM'),
+        'group_pvm': _('group PvM'),
+        'pvp': _('PvP'),
+        'farm': _('farm'),
+    }.get(style, style.replace('_', ' '))
+
+
 def _aspect_labels(aspects):
     ordered = sorted(aspects, key=lambda a: ALL_ASPECTS_LIST.index(a)
                      if a in ALL_ASPECTS_LIST else len(ALL_ASPECTS_LIST))
@@ -101,7 +114,7 @@ def smart_build(request):
 
         name = _('%(cls)s %(style)s lvl %(lvl)s') % {
             'cls': parsed['char_class'],
-            'style': parsed['style'].replace('_', ' '),
+            'style': _style_name(parsed['style']),
             'lvl': parsed['level'],
         }
         char = create_build(request, parsed['char_class'], parsed['level'],

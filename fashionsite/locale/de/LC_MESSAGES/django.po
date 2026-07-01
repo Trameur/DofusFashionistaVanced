@@ -6967,3 +6967,23 @@ msgid ""
 msgstr ""
 "Plane deine Dofus-Schmiedemagie: Der Simulator der Fashionista schätzt "
 "Runenwürfe, Erfolgschancen und den besten Weg zu deinen Zielwerten."
+
+#: chardata/nl_build_view.py:0
+msgid "solo PvM"
+msgstr "Solo-PvM"
+
+#: chardata/nl_build_view.py:0
+msgid "group PvM"
+msgstr "Gruppen-PvM"
+
+#: chardata/nl_build_view.py:0
+msgid "PvP"
+msgstr "PvP"
+
+#: chardata/nl_build_view.py:0
+msgid "farm"
+msgstr "Farmen"
+
+#: chardata/nl_build_view.py:0
+msgid "%(cls)s %(style)s lvl %(lvl)s"
+msgstr "%(cls)s %(style)s Stufe %(lvl)s"
