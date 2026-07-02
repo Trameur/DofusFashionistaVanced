@@ -63,7 +63,7 @@
     <meta name="google-adsense-account" content="ca-pub-3961330018791408">
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
     <script data-ad-client="ca-pub-3961330018791408" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script src="https://fundingchoicesmessages.google.com/i/pub-3961330018791408?ers=1" nonce="{{ request.csp_nonce }}"></script>
+    <script src="https://fundingchoicesmessages.google.com/i/pub-3961330018791408?ers=1"></script>
 
     {% if google_analytics_id %}
     <!-- Google tag (gtag.js) - Google Analytics 4 -->
@@ -641,7 +641,7 @@
 {% trans "Already in comparison" as ct_already %}
 {% trans "You can compare up to 4 builds" as ct_full %}
 {% trans "Add at least 2 builds to compare" as ct_needtwo %}
-<script nonce="{{ request.csp_nonce }}">
+<script>
 window.COMPARE_TRAY_CONFIG = {
     apiBase: "{{ api_base|escapejs }}",
     i18n: {
