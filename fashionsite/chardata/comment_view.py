@@ -84,6 +84,11 @@ def _build_share_url(request, build):
 
 def _author_language(owner):
     """Best-effort language of the build owner. Falls back to LANGUAGE_CODE."""
+    try:
+        if owner.useralias and owner.useralias.language:
+            return owner.useralias.language
+    except UserAlias.DoesNotExist:
+        pass
     return getattr(settings, 'LANGUAGE_CODE', 'en')
 
 

@@ -1306,3 +1306,45 @@ class ApiDocsTests(TestCase):
     def test_meta_endpoint_points_to_about_anchor(self):
         resp = self.client.get('/api/v1/')
         self.assertEqual(resp.json()['docs'], 'https://dofusfashionista.gg/about/#api')
+
+
+class CommentNotificationLanguageTests(TestCase):
+    """The build owner gets the new-comment email in the language they last
+    picked in the language selector, not hardcoded English."""
+
+    def _make_build(self, owner):
+        from chardata.models import Char
+        return Char.objects.create(
+            name='Mail build', char_name='hero', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            owner=owner, link_shared=True, game_version='dofus3')
+
+    def test_setlang_remembers_the_choice(self):
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        user = User.objects.create_user('polyglot', 'p@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        resp = self.client.post('/i18n/setlang/', {'language': 'de'})
+        self.assertIn(resp.status_code, (200, 302))
+        self.assertEqual(UserAlias.objects.get(user=user).language, 'de')
+
+    def test_notification_email_uses_owner_language(self):
+        from django.contrib.auth.models import User
+        from django.core import mail
+        from chardata.models import UserAlias
+        owner = User.objects.create_user('owner-fr', 'owner@test.local', 'pw-42-solid')
+        UserAlias.objects.create(user=owner, language='fr')
+        build = self._make_build(owner)
+        commenter = User.objects.create_user('lecteur', 'l@test.local', 'pw-42-solid')
+        self.client.force_login(commenter)
+        resp = self.client.post('/postcomment/%d/' % build.id,
+                                {'content': 'Tres joli build, bravo pour le travail.'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(mail.outbox), 1)
+        msg = mail.outbox[0]
+        self.assertIn('Nouveau commentaire sur ton build', msg.subject)
+        self.assertIn('vient de commenter', msg.body)
+        html = msg.alternatives[0][0]
+        self.assertIn('lang="fr"', html)

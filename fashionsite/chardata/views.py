@@ -177,3 +177,20 @@ def support(request, char_id=0):
                          'user': request.user,
                          'char_id': char_id,
                          'support_links': support_links})
+
+
+def set_language_and_remember(request):
+    """Django's set_language, plus: remember the choice on the user's profile
+    so notification emails can be sent in their language."""
+    from django.utils.translation import check_for_language
+    from django.views.i18n import set_language as django_set_language
+    response = django_set_language(request)
+    if request.method == 'POST' and request.user.is_authenticated:
+        lang = request.POST.get('language')
+        if lang and check_for_language(lang):
+            from chardata.models import UserAlias
+            alias, _created = UserAlias.objects.get_or_create(user=request.user)
+            if alias.language != lang:
+                alias.language = lang
+                alias.save(update_fields=['language'])
+    return response

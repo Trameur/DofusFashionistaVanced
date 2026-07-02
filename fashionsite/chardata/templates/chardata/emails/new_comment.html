@@ -1,5 +1,5 @@
 {% load i18n %}<!DOCTYPE html>
-<html>
+{% get_current_language as LANGUAGE_CODE %}<html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <body style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: 0 auto;">
     <p>{% blocktrans %}Hi,{% endblocktrans %}</p>
     <p>{% blocktrans %}<strong>{{ commenter_name }}</strong> just commented on your build <strong>"{{ build_name }}"</strong>:{% endblocktrans %}</p>

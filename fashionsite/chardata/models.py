@@ -62,6 +62,8 @@ class UserAlias(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     alias = models.CharField(max_length=50, null=True, blank=True)
     notify_comments = models.BooleanField(default=True)
+    # Last language the user explicitly picked; notification emails use it.
+    language = models.CharField(max_length=10, null=True, blank=True)
 
 class BuildVote(models.Model):
     """Track user votes (likes/favorites) for shared builds"""

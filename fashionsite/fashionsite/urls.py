@@ -496,6 +496,9 @@ if settings.EXPERIMENTS['COMPARE_SETS']:
 
 if settings.EXPERIMENTS['TRANSLATION']:
     urlpatterns += [
+                            # Ours first: set_language that also remembers the
+                            # choice on the profile (notification email language).
+                            re_path(r'^i18n/setlang/$', views.set_language_and_remember, name='set_language'),
                             re_path(r'^i18n/', include('django.conf.urls.i18n'))]
 
 urlpatterns += staticfiles_urlpatterns()
