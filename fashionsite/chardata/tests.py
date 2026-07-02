@@ -164,6 +164,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/game-modes/', '/guides/reading-an-item/',
                      '/guides/understanding-your-solution/',
                      '/guides/tuning-your-weights/',
+                     '/guides/forgemagie-planning/',
                      '/guides/mono-vs-multi-element/', '/guides/gearing-up/',
                      '/guides/comparing-builds/', '/guides/versions-explained/',
                      '/offline/', '/robots.txt', '/manifest.webmanifest',
