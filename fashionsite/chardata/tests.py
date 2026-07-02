@@ -233,6 +233,14 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_js_catalog_serves_translations(self):
+        # The popups translate through gettext() from /jsi18n/; guard that the
+        # catalog actually carries the chardata djangojs entries.
+        resp = self.client.get('/jsi18n/', headers={'accept-language': 'fr'})
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Fermer', body)
+
     def test_security_headers_sent(self):
         # SecurityMiddleware was configured but never installed, so nosniff
         # and referrer-policy were silently missing in production.
