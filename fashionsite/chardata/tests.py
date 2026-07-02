@@ -232,6 +232,19 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_home_website_jsonld_valid(self):
+        # Sitelinks searchbox: the home page carries WebSite+SearchAction
+        # JSON-LD pointing at the encyclopedia search.
+        import json
+        resp = self.client.get('/')
+        html = resp.content.decode('utf-8')
+        m = re.search(r'<script type="application/ld\+json">\s*(\{.*?"@type":\s*"WebSite".*?\})\s*</script>',
+                      html, re.S)
+        self.assertIsNotNone(m, 'WebSite JSON-LD missing on home')
+        data = json.loads(m.group(1))
+        self.assertEqual(data['potentialAction']['@type'], 'SearchAction')
+        self.assertIn('/encyclopedia/?q=', data['potentialAction']['target']['urlTemplate'])
+
     def test_default_og_image_present(self):
         # Links shared on discord/twitter need a preview image; item/set pages
         # have their own, everything else falls back to the site icon.
