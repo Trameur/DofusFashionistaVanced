@@ -7504,6 +7504,32 @@ msgstr ""
 "Disponible dans les cinq langues, accessible depuis le menu et la page "
 "d'accueil"
 
+#: chardata/templates/chardata/base.html:0
+msgid ""
+"Answer a few quick questions about your Dofus character - class, level, "
+"playstyle - and get a ready-to-use set in under a minute."
+msgstr ""
+"Réponds à quelques questions rapides sur ton personnage Dofus - classe, "
+"niveau, style de jeu - et obtiens un set prêt à l'emploi en moins d'une "
+"minute."
+
+#: chardata/templates/chardata/base.html:0
+msgid ""
+"Compare Dofus builds side by side, stat by stat. Paste share links or add "
+"builds as you browse, and see exactly what you gain and lose."
+msgstr ""
+"Compare des builds Dofus côte à côte, stat par stat. Colle des liens de "
+"partage ou ajoute des builds en naviguant, et vois exactement ce que tu "
+"gagnes et perds."
+
+#: chardata/templates/chardata/base.html:0
+msgid ""
+"Your Dofus crafting workshop: collect the items you need from your builds "
+"and get the full list of ingredients to gather, totalled across recipes."
+msgstr ""
+"Ton atelier de craft Dofus : rassemble les items de tes builds et obtiens la"
+" liste complète des ingrédients à réunir, totalisée sur toutes les recettes."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
