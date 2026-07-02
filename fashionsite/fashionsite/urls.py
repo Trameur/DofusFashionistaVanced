@@ -247,12 +247,18 @@ def sitemap_view(request):
     for path, freq, prio in static_paths:
         blocks.append(_sitemap_url(base_url + path, freq, prio))
 
-    # Guides hub + each guide (original editorial content).
+    # Guides hub + each guide (original editorial content), with the article's
+    # publish date as lastmod.
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
     try:
         from chardata import guides_content
         for slug in guides_content.ORDER:
-            blocks.append(_sitemap_url('%s/guides/%s/' % (base_url, slug), 'monthly', '0.7'))
+            published = guides_content.GUIDES[slug].get('published')
+            lastmod = ('\n    <lastmod>%s</lastmod>' % published) if published else ''
+            blocks.append('  <url>\n    <loc>%s/guides/%s/</loc>%s\n'
+                          '    <changefreq>monthly</changefreq>\n'
+                          '    <priority>0.7</priority>\n  </url>'
+                          % (base_url, slug, lastmod))
     except Exception:
         pass
 
