@@ -738,6 +738,18 @@ class GuidesContentTests(TestCase):
         self.assertIsNotNone(tag)
         self.assertIn('https://dofusfashionista.gg/guides/getting-started/', tag.group(0))
 
+    def test_hub_has_valid_itemlist_jsonld(self):
+        import json
+        from chardata import guides_content
+        resp = self.client.get('/guides/')
+        html = resp.content.decode('utf-8')
+        blocks = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
+                            html, re.S)
+        lists = [json.loads(b) for b in blocks
+                 if json.loads(b).get('@type') == 'ItemList']
+        self.assertEqual(len(lists), 1, 'ItemList JSON-LD missing on guides hub')
+        self.assertEqual(len(lists[0]['itemListElement']), len(guides_content.ORDER))
+
     def test_guide_has_valid_breadcrumb_jsonld(self):
         import json
         resp = self.client.get('/guides/getting-started/')
