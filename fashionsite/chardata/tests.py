@@ -1064,6 +1064,20 @@ class GuidesContentTests(TestCase):
         resp = self.client.get('/guides/getting-started/')
         self.assertContains(resp, 'href="/setup/"')
 
+    def test_all_guide_body_links_resolve(self):
+        # Every root-relative link in every language's body must keep resolving
+        # when site URLs change; a dead link in editorial content is invisible
+        # until a reader hits it.
+        from chardata import guides_content
+        hrefs = set()
+        for guide in guides_content.GUIDES.values():
+            for block in guide['i18n'].values():
+                hrefs.update(re.findall(r'href="(/[^"]*)"', block['body']))
+        self.assertTrue(hrefs)
+        for href in sorted(hrefs):
+            resp = self.client.get(href.split('#')[0])
+            self.assertIn(resp.status_code, (200, 301, 302), href)
+
     def test_content_is_translated_per_language(self):
         # Each language must serve its own hand-written title, not the English one.
         cases = {
