@@ -7168,3 +7168,19 @@ msgstr "Sprache der E-Mails"
 
 msgid "Automatic"
 msgstr "Automatisch"
+
+msgid "Notification emails in your language"
+msgstr "Benachrichtigungs-E-Mails in deiner Sprache"
+
+msgid ""
+"Comment notifications now arrive in the language you use on the site, not "
+"always in English"
+msgstr ""
+"Kommentar-Benachrichtigungen kommen jetzt in der Sprache, die du auf der "
+"Seite nutzt, nicht mehr immer auf Englisch"
+
+msgid ""
+"You can also pick the email language explicitly in your account settings"
+msgstr ""
+"Du kannst die E-Mail-Sprache auch explizit in deinen Kontoeinstellungen "
+"festlegen"

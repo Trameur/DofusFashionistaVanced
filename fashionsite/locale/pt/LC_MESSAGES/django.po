@@ -7140,6 +7140,22 @@ msgstr "Idioma dos e-mails"
 msgid "Automatic"
 msgstr "Automático"
 
+msgid "Notification emails in your language"
+msgstr "E-mails de notificação no seu idioma"
+
+msgid ""
+"Comment notifications now arrive in the language you use on the site, not "
+"always in English"
+msgstr ""
+"As notificações de comentários agora chegam no idioma que você usa no site, "
+"não mais sempre em inglês"
+
+msgid ""
+"You can also pick the email language explicitly in your account settings"
+msgstr ""
+"Você também pode escolher explicitamente o idioma dos e-mails nas "
+"configurações da sua conta"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
