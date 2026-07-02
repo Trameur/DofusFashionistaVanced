@@ -1331,11 +1331,6 @@ msgstr "Francés"
 msgid "Spanish"
 msgstr "Español"
 
-#: chardata/templates/chardata/language-selector.html:22
-#: chardata/templates/chardata/language-selector.html:42
-msgid "Deutsch"
-msgstr "Deutsch"
-
 #: chardata/templates/chardata/language-selector.html:25
 #: chardata/templates/chardata/language-selector.html:45
 msgid "Italian"
@@ -7065,6 +7060,10 @@ msgstr "Build no encontrado"
 #: chardata/shared_builds_view.py:0
 msgid "Internal server error"
 msgstr "Error interno del servidor"
+
+#: chardata/templates/chardata/language-selector.html:0
+msgid "German"
+msgstr "Alemán"
 
 #~ msgid "Send"
 #~ msgstr "Enviar"

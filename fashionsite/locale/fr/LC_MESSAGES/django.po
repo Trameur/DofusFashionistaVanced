@@ -1435,11 +1435,6 @@ msgstr "Français"
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: fashionsite/chardata/templates/chardata/language-selector.html:22
-#: fashionsite/chardata/templates/chardata/language-selector.html:42
-msgid "Deutsch"
-msgstr "Allemand"
-
 #: fashionsite/chardata/templates/chardata/language-selector.html:25
 #: fashionsite/chardata/templates/chardata/language-selector.html:45
 msgid "Italian"
@@ -7549,6 +7544,10 @@ msgstr "Build introuvable"
 #: chardata/shared_builds_view.py:0
 msgid "Internal server error"
 msgstr "Erreur interne du serveur"
+
+#: chardata/templates/chardata/language-selector.html:0
+msgid "German"
+msgstr "Allemand"
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"
