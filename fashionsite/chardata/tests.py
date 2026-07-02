@@ -232,6 +232,14 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_default_og_image_present(self):
+        # Links shared on discord/twitter need a preview image; item/set pages
+        # have their own, everything else falls back to the site icon.
+        for path in ['/', '/guides/getting-started/', '/smartbuild/']:
+            with self.subTest(path=path):
+                resp = self.client.get(path)
+                self.assertContains(resp, 'property="og:image"')
+
     def test_404_page_is_translated(self):
         # The error page is user-visible in every language; the fr heading had
         # silently shipped in english.
