@@ -684,6 +684,24 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class AuthenticatedPagesSmokeTests(TestCase):
+    """The anonymous smoke tests cover the public site; these cover the pages
+    a logged-in player actually lives in."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.user = User.objects.create_user('smoketester', 'smoke@test.local',
+                                             'irrelevant-password')
+        self.client.force_login(self.user)
+
+    def test_logged_in_pages_ok(self):
+        for path in ['/feed/', '/inventory/', '/workshop/', '/loadprojects/']:
+            with self.subTest(path=path):
+                resp = self.client.get(path)
+                self.assertEqual(resp.status_code, 200,
+                                 msg='%s -> %s' % (path, resp.status_code))
+
+
 class ErrorHandlerRenderTests(TestCase):
     """The 500 handler renders a full template (extends base); if that render
     itself breaks, users get a blank page exactly when things already went
