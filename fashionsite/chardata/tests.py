@@ -1250,3 +1250,23 @@ class LocalizedUiParityTests(SimpleTestCase):
     def test_encyclopedia_ui_parity(self):
         from chardata.encyclopedia_view import LOCALIZED_UI
         self._assert_parity(LOCALIZED_UI, 'encyclopedia')
+
+
+class ApiDocsTests(TestCase):
+    """The public API advertises /about/#api as its docs; that section must
+    exist, stay translated, and the meta endpoint must keep pointing at it."""
+
+    def test_about_documents_the_api(self):
+        resp = self.client.get('/about/')
+        self.assertContains(resp, 'id="api"')
+        self.assertContains(resp, '/api/v1/shared-builds/')
+
+    def test_about_api_section_is_translated(self):
+        cases = {'fr': 'API publique', 'es': 'API p', 'pt': 'API p', 'de': 'ffentliche API'}
+        for lang, needle in cases.items():
+            resp = self.client.get('/about/', headers={'accept-language': lang})
+            self.assertContains(resp, needle, msg_prefix=lang)
+
+    def test_meta_endpoint_points_to_about_anchor(self):
+        resp = self.client.get('/api/v1/')
+        self.assertEqual(resp.json()['docs'], 'https://dofusfashionista.gg/about/#api')

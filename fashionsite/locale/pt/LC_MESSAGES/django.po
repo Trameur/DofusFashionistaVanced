@@ -7054,6 +7054,36 @@ msgstr "Erro interno do servidor"
 msgid "German"
 msgstr "Alemão"
 
+msgid "Public API"
+msgstr "API pública"
+
+msgid ""
+"The site also offers a small read-only JSON API: no authentication, open "
+"CORS, responses cached for 60 seconds. It only exposes builds that their "
+"owners have shared publicly. Use it for Discord bots, stream overlays or fan"
+" sites."
+msgstr ""
+"O site também oferece uma pequena API JSON somente leitura: sem "
+"autenticação, CORS aberto e respostas em cache por 60 segundos. Ela só expõe"
+" os builds que seus donos compartilharam publicamente. Use-a para bots do "
+"Discord, overlays de stream ou sites de fãs."
+
+msgid "list of endpoints"
+msgstr "lista de endpoints"
+
+msgid "shared builds, paginated, most recently updated first"
+msgstr ""
+"builds compartilhados, paginados, os atualizados mais recentemente primeiro"
+
+msgid "one shared build, with its comment count and link"
+msgstr "um build compartilhado, com seu número de comentários e seu link"
+
+msgid ""
+"top shared builds per class, ranked by community likes, favorites and views"
+msgstr ""
+"melhores builds compartilhados por classe, classificados por likes, "
+"favoritos e visualizações da comunidade"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

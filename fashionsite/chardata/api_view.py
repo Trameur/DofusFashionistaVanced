@@ -77,7 +77,7 @@ def api_meta(request):
             'GET /api/v1/shared-builds/<encoded_id>/',
             'GET /api/v1/tier-list/?game_version=dofus3&char_class=Iop',
         ],
-        'docs': 'https://dofusfashionista.gg/about/',
+        'docs': 'https://dofusfashionista.gg/about/#api',
     })
 
 

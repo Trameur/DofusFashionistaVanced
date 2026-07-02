@@ -29,6 +29,16 @@
     <p>{% trans "The Dofus Fashionista is open source software. The code can be found in" %} <a href="https://github.com/Trameurs/DofusFashionistaVanced">GitHub</a>.</p>
     <p>{% blocktrans %}To report problems, suggest new features, or rant about the lack of skill of your kolo team, <a href="{{contact_url}}">contact us</a>.{% endblocktrans %}</p>
     <p><a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a></p>
+
+    <h2 id="api">{% trans "Public API" %}</h2>
+    <p>{% trans "The site also offers a small read-only JSON API: no authentication, open CORS, responses cached for 60 seconds. It only exposes builds that their owners have shared publicly. Use it for Discord bots, stream overlays or fan sites." %}</p>
+    <ul>
+      <li><code>GET /api/v1/</code> &mdash; {% trans "list of endpoints" %}</li>
+      <li><code>GET /api/v1/shared-builds/?game_version=dofus3&amp;page=1&amp;page_size=20</code> &mdash; {% trans "shared builds, paginated, most recently updated first" %}</li>
+      <li><code>GET /api/v1/shared-builds/&lt;id&gt;/</code> &mdash; {% trans "one shared build, with its comment count and link" %}</li>
+      <li><code>GET /api/v1/tier-list/?game_version=dofus3&amp;char_class=Iop&amp;top=5</code> &mdash; {% trans "top shared builds per class, ranked by community likes, favorites and views" %}</li>
+    </ul>
+
     <p>{% trans "Website version:" %} {{site_version}}</p>
     <p>{{ about_language_name }} version by: {{ about_language_author }}</p>
     

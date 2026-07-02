@@ -7083,3 +7083,32 @@ msgstr "Interner Serverfehler"
 #: chardata/templates/chardata/language-selector.html:0
 msgid "German"
 msgstr "Deutsch"
+
+msgid "Public API"
+msgstr "Öffentliche API"
+
+msgid ""
+"The site also offers a small read-only JSON API: no authentication, open "
+"CORS, responses cached for 60 seconds. It only exposes builds that their "
+"owners have shared publicly. Use it for Discord bots, stream overlays or fan"
+" sites."
+msgstr ""
+"Die Seite bietet auch eine kleine schreibgeschützte JSON-API: keine "
+"Authentifizierung, offenes CORS, Antworten werden 60 Sekunden lang gecacht. "
+"Sie zeigt nur Builds, die ihre Besitzer öffentlich geteilt haben. Nutze sie "
+"für Discord-Bots, Stream-Overlays oder Fanseiten."
+
+msgid "list of endpoints"
+msgstr "Liste der Endpunkte"
+
+msgid "shared builds, paginated, most recently updated first"
+msgstr "geteilte Builds, seitenweise, zuletzt aktualisierte zuerst"
+
+msgid "one shared build, with its comment count and link"
+msgstr "ein geteilter Build, mit Kommentaranzahl und Link"
+
+msgid ""
+"top shared builds per class, ranked by community likes, favorites and views"
+msgstr ""
+"beste geteilte Builds pro Klasse, sortiert nach Likes, Favoriten und "
+"Aufrufen der Community"
