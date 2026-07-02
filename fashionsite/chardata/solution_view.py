@@ -16,7 +16,7 @@
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.db.models import Count
+from django.db.models import Count, F
 from django.core.cache import cache
 import json
 import logging
@@ -445,7 +445,11 @@ def solution_linked(request, char_name, encoded_char_id):
     char = get_char_encoded_or_raise(encoded_char_id)
     if char.game_version != getattr(request, 'game_version', 'dofus3'):
         raise Http404
-    
+    # A shared build whose solution was never stored (or was reset) cannot
+    # render the solution page; 404 instead of an AttributeError 500.
+    if get_solution(char) is None:
+        raise Http404
+
     # Increment view count only once per IP per 24 hours
     try:
         ip_address = get_client_ip(request)
@@ -462,9 +466,13 @@ def solution_linked(request, char_name, encoded_char_id):
             if not recent_view:
                 # Record the view
                 BuildView.objects.create(build=char, ip_address=ip_address)
-                # Increment counter
+                # Bump the counter without char.save(): a full save rewrites
+                # every blob column and (auto_now) bumps modified_time, which
+                # pollutes the "recently updated" ordering, the API's
+                # modified_at, and the shared-build meta cache key on every
+                # single view.
+                Char.objects.filter(pk=char.pk).update(view_count=F('view_count') + 1)
                 char.view_count += 1
-                char.save()
     except Exception as e:
         # If view tracking fails, log it but don't break the page
         print(f"View tracking error: {e}")

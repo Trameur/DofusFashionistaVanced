@@ -1473,3 +1473,25 @@ class SharedBuildsHideInvalidTests(TestCase):
         resp = self.client.get('/sharedbuilds/')
         self.assertContains(resp, 'ValidementVisible')
         self.assertContains(resp, 'CorrompuCache')
+
+
+class SharedLinkWithoutSolutionTests(TestCase):
+    """A shared link to a build whose solution was never stored (or was
+    reset) used to crash with AttributeError on None; it must 404 cleanly,
+    and without counting a view."""
+
+    def test_solutionless_shared_link_is_404_not_500(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.encoded_char_id import encode_char_id
+        owner = User.objects.create_user('viewed', 'v@test.local', 'pw-42-solid')
+        build = Char.objects.create(
+            name='Vitrine', char_name='vitrine', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            owner=owner, link_shared=True, game_version='dofus3')
+        url = '/s/vitrine/%s/' % encode_char_id(build.pk)
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(Char.objects.get(pk=build.pk).view_count, 0)
