@@ -1743,9 +1743,9 @@
                     }
                 },
                 error: function(xhr) {
-                    if (xhr.responseJSON && xhr.responseJSON.error) {
-                        alert(xhr.responseJSON.error);
-                    }
+                    alert('{{ _("Error")|escapejs }}: ' + (xhr.responseJSON && xhr.responseJSON.error
+                        ? xhr.responseJSON.error
+                        : '{{ _("Unknown error")|escapejs }}'));
                 }
             });
         }
