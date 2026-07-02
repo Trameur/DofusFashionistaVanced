@@ -1334,6 +1334,16 @@ class ApiDocsTests(TestCase):
         resp = self.client.get('/api/v1/')
         self.assertEqual(resp.json()['docs'], 'https://dofusfashionista.gg/about/#api')
 
+    def test_api_responses_carry_cache_and_cors_headers(self):
+        # Public API contract: open CORS + short client-side cache, so bots
+        # and overlays do not hammer the backend.
+        for url, max_age in (('/api/v1/', 'max-age=300'),
+                             ('/api/v1/shared-builds/', 'max-age=60')):
+            resp = self.client.get(url)
+            self.assertEqual(resp.status_code, 200, url)
+            self.assertEqual(resp['Access-Control-Allow-Origin'], '*', url)
+            self.assertIn(max_age, resp.get('Cache-Control', ''), url)
+
 
 class CommentNotificationLanguageTests(TestCase):
     """The build owner gets the new-comment email in the language they last

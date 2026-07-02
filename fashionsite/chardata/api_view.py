@@ -69,6 +69,7 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
 
 
 @require_GET
+@cache_page(300)
 def api_meta(request):
     return _json({
         'api_version': API_VERSION,
