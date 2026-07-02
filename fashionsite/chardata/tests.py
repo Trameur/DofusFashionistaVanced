@@ -675,6 +675,27 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class ErrorHandlerRenderTests(TestCase):
+    """The 500 handler renders a full template (extends base); if that render
+    itself breaks, users get a blank page exactly when things already went
+    wrong. Guard that the handler produces real, translated html."""
+
+    def test_app_error_renders(self):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import AnonymousUser
+        from django.contrib.sessions.backends.db import SessionStore
+        from chardata import views
+        request = RequestFactory().get('/')
+        request.user = AnonymousUser()
+        request.session = SessionStore()
+        request.game_version = 'dofus3'
+        response = views.app_error(request)
+        self.assertEqual(response.status_code, 500)
+        body = response.content.decode('utf-8')
+        self.assertIn('500', body)
+        self.assertIn('noindex', body)
+
+
 class PrivateProjectAccessTests(TestCase):
     """Private (non-shared) project pages must never render for a third party
     (including crawlers): anonymous access to someone else's char has to be
