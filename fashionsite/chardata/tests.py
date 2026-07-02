@@ -880,6 +880,19 @@ class RegistrationFunnelTests(TestCase):
         user = User.objects.get(username='otherplayer')
         self.assertFalse(user.is_active, 'bad token must not activate')
 
+    @override_settings(DEBUG=True)
+    def test_welcome_email_follows_request_language(self):
+        # A French visitor registering must get the welcome email in French.
+        from django.core import mail
+        resp = self.client.post('/register/', {
+            'username': 'joueurfr', 'password': 'a-solid-password-42',
+            'email': 'joueurfr@test.local'},
+            headers={'accept-language': 'fr'})
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('Bienvenue', mail.outbox[0].subject)
+        self.assertNotIn('Please click', mail.outbox[0].body)
+
 
 class ContactFormTests(TestCase):
     """The contact form is the players' support lifeline; a silent breakage
