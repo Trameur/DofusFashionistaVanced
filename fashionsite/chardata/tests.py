@@ -684,6 +684,29 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class ContactFormTests(TestCase):
+    """The contact form is the players' support lifeline; a silent breakage
+    means lost messages. DEBUG=True (test settings) bypasses the captcha."""
+
+    def test_contact_page_renders(self):
+        self.assertEqual(self.client.get('/contact/').status_code, 200)
+
+    @override_settings(DEBUG=True)  # the captcha is bypassed in debug
+    def test_send_email_delivers_and_redirects(self):
+        from django.core import mail
+        resp = self.client.post('/send/', {
+            'topic': 'Bug report', 'message': 'The optimizer ate my hat.',
+            'email': 'player@test.local', 'name': 'A player'})
+        self.assertEqual(resp.status_code, 302)
+        self.assertIn('thankyou', resp.url)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('Fashionista Form: Bug report', mail.outbox[0].subject)
+
+    def test_send_email_get_redirects_to_contact(self):
+        resp = self.client.get('/send/')
+        self.assertEqual(resp.status_code, 302)
+
+
 class AuthenticatedPagesSmokeTests(TestCase):
     """The anonymous smoke tests cover the public site; these cover the pages
     a logged-in player actually lives in."""
