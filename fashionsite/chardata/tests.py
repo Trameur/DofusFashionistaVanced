@@ -1582,3 +1582,64 @@ class SharedSolutionPageDeepTests(TestCase):
         char.refresh_from_db()
         minimal = _pickle.loads(char.minimal_solution)
         self.assertEqual(minimal.item_per_slot.get('hat'), other_hat.id)
+
+
+class InlineScriptSyntaxTests(TestCase):
+    """An a11y pass once injected alt="" inside a double-quoted JS string on
+    the solution page: the 59 KB main script block stopped parsing and the
+    whole page lost its stats, popups and button labels. Syntax-check every
+    inline script of the key pages with node so that class of breakage can
+    never ship again."""
+
+    @unittest.skipIf(shutil.which('node') is None, 'node not installed')
+    def test_inline_scripts_parse(self):
+        import pickle as _pickle
+        import subprocess, tempfile
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.encoded_char_id import encode_char_id
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        s = get_structure('dofus3')
+        hat = next(i for i in s.get_unique_items_by_type_and_level('Hat', 200)
+                   if not i.removed and i.ankama_id)
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False},
+                  'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        owner = User.objects.create_user('jsowner', 'js@test.local', 'pw-42-solid')
+        char = Char.objects.create(
+            name='JsCheck', char_name='jscheck', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({'hat': hat.id}, input_, {})),
+            owner=owner, link_shared=True, game_version='dofus3')
+        self.client.force_login(owner)
+
+        pages = ['/', '/encyclopedia/', '/sharedbuilds/',
+                 '/s/jscheck/%s/' % encode_char_id(char.pk),
+                 '/solution/%d/' % char.pk]
+        script_re = re.compile(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', re.S | re.I)
+        for page in pages:
+            resp = self.client.get(page)
+            self.assertEqual(resp.status_code, 200, page)
+            html = resp.content.decode('utf-8', 'replace')
+            for idx, script in enumerate(script_re.findall(html)):
+                if not script.strip():
+                    continue
+                # JSON-LD blocks are matched by the regex too; they are not JS.
+                if script.lstrip().startswith('{'):
+                    continue
+                with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False,
+                                                 encoding='utf-8') as f:
+                    f.write(script)
+                    path = f.name
+                try:
+                    proc = subprocess.run(['node', '--check', path],
+                                          capture_output=True, text=True)
+                    self.assertEqual(
+                        proc.returncode, 0,
+                        'inline script %d of %s does not parse:\n%s'
+                        % (idx, page, proc.stderr[:800]))
+                finally:
+                    os.unlink(path)
