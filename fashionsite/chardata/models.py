@@ -247,3 +247,22 @@ class SolutionMemoryHits(models.Model):
     count_hit = models.BigIntegerField(default=0)
     count_miss = models.BigIntegerField(default=0)
     day = models.DateField(unique=True)
+
+# Signal wiring (models.py is the one chardata module Django always imports).
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
+from django.utils import translation as _translation
+
+
+@receiver(user_logged_in)
+def _remember_language_on_login(sender, request, user, **kwargs):
+    """Backfill the notification-email language for accounts that never used
+    the language selector. An explicit choice is never overwritten."""
+    try:
+        alias, _created = UserAlias.objects.get_or_create(user=user)
+        if not alias.language:
+            alias.language = _translation.get_language() or 'en'
+            alias.save(update_fields=['language'])
+    except Exception:
+        # A profile hiccup must never break the login itself.
+        pass

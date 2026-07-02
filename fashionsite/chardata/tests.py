@@ -1330,6 +1330,25 @@ class CommentNotificationLanguageTests(TestCase):
         self.assertIn(resp.status_code, (200, 302))
         self.assertEqual(UserAlias.objects.get(user=user).language, 'de')
 
+    def test_login_backfills_language(self):
+        # Accounts that never touched the language selector get the language
+        # they were browsing in when they logged in.
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        user = User.objects.create_user('nolang', 'n@test.local', 'pw-42-solid')
+        with translation.override('pt'):
+            self.client.force_login(user)
+        self.assertEqual(UserAlias.objects.get(user=user).language, 'pt')
+
+    def test_login_does_not_overwrite_explicit_choice(self):
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        user = User.objects.create_user('haslang', 'h@test.local', 'pw-42-solid')
+        UserAlias.objects.create(user=user, language='de')
+        with translation.override('fr'):
+            self.client.force_login(user)
+        self.assertEqual(UserAlias.objects.get(user=user).language, 'de')
+
     def test_notification_email_uses_owner_language(self):
         from django.contrib.auth.models import User
         from django.core import mail
