@@ -12,8 +12,9 @@
 {% block css %}
 <style>
 .encyclopedia-sets { padding: 12px; }
-.encyclopedia-back { margin-bottom: 10px; }
-.encyclopedia-back a { text-decoration: underline; }
+.encyclopedia-crumbs { font-size: 0.85em; opacity: 0.75; margin-bottom: 10px; }
+.encyclopedia-crumbs a { text-decoration: none; }
+.encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-sets-search { margin: 10px 0 14px; }
 .encyclopedia-sets-search input[type="text"] { padding: 6px 10px; min-width: 240px; }
 .encyclopedia-sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
@@ -25,16 +26,18 @@
 .dark-theme-active .encyclopedia-sets-grid a,
 .dark-theme-active .encyclopedia-sets-grid a div { color: #f3efe6; }
 .dark-theme-active .encyclopedia-sets-name { color: #fff1d6; }
-.dark-theme-active .encyclopedia-back a { color: #ffd8a8; }
+.dark-theme-active .encyclopedia-crumbs a { color: #ffd8a8; }
 </style>
 {% endblock %}
 
 {% block main %}
 <div class="encyclopedia-sets text">
     <h1 align="center">{% trans "Sets" %}</h1>
-    <div class="encyclopedia-back">
-        <a href="{% game_url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
-    </div>
+    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
+        <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
+        <span>{% trans "Sets" %}</span>
+    </nav>
 
     <form class="encyclopedia-sets-search" method="get" action="{% game_url 'encyclopedia_sets' %}">
         <input type="text" name="q" value="{{ search_text }}" placeholder="{% trans 'Search a set' %}">

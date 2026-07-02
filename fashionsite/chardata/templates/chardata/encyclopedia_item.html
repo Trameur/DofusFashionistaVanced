@@ -27,6 +27,13 @@
 .encyclopedia-item {
     padding: 12px;
 }
+.encyclopedia-crumbs {
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin-bottom: 10px;
+}
+.encyclopedia-crumbs a { text-decoration: none; }
+.encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-item-card {
     border: 1px solid rgba(61, 32, 13, 0.25);
     border-radius: 8px;
@@ -67,12 +74,6 @@
     object-fit: contain;
     flex: 0 0 auto;
 }
-.encyclopedia-back {
-    margin-bottom: 10px;
-}
-.encyclopedia-back a {
-    text-decoration: underline;
-}
 
 /* Improve readability when the active site theme is dark. */
 .dark-theme-active .encyclopedia-item-card {
@@ -105,9 +106,11 @@
 
 {% block main %}
 <div class="encyclopedia-item text">
-    <div class="encyclopedia-back">
-        <a href="{% game_url 'encyclopedia' %}">&lt; {{ t.back_to_search }}</a>
-    </div>
+    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
+        <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
+        <span>{{ item.name }}</span>
+    </nav>
 
     <div class="encyclopedia-item-card brown-box">
         <div class="encyclopedia-item-head">

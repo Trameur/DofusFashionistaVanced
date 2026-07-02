@@ -413,6 +413,21 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(data['@type'], 'BreadcrumbList')
         self.assertGreaterEqual(len(data['itemListElement']), 2)
 
+    def test_encyclopedia_pages_show_visible_breadcrumbs(self):
+        # The JSON-LD breadcrumb exists for robots; humans get the same trail.
+        from fashionistapulp.structure import get_structure
+        s = get_structure()
+        it = next(i for i in s.get_concatenated_items_lists()
+                  if getattr(i, 'ankama_id', None) and getattr(i, 'ankama_type', None))
+        set_id = next(sid for sid, iset in s.sets_dict.items() if iset.bonus)
+        for url in ('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id),
+                    '/encyclopedia/set/%d/' % set_id,
+                    '/encyclopedia/sets/'):
+            resp = self.client.get(url)
+            self.assertEqual(resp.status_code, 200, url)
+            self.assertContains(resp, 'encyclopedia-crumbs', msg_prefix=url)
+            self.assertContains(resp, 'aria-label="Breadcrumb"', msg_prefix=url)
+
     def test_encyclopedia_unknown_set_is_a_real_404_with_useful_page(self):
         # Pruned/unknown sets and items must answer 404 (so search engines
         # drop them) while still rendering the encyclopedia hub for humans.

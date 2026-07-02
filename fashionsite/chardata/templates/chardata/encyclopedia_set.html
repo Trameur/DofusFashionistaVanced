@@ -37,8 +37,13 @@
 .encyclopedia-list-stat { display: flex; align-items: center; gap: 8px; }
 .encyclopedia-list-stat-icon { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
 .encyclopedia-set-bonus-group { margin-top: 6px; }
-.encyclopedia-back { margin-bottom: 10px; }
-.encyclopedia-back a { text-decoration: underline; }
+.encyclopedia-crumbs {
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin-bottom: 10px;
+}
+.encyclopedia-crumbs a { text-decoration: none; }
+.encyclopedia-crumbs a:hover { text-decoration: underline; }
 
 /* Improve readability when the active site theme is dark. */
 .dark-theme-active .encyclopedia-item-card { border-color: #5a5a5a; background: #1f1f1f; }
@@ -57,9 +62,12 @@
 
 {% block main %}
 <div class="encyclopedia-item text">
-    <div class="encyclopedia-back">
-        <a href="{% game_url 'encyclopedia_sets' %}">&lt; {% trans "All sets" %}</a>
-    </div>
+    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
+        <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
+        <a href="{% game_url 'encyclopedia_sets' %}">{% trans "All sets" %}</a> ›
+        <span>{{ set_name }}</span>
+    </nav>
 
     <div class="encyclopedia-item-card brown-box">
         <div class="encyclopedia-set-title">{{ set_name }}</div>
