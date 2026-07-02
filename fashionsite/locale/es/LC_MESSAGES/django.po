@@ -7046,6 +7046,10 @@ msgstr ""
 "Tu taller de crafteo de Dofus: reúne los ítems de tus builds y obtén la "
 "lista completa de ingredientes a conseguir, sumada entre recetas."
 
+#: chardata/templates/chardata/solution.html:0
+msgid "Unknown error"
+msgstr "Error desconocido"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

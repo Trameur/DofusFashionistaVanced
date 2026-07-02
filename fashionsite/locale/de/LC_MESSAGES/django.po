@@ -7064,3 +7064,7 @@ msgid ""
 msgstr ""
 "Deine Dofus-Handwerkswerkstatt: sammle die Items aus deinen Builds und "
 "erhalte die komplette Zutatenliste, über alle Rezepte summiert."
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Unknown error"
+msgstr "Unbekannter Fehler"

@@ -7035,6 +7035,10 @@ msgstr ""
 "Sua oficina de craft de Dofus: reúna os itens dos seus builds e receba a "
 "lista completa de ingredientes para juntar, somada entre as receitas."
 
+#: chardata/templates/chardata/solution.html:0
+msgid "Unknown error"
+msgstr "Erro desconhecido"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

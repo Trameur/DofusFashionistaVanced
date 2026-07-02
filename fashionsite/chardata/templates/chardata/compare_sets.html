@@ -224,7 +224,7 @@ function initLinkSharing() {
         $("#link_sharing_url_text").show();
         $("#link_sharing_url_text").val(link);
     } else {
-        $("#link_sharing_button").html("Get link to share");
+        $("#link_sharing_button").html('{{ _("Get link to share")|escapejs }}');
         $("#link_sharing_url_text").hide();
         $("#link_sharing_url_text").val("");
     }

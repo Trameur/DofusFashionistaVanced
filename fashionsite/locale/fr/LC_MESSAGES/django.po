@@ -7530,6 +7530,10 @@ msgstr ""
 "Ton atelier de craft Dofus : rassemble les items de tes builds et obtiens la"
 " liste complète des ingrédients à réunir, totalisée sur toutes les recettes."
 
+#: chardata/templates/chardata/solution.html:0
+msgid "Unknown error"
+msgstr "Erreur inconnue"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

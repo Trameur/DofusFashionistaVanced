@@ -841,7 +841,7 @@ function vote(buildId, voteType, button) {
             }
         },
         error: function(xhr) {
-            alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.error : 'Unknown error'));
+            alert('{{ _("Error")|escapejs }}: ' + (xhr.responseJSON ? xhr.responseJSON.error : '{{ _("Unknown error")|escapejs }}'));
         },
         complete: function() {
             $(button).prop('disabled', false);
