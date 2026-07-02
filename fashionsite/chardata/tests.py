@@ -702,6 +702,39 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class RegistrationFunnelTests(TestCase):
+    """End-to-end signup: register -> inactive user + confirmation email ->
+    following the emailed link activates the account. This is the growth
+    funnel; it must never silently break."""
+
+    @override_settings(DEBUG=True)  # captcha bypassed in debug
+    def test_register_confirm_activates_account(self):
+        from django.contrib.auth.models import User
+        from django.core import mail
+        resp = self.client.post('/register/', {
+            'username': 'newplayer', 'password': 'a-solid-password-42',
+            'email': 'newplayer@test.local'})
+        self.assertEqual(resp.status_code, 302)
+        user = User.objects.get(username='newplayer')
+        self.assertFalse(user.is_active, 'account must start inactive')
+        self.assertEqual(len(mail.outbox), 1)
+        m = re.search(r'/confirm_email/[^/\s]+/[^/\s]+/', mail.outbox[0].body)
+        self.assertIsNotNone(m, 'confirmation link missing from the email')
+        resp = self.client.get(m.group(0))
+        user.refresh_from_db()
+        self.assertTrue(user.is_active, 'confirmation link must activate')
+
+    @override_settings(DEBUG=True)
+    def test_bad_confirmation_token_rejected(self):
+        from django.contrib.auth.models import User
+        self.client.post('/register/', {
+            'username': 'otherplayer', 'password': 'a-solid-password-42',
+            'email': 'otherplayer@test.local'})
+        resp = self.client.get('/confirm_email/otherplayer/wrongtoken/')
+        user = User.objects.get(username='otherplayer')
+        self.assertFalse(user.is_active, 'bad token must not activate')
+
+
 class ContactFormTests(TestCase):
     """The contact form is the players' support lifeline; a silent breakage
     means lost messages. DEBUG=True (test settings) bypasses the captcha."""
