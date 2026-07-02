@@ -21,9 +21,11 @@
     <meta property="og:description" content="Create optimized Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} equipment sets automatically based on your character's needs.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dofusfashionista.gg{{ request.path }}">
-    <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/icon-512.png' %}">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="https://dofusfashionista.gg{% static 'chardata/icon-512.png' %}">
+    <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
     {% endblock %}
     {% block structured_data %}{% endblock %}
     <title>{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}</title>

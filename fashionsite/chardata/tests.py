@@ -273,11 +273,17 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_default_og_image_present(self):
         # Links shared on discord/twitter need a preview image; item/set pages
-        # have their own, everything else falls back to the site icon.
+        # have their own, everything else falls back to the wide brand card
+        # (1200x630, summary_large_image).
         for path in ['/', '/guides/getting-started/', '/smartbuild/']:
             with self.subTest(path=path):
                 resp = self.client.get(path)
                 self.assertContains(resp, 'property="og:image"')
+                self.assertContains(resp, 'og-card.jpg')
+                self.assertContains(resp, 'summary_large_image')
+        import os
+        card = os.path.join(os.path.dirname(__file__), 'static', 'chardata', 'og-card.jpg')
+        self.assertTrue(os.path.exists(card), 'og-card.jpg missing from static')
 
     def test_404_page_is_translated(self):
         # The error page is user-visible in every language; the fr heading had
