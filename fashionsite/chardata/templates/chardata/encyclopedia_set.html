@@ -3,7 +3,7 @@
 {% load static_s3 %}
 {% load i18n %}
 
-{% block title %}{{ set_name }} - {{ t.set_label }} · Dofus Fashionista{% endblock %}
+{% block title %}{{ set_name }} - {{ t.set_label }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% block meta_description %}{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 

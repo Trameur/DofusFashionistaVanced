@@ -3,7 +3,7 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% block title %}{{ guide.title }} · Dofus Fashionista{% endblock %}
+{% block title %}{{ guide.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{{ guide.desc }}{% endblock %}
 {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'guide' guide.slug %}">{% endblock %}
 

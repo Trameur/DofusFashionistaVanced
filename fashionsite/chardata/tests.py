@@ -179,17 +179,18 @@ class PublicRouteSmokeTests(TestCase):
         # (no "The") in the other languages.
         cases = {'en': 'The Dofus Fashionista:', 'fr': 'Dofus Fashionista :',
                  'de': 'Dofus Fashionista:'}
-        for lang, expected in cases.items():
-            with self.subTest(lang=lang):
-                resp = self.client.get('/faq/', headers={'accept-language': lang})
-                self.assertEqual(resp.status_code, 200)
-                title = re.search(r'<title>([^<]*)</title>',
-                                  resp.content.decode('utf-8')).group(1)
-                if lang == 'en':
-                    self.assertIn('The Dofus Fashionista', title)
-                else:
-                    self.assertNotIn('The Dofus Fashionista', title)
-                    self.assertIn('Dofus Fashionista', title)
+        for path in ('/faq/', '/encyclopedia/', '/guides/'):
+            for lang in cases:
+                with self.subTest(path=path, lang=lang):
+                    resp = self.client.get(path, headers={'accept-language': lang})
+                    self.assertEqual(resp.status_code, 200)
+                    title = re.search(r'<title>([^<]*)</title>',
+                                      resp.content.decode('utf-8')).group(1)
+                    if lang == 'en':
+                        self.assertIn('The Dofus Fashionista', title)
+                    else:
+                        self.assertNotIn('The Dofus Fashionista', title)
+                        self.assertIn('Dofus Fashionista', title)
 
     def test_smart_build_understands_a_german_query(self):
         # POST a German description (no confirm) -> the view echoes the parsed
