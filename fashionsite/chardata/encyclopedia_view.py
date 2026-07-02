@@ -862,9 +862,7 @@ def encyclopedia(request):
             if _real_variant is not None:
                 item = _real_variant
         display_name = _get_display_name_for_group(structure, variants, language)
-        stat_lines = _get_stat_lines(structure, item, language)
         type_name = structure.get_type_name_by_id(item.type)
-        localized_type_name = _localized_label(type_name, language)
         if selected_type and type_name != selected_type:
             continue
         if min_level is not None and item.level < min_level:
@@ -883,26 +881,14 @@ def encyclopedia(request):
         if stat_filter_failed:
             continue
 
-        detail_url = get_item_link(item.ankama_type, item.ankama_id, display_name,
-                                   game_version=getattr(request, 'game_version', 'dofus3'))
-        item_set = None
-        if getattr(item, 'set', None) is not None:
-            item_set = (structure.sets_dict.get(item.set)
-                        or structure.dt_sets_dict.get(item.set))
+        # Only what filtering/sorting needs; the expensive card fields (stat
+        # lines, hashed image URL, set names) are built after pagination, for
+        # the 39 items actually shown.
         filtered_items.append({
-            'id': item.id,
-            'ankama_id': item.ankama_id,
-            'ankama_type': item.ankama_type,
+            'item': item,
             'name': display_name,
-            'or_name': item.or_name,
             'level': item.level,
-            'type_name': localized_type_name,
-            'image_url': static(get_image_url(type_name, item.name)),
-            'detail_url': detail_url,
-            'set_id': item_set.id if item_set else None,
-            'set_name': (item_set.localized_names.get(language)
-                         or item_set.localized_names.get('en') or item_set.name) if item_set else None,
-            'stat_lines': stat_lines,
+            'raw_type_name': type_name,
             'stats_map': stats_map,
         })
 
@@ -929,6 +915,36 @@ def encyclopedia(request):
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
+
+    # Materialize the full cards for the current page only.
+    game_version = getattr(request, 'game_version', 'dofus3')
+    cards = []
+    for entry in page_obj.object_list:
+        item = entry['item']
+        display_name = entry['name']
+        type_name = entry['raw_type_name']
+        item_set = None
+        if getattr(item, 'set', None) is not None:
+            item_set = (structure.sets_dict.get(item.set)
+                        or structure.dt_sets_dict.get(item.set))
+        cards.append({
+            'id': item.id,
+            'ankama_id': item.ankama_id,
+            'ankama_type': item.ankama_type,
+            'name': display_name,
+            'or_name': item.or_name,
+            'level': item.level,
+            'type_name': _localized_label(type_name, language),
+            'image_url': static(get_image_url(type_name, item.name)),
+            'detail_url': get_item_link(item.ankama_type, item.ankama_id,
+                                        display_name, game_version=game_version),
+            'set_id': item_set.id if item_set else None,
+            'set_name': (item_set.localized_names.get(language)
+                         or item_set.localized_names.get('en') or item_set.name) if item_set else None,
+            'stat_lines': _get_stat_lines(structure, item, language),
+            'stats_map': entry['stats_map'],
+        })
+    page_obj.object_list = cards
 
     query_without_page = request.GET.copy()
     if 'page' in query_without_page:
