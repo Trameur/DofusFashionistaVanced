@@ -33,7 +33,7 @@
         {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
         {% for item in list %}
             <div class="home-pic-holder">
-                <img src="{{ item.file }}" title="{{ item.name }}" class="home-pic" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                <img src="{{ item.file }}" title="{{ item.name }}" alt="{{ item.name }}" class="home-pic" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
         {% endfor %}
        </td>
@@ -44,7 +44,7 @@
     {% for button in buttons %}
     <div class="giant-button {{button.class}}" align="center">
         <div class="giant-button-pic">
-             <img src="{{button.pic}}">
+             <img src="{{button.pic}}" alt="">
         </div>
         <div>
             <a class="giant-button-text" href="{{button.link}}">{{button.label}}</a>

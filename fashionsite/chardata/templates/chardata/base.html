@@ -119,15 +119,15 @@
         <div class='banner' ALIGN=CENTER "position:relative; z-index:1">
           <br>   
           {% if current_game_version == 'beta' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.png" %}"></img></a>
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.png" %}" alt="Dofus Fashionista"></img></a>
           {% elif current_game_version == 'dofus2' or current_game_version == 'retro' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}"></img></a>
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}" alt="Dofus Fashionista"></img></a>
           {% else %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}"></img></a>
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}" alt="Dofus Fashionista"></img></a>
           {% endif %}
         </div>
         <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
-          <a href="{% game_url 'home' %}"><img  class='char' src="{% static pic %}"></img></a>
+          <a href="{% game_url 'home' %}"><img  class='char' src="{% static pic %}" alt=""></img></a>
         </div>
         
         
@@ -247,7 +247,7 @@
               </div>
               <hr class="menu-hor-line">
               <div>
-                <a class="menu_link menu_link_middle rerun-button" href="{% game_url 'fashion' char_id %}"><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img"></img>{% trans "Tailor a New Set" %}</a>
+                <a class="menu_link menu_link_middle rerun-button" href="{% game_url 'fashion' char_id %}"><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img" alt=""></img>{% trans "Tailor a New Set" %}</a>
               </div>
               <hr class="menu-hor-line">
     {% endif %}
