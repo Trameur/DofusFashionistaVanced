@@ -246,8 +246,16 @@ def get_item_stats(request):
     item_id = request.POST.get('itemId', None)
     if item_id == '':
         return HttpResponseJson(None)
+    try:
+        item_id = int(item_id)
+    except (TypeError, ValueError):
+        return HttpResponseJson(None)
     structure = get_structure()
-    item = structure.get_item_by_id(int(item_id))
+    item = structure.get_item_by_id(item_id)
+    if item is None:
+        # Stale compare page or an id from another game version: no such item
+        # in the current structure, answer null like the empty-id case.
+        return HttpResponseJson(None)
     result_item = ModelResultItem(item)
     evolve_result_item(result_item)
     

@@ -737,6 +737,26 @@ class WorkshopTests(TestCase):
         self.assertEqual(resp.status_code, 302)
 
 
+class GetItemStatsTests(TestCase):
+    """/get_item_stats_compare/ powers the compare-page item tooltips. Ids
+    that are not in the current structure (stale page, other game version)
+    used to crash with ModelResultItem(None) missing .slot — seen in prod."""
+
+    def test_valid_item_returns_stats(self):
+        from fashionistapulp.structure import get_structure
+        item = next(iter(get_structure('dofus3').get_concatenated_items_lists()))
+        resp = self.client.post('/get_item_stats_compare/', {'itemId': item.id})
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('stats_lines', resp.content.decode('utf-8'))
+
+    def test_unknown_or_malformed_id_answers_null_not_500(self):
+        for bad in ('99999999', 'abc', ''):
+            resp = self.client.post('/get_item_stats_compare/', {'itemId': bad})
+            self.assertEqual(resp.status_code, 200, 'itemId=%r' % bad)
+        resp = self.client.post('/get_item_stats_compare/')
+        self.assertEqual(resp.status_code, 200)
+
+
 class CommunityFeatureTests(TestCase):
     """Comments and votes on shared builds are the retention features; cover
     the happy paths and the auth guard."""
