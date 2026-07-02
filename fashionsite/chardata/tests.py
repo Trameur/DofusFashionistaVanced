@@ -341,6 +341,12 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotContains(resp, 'Jellix Set')
         self.assertContains(resp, 'property="og:image"')  # item-specific social preview
 
+    def test_encyclopedia_title_carries_brand(self):
+        resp = self.client.get('/encyclopedia/')
+        title = re.search(r'<title>([^<]*)</title>',
+                          resp.content.decode('utf-8')).group(1)
+        self.assertIn('Dofus Fashionista', title)
+
     def test_encyclopedia_search_filters_results(self):
         # The WebSite SearchAction points google at /encyclopedia/?q=...; the
         # search must actually filter (a broken filter would surface directly
