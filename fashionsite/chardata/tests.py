@@ -341,6 +341,24 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotContains(resp, 'Jellix Set')
         self.assertContains(resp, 'property="og:image"')  # item-specific social preview
 
+    def test_encyclopedia_search_filters_results(self):
+        # The WebSite SearchAction points google at /encyclopedia/?q=...; the
+        # search must actually filter (a broken filter would surface directly
+        # in the sitelinks searchbox). Count result cards via their item links
+        # (the changelog modal on every page mentions item names, so plain
+        # substring checks are unreliable).
+        resp = self.client.get('/encyclopedia/', {'q': 'Gelano'})
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8')
+        hits = html.count('/encyclopedia/item/')
+        self.assertGreater(hits, 0, 'narrow search returned no result cards')
+        self.assertLess(hits, 40, 'narrow search rendered the whole catalog')
+
+    def test_encyclopedia_search_no_result_is_clean(self):
+        resp = self.client.get('/encyclopedia/', {'q': 'zzzznotanitemzzzz'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content.decode('utf-8').count('/encyclopedia/item/'), 0)
+
     def test_encyclopedia_sets_list_page_ok(self):
         resp = self.client.get('/encyclopedia/sets/')
         self.assertEqual(resp.status_code, 200)
