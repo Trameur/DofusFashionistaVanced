@@ -660,6 +660,30 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class PrivateProjectAccessTests(TestCase):
+    """Private (non-shared) project pages must never render for a third party
+    (including crawlers): anonymous access to someone else's char has to be
+    denied, so private builds cannot leak or get indexed."""
+
+    def _make_private_char(self):
+        from chardata.models import Char
+        return Char.objects.create(
+            name='Private build', char_name='hero', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            link_shared=False, game_version='dofus3')
+
+    def test_anonymous_cannot_open_private_project_pages(self):
+        char = self._make_private_char()
+        for path in ['/solution/%d/' % char.id, '/wizard/%d/' % char.id,
+                     '/setup/%d/' % char.id]:
+            with self.subTest(path=path):
+                resp = self.client.get(path)
+                self.assertIn(resp.status_code, (302, 403, 404),
+                              msg='%s leaked with %s' % (path, resp.status_code))
+
+
 class StaticStorageRegressionTests(SimpleTestCase):
     """Guards the encyclopedia 500: under the production ManifestStaticFilesStorage
     a {% static %} reference to an asset that wasn't collected (a single missing
