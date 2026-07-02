@@ -993,12 +993,15 @@ def encyclopedia_set(request, set_id):
     t = _ui_text()
 
     set_id = safe_int(set_id, None)
-    if set_id is None:
-        return redirect(version_reverse(request, 'encyclopedia'))
     # sets_dict first, like read_set_bonus_table / get_set_by_id (the bonus-bearing set).
-    item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
+    item_set = None
+    if set_id is not None:
+        item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
     if item_set is None:
-        return redirect(version_reverse(request, 'encyclopedia'))
+        # Same policy as unknown items: useful page, real 404 status.
+        response = encyclopedia(request)
+        response.status_code = 404
+        return response
 
     game_version = getattr(request, 'game_version', 'dofus3')
     set_name = (item_set.localized_names.get(language)
@@ -1119,9 +1122,13 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
 
     if matched_item is None:
         # Item doesn't exist in this game version (e.g. after switching versions
-        # from an item page) — fall back to the version's main encyclopedia
-        # rather than showing a 404.
-        return redirect(version_reverse(request, 'encyclopedia'))
+        # from an item page, or pruned in a data update) — show the version's
+        # main encyclopedia so the visitor still lands somewhere useful, but as
+        # a real 404 so search engines drop the dead URL instead of treating
+        # the old redirect as a soft-404.
+        response = encyclopedia(request)
+        response.status_code = 404
+        return response
 
     group_key = _get_item_group_key(matched_item)
     grouped_variants = [

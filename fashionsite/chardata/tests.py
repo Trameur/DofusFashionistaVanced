@@ -413,10 +413,14 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(data['@type'], 'BreadcrumbList')
         self.assertGreaterEqual(len(data['itemListElement']), 2)
 
-    def test_encyclopedia_unknown_set_redirects_to_encyclopedia(self):
-        resp = self.client.get('/encyclopedia/set/99999999/')
-        self.assertEqual(resp.status_code, 302)
-        self.assertIn('/encyclopedia', resp['Location'])
+    def test_encyclopedia_unknown_set_is_a_real_404_with_useful_page(self):
+        # Pruned/unknown sets and items must answer 404 (so search engines
+        # drop them) while still rendering the encyclopedia hub for humans.
+        for url in ('/encyclopedia/set/99999999/',
+                    '/encyclopedia/item/equipment/99999999-gone/'):
+            resp = self.client.get(url)
+            self.assertEqual(resp.status_code, 404, url)
+            self.assertContains(resp, '/encyclopedia/', status_code=404)
 
     def test_encyclopedia_list_card_links_to_set(self):
         # Items in a panoply now expose a link to their set page from the list card.
