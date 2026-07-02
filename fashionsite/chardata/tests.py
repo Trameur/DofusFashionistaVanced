@@ -233,6 +233,15 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_service_worker_stays_network_first(self):
+        # The sw must keep navigations network-first, otherwise users get stuck
+        # on a stale cached site after a deploy.
+        resp = self.client.get('/sw.js')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn("req.mode === 'navigate'", body)
+        self.assertIn('fetch(req).catch', body)
+
     def test_js_catalog_serves_translations(self):
         # The popups translate through gettext() from /jsi18n/; guard that the
         # catalog actually carries the chardata djangojs entries.
