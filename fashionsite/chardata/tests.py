@@ -702,6 +702,44 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class CommunityFeatureTests(TestCase):
+    """Comments and votes on shared builds are the retention features; cover
+    the happy paths and the auth guard."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        self.user = User.objects.create_user('communaut', 'c@test.local', 'pw-42-solid')
+        self.build = Char.objects.create(
+            name='Shared build', char_name='hero', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            link_shared=True, game_version='dofus3')
+
+    def test_post_comment(self):
+        self.client.force_login(self.user)
+        resp = self.client.post('/postcomment/%d/' % self.build.id,
+                                {'content': 'Nice build, works great on my server.'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.json()['success'])
+        self.assertIn('Nice build', resp.json()['comment']['content'])
+
+    def test_vote_build_like(self):
+        self.client.force_login(self.user)
+        resp = self.client.post('/votebuild/%d/' % self.build.id,
+                                {'vote_type': 'like', 'action': 'add'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json().get('like_count'), 1)
+
+    def test_anonymous_cannot_comment_or_vote(self):
+        for path in ['/postcomment/%d/' % self.build.id,
+                     '/votebuild/%d/' % self.build.id]:
+            with self.subTest(path=path):
+                resp = self.client.post(path, {'content': 'x'})
+                self.assertEqual(resp.status_code, 302)
+
+
 class RegistrationFunnelTests(TestCase):
     """End-to-end signup: register -> inactive user + confirmation email ->
     following the emailed link activates the account. This is the growth
