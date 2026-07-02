@@ -731,6 +731,19 @@ class GuidesContentTests(TestCase):
         self.assertIsNotNone(tag)
         self.assertIn('https://dofusfashionista.gg/guides/getting-started/', tag.group(0))
 
+    def test_guide_has_valid_breadcrumb_jsonld(self):
+        import json
+        resp = self.client.get('/guides/getting-started/')
+        html = resp.content.decode('utf-8')
+        blocks = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
+                            html, re.S)
+        crumbs = [json.loads(b) for b in blocks
+                  if json.loads(b).get('@type') == 'BreadcrumbList']
+        self.assertEqual(len(crumbs), 1, 'BreadcrumbList JSON-LD missing on guide page')
+        items = crumbs[0]['itemListElement']
+        self.assertEqual(len(items), 3)
+        self.assertTrue(items[2]['name'])
+
     def test_guide_body_links_back_into_the_tool(self):
         # Internal links (SEO + UX): the article body points at real tool pages.
         resp = self.client.get('/guides/getting-started/')

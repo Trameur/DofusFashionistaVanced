@@ -30,6 +30,17 @@
   "publisher": {"@type": "Organization", "name": "Dofus Fashionista"}
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "{% trans 'Home' %}", "item": "https://dofusfashionista.gg/"},
+    {"@type": "ListItem", "position": 2, "name": "{% trans 'Guides & tips' %}", "item": "https://dofusfashionista.gg{% url 'guides' %}"},
+    {"@type": "ListItem", "position": 3, "name": "{{ guide.title|escapejs }}"}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block css %}
