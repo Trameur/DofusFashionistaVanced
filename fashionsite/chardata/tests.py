@@ -1248,6 +1248,16 @@ class LocalizedUiParityTests(SimpleTestCase):
 
     LANGS = ['en', 'fr', 'es', 'pt', 'de']
 
+    def test_encyclopedia_ui_uses_proper_accents(self):
+        # The encyclopedia dict shipped unaccented ("Encyclopedie", "Direcao");
+        # pin a few strings so the accents don't regress.
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        self.assertEqual(LOCALIZED_UI['fr']['title'], 'Encyclopédie')
+        self.assertEqual(LOCALIZED_UI['fr']['details_title'], "Détails de l'objet")
+        self.assertEqual(LOCALIZED_UI['es']['search_label'], 'Búsqueda')
+        self.assertEqual(LOCALIZED_UI['pt']['title'], 'Enciclopédia')
+        self.assertEqual(LOCALIZED_UI['de']['title'], 'Enzyklopädie')
+
     def _assert_parity(self, dictionary, name):
         for lang in self.LANGS:
             self.assertIn(lang, dictionary, msg='%s missing %s' % (name, lang))
