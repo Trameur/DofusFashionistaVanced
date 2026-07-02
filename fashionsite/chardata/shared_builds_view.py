@@ -559,7 +559,7 @@ def vote_build(request, build_id):
         action = request.POST.get('action')  # 'add' or 'remove'
         
         if vote_type not in ['like', 'favorite']:
-            return JsonResponse({'error': 'Invalid vote type'}, status=400)
+            return JsonResponse({'error': _('Invalid vote type')}, status=400)
         
         if action == 'add':
             BuildVote.objects.get_or_create(user=request.user, build=build, vote_type=vote_type)
@@ -568,7 +568,7 @@ def vote_build(request, build_id):
             BuildVote.objects.filter(user=request.user, build=build, vote_type=vote_type).delete()
             message = 'Removed'
         else:
-            return JsonResponse({'error': 'Invalid action'}, status=400)
+            return JsonResponse({'error': _('Invalid action')}, status=400)
         
         # Get updated counts
         like_count = BuildVote.objects.filter(build=build, vote_type='like').count()
@@ -581,7 +581,7 @@ def vote_build(request, build_id):
             'favorite_count': favorite_count
         })
     except Char.DoesNotExist:
-        return JsonResponse({'error': 'Build not found'}, status=404)
+        return JsonResponse({'error': _('Build not found')}, status=404)
     except Exception:
         logger.exception('Unexpected error while voting on build', extra={'build_id': build_id})
-        return JsonResponse({'error': 'Internal server error'}, status=500)
+        return JsonResponse({'error': _('Internal server error')}, status=500)

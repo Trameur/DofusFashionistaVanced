@@ -7050,6 +7050,22 @@ msgstr ""
 msgid "Unknown error"
 msgstr "Error desconocido"
 
+#: chardata/shared_builds_view.py:0
+msgid "Invalid vote type"
+msgstr "Tipo de voto no válido"
+
+#: chardata/shared_builds_view.py:0
+msgid "Invalid action"
+msgstr "Acción no válida"
+
+#: chardata/shared_builds_view.py:0
+msgid "Build not found"
+msgstr "Build no encontrado"
+
+#: chardata/shared_builds_view.py:0
+msgid "Internal server error"
+msgstr "Error interno del servidor"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

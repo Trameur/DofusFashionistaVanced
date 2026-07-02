@@ -7068,3 +7068,19 @@ msgstr ""
 #: chardata/templates/chardata/solution.html:0
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
+
+#: chardata/shared_builds_view.py:0
+msgid "Invalid vote type"
+msgstr "Ungültiger Stimmentyp"
+
+#: chardata/shared_builds_view.py:0
+msgid "Invalid action"
+msgstr "Ungültige Aktion"
+
+#: chardata/shared_builds_view.py:0
+msgid "Build not found"
+msgstr "Build nicht gefunden"
+
+#: chardata/shared_builds_view.py:0
+msgid "Internal server error"
+msgstr "Interner Serverfehler"
