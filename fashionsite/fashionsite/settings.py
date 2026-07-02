@@ -155,6 +155,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 MIDDLEWARE = [
+    # SecurityMiddleware actually emits the SECURE_* headers configured above
+    # (hsts, nosniff, referrer-policy); without it they were never sent.
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'chardata.middleware.GameVersionMiddleware',

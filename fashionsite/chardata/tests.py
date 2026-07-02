@@ -233,6 +233,13 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_security_headers_sent(self):
+        # SecurityMiddleware was configured but never installed, so nosniff
+        # and referrer-policy were silently missing in production.
+        resp = self.client.get('/')
+        self.assertEqual(resp.headers.get('X-Content-Type-Options'), 'nosniff')
+        self.assertEqual(resp.headers.get('Referrer-Policy'), 'same-origin')
+
     def test_home_website_jsonld_valid(self):
         # Sitelinks searchbox: the home page carries WebSite+SearchAction
         # JSON-LD pointing at the encyclopedia search.
