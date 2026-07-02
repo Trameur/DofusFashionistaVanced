@@ -7084,6 +7084,26 @@ msgstr ""
 "melhores builds compartilhados por classe, classificados por likes, "
 "favoritos e visualizações da comunidade"
 
+msgid "Fixes and public API docs"
+msgstr "Correções e documentação da API pública"
+
+msgid ""
+"Fixed unreadable text on some pages when using the dark theme with the "
+"classic look"
+msgstr ""
+"Corrigido o texto ilegível em algumas páginas ao usar o tema escuro com o "
+"visual clássico"
+
+msgid "The public API is now documented on the About page"
+msgstr "A API pública agora está documentada na página Sobre"
+
+msgid ""
+"Fixed an error when checking the stats of items from another game version on"
+" the compare page"
+msgstr ""
+"Corrigido um erro ao consultar as estatísticas de itens de outra versão do "
+"jogo na página de comparação"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

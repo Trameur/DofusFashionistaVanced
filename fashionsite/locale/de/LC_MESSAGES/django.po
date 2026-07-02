@@ -7112,3 +7112,23 @@ msgid ""
 msgstr ""
 "beste geteilte Builds pro Klasse, sortiert nach Likes, Favoriten und "
 "Aufrufen der Community"
+
+msgid "Fixes and public API docs"
+msgstr "Fehlerbehebungen und Doku der öffentlichen API"
+
+msgid ""
+"Fixed unreadable text on some pages when using the dark theme with the "
+"classic look"
+msgstr ""
+"Unlesbarer Text auf einigen Seiten mit dunklem Theme und klassischem Design "
+"behoben"
+
+msgid "The public API is now documented on the About page"
+msgstr "Die öffentliche API ist jetzt auf der Über-Seite dokumentiert"
+
+msgid ""
+"Fixed an error when checking the stats of items from another game version on"
+" the compare page"
+msgstr ""
+"Fehler beim Anzeigen der Werte von Items aus einer anderen Spielversion auf "
+"der Vergleichsseite behoben"
