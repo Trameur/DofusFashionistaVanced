@@ -997,6 +997,21 @@ class GuidesContentTests(TestCase):
         self.assertEqual(len(items), 3)
         self.assertTrue(items[2]['name'])
 
+    def test_guide_article_jsonld_has_publish_date(self):
+        import json
+        from chardata import guides_content
+        for slug in guides_content.ORDER:
+            self.assertRegex(guides_content.GUIDES[slug]['published'],
+                             r'^\d{4}-\d{2}-\d{2}$', slug)
+        resp = self.client.get('/guides/getting-started/')
+        html = resp.content.decode('utf-8')
+        blocks = re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
+                            html, re.S)
+        articles = [json.loads(b) for b in blocks
+                    if json.loads(b).get('@type') == 'Article']
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]['datePublished'], '2026-06-30')
+
     def test_guide_body_links_back_into_the_tool(self):
         # Internal links (SEO + UX): the article body points at real tool pages.
         resp = self.client.get('/guides/getting-started/')

@@ -25,6 +25,7 @@
   "headline": "{{ guide.title|escapejs }}",
   "description": "{{ guide.desc|escapejs }}",
   "inLanguage": "{{ language|default:'en' }}",
+  "datePublished": "{{ guide.published }}",
   "mainEntityOfPage": "https://dofusfashionista.gg{% url 'guide' guide.slug %}",
   "author": {"@type": "Organization", "name": "Dofus Fashionista"},
   "publisher": {"@type": "Organization", "name": "Dofus Fashionista"}

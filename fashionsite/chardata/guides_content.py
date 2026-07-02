@@ -20,6 +20,7 @@ ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'tuning-your-weig
 GUIDES = {
     # ------------------------------------------------------------------ #
     'getting-started': {
+        'published': '2026-06-30',
         'i18n': {
             'en': {
                 'title': 'Your first Dofus build, step by step',
@@ -171,6 +172,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'how-it-works': {
+        'published': '2026-06-30',
         'i18n': {
             'en': {
                 'title': 'How the optimizer actually works',
@@ -307,6 +309,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'stats-explained': {
+        'published': '2026-06-30',
         'i18n': {
             'en': {
                 'title': 'Dofus stats, and how much each one is worth',
@@ -443,6 +446,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'versions-explained': {
+        'published': '2026-06-30',
         'i18n': {
             'en': {
                 'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch — which one are you on?',
@@ -579,6 +583,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'game-modes': {
+        'published': '2026-07-01',
         'i18n': {
             'en': {
                 'title': "Building for PvM, PvP and Kolossium",
@@ -700,6 +705,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'reading-an-item': {
+        'published': '2026-07-01',
         'i18n': {
             'en': {
                 'title': "How to read a Dofus item (without getting fooled)",
@@ -821,6 +827,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'mono-vs-multi-element': {
+        'published': '2026-07-01',
         'i18n': {
             'en': {
                 'title': "Mono-element or multi-element? Pick one and hit harder",
@@ -957,6 +964,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'gearing-up': {
+        'published': '2026-07-01',
         'i18n': {
             'en': {
                 'title': "You've got the build — now how do you actually get the gear?",
@@ -1078,6 +1086,7 @@ GUIDES = {
 
     # ------------------------------------------------------------------ #
     'comparing-builds': {
+        'published': '2026-07-01',
         'i18n': {
             'en': {
                 'title': "Comparing builds side by side: stop guessing which set is better",
@@ -1183,6 +1192,7 @@ GUIDES = {
     },
 
     'understanding-your-solution': {
+        'published': '2026-07-01',
         'i18n': {
             'en': {
                 'title': "Reading your solution: what the optimizer's result page is actually telling you",
@@ -1288,6 +1298,7 @@ GUIDES = {
     },
 
     'tuning-your-weights': {
+        'published': '2026-07-02',
         'i18n': {
             'en': {
                 'title': "Tuning your weights: how to tell the optimizer what actually matters",
@@ -1393,6 +1404,7 @@ GUIDES = {
     },
 
     'forgemagie-planning': {
+        'published': '2026-07-02',
         'i18n': {
             'en': {
                 'title': "Planning a maging run: use the simulator before you burn your kamas",
@@ -1529,6 +1541,6 @@ def get_guide(slug, language_code):
         return None
     lang = _lang(language_code)
     block = guide['i18n'].get(lang) or guide['i18n']['en']
-    data = {'slug': slug}
+    data = {'slug': slug, 'published': guide['published']}
     data.update(block)
     return data
