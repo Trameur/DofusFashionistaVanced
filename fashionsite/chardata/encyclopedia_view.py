@@ -503,14 +503,6 @@ def _get_stat_lines(structure, item, language):
     return stat_lines
 
 
-def _item_matches_search(structure, item, search_text, language):
-    if not search_text:
-        return True
-    localized_name = structure.get_item_name_in_language(item, language)
-    candidate = '%s %s' % (localized_name, item.or_name)
-    return _normalized_text(search_text) in _normalized_text(candidate)
-
-
 def _collect_unique_items(structure):
     items = []
     seen_ids = set()
@@ -521,6 +513,50 @@ def _collect_unique_items(structure):
             seen_ids.add(item.id)
             items.append(item)
     return items
+
+
+# Light listing entries per (structure, language): grouping, display names,
+# stats maps and search blobs never change during a process lifetime
+# (structures are forever singletons), so build them once instead of on
+# every /encyclopedia/ request. Entries are read-only downstream.
+_light_index_cache = {}
+
+
+def _get_light_index(structure, language):
+    key = (id(structure), language)
+    cached = _light_index_cache.get(key)
+    if cached is not None:
+        return cached
+
+    grouped_items = {}
+    for item in _collect_unique_items(structure):
+        grouped_items.setdefault(_get_item_group_key(item), []).append(item)
+
+    entries = []
+    for _, variants in grouped_items.items():
+        item = _get_group_representative(variants)
+        # 'or'-group placeholders (e.g. Gelano) carry no ankama id or stats; the
+        # real data lives on the named variants in or_items. Use the variant
+        # that has an ankama id so the card shows the stat line and a working
+        # details link.
+        if not getattr(item, 'ankama_id', None):
+            _or_variants = (structure.or_items.get(item.name)
+                            or structure.dt_or_items.get(item.name) or [])
+            _real_variant = next((v for v in _or_variants if getattr(v, 'ankama_id', None)), None)
+            if _real_variant is not None:
+                item = _real_variant
+        display_name = _get_display_name_for_group(structure, variants, language)
+        localized_name = structure.get_item_name_in_language(item, language)
+        entries.append({
+            'item': item,
+            'name': display_name,
+            'level': item.level,
+            'raw_type_name': structure.get_type_name_by_id(item.type),
+            'stats_map': _get_stats_map(item),
+            'search_blob': _normalized_text('%s %s' % (localized_name, item.or_name)),
+        })
+    _light_index_cache[key] = entries
+    return entries
 
 
 def _get_item_group_key(item):
@@ -842,37 +878,19 @@ def encyclopedia(request):
         if order_key and _is_searchable_stat_key(order_key):
             selected_stat_orders.append((order_key, order_dir))
 
-    all_items = _collect_unique_items(structure)
-    grouped_items = {}
-    for item in all_items:
-        group_key = _get_item_group_key(item)
-        grouped_items.setdefault(group_key, []).append(item)
-
+    normalized_search = _normalized_text(search_text) if search_text else ''
     filtered_items = []
-
-    for _, variants in grouped_items.items():
-        item = _get_group_representative(variants)
-        # 'or'-group placeholders (e.g. Gelano) carry no ankama id or stats; the real
-        # data lives on the named variants in or_items. Use the variant that has an
-        # ankama id so the card shows the stat line and a working details link.
-        if not getattr(item, 'ankama_id', None):
-            _or_variants = (structure.or_items.get(item.name)
-                            or structure.dt_or_items.get(item.name) or [])
-            _real_variant = next((v for v in _or_variants if getattr(v, 'ankama_id', None)), None)
-            if _real_variant is not None:
-                item = _real_variant
-        display_name = _get_display_name_for_group(structure, variants, language)
-        type_name = structure.get_type_name_by_id(item.type)
-        if selected_type and type_name != selected_type:
+    for entry in _get_light_index(structure, language):
+        if selected_type and entry['raw_type_name'] != selected_type:
             continue
-        if min_level is not None and item.level < min_level:
+        if min_level is not None and entry['level'] < min_level:
             continue
-        if max_level is not None and item.level > max_level:
+        if max_level is not None and entry['level'] > max_level:
             continue
-        if not _item_matches_search(structure, item, search_text, language):
+        if normalized_search and normalized_search not in entry['search_blob']:
             continue
 
-        stats_map = _get_stats_map(item)
+        stats_map = entry['stats_map']
         stat_filter_failed = False
         for stat_key, stat_min in selected_stat_filters:
             if stats_map.get(stat_key, 0) < stat_min:
@@ -880,17 +898,7 @@ def encyclopedia(request):
                 break
         if stat_filter_failed:
             continue
-
-        # Only what filtering/sorting needs; the expensive card fields (stat
-        # lines, hashed image URL, set names) are built after pagination, for
-        # the 39 items actually shown.
-        filtered_items.append({
-            'item': item,
-            'name': display_name,
-            'level': item.level,
-            'raw_type_name': type_name,
-            'stats_map': stats_map,
-        })
+        filtered_items.append(entry)
 
     if selected_stat_orders:
         def _sort_key(entry):
