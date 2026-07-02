@@ -681,3 +681,7 @@ msgstr "Solo mis objetos"
 #: fashionsite/chardata/static/chardata/solution_popup.js
 msgid "In my inventory"
 msgstr "En mi inventario"
+
+#: chardata/static/chardata/compare_sets_popup.js:0
+msgid "Close"
+msgstr "Cerrar"

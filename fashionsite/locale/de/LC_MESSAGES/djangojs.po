@@ -676,3 +676,7 @@ msgstr "Nur meine Gegenstaende"
 #: fashionsite/chardata/static/chardata/solution_popup.js
 msgid "In my inventory"
 msgstr "In meinem Inventar"
+
+#: chardata/static/chardata/compare_sets_popup.js:0
+msgid "Close"
+msgstr "Schließen"

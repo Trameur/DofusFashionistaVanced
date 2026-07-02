@@ -9,7 +9,7 @@ var itemTemplate =
     <table width="100%"><tr> \
     <td> \
         <div class="item-exchange-icon-container" style="display: inline-block"> \
-        <img src="%imageSource%" class="item-exchange-icon"> \
+        <img src="%imageSource%" alt="%name%" class="item-exchange-icon"> \
         </div> \
     </td> \
     <td style="width: 100%"> \
@@ -138,7 +138,7 @@ function clearSwitchDiv(thisItemName, imageURL) {
     $(".items-to-add").append($('\
     <div class="loading-exchange-item-div"><br><br><br><br><br>\
     '+gettext("Loading")+'<br><br><br>\
-    <img src='+imageURL+'></div>'));
+    <img alt="" src='+imageURL+'></div>'));
     
 }
 

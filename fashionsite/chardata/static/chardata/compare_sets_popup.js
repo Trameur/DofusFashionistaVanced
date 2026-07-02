@@ -9,14 +9,14 @@ var itemTemplate =
     <table width="100%"><tr> \
     <td> \
         <div class="solution-item-icon-container" style="display: inline-block"> \
-        <img src="%imageSource%" class="item-icon"> \
+        <img src="%imageSource%" alt="%name%" class="item-icon"> \
         </div> \
     </td> \
     <td style="width: 100%"> \
     <div class="compare-item-name"> <b> %name% </b><br> Lv. %level%</div> <br>\
     </td> \
     <td> \
-    <input type="button" class="button-thin" id="compare-button-close" value="Close" />\
+    <input type="button" class="button-thin" id="compare-button-close" value="'+gettext("Close")+'" />\
     </td> \
     </tr></table> \
     </div> \
