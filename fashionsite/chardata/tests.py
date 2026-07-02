@@ -1434,3 +1434,32 @@ class WizardSlidersRoundTripTests(SimpleTestCase):
                 got = get_slider_value_from_weights(key, weights)
                 self.assertEqual(got, value,
                                  'slider %r: set %s, got back %s' % (key, value, got))
+
+
+class SharedBuildsHideInvalidTests(TestCase):
+    """The hide_invalid filter drops builds whose stored solution no longer
+    unpickles; it must keep working after the cache-driven scan rewrite."""
+
+    def _make_build(self, name, blob):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner, _created = User.objects.get_or_create(
+            username='sharer', defaults={'email': 'sh@test.local'})
+        return Char.objects.create(
+            name=name, char_name=name, char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=blob,
+            owner=owner, link_shared=True, game_version='dofus3')
+
+    def test_hide_invalid_drops_corrupt_builds_only(self):
+        self._make_build('ValidementVisible', b'')
+        self._make_build('CorrompuCache', b'not-a-pickle')
+        resp = self.client.get('/sharedbuilds/?hide_invalid=1')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'ValidementVisible')
+        self.assertNotContains(resp, 'CorrompuCache')
+        resp = self.client.get('/sharedbuilds/')
+        self.assertContains(resp, 'ValidementVisible')
+        self.assertContains(resp, 'CorrompuCache')

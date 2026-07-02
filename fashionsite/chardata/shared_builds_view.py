@@ -58,11 +58,15 @@ def _get_valid_slots_for_type(type_name):
     return {slot_name}
 
 
-def _get_shared_build_meta_cache_key(char):
+def _meta_cache_key(pk, modified_time):
     modified_marker = 'none'
-    if char.modified_time is not None:
-        modified_marker = str(int(char.modified_time.timestamp() * 1000000))
-    return 'shared-build-meta-%s-%s-%s' % (char.pk, modified_marker, get_supported_language())
+    if modified_time is not None:
+        modified_marker = str(int(modified_time.timestamp() * 1000000))
+    return 'shared-build-meta-%s-%s-%s' % (pk, modified_marker, get_supported_language())
+
+
+def _get_shared_build_meta_cache_key(char):
+    return _meta_cache_key(char.pk, char.modified_time)
 
 
 def _get_total_stats_score(solution):
@@ -385,14 +389,27 @@ def shared_builds(request):
 
     builds_data = []
     if hide_invalid:
-        all_builds_data = []
-        for char in builds:
-            build_meta = _get_shared_build_meta(char)
-            if build_meta['is_invalid']:
-                continue
-            all_builds_data.append({'char': char, 'meta': build_meta})
+        # Validity comes from the per-build meta cache; check it with a
+        # 2-column scan instead of loading 2000+ Char rows (solution blobs
+        # included). Full rows are fetched only for cache misses and for the
+        # page actually shown.
+        id_rows = list(builds.values_list('id', 'modified_time'))
+        metas = {}
+        miss_ids = []
+        for row_id, row_modified in id_rows:
+            cached = cache.get(_meta_cache_key(row_id, row_modified))
+            if cached is not None:
+                metas[row_id] = cached
+            else:
+                miss_ids.append(row_id)
+        if miss_ids:
+            for char in builds.filter(id__in=miss_ids):
+                metas[char.id] = _get_shared_build_meta(char)
 
-        paginator = Paginator(all_builds_data, SHARED_BUILDS_PAGE_SIZE)
+        valid_ids = [row_id for row_id, _row_modified in id_rows
+                     if row_id in metas and not metas[row_id]['is_invalid']]
+
+        paginator = Paginator(valid_ids, SHARED_BUILDS_PAGE_SIZE)
         try:
             builds_page = paginator.page(page_number)
         except PageNotAnInteger:
@@ -400,9 +417,10 @@ def shared_builds(request):
         except EmptyPage:
             builds_page = paginator.page(paginator.num_pages)
 
-        page_entries = list(builds_page.object_list)
-        page_chars = [entry['char'] for entry in page_entries]
-        meta_by_id = {entry['char'].id: entry['meta'] for entry in page_entries}
+        page_ids = list(builds_page.object_list)
+        chars_by_id = {char.id: char for char in builds.filter(id__in=page_ids)}
+        page_chars = [chars_by_id[i] for i in page_ids if i in chars_by_id]
+        meta_by_id = {i: metas[i] for i in page_ids if i in metas}
     else:
         paginator = Paginator(builds, SHARED_BUILDS_PAGE_SIZE)
         try:
