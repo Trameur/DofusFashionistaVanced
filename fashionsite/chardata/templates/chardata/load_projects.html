@@ -128,8 +128,6 @@ function compareProjects() {
     $(".project-checkbox:checkbox:checked").filter(".has-solution").each(function(){
         checkboxesList.push($(this).val());
     });
-    console.log("compareProjects");
-    console.log(checkboxesList.join("/"));
     window.location.href = "{{ api_base }}/compare_sets/" + checkboxesList.join("/");
 }
 {% endif %}

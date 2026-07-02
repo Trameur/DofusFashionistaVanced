@@ -434,14 +434,12 @@ function createItemObject() {
 
 function sendItemToModify() {
     var new_item = createItemObject();
-    console.log(new_item);
     $.post("/update_item/",
         {item: JSON.stringify(new_item)},
         handleEditResponse)
 }
 
 function handleEditResponse(data) {
-    console.log(data);
     if (data == "ok") {
         setError("");
         window.location.href=window.location.href;
