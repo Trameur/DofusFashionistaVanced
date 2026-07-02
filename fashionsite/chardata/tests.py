@@ -1530,3 +1530,55 @@ class SharedSolutionPageTests(TestCase):
         self.assertEqual(after.view_count, 1)
         self.assertEqual(after.modified_time, before,
                          'a mere view must not touch modified_time')
+
+
+class SharedSolutionPageDeepTests(TestCase):
+    """Same fixture as SharedSolutionPageTests but with a real item equipped:
+    the page must show the item card, and switching an item on a char that has
+    a solution must actually change the stored solution."""
+
+    def _build_with_hat(self, owner):
+        import pickle as _pickle
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        s = get_structure('dofus3')
+        hat = next(i for i in s.get_unique_items_by_type_and_level('Hat', 200)
+                   if not i.removed and i.ankama_id)
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False},
+                  'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        minimal = ModelResultMinimal({'hat': hat.id}, input_, {})
+        char = Char.objects.create(
+            name='Casque', char_name='casque', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(minimal),
+            owner=owner, link_shared=True, game_version='dofus3')
+        return char, hat, s
+
+    def test_shared_page_shows_the_equipped_item(self):
+        from django.contrib.auth.models import User
+        from chardata.encoded_char_id import encode_char_id
+        owner = User.objects.create_user('capo', 'c2@test.local', 'pw-42-solid')
+        char, hat, s = self._build_with_hat(owner)
+        resp = self.client.get('/s/casque/%s/' % encode_char_id(char.pk))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, hat.name.split(' ')[0])
+
+    def test_switch_item_replaces_the_slot(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner = User.objects.create_user('switch2', 's2b@test.local', 'pw-42-solid')
+        char, hat, s = self._build_with_hat(owner)
+        other_hat = next(i for i in s.get_unique_items_by_type_and_level('Hat', 200)
+                         if not i.removed and i.ankama_id and i.id != hat.id)
+        self.client.force_login(owner)
+        resp = self.client.post('/exchange/%d/' % char.pk,
+                                {'itemName': other_hat.id, 'slot': 'hat'})
+        self.assertEqual(resp.status_code, 200)
+        char.refresh_from_db()
+        minimal = _pickle.loads(char.minimal_solution)
+        self.assertEqual(minimal.item_per_slot.get('hat'), other_hat.id)
