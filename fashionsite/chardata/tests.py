@@ -756,6 +756,33 @@ class GetItemStatsTests(TestCase):
         resp = self.client.post('/get_item_stats_compare/')
         self.assertEqual(resp.status_code, 200)
 
+    def test_item_details_survives_unknown_or_malformed_id(self):
+        from fashionistapulp.structure import get_structure
+        item = next(iter(get_structure('dofus3').get_concatenated_items_lists()))
+        resp = self.client.post('/getitemdetails/', {'item': item.id})
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('level', resp.json())
+        for bad in ('99999999', 'abc', ''):
+            resp = self.client.post('/getitemdetails/', {'item': bad})
+            self.assertEqual(resp.status_code, 200, 'item=%r' % bad)
+            self.assertEqual(resp.json(), {})
+
+    def test_switch_item_rejects_unknown_id_instead_of_removing(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        user = User.objects.create_user('switcher', 's@test.local', 'pw-42-solid')
+        char = Char.objects.create(
+            name='Switch test', char_name='hero', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            owner=user, link_shared=False, game_version='dofus3')
+        self.client.force_login(user)
+        for bad in ('99999999', 'abc', ''):
+            resp = self.client.post('/exchange/%d/' % char.id,
+                                    {'itemName': bad, 'slot': 'hat'})
+            self.assertEqual(resp.status_code, 400, 'itemName=%r' % bad)
+
 
 class CommunityFeatureTests(TestCase):
     """Comments and votes on shared builds are the retention features; cover

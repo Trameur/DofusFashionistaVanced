@@ -80,7 +80,13 @@ def get_item_details(request):
     info = {}
     if item_id is not None:
         structure = get_structure()
-        item = structure.get_item_by_id(int(item_id))
+        try:
+            item = structure.get_item_by_id(int(item_id))
+        except (TypeError, ValueError):
+            item = None
+    else:
+        item = None
+    if item is not None:
         info['level'] = item.level
         info['file'] = static(get_image_url(structure.get_type_name_by_id(item.type), item.name))
         info['stats'] = []

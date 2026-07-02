@@ -25,6 +25,8 @@ from django.core.cache import cache
 from fashionistapulp.fashion_util import strip_accents
 #import cProfile
 
+from django.http import HttpResponseBadRequest
+
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
@@ -356,15 +358,23 @@ def get_items_to_exchange(request, char_id):
     
     return HttpResponseJson(json_response)
 
-def switch_item(request, char_id): 
+def switch_item(request, char_id):
     char = get_char_or_raise(request, char_id)
     item_name = request.POST.get('itemName', None)
     slot = request.POST.get('slot', None)
     assert slot in SLOTS
-    
+
     structure = get_structure()
+    try:
+        item = structure.get_item_by_id(int(item_name))
+    except (TypeError, ValueError):
+        item = None
+    if item is None:
+        # An unknown id must not fall through to switch_item(None, ...),
+        # which would silently remove whatever is in the slot.
+        return HttpResponseBadRequest()
     result = get_solution(char)
-    result.switch_item(structure.get_item_by_id(int(item_name)), slot,
+    result.switch_item(item, slot,
                        get_effective_stat_overrides(char) or None)
     set_solution(char, result)
     remove_cache_for_char(char_id)
