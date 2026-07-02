@@ -19,6 +19,20 @@
 Run with:
     PYTHONPATH="$PWD;$PWD/fashionistapulp" python fashionsite/manage.py test chardata
 
+When MySQL lacks CREATE-DATABASE rights, use a local (gitignored)
+fashionsite/fashionsite/settings_test.py and add --settings=fashionsite.settings_test:
+
+    from fashionsite.settings import *  # noqa: F401,F403
+    STORAGES = {
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+    }
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}
+    # Shell probes with these settings must never email real error reports
+    # (the test runner swaps to locmem itself; `manage.py shell` does not).
+    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+    ADMINS = []
+
 Intentionally lightweight: they guard the regressions that have actually bitten
 this project (soft-404s served as 200, broken/untranslated UI strings) without
 coupling to exact page copy.
