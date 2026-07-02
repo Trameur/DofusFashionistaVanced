@@ -49,6 +49,20 @@
                 </label>
                 </td>
                 </tr>
+                <tr>
+                <td align="right" class='input-stat-name' width="35%"> {% trans "Email language" %}:
+                </td>
+                <td align="left">
+                <select name="email_language" class="pretty-input change-modifies-state" id="email_language">
+                    <option value="">{% trans "Automatic" %}</option>
+                    <option value="en">{% trans "English" %}</option>
+                    <option value="fr">{% trans "French" %}</option>
+                    <option value="es">{% trans "Spanish" %}</option>
+                    <option value="pt">{% trans "Portuguese" %}</option>
+                    <option value="de">{% trans "German" %}</option>
+                </select>
+                </td>
+                </tr>
                 </table>
             <br>
             <div align="center">
@@ -114,6 +128,7 @@ var alias = {{useraliasjson | safe}};
 var name = {{user_social_name | safe}};
 var email = "{{user.email}}";
 var notify_comments = {{notify_comments_json | safe}};
+var email_language = {{email_language_json | safe}};
 
 function manageInit(state) {
     $("#email").val(state.email);
@@ -125,6 +140,7 @@ function manageInit(state) {
         }
     }
     $('#notify_comments').prop('checked', state.notify_comments !== false);
+    $('#email_language').val(state.email_language || '');
 }
 
 function setLoggedUserAlias(newState) {
@@ -132,7 +148,8 @@ function setLoggedUserAlias(newState) {
 }
 
 $(document).ready(function() {
-    var state = {alias: alias, name: name, email: email, notify_comments: notify_comments};
+    var state = {alias: alias, name: name, email: email, notify_comments: notify_comments,
+                 email_language: email_language};
 
     $("#password-confirm").change(function() {
         validate_password();

@@ -1349,6 +1349,28 @@ class CommentNotificationLanguageTests(TestCase):
             self.client.force_login(user)
         self.assertEqual(UserAlias.objects.get(user=user).language, 'de')
 
+    def test_account_page_saves_email_language(self):
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        user = User.objects.create_user('settings-user', 's@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        resp = self.client.get('/manageaccount/')
+        self.assertContains(resp, 'email_language')
+        # Explicit choice saved.
+        resp = self.client.post('/saveaccount/', {'alias': 'Testeur', 'email_language': 'es'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json()['email_language'], 'es')
+        self.assertEqual(UserAlias.objects.get(user=user).language, 'es')
+        # Bogus value ignored, choice kept.
+        self.client.post('/saveaccount/', {'alias': 'Testeur', 'email_language': 'xx'})
+        self.assertEqual(UserAlias.objects.get(user=user).language, 'es')
+        # Field absent (cached page): choice kept.
+        self.client.post('/saveaccount/', {'alias': 'Testeur'})
+        self.assertEqual(UserAlias.objects.get(user=user).language, 'es')
+        # "Automatic" clears it.
+        self.client.post('/saveaccount/', {'alias': 'Testeur', 'email_language': ''})
+        self.assertIsNone(UserAlias.objects.get(user=user).language)
+
     def test_notification_email_uses_owner_language(self):
         from django.contrib.auth.models import User
         from django.core import mail

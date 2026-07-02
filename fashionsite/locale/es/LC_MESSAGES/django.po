@@ -7145,6 +7145,12 @@ msgstr ""
 "\n"
 "Puedes desactivar estas notificaciones en los ajustes de tu cuenta."
 
+msgid "Email language"
+msgstr "Idioma de los correos"
+
+msgid "Automatic"
+msgstr "Automático"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

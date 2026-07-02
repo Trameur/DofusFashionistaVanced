@@ -7162,3 +7162,9 @@ msgstr ""
 "— %(site_name)s\n"
 "\n"
 "Du kannst diese Benachrichtigungen in deinen Kontoeinstellungen deaktivieren."
+
+msgid "Email language"
+msgstr "Sprache der E-Mails"
+
+msgid "Automatic"
+msgstr "Automatisch"

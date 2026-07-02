@@ -31,20 +31,26 @@ def _get_or_create_alias(user):
         return UserAlias.objects.create(user=user)
 
 
+EMAIL_LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
+
+
 def manage_account(request):
     notify_comments = True
+    email_language = ''
     full_name = ''
     if request.user is not None and not request.user.is_anonymous:
         full_name = request.user.get_full_name() or ''
         try:
             notify_comments = bool(request.user.useralias.notify_comments)
+            email_language = request.user.useralias.language or ''
         except UserAlias.DoesNotExist:
             notify_comments = True
 
     return set_response(request,
                         'chardata/manage_account.html',
                         {'user_social_name': json.dumps(full_name),
-                         'notify_comments_json': json.dumps(notify_comments)})
+                         'notify_comments_json': json.dumps(notify_comments),
+                         'email_language_json': json.dumps(email_language)})
 
 
 def save_account(request):
@@ -59,6 +65,15 @@ def save_account(request):
     alias = _get_or_create_alias(request.user)
     alias.alias = form_alias
     alias.notify_comments = form_notify_comments
+    # Only touch the language when the field was actually submitted (a cached
+    # page without the select must not clear an explicit choice).
+    if 'email_language' in request.POST:
+        form_email_language = request.POST['email_language']
+        if form_email_language in EMAIL_LANGUAGES:
+            alias.language = form_email_language
+        elif form_email_language == '':
+            # "Automatic": clear the choice, the login backfill takes over.
+            alias.language = None
     alias.save()
 
     if form_email:
@@ -69,4 +84,5 @@ def save_account(request):
         'alias': alias.alias,
         'email': request.user.email,
         'notify_comments': alias.notify_comments,
+        'email_language': alias.language or '',
     })

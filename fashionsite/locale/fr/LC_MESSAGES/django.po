@@ -7629,6 +7629,12 @@ msgstr ""
 "\n"
 "Tu peux désactiver ces notifications dans les réglages de ton compte."
 
+msgid "Email language"
+msgstr "Langue des emails"
+
+msgid "Automatic"
+msgstr "Automatique"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
