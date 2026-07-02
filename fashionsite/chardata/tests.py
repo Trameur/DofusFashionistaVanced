@@ -708,6 +708,35 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class WorkshopTests(TestCase):
+    """The workshop aggregates the items a player wants to craft; cover the
+    add endpoint happy path, its error paths and the auth guard."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.user = User.objects.create_user('crafter', 'w@test.local', 'pw-42-solid')
+        from fashionistapulp.structure import get_structure
+        self.item = next(iter(get_structure('dofus3').get_concatenated_items_lists()))
+
+    def test_add_item_then_add_again_increments(self):
+        self.client.force_login(self.user)
+        resp = self.client.post('/workshop/add/', {'item_id': self.item.id})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.json()['success'])
+        self.assertTrue(resp.json()['created'])
+        resp = self.client.post('/workshop/add/', {'item_id': self.item.id})
+        self.assertFalse(resp.json()['created'])
+
+    def test_bad_item_ids_rejected(self):
+        self.client.force_login(self.user)
+        self.assertEqual(self.client.post('/workshop/add/', {'item_id': 'abc'}).status_code, 400)
+        self.assertEqual(self.client.post('/workshop/add/', {'item_id': 99999999}).status_code, 404)
+
+    def test_anonymous_cannot_add(self):
+        resp = self.client.post('/workshop/add/', {'item_id': self.item.id})
+        self.assertEqual(resp.status_code, 302)
+
+
 class CommunityFeatureTests(TestCase):
     """Comments and votes on shared builds are the retention features; cover
     the happy paths and the auth guard."""
