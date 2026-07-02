@@ -376,6 +376,13 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, '/encyclopedia/set/')
 
+    def test_sitemap_has_no_redirecting_urls(self):
+        # /random/ always 302s to a random shared build; redirect targets do
+        # not belong in a sitemap.
+        resp = self.client.get('/sitemap.xml')
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn('/random/', resp.content.decode('utf-8'))
+
     def test_sitemap_is_well_formed_xml(self):
         resp = self.client.get('/sitemap.xml')
         self.assertEqual(resp.status_code, 200)

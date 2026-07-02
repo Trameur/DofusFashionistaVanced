@@ -235,7 +235,8 @@ def sitemap_view(request):
         ('/quickstart/', 'monthly', '0.7'),
         ('/smartbuild/', 'monthly', '0.7'),
         ('/sharedbuilds/', 'daily', '0.9'),
-        ('/random/', 'weekly', '0.6'),
+        # /random/ always answers with a redirect to a random shared build, so
+        # it does not belong in the sitemap (crawlers want stable 200 urls).
         ('/choose_compare_sets/', 'weekly', '0.7'),
         ('/encyclopedia/', 'daily', '0.9'),
         ('/encyclopedia/sets/', 'weekly', '0.8'),
