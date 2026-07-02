@@ -40,19 +40,19 @@
                             <button id="level-filter" class="button-generic filter-button">{% trans "Level" %}</button>
                         {% endif %}
                         <button id="agi-filter" class="button-generic filter-button">
-                            <img class="spell-elemental-button-image" src="{% static 'chardata/Agility.png' %}">
+                            <img class="spell-elemental-button-image" src="{% static 'chardata/Agility.png' %}" alt="{% trans 'Agility' %}">
                             {% trans "Agi" %}
                         </button>
                         <button id="cha-filter" class="button-generic filter-button">
-                            <img class="spell-elemental-button-image" src="{% static 'chardata/Chance.png' %}">
+                            <img class="spell-elemental-button-image" src="{% static 'chardata/Chance.png' %}" alt="{% trans 'Chance' %}">
                             {% trans "Cha" %}
                         </button>
                         <button id="int-filter" class="button-generic filter-button">
-                            <img class="spell-elemental-button-image" src="{% static 'chardata/Intelligence.png' %}">
+                            <img class="spell-elemental-button-image" src="{% static 'chardata/Intelligence.png' %}" alt="{% trans 'Intelligence' %}">
                             {% trans "Int" %}
                         </button>
                         <button id="str-filter" class="button-generic filter-button">
-                            <img class="spell-elemental-button-image" src="{% static 'chardata/Strength.png' %}">
+                            <img class="spell-elemental-button-image" src="{% static 'chardata/Strength.png' %}" alt="{% trans 'Strength' %}">
                             {% trans "Str" %}
                         </button>
                         <button id="other-filter" class="button-generic filter-button">{% trans "Others" %}</button>
@@ -293,7 +293,7 @@
         var inner_image_cell = $("<td></td>");
         line.append(inner_image_cell);
         var image_source = spell.image_url
-        inner_image_cell.append('<img class="spell-image" src="'+image_source+'" onerror="this.onerror=null;this.src=\''+spellFallbackImg+'\'"></img>');
+        inner_image_cell.append('<img class="spell-image" alt="" src="'+image_source+'" onerror="this.onerror=null;this.src=\''+spellFallbackImg+'\'"></img>');
         var inner_title_cell = $("<td class='title-cell'></td>");
         line.append(inner_title_cell)
         

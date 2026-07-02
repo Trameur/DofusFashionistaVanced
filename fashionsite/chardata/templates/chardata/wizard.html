@@ -16,7 +16,7 @@
     {% csrf_token %}
     <h1 align="center">{% trans "Wizard" %}</h1><br><br>
     <div class= 'wizard-flying-pic'>
-         <img src="{% static wizard_pic %}"></img>
+         <img src="{% static wizard_pic %}" alt=""></img>
     </div>
     
     <table align="center">
@@ -43,7 +43,7 @@
     </table>
     <br><br>
     <div align="center">
-    <button class='submit-button button-generic rerun-button' id="tailor-set"><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</button>
+    <button class='submit-button button-generic rerun-button' id="tailor-set"><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img" alt="">{% trans "Tailor a New Set" %}</button>
     </div>
 </form>
 <div id="blanket" style="display:none;"></div>

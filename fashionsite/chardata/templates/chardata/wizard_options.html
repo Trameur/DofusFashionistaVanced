@@ -6,14 +6,14 @@
 <table align="center" width="90%">
 <tr>
 <td align="right" width="10%">
-    <img src="{% static "chardata/Ga_Pa_Rune.png" %}" class="option_icon">
+    <img src="{% static "chardata/Ga_Pa_Rune.png" %}" class="option_icon" alt="">
 </td>
 <td align="left" width="22%">{% trans "Allow AP Exo" %}<br>
     <label><input type="radio" name="ap_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label> <br>
     <label><input type="radio" name="ap_exo" class="change-modifies-state" value="no">{% trans "No" %}</label>
 </td>
 <td align="right" width="10%">
-    <img src="{% static "chardata/Ga_Pme_Rune.png" %}" class="option_icon">
+    <img src="{% static "chardata/Ga_Pme_Rune.png" %}" class="option_icon" alt="">
 </td>
 <td align="left" width="25%">{% trans "Allow MP Exo" %}<br>
     <label><input type="radio" name="mp_exo" class="change-modifies-state" value="yes">{% trans "Yes" %}</label> <br>
@@ -22,7 +22,7 @@
 </td>
 {% if version_options.any_mount %}
 <td align="right" width="10%">
-    <img src="{% static "chardata/Almond and Ebony Rhineetle.png" %}" class="option_icon">
+    <img src="{% static "chardata/Almond and Ebony Rhineetle.png" %}" class="option_icon" alt="">
 </td>
 <td align="left" width="22%">
 {% trans "Allow Mounts" %}<br>
@@ -41,7 +41,7 @@
             {% for d in version_options.dofuses %}
             <div class="dofus-box">
                 <label class='{{ d.key }}'>
-                    <img src="{% static d.img %}" class="option_icon {{ d.key }}"><br>
+                    <img src="{% static d.img %}" class="option_icon {{ d.key }}" alt=""><br>
                     <input type="checkbox" name="{{ d.key }}" class="change-modifies-state {{ d.key }}"><br>
                     {{ d.label }}
                 </label><br>
@@ -50,7 +50,7 @@
             {% if version_options.prysmaradite %}
             <div class="dofus-box">
                 <label class='prysmaradite'>
-                    <img src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite"><br>
+                    <img src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite" alt=""><br>
                     <input type="checkbox" name="prysmaradite" class="change-modifies-state prysmaradite"><br>
                     {% trans "Prysmaradite" %}
                 </label><br>

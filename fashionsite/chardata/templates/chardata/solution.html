@@ -441,7 +441,7 @@
     {% if not is_guest %}
     <div align="center">
 
-    <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img">{% trans "Tailor a New Set" %}</a>
+    <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img" alt="">{% trans "Tailor a New Set" %}</a>
 
     </div>
     {% endif %}
@@ -999,7 +999,7 @@
                 else if (isBlue) row.css('color', '#4a9fd5');
                 else if (isOrange) row.css('color', '#C47A00');
                 if (stat.icon_url) {
-                    row.append($("<img class='solution-inline-stat-icon'>")
+                    row.append($("<img class='solution-inline-stat-icon' alt=''>")
                         .attr('src', stat.icon_url)
                         .css({width:'15px',height:'15px',maxWidth:'15px',maxHeight:'15px',verticalAlign:'middle'}));
                     row.append(" ");
@@ -1028,7 +1028,7 @@
 
                 var row = $("<div class='sol-stat-edit-row' style='margin-bottom:4px;display:flex;align-items:center;gap:4px;'></div>");
                 if (stat.icon_url) {
-                    row.append($("<img>").attr('src', stat.icon_url)
+                    row.append($("<img>").attr('alt', '').attr('src', stat.icon_url)
                         .css({width:'15px',height:'15px',verticalAlign:'middle',flexShrink:'0'}));
                 }
                 var input = $("<input type='number' style='width:55px;flex-shrink:0;'>").val(displayVal);
