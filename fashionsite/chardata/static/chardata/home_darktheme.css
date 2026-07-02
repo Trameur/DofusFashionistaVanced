@@ -60,6 +60,9 @@ a:visited {
     background-color: #151515;
     border-color: #151515;
     border-width: 0px;
+    /* Default text color: pages that don't use the legacy .text/.big-text
+       classes (guides, encyclopedia...) inherit it instead of browser black. */
+    color: #DDD;
 }
 
 
