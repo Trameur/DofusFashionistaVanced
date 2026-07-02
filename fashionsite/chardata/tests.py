@@ -1416,3 +1416,21 @@ class CommentNotificationLanguageTests(TestCase):
         self.assertIn('vient de commenter', msg.body)
         html = msg.alternatives[0][0]
         self.assertIn('lang="fr"', html)
+
+
+class WizardSlidersRoundTripTests(SimpleTestCase):
+    """The tuning page maps sliders to solver weights and back; drift in that
+    mapping silently corrupts what players believe they configured."""
+
+    def test_set_then_get_round_trips_for_every_slider(self):
+        import collections
+        from chardata.wizard_sliders import (SLIDER_RANGES,
+                                             get_slider_value_from_weights,
+                                             set_weights_from_slider_value)
+        weights = collections.defaultdict(int)
+        for key, (low, high) in SLIDER_RANGES.items():
+            for value in (low, (low + high) // 2, high):
+                set_weights_from_slider_value(key, value, weights)
+                got = get_slider_value_from_weights(key, weights)
+                self.assertEqual(got, value,
+                                 'slider %r: set %s, got back %s' % (key, value, got))
