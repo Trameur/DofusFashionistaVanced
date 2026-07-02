@@ -1028,7 +1028,7 @@
 
                 var row = $("<div class='sol-stat-edit-row' style='margin-bottom:4px;display:flex;align-items:center;gap:4px;'></div>");
                 if (stat.icon_url) {
-                    row.append($("<img>").attr('alt', '').attr('src', stat.icon_url)
+                    row.append($("<img alt="">").attr('alt', '').attr('src', stat.icon_url)
                         .css({width:'15px',height:'15px',verticalAlign:'middle',flexShrink:'0'}));
                 }
                 var input = $("<input type='number' style='width:55px;flex-shrink:0;'>").val(displayVal);

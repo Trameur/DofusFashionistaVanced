@@ -3,11 +3,11 @@
 {% stat_icon_path stat_key as resolved_icon %}
     {% if stat_name == 'Agility' %}
       <td class='bottom-left-cell'>
-        <img class="stat-icon" src="{% static resolved_icon|default:icon %}">
+        <img alt="" class="stat-icon" src="{% static resolved_icon|default:icon %}">
       </td>
     {% else %}
       <td>
-        <img class="stat-icon" src="{% static resolved_icon|default:icon %}">
+        <img alt="" class="stat-icon" src="{% static resolved_icon|default:icon %}">
       </td>
     {% endif %}
     <td class='softcap-stat-name'>{{stat_name}}</td>

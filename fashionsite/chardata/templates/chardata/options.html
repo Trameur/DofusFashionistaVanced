@@ -23,7 +23,7 @@
         <table>
         <tr>
         <td>
-            <img src="{% static "chardata/Ga_Pa_Rune.png" %}" class="option_icon">
+            <img alt="" src="{% static "chardata/Ga_Pa_Rune.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
             {% trans "Allow AP Exo" %}<br>
@@ -39,7 +39,7 @@
         <table>
         <tr>
          <td>
-            <img src="{% static "chardata/Po_Rune.png" %}" class="option_icon">
+            <img alt="" src="{% static "chardata/Po_Rune.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
             {% trans "Allow Range Exo" %}<br>
@@ -55,7 +55,7 @@
         <table>
         <tr>
         <td>
-            <img src="{% static "chardata/Ga_Pme_Rune.png" %}" class="option_icon">
+            <img alt="" src="{% static "chardata/Ga_Pme_Rune.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
             {% trans "Allow MP Exo" %}<br>
@@ -70,7 +70,7 @@
         <table>
         <tr>
         <td>
-            <img src="{% static "chardata/Major_Scholar.png" %}" class="option_icon">
+            <img alt="" src="{% static "chardata/Major_Scholar.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
             {% trans "Allow Dofuses and Trophies" %}<br>
@@ -91,7 +91,7 @@
         <table>
         <tr>
         <td>
-            <img src="{% static "chardata/Almond and Ebony Rhineetle.png" %}" class="option_icon">
+            <img alt="" src="{% static "chardata/Almond and Ebony Rhineetle.png" %}" class="option_icon">
         </td>
         <td class='big-text'>
             {% trans "Allow Mounts" %}<br>
@@ -127,7 +127,7 @@
             {% for d in version_options.dofuses %}
             <div class="dofus-box">
                 <label class='{{ d.key }}'>
-                    <img src="{% static d.img %}" class="option_icon {{ d.key }}"><br>
+                    <img alt="" src="{% static d.img %}" class="option_icon {{ d.key }}"><br>
                     <input type="checkbox" name="{{ d.key }}" class="change-modifies-state {{ d.key }}"><br>
                     {{ d.label }}
                 </label><br>
@@ -136,7 +136,7 @@
             {% if version_options.prysmaradite %}
             <div class="dofus-box">
                 <label class='prysmaradite'>
-                    <img src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite"><br>
+                    <img alt="" src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite"><br>
                     <input type="checkbox" name="prysmaradite" class="change-modifies-state prysmaradite"><br>
                     {% trans "Prysmaradite" %}
                 </label><br>

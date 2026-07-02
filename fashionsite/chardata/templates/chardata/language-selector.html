@@ -7,36 +7,36 @@
         {% csrf_token %}
             <input type="hidden" name="language" value="{{LANGUAGE_CODE}}" id="language-input">
             {% if LANGUAGE_CODE == 'pt' %}
-            <img src="{% static 'chardata/pt.png' %}" id="flag" title="{% trans 'Portuguese' %}"></img>
+            <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag" title="{% trans 'Portuguese' %}"></img>
             {% endif %}
             {% if LANGUAGE_CODE == 'en' %}
-            <img src="{% static 'chardata/en.png' %}" id="flag" title="{% trans 'English' %}"></img>
+            <img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" id="flag" title="{% trans 'English' %}"></img>
             {% endif %}
             {% if LANGUAGE_CODE == 'fr' %}
-            <img src="{% static 'chardata/fr.png' %}" id="flag" title="{% trans 'French' %}"></img>
+            <img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" id="flag" title="{% trans 'French' %}"></img>
             {% endif %}
             {% if LANGUAGE_CODE == 'es' %}
-            <img src="{% static 'chardata/es.png' %}" id="flag" title="{% trans 'Spanish' %}"></img>
+            <img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" id="flag" title="{% trans 'Spanish' %}"></img>
             {% endif %}
             {% if LANGUAGE_CODE == 'de' %}
-            <img src="{% static 'chardata/de.png' %}" id="flag" title="{% trans 'Deutsch' %}" width="24" height="24"></img>
+            <img alt="{% trans 'Deutsch' %}" src="{% static 'chardata/de.png' %}" id="flag" title="{% trans 'Deutsch' %}" width="24" height="24"></img>
             {% endif %}
         </form>
         <div id="other-flags">
             {% if LANGUAGE_CODE != 'pt' %}
-            <img src="{% static 'chardata/pt.png' %}" id="flag-pt" class="flag-choose" title="{% trans 'Portuguese' %}"></img><br>
+            <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag-pt" class="flag-choose" title="{% trans 'Portuguese' %}"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'en' %}
-            <img src="{% static 'chardata/en.png' %}" id="flag-en" class="flag-choose" title="{% trans 'English' %}"></img><br>
+            <img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" id="flag-en" class="flag-choose" title="{% trans 'English' %}"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'fr' %}
-            <img src="{% static 'chardata/fr.png' %}" id="flag-fr" class="flag-choose" title="{% trans 'French' %}"></img><br>
+            <img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" id="flag-fr" class="flag-choose" title="{% trans 'French' %}"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'es' %}
-            <img src="{% static 'chardata/es.png' %}" id="flag-es" class="flag-choose" title="{% trans 'Spanish' %}"></img><br>
+            <img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" id="flag-es" class="flag-choose" title="{% trans 'Spanish' %}"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'de' %}
-            <img src="{% static 'chardata/de.png' %}" id="flag-de" class="flag-choose" title="{% trans 'Deutsch' %}" width="24" height="24"></img><br>
+            <img alt="{% trans 'Deutsch' %}" src="{% static 'chardata/de.png' %}" id="flag-de" class="flag-choose" title="{% trans 'Deutsch' %}" width="24" height="24"></img><br>
             {% endif %}
         </div>
     </div>

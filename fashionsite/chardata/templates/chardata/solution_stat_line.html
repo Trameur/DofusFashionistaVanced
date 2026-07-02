@@ -4,9 +4,9 @@
 <tr class="solution-stat-summary-line">
     <td class="solution-stat-summary-icon-cell {% if is_last %}bottom-left-cell{% endif %}">
         {% if resolved_icon %}
-            <img class="solution-stat-summary-icon" src="{% static resolved_icon %}">
+            <img alt="" class="solution-stat-summary-icon" src="{% static resolved_icon %}">
         {% elif icon %}
-            <img class="solution-stat-summary-icon" src="{% static icon %}">
+            <img alt="" class="solution-stat-summary-icon" src="{% static icon %}">
         {% endif %}
     </td>
     {% if base %}

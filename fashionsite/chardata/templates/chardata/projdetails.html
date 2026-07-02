@@ -90,7 +90,7 @@
     {% else %}
         <table>
         <tr>
-        <td><img src="{% static "chardata/designs/myDown4.png" %}"></img>
+        <td><img alt="" src="{% static "chardata/designs/myDown4.png" %}"></img>
         </td>
         <td>
         {% if login_problem %}
@@ -165,7 +165,7 @@ function get_questionmark_img()
 function createCheckbox(aspect, label, tip) {
     var resultHtml = '<label><input type="checkbox" name="check_' + aspect + '" id="check_' + aspect + '" name="require_crits" class="change-modifies-state">' + label + '</label>';
     if (tip) {
-        resultHtml += '<img class="build-boxes-tip" src=' + get_questionmark_img() + ' title="' + tip + '">';
+        resultHtml += '<img alt="" class="build-boxes-tip" src=' + get_questionmark_img() + ' title="' + tip + '">';
     }
     resultHtml += '<br>';
     return $(resultHtml);

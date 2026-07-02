@@ -14,7 +14,7 @@
             {% for item_file, part in set_result.parts.items %}
                 {% with name=part.0 type=part.1 used_in_set=part.2 %}
             <div class="solution-set-icon-container{% if not used_in_set %} grayed-out{% endif %}">
-                <img src="{% static item_file %}" class="solution-set-icon" title="{{name}} ({{type}})">
+                <img alt="" src="{% static item_file %}" class="solution-set-icon" title="{{name}} ({{type}})">
             </div>
                 {% endwith %}
             {% endfor %}

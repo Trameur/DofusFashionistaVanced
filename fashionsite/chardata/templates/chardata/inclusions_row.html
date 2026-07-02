@@ -3,7 +3,7 @@
 <table align="center" id="table-{{select_name}}"><tr>
         <td width="35%" align="right">
             <div class="solution-item-icon-container">
-                <img src="{% static "chardata/item-bg.png" %}" id="item-picture-{{select_name}}" class="solution-items-icon">
+                <img alt="" src="{% static "chardata/item-bg.png" %}" id="item-picture-{{select_name}}" class="solution-items-icon">
             </div>
         </td>
         <td class="solution-item-info" style="vertical-align: middle;" id="td-{{select_name}}">
@@ -12,7 +12,7 @@
             <input id="item-id-{{select_name}}" class='change-modifies-state' type="hidden" name="{{select_name}}">
             <span id="item-level-{{select_name}}" class="item-level"></span>
             <div class="solution-item-icons">
-            <img src='{% static "chardata/cross-icon.png" %}' class='click-modifies-state button-remove' style="vertical-align: middle;" id="button-remove-{{select_name}}">
+            <img alt="" src='{% static "chardata/cross-icon.png" %}' class='click-modifies-state button-remove' style="vertical-align: middle;" id="button-remove-{{select_name}}">
             </div>
             <div id="stat-override-toggle-{{select_name}}" style="display:none;margin-top:6px;">
                 <button type="button" id="stat-override-link-{{select_name}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>

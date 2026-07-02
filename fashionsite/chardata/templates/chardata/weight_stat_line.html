@@ -5,9 +5,9 @@
     <td class="weight-stat-icon-cell {% if stat_key == 'vit' %}upper-left-cell{% endif %}
                                      {% if stat_key == 'resperran' %}bottom-left-cell{% endif %}" >
         {% if resolved_icon %}
-            <img class="weight-stat-icon" src="{% static resolved_icon %}">
+            <img alt="" class="weight-stat-icon" src="{% static resolved_icon %}">
         {% elif icon %}
-            <img class="weight-stat-icon" src="{% static icon %}">
+            <img alt="" class="weight-stat-icon" src="{% static icon %}">
         {% endif %}
     </td>
     <td align="left">
