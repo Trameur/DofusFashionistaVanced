@@ -1495,3 +1495,38 @@ class SharedLinkWithoutSolutionTests(TestCase):
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(Char.objects.get(pk=build.pk).view_count, 0)
+
+
+class SharedSolutionPageTests(TestCase):
+    """End-to-end render of a shared solution page from a hand-built minimal
+    solution (no solver run), guarding the view-count contract: one view is
+    counted and modified_time must not move."""
+
+    def _shared_build(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner = User.objects.create_user('star', 'st@test.local', 'pw-42-solid')
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False}, 'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        minimal = ModelResultMinimal({}, input_, {})
+        return Char.objects.create(
+            name='Etoile', char_name='star', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(minimal),
+            owner=owner, link_shared=True, game_version='dofus3')
+
+    def test_shared_page_renders_and_counts_one_view(self):
+        from chardata.models import Char
+        from chardata.encoded_char_id import encode_char_id
+        build = self._shared_build()
+        before = Char.objects.get(pk=build.pk).modified_time
+        resp = self.client.get('/s/star/%s/' % encode_char_id(build.pk))
+        self.assertEqual(resp.status_code, 200)
+        after = Char.objects.get(pk=build.pk)
+        self.assertEqual(after.view_count, 1)
+        self.assertEqual(after.modified_time, before,
+                         'a mere view must not touch modified_time')
