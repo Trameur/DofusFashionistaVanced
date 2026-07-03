@@ -1040,7 +1040,7 @@
                 if (isBlue) nameSpan.css('color', '#4a9fd5');
                 else if (isOrange) nameSpan.css('color', '#C47A00');
 
-                var feedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'>&#10003;</span>");
+                var feedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'><svg viewBox='0 0 24 24' width='13' height='13' fill='none' stroke='currentColor' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M5 12.5l4.5 4.5L19 6.5'/></svg></span>");
 
                 var delBtn = $("<button type='button' style='background:none;border:none;cursor:pointer;color:#888;font-size:1em;padding:0 2px;flex-shrink:0;line-height:1;'>×</button>");
                 delBtn.click((function(capturedStat) {
@@ -1202,7 +1202,7 @@
                     addInput.removeAttr('max').val('');
                 }
             });
-            var addFeedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'>&#10003;</span>");
+            var addFeedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'><svg viewBox='0 0 24 24' width='13' height='13' fill='none' stroke='currentColor' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M5 12.5l4.5 4.5L19 6.5'/></svg></span>");
             var addBtn = $("<button type='button' class='button-generic' style='font-size:0.8em;padding:2px 6px;'>+</button>");
             addBtn.click(function() {
                 var newStatId = parseInt(statSelect.val());
@@ -1248,7 +1248,7 @@
             var invRow = $("<div style='margin-top:6px;display:flex;gap:4px;align-items:center;flex-wrap:wrap;'></div>");
             var invSelect = $("<select style='font-size:0.85em;max-width:130px;'></select>");
             var invBtn = $("<button type='button' class='button-generic' style='font-size:0.8em;padding:2px 6px;'>{% trans "Add to inventory" %}</button>");
-            var invFeedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'>&#10003;</span>");
+            var invFeedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'><svg viewBox='0 0 24 24' width='13' height='13' fill='none' stroke='currentColor' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M5 12.5l4.5 4.5L19 6.5'/></svg></span>");
             $.get(apiBase + "/inventory/folders/", function(data) {
                 var folders = (data && data.folders) || [];
                 $.each(folders, function(_, folder) {

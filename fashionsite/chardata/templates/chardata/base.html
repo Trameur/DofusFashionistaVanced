@@ -133,7 +133,7 @@
         </div>
         
         
-        <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span aria-hidden="true">&#10024;</span> <span class="fm-design-label">{% trans "New look" %}</span></button>
+        <div class='space header-controls'><button type="button" class="fm-design-toggle" onclick="fmToggleDesign()" title="{% trans 'Switch between the classic and new design' %}"><span class="mi mi-toggle" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.4 4 1.6 5.2 5.6 5.6-4 .4-5.2 1.6-5.6 5.6-.4-4-1.6-5.2-5.6-5.6C10.4 8.2 11.6 7 12 3z"/><path d="M18.5 14.5c.2 1.6.7 2.1 2.3 2.3-1.6.2-2.1.7-2.3 2.3-.2-1.6-.7-2.1-2.3-2.3 1.6-.2 2.1-.7 2.3-2.3z"/></svg></span> <span class="fm-design-label">{% trans "New look" %}</span></button>
        <div id="compare-cart" class="compare-cart" hidden>
          <button type="button" class="compare-cart-toggle" aria-label="{% trans 'Comparison' %}" title="{% trans 'Comparison' %}">
            <span class="cc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M6 6l6-1 6 1"/><path d="M12 3v17"/><path d="M9 12 6 6l-3 6a3 3 0 0 0 6 0"/><path d="M21 12l-3-6-3 6a3 3 0 0 0 6 0"/></svg></span><span class="cc-count">0</span>
@@ -170,55 +170,55 @@
         <button type="button" class="mobile-nav-toggle" aria-expanded="false" aria-controls="main-sidebar" onclick="toggleMobileNav(this)">{% trans "Menu" %}<span class="chev">&#9662;</span></button>
         <div class="sidebar" id="main-sidebar" background="#00ff00">
           <div class="mini-menu">
-              <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}">{% trans "Home" %}</a></div>
-              <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}">{% trans "Help & About" %}</a></div>
-              <div><a class="menu_link menu_link_middle"  href="{% url 'guides' %}">{% trans "Guides & tips" %}</a></div>
-              <div><a class="menu_link menu_link_bottom"  href="{% game_url 'faq' %}">{% trans "FAQ" %}</a></div>
+              <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg></span>{% trans "Home" %}</a></div>
+              <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg></span>{% trans "Help & About" %}</a></div>
+              <div><a class="menu_link menu_link_middle"  href="{% url 'guides' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg></span>{% trans "Guides & tips" %}</a></div>
+              <div><a class="menu_link menu_link_bottom"  href="{% game_url 'faq' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 0 1 5.4 1c0 1.8-2.6 2.4-2.6 4"/><path d="M12 17h.01"/></svg></span>{% trans "FAQ" %}</a></div>
           </div>
           {% if is_super_user or user.is_superuser %}
           <div class="space"></div>
           <div class="mini-menu">
-              <div><a class="menu_link menu_link_top menu_link_bottom" href="{% url 'admin_tools' %}">Admin tools</a></div>
+              <div><a class="menu_link menu_link_top menu_link_bottom" href="{% url 'admin_tools' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.2-3 7.4-7 8.5-4-1.1-7-4.3-7-8.5V6z"/></svg></span>Admin tools</a></div>
           </div>
           {% endif %}
               <div class="space"></div>
           <div class="mini-menu">    
               <div>
-                <a class="menu_link menu_link_top" href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
+                <a class="menu_link menu_link_top" href="{% game_url 'setup' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6"/><path d="M9 12h6"/></svg></span>{% trans "Create a project" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% game_url 'smart_build' %}">{% trans "Smart Build" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'smart_build' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>{% trans "Smart Build" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% game_url 'load_projects' %}">{% trans "Load a project" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'load_projects' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3.5l2 2H18a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg></span>{% trans "Load a project" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% game_url 'shared_builds' %}">{% trans "Shared Builds" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'shared_builds' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 20c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 6.2a3 3 0 0 1 0 5.6"/><path d="M20 20c0-2-1.1-3.7-3-4.6"/></svg></span>{% trans "Shared Builds" %}</a>
               </div>
               <div>
-                <a class="menu_link menu_link_middle" href="{% game_url 'random_build' %}">{% trans "Random Build" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'random_build' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></span>{% trans "Random Build" %}</a>
               </div>
               {% if user.is_authenticated %}
               <div>
-                <a class="menu_link menu_link_middle" href="{% game_url 'feed' %}">{% trans "My Feed" %}</a>
+                <a class="menu_link menu_link_middle" href="{% game_url 'feed' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4l2.5-7 3 14L16 12h4"/></svg></span>{% trans "My Feed" %}</a>
               </div>
               {% endif %}
               <div>
-                                <a class="menu_link menu_link_middle" href="{% game_url 'choose_compare_sets' %}">{% trans "Compare sets" %}</a>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'choose_compare_sets' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M6 6l6-1 6 1"/><path d="M12 3v17"/><path d="M9 12 6 6l-3 6a3 3 0 0 0 6 0"/><path d="M21 12l-3-6-3 6a3 3 0 0 0 6 0"/></svg></span>{% trans "Compare sets" %}</a>
                             </div>
                             {% if user.is_authenticated %}
                             <div>
-                                <a class="menu_link menu_link_middle" href="{% game_url 'workshop' %}">{% trans "Workshop" %}</a>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'workshop' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7.5a4.5 4.5 0 0 1-5.9 4.3L6 20l-2-2 8.2-8.1A4.5 4.5 0 0 1 16.5 4l-2.6 2.6 1.6 1.6L18.5 5.6z"/></svg></span>{% trans "Workshop" %}</a>
                             </div>
                             <div>
-                                <a class="menu_link menu_link_middle" href="{% game_url 'inventory' %}">{% trans "Inventory" %}</a>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'inventory' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 7v10l-8 4-8-4V7z"/><path d="M4 7l8 4 8-4"/><path d="M12 11v10"/></svg></span>{% trans "Inventory" %}</a>
                             </div>
                             {% endif %}
                             <div>
-                                <a class="menu_link menu_link_middle" href="{% game_url 'forgemagie' %}">{% trans "Smithmagic" %}</a>
+                                <a class="menu_link menu_link_middle" href="{% game_url 'forgemagie' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2.5 3.5 4.5 5.5 4.5 8.5a4.5 4.5 0 0 1-9 0c0-1.3.4-2.2 1.2-3 .4.9 1.2 1.3 1.8.9-.6-1.4.2-3.4 1.5-6.4z"/></svg></span>{% trans "Smithmagic" %}</a>
                             </div>
                             <div>
-                                <a class="menu_link menu_link_bottom" href="{% game_url 'encyclopedia' %}">{% trans "Encyclopedia" %}</a>
+                                <a class="menu_link menu_link_bottom" href="{% game_url 'encyclopedia' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19"/></svg></span>{% trans "Encyclopedia" %}</a>
               </div>
           </div>
           <div class="space"></div>

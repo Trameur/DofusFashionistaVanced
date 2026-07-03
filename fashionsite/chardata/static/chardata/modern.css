@@ -173,6 +173,10 @@ html.fm-modern .menu_link:hover, html.fm-modern .menu-collapse-link:hover{
   background:var(--fm-accent-soft) !important; border-left-color:var(--fm-accent) !important; transform:translateX(2px);
 }
 html.fm-modern .menu_link_top{ font-weight:700; }
+/* Premium line-icons in the nav (theme-agnostic: inherits text color). */
+.menu_link .mi{ display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; margin-right:9px; vertical-align:-3px; flex:0 0 auto; }
+.menu_link .mi svg{ display:block; width:16px; height:16px; }
+html.fm-modern .menu_link:hover .mi{ transform:scale(1.08); transition:transform var(--fm-trans); }
 html.fm-modern .menu-collapse-link{ margin-left:8px !important; font-size:13px; }
 /* Advanced ("More/Less") collapsible group: clean grouped sub-nav, NOT the
    classic dark-brown box (#menu-collapse had bg rgb(80,54,37)). */

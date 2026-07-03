@@ -192,7 +192,7 @@ function renderStatOverrideSection(slot, itemId, itemStats) {
         if (overrideVal !== undefined) {
             input.css('outline', '2px solid #E8A000');
         }
-        var feedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'>&#10003;</span>");
+        var feedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'><svg viewBox='0 0 24 24' width='13' height='13' fill='none' stroke='currentColor' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M5 12.5l4.5 4.5L19 6.5'/></svg></span>");
         input.on('change', (function(capturedStatId, capturedOriginalValue) {
             return function() {
                 var inp = $(this);
