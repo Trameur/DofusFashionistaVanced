@@ -861,6 +861,16 @@ class GetItemStatsTests(TestCase):
             self.assertEqual(resp.status_code, 200, 'item=%r' % bad)
             self.assertEqual(resp.json(), {})
 
+    def test_evolve_no_item_result_does_not_crash(self):
+        # Root cause of the prod 500 above: a no-item ModelResultItem left
+        # .slot/.file unset, so evolve_result_item raised AttributeError.
+        from fashionistapulp.modelresult import ModelResultItem
+        from chardata.solution_result import evolve_result_item
+        result_item = ModelResultItem(None)
+        self.assertIsNone(result_item.slot)
+        self.assertIsNone(result_item.file)
+        evolve_result_item(result_item)
+
     def test_switch_item_rejects_unknown_id_instead_of_removing(self):
         from django.contrib.auth.models import User
         from chardata.models import Char
