@@ -602,16 +602,30 @@ function Start-DjangoServer {
     Write-LogMessage "Accédez à http://localhost:8000 dans votre navigateur" "INFO"
     Write-LogMessage "(Ctrl+C pour arrêter le serveur)" "INFO"
     
+    # Tuer une éventuelle ancienne app restée collée sur le port 8000, sinon la
+    # nouvelle ne peut pas démarrer et l'ancienne (souvent connectée à une base
+    # vide) continue de servir — donnait l'impression d'une base "presque vide".
+    $stale = Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue
+    foreach ($procId in ($stale.OwningProcess | Sort-Object -Unique)) {
+        Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
+        Write-LogMessage "Ancien serveur sur le port 8000 (PID $procId) arrêté." "INFO"
+    }
+
     try {
         if (Test-Path -Path "$PSScriptRoot\fashionsite\manage.py") {
             Push-Location "$PSScriptRoot\fashionsite"
-            
+
             # Définir les variables d'environnement correctement pour le processus Python
             $env:PYTHONPATH = "$PSScriptRoot\fashionistapulp"
             $env:PYTHONUNBUFFERED = "1"
             # Forcer l'utilisation des bons settings Django
             $env:DJANGO_SETTINGS_MODULE = 'fashionsite.settings'
-            
+            # Forcer la connexion MySQL en TCP (127.0.0.1) plutôt que 'localhost' :
+            # sous Windows 'localhost' passe par le named pipe, qui peut tomber sur
+            # une instance MySQL vide/parasite. 127.0.0.1 garantit le port 3306 (la
+            # vraie base). Corrige le "base presque vide".
+            $env:DB_HOST = '127.0.0.1'
+
             # Utiliser le serveur standard au lieu du serveur SSL qui a des problèmes avec Python 3.12
             Invoke-Python -X faulthandler manage.py runserver --noreload 0.0.0.0:8000
             
