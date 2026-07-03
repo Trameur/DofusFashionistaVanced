@@ -1700,3 +1700,40 @@ class SolverSmokeTests(TestCase):
         self.assertGreaterEqual(equipped, 3,
                                 'a level 50 strength solve should equip several items')
 
+class RobotsTxtTests(TestCase):
+    """robots.txt must keep the public content crawlable while blocking the
+    action endpoints and per-project/private pages that were flooding Search
+    Console with 403 / soft-404 / noindex 'errors' and wasting crawl budget."""
+
+    def _parser(self):
+        import urllib.robotparser as rp
+        body = self.client.get('/robots.txt').content.decode('utf-8')
+        p = rp.RobotFileParser()
+        p.parse(body.splitlines())
+        return p, body
+
+    def test_content_pages_stay_crawlable(self):
+        p, _ = self._parser()
+        for url in ['/', '/guides/getting-started/', '/encyclopedia/',
+                    '/encyclopedia/item/equipment/123-foo/', '/sharedbuilds/',
+                    '/s/zobal/abc123/', '/user/someone/', '/setup/', '/about/',
+                    '/faq/', '/quickstart/', '/forgemagie/', '/workshop/',
+                    '/loadprojects/', '/compare_sets/s123/']:
+            self.assertTrue(p.can_fetch('Googlebot', url),
+                            'robots.txt must not block content page %s' % url)
+
+    def test_action_endpoints_are_blocked(self):
+        p, _ = self._parser()
+        for url in ['/setup/170414/', '/beta/setup/170414/', '/postcomment/3048/',
+                    '/beta/postcomment/3048/', '/touch/saveprojecttouser/',
+                    '/addtag/215413/', '/workshop/addsolution/7420/',
+                    '/loadproject/223687/', '/solution/123/', '/spells/123/',
+                    '/exchange/5/', '/setitemlocked/1/', '/manageaccount/',
+                    '/fashion/123/', '/inventory/', '/login/']:
+            self.assertFalse(p.can_fetch('Googlebot', url),
+                             'robots.txt must block action endpoint %s' % url)
+
+    def test_sitemap_is_declared(self):
+        _, body = self._parser()
+        self.assertIn('Sitemap: https://dofusfashionista.gg/sitemap.xml', body)
+

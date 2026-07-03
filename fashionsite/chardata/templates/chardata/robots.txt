@@ -3,7 +3,100 @@ User-agent: Mediapartners-Google
 Allow: /
 
 User-agent: *
+# The public content lives at /, /guides/, /encyclopedia/, /sharedbuilds/,
+# /s/<build>/, /user/<name>/, /compare_sets/... — all crawlable.
+# Everything below is an action endpoint or a per-project/private page: not
+# indexable content. Crawling them only wastes crawl budget and fills Search
+# Console with 403 / soft-404 / noindex "errors". The */path/ form also covers
+# the version-prefixed copies (/beta/…, /dofus2/…, /retro/…, /touch/…).
+
+# Keep the public "create a project" landing, block the per-project editors.
+Allow: /setup/$
+Disallow: /setup/
+Disallow: */setup/
+
 Disallow: /understandbuild/
+
+# Project workflow (solver, wizard, edition, per-project pages)
+Disallow: */wizard/
+Disallow: */wizardpost/
+Disallow: */wizardgetsliders/
+Disallow: */fashion/
+Disallow: */solution/
+Disallow: */spells/
+Disallow: */loadproject/
+Disallow: */saveproject/
+Disallow: */saveprojecttouser/
+Disallow: */createproject/
+Disallow: */duplicateproject/
+Disallow: */duplicatemyproject/
+Disallow: */duplicatesomeonesproject/
+Disallow: */deleteprojects/
+Disallow: */project/
+Disallow: */initbasestats/
+Disallow: */initbasestatspost/
+Disallow: */statspost/
+Disallow: */minstatspost/
+Disallow: */inclusions/
+Disallow: */inclusionspost/
+Disallow: */exclusions/
+Disallow: */exclusionspost/
+Disallow: */options/
+Disallow: */optionspost/
+
+# Item / set editing and switching
+Disallow: */exchange/
+Disallow: */itemexchange/
+Disallow: */remove/
+Disallow: */setitemlocked/
+Disallow: */setitemforbidden/
+Disallow: */setslotlockempty/
+Disallow: */setitemstatoverride/
+Disallow: */getitemdetails/
+Disallow: */get_item_stats_compare/
+Disallow: */getsharinglink/
+Disallow: */get_compare_sharing_link/
+Disallow: */hidesharinglink/
+Disallow: */choose_item/
+Disallow: */choose_set/
+Disallow: */edit_item/
+Disallow: */edit_set/
+Disallow: */update_item/
+Disallow: */update_set/
+Disallow: */delete_item/
+Disallow: */delete_set/
+Disallow: */itemadd/
+
+# Community / social actions
+Disallow: */addtag/
+Disallow: */removetag/
+Disallow: */postcomment/
+Disallow: */deletecomment/
+Disallow: */reportcomment/
+Disallow: */votebuild/
+Disallow: */follow/
+Disallow: */unfollow/
+Disallow: */workshop/addsolution/
+Disallow: */workshop/solutioningredients/
+Disallow: */inventory/
+Disallow: */feed/
+
+# Account / auth
+Disallow: */manageaccount/
+Disallow: */saveaccount/
+Disallow: */save_char/
+Disallow: */login/
+Disallow: */login_page/
+Disallow: */local_login/
+Disallow: */register/
+Disallow: */confirm_email/
+Disallow: */email_confirmed/
+Disallow: */check_username/
+Disallow: */check_your_email/
+Disallow: */change_password/
+Disallow: */recover_password
+Disallow: */do_recover_password/
+Disallow: */send/
 
 # Sitemap location
 Sitemap: https://dofusfashionista.gg/sitemap.xml
