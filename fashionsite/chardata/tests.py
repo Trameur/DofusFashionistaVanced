@@ -1583,6 +1583,18 @@ class SharedSolutionPageDeepTests(TestCase):
         minimal = _pickle.loads(char.minimal_solution)
         self.assertEqual(minimal.item_per_slot.get('hat'), other_hat.id)
 
+    def test_remove_item_empties_the_slot(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('remover', 'rm@test.local', 'pw-42-solid')
+        char, hat, s = self._build_with_hat(owner)
+        self.client.force_login(owner)
+        resp = self.client.post('/remove/%d/' % char.pk, {'slot': 'hat'})
+        self.assertEqual(resp.status_code, 200)
+        char.refresh_from_db()
+        minimal = _pickle.loads(char.minimal_solution)
+        self.assertIsNone(minimal.item_per_slot.get('hat'))
+
 
 class InlineScriptSyntaxTests(TestCase):
     """An a11y pass once injected alt="" inside a double-quoted JS string on
