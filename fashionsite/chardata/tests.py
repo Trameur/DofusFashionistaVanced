@@ -1869,3 +1869,25 @@ class AdminToolsTests(TestCase):
         User.objects.create_superuser('boss', 'boss@test.local', 'pw-42-solid')
         self.client.login(username='boss', password='pw-42-solid')
         self.assertContains(self.client.get('/faq/'), '/admin-tools/')
+
+
+class CreateLocalAdminCommandTests(TestCase):
+    """create_local_admin makes a superuser whose password works with the
+    site's own login form (which pre-hashes in the browser). This is the way
+    back in when the only admin is a Google-login account that can't be used
+    on a localhost test server."""
+
+    def test_created_admin_logs_in_via_site_form(self):
+        import hashlib
+        from django.contrib.auth.models import User
+        from django.core.management import call_command
+        call_command('create_local_admin', username='localadmin',
+                     email='la@test.local', password='a-solid-pw-42')
+        u = User.objects.get(username='localadmin')
+        self.assertTrue(u.is_superuser and u.is_staff and u.is_active)
+        prehash = hashlib.sha256(('dofusfashionista' + 'a-solid-pw-42').encode()).hexdigest()
+        resp = self.client.post('/local_login/', {'username': 'localadmin', 'password': prehash})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content.decode(), 'ok')
+        # And that session can reach the staff dashboard.
+        self.assertEqual(self.client.get('/admin-tools/').status_code, 200)
