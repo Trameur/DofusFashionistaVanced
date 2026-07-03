@@ -1618,7 +1618,12 @@ class InlineScriptSyntaxTests(TestCase):
 
         pages = ['/', '/encyclopedia/', '/sharedbuilds/',
                  '/s/jscheck/%s/' % encode_char_id(char.pk),
-                 '/solution/%d/' % char.pk]
+                 '/solution/%d/' % char.pk,
+                 '/wizard/%d/' % char.pk,
+                 '/setup/%d/' % char.pk,
+                 '/spells/%d/' % char.pk,
+                 '/forgemagie/', '/inventory/', '/workshop/',
+                 '/choose_compare_sets/', '/manageaccount/']
         script_re = re.compile(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', re.S | re.I)
         for page in pages:
             resp = self.client.get(page)
