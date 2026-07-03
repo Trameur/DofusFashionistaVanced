@@ -1660,3 +1660,43 @@ class InlineScriptSyntaxTests(TestCase):
                         % (idx, page, proc.stderr[:800]))
                 finally:
                     os.unlink(path)
+
+def _pulp_solver_available():
+    try:
+        import pulp
+        return bool(pulp.listSolvers(onlyAvailable=True))
+    except Exception:
+        return False
+
+
+class SolverSmokeTests(TestCase):
+    """The optimizer is the product; one real end-to-end solve guards the
+    whole chain (weights -> model -> pulp solver -> stored solution)."""
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_full_solve_stores_a_solution_with_items(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.smart_build import get_standard_weights
+        from chardata.solution import get_solution
+        owner = User.objects.create_user('solveur', 'so@test.local', 'pw-42-solid')
+        char = Char.objects.create(
+            name='Smoke solve', char_name='smoke', char_class='Iop',
+            char_build='build', level=50,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            aspects=_pickle.dumps({'str'}),
+            owner=owner, link_shared=False, game_version='dofus3')
+        char.stats_weight = _pickle.dumps(get_standard_weights(char))
+        char.save()
+        self.client.force_login(owner)
+        resp = self.client.get('/fashion/%d/' % char.pk)
+        self.assertIn(resp.status_code, (200, 302))
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, 'no solution stored after solving')
+        equipped = sum(1 for ri in solution.item_list if ri.item_added)
+        self.assertGreaterEqual(equipped, 3,
+                                'a level 50 strength solve should equip several items')
+
