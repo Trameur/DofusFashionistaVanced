@@ -28,7 +28,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
     coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, forgemagie_view, \
-    inventory_view, guides_view
+    inventory_view, guides_view, admin_tools_view
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -310,6 +310,10 @@ urlpatterns = [
     re_path(r'^ads\.txt$', ads_txt_view, name='ads_txt'),
     re_path(r'^\.well-known/appspecific/com\.chrome\.devtools\.json$', chrome_devtools_view),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
+    # Staff-only dashboard (moderation + site tools). Gated in the view; 404 for
+    # everyone else. Not version-prefixed.
+    re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),
+    re_path(r'^admin-comment-action/$', admin_tools_view.admin_comment_action, name='admin_comment_action'),
     re_path(r'^manifest\.webmanifest$', manifest_view, name='manifest'),
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
     re_path(r'^offline/$', offline_view, name='offline'),

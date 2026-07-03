@@ -174,7 +174,13 @@
               <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}">{% trans "Help & About" %}</a></div>
               <div><a class="menu_link menu_link_middle"  href="{% url 'guides' %}">{% trans "Guides & tips" %}</a></div>
               <div><a class="menu_link menu_link_bottom"  href="{% game_url 'faq' %}">{% trans "FAQ" %}</a></div>
-          </div>    
+          </div>
+          {% if is_super_user or user.is_superuser %}
+          <div class="space"></div>
+          <div class="mini-menu">
+              <div><a class="menu_link menu_link_top menu_link_bottom" href="{% url 'admin_tools' %}">Admin tools</a></div>
+          </div>
+          {% endif %}
               <div class="space"></div>
           <div class="mini-menu">    
               <div>

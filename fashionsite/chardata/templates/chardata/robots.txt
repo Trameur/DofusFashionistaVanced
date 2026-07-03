@@ -81,6 +81,10 @@ Disallow: */workshop/solutioningredients/
 Disallow: */inventory/
 Disallow: */feed/
 
+# Staff-only tools
+Disallow: /admin-tools/
+Disallow: /admin-comment-action/
+
 # Account / auth
 Disallow: */manageaccount/
 Disallow: */saveaccount/

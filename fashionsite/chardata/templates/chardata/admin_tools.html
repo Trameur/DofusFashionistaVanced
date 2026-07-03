@@ -1,0 +1,137 @@
+{% extends 'chardata/base.html' %}
+{% load i18n %}
+{% load static_s3 %}
+
+{% block title %}Admin tools · Dofus Fashionista{% endblock %}
+{% block canonical %}{% endblock %}
+
+{% block main %}
+<div class="admin-tools text">
+    <h1 class="admin-title">Admin tools</h1>
+
+    <div class="admin-stats">
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.reports_pending }}</span><span class="admin-stat-label">reports pending</span></div>
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.comments_visible }}</span><span class="admin-stat-label">comments visible</span></div>
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.comments_deleted }}</span><span class="admin-stat-label">comments hidden</span></div>
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.comments_new_7d }}</span><span class="admin-stat-label">comments (7d)</span></div>
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.shared_builds }}</span><span class="admin-stat-label">shared builds</span></div>
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.users_total }}</span><span class="admin-stat-label">users</span></div>
+        <div class="admin-stat"><span class="admin-stat-num">{{ stats.users_new_7d }}</span><span class="admin-stat-label">new users (7d)</span></div>
+    </div>
+
+    <h2 class="admin-section-title">Reported comments
+        {% if reported_comments %}<span class="admin-badge">{{ reported_comments|length }}</span>{% endif %}
+    </h2>
+    {% if reported_comments %}
+    <div class="admin-list">
+        {% for row in reported_comments %}
+        <div class="admin-card" id="comment-{{ row.comment.id }}" data-comment-id="{{ row.comment.id }}">
+            <div class="admin-card-meta">
+                <b>{{ row.author }}</b>
+                {% if row.build_url %}on <a href="{{ row.build_url }}" target="_blank" rel="noopener">{{ row.build_name }}</a>{% else %}on {{ row.build_name }}{% endif %}
+                · {{ row.comment.created_time|date:"Y-m-d H:i" }}
+                · <span class="admin-report-flag">{{ row.report_count }} report{{ row.report_count|pluralize }} — {{ row.reasons }}</span>
+                {% if row.comment.deleted %}· <span class="admin-hidden-flag">hidden</span>{% endif %}
+            </div>
+            <div class="admin-card-body">{{ row.comment.content }}</div>
+            <div class="admin-card-actions">
+                {% if row.comment.deleted %}
+                <button class="admin-btn admin-btn-restore" data-action="restore">Restore</button>
+                {% else %}
+                <button class="admin-btn admin-btn-delete" data-action="delete">Hide comment</button>
+                {% endif %}
+                <button class="admin-btn admin-btn-dismiss" data-action="dismiss_reports">Dismiss reports</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="admin-empty">No pending reports. Nothing to review.</p>
+    {% endif %}
+
+    <h2 class="admin-section-title">Recent comments</h2>
+    <div class="admin-list">
+        {% for row in recent_comments %}
+        <div class="admin-card{% if row.comment.deleted %} admin-card-hidden{% endif %}" id="comment-{{ row.comment.id }}" data-comment-id="{{ row.comment.id }}">
+            <div class="admin-card-meta">
+                <b>{{ row.author }}</b>
+                {% if row.build_url %}on <a href="{{ row.build_url }}" target="_blank" rel="noopener">{{ row.build_name }}</a>{% else %}on {{ row.build_name }}{% endif %}
+                · {{ row.comment.created_time|date:"Y-m-d H:i" }}
+                {% if row.comment.deleted %}· <span class="admin-hidden-flag">hidden</span>{% endif %}
+            </div>
+            <div class="admin-card-body">{{ row.comment.content }}</div>
+            <div class="admin-card-actions">
+                {% if row.comment.deleted %}
+                <button class="admin-btn admin-btn-restore" data-action="restore">Restore</button>
+                {% else %}
+                <button class="admin-btn admin-btn-delete" data-action="delete">Hide comment</button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.admin-tools { max-width: 900px; margin: 0 auto; padding: 8px 16px 40px; }
+.admin-title { font-size: 1.7em; margin: 0 0 16px; }
+.admin-section-title { font-size: 1.2em; margin: 28px 0 12px; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 16px; }
+.admin-badge { display: inline-block; background: #c0392b; color: #fff; border-radius: 10px; padding: 1px 9px; font-size: 0.75em; vertical-align: middle; margin-left: 6px; }
+.admin-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.admin-stat { border: 1px solid rgba(128,128,128,0.35); border-radius: 8px; padding: 12px; text-align: center; }
+.admin-stat-num { display: block; font-size: 1.6em; font-weight: 700; }
+.admin-stat-label { display: block; font-size: 0.8em; opacity: 0.8; margin-top: 2px; }
+.admin-list { display: flex; flex-direction: column; gap: 10px; }
+.admin-card { border: 1px solid rgba(128,128,128,0.35); border-radius: 8px; padding: 12px; }
+.admin-card-hidden { opacity: 0.55; }
+.admin-card-meta { font-size: 0.85em; opacity: 0.9; margin-bottom: 8px; }
+.admin-card-body { white-space: pre-wrap; word-break: break-word; }
+.admin-report-flag { color: #e67e22; font-weight: 600; }
+.admin-hidden-flag { color: #c0392b; font-weight: 600; }
+.admin-card-actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.admin-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; cursor: pointer; font-size: 0.85em; }
+.admin-btn-delete:hover { background: #c0392b; color: #fff; border-color: #c0392b; }
+.admin-btn-restore:hover { background: #27ae60; color: #fff; border-color: #27ae60; }
+.admin-btn-dismiss:hover { background: #7f8c8d; color: #fff; border-color: #7f8c8d; }
+.admin-empty { opacity: 0.7; font-style: italic; }
+</style>
+
+<script>
+(function() {
+    var csrftoken = '{{ csrf_token }}';
+    document.querySelectorAll('.admin-card-actions .admin-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var card = btn.closest('.admin-card');
+            var commentId = card.getAttribute('data-comment-id');
+            var action = btn.getAttribute('data-action');
+            btn.disabled = true;
+            var body = new URLSearchParams();
+            body.append('comment_id', commentId);
+            body.append('action', action);
+            body.append('csrfmiddlewaretoken', csrftoken);
+            fetch('{% url "admin_comment_action" %}', {
+                method: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                body: body,
+                credentials: 'same-origin'
+            }).then(function(r) { return r.json(); }).then(function(data) {
+                if (data && data.success) {
+                    if (action === 'delete') {
+                        card.classList.add('admin-card-hidden');
+                    } else if (action === 'restore') {
+                        card.classList.remove('admin-card-hidden');
+                    }
+                    location.reload();
+                } else {
+                    alert((data && data.error) || 'Action failed');
+                    btn.disabled = false;
+                }
+            }).catch(function() {
+                alert('Action failed');
+                btn.disabled = false;
+            });
+        });
+    });
+})();
+</script>
+{% endblock %}

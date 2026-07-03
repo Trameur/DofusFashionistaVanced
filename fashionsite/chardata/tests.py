@@ -1737,3 +1737,81 @@ class RobotsTxtTests(TestCase):
         _, body = self._parser()
         self.assertIn('Sitemap: https://dofusfashionista.gg/sitemap.xml', body)
 
+
+
+class AdminToolsTests(TestCase):
+    """The staff dashboard must be invisible (404) to everyone but admins, and
+    let an admin moderate comments (hide / restore / dismiss reports)."""
+
+    def _make_build_and_comment(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char, BuildComment
+        author = User.objects.create_user('poster', 'p@test.local', 'pw-42-solid')
+        build = Char.objects.create(
+            name='Shared', char_name='shared', char_class='Iop', char_build='b',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            owner=author, link_shared=True, game_version='dofus3')
+        comment = BuildComment.objects.create(
+            user=author, build=build, content='A questionable comment')
+        return author, build, comment
+
+    def test_anonymous_and_regular_users_get_404(self):
+        from django.contrib.auth.models import User
+        self.assertEqual(self.client.get('/admin-tools/').status_code, 404)
+        User.objects.create_user('plain', 'pl@test.local', 'pw-42-solid')
+        self.client.login(username='plain', password='pw-42-solid')
+        self.assertEqual(self.client.get('/admin-tools/').status_code, 404)
+
+    def test_superuser_sees_dashboard_with_reported_comment(self):
+        from django.contrib.auth.models import User
+        from chardata.models import CommentReport
+        author, build, comment = self._make_build_and_comment()
+        r1 = User.objects.create_user('rep1', 'r1@test.local', 'pw-42-solid')
+        r2 = User.objects.create_user('rep2', 'r2@test.local', 'pw-42-solid')
+        CommentReport.objects.create(user=r1, comment=comment, reason='spam')
+        CommentReport.objects.create(user=r2, comment=comment, reason='harassment')
+        User.objects.create_superuser('boss', 'boss@test.local', 'pw-42-solid')
+        self.client.login(username='boss', password='pw-42-solid')
+        resp = self.client.get('/admin-tools/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Reported comments')
+        self.assertContains(resp, 'A questionable comment')
+        self.assertContains(resp, 'noindex')
+
+    def test_admin_can_hide_and_restore_a_comment(self):
+        from django.contrib.auth.models import User
+        from chardata.models import BuildComment, CommentReport
+        author, build, comment = self._make_build_and_comment()
+        rep = User.objects.create_user('rep', 'r@test.local', 'pw-42-solid')
+        CommentReport.objects.create(user=rep, comment=comment, reason='spam')
+        User.objects.create_superuser('boss', 'boss@test.local', 'pw-42-solid')
+        self.client.login(username='boss', password='pw-42-solid')
+
+        resp = self.client.post('/admin-comment-action/',
+                                {'comment_id': comment.id, 'action': 'delete'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(BuildComment.objects.get(id=comment.id).deleted)
+        # Hiding also processes its open reports.
+        self.assertFalse(CommentReport.objects.filter(comment=comment, processed=False).exists())
+
+        resp = self.client.post('/admin-comment-action/',
+                                {'comment_id': comment.id, 'action': 'restore'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertFalse(BuildComment.objects.get(id=comment.id).deleted)
+
+    def test_action_endpoint_is_404_for_non_admins(self):
+        author, build, comment = self._make_build_and_comment()
+        resp = self.client.post('/admin-comment-action/',
+                                {'comment_id': comment.id, 'action': 'delete'})
+        self.assertEqual(resp.status_code, 404)
+
+    def test_menu_link_only_shows_for_admins(self):
+        from django.contrib.auth.models import User
+        User.objects.create_user('plain', 'pl@test.local', 'pw-42-solid')
+        self.client.login(username='plain', password='pw-42-solid')
+        self.assertNotContains(self.client.get('/faq/'), '/admin-tools/')
+        self.client.logout()
+        User.objects.create_superuser('boss', 'boss@test.local', 'pw-42-solid')
+        self.client.login(username='boss', password='pw-42-solid')
+        self.assertContains(self.client.get('/faq/'), '/admin-tools/')
