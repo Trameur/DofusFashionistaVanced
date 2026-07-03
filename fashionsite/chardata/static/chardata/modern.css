@@ -727,7 +727,8 @@ html.fm-modern .pages-current{ color:var(--fm-head) !important; }
   border:1px solid rgba(128,128,128,.35); border-radius:999px; padding:3px 10px;
 }
 .compare-cart-toggle:hover{ background:rgba(128,128,128,.16); }
-.compare-cart .cc-icon{ font-size:1.05em; }
+.compare-cart .cc-icon{ display:inline-flex; align-items:center; }
+.compare-cart .cc-icon svg{ display:block; }
 .compare-cart .cc-count{
   display:inline-flex; align-items:center; justify-content:center;
   min-width:18px; height:18px; padding:0 5px; border-radius:999px;
