@@ -123512,7 +123512,7 @@
         },
         {
             "ankama_id": 34495,
-            "name": "[!] Diplôme Maître des files d'attente",
+            "name": "Diploma: Maestro de las colas de espera",
             "type": {
                 "name": "Pergamino de título",
                 "id": 57
@@ -123522,7 +123522,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-128.png"
             },
-            "description": "[!] Ce diplôme confère le titre « Maître des files d'attente ».",
+            "description": "Este diploma otorga el título de «Maestro de las colas de espera».",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -123535,7 +123535,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Título: [!] Maître des files d'attente."
+                    "formatted": "Título: Maestro de las colas de espera."
                 },
                 {
                     "int_minimum": 0,

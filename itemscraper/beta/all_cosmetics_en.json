@@ -97426,17 +97426,17 @@
         },
         {
             "ankama_id": 32473,
-            "name": "[!] Corpo",
+            "name": "Incorporated",
             "type": {
                 "name": "Ceremonial petsmount",
                 "id": 59
             },
             "level": 60,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-128.png"
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
-            "description": "[!] Avec ce montilier, portez fièrement votre bannière de guilde lors de tous vos déplacements.",
+            "description": "With this petsmount, you can proudly display your guild banner wherever you go.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103940,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-128.png"
             },
-            "description": "It has wings if you want to glide, and fins if you want to try breathing underwater. Sadly, though, none of them work.",
+            "description": "Don't be fooled by its sharp protrusions, because there's nothing aerodynamic about this cape, and it'll just weigh you down underwater. However, the person who designed it swore blind that it would wipe out bad taste. That's the next best thing, right?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104125,7 +104125,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17700-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17700-128.png"
             },
-            "description": "This cape can withstand the ravages of time along with any traitorous blows.",
+            "description": "This cape can withstand the ravages of time along with any traitorous blows – especially if those traitorous blows involve carving a heart around a pair of initials.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104244,7 +104244,7 @@
         },
         {
             "ankama_id": 34480,
-            "name": "[!] Masque de plongée du Gouffre",
+            "name": "Chasm Diving Mask",
             "type": {
                 "name": "Ceremonial hat",
                 "id": 6
@@ -104254,7 +104254,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16917-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16917-128.png"
             },
-            "description": "[!] Si vous n'arrivez pas à garder la tête hors de l'eau, ce masque est fait pour vous !",
+            "description": "If you struggle to keep your head above water, then this mask is perfect for you!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104287,7 +104287,7 @@
         },
         {
             "ankama_id": 34481,
-            "name": "[!] Cape de plongée du Gouffre",
+            "name": "Chasm Diving Cape",
             "type": {
                 "name": "Ceremonial cape",
                 "id": 18
@@ -104297,7 +104297,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17702-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17702-128.png"
             },
-            "description": "[!] Oui, il existe des capes de plongée. Elles ne permettent pas de nager plus vite, mais offrent une protection supplémentaire non négligeable face aux prédateurs du Gouffre.",
+            "description": "Yes, diving capes are a thing. They don't make you swim any faster, but they do offer worthwhile extra protection from the Chasm's predators.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104330,7 +104330,7 @@
         },
         {
             "ankama_id": 34482,
-            "name": "[!] Bouclier-lanterne du Gouffre",
+            "name": "Chasm Lanternshield",
             "type": {
                 "name": "Ceremonial shield",
                 "id": 19
@@ -104340,7 +104340,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82598-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82598-128.png"
             },
-            "description": "[!] Toute ressemblance avec d'horribles créatures que vous pourriez rencontrer au fond de l'océan serait purement fortuite.",
+            "description": "Any resemblance to the horrid creatures you might encounter in the ocean depths is purely coincidental.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104373,7 +104373,7 @@
         },
         {
             "ankama_id": 34483,
-            "name": "[!] Combinaison de plongée du Gouffre",
+            "name": "Chasm Diving Suit",
             "type": {
                 "name": "Costume",
                 "id": 16
@@ -104383,7 +104383,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164311-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164311-128.png"
             },
-            "description": "[!] Moulante, brillante et imperméable, cette combinaison est prévue pour explorer les profondeurs insondables de Sufokia. Notez qu'elle fonctionnerait aussi très bien pour certaines soirées entre adultes consentants. Dans ce cas, les tentacules enroulés autour de la ceinture sont à utiliser avec précaution.",
+            "description": "Skin-tight, shiny and waterproof, this suit is made for exploring the unfathomable depths of Sufokia. Please note that it should also work just fine for certain adult-themed nights. But in that case, be careful with the tentacles wrapped around the belt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104403,7 +104403,7 @@
         },
         {
             "ankama_id": 34484,
-            "name": "[!] Nageoires du Gouffre",
+            "name": "Chasm Fins",
             "type": {
                 "name": "Shoulder Pad",
                 "id": 259
@@ -104413,7 +104413,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164312-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164312-128.png"
             },
-            "description": "[!] Ces épaulières en forme de nageoires vous apporterons un excellent aquadynamisme quand il s'agira de fuir de toutes vos forces à la vue des monstres qui hantent le Gouffre.",
+            "description": "These fin-shaped shoulder pads will make you glide through the water when you need to swim for your life at the sight of the monsters haunting the Chasm.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104433,7 +104433,7 @@
         },
         {
             "ankama_id": 34485,
-            "name": "[!] Thyméduse",
+            "name": "Jelliwabbit",
             "type": {
                 "name": "Ceremonial pet",
                 "id": 24
@@ -104443,7 +104443,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18948-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18948-128.png"
             },
-            "description": "[!] Comment ce Tiwabbit Kiafin a bien pu se retrouver ici ? En tout cas, il a l'air d'être en sécurité dans ce petit bathyscaphe en forme de méduse.",
+            "description": "How did this Tiwabbit Wosungwee end up here? At any rate, he seems to be safe in this little jellyfish-shaped bathyscaphe.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104476,7 +104476,7 @@
         },
         {
             "ankama_id": 34486,
-            "name": "[!] Abyppocampe",
+            "name": "Abysseahorse",
             "type": {
                 "name": "Ceremonial petsmount",
                 "id": 59
@@ -104486,7 +104486,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121182-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121182-128.png"
             },
-            "description": "[!] Chez les hippocampes des abysses, ce sont les mâles qui s'occupent de la gestation des bébés. Une particularité surprenante, mais pourtant pas si rare dans le règne animal.\nCes créatures font également d'excellents destriers sous-marins, leur vitesse n'étant égalée que par les poulpées et les sirènes.",
+            "description": "Among seahorses living in the abysses, the males carry the young. While this might be a surprising trait, it's not actually that uncommon in the animal kingdom.\nThese creatures also make for brilliant underwater steeds, because only octodolls and mermaids can match their speed.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104532,7 +104532,7 @@
         },
         {
             "ankama_id": 34497,
-            "name": "[!] Ailes flottantes",
+            "name": "Floating Wings",
             "type": {
                 "name": "Wings",
                 "id": 218
@@ -104542,7 +104542,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164316-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164316-128.png"
             },
-            "description": "[!] Avec ces ailes, vous ne volerez peut-être pas bien haut, mais une chose est sûre : elles vous permettront de ne pas couler.",
+            "description": "You might not fly very high with these wings, but one thing's for sure – they'll stop you from sinking.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104562,7 +104562,7 @@
         },
         {
             "ankama_id": 34500,
-            "name": "[!] Maillot Plagivan",
+            "name": "Beachalive Swimsuit",
             "type": {
                 "name": "Living object",
                 "id": 5
@@ -104572,7 +104572,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164313-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164313-128.png"
             },
-            "description": "[!] Ce maillot est parfait pour passer du temps en bord de mer sous un soleil radieux. Attention tout de même aux fortes chaleurs, mangez suffisamment et hydratez-vous régulièrement afin de réduire les risques de fatigue, de maux de tête, de vertiges, de nausées, ou de tenir des propos incohérents.",
+            "description": "This swimsuit is perfect for spending time in glorious sunshine at the seaside. The usual warnings apply: take care in the intense heat, make sure you eat enough and drink plenty of fluids to reduce the risk of fatigue, headaches, dizziness, nausea and speaking gibberish.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104592,7 +104592,7 @@
         },
         {
             "ankama_id": 34502,
-            "name": "[!] Multimeka Skale",
+            "name": "Skale the Multimeka",
             "type": {
                 "name": "Ceremonial petsmount",
                 "id": 59
@@ -104602,7 +104602,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121183-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121183-128.png"
             },
-            "description": "[!] Œil pour œil, dent pour dent. Vous terrasserez tout sur votre passage, avec le sourire.",
+            "description": "An eye for an eye, a tooth for a tooth. You'll level everything in your path... with a smile.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104648,7 +104648,7 @@
         },
         {
             "ankama_id": 34503,
-            "name": "[!] Multimeka Scoreur",
+            "name": "Beelzebug the Multimeka",
             "type": {
                 "name": "Ceremonial petsmount",
                 "id": 59
@@ -104658,7 +104658,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-128.png"
             },
-            "description": "[!] Ce Multimeka est l'arme parfaite pour un destructeur de nuisibles, de quoi écraser tout ce qui passe comme de vulgaires insectes.",
+            "description": "This Multimeka is the perfect weapon for an exterminator because it can crush anything in its path like common insects.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104704,7 +104704,7 @@
         },
         {
             "ankama_id": 34504,
-            "name": "[!] Visière submersible de Skale",
+            "name": "Skale Submersible Visor",
             "type": {
                 "name": "Ceremonial hat",
                 "id": 6
@@ -104714,7 +104714,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16918-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16918-128.png"
             },
-            "description": "[!] Cette visière résiste aux chocs et fonctionne comme des branchies. Mais n'oubliez pas de la retirer lorsque vous souhaitez taper un croc.",
+            "description": "This visor can withstand impacts and act as gills. Just don't forget to take it off when you fancy a bite to eat.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104747,7 +104747,7 @@
         },
         {
             "ankama_id": 34505,
-            "name": "[!] Masque brûlant de Scoreur",
+            "name": "Beelzebug Burning Mask",
             "type": {
                 "name": "Ceremonial hat",
                 "id": 6
@@ -104757,7 +104757,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16919-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16919-128.png"
             },
-            "description": "[!] Avec cet air de scarafeuille, vous n'aurez rien à envier à personne. Ça n'est pas vous l'insecte, mais ceux qui essaieront de vous mettre des bâtons dans les roues.",
+            "description": "Wearing this and looking like a scaraleaf, others won't be able to hold a candle to you. You're not the pest – it's those who'll try to get in your way.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104790,7 +104790,7 @@
         },
         {
             "ankama_id": 34506,
-            "name": "[!] Lame à vague de Skale",
+            "name": "Skale Bluewave Blade",
             "type": {
                 "name": "Ceremonial shield",
                 "id": 19
@@ -104800,7 +104800,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82599-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82599-128.png"
             },
-            "description": "[!] Cette lame, faite à partir de dents de requin, peut trancher n'importe quoi ou n'importe qui. On raconte même que Skale l'aurait utilisée pour trancher la mer en deux.",
+            "description": "This blade made of shark teeth can cut through anything and anyone. Some people even say that Skale used it to slice the sea in two.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104833,7 +104833,7 @@
         },
         {
             "ankama_id": 34507,
-            "name": "[!] Bident en fusion de Scoreur",
+            "name": "Beelzebug Molten Bident",
             "type": {
                 "name": "Ceremonial shield",
                 "id": 19
@@ -104843,7 +104843,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82600-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82600-128.png"
             },
-            "description": "[!] Avec son métal en fusion, ce bident fut utilisé par Scoreur pour scorifier ses adversaires comme ses alliés.",
+            "description": "With its molten metal, Beelzebug used this bident to scorify opponents and allies alike.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104876,7 +104876,7 @@
         },
         {
             "ankama_id": 34508,
-            "name": "[!] Combinaison amphibie de Skale",
+            "name": "Skale Amphibious Suit",
             "type": {
                 "name": "Costume",
                 "id": 16
@@ -104886,7 +104886,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648905-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648905-128.png"
             },
-            "description": "[!] Cette combinaison est parfaite pour la pêche aux alevins.",
+            "description": "This suit is perfect for fishing for fingerlings.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104906,7 +104906,7 @@
         },
         {
             "ankama_id": 34509,
-            "name": "[!] Combinaison ignifugée de Scoreur",
+            "name": "Beelzebug Fireproof Suit",
             "type": {
                 "name": "Costume",
                 "id": 16
@@ -104916,7 +104916,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648907-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648907-128.png"
             },
-            "description": "[!] Cette combinaison résiste aussi bien aux très hautes qu'aux très basses températures. Elle permet aussi de maintenir et de concentrer toute l'ardeur de son porteur.",
+            "description": "This suit can withstand extremely high and low temperatures alike. It also helps sustain and focus its wearer's zeal.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104936,7 +104936,7 @@
         },
         {
             "ankama_id": 34510,
-            "name": "[!] Ailerons de Skale",
+            "name": "Skale Fins",
             "type": {
                 "name": "Shoulder Pad",
                 "id": 259
@@ -104946,7 +104946,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648904-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648904-128.png"
             },
-            "description": "[!] Ces ailerons hydrodynamiques pourraient vous permettre de vous mouvoir tel un requin dans la mer.",
+            "description": "These hydrodynamic fins might even let you move around like a shark in the sea.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104966,7 +104966,7 @@
         },
         {
             "ankama_id": 34511,
-            "name": "[!] Carapaces de Scoreur",
+            "name": "Beelzebug Carapaces",
             "type": {
                 "name": "Shoulder Pad",
                 "id": 259
@@ -104976,7 +104976,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-128.png"
             },
-            "description": "[!] Aussi résistantes qu'ardentes, ces épaulières reflètent la fureur de Scoreur.",
+            "description": "Just as enduring as they are fiery, these shoulder pads are a reflection of Beelzebug's fury.",
             "effects": [
                 {
                     "int_minimum": 0,

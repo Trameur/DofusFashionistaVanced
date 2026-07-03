@@ -97426,17 +97426,17 @@
         },
         {
             "ankama_id": 32473,
-            "name": "[!] Corpo",
+            "name": "Corpo",
             "type": {
                 "name": "Mascotura de apariencia",
                 "id": 59
             },
             "level": 60,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-128.png"
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
-            "description": "[!] Avec ce montilier, portez fièrement votre bannière de guilde lors de tous vos déplacements.",
+            "description": "Con esta mascotura, luce con orgullo el estandarte de tu gremio vayas donde vayas.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103940,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-128.png"
             },
-            "description": "Trae alas por si quieres planear y aletas por si quieres respirar bajo el agua. Ninguna de las dos funciona.",
+            "description": "Que no te engañen sus apéndices afilados: esta capa es tan aerodinámica como un ladrillo y bajo el agua pesa como un muerto. Eso sí, su diseñador jura que acaba con el mal gusto por completo. Algo es algo, ¿verdad?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104244,7 +104244,7 @@
         },
         {
             "ankama_id": 34480,
-            "name": "[!] Masque de plongée du Gouffre",
+            "name": "Máscara de buceo de la sima",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -104254,7 +104254,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16917-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16917-128.png"
             },
-            "description": "[!] Si vous n'arrivez pas à garder la tête hors de l'eau, ce masque est fait pour vous !",
+            "description": "Si ya estás con el agua al cuello, ¡esta máscara es tu solución!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104287,7 +104287,7 @@
         },
         {
             "ankama_id": 34481,
-            "name": "[!] Cape de plongée du Gouffre",
+            "name": "Capa de buceo de la sima",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -104297,7 +104297,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17702-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17702-128.png"
             },
-            "description": "[!] Oui, il existe des capes de plongée. Elles ne permettent pas de nager plus vite, mais offrent une protection supplémentaire non négligeable face aux prédateurs du Gouffre.",
+            "description": "Pues sí, existen las capas de buceo. No te harán nadar más rápido, pero te darán una protección extra muy necesaria frente a los depredadores de la sima.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104330,7 +104330,7 @@
         },
         {
             "ankama_id": 34482,
-            "name": "[!] Bouclier-lanterne du Gouffre",
+            "name": "Escudo-linterna de la sima",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -104340,7 +104340,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82598-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82598-128.png"
             },
-            "description": "[!] Toute ressemblance avec d'horribles créatures que vous pourriez rencontrer au fond de l'océan serait purement fortuite.",
+            "description": "Todo parecido con las horribles criaturas que pudieras encontrarte en el fondo del océano sería pura coincidencia.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104373,7 +104373,7 @@
         },
         {
             "ankama_id": 34483,
-            "name": "[!] Combinaison de plongée du Gouffre",
+            "name": "Traje de buceo de la sima",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -104383,7 +104383,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164311-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164311-128.png"
             },
-            "description": "[!] Moulante, brillante et imperméable, cette combinaison est prévue pour explorer les profondeurs insondables de Sufokia. Notez qu'elle fonctionnerait aussi très bien pour certaines soirées entre adultes consentants. Dans ce cas, les tentacules enroulés autour de la ceinture sont à utiliser avec précaution.",
+            "description": "Ajustado, brillante e impermeable: este traje está pensado para explorar las profundidades insondables de Sufokia. Eso sí, también daría mucho juego en ciertas fiestas temáticas para adultos responsables. En ese caso, se recomienda usar con mucha precaución los tentáculos del cinturón.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104403,7 +104403,7 @@
         },
         {
             "ankama_id": 34484,
-            "name": "[!] Nageoires du Gouffre",
+            "name": "Aletas de la sima",
             "type": {
                 "name": "Hombrera",
                 "id": 259
@@ -104413,7 +104413,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164312-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164312-128.png"
             },
-            "description": "[!] Ces épaulières en forme de nageoires vous apporterons un excellent aquadynamisme quand il s'agira de fuir de toutes vos forces à la vue des monstres qui hantent le Gouffre.",
+            "description": "Estas hombreras con forma de aleta te aportarán un hidrodinamismo excelente... sobre todo cuando toque huir a todo pulmón en cuanto veas a los monstruos que rondan la sima.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104433,7 +104433,7 @@
         },
         {
             "ankama_id": 34485,
-            "name": "[!] Thyméduse",
+            "name": "Pekedusa",
             "type": {
                 "name": "Mascota de apariencia",
                 "id": 24
@@ -104443,7 +104443,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18948-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18948-128.png"
             },
-            "description": "[!] Comment ce Tiwabbit Kiafin a bien pu se retrouver ici ? En tout cas, il a l'air d'être en sécurité dans ce petit bathyscaphe en forme de méduse.",
+            "description": "¿Cómo habrá acabado aquí este pekewabbit hambriento? En cualquier caso, parece estar a salvo en este pequeño batiscafo con forma de medusa.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104476,7 +104476,7 @@
         },
         {
             "ankama_id": 34486,
-            "name": "[!] Abyppocampe",
+            "name": "Abipocampo",
             "type": {
                 "name": "Mascotura de apariencia",
                 "id": 59
@@ -104486,7 +104486,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121182-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121182-128.png"
             },
-            "description": "[!] Chez les hippocampes des abysses, ce sont les mâles qui s'occupent de la gestation des bébés. Une particularité surprenante, mais pourtant pas si rare dans le règne animal.\nCes créatures font également d'excellents destriers sous-marins, leur vitesse n'étant égalée que par les poulpées et les sirènes.",
+            "description": "Entre los hipocampos abisales, son los machos quienes se ocupan de la gestación de las crías. Una peculiaridad asombrosa, aunque no tan insólita en el reino animal.\nPor lo demás, resultan ser unos corceles submarinos espectaculares: van tan rápido que solo las pulpeponas y las sirenas pueden seguirles el ritmo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104532,7 +104532,7 @@
         },
         {
             "ankama_id": 34497,
-            "name": "[!] Ailes flottantes",
+            "name": "Alas flotadoras",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -104542,7 +104542,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164316-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164316-128.png"
             },
-            "description": "[!] Avec ces ailes, vous ne volerez peut-être pas bien haut, mais une chose est sûre : elles vous permettront de ne pas couler.",
+            "description": "Con estas alas, puede que no vueles demasiado alto, pero una cosa es segura: te permitirán no hundirte.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104562,7 +104562,7 @@
         },
         {
             "ankama_id": 34500,
-            "name": "[!] Maillot Plagivan",
+            "name": "Bañador playivivo",
             "type": {
                 "name": "Objeto viviente",
                 "id": 5
@@ -104572,7 +104572,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164313-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164313-128.png"
             },
-            "description": "[!] Ce maillot est parfait pour passer du temps en bord de mer sous un soleil radieux. Attention tout de même aux fortes chaleurs, mangez suffisamment et hydratez-vous régulièrement afin de réduire les risques de fatigue, de maux de tête, de vertiges, de nausées, ou de tenir des propos incohérents.",
+            "description": "Este bañador es ideal para lucir palmito a la orilla del mar bajo un sol radiante. Pero cuidado con el calor extremo: come lo suficiente y bebe agua a menudo si no quieres sufrir fatiga, migrañas, mareos, náuseas... o empezar a hablar solo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104592,7 +104592,7 @@
         },
         {
             "ankama_id": 34502,
-            "name": "[!] Multimeka Skale",
+            "name": "Multimeka Skalo",
             "type": {
                 "name": "Mascotura de apariencia",
                 "id": 59
@@ -104602,7 +104602,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121183-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121183-128.png"
             },
-            "description": "[!] Œil pour œil, dent pour dent. Vous terrasserez tout sur votre passage, avec le sourire.",
+            "description": "Ojo por ojo y diente por diente. Destrucción contundente y siempre sonriente.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104648,7 +104648,7 @@
         },
         {
             "ankama_id": 34503,
-            "name": "[!] Multimeka Scoreur",
+            "name": "Multimeka Escario",
             "type": {
                 "name": "Mascotura de apariencia",
                 "id": 59
@@ -104658,7 +104658,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-128.png"
             },
-            "description": "[!] Ce Multimeka est l'arme parfaite pour un destructeur de nuisibles, de quoi écraser tout ce qui passe comme de vulgaires insectes.",
+            "description": "Este multimeka es el arma definitiva para un exterminador: ¡es ideal para machacar a todo bicho viviente!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104704,7 +104704,7 @@
         },
         {
             "ankama_id": 34504,
-            "name": "[!] Visière submersible de Skale",
+            "name": "Visera sumergible de Skalo",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -104714,7 +104714,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16918-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16918-128.png"
             },
-            "description": "[!] Cette visière résiste aux chocs et fonctionne comme des branchies. Mais n'oubliez pas de la retirer lorsque vous souhaitez taper un croc.",
+            "description": "Esta visera resiste los golpes y sirve de branquias. Pero no olvides quitártela cuando quieras hincarle el diente a algo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104747,7 +104747,7 @@
         },
         {
             "ankama_id": 34505,
-            "name": "[!] Masque brûlant de Scoreur",
+            "name": "Máscara ardiente de Escario",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -104757,7 +104757,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16919-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16919-128.png"
             },
-            "description": "[!] Avec cet air de scarafeuille, vous n'aurez rien à envier à personne. Ça n'est pas vous l'insecte, mais ceux qui essaieront de vous mettre des bâtons dans les roues.",
+            "description": "Con este porte de escarahoja, no habrá rival que no se encoja. Aquí el insecto no eres tú, sino cualquiera que se cruce en tu camino y termine bajo tu bota.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104790,7 +104790,7 @@
         },
         {
             "ankama_id": 34506,
-            "name": "[!] Lame à vague de Skale",
+            "name": "Cortaolas de Skalo",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -104800,7 +104800,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82599-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82599-128.png"
             },
-            "description": "[!] Cette lame, faite à partir de dents de requin, peut trancher n'importe quoi ou n'importe qui. On raconte même que Skale l'aurait utilisée pour trancher la mer en deux.",
+            "description": "Esta hoja, forjada con dientes de tiburón, es capaz de rebanar cualquier objeto... o a cualquier sujeto. Corre el rumor de que el mismísimo Skalo la usó para abrir el mar en dos.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104833,7 +104833,7 @@
         },
         {
             "ankama_id": 34507,
-            "name": "[!] Bident en fusion de Scoreur",
+            "name": "Bidente de metal fundido de Escario",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -104843,7 +104843,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82600-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82600-128.png"
             },
-            "description": "[!] Avec son métal en fusion, ce bident fut utilisé par Scoreur pour scorifier ses adversaires comme ses alliés.",
+            "description": "Forjado en metal fundido, Escario utilizaba este bidente para escarificar tanto a sus adversarios como a sus aliados.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104876,7 +104876,7 @@
         },
         {
             "ankama_id": 34508,
-            "name": "[!] Combinaison amphibie de Skale",
+            "name": "Traje anfibio de Skalo",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -104886,7 +104886,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648905-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648905-128.png"
             },
-            "description": "[!] Cette combinaison est parfaite pour la pêche aux alevins.",
+            "description": "Este traje es perfecto para pescar alevines.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104906,7 +104906,7 @@
         },
         {
             "ankama_id": 34509,
-            "name": "[!] Combinaison ignifugée de Scoreur",
+            "name": "Traje ignífugo de Escario",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -104916,7 +104916,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648907-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648907-128.png"
             },
-            "description": "[!] Cette combinaison résiste aussi bien aux très hautes qu'aux très basses températures. Elle permet aussi de maintenir et de concentrer toute l'ardeur de son porteur.",
+            "description": "Este traje aguanta lo que le echen, desde el frío polar hasta el calor infernal. Además, concentra y potencia todo el ardor de su portador.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104936,7 +104936,7 @@
         },
         {
             "ankama_id": 34510,
-            "name": "[!] Ailerons de Skale",
+            "name": "Aletas de Skalo",
             "type": {
                 "name": "Hombrera",
                 "id": 259
@@ -104946,7 +104946,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648904-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648904-128.png"
             },
-            "description": "[!] Ces ailerons hydrodynamiques pourraient vous permettre de vous mouvoir tel un requin dans la mer.",
+            "description": "Diseñadas para cortar el agua, estas aletas te permitirán surcar el mar como tiburón.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104966,7 +104966,7 @@
         },
         {
             "ankama_id": 34511,
-            "name": "[!] Carapaces de Scoreur",
+            "name": "Caparazones de Escario",
             "type": {
                 "name": "Hombrera",
                 "id": 259
@@ -104976,7 +104976,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-128.png"
             },
-            "description": "[!] Aussi résistantes qu'ardentes, ces épaulières reflètent la fureur de Scoreur.",
+            "description": "Tan ardientes como resistentes, estas hombreras canalizan la furia inclemente de Escario.",
             "effects": [
                 {
                     "int_minimum": 0,

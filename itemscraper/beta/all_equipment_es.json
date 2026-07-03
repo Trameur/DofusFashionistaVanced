@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Armonía de Pandala:\n• Cuando el portador ocasiona daños durante su turno, él y sus aliados portadores del {{item,23408::dorigami}} ganan 20 de daño durante 1 turno (acumulable 1 vez).\n• Si no ocasiona daños, gana, al igual que sus aliados portadores del {{item,23237::domakuro}}, el 150% de su nivel en escudo durante 1 turno."
+                    "formatted": "Armonía de Pandala:\n• Cuando el portador ocasiona daños durante su turno, él y sus aliados portadores del {{item,23408::dorigami}} ganan 20 de daño durante 1 turno (acumulable 1 vez).\n• Si no ocasiona daños, gana, al igual que sus aliados portadores del {{item,23237::domakuro}}, el 100% de su nivel en escudo durante 1 turno."
                 },
                 {
                     "int_minimum": 0,
@@ -423446,7 +423446,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Frío de Novimiembro:\n• Al final de cada turno, el portador retira 1 PA a los enemigos en contacto con él durante 1 turno (acumulable 1 vez).\n• Cuando el portador acaba con un luchador enemigo, coloca un glifo aura que vuelve invisibles a los aliados durante 1 turno en un círculo de tamaño 3."
+                    "formatted": "Frío de Novimiembro:\n• Al final de cada turno, el portador retira 1 PA a los enemigos en contacto con él durante 1 turno (acumulable 1 vez).\n• Cuando un luchador enemigo es eliminado, el portador gana 1 PA durante 1 turno (acumulable 2 veces).\n• Cuando el portador acaba con un luchador enemigo, coloca un glifo aura que vuelve invisibles a los aliados durante 1 turno en un círculo de tamaño 3."
                 },
                 {
                     "int_minimum": 351,
@@ -423894,7 +423894,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rectitud de Fallanster:\n• Cuando el portador termina su turno en línea de visión de un enemigo, coloca un glifo aura en una cruz de tamaño 1 que reduce el daño recibido por los aliados en un 10% hasta el inicio de su siguiente turno. El glifo se disipa en el siguiente turno o si es desplazado."
+                    "formatted": "Rectitud de Fallanster:\n• Cuando el portador termina su turno en línea de visión de un enemigo, coloca un glifo aura en un cuadrado de tamaño 1 que reduce el daño recibido por los aliados en un 10% hasta el inicio de su siguiente turno. El glifo se disipa en el siguiente turno o si es desplazado."
                 },
                 {
                     "int_minimum": 251,
@@ -439070,7 +439070,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Prueba de la Balanza:\n• Cuando el portador sufre un intento de retirada de PA, PM o alcance, roba un 2% de resistencias a su atacante durante 2 turnos (acumulable 5 veces)."
+                    "formatted": "Prueba de la Balanza:\n• Cuando el portador sufre un intento de retirada de PA, PM o alcance, roba un 3% de resistencias a su atacante durante 2 turnos (acumulable 4 veces)."
                 },
                 {
                     "int_minimum": 8,
@@ -439307,7 +439307,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Río de Tinta:\n• A partir del turno 5, el portador y sus invocaciones ganan hasta 64 de daño hasta el final del combate.\n• Este bonus se reduce cada vez que el portador ocasione daños durante su turno a un enemigo en cada uno de los 4 primeros turnos del combate:\n • Ningún ataque: 16 de daño.\n • 1 ataque: 8 de daño.\n• 2 ataques o más: 0 de daño."
+                    "formatted": "Río de Tinta:\n• Al final de cada turno de los primeros 4 turnos, el portador y sus invocaciones ganan hasta 16 de daño hasta el final del combate.\n• Este bonus se reduce cada vez que el portador ataque durante su turno a un enemigo:\n • Ningún ataque: 16 de daño.\n • 1 ataque: 8 de daño.\n• 2 ataques o más: 0 de daño."
                 },
                 {
                     "int_minimum": 1,
@@ -508037,7 +508037,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Reflejo Cegador:\n• El portador reduce y devuelve el 75% del primer ataque aliado sufrido al enemigo más cercano en la línea de visión del portador (una vez por turno).\n• Al final de cada turno, retira 4 de alcance durante 1 turno a todos los enemigos en su línea de visión y los revela si están invisibles (acumulable 1 vez)."
+                    "formatted": "Reflejo Cegador:\n• El portador reduce y devuelve el 75% de los daños iniciales del primer ataque aliado sufrido al enemigo más cercano en la línea de visión del portador (una vez por turno).\n• Al final de cada turno, retira 4 de alcance durante 1 turno a todos los enemigos en su línea de visión y los revela si están invisibles (acumulable 1 vez)."
                 },
                 {
                     "int_minimum": 251,
@@ -508464,7 +508464,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Juicio de Thanatena:\n• Al inicio de cada turno, el portador erosiona y aumenta los daños recibidos por todos en un 4% durante 1 turno (acumulable 1 vez).\n• Cuando remata a un enemigo, se cura un 20% de su vida y gana un 10% de daños finales durante 1 turno. Los efectos se reducen a la mitad si se trata de una invocación."
+                    "formatted": "Juicio de Thanatena:\n• Al inicio de cada turno, el portador erosiona y aumenta los daños recibidos por todos en un 4% durante 1 turno (acumulable 1 vez).\n• Cuando remata a un enemigo, se cura un 20% de su vida y gana un 10% de daños finales durante 1 turno. Cuando se trata de una invocación, las curas son del 5% de su vida."
                 },
                 {
                     "int_minimum": 81,

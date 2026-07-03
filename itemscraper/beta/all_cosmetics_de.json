@@ -97426,17 +97426,17 @@
         },
         {
             "ankama_id": 32473,
-            "name": "[!] Corpo",
+            "name": "Corpo",
             "type": {
                 "name": "Prunkreitbegleiter",
                 "id": 59
             },
             "level": 60,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-128.png"
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
-            "description": "[!] Avec ce montilier, portez fièrement votre bannière de guilde lors de tous vos déplacements.",
+            "description": "Mit diesem Reitbegleiter könnt ihr euer Banner stolz zur Schau tragen, während ihr unterwegs seid.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103940,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-128.png"
             },
-            "description": "Sie haben Flügel, wenn ihr durch die Lüfte gleiten wollt, und Flossen, um unter Wasser zu schwimmen. Aber sie funktionieren nicht.",
+            "description": "Lasst euch von den spitzen Fortsätzen dieses Umhangs nicht täuschen: Er ist überhaupt nicht aerodynamisch und unter Wasser viel zu schwer. Wenn man dem Designer Glauben schenken darf, ist er aber ein eindeutiges Statement gegen den schlechten Geschmack. Das ist doch schon mal was, nicht wahr?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104244,7 +104244,7 @@
         },
         {
             "ankama_id": 34480,
-            "name": "[!] Masque de plongée du Gouffre",
+            "name": "Taucherbrille des Abgrunds",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -104254,7 +104254,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16917-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16917-128.png"
             },
-            "description": "[!] Si vous n'arrivez pas à garder la tête hors de l'eau, ce masque est fait pour vous !",
+            "description": "Wenn ihr es nicht schafft, euch über Wasser zu halten, dann ist diese Brille genau das Richtige für euch!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104287,7 +104287,7 @@
         },
         {
             "ankama_id": 34481,
-            "name": "[!] Cape de plongée du Gouffre",
+            "name": "Taucherumhang des Abgrunds",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -104297,7 +104297,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17702-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17702-128.png"
             },
-            "description": "[!] Oui, il existe des capes de plongée. Elles ne permettent pas de nager plus vite, mais offrent une protection supplémentaire non négligeable face aux prédateurs du Gouffre.",
+            "description": "Ja, ihr habt richtig gehört, das ist ein Taucherumhang. Er lässt euch nicht schneller schwimmen, bietet aber einen nicht unerheblichen zusätzlichen Schutz vor den Raubtieren des Abgrunds.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104330,7 +104330,7 @@
         },
         {
             "ankama_id": 34482,
-            "name": "[!] Bouclier-lanterne du Gouffre",
+            "name": "Laternenschild des Abgrunds",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -104340,7 +104340,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82598-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82598-128.png"
             },
-            "description": "[!] Toute ressemblance avec d'horribles créatures que vous pourriez rencontrer au fond de l'océan serait purement fortuite.",
+            "description": "Etwaige Ähnlichkeiten mit den Kreaturen, die sich in den Tiefen des Meeres tummeln, sind rein zufällig und nicht beabsichtigt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104373,7 +104373,7 @@
         },
         {
             "ankama_id": 34483,
-            "name": "[!] Combinaison de plongée du Gouffre",
+            "name": "Taucheranzug des Abgrunds",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -104383,7 +104383,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164311-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164311-128.png"
             },
-            "description": "[!] Moulante, brillante et imperméable, cette combinaison est prévue pour explorer les profondeurs insondables de Sufokia. Notez qu'elle fonctionnerait aussi très bien pour certaines soirées entre adultes consentants. Dans ce cas, les tentacules enroulés autour de la ceinture sont à utiliser avec précaution.",
+            "description": "Dieser enganliegende, glänzende, wasserundurchlässige Anzug ist wie dafür gemacht, die unergründlichen Tiefen von Sufokia zu erkunden. Auch bei gewissen Abenden, an denen nur mündige Erwachsene teilnehmen dürfen, wäre er sicher der letzte Schrei. In so einem Fall solltet ihr die um die Taille geschlungenen Tentakel besser mit Vorsicht einsetzen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104403,7 +104403,7 @@
         },
         {
             "ankama_id": 34484,
-            "name": "[!] Nageoires du Gouffre",
+            "name": "Flossen des Abgrunds",
             "type": {
                 "name": "Schulterplatte",
                 "id": 259
@@ -104413,7 +104413,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164312-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164312-128.png"
             },
-            "description": "[!] Ces épaulières en forme de nageoires vous apporterons un excellent aquadynamisme quand il s'agira de fuir de toutes vos forces à la vue des monstres qui hantent le Gouffre.",
+            "description": "Diese flossenförmigen Schulterplatten sorgen für die nötige Aquadynamik, wenn ihr verzweifelt versucht, den Monstern des Abgrunds zu entfliehen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104433,7 +104433,7 @@
         },
         {
             "ankama_id": 34485,
-            "name": "[!] Thyméduse",
+            "name": "Quallentiskaph",
             "type": {
                 "name": "Prunkvertrauter",
                 "id": 24
@@ -104443,7 +104443,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18948-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18948-128.png"
             },
-            "description": "[!] Comment ce Tiwabbit Kiafin a bien pu se retrouver ici ? En tout cas, il a l'air d'être en sécurité dans ce petit bathyscaphe en forme de méduse.",
+            "description": "Wie kommt dieser Tiwabbit Ischungrig nur hierher? In diesem kleinen Bathyskaph in Quallenform scheint er jedenfalls in Sicherheit zu sein.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104476,7 +104476,7 @@
         },
         {
             "ankama_id": 34486,
-            "name": "[!] Abyppocampe",
+            "name": "Tiefseepferdchen",
             "type": {
                 "name": "Prunkreitbegleiter",
                 "id": 59
@@ -104486,7 +104486,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121182-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121182-128.png"
             },
-            "description": "[!] Chez les hippocampes des abysses, ce sont les mâles qui s'occupent de la gestation des bébés. Une particularité surprenante, mais pourtant pas si rare dans le règne animal.\nCes créatures font également d'excellents destriers sous-marins, leur vitesse n'étant égalée que par les poulpées et les sirènes.",
+            "description": "Bei den Seepferdchen des Abgrunds tragen die Männchen den Nachwuchs aus. Das mag überraschend sein, kommt aber in der Tierwelt gar nicht so selten vor.\nIn der Regel sind diese Kreaturen ausgezeichnete Unterwasser-Schlachtrösser – nur Krakelige und Sirenen können ihnen beim Schwimmen das Wasser reichen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104532,7 +104532,7 @@
         },
         {
             "ankama_id": 34497,
-            "name": "[!] Ailes flottantes",
+            "name": "Schwebende Flügel",
             "type": {
                 "name": "Flügel",
                 "id": 218
@@ -104542,7 +104542,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164316-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164316-128.png"
             },
-            "description": "[!] Avec ces ailes, vous ne volerez peut-être pas bien haut, mais une chose est sûre : elles vous permettront de ne pas couler.",
+            "description": "Mit diesen Flügeln werdet ihr euch zwar nicht in lichte Höhen aufschwingen, aber zumindest geht ihr damit nicht unter.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104562,7 +104562,7 @@
         },
         {
             "ankama_id": 34500,
-            "name": "[!] Maillot Plagivan",
+            "name": "Standwind-Badeanzug",
             "type": {
                 "name": "Lebending",
                 "id": 5
@@ -104572,7 +104572,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164313-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164313-128.png"
             },
-            "description": "[!] Ce maillot est parfait pour passer du temps en bord de mer sous un soleil radieux. Attention tout de même aux fortes chaleurs, mangez suffisamment et hydratez-vous régulièrement afin de réduire les risques de fatigue, de maux de tête, de vertiges, de nausées, ou de tenir des propos incohérents.",
+            "description": "Dieser Badeanzug ist das perfekte Outfit für eine Auszeit an einem sonnigen Strand. Nehmt euch dabei aber vor Hitzeschlägen in Acht: Denkt daran, ausreichend zu essen und zu trinken, um Müdigkeit, Kopfweh, Schwindel und Übelkeit vorzubeugen und sicherzustellen, dass ihr nicht auf einmal wirres Zeug redet.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104592,7 +104592,7 @@
         },
         {
             "ankama_id": 34502,
-            "name": "[!] Multimeka Skale",
+            "name": "Skale-Multimek",
             "type": {
                 "name": "Prunkreitbegleiter",
                 "id": 59
@@ -104602,7 +104602,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121183-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121183-128.png"
             },
-            "description": "[!] Œil pour œil, dent pour dent. Vous terrasserez tout sur votre passage, avec le sourire.",
+            "description": "Auge um Auge, Zahn um Zahn. Ihr werdet alles, was euch im Weg steht, plattmachen – mit einem Lächeln auf den Lippen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104648,7 +104648,7 @@
         },
         {
             "ankama_id": 34503,
-            "name": "[!] Multimeka Scoreur",
+            "name": "Schlacker-Multimek",
             "type": {
                 "name": "Prunkreitbegleiter",
                 "id": 59
@@ -104658,7 +104658,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-128.png"
             },
-            "description": "[!] Ce Multimeka est l'arme parfaite pour un destructeur de nuisibles, de quoi écraser tout ce qui passe comme de vulgaires insectes.",
+            "description": "Ihr sucht nach einer Waffe für die Schädlingsbekämpfung? Mit diesem Multimek zerquetscht ihr im Handumdrehen alles und jeden wie ein lästiges Insekt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104704,7 +104704,7 @@
         },
         {
             "ankama_id": 34504,
-            "name": "[!] Visière submersible de Skale",
+            "name": "Skales Unterwasser-Visierhelm",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -104714,7 +104714,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16918-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16918-128.png"
             },
-            "description": "[!] Cette visière résiste aux chocs et fonctionne comme des branchies. Mais n'oubliez pas de la retirer lorsque vous souhaitez taper un croc.",
+            "description": "Dieser Visierhelm ist äußerst widerstandsfähig und lässt euch wie durch Kiemen atmen. Vergesst nur nicht, ihn abzunehmen, wenn ihr einen großen Happen verdrücken wollt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104747,7 +104747,7 @@
         },
         {
             "ankama_id": 34505,
-            "name": "[!] Masque brûlant de Scoreur",
+            "name": "Schlackers Glühmaske",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -104757,7 +104757,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16919-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16919-128.png"
             },
-            "description": "[!] Avec cet air de scarafeuille, vous n'aurez rien à envier à personne. Ça n'est pas vous l'insecte, mais ceux qui essaieront de vous mettre des bâtons dans les roues.",
+            "description": "Mit dieser Maske, die euch wie ein Scarablatt aussehen lässt, liegt ihr voll im Trend. Nicht ihr seid das Insekt, sondern jene, die euch Steine in den Weg legen wollen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104790,7 +104790,7 @@
         },
         {
             "ankama_id": 34506,
-            "name": "[!] Lame à vague de Skale",
+            "name": "Skales Wellenklinge",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -104800,7 +104800,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82599-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82599-128.png"
             },
-            "description": "[!] Cette lame, faite à partir de dents de requin, peut trancher n'importe quoi ou n'importe qui. On raconte même que Skale l'aurait utilisée pour trancher la mer en deux.",
+            "description": "Mit dieser aus Haifischzähnen gefertigten Klinge könnt ihr alles und jeden zerteilen. Dem Hörensagen nach soll Skale sogar das Meer damit geteilt haben.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104833,7 +104833,7 @@
         },
         {
             "ankama_id": 34507,
-            "name": "[!] Bident en fusion de Scoreur",
+            "name": "Schlackers Schmelz-Zweizack",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -104843,7 +104843,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82600-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82600-128.png"
             },
-            "description": "[!] Avec son métal en fusion, ce bident fut utilisé par Scoreur pour scorifier ses adversaires comme ses alliés.",
+            "description": "Dieser Zweizack besteht aus Metall, das gerade auf Schmelztemperatur gebracht wurde. Schlacker soll damit seine Gegner wie seine Verbündeten zu Schlacke verarbeitet haben.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104876,7 +104876,7 @@
         },
         {
             "ankama_id": 34508,
-            "name": "[!] Combinaison amphibie de Skale",
+            "name": "Skales Amphibien-Taucheranzug",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -104886,7 +104886,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648905-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648905-128.png"
             },
-            "description": "[!] Cette combinaison est parfaite pour la pêche aux alevins.",
+            "description": "Dieser Taucheranzug ist ideal, um junge Fischlein zu fangen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104906,7 +104906,7 @@
         },
         {
             "ankama_id": 34509,
-            "name": "[!] Combinaison ignifugée de Scoreur",
+            "name": "Schlackers feuersicherer Taucheranzug",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -104916,7 +104916,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648907-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648907-128.png"
             },
-            "description": "[!] Cette combinaison résiste aussi bien aux très hautes qu'aux très basses températures. Elle permet aussi de maintenir et de concentrer toute l'ardeur de son porteur.",
+            "description": "Dieser Taucheranzug hält sowohl sehr hohen als auch sehr tiefen Temperaturen problemlos stand. Außerdem hält er die Inbrunst des Trägers aufrecht und verstärkt sie sogar noch.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104936,7 +104936,7 @@
         },
         {
             "ankama_id": 34510,
-            "name": "[!] Ailerons de Skale",
+            "name": "Skales Finnen",
             "type": {
                 "name": "Schulterplatte",
                 "id": 259
@@ -104946,7 +104946,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648904-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648904-128.png"
             },
-            "description": "[!] Ces ailerons hydrodynamiques pourraient vous permettre de vous mouvoir tel un requin dans la mer.",
+            "description": "Mit diesen hydrodynamischen Finnen könnt ihr euch wie ein Hai durchs Wasser bewegen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104966,7 +104966,7 @@
         },
         {
             "ankama_id": 34511,
-            "name": "[!] Carapaces de Scoreur",
+            "name": "Schlackers Panzerplatten",
             "type": {
                 "name": "Schulterplatte",
                 "id": 259
@@ -104976,7 +104976,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-128.png"
             },
-            "description": "[!] Aussi résistantes qu'ardentes, ces épaulières reflètent la fureur de Scoreur.",
+            "description": "Diese Schulterplatten sind brennend heiß und äußerst beständig – wie Schlackers Zorn.",
             "effects": [
                 {
                     "int_minimum": 0,

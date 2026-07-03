@@ -97433,8 +97433,8 @@
             },
             "level": 60,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121099-128.png"
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121185-128.png"
             },
             "description": "Avec ce montilier, portez fièrement votre bannière de guilde lors de tous vos déplacements.",
             "effects": [

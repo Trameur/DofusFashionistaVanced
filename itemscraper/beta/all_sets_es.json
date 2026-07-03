@@ -118213,11 +118213,12 @@
         {
             "ankama_id": 1053,
             "name": "Set cosmético de Corpo",
-            "items": 19,
+            "items": 20,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
+                32473,
                 32531,
                 32532,
                 32533,
@@ -122108,6 +122109,34 @@
             ]
         },
         {
+            "ankama_id": 1094,
+            "name": "[!] Panoplie d'apparat du Démon VI",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34396,
+                34398,
+                34400,
+                34402
+            ]
+        },
+        {
+            "ankama_id": 1095,
+            "name": "[!] Panoplie d'apparat diaprée du Démon VI",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34397,
+                34399,
+                34401,
+                34403
+            ]
+        },
+        {
             "ankama_id": 1097,
             "name": "Set cosmético del exterminador",
             "items": 8,
@@ -122141,7 +122170,7 @@
         },
         {
             "ankama_id": 1099,
-            "name": "Set cosmético de raider",
+            "name": "Set cosmético de la sima",
             "items": 7,
             "level": 60,
             "contains_cosmetics": true,
@@ -122158,7 +122187,7 @@
         },
         {
             "ankama_id": 1100,
-            "name": "[!] Panoplie d'apparat de Scoreur",
+            "name": "Set cosmético de Escario",
             "items": 5,
             "level": 60,
             "contains_cosmetics": true,
@@ -122173,7 +122202,7 @@
         },
         {
             "ankama_id": 1101,
-            "name": "[!] Panoplie d'apparat de Skale",
+            "name": "Set cosmético de Skalo",
             "items": 5,
             "level": 60,
             "contains_cosmetics": true,

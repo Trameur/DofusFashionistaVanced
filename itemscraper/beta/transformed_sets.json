@@ -59647,8 +59647,9 @@
         "name_es": "Set cosmético de Corpo",
         "name_pt": "Conjunto de Aparência Corporativa",
         "name_de": "Corpo-Prunkset",
-        "items": 19,
+        "items": 20,
         "equipment_ids": [
+            32473,
             32531,
             32532,
             32533,
@@ -61731,6 +61732,36 @@
         ]
     },
     {
+        "ankama_id": 1094,
+        "name_en": "[!] Panoplie d'apparat du Démon VI",
+        "name_fr": "Panoplie d'apparat du Démon VI",
+        "name_es": "[!] Panoplie d'apparat du Démon VI",
+        "name_pt": "[!] Panoplie d'apparat du Démon VI",
+        "name_de": "[!] Panoplie d'apparat du Démon VI",
+        "items": 4,
+        "equipment_ids": [
+            34396,
+            34398,
+            34400,
+            34402
+        ]
+    },
+    {
+        "ankama_id": 1095,
+        "name_en": "[!] Panoplie d'apparat diaprée du Démon VI",
+        "name_fr": "Panoplie d'apparat diaprée du Démon VI",
+        "name_es": "[!] Panoplie d'apparat diaprée du Démon VI",
+        "name_pt": "[!] Panoplie d'apparat diaprée du Démon VI",
+        "name_de": "[!] Panoplie d'apparat diaprée du Démon VI",
+        "items": 4,
+        "equipment_ids": [
+            34397,
+            34399,
+            34401,
+            34403
+        ]
+    },
+    {
         "ankama_id": 1097,
         "name_en": "Exterminator Ceremonial Set",
         "name_fr": "Panoplie d'apparat de l'exterminateur",
@@ -61766,11 +61797,11 @@
     },
     {
         "ankama_id": 1099,
-        "name_en": "Raider Ceremonial Set",
+        "name_en": "Chasm Ceremonial Set",
         "name_fr": "Panoplie d'apparat du Gouffre",
-        "name_es": "Set cosmético de raider",
-        "name_pt": "Conjunto de Aparência do Incursor",
-        "name_de": "Prunkset des Plünderers",
+        "name_es": "Set cosmético de la sima",
+        "name_pt": "Conjunto de Aparência da Fenda",
+        "name_de": "Prunkset des Abgrunds",
         "items": 7,
         "equipment_ids": [
             34480,
@@ -61784,11 +61815,11 @@
     },
     {
         "ankama_id": 1100,
-        "name_en": "[!] Panoplie d'apparat de Scoreur",
+        "name_en": "Beelzebug Ceremonial Set",
         "name_fr": "Panoplie d'apparat de Scoreur",
-        "name_es": "[!] Panoplie d'apparat de Scoreur",
-        "name_pt": "[!] Panoplie d'apparat de Scoreur",
-        "name_de": "[!] Panoplie d'apparat de Scoreur",
+        "name_es": "Set cosmético de Escario",
+        "name_pt": "Conjunto de Aparência de Skoria",
+        "name_de": "Schlackers Prunkset",
         "items": 5,
         "equipment_ids": [
             34503,
@@ -61800,11 +61831,11 @@
     },
     {
         "ankama_id": 1101,
-        "name_en": "[!] Panoplie d'apparat de Skale",
+        "name_en": "Skale Ceremonial Set",
         "name_fr": "Panoplie d'apparat de Skale",
-        "name_es": "[!] Panoplie d'apparat de Skale",
-        "name_pt": "[!] Panoplie d'apparat de Skale",
-        "name_de": "[!] Panoplie d'apparat de Skale",
+        "name_es": "Set cosmético de Skalo",
+        "name_pt": "Conjunto de Aparência de Skalo",
+        "name_de": "Skales Prunkset",
         "items": 5,
         "equipment_ids": [
             34502,

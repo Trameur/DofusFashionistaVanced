@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmonie von Pandala:\n• Wenn der Träger während seiner Runde Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23408::Dorigami}} bei sich tragen, 1 Runde lang 20 Schaden (1-mal kumulierbar).\n• Wenn er keinen Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23237::Domakuro}} bei sich tragen, 1 Runde lang 150 % seiner Stufe als Schild."
+                    "formatted": "Harmonie von Pandala:\n• Wenn der Träger während seiner Runde Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23408::Dorigami}} bei sich tragen, 1 Runde lang 20 Schaden (1-mal kumulierbar).\n• Wenn er keinen Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23237::Domakuro}} bei sich tragen, 1 Runde lang 100 % seiner Stufe als Schild."
                 },
                 {
                     "int_minimum": 0,
@@ -423446,7 +423446,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Kälte von Novamaire:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 1 AP (1-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, platziert er eine Aura-Glyphe, die seine Verbündeten im Umkreis von 3 Feldern 1 Runde lang unsichtbar macht."
+                    "formatted": "Kälte von Novamaire:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 1 AP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger 1 Runde lang 1 AP (2-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, platziert er eine Aura-Glyphe, die seine Verbündeten im Umkreis von 3 Feldern 1 Runde lang unsichtbar macht."
                 },
                 {
                     "int_minimum": 351,
@@ -423894,7 +423894,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem kreuzförmigen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert. Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
+                    "formatted": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem quadratischen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert. Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
                 },
                 {
                     "int_minimum": 251,
@@ -439070,7 +439070,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Prüfung der Waage:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (5-mal kumulierbar)."
+                    "formatted": "Prüfung der Waage:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 3 % der Resistenzen seines Angreifers (4-mal kumulierbar)."
                 },
                 {
                     "int_minimum": 8,
@@ -439307,7 +439307,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Tintenfluss:\n• Ab Runde 5 erhalten der Träger und seine Beschwörungen bis zu 64 Schaden bis zum Ende des Kampfes.\n• Dieser Bonus verringert sich jedes Mal, wenn der Träger einem Gegner während der ersten 4 Kampfrunden Schaden zufügt:\n • Kein Angriff: 16 Schaden.\n • 1 Angriff: 8 Schaden.\n• Ab 2 Angriffen: 0 Schaden."
+                    "formatted": "Tintenfluss:\n• In den ersten 4 Runden erhalten der Träger und seine Beschwörungen jeweils am Rundenende bis zu 16 Schadenspunkte zusätzlich, die sie bis zum Ende des Kampfes behalten.\n• Jedes Mal, wenn der Träger während seiner Runde einen Gegner angreift, verringert sich dieser Bonus:\n • Kein Angriff: 16 Schaden.\n • 1 Angriff: 8 Schaden.\n• Ab 2 Angriffen: 0 Schaden."
                 },
                 {
                     "int_minimum": 1,
@@ -508037,7 +508037,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Blendende Spiegelung:\n• Der Träger verringert den ersten von einem Verbündeten erlittenen Angriff und wirft 75 % des Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar)."
+                    "formatted": "Blendende Spiegelung:\n• Der Träger verringert den anfänglichen Schaden des ersten von einem Verbündeten erlittenen Angriffs und wirft 75 % dieses Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar)."
                 },
                 {
                     "int_minimum": 251,

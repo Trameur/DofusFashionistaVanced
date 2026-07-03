@@ -86815,7 +86815,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmonia de Pandala:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o {{item,23408::Dorigami}} ganham 20 de danos por 1 turno (acumula 1 vez).\n• Se não causar dano, ele e seus aliados portadores do {{item,23237::Domakuro}} ganharão 150% de seu nível em escudo durante 1 turno."
+                    "formatted": "Harmonia de Pandala:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o {{item,23408::Dorigami}} ganham 20 de danos por 1 turno (acumula 1 vez).\n• Se não causar dano, ele e seus aliados portadores do {{item,23237::Domakuro}} ganharão 100% de seu nível em escudo durante 1 turno."
                 },
                 {
                     "int_minimum": 0,
@@ -423446,7 +423446,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Frio de Novemeiro:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula 1 vez).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3."
+                    "formatted": "Frio de Novemeiro:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PA durante 1 turno (acumula até 2 vezes).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3."
                 },
                 {
                     "int_minimum": 351,
@@ -423894,7 +423894,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Retidão de Fallanster:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em uma cruz de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno. O glifo desaparece no próximo turno ou ao ser movido."
+                    "formatted": "Retidão de Fallanster:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em um quadrado de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno. O glifo desaparece no próximo turno ou ao ser movido."
                 },
                 {
                     "int_minimum": 251,
@@ -439070,7 +439070,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Prova da Balança:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula 5 vezes)."
+                    "formatted": "Prova da Balança:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 3% de resistência de seu atacante por 2 turnos (acumula 4 vezes)."
                 },
                 {
                     "int_minimum": 8,
@@ -439307,7 +439307,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rio de Tinta:\n• A partir do 5º turno, o portador e suas invocações ganham até 64 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador inflige danos a um inimigo durante seu turno para cada um dos 4 primeiros turnos do combate:\n • Nenhum ataque: 16 de danos.\n • 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos."
+                    "formatted": "Rio de Tinta:\n• Ao final de cada turno nos 4 primeiros turnos, o portador e suas invocações ganham até 16 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador ataca um inimigo durante seu turno:\n • Nenhum ataque: 16 de danos.\n • 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos."
                 },
                 {
                     "int_minimum": 1,
@@ -508037,7 +508037,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Reflexo Cegante:\n• O portador reduz e reflete 75% do primeiro ataque aliado sofrido ao inimigo mais próximo dele em sua linha de visão (uma vez por turno).\n• No fim de cada turno, ele retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula até 1 vez)."
+                    "formatted": "Reflexo Cegante:\n• O portador reduz e reflete 75% dos danos iniciais do primeiro ataque aliado sofrido ao inimigo mais próximo dele em sua linha de visão (uma vez por turno).\n• No fim de cada turno, ele retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula até 1 vez)."
                 },
                 {
                     "int_minimum": 251,
@@ -508464,7 +508464,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Julgamento de Tanatena:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. Os efeitos são reduzidos pela metade se for uma invocação."
+                    "formatted": "Julgamento de Tanatena:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. As curas são de 5% da vida dele se for uma invocação."
                 },
                 {
                     "int_minimum": 81,
