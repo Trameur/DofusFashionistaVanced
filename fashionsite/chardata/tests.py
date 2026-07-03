@@ -487,6 +487,32 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/guides/', body)
         self.assertIn('/guides/getting-started/', body)
 
+    def test_sitemap_lists_shared_builds_with_a_solution_only(self):
+        # Shared builds are content pages worth indexing — but a build with no
+        # stored solution answers 404 on /s/, so it must stay out of the sitemap.
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.encoded_char_id import encode_char_id
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner = User.objects.create_user('mapper', 'm@test.local', 'pw-42-solid')
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False}, 'origin': 'generated',
+                  'char_level': 200, 'base_stats_by_attr': {}, 'locked_equips': {}}
+        with_sol = Char.objects.create(
+            name='HasSolution', char_name='hassol', char_class='Iop', char_build='b',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=pickle.dumps(ModelResultMinimal({}, input_, {})),
+            owner=owner, link_shared=True, game_version='dofus3')
+        without_sol = Char.objects.create(
+            name='NoSolution', char_name='nosol', char_class='Iop', char_build='b',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            owner=owner, link_shared=True, game_version='dofus3')
+        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        self.assertIn(encode_char_id(with_sol.id), body)
+        self.assertNotIn(encode_char_id(without_sol.id), body)
+
     def test_manifest_has_pwa_install_icons(self):
         import json
         resp = self.client.get('/manifest.webmanifest')

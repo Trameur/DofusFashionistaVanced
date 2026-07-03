@@ -273,7 +273,14 @@ def sitemap_view(request):
 
     try:
         from urllib.parse import quote
-        shared_chars = Char.objects.filter(link_shared=True, deleted=False).order_by('-modified_time')[:200]
+        # List every shared build that has a stored solution (a solutionless
+        # /s/ URL 404s, so feeding those to Google would only add soft-404s).
+        # Most-viewed first so the crawl budget lands on the popular builds.
+        # Capped well under the 50k-URL sitemap limit.
+        shared_chars = (Char.objects
+                        .filter(link_shared=True, deleted=False)
+                        .exclude(minimal_solution=b'')
+                        .order_by('-view_count', '-modified_time')[:5000])
         for char in shared_chars:
             try:
                 encoded_id = encode_char_id(int(char.id))
