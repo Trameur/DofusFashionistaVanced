@@ -359,6 +359,11 @@ EMAIL_HOST_USER = GEN_CONFIGS['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = GEN_CONFIGS['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = GEN_CONFIGS['EMAIL_PORT']
 
+# Run with FASHIONISTA_EMAIL_CONSOLE=1 to print outgoing mail (password reset,
+# etc.) to the terminal instead of sending via SMTP — for local testing.
+if os.environ.get('FASHIONISTA_EMAIL_CONSOLE') == '1':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Server error notifications: Django's AdminEmailHandler sends to ADMINS on
 # ERROR-level log records (including unhandled exceptions via django.request).
 # Rate-limited by chardata.log_filters.RateLimitedErrorFilter.

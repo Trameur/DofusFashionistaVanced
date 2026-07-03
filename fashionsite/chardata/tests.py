@@ -660,6 +660,34 @@ class PasswordResetTests(TestCase):
         u.refresh_from_db()
         self.assertTrue(u.is_active)
 
+    def test_reset_email_sent_for_password_account(self):
+        from django.contrib.auth.models import User
+        from django.core import mail
+        User.objects.create_user('withpw', 'withpw@example.com', 'pw-42-solid')
+        resp = self.client.post('/recover_password/', {'email': 'withpw@example.com'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('/do_recover_password/', mail.outbox[0].body)
+
+    def test_reset_sends_nothing_for_unknown_email(self):
+        # Anti-enumeration: same page, but no mail for an unknown address.
+        from django.core import mail
+        resp = self.client.post('/recover_password/', {'email': 'nobody@example.com'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_reset_sends_nothing_for_google_login_account(self):
+        # Google-login accounts have no password to reset, so nothing is sent
+        # (this is the usual reason a reset "doesn't arrive").
+        from django.contrib.auth.models import User
+        from django.core import mail
+        from social_django.models import UserSocialAuth
+        u = User.objects.create_user('googler', 'googler@example.com', 'unusable')
+        UserSocialAuth.objects.create(user=u, provider='google-oauth2', uid='g-123')
+        resp = self.client.post('/recover_password/', {'email': 'googler@example.com'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(mail.outbox), 0)
+
 
 class ProjectActionRobustnessTests(TestCase):
     """POST-only project endpoints must not 500 when hit by a bare GET (bots/crawlers).
