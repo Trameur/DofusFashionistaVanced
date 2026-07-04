@@ -130,8 +130,8 @@ function optionsInit(options) {
 function disableUnusableDofus(unusable){
     for (var key in unusable){
         var classStr = ".".concat(key);
-        $(classStr).attr('disabled',true);
-        $(classStr).attr('checked',false);
+        $(classStr).prop('disabled',true);
+        $(classStr).prop('checked',false);
         $(classStr).css({ 'opacity' : 0.7 });
         $(classStr).attr('title', gettext('You need to be a higher level to equip this Dofus'));
     }
