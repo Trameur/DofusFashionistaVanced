@@ -7206,6 +7206,23 @@ msgstr ""
 "jogo — Dofus 3, Beta, Dofus 2, Retro e Touch. Salve seus personagens, "
 "compartilhe seus builds e torne-se um craque do theorycraft rapidamente."
 
+msgid ""
+"Free Dofus %(version)s theorycraft tool. Tell it your class, level and what "
+"you want — it builds your best set automatically. For beginners and min-"
+"maxers alike."
+msgstr ""
+"Ferramenta de theorycraft Dofus %(version)s grátis: informe classe, nível e "
+"objetivos, e ela monta o seu melhor equipamento automaticamente. Para "
+"iniciantes e mestres do min-max."
+
+msgid ""
+"Free Dofus theorycraft tool. Tell it your class, level and what you want — "
+"it builds your best set automatically. For beginners and min-maxers alike."
+msgstr ""
+"Ferramenta de theorycraft Dofus grátis: informe classe, nível e objetivos, e"
+" ela monta o seu melhor equipamento automaticamente. Para iniciantes e "
+"mestres do min-max."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
