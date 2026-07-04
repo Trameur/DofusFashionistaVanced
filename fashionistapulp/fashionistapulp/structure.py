@@ -57,7 +57,8 @@ def get_structure(game_version=None):
             if game_version not in _structure_singletons:
                 s = Structure(game_version)
                 _structure_singletons[game_version] = s
-                print('Structure [%s] created with %d bytes' % (game_version, len(pickle.dumps(s))))
+                if logger.isEnabledFor(logging.DEBUG):
+                    logger.debug('Structure [%s] created with %d bytes', game_version, len(pickle.dumps(s)))
     return _structure_singletons[game_version]
 
 
@@ -163,12 +164,12 @@ class Structure:
                 if this_item_set:
                     this_item_set.add_item(item_id)
                 else:
-                    print("COULD NOT FIND SET %s" % this_item_set)
+                    logger.warning("Could not find set %s", this_item_set)
                 
             if item.ankama_id is None:
-                print('%s [%d] is missing Ankama ID' % (item.name, item.id))
+                logger.debug('%s [%d] is missing Ankama ID', item.name, item.id)
             if item.ankama_type is None:
-                print('%s [%d] is missing Ankama type' % (item.name, item.id))
+                logger.debug('%s [%d] is missing Ankama type', item.name, item.id)
                 
     def read_types_table(self):
         c = self.conn.cursor()
@@ -258,7 +259,7 @@ class Structure:
             elif item_set_id in self.dt_sets_dict:
                 item_set = self.dt_sets_dict[item_set_id]
             else:
-                print("SET %d NOT FOUND" % item_set_id)
+                logger.warning("Set %d not found", item_set_id)
                 return
             item_set.localized_names[lang]= name
 
@@ -312,7 +313,7 @@ class Structure:
             self.sets_dict[new_set.id] = new_set
         
         if "Gelano (#1)" not in self.items_dict_name:
-            print('Gelano (#1) not there, inserting')
+            logger.debug('Gelano (#1) not there, inserting')
             item = Item()
             if self.items_dict.keys():
                 item.id = max(self.items_dict.keys()) + 1
@@ -332,7 +333,7 @@ class Structure:
             self.sets_dict[item.set].add_item(item.id)
             
         if "Gelano (#1)" not in self.dt_items_dict_name:
-            print('Gelano (#1) not there (dofus touch), inserting')
+            logger.debug('Gelano (#1) not there (dofus touch), inserting')
             item = Item()
             if self.dt_items_dict.keys():
                 item.id = max(self.dt_items_dict.keys()) + 1
@@ -353,7 +354,7 @@ class Structure:
             self.dt_sets_dict[item.set].add_item(item.id)
 
         if "Gelano (#2)" not in self.items_dict_name:
-            print('Gelano (#2) not there, inserting')
+            logger.debug('Gelano (#2) not there, inserting')
             item = Item()
             if self.items_dict.keys():
                 item.id = max(self.items_dict.keys()) + 1
@@ -371,7 +372,7 @@ class Structure:
             self.sets_dict[item.set].add_item(item.id)
 
         if "Gelano (#2)" not in self.dt_items_dict_name:
-            print('Gelano (#2) not there (dofus touch), inserting')
+            logger.debug('Gelano (#2) not there (dofus touch), inserting')
             item = Item()
             item.id = max(self.dt_items_dict.keys()) + 1
             item.name = "Gelano (#2)"
@@ -553,7 +554,7 @@ class Structure:
                 try:
                     hit = w.hits_dict[i]
                 except KeyError:
-                    print('%s is missing hit %d' % (weapon_name, i))
+                    logger.debug('%s is missing hit %d', weapon_name, i)
                     continue
                 w.base_hit.append(hit)
                 if w.has_crits:
@@ -631,12 +632,12 @@ class Structure:
             elif set_id in self.dt_sets_dict:
                 item_set = self.dt_sets_dict[set_id]
             else:
-                print("SET %d NOT FOUND" % set_id)
+                logger.warning("Set %d not found", set_id)
                 return
             item_set.bonus.append((num_items, stat_id, value))
             stat_key = self.get_stat_by_id(stat_id)
             if stat_key is None:
-                print(f"Warning: No stat found for stat_id {stat_id}")
+                logger.warning("No stat found for stat_id %s", stat_id)
                 continue
             stat_key = self.get_stat_by_id(stat_id).key
             item_set.bonus_per_num_items.setdefault(num_items, {})[stat_key] = value
