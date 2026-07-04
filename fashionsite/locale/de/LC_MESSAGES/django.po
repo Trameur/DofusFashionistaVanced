@@ -7211,3 +7211,6 @@ msgid ""
 msgstr ""
 "Das Verbieten eines Items funktioniert jetzt für alle Items, auch für solche"
 " mit mehreren Varianten"
+
+msgid "All versions"
+msgstr "Alle Versionen"

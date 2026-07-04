@@ -7194,6 +7194,9 @@ msgstr ""
 "Prohibir un objeto ahora funciona para todos los objetos, incluidos los que "
 "tienen varias variantes"
 
+msgid "All versions"
+msgstr "Todas las versiones"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

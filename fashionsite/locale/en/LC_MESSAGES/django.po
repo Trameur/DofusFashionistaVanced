@@ -5193,3 +5193,6 @@ msgid ""
 "Forbidding an item now works for every item, including those with several "
 "variants"
 msgstr ""
+
+msgid "All versions"
+msgstr ""

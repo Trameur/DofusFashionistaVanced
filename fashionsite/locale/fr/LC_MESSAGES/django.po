@@ -7679,6 +7679,9 @@ msgstr ""
 "L'interdiction d'un item fonctionne maintenant pour tous les items, y "
 "compris ceux à plusieurs variantes"
 
+msgid "All versions"
+msgstr "Toutes les versions"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

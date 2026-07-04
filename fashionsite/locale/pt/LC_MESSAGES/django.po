@@ -7183,6 +7183,9 @@ msgstr ""
 "Proibir um item agora funciona para todos os itens, incluindo os que têm "
 "várias variantes"
 
+msgid "All versions"
+msgstr "Todas as versões"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
