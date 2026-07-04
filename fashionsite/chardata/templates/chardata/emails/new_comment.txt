@@ -7,6 +7,6 @@
 View the comment here:
 {{ build_url }}
 
-— {{ site_name }}
+{{ site_name }}
 
 You can disable these notifications in your account settings.{% endblocktrans %}

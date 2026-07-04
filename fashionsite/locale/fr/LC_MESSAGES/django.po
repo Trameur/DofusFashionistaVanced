@@ -5586,11 +5586,11 @@ msgstr ""
 "lorsqu'une panoplie plafonnante est équipée"
 
 msgid ""
-"New: Customize Stats — modify the stats of a specific item for your build "
+"New: Customize Stats. Modify the stats of a specific item for your build "
 "(undercrafted items, familiars below max level)"
 msgstr ""
-"Nouveau : Personnaliser les stats — modifiez les stats d'un objet pour votre"
-" build (objets sous-craftés, familiers sous le niveau max)"
+"Nouveau : Personnaliser les stats. Modifiez les stats d'un objet pour votre "
+"build (objets sous-craftés, familiers sous le niveau max)"
 
 msgid "Exo mage stats now handled correctly in the custom stats editor"
 msgstr ""
@@ -6711,8 +6711,8 @@ msgid "Workshop"
 msgstr "Atelier"
 
 #: ui-i18n
-msgid "Spell auto-scrapper — extended"
-msgstr "Récupérateur de sorts automatique — étendu"
+msgid "Spell auto-scrapper, extended"
+msgstr "Récupérateur de sorts automatique, étendu"
 
 #: ui-i18n
 msgid "Spell images scraped automatically for all classes"
@@ -7186,10 +7186,10 @@ msgid "A modern redesign of the whole site, with light and dark themes"
 msgstr "Refonte moderne de tout le site, avec thèmes clair et sombre"
 
 msgid ""
-"The classic look is still available — switch back anytime with the toggle"
+"The classic look is still available, switch back anytime with the toggle"
 msgstr ""
-"L'ancien look classique reste disponible — rebasculez quand vous voulez avec"
-" le bouton"
+"L'ancien look classique reste disponible, rebasculez quand vous voulez avec "
+"le bouton"
 
 msgid "Class spells aren't available for this class yet."
 msgstr "Les sorts de classe ne sont pas encore disponibles pour cette classe."
@@ -7448,8 +7448,8 @@ msgid "July 2026"
 msgstr "Juillet 2026"
 
 #: chardata/templates/chardata/changelog_modal.html:0
-msgid "Describe your build — now in German too"
-msgstr "Décrivez votre build — désormais en allemand aussi"
+msgid "Describe your build, now in German too"
+msgstr "Décrivez votre build, désormais en allemand aussi"
 
 #: chardata/templates/chardata/changelog_modal.html:0
 msgid ""

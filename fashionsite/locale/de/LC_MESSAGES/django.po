@@ -5081,10 +5081,10 @@ msgstr ""
 "ausgerüstet ist"
 
 msgid ""
-"New: Customize Stats — modify the stats of a specific item for your build "
+"New: Customize Stats. Modify the stats of a specific item for your build "
 "(undercrafted items, familiars below max level)"
 msgstr ""
-"Neu: Stats anpassen — ändere die Stats eines bestimmten Gegenstands für "
+"Neu: Stats anpassen. Ändere die Stats eines bestimmten Gegenstands für "
 "deinen Build (untercraftete Gegenstände, Vertraute unter Max-Stufe)"
 
 msgid "Exo mage stats now handled correctly in the custom stats editor"
@@ -6189,8 +6189,8 @@ msgid "Workshop"
 msgstr "Werkstatt"
 
 #: ui-i18n
-msgid "Spell auto-scrapper — extended"
-msgstr "Automatischer Zauber-Scraper — erweitert"
+msgid "Spell auto-scrapper, extended"
+msgstr "Automatischer Zauber-Scraper, erweitert"
 
 #: ui-i18n
 msgid "Spell images scraped automatically for all classes"
@@ -6727,9 +6727,9 @@ msgid "A modern redesign of the whole site, with light and dark themes"
 msgstr "Modernes Redesign der gesamten Website, mit hellem und dunklem Theme"
 
 msgid ""
-"The classic look is still available — switch back anytime with the toggle"
+"The classic look is still available, switch back anytime with the toggle"
 msgstr ""
-"Das klassische Design bleibt verfügbar — jederzeit über den Schalter "
+"Das klassische Design bleibt verfügbar, jederzeit über den Schalter "
 "umschaltbar"
 
 msgid "Class spells aren't available for this class yet."
@@ -6988,8 +6988,8 @@ msgid "July 2026"
 msgstr "Juli 2026"
 
 #: chardata/templates/chardata/changelog_modal.html:0
-msgid "Describe your build — now in German too"
-msgstr "Beschreibe deinen Build — jetzt auch auf Deutsch"
+msgid "Describe your build, now in German too"
+msgstr "Beschreibe deinen Build, jetzt auch auf Deutsch"
 
 #: chardata/templates/chardata/changelog_modal.html:0
 msgid ""

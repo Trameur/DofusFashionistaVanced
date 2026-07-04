@@ -5062,10 +5062,10 @@ msgstr ""
 "set limitante está equipada"
 
 msgid ""
-"New: Customize Stats — modify the stats of a specific item for your build "
+"New: Customize Stats. Modify the stats of a specific item for your build "
 "(undercrafted items, familiars below max level)"
 msgstr ""
-"Novo: Personalizar Estatísticas — modifique as stats de um item específico "
+"Novo: Personalizar Estatísticas. Modifique as stats de um item específico "
 "para a sua build (itens subcraftados, familiares abaixo do nível máximo)"
 
 msgid "Exo mage stats now handled correctly in the custom stats editor"
@@ -6169,8 +6169,8 @@ msgid "Workshop"
 msgstr "Oficina"
 
 #: ui-i18n
-msgid "Spell auto-scrapper — extended"
-msgstr "Auto-extrator de feitiços — ampliado"
+msgid "Spell auto-scrapper, extended"
+msgstr "Auto-extrator de feitiços, ampliado"
 
 #: ui-i18n
 msgid "Spell images scraped automatically for all classes"
@@ -6704,9 +6704,9 @@ msgid "A modern redesign of the whole site, with light and dark themes"
 msgstr "Redesign moderno de todo o site, com temas claro e escuro"
 
 msgid ""
-"The classic look is still available — switch back anytime with the toggle"
+"The classic look is still available, switch back anytime with the toggle"
 msgstr ""
-"O visual clássico continua disponível — volte quando quiser com o botão"
+"O visual clássico continua disponível, volte quando quiser com o botão"
 
 msgid "Class spells aren't available for this class yet."
 msgstr "Os feitiços de classe ainda não estão disponíveis para esta classe."
@@ -6961,8 +6961,8 @@ msgid "July 2026"
 msgstr "Julho 2026"
 
 #: chardata/templates/chardata/changelog_modal.html:0
-msgid "Describe your build — now in German too"
-msgstr "Descreva seu build — agora também em alemão"
+msgid "Describe your build, now in German too"
+msgstr "Descreva seu build, agora também em alemão"
 
 #: chardata/templates/chardata/changelog_modal.html:0
 msgid ""
