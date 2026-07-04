@@ -7269,3 +7269,9 @@ msgstr "Trophäen vorschlagen"
 
 msgid "Trophies"
 msgstr "Trophäen"
+
+msgid "Allow dofuses, prysmaradite and trophies:"
+msgstr "Dofus, Prysmaradite und Trophäen erlauben:"
+
+msgid "Dofuses, Prysmaradite and Trophies"
+msgstr "Dofus, Prysmaradite und Trophäen"

@@ -7734,6 +7734,12 @@ msgstr "Proposer des trophées"
 msgid "Trophies"
 msgstr "Trophées"
 
+msgid "Allow dofuses, prysmaradite and trophies:"
+msgstr "Autoriser les dofus, prysmaradite et trophées :"
+
+msgid "Dofuses, Prysmaradite and Trophies"
+msgstr "les Dofus, Prysmaradite et Trophées"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

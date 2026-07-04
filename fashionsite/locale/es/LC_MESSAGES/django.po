@@ -7251,6 +7251,12 @@ msgstr "Sugerir trofeos"
 msgid "Trophies"
 msgstr "Trofeos"
 
+msgid "Allow dofuses, prysmaradite and trophies:"
+msgstr "Permitir dofus, prysmaradite y trofeos:"
+
+msgid "Dofuses, Prysmaradite and Trophies"
+msgstr "Dofus, Prysmaradite y Trofeos"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

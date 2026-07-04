@@ -79,10 +79,6 @@
             <label><input type="radio" name="dofus" class="change-modifies-state" value="lightset">{% trans "Remove only <3" %}</label>
             <br>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="cawwot">{% trans "Allow only Cawwot Dofus" %}</label>
-            {% if version_options.trophies %}
-            <br>
-            <label><input type="checkbox" name="trophies" class="change-modifies-state">{% trans "Suggest trophies" %}</label>
-            {% endif %}
         </td>
         </tr>
         </table>
@@ -126,7 +122,7 @@
                     <br>
                     <br>
        <div class="brown-box" align="center">
-                    {% trans "Allow dofuses and prysmaradite:" %} <br><br>
+                    {% trans "Allow dofuses, prysmaradite and trophies:" %} <br><br>
            <div>
             {% for d in version_options.dofuses %}
             <div class="dofus-box">
@@ -143,6 +139,15 @@
                     <img alt="" src="{% static "chardata/prysmaradite.png" %}" class="option_icon prysmaradite"><br>
                     <input type="checkbox" name="prysmaradite" class="change-modifies-state prysmaradite"><br>
                     {% trans "Prysmaradite" %}
+                </label><br>
+            </div>
+            {% endif %}
+            {% if version_options.trophies %}
+            <div class="dofus-box">
+                <label class='trophies'>
+                    <img alt="" src="{% static "chardata/Major_Scholar.png" %}" class="option_icon trophies"><br>
+                    <input type="checkbox" name="trophies" class="change-modifies-state trophies"><br>
+                    {% trans "Trophies" %}
                 </label><br>
             </div>
             {% endif %}
