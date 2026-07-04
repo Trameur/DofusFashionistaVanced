@@ -5171,3 +5171,9 @@ msgstr ""
 #: chardata/templates/chardata/base.html:0
 msgid "The Dofus Fashionista"
 msgstr "The Dofus Fashionista"
+
+msgid "AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr ""
+
+msgid "AP: %(AP)d"
+msgstr ""

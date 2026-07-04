@@ -7167,6 +7167,12 @@ msgstr ""
 "También puedes elegir explícitamente el idioma de los correos en los ajustes"
 " de tu cuenta"
 
+msgid "AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
+
+msgid "AP: %(AP)d"
+msgstr "PA: %(AP)d"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

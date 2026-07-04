@@ -7184,3 +7184,9 @@ msgid ""
 msgstr ""
 "Du kannst die E-Mail-Sprache auch explizit in deinen Kontoeinstellungen "
 "festlegen"
+
+msgid "AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+
+msgid "AP: %(AP)d"
+msgstr "AP: %(AP)d"

@@ -1764,6 +1764,35 @@ class SolverSmokeTests(TestCase):
         self.assertGreaterEqual(equipped, 3,
                                 'a level 50 strength solve should equip several items')
 
+class WeaponTypeDisplayTests(TestCase):
+    """Weapons without a standard type (magnifying glass, fishing rod...) used
+    to render '(Unknown Weapon Type)' / raw '(DefaultName)' in the AP line."""
+
+    def _damage_head(self, item_name):
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.modelresult import ModelResultItem
+        from chardata.solution_result import evolve_result_item
+        item = get_structure('dofus3').get_item_by_name(item_name)
+        self.assertIsNotNone(item, 'missing test fixture item %r' % item_name)
+        result_item = ModelResultItem(item)
+        evolve_result_item(result_item)
+        return result_item.damage_text.split('<br>')[0]
+
+    def test_untyped_weapon_has_no_placeholder_prefix(self):
+        head = self._damage_head('Magnifying Glass')
+        self.assertNotIn('Unknown Weapon Type', head)
+        self.assertNotIn('DefaultName', head)
+        self.assertTrue(head.startswith('AP:'), head)
+
+    def test_typed_weapon_keeps_its_type_prefix(self):
+        from fashionistapulp.structure import get_structure
+        st = get_structure('dofus3')
+        sword_name = next(
+            name for name, w in st.weapons_dict_by_name.items()
+            if getattr(st.get_weapon_type_by_id(w.weapon_type), 'name', None) == 'Sword')
+        head = self._damage_head(sword_name)
+        self.assertIn('(Sword)', head)
+
 class RobotsTxtTests(TestCase):
     """robots.txt must keep the public content crawlable while blocking the
     action endpoints and per-project/private pages that were flooding Search
