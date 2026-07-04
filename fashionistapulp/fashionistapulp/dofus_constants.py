@@ -5111,18 +5111,6 @@ def get_soft_caps_for(game_version, char_class):
     return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
 
 
-# Items that leaked into a version's scraped data but do not exist in that version
-# of the game, keyed by game_version -> set of Ankama ids. They are dropped from
-# that version's item pool so the optimizer never proposes them. Version-scoped on
-# purpose: the same Ankama id can be a real item in another version (10076 is a
-# genuine Retro shield, but does not exist in Dofus Touch).
-UNAVAILABLE_ITEMS_BY_VERSION = {
-    'touch': frozenset([
-        10076,  # Unique Hispanian Shield / Bouclier Hispanique Unique (Retro-era, not in Touch)
-    ]),
-}
-
-
 def tier_widths_after_scroll(caps_for_stat, scrolled):
     """Per-tier room left for characteristic points once scrolls are accounted for.
 

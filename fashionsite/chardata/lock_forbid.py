@@ -50,10 +50,23 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     12596,  # [!] WIP (Touch work-in-progress placeholder)
 ]
 
+# Per-version defaults: items that are in the game data but shouldn't be proposed
+# for that specific version (e.g. an item scraped into Touch that Touch players
+# can't actually get). Same forbidden-by-default-but-removable behaviour, version
+# scoped so the same Ankama id stays available where it is a real item (10076 is a
+# genuine Retro shield but does not exist in Dofus Touch).
+DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
+    'touch': [
+        10076,  # Unique Hispanian Shield / Bouclier Hispanique Unique (not in Dofus Touch)
+    ],
+}
+
 def get_default_exclusions(char):
     s = get_structure()
+    ankama_ids = (DEFAULT_EXCLUSION_ANKAMA_IDS
+                  + DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION.get(s.game_version, []))
     item_ids = []
-    for ankama_id in DEFAULT_EXCLUSION_ANKAMA_IDS:
+    for ankama_id in ankama_ids:
         item = s.get_item_by_ankama_id(ankama_id)
         if item is not None:
             item_ids.append(item.id)

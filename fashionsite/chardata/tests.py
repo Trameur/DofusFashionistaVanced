@@ -1864,18 +1864,26 @@ class UnobtainableItemsTests(SimpleTestCase):
 
 
 class VersionItemAvailabilityTests(SimpleTestCase):
-    """Items that leaked into a version's data but don't exist in that version are
-    dropped from its pool, without touching the versions where they are real
+    """Items in a version's data that shouldn't be proposed there are forbidden by
+    default per version, without touching the versions where they are real
     (reported: the Hispanic shield was offered on Dofus Touch)."""
 
-    def test_hispanic_shield_gone_from_touch_but_kept_on_retro(self):
-        from fashionistapulp.structure import get_structure
-        touch = {getattr(it, 'ankama_id', None)
-                 for it in get_structure('touch').get_available_items_list()}
-        retro = {getattr(it, 'ankama_id', None)
-                 for it in get_structure('retro').get_available_items_list()}
-        self.assertNotIn(10076, touch)   # Bouclier Hispanique Unique: not in Touch
-        self.assertIn(10076, retro)      # genuine Retro shield: keep it
+    def test_hispanic_shield_forbidden_by_default_on_touch_not_on_retro(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        set_current_game_version('touch')
+        touch = get_structure('touch')
+        shield = touch.get_item_by_ankama_id(10076)
+        self.assertIsNotNone(shield, 'Hispanic shield missing from Touch data')
+        # Forbidden by default on Touch...
+        self.assertIn(shield.id, get_default_exclusions(char=None))
+        # ...but still in the pool, so it can be un-forbidden by hand.
+        self.assertIn(shield.id, {it.id for it in touch.get_available_items_list()})
+        # On Retro it is a genuine item: not force-forbidden.
+        set_current_game_version('retro')
+        retro = get_structure('retro')
+        self.assertNotIn(retro.get_item_by_ankama_id(10076).id,
+                         get_default_exclusions(char=None))
 
 
 class RetroShieldsDefaultTests(TestCase):
