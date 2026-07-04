@@ -1815,6 +1815,35 @@ class RetroSoftCapsTests(SimpleTestCase):
                 self._capital_cost(get_soft_caps_for('retro', char_class)['vit'], 100),
                 100, char_class)
 
+    def _capital_for_extra(self, caps, scrolled, extra):
+        # Capital cost of adding `extra` points on top of a `scrolled` base.
+        from fashionistapulp.dofus_constants import tier_widths_after_scroll
+        widths = tier_widths_after_scroll(caps, scrolled)
+        remaining, cost = extra, 0.0
+        for i in range(6):
+            take = remaining if widths[i] is None else min(remaining, widths[i])
+            cost += take * self._TIER_COST[i]
+            remaining -= take
+            if remaining <= 0:
+                break
+        return cost
+
+    def test_scrolls_push_points_up_the_cost_curve(self):
+        # Reported bug: an Iop scrolled to 100 Intelligence was charged 1:1 for the
+        # next point. Scrolls are free stat but still climb the curve, so it is 5:1.
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        iop_int = get_soft_caps_for('retro', 'Iop')['int']
+        self.assertEqual(self._capital_for_extra(iop_int, 0, 1), 1)      # fresh: 1:1
+        self.assertEqual(self._capital_for_extra(iop_int, 100, 1), 5)    # scrolled: 5:1
+        self.assertEqual(self._capital_for_extra(iop_int, 100, 10), 50)
+        # 30 base sits 10 into the 2:1 tier.
+        self.assertEqual(self._capital_for_extra(iop_int, 30, 1), 2)
+        # Modern is affected too: scrolled to 100 the next Strength point is 2:1.
+        modern_str = get_soft_caps_for('dofus3', 'Iop')['str']
+        self.assertEqual(self._capital_for_extra(modern_str, 100, 1), 2)
+        # 1:1 stats (vitality) never get pricier from scrolling.
+        self.assertEqual(self._capital_for_extra(get_soft_caps_for('retro', 'Iop')['vit'], 100, 1), 1)
+
 def _pulp_solver_available():
     try:
         import pulp

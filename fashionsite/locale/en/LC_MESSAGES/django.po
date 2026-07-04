@@ -662,7 +662,7 @@ msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
 msgstr ""
 
 #: chardata/templates/chardata/chardata.html:299
-msgid "Scrolled stats must be between 0 and 100."
+msgid "Scrolled stats must be between 0 and %max%."
 msgstr ""
 
 #: chardata/templates/chardata/check_your_email.html:6

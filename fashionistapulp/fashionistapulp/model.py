@@ -18,7 +18,7 @@
 
 from copy import deepcopy
 
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for, tier_widths_after_scroll
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
 import pulp
@@ -698,7 +698,8 @@ class Model:
         self.modify_forbidden_items_constraints(model_input.forbidden_equips,
                                                 model_input.options)
         self.modify_stats_points_constraints(model_input.char_class,
-                                             model_input.stat_points_to_distribute)
+                                             model_input.stat_points_to_distribute,
+                                             model_input.base_stats_by_attr)
         self.modify_empty_slot_constraints(model_input.empty_slot_types)
 
         self.write_objective_function(model_input.objective_values, model_input.char_level)
@@ -791,30 +792,27 @@ class Model:
         restriction = self.problem.restriction_lt_eq(0, matrix)
         self.restrictions.fourth_stats_points_constraint = restriction 
 
-    def modify_stats_points_constraints(self, char_class, stat_points):
+    def modify_stats_points_constraints(self, char_class, stat_points, base_stats_by_attr=None):
         caps = get_soft_caps_for(getattr(self.structure, 'game_version', 'dofus3'),
                                  char_class)
+        base_stats_by_attr = base_stats_by_attr or {}
+        # base_stats_by_attr is keyed by full stat name; the cost tiers by stat key.
+        name_by_key = {stat.key: stat.name for stat in self.main_stats_list}
         for stat in caps:
+            # In distribute mode base_stats_by_attr holds the scrolled base, which
+            # eats the cheap low tiers before any point is spent (see the retro Iop
+            # Intelligence case). Fixed mode has no points to spend, so it is a no-op.
+            scrolled = base_stats_by_attr.get(name_by_key.get(stat), 0)
+            widths = tier_widths_after_scroll(caps[stat], scrolled)
+            second = self.restrictions.second_stats_points_constraints.get(stat, None)
+            third = self.restrictions.third_stats_points_constraints.get(stat, None)
             for i in range(0, 6):
-                restrictions = self.restrictions.second_stats_points_constraints.get(stat, None)
-                restriction = restrictions.get(i, None)
-                if i >= 1 and (caps[stat][i-1] is not None) and (caps[stat][i] is not None):
-                    max_cap = (caps[stat][i] - caps[stat][i-1])
-                else:
-                    max_cap = caps[stat][i]
-                restriction.changeRHS(max_cap if max_cap is not None else 1991)
-
+                second[i].changeRHS(widths[i] if widths[i] is not None else 1991)
             for i in range(0, 5):
-                restrictions = self.restrictions.third_stats_points_constraints.get(stat, None)
-                restriction = restrictions.get(i, None)
-                if i >= 1 and (caps[stat][i-1] is not None) and (caps[stat][i] is not None):
-                    max_cap = (caps[stat][i] - caps[stat][i-1])
-                else:
-                    max_cap = caps[stat][i]
-                restriction.changeRHS(-max_cap if max_cap is not None else -1991)
-              
+                third[i].changeRHS(-widths[i] if widths[i] is not None else -1991)
+
         restriction = self.restrictions.fourth_stats_points_constraint
-        restriction.changeRHS(stat_points)    
+        restriction.changeRHS(stat_points)
     
     def modify_forbidden_items_constraints(self, forbidden_equips, options):
         new_forbid_list = forbidden_equips

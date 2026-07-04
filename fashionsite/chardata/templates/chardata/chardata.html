@@ -100,6 +100,8 @@
     var isNewChar = {{ is_new_char | safe }};
     var initialStats = {{ stats_json | safe }};
     var ALL_STATS = ['vit', 'wis', 'str', 'int', 'cha', 'agi'];
+    // Retro lets you scroll a characteristic to 101; every other version caps at 100.
+    var maxScroll = {% if char.game_version == 'retro' %}101{% else %}100{% endif %};
 
     function template(t, data){
         return t.replace(/%(\w*)%/g,
@@ -125,11 +127,13 @@
         }
     }
     
-    function usedPointsOnTier(tier, previousTier, multiplier, totalStat){
-        var startedPuttingPoints = previousTier;
-        var stoppedPuttingPoints = Math.min(tier, totalStat);
-
-        var pointsIncreasedInTier = stoppedPuttingPoints - startedPuttingPoints;
+    // Characteristic points only pay for the range (scrolled, scrolled+points]:
+    // scrolls are free stat but still sit on the curve, so a stat scrolled high
+    // makes the next point land in an expensive tier.
+    function usedPointsOnTier(tierTop, tierBottom, multiplier, scrolled, total){
+        var started = Math.max(tierBottom, scrolled);
+        var stopped = Math.min(tierTop, total);
+        var pointsIncreasedInTier = stopped - started;
         if (pointsIncreasedInTier > 0) {
             return pointsIncreasedInTier * multiplier;
         } else {
@@ -154,13 +158,15 @@
 
         {% for stat_key, values in soft_caps.items %}
 
-        var totalStat = $("#points_{{stat_key}}").val();
+        var scrolled = parseInt($("#scrolled_{{stat_key}}").val()) || 0;
+        var points = parseInt($("#points_{{stat_key}}").val()) || 0;
+        var total = scrolled + points;
         var used = 0;
         var softcaps = softcapsForStat['{{stat_key}}'];
 
-        used = used + usedPointsOnTier(softcaps[0], 0, 0.5, totalStat);
+        used = used + usedPointsOnTier(softcaps[0], 0, 0.5, scrolled, total);
         for (var i = 0; i < 5; i++) {
-            used = used + usedPointsOnTier(softcaps[i + 1], softcaps[i], i + 1, totalStat);
+            used = used + usedPointsOnTier(softcaps[i + 1], softcaps[i], i + 1, scrolled, total);
         }
         maxPoints -= used;
         {% endfor %}
@@ -222,20 +228,23 @@
 
     function fullyScroll() {
         $.each(ALL_STATS, function(i, statKey) {
-            $("#scrolled_" + statKey).val(100);
+            $("#scrolled_" + statKey).val(maxScroll);
             setTotalWhenScrolled("scrolled_" + statKey);
         });
         updatePoints();
     }
     
     function findNextSoftcapLevelForStat(statKey) {
-        var currentTotal = parseInt($("#points_" + statKey).val());
+        var scrolled = parseInt($("#scrolled_" + statKey).val()) || 0;
+        var points = parseInt($("#points_" + statKey).val()) || 0;
+        var currentTotal = scrolled + points;
         var softcaps = softcapsForStat[statKey];
         for (var i = 0; i < 6; i++) {
             if (softcaps[i] > currentTotal) {
                 return i;
             }
         }
+        return 5;
     }
     
     function getRatioTowardsLevel(statKey, level) {
@@ -256,19 +265,22 @@
             return null;
         }
         
+        var scrolled = parseInt($("#scrolled_" + statKey).val()) || 0;
+        var points = parseInt($("#points_" + statKey).val()) || 0;
+        var total = scrolled + points;
+
         var nextSoftcapLevel = findNextSoftcapLevelForStat(statKey);
         var softcaps = softcapsForStat[statKey];
-        var newTier = softcaps[nextSoftcapLevel];
+        var tierTop = softcaps[nextSoftcapLevel];
         var ratio = getRatioTowardsLevel(statKey, nextSoftcapLevel);
         var statBudget = Math.floor(availablePoints / ratio);
         if (statBudget == 0) {
             return null;
         }
-        
-        var currentTotal = parseInt($("#points_" + statKey).val());
-        var newTotal = Math.min(currentTotal + statBudget, newTier);
-        
-        return {currentTotal: currentTotal, newTotal: newTotal, ratio: ratio};
+
+        // tierTop is an absolute stat value; the points input tracks total minus scrolls.
+        var newTotal = Math.min(total + statBudget, tierTop) - scrolled;
+        return {currentTotal: points, newTotal: newTotal, ratio: ratio};
     }
     
     function handleSubmit(event) {
@@ -291,12 +303,12 @@
         var allValid = true;
         $(".scrolled_input").each(function() {
             var scrolledValue = $(this).val();
-            if (scrolledValue < 0 || scrolledValue > 100) {
+            if (scrolledValue < 0 || scrolledValue > maxScroll) {
                 allValid = false;
             }
         });
         if (!allValid) {
-            $("#base-stats-error-msg").text('{{_("Scrolled stats must be between 0 and 100.")|escapejs}}');
+            $("#base-stats-error-msg").text(template('{{_("Scrolled stats must be between 0 and %max%.")|escapejs}}', {max: maxScroll}));
             return false;
         }
         $("#base-stats-error-msg").text("");

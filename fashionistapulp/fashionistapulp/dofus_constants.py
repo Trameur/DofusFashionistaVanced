@@ -5111,6 +5111,29 @@ def get_soft_caps_for(game_version, char_class):
     return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
 
 
+def tier_widths_after_scroll(caps_for_stat, scrolled):
+    """Per-tier room left for characteristic points once scrolls are accounted for.
+
+    Scrolls are free stat but still push you up the cost curve: an Iop scrolled
+    to 100 Intelligence already fills the cheap early tiers, so the next point
+    costs 5:1, not 1:1. caps_for_stat is the 6-slot cumulative-threshold list
+    (None = unlimited from that tier on); we subtract the scrolled base from the
+    tiers it covers and return the remaining width per tier (None = unlimited)."""
+    scrolled = scrolled or 0
+    widths = []
+    for i in range(6):
+        lo = 0 if i == 0 else caps_for_stat[i - 1]
+        hi = caps_for_stat[i]
+        if hi is None:
+            widths.append(None)
+        elif lo is None:
+            widths.append(0)
+        else:
+            consumed = max(0, min(scrolled, hi) - lo)
+            widths.append(max(0, (hi - lo) - consumed))
+    return widths
+
+
 ATTRIBUTE_TO_ELEMENT = {
     'int': 'fire',
     'cha': 'water',

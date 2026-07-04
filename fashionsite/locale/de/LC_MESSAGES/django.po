@@ -726,8 +726,8 @@ msgstr ""
 "erhöhen"
 
 #: chardata/templates/chardata/chardata.html:299
-msgid "Scrolled stats must be between 0 and 100."
-msgstr "Die gescrollten Statistiken müssen zwischen 0 und 100 liegen."
+msgid "Scrolled stats must be between 0 and %max%."
+msgstr "Die gescrollten Statistiken müssen zwischen 0 und %max% liegen."
 
 #: chardata/templates/chardata/check_your_email.html:6
 #: chardata/templates/chardata/check_your_email.html:13
