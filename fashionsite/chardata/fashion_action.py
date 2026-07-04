@@ -53,7 +53,8 @@ def get_options(request, char_id):
                      'dragoturkey': options.get('dragoturkey', True),
                      'seemyool': options.get('seemyool', True),
                      'rhineetle': options.get('rhineetle', True),
-                     'prysmaradite': options.get('prysmaradite', False)}
+                     'prysmaradite': options.get('prysmaradite', False),
+                     'shields': options.get('shields', True)}
     return model_options
 
 def fashion(request, char_id, spells=False):

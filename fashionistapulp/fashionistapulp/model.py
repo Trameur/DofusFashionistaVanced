@@ -826,9 +826,9 @@ class Model:
 
         for item in self.items_list:
             restriction = self.restrictions.forbidden_items_constraints.get(item.id, None)
-            if ((item.id in new_forbid_list) 
-                #or (options['shields'] == False and item.type == self.structure.get_type_id_by_name('Shield'))
-                or (options['dofus'] == 'lightset' 
+            if ((item.id in new_forbid_list)
+                or (not options.get('shields', True) and item.type == self.structure.get_type_id_by_name('Shield'))
+                or (options['dofus'] == 'lightset'
                     and item.type == self.structure.get_type_id_by_name('Dofus')
                     and item.weird_conditions['light_set']) 
                 or (options['dofus'] == False 

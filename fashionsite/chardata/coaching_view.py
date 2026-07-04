@@ -130,13 +130,17 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     # Retro 1.29 has no AP/MP/range exotismes, Turquoise Dofus or prysmaradites.
     exos = game_version != 'retro'
+    # Retro shields only work in PvP, so a PvM preset forbids them by default;
+    # the PvP preset (and every non-retro version) keeps them.
+    shields = game_version != 'retro' or 'pvp' in aspects
     set_options(char, {'ap_exo': exos and char_level >= 200,
                        'mp_exo': exos and char_level >= 200,
                        'turq_dofus': exos and char_level >= 199,
                        'dragoturkey': True,
                        'rhineetle': True,
                        'seemyool': True,
-                       'prysmaradite': exos and char_level >= 200})
+                       'prysmaradite': exos and char_level >= 200,
+                       'shields': shields})
     char.save()
 
     for stat_name, _localized in STATS_NAMES:

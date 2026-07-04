@@ -1858,6 +1858,35 @@ class UnobtainableItemsTests(SimpleTestCase):
         self.assertIsNotNone(s.get_item_by_name('Le Divhugalch'))
 
 
+class RetroShieldsDefaultTests(TestCase):
+    """Retro shields only work in PvP, so a PvM preset forbids them by default;
+    the PvP preset (and every non-retro version) keeps them."""
+
+    def _created_options(self, aspects, version):
+        import pickle
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        set_current_game_version(version)
+        user = User.objects.create_user(
+            'shield_%s_%s' % (version, '_'.join(sorted(aspects))),
+            'sh@test.local', 'pw-shield-77')
+        req = RequestFactory().post('/')
+        req.user = user
+        char = create_build(req, 'Iop', 100, set(aspects), version)
+        return pickle.loads(char.options)
+
+    def test_retro_pvm_forbids_shields(self):
+        self.assertFalse(self._created_options({'res', 'vit', 'str'}, 'retro')['shields'])
+
+    def test_retro_pvp_keeps_shields(self):
+        self.assertTrue(self._created_options({'pvp', 'crit', 'str'}, 'retro')['shields'])
+
+    def test_modern_pvm_keeps_shields(self):
+        self.assertTrue(self._created_options({'res', 'vit', 'str'}, 'dofus3')['shields'])
+
+
 def _pulp_solver_available():
     try:
         import pulp
