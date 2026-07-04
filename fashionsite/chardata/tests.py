@@ -1971,6 +1971,33 @@ class RetroShieldsDefaultTests(TestCase):
         self.assertTrue(self._created_options({'res', 'vit', 'str'}, 'dofus3')['shields'])
 
 
+class FullScrollRetroTests(TestCase):
+    """Retro can scroll a characteristic to 101; every other version caps at 100.
+    The wizard 'full parcho' button was hardcoded to 100 for all versions."""
+
+    def _full_scroll_values(self, version):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.wizard_view import _full_scroll_char
+        from chardata.models import CharBaseStats
+        set_current_game_version(version)
+        user = User.objects.create_user(
+            'scroll_%s' % version, 'sc@test.local', 'pw-scroll-77')
+        req = RequestFactory().post('/')
+        req.user = user
+        char = create_build(req, 'Iop', 200, {'str'}, version)
+        _full_scroll_char(char)
+        return set(b.scrolled_value for b in CharBaseStats.objects.filter(char=char))
+
+    def test_retro_full_scroll_is_101(self):
+        self.assertEqual(self._full_scroll_values('retro'), {101})
+
+    def test_modern_full_scroll_is_100(self):
+        self.assertEqual(self._full_scroll_values('dofus3'), {100})
+
+
 class StatsWeightCapTests(TestCase):
     """A build whose weights exceed the old 5k guard (high-end crit/omni builds
     store weights via _set_weights, which never checks the bound) used to 500 on

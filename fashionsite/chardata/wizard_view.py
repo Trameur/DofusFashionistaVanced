@@ -134,6 +134,8 @@ def _get_third_scroll_option(char):
     return stats_scroll_dict
 
 def _full_scroll_char(char):
+    # Retro lets you scroll a characteristic to 101, every other version caps at 100.
+    full_scroll = 101 if char.game_version == 'retro' else 100
     for element_name, _ in STATS_NAMES:
         basestats_list = CharBaseStats.objects.filter(char=char, stat=element_name)
         if len(basestats_list) == 0:
@@ -145,12 +147,12 @@ def _full_scroll_char(char):
         prev_scroll = 0
         if basestats.scrolled_value:
             prev_scroll = basestats.scrolled_value
-        basestats.scrolled_value = 100
+        basestats.scrolled_value = full_scroll
         if not basestats.total_value:
-            basestats.total_value = 100
+            basestats.total_value = full_scroll
         else:
-            basestats.total_value = basestats.total_value + 100 - prev_scroll
-        basestats.save()  
+            basestats.total_value = basestats.total_value + full_scroll - prev_scroll
+        basestats.save()
     char.save()
     return char
 
