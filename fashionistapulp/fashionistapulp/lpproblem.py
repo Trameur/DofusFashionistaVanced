@@ -18,10 +18,13 @@
 
 from .fashionista_config import get_fashionista_path
 from pulp import LpVariable, LpInteger, LpProblem, LpMaximize, LpStatus, value
+import logging
 import pulp
 import os
 import uuid
 import platform
+
+logger = logging.getLogger(__name__)
 
 # Print debug information to confirm platform details
 print(f"System: {platform.system()}")
@@ -105,14 +108,14 @@ class LpProblem2:
         problem_name = '/tmp/problem_%s' % str(uuid.uuid4())
         self.pulp_lp.name = problem_name
         self.pulp_lp.solve(SOLVER)
-        print('Status: %s, Z = %g' % (LpStatus[self.pulp_lp.status], value(self.pulp_lp.objective)))
-        
+        logger.debug('Status: %s, Z = %g', LpStatus[self.pulp_lp.status], value(self.pulp_lp.objective))
+
         tmpMps = os.path.join('%s-pulp.mps' % problem_name)
         tmpSol = os.path.join('%s-pulp.sol' % problem_name)
         try: os.remove(tmpMps)
-        except: print('could not remove file %s' % tmpMps)
+        except: logger.debug('could not remove file %s', tmpMps)
         try: os.remove(tmpSol)
-        except: print('could not remove file %s' % tmpSol)
+        except: logger.debug('could not remove file %s', tmpSol)
 
     def get_result(self):
         return {v.name: v.varValue for v in self.pulp_lp.variables()}
