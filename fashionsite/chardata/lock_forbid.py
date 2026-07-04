@@ -32,6 +32,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     2155,   # Jiva Necklace
     18853,  # Fiery Tongue Sword
     8575,   # First Blood Staff
+    11761,  # Le Divhugalch (unobtainable retro joke staff, +3 AP/+3 MP)
     8854,   # Crack Sparrow's Own Withered Hat
     2154,   # De Sendar's Ring
     27645,  # Basic Broom

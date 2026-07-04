@@ -1846,16 +1846,21 @@ class RetroSoftCapsTests(SimpleTestCase):
 
 
 class UnobtainableItemsTests(SimpleTestCase):
-    """Items that exist in the data but can't be obtained in game must never be
-    proposed by the optimizer (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)."""
+    """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
+    are forbidden by default through the standard mechanism, so the solver never
+    picks them yet a user can still remove them from the forbidden list."""
 
-    def test_le_divhugalch_is_not_offered_in_retro(self):
-        from fashionistapulp.structure import get_structure
+    def test_le_divhugalch_forbidden_by_default_but_still_available_in_retro(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        set_current_game_version('retro')
         s = get_structure('retro')
-        offered = {it.name for it in s.get_available_items_list()}
-        self.assertNotIn('Le Divhugalch', offered)
-        # It still exists in the raw data, so lookups by name/id keep working.
-        self.assertIsNotNone(s.get_item_by_name('Le Divhugalch'))
+        item = s.get_item_by_ankama_id(11761)
+        self.assertIsNotNone(item, 'Le Divhugalch missing from retro data')
+        # Forbidden by default, so it is never proposed...
+        self.assertIn(item.id, get_default_exclusions(char=None))
+        # ...but still in the pool, so it can be un-forbidden by hand.
+        self.assertIn(item.id, {it.id for it in s.get_available_items_list()})
 
 
 class RetroShieldsDefaultTests(TestCase):
