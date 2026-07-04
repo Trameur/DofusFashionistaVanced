@@ -729,7 +729,10 @@ def _set_weights(char, aspects, apply=True):
     w['waterdam'] = w['cha'] * param_for_build(race, elements, 'waterdam') * dam_mult
     w['neutdam'] = param_for_build(race, elements, 'neutdam') * w['earthdam']
     w['dam'] = w['neutdam'] + w['earthdam'] + w['firedam'] + w['airdam'] + w['waterdam']
-    res_w = ((1.5 if 'res' in aspects else 1)
+    # Damage weight scales with the chosen element(s) (attack_factor), resist did
+    # not, so 'res' next to an element barely moved the set. Boost it enough to
+    # compete with element damage so a "resists" build is actually tanky.
+    res_w = ((3 if 'res' in aspects else 1)
              * (0.5 if 'glasscannon' in aspects else 1)
              * b)
     resper_w = res_per_factor * res_w
