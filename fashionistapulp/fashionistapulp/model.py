@@ -18,7 +18,7 @@
 
 from copy import deepcopy
 
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, SOFT_CAPS
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
 import pulp
@@ -792,23 +792,25 @@ class Model:
         self.restrictions.fourth_stats_points_constraint = restriction 
 
     def modify_stats_points_constraints(self, char_class, stat_points):
-        for stat in SOFT_CAPS[char_class]:
+        caps = get_soft_caps_for(getattr(self.structure, 'game_version', 'dofus3'),
+                                 char_class)
+        for stat in caps:
             for i in range(0, 6):
                 restrictions = self.restrictions.second_stats_points_constraints.get(stat, None)
                 restriction = restrictions.get(i, None)
-                if i >= 1 and (SOFT_CAPS[char_class][stat][i-1] is not None) and (SOFT_CAPS[char_class][stat][i] is not None):
-                    max_cap = (SOFT_CAPS[char_class][stat][i] - SOFT_CAPS[char_class][stat][i-1])
-                else: 
-                    max_cap = SOFT_CAPS[char_class][stat][i]
+                if i >= 1 and (caps[stat][i-1] is not None) and (caps[stat][i] is not None):
+                    max_cap = (caps[stat][i] - caps[stat][i-1])
+                else:
+                    max_cap = caps[stat][i]
                 restriction.changeRHS(max_cap if max_cap is not None else 1991)
-              
-            for i in range(0, 5):  
+
+            for i in range(0, 5):
                 restrictions = self.restrictions.third_stats_points_constraints.get(stat, None)
                 restriction = restrictions.get(i, None)
-                if i >= 1 and (SOFT_CAPS[char_class][stat][i-1] is not None) and (SOFT_CAPS[char_class][stat][i] is not None):
-                    max_cap = (SOFT_CAPS[char_class][stat][i] - SOFT_CAPS[char_class][stat][i-1])
-                else: 
-                    max_cap = SOFT_CAPS[char_class][stat][i]
+                if i >= 1 and (caps[stat][i-1] is not None) and (caps[stat][i] is not None):
+                    max_cap = (caps[stat][i] - caps[stat][i-1])
+                else:
+                    max_cap = caps[stat][i]
                 restriction.changeRHS(-max_cap if max_cap is not None else -1991)
               
         restriction = self.restrictions.fourth_stats_points_constraint

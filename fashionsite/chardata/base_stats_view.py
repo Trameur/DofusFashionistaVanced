@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 from chardata.models import CharBaseStats
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 
-from fashionistapulp.dofus_constants import SOFT_CAPS, STATS_NAMES
+from fashionistapulp.dofus_constants import get_soft_caps_for, STATS_NAMES
 
 import json
 from chardata.themes import get_theme
@@ -47,8 +47,9 @@ def _page(request, char_id, is_new_char):
     stats = _get_stats(char) 
     stats['distrib'] = char.allow_points_distribution  
 
+    soft_caps = get_soft_caps_for(char.game_version, char.char_class)
     lower_soft_caps = {}
-    for stat, lis in SOFT_CAPS[char.char_class].items():
+    for stat, lis in soft_caps.items():
         new_list = []
         for entry in lis:
             if entry is not None:
@@ -56,14 +57,14 @@ def _page(request, char_id, is_new_char):
             else:
                 new_list.append(None)
         lower_soft_caps[stat] = new_list
-    
+
     return set_response(request,
                         'chardata/chardata.html',
                         {'char_id': char_id,
                          'is_new_char': json.dumps(is_new_char),
                          'stats_json': json.dumps(stats),
                          'advanced': True,
-                         'soft_caps': SOFT_CAPS[char.char_class],
+                         'soft_caps': soft_caps,
                          'lower_soft_caps': lower_soft_caps,
                          'theme': get_theme(request)},
                         char)

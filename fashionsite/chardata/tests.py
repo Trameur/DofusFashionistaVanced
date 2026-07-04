@@ -1750,6 +1750,76 @@ class JqueryStringQuoteLintTests(SimpleTestCase):
             'empty double-quoted attribute inside a double-quoted jQuery string '
             'breaks the whole inline script:\n' + '\n'.join(offenders))
 
+class RetroSoftCapsTests(SimpleTestCase):
+    """Retro (1.29) spends characteristic points on class-specific tables; every
+    other version keeps the uniform modern table. Costs verified against the
+    129dofus wiki 'Soft Cap' page (cross-checked with dofuzion)."""
+
+    _TIER_COST = [0.5, 1, 2, 3, 4, 5]
+
+    def _capital_cost(self, caps, target):
+        # Mirror the model's per-tier width computation, then walk the tiers
+        # cheapest-first to reach `target` stat points.
+        widths = []
+        for i in range(6):
+            if i >= 1 and caps[i - 1] is not None and caps[i] is not None:
+                widths.append(caps[i] - caps[i - 1])
+            else:
+                widths.append(caps[i])  # None == unlimited
+        remaining, cost = target, 0.0
+        for i in range(6):
+            take = remaining if widths[i] is None else min(remaining, widths[i])
+            cost += take * self._TIER_COST[i]
+            remaining -= take
+            if remaining <= 0:
+                break
+        return cost
+
+    def test_retro_costs_match_the_wiki(self):
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        cases = [
+            ('Sacrier', 'vit', 200, 100),   # 1 point for 2 vitality
+            ('Iop', 'vit', 100, 100),       # everyone else 1:1
+            ('Iop', 'wis', 100, 300),       # wisdom 3:1 for all
+            ('Iop', 'str', 100, 100), ('Iop', 'str', 200, 300), ('Iop', 'str', 400, 1000),
+            ('Pandawa', 'str', 200, 350), ('Pandawa', 'str', 300, 650),
+            ('Sacrier', 'str', 100, 300), ('Sacrier', 'str', 150, 500),
+            ('Sadida', 'str', 300, 600), ('Enutrof', 'cha', 230, 440),
+            ('Eniripsa', 'str', 50, 100),
+        ]
+        for char_class, stat, target, expected in cases:
+            caps = get_soft_caps_for('retro', char_class)[stat]
+            self.assertEqual(self._capital_cost(caps, target), expected,
+                             '%s %s to %d' % (char_class, stat, target))
+
+    def test_retro_covers_the_twelve_classes(self):
+        from fashionistapulp.dofus_constants import SOFT_CAPS_RETRO
+        retro_classes = {'Cra', 'Ecaflip', 'Eniripsa', 'Enutrof', 'Feca', 'Iop',
+                         'Osamodas', 'Pandawa', 'Sacrier', 'Sadida', 'Sram', 'Xelor'}
+        self.assertEqual(set(SOFT_CAPS_RETRO), retro_classes)
+        for caps in SOFT_CAPS_RETRO.values():
+            self.assertEqual(set(caps), {'vit', 'wis', 'str', 'int', 'cha', 'agi'})
+            for lis in caps.values():
+                self.assertEqual(len(lis), 6)
+
+    def test_other_versions_keep_the_uniform_modern_table(self):
+        from fashionistapulp.dofus_constants import get_soft_caps_for, SOFT_CAPS
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            for char_class in ('Iop', 'Sacrier', 'Cra', 'Sram'):
+                self.assertEqual(get_soft_caps_for(version, char_class),
+                                 SOFT_CAPS[char_class],
+                                 '%s / %s should be unchanged' % (version, char_class))
+
+    def test_only_sacrier_gets_cheap_vitality_in_retro(self):
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        # Sacrier reaches 100 vitality for 50 capital points; everyone else 100.
+        self.assertEqual(
+            self._capital_cost(get_soft_caps_for('retro', 'Sacrier')['vit'], 100), 50)
+        for char_class in ('Iop', 'Cra', 'Feca', 'Pandawa'):
+            self.assertEqual(
+                self._capital_cost(get_soft_caps_for('retro', char_class)['vit'], 100),
+                100, char_class)
+
 def _pulp_solver_available():
     try:
         import pulp

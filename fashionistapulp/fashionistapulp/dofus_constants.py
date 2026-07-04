@@ -5033,6 +5033,84 @@ SOFT_CAPS = {'Cra' : DEFAULT_SOFT_CAPS,
              'Ouginak' : DEFAULT_SOFT_CAPS,
              'Forgelance' : DEFAULT_SOFT_CAPS}
 
+# Dofus Retro (1.29) spends characteristic points on a class-specific table,
+# unlike modern Dofus where every class shares DEFAULT_SOFT_CAPS. Each class has
+# "favoured" characteristics that are cheaper to raise; Sacrier even buys
+# Vitality at 1 point for 2 (the 0.5 tier, unused in modern).
+# Source: 129dofus wiki "Soft Cap" page, cross-checked against dofuzion (both agree).
+# _retro_soft_cap converts the human-readable per-tier upper bounds into the
+# 6-slot width format the model uses. Bounds are ordered by cost tier
+# [1:2, 1:1, 2:1, 3:1, 4:1, 5:1] (capital points per stat point = 0.5,1,2,3,4,5);
+# '-' = tier absent (zero width), None = unlimited from there on.
+def _retro_soft_cap(bounds):
+    out = []
+    prev = 0
+    done = False
+    for b in bounds:
+        if done:
+            out.append(0)
+        elif b == '-':
+            out.append(prev)
+        elif b is None:
+            out.append(None)
+            done = True
+        else:
+            out.append(b)
+            prev = b
+    return out
+
+_RETRO_VIT = ['-', None, '-', '-', '-', '-']        # 1:1 to infinity
+_RETRO_VIT_SACRIER = [None, '-', '-', '-', '-', '-']  # 1:2 to infinity
+_RETRO_WIS = ['-', '-', '-', None, '-', '-']        # 3:1 to infinity
+# Elemental patterns (Strength/Intelligence/Chance/Agility): upper bound reached
+# at each rate, read straight off the wiki tables.
+_R_100 = ['-', 100, 200, 300, 400, None]
+_R_20 = ['-', 20, 40, 60, 80, None]
+_R_50 = ['-', 50, 150, 250, 350, None]
+_R_50_AGI = ['-', 50, 100, 150, 200, None]
+_R_NO1TO1 = ['-', '-', 50, 150, 250, None]
+_R_PANDAWA = ['-', 50, 200, None, '-', '-']
+_R_SACRIER = ['-', '-', '-', 100, 150, None]
+_R_ENUTROF_INT = ['-', 20, 60, 100, 150, None]
+_R_ENUTROF_CHA = ['-', 100, 150, 230, 330, None]
+_R_SADIDA_STR = ['-', 50, 250, 300, 400, None]
+
+_RETRO_ELEMENTS = {
+    'Cra':      {'str': _R_50,      'int': _R_50,        'cha': _R_20,          'agi': _R_50_AGI},
+    'Ecaflip':  {'str': _R_100,     'int': _R_20,        'cha': _R_20,          'agi': _R_50_AGI},
+    'Eniripsa': {'str': _R_NO1TO1,  'int': _R_100,       'cha': _R_20,          'agi': _R_20},
+    'Enutrof':  {'str': _R_50,      'int': _R_ENUTROF_INT, 'cha': _R_ENUTROF_CHA, 'agi': _R_20},
+    'Feca':     {'str': _R_NO1TO1,  'int': _R_100,       'cha': _R_20,          'agi': _R_20},
+    'Iop':      {'str': _R_100,     'int': _R_20,        'cha': _R_20,          'agi': _R_20},
+    'Osamodas': {'str': _R_NO1TO1,  'int': _R_100,       'cha': _R_100,         'agi': _R_20},
+    'Pandawa':  {'str': _R_PANDAWA, 'int': _R_PANDAWA,   'cha': _R_PANDAWA,     'agi': _R_PANDAWA},
+    'Sacrier':  {'str': _R_SACRIER, 'int': _R_SACRIER,   'cha': _R_SACRIER,     'agi': _R_SACRIER},
+    'Sadida':   {'str': _R_SADIDA_STR, 'int': _R_100,    'cha': _R_100,         'agi': _R_20},
+    'Sram':     {'str': _R_100,     'int': _R_NO1TO1,    'cha': _R_20,          'agi': _R_100},
+    'Xelor':    {'str': _R_NO1TO1,  'int': _R_100,       'cha': _R_20,          'agi': _R_20},
+}
+
+SOFT_CAPS_RETRO = {}
+for _cls, _elements in _RETRO_ELEMENTS.items():
+    _caps = {'vit': _retro_soft_cap(_RETRO_VIT_SACRIER if _cls == 'Sacrier'
+                                    else _RETRO_VIT),
+             'wis': _retro_soft_cap(_RETRO_WIS)}
+    for _stat, _bounds in _elements.items():
+        _caps[_stat] = _retro_soft_cap(_bounds)
+    SOFT_CAPS_RETRO[_cls] = _caps
+
+
+def get_soft_caps_for(game_version, char_class):
+    """Characteristic soft caps for a class, honouring the game version.
+
+    Retro (1.29) has class-specific costs; every other version shares the
+    modern uniform table. Falls back to the default table for any class not
+    listed (e.g. a modern-only class should never reach the retro table)."""
+    if game_version == 'retro':
+        return SOFT_CAPS_RETRO.get(char_class, DEFAULT_SOFT_CAPS)
+    return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
+
+
 ATTRIBUTE_TO_ELEMENT = {
     'int': 'fire',
     'cha': 'water',
