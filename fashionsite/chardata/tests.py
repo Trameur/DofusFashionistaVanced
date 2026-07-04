@@ -1863,6 +1863,21 @@ class UnobtainableItemsTests(SimpleTestCase):
         self.assertIn(item.id, {it.id for it in s.get_available_items_list()})
 
 
+class VersionItemAvailabilityTests(SimpleTestCase):
+    """Items that leaked into a version's data but don't exist in that version are
+    dropped from its pool, without touching the versions where they are real
+    (reported: the Hispanic shield was offered on Dofus Touch)."""
+
+    def test_hispanic_shield_gone_from_touch_but_kept_on_retro(self):
+        from fashionistapulp.structure import get_structure
+        touch = {getattr(it, 'ankama_id', None)
+                 for it in get_structure('touch').get_available_items_list()}
+        retro = {getattr(it, 'ankama_id', None)
+                 for it in get_structure('retro').get_available_items_list()}
+        self.assertNotIn(10076, touch)   # Bouclier Hispanique Unique: not in Touch
+        self.assertIn(10076, retro)      # genuine Retro shield: keep it
+
+
 class RetroShieldsDefaultTests(TestCase):
     """Retro shields only work in PvP, so a PvM preset forbids them by default;
     the PvP preset (and every non-retro version) keeps them."""
