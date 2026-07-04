@@ -5111,6 +5111,14 @@ def get_soft_caps_for(game_version, char_class):
     return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
 
 
+# Items that exist in Ankama's data but cannot be obtained in game, so the
+# optimizer must never propose them. Le Divhugalch is a retro "troll" staff with
+# +3 AP/+3 MP and huge damage that would otherwise be picked for every build.
+UNOBTAINABLE_ITEM_NAMES = frozenset([
+    'Le Divhugalch',
+])
+
+
 def tier_widths_after_scroll(caps_for_stat, scrolled):
     """Per-tier room left for characteristic points once scrolls are accounted for.
 

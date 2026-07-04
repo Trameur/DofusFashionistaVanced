@@ -1844,6 +1844,20 @@ class RetroSoftCapsTests(SimpleTestCase):
         # 1:1 stats (vitality) never get pricier from scrolling.
         self.assertEqual(self._capital_for_extra(get_soft_caps_for('retro', 'Iop')['vit'], 100, 1), 1)
 
+
+class UnobtainableItemsTests(SimpleTestCase):
+    """Items that exist in the data but can't be obtained in game must never be
+    proposed by the optimizer (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)."""
+
+    def test_le_divhugalch_is_not_offered_in_retro(self):
+        from fashionistapulp.structure import get_structure
+        s = get_structure('retro')
+        offered = {it.name for it in s.get_available_items_list()}
+        self.assertNotIn('Le Divhugalch', offered)
+        # It still exists in the raw data, so lookups by name/id keep working.
+        self.assertIsNotNone(s.get_item_by_name('Le Divhugalch'))
+
+
 def _pulp_solver_available():
     try:
         import pulp

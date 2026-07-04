@@ -28,7 +28,8 @@ from threading import Lock
 logger = logging.getLogger(__name__)
 
 from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL, STAT_ORDER,
-                             WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID)
+                             WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID,
+                             UNOBTAINABLE_ITEM_NAMES)
 from .dofus_stat import Stat
 from .fashion_util import normalize_name, strip_accents
 from .fashionista_config import (get_items_db_path, load_items_db_from_dump)
@@ -667,10 +668,10 @@ class Structure:
             sorted(self.stats_list, key=lambda stat: STAT_ORDER[stat.key])]
 
     def _is_item_available(self, item):
-        return not item.removed
+        return not item.removed and item.name not in UNOBTAINABLE_ITEM_NAMES
 
     def _is_or_item_available(self, item):
-        return not item.removed
+        return not item.removed and item.name not in UNOBTAINABLE_ITEM_NAMES
 
     def separate_items(self):     
         self.types = {}
