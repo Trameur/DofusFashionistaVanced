@@ -46,7 +46,7 @@ TYPE_MAP = {
     18: ('Pet', None),      # Familier (pet)
     121: ('Pet', None),     # Montilier (mount) -> shares the Pet slot
     23: ('Dofus', None),
-    151: ('Dofus', None),   # Trophee -> Dofus slot
+    151: ('Trophy', None),  # Trophee: get_equipments3 puts it back on the Dofus slot and flags it Trophy
     # weapons
     2: ('Weapon', 'Bow'), 3: ('Weapon', 'Wand'), 4: ('Weapon', 'Staff'),
     5: ('Weapon', 'Dagger'), 6: ('Weapon', 'Sword'), 7: ('Weapon', 'Hammer'),

@@ -121,6 +121,7 @@ def get_options(char):
         options['rhineetle'] = options.get('rhineetle', True)
         options['prysmaradite'] = options.get('prysmaradite', char.level >= 200)
     options.setdefault('dofus', True)
+    options.setdefault('trophies', True)
     
     exclusions = get_all_exclusions_en_names(char)
     dofus_opt = {}

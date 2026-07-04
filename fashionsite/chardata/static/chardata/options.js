@@ -125,6 +125,9 @@ function optionsInit(options) {
 
     var $prysmaraditeCheckbox = $('input:checkbox[name=prysmaradite]');
     $prysmaraditeCheckbox.prop('checked', options.prysmaradite);
+
+    var $trophiesCheckbox = $('input:checkbox[name=trophies]');
+    $trophiesCheckbox.prop('checked', options.trophies);
 }
 
 function disableUnusableDofus(unusable){

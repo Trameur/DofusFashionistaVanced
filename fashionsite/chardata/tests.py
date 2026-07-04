@@ -1902,6 +1902,26 @@ class VersionItemAvailabilityTests(SimpleTestCase):
                          get_default_exclusions(char=None))
 
 
+class TrophyFlagTests(SimpleTestCase):
+    """Trophies share the Dofus slot but carry a 'Trophy' flag (written by the data
+    pipeline from the source's Trophy type) so the "no trophies" option can forbid
+    them without touching real Dofuses."""
+
+    def test_trophies_flagged_but_not_real_dofuses(self):
+        from fashionistapulp.structure import get_structure
+        for ver in ('dofus3', 'touch', 'dofus2', 'beta'):
+            s = get_structure(ver)
+            dofus_type = s.get_type_id_by_name('Dofus')
+            in_slot = [it for it in s.get_available_items_list()
+                       if it.type == dofus_type]
+            flagged = [it for it in in_slot if 'Trophy' in it.flags]
+            self.assertGreater(len(flagged), 100,
+                               '%s should flag its trophies' % ver)
+            emerald = s.get_item_by_name('Emerald Dofus')
+            self.assertNotIn('Trophy', emerald.flags,
+                             '%s flagged a real Dofus as a trophy' % ver)
+
+
 class RetroShieldsDefaultTests(TestCase):
     """Retro shields only work in PvP, so a PvM preset forbids them by default;
     the PvP preset (and every non-retro version) keeps them."""

@@ -7728,6 +7728,9 @@ msgstr "PvP : coups critiques"
 msgid "Farm / Level-up: Prospecting & Wisdom"
 msgstr "Farm / up : Prospection & Sagesse"
 
+msgid "Suggest trophies"
+msgstr "Proposer des trophées"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

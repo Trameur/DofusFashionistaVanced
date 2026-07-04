@@ -7263,3 +7263,6 @@ msgstr "PvP: kritische Treffer"
 
 msgid "Farm / Level-up: Prospecting & Wisdom"
 msgstr "Farmen / Leveln: Prospektion & Weisheit"
+
+msgid "Suggest trophies"
+msgstr "Trophäen vorschlagen"

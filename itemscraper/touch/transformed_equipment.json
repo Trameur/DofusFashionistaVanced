@@ -86840,7 +86840,7 @@
         "name_pt": "Armário Menor",
         "name_de": "Kleiner Blockierer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 4,
@@ -86859,7 +86859,7 @@
         "name_pt": "Armário",
         "name_de": "Blockierer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -86878,7 +86878,7 @@
         "name_pt": "Armário Maior",
         "name_de": "Großer Blockierer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -86897,7 +86897,7 @@
         "name_pt": "Escapista Menor",
         "name_de": "Kleiner Ausreißer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 4,
@@ -86916,7 +86916,7 @@
         "name_pt": "Escapista",
         "name_de": "Ausreißer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -86935,7 +86935,7 @@
         "name_pt": "Escapista Maior",
         "name_de": "Großer Ausreißer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -86954,7 +86954,7 @@
         "name_pt": "Fricção Menor",
         "name_de": "Kleiner Lähmer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -86973,7 +86973,7 @@
         "name_pt": "Fricção",
         "name_de": "Lähmer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -86992,7 +86992,7 @@
         "name_pt": "Fricção Maior",
         "name_de": "Großer Lähmer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87011,7 +87011,7 @@
         "name_pt": "Opressor Menor",
         "name_de": "Kleiner Verlangsamer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -87030,7 +87030,7 @@
         "name_pt": "Opressor",
         "name_de": "Verlangsamer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -87049,7 +87049,7 @@
         "name_pt": "Opressor Maior",
         "name_de": "Großer Verlangsamer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87068,7 +87068,7 @@
         "name_pt": "Fugitivo Menor",
         "name_de": "Kleiner Flüchtling",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 4,
@@ -87087,7 +87087,7 @@
         "name_pt": "Fugitivo",
         "name_de": "Flüchtling",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -87106,7 +87106,7 @@
         "name_pt": "Fugitivo Maior",
         "name_de": "Großer Flüchtling",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -87125,7 +87125,7 @@
         "name_pt": "Evasão Menor",
         "name_de": "Kleiner Unfassbarer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 4,
@@ -87144,7 +87144,7 @@
         "name_pt": "Evasão",
         "name_de": "Unfassbarer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -87163,7 +87163,7 @@
         "name_pt": "Evasão Maior",
         "name_de": "Großer Unfassbarer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -87182,7 +87182,7 @@
         "name_pt": "Repelente Menor",
         "name_de": "Kleiner Schubser",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -87201,7 +87201,7 @@
         "name_pt": "Repelente",
         "name_de": "Schubser",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -87220,7 +87220,7 @@
         "name_pt": "Repelente Maior",
         "name_de": "Großer Schubser",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -87239,7 +87239,7 @@
         "name_pt": "Adamantin Menor",
         "name_de": "Kleiner Adamantiner",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87258,7 +87258,7 @@
         "name_pt": "Adamantin",
         "name_de": "Adamantiner",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -87277,7 +87277,7 @@
         "name_pt": "Adamantin Maior",
         "name_de": "Großer Adamantiner",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 48,
@@ -87296,7 +87296,7 @@
         "name_pt": "Barreira Menor",
         "name_de": "Kleines Bollwerk",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -87315,7 +87315,7 @@
         "name_pt": "Barreira",
         "name_de": "Bollwerk",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -87334,7 +87334,7 @@
         "name_pt": "Barreira Maior",
         "name_de": "Großes Bollwerk",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87353,7 +87353,7 @@
         "name_pt": "Defensor Aéreo Menor",
         "name_de": "Kleiner Luftgepanzerter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -87372,7 +87372,7 @@
         "name_pt": "Defensor Aéreo",
         "name_de": "Luftgepanzerter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87391,7 +87391,7 @@
         "name_pt": "Defensor Aéreo Maior",
         "name_de": "Großer Luftgepanzerter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -87410,7 +87410,7 @@
         "name_pt": "Defensor Aquático Menor",
         "name_de": "Kleiner Wassergepanzerter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -87429,7 +87429,7 @@
         "name_pt": "Defensor Aquático",
         "name_de": "Wassergepanzerter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87448,7 +87448,7 @@
         "name_pt": "Defensor Aquático Maior",
         "name_de": "Großer Wassergepanzerter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -87530,7 +87530,7 @@
         "name_pt": "Defensor do Fogo Menor",
         "name_de": "Kleiner Feuergepanzerter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -87925,7 +87925,7 @@
         "name_pt": "Defensor do Fogo",
         "name_de": "Feuergepanzerter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -87944,7 +87944,7 @@
         "name_pt": "Defensor do Fogo Maior",
         "name_de": "Großer Feuergepanzerter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -87963,7 +87963,7 @@
         "name_pt": "Defensor da Terra Menor",
         "name_de": "Kleiner Erdgepanzerter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -87982,7 +87982,7 @@
         "name_pt": "Defensor da Terra",
         "name_de": "Erdgepanzerter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88001,7 +88001,7 @@
         "name_pt": "Defensor da Terra Maior",
         "name_de": "Großer Erdgepanzerter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -88020,7 +88020,7 @@
         "name_pt": "Defensor Neutro Menor",
         "name_de": "Kleiner Neutralgepanzerter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -88039,7 +88039,7 @@
         "name_pt": "Defensor Neutro",
         "name_de": "Neutralgepanzerter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88058,7 +88058,7 @@
         "name_pt": "Defensor Neutro Maior",
         "name_de": "Großer Neutralgepanzerter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -88077,7 +88077,7 @@
         "name_pt": "Destruidor Aéreo",
         "name_de": "Luftverwüster",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -88096,7 +88096,7 @@
         "name_pt": "Destruidor Aéreo Maior",
         "name_de": "Großer Luftverwüster",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88115,7 +88115,7 @@
         "name_pt": "Destruidor Aéreo Menor",
         "name_de": "Kleiner Luftverwüster",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -88134,7 +88134,7 @@
         "name_pt": "Destruidor Aquático",
         "name_de": "Wasserverwüster",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -88153,7 +88153,7 @@
         "name_pt": "Destruidor Aquático Maior",
         "name_de": "Großer Wasserverwüster",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88172,7 +88172,7 @@
         "name_pt": "Destruidor Aquático Menor",
         "name_de": "Kleiner Wasserverwüster",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -88191,7 +88191,7 @@
         "name_pt": "Destruidor de Fogo",
         "name_de": "Feuerverwüster",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -88210,7 +88210,7 @@
         "name_pt": "Destruidor de Fogo Maior",
         "name_de": "Großer Feuerverwüster",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88229,7 +88229,7 @@
         "name_pt": "Destruidor de Fogo Menor",
         "name_de": "Kleiner Feuerverwüster",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -88248,7 +88248,7 @@
         "name_pt": "Destruidor Neutro",
         "name_de": "Neutralverwüster",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -88267,7 +88267,7 @@
         "name_pt": "Destruidor Neutro Menor",
         "name_de": "Kleiner Neutralverwüster",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -88286,7 +88286,7 @@
         "name_pt": "Destruidor Neutro Maior",
         "name_de": "Großer Neutralverwüster",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88305,7 +88305,7 @@
         "name_pt": "Destruidor da Terra",
         "name_de": "Erdverwüster",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -88324,7 +88324,7 @@
         "name_pt": "Instigador",
         "name_de": "Initiator",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 200,
@@ -88343,7 +88343,7 @@
         "name_pt": "Instigador Menor",
         "name_de": "Kleiner Initiator",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -88362,7 +88362,7 @@
         "name_pt": "Instigador Maior",
         "name_de": "Großer Initiator",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 400,
@@ -88381,7 +88381,7 @@
         "name_pt": "Minerador",
         "name_de": "Kleiner Träger",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 250,
@@ -88400,7 +88400,7 @@
         "name_pt": "Transportador",
         "name_de": "Träger",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 500,
@@ -88419,7 +88419,7 @@
         "name_pt": "Transportador Maior",
         "name_de": "Großer Träger",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1000,
@@ -88438,7 +88438,7 @@
         "name_pt": "Curador Menor",
         "name_de": "Kleiner Heiler",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 4,
@@ -88457,7 +88457,7 @@
         "name_pt": "Curador Maior",
         "name_de": "Großer Heiler",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -88476,7 +88476,7 @@
         "name_pt": "Curador",
         "name_de": "Heiler",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -88495,7 +88495,7 @@
         "name_pt": "Acrobata Menor",
         "name_de": "Kleiner Akrobat",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 15,
@@ -88514,7 +88514,7 @@
         "name_pt": "Acrobata",
         "name_de": "Akrobat",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 30,
@@ -88533,7 +88533,7 @@
         "name_pt": "Acrobata Maior",
         "name_de": "Großer Akrobat",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 60,
@@ -88552,7 +88552,7 @@
         "name_pt": "Jogador",
         "name_de": "Spieler",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 30,
@@ -88571,7 +88571,7 @@
         "name_pt": "Jogador Maior",
         "name_de": "Großer Spieler",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 60,
@@ -88590,7 +88590,7 @@
         "name_pt": "Jogador Menor",
         "name_de": "Kleiner Spieler",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 15,
@@ -88609,7 +88609,7 @@
         "name_pt": "Estudioso Menor",
         "name_de": "Kleiner Neunmalkluger",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 15,
@@ -88628,7 +88628,7 @@
         "name_pt": "Estudioso Maior",
         "name_de": "Großer Neunmalkluger",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 60,
@@ -88647,7 +88647,7 @@
         "name_pt": "Estudioso",
         "name_de": "Neunmalkluger",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 30,
@@ -88666,7 +88666,7 @@
         "name_pt": "Maníaco Menor",
         "name_de": "Kleiner Wüterich",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 15,
@@ -88685,7 +88685,7 @@
         "name_pt": "Maníaco",
         "name_de": "Wüterich",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 30,
@@ -88704,7 +88704,7 @@
         "name_pt": "Maníaco Maior",
         "name_de": "Großer Wüterich",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 60,
@@ -88723,7 +88723,7 @@
         "name_pt": "Sobrevivente",
         "name_de": "Überlebender",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 60,
@@ -88742,7 +88742,7 @@
         "name_pt": "Sobrevivente Maior",
         "name_de": "Großer Überlebender",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 120,
@@ -88761,7 +88761,7 @@
         "name_pt": "Sobrevivente Menor",
         "name_de": "Kleiner Überlebender",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 30,
@@ -88780,7 +88780,7 @@
         "name_pt": "Grande Destruidor da Terra",
         "name_de": "Großer Erdverwüster",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -88799,7 +88799,7 @@
         "name_pt": "Pequeno Destruidor da Terra",
         "name_de": "Kleiner Erdverwüster",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -95665,7 +95665,7 @@
         "name_pt": "Bloqueador menor",
         "name_de": "Kleiner Blocker",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -95689,7 +95689,7 @@
         "name_pt": "Bloqueador",
         "name_de": "Blocker",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -95713,7 +95713,7 @@
         "name_pt": "Bloqueador maior",
         "name_de": "Großer Blocker",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -95737,7 +95737,7 @@
         "name_pt": "Vagabundo menor",
         "name_de": "Kleiner Herumtreiber",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -95761,7 +95761,7 @@
         "name_pt": "Vagabundo",
         "name_de": "Herumtreiber",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -95785,7 +95785,7 @@
         "name_pt": "Vagabundo maior",
         "name_de": "Großer Herumtreiber",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -95809,7 +95809,7 @@
         "name_pt": "Doutor menor",
         "name_de": "Kleiner Doktor",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -95833,7 +95833,7 @@
         "name_pt": "Doutor",
         "name_de": "Doktor",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -95857,7 +95857,7 @@
         "name_pt": "Doutor maior",
         "name_de": "Großer Doktor",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -95881,7 +95881,7 @@
         "name_pt": "Desvairado menor",
         "name_de": "Kleiner Starkmacher",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -95905,7 +95905,7 @@
         "name_pt": "Desvairado",
         "name_de": "Starkmacher",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -95929,7 +95929,7 @@
         "name_pt": "Desvairado maior",
         "name_de": "Großer Starkmacher",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -95953,7 +95953,7 @@
         "name_pt": "Astuto menor",
         "name_de": "Kleiner Pfiffikus",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -95977,7 +95977,7 @@
         "name_pt": "Astuto",
         "name_de": "Pfiffikus",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -96001,7 +96001,7 @@
         "name_pt": "Astuto maior",
         "name_de": "Großer Pfiffikus",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -96025,7 +96025,7 @@
         "name_pt": "Equilibrista menor",
         "name_de": "Kleiner Ausgeglichener",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -96049,7 +96049,7 @@
         "name_pt": "Equilibrista",
         "name_de": "Ausgeglichener",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -96073,7 +96073,7 @@
         "name_pt": "Equilibrista maior",
         "name_de": "Großer Ausgeglichener",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -96097,7 +96097,7 @@
         "name_pt": "Implicante menor",
         "name_de": "Kleiner Schelm",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -96121,7 +96121,7 @@
         "name_pt": "Implicante",
         "name_de": "Schelm",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -96145,7 +96145,7 @@
         "name_pt": "Implicante Maior",
         "name_de": "Großer Schelm",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -96169,7 +96169,7 @@
         "name_pt": "Bastião menor",
         "name_de": "Kleine Bastion",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -96193,7 +96193,7 @@
         "name_pt": "Bastião",
         "name_de": "Bastion",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -96217,7 +96217,7 @@
         "name_pt": "Bastião maior",
         "name_de": "Große Bastion",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -96241,7 +96241,7 @@
         "name_pt": "Saqueador Terra menor",
         "name_de": "Kleiner Erdzerstörer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -96265,7 +96265,7 @@
         "name_pt": "Saqueador Terra",
         "name_de": "Erdzerstörer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -96289,7 +96289,7 @@
         "name_pt": "Saqueador Terra maior",
         "name_de": "Großer Erdzerstörer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -96313,7 +96313,7 @@
         "name_pt": "Saqueador Neutro menor",
         "name_de": "Kleiner Neutralzerstörer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -96337,7 +96337,7 @@
         "name_pt": "Saqueador Neutro",
         "name_de": "Neutralzerstörer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -96361,7 +96361,7 @@
         "name_pt": "Saqueador Neutro maior",
         "name_de": "Großer Neutralzerstörer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -96385,7 +96385,7 @@
         "name_pt": "Saqueador Fogo menor",
         "name_de": "Kleiner Feuerzerstörer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -96409,7 +96409,7 @@
         "name_pt": "Saqueador Fogo",
         "name_de": "Feuerzerstörer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -96433,7 +96433,7 @@
         "name_pt": "Saqueador Fogo maior",
         "name_de": "Großer Feuerzerstörer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -96457,7 +96457,7 @@
         "name_pt": "Saqueador Água menor",
         "name_de": "Kleiner Wasserzerstörer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -96481,7 +96481,7 @@
         "name_pt": "Saqueador Água",
         "name_de": "Wasserzerstörer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -96505,7 +96505,7 @@
         "name_pt": "Saqueador Água maior",
         "name_de": "Großer Wasserzerstörer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -96529,7 +96529,7 @@
         "name_pt": "Saqueador Ar menor",
         "name_de": "Kleiner Luftzerstörer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -96553,7 +96553,7 @@
         "name_pt": "Saqueador Ar",
         "name_de": "Luftzerstörer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -96577,7 +96577,7 @@
         "name_pt": "Saqueador Ar maior",
         "name_de": "Großer Luftzerstörer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -96601,7 +96601,7 @@
         "name_pt": "Entravador menor",
         "name_de": "Kleiner Fussfesseler",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -96625,7 +96625,7 @@
         "name_pt": "Entravador",
         "name_de": "Fussfesseler",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -96649,7 +96649,7 @@
         "name_pt": "Entravador maior",
         "name_de": "Großer Fussfesseler",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -96673,7 +96673,7 @@
         "name_pt": "Paralisador menor",
         "name_de": "Kleiner Schwachmacher",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -96697,7 +96697,7 @@
         "name_pt": "Paralisador",
         "name_de": "Schwachmacher",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -96721,7 +96721,7 @@
         "name_pt": "Paralisador maior",
         "name_de": "Großer Schwachmacher",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -96745,7 +96745,7 @@
         "name_pt": "Intocável menor",
         "name_de": "Kleiner Unermüdlicher",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -96769,7 +96769,7 @@
         "name_pt": "Intocável",
         "name_de": "Unermüdlicher",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -96793,7 +96793,7 @@
         "name_pt": "Intocável maior",
         "name_de": "Großer Unermüdlicher",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -96817,7 +96817,7 @@
         "name_pt": "Evanescente menor",
         "name_de": "Kleiner Entschwinder",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -96841,7 +96841,7 @@
         "name_pt": "Evanescente",
         "name_de": "Entschwinder",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -96865,7 +96865,7 @@
         "name_pt": "Evanescente maior",
         "name_de": "Großer Entschwinder",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -96889,7 +96889,7 @@
         "name_pt": "Empurrador menor",
         "name_de": "Kleiner Nervtöter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -96913,7 +96913,7 @@
         "name_pt": "Empurrador",
         "name_de": "Nervtöter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -96937,7 +96937,7 @@
         "name_pt": "Empurrador maior",
         "name_de": "Großer Nervtöter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 64,
@@ -96961,7 +96961,7 @@
         "name_pt": "Inflexível menor",
         "name_de": "Kleiner Unbeugsamer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -96985,7 +96985,7 @@
         "name_pt": "Inflexível",
         "name_de": "Unbeugsamer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 48,
@@ -97009,7 +97009,7 @@
         "name_pt": "Inflexível maior",
         "name_de": "Großer Unbeugsamer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 96,
@@ -97033,7 +97033,7 @@
         "name_pt": "Precursor menor",
         "name_de": "Kleiner Wegbereiter",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 200,
@@ -97057,7 +97057,7 @@
         "name_pt": "Precursor",
         "name_de": "Wegbereiter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 400,
@@ -97081,7 +97081,7 @@
         "name_pt": "Precursor maior",
         "name_de": "Großer Wegbereiter",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 800,
@@ -97105,7 +97105,7 @@
         "name_pt": "Muralha Terra menor",
         "name_de": "Kleine Erdmauer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -97129,7 +97129,7 @@
         "name_pt": "Muralha Terra",
         "name_de": "Erdmauer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97153,7 +97153,7 @@
         "name_pt": "Muralha Terra maior",
         "name_de": "Große Erdmauer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97177,7 +97177,7 @@
         "name_pt": "Muralha Neutra menor",
         "name_de": "Kleine Neutralmauer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -97201,7 +97201,7 @@
         "name_pt": "Muralha Neutra",
         "name_de": "Neutralmauer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97225,7 +97225,7 @@
         "name_pt": "Muralha Neutra maior",
         "name_de": "Große Neutralmauer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97249,7 +97249,7 @@
         "name_pt": "Muralha Fogo menor",
         "name_de": "Kleine Feuermauer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -97273,7 +97273,7 @@
         "name_pt": "Muralha Fogo",
         "name_de": "Feuermauer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97297,7 +97297,7 @@
         "name_pt": "Muralha Fogo maior",
         "name_de": "Große Feuermauer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97321,7 +97321,7 @@
         "name_pt": "Muralha Água menor",
         "name_de": "Kleine Wassermauer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -97345,7 +97345,7 @@
         "name_pt": "Muralha Água",
         "name_de": "Wassermauer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97369,7 +97369,7 @@
         "name_pt": "Muralha Água maior",
         "name_de": "Große Wassermauer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97393,7 +97393,7 @@
         "name_pt": "Muralha Ar menor",
         "name_de": "Kleine Luftmauer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -97417,7 +97417,7 @@
         "name_pt": "Muralha Ar",
         "name_de": "Luftmauer",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97441,7 +97441,7 @@
         "name_pt": "Muralha Ar maior",
         "name_de": "Große Luftmauer",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97465,7 +97465,7 @@
         "name_pt": "Potente menor",
         "name_de": "Kleiner Mächtiger",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -97484,7 +97484,7 @@
         "name_pt": "Potente",
         "name_de": "Mächtiger",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97503,7 +97503,7 @@
         "name_pt": "Potente maior",
         "name_de": "Großer Mächtiger",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97522,7 +97522,7 @@
         "name_pt": "Robusto menor",
         "name_de": "Kleiner Robuster",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -97546,7 +97546,7 @@
         "name_pt": "Robusto",
         "name_de": "Robuster",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -97570,7 +97570,7 @@
         "name_pt": "Robusto maior",
         "name_de": "Großer Robuster",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 80,
@@ -97594,7 +97594,7 @@
         "name_pt": "Turbulento",
         "name_de": "Turbulenter",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,
@@ -97618,7 +97618,7 @@
         "name_pt": "Viajante",
         "name_de": "Reisender",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,
@@ -97647,7 +97647,7 @@
         "name_pt": "Examinador",
         "name_de": "Prüfer",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,
@@ -97666,7 +97666,7 @@
         "name_pt": "Feroz menor",
         "name_de": "Kleiner Wilder",
         "level": 50,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -97710,7 +97710,7 @@
         "name_pt": "Feroz",
         "name_de": "Wilder",
         "level": 100,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -97754,7 +97754,7 @@
         "name_pt": "Feroz maior",
         "name_de": "Großer Wilder",
         "level": 150,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -128422,7 +128422,7 @@
         "name_pt": "Talismã de Socorro",
         "name_de": "Talisman des Hilferufs",
         "level": 5,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,
@@ -128441,7 +128441,7 @@
         "name_pt": "Medalha de Ordyn",
         "name_de": "Ordyns Medaille",
         "level": 15,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -128499,7 +128499,7 @@
         "name_pt": "Conhecedor Mineiro",
         "name_de": "Wissender Bergmann",
         "level": 1,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [],
         "conditions": []
     },
@@ -128512,7 +128512,7 @@
         "name_pt": "Resistente Mineiro",
         "name_de": "Ausdauernder Bergmann",
         "level": 1,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -131625,7 +131625,7 @@
         "name_pt": "Resistente",
         "name_de": "Ausdauernd",
         "level": 1,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -131644,7 +131644,7 @@
         "name_pt": "Batedor",
         "name_de": "Damagen",
         "level": 1,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 15,
@@ -131663,7 +131663,7 @@
         "name_pt": "Sanguinário Menor",
         "name_de": "Kleiner Blutdürstiger",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 3,
@@ -131684,7 +131684,7 @@
         "name_pt": "Sanguinário",
         "name_de": "Blutdürstiger",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -131705,7 +131705,7 @@
         "name_pt": "Sanguinário Maior",
         "name_de": "Großer Blutdürstiger",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -131726,7 +131726,7 @@
         "name_pt": "Vigoroso Menor",
         "name_de": "Kleiner Taffer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -131747,7 +131747,7 @@
         "name_pt": "Vigoroso",
         "name_de": "Rüstig",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 40,
@@ -131768,7 +131768,7 @@
         "name_pt": "Vigoroso Maior",
         "name_de": "Großer Taffer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 80,
@@ -131789,7 +131789,7 @@
         "name_pt": "Motivador Menor",
         "name_de": "Kleiner Draufgänger",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 200,
@@ -131810,7 +131810,7 @@
         "name_pt": "Motivador",
         "name_de": "Draufgänger",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 400,
@@ -131831,7 +131831,7 @@
         "name_pt": "Motivador Maior",
         "name_de": "Großer Draufgänger",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 800,
@@ -131852,7 +131852,7 @@
         "name_pt": "Sólido Menor",
         "name_de": "Kleiner Zäher",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -131873,7 +131873,7 @@
         "name_pt": "Sólido",
         "name_de": "Zäher",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 48,
@@ -131894,7 +131894,7 @@
         "name_pt": "Sólido Maior",
         "name_de": "Großer Zäher",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 96,
@@ -131915,7 +131915,7 @@
         "name_pt": "Amuleto da Sorte Astrubiano",
         "name_de": "Glücksbringer aus Astrub",
         "level": 15,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,
@@ -131954,7 +131954,7 @@
         "name_pt": "Virador Menor",
         "name_de": "Kleiner Kipper",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -131975,7 +131975,7 @@
         "name_pt": "Virador",
         "name_de": "Kipper",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -131996,7 +131996,7 @@
         "name_pt": "Virador Maior",
         "name_de": "Großer Kipper",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 64,
@@ -132017,7 +132017,7 @@
         "name_pt": "Foragido Menor",
         "name_de": "Kleiner Ausreißer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -132038,7 +132038,7 @@
         "name_pt": "Foragido",
         "name_de": "Ausreißer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -132059,7 +132059,7 @@
         "name_pt": "Foragido Maior",
         "name_de": "Großer Ausreißer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -132080,7 +132080,7 @@
         "name_pt": "Evasivo Menor",
         "name_de": "Kleiner Vermeider",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -132101,7 +132101,7 @@
         "name_pt": "Evasivo",
         "name_de": "Vermeider",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -132122,7 +132122,7 @@
         "name_pt": "Evasivo Maior",
         "name_de": "Großer Vermeider",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -132143,7 +132143,7 @@
         "name_pt": "Atordoador Menor",
         "name_de": "Kleiner Betäuber",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -132164,7 +132164,7 @@
         "name_pt": "Atordoador",
         "name_de": "Betäuber",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -132185,7 +132185,7 @@
         "name_pt": "Atordoador Maior",
         "name_de": "Großer Betäuber",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -132206,7 +132206,7 @@
         "name_pt": "Temporizador Menor",
         "name_de": "Kleiner Zauderer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 6,
@@ -132227,7 +132227,7 @@
         "name_pt": "Temporizador",
         "name_de": "Zauderer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 12,
@@ -132248,7 +132248,7 @@
         "name_pt": "Temporizador Maior",
         "name_de": "Großer Zauderer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 24,
@@ -132269,7 +132269,7 @@
         "name_pt": "Devastador de Ar Menor",
         "name_de": "Kleiner Luft-Zerstörer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -132290,7 +132290,7 @@
         "name_pt": "Devastador de Ar",
         "name_de": "Luft-Zerstörer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -132311,7 +132311,7 @@
         "name_pt": "Devastador de Ar Maior",
         "name_de": "Großer Luft-Zerstörer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -132332,7 +132332,7 @@
         "name_pt": "Devastador de Água Menor",
         "name_de": "Kleiner Wasser-Zerstörer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -132353,7 +132353,7 @@
         "name_pt": "Devastador de Água",
         "name_de": "Wasser-Zerstörer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -132374,7 +132374,7 @@
         "name_pt": "Devastador de Água Maior",
         "name_de": "Großer Wasser-Zerstörer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -132395,7 +132395,7 @@
         "name_pt": "Devastador de Fogo Menor",
         "name_de": "Kleiner Feuer-Zerstörer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -132416,7 +132416,7 @@
         "name_pt": "Devastador de Fogo",
         "name_de": "Feuer-Zerstörer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -132437,7 +132437,7 @@
         "name_pt": "Devastador de Fogo Maior",
         "name_de": "Großer Feuer-Zerstörer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -132458,7 +132458,7 @@
         "name_pt": "Devastador Neutro Menor",
         "name_de": "Kleiner Neutral-Zerstörer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -132479,7 +132479,7 @@
         "name_pt": "Devastador Neutro",
         "name_de": "Neutral-Zerstörer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -132500,7 +132500,7 @@
         "name_pt": "Devastador Neutro Maior",
         "name_de": "Großer Neutral-Zerstörer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -132521,7 +132521,7 @@
         "name_pt": "Devastador de Terra Menor",
         "name_de": "Kleiner Erd-Zerstörer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 5,
@@ -132542,7 +132542,7 @@
         "name_pt": "Devastador de Terra",
         "name_de": "Erd-Zerstörer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 10,
@@ -132563,7 +132563,7 @@
         "name_pt": "Devastador de Terra Maior",
         "name_de": "Großer Erd-Zerstörer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 20,
@@ -132584,7 +132584,7 @@
         "name_pt": "Fortificação Menor",
         "name_de": "Kleines Befestigungswerk",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -132605,7 +132605,7 @@
         "name_pt": "Fortificação",
         "name_de": "Befestigungswerk",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -132626,7 +132626,7 @@
         "name_pt": "Fortificação Maior",
         "name_de": "Großes Befestigungswerk",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -132647,7 +132647,7 @@
         "name_pt": "Sortudo Menor",
         "name_de": "Kleines Glückskind",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -132668,7 +132668,7 @@
         "name_pt": "Sortudo",
         "name_de": "Glückskind",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -132689,7 +132689,7 @@
         "name_pt": "Sortudo Maior",
         "name_de": "Großes Glückskind",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -132710,7 +132710,7 @@
         "name_pt": "Dublê Menor",
         "name_de": "Kleiner Stuntman",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -132731,7 +132731,7 @@
         "name_pt": "Dublê",
         "name_de": "Stuntman",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -132752,7 +132752,7 @@
         "name_pt": "Dublê Maior",
         "name_de": "Großer Stuntman",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -132773,7 +132773,7 @@
         "name_pt": "Erudito Menor",
         "name_de": "Kleiner Gelehrter",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -132794,7 +132794,7 @@
         "name_pt": "Erudito",
         "name_de": "Gelehrter",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -132815,7 +132815,7 @@
         "name_pt": "Erudito Maior",
         "name_de": "Großer Gelehrter",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -132836,7 +132836,7 @@
         "name_pt": "Raivoso Menor",
         "name_de": "Kleiner Tobsüchtiger",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 25,
@@ -132857,7 +132857,7 @@
         "name_pt": "Raivoso",
         "name_de": "Tobsüchtiger",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 50,
@@ -132878,7 +132878,7 @@
         "name_pt": "Raivoso Maior",
         "name_de": "Großer Tobsüchtiger",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 100,
@@ -132899,7 +132899,7 @@
         "name_pt": "Miraculado Menor",
         "name_de": "Kleines Wunder",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 60,
@@ -132920,7 +132920,7 @@
         "name_pt": "Miraculado",
         "name_de": "Wunder",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 120,
@@ -132941,7 +132941,7 @@
         "name_pt": "Miraculado Maior",
         "name_de": "Großes Wunder",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 240,
@@ -132962,7 +132962,7 @@
         "name_pt": "Curandeiro Menor",
         "name_de": "Kleiner Heiler",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -132983,7 +132983,7 @@
         "name_pt": "Curandeiro",
         "name_de": "Heiler",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -133004,7 +133004,7 @@
         "name_pt": "Curandeiro Maior",
         "name_de": "Großer Heiler",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -133025,7 +133025,7 @@
         "name_pt": "Desertor Menor",
         "name_de": "Kleiner Deserteur",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -133046,7 +133046,7 @@
         "name_pt": "Desertor",
         "name_de": "Deserteur",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -133067,7 +133067,7 @@
         "name_pt": "Desertor Maior",
         "name_de": "Großer Deserteur",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -133088,7 +133088,7 @@
         "name_pt": "Obstrutor Menor",
         "name_de": "Kleiner Blockierer",
         "level": 75,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 8,
@@ -133109,7 +133109,7 @@
         "name_pt": "Obstrutor",
         "name_de": "Blockierer",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 16,
@@ -133130,7 +133130,7 @@
         "name_pt": "Obstrutor Maior",
         "name_de": "Großer Blockierer",
         "level": 175,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 32,
@@ -133151,7 +133151,7 @@
         "name_pt": "Nômade",
         "name_de": "Nomade",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,
@@ -133177,7 +133177,7 @@
         "name_pt": "Agitador",
         "name_de": "Anstifter",
         "level": 125,
-        "w_type": "Dofus",
+        "w_type": "Trophy",
         "stats": [
             [
                 1,

@@ -220,6 +220,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         # Write INSERT command for items
         if item['w_type'] == 'Trophy':
             item['w_type'] = 'Dofus'
+            item['is_trophy'] = True
         if item['w_type'] == 'Prysmaradite':
             item['w_type'] = 'Dofus'
             item['is_prysmaradite'] = True
@@ -512,6 +513,15 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     desc = str(description).strip()
                     if not (desc.startswith('(') and desc.endswith(')')):
                         f.write(f"INSERT INTO item_flags VALUES({item_id}, '{escape_single_quotes(desc)}');\n")
+
+    # Trophies share the Dofus slot (same internal type), so the only way to tell
+    # them apart later is a flag. w_type == 'Trophy' is overwritten to 'Dofus' above
+    # for the slot, so we captured it as is_trophy; keep it as a 'Trophy' flag so the
+    # optimizer can offer a "no trophies" option. Runs for every version.
+    for item in original_data:
+        if item.get('is_trophy'):
+            item_id = item_to_id[id(item)]
+            f.write(f"INSERT INTO item_flags VALUES({item_id}, 'Trophy');\n")
 
     f.write("""CREATE TABLE extra_lines (item INTEGER, line text, language text, FOREIGN KEY(item) REFERENCES items(id));\n""")
 

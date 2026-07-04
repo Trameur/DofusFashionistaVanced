@@ -828,6 +828,7 @@ class Model:
             restriction = self.restrictions.forbidden_items_constraints.get(item.id, None)
             if ((item.id in new_forbid_list)
                 or (not options.get('shields', True) and item.type == self.structure.get_type_id_by_name('Shield'))
+                or (not options.get('trophies', True) and 'Trophy' in item.flags)
                 or (options['dofus'] == 'lightset'
                     and item.type == self.structure.get_type_id_by_name('Dofus')
                     and item.weird_conditions['light_set']) 
