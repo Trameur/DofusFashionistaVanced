@@ -535,8 +535,8 @@ class Structure:
         for weapon_name, w in itertools.chain(iter(self.weapons_dict_by_name.items()),
                                               iter(self.dt_weapons_dict_by_name.items())):
             w.has_crits = (w.crit_bonus is not None)
-            # Some weapons have no crit or type at all (magnifying glass, fishing
-            # rod...), so these are debug-only, not warnings.
+            # Some weapons just have no crit or type (magnifying glass, fishing
+            # rod...), so this is debug, not a warning.
             if not w.has_crits and w.crit_chance is not None:
                 logger.debug('%s is missing crit_bonus', weapon_name)
             if w.crit_chance is None and w.has_crits:

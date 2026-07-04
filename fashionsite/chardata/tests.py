@@ -76,7 +76,7 @@ class TranslationRegressionTests(SimpleTestCase):
     """
 
     def test_charged_n_times_fr(self):
-        # Were fuzzy ("Chargée deux fois") for every count -> fixed to "N fois".
+        # French keeps the digit: "Chargée 3 fois", not a spelled-out count.
         with translation.override('fr'):
             self.assertEqual(gettext('Charged 3 times'), 'Chargée 3 fois')
             self.assertEqual(gettext('Charged 12 times'), 'Chargée 12 fois')
@@ -266,8 +266,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('Fermer', body)
 
     def test_security_headers_sent(self):
-        # SecurityMiddleware was configured but never installed, so nosniff
-        # and referrer-policy were silently missing in production.
+        # SecurityMiddleware has to be installed for nosniff and referrer-policy
+        # to actually go out.
         resp = self.client.get('/')
         self.assertEqual(resp.headers.get('X-Content-Type-Options'), 'nosniff')
         self.assertEqual(resp.headers.get('Referrer-Policy'), 'same-origin')

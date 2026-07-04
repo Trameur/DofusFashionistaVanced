@@ -87,8 +87,8 @@ def register(request):
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
-    # Case-insensitive: MySQL's auth_user.username unique index is case-insensitive,
-    # so a case-only variant must be rejected here too (else create_user 500s).
+    # MySQL's username index is case-insensitive, so match that here too —
+    # otherwise a case-only duplicate slips through and the insert fails.
     users = User.objects.filter(username__iexact=username)
     if users:
         raise PermissionDenied

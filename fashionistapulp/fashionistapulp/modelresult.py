@@ -637,8 +637,7 @@ class ModelResultItem():
             self.id = None
             self.localized_name = None
             self.item_added = False
-            # An empty slot still goes through evolve_result_item, which reads
-            # .slot and .file, so default them.
+            # evolve_result_item reads .slot and .file even for an empty slot
             self.slot = None
             self.file = None
             
