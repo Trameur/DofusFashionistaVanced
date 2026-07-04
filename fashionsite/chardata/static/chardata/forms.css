@@ -342,10 +342,12 @@ select, .pretty-input {
 }
 
 .dofus-box {
-    display:inline-block; 
-    margin-bottom:10px; 
+    display:inline-block;
+    margin-bottom:10px;
     width:70px;
     text-align: center;
+    vertical-align: top;
+    overflow-wrap: break-word;
 }
     
 .wizard-flying-pic {
