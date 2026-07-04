@@ -1698,6 +1698,9 @@ class InlineScriptSyntaxTests(TestCase):
                  '/wizard/%d/' % char.pk,
                  '/setup/%d/' % char.pk,
                  '/spells/%d/' % char.pk,
+                 '/min_stats/%d/' % char.pk,
+                 '/inclusions/%d/' % char.pk,
+                 '/exclusions/%d/' % char.pk,
                  '/forgemagie/', '/inventory/', '/workshop/',
                  '/choose_compare_sets/', '/manageaccount/']
         script_re = re.compile(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', re.S | re.I)

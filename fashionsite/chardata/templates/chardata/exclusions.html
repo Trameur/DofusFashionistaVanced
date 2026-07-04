@@ -149,7 +149,7 @@
     }
 
     function createForbiddenEntry(item) {
-        var newDiv = $("<tr><td><img alt="" src='{% static "chardata/cross-icon.png" %}' class='button-unforbid'></td><td class='forbidden-item'> " + item.name + "</td></tr>");
+        var newDiv = $("<tr><td><img alt='' src='{% static "chardata/cross-icon.png" %}' class='button-unforbid'></td><td class='forbidden-item'> " + item.name + "</td></tr>");
         newDiv.find(".button-unforbid").click(function() {
             unforbidItem(item, true);
             newDiv.remove();
