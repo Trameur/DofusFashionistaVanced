@@ -7173,6 +7173,27 @@ msgstr "PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgid "AP: %(AP)d"
 msgstr "PA: %(AP)d"
 
+msgid "Retro fixes and better item search"
+msgstr "Correcciones de Retro y mejor búsqueda de objetos"
+
+msgid "Retro: characteristic point costs are now correct for each class"
+msgstr ""
+"Retro: el coste de las características ahora es correcto para cada clase"
+
+msgid ""
+"Fixed the item search that could appear misplaced or stop responding after "
+"picking an item"
+msgstr ""
+"Se corrigió la búsqueda de objetos que podía aparecer mal ubicada o dejar de"
+" responder tras elegir un objeto"
+
+msgid ""
+"Forbidding an item now works for every item, including those with several "
+"variants"
+msgstr ""
+"Prohibir un objeto ahora funciona para todos los objetos, incluidos los que "
+"tienen varias variantes"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

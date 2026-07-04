@@ -5177,3 +5177,19 @@ msgstr ""
 
 msgid "AP: %(AP)d"
 msgstr ""
+
+msgid "Retro fixes and better item search"
+msgstr ""
+
+msgid "Retro: characteristic point costs are now correct for each class"
+msgstr ""
+
+msgid ""
+"Fixed the item search that could appear misplaced or stop responding after "
+"picking an item"
+msgstr ""
+
+msgid ""
+"Forbidding an item now works for every item, including those with several "
+"variants"
+msgstr ""
