@@ -500,9 +500,8 @@ msgid ""
 "It seems like the project you are trying to access is not available. It may "
 "have been deleted, or maybe it belongs to someone else."
 msgstr ""
-"Il semblerait que le projet auquel vous essayez d'accéder n'est pas "
-"disponible. Il peut avoir été supprimé ou peut-être appartient-il à "
-"quelqu'un d'autre."
+"Le projet que tu essaies d'ouvrir n'est pas disponible : il a peut-être été "
+"supprimé, ou il appartient à quelqu'un d'autre."
 
 #: fashionsite/chardata/templates/chardata/403.html:20
 #, python-format
@@ -532,7 +531,7 @@ msgstr "404 - Page non trouvée"
 
 #: fashionsite/chardata/templates/chardata/404.html:17
 msgid "We could not find the page you are looking for."
-msgstr "Nous n'avons pas pu trouver la page que vous cherchez."
+msgstr "Impossible de trouver la page que tu cherches."
 
 #: fashionsite/chardata/templates/chardata/404.html:21
 #, python-format
@@ -541,9 +540,8 @@ msgid ""
 "send us a message <a href=\"%(contact_url)s\">here</a> if this keeps "
 "happening."
 msgstr ""
-"Vous pouvez revenir à <a href=\"%(home_url)s\">l'acceuil</a> à la place, ou "
-"nous envoyer un message <a href=\"%(contact_url)s\">ici</a> si cela continue"
-" à se produire."
+"Tu peux revenir à <a href=\"%(home_url)s\">l'accueil</a>, ou nous <a "
+"href=\"%(contact_url)s\">écrire</a> si ça continue."
 
 #: fashionsite/chardata/templates/chardata/500.html:10
 msgid "500 - Application Error"
@@ -551,11 +549,11 @@ msgstr "500 - Erreur d'application"
 
 #: fashionsite/chardata/templates/chardata/500.html:19
 msgid "The application threw an error. It's probably our fault."
-msgstr "L'application a détecté une erreur. C'est probablement notre faute."
+msgstr "L'appli a planté — c'est sûrement de notre faute."
 
 #: fashionsite/chardata/templates/chardata/500.html:20
 msgid "Please return to the previous page and try again."
-msgstr "Merci de retourner à la page précédente et de réessayer."
+msgstr "Reviens à la page précédente et réessaie."
 
 #: fashionsite/chardata/templates/chardata/500.html:21
 #, python-format
@@ -563,8 +561,8 @@ msgid ""
 "If that doesn't work, please contact us <a href=\"%(contact_url)s\">here</a>"
 " and tell us all about this problem."
 msgstr ""
-"Si ça ne marche pas, merci de nous contacter <a "
-"href=\"%(contact_url)s\">ici</a> pour nous parler de votre problème."
+"Si ça ne suffit pas, <a href=\"%(contact_url)s\">écris-nous</a> en "
+"détaillant le souci."
 
 #: fashionsite/chardata/templates/chardata/about.html:6
 msgid "About"
@@ -615,9 +613,8 @@ msgid ""
 "If items that are too expensive or not available to you are suggested, you "
 "can always forbid them and ask for a new set."
 msgstr ""
-"S'il y a des équipements trop chers ou non accessibles qui vous sont "
-"proposés, vous pouvez toujours les interdire et demander à créer un nouvel "
-"ensemble."
+"Si des équipements trop chers ou inaccessibles te sont proposés, tu peux "
+"toujours les interdire et relancer une recherche."
 
 #: fashionsite/chardata/templates/chardata/about.html:26
 #: fashionsite/chardata/templates/chardata/license.html:19
@@ -632,9 +629,8 @@ msgid ""
 "To report problems, suggest new features, or rant about the lack of skill of"
 " your kolo team, <a href=\"%(contact_url)s\">contact us</a>."
 msgstr ""
-"Pour reporter des problèmes, proposer de nouvelles choses, ou vous plaindre "
-"du manque de skill de votre équipe spéciale kolizéum, <a "
-"href=\"%(contact_url)s\">contactez nous</a>."
+"Pour signaler un souci, proposer une idée, ou râler sur le manque de skill "
+"de ton équipe kolizéum, <a href=\"%(contact_url)s\">contacte-nous</a>."
 
 #: fashionsite/chardata/templates/chardata/about.html:28
 #: fashionsite/chardata/templates/chardata/base.html:208
@@ -658,8 +654,8 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/base.html:38
 msgid "You have unsaved changes. They will be discarded if you leave."
 msgstr ""
-"Vous avez effectué des changements sur cette page. Si vous quittez la page, "
-"ils ne seront pas sauvegardés."
+"Tu as des modifications non enregistrées. Elles seront perdues si tu quittes"
+" la page."
 
 #: fashionsite/chardata/templates/chardata/base.html:85
 #: fashionsite/chardata/templates/chardata/base.html:87
