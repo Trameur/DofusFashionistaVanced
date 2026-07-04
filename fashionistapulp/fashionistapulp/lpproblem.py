@@ -26,9 +26,9 @@ import platform
 
 logger = logging.getLogger(__name__)
 
-# Print debug information to confirm platform details
-print(f"System: {platform.system()}")
-print(f"Machine: {platform.machine()}")
+# Log platform details to confirm solver detection at import time
+logger.debug('System: %s', platform.system())
+logger.debug('Machine: %s', platform.machine())
 
 # Initialize solver variable
 SOLVER = None
@@ -36,41 +36,41 @@ SOLVER = None
 # Handle different platforms
 if platform.system() == 'Windows':
     # Windows implementation
-    print("Detected Windows system. Looking for CBC solver...")
-    
+    logger.debug('Detected Windows system. Looking for CBC solver...')
+
     # Check user home directory for .pulp/pulp.cfg which might contain solver path
     pulp_cfg = os.path.join(os.path.expanduser("~"), ".pulp", "pulp.cfg")
     if os.path.exists(pulp_cfg):
-        print(f"Found PuLP configuration at {pulp_cfg}")
+        logger.debug('Found PuLP configuration at %s', pulp_cfg)
         # Use the default solver configured in the .pulp/pulp.cfg file
         try:
             SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
-            print("Using CBC solver from configuration")
+            logger.debug('Using CBC solver from configuration')
         except Exception as e:
-            print(f"Error loading solver from config: {e}")
-    
+            logger.warning('Error loading solver from config: %s', e)
+
     # Try to find CBC in the project directory
     if SOLVER is None:
         try:
             cbc_path = os.path.join(get_fashionista_path(), 'solvers', 'cbc', 'bin', 'cbc.exe')
             if os.path.isfile(cbc_path):
-                print(f"Found CBC at {cbc_path}")
+                logger.debug('Found CBC at %s', cbc_path)
                 SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
             else:
-                print(f"CBC not found at {cbc_path}")
+                logger.debug('CBC not found at %s', cbc_path)
                 # Fall back to default solver
                 SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
-                print("Using default PuLP solver")
+                logger.debug('Using default PuLP solver')
         except Exception as e:
-            print(f"Error setting up solver: {e}")
+            logger.warning('Error setting up solver: %s', e)
             # Last resort - use default solver with no specific configuration
             SOLVER = pulp.CBC()
-            print("Using minimal CBC solver")
+            logger.warning('Using minimal CBC solver')
 
 elif platform.system() == 'Linux' and ('arm' in platform.machine() or 'aarch64' in platform.machine()):
     # On Raspberry Pi (ARM architecture, both 32-bit and 64-bit)
     cbc_path = '/usr/bin/cbc'
-    print(f"Detected ARM architecture. Using system-installed CBC at: {cbc_path}")
+    logger.debug('Detected ARM architecture. Using system-installed CBC at: %s', cbc_path)
     if not os.path.isfile(cbc_path):
         raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
     SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
@@ -83,19 +83,19 @@ else:
     bundled_solver = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
     if bundled_solver.available():
         SOLVER = bundled_solver
-        print("Detected non-ARM Linux system. Using PuLP's bundled CBC.")
+        logger.debug("Detected non-ARM Linux system. Using PuLP's bundled CBC.")
     else:
         cbc_path = os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', 'cbc')
-        print(f"Detected non-ARM Linux system. Using project-specific CBC at: {cbc_path}")
+        logger.debug('Detected non-ARM Linux system. Using project-specific CBC at: %s', cbc_path)
         if not os.path.isfile(cbc_path):
             raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
         SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
 
 # Confirm which solver is being used
 if hasattr(SOLVER, 'path'):
-    print(f"Using CBC solver at: {SOLVER.path}")
+    logger.debug('Using CBC solver at: %s', SOLVER.path)
 else:
-    print("Using default PuLP solver configuration")
+    logger.debug('Using default PuLP solver configuration')
 
 class LpProblem2:
     
