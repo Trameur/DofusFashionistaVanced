@@ -7239,6 +7239,9 @@ msgstr "Farm / subir de nível: Prospecção e Sabedoria"
 msgid "Suggest trophies"
 msgstr "Sugerir troféus"
 
+msgid "Trophies"
+msgstr "Troféus"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

@@ -1922,6 +1922,26 @@ class TrophyFlagTests(SimpleTestCase):
                              '%s flagged a real Dofus as a trophy' % ver)
 
 
+class WizardTrophyOptionTests(TestCase):
+    """The 'no trophies' toggle must show on the wizard too, not just the options
+    page (reported missing on /wizard/). It rides the same options plumbing."""
+
+    def test_wizard_shows_trophies_checkbox(self):
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner = User.objects.create_user('wiztrophy', 'wt@test.local', 'pw-wiz-77')
+        char = Char.objects.create(
+            name='Wiz', char_name='wiz', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'', aspects=pickle.dumps({'str'}),
+            owner=owner, link_shared=False, game_version='dofus3')
+        self.client.force_login(owner)
+        resp = self.client.get('/wizard/%d/' % char.pk)
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'name="trophies"')
+
+
 class RetroShieldsDefaultTests(TestCase):
     """Retro shields only work in PvP, so a PvM preset forbids them by default;
     the PvP preset (and every non-retro version) keeps them."""

@@ -7731,6 +7731,9 @@ msgstr "Farm / up : Prospection & Sagesse"
 msgid "Suggest trophies"
 msgstr "Proposer des trophées"
 
+msgid "Trophies"
+msgstr "Trophées"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

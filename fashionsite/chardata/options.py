@@ -89,10 +89,13 @@ def get_available_options(structure=None):
         return cached
     avail = {key for key, name in DOFUS_OPTIONS.items() if s.get_item_by_name(name)}
     prysmaradite = False
+    has_trophy = False
     mounts = {'Dragoturkey': False, 'Seemyool': False, 'Rhineetle': False}
     for it in s.get_items_list():
         if getattr(it, 'weird_conditions', {}).get('prysmaradite'):
             prysmaradite = True
+        if 'Trophy' in getattr(it, 'flags', ()):
+            has_trophy = True
         if it.name:
             for token in mounts:
                 if not mounts[token] and token in it.name:
@@ -101,6 +104,7 @@ def get_available_options(structure=None):
         'dofuses': [{'key': k, 'label': lbl, 'img': 'chardata/%s.png' % k}
                     for k, lbl in DOFUS_DISPLAY if k in avail],
         'prysmaradite': prysmaradite,
+        'trophies': has_trophy,
         'dragoturkey': mounts['Dragoturkey'],
         'seemyool': mounts['Seemyool'],
         'rhineetle': mounts['Rhineetle'],

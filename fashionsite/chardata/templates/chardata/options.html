@@ -79,8 +79,10 @@
             <label><input type="radio" name="dofus" class="change-modifies-state" value="lightset">{% trans "Remove only <3" %}</label>
             <br>
             <label><input type="radio" name="dofus" class="change-modifies-state" value="cawwot">{% trans "Allow only Cawwot Dofus" %}</label>
+            {% if version_options.trophies %}
             <br>
             <label><input type="checkbox" name="trophies" class="change-modifies-state">{% trans "Suggest trophies" %}</label>
+            {% endif %}
         </td>
         </tr>
         </table>

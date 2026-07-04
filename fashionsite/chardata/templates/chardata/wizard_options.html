@@ -56,6 +56,15 @@
                 </label><br>
             </div>
             {% endif %}
+            {% if version_options.trophies %}
+            <div class="dofus-box">
+                <label class='trophies'>
+                    <img src="{% static "chardata/Major_Scholar.png" %}" class="option_icon trophies" alt=""><br>
+                    <input type="checkbox" name="trophies" class="change-modifies-state trophies"><br>
+                    {% trans "Trophies" %}
+                </label><br>
+            </div>
+            {% endif %}
         </div>
 <div align="center" class="small-explain">
     <br>({% trans "Check the dofuses we are allowed to use" %})

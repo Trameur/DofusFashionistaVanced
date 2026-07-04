@@ -7266,3 +7266,6 @@ msgstr "Farmen / Leveln: Prospektion & Weisheit"
 
 msgid "Suggest trophies"
 msgstr "Trophäen vorschlagen"
+
+msgid "Trophies"
+msgstr "Trophäen"
