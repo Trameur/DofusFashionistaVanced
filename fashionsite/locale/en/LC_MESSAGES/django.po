@@ -5196,3 +5196,16 @@ msgstr ""
 
 msgid "All versions"
 msgstr ""
+
+msgid "Dofus theorycraft for everyone"
+msgstr ""
+
+msgid ""
+"Dofus Fashionista is a free theorycrafting tool. Tell it your class, level "
+"and what you want, and it instantly finds your best possible set — no "
+"spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a "
+"serious optimizer: fine-tune every stat, compare builds, and min-max across "
+"all five versions of the game — Dofus 3, Beta, Dofus 2, Retro and Touch. "
+"Save your characters, share your builds, and become a better theorycrafter, "
+"fast."
+msgstr ""
