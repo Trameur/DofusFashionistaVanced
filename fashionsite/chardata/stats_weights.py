@@ -83,16 +83,21 @@ def _fill_defaults(char, weights):
             weights[e] = stan_w[e]
         char.stats_weight = pickle.dumps(stan_w)
 
+# Weights become objective coefficients for the solver. High-end crit or
+# multi-element builds (dam is a sum, cridam scales with it) and manually tuned
+# weights can legitimately exceed the old 5k guard, and _set_weights stores such
+# weights without any check. Re-saving one (which a plain wizard GET can trigger)
+# must not 500 the character's own pages, so clamp to a generous ceiling instead
+# of asserting. The ceiling only guards against truly runaway values.
+MAX_STAT_WEIGHT = 50000
+
 def set_stats_weights(char, weights):
-    for stat_key, stat_weight in weights.items():
-        if stat_key in DEPRECATED_STATS:
-            continue
-        if stat_key == 'meleeness':
+    for stat_key in list(weights.keys()):
+        if stat_key in DEPRECATED_STATS or stat_key == 'meleeness':
             continue
         assert stat_key in STAT_KEY_TO_NAME, '%s is not a stat' % stat_key
-        assert type(stat_weight) == int, '%s is not an int' % stat_weight
-        assert abs(int(stat_weight)) <= 5000, \
-            ('stat_weight is %d, magnitude above 5k' % stat_weight)
+        stat_weight = int(weights[stat_key])
+        weights[stat_key] = max(-MAX_STAT_WEIGHT, min(MAX_STAT_WEIGHT, stat_weight))
 
     char.stats_weight = pickle.dumps(weights)
     char.save()

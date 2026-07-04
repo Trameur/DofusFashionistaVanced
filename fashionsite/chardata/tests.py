@@ -1971,6 +1971,52 @@ class RetroShieldsDefaultTests(TestCase):
         self.assertTrue(self._created_options({'res', 'vit', 'str'}, 'dofus3')['shields'])
 
 
+class StatsWeightCapTests(TestCase):
+    """A build whose weights exceed the old 5k guard (high-end crit/omni builds
+    store weights via _set_weights, which never checks the bound) used to 500 on
+    a plain wizard GET, because get_stats_weights re-saves through
+    set_stats_weights. Re-saving must clamp, not crash, and keep the value."""
+
+    def _char_with_weight(self, cridam):
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        # Omit the resper defaults so get_stats_weights fills them -> changed=True
+        # -> a re-save through set_stats_weights (the prod crash path).
+        weights = {'str': 100, 'dam': 4320, 'cridam': cridam, 'ch': 240}
+        owner = User.objects.create_user(
+            'wcap%d' % cridam, 'wc@test.local', 'pw-wcap-77')
+        char = Char.objects.create(
+            name='Wc', char_name='wc', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=pickle.dumps(weights), options=b'', inclusions=b'',
+            exclusions=b'', aspects=pickle.dumps({'str', 'crit', 'dam'}),
+            owner=owner, link_shared=False, game_version='dofus3')
+        return owner, char
+
+    def test_wizard_get_does_not_crash_on_large_weight(self):
+        owner, char = self._char_with_weight(5400)
+        self.client.force_login(owner)
+        resp = self.client.get('/wizard/%d/' % char.pk)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_large_weight_is_preserved(self):
+        import pickle
+        from chardata.stats_weights import set_stats_weights
+        owner, char = self._char_with_weight(5400)
+        set_stats_weights(char, {'str': 100, 'cridam': 5400})
+        char.refresh_from_db()
+        self.assertEqual(pickle.loads(char.stats_weight)['cridam'], 5400)
+
+    def test_runaway_weight_is_clamped(self):
+        import pickle
+        from chardata.stats_weights import set_stats_weights, MAX_STAT_WEIGHT
+        owner, char = self._char_with_weight(5400)
+        set_stats_weights(char, {'str': 100, 'cridam': 10 ** 9})
+        char.refresh_from_db()
+        self.assertEqual(pickle.loads(char.stats_weight)['cridam'], MAX_STAT_WEIGHT)
+
+
 def _pulp_solver_available():
     try:
         import pulp
