@@ -79,6 +79,7 @@ def options(request, char_id):
 
     context = {'advanced': True,
                'options': json.dumps(options),
+               'options_dict': options,
                'version_options': get_available_options(),
                'char_id': char_id}
     context.update(inventory_source_context(request, char))

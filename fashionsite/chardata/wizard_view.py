@@ -49,6 +49,7 @@ def wizard(request, char_id):
     context = {'char_id': char_id,
                'wizard_pic': wizard_pic,
                'version_options': get_available_options(),
+               'options': get_options(char),
                'constant_data': jsonpickle.encode(constant_data, unpicklable=False),
                'wizard_data': jsonpickle.encode(wizard_data, unpicklable=False),
                'triangle_url': jsonpickle.encode(get_triangle_URL(request), unpicklable=False)}

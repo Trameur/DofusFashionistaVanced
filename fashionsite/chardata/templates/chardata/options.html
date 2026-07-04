@@ -146,7 +146,7 @@
             <div class="dofus-box">
                 <label class='trophies'>
                     <img alt="" src="{% static "chardata/Major_Scholar.png" %}" class="option_icon trophies"><br>
-                    <input type="checkbox" name="trophies" class="change-modifies-state trophies"><br>
+                    <input type="checkbox" name="trophies" class="change-modifies-state trophies" {% if options_dict.trophies %}checked{% endif %}><br>
                     {% trans "Trophies" %}
                 </label><br>
             </div>
