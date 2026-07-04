@@ -7248,6 +7248,21 @@ msgstr "Permitir dofus, prysmaradite e troféus:"
 msgid "Dofuses, Prysmaradite and Trophies"
 msgstr "Dofus, Prysmaradite e Troféus"
 
+msgid "New look"
+msgstr "Novo visual"
+
+msgid "Classic look"
+msgstr "Visual clássico"
+
+msgid "Switch between the classic and new design"
+msgstr "Alterne entre o visual clássico e o novo"
+
+msgid "The passwords do not match."
+msgstr "As senhas não coincidem."
+
+msgid "You need to enter a new password."
+msgstr "Você precisa inserir uma nova senha."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

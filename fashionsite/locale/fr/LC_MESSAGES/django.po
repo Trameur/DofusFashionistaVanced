@@ -7740,6 +7740,21 @@ msgstr "Autoriser les dofus, prysmaradite et trophées :"
 msgid "Dofuses, Prysmaradite and Trophies"
 msgstr "les Dofus, Prysmaradite et Trophées"
 
+msgid "New look"
+msgstr "Nouveau look"
+
+msgid "Classic look"
+msgstr "Ancien look"
+
+msgid "Switch between the classic and new design"
+msgstr "Basculer entre l'ancien et le nouveau design"
+
+msgid "The passwords do not match."
+msgstr "Les mots de passe ne correspondent pas."
+
+msgid "You need to enter a new password."
+msgstr "Tu dois entrer un nouveau mot de passe."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
