@@ -691,7 +691,7 @@ class Structure:
         self._dt_available_or_items = {}
 
         for item in itertools.chain(self.items_list, self.dt_items_list):
-            m = re.match("(.*) \(#\d+\)", item.name)             
+            m = re.match(r"(.*) \(#\d+\)", item.name)             
             if m is not None:
                 item_name = m.group(1)
                 if not ((item_name in or_items_set and not item.dofus_touch)
@@ -1039,7 +1039,7 @@ class Structure:
             return name in self.items_dict_name or name in self.or_items
         
     def get_or_item_name(self, item_name):
-        m = re.match("(.*) \(#\d+\)", item_name)             
+        m = re.match(r"(.*) \(#\d+\)", item_name)             
         if m is not None:
             return m.group(1)
         return item_name
