@@ -207,9 +207,8 @@ def evolve_result_item(result_item, r=None):
     if hasattr(result_item, 'non_crit_hits'):
         damage_lines = []
         weapon_type_key = result_item.weapon_type
-        # Some weapons (magnifying glass, fishing rod, duster...) carry no
-        # standard weapon-type category. Show the AP/crit line without a
-        # meaningless "(Unknown Weapon Type)" / raw "DefaultName" prefix.
+        # Some weapons (magnifying glass, fishing rod...) have no weapon type;
+        # drop the "(type)" prefix for them instead of showing a placeholder.
         localized_weapon_type = LOCALIZED_WEAPON_TYPES.get(weapon_type_key)
 
         if result_item.crit_chance is not None and result_item.crit_bonus is not None:

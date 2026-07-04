@@ -832,9 +832,9 @@ class WorkshopTests(TestCase):
 
 
 class GetItemStatsTests(TestCase):
-    """/get_item_stats_compare/ powers the compare-page item tooltips. Ids
-    that are not in the current structure (stale page, other game version)
-    used to crash with ModelResultItem(None) missing .slot — seen in prod."""
+    """/get_item_stats_compare/ powers the compare-page item tooltips. An id
+    that isn't in the current structure (stale page, other game version) should
+    answer null, not error."""
 
     def test_valid_item_returns_stats(self):
         from fashionistapulp.structure import get_structure
@@ -862,8 +862,7 @@ class GetItemStatsTests(TestCase):
             self.assertEqual(resp.json(), {})
 
     def test_evolve_no_item_result_does_not_crash(self):
-        # Root cause of the prod 500 above: a no-item ModelResultItem left
-        # .slot/.file unset, so evolve_result_item raised AttributeError.
+        # A no-item result must survive evolve_result_item (it reads .slot/.file).
         from fashionistapulp.modelresult import ModelResultItem
         from chardata.solution_result import evolve_result_item
         result_item = ModelResultItem(None)
@@ -1540,9 +1539,8 @@ class SharedBuildsHideInvalidTests(TestCase):
 
 
 class SharedLinkWithoutSolutionTests(TestCase):
-    """A shared link to a build whose solution was never stored (or was
-    reset) used to crash with AttributeError on None; it must 404 cleanly,
-    and without counting a view."""
+    """A shared link to a build whose solution was never stored (or was reset)
+    404s cleanly, without counting a view."""
 
     def test_solutionless_shared_link_is_404_not_500(self):
         from django.contrib.auth.models import User
@@ -1661,11 +1659,9 @@ class SharedSolutionPageDeepTests(TestCase):
 
 
 class InlineScriptSyntaxTests(TestCase):
-    """An a11y pass once injected alt="" inside a double-quoted JS string on
-    the solution page: the 59 KB main script block stopped parsing and the
-    whole page lost its stats, popups and button labels. Syntax-check every
-    inline script of the key pages with node so that class of breakage can
-    never ship again."""
+    """Syntax-check every inline script of the key pages with node. A single
+    stray quote in a jQuery string can kill a whole page's JS silently, so this
+    catches it before it ships."""
 
     @unittest.skipIf(shutil.which('node') is None, 'node not installed')
     def test_inline_scripts_parse(self):
@@ -1729,10 +1725,9 @@ class InlineScriptSyntaxTests(TestCase):
                     os.unlink(path)
 
 class JqueryStringQuoteLintTests(SimpleTestCase):
-    """Static guard for the recurring 'alt="" inside $("...")' break (b585a2d5,
-    1507bf20): an empty double-quoted attribute inside a double-quoted jQuery
-    string closes the string early and kills the whole inline script. Scans
-    every template, including admin pages the render-based node check can't reach."""
+    """No empty double-quoted attribute inside a double-quoted jQuery string:
+    it closes the string early and kills the inline script. Scans every template,
+    including the admin pages the render-based node check can't reach."""
 
     def test_no_empty_double_quoted_attr_in_jquery_string(self):
         template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -1860,8 +1855,8 @@ class SolverSmokeTests(TestCase):
                                 'a level 50 strength solve should equip several items')
 
 class WeaponTypeDisplayTests(TestCase):
-    """Weapons without a standard type (magnifying glass, fishing rod...) used
-    to render '(Unknown Weapon Type)' / raw '(DefaultName)' in the AP line."""
+    """Weapons with no standard type (magnifying glass, fishing rod...) show
+    their AP line without a placeholder type prefix."""
 
     def _damage_head(self, item_name):
         from fashionistapulp.structure import get_structure
@@ -1889,9 +1884,8 @@ class WeaponTypeDisplayTests(TestCase):
         self.assertIn('(Sword)', head)
 
 class ExclusionsForbidTests(TestCase):
-    """Forbidding an item must add an id that is actually in the forbiddable
-    set. Or-item variants like Gelano were indexed name -> id with an id absent
-    from that set, so the Forbid button silently did nothing (seen in prod)."""
+    """Forbidding an item adds an id that's actually in the forbiddable set,
+    grouped variants like Gelano included."""
 
     def _load_forbid_data(self):
         import json

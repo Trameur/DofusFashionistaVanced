@@ -637,8 +637,8 @@ class ModelResultItem():
             self.id = None
             self.localized_name = None
             self.item_added = False
-            # evolve_result_item reads .slot and .file before its early return;
-            # a no-item result that is evolved without set_slot() must not 500.
+            # An empty slot still goes through evolve_result_item, which reads
+            # .slot and .file, so default them.
             self.slot = None
             self.file = None
             

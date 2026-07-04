@@ -49,10 +49,10 @@ def exclusions(request, char_id):
     all_items = s.get_all_unique_items_ids_with_type()
     all_items_names = s.get_all_unique_items_names_with_ids(language)
 
-    # A few or-item variants (e.g. Gelano) are indexed name -> id with an id that
-    # isn't in the forbiddable set, so the page silently did nothing when you
-    # forbade them. Remap those to a same-item forbiddable id; the optimizer then
-    # forbids the whole or-group. Copy first: all_items_names is a shared cache.
+    # A few items (e.g. Gelano) are grouped variants whose name points to an id
+    # that isn't itself forbiddable. Point those names at a forbiddable variant
+    # instead; the optimizer forbids the whole group from any one of them. Build a
+    # new dict rather than mutating all_items_names, it's a shared cache.
     forbiddable_ids = set(all_items)
     or_name_to_forbiddable = {}
     for item_id in all_items:
