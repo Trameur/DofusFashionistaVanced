@@ -1888,6 +1888,42 @@ class WeaponTypeDisplayTests(TestCase):
         head = self._damage_head(sword_name)
         self.assertIn('(Sword)', head)
 
+class ExclusionsForbidTests(TestCase):
+    """Forbidding an item must add an id that is actually in the forbiddable
+    set. Or-item variants like Gelano were indexed name -> id with an id absent
+    from that set, so the Forbid button silently did nothing (seen in prod)."""
+
+    def _load_forbid_data(self):
+        import json
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner = User.objects.create_user('forbidder', 'fb@test.local', 'pw-42-solid')
+        char = Char.objects.create(
+            name='Forbid', char_name='forbid', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            owner=owner, link_shared=False, game_version='dofus3')
+        self.client.force_login(owner)
+        resp = self.client.get('/exclusions/%d/' % char.pk)
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8')
+        items = json.loads(re.search(r'var allItems = (\{.*\});', html).group(1))
+        names = json.loads(re.search(r'var allItemsNames = (\{.*\});', html).group(1))
+        return set(items.keys()), names
+
+    def test_every_forbiddable_name_maps_into_the_item_set(self):
+        item_ids, names = self._load_forbid_data()
+        bad = {n: i for n, i in names.items()
+               if i is not None and str(i) not in item_ids}
+        self.assertEqual(bad, {}, 'names point to non-forbiddable ids: %r' % bad)
+
+    def test_gelano_is_forbiddable(self):
+        item_ids, names = self._load_forbid_data()
+        self.assertIn('Gelano', names)
+        self.assertIn(str(names['Gelano']), item_ids)
+
+
 class RobotsTxtTests(TestCase):
     """robots.txt must keep the public content crawlable while blocking the
     action endpoints and per-project/private pages that were flooding Search

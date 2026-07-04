@@ -48,9 +48,28 @@ def exclusions(request, char_id):
 
     all_items = s.get_all_unique_items_ids_with_type()
     all_items_names = s.get_all_unique_items_names_with_ids(language)
-    
+
+    # A few or-item variants (e.g. Gelano) are indexed name -> id with an id that
+    # isn't in the forbiddable set, so the page silently did nothing when you
+    # forbade them. Remap those to a same-item forbiddable id; the optimizer then
+    # forbids the whole or-group. Copy first: all_items_names is a shared cache.
+    forbiddable_ids = set(all_items)
+    or_name_to_forbiddable = {}
+    for item_id in all_items:
+        item = s.get_item_by_id(item_id)
+        if item is not None:
+            or_name_to_forbiddable.setdefault(item.or_name, item_id)
+    fixed_items_names = {}
+    for name, item_id in all_items_names.items():
+        if item_id is not None and item_id not in forbiddable_ids:
+            item = s.get_item_by_id(item_id)
+            alt = or_name_to_forbiddable.get(item.or_name) if item is not None else None
+            fixed_items_names[name] = alt if alt is not None else item_id
+        else:
+            fixed_items_names[name] = item_id
+
     all_names = sets_names_dicts.copy()
-    all_names.update(all_items_names)
+    all_names.update(fixed_items_names)
     
     complete_sets = s.get_complete_sets_list(language)
     exclusions = get_all_exclusions_with_names(char, language)
