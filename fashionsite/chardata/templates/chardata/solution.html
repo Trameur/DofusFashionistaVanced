@@ -850,13 +850,15 @@
             }
 
             var exoOverride = countOverrideExo();
-            var actualApExo = options["ap_exo"] ? 1 : 0;
-            var actualMpExo = options["mp_exo"] ? 1 : 0;
-            var actualRangeExo = options["range_exo"] ? 1 : 0;
+            // Strict === true on purpose: mp_exo can be "gelano", which is NOT a free
+            // exo (the MP comes from equipping the Gelano ring), so it must not show +1.
+            var actualApExo = options["ap_exo"] === true ? 1 : 0;
+            var actualMpExo = options["mp_exo"] === true ? 1 : 0;
+            var actualRangeExo = options["range_exo"] === true ? 1 : 0;
             // wantedExo: show +1 only if user has an override documenting it, or explicitly checked the option
-            var wantedApExo = exoOverride.ap > 0 ? 1 : (baseOptions["ap_exo"] ? actualApExo : 0);
-            var wantedMpExo = exoOverride.mp > 0 ? 1 : (baseOptions["mp_exo"] ? actualMpExo : 0);
-            var wantedRangeExo = exoOverride.range > 0 ? 1 : (baseOptions["range_exo"] ? actualRangeExo : 0);
+            var wantedApExo = exoOverride.ap > 0 ? 1 : (baseOptions["ap_exo"] === true ? actualApExo : 0);
+            var wantedMpExo = exoOverride.mp > 0 ? 1 : (baseOptions["mp_exo"] === true ? actualMpExo : 0);
+            var wantedRangeExo = exoOverride.range > 0 ? 1 : (baseOptions["range_exo"] === true ? actualRangeExo : 0);
             // apAdjust compensates for the difference between what's baked in stats_total and what we want to show
             var apAdjust = wantedApExo - actualApExo;
             var mpAdjust = wantedMpExo - actualMpExo;

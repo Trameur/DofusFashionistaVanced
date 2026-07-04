@@ -1745,6 +1745,22 @@ class JqueryStringQuoteLintTests(SimpleTestCase):
             'empty double-quoted attribute inside a double-quoted jQuery string '
             'breaks the whole inline script:\n' + '\n'.join(offenders))
 
+
+class GelanoExoDisplayLintTests(SimpleTestCase):
+    """mp_exo can be the string "gelano" (the MP then comes from equipping the
+    Gelano ring, not a free exo). The solution page's exo display must test it
+    strictly (=== true) or 'gelano' shows a phantom "+1" on MP (reported bug)."""
+
+    def test_solution_exo_display_uses_strict_equality(self):
+        path = os.path.join(os.path.dirname(__file__), 'templates',
+                            'chardata', 'solution.html')
+        with open(path, encoding='utf-8') as f:
+            src = f.read()
+        self.assertNotIn('options["mp_exo"] ? 1', src)
+        self.assertNotIn('baseOptions["mp_exo"] ? ', src)
+        self.assertIn('options["mp_exo"] === true', src)
+
+
 class RetroSoftCapsTests(SimpleTestCase):
     """Retro (1.29) spends characteristic points on class-specific tables; every
     other version keeps the uniform modern table. Costs verified against the
