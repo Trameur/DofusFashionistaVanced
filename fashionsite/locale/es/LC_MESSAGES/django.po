@@ -7234,6 +7234,18 @@ msgstr ""
 "objetivos, y arma tu mejor equipo automáticamente. Para novatos y expertos "
 "del min-max."
 
+msgid "Solo PvM: focus damage"
+msgstr "PvM en solitario: daño"
+
+msgid "Group PvM: tanky / support"
+msgstr "PvM en grupo: tanque / soporte"
+
+msgid "PvP: critical hits"
+msgstr "PvP: golpes críticos"
+
+msgid "Farm / Level-up: Prospecting & Wisdom"
+msgstr "Farmeo / subir de nivel: Prospección y Sabiduría"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

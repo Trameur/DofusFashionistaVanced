@@ -7224,6 +7224,18 @@ msgstr ""
 " ela monta o seu melhor equipamento automaticamente. Para iniciantes e "
 "mestres do min-max."
 
+msgid "Solo PvM: focus damage"
+msgstr "PvM solo: dano"
+
+msgid "Group PvM: tanky / support"
+msgstr "PvM em grupo: tanque / suporte"
+
+msgid "PvP: critical hits"
+msgstr "PvP: golpes críticos"
+
+msgid "Farm / Level-up: Prospecting & Wisdom"
+msgstr "Farm / subir de nível: Prospecção e Sabedoria"
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

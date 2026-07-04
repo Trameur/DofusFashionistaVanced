@@ -51,10 +51,10 @@ CLASS_DEFAULT_ELEMENT = {
 }
 
 PLAY_STYLES = [
-    ('solo_pvm', gettext_lazy('Solo PvM — focus damage')),
-    ('group_pvm', gettext_lazy('Group PvM — tanky / support')),
-    ('pvp', gettext_lazy('PvP — critical hits')),
-    ('farm', gettext_lazy('Farm / Level-up — Prospecting & Wisdom')),
+    ('solo_pvm', gettext_lazy('Solo PvM: focus damage')),
+    ('group_pvm', gettext_lazy('Group PvM: tanky / support')),
+    ('pvp', gettext_lazy('PvP: critical hits')),
+    ('farm', gettext_lazy('Farm / Level-up: Prospecting & Wisdom')),
 ]
 
 DEFAULT_LEVELS = [20, 50, 100, 150, 180, 200]

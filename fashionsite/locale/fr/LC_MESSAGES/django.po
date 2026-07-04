@@ -7716,6 +7716,18 @@ msgstr ""
 "objectifs, il te monte le meilleur stuff automatiquement. Pour débutants "
 "comme pros de l'opti."
 
+msgid "Solo PvM: focus damage"
+msgstr "PvM solo : full dégâts"
+
+msgid "Group PvM: tanky / support"
+msgstr "PvM en groupe : tank / support"
+
+msgid "PvP: critical hits"
+msgstr "PvP : coups critiques"
+
+msgid "Farm / Level-up: Prospecting & Wisdom"
+msgstr "Farm / up : Prospection & Sagesse"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

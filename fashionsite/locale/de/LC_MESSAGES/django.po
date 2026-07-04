@@ -7251,3 +7251,15 @@ msgstr ""
 "Kostenloses Dofus Theorycraft-Tool: Gib Klasse, Level und Ziele an, und es "
 "baut automatisch dein bestes Set. Für Einsteiger und Min-Maxer "
 "gleichermaßen."
+
+msgid "Solo PvM: focus damage"
+msgstr "Solo-PvM: Schaden"
+
+msgid "Group PvM: tanky / support"
+msgstr "Gruppen-PvM: Tank / Support"
+
+msgid "PvP: critical hits"
+msgstr "PvP: kritische Treffer"
+
+msgid "Farm / Level-up: Prospecting & Wisdom"
+msgstr "Farmen / Leveln: Prospektion & Weisheit"
