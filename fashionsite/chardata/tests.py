@@ -1728,6 +1728,28 @@ class InlineScriptSyntaxTests(TestCase):
                 finally:
                     os.unlink(path)
 
+class JqueryStringQuoteLintTests(SimpleTestCase):
+    """Static guard for the recurring 'alt="" inside $("...")' break (b585a2d5,
+    1507bf20): an empty double-quoted attribute inside a double-quoted jQuery
+    string closes the string early and kills the whole inline script. Scans
+    every template, including admin pages the render-based node check can't reach."""
+
+    def test_no_empty_double_quoted_attr_in_jquery_string(self):
+        template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+        bad_re = re.compile(r'\$\("[^"]*=""')
+        offenders = []
+        for path in glob.glob(os.path.join(template_dir, '**', '*.html'),
+                              recursive=True):
+            with open(path, encoding='utf-8') as f:
+                for lineno, line in enumerate(f, 1):
+                    if bad_re.search(line):
+                        offenders.append(
+                            '%s:%d' % (os.path.relpath(path, template_dir), lineno))
+        self.assertEqual(
+            offenders, [],
+            'empty double-quoted attribute inside a double-quoted jQuery string '
+            'breaks the whole inline script:\n' + '\n'.join(offenders))
+
 def _pulp_solver_available():
     try:
         import pulp
