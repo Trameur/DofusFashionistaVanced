@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
 import pickle
 import random
 import re
@@ -23,6 +24,8 @@ import sqlite3
 import itertools
 import threading
 from threading import Lock
+
+logger = logging.getLogger(__name__)
 
 from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL, STAT_ORDER,
                              WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID)
@@ -531,14 +534,17 @@ class Structure:
         for weapon_name, w in itertools.chain(iter(self.weapons_dict_by_name.items()),
                                               iter(self.dt_weapons_dict_by_name.items())):
             w.has_crits = (w.crit_bonus is not None)
+            # Data-completeness diagnostics: some weapons legitimately lack a
+            # crit/type (magnifying glass, fishing rod...), so keep these at
+            # debug level instead of spamming stdout on every structure build.
             if not w.has_crits and w.crit_chance is not None:
-                print('%s is missing crit_bonus' % weapon_name)
+                logger.debug('%s is missing crit_bonus', weapon_name)
             if w.crit_chance is None and w.has_crits:
-                print('%s is missing crit_chance' % weapon_name)
+                logger.debug('%s is missing crit_chance', weapon_name)
             if w.ap is None:
-                print('%s is missing ap' % weapon_name)
+                logger.debug('%s is missing ap', weapon_name)
             if w.weapon_type is None:
-                print('%s is missing weapon type' % weapon_name)
+                logger.debug('%s is missing weapon type', weapon_name)
     
             w.base_hit = []
             if w.has_crits:
