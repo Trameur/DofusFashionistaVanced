@@ -111,7 +111,7 @@ def validate_comment(content):
     """Validate a comment's content. Returns (is_clean, error_message)."""
     bad_hosts = check_links(content)
     if bad_hosts:
-        return False, _("Please remove external links — only dofusfashionista.gg links are allowed.")
+        return False, _("Please remove external links. Only dofusfashionista.gg links are allowed.")
     if check_profanity(content):
         return False, _("Please keep your comment respectful.")
     return True, ''

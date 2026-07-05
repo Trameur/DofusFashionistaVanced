@@ -7146,7 +7146,7 @@ msgid ""
 "View the comment here:\n"
 "%(build_url)s\n"
 "\n"
-"— %(site_name)s\n"
+"%(site_name)s\n"
 "\n"
 "You can disable these notifications in your account settings."
 msgstr ""
@@ -7159,7 +7159,7 @@ msgstr ""
 "Kommentar ansehen:\n"
 "%(build_url)s\n"
 "\n"
-"— %(site_name)s\n"
+"%(site_name)s\n"
 "\n"
 "Du kannst diese Benachrichtigungen in deinen Kontoeinstellungen deaktivieren."
 
@@ -7290,3 +7290,75 @@ msgstr "Die Passwörter stimmen nicht überein."
 
 msgid "You need to enter a new password."
 msgstr "Du musst ein neues Passwort eingeben."
+
+msgid "Comment is too long"
+msgstr "Der Kommentar ist zu lang"
+
+msgid "Comment not found"
+msgstr "Kommentar nicht gefunden"
+
+msgid "Not allowed"
+msgstr "Nicht erlaubt"
+
+msgid "You cannot report your own comment"
+msgstr "Du kannst deinen eigenen Kommentar nicht melden"
+
+msgid "You already reported this comment"
+msgstr "Du hast diesen Kommentar bereits gemeldet"
+
+msgid "Too many tags on this build"
+msgstr "Zu viele Tags für diesen Build"
+
+msgid "Invalid tag"
+msgstr "Ungültiger Tag"
+
+msgid "Tag already on this build"
+msgstr "Dieser Tag ist bereits auf diesem Build"
+
+msgid "Tag not found"
+msgstr "Tag nicht gefunden"
+
+msgid "Invalid item"
+msgstr "Ungültiger Gegenstand"
+
+msgid "Item not found"
+msgstr "Gegenstand nicht gefunden"
+
+msgid "Build has no solution yet"
+msgstr "Dieser Build hat noch keine Lösung"
+
+#, python-format
+msgid "Unknown item #%(id)s"
+msgstr "Unbekannter Gegenstand #%(id)s"
+
+msgid "User not found"
+msgstr "Benutzer nicht gefunden"
+
+msgid "You cannot follow yourself"
+msgstr "Du kannst dir nicht selbst folgen"
+
+msgid "Can't equip a two handed weapon and a shield."
+msgstr ""
+"Eine Zweihandwaffe und ein Schild können nicht zusammen ausgerüstet werden."
+
+#, python-format
+msgid "Max. %(stat)s %(value)d"
+msgstr "Max. %(stat)s %(value)d"
+
+msgid "Anonymous"
+msgstr "Anonym"
+
+#, python-format
+msgid "Quick Start %(cls)s lvl %(lvl)s"
+msgstr "Schnellstart %(cls)s Stufe %(lvl)s"
+
+msgid "Please keep your comment respectful."
+msgstr "Bitte bleib in deinem Kommentar respektvoll."
+
+msgid ""
+"Please remove external links. Only dofusfashionista.gg links are allowed."
+msgstr ""
+"Bitte entferne externe Links. Nur Links zu dofusfashionista.gg sind erlaubt."
+
+msgid "Tell us which class, e.g. \"Iop 200 earth PvM\"."
+msgstr "Sag uns welche Klasse, z. B. \"Iop 200 Erde PvM\"."

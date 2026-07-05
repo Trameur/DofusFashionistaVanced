@@ -91,11 +91,11 @@ def smart_build(request):
         parsed = parse_build_request(query)
 
         if not parsed['matched_class']:
-            # Can't build without a class — re-render with an error and whatever
+            # Can't build without a class, so re-render with an error and whatever
             # else we did recognize, so the user can see what to add.
             return set_response(request, 'chardata/smart_build.html', {
                 'query': query,
-                'error': _("Tell us which class — e.g. \"Iop 200 earth PvM\"."),
+                'error': _("Tell us which class, e.g. \"Iop 200 earth PvM\"."),
                 'interpretation': _interpretation(parsed, confirmed=False),
                 'examples': _example_queries(),
                 'login_problem': is_anon_cant_create(request),
