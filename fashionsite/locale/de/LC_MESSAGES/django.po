@@ -114,7 +114,7 @@ msgstr "Hilfe und Info"
 
 #: chardata/login_view.py:67
 msgid "Welcome to The Dofus Fashionista!"
-msgstr "Willkommen bei The Dofus Fashionista!"
+msgstr "Willkommen bei Dofus Fashionista!"
 
 #: chardata/login_view.py:68
 msgid ""
@@ -125,7 +125,7 @@ msgstr ""
 
 #: chardata/login_view.py:170
 msgid "Password change requested for The Dofus Fashionista"
-msgstr "Passwortänderung für The Dofus Fashionista angefordert"
+msgstr "Passwortänderung für Dofus Fashionista angefordert"
 
 #: chardata/login_view.py:171
 #, python-brace-format
@@ -137,7 +137,7 @@ msgid ""
 "\n"
 "If you don't want to reset your password, just ignore this email."
 msgstr ""
-"Für The Dofus Fashionista wurde ein Zurücksetzen des Passworts beantragt!\n"
+"Für Dofus Fashionista wurde ein Zurücksetzen des Passworts beantragt!\n"
 "Ihr Benutzername lautet: {username}\n"
 "Klicken Sie bitte auf den Link unten, um ein neues Passwort für Ihr Konto zu erstellen.\n"
 "{link}\n"
@@ -146,7 +146,7 @@ msgstr ""
 
 #: chardata/login_view.py:204
 msgid "Password for The Dofus Fashionista has been reset"
-msgstr "Das Passwort für The Dofus Fashionista wurde zurückgesetzt"
+msgstr "Das Passwort für Dofus Fashionista wurde zurückgesetzt"
 
 #: chardata/login_view.py:205
 #, python-brace-format
