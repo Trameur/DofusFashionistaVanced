@@ -975,7 +975,7 @@ GUIDES = {
 <p>Every piece in your build comes from one of three places: a monster drops it, someone crafts it, or you buy it off the market. Most items can be gotten more than one way, and the cheapest route changes from server to server. The trick is knowing which fight to run, which profession to level, or when to just pay up.</p>
 
 <h2>Dropping it yourself</h2>
-<p>Check where an item drops (usually a specific monster or dungeon boss) on its <a href="/encyclopedia/">encyclopedia</a> page. Farming the drop is "free" but costs time, and drop rates can be brutal, so weight your Prospecting if you're going to grind. Dungeon runs in a group are usually the fastest way to chase a boss-locked piece.</p>
+<p>Many pieces drop from a specific monster or dungeon boss; the in-game encyclopedia lists exactly where. Farming the drop is "free" but costs time, and drop rates can be brutal, so weight your Prospecting if you're going to grind. Dungeon runs in a group are usually the fastest way to chase a boss-locked piece.</p>
 
 <h2>Crafting it</h2>
 <p>Many sets are crafted, not dropped. The recipe lists the resources and the profession level you need; the Fashionista shows the recipe right on the item. Crafting is often cheaper than buying the finished item (you pay in resources and a maged exo or two instead of the full market price) but it means leveling the right profession or finding a guildmate who has.</p>
@@ -986,7 +986,7 @@ GUIDES = {
 <h2>Prioritize, don't bankrupt yourself</h2>
 <p>You don't need the full set on day one. Slot in the cheap pieces first, lock the ones you own, and let the optimizer fill the rest with what you can afford right now. Upgrade piece by piece as your kamas grow. A "good enough" set you actually wear beats a perfect one you can't afford.</p>
 
-<p><em>See an item's recipe and drops: <a href="/encyclopedia/">browse the encyclopedia.</a></em></p>
+<p><em>See an item's stats and recipe: <a href="/encyclopedia/">browse the encyclopedia.</a></em></p>
 ''',
             },
             'fr': {
@@ -998,7 +998,7 @@ GUIDES = {
 <p>Chaque pièce de ton build vient d'un de ces trois endroits : un monstre la drop, quelqu'un la craft, ou tu l'achètes au marché. La plupart des items s'obtiennent de plusieurs façons, et la route la moins chère change d'un serveur à l'autre. L'astuce, c'est de savoir quel combat lancer, quel métier monter, ou quand juste sortir les kamas.</p>
 
 <h2>La dropper toi-même</h2>
-<p>Regarde où un item drop (en général un monstre précis ou un boss de donjon) sur sa page <a href="/encyclopedia/">encyclopédie</a>. Farmer le drop est "gratuit" mais coûte du temps, et les taux de drop peuvent être violents, donc pondère ta Prospection si tu comptes grind. Les donjons en groupe sont souvent le plus rapide pour une pièce bloquée derrière un boss.</p>
+<p>Beaucoup de pièces droppent d'un monstre précis ou d'un boss de donjon ; l'encyclopédie en jeu indique exactement où. Farmer le drop est "gratuit" mais coûte du temps, et les taux de drop peuvent être violents, donc pondère ta Prospection si tu comptes grind. Les donjons en groupe sont souvent le plus rapide pour une pièce bloquée derrière un boss.</p>
 
 <h2>La crafter</h2>
 <p>Beaucoup de panoplies se craftent plutôt qu'elles ne droppent. La recette liste les ressources et le niveau de métier requis ; la Fashionista t'affiche la recette directement sur l'item. Crafter revient souvent moins cher qu'acheter l'item fini (tu paies en ressources et un exo ou deux à maginer au lieu du prix plein du marché) mais ça implique de monter le bon métier ou de trouver un membre de guilde qui l'a.</p>
@@ -1009,7 +1009,7 @@ GUIDES = {
 <h2>Priorise, ne te ruine pas</h2>
 <p>T'as pas besoin de la panoplie complète dès le premier jour. Mets les pièces pas chères d'abord, verrouille celles que t'as, et laisse l'optimiseur remplir le reste avec ce que tu peux te payer maintenant. Améliore pièce par pièce au fur et à mesure que tes kamas montent. Un set "suffisant" que tu portes vraiment bat un set parfait que tu peux pas t'offrir.</p>
 
-<p><em>Vois la recette et les drops d'un item : <a href="/encyclopedia/">parcours l'encyclopédie.</a></em></p>
+<p><em>Vois les stats et la recette d'un item : <a href="/encyclopedia/">parcours l'encyclopédie.</a></em></p>
 ''',
             },
             'es': {
@@ -1021,7 +1021,7 @@ GUIDES = {
 <p>Cada pieza de tu build viene de uno de tres sitios: la dropea un monstruo, alguien la fabrica, o la compras en el mercado. La mayoría de los ítems se consiguen de varias formas, y la ruta más barata cambia de un servidor a otro. El truco es saber qué pelea hacer, qué profesión subir, o cuándo simplemente pagar.</p>
 
 <h2>Dropearla tú mismo</h2>
-<p>Mira dónde dropea un ítem (normalmente un monstruo concreto o un jefe de mazmorra) en su página de <a href="/encyclopedia/">enciclopedia</a>. Farmear el drop es "gratis" pero cuesta tiempo, y las tasas de drop pueden ser brutales, así que pondera tu Prospección si vas a grindear. Las mazmorras en grupo suelen ser lo más rápido para una pieza bloqueada tras un jefe.</p>
+<p>Muchas piezas dropean de un monstruo concreto o un jefe de mazmorra; la enciclopedia del juego indica exactamente dónde. Farmear el drop es "gratis" pero cuesta tiempo, y las tasas de drop pueden ser brutales, así que pondera tu Prospección si vas a grindear. Las mazmorras en grupo suelen ser lo más rápido para una pieza bloqueada tras un jefe.</p>
 
 <h2>Fabricarla</h2>
 <p>Muchas panoplias se fabrican en vez de dropearse. La receta lista los recursos y el nivel de profesión que necesitas; la Fashionista te muestra la receta en el propio ítem. Fabricar suele salir más barato que comprar el ítem terminado (pagas en recursos y un exo o dos forjados en vez del precio completo del mercado) pero implica subir la profesión adecuada o encontrar a alguien del gremio que la tenga.</p>
@@ -1032,7 +1032,7 @@ GUIDES = {
 <h2>Prioriza, no te arruines</h2>
 <p>No necesitas el set completo el primer día. Mete las piezas baratas primero, bloquea las que tengas, y deja que el optimizador rellene el resto con lo que te puedas permitir ahora. Mejora pieza a pieza según suban tus kamas. Un set "suficiente" que de verdad llevas gana a uno perfecto que no puedes pagar.</p>
 
-<p><em>Mira la receta y los drops de un ítem: <a href="/encyclopedia/">explora la enciclopedia.</a></em></p>
+<p><em>Mira las estadísticas y la receta de un ítem: <a href="/encyclopedia/">explora la enciclopedia.</a></em></p>
 ''',
             },
             'pt': {
@@ -1044,7 +1044,7 @@ GUIDES = {
 <p>Cada peça do seu build vem de um de três lugares: um monstro dropa, alguém fabrica, ou você compra no mercado. A maioria dos itens dá pra conseguir de mais de um jeito, e a rota mais barata muda de servidor pra servidor. O truque é saber qual luta fazer, qual profissão subir, ou quando simplesmente pagar.</p>
 
 <h2>Dropar você mesmo</h2>
-<p>Veja onde um item dropa (geralmente um monstro específico ou um chefe de masmorra) na página de <a href="/encyclopedia/">enciclopédia</a> dele. Farmar o drop é "de graça" mas custa tempo, e as taxas de drop podem ser brutais, então pondere sua Prospecção se for grindar. Masmorras em grupo costumam ser o mais rápido pra uma peça travada atrás de um chefe.</p>
+<p>Muitas peças dropam de um monstro específico ou de um chefe de masmorra; a enciclopédia do jogo mostra exatamente onde. Farmar o drop é "de graça" mas custa tempo, e as taxas de drop podem ser brutais, então pondere sua Prospecção se for grindar. Masmorras em grupo costumam ser o mais rápido pra uma peça travada atrás de um chefe.</p>
 
 <h2>Fabricar</h2>
 <p>Muitos conjuntos são fabricados em vez de dropados. A receita lista os recursos e o nível de profissão necessários; a Fashionista mostra a receita no próprio item. Fabricar costuma sair mais barato que comprar o item pronto (você paga em recursos e um exo ou dois forjados em vez do preço cheio do mercado) mas implica subir a profissão certa ou achar alguém da guilda que tenha.</p>
@@ -1055,7 +1055,7 @@ GUIDES = {
 <h2>Priorize, não quebre</h2>
 <p>Você não precisa do set completo no primeiro dia. Coloque as peças baratas primeiro, trave as que você tem, e deixe o otimizador preencher o resto com o que dá pra pagar agora. Melhore peça por peça conforme seus kamas sobem. Um set "bom o bastante" que você realmente usa ganha de um perfeito que você não pode pagar.</p>
 
-<p><em>Veja a receita e os drops de um item: <a href="/encyclopedia/">explore a enciclopédia.</a></em></p>
+<p><em>Veja as estatísticas e a receita de um item: <a href="/encyclopedia/">explore a enciclopédia.</a></em></p>
 ''',
             },
             'de': {
@@ -1067,7 +1067,7 @@ GUIDES = {
 <p>Jedes Teil deines Builds kommt aus einer von drei Quellen: ein Monster droppt es, jemand stellt es her, oder du kaufst es auf dem Markt. Die meisten Items bekommst du auf mehr als einem Weg, und die günstigste Route ändert sich von Server zu Server. Der Trick ist zu wissen, welchen Kampf du läufst, welchen Beruf du levelst, oder wann du einfach zahlst.</p>
 
 <h2>Selbst droppen</h2>
-<p>Schau auf der <a href="/encyclopedia/">Enzyklopädie</a>-Seite eines Items nach, wo es droppt: meist ein bestimmtes Monster oder ein Dungeon-Boss. Den Drop zu farmen ist "gratis", kostet aber Zeit, und die Drop-Raten können brutal sein, also gewichte deine Prospektion, wenn du grinden willst. Dungeon-Läufe in der Gruppe sind meist am schnellsten für ein Teil, das hinter einem Boss steckt.</p>
+<p>Viele Teile droppen von einem bestimmten Monster oder einem Dungeon-Boss; die Ingame-Enzyklopädie zeigt genau, wo. Den Drop zu farmen ist "gratis", kostet aber Zeit, und die Drop-Raten können brutal sein, also gewichte deine Prospektion, wenn du grinden willst. Dungeon-Läufe in der Gruppe sind meist am schnellsten für ein Teil, das hinter einem Boss steckt.</p>
 
 <h2>Herstellen</h2>
 <p>Viele Sets werden hergestellt statt gedroppt. Das Rezept listet die Ressourcen und das nötige Berufslevel; die Fashionista zeigt dir das Rezept direkt am Item. Herstellen ist oft günstiger als das fertige Item zu kaufen (du zahlst in Ressourcen und ein, zwei gemagten Exos statt dem vollen Marktpreis) aber es heißt, den richtigen Beruf zu leveln oder ein Gildenmitglied zu finden, das ihn hat.</p>
@@ -1078,7 +1078,7 @@ GUIDES = {
 <h2>Priorisiere, ruiniere dich nicht</h2>
 <p>Du brauchst nicht das komplette Set am ersten Tag. Steck zuerst die günstigen Teile rein, sperr die, die du hast, und lass den Optimierer den Rest mit dem füllen, was du dir gerade leisten kannst. Rüste Teil für Teil auf, während deine Kamas wachsen. Ein "gut genug"-Set, das du wirklich trägst, schlägt ein perfektes, das du dir nicht leisten kannst.</p>
 
-<p><em>Sieh dir Rezept und Drops eines Items an: <a href="/encyclopedia/">durchstöbere die Enzyklopädie.</a></em></p>
+<p><em>Sieh dir Werte und Rezept eines Items an: <a href="/encyclopedia/">durchstöbere die Enzyklopädie.</a></em></p>
 ''',
             },
         },
