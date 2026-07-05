@@ -202,6 +202,7 @@ def main() -> None:
             "--filter", "spell",
             "--filter", "effects.json",
             "--filter", "breeds.json",
+            "--filter", "monsters.json",
             "--filter", "en.json",
             "--filter", "fr.json",
             "--filter", "es.json",
@@ -220,6 +221,18 @@ def main() -> None:
             "--spells-json", "itemscraper/transformed_spells.json",
             "--constants", "fashionistapulp/fashionistapulp/dofus_constants.py",
         ])
+        # Monster drops -> item_drops / monster_names tables (encyclopedia "Dropped by").
+        # Runs after items/obtainment so it rebuilds items.db from the finalized dump.
+        step("drops/transform", [
+            PY, "get_monsters.py",
+            "--dataset-dir", f"raw/{version}",
+            "--output", "transformed_drops.json",
+        ], cwd=ITEMSCRAPER)
+        step("drops/store", [
+            PY, "store_drops.py",
+            "--drops", "transformed_drops.json",
+            "--game-version", "dofus3",
+        ], cwd=ITEMSCRAPER)
 
     if do_images:
         step("spell-images", [
