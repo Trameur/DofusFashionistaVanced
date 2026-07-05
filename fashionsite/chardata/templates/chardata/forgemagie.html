@@ -638,7 +638,7 @@
             title.textContent = t.quality_title;
             var value = document.createElement('span');
             value.textContent =
-                (Math.round(quality.percent * 10) / 10) + '% — ' + quality.label;
+                (Math.round(quality.percent * 10) / 10) + '% (' + quality.label + ')';
             value.style.color = quality.color;
             labelRow.appendChild(title);
             labelRow.appendChild(value);
@@ -914,7 +914,7 @@
                     var lockedTd = document.createElement('td');
                     lockedTd.colSpan = 8;
                     lockedTd.className = 'fm-muted';
-                    lockedTd.textContent = row.max + ' — ' + t.wb_not_mageable;
+                    lockedTd.textContent = row.max + ' (' + t.wb_not_mageable + ')';
                     tr.appendChild(lockedTd);
                 }
 
@@ -1170,7 +1170,7 @@
         }
 
         // Two ways to drive the session: 'sim' lets the tool roll the outcome
-        // and estimate the losses; 'real' is for maging in game — you tap the
+        // and estimate the losses; 'real' is for maging in game, you tap the
         // outcome you actually got and type your item's new stats (the Now and
         // Target cells become editable, and no losses are guessed for you).
         function applyModeUI() {
@@ -1428,7 +1428,7 @@
             var lost = [];
             // The bonus on a success is deterministic, so apply it in both
             // modes. The losses on SN/EC are unpredictable in game, so in real
-            // mode we never guess them — the player edits the actual stats and
+            // mode we never guess them, the player edits the actual stats and
             // sink afterwards (the Now cells are editable).
             if (outcome === 'sc') {
                 row.value += tier.bonus;
@@ -2035,11 +2035,11 @@
             } else if (suggestion && suggestion.improvement) {
                 simSuggestionDiv.textContent =
                     t.sim_suggested + ': ' + suggestion.tier.name +
-                    ' (' + suggestion.name + ') — ' + t.sim_improve;
+                    ' (' + suggestion.name + '), ' + t.sim_improve;
             } else if (suggestion && suggestion.sacrifice) {
                 simSuggestionDiv.textContent =
                     t.sim_suggested + ': ' + suggestion.tier.name +
-                    ' — ' + t.sim_sacrifice;
+                    ', ' + t.sim_sacrifice;
             } else if (suggestion) {
                 simSuggestionDiv.textContent =
                     t.sim_suggested + ': ' + suggestion.tier.name +
@@ -2115,7 +2115,7 @@
                 line.appendChild(badge);
                 var text = entry.rune;
                 if (entry.lost && entry.lost.length) {
-                    text += ' — ' + entry.lost.map(function(loss) {
+                    text += ': ' + entry.lost.map(function(loss) {
                         return '-' + loss.points + ' ' + loss.name;
                     }).join(', ');
                 }
