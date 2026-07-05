@@ -2045,6 +2045,34 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         self.assertNotIn(retro.get_item_by_ankama_id(10076).id,
                          get_default_exclusions(char=None))
 
+    def test_ice_dofus_forbidden_by_default_on_retro_not_on_dofus3(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        # The Ice Dofus does not exist in 1.29; it was scraped into Retro as a
+        # bogus level 1 Dofus, so it is forbidden by default there.
+        set_current_game_version('retro')
+        retro = get_structure('retro')
+        ice = retro.get_item_by_ankama_id(7043)
+        self.assertIsNotNone(ice, 'Ice Dofus missing from Retro data')
+        self.assertIn(ice.id, get_default_exclusions(char=None))
+        # But it is a real Dofus on Dofus 3: not force-forbidden there.
+        set_current_game_version('dofus3')
+        dofus3 = get_structure('dofus3')
+        self.assertNotIn(dofus3.get_item_by_ankama_id(7043).id,
+                         get_default_exclusions(char=None))
+
+    def test_grobouclier_forbidden_by_default_on_retro(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        # The Grobouclier (Nolifishield) is a Grobe dungeon-key shield players
+        # do not build with; hidden by default on Retro but still removable.
+        set_current_game_version('retro')
+        retro = get_structure('retro')
+        shield = retro.get_item_by_ankama_id(13171)
+        self.assertIsNotNone(shield, 'Grobouclier missing from Retro data')
+        self.assertIn(shield.id, get_default_exclusions(char=None))
+        self.assertIn(shield.id, {it.id for it in retro.get_available_items_list()})
+
 
 class TrophyFlagTests(SimpleTestCase):
     """Trophies share the Dofus slot but carry a 'Trophy' flag (written by the data

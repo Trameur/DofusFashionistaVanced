@@ -62,6 +62,12 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
     'touch': [
         10076,  # Unique Hispanian Shield / Bouclier Hispanique Unique (not in Dofus Touch)
     ],
+    'retro': [
+        7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
+                # level 1 Dofus with +10% all resists, a real Dofus 2+ item)
+        13171,  # Nolifishield / Grobouclier (Grobe dungeon key shield; a real
+                # item but not built with, so hidden by default and removable)
+    ],
 }
 
 def get_default_exclusions(char):
