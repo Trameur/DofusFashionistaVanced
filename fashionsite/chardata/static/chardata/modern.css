@@ -144,7 +144,8 @@ html.fm-modern .fm-design-toggle span[aria-hidden]{ display:none; }
 /* CLASSIC mode: float the toggle into the top-right control cluster so it can
    never sit under the banner / character home-link (z-index 1-2), which would
    otherwise swallow the click and bounce the user to the home page. */
-html:not(.fm-modern) .space.header-controls .fm-design-toggle{ float:right; margin:5px 6px 0 0; }
+html:not(.fm-modern) .space.header-controls .fm-design-toggle{ float:right; margin:5px 6px 0 0; height:24px; padding:0 11px; font-size:12px; gap:5px; }
+html:not(.fm-modern) .fm-design-toggle svg{ width:13px; height:13px; }
 
 /* ---------- Layout shell ---------- */
 html.fm-modern .sidebar{
