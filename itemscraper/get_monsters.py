@@ -86,8 +86,8 @@ def build_drops_index(dataset_dir: Path,
     index: Dict[int, Dict[int, Dict[str, Any]]] = {}
 
     def add(object_id, monster_id, names, rates):
-        if object_id is None:
-            return
+        if object_id is None or max(rates) <= 0:
+            return  # a 0% entry is not a real drop
         per_item = index.setdefault(int(object_id), {})
         # a monster can list the same item more than once (different criterions
         # or drops[] + globalDrops); keep the best rate.

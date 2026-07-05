@@ -272,7 +272,7 @@
             <b>{{ t.dropped_by_label }}</b>
             <ul class="encyclopedia-list">
                 {% for drop in drops %}
-                <li>{{ drop.name }} <span class="drop-rate">{{ drop.rate|floatformat:2 }}%</span></li>
+                <li>{{ drop.name }} <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
                 {% endfor %}
             </ul>
         </div>
