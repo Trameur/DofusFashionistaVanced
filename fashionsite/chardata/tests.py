@@ -68,6 +68,53 @@ class PoFileFormatTests(SimpleTestCase):
                 self.assertEqual(proc.returncode, 0, msg=proc.stderr[:2000])
 
 
+class EmailTemplateTranslationTests(SimpleTestCase):
+    """Email templates render server-side in the recipient's language and are
+    never seen during normal dev, so a blocktrans whose text drifts from its .po
+    msgid falls back to English silently (removing a dash from the comment mail
+    template without resyncing the catalog did exactly that). Read the committed
+    .po, not the compiled .mo, so the drift is caught before a deploy hits it."""
+
+    LANGS = ('fr', 'es', 'pt', 'de')
+
+    @staticmethod
+    def _blocktrans_msgids(text):
+        # Only the plain {% blocktrans %}...{% endblocktrans %} form (none of the
+        # email templates use the with/count/trimmed variants).
+        blocks = re.findall(
+            r'\{%\s*blocktrans\s*%\}(.*?)\{%\s*endblocktrans\s*%\}', text, re.DOTALL)
+        return [re.sub(r'\{\{\s*(\w+)\s*\}\}', r'%(\1)s', b) for b in blocks]
+
+    def test_email_blocktrans_are_translated(self):
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        email_dir = os.path.join(
+            os.path.dirname(__file__), 'templates', 'chardata', 'emails')
+        templates = glob.glob(os.path.join(email_dir, '*'))
+        self.assertTrue(templates, msg='no email templates found')
+        catalogs = {}
+        for lang in self.LANGS:
+            path = os.path.join(os.path.dirname(__file__), '..', 'locale',
+                                lang, 'LC_MESSAGES', 'django.po')
+            catalogs[lang] = {e.msgid: e for e in polib.pofile(path)
+                              if not e.obsolete}
+        for tpl in templates:
+            with open(tpl, encoding='utf-8') as fh:
+                text = fh.read()
+            for msgid in self._blocktrans_msgids(text):
+                for lang in self.LANGS:
+                    entry = catalogs[lang].get(msgid)
+                    self.assertIsNotNone(entry, msg=(
+                        '%s: blocktrans has no active %s msgid, so it falls back '
+                        'to English. Resync the .po with the template: %r'
+                        % (os.path.basename(tpl), lang, msgid[:90])))
+                    self.assertTrue(entry.msgstr.strip(), msg=(
+                        '%s: %s translation is empty for %r'
+                        % (os.path.basename(tpl), lang, msgid[:90])))
+
+
 class TranslationRegressionTests(SimpleTestCase):
     """Guards the i18n fixes (fuzzy/empty strings) across fr/es/pt/de.
 
