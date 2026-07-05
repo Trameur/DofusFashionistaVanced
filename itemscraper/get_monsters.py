@@ -39,9 +39,13 @@ def _unwrap_array(value: Any) -> List[Any]:
 
 
 def _load_datacenter_table(path: Path) -> Dict[int, Dict[str, Any]]:
-    """Resolve the Unity reference serialization (objectsById + references.RefIds)
-    into a plain {id: record} map. Same shape as get_spells._load_datacenter_table."""
+    """Resolve the monster table into a plain {id: record} map. Handles both the
+    dofus3/beta Unity serialization (objectsById + references.RefIds) and the
+    Dofus 2 / Touch legacy format (a plain list of monster records)."""
     data = _load_json(path)
+    if isinstance(data, list):  # Dofus 2 / Touch: a plain list of records
+        return {int(r["id"]): r for r in data
+                if isinstance(r, dict) and r.get("id") is not None}
     refs = {ref["rid"]: ref["data"] for ref in data.get("references", {}).get("RefIds", [])}
     keys = data.get("objectsById", {}).get("m_keys", {}).get("Array", [])
     values = data.get("objectsById", {}).get("m_values", {}).get("Array", [])
@@ -64,7 +68,11 @@ def _load_translations(root: Path, languages: Sequence[str]) -> Dict[str, Dict[s
         path = root / f"{lang}.json"
         if not path.exists():
             raise FileNotFoundError(f"Missing localisation file: {path}")
-        entries = _load_json(path).get("entries")
+        data = _load_json(path)
+        # dofus3/beta use "entries"; Dofus 2 / Touch use "texts". Both are {id: string}.
+        entries = data.get("entries")
+        if not isinstance(entries, Mapping):
+            entries = data.get("texts")
         if not isinstance(entries, Mapping):
             raise ValueError(f"Unexpected language payload format in {path}")
         translations[lang] = {str(k): v for k, v in entries.items()}
