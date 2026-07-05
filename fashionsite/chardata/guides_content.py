@@ -317,19 +317,19 @@ GUIDES = {
                 'lead': "AP, range, masteries, vitality, crits… Dofus throws a lot of numbers at you. Here's a no-nonsense rundown of what actually matters and how to weight it.",
                 'body': '''
 <h2>The kingmakers: AP, MP and range</h2>
-<p>These three decide what your character can even do on a turn. One more AP can mean a whole extra spell; one more MP is positioning and kiting; range makes or breaks half the classes in the game. They're scarce, every build fights over them, so in the tool you usually <strong>lock them to a target</strong> rather than weight them — "give me exactly 11 AP and 6 MP, then optimize the rest."</p>
+<p>These three decide what your character can even do on a turn. One more AP can mean a whole extra spell; one more MP is positioning and kiting; range makes or breaks half the classes in the game. They're scarce, every build fights over them, so in the tool you usually <strong>lock them to a target</strong> rather than weight them: "give me exactly 11 AP and 6 MP, then optimize the rest."</p>
 
 <h2>Your element and mastery</h2>
-<p>Your damage comes from one (or more) of Strength, Intelligence, Agility and Chance, paired with the matching elemental mastery. Pick the element your main spells scale with and lean into it — a focused mono-element build almost always out-damages a smeared multi-element one. Since the 3.6 characteristic rework, masteries carry even more of the weight, so they deserve a high slider on any damage build.</p>
+<p>Your damage comes from one (or more) of Strength, Intelligence, Agility and Chance, paired with the matching elemental mastery. Pick the element your main spells scale with and lean into it: a focused mono-element build almost always out-damages a smeared multi-element one. Since the 3.6 characteristic rework, masteries carry even more of the weight, so they deserve a high slider on any damage build.</p>
 
 <h2>Staying alive</h2>
-<p>Vitality is raw HP and it's cheap to stack, but more isn't always better — 1000 extra HP you didn't need is a damage stat you threw away. Resistance (flat and %) is what actually keeps you up in PvP and tough fights. For Kolossium, weight resistance seriously; for mobbing PvM, you can often get away with less.</p>
+<p>Vitality is raw HP and it's cheap to stack, but more isn't always better: 1000 extra HP you didn't need is a damage stat you threw away. Resistance (flat and %) is what actually keeps you up in PvP and tough fights. For Kolossium, weight resistance seriously; for mobbing PvM, you can often get away with less.</p>
 
 <h2>The multipliers: Power, Damage, Crit</h2>
-<p>Power boosts all your elemental damage at once and is almost always worth a high weight. Flat Damage (+dmg) is strongest on multi-hit, low-base spells; % damage scales with big hits. Critical hit rate is great <em>if</em> your crits actually add a meaningful bonus — check the spell before you chase it.</p>
+<p>Power boosts all your elemental damage at once and is almost always worth a high weight. Flat Damage (+dmg) is strongest on multi-hit, low-base spells; % damage scales with big hits. Critical hit rate is great <em>if</em> your crits actually add a meaningful bonus: check the spell before you chase it.</p>
 
 <h2>The quiet ones: Wisdom, Prospecting, Initiative, Pods</h2>
-<p>Not every build is about damage. Wisdom = XP and resistance to AP/MP loss; Prospecting = drop rate, gold for farmers; Initiative decides turn order; Pods are pure convenience. Give them a small weight when they matter to you and zero when they don't — the optimizer will only chase them if there's no real cost.</p>
+<p>Not every build is about damage. Wisdom = XP and resistance to AP/MP loss; Prospecting = drop rate, gold for farmers; Initiative decides turn order; Pods are pure convenience. Give them a small weight when they matter to you and zero when they don't: the optimizer will only chase them if there's no real cost.</p>
 
 <h2>The one rule</h2>
 <p>Don't max everything. If every slider is at the top, you've told the tool that nothing matters, which is the same as telling it nothing. Pick your two or three real priorities, weight those high, and let the rest fall where it lands.</p>
@@ -343,19 +343,19 @@ GUIDES = {
                 'lead': "PA, portée, maîtrises, vitalité, coups critiques… Dofus te balance un paquet de chiffres. Voilà un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
                 'body': '''
 <h2>Les rois : PA, PM et portée</h2>
-<p>Ces trois-là décident de ce que ton perso peut faire dans un tour, point. Un PA de plus, c'est parfois un sort entier en rab ; un PM de plus, c'est du placement et du kite ; la portée fait ou défait la moitié des classes du jeu. C'est rare, tous les builds se les arrachent, donc dans l'outil tu les <strong>verrouilles à un objectif</strong> plutôt que de les pondérer — "donne-moi exactement 11 PA et 6 PM, puis optimise le reste".</p>
+<p>Ces trois-là décident de ce que ton perso peut faire dans un tour, point. Un PA de plus, c'est parfois un sort entier en rab ; un PM de plus, c'est du placement et du kite ; la portée fait ou défait la moitié des classes du jeu. C'est rare, tous les builds se les arrachent, donc dans l'outil tu les <strong>verrouilles à un objectif</strong> plutôt que de les pondérer : "donne-moi exactement 11 PA et 6 PM, puis optimise le reste".</p>
 
 <h2>Ton élément et ta maîtrise</h2>
-<p>Tes dégâts viennent d'un (ou plusieurs) parmi Force, Intelligence, Agilité et Chance, couplés à la maîtrise élémentaire correspondante. Choisis l'élément sur lequel scalent tes sorts principaux et fonce dessus — un build mono-élément concentré tape presque toujours plus fort qu'un build multi-élément dilué. Depuis la refonte des caracs 3.6, les maîtrises pèsent encore plus lourd, donc elles méritent un gros curseur sur tout build dégâts.</p>
+<p>Tes dégâts viennent d'un (ou plusieurs) parmi Force, Intelligence, Agilité et Chance, couplés à la maîtrise élémentaire correspondante. Choisis l'élément sur lequel scalent tes sorts principaux et fonce dessus : un build mono-élément concentré tape presque toujours plus fort qu'un build multi-élément dilué. Depuis la refonte des caracs 3.6, les maîtrises pèsent encore plus lourd, donc elles méritent un gros curseur sur tout build dégâts.</p>
 
 <h2>Rester en vie</h2>
-<p>La vitalité, c'est des PV bruts et ça s'empile pas cher, mais plus n'est pas toujours mieux — 1000 PV en trop dont t'avais pas besoin, c'est une stat de dégâts jetée à la poubelle. La résistance (fixe et %) c'est ce qui te garde debout en PvP et dans les combats velus. Pour le Kolizéum, pondère la résistance sérieusement ; en PvM de mob, tu peux souvent t'en passer un peu.</p>
+<p>La vitalité, c'est des PV bruts et ça s'empile pas cher, mais plus n'est pas toujours mieux : 1000 PV en trop dont t'avais pas besoin, c'est une stat de dégâts jetée à la poubelle. La résistance (fixe et %) c'est ce qui te garde debout en PvP et dans les combats velus. Pour le Kolizéum, pondère la résistance sérieusement ; en PvM de mob, tu peux souvent t'en passer un peu.</p>
 
 <h2>Les multiplicateurs : Puissance, Dommages, Critique</h2>
-<p>La Puissance booste tous tes dégâts élémentaires d'un coup et mérite presque toujours un gros poids. Les Dommages fixes (+dom) sont rois sur les sorts multi-coups à faible base ; les dégâts en % scalent avec les gros coups. Le taux de critique est top <em>si</em> tes crits ajoutent vraiment un bonus qui compte — vérifie le sort avant de courir après.</p>
+<p>La Puissance booste tous tes dégâts élémentaires d'un coup et mérite presque toujours un gros poids. Les Dommages fixes (+dom) sont rois sur les sorts multi-coups à faible base ; les dégâts en % scalent avec les gros coups. Le taux de critique est top <em>si</em> tes crits ajoutent vraiment un bonus qui compte : vérifie le sort avant de courir après.</p>
 
 <h2>Les discrètes : Sagesse, Prospection, Initiative, Pods</h2>
-<p>Tous les builds ne tournent pas autour des dégâts. Sagesse = XP et résistance à la perte de PA/PM ; Prospection = taux de drop, kamas pour les farmeurs ; l'Initiative décide de l'ordre des tours ; les Pods, c'est du confort pur. Mets-leur un petit poids quand ça t'importe et zéro sinon — l'optimiseur ne les chassera que si ça ne coûte rien.</p>
+<p>Tous les builds ne tournent pas autour des dégâts. Sagesse = XP et résistance à la perte de PA/PM ; Prospection = taux de drop, kamas pour les farmeurs ; l'Initiative décide de l'ordre des tours ; les Pods, c'est du confort pur. Mets-leur un petit poids quand ça t'importe et zéro sinon : l'optimiseur ne les chassera que si ça ne coûte rien.</p>
 
 <h2>La seule règle</h2>
 <p>Ne monte pas tout à fond. Si tous les curseurs sont au max, t'as dit à l'outil que rien ne compte, ce qui revient à ne rien lui dire. Choisis tes deux-trois vraies priorités, pondère-les haut, et laisse le reste tomber où il tombe.</p>
@@ -369,19 +369,19 @@ GUIDES = {
                 'lead': "PA, alcance, dominios, vitalidad, críticos… Dofus te tira un montón de números. Aquí va un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
                 'body': '''
 <h2>Los que mandan: PA, PM y alcance</h2>
-<p>Estos tres deciden lo que tu personaje puede hacer en un turno, y punto. Un PA más a veces es un hechizo entero extra; un PM más es colocación y kiteo; el alcance hace o deshace a la mitad de las clases del juego. Son escasos, todos los builds se pelean por ellos, así que en la herramienta normalmente los <strong>bloqueas a un objetivo</strong> en vez de ponderarlos — "dame exactamente 11 PA y 6 PM, y luego optimiza el resto".</p>
+<p>Estos tres deciden lo que tu personaje puede hacer en un turno, y punto. Un PA más a veces es un hechizo entero extra; un PM más es colocación y kiteo; el alcance hace o deshace a la mitad de las clases del juego. Son escasos, todos los builds se pelean por ellos, así que en la herramienta normalmente los <strong>bloqueas a un objetivo</strong> en vez de ponderarlos: "dame exactamente 11 PA y 6 PM, y luego optimiza el resto".</p>
 
 <h2>Tu elemento y tu dominio</h2>
-<p>Tu daño sale de uno (o varios) entre Fuerza, Inteligencia, Agilidad y Suerte, junto con el dominio elemental correspondiente. Elige el elemento con el que escalan tus hechizos principales y ve a por él — un build monoelemento concentrado casi siempre pega más que uno multielemento diluido. Desde el rework de características de 3.6, los dominios pesan aún más, así que merecen un deslizador alto en cualquier build de daño.</p>
+<p>Tu daño sale de uno (o varios) entre Fuerza, Inteligencia, Agilidad y Suerte, junto con el dominio elemental correspondiente. Elige el elemento con el que escalan tus hechizos principales y ve a por él: un build monoelemento concentrado casi siempre pega más que uno multielemento diluido. Desde el rework de características de 3.6, los dominios pesan aún más, así que merecen un deslizador alto en cualquier build de daño.</p>
 
 <h2>Seguir vivo</h2>
-<p>La vitalidad son PV en bruto y apilarla es barato, pero más no siempre es mejor — 1000 PV de más que no necesitabas es una estadística de daño tirada a la basura. La resistencia (fija y %) es lo que de verdad te mantiene en pie en PvP y en peleas duras. Para el Koliseo, pondera la resistencia en serio; en PvM de mobeo, muchas veces puedes ir con menos.</p>
+<p>La vitalidad son PV en bruto y apilarla es barato, pero más no siempre es mejor: 1000 PV de más que no necesitabas es una estadística de daño tirada a la basura. La resistencia (fija y %) es lo que de verdad te mantiene en pie en PvP y en peleas duras. Para el Koliseo, pondera la resistencia en serio; en PvM de mobeo, muchas veces puedes ir con menos.</p>
 
 <h2>Los multiplicadores: Potencia, Daños, Crítico</h2>
-<p>La Potencia sube todo tu daño elemental de golpe y casi siempre merece un peso alto. Los Daños fijos (+daño) brillan en hechizos multigolpe de base baja; el daño en % escala con los golpazos. La tasa de crítico es genial <em>si</em> tus críticos suman un bonus que de verdad cuenta — mira el hechizo antes de ir a por ella.</p>
+<p>La Potencia sube todo tu daño elemental de golpe y casi siempre merece un peso alto. Los Daños fijos (+daño) brillan en hechizos multigolpe de base baja; el daño en % escala con los golpazos. La tasa de crítico es genial <em>si</em> tus críticos suman un bonus que de verdad cuenta: mira el hechizo antes de ir a por ella.</p>
 
 <h2>Las calladas: Sabiduría, Prospección, Iniciativa, Pods</h2>
-<p>No todos los builds van de daño. Sabiduría = XP y resistencia a la pérdida de PA/PM; Prospección = tasa de drop, kamas para farmers; la Iniciativa decide el orden de turnos; los Pods son comodidad pura. Dales un peso pequeño cuando te importan y cero cuando no — el optimizador solo irá a por ellos si no cuesta nada.</p>
+<p>No todos los builds van de daño. Sabiduría = XP y resistencia a la pérdida de PA/PM; Prospección = tasa de drop, kamas para farmers; la Iniciativa decide el orden de turnos; los Pods son comodidad pura. Dales un peso pequeño cuando te importan y cero cuando no: el optimizador solo irá a por ellos si no cuesta nada.</p>
 
 <h2>La única regla</h2>
 <p>No lo subas todo al máximo. Si todos los deslizadores están arriba, le has dicho a la herramienta que nada importa, que es lo mismo que no decirle nada. Elige tus dos o tres prioridades reales, ponderalas alto, y deja que el resto caiga donde caiga.</p>
@@ -395,19 +395,19 @@ GUIDES = {
                 'lead': "PA, alcance, domínios, vitalidade, críticos… Dofus joga um monte de números em você. Aqui vai um resumo sem enrolação do que importa de verdade e como ponderar.",
                 'body': '''
 <h2>Os que mandam: PA, PM e alcance</h2>
-<p>Esses três decidem o que seu personagem consegue fazer num turno, ponto. Um PA a mais às vezes é um feitiço inteiro extra; um PM a mais é posicionamento e kite; o alcance faz ou quebra metade das classes do jogo. São escassos, todo build briga por eles, então na ferramenta você geralmente os <strong>trava num objetivo</strong> em vez de ponderar — "me dá exatamente 11 PA e 6 PM, e depois otimiza o resto".</p>
+<p>Esses três decidem o que seu personagem consegue fazer num turno, ponto. Um PA a mais às vezes é um feitiço inteiro extra; um PM a mais é posicionamento e kite; o alcance faz ou quebra metade das classes do jogo. São escassos, todo build briga por eles, então na ferramenta você geralmente os <strong>trava num objetivo</strong> em vez de ponderar: "me dá exatamente 11 PA e 6 PM, e depois otimiza o resto".</p>
 
 <h2>Seu elemento e seu domínio</h2>
-<p>Seu dano vem de um (ou mais) entre Força, Inteligência, Agilidade e Sorte, junto com o domínio elemental correspondente. Escolha o elemento com que seus feitiços principais escalam e vá fundo nele — um build mono-elemento concentrado quase sempre bate mais que um multi-elemento diluído. Desde a reformulação de características da 3.6, os domínios pesam ainda mais, então merecem um controle alto em qualquer build de dano.</p>
+<p>Seu dano vem de um (ou mais) entre Força, Inteligência, Agilidade e Sorte, junto com o domínio elemental correspondente. Escolha o elemento com que seus feitiços principais escalam e vá fundo nele: um build mono-elemento concentrado quase sempre bate mais que um multi-elemento diluído. Desde a reformulação de características da 3.6, os domínios pesam ainda mais, então merecem um controle alto em qualquer build de dano.</p>
 
 <h2>Continuar vivo</h2>
-<p>Vitalidade é PV cru e empilhar é barato, mas mais nem sempre é melhor — 1000 PV a mais de que você não precisava é um atributo de dano jogado fora. Resistência (fixa e %) é o que de fato te mantém em pé no PvP e em lutas pesadas. Pro Koliseu, pondere resistência a sério; em PvM de mob, muitas vezes dá pra ir com menos.</p>
+<p>Vitalidade é PV cru e empilhar é barato, mas mais nem sempre é melhor: 1000 PV a mais de que você não precisava é um atributo de dano jogado fora. Resistência (fixa e %) é o que de fato te mantém em pé no PvP e em lutas pesadas. Pro Koliseu, pondere resistência a sério; em PvM de mob, muitas vezes dá pra ir com menos.</p>
 
 <h2>Os multiplicadores: Potência, Danos, Crítico</h2>
-<p>A Potência aumenta todo o seu dano elemental de uma vez e quase sempre merece um peso alto. Danos fixos (+dano) brilham em feitiços multi-golpe de base baixa; dano em % escala com golpes grandes. A taxa de crítico é ótima <em>se</em> seus críticos somam um bônus que conta de verdade — confira o feitiço antes de correr atrás.</p>
+<p>A Potência aumenta todo o seu dano elemental de uma vez e quase sempre merece um peso alto. Danos fixos (+dano) brilham em feitiços multi-golpe de base baixa; dano em % escala com golpes grandes. A taxa de crítico é ótima <em>se</em> seus críticos somam um bônus que conta de verdade: confira o feitiço antes de correr atrás.</p>
 
 <h2>Os quietos: Sabedoria, Prospecção, Iniciativa, Pods</h2>
-<p>Nem todo build é sobre dano. Sabedoria = XP e resistência à perda de PA/PM; Prospecção = taxa de drop, kamas pros farmers; a Iniciativa decide a ordem dos turnos; os Pods são puro conforto. Dê um peso pequeno quando importam e zero quando não — o otimizador só vai atrás deles se não custar nada.</p>
+<p>Nem todo build é sobre dano. Sabedoria = XP e resistência à perda de PA/PM; Prospecção = taxa de drop, kamas pros farmers; a Iniciativa decide a ordem dos turnos; os Pods são puro conforto. Dê um peso pequeno quando importam e zero quando não: o otimizador só vai atrás deles se não custar nada.</p>
 
 <h2>A única regra</h2>
 <p>Não suba tudo no máximo. Se todos os controles estão no topo, você disse pra ferramenta que nada importa, o que é o mesmo que não dizer nada. Escolha suas duas ou três prioridades reais, pondere alto, e deixe o resto cair onde cair.</p>
@@ -421,22 +421,22 @@ GUIDES = {
                 'lead': "AP, Reichweite, Beherrschungen, Vitalität, Kritische… Dofus wirft dir eine Menge Zahlen hin. Hier ist ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
                 'body': '''
 <h2>Die Königsmacher: AP, BP und Reichweite</h2>
-<p>Diese drei entscheiden, was deine Figur in einer Runde überhaupt tun kann. Ein AP mehr ist manchmal ein ganzer zusätzlicher Zauber; ein BP mehr ist Positionierung und Kiten; Reichweite macht oder bricht die Hälfte der Klassen im Spiel. Sie sind knapp, jedes Build kämpft darum, deshalb <strong>fixierst</strong> du sie im Tool meist auf ein Ziel, statt sie zu gewichten — "gib mir genau 11 AP und 6 BP, dann optimiere den Rest".</p>
+<p>Diese drei entscheiden, was deine Figur in einer Runde überhaupt tun kann. Ein AP mehr ist manchmal ein ganzer zusätzlicher Zauber; ein BP mehr ist Positionierung und Kiten; Reichweite macht oder bricht die Hälfte der Klassen im Spiel. Sie sind knapp, jedes Build kämpft darum, deshalb <strong>fixierst</strong> du sie im Tool meist auf ein Ziel, statt sie zu gewichten: "gib mir genau 11 AP und 6 BP, dann optimiere den Rest".</p>
 
 <h2>Dein Element und deine Beherrschung</h2>
-<p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Beweglichkeit und Glück, zusammen mit der passenden Elementarbeherrschung. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch — ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Seit dem Charakterwerte-Rework in 3.6 wiegen Beherrschungen noch schwerer, also verdienen sie in jedem Schadens-Build einen hohen Regler.</p>
+<p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Beweglichkeit und Glück, zusammen mit der passenden Elementarbeherrschung. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch: ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Seit dem Charakterwerte-Rework in 3.6 wiegen Beherrschungen noch schwerer, also verdienen sie in jedem Schadens-Build einen hohen Regler.</p>
 
 <h2>Am Leben bleiben</h2>
-<p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser — 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Fürs Kolosseum gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
+<p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser: 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Fürs Kolosseum gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
 
 <h2>Die Multiplikatoren: Stärke (Power), Schaden, Kritisch</h2>
-<p>Power hebt deinen gesamten Elementarschaden auf einmal und verdient fast immer ein hohes Gewicht. Fixer Schaden (+Schaden) ist am stärksten bei Multi-Treffer-Zaubern mit niedriger Basis; %-Schaden skaliert mit großen Treffern. Kritische Trefferrate ist super, <em>wenn</em> deine Kritischen wirklich einen spürbaren Bonus draufpacken — schau den Zauber an, bevor du ihr hinterherjagst.</p>
+<p>Power hebt deinen gesamten Elementarschaden auf einmal und verdient fast immer ein hohes Gewicht. Fixer Schaden (+Schaden) ist am stärksten bei Multi-Treffer-Zaubern mit niedriger Basis; %-Schaden skaliert mit großen Treffern. Kritische Trefferrate ist super, <em>wenn</em> deine Kritischen wirklich einen spürbaren Bonus draufpacken: schau den Zauber an, bevor du ihr hinterherjagst.</p>
 
 <h2>Die Leisen: Weisheit, Prospektion, Initiative, Trageleistung</h2>
-<p>Nicht jedes Build dreht sich um Schaden. Weisheit = EP und Widerstand gegen AP/BP-Verlust; Prospektion = Drop-Rate, Kamas für Farmer; Initiative entscheidet die Zugreihenfolge; Trageleistung ist purer Komfort. Gib ihnen ein kleines Gewicht, wenn sie dir wichtig sind, und null, wenn nicht — der Optimierer jagt ihnen nur nach, wenn es nichts kostet.</p>
+<p>Nicht jedes Build dreht sich um Schaden. Weisheit = EP und Widerstand gegen AP/BP-Verlust; Prospektion = Drop-Rate, Kamas für Farmer; Initiative entscheidet die Zugreihenfolge; Trageleistung ist purer Komfort. Gib ihnen ein kleines Gewicht, wenn sie dir wichtig sind, und null, wenn nicht: der Optimierer jagt ihnen nur nach, wenn es nichts kostet.</p>
 
 <h2>Die eine Regel</h2>
-<p>Stell nicht alles auf Maximum. Wenn jeder Regler oben ist, hast du dem Tool gesagt, dass nichts zählt — und das ist dasselbe, wie ihm gar nichts zu sagen. Wähl deine zwei, drei echten Prioritäten, gewichte die hoch, und lass den Rest fallen, wo er fällt.</p>
+<p>Stell nicht alles auf Maximum. Wenn jeder Regler oben ist, hast du dem Tool gesagt, dass nichts zählt, und das ist dasselbe, wie ihm gar nichts zu sagen. Wähl deine zwei, drei echten Prioritäten, gewichte die hoch, und lass den Rest fallen, wo er fällt.</p>
 
 <p><em>Bereit, Zahlen draufzulegen? <a href="/setup/">Bau es hier.</a></em></p>
 ''',
