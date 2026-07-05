@@ -264,10 +264,11 @@ availability), i18n catalogues and template guards. If a run leaves
 # Progress and Roadmap
 
 **Current status:** the site runs all five game versions side by side, each with its own
-data pipeline (see *Updating game data* above). The live in-game version of each variant is
-tracked in [fashionista_version.py](fashionista_version.py). Original editorial `/guides/`
-content is published in the five supported languages (English, French, Spanish,
-Portuguese, German).
+data pipeline (see *Updating game data* above), and is mobile friendly. The live in-game
+version of each variant is tracked in [fashionista_version.py](fashionista_version.py).
+On top of the set optimizer it offers an inventory, a workshop, smithmagic (forgemagie),
+shared builds and an encyclopedia. Original editorial `/guides/` content is published in
+the five supported languages (English, French, Spanish, Portuguese, German).
 
 ✅ Website is fully operational     
 ✅ All equipments and mounts updated to the Dofus version defined in [fashionista_version.py](fashionista_version.py)      
@@ -292,11 +293,14 @@ Portuguese, German).
        ✅ 100% Deutsche              
        ❌ 0% Italian (Ankama removed Italian language)              
 ✅ Add ability to forbid prysmaradite       
-❌ Make it mobile friendly             
+✅ Make it mobile friendly             
         
 🚧 New features after 3.0 TBD     
        ✅ Shared Builds    
        ✅ Encyclopedia     
+       ✅ Inventory    
+       ✅ Workshop    
+       ✅ Smithmagic     
        
 ✅ Dofus 3 Unity             
 ✅ Dofus 3 Beta             
