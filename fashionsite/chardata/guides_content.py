@@ -588,22 +588,22 @@ GUIDES = {
             'en': {
                 'title': "Building for PvM, PvP and Kolossium",
                 'desc': "The same character needs a different build depending on whether you're farming dungeons, dueling, or grinding Kolossium. Here's how to weight each one without rebuilding from scratch.",
-                'lead': "The same character needs a different build depending on whether you're farming dungeons, dueling, or grinding Kolossium. Same items, different priorities — here's how to weight each.",
+                'lead': "The same character needs a different build depending on whether you're farming dungeons, dueling, or grinding Kolossium. Same items, different priorities: here's how to weight each.",
                 'body': '''
 <h2>Why one build isn't enough</h2>
-<p>Your gear doesn't change, but what you ask of it does. A PvM farm set wants to delete monsters before they matter; a Kolossium set wants to still be standing on turn ten. Pour the same items into both and you'll be mediocre at each. The trick isn't owning three stuffs — it's telling the optimizer what <strong>this</strong> set is for and saving it as its own project.</p>
+<p>Your gear doesn't change, but what you ask of it does. A PvM farm set wants to delete monsters before they matter; a Kolossium set wants to still be standing on turn ten. Pour the same items into both and you'll be mediocre at each. The trick isn't owning three stuffs, it's telling the optimizer what <strong>this</strong> set is for and saving it as its own project.</p>
 
 <h2>PvM: kill fast, survive enough</h2>
 <p>Against monsters you usually know the fight, so you can lean into offense. Weight your element and Power high, push flat and percent damage, and keep just enough vitality and resistance to clear the dungeon you actually run. No opponent is reading your build, so dumping defensive stats for raw damage is often correct. Lock your AP, MP and range to hit your spell combo, then let the tool pour everything else into killing power.</p>
 
 <h2>PvP and Kolossium: resistance wins games</h2>
-<p>Now someone is actively trying to ruin your turn. Flat and percent resistance jump to the top of your weights — surviving a burst is worth more than a slightly bigger hit you might not land. Wisdom matters too: it cuts how much AP and MP an enemy can strip from you, and getting locked out of your kit loses fights. Keep your damage element, but balance it against staying alive, and value range and MP for the positioning game.</p>
+<p>Now someone is actively trying to ruin your turn. Flat and percent resistance jump to the top of your weights: surviving a burst is worth more than a slightly bigger hit you might not land. Wisdom matters too: it cuts how much AP and MP an enemy can strip from you, and getting locked out of your kit loses fights. Keep your damage element, but balance it against staying alive, and value range and MP for the positioning game.</p>
 
 <h2>The three you always lock</h2>
-<p>Whatever the mode, AP, MP and range are targets, not sliders. Decide the breakpoints your spells need — say 11 AP, 6 MP, 4 range — and lock them. The optimizer then spends every remaining stat point on what changes between modes, instead of wasting gear hitting an AP number you never asked for.</p>
+<p>Whatever the mode, AP, MP and range are targets, not sliders. Decide the breakpoints your spells need (say 11 AP, 6 MP, 4 range) and lock them. The optimizer then spends every remaining stat point on what changes between modes, instead of wasting gear hitting an AP number you never asked for.</p>
 
 <h2>Do it in the tool</h2>
-<p>Make one project per mode. Start from your PvM set, duplicate it, drag resistance and Wisdom up, drag a little damage down, and re-tailor — you've got a Kolossium variant in under a minute. Then throw both into the <a href="/choose_compare_sets/">comparison</a> to see exactly what you trade. That side-by-side is the fastest way to understand your own build.</p>
+<p>Make one project per mode. Start from your PvM set, duplicate it, drag resistance and Wisdom up, drag a little damage down, and re-tailor, you've got a Kolossium variant in under a minute. Then throw both into the <a href="/choose_compare_sets/">comparison</a> to see exactly what you trade. That side-by-side is the fastest way to understand your own build.</p>
 
 <p><em>Pick a mode and tune it: <a href="/setup/">start a project.</a></em></p>
 ''',
@@ -611,22 +611,22 @@ GUIDES = {
             'fr': {
                 'title': "Optimiser son stuff pour le PvM, le PvP et le Kolizéum",
                 'desc': "Le même perso a besoin d'un build différent selon que tu farmes du donjon, que tu duelles ou que tu grind le Kolizéum. Voilà comment pondérer chacun sans tout refaire de zéro.",
-                'lead': "Le même perso a besoin d'un build différent selon que tu farmes du donjon, que tu duelles ou que tu grind le Kolizéum. Mêmes items, priorités différentes — voilà comment pondérer chacun.",
+                'lead': "Le même perso a besoin d'un build différent selon que tu farmes du donjon, que tu duelles ou que tu grind le Kolizéum. Mêmes items, priorités différentes : voilà comment pondérer chacun.",
                 'body': '''
 <h2>Pourquoi un seul build ne suffit pas</h2>
-<p>Ton stuff ne change pas, mais ce que tu lui demandes, si. Un set de farm PvM veut effacer les monstres avant qu'ils comptent ; un set Kolizéum veut être encore debout au tour dix. Mets les mêmes items dans les deux et tu seras moyen partout. L'astuce, c'est pas d'avoir trois stuffs — c'est de dire à l'optimiseur à quoi sert <strong>ce</strong> set-là et de le sauvegarder comme projet à part.</p>
+<p>Ton stuff ne change pas, mais ce que tu lui demandes, si. Un set de farm PvM veut effacer les monstres avant qu'ils comptent ; un set Kolizéum veut être encore debout au tour dix. Mets les mêmes items dans les deux et tu seras moyen partout. L'astuce, c'est pas d'avoir trois stuffs, c'est de dire à l'optimiseur à quoi sert <strong>ce</strong> set-là et de le sauvegarder comme projet à part.</p>
 
 <h2>PvM : tuer vite, survivre assez</h2>
 <p>Contre les monstres tu connais souvent le combat, donc tu peux miser sur l'attaque. Pondère ton élément et la Puissance haut, pousse les dommages fixes et en %, et garde juste assez de vita et de résistance pour clean le donjon que tu fais vraiment. Personne ne lit ton build en face, donc sacrifier du défensif pour du dégât brut est souvent le bon choix. Verrouille tes PA, PM et portée pour sortir ton combo, puis laisse l'outil tout mettre dans la puissance de frappe.</p>
 
 <h2>PvP et Kolizéum : la résistance gagne les matchs</h2>
-<p>Là, quelqu'un essaie activement de pourrir ton tour. La résistance fixe et en % grimpe en haut de tes poids — encaisser un burst vaut plus qu'un coup à peine plus gros que tu vas peut-être rater. La Sagesse compte aussi : elle réduit les PA et PM qu'un ennemi peut te retirer, et se faire lock hors de son kit, ça perd des combats. Garde ton élément de dégâts, mais équilibre-le avec la survie, et valorise la portée et les PM pour le jeu de placement.</p>
+<p>Là, quelqu'un essaie activement de pourrir ton tour. La résistance fixe et en % grimpe en haut de tes poids : encaisser un burst vaut plus qu'un coup à peine plus gros que tu vas peut-être rater. La Sagesse compte aussi : elle réduit les PA et PM qu'un ennemi peut te retirer, et se faire lock hors de son kit, ça perd des combats. Garde ton élément de dégâts, mais équilibre-le avec la survie, et valorise la portée et les PM pour le jeu de placement.</p>
 
 <h2>Les trois que tu verrouilles toujours</h2>
-<p>Peu importe le mode, PA, PM et portée sont des objectifs, pas des curseurs. Décide les paliers dont tes sorts ont besoin — genre 11 PA, 6 PM, 4 de portée — et verrouille-les. L'optimiseur dépense alors chaque point de stat restant sur ce qui change entre les modes, au lieu de gaspiller du stuff à atteindre un nombre de PA que t'as pas demandé.</p>
+<p>Peu importe le mode, PA, PM et portée sont des objectifs, pas des curseurs. Décide les paliers dont tes sorts ont besoin (genre 11 PA, 6 PM, 4 de portée) et verrouille-les. L'optimiseur dépense alors chaque point de stat restant sur ce qui change entre les modes, au lieu de gaspiller du stuff à atteindre un nombre de PA que t'as pas demandé.</p>
 
 <h2>Fais-le dans l'outil</h2>
-<p>Crée un projet par mode. Pars de ton set PvM, duplique-le, monte la résistance et la Sagesse, baisse un peu les dégâts, et retaille — t'as une variante Kolizéum en moins d'une minute. Puis balance les deux dans le <a href="/choose_compare_sets/">comparateur</a> pour voir exactement ce que tu échanges. Ce côte-à-côte, c'est le moyen le plus rapide de comprendre ton propre build.</p>
+<p>Crée un projet par mode. Pars de ton set PvM, duplique-le, monte la résistance et la Sagesse, baisse un peu les dégâts, et retaille, t'as une variante Kolizéum en moins d'une minute. Puis balance les deux dans le <a href="/choose_compare_sets/">comparateur</a> pour voir exactement ce que tu échanges. Ce côte-à-côte, c'est le moyen le plus rapide de comprendre ton propre build.</p>
 
 <p><em>Choisis un mode et règle-le : <a href="/setup/">lance un projet.</a></em></p>
 ''',
@@ -634,22 +634,22 @@ GUIDES = {
             'es': {
                 'title': "Optimizar tu build para PvM, PvP y Koliseo",
                 'desc': "El mismo personaje necesita un build distinto según si farmeas mazmorras, dueleas o grindeas Koliseo. Aquí tienes cómo ponderar cada uno sin rehacerlo todo de cero.",
-                'lead': "El mismo personaje necesita un build distinto según si farmeas mazmorras, dueleas o grindeas Koliseo. Mismos ítems, prioridades distintas — aquí tienes cómo ponderar cada uno.",
+                'lead': "El mismo personaje necesita un build distinto según si farmeas mazmorras, dueleas o grindeas Koliseo. Mismos ítems, prioridades distintas: aquí tienes cómo ponderar cada uno.",
                 'body': '''
 <h2>Por qué un solo build no basta</h2>
-<p>Tu equipo no cambia, pero lo que le pides sí. Un set de farmeo PvM quiere borrar a los monstruos antes de que importen; un set de Koliseo quiere seguir en pie en el turno diez. Mete los mismos ítems en ambos y serás mediocre en los dos. El truco no es tener tres sets — es decirle al optimizador para qué sirve <strong>este</strong> set y guardarlo como su propio proyecto.</p>
+<p>Tu equipo no cambia, pero lo que le pides sí. Un set de farmeo PvM quiere borrar a los monstruos antes de que importen; un set de Koliseo quiere seguir en pie en el turno diez. Mete los mismos ítems en ambos y serás mediocre en los dos. El truco no es tener tres sets, es decirle al optimizador para qué sirve <strong>este</strong> set y guardarlo como su propio proyecto.</p>
 
 <h2>PvM: matar rápido, sobrevivir lo justo</h2>
 <p>Contra monstruos sueles conocer la pelea, así que puedes apostar por el ataque. Pondera tu elemento y la Potencia alto, sube el daño fijo y en %, y guarda solo la vita y resistencia que necesites para limpiar la mazmorra que de verdad haces. Nadie lee tu build enfrente, así que sacrificar defensa por daño bruto suele ser lo correcto. Bloquea tus PA, PM y alcance para sacar tu combo, y deja que la herramienta lo meta todo en poder de daño.</p>
 
 <h2>PvP y Koliseo: la resistencia gana partidas</h2>
-<p>Ahora alguien intenta activamente arruinarte el turno. La resistencia fija y en % sube a lo más alto de tus pesos — aguantar un burst vale más que un golpe algo mayor que quizá falles. La Sabiduría también cuenta: reduce los PA y PM que un enemigo puede quitarte, y quedarte bloqueado fuera de tu kit pierde combates. Mantén tu elemento de daño, pero equilíbralo con sobrevivir, y valora el alcance y los PM para el juego de posición.</p>
+<p>Ahora alguien intenta activamente arruinarte el turno. La resistencia fija y en % sube a lo más alto de tus pesos: aguantar un burst vale más que un golpe algo mayor que quizá falles. La Sabiduría también cuenta: reduce los PA y PM que un enemigo puede quitarte, y quedarte bloqueado fuera de tu kit pierde combates. Mantén tu elemento de daño, pero equilíbralo con sobrevivir, y valora el alcance y los PM para el juego de posición.</p>
 
 <h2>Los tres que siempre bloqueas</h2>
-<p>Da igual el modo, PA, PM y alcance son objetivos, no deslizadores. Decide los umbrales que tus hechizos necesitan — pongamos 11 PA, 6 PM, 4 de alcance — y bloquéalos. El optimizador gasta entonces cada punto restante en lo que cambia entre modos, en vez de malgastar equipo llegando a un número de PA que no pediste.</p>
+<p>Da igual el modo, PA, PM y alcance son objetivos, no deslizadores. Decide los umbrales que tus hechizos necesitan (pongamos 11 PA, 6 PM, 4 de alcance) y bloquéalos. El optimizador gasta entonces cada punto restante en lo que cambia entre modos, en vez de malgastar equipo llegando a un número de PA que no pediste.</p>
 
 <h2>Hazlo en la herramienta</h2>
-<p>Haz un proyecto por modo. Parte de tu set PvM, duplícalo, sube resistencia y Sabiduría, baja un poco el daño, y vuelve a crear el set — tienes una variante de Koliseo en menos de un minuto. Luego mete ambos en el <a href="/choose_compare_sets/">comparador</a> para ver exactamente qué cambias. Ese lado a lado es la forma más rápida de entender tu propio build.</p>
+<p>Haz un proyecto por modo. Parte de tu set PvM, duplícalo, sube resistencia y Sabiduría, baja un poco el daño, y vuelve a crear el set, tienes una variante de Koliseo en menos de un minuto. Luego mete ambos en el <a href="/choose_compare_sets/">comparador</a> para ver exactamente qué cambias. Ese lado a lado es la forma más rápida de entender tu propio build.</p>
 
 <p><em>Elige un modo y ajústalo: <a href="/setup/">empieza un proyecto.</a></em></p>
 ''',
@@ -657,45 +657,45 @@ GUIDES = {
             'pt': {
                 'title': "Otimizar seu build para PvM, PvP e Koliseu",
                 'desc': "O mesmo personagem precisa de um build diferente conforme você farma masmorra, duela ou grinda Koliseu. Veja como ponderar cada um sem refazer tudo do zero.",
-                'lead': "O mesmo personagem precisa de um build diferente conforme você farma masmorra, duela ou grinda Koliseu. Mesmos itens, prioridades diferentes — veja como ponderar cada um.",
+                'lead': "O mesmo personagem precisa de um build diferente conforme você farma masmorra, duela ou grinda Koliseu. Mesmos itens, prioridades diferentes: veja como ponderar cada um.",
                 'body': '''
 <h2>Por que um build só não basta</h2>
-<p>Seu equipamento não muda, mas o que você pede dele muda. Um set de farm PvM quer apagar os monstros antes que eles importem; um set de Koliseu quer continuar de pé no turno dez. Coloque os mesmos itens nos dois e você fica mediano em ambos. O truque não é ter três sets — é dizer ao otimizador pra que serve <strong>este</strong> set e salvá-lo como um projeto próprio.</p>
+<p>Seu equipamento não muda, mas o que você pede dele muda. Um set de farm PvM quer apagar os monstros antes que eles importem; um set de Koliseu quer continuar de pé no turno dez. Coloque os mesmos itens nos dois e você fica mediano em ambos. O truque não é ter três sets, é dizer ao otimizador pra que serve <strong>este</strong> set e salvá-lo como um projeto próprio.</p>
 
 <h2>PvM: matar rápido, sobreviver o suficiente</h2>
 <p>Contra monstros você costuma conhecer a luta, então dá pra apostar no ataque. Pondere seu elemento e a Potência alto, suba o dano fixo e em %, e mantenha só a vita e resistência que precisa pra limpar a masmorra que você realmente faz. Ninguém lê seu build do outro lado, então sacrificar defesa por dano bruto costuma ser o certo. Trave seus PA, PM e alcance pra sair seu combo, e deixe a ferramenta jogar todo o resto em poder de dano.</p>
 
 <h2>PvP e Koliseu: resistência ganha partidas</h2>
-<p>Agora alguém está tentando ativamente estragar seu turno. Resistência fixa e em % sobe pro topo dos seus pesos — aguentar um burst vale mais que um golpe um pouco maior que você talvez erre. Sabedoria também conta: ela reduz os PA e PM que um inimigo pode te tirar, e ficar travado fora do seu kit perde lutas. Mantenha seu elemento de dano, mas equilibre com sobreviver, e valorize alcance e PM pro jogo de posição.</p>
+<p>Agora alguém está tentando ativamente estragar seu turno. Resistência fixa e em % sobe pro topo dos seus pesos: aguentar um burst vale mais que um golpe um pouco maior que você talvez erre. Sabedoria também conta: ela reduz os PA e PM que um inimigo pode te tirar, e ficar travado fora do seu kit perde lutas. Mantenha seu elemento de dano, mas equilibre com sobreviver, e valorize alcance e PM pro jogo de posição.</p>
 
 <h2>Os três que você sempre trava</h2>
-<p>Não importa o modo, PA, PM e alcance são metas, não controles. Decida os limiares que seus feitiços precisam — digamos 11 PA, 6 PM, 4 de alcance — e trave. O otimizador então gasta cada ponto restante no que muda entre os modos, em vez de desperdiçar equipamento batendo num número de PA que você não pediu.</p>
+<p>Não importa o modo, PA, PM e alcance são metas, não controles. Decida os limiares que seus feitiços precisam (digamos 11 PA, 6 PM, 4 de alcance) e trave. O otimizador então gasta cada ponto restante no que muda entre os modos, em vez de desperdiçar equipamento batendo num número de PA que você não pediu.</p>
 
 <h2>Faça na ferramenta</h2>
-<p>Faça um projeto por modo. Comece do seu set PvM, duplique, suba resistência e Sabedoria, abaixe um pouco o dano, e refaça o set — você tem uma variante de Koliseu em menos de um minuto. Depois jogue os dois no <a href="/choose_compare_sets/">comparador</a> pra ver exatamente o que você troca. Esse lado a lado é o jeito mais rápido de entender seu próprio build.</p>
+<p>Faça um projeto por modo. Comece do seu set PvM, duplique, suba resistência e Sabedoria, abaixe um pouco o dano, e refaça o set, você tem uma variante de Koliseu em menos de um minuto. Depois jogue os dois no <a href="/choose_compare_sets/">comparador</a> pra ver exatamente o que você troca. Esse lado a lado é o jeito mais rápido de entender seu próprio build.</p>
 
 <p><em>Escolha um modo e ajuste: <a href="/setup/">comece um projeto.</a></em></p>
 ''',
             },
             'de': {
                 'title': "Builds für PvM, PvP und Kolosseum",
-                'desc': "Derselbe Charakter braucht je nach dem ein anderes Build — ob du Dungeons farmst, duellierst oder Kolosseum grindest. So gewichtest du jeden Modus, ohne alles neu zu bauen.",
-                'lead': "Derselbe Charakter braucht je nach dem ein anderes Build — ob du Dungeons farmst, duellierst oder Kolosseum grindest. Gleiche Items, andere Prioritäten — so gewichtest du jeden.",
+                'desc': "Derselbe Charakter braucht je nach dem ein anderes Build, ob du Dungeons farmst, duellierst oder Kolosseum grindest. So gewichtest du jeden Modus, ohne alles neu zu bauen.",
+                'lead': "Derselbe Charakter braucht je nach dem ein anderes Build, ob du Dungeons farmst, duellierst oder Kolosseum grindest. Gleiche Items, andere Prioritäten: so gewichtest du jeden.",
                 'body': '''
 <h2>Warum ein Build nicht reicht</h2>
-<p>Deine Ausrüstung ändert sich nicht, aber was du von ihr verlangst, schon. Ein PvM-Farmset will Monster löschen, bevor sie zählen; ein Kolosseum-Set will in Runde zehn noch stehen. Steck dieselben Items in beide und du bist überall mittelmäßig. Der Trick ist nicht, drei Sets zu besitzen — sondern dem Optimierer zu sagen, wofür <strong>dieses</strong> Set ist, und es als eigenes Projekt zu speichern.</p>
+<p>Deine Ausrüstung ändert sich nicht, aber was du von ihr verlangst, schon. Ein PvM-Farmset will Monster löschen, bevor sie zählen; ein Kolosseum-Set will in Runde zehn noch stehen. Steck dieselben Items in beide und du bist überall mittelmäßig. Der Trick ist nicht, drei Sets zu besitzen, sondern dem Optimierer zu sagen, wofür <strong>dieses</strong> Set ist, und es als eigenes Projekt zu speichern.</p>
 
 <h2>PvM: schnell töten, genug überleben</h2>
 <p>Gegen Monster kennst du den Kampf meist, also kannst du auf Angriff setzen. Gewichte dein Element und Power hoch, drück fixen und prozentualen Schaden, und behalte nur so viel Vita und Resistenz, wie du für den Dungeon brauchst, den du wirklich läufst. Niemand liest gegenüber dein Build, also ist es oft richtig, Defensive für rohen Schaden zu opfern. Fixier deine AP, BP und Reichweite für dein Combo, und lass das Tool alles andere in Schlagkraft stecken.</p>
 
 <h2>PvP und Kolosseum: Resistenz gewinnt Partien</h2>
-<p>Jetzt versucht jemand aktiv, dir die Runde zu ruinieren. Fixe und prozentuale Resistenz springen an die Spitze deiner Gewichte — einen Burst zu überleben ist mehr wert als ein etwas größerer Treffer, den du vielleicht nicht landest. Weisheit zählt auch: Sie senkt, wie viel AP und BP ein Gegner dir abziehen kann, und aus dem eigenen Kit gesperrt zu werden, verliert Kämpfe. Behalte dein Schadenselement, aber wäge es gegen Überleben ab, und schätze Reichweite und BP fürs Positionsspiel.</p>
+<p>Jetzt versucht jemand aktiv, dir die Runde zu ruinieren. Fixe und prozentuale Resistenz springen an die Spitze deiner Gewichte: einen Burst zu überleben ist mehr wert als ein etwas größerer Treffer, den du vielleicht nicht landest. Weisheit zählt auch: Sie senkt, wie viel AP und BP ein Gegner dir abziehen kann, und aus dem eigenen Kit gesperrt zu werden, verliert Kämpfe. Behalte dein Schadenselement, aber wäge es gegen Überleben ab, und schätze Reichweite und BP fürs Positionsspiel.</p>
 
 <h2>Die drei, die du immer fixierst</h2>
-<p>Egal welcher Modus, AP, BP und Reichweite sind Ziele, keine Regler. Leg die Schwellen fest, die deine Zauber brauchen — sagen wir 11 AP, 6 BP, 4 Reichweite — und fixier sie. Der Optimierer gibt dann jeden übrigen Statpunkt für das aus, was sich zwischen den Modi ändert, statt Ausrüstung zu verschwenden, um eine AP-Zahl zu treffen, die du nie verlangt hast.</p>
+<p>Egal welcher Modus, AP, BP und Reichweite sind Ziele, keine Regler. Leg die Schwellen fest, die deine Zauber brauchen (sagen wir 11 AP, 6 BP, 4 Reichweite) und fixier sie. Der Optimierer gibt dann jeden übrigen Statpunkt für das aus, was sich zwischen den Modi ändert, statt Ausrüstung zu verschwenden, um eine AP-Zahl zu treffen, die du nie verlangt hast.</p>
 
 <h2>Mach es im Tool</h2>
-<p>Leg pro Modus ein Projekt an. Starte von deinem PvM-Set, dupliziere es, zieh Resistenz und Weisheit hoch, etwas Schaden runter, und schneider neu — du hast in unter einer Minute eine Kolosseum-Variante. Wirf dann beide in den <a href="/choose_compare_sets/">Vergleich</a>, um genau zu sehen, was du eintauschst. Dieses Nebeneinander ist der schnellste Weg, dein eigenes Build zu verstehen.</p>
+<p>Leg pro Modus ein Projekt an. Starte von deinem PvM-Set, dupliziere es, zieh Resistenz und Weisheit hoch, etwas Schaden runter, und schneider neu, du hast in unter einer Minute eine Kolosseum-Variante. Wirf dann beide in den <a href="/choose_compare_sets/">Vergleich</a>, um genau zu sehen, was du eintauschst. Dieses Nebeneinander ist der schnellste Weg, dein eigenes Build zu verstehen.</p>
 
 <p><em>Wähl einen Modus und stell ihn ein: <a href="/setup/">starte ein Projekt.</a></em></p>
 ''',
