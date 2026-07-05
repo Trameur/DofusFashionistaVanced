@@ -7335,6 +7335,15 @@ msgstr ""
 msgid "Tell us which class, e.g. \"Iop 200 earth PvM\"."
 msgstr "Diga-nos qual classe, por exemplo \"Iop 200 terra PvM\"."
 
+msgid "Monster drops in the encyclopedia"
+msgstr "Drops de monstros na enciclopédia"
+
+msgid ""
+"Each item page now lists the monsters that drop it, with the drop rate."
+msgstr ""
+"Cada página de item agora lista os monstros que o dropam, com a taxa de "
+"drop."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 
