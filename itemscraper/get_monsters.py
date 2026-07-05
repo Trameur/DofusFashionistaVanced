@@ -84,18 +84,26 @@ def build_drops_index(dataset_dir: Path,
 
     # item_ankama_id -> {monster_ankama_id: {name, rates}}
     index: Dict[int, Dict[int, Dict[str, Any]]] = {}
+
+    def add(object_id, monster_id, names, rates):
+        if object_id is None:
+            return
+        per_item = index.setdefault(int(object_id), {})
+        # a monster can list the same item more than once (different criterions
+        # or drops[] + globalDrops); keep the best rate.
+        existing = per_item.get(int(monster_id))
+        if existing is None or max(rates) > max(existing["rates"]):
+            per_item[int(monster_id)] = {"names": names, "rates": rates}
+
     for monster_id, monster in monsters.items():
         names = _name(translations, monster.get("nameId"), languages)
         for drop in _unwrap_array(monster.get("drops")):
-            object_id = drop.get("objectId")
-            if object_id is None:
-                continue
             rates = [drop.get("percentDropForGrade%d" % g, 0) for g in range(1, 6)]
-            per_item = index.setdefault(int(object_id), {})
-            # a monster can list the same item twice (different criterions); keep the best rate
-            existing = per_item.get(int(monster_id))
-            if existing is None or max(rates) > max(existing["rates"]):
-                per_item[int(monster_id)] = {"names": names, "rates": rates}
+            add(drop.get("objectId"), monster_id, names, rates)
+        # globalDrops apply regardless of grade (a min/max rate range); use the max.
+        for gd in _unwrap_array(monster.get("globalDrops")):
+            rate = gd.get("maxPercentDrop", gd.get("minPercentDrop", 0)) or 0
+            add(gd.get("objectId"), monster_id, names, [rate])
 
     # flatten to a JSON-friendly, sorted structure
     out: Dict[str, Any] = {}
