@@ -449,7 +449,7 @@ GUIDES = {
         'published': '2026-06-30',
         'i18n': {
             'en': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch — which one are you on?',
+                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: which one are you on?',
                 'desc': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's what each is, who plays it, and how to switch.",
                 'lead': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's the quick map so you optimize on the right data.",
                 'body': '''
@@ -457,16 +457,16 @@ GUIDES = {
 <p>Item stats, recipes and spells are different across versions. A build that's perfect on the live game can be nonsense on Retro, where half the items don't exist and the rules are old-school. So the first thing to get right is: which version are you actually playing? Pick it when you create a project, or switch any time with the version selector at the top of the page.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>The current game. This is the default, kept up to date with the latest patch — including the 3.6 characteristic rework and the newest items. If you just play Dofus on a regular server, this is you.</p>
+<p>The current game. This is the default, kept up to date with the latest patch, including the 3.6 characteristic rework and the newest items. If you just play Dofus on a regular server, this is you.</p>
 
 <h2>Beta</h2>
-<p>The test server, where Ankama trials upcoming changes before they go live. Handy if you want to plan a build around what's coming. Just remember the data moves around and can change overnight — it's a preview, not gospel.</p>
+<p>The test server, where Ankama trials upcoming changes before they go live. Handy if you want to plan a build around what's coming. Just remember the data moves around and can change overnight: it's a preview, not gospel.</p>
 
 <h2>Dofus 2</h2>
 <p>The classic 2.x era many players still think of as "real" Dofus. Different item pool and balance from Dofus 3, so it gets its own dataset.</p>
 
 <h2>Retro (1.29)</h2>
-<p>Dofus Retro — the old-school 1.29 servers. Way fewer items, no elemental damage runes, simpler everything. The optimizer knows the 1.29 rules, so it won't suggest gear or stats that didn't exist back then.</p>
+<p>Dofus Retro: the old-school 1.29 servers. Way fewer items, no elemental damage runes, simpler everything. The optimizer knows the 1.29 rules, so it won't suggest gear or stats that didn't exist back then.</p>
 
 <h2>Touch</h2>
 <p>Dofus Touch, the mobile version, which sits on its own balance and item list (some trophies, for instance, cap set bonuses differently). Its own dataset too, so your mobile builds are accurate.</p>
@@ -475,7 +475,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': 'Dofus 3, Bêta, Dofus 2, Retro, Touch — tu joues à laquelle ?',
+                'title': 'Dofus 3, Bêta, Dofus 2, Retro, Touch : tu joues à laquelle ?',
                 'desc': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà ce qu'est chacune, qui y joue, et comment switcher.",
                 'lead': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà la carte rapide pour optimiser sur les bonnes données.",
                 'body': '''
@@ -483,16 +483,16 @@ GUIDES = {
 <p>Les stats des items, les recettes et les sorts changent d'une version à l'autre. Un build parfait sur la live peut être n'importe quoi sur Retro, où la moitié des items n'existe pas et où les règles sont à l'ancienne. Donc le premier truc à caler, c'est : tu joues à quelle version, vraiment ? Choisis-la en créant ton projet, ou change quand tu veux avec le sélecteur de version en haut de la page.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>Le jeu actuel. C'est le défaut, tenu à jour avec le dernier patch — refonte des caracs 3.6 et derniers items inclus. Si tu joues juste à Dofus sur un serveur classique, c'est toi.</p>
+<p>Le jeu actuel. C'est le défaut, tenu à jour avec le dernier patch, refonte des caracs 3.6 et derniers items inclus. Si tu joues juste à Dofus sur un serveur classique, c'est toi.</p>
 
 <h2>Bêta</h2>
-<p>Le serveur de test, là où Ankama essaie les changements à venir avant qu'ils passent en live. Pratique pour préparer un build autour de ce qui arrive. Garde juste en tête que la donnée bouge et peut changer du jour au lendemain — c'est un aperçu, pas parole d'évangile.</p>
+<p>Le serveur de test, là où Ankama essaie les changements à venir avant qu'ils passent en live. Pratique pour préparer un build autour de ce qui arrive. Garde juste en tête que la donnée bouge et peut changer du jour au lendemain : c'est un aperçu, pas parole d'évangile.</p>
 
 <h2>Dofus 2</h2>
 <p>L'ère classique 2.x que beaucoup considèrent encore comme le "vrai" Dofus. Pool d'items et équilibrage différents de Dofus 3, donc elle a son propre jeu de données.</p>
 
 <h2>Retro (1.29)</h2>
-<p>Dofus Retro — les serveurs 1.29 à l'ancienne. Beaucoup moins d'items, pas de runes de dégâts élémentaires, tout plus simple. L'optimiseur connaît les règles 1.29, donc il ne te proposera pas un stuff ou des stats qui n'existaient pas à l'époque.</p>
+<p>Dofus Retro : les serveurs 1.29 à l'ancienne. Beaucoup moins d'items, pas de runes de dégâts élémentaires, tout plus simple. L'optimiseur connaît les règles 1.29, donc il ne te proposera pas un stuff ou des stats qui n'existaient pas à l'époque.</p>
 
 <h2>Touch</h2>
 <p>Dofus Touch, la version mobile, avec son propre équilibrage et sa propre liste d'items (certains trophées, par exemple, plafonnent les bonus de panoplie différemment). Son propre jeu de données aussi, pour que tes builds mobile soient justes.</p>
@@ -501,7 +501,7 @@ GUIDES = {
 ''',
             },
             'es': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch — ¿en cuál juegas?',
+                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: ¿en cuál juegas?',
                 'desc': "Algo que distingue a la Fashionista: cubre cinco versiones de Dofus, no solo la live. Aquí tienes qué es cada una, quién la juega y cómo cambiar.",
                 'lead': "Algo que distingue a la Fashionista: cubre cinco versiones de Dofus, no solo la live. Aquí va el mapa rápido para que optimices con los datos correctos.",
                 'body': '''
@@ -509,16 +509,16 @@ GUIDES = {
 <p>Las estadísticas de los ítems, las recetas y los hechizos cambian entre versiones. Un build perfecto en la live puede ser un disparate en Retro, donde la mitad de los ítems no existe y las reglas son a la antigua. Así que lo primero que hay que acertar es: ¿en qué versión juegas de verdad? Elígela al crear el proyecto, o cámbiala cuando quieras con el selector de versión arriba.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>El juego actual. Es la opción por defecto, al día con el último parche — incluido el rework de características de 3.6 y los ítems más nuevos. Si juegas a Dofus en un servidor normal, esta eres tú.</p>
+<p>El juego actual. Es la opción por defecto, al día con el último parche, incluido el rework de características de 3.6 y los ítems más nuevos. Si juegas a Dofus en un servidor normal, esta eres tú.</p>
 
 <h2>Beta</h2>
-<p>El servidor de pruebas, donde Ankama ensaya los cambios que vienen antes de que lleguen a la live. Útil para planear un build alrededor de lo que viene. Solo recuerda que los datos se mueven y pueden cambiar de un día para otro — es un adelanto, no una verdad absoluta.</p>
+<p>El servidor de pruebas, donde Ankama ensaya los cambios que vienen antes de que lleguen a la live. Útil para planear un build alrededor de lo que viene. Solo recuerda que los datos se mueven y pueden cambiar de un día para otro: es un adelanto, no una verdad absoluta.</p>
 
 <h2>Dofus 2</h2>
 <p>La era clásica 2.x que muchos siguen considerando el "Dofus de verdad". Conjunto de ítems y balance distintos de Dofus 3, así que tiene su propio set de datos.</p>
 
 <h2>Retro (1.29)</h2>
-<p>Dofus Retro — los servidores 1.29 de la vieja escuela. Muchos menos ítems, sin runas de daño elemental, todo más simple. El optimizador conoce las reglas de 1.29, así que no te sugerirá equipo ni estadísticas que no existían entonces.</p>
+<p>Dofus Retro: los servidores 1.29 de la vieja escuela. Muchos menos ítems, sin runas de daño elemental, todo más simple. El optimizador conoce las reglas de 1.29, así que no te sugerirá equipo ni estadísticas que no existían entonces.</p>
 
 <h2>Touch</h2>
 <p>Dofus Touch, la versión móvil, con su propio balance y lista de ítems (algunos trofeos, por ejemplo, limitan los bonus de panoplia de otra forma). También con su propio set de datos, para que tus builds de móvil sean exactos.</p>
@@ -527,7 +527,7 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch — em qual você joga?',
+                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: em qual você joga?',
                 'desc': "Uma coisa que diferencia a Fashionista: ela cobre cinco versões de Dofus, não só a live. Veja o que é cada uma, quem joga e como trocar.",
                 'lead': "Uma coisa que diferencia a Fashionista: ela cobre cinco versões de Dofus, não só a live. Aqui vai o mapa rápido pra você otimizar com os dados certos.",
                 'body': '''
@@ -535,16 +535,16 @@ GUIDES = {
 <p>Os atributos dos itens, as receitas e os feitiços mudam de uma versão pra outra. Um build perfeito na live pode ser uma furada no Retro, onde metade dos itens não existe e as regras são old-school. Então a primeira coisa a acertar é: em qual versão você joga de verdade? Escolha ao criar o projeto, ou troque quando quiser no seletor de versão no topo da página.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>O jogo atual. É o padrão, mantido em dia com o último patch — incluindo a reformulação de características da 3.6 e os itens mais novos. Se você joga Dofus num servidor normal, é você.</p>
+<p>O jogo atual. É o padrão, mantido em dia com o último patch, incluindo a reformulação de características da 3.6 e os itens mais novos. Se você joga Dofus num servidor normal, é você.</p>
 
 <h2>Beta</h2>
-<p>O servidor de testes, onde a Ankama experimenta as mudanças que vêm aí antes de irem pra live. Útil pra planejar um build em torno do que está chegando. Só lembre que os dados mudam e podem virar de uma hora pra outra — é uma prévia, não verdade absoluta.</p>
+<p>O servidor de testes, onde a Ankama experimenta as mudanças que vêm aí antes de irem pra live. Útil pra planejar um build em torno do que está chegando. Só lembre que os dados mudam e podem virar de uma hora pra outra: é uma prévia, não verdade absoluta.</p>
 
 <h2>Dofus 2</h2>
 <p>A era clássica 2.x que muita gente ainda considera o "Dofus de verdade". Conjunto de itens e balanceamento diferentes da Dofus 3, então tem seu próprio conjunto de dados.</p>
 
 <h2>Retro (1.29)</h2>
-<p>Dofus Retro — os servidores 1.29 da velha escola. Muito menos itens, sem runas de dano elemental, tudo mais simples. O otimizador conhece as regras da 1.29, então não vai sugerir equipamento nem atributos que não existiam na época.</p>
+<p>Dofus Retro: os servidores 1.29 da velha escola. Muito menos itens, sem runas de dano elemental, tudo mais simples. O otimizador conhece as regras da 1.29, então não vai sugerir equipamento nem atributos que não existiam na época.</p>
 
 <h2>Touch</h2>
 <p>Dofus Touch, a versão mobile, com seu próprio balanceamento e lista de itens (alguns troféus, por exemplo, limitam os bônus de conjunto de outro jeito). Também com seu próprio conjunto de dados, pra seus builds de celular saírem certos.</p>
@@ -553,7 +553,7 @@ GUIDES = {
 ''',
             },
             'de': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch — welches spielst du?',
+                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: welches spielst du?',
                 'desc': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist, was jede ist, wer sie spielt und wie du umschaltest.",
                 'lead': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist die schnelle Übersicht, damit du mit den richtigen Daten optimierst.",
                 'body': '''
@@ -561,16 +561,16 @@ GUIDES = {
 <p>Item-Werte, Rezepte und Zauber unterscheiden sich zwischen den Versionen. Ein Build, das auf dem Live-Spiel perfekt ist, kann auf Retro Unsinn sein, wo die Hälfte der Items nicht existiert und die Regeln altmodisch sind. Das Erste, was du richtig setzen musst, ist also: Welche Version spielst du eigentlich? Wähl sie beim Anlegen eines Projekts, oder wechsle jederzeit mit der Versionsauswahl oben auf der Seite.</p>
 
 <h2>Dofus 3 (live)</h2>
-<p>Das aktuelle Spiel. Das ist die Voreinstellung, auf dem neuesten Patch gehalten — inklusive Charakterwerte-Rework der 3.6 und der neuesten Items. Wenn du einfach Dofus auf einem normalen Server spielst, bist das du.</p>
+<p>Das aktuelle Spiel. Das ist die Voreinstellung, auf dem neuesten Patch gehalten, inklusive Charakterwerte-Rework der 3.6 und der neuesten Items. Wenn du einfach Dofus auf einem normalen Server spielst, bist das du.</p>
 
 <h2>Beta</h2>
-<p>Der Testserver, auf dem Ankama kommende Änderungen ausprobiert, bevor sie live gehen. Praktisch, um ein Build um das zu planen, was kommt. Denk nur dran, dass sich die Daten verschieben und über Nacht ändern können — es ist eine Vorschau, kein Evangelium.</p>
+<p>Der Testserver, auf dem Ankama kommende Änderungen ausprobiert, bevor sie live gehen. Praktisch, um ein Build um das zu planen, was kommt. Denk nur dran, dass sich die Daten verschieben und über Nacht ändern können: es ist eine Vorschau, kein Evangelium.</p>
 
 <h2>Dofus 2</h2>
 <p>Die klassische 2.x-Ära, die viele immer noch als das "echte" Dofus sehen. Anderer Item-Pool und Balance als Dofus 3, also bekommt es seinen eigenen Datensatz.</p>
 
 <h2>Retro (1.29)</h2>
-<p>Dofus Retro — die altmodischen 1.29-Server. Viel weniger Items, keine Elementarschaden-Runen, alles simpler. Der Optimierer kennt die 1.29-Regeln und schlägt dir daher keine Ausrüstung oder Werte vor, die es damals nicht gab.</p>
+<p>Dofus Retro: die altmodischen 1.29-Server. Viel weniger Items, keine Elementarschaden-Runen, alles simpler. Der Optimierer kennt die 1.29-Regeln und schlägt dir daher keine Ausrüstung oder Werte vor, die es damals nicht gab.</p>
 
 <h2>Touch</h2>
 <p>Dofus Touch, die mobile Version, mit eigener Balance und Item-Liste (manche Trophäen deckeln zum Beispiel Set-Boni anders). Ebenfalls mit eigenem Datensatz, damit deine Mobile-Builds stimmen.</p>
