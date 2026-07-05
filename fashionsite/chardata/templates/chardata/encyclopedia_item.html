@@ -63,6 +63,15 @@
     margin: 4px 0 0;
     padding-left: 20px;
 }
+.encyclopedia-drops-more {
+    margin-top: 6px;
+}
+.encyclopedia-drops-more > summary {
+    cursor: pointer;
+    padding-left: 20px;
+    font-size: 0.95em;
+    opacity: 0.85;
+}
 .encyclopedia-list-stat {
     display: flex;
     align-items: center;
@@ -271,10 +280,20 @@
         <div class="encyclopedia-section">
             <b>{{ t.dropped_by_label }}</b>
             <ul class="encyclopedia-list">
-                {% for drop in drops %}
+                {% for drop in drops|slice:":12" %}
                 <li>{{ drop.name }} <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
                 {% endfor %}
             </ul>
+            {% if drops|length > 12 %}
+            <details class="encyclopedia-drops-more">
+                <summary>{{ t.show_more_drops_label }} ({{ drops|length|add:"-12" }})</summary>
+                <ul class="encyclopedia-list">
+                    {% for drop in drops|slice:"12:" %}
+                    <li>{{ drop.name }} <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
         </div>
         {% endif %}
     </div>
