@@ -1793,15 +1793,42 @@ class InlineScriptSyntaxTests(TestCase):
                  '/exclusions/%d/' % char.pk,
                  '/forgemagie/', '/inventory/', '/workshop/',
                  '/choose_compare_sets/', '/manageaccount/']
-        script_re = re.compile(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script\s*>', re.S | re.I)
+        # Extract inline scripts with a real HTML tokenizer instead of a regexp: a
+        # regexp can never match every script end tag the browser accepts (</script >,
+        # </script\t\nbar>, ...), so html.parser is both correct and CodeQL-clean.
+        from html.parser import HTMLParser
+
+        class _InlineScripts(HTMLParser):
+            def __init__(self):
+                super().__init__(convert_charrefs=False)
+                self.scripts = []
+                self._keep = False
+
+            def handle_starttag(self, tag, attrs):
+                if tag == 'script':
+                    self._keep = not any(k == 'src' for k, _ in attrs)
+                    if self._keep:
+                        self.scripts.append('')
+
+            def handle_endtag(self, tag):
+                if tag == 'script':
+                    self._keep = False
+
+            def handle_data(self, data):
+                if self._keep:
+                    self.scripts[-1] += data
+
         for page in pages:
             resp = self.client.get(page)
             self.assertEqual(resp.status_code, 200, page)
             html = resp.content.decode('utf-8', 'replace')
-            for idx, script in enumerate(script_re.findall(html)):
+            collector = _InlineScripts()
+            collector.feed(html)
+            collector.close()
+            for idx, script in enumerate(collector.scripts):
                 if not script.strip():
                     continue
-                # JSON-LD blocks are matched by the regex too; they are not JS.
+                # JSON-LD blocks are collected too; they are not JS.
                 if script.lstrip().startswith('{'):
                     continue
                 with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False,
