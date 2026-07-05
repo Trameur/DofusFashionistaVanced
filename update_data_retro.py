@@ -16,6 +16,8 @@ Pipeline steps:
     items/transform      get_equipments_retro.py  -> retro/transformed_{equipment,sets}.json
     items/dump           get_equipments3.py        -> item_db_dumped_retro.dump
     items/load-db        load_item_db.py           -> items_retro.db
+    drops/transform      get_monsters_retro.py     -> itemscraper/transformed_drops_retro.json (Solomonk.fr 1.48)
+    drops/store          store_drops.py            -> item_drops / monster_names in items_retro.db
     item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (Cyberia CDN)
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
     spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (Cyberia CDN)
@@ -177,6 +179,22 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     step("items/load-db", [PY, "load_item_db.py", "--game-version", "retro"])
+
+    # Monster drops -> item_drops / monster_names in items_retro.db (encyclopedia "Dropped by").
+    # Retro has no first-party drop source (the 1.29 client/lang files carry monster names but
+    # not the server-side drop tables, and Ankama has no Retro monster encyclopedia), so we scrape
+    # the current (1.48) community reference Solomonk.fr. Runs after load-db, which rebuilds the DB
+    # from the dump; store_drops then adds the two tables and re-dumps so both stay in sync.
+    step("drops/transform", [
+        PY, "get_monsters_retro.py",
+        "--output", "transformed_drops_retro.json",
+    ], cwd=ITEMSCRAPER)
+
+    step("drops/store", [
+        PY, "store_drops.py",
+        "--drops", "transformed_drops_retro.json",
+        "--game-version", "retro",
+    ], cwd=ITEMSCRAPER)
 
     if not args.skip_images:
         step("item-images", [
