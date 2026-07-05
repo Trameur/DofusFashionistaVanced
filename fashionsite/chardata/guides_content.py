@@ -176,14 +176,14 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'How the optimizer actually works',
-                'desc': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round — you say what you want, it finds the items. Here's what happens under the hood.",
-                'lead': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round — you say what you want, it finds the items.",
+                'desc': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round, you say what you want, it finds the items. Here's what happens under the hood.",
+                'lead': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round, you say what you want, it finds the items.",
                 'body': '''
 <h2>It's an optimization problem, not a list</h2>
-<p>When you set your sliders, you're handing the tool a <strong>score</strong> for every stat. Behind the scenes it then searches through thousands of legal item combinations and picks the one that racks up the highest total score — while respecting the hard rules of the game. That's a genuine mathematical optimization, the same family of math used for scheduling planes or packing trucks, just pointed at your Iop instead.</p>
+<p>When you set your sliders, you're handing the tool a <strong>score</strong> for every stat. Behind the scenes it then searches through thousands of legal item combinations and picks the one that racks up the highest total score, while respecting the hard rules of the game. That's a genuine mathematical optimization, the same family of math used for scheduling planes or packing trucks, just pointed at your Iop instead.</p>
 
 <h2>Why weighting beats raw stats</h2>
-<p>Say intelligence is worth 1 point to you and vitality 0.2. An item with +40 int and +100 vita scores 40 + 20 = 60. An item with +60 int and +30 vita scores 60 + 6 = 66, so it wins — even though it has less vita. Multiply that across twelve slots, set bonuses and dofus, and you get combinations no human bothers to check by hand. That's the whole point: you set the priorities, it does the boring part.</p>
+<p>Say intelligence is worth 1 point to you and vitality 0.2. An item with +40 int and +100 vita scores 40 + 20 = 60. An item with +60 int and +30 vita scores 60 + 6 = 66, so it wins, even though it has less vita. Multiply that across twelve slots, set bonuses and dofus, and you get combinations no human bothers to check by hand. That's the whole point: you set the priorities, it does the boring part.</p>
 
 <h2>The rules it never breaks</h2>
 <p>Optimizing freely would be easy; optimizing <em>legally</em> is the hard bit. The solver keeps your build inside the lines:</p>
@@ -195,21 +195,21 @@ GUIDES = {
 </ul>
 
 <h2>Why the result sometimes surprises you</h2>
-<p>If the suggestion looks weird, it's usually telling you something: your weights are pulling against each other, or there simply isn't gear that hits everything at once. Drop a slider, raise another, forbid that one item you'll never farm, and re-run. After a couple of passes you'll have a set that's genuinely tuned to you — not a copy-paste meta build everyone else is wearing.</p>
+<p>If the suggestion looks weird, it's usually telling you something: your weights are pulling against each other, or there simply isn't gear that hits everything at once. Drop a slider, raise another, forbid that one item you'll never farm, and re-run. After a couple of passes you'll have a set that's genuinely tuned to you, not a copy-paste meta build everyone else is wearing.</p>
 
 <p><em>Want to see it happen? <a href="/setup/">Start a project</a> and watch it solve.</em></p>
 ''',
             },
             'fr': {
                 'title': "Comment l'optimiseur fonctionne vraiment",
-                'desc': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne. La Fashionista fait l'inverse — tu dis ce que tu veux, elle trouve les items. Voilà ce qui se passe sous le capot.",
-                'lead': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne les stats. La Fashionista fait l'inverse — tu dis ce que tu veux, elle trouve les items.",
+                'desc': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne. La Fashionista fait l'inverse, tu dis ce que tu veux, elle trouve les items. Voilà ce qui se passe sous le capot.",
+                'lead': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne les stats. La Fashionista fait l'inverse, tu dis ce que tu veux, elle trouve les items.",
                 'body': '''
 <h2>C'est un problème d'optimisation, pas une liste</h2>
-<p>Quand tu règles tes curseurs, tu donnes en fait un <strong>score</strong> à chaque carac. En coulisses, l'outil parcourt des milliers de combinaisons d'items valides et garde celle qui cumule le plus gros score total — tout en respectant les règles dures du jeu. C'est de la vraie optimisation mathématique, la même famille de maths qui sert à planifier des avions ou à remplir des camions, juste braquée sur ton Iop.</p>
+<p>Quand tu règles tes curseurs, tu donnes en fait un <strong>score</strong> à chaque carac. En coulisses, l'outil parcourt des milliers de combinaisons d'items valides et garde celle qui cumule le plus gros score total, tout en respectant les règles dures du jeu. C'est de la vraie optimisation mathématique, la même famille de maths qui sert à planifier des avions ou à remplir des camions, juste braquée sur ton Iop.</p>
 
 <h2>Pourquoi pondérer bat les stats brutes</h2>
-<p>Mettons que l'intelligence vaut 1 point pour toi et la vita 0,2. Un item +40 intel et +100 vita marque 40 + 20 = 60. Un item +60 intel et +30 vita marque 60 + 6 = 66, donc il gagne — alors qu'il a moins de vita. Multiplie ça sur douze emplacements, les bonus de panoplie et les dofus, et tu obtiens des combinaisons que personne ne s'amuse à vérifier à la main. C'est tout l'intérêt : tu poses les priorités, lui fait la partie chiante.</p>
+<p>Mettons que l'intelligence vaut 1 point pour toi et la vita 0,2. Un item +40 intel et +100 vita marque 40 + 20 = 60. Un item +60 intel et +30 vita marque 60 + 6 = 66, donc il gagne, alors qu'il a moins de vita. Multiplie ça sur douze emplacements, les bonus de panoplie et les dofus, et tu obtiens des combinaisons que personne ne s'amuse à vérifier à la main. C'est tout l'intérêt : tu poses les priorités, lui fait la partie chiante.</p>
 
 <h2>Les règles qu'il ne casse jamais</h2>
 <p>Optimiser librement, c'est facile ; optimiser <em>légalement</em>, c'est le vrai boulot. Le solveur garde ton build dans les clous :</p>
@@ -221,21 +221,21 @@ GUIDES = {
 </ul>
 
 <h2>Pourquoi le résultat te surprend parfois</h2>
-<p>Si la proposition a l'air bizarre, en général elle te dit quelque chose : tes poids se tirent dessus, ou il n'existe tout simplement pas de stuff qui coche tout d'un coup. Baisse un curseur, monte un autre, interdis cet item que tu farmeras jamais, et relance. Au bout de deux-trois passes, t'as un set vraiment réglé pour toi — pas un build meta copié-collé que tout le monde porte.</p>
+<p>Si la proposition a l'air bizarre, en général elle te dit quelque chose : tes poids se tirent dessus, ou il n'existe tout simplement pas de stuff qui coche tout d'un coup. Baisse un curseur, monte un autre, interdis cet item que tu farmeras jamais, et relance. Au bout de deux-trois passes, t'as un set vraiment réglé pour toi, pas un build meta copié-collé que tout le monde porte.</p>
 
 <p><em>Envie de voir ça en vrai ? <a href="/setup/">Lance un projet</a> et regarde-le résoudre.</em></p>
 ''',
             },
             'es': {
                 'title': 'Cómo funciona de verdad el optimizador',
-                'desc': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman. La Fashionista hace lo contrario — tú dices qué quieres y ella encuentra los ítems. Esto es lo que pasa por dentro.",
-                'lead': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman las estadísticas. La Fashionista hace lo contrario — tú dices qué quieres y ella encuentra los ítems.",
+                'desc': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman. La Fashionista hace lo contrario, tú dices qué quieres y ella encuentra los ítems. Esto es lo que pasa por dentro.",
+                'lead': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman las estadísticas. La Fashionista hace lo contrario, tú dices qué quieres y ella encuentra los ítems.",
                 'body': '''
 <h2>Es un problema de optimización, no una lista</h2>
-<p>Cuando ajustas los deslizadores, en realidad le das una <strong>puntuación</strong> a cada característica. Por detrás, la herramienta recorre miles de combinaciones de ítems válidas y se queda con la que más puntúa en total — respetando las reglas duras del juego. Es optimización matemática de verdad, la misma familia de mates que sirve para planificar aviones o llenar camiones, solo que apuntando a tu Yopuka.</p>
+<p>Cuando ajustas los deslizadores, en realidad le das una <strong>puntuación</strong> a cada característica. Por detrás, la herramienta recorre miles de combinaciones de ítems válidas y se queda con la que más puntúa en total, respetando las reglas duras del juego. Es optimización matemática de verdad, la misma familia de mates que sirve para planificar aviones o llenar camiones, solo que apuntando a tu Yopuka.</p>
 
 <h2>Por qué ponderar gana a las estadísticas en bruto</h2>
-<p>Pongamos que la inteligencia vale 1 punto para ti y la vitalidad 0,2. Un ítem con +40 inteligencia y +100 vita puntúa 40 + 20 = 60. Uno con +60 inteligencia y +30 vita puntúa 60 + 6 = 66, así que gana — aunque tenga menos vita. Multiplica eso por doce ranuras, bonus de panoplia y dofus, y salen combinaciones que nadie se pone a comprobar a mano. Esa es la gracia: tú pones las prioridades, ella hace lo aburrido.</p>
+<p>Pongamos que la inteligencia vale 1 punto para ti y la vitalidad 0,2. Un ítem con +40 inteligencia y +100 vita puntúa 40 + 20 = 60. Uno con +60 inteligencia y +30 vita puntúa 60 + 6 = 66, así que gana, aunque tenga menos vita. Multiplica eso por doce ranuras, bonus de panoplia y dofus, y salen combinaciones que nadie se pone a comprobar a mano. Esa es la gracia: tú pones las prioridades, ella hace lo aburrido.</p>
 
 <h2>Las reglas que nunca rompe</h2>
 <p>Optimizar libremente es fácil; optimizar <em>de forma legal</em> es lo difícil. El solucionador mantiene tu build dentro de las líneas:</p>
@@ -247,21 +247,21 @@ GUIDES = {
 </ul>
 
 <h2>Por qué el resultado a veces sorprende</h2>
-<p>Si la sugerencia parece rara, normalmente te está diciendo algo: tus pesos tiran unos contra otros, o simplemente no existe equipo que lo cumpla todo a la vez. Baja un deslizador, sube otro, prohíbe ese ítem que no vas a farmear nunca, y vuelve a lanzar. Tras un par de pasadas tendrás un set afinado para ti de verdad — no un build meta copiado que lleva todo el mundo.</p>
+<p>Si la sugerencia parece rara, normalmente te está diciendo algo: tus pesos tiran unos contra otros, o simplemente no existe equipo que lo cumpla todo a la vez. Baja un deslizador, sube otro, prohíbe ese ítem que no vas a farmear nunca, y vuelve a lanzar. Tras un par de pasadas tendrás un set afinado para ti de verdad, no un build meta copiado que lleva todo el mundo.</p>
 
 <p><em>¿Quieres verlo en acción? <a href="/setup/">Empieza un proyecto</a> y míralo resolver.</em></p>
 ''',
             },
             'pt': {
                 'title': 'Como o otimizador funciona de verdade',
-                'desc': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma. A Fashionista faz o contrário — você diz o que quer e ela acha os itens. Veja o que rola por baixo do capô.",
-                'lead': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma os atributos. A Fashionista faz o contrário — você diz o que quer e ela acha os itens.",
+                'desc': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma. A Fashionista faz o contrário, você diz o que quer e ela acha os itens. Veja o que rola por baixo do capô.",
+                'lead': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma os atributos. A Fashionista faz o contrário, você diz o que quer e ela acha os itens.",
                 'body': '''
 <h2>É um problema de otimização, não uma lista</h2>
-<p>Quando você ajusta os controles, na real você dá uma <strong>pontuação</strong> pra cada atributo. Por trás, a ferramenta percorre milhares de combinações de itens válidas e fica com a que soma a maior pontuação total — respeitando as regras duras do jogo. É otimização matemática de verdade, a mesma família de matemática que serve pra planejar voos ou encher caminhões, só que apontada pro seu Iop.</p>
+<p>Quando você ajusta os controles, na real você dá uma <strong>pontuação</strong> pra cada atributo. Por trás, a ferramenta percorre milhares de combinações de itens válidas e fica com a que soma a maior pontuação total, respeitando as regras duras do jogo. É otimização matemática de verdade, a mesma família de matemática que serve pra planejar voos ou encher caminhões, só que apontada pro seu Iop.</p>
 
 <h2>Por que ponderar ganha dos atributos crus</h2>
-<p>Digamos que inteligência vale 1 ponto pra você e vitalidade 0,2. Um item com +40 inteligência e +100 vita pontua 40 + 20 = 60. Um com +60 inteligência e +30 vita pontua 60 + 6 = 66, então ganha — mesmo tendo menos vita. Multiplica isso por doze slots, bônus de conjunto e dofus, e saem combinações que ninguém fica conferindo na mão. É essa a sacada: você define as prioridades, ela faz a parte chata.</p>
+<p>Digamos que inteligência vale 1 ponto pra você e vitalidade 0,2. Um item com +40 inteligência e +100 vita pontua 40 + 20 = 60. Um com +60 inteligência e +30 vita pontua 60 + 6 = 66, então ganha, mesmo tendo menos vita. Multiplica isso por doze slots, bônus de conjunto e dofus, e saem combinações que ninguém fica conferindo na mão. É essa a sacada: você define as prioridades, ela faz a parte chata.</p>
 
 <h2>As regras que ela nunca quebra</h2>
 <p>Otimizar livremente é fácil; otimizar <em>de forma válida</em> é a parte difícil. O solucionador mantém seu build dentro das linhas:</p>
@@ -273,21 +273,21 @@ GUIDES = {
 </ul>
 
 <h2>Por que o resultado às vezes surpreende</h2>
-<p>Se a sugestão parece estranha, geralmente ela está te dizendo algo: seus pesos estão puxando um contra o outro, ou simplesmente não existe equipamento que cumpra tudo de uma vez. Abaixa um controle, sobe outro, proíbe aquele item que você nunca vai farmar, e roda de novo. Depois de duas ou três passadas você tem um set realmente ajustado pra você — não um build meta copiado que todo mundo usa.</p>
+<p>Se a sugestão parece estranha, geralmente ela está te dizendo algo: seus pesos estão puxando um contra o outro, ou simplesmente não existe equipamento que cumpra tudo de uma vez. Abaixa um controle, sobe outro, proíbe aquele item que você nunca vai farmar, e roda de novo. Depois de duas ou três passadas você tem um set realmente ajustado pra você, não um build meta copiado que todo mundo usa.</p>
 
 <p><em>Quer ver acontecer? <a href="/setup/">Comece um projeto</a> e veja ele resolver.</em></p>
 ''',
             },
             'de': {
                 'title': 'Wie der Optimierer wirklich arbeitet',
-                'desc': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert. Die Fashionista macht es andersrum — du sagst, was du willst, sie findet die Items. Hier ist, was unter der Haube passiert.",
-                'lead': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert die Werte. Die Fashionista macht es andersrum — du sagst, was du willst, sie findet die Items.",
+                'desc': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert. Die Fashionista macht es andersrum, du sagst, was du willst, sie findet die Items. Hier ist, was unter der Haube passiert.",
+                'lead': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert die Werte. Die Fashionista macht es andersrum, du sagst, was du willst, sie findet die Items.",
                 'body': '''
 <h2>Es ist ein Optimierungsproblem, keine Liste</h2>
-<p>Wenn du deine Regler einstellst, gibst du dem Tool im Grunde eine <strong>Punktzahl</strong> für jeden Wert. Im Hintergrund durchsucht es dann tausende erlaubte Item-Kombinationen und nimmt die mit der höchsten Gesamtpunktzahl — und hält sich dabei an die harten Regeln des Spiels. Das ist echte mathematische Optimierung, dieselbe Sorte Mathe, mit der man Flüge plant oder Lkw belädt, nur eben auf deinen Iop gerichtet.</p>
+<p>Wenn du deine Regler einstellst, gibst du dem Tool im Grunde eine <strong>Punktzahl</strong> für jeden Wert. Im Hintergrund durchsucht es dann tausende erlaubte Item-Kombinationen und nimmt die mit der höchsten Gesamtpunktzahl, und hält sich dabei an die harten Regeln des Spiels. Das ist echte mathematische Optimierung, dieselbe Sorte Mathe, mit der man Flüge plant oder Lkw belädt, nur eben auf deinen Iop gerichtet.</p>
 
 <h2>Warum Gewichten besser ist als rohe Werte</h2>
-<p>Sagen wir, Intelligenz ist dir 1 Punkt wert und Vitalität 0,2. Ein Item mit +40 Int und +100 Vita kommt auf 40 + 20 = 60. Eins mit +60 Int und +30 Vita kommt auf 60 + 6 = 66, also gewinnt es — obwohl es weniger Vita hat. Rechne das über zwölf Plätze, Set-Boni und Dofus hoch, und du bekommst Kombinationen, die kein Mensch von Hand durchprobiert. Genau das ist der Punkt: Du setzt die Prioritäten, es macht den langweiligen Teil.</p>
+<p>Sagen wir, Intelligenz ist dir 1 Punkt wert und Vitalität 0,2. Ein Item mit +40 Int und +100 Vita kommt auf 40 + 20 = 60. Eins mit +60 Int und +30 Vita kommt auf 60 + 6 = 66, also gewinnt es, obwohl es weniger Vita hat. Rechne das über zwölf Plätze, Set-Boni und Dofus hoch, und du bekommst Kombinationen, die kein Mensch von Hand durchprobiert. Genau das ist der Punkt: Du setzt die Prioritäten, es macht den langweiligen Teil.</p>
 
 <h2>Die Regeln, die es nie bricht</h2>
 <p>Frei zu optimieren ist leicht; <em>regelkonform</em> zu optimieren ist die Kunst. Der Solver hält dein Build in der Spur:</p>
@@ -299,7 +299,7 @@ GUIDES = {
 </ul>
 
 <h2>Warum dich das Ergebnis manchmal überrascht</h2>
-<p>Wenn der Vorschlag seltsam aussieht, sagt er dir meistens etwas: Deine Gewichte ziehen gegeneinander, oder es gibt schlicht keine Ausrüstung, die alles auf einmal trifft. Regler runter, anderen hoch, das Item verbieten, das du eh nie farmst, und neu rechnen. Nach zwei, drei Durchläufen hast du ein Set, das wirklich auf dich abgestimmt ist — kein kopiertes Meta-Build, das alle anderen tragen.</p>
+<p>Wenn der Vorschlag seltsam aussieht, sagt er dir meistens etwas: Deine Gewichte ziehen gegeneinander, oder es gibt schlicht keine Ausrüstung, die alles auf einmal trifft. Regler runter, anderen hoch, das Item verbieten, das du eh nie farmst, und neu rechnen. Nach zwei, drei Durchläufen hast du ein Set, das wirklich auf dich abgestimmt ist, kein kopiertes Meta-Build, das alle anderen tragen.</p>
 
 <p><em>Willst du es live sehen? <a href="/setup/">Starte ein Projekt</a> und schau ihm beim Lösen zu.</em></p>
 ''',
