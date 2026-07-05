@@ -27,7 +27,7 @@ from chardata.options_view import parse_options_post, parse_inventory_options, \
 from chardata.smart_build import reapply_weights
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 from chardata.wizard_sliders import get_wizard_sliders, set_wizard_sliders
-from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE
+from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version
 from fashionistapulp.structure import get_structure
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.translation import get_supported_language
@@ -120,12 +120,13 @@ def _get_third_scroll_option(char):
         else:
             basestats = basestats_list[0]
         stats_scroll_dict[basestats.stat] = basestats.scrolled_value
+    max_scroll = max_scroll_for_version(char.game_version)
     all_scrolled = True
     all_empty = True
     for _, scrolled_value in stats_scroll_dict.items():
         if scrolled_value > 0:
             all_empty = False
-        if scrolled_value < 100:
+        if scrolled_value < max_scroll:
             all_scrolled = False
     if all_empty:
         return None
@@ -134,8 +135,8 @@ def _get_third_scroll_option(char):
     return stats_scroll_dict
 
 def _full_scroll_char(char):
-    # Retro lets you scroll a characteristic to 101, every other version caps at 100.
-    full_scroll = 101 if char.game_version == 'retro' else 100
+    # Touch scrolls to 150, Retro to 101, every other version to 100.
+    full_scroll = max_scroll_for_version(char.game_version)
     for element_name, _ in STATS_NAMES:
         basestats_list = CharBaseStats.objects.filter(char=char, stat=element_name)
         if len(basestats_list) == 0:

@@ -19,7 +19,7 @@ from django.http import HttpResponseRedirect
 from chardata.models import CharBaseStats
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 
-from fashionistapulp.dofus_constants import get_soft_caps_for, STATS_NAMES
+from fashionistapulp.dofus_constants import get_soft_caps_for, STATS_NAMES, max_scroll_for_version
 
 import json
 from chardata.themes import get_theme
@@ -66,6 +66,7 @@ def _page(request, char_id, is_new_char):
                          'advanced': True,
                          'soft_caps': soft_caps,
                          'lower_soft_caps': lower_soft_caps,
+                         'max_scroll': max_scroll_for_version(char.game_version),
                          'theme': get_theme(request)},
                         char)
 
@@ -84,7 +85,8 @@ def _post(request, char_id):
                                  safe_int(request.POST.get('scrolled_%s' % abr, 0), 0))
         basestats.scrolled_value = safe_int(request.POST.get('scrolled_%s' % abr, 0), 0)
         assert 0 <= basestats.total_value and basestats.total_value <= 3000
-        assert 0 <= basestats.scrolled_value and basestats.scrolled_value <= 101
+        assert 0 <= basestats.scrolled_value and \
+            basestats.scrolled_value <= max_scroll_for_version(char.game_version)
         basestats.save()
         
     allow_point_distribution = str(request.POST.get('choose_stats', '')).strip().lower() in ('true', 'on', '1', 'yes')

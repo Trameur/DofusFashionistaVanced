@@ -5134,6 +5134,17 @@ def tier_widths_after_scroll(caps_for_stat, scrolled):
     return widths
 
 
+def max_scroll_for_version(game_version):
+    """Highest a characteristic can be scrolled, per version. Touch's Dedale
+    (update 1.73, live June 2026) added scrolls that push the six main stats to
+    150; Retro allows 101; every other version caps at 100."""
+    if game_version == 'touch':
+        return 150
+    if game_version == 'retro':
+        return 101
+    return 100
+
+
 ATTRIBUTE_TO_ELEMENT = {
     'int': 'fire',
     'cha': 'water',

@@ -2066,8 +2066,8 @@ class RetroShieldsDefaultTests(TestCase):
 
 
 class FullScrollRetroTests(TestCase):
-    """Retro can scroll a characteristic to 101; every other version caps at 100.
-    The wizard 'full parcho' button was hardcoded to 100 for all versions."""
+    """Scroll caps per version: Touch 150 (Dedale, update 1.73), Retro 101,
+    every other version 100. The 'full parcho' button honours the version cap."""
 
     def _full_scroll_values(self, version):
         from django.test import RequestFactory
@@ -2084,6 +2084,9 @@ class FullScrollRetroTests(TestCase):
         char = create_build(req, 'Iop', 200, {'str'}, version)
         _full_scroll_char(char)
         return set(b.scrolled_value for b in CharBaseStats.objects.filter(char=char))
+
+    def test_touch_full_scroll_is_150(self):
+        self.assertEqual(self._full_scroll_values('touch'), {150})
 
     def test_retro_full_scroll_is_101(self):
         self.assertEqual(self._full_scroll_values('retro'), {101})

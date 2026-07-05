@@ -100,8 +100,8 @@
     var isNewChar = {{ is_new_char | safe }};
     var initialStats = {{ stats_json | safe }};
     var ALL_STATS = ['vit', 'wis', 'str', 'int', 'cha', 'agi'];
-    // Retro lets you scroll a characteristic to 101; every other version caps at 100.
-    var maxScroll = {% if char.game_version == 'retro' %}101{% else %}100{% endif %};
+    // Touch scrolls to 150, Retro to 101, every other version to 100.
+    var maxScroll = {{ max_scroll }};
 
     function template(t, data){
         return t.replace(/%(\w*)%/g,
