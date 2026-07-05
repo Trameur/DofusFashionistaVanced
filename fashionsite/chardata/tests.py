@@ -2433,39 +2433,6 @@ class CreateLocalAdminCommandTests(TestCase):
         self.assertEqual(self.client.get('/admin-tools/').status_code, 200)
 
 
-class RetroPresetWeightsTests(TestCase):
-    """Preset weights must differ per version: Dofus Retro is 1.29, where Power
-    and % final damage are not item stats yet (added in Dofus 2.0), so a retro
-    build must not weight them. Fixed damage (which 1.29 does have) stays."""
-
-    def _weights(self, version):
-        from django.test import RequestFactory
-        from django.contrib.auth.models import User
-        from fashionistapulp.structure import set_current_game_version
-        from chardata.coaching_view import create_build
-        from chardata.smart_build import get_standard_weights
-        set_current_game_version(version)
-        user = User.objects.create_user(
-            'retw_%s' % version, 'rw@test.local', 'pw-retw-77')
-        req = RequestFactory().post('/')
-        req.user = user
-        char = create_build(req, 'Iop', 200, {'str', 'glasscannon', 'dam'}, version)
-        return get_standard_weights(char)
-
-    def test_retro_drops_power_and_final_damage(self):
-        w = self._weights('retro')
-        self.assertEqual(w['pow'], 0)
-        for k in ('permedam', 'perrandam', 'perweadam', 'perspedam'):
-            self.assertEqual(w[k], 0, k)
-        self.assertGreater(w['dam'], 0)  # fixed damage exists in 1.29
-
-    def test_modern_keeps_power_and_final_damage(self):
-        for version in ('dofus3', 'touch'):
-            w = self._weights(version)
-            self.assertGreater(w['pow'], 0, version)
-            self.assertGreater(w['permedam'], 0, version)
-
-
 class GelanoExoInventoryTests(TestCase):
     """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain
     one. Owning another item with an MP roll above its base used to flip the

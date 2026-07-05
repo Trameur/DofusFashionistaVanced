@@ -726,12 +726,6 @@ def _set_weights(char, aspects, apply=True):
     if 'glasscannon' in aspects:
         w['pow'] *= 1.5
     w['pow'] *= param_for_build(race, elements, 'pow_power', 'float_avg')
-    if char.game_version == 'retro':
-        # Dofus Retro is 1.29: Power (Puissance) and % final damage are not item
-        # stats yet (both added in Dofus 2.0). Zeroing pow here also drops the
-        # pow-derived %-final-damage weights below, so a retro build never chases
-        # stats that version doesn't have.
-        w['pow'] = 0
 
     w['earthdam'] = w['str'] * param_for_build(race, elements, 'earthdam') * dam_mult
     w['firedam'] = w['int'] * param_for_build(race, elements, 'firedam') * dam_mult
