@@ -967,21 +967,21 @@ GUIDES = {
         'published': '2026-07-01',
         'i18n': {
             'en': {
-                'title': "You've got the build — now how do you actually get the gear?",
-                'desc': "The optimizer hands you a perfect set, then reality hits: you don't own a single piece. Here's how to get each item — drop it, craft it, or buy it — and where to start.",
+                'title': "You've got the build: now how do you actually get the gear?",
+                'desc': "The optimizer hands you a perfect set, then reality hits: you don't own a single piece. Here's how to get each item (drop it, craft it, or buy it) and where to start.",
                 'lead': "The optimizer hands you a perfect set, then reality hits: you don't own a single piece. Here's how to actually get the gear, without going broke.",
                 'body': '''
 <h2>Three ways to get any item</h2>
 <p>Every piece in your build comes from one of three places: a monster drops it, someone crafts it, or you buy it off the market. Most items can be gotten more than one way, and the cheapest route changes from server to server. The trick is knowing which fight to run, which profession to level, or when to just pay up.</p>
 
 <h2>Dropping it yourself</h2>
-<p>Check where an item drops — usually a specific monster or dungeon boss — on its <a href="/encyclopedia/">encyclopedia</a> page. Farming the drop is "free" but costs time, and drop rates can be brutal, so weight your Prospecting if you're going to grind. Dungeon runs in a group are usually the fastest way to chase a boss-locked piece.</p>
+<p>Check where an item drops (usually a specific monster or dungeon boss) on its <a href="/encyclopedia/">encyclopedia</a> page. Farming the drop is "free" but costs time, and drop rates can be brutal, so weight your Prospecting if you're going to grind. Dungeon runs in a group are usually the fastest way to chase a boss-locked piece.</p>
 
 <h2>Crafting it</h2>
-<p>Many sets are crafted, not dropped. The recipe lists the resources and the profession level you need; the Fashionista shows the recipe right on the item. Crafting is often cheaper than buying the finished item — you pay in resources and a maged exo or two instead of the full market price — but it means leveling the right profession or finding a guildmate who has.</p>
+<p>Many sets are crafted, not dropped. The recipe lists the resources and the profession level you need; the Fashionista shows the recipe right on the item. Crafting is often cheaper than buying the finished item (you pay in resources and a maged exo or two instead of the full market price) but it means leveling the right profession or finding a guildmate who has.</p>
 
 <h2>Just buying it</h2>
-<p>Sometimes your time is worth more than the kamas. The market is the fast lane: search the item, compare prices, and buy. Prices swing with supply, so a piece that's overpriced today might be cheap next week. If a build piece is bleeding your purse, forbid it in the tool and re-run — the next-best item is often a fraction of the cost for almost the same result.</p>
+<p>Sometimes your time is worth more than the kamas. The market is the fast lane: search the item, compare prices, and buy. Prices swing with supply, so a piece that's overpriced today might be cheap next week. If a build piece is bleeding your purse, forbid it in the tool and re-run: the next-best item is often a fraction of the cost for almost the same result.</p>
 
 <h2>Prioritize, don't bankrupt yourself</h2>
 <p>You don't need the full set on day one. Slot in the cheap pieces first, lock the ones you own, and let the optimizer fill the rest with what you can afford right now. Upgrade piece by piece as your kamas grow. A "good enough" set you actually wear beats a perfect one you can't afford.</p>
@@ -990,21 +990,21 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': "T'as le build — maintenant, comment choper le stuff ?",
-                'desc': "L'optimiseur te sort un set parfait, puis la réalité te rattrape : t'as pas une seule pièce. Voilà comment obtenir chaque item — le drop, le crafter ou l'acheter — et par où commencer.",
+                'title': "T'as le build : maintenant, comment choper le stuff ?",
+                'desc': "L'optimiseur te sort un set parfait, puis la réalité te rattrape : t'as pas une seule pièce. Voilà comment obtenir chaque item (le drop, le crafter ou l'acheter) et par où commencer.",
                 'lead': "L'optimiseur te sort un set parfait, puis la réalité te rattrape : t'as pas une seule pièce. Voilà comment choper le stuff pour de vrai, sans te ruiner.",
                 'body': '''
 <h2>Trois façons d'avoir n'importe quel item</h2>
 <p>Chaque pièce de ton build vient d'un de ces trois endroits : un monstre la drop, quelqu'un la craft, ou tu l'achètes au marché. La plupart des items s'obtiennent de plusieurs façons, et la route la moins chère change d'un serveur à l'autre. L'astuce, c'est de savoir quel combat lancer, quel métier monter, ou quand juste sortir les kamas.</p>
 
 <h2>La dropper toi-même</h2>
-<p>Regarde où un item drop — en général un monstre précis ou un boss de donjon — sur sa page <a href="/encyclopedia/">encyclopédie</a>. Farmer le drop est "gratuit" mais coûte du temps, et les taux de drop peuvent être violents, donc pondère ta Prospection si tu comptes grind. Les donjons en groupe sont souvent le plus rapide pour une pièce bloquée derrière un boss.</p>
+<p>Regarde où un item drop (en général un monstre précis ou un boss de donjon) sur sa page <a href="/encyclopedia/">encyclopédie</a>. Farmer le drop est "gratuit" mais coûte du temps, et les taux de drop peuvent être violents, donc pondère ta Prospection si tu comptes grind. Les donjons en groupe sont souvent le plus rapide pour une pièce bloquée derrière un boss.</p>
 
 <h2>La crafter</h2>
-<p>Beaucoup de panoplies se craftent plutôt qu'elles ne droppent. La recette liste les ressources et le niveau de métier requis ; la Fashionista t'affiche la recette directement sur l'item. Crafter revient souvent moins cher qu'acheter l'item fini — tu paies en ressources et un exo ou deux à maginer au lieu du prix plein du marché — mais ça implique de monter le bon métier ou de trouver un membre de guilde qui l'a.</p>
+<p>Beaucoup de panoplies se craftent plutôt qu'elles ne droppent. La recette liste les ressources et le niveau de métier requis ; la Fashionista t'affiche la recette directement sur l'item. Crafter revient souvent moins cher qu'acheter l'item fini (tu paies en ressources et un exo ou deux à maginer au lieu du prix plein du marché) mais ça implique de monter le bon métier ou de trouver un membre de guilde qui l'a.</p>
 
 <h2>Juste l'acheter</h2>
-<p>Parfois ton temps vaut plus que les kamas. Le marché (HDV) c'est la voie rapide : tu cherches l'item, tu compares les prix, tu achètes. Les prix bougent avec l'offre, donc une pièce hors de prix aujourd'hui peut être bradée la semaine prochaine. Si une pièce du build saigne ta bourse, interdis-la dans l'outil et relance — l'item suivant coûte souvent une fraction du prix pour presque le même résultat.</p>
+<p>Parfois ton temps vaut plus que les kamas. Le marché (HDV) c'est la voie rapide : tu cherches l'item, tu compares les prix, tu achètes. Les prix bougent avec l'offre, donc une pièce hors de prix aujourd'hui peut être bradée la semaine prochaine. Si une pièce du build saigne ta bourse, interdis-la dans l'outil et relance : l'item suivant coûte souvent une fraction du prix pour presque le même résultat.</p>
 
 <h2>Priorise, ne te ruine pas</h2>
 <p>T'as pas besoin de la panoplie complète dès le premier jour. Mets les pièces pas chères d'abord, verrouille celles que t'as, et laisse l'optimiseur remplir le reste avec ce que tu peux te payer maintenant. Améliore pièce par pièce au fur et à mesure que tes kamas montent. Un set "suffisant" que tu portes vraiment bat un set parfait que tu peux pas t'offrir.</p>
@@ -1013,21 +1013,21 @@ GUIDES = {
 ''',
             },
             'es': {
-                'title': "Ya tienes el build — ¿y ahora cómo consigues el equipo?",
-                'desc': "El optimizador te da un set perfecto, y entonces llega la realidad: no tienes ni una pieza. Aquí tienes cómo conseguir cada ítem — dropearlo, fabricarlo o comprarlo — y por dónde empezar.",
+                'title': "Ya tienes el build: ¿y ahora cómo consigues el equipo?",
+                'desc': "El optimizador te da un set perfecto, y entonces llega la realidad: no tienes ni una pieza. Aquí tienes cómo conseguir cada ítem (dropearlo, fabricarlo o comprarlo) y por dónde empezar.",
                 'lead': "El optimizador te da un set perfecto, y entonces llega la realidad: no tienes ni una pieza. Aquí tienes cómo conseguir el equipo de verdad, sin arruinarte.",
                 'body': '''
 <h2>Tres formas de conseguir cualquier ítem</h2>
 <p>Cada pieza de tu build viene de uno de tres sitios: la dropea un monstruo, alguien la fabrica, o la compras en el mercado. La mayoría de los ítems se consiguen de varias formas, y la ruta más barata cambia de un servidor a otro. El truco es saber qué pelea hacer, qué profesión subir, o cuándo simplemente pagar.</p>
 
 <h2>Dropearla tú mismo</h2>
-<p>Mira dónde dropea un ítem — normalmente un monstruo concreto o un jefe de mazmorra — en su página de <a href="/encyclopedia/">enciclopedia</a>. Farmear el drop es "gratis" pero cuesta tiempo, y las tasas de drop pueden ser brutales, así que pondera tu Prospección si vas a grindear. Las mazmorras en grupo suelen ser lo más rápido para una pieza bloqueada tras un jefe.</p>
+<p>Mira dónde dropea un ítem (normalmente un monstruo concreto o un jefe de mazmorra) en su página de <a href="/encyclopedia/">enciclopedia</a>. Farmear el drop es "gratis" pero cuesta tiempo, y las tasas de drop pueden ser brutales, así que pondera tu Prospección si vas a grindear. Las mazmorras en grupo suelen ser lo más rápido para una pieza bloqueada tras un jefe.</p>
 
 <h2>Fabricarla</h2>
-<p>Muchas panoplias se fabrican en vez de dropearse. La receta lista los recursos y el nivel de profesión que necesitas; la Fashionista te muestra la receta en el propio ítem. Fabricar suele salir más barato que comprar el ítem terminado — pagas en recursos y un exo o dos forjados en vez del precio completo del mercado — pero implica subir la profesión adecuada o encontrar a alguien del gremio que la tenga.</p>
+<p>Muchas panoplias se fabrican en vez de dropearse. La receta lista los recursos y el nivel de profesión que necesitas; la Fashionista te muestra la receta en el propio ítem. Fabricar suele salir más barato que comprar el ítem terminado (pagas en recursos y un exo o dos forjados en vez del precio completo del mercado) pero implica subir la profesión adecuada o encontrar a alguien del gremio que la tenga.</p>
 
 <h2>Simplemente comprarla</h2>
-<p>A veces tu tiempo vale más que los kamas. El mercado (HDV) es la vía rápida: busca el ítem, compara precios y compra. Los precios oscilan con la oferta, así que una pieza carísima hoy puede estar barata la semana que viene. Si una pieza del build te desangra la bolsa, prohíbela en la herramienta y vuelve a lanzar — el siguiente ítem suele costar una fracción por casi el mismo resultado.</p>
+<p>A veces tu tiempo vale más que los kamas. El mercado (HDV) es la vía rápida: busca el ítem, compara precios y compra. Los precios oscilan con la oferta, así que una pieza carísima hoy puede estar barata la semana que viene. Si una pieza del build te desangra la bolsa, prohíbela en la herramienta y vuelve a lanzar: el siguiente ítem suele costar una fracción por casi el mismo resultado.</p>
 
 <h2>Prioriza, no te arruines</h2>
 <p>No necesitas el set completo el primer día. Mete las piezas baratas primero, bloquea las que tengas, y deja que el optimizador rellene el resto con lo que te puedas permitir ahora. Mejora pieza a pieza según suban tus kamas. Un set "suficiente" que de verdad llevas gana a uno perfecto que no puedes pagar.</p>
@@ -1036,21 +1036,21 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': "Você tem o build — e agora, como conseguir o equipamento?",
-                'desc': "O otimizador te dá um set perfeito, e aí bate a realidade: você não tem uma peça sequer. Veja como conseguir cada item — dropar, fabricar ou comprar — e por onde começar.",
+                'title': "Você tem o build: e agora, como conseguir o equipamento?",
+                'desc': "O otimizador te dá um set perfeito, e aí bate a realidade: você não tem uma peça sequer. Veja como conseguir cada item (dropar, fabricar ou comprar) e por onde começar.",
                 'lead': "O otimizador te dá um set perfeito, e aí bate a realidade: você não tem uma peça sequer. Veja como conseguir o equipamento de verdade, sem quebrar.",
                 'body': '''
 <h2>Três jeitos de conseguir qualquer item</h2>
 <p>Cada peça do seu build vem de um de três lugares: um monstro dropa, alguém fabrica, ou você compra no mercado. A maioria dos itens dá pra conseguir de mais de um jeito, e a rota mais barata muda de servidor pra servidor. O truque é saber qual luta fazer, qual profissão subir, ou quando simplesmente pagar.</p>
 
 <h2>Dropar você mesmo</h2>
-<p>Veja onde um item dropa — geralmente um monstro específico ou um chefe de masmorra — na página de <a href="/encyclopedia/">enciclopédia</a> dele. Farmar o drop é "de graça" mas custa tempo, e as taxas de drop podem ser brutais, então pondere sua Prospecção se for grindar. Masmorras em grupo costumam ser o mais rápido pra uma peça travada atrás de um chefe.</p>
+<p>Veja onde um item dropa (geralmente um monstro específico ou um chefe de masmorra) na página de <a href="/encyclopedia/">enciclopédia</a> dele. Farmar o drop é "de graça" mas custa tempo, e as taxas de drop podem ser brutais, então pondere sua Prospecção se for grindar. Masmorras em grupo costumam ser o mais rápido pra uma peça travada atrás de um chefe.</p>
 
 <h2>Fabricar</h2>
-<p>Muitos conjuntos são fabricados em vez de dropados. A receita lista os recursos e o nível de profissão necessários; a Fashionista mostra a receita no próprio item. Fabricar costuma sair mais barato que comprar o item pronto — você paga em recursos e um exo ou dois forjados em vez do preço cheio do mercado — mas implica subir a profissão certa ou achar alguém da guilda que tenha.</p>
+<p>Muitos conjuntos são fabricados em vez de dropados. A receita lista os recursos e o nível de profissão necessários; a Fashionista mostra a receita no próprio item. Fabricar costuma sair mais barato que comprar o item pronto (você paga em recursos e um exo ou dois forjados em vez do preço cheio do mercado) mas implica subir a profissão certa ou achar alguém da guilda que tenha.</p>
 
 <h2>Só comprar</h2>
-<p>Às vezes seu tempo vale mais que os kamas. O mercado (HDV) é a via rápida: procura o item, compara preços e compra. Os preços oscilam com a oferta, então uma peça caríssima hoje pode estar barata semana que vem. Se uma peça do build está sangrando sua bolsa, proíba ela na ferramenta e rode de novo — o próximo item costuma custar uma fração pelo quase mesmo resultado.</p>
+<p>Às vezes seu tempo vale mais que os kamas. O mercado (HDV) é a via rápida: procura o item, compara preços e compra. Os preços oscilam com a oferta, então uma peça caríssima hoje pode estar barata semana que vem. Se uma peça do build está sangrando sua bolsa, proíba ela na ferramenta e rode de novo: o próximo item costuma custar uma fração pelo quase mesmo resultado.</p>
 
 <h2>Priorize, não quebre</h2>
 <p>Você não precisa do set completo no primeiro dia. Coloque as peças baratas primeiro, trave as que você tem, e deixe o otimizador preencher o resto com o que dá pra pagar agora. Melhore peça por peça conforme seus kamas sobem. Um set "bom o bastante" que você realmente usa ganha de um perfeito que você não pode pagar.</p>
@@ -1059,21 +1059,21 @@ GUIDES = {
 ''',
             },
             'de': {
-                'title': "Du hast das Build — aber wie kommst du an die Ausrüstung?",
-                'desc': "Der Optimierer gibt dir ein perfektes Set, dann kommt die Realität: Du besitzt kein einziges Teil. So bekommst du jedes Item — droppen, herstellen oder kaufen — und wo du anfängst.",
+                'title': "Du hast das Build: aber wie kommst du an die Ausrüstung?",
+                'desc': "Der Optimierer gibt dir ein perfektes Set, dann kommt die Realität: Du besitzt kein einziges Teil. So bekommst du jedes Item (droppen, herstellen oder kaufen) und wo du anfängst.",
                 'lead': "Der Optimierer gibt dir ein perfektes Set, dann kommt die Realität: Du besitzt kein einziges Teil. So kommst du wirklich an die Ausrüstung, ohne pleitezugehen.",
                 'body': '''
 <h2>Drei Wege zu jedem Item</h2>
 <p>Jedes Teil deines Builds kommt aus einer von drei Quellen: ein Monster droppt es, jemand stellt es her, oder du kaufst es auf dem Markt. Die meisten Items bekommst du auf mehr als einem Weg, und die günstigste Route ändert sich von Server zu Server. Der Trick ist zu wissen, welchen Kampf du läufst, welchen Beruf du levelst, oder wann du einfach zahlst.</p>
 
 <h2>Selbst droppen</h2>
-<p>Schau auf der <a href="/encyclopedia/">Enzyklopädie</a>-Seite eines Items nach, wo es droppt — meist ein bestimmtes Monster oder ein Dungeon-Boss. Den Drop zu farmen ist "gratis", kostet aber Zeit, und die Drop-Raten können brutal sein, also gewichte deine Prospektion, wenn du grinden willst. Dungeon-Läufe in der Gruppe sind meist am schnellsten für ein Teil, das hinter einem Boss steckt.</p>
+<p>Schau auf der <a href="/encyclopedia/">Enzyklopädie</a>-Seite eines Items nach, wo es droppt: meist ein bestimmtes Monster oder ein Dungeon-Boss. Den Drop zu farmen ist "gratis", kostet aber Zeit, und die Drop-Raten können brutal sein, also gewichte deine Prospektion, wenn du grinden willst. Dungeon-Läufe in der Gruppe sind meist am schnellsten für ein Teil, das hinter einem Boss steckt.</p>
 
 <h2>Herstellen</h2>
-<p>Viele Sets werden hergestellt statt gedroppt. Das Rezept listet die Ressourcen und das nötige Berufslevel; die Fashionista zeigt dir das Rezept direkt am Item. Herstellen ist oft günstiger als das fertige Item zu kaufen — du zahlst in Ressourcen und ein, zwei gemagten Exos statt dem vollen Marktpreis — aber es heißt, den richtigen Beruf zu leveln oder ein Gildenmitglied zu finden, das ihn hat.</p>
+<p>Viele Sets werden hergestellt statt gedroppt. Das Rezept listet die Ressourcen und das nötige Berufslevel; die Fashionista zeigt dir das Rezept direkt am Item. Herstellen ist oft günstiger als das fertige Item zu kaufen (du zahlst in Ressourcen und ein, zwei gemagten Exos statt dem vollen Marktpreis) aber es heißt, den richtigen Beruf zu leveln oder ein Gildenmitglied zu finden, das ihn hat.</p>
 
 <h2>Einfach kaufen</h2>
-<p>Manchmal ist deine Zeit mehr wert als die Kamas. Der Markt ist die Überholspur: Item suchen, Preise vergleichen, kaufen. Preise schwanken mit dem Angebot, also ist ein heute überteuertes Teil nächste Woche vielleicht billig. Wenn ein Build-Teil deinen Geldbeutel ausblutet, verbiete es im Tool und rechne neu — das nächstbeste Item kostet oft einen Bruchteil bei fast gleichem Ergebnis.</p>
+<p>Manchmal ist deine Zeit mehr wert als die Kamas. Der Markt ist die Überholspur: Item suchen, Preise vergleichen, kaufen. Preise schwanken mit dem Angebot, also ist ein heute überteuertes Teil nächste Woche vielleicht billig. Wenn ein Build-Teil deinen Geldbeutel ausblutet, verbiete es im Tool und rechne neu: das nächstbeste Item kostet oft einen Bruchteil bei fast gleichem Ergebnis.</p>
 
 <h2>Priorisiere, ruiniere dich nicht</h2>
 <p>Du brauchst nicht das komplette Set am ersten Tag. Steck zuerst die günstigen Teile rein, sperr die, die du hast, und lass den Optimierer den Rest mit dem füllen, was du dir gerade leisten kannst. Rüste Teil für Teil auf, während deine Kamas wachsen. Ein "gut genug"-Set, das du wirklich trägst, schlägt ein perfektes, das du dir nicht leisten kannst.</p>
