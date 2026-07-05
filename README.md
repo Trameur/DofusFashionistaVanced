@@ -26,8 +26,8 @@ pip install -r requirements_win.txt
 The Dofus Fashionista, an equipment advisor for Dofus.
 
 This is a fork that keeps the site running and up to date. Beyond the live game, it
-now supports several game versions side by side — **Dofus 3**, **Beta**, **Dofus 2**,
-**Dofus Retro** and **Dofus Touch** — each with its own item, set, spell and mount
+now supports several game versions side by side (**Dofus 3**, **Beta**, **Dofus 2**,
+**Dofus Retro** and **Dofus Touch**), each with its own item, set, spell and mount
 data, reachable under its own URL prefix (`/retro/`, `/touch/`, …).
 
 # Install Fashionista:
@@ -104,54 +104,47 @@ Configure files in /etc/fashionista
 python3 ./configure_fashionista.py
 ```
 
-# Items scraper
+# Updating game data (scraping)
 
-The old scraper is still in the folder itemscraper, it uses the Dofus website Encyclopedia. It is veryyyy slow and the Encyclopedia is missing a lot of items, it's not viable to use it anymore. I made a new scraper that just convert the data from https://docs.dofusdu.de/ to something that store_venom.py can use.
+All game data (items, sets, spells, mounts and images) is refreshed with the per-version
+`update_data*.py` orchestrators at the repo root. Each one runs the whole pipeline for its
+version (download, transform, dump, load the DB, recipes, spells, images) and prints a
+summary of warnings at the end. Run them from the repo root.
+
+| Version      | Command                          | Data source                                        |
+|--------------|----------------------------------|----------------------------------------------------|
+| Dofus 3      | `python update_data.py`          | dofusdude (`api.dofusdu.de` + `dofus3-main` releases) |
+| Dofus 3 Beta | `python update_data_beta.py`     | dofusdude beta release                             |
+| Dofus 2      | `python update_data_dofus2.py`   | dofusdude Dofus 2 data                             |
+| Dofus Retro  | `python update_data_retro.py`    | Ankama's official Retro "lang" CDN                 |
+| Dofus Touch  | `python update_data_touch.py`    | the live Dofus Touch client data backend           |
+
+Common flags: `--skip-images` / `--images-only` / `--no-resize` control the (slow) image
+steps. For Dofus 3 / Beta / Dofus 2, `--version <tag>` updates the data **and** bumps the
+version in `fashionista_version.py`:
 
 ```shell
-cd itemscraper  
-python3 get_equipments.py  
-python3 get_equipments2.py
-python3 get_equipments3.py
-python3 get_equipments4.py  
-python3 store_item_obtainment.py
-cd ..
-python3 resize_images.py
+python update_data.py --version 3.6.5.4        # Dofus 3
+python update_data_touch.py --skip-images       # Touch, data only
 ```
 
-# Spell data & icons
+**Dofus 3 / Beta / Dofus 2 are pinned to a data tag** (a
+[`dofusdude/dofus3-main`](https://github.com/dofusdude/dofus3-main) GitHub release); pass
+`--version` to move to a newer one. **Retro and Touch have no version tag**: their scrapers
+always pull whatever is live right now (Ankama's Retro lang CDN / the Touch backend), so
+re-running the script is how you pick up a new in-game update. Because of that, bumping
+`FASHIONISTA_TOUCH_VERSION` / `FASHIONISTA_RETRO_VERSION` only makes sense right after
+re-running the matching script, otherwise the label will not match the data.
 
-Spells, damage tables, and icons all come from the data published on the [dofusdude/dofus3-main](https://github.com/dofusdude/dofus3-main) GitHub project. Everything below is scraped from those releases with the scripts in `itemscraper/`. Run the commands from the repo root.
+The current in-game version of each variant lives in `fashionista_version.py`:
 
-Start by capturing the current in-game version from the centralized helper:
-
-```powershell
-$version = python -m fashionista_version
+```shell
+python -m fashionista_version   # prints the current Dofus 3 version
 ```
 
-1. **Download the dumps**
-   ```powershell
-   python -m itemscraper.download_raw_data --tag $version --filter spell --filter translations --filter spell_images
-   ```
-   This pulls the selected release into `itemscraper/raw/<tag>/`. Set a `GITHUB_TOKEN` if GitHub rate-limits you.
-
-2. **Transform the spells**
-   ```powershell
-   python -m itemscraper.get_spells --tag $version --output itemscraper/transformed_spells.json --class-output itemscraper/transformed_class_spells.json
-   ```
-   Generates the compact spell JSON plus the class map that mirrors the in-game spellbook.
-
-3. **Regenerate `DAMAGE_SPELLS`**
-   ```powershell
-   python -m itemscraper.generate_damage_spells --class-json itemscraper/transformed_class_spells.json --spells-json itemscraper/transformed_spells.json --constants fashionistapulp/fashionistapulp/dofus_constants.py
-   ```
-   Fills the auto-generated block in `dofus_constants.py`.
-
-4. **Refresh spell icons**
-   ```powershell
-   python -m itemscraper.download_spell_images --version $version --size 96 --scope damage --prune
-   ```
-   Extracts `spell_images_<size>.tar.gz`, renames each PNG with the latest English name, and copies the files to `fashionsite/chardata/static/chardata/spells` plus the mirrored `fashionsite/staticfiles/chardata/spells` directory.
+Each script's module docstring lists the exact per-step outputs. The standalone
+`itemscraper/get_equipments*.py` scripts are the individual pipeline stages; the
+`update_data*.py` wrappers call them in order, so you normally do not run them by hand.
 
 # Run Dofus Fashionista
 
@@ -250,7 +243,31 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
    - Vérifiez que PYTHONPATH est correctement défini
    - Redémarrez votre terminal après avoir défini PYTHONPATH
 
+# Running the tests
+
+The Django test suite lives in `fashionsite/chardata/tests.py` and runs on an in-memory
+SQLite database (it never touches your real MySQL data):
+
+```shell
+# Unix / macOS
+PYTHONPATH="$PWD:$PWD/fashionistapulp" python fashionsite/manage.py test chardata --settings=fashionsite.settings_test
+
+# Windows (PowerShell)
+$env:PYTHONPATH="$PWD;$PWD/fashionistapulp"; python fashionsite/manage.py test chardata --settings=fashionsite.settings_test
+```
+
+The suite covers the solver, per-version rules (scroll caps, soft caps, stat
+availability), i18n catalogues and template guards. If a run leaves
+`fashionistapulp/fashionistapulp/items.db` modified, restore it with
+`git checkout -- fashionistapulp/fashionistapulp/items.db`.
+
 # Progress and Roadmap
+
+**Current status:** the site runs all five game versions side by side, each with its own
+data pipeline (see *Updating game data* above). The live in-game version of each variant is
+tracked in [fashionista_version.py](fashionista_version.py). Original editorial `/guides/`
+content is published in the five supported languages (English, French, Spanish,
+Portuguese, German).
 
 ✅ Website is fully operational     
 ✅ All equipments and mounts updated to the Dofus version defined in [fashionista_version.py](fashionista_version.py)      
@@ -282,8 +299,11 @@ Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici q
        ✅ Encyclopedia     
        
 ✅ Dofus 3 Unity             
-✅ Dofus Touch            
+✅ Dofus 3 Beta             
+✅ Dofus 2             
 ✅ Dofus Retro             
+✅ Dofus Touch             
+✅ Original /guides/ editorial content (5 languages)             
 
 # Reference
 
@@ -291,6 +311,6 @@ This is a fork of https://github.com/PiwiSlayer/DofusFashionista
 
 Item data is sourced per game version:
 
-- **Dofus 3 / Beta / Dofus 2** — https://github.com/dofusdude/doduapi
-- **Dofus Retro** — Ankama's official Retro "lang" CDN, parsed in pure Python (see [docs/retro_data_from_ankama.md](docs/retro_data_from_ankama.md))
-- **Dofus Touch** — the Touch client's own data backend, with mounts and spell data from the Touch encyclopedia/CDN (see [docs/touch_data_sources.md](docs/touch_data_sources.md))
+- **Dofus 3 / Beta / Dofus 2**: https://github.com/dofusdude/doduapi
+- **Dofus Retro**: Ankama's official Retro "lang" CDN, parsed in pure Python (see [docs/retro_data_from_ankama.md](docs/retro_data_from_ankama.md))
+- **Dofus Touch**: the Touch client's own data backend, with mounts and spell data from the Touch encyclopedia/CDN (see [docs/touch_data_sources.md](docs/touch_data_sources.md))
