@@ -41,7 +41,7 @@ USER_AGENT = "Dofus/2 CFNetwork"
 # Tables needed to build an equipment optimizer. (Many more exist: Spells,
 # Monsters, Areas, Jobs, … — add as needed.)
 DEFAULT_CLASSES = [
-    'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds',
+    'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
 ]
 
 # Languages Touch serves (config.serverLanguages). FR is primary for names here;
@@ -109,9 +109,10 @@ def main(argv=None):
             print(f"  FAILED {cls} ({args.lang}): {exc}", file=sys.stderr)
             failures += 1
 
-    # Other languages: only the name-bearing tables (Items/ItemSets/ItemTypes).
+    # Other languages: only the name-bearing tables (Items/ItemSets/ItemTypes/Monsters).
     if args.all_langs:
-        name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes') if c in args.classes]
+        name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes', 'Monsters')
+                       if c in args.classes]
         for lang in ALL_LANGS:
             if lang == args.lang:
                 continue

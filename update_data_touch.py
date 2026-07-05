@@ -147,6 +147,17 @@ def main() -> None:
     # "Casts spell at start of combat" tooltip lines (Dofus/shields) -> extra_lines.
     step("items/special-spells", [PY, "store_touch_special_spells.py"], cwd=ITEMSCRAPER)
 
+    # Monster drops (from the backend Monsters table) -> item_drops / monster_names
+    # in items_touch.db (encyclopedia "Dropped by"). Runs after recipes finalize the db.
+    step("drops/transform", [
+        PY, "get_monsters_touch.py",
+        "--raw-dir", TOUCH_RAW_DIR, "--output", "transformed_drops_touch.json",
+    ], cwd=ITEMSCRAPER)
+    step("drops/store", [
+        PY, "store_drops.py",
+        "--drops", "transformed_drops_touch.json", "--game-version", "touch",
+    ], cwd=ITEMSCRAPER)
+
     # Damage spells per class -> dofus_constants_touch_spells.py (independent of items).
     step("spells/build", [PY, "get_spells_touch.py"], cwd=ITEMSCRAPER)
 
