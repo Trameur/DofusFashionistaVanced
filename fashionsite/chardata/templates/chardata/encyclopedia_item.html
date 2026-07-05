@@ -266,6 +266,17 @@
             </ul>
             {% endif %}
         </div>
+
+        {% if drops %}
+        <div class="encyclopedia-section">
+            <b>{{ t.dropped_by_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for drop in drops %}
+                <li>{{ drop.name }} <span class="drop-rate">{{ drop.rate|floatformat:2 }}%</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
     </div>
 </div>
 <script>

@@ -57,6 +57,7 @@ LOCALIZED_UI = {
         'additional_info_label': 'Additional information',
         'weight_label': 'Weight',
         'recipe_label': 'Recipe',
+        'dropped_by_label': 'Dropped by',
         'no_recipe': 'No recipe available.',
         'recipe_unknown_ingredient': 'Unknown ingredient',
         'item_not_found': 'Item not found in the encyclopedia.',
@@ -99,6 +100,7 @@ LOCALIZED_UI = {
         'additional_info_label': 'Informations supplémentaires',
         'weight_label': 'Poids',
         'recipe_label': 'Recette',
+        'dropped_by_label': 'Droppé par',
         'no_recipe': 'Aucune recette disponible.',
         'recipe_unknown_ingredient': 'Ingrédient inconnu',
         'item_not_found': "Objet introuvable dans l'encyclopédie.",
@@ -141,6 +143,7 @@ LOCALIZED_UI = {
         'additional_info_label': 'Información adicional',
         'weight_label': 'Peso',
         'recipe_label': 'Receta',
+        'dropped_by_label': 'Soltado por',
         'no_recipe': 'No hay receta disponible.',
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
@@ -183,6 +186,7 @@ LOCALIZED_UI = {
         'additional_info_label': 'Informações adicionais',
         'weight_label': 'Peso',
         'recipe_label': 'Receita',
+        'dropped_by_label': 'Dropado por',
         'no_recipe': 'Receita não disponível.',
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
         'item_not_found': 'Item não encontrado na enciclopédia.',
@@ -225,6 +229,7 @@ LOCALIZED_UI = {
         'additional_info_label': 'Weitere Informationen',
         'weight_label': 'Gewicht',
         'recipe_label': 'Rezept',
+        'dropped_by_label': 'Beute von',
         'no_recipe': 'Kein Rezept verfügbar.',
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
         'item_not_found': 'Gegenstand nicht in der Enzyklopädie gefunden.',
@@ -660,6 +665,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
         'description': None,
         'pods': None,
         'recipe': [],
+        'drops': [],
     }
 
     if representative_item is None:
@@ -778,6 +784,29 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'subtype': ingredient_subtype,
                     'ankama_id': ingredient_ankama_id,
                     'local_item_url': local_item_url,
+                })
+
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_drops'"
+        )
+        if cursor.fetchone() is not None:
+            cursor.execute(
+                """
+                SELECT d.monster_ankama_id, d.rate,
+                       (SELECT name FROM monster_names
+                        WHERE monster_ankama_id = d.monster_ankama_id AND language = ?),
+                       (SELECT name FROM monster_names
+                        WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en')
+                FROM item_drops d
+                WHERE d.item = ?
+                ORDER BY d.rate DESC
+                """,
+                (language, representative_item.id),
+            )
+            for monster_id, rate, name_loc, name_en in cursor.fetchall():
+                default_data['drops'].append({
+                    'name': name_loc or name_en or ('#%s' % monster_id),
+                    'rate': rate,
                 })
 
     except Exception:
@@ -1247,5 +1276,6 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'description': extra_info['description'],
             'pods': extra_info['pods'],
             'recipe': extra_info['recipe'],
+            'drops': extra_info['drops'],
         },
     )
