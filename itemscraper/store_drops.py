@@ -37,11 +37,14 @@ def _load_drops(path):
 
 def store_drops(drops_path, game_version="dofus3"):
     drops = _load_drops(drops_path)
-    # Rebuild items.db straight from the dump (the runtime source of truth) before
-    # adding our tables, so the re-dump is a clean addition and never propagates a
-    # stale committed items.db that has drifted from the dump.
     items_db_path = get_items_db_path(game_version)
-    _load_db_from_dump(items_db_path, game_version)
+    # dofus3 rebuilds items.db from the dump at runtime (structure.py), so the DUMP
+    # is the source of truth: rebuild from it first, then re-dump, for a clean add.
+    # Every other version loads its committed items_<ver>.db as-is at runtime, so the
+    # DB is the source of truth: edit it in place (never rebuild from a possibly-stale
+    # dump), then re-dump to keep the dump in sync.
+    if game_version == 'dofus3':
+        _load_db_from_dump(items_db_path, game_version)
     conn = sqlite3.connect(items_db_path)
     try:
         cursor = conn.cursor()
