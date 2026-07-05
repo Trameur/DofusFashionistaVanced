@@ -508,6 +508,8 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Agility stat_key="agi" base=True %}
             {% trans "Power" as Power %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power stat_key="pow" %}
+            {% comment %}% final damage (dommages finaux) is a Dofus 2.30+ stat, absent from Retro 1.29 and Dofus Touch.{% endcomment %}
+            {% if current_game_version != 'retro' and current_game_version != 'touch' %}
             {% trans "% Melee Damage" as Power_melee %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power_melee stat_key="permedam" %}
             {% trans "% Ranged Damage" as Power_distance %}
@@ -516,6 +518,7 @@
             {% include "chardata/solution_stat_line.html" with stat_name=Power_weapons stat_key="perweadam" %}
             {% trans "% Spell Damage" as Power_spells %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power_spells stat_key="perspedam" %}
+            {% endif %}
             {% include "chardata/solution_stat_line_empty.html" %}
             {% trans "AP" as AP %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/AP.png" stat_name=AP stat_key="ap" %}
@@ -544,10 +547,13 @@
             {% include "chardata/solution_stat_line.html" with stat_name=AP_Resist stat_key="apres" %}
             {% trans "MP Loss Resist" as MP_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=MP_Resist stat_key="mpres" %}
+            {% comment %}Pushback and Critical Resist are Dofus 2+ stats, absent from Retro 1.29.{% endcomment %}
+            {% if current_game_version != 'retro' %}
             {% trans "Pushback Resist" as Pushback_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=Pushback_Resist stat_key="pshres" %}
             {% trans "Critical Resist" as Critical_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=Critical_Resist stat_key="crires" %}
+            {% endif %}
             {% trans "Pods" as Pods %}
             {% include "chardata/solution_stat_line.html" with stat_name=Pods stat_key="pod" %}
             {% trans "Reflects" as Reflects %}
@@ -569,10 +575,13 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Water_Damage stat_key="waterdam" %}
             {% trans "Air Damage" as Air_Damage %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Air_Damage stat_key="airdam" %}
+            {% comment %}Critical Damage and Pushback Damage are Dofus 2+ stats, absent from Retro 1.29.{% endcomment %}
+            {% if current_game_version != 'retro' %}
             {% trans "Critical Damage" as Critical_Damage %}
             {% include "chardata/solution_stat_line.html" with stat_name=Critical_Damage stat_key="cridam" %}
             {% trans "Pushback Damage" as Pushback_Damage %}
             {% include "chardata/solution_stat_line.html" with stat_name=Pushback_Damage stat_key="pshdam" %}
+            {% endif %}
             {% trans "Heals" as Heals %}
             {% include "chardata/solution_stat_line.html" with stat_name=Heals stat_key="heals" %}
             {% include "chardata/solution_stat_line_empty.html" %}
@@ -597,14 +606,8 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Per_Water_Res stat_key="waterresper" %}
             {% trans "% Air Resist" as Per_Air_Res %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res stat_key="airresper" %}
-            {% trans "% Melee Resist" as Res_Per_Me %}
-            {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Me stat_key="respermee" %}
-            {% trans "% Weapon Resist" as Res_Per_Wea %}
-            {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Wea stat_key="resperwea" %}
-            {% trans "% Ranged Resist" as Res_Per_Dis %}
-            {% if current_game_version == 'retro' %}
-            {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Dis stat_key="resperran" %}
-            {# PVP resists exist on Retro gear (removed from Dofus 3). #}
+            {% if current_game_version == 'retro' or current_game_version == 'touch' %}
+            {# Retro 1.29 and Dofus Touch have no % final resist (Dofus 2.30+); they do have PvP resists (removed from Dofus 3). #}
             {% include "chardata/solution_stat_line_empty.html" %}
             {% trans "Neutral Resist (PvP)" as Neutral_Res_PvP %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Neutral.png" stat_name=Neutral_Res_PvP stat_key="pvpneutres" %}
@@ -628,6 +631,11 @@
             {% trans "% Air Resist (PvP)" as Per_Air_Res_PvP %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Per_Air_Res_PvP stat_key="pvpairresper" is_last=True %}
             {% else %}
+            {% trans "% Melee Resist" as Res_Per_Me %}
+            {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Me stat_key="respermee" %}
+            {% trans "% Weapon Resist" as Res_Per_Wea %}
+            {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Wea stat_key="resperwea" %}
+            {% trans "% Ranged Resist" as Res_Per_Dis %}
             {% include "chardata/solution_stat_line.html" with stat_name=Res_Per_Dis stat_key="resperran" is_last=True %}
             {% endif %}
         </table>

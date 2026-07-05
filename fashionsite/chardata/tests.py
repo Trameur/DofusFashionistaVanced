@@ -2528,3 +2528,74 @@ class RetroPercentDamageStatTests(SimpleTestCase):
         n = sum(1 for it in retro.get_concatenated_items_lists()
                 if power_id in dict(it.stats))
         self.assertGreater(n, 100, 'retro items should carry the % damage stat')
+
+
+class RetroAbsentStatsTests(SimpleTestCase):
+    """These stats are Dofus 2.30+ mechanics that do not exist in Retro 1.29.
+    No Retro item should carry them, and the solution page hides their rows for
+    the retro version (they are not derived either, so they stay at zero)."""
+
+    DOFUS2_ONLY = [
+        'Critical Damage', 'Pushback Damage', 'Critical Resist', 'Pushback Resist',
+        '% Melee Damage', '% Ranged Damage', '% Weapon Damage', '% Spell Damage',
+        '% Melee Resist', '% Ranged Resist', '% Weapon Resist',
+    ]
+
+    def test_no_retro_item_carries_a_dofus2_only_stat(self):
+        from fashionistapulp.structure import get_structure
+        retro = get_structure('retro')
+        items = retro.get_concatenated_items_lists()
+        for name in self.DOFUS2_ONLY:
+            stat = retro.get_stat_by_name(name)
+            self.assertIsNotNone(stat, '%s missing from retro stat table' % name)
+            offenders = [it.name for it in items if stat.id in dict(it.stats)]
+            self.assertEqual(offenders, [],
+                             '%s should not appear on any retro item, found: %s'
+                             % (name, offenders[:5]))
+
+
+class TouchAbsentStatsTests(SimpleTestCase):
+    """Dofus Touch forked before the Dofus 2.30 percent-final damage/resist stats,
+    so it has none of them, but it kept the Dofus 2.x critical/pushback stats and
+    the PvP resists. The solution page hides the final damage/resist rows for
+    touch while keeping the critical/pushback rows and the PvP resist rows."""
+
+    FINAL_ABSENT = [
+        '% Melee Damage', '% Ranged Damage', '% Weapon Damage', '% Spell Damage',
+        '% Melee Resist', '% Ranged Resist', '% Weapon Resist',
+    ]
+    KEPT = ['Critical Damage', 'Pushback Damage', 'Critical Resist', 'Pushback Resist']
+
+    def _items(self):
+        from fashionistapulp.structure import get_structure
+        touch = get_structure('touch')
+        return touch, touch.get_concatenated_items_lists()
+
+    def test_no_touch_item_carries_final_damage_or_resist(self):
+        touch, items = self._items()
+        for name in self.FINAL_ABSENT:
+            stat = touch.get_stat_by_name(name)
+            self.assertIsNotNone(stat, '%s missing from touch stat table' % name)
+            offenders = [it.name for it in items if stat.id in dict(it.stats)]
+            self.assertEqual(offenders, [],
+                             '%s should not appear on any touch item, found: %s'
+                             % (name, offenders[:5]))
+
+    def test_touch_still_carries_critical_and_pushback_stats(self):
+        # The solution page shows character totals including weapons, so check the
+        # raw touch item db (weapons are excluded from get_concatenated_items_lists).
+        import os, sqlite3, fashionistapulp
+        db = os.path.join(os.path.dirname(fashionistapulp.__file__), 'items_touch.db')
+        c = sqlite3.connect(db)
+        present = set(r[0] for r in c.execute('SELECT DISTINCT stat FROM stats_of_item'))
+        by_key = {k: i for i, k in c.execute('SELECT id, key FROM stats')}
+        for key in ['cridam', 'pshdam', 'crires', 'pshres']:
+            self.assertIn(by_key[key], present,
+                          'touch should keep the %s stat on gear' % key)
+        c.close()
+
+    def test_touch_carries_pvp_resists(self):
+        touch, items = self._items()
+        stat = touch.get_stat_by_name('% Air Resist in PVP')
+        n = sum(1 for it in items if stat.id in dict(it.stats))
+        self.assertGreater(n, 0, 'touch gear should carry PvP resists')
