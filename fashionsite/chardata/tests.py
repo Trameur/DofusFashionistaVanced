@@ -142,6 +142,25 @@ class BrandNameCatalogTests(SimpleTestCase):
                         'brand must drop "The" outside English. Offenders: %s'
                         % (lang, len(offenders), offenders)))
 
+    def test_brand_fashionista_is_capitalized(self):
+        # The brand keeps a capital F everywhere ("Dofus Fashionista"). A French
+        # password-reset email had shipped "Dofus fashionista".
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        locale_dir = os.path.join(os.path.dirname(__file__), '..', 'locale')
+        for po_path in glob.glob(os.path.join(
+                locale_dir, '*', 'LC_MESSAGES', '*.po')):
+            po = polib.pofile(po_path)
+            offenders = [e.msgid[:60] for e in po
+                         if not e.obsolete and e.msgstr
+                         and re.search(r'[Dd]ofus fashionista', e.msgstr)]
+            with self.subTest(po=os.path.relpath(po_path, locale_dir)):
+                self.assertEqual(offenders, [], msg=(
+                    '%s: brand must be "Dofus Fashionista" (capital F). '
+                    'Offenders: %s' % (po_path, offenders)))
+
 
 class TranslationRegressionTests(SimpleTestCase):
     """Guards the i18n fixes (fuzzy/empty strings) across fr/es/pt/de.
