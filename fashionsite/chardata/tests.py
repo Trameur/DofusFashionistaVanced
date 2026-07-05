@@ -115,6 +115,34 @@ class EmailTemplateTranslationTests(SimpleTestCase):
                         % (os.path.basename(tpl), lang, msgid[:90])))
 
 
+class BrandNameCatalogTests(SimpleTestCase):
+    """Branding rule: "The Dofus Fashionista" in English only; every other
+    language uses "Dofus Fashionista" (no "The"). The title check can't see
+    strings like the transactional emails, where the German catalog still
+    carried "The Dofus Fashionista"; scan the catalogs directly."""
+
+    NON_ENGLISH = ('fr', 'es', 'pt', 'de')
+
+    def test_no_the_dofus_fashionista_in_non_english_catalogs(self):
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        locale_dir = os.path.join(os.path.dirname(__file__), '..', 'locale')
+        for lang in self.NON_ENGLISH:
+            for po_path in glob.glob(os.path.join(
+                    locale_dir, lang, 'LC_MESSAGES', '*.po')):
+                po = polib.pofile(po_path)
+                offenders = [e.msgid[:60] for e in po
+                             if not e.obsolete and e.msgstr
+                             and 'The Dofus Fashionista' in e.msgstr]
+                with self.subTest(po=os.path.relpath(po_path, locale_dir)):
+                    self.assertEqual(offenders, [], msg=(
+                        '%s: %d msgstr still say "The Dofus Fashionista"; the '
+                        'brand must drop "The" outside English. Offenders: %s'
+                        % (lang, len(offenders), offenders)))
+
+
 class TranslationRegressionTests(SimpleTestCase):
     """Guards the i18n fixes (fuzzy/empty strings) across fr/es/pt/de.
 
