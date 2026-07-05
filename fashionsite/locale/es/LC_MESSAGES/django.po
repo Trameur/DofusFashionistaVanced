@@ -5235,8 +5235,8 @@ msgstr "Corrección de la visualización del daño de armas"
 msgid "Updated to Dofus 3.5.6.7 items"
 msgstr "Actualizado a objetos de Dofus 3.5.6.7"
 
-msgid "December 2025 – February 2026"
-msgstr "Diciembre 2025 – Febrero 2026"
+msgid "December 2025 - February 2026"
+msgstr "Diciembre 2025 - Febrero 2026"
 
 msgid "Spell damage simulator — extended"
 msgstr "Simulador de daño de hechizos — ampliado"
@@ -5368,8 +5368,8 @@ msgstr ""
 msgid "December 2024"
 msgstr "Diciembre de 2024"
 
-msgid "April – September 2025"
-msgstr "Abril – septiembre de 2025"
+msgid "April - September 2025"
+msgstr "Abril - septiembre de 2025"
 
 msgid "Dofus 3.0 update"
 msgstr "Actualización a Dofus 3.0"
@@ -6195,8 +6195,8 @@ msgid "Site relaunched as DofusFashionistaVanced on AWS"
 msgstr "Sitio relanzado como DofusFashionistaVanced en AWS"
 
 #: ui-i18n
-msgid "2012 – 2021"
-msgstr "2012 – 2021"
+msgid "2012 - 2021"
+msgstr "2012 - 2021"
 
 #: ui-i18n
 msgid "Quick Start"
