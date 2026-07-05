@@ -26,6 +26,7 @@ itemscraper/transformed_spells_beta.json
 itemscraper/transformed_spell_names_beta.json
 /daily_reports
 itemscraper/transformed_spells.json
+itemscraper/transformed_drops.json
 fashionsite/staticfiles/chardata/spells/beta/Con.png
 fashionsite/chardata/static/chardata/spells/beta/Con.png
 /docs
