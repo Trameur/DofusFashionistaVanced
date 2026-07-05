@@ -57,7 +57,7 @@ class ModelResultMinimal():
         for item_id in item_id_list:
             item = structure.get_item_by_id(item_id)
             if item is None:
-                print('Missing item in structure for item_id=%s' % item_id)
+                logger.warning('Missing item in structure for item_id=%s', item_id)
                 continue
             item_type = structure.get_type_name_by_id(item.type)
         

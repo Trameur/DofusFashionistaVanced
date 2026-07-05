@@ -14,6 +14,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 from django.utils.translation import gettext_lazy
 from itertools import product, combinations
 import pickle
@@ -571,7 +575,7 @@ def param_for_build(race, elements, param, policy='max'):
         elif policy == 'float_avg':
             return sum(values) / float(len(values))
         else:
-            print('Policy unknown')
+            logger.warning('Unknown aggregation policy %s', policy)
 
 def _param_for_profile_element(race, element, param, is_combination):
     profile = RACE_TO_BUILD_PROFILE[race]

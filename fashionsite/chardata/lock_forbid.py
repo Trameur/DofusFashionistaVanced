@@ -14,10 +14,13 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
 import pickle
 
 from fashionistapulp.dofus_constants import SLOTS
 from fashionistapulp.structure import get_structure
+
+logger = logging.getLogger(__name__)
 
 
 # Items the optimiser excludes by default: GM-only, event, joke and duplicate items
@@ -110,13 +113,13 @@ def set_exclusions_list_by_name(char, excluded_items):
             if result:
                 item = result[0]
             else:
-                print('Item %s does not exist and cannot be excluded' % item_name)
+                logger.warning('Item %s does not exist and cannot be excluded', item_name)
 
         if item is not None:
             item_id = item.id
             items.append(item_id)
         else:
-            print('Item %s does not exist and cannot be excluded' % item_name)
+            logger.warning('Item %s does not exist and cannot be excluded', item_name)
     set_exclusions_list_and_check_inclusions(char, items)
     
 def remove_invalid_inclusions(char, level):

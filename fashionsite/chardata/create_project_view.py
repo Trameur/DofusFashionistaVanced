@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
 import pickle
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
@@ -34,6 +35,8 @@ from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_r
                            remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
                                      class_exists_in_version)
+
+logger = logging.getLogger(__name__)
 from fashionistapulp.dofus_constants import STATS_NAMES, CHARACTER_CLASSES
 from chardata.themes import get_questionmark_URL
 
@@ -236,7 +239,7 @@ def save_project_to_user(request, char_id=None):
             chars = chars.exclude(deleted=True)
             if len(chars) < MAXIMUM_NUMBER_OF_PROJECTS or request.user.email in TESTER_USERS:
                 char.owner = request.user
-                print('saving char %s to user %s' % (char_id, request.user))
+                logger.debug('saving char %s to user %s', char_id, request.user)
                 char.save()
         if 'char_id' in request.session:
             del request.session['char_id']

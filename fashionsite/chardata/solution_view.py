@@ -306,7 +306,7 @@ def _get_live_vote_data(request, char):
             vote_data['user_liked'] = 'like' in user_votes
             vote_data['user_favorited'] = 'favorite' in user_votes
     except Exception as e:
-        print(f"Error fetching vote data: {e}")
+        logger.warning('Error fetching vote data: %s', e)
 
     return vote_data
 
@@ -475,7 +475,7 @@ def solution_linked(request, char_name, encoded_char_id):
                 char.view_count += 1
     except Exception as e:
         # If view tracking fails, log it but don't break the page
-        print(f"View tracking error: {e}")
+        logger.warning('View tracking error: %s', e)
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 

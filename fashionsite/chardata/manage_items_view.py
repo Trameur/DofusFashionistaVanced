@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import json
+import logging
 
 from django.views.decorators.http import require_POST
 from chardata.util import set_response, safe_int, HttpResponseText, HttpResponseJson
@@ -27,6 +28,8 @@ from fashionistapulp.set import Set
 from fashionistapulp.structure import get_structure, invalidate_structure
 from fashionistapulp.translation import NON_EN_LANGUAGES, LANGUAGES
 from fashionistapulp.weapon import Weapon
+
+logger = logging.getLogger(__name__)
 
 
 def edit_item(request, item_id=None):
@@ -345,7 +348,7 @@ def _convert_json_item_to_item(json_item):
         else:
             set_reference = item_set.split(' ', 2)
             item.set = safe_int(set_reference[0])
-            print(item.set)
+            logger.debug('%s', item.set)
     
     item.weird_conditions = json_item['weird_conditions']
     

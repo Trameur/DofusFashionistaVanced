@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
 from copy import deepcopy
 
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for, tier_widths_after_scroll
@@ -26,6 +27,8 @@ from .restrictions import Restrictions
 from .structure import get_structure
 
 from collections import Counter
+
+logger = logging.getLogger(__name__)
 
 
 class Model:
@@ -652,7 +655,7 @@ class Model:
                 if stat_obj:
                     self.problem.add_to_of('stat', stat_obj.id, value)
                 else:
-                    print('Could not find stat %s' % stat)
+                    logger.warning('Could not find stat %s', stat)
         
         self.add_weird_item_weights_to_objective_funcion(objective_values, level)
 

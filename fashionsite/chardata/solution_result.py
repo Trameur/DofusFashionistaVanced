@@ -14,9 +14,13 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
+
 from django.conf import settings
 from django.utils.translation import gettext as _
 import json
+
+logger = logging.getLogger(__name__)
 
 from chardata.image_store import get_image_url
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
@@ -148,7 +152,7 @@ def evolve_result_item(result_item, r=None):
         result_item.file = static('chardata/%s.png' % SLOT_NAME_TO_TYPE[result_item.slot])
     if not result_item.item_added:
         if not result_item.file:
-            print('No item and no slot for picture.')
+            logger.debug('No item and no slot for picture.')
         return
     exo_overrides = getattr(result_item, 'exo_overrides', {}) or {}
     base_stats = getattr(result_item, 'base_stats', None)
