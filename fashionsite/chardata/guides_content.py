@@ -30,23 +30,23 @@ GUIDES = {
 <h2>1. Start a project</h2>
 <p>Hit <a href="/setup/">Create a project</a>, pick your class, your level and the Dofus version you play. That's the whole setup. If you'd rather not fiddle with anything, two shortcuts get you a build almost instantly:</p>
 <ul>
-<li><a href="/quickstart/">Quick start</a> — answer three quick questions and you get a set.</li>
-<li><a href="/smartbuild/">Smart build</a> — literally describe what you want in plain words ("agility Sram level 200, 11 AP, max range") and it sets things up for you.</li>
+<li><a href="/quickstart/">Quick start</a>: answer three quick questions and you get a set.</li>
+<li><a href="/smartbuild/">Smart build</a>: literally describe what you want in plain words ("agility Sram level 200, 11 AP, max range") and it sets things up for you.</li>
 </ul>
 
 <h2>2. Tell it what you actually want</h2>
-<p>This is where most people overthink it. The wizard gives you sliders: AP, MP, range, the element you hit with, vitality, and so on. You're not entering numbers item by item — you're telling the tool how much each stat is <strong>worth to you</strong>. Want a glass cannon? Crank damage and element, leave vitality low. Doing Kolossium? Push resistance and lock your AP/MP. You can always come back and nudge a slider later.</p>
+<p>This is where most people overthink it. The wizard gives you sliders: AP, MP, range, the element you hit with, vitality, and so on. You're not entering numbers item by item, you're telling the tool how much each stat is <strong>worth to you</strong>. Want a glass cannon? Crank damage and element, leave vitality low. Doing Kolossium? Push resistance and lock your AP/MP. You can always come back and nudge a slider later.</p>
 
 <h2>3. Read the suggestion (and push back on it)</h2>
-<p>The tool spits out a full set — weapon, armor, rings, cloak, dofus, the lot. It won't always be what you pictured, and that's fine. Three things you'll use constantly:</p>
+<p>The tool spits out a full set: weapon, armor, rings, cloak, dofus, the lot. It won't always be what you pictured, and that's fine. Three things you'll use constantly:</p>
 <ul>
-<li><strong>Forbid</strong> an item you can't afford or don't have — it'll find the next best thing.</li>
+<li><strong>Forbid</strong> an item you can't afford or don't have, it'll find the next best thing.</li>
 <li><strong>Lock</strong> an item you already own so the build is built around it.</li>
 <li><strong>Tailor a new set</strong> after any change to re-run the optimization.</li>
 </ul>
 
 <h2>4. Save it, share it, compare it</h2>
-<p>Make a free account to keep your projects. Every build gets a share link you can drop in your guild chat, and you can throw two or more builds into the <a href="/choose_compare_sets/">comparison</a> to see them side by side. Simple as that — you're done.</p>
+<p>Make a free account to keep your projects. Every build gets a share link you can drop in your guild chat, and you can throw two or more builds into the <a href="/choose_compare_sets/">comparison</a> to see them side by side. Simple as that, you're done.</p>
 
 <p><em>New here? The fastest way to learn is to just <a href="/quickstart/">make one build</a> and tweak it.</em></p>
 ''',
@@ -59,17 +59,17 @@ GUIDES = {
 <h2>1. Crée un projet</h2>
 <p>Clique sur <a href="/setup/">Créer un projet</a>, choisis ta classe, ton niveau et la version de Dofus que tu joues. C'est toute la config. Et si t'as la flemme de régler quoi que ce soit, deux raccourcis te sortent un stuff quasi instantanément :</p>
 <ul>
-<li><a href="/quickstart/">Démarrage rapide</a> — trois questions et t'as un set.</li>
-<li><a href="/smartbuild/">Build intelligent</a> — tu décris littéralement ce que tu veux en français ("Sram agi niveau 200, 11 PA, portée max") et il te prépare tout.</li>
+<li><a href="/quickstart/">Démarrage rapide</a> : trois questions et t'as un set.</li>
+<li><a href="/smartbuild/">Build intelligent</a> : tu décris littéralement ce que tu veux en français ("Sram agi niveau 200, 11 PA, portée max") et il te prépare tout.</li>
 </ul>
 
 <h2>2. Dis-lui vraiment ce que tu veux</h2>
-<p>C'est là que la plupart des gens se prennent la tête pour rien. L'assistant te donne des curseurs : PA, PM, portée, l'élément avec lequel tu tapes, la vita, etc. Tu ne rentres pas les items un par un — tu dis à l'outil combien chaque carac <strong>vaut pour toi</strong>. Tu veux un build full dégâts ? Monte les dégâts et l'élément, laisse la vita en bas. Tu fais du Kolizéum ? Pousse la résistance et verrouille tes PA/PM. Tu pourras toujours revenir bouger un curseur après.</p>
+<p>C'est là que la plupart des gens se prennent la tête pour rien. L'assistant te donne des curseurs : PA, PM, portée, l'élément avec lequel tu tapes, la vita, etc. Tu ne rentres pas les items un par un, tu dis à l'outil combien chaque carac <strong>vaut pour toi</strong>. Tu veux un build full dégâts ? Monte les dégâts et l'élément, laisse la vita en bas. Tu fais du Kolizéum ? Pousse la résistance et verrouille tes PA/PM. Tu pourras toujours revenir bouger un curseur après.</p>
 
 <h2>3. Lis la proposition (et conteste-la)</h2>
-<p>L'outil te sort un stuff complet — arme, panoplie, anneaux, cape, dofus, tout. Ça ne sera pas toujours ce que t'avais en tête, et c'est normal. Trois trucs que tu vas utiliser non-stop :</p>
+<p>L'outil te sort un stuff complet : arme, panoplie, anneaux, cape, dofus, tout. Ça ne sera pas toujours ce que t'avais en tête, et c'est normal. Trois trucs que tu vas utiliser non-stop :</p>
 <ul>
-<li><strong>Interdire</strong> un item que tu peux pas te payer ou que t'as pas — il te trouvera le suivant.</li>
+<li><strong>Interdire</strong> un item que tu peux pas te payer ou que t'as pas, il te trouvera le suivant.</li>
 <li><strong>Verrouiller</strong> un item que t'as déjà pour construire le build autour.</li>
 <li><strong>Tailler un nouveau set</strong> après chaque changement pour relancer l'opti.</li>
 </ul>
@@ -88,17 +88,17 @@ GUIDES = {
 <h2>1. Crea un proyecto</h2>
 <p>Dale a <a href="/setup/">Crear un proyecto</a>, elige tu clase, tu nivel y la versión de Dofus que juegas. Esa es toda la configuración. Y si te da pereza tocar nada, dos atajos te sacan un build casi al instante:</p>
 <ul>
-<li><a href="/quickstart/">Inicio rápido</a> — tres preguntas y tienes un set.</li>
-<li><a href="/smartbuild/">Build inteligente</a> — describe lo que quieres con tus palabras ("Sram de agilidad nivel 200, 11 PA, alcance máximo") y te lo prepara solo.</li>
+<li><a href="/quickstart/">Inicio rápido</a>: tres preguntas y tienes un set.</li>
+<li><a href="/smartbuild/">Build inteligente</a>: describe lo que quieres con tus palabras ("Sram de agilidad nivel 200, 11 PA, alcance máximo") y te lo prepara solo.</li>
 </ul>
 
 <h2>2. Dile lo que quieres de verdad</h2>
 <p>Aquí es donde la mayoría se complica sin necesidad. El asistente te da deslizadores: PA, PM, alcance, el elemento con el que pegas, vitalidad y demás. No metes los ítems uno a uno: le dices a la herramienta cuánto <strong>vale para ti</strong> cada característica. ¿Quieres un build de cristal? Sube daño y elemento, deja la vita baja. ¿Haces Koliseo? Sube la resistencia y bloquea tus PA/PM. Siempre puedes volver y mover un deslizador después.</p>
 
 <h2>3. Lee la sugerencia (y llévale la contraria)</h2>
-<p>La herramienta te saca un set completo — arma, panoplia, anillos, capa, dofus, todo. No siempre será lo que imaginabas, y no pasa nada. Tres cosas que vas a usar todo el rato:</p>
+<p>La herramienta te saca un set completo: arma, panoplia, anillos, capa, dofus, todo. No siempre será lo que imaginabas, y no pasa nada. Tres cosas que vas a usar todo el rato:</p>
 <ul>
-<li><strong>Prohibir</strong> un ítem que no te puedes pagar o no tienes — te buscará el siguiente mejor.</li>
+<li><strong>Prohibir</strong> un ítem que no te puedes pagar o no tienes, te buscará el siguiente mejor.</li>
 <li><strong>Bloquear</strong> un ítem que ya tienes para montar el build a su alrededor.</li>
 <li><strong>Crear un set nuevo</strong> tras cada cambio para volver a optimizar.</li>
 </ul>
@@ -117,17 +117,17 @@ GUIDES = {
 <h2>1. Crie um projeto</h2>
 <p>Clique em <a href="/setup/">Criar um projeto</a>, escolha sua classe, seu nível e a versão de Dofus que você joga. É toda a configuração. E se você estiver com preguiça de ajustar qualquer coisa, dois atalhos entregam um build quase na hora:</p>
 <ul>
-<li><a href="/quickstart/">Início rápido</a> — três perguntas e você tem um set.</li>
-<li><a href="/smartbuild/">Build inteligente</a> — descreva o que você quer com suas palavras ("Sram de agilidade nível 200, 11 PA, alcance máximo") e ele monta tudo pra você.</li>
+<li><a href="/quickstart/">Início rápido</a>: três perguntas e você tem um set.</li>
+<li><a href="/smartbuild/">Build inteligente</a>: descreva o que você quer com suas palavras ("Sram de agilidade nível 200, 11 PA, alcance máximo") e ele monta tudo pra você.</li>
 </ul>
 
 <h2>2. Diga o que você realmente quer</h2>
-<p>É aqui que a maioria complica à toa. O assistente te dá controles deslizantes: PA, PM, alcance, o elemento com que você bate, vitalidade e por aí vai. Você não coloca os itens um por um — você diz pra ferramenta quanto cada atributo <strong>vale pra você</strong>. Quer um build de vidro? Aumenta dano e elemento, deixa a vita lá embaixo. Joga Koliseu? Sobe a resistência e trava seus PA/PM. Dá sempre pra voltar e mexer num controle depois.</p>
+<p>É aqui que a maioria complica à toa. O assistente te dá controles deslizantes: PA, PM, alcance, o elemento com que você bate, vitalidade e por aí vai. Você não coloca os itens um por um, você diz pra ferramenta quanto cada atributo <strong>vale pra você</strong>. Quer um build de vidro? Aumenta dano e elemento, deixa a vita lá embaixo. Joga Koliseu? Sobe a resistência e trava seus PA/PM. Dá sempre pra voltar e mexer num controle depois.</p>
 
 <h2>3. Leia a sugestão (e discorde dela)</h2>
-<p>A ferramenta solta um set completo — arma, conjunto, anéis, capa, dofus, tudo. Nem sempre vai ser o que você imaginou, e tudo bem. Três coisas que você vai usar o tempo todo:</p>
+<p>A ferramenta solta um set completo: arma, conjunto, anéis, capa, dofus, tudo. Nem sempre vai ser o que você imaginou, e tudo bem. Três coisas que você vai usar o tempo todo:</p>
 <ul>
-<li><strong>Proibir</strong> um item que você não pode pagar ou não tem — ela acha o próximo melhor.</li>
+<li><strong>Proibir</strong> um item que você não pode pagar ou não tem, ela acha o próximo melhor.</li>
 <li><strong>Travar</strong> um item que você já tem pra montar o build em volta dele.</li>
 <li><strong>Criar um set novo</strong> depois de cada mudança pra otimizar de novo.</li>
 </ul>
@@ -146,17 +146,17 @@ GUIDES = {
 <h2>1. Leg ein Projekt an</h2>
 <p>Klick auf <a href="/setup/">Projekt erstellen</a>, wähl deine Klasse, dein Level und die Dofus-Version, die du spielst. Mehr Einrichtung gibt's nicht. Und wenn du gar nichts einstellen willst, bringen dich zwei Abkürzungen fast sofort zum Build:</p>
 <ul>
-<li><a href="/quickstart/">Schnellstart</a> — drei Fragen, fertig ist das Set.</li>
-<li><a href="/smartbuild/">Smart Build</a> — beschreib einfach in Worten, was du willst ("Agi-Sram Level 200, 11 AP, maximale Reichweite") und es richtet alles für dich ein.</li>
+<li><a href="/quickstart/">Schnellstart</a>: drei Fragen, fertig ist das Set.</li>
+<li><a href="/smartbuild/">Smart Build</a>: beschreib einfach in Worten, was du willst ("Agi-Sram Level 200, 11 AP, maximale Reichweite") und es richtet alles für dich ein.</li>
 </ul>
 
 <h2>2. Sag ihm, was du wirklich willst</h2>
-<p>Hier machen es sich die meisten unnötig kompliziert. Der Assistent gibt dir Regler: AP, BP, Reichweite, das Element, mit dem du haust, Vitalität und so weiter. Du trägst nicht Item für Item Zahlen ein — du sagst dem Tool, wie viel dir jeder Wert <strong>wert ist</strong>. Glaskanone? Schadens- und Element-Regler hoch, Vita niedrig lassen. Kolosseum? Resistenz hoch und AP/BP fixieren. Du kannst jederzeit zurück und einen Regler nachjustieren.</p>
+<p>Hier machen es sich die meisten unnötig kompliziert. Der Assistent gibt dir Regler: AP, BP, Reichweite, das Element, mit dem du haust, Vitalität und so weiter. Du trägst nicht Item für Item Zahlen ein, du sagst dem Tool, wie viel dir jeder Wert <strong>wert ist</strong>. Glaskanone? Schadens- und Element-Regler hoch, Vita niedrig lassen. Kolosseum? Resistenz hoch und AP/BP fixieren. Du kannst jederzeit zurück und einen Regler nachjustieren.</p>
 
 <h2>3. Lies den Vorschlag (und widersprich ihm)</h2>
-<p>Das Tool wirft ein komplettes Set aus — Waffe, Rüstung, Ringe, Umhang, Dofus, alles. Es wird nicht immer das sein, was du dir vorgestellt hast, und das ist okay. Drei Sachen, die du ständig brauchst:</p>
+<p>Das Tool wirft ein komplettes Set aus: Waffe, Rüstung, Ringe, Umhang, Dofus, alles. Es wird nicht immer das sein, was du dir vorgestellt hast, und das ist okay. Drei Sachen, die du ständig brauchst:</p>
 <ul>
-<li>Ein Item <strong>verbieten</strong>, das du dir nicht leisten kannst oder nicht hast — es findet das nächstbeste.</li>
+<li>Ein Item <strong>verbieten</strong>, das du dir nicht leisten kannst oder nicht hast, es findet das nächstbeste.</li>
 <li>Ein Item <strong>sperren</strong>, das du schon besitzt, damit das Build drumherum gebaut wird.</li>
 <li><strong>Neues Set schneidern</strong> nach jeder Änderung, um neu zu optimieren.</li>
 </ul>
