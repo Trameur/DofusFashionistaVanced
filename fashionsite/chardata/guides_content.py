@@ -709,20 +709,20 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "How to read a Dofus item (without getting fooled)",
-                'desc': "Two items with the same headline stat can be wildly different once you read the fine print — rolls, conditions, set bonuses. Here's how to size up a piece of gear like the tool does.",
+                'desc': "Two items with the same headline stat can be wildly different once you read the fine print: rolls, conditions, set bonuses. Here's how to size up a piece of gear like the tool does.",
                 'lead': "Two items with the same headline stat can be wildly different once you read the fine print. Here's how to size up a piece of gear the way the optimizer does.",
                 'body': '''
 <h2>The stat lines (and their hidden range)</h2>
-<p>Every item rolls its stats inside a min–max range. Two copies of the same belt aren't identical: one might be +40 intelligence, another +25. When you browse the <a href="/encyclopedia/">encyclopedia</a>, the numbers you see are the item's potential; the one you actually own depends on its roll. The tool optimizes on the item's stats, so a well-rolled piece is genuinely worth more than a bad one — worth checking before you buy.</p>
+<p>Every item rolls its stats inside a min-max range. Two copies of the same belt aren't identical: one might be +40 intelligence, another +25. When you browse the <a href="/encyclopedia/">encyclopedia</a>, the numbers you see are the item's potential; the one you actually own depends on its roll. The tool optimizes on the item's stats, so a well-rolled piece is genuinely worth more than a bad one, worth checking before you buy.</p>
 
 <h2>Conditions: why an item won't equip</h2>
-<p>Plenty of gear comes with strings attached. Level requirements are obvious; the sneaky ones are stat conditions — "only if AP ≤ 11", a class restriction, or a trophy that won't stack with other set bonuses. These are exactly the rules the optimizer respects so it never hands you an illegal set. If a piece you wanted got skipped, a condition is usually why. (On Dofus Touch, for instance, some trophies cap how many set bonuses you can run at once.)</p>
+<p>Plenty of gear comes with strings attached. Level requirements are obvious; the sneaky ones are stat conditions: "only if AP ≤ 11", a class restriction, or a trophy that won't stack with other set bonuses. These are exactly the rules the optimizer respects so it never hands you an illegal set. If a piece you wanted got skipped, a condition is usually why. (On Dofus Touch, for instance, some trophies cap how many set bonuses you can run at once.)</p>
 
 <h2>Set bonuses: the stats you don't see on the item</h2>
-<p>A set (panoply) gives extra stats once you wear two, three, four or more pieces of it. That bonus can be huge — sometimes a mediocre item earns its slot purely because it completes a set. The optimizer accounts for this automatically: it doesn't just add up individual items, it weighs the set bonuses you'd unlock by combining them. That's why it sometimes picks an item that looks weak on its own.</p>
+<p>A set (panoply) gives extra stats once you wear two, three, four or more pieces of it. That bonus can be huge: sometimes a mediocre item earns its slot purely because it completes a set. The optimizer accounts for this automatically: it doesn't just add up individual items, it weighs the set bonuses you'd unlock by combining them. That's why it sometimes picks an item that looks weak on its own.</p>
 
 <h2>Exos and overmage, at a glance</h2>
-<p>An extra line beyond the item's normal stats — an exo — is a big deal, especially an exo AP or MP. The tool lets you declare whether you'll have exos rather than pinning them to a specific item, because you know best where they're cheap to mage on your server. Just tell it the truth, or it may hand you an AP-conditioned item that breaks once you add that exo.</p>
+<p>An extra line beyond the item's normal stats (an exo) is a big deal, especially an exo AP or MP. The tool lets you declare whether you'll have exos rather than pinning them to a specific item, because you know best where they're cheap to mage on your server. Just tell it the truth, or it may hand you an AP-conditioned item that breaks once you add that exo.</p>
 
 <h2>Let the tool do the reading</h2>
 <p>You don't have to memorize any of this. Browse an item in the <a href="/encyclopedia/">encyclopedia</a> to see its full stat lines, conditions and set, and when you <a href="/setup/">build a set</a>, the solution page lays out every bonus and every condition for you.</p>
@@ -732,20 +732,20 @@ GUIDES = {
             },
             'fr': {
                 'title': "Comment lire un item Dofus (sans se faire avoir)",
-                'desc': "Deux items avec la même stat en titre peuvent être complètement différents une fois les petites lignes lues — jets, conditions, bonus de panoplie. Voilà comment jauger un équipement comme le fait l'outil.",
+                'desc': "Deux items avec la même stat en titre peuvent être complètement différents une fois les petites lignes lues : jets, conditions, bonus de panoplie. Voilà comment jauger un équipement comme le fait l'outil.",
                 'lead': "Deux items avec la même stat en titre peuvent être complètement différents une fois les petites lignes lues. Voilà comment jauger un équipement comme le fait l'optimiseur.",
                 'body': '''
 <h2>Les lignes de stats (et leur fourchette cachée)</h2>
-<p>Chaque item tire ses stats dans une fourchette min–max. Deux exemplaires de la même ceinture ne sont pas identiques : l'un peut être +40 intelligence, l'autre +25. Quand tu parcours l'<a href="/encyclopedia/">encyclopédie</a>, les chiffres affichés sont le potentiel de l'item ; celui que tu possèdes dépend de son jet. L'outil optimise sur les stats de l'item, donc une pièce bien jetée vaut vraiment plus qu'une mauvaise — à vérifier avant d'acheter.</p>
+<p>Chaque item tire ses stats dans une fourchette min-max. Deux exemplaires de la même ceinture ne sont pas identiques : l'un peut être +40 intelligence, l'autre +25. Quand tu parcours l'<a href="/encyclopedia/">encyclopédie</a>, les chiffres affichés sont le potentiel de l'item ; celui que tu possèdes dépend de son jet. L'outil optimise sur les stats de l'item, donc une pièce bien jetée vaut vraiment plus qu'une mauvaise, à vérifier avant d'acheter.</p>
 
 <h2>Les conditions : pourquoi un item ne s'équipe pas</h2>
-<p>Plein d'équipements ont des contraintes. Les conditions de niveau sont évidentes ; les sournoises sont les conditions de stats — "seulement si PA ≤ 11", une restriction de classe, ou un trophée qui ne s'empile pas avec d'autres bonus de panoplie. Ce sont exactement les règles que l'optimiseur respecte pour ne jamais te filer un set illégal. Si une pièce que tu voulais a été zappée, c'est en général à cause d'une condition. (Sur Dofus Touch, par exemple, certains trophées plafonnent le nombre de bonus de panoplie que tu peux cumuler.)</p>
+<p>Plein d'équipements ont des contraintes. Les conditions de niveau sont évidentes ; les sournoises sont les conditions de stats : "seulement si PA ≤ 11", une restriction de classe, ou un trophée qui ne s'empile pas avec d'autres bonus de panoplie. Ce sont exactement les règles que l'optimiseur respecte pour ne jamais te filer un set illégal. Si une pièce que tu voulais a été zappée, c'est en général à cause d'une condition. (Sur Dofus Touch, par exemple, certains trophées plafonnent le nombre de bonus de panoplie que tu peux cumuler.)</p>
 
 <h2>Les bonus de panoplie : les stats que tu ne vois pas sur l'item</h2>
-<p>Une panoplie donne des stats en plus dès que tu portes deux, trois, quatre pièces ou plus. Ce bonus peut être énorme — parfois un item médiocre mérite sa place juste parce qu'il complète une panoplie. L'optimiseur en tient compte tout seul : il n'additionne pas que les items individuels, il pondère les bonus de panoplie que tu débloquerais en les combinant. C'est pour ça qu'il choisit parfois un item qui a l'air faible tout seul.</p>
+<p>Une panoplie donne des stats en plus dès que tu portes deux, trois, quatre pièces ou plus. Ce bonus peut être énorme : parfois un item médiocre mérite sa place juste parce qu'il complète une panoplie. L'optimiseur en tient compte tout seul : il n'additionne pas que les items individuels, il pondère les bonus de panoplie que tu débloquerais en les combinant. C'est pour ça qu'il choisit parfois un item qui a l'air faible tout seul.</p>
 
 <h2>Exos et surmage, en un coup d'œil</h2>
-<p>Une ligne en plus des stats normales de l'item — un exo — c'est gros, surtout un exo PA ou PM. L'outil te laisse déclarer si tu auras des exos plutôt que de les coller à un item précis, parce que tu sais mieux où c'est pas cher à maginer sur ton serveur. Dis-lui juste la vérité, sinon il peut te filer un item à condition de PA qui casse dès que tu ajoutes cet exo.</p>
+<p>Une ligne en plus des stats normales de l'item (un exo) c'est gros, surtout un exo PA ou PM. L'outil te laisse déclarer si tu auras des exos plutôt que de les coller à un item précis, parce que tu sais mieux où c'est pas cher à maginer sur ton serveur. Dis-lui juste la vérité, sinon il peut te filer un item à condition de PA qui casse dès que tu ajoutes cet exo.</p>
 
 <h2>Laisse l'outil lire à ta place</h2>
 <p>T'as pas à mémoriser tout ça. Ouvre un item dans l'<a href="/encyclopedia/">encyclopédie</a> pour voir toutes ses lignes de stats, ses conditions et sa panoplie, et quand tu <a href="/setup/">construis un set</a>, la page de solution te détaille chaque bonus et chaque condition.</p>
@@ -755,20 +755,20 @@ GUIDES = {
             },
             'es': {
                 'title': "Cómo leer un ítem de Dofus (sin que te engañen)",
-                'desc': "Dos ítems con la misma estadística en el titular pueden ser totalmente distintos al leer la letra pequeña — tiradas, condiciones, bonus de panoplia. Aquí tienes cómo evaluar un equipo como lo hace la herramienta.",
+                'desc': "Dos ítems con la misma estadística en el titular pueden ser totalmente distintos al leer la letra pequeña: tiradas, condiciones, bonus de panoplia. Aquí tienes cómo evaluar un equipo como lo hace la herramienta.",
                 'lead': "Dos ítems con la misma estadística en el titular pueden ser totalmente distintos al leer la letra pequeña. Aquí tienes cómo evaluar un equipo como lo hace el optimizador.",
                 'body': '''
 <h2>Las líneas de estadísticas (y su rango oculto)</h2>
-<p>Cada ítem tira sus estadísticas dentro de un rango mín–máx. Dos copias del mismo cinturón no son idénticas: una puede ser +40 inteligencia y otra +25. Cuando navegas por la <a href="/encyclopedia/">enciclopedia</a>, los números que ves son el potencial del ítem; el que tienes depende de su tirada. La herramienta optimiza sobre las estadísticas del ítem, así que una pieza bien tirada vale de verdad más que una mala — conviene mirarlo antes de comprar.</p>
+<p>Cada ítem tira sus estadísticas dentro de un rango mín-máx. Dos copias del mismo cinturón no son idénticas: una puede ser +40 inteligencia y otra +25. Cuando navegas por la <a href="/encyclopedia/">enciclopedia</a>, los números que ves son el potencial del ítem; el que tienes depende de su tirada. La herramienta optimiza sobre las estadísticas del ítem, así que una pieza bien tirada vale de verdad más que una mala, conviene mirarlo antes de comprar.</p>
 
 <h2>Las condiciones: por qué un ítem no se equipa</h2>
-<p>Mucho equipo viene con condiciones. Las de nivel son obvias; las traicioneras son las de estadística — "solo si PA ≤ 11", una restricción de clase, o un trofeo que no se acumula con otros bonus de panoplia. Son justo las reglas que el optimizador respeta para no darte nunca un set ilegal. Si una pieza que querías quedó descartada, suele ser por una condición. (En Dofus Touch, por ejemplo, algunos trofeos limitan cuántos bonus de panoplia puedes llevar a la vez.)</p>
+<p>Mucho equipo viene con condiciones. Las de nivel son obvias; las traicioneras son las de estadística: "solo si PA ≤ 11", una restricción de clase, o un trofeo que no se acumula con otros bonus de panoplia. Son justo las reglas que el optimizador respeta para no darte nunca un set ilegal. Si una pieza que querías quedó descartada, suele ser por una condición. (En Dofus Touch, por ejemplo, algunos trofeos limitan cuántos bonus de panoplia puedes llevar a la vez.)</p>
 
 <h2>Bonus de panoplia: las estadísticas que no ves en el ítem</h2>
-<p>Una panoplia da estadísticas extra en cuanto llevas dos, tres, cuatro piezas o más. Ese bonus puede ser enorme — a veces un ítem mediocre se gana su hueco solo porque completa una panoplia. El optimizador lo tiene en cuenta solo: no suma únicamente los ítems individuales, sino que pondera los bonus de panoplia que desbloquearías al combinarlos. Por eso a veces elige un ítem que parece flojo por sí solo.</p>
+<p>Una panoplia da estadísticas extra en cuanto llevas dos, tres, cuatro piezas o más. Ese bonus puede ser enorme: a veces un ítem mediocre se gana su hueco solo porque completa una panoplia. El optimizador lo tiene en cuenta solo: no suma únicamente los ítems individuales, sino que pondera los bonus de panoplia que desbloquearías al combinarlos. Por eso a veces elige un ítem que parece flojo por sí solo.</p>
 
 <h2>Exos y sobreforja, de un vistazo</h2>
-<p>Una línea de más sobre las estadísticas normales del ítem — un exo — es importante, sobre todo un exo PA o PM. La herramienta te deja declarar si tendrás exos en vez de fijarlos a un ítem concreto, porque tú sabes mejor dónde es barato forjarlos en tu servidor. Dile la verdad, o puede darte un ítem con condición de PA que se rompe en cuanto añades ese exo.</p>
+<p>Una línea de más sobre las estadísticas normales del ítem (un exo) es importante, sobre todo un exo PA o PM. La herramienta te deja declarar si tendrás exos en vez de fijarlos a un ítem concreto, porque tú sabes mejor dónde es barato forjarlos en tu servidor. Dile la verdad, o puede darte un ítem con condición de PA que se rompe en cuanto añades ese exo.</p>
 
 <h2>Deja que la herramienta lea por ti</h2>
 <p>No tienes que memorizar nada de esto. Abre un ítem en la <a href="/encyclopedia/">enciclopedia</a> para ver todas sus líneas de estadísticas, condiciones y panoplia, y cuando <a href="/setup/">montas un set</a>, la página de solución te detalla cada bonus y cada condición.</p>
@@ -778,20 +778,20 @@ GUIDES = {
             },
             'pt': {
                 'title': "Como ler um item de Dofus (sem cair em pegadinha)",
-                'desc': "Dois itens com o mesmo atributo no título podem ser totalmente diferentes depois de ler as letras miúdas — rolagens, condições, bônus de conjunto. Veja como avaliar um equipamento como a ferramenta faz.",
+                'desc': "Dois itens com o mesmo atributo no título podem ser totalmente diferentes depois de ler as letras miúdas: rolagens, condições, bônus de conjunto. Veja como avaliar um equipamento como a ferramenta faz.",
                 'lead': "Dois itens com o mesmo atributo no título podem ser totalmente diferentes depois de ler as letras miúdas. Veja como avaliar um equipamento como o otimizador faz.",
                 'body': '''
 <h2>As linhas de atributos (e seu intervalo escondido)</h2>
-<p>Todo item rola seus atributos dentro de um intervalo mín–máx. Duas cópias do mesmo cinto não são idênticas: uma pode ser +40 inteligência e outra +25. Quando você navega na <a href="/encyclopedia/">enciclopédia</a>, os números que aparecem são o potencial do item; o que você tem depende da rolagem dele. A ferramenta otimiza sobre os atributos do item, então uma peça bem rolada vale mesmo mais que uma ruim — vale conferir antes de comprar.</p>
+<p>Todo item rola seus atributos dentro de um intervalo mín-máx. Duas cópias do mesmo cinto não são idênticas: uma pode ser +40 inteligência e outra +25. Quando você navega na <a href="/encyclopedia/">enciclopédia</a>, os números que aparecem são o potencial do item; o que você tem depende da rolagem dele. A ferramenta otimiza sobre os atributos do item, então uma peça bem rolada vale mesmo mais que uma ruim, vale conferir antes de comprar.</p>
 
 <h2>Condições: por que um item não equipa</h2>
-<p>Muito equipamento vem com amarras. As de nível são óbvias; as traiçoeiras são as de atributo — "só se PA ≤ 11", uma restrição de classe, ou um troféu que não acumula com outros bônus de conjunto. São exatamente as regras que o otimizador respeita pra nunca te dar um set ilegal. Se uma peça que você queria foi pulada, normalmente é por causa de uma condição. (No Dofus Touch, por exemplo, alguns troféus limitam quantos bônus de conjunto você pode usar de uma vez.)</p>
+<p>Muito equipamento vem com amarras. As de nível são óbvias; as traiçoeiras são as de atributo: "só se PA ≤ 11", uma restrição de classe, ou um troféu que não acumula com outros bônus de conjunto. São exatamente as regras que o otimizador respeita pra nunca te dar um set ilegal. Se uma peça que você queria foi pulada, normalmente é por causa de uma condição. (No Dofus Touch, por exemplo, alguns troféus limitam quantos bônus de conjunto você pode usar de uma vez.)</p>
 
 <h2>Bônus de conjunto: os atributos que você não vê no item</h2>
-<p>Um conjunto dá atributos extras assim que você usa duas, três, quatro peças ou mais. Esse bônus pode ser enorme — às vezes um item mediano ganha o lugar só porque completa um conjunto. O otimizador considera isso sozinho: ele não soma só os itens individuais, ele pondera os bônus de conjunto que você desbloquearia ao combiná-los. É por isso que ele às vezes escolhe um item que parece fraco sozinho.</p>
+<p>Um conjunto dá atributos extras assim que você usa duas, três, quatro peças ou mais. Esse bônus pode ser enorme: às vezes um item mediano ganha o lugar só porque completa um conjunto. O otimizador considera isso sozinho: ele não soma só os itens individuais, ele pondera os bônus de conjunto que você desbloquearia ao combiná-los. É por isso que ele às vezes escolhe um item que parece fraco sozinho.</p>
 
 <h2>Exos e sobreforja, num relance</h2>
-<p>Uma linha além dos atributos normais do item — um exo — é importante, ainda mais um exo PA ou PM. A ferramenta deixa você declarar se vai ter exos em vez de prendê-los a um item específico, porque você sabe melhor onde é barato forjar no seu servidor. Só fale a verdade, ou ela pode te dar um item com condição de PA que quebra assim que você adiciona esse exo.</p>
+<p>Uma linha além dos atributos normais do item (um exo) é importante, ainda mais um exo PA ou PM. A ferramenta deixa você declarar se vai ter exos em vez de prendê-los a um item específico, porque você sabe melhor onde é barato forjar no seu servidor. Só fale a verdade, ou ela pode te dar um item com condição de PA que quebra assim que você adiciona esse exo.</p>
 
 <h2>Deixe a ferramenta ler por você</h2>
 <p>Você não precisa decorar nada disso. Abra um item na <a href="/encyclopedia/">enciclopédia</a> pra ver todas as linhas de atributos, condições e conjunto, e quando você <a href="/setup/">monta um set</a>, a página de solução detalha cada bônus e cada condição.</p>
@@ -801,20 +801,20 @@ GUIDES = {
             },
             'de': {
                 'title': "Wie man ein Dofus-Item liest (ohne reinzufallen)",
-                'desc': "Zwei Items mit demselben Wert in der Überschrift können völlig verschieden sein, sobald man das Kleingedruckte liest — Würfe, Bedingungen, Set-Boni. So schätzt du ein Ausrüstungsteil ein, wie es das Tool tut.",
+                'desc': "Zwei Items mit demselben Wert in der Überschrift können völlig verschieden sein, sobald man das Kleingedruckte liest: Würfe, Bedingungen, Set-Boni. So schätzt du ein Ausrüstungsteil ein, wie es das Tool tut.",
                 'lead': "Zwei Items mit demselben Wert in der Überschrift können völlig verschieden sein, sobald man das Kleingedruckte liest. So schätzt du ein Ausrüstungsteil ein, wie es der Optimierer tut.",
                 'body': '''
 <h2>Die Wertzeilen (und ihre versteckte Spanne)</h2>
-<p>Jedes Item würfelt seine Werte innerhalb einer Min–Max-Spanne. Zwei Exemplare desselben Gürtels sind nicht identisch: das eine ist vielleicht +40 Intelligenz, das andere +25. Wenn du die <a href="/encyclopedia/">Enzyklopädie</a> durchstöberst, sind die angezeigten Zahlen das Potenzial des Items; das, das du besitzt, hängt von seinem Wurf ab. Das Tool optimiert auf die Werte des Items, also ist ein gut gewürfeltes Teil wirklich mehr wert als ein schlechtes — vor dem Kauf einen Blick wert.</p>
+<p>Jedes Item würfelt seine Werte innerhalb einer Min-Max-Spanne. Zwei Exemplare desselben Gürtels sind nicht identisch: das eine ist vielleicht +40 Intelligenz, das andere +25. Wenn du die <a href="/encyclopedia/">Enzyklopädie</a> durchstöberst, sind die angezeigten Zahlen das Potenzial des Items; das, das du besitzt, hängt von seinem Wurf ab. Das Tool optimiert auf die Werte des Items, also ist ein gut gewürfeltes Teil wirklich mehr wert als ein schlechtes, vor dem Kauf einen Blick wert.</p>
 
 <h2>Bedingungen: warum sich ein Item nicht anlegen lässt</h2>
-<p>Viel Ausrüstung hat Auflagen. Levelbedingungen sind offensichtlich; die heimtückischen sind Wertbedingungen — "nur wenn AP ≤ 11", eine Klassenbeschränkung, oder eine Trophäe, die sich nicht mit anderen Set-Boni stapelt. Genau diese Regeln befolgt der Optimierer, damit er dir nie ein illegales Set gibt. Wenn ein Teil, das du wolltest, übersprungen wurde, liegt es meist an einer Bedingung. (Auf Dofus Touch deckeln manche Trophäen zum Beispiel, wie viele Set-Boni du gleichzeitig fahren kannst.)</p>
+<p>Viel Ausrüstung hat Auflagen. Levelbedingungen sind offensichtlich; die heimtückischen sind Wertbedingungen: "nur wenn AP ≤ 11", eine Klassenbeschränkung, oder eine Trophäe, die sich nicht mit anderen Set-Boni stapelt. Genau diese Regeln befolgt der Optimierer, damit er dir nie ein illegales Set gibt. Wenn ein Teil, das du wolltest, übersprungen wurde, liegt es meist an einer Bedingung. (Auf Dofus Touch deckeln manche Trophäen zum Beispiel, wie viele Set-Boni du gleichzeitig fahren kannst.)</p>
 
 <h2>Set-Boni: die Werte, die du nicht am Item siehst</h2>
-<p>Eine Set (Panoplie) gibt zusätzliche Werte, sobald du zwei, drei, vier oder mehr Teile davon trägst. Dieser Bonus kann riesig sein — manchmal verdient sich ein mittelmäßiges Item seinen Platz nur, weil es ein Set vervollständigt. Der Optimierer berücksichtigt das automatisch: Er addiert nicht nur einzelne Items, sondern gewichtet die Set-Boni, die du durchs Kombinieren freischalten würdest. Deshalb wählt er manchmal ein Item, das für sich allein schwach aussieht.</p>
+<p>Eine Set (Panoplie) gibt zusätzliche Werte, sobald du zwei, drei, vier oder mehr Teile davon trägst. Dieser Bonus kann riesig sein: manchmal verdient sich ein mittelmäßiges Item seinen Platz nur, weil es ein Set vervollständigt. Der Optimierer berücksichtigt das automatisch: Er addiert nicht nur einzelne Items, sondern gewichtet die Set-Boni, die du durchs Kombinieren freischalten würdest. Deshalb wählt er manchmal ein Item, das für sich allein schwach aussieht.</p>
 
 <h2>Exos und Übermagie, auf einen Blick</h2>
-<p>Eine zusätzliche Zeile über den normalen Werten des Items — ein Exo — ist eine große Sache, besonders ein Exo-AP oder -BP. Das Tool lässt dich angeben, ob du Exos haben wirst, statt sie an ein bestimmtes Item zu binden, weil du am besten weißt, wo sie auf deinem Server billig zu magen sind. Sag ihm einfach die Wahrheit, sonst gibt es dir vielleicht ein AP-bedingtes Item, das kaputtgeht, sobald du dieses Exo hinzufügst.</p>
+<p>Eine zusätzliche Zeile über den normalen Werten des Items (ein Exo) ist eine große Sache, besonders ein Exo-AP oder -BP. Das Tool lässt dich angeben, ob du Exos haben wirst, statt sie an ein bestimmtes Item zu binden, weil du am besten weißt, wo sie auf deinem Server billig zu magen sind. Sag ihm einfach die Wahrheit, sonst gibt es dir vielleicht ein AP-bedingtes Item, das kaputtgeht, sobald du dieses Exo hinzufügst.</p>
 
 <h2>Lass das Tool lesen</h2>
 <p>Du musst dir nichts davon merken. Öffne ein Item in der <a href="/encyclopedia/">Enzyklopädie</a>, um alle Wertzeilen, Bedingungen und das Set zu sehen, und wenn du <a href="/setup/">ein Set baust</a>, legt dir die Lösungsseite jeden Bonus und jede Bedingung offen.</p>
