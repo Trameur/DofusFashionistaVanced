@@ -1907,13 +1907,63 @@ class RetroSoftCapsTests(SimpleTestCase):
             for lis in caps.values():
                 self.assertEqual(len(lis), 6)
 
-    def test_other_versions_keep_the_uniform_modern_table(self):
+    def test_modern_versions_keep_the_uniform_modern_table(self):
         from fashionistapulp.dofus_constants import get_soft_caps_for, SOFT_CAPS
-        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+        for version in ('dofus3', 'beta', 'dofus2'):
             for char_class in ('Iop', 'Sacrier', 'Cra', 'Sram'):
                 self.assertEqual(get_soft_caps_for(version, char_class),
                                  SOFT_CAPS[char_class],
                                  '%s / %s should be unchanged' % (version, char_class))
+
+
+class TouchSoftCapsTests(SimpleTestCase):
+    """Dofus Touch keeps its own 2.x-era characteristic costs (from its game
+    files touch_raw/Breeds_fr.json): one uniform table for every class where the
+    elements and Wisdom scale 1/2/3/4/5 at 100/200/300/400 and Vitality is 1:1.
+    Notably Wisdom is distributable and cheap early, unlike modern's flat 3:1."""
+
+    _TIER_COST = [0.5, 1, 2, 3, 4, 5]
+
+    def _capital_cost(self, caps, target):
+        widths = []
+        for i in range(6):
+            if i >= 1 and caps[i - 1] is not None and caps[i] is not None:
+                widths.append(caps[i] - caps[i - 1])
+            else:
+                widths.append(caps[i])
+        remaining, cost = target, 0.0
+        for i in range(6):
+            take = remaining if widths[i] is None else min(remaining, widths[i])
+            cost += take * self._TIER_COST[i]
+            remaining -= take
+            if remaining <= 0:
+                break
+        return cost
+
+    def test_touch_costs_match_the_game_files(self):
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        cases = [
+            ('str', 100, 100), ('str', 200, 300), ('str', 400, 1000),
+            ('wis', 100, 100), ('wis', 300, 600),   # Touch wisdom is cheap early
+            ('vit', 100, 100), ('vit', 500, 500),   # flat 1:1
+        ]
+        for stat, target, expected in cases:
+            caps = get_soft_caps_for('touch', 'Iop')[stat]
+            self.assertEqual(self._capital_cost(caps, target), expected,
+                             'touch %s to %d' % (stat, target))
+
+    def test_touch_wisdom_is_cheaper_than_modern(self):
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        touch = self._capital_cost(get_soft_caps_for('touch', 'Iop')['wis'], 100)
+        modern = self._capital_cost(get_soft_caps_for('dofus3', 'Iop')['wis'], 100)
+        self.assertEqual(touch, 100)   # 1:1 first tier
+        self.assertEqual(modern, 300)  # flat 3:1
+        self.assertLess(touch, modern)
+
+    def test_touch_is_uniform_across_classes(self):
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        self.assertEqual(get_soft_caps_for('touch', 'Iop'),
+                         get_soft_caps_for('touch', 'Sadida'))
 
     def test_only_sacrier_gets_cheap_vitality_in_retro(self):
         from fashionistapulp.dofus_constants import get_soft_caps_for

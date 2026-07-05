@@ -5100,14 +5100,34 @@ for _cls, _elements in _RETRO_ELEMENTS.items():
     SOFT_CAPS_RETRO[_cls] = _caps
 
 
+# Dofus Touch kept the pre-Retour (2.x-era) characteristic costs, straight from
+# its own game files (itemscraper/touch_raw/Breeds_fr.json, statsPointsFor*):
+# every class shares one table, the four elements AND Wisdom scale 1/2/3/4/5 at
+# 100/200/300/400 (Wisdom is a distributable characteristic on Touch, unlike
+# modern Dofus where DEFAULT_SOFT_CAPS pins it to a flat 3:1), and Vitality stays
+# 1:1. The elements also reach a 5:1 tier past 400, which the modern table drops.
+_TOUCH_ELEMENT_CAP = [0, 100, 200, 300, 400, None]
+DEFAULT_SOFT_CAPS_TOUCH = {
+    'vit': [0, None, 0, 0, 0, 0],
+    'wis': [0, 100, 200, 300, 400, None],
+    'str': _TOUCH_ELEMENT_CAP,
+    'int': _TOUCH_ELEMENT_CAP,
+    'cha': _TOUCH_ELEMENT_CAP,
+    'agi': _TOUCH_ELEMENT_CAP,
+}
+
+
 def get_soft_caps_for(game_version, char_class):
     """Characteristic soft caps for a class, honouring the game version.
 
-    Retro (1.29) has class-specific costs; every other version shares the
-    modern uniform table. Falls back to the default table for any class not
-    listed (e.g. a modern-only class should never reach the retro table)."""
+    Retro (1.29) has class-specific costs; Touch keeps its own 2.x-era uniform
+    table (Wisdom distributable, elements to a 5:1 tier); every other version
+    shares the modern uniform table. Falls back to the default table for any
+    class not listed (e.g. a modern-only class should never reach the retro table)."""
     if game_version == 'retro':
         return SOFT_CAPS_RETRO.get(char_class, DEFAULT_SOFT_CAPS)
+    if game_version == 'touch':
+        return DEFAULT_SOFT_CAPS_TOUCH
     return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
 
 
