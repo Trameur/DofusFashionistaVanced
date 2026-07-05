@@ -30,7 +30,7 @@
                 <b>{{ row.author }}</b>
                 {% if row.build_url %}on <a href="{{ row.build_url }}" target="_blank" rel="noopener">{{ row.build_name }}</a>{% else %}on {{ row.build_name }}{% endif %}
                 · {{ row.comment.created_time|date:"Y-m-d H:i" }}
-                · <span class="admin-report-flag">{{ row.report_count }} report{{ row.report_count|pluralize }} — {{ row.reasons }}</span>
+                · <span class="admin-report-flag">{{ row.report_count }} report{{ row.report_count|pluralize }}: {{ row.reasons }}</span>
                 {% if row.comment.deleted %}· <span class="admin-hidden-flag">hidden</span>{% endif %}
             </div>
             <div class="admin-card-body">{{ row.comment.content }}</div>

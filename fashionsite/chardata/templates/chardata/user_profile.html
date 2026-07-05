@@ -123,7 +123,7 @@
             <a class="profile-build-row" href="{{ b.link }}">
                 <div class="profile-build-name">
                     {{ b.char.char_name|default:b.char.name }}
-                    {% if b.build_name_translated %}— {{ b.build_name_translated }}{% endif %}
+                    {% if b.build_name_translated %}· {{ b.build_name_translated }}{% endif %}
                 </div>
                 <div class="profile-build-meta">
                     {{ b.char.char_class }} · {% trans "lvl" %} {{ b.char.level }}

@@ -42,7 +42,7 @@
                 <div class="feed-name">
                     <span class="feed-author">{{ b.creator }} ·</span>
                     {{ b.char.char_name|default:b.char.name }}
-                    {% if b.build_name_translated %}— {{ b.build_name_translated }}{% endif %}
+                    {% if b.build_name_translated %}· {{ b.build_name_translated }}{% endif %}
                 </div>
                 <div class="feed-meta">
                     {{ b.char.char_class }} · {% trans "lvl" %} {{ b.char.level }}
