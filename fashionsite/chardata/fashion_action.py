@@ -100,8 +100,13 @@ def fashion(request, char_id, spells=False):
                 stat = structure.get_stat_by_id(stat_id)
                 if stat and stat.key in _EXO_KEY_TO_OPTION:
                     base_val = base_stats_dict.get(stat_id, 0)
-                    if value > base_val:
-                        model_options[_EXO_KEY_TO_OPTION[stat.key]] = True
+                    option_key = _EXO_KEY_TO_OPTION[stat.key]
+                    # An owned item with an exo roll only turns a plain "no" into
+                    # "yes"; it must not clobber a specific choice like the MP
+                    # "only Gelano" ('gelano'), which would then equip the plain
+                    # Gelano instead of the +1 AP +1 MP one.
+                    if value > base_val and not model_options[option_key]:
+                        model_options[option_key] = True
 
     base_stats_by_attr = get_base_stats_by_attr(request, char_id)
 

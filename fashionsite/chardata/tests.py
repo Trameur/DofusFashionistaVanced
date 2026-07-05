@@ -2464,3 +2464,49 @@ class RetroPresetWeightsTests(TestCase):
             w = self._weights(version)
             self.assertGreater(w['pow'], 0, version)
             self.assertGreater(w['permedam'], 0, version)
+
+
+class GelanoExoInventoryTests(TestCase):
+    """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain
+    one. Owning another item with an MP roll above its base used to flip the
+    'gelano' choice to a generic "yes", which equipped the plain Gelano."""
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_gelano_exo_keeps_the_mp_gelano_despite_an_owned_mp_roll(self):
+        import pickle as _pickle
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version, get_structure
+        from chardata.coaching_view import create_build
+        from chardata.options import get_options, set_options
+        from chardata.models import InventoryFolder, InventoryItem
+        from chardata.solution import get_solution
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        gelano2 = structure.get_item_by_name('Gelano (#2)')
+        boots = next(it for it in structure.get_concatenated_items_lists()
+                     if it.type == structure.get_type_id_by_name('Boots'))
+        owner = User.objects.create_user('gelexo', 'ge@test.local', 'pw-gel-77')
+        req = RequestFactory().post('/')
+        req.user = owner
+        char = create_build(req, 'Xelor', 150, {'cha'}, 'dofus3')
+        folder = InventoryFolder.objects.create(
+            user=owner, name='inv', game_version='dofus3')
+        InventoryItem.objects.create(folder=folder, item_id=gelano2.id, custom_stats='')
+        # An owned item with an MP roll above its base (the trigger for the bug).
+        InventoryItem.objects.create(
+            folder=folder, item_id=boots.id, custom_stats='{"mp": 3}')
+        options = get_options(char)
+        options['mp_exo'] = 'gelano'
+        options['inventory_mode'] = 'only'
+        options['inventory_folder'] = folder.id
+        set_options(char, options)
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        solution = get_solution(char)
+        gelanos = [ri for ri in solution.item_list
+                   if ri.item_added and 'Gelano' in getattr(ri, 'name', '')]
+        self.assertEqual(len(gelanos), 1, 'expected a Gelano equipped')
+        self.assertEqual(gelanos[0].stats.get('mp'), 1,
+                         'gelano exo must equip the +1 MP Gelano, not the plain one')
