@@ -1793,7 +1793,7 @@ class InlineScriptSyntaxTests(TestCase):
                  '/exclusions/%d/' % char.pk,
                  '/forgemagie/', '/inventory/', '/workshop/',
                  '/choose_compare_sets/', '/manageaccount/']
-        script_re = re.compile(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', re.S | re.I)
+        script_re = re.compile(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script\s*>', re.S | re.I)
         for page in pages:
             resp = self.client.get(page)
             self.assertEqual(resp.status_code, 200, page)
