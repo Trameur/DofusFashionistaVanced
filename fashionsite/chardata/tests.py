@@ -2505,3 +2505,26 @@ class GelanoExoInventoryTests(TestCase):
         self.assertEqual(len(gelanos), 1, 'expected a Gelano equipped')
         self.assertEqual(gelanos[0].stats.get('mp'), 1,
                          'gelano exo must equip the +1 MP Gelano, not the plain one')
+
+
+class RetroPercentDamageStatTests(SimpleTestCase):
+    """Retro's "% Dommages" (effect 138) is the game's percent-damage stat; it
+    was dropped by the scraper. It now maps to Power, so items like the Feathered
+    Belt (15% Dmg) carry it and a retro damage build can stack it."""
+
+    def test_feathered_belt_has_the_percent_damage_stat(self):
+        from fashionistapulp.structure import get_structure
+        retro = get_structure('retro')
+        belt = retro.get_item_by_ankama_id(11545)
+        self.assertIsNotNone(belt, 'Feathered Belt missing from Retro data')
+        power = retro.get_stat_by_name('Power')
+        power_val = dict(belt.stats).get(power.id)
+        self.assertEqual(power_val, 15, 'Feathered Belt should carry 15% Dommages')
+
+    def test_many_retro_items_carry_percent_damage(self):
+        from fashionistapulp.structure import get_structure
+        retro = get_structure('retro')
+        power_id = retro.get_stat_by_name('Power').id
+        n = sum(1 for it in retro.get_concatenated_items_lists()
+                if power_id in dict(it.stats))
+        self.assertGreater(n, 100, 'retro items should carry the % damage stat')

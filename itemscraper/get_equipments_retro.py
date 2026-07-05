@@ -42,6 +42,10 @@ EFFECT_MAP = {
     118: ('Strength', 1), 119: ('Agility', 1), 123: ('Chance', 1),
     124: ('Wisdom', 1), 125: ('Vitality', 1), 126: ('Intelligence', 1),
     112: ('Damage', 1), 115: ('Critical Hits', 1), 117: ('Range', 1),
+    # 138 = "Augmente les dommages de X%": Retro's percent-damage stat. Dofus 3
+    # split Power off, but on 1.29 items this is the game's % damage, so map it to
+    # the model's Power (its percent-damage stat) rather than dropping it.
+    138: ('Power', 1),
     110: ('HP', 1), 174: ('Initiative', 1), 176: ('Prospecting', 1),
     178: ('Heals', 1), 182: ('Summon', 1), 111: ('AP', 1), 128: ('MP', 1),
     96: ('Water Damage', 1), 97: ('Earth Damage', 1), 98: ('Air Damage', 1),
@@ -119,8 +123,10 @@ def _map_set_stat(fr_type):
                 return ('%% %s Resist' % en) if pct else ('%s Resist' % en)
     if 'pieg' in n:
         return '% Trap Damage' if pct else 'Trap Damage'
+    if pct and 'dommage' in n:
+        return 'Power'  # "% Dommages" set bonus -> the model's percent-damage stat
     if pct:
-        return None  # retro has no other percent stats
+        return None  # no other percent set stats on Retro
     return _SET_STAT_FR_TO_EN.get(n)
 
 
