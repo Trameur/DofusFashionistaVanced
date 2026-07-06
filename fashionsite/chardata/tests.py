@@ -2645,3 +2645,25 @@ class NoEmDashInGuidesTests(SimpleTestCase):
         self.assertEqual(
             offenders, [],
             'em/en dash found in guide content (use ., :, , or parentheses): %s' % offenders)
+
+
+class GuideMetaDescriptionLengthTests(SimpleTestCase):
+    """Each guide 'desc' is the <meta name="description">, og:description and JSON-LD
+    description. Past ~160 characters Google truncates it in the search snippet, losing
+    the tail (call to action, keyword). Guard every localized description so a future
+    edit stays within the snippet budget. See chardata.guides_content.GUIDES."""
+
+    MAX_DESC = 160
+
+    def test_guide_descriptions_fit_the_search_snippet(self):
+        from chardata.guides_content import GUIDES
+        offenders = []
+        for slug, guide in GUIDES.items():
+            for language, fields in guide.get('i18n', {}).items():
+                desc = fields.get('desc', '')
+                if len(desc) > self.MAX_DESC:
+                    offenders.append('%s/%s (%d)' % (slug, language, len(desc)))
+        self.assertEqual(
+            offenders, [],
+            'guide desc over %d chars (Google truncates the snippet): %s'
+            % (self.MAX_DESC, offenders))
