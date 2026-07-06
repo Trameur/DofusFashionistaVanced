@@ -176,7 +176,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'How the optimizer actually works',
-                'desc': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round, you say what you want, it finds the items. Here's what happens under the hood.",
+                'desc': "Most build sites are a spreadsheet: you drag in items, they total the stats. The Fashionista works backwards, you say what you want and it finds the items.",
                 'lead': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round, you say what you want, it finds the items.",
                 'body': '''
 <h2>It's an optimization problem, not a list</h2>
@@ -202,7 +202,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Comment l'optimiseur fonctionne vraiment",
-                'desc': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne. La Fashionista fait l'inverse, tu dis ce que tu veux, elle trouve les items. Voilà ce qui se passe sous le capot.",
+                'desc': "La plupart des sites de build sont un tableur : tu glisses, ça additionne. La Fashionista fait l'inverse : dis ce que tu veux, elle trouve les items.",
                 'lead': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne les stats. La Fashionista fait l'inverse, tu dis ce que tu veux, elle trouve les items.",
                 'body': '''
 <h2>C'est un problème d'optimisation, pas une liste</h2>
@@ -228,7 +228,7 @@ GUIDES = {
             },
             'es': {
                 'title': 'Cómo funciona de verdad el optimizador',
-                'desc': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman. La Fashionista hace lo contrario, tú dices qué quieres y ella encuentra los ítems. Esto es lo que pasa por dentro.",
+                'desc': "La mayoría de las webs de builds son una hoja de cálculo: arrastras ítems y suman. La Fashionista hace lo contrario: dices qué quieres y encuentra los ítems.",
                 'lead': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman las estadísticas. La Fashionista hace lo contrario, tú dices qué quieres y ella encuentra los ítems.",
                 'body': '''
 <h2>Es un problema de optimización, no una lista</h2>
@@ -254,7 +254,7 @@ GUIDES = {
             },
             'pt': {
                 'title': 'Como o otimizador funciona de verdade',
-                'desc': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma. A Fashionista faz o contrário, você diz o que quer e ela acha os itens. Veja o que rola por baixo do capô.",
+                'desc': "A maioria dos sites de build é uma planilha: você arrasta itens e ela soma. A Fashionista faz o contrário, você diz o que quer e ela acha os itens.",
                 'lead': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma os atributos. A Fashionista faz o contrário, você diz o que quer e ela acha os itens.",
                 'body': '''
 <h2>É um problema de otimização, não uma lista</h2>
@@ -280,7 +280,7 @@ GUIDES = {
             },
             'de': {
                 'title': 'Wie der Optimierer wirklich arbeitet',
-                'desc': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert. Die Fashionista macht es andersrum, du sagst, was du willst, sie findet die Items. Hier ist, was unter der Haube passiert.",
+                'desc': "Die meisten Build-Seiten sind eine Tabelle: Du ziehst Items rein, sie addiert. Die Fashionista macht es andersrum, du sagst was du willst, sie findet die Items.",
                 'lead': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert die Werte. Die Fashionista macht es andersrum, du sagst, was du willst, sie findet die Items.",
                 'body': '''
 <h2>Es ist ein Optimierungsproblem, keine Liste</h2>
@@ -709,7 +709,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "How to read a Dofus item (without getting fooled)",
-                'desc': "Two items with the same headline stat can be wildly different once you read the fine print: rolls, conditions, set bonuses. Here's how to size up a piece of gear like the tool does.",
+                'desc': "Two items with the same headline stat can differ wildly once you read the fine print: rolls, conditions, set bonuses. Learn to size up gear like the tool does.",
                 'lead': "Two items with the same headline stat can be wildly different once you read the fine print. Here's how to size up a piece of gear the way the optimizer does.",
                 'body': '''
 <h2>The stat lines (and their hidden range)</h2>
@@ -732,7 +732,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Comment lire un item Dofus (sans se faire avoir)",
-                'desc': "Deux items avec la même stat en titre peuvent être complètement différents une fois les petites lignes lues : jets, conditions, bonus de panoplie. Voilà comment jauger un équipement comme le fait l'outil.",
+                'desc': "Deux items avec la même stat en titre peuvent tout changer une fois lues les petites lignes : jets, conditions, bonus de panoplie. Apprends à jauger ton stuff.",
                 'lead': "Deux items avec la même stat en titre peuvent être complètement différents une fois les petites lignes lues. Voilà comment jauger un équipement comme le fait l'optimiseur.",
                 'body': '''
 <h2>Les lignes de stats (et leur fourchette cachée)</h2>
@@ -755,7 +755,7 @@ GUIDES = {
             },
             'es': {
                 'title': "Cómo leer un ítem de Dofus (sin que te engañen)",
-                'desc': "Dos ítems con la misma estadística en el titular pueden ser totalmente distintos al leer la letra pequeña: tiradas, condiciones, bonus de panoplia. Aquí tienes cómo evaluar un equipo como lo hace la herramienta.",
+                'desc': "Dos ítems con la misma estadística en el titular pueden ser muy distintos al leer la letra pequeña: tiradas, condiciones, bonus. Aprende a evaluar tu equipo.",
                 'lead': "Dos ítems con la misma estadística en el titular pueden ser totalmente distintos al leer la letra pequeña. Aquí tienes cómo evaluar un equipo como lo hace el optimizador.",
                 'body': '''
 <h2>Las líneas de estadísticas (y su rango oculto)</h2>
@@ -778,7 +778,7 @@ GUIDES = {
             },
             'pt': {
                 'title': "Como ler um item de Dofus (sem cair em pegadinha)",
-                'desc': "Dois itens com o mesmo atributo no título podem ser totalmente diferentes depois de ler as letras miúdas: rolagens, condições, bônus de conjunto. Veja como avaliar um equipamento como a ferramenta faz.",
+                'desc': "Dois itens com o mesmo atributo no título podem ser bem diferentes ao ler as letras miúdas: rolagens, condições, bônus. Aprenda a avaliar seu equipamento.",
                 'lead': "Dois itens com o mesmo atributo no título podem ser totalmente diferentes depois de ler as letras miúdas. Veja como avaliar um equipamento como o otimizador faz.",
                 'body': '''
 <h2>As linhas de atributos (e seu intervalo escondido)</h2>
@@ -801,7 +801,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Wie man ein Dofus-Item liest (ohne reinzufallen)",
-                'desc': "Zwei Items mit demselben Wert in der Überschrift können völlig verschieden sein, sobald man das Kleingedruckte liest: Würfe, Bedingungen, Set-Boni. So schätzt du ein Ausrüstungsteil ein, wie es das Tool tut.",
+                'desc': "Zwei Items mit demselben Wert in der Überschrift können völlig verschieden sein, sobald man das Kleingedruckte liest: Würfe, Bedingungen, Set-Boni.",
                 'lead': "Zwei Items mit demselben Wert in der Überschrift können völlig verschieden sein, sobald man das Kleingedruckte liest. So schätzt du ein Ausrüstungsteil ein, wie es der Optimierer tut.",
                 'body': '''
 <h2>Die Wertzeilen (und ihre versteckte Spanne)</h2>
@@ -1302,7 +1302,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Tuning your weights: how to tell the optimizer what actually matters",
-                'desc': "The weights page is where a generic set becomes your set. What the numbers mean, how presets differ from custom weights, and the mistakes that quietly ruin a solution.",
+                'desc': "The weights page is where a generic set becomes your set. What the numbers mean, presets vs custom weights, and the mistakes that quietly ruin a solution.",
                 'lead': "The optimizer doesn't guess what you want: it maximizes exactly what you tell it to. The weights page is where you tell it. Five minutes here beats an hour of switching items by hand.",
                 'body': '''
 <h2>What a weight actually is</h2>
@@ -1322,7 +1322,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Bien régler tes poids : dire à l'optimiseur ce qui compte vraiment",
-                'desc': "La page des poids, c'est là qu'un set générique devient ton set. Ce que veulent dire les chiffres, la différence entre presets et poids personnalisés, et les erreurs qui ruinent une solution en silence.",
+                'desc': "La page des poids, c'est là qu'un set générique devient ton set. Ce que veulent dire les chiffres, presets ou poids perso, et les erreurs qui ruinent tout.",
                 'lead': "L'optimiseur ne devine pas ce que tu veux : il maximise exactement ce que tu lui dis. La page des poids, c'est là que tu lui dis. Cinq minutes ici valent mieux qu'une heure à changer les items à la main.",
                 'body': '''
 <h2>C'est quoi, un poids</h2>
@@ -1342,7 +1342,7 @@ GUIDES = {
             },
             'es': {
                 'title': "Ajustar tus pesos: cómo decirle al optimizador lo que de verdad importa",
-                'desc': "La página de pesos es donde un set genérico se convierte en tu set. Qué significan los números, en qué se diferencian los presets de los pesos personalizados, y los errores que arruinan una solución en silencio.",
+                'desc': "La página de pesos es donde un set genérico se vuelve tuyo. Qué significan los números, presets o pesos personalizados, y los errores que arruinan todo.",
                 'lead': "El optimizador no adivina lo que quieres: maximiza exactamente lo que le dices. La página de pesos es donde se lo dices. Cinco minutos aquí valen más que una hora cambiando ítems a mano.",
                 'body': '''
 <h2>Qué es un peso</h2>
@@ -1362,7 +1362,7 @@ GUIDES = {
             },
             'pt': {
                 'title': "Ajustando seus pesos: como dizer ao otimizador o que realmente importa",
-                'desc': "A página de pesos é onde um set genérico vira o seu set. O que os números significam, a diferença entre presets e pesos personalizados, e os erros que arruínam uma solução em silêncio.",
+                'desc': "A página de pesos é onde um set genérico vira o seu. O que os números significam, presets ou pesos personalizados, e os erros que arruínam tudo.",
                 'lead': "O otimizador não adivinha o que você quer: ele maximiza exatamente o que você diz. A página de pesos é onde você diz. Cinco minutos aqui valem mais que uma hora trocando itens na mão.",
                 'body': '''
 <h2>O que é um peso</h2>
@@ -1382,7 +1382,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Gewichte richtig einstellen: dem Optimierer sagen, was wirklich zählt",
-                'desc': "Auf der Gewichte-Seite wird aus einem generischen Set dein Set. Was die Zahlen bedeuten, wie sich Presets von eigenen Gewichten unterscheiden, und welche Fehler eine Lösung leise ruinieren.",
+                'desc': "Auf der Gewichte-Seite wird aus einem generischen Set dein Set. Was die Zahlen bedeuten, Presets oder eigene Gewichte, und welche Fehler alles ruinieren.",
                 'lead': "Der Optimierer rät nicht, was du willst: er maximiert genau das, was du ihm sagst. Auf der Gewichte-Seite sagst du es ihm. Fünf Minuten hier schlagen eine Stunde Items-Tauschen von Hand.",
                 'body': '''
 <h2>Was ein Gewicht eigentlich ist</h2>
@@ -1408,7 +1408,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Planning a maging run: use the simulator before you burn your kamas",
-                'desc': "Smithmagic is a money pit when you improvise. How the Fashionista's simulator works (sink, over/exo weight, the 101 cap, the ~1% exos) and how to plan a run before touching a single rune.",
+                'desc': "Smithmagic is a money pit when you improvise. How the simulator works (sink, over/exo weight, the 101 cap) and how to plan a run before you buy runes.",
                 'lead': "Every mager has a story about the item they destroyed at 3 a.m. The simulator exists so that story isn't yours: plan the runs, see what can pass, then spend.",
                 'body': '''
 <h2>What the simulator does</h2>
@@ -1428,7 +1428,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Planifier ta forgemagie : passe par le simulateur avant de brûler tes kamas",
-                'desc': "La forgemagie est un gouffre à kamas quand on improvise. Comment marche le simulateur de la Fashionista (puits, poids over/exo, le plafond de 101, les exos à ~1 %) et comment planifier avant de toucher une rune.",
+                'desc': "La forgemagie est un gouffre à kamas quand on improvise. Comprends le simulateur (puits, poids over/exo, plafond 101) et planifie avant d'acheter des runes.",
                 'lead': "Chaque forgemage a une histoire d'objet détruit à 3 h du matin. Le simulateur existe pour que cette histoire ne soit pas la tienne : planifie, vois ce qui peut passer, puis dépense.",
                 'body': '''
 <h2>Ce que fait le simulateur</h2>
@@ -1448,7 +1448,7 @@ GUIDES = {
             },
             'es': {
                 'title': "Planificar tu forjamagia: pasa por el simulador antes de quemar tus kamas",
-                'desc': "La forjamagia es un pozo de kamas cuando improvisas. Cómo funciona el simulador de la Fashionista (pozo, peso over/exo, el límite de 101, los exos al ~1%) y cómo planificar antes de tocar una runa.",
+                'desc': "La forjamagia es un pozo de kamas cuando improvisas. Cómo funciona el simulador (pozo, peso over/exo, límite de 101) y cómo planificar antes de comprar runas.",
                 'lead': "Todo forjamago tiene una historia de un objeto destruido a las 3 de la mañana. El simulador existe para que esa historia no sea la tuya: planifica, mira qué puede pasar, y luego gasta.",
                 'body': '''
 <h2>Qué hace el simulador</h2>
@@ -1468,7 +1468,7 @@ GUIDES = {
             },
             'pt': {
                 'title': "Planejando sua forjamagia: passe pelo simulador antes de queimar seus kamas",
-                'desc': "Forjamagia é um poço de kamas quando você improvisa. Como funciona o simulador da Fashionista (poço, peso over/exo, o teto de 101, os exos a ~1%) e como planejar antes de tocar numa runa.",
+                'desc': "Forjamagia é um poço de kamas quando você improvisa. Como funciona o simulador (poço, peso over/exo, teto de 101) e como planejar antes de comprar runas.",
                 'lead': "Todo forjamago tem uma história de item destruído às 3 da manhã. O simulador existe para que essa história não seja a sua: planeje, veja o que pode passar, depois gaste.",
                 'body': '''
 <h2>O que o simulador faz</h2>
@@ -1488,7 +1488,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Schmiedemagie planen: erst der Simulator, dann die Kamas",
-                'desc': "Schmiedemagie ist ein Kama-Grab, wenn man improvisiert. Wie der Simulator der Fashionista funktioniert (Senke, Over/Exo-Gewicht, die 101-Grenze, die ~1%-Exos) und wie du einen Run planst, bevor du eine Rune anfasst.",
+                'desc': "Schmiedemagie ist ein Kama-Grab, wenn man improvisiert. Wie der Simulator funktioniert (Senke, Over/Exo-Gewicht, 101-Grenze) und wie du vorher planst.",
                 'lead': "Jeder Schmiedemagier hat eine Geschichte über das Item, das er um 3 Uhr nachts zerstört hat. Den Simulator gibt es, damit diese Geschichte nicht deine wird: planen, sehen was durchgehen kann, dann ausgeben.",
                 'body': '''
 <h2>Was der Simulator macht</h2>
