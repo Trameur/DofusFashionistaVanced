@@ -2667,3 +2667,45 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
             offenders, [],
             'guide desc over %d chars (Google truncates the snippet): %s'
             % (self.MAX_DESC, offenders))
+
+
+class EncyclopediaResourcePageTests(TestCase):
+    """The resource page is the reverse recipe index: it lists every item a crafting
+    ingredient is used in, and item recipes link to it. See
+    encyclopedia_view.encyclopedia_resource."""
+
+    def _busiest_resource(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            return conn.cursor().execute(
+                """
+                SELECT r.ingredient_ankama_id, n.name
+                FROM item_recipes r
+                JOIN item_recipe_ingredient_names n
+                  ON n.ingredient_ankama_id = r.ingredient_ankama_id
+                 AND n.ingredient_subtype = r.ingredient_subtype
+                 AND n.language = 'en'
+                WHERE r.ingredient_subtype = 'resources'
+                GROUP BY r.ingredient_ankama_id
+                ORDER BY COUNT(DISTINCT r.item) DESC
+                LIMIT 1
+                """).fetchone()
+        finally:
+            conn.close()
+
+    def test_resource_page_lists_the_items_it_crafts(self):
+        resource = self._busiest_resource()
+        self.assertIsNotNone(resource, 'expected at least one resource with a recipe')
+        ankama_id, name = resource
+        resp = self.client.get('/encyclopedia/resource/resources/%d-x/' % ankama_id,
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn(name, body)
+        self.assertIn('/encyclopedia/item/', body)
+
+    def test_unknown_resource_redirects_to_the_encyclopedia(self):
+        resp = self.client.get('/encyclopedia/resource/resources/999999999-x/')
+        self.assertEqual(resp.status_code, 302)

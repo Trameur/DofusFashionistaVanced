@@ -7344,6 +7344,26 @@ msgstr ""
 "Cada página de item agora lista os monstros que o dropam, com a taxa de "
 "drop."
 
+#: chardata/templates/chardata/encyclopedia_resource.html
+msgid ""
+"Which Dofus items are crafted with %(resource_name)s. Find every item that "
+"uses this resource and optimize your build with the Dofus Fashionista."
+msgstr ""
+"Quais itens de Dofus são fabricados com %(resource_name)s. Encontre todos os"
+" itens que usam este recurso e otimize seu build com o Dofus Fashionista."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Resource pages in the encyclopedia"
+msgstr "Páginas de recursos na enciclopédia"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid ""
+"Each recipe ingredient now has its own page listing every item it is used to"
+" craft."
+msgstr ""
+"Cada ingrediente de receita agora tem a sua página com todos os itens que "
+"ele permite fabricar."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

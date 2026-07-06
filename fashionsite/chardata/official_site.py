@@ -76,3 +76,20 @@ def get_item_link(ankama_type, ankama_id, name, game_version='dofus3'):
     if game_version != 'dofus3':
         return f'/{game_version}{path}'
     return path
+
+
+def get_resource_link(subtype, ankama_id, name, game_version='dofus3'):
+    """Internal encyclopedia URL for a crafting ingredient (resource), mirroring
+    get_item_link. The page lists every item this ingredient is used to craft."""
+    if not ankama_id or not subtype:
+        return None
+
+    name = name.strip().lower()
+    name = name.replace('\'s', '')
+    name = name.replace(' ', '-')
+    name = re.compile('[^a-zA-Z-]').sub('', name)
+
+    path = '/encyclopedia/resource/%s/%d-%s/' % (subtype, int(ankama_id), name)
+    if game_version != 'dofus3':
+        return f'/{game_version}{path}'
+    return path

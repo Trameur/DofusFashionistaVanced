@@ -1,0 +1,109 @@
+{% extends "chardata/base.html" %}
+{% load version_url %}
+{% load static_s3 %}
+{% load i18n %}
+
+{% block title %}{{ resource.name }} - {{ t.resource_kind_label }} · {% trans "The Dofus Fashionista" %}{% endblock %}
+
+{% block meta_description %}{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this resource and optimize your build with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{% block og_meta %}
+    <meta property="og:title" content="{{ resource.name }} · {{ t.resource_kind_label }}">
+    <meta property="og:description" content="{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this resource and optimize your build with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
+
+{% block css %}
+<style>
+.encyclopedia-item {
+    padding: 12px;
+}
+.encyclopedia-crumbs {
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin-bottom: 10px;
+}
+.encyclopedia-crumbs a { text-decoration: none; }
+.encyclopedia-crumbs a:hover { text-decoration: underline; }
+.encyclopedia-item-card {
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+.encyclopedia-item-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.encyclopedia-item-meta {
+    opacity: 0.9;
+}
+.encyclopedia-section {
+    margin-top: 14px;
+}
+.encyclopedia-list {
+    margin: 4px 0 0;
+    padding-left: 20px;
+}
+.encyclopedia-list li {
+    margin-bottom: 2px;
+}
+.encyclopedia-list .item-level {
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+.dark-theme-active .encyclopedia-item-card {
+    border-color: #5a5a5a;
+    background: #1f1f1f;
+}
+.dark-theme-active .encyclopedia-item,
+.dark-theme-active .encyclopedia-item-card,
+.dark-theme-active .encyclopedia-item-card div,
+.dark-theme-active .encyclopedia-item-card span,
+.dark-theme-active .encyclopedia-item-card li {
+    color: #f0f0f0;
+}
+.dark-theme-active .encyclopedia-section b {
+    color: #fff1d6;
+}
+.dark-theme-active .encyclopedia-item a {
+    color: #ffd8a8;
+}
+.dark-theme-active .encyclopedia-item a:hover {
+    color: #ffe4bf;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="encyclopedia-item text">
+    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
+        <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
+        <span>{{ resource.name }}</span>
+    </nav>
+
+    <div class="encyclopedia-item-card brown-box">
+        <div class="encyclopedia-item-name">{{ resource.name }}</div>
+        <div class="encyclopedia-item-meta">{{ t.resource_kind_label }}</div>
+
+        <div class="encyclopedia-section">
+            <b>{{ t.used_to_craft_label }} ({{ used_in|length }})</b>
+            <ul class="encyclopedia-list">
+                {% for used_item in used_in %}
+                <li>
+                    {% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
+                    <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

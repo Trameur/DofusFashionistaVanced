@@ -5220,3 +5220,19 @@ msgid ""
 "Free Dofus theorycraft tool. Tell it your class, level and what you want. It"
 " builds your best set automatically. For beginners and min-maxers alike."
 msgstr ""
+
+#: chardata/templates/chardata/encyclopedia_resource.html
+msgid ""
+"Which Dofus items are crafted with %(resource_name)s. Find every item that "
+"uses this resource and optimize your build with the Dofus Fashionista."
+msgstr ""
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Resource pages in the encyclopedia"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid ""
+"Each recipe ingredient now has its own page listing every item it is used to"
+" craft."
+msgstr ""

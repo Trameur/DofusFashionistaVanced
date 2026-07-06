@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.image_store import get_image_url
-from chardata.official_site import get_item_link
+from chardata.official_site import get_item_link, get_resource_link
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
@@ -63,6 +63,9 @@ LOCALIZED_UI = {
         'recipe_unknown_ingredient': 'Unknown ingredient',
         'item_not_found': 'Item not found in the encyclopedia.',
         'pet_feedable_label': 'Possible bonuses (when fed)',
+        'resource_kind_label': 'Resource',
+        'used_to_craft_label': 'Used to craft',
+        'resource_not_found': 'Resource not found in the encyclopedia.',
     },
     'fr': {
         'title': 'Encyclopédie',
@@ -107,6 +110,9 @@ LOCALIZED_UI = {
         'recipe_unknown_ingredient': 'Ingrédient inconnu',
         'item_not_found': "Objet introuvable dans l'encyclopédie.",
         'pet_feedable_label': 'Bonus possibles (selon le nourrissage)',
+        'resource_kind_label': 'Ressource',
+        'used_to_craft_label': 'Sert à fabriquer',
+        'resource_not_found': "Ressource introuvable dans l'encyclopédie.",
     },
     'es': {
         'title': 'Enciclopedia',
@@ -151,6 +157,9 @@ LOCALIZED_UI = {
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
         'pet_feedable_label': 'Bonificaciones posibles (según la comida)',
+        'resource_kind_label': 'Recurso',
+        'used_to_craft_label': 'Se usa para fabricar',
+        'resource_not_found': 'Recurso no encontrado en la enciclopedia.',
     },
     'pt': {
         'title': 'Enciclopédia',
@@ -195,6 +204,9 @@ LOCALIZED_UI = {
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
         'item_not_found': 'Item não encontrado na enciclopédia.',
         'pet_feedable_label': 'Bônus possíveis (conforme alimentado)',
+        'resource_kind_label': 'Recurso',
+        'used_to_craft_label': 'Usado para fabricar',
+        'resource_not_found': 'Recurso não encontrado na enciclopédia.',
     },
     'de': {
         'title': 'Enzyklopädie',
@@ -239,6 +251,9 @@ LOCALIZED_UI = {
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
         'item_not_found': 'Gegenstand nicht in der Enzyklopädie gefunden.',
         'pet_feedable_label': 'Mögliche Boni (je nach Fütterung)',
+        'resource_kind_label': 'Ressource',
+        'used_to_craft_label': 'Wird verwendet für',
+        'resource_not_found': 'Ressource nicht in der Enzyklopädie gefunden.',
     },
 }
 
@@ -761,6 +776,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     if name_row is not None:
                         ingredient_name = name_row[0]
 
+                resolved_ingredient = ingredient_name is not None
                 if not ingredient_name:
                     ingredient_name = '%s #%s' % (t['recipe_unknown_ingredient'], ingredient_ankama_id)
 
@@ -783,12 +799,20 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                         local_name = local_item[3]
                         local_item_url = get_item_link(local_item[1], local_item[0], local_name, game_version)
 
+                # Resources are not items we carry, but each gets its own page
+                # listing every item it crafts. Link them so recipes are navigable.
+                resource_url = None
+                if local_item_url is None and resolved_ingredient:
+                    resource_url = get_resource_link(
+                        ingredient_subtype, ingredient_ankama_id, ingredient_name, game_version)
+
                 default_data['recipe'].append({
                     'name': ingredient_name,
                     'quantity': quantity,
                     'subtype': ingredient_subtype,
                     'ankama_id': ingredient_ankama_id,
                     'local_item_url': local_item_url,
+                    'resource_url': resource_url,
                 })
 
         cursor.execute(
@@ -1284,3 +1308,92 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'drops': extra_info['drops'],
         },
     )
+
+
+def encyclopedia_resource(request, subtype, ankama_id, slug=None):
+    """A crafting ingredient (resource) page: lists every item this ingredient is
+    used to craft, in the current game version. Reached from item recipe lines."""
+    language = get_supported_language()
+    t = _ui_text()
+    game_version = getattr(request, 'game_version', 'dofus3')
+
+    try:
+        target_ankama_id = int(ankama_id)
+    except (TypeError, ValueError):
+        return redirect(version_reverse(request, 'encyclopedia'))
+
+    resource_name = None
+    used_in = []
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipe_ingredient_names'")
+        if cursor.fetchone() is not None:
+            cursor.execute(
+                "SELECT name FROM item_recipe_ingredient_names "
+                "WHERE ingredient_ankama_id = ? AND ingredient_subtype = ? AND language = ?",
+                (target_ankama_id, subtype, language))
+            row = cursor.fetchone()
+            if row is None and language != 'en':
+                cursor.execute(
+                    "SELECT name FROM item_recipe_ingredient_names "
+                    "WHERE ingredient_ankama_id = ? AND ingredient_subtype = ? AND language = 'en'",
+                    (target_ankama_id, subtype))
+                row = cursor.fetchone()
+            if row is not None:
+                resource_name = row[0]
+
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipes'")
+        if resource_name is not None and cursor.fetchone() is not None:
+            cursor.execute(
+                """
+                SELECT DISTINCT i.ankama_id, i.ankama_type, i.name, i.level
+                FROM item_recipes r
+                JOIN items i ON i.id = r.item
+                WHERE r.ingredient_ankama_id = ? AND r.ingredient_subtype = ?
+                ORDER BY i.level DESC, i.name ASC
+                """,
+                (target_ankama_id, subtype))
+            for item_ankama_id, item_ankama_type, item_name, item_level in cursor.fetchall():
+                used_in.append({
+                    'name': item_name,
+                    'level': item_level,
+                    'url': get_item_link(item_ankama_type, item_ankama_id, item_name,
+                                         game_version=game_version),
+                })
+    except Exception:
+        pass
+    finally:
+        if conn is not None:
+            conn.close()
+
+    if not resource_name or not used_in:
+        return redirect(version_reverse(request, 'encyclopedia'))
+
+    canonical_path = get_resource_link(subtype, target_ankama_id, resource_name, game_version)
+    canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (resource_name, canonical_url),
+    ])
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_resource.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
+            'resource': {
+                'name': resource_name,
+                'subtype': subtype,
+                'ankama_id': target_ankama_id,
+            },
+            'used_in': used_in,
+        })

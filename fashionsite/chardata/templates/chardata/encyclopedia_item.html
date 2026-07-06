@@ -262,6 +262,8 @@
                 <li>
                     {% if ingredient.local_item_url %}
                     <a href="{{ ingredient.local_item_url }}">{{ ingredient.name }}</a>
+                    {% elif ingredient.resource_url %}
+                    <a href="{{ ingredient.resource_url }}">{{ ingredient.name }}</a>
                     {% else %}
                     {{ ingredient.name }}
                     {% endif %}
