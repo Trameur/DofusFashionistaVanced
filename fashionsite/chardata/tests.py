@@ -2626,3 +2626,22 @@ class TouchAbsentStatsTests(SimpleTestCase):
         stat = touch.get_stat_by_name('% Air Resist in PVP')
         n = sum(1 for it in items if stat.id in dict(it.stats))
         self.assertGreater(n, 0, 'touch gear should carry PvP resists')
+
+
+class NoEmDashInGuidesTests(SimpleTestCase):
+    """The /guides/ prose is our original, AdSense-facing editorial content; a run of
+    em/en dashes reads as machine-generated. Guard every localized guide field so a
+    future edit cannot reintroduce one (the 'desc' field also feeds the Google snippet
+    and the og:description). See chardata.guides_content.GUIDES."""
+
+    def test_no_guide_field_contains_an_em_or_en_dash(self):
+        from chardata.guides_content import GUIDES
+        offenders = []
+        for slug, guide in GUIDES.items():
+            for language, fields in guide.get('i18n', {}).items():
+                for field_name, value in fields.items():
+                    if isinstance(value, str) and ('—' in value or '–' in value):
+                        offenders.append('%s/%s/%s' % (slug, language, field_name))
+        self.assertEqual(
+            offenders, [],
+            'em/en dash found in guide content (use ., :, , or parentheses): %s' % offenders)
