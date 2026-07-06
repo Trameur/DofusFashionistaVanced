@@ -371,7 +371,7 @@ msgstr "Fehler"
 
 #: chardata/templates/chardata/403.html:10
 msgid "403 - Forbidden"
-msgstr "403 – Verboten"
+msgstr "403 - Verboten"
 
 #: chardata/templates/chardata/403.html:15
 #: chardata/templates/chardata/404.html:15
@@ -410,7 +410,7 @@ msgstr ""
 
 #: chardata/templates/chardata/404.html:10
 msgid "404 - Page Not Found"
-msgstr "404 – Seite nicht gefunden"
+msgstr "404 - Seite nicht gefunden"
 
 #: chardata/templates/chardata/404.html:17
 msgid "We could not find the page you are looking for."
@@ -429,7 +429,7 @@ msgstr ""
 
 #: chardata/templates/chardata/500.html:10
 msgid "500 - Application Error"
-msgstr "500 – Anwendungsfehler"
+msgstr "500 - Anwendungsfehler"
 
 #: chardata/templates/chardata/500.html:19
 msgid "The application threw an error. It's probably our fault."
@@ -5825,7 +5825,7 @@ msgstr ""
 
 #: fashionsite/chardata/templates/chardata/home.html
 msgid "Create the best Dofus equipment set, automatically"
-msgstr "Erstellen Sie die beste Dofus-Ausrüstung – automatisch"
+msgstr "Erstellen Sie die beste Dofus-Ausrüstung, automatisch"
 
 #: fashionsite/chardata/templates/chardata/home.html
 msgid ""
