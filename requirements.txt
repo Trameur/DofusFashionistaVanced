@@ -36,7 +36,7 @@ incremental==24.7.2
 Jinja2==3.1.6
 jmespath==1.1.0
 jsonpatch==1.33
-jsonpickle==4.1.1
+jsonpickle==4.1.2
 jsonpointer==2.0
 jsonschema==4.26.0
 #libcomps==0.1.18
