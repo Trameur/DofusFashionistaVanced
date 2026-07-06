@@ -1351,19 +1351,21 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         if resource_name is not None and cursor.fetchone() is not None:
             cursor.execute(
                 """
-                SELECT DISTINCT i.ankama_id, i.ankama_type, i.name, i.level
+                SELECT DISTINCT i.ankama_id, i.ankama_type, i.name, i.level, it.name
                 FROM item_recipes r
                 JOIN items i ON i.id = r.item
+                LEFT JOIN item_types it ON it.id = i.type
                 WHERE r.ingredient_ankama_id = ? AND r.ingredient_subtype = ?
                 ORDER BY i.level DESC, i.name ASC
                 """,
                 (target_ankama_id, subtype))
-            for item_ankama_id, item_ankama_type, item_name, item_level in cursor.fetchall():
+            for item_ankama_id, item_ankama_type, item_name, item_level, item_type_name in cursor.fetchall():
                 used_in.append({
                     'name': item_name,
                     'level': item_level,
                     'url': get_item_link(item_ankama_type, item_ankama_id, item_name,
                                          game_version=game_version),
+                    'image_url': static(get_image_url(item_type_name, item_name)),
                 })
 
         # Resources are also dropped by monsters: show "Dropped by ..." like item pages.

@@ -58,6 +58,17 @@
     opacity: 0.7;
     font-size: 0.9em;
 }
+.encyclopedia-list li.craft-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.craft-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
 .drop-rate {
     opacity: 0.7;
     font-size: 0.9em;
@@ -95,6 +106,7 @@
 {% endblock %}
 
 {% block main %}
+{% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
 <div class="encyclopedia-item text">
     <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
@@ -110,9 +122,10 @@
             <b>{{ t.used_to_craft_label }} ({{ used_in|length }})</b>
             <ul class="encyclopedia-list">
                 {% for used_item in used_in|slice:":20" %}
-                <li>
-                    {% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
-                    <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span>
+                <li class="craft-item">
+                    <img class="craft-icon" src="{{ used_item.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <span>{% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
+                    <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span></span>
                 </li>
                 {% endfor %}
             </ul>
@@ -121,9 +134,10 @@
                 <summary>{{ t.show_more_drops_label }} ({{ used_in|length|add:"-20" }})</summary>
                 <ul class="encyclopedia-list">
                     {% for used_item in used_in|slice:"20:" %}
-                    <li>
-                        {% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
-                        <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span>
+                    <li class="craft-item">
+                        <img class="craft-icon" src="{{ used_item.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                        <span>{% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
+                        <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span></span>
                     </li>
                     {% endfor %}
                 </ul>
