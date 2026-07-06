@@ -7386,8 +7386,8 @@ msgstr "Ressourcenseiten in der Enzyklopädie"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid ""
-"Each recipe ingredient now has its own page listing every item it is used to"
-" craft."
+"Each recipe ingredient now has its own page listing the items it crafts and "
+"the monsters that drop it."
 msgstr ""
-"Jede Rezeptzutat hat jetzt eine eigene Seite mit allen Items, die man damit "
-"herstellt."
+"Jede Rezeptzutat hat jetzt eine eigene Seite mit den Items, die man damit "
+"herstellt, und den Monstern, die sie fallen lassen."

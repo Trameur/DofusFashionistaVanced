@@ -6,8 +6,9 @@ Mirrors store_item_obtainment.py: it opens items.db (bootstrapping from the dump
 if needed), fills two tables, then re-saves the dump so the data survives the
 runtime rebuild that structure.py does from the dump.
 
-    item_drops    (item internal id, monster_ankama_id, rate)   -- item = items.id
-    monster_names (monster_ankama_id, language, name)           -- localized monster names
+    item_drops     (item internal id, monster_ankama_id, rate)   -- item = items.id
+    resource_drops (resource_ankama_id, monster_ankama_id, rate) -- crafting-ingredient resources
+    monster_names  (monster_ankama_id, language, name)           -- localized monster names
 
 Usage (from repo root, after get_monsters.py produced the index):
     python itemscraper/store_drops.py \
@@ -54,27 +55,52 @@ def store_drops(drops_path, game_version="dofus3"):
             for item_id, ankama_id in cursor.execute(
                 "SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL")
         }
+        # Crafting-ingredient resources have their own encyclopedia page, so their
+        # drops get their own table (keyed by ankama_id, they are not items we carry).
+        resource_ankama_ids = set()
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' "
+            "AND name = 'item_recipe_ingredient_names'")
+        if cursor.fetchone() is not None:
+            resource_ankama_ids = {
+                row[0] for row in cursor.execute(
+                    "SELECT DISTINCT ingredient_ankama_id FROM item_recipe_ingredient_names "
+                    "WHERE ingredient_subtype = 'resources'")
+            }
 
         cursor.execute("DROP TABLE IF EXISTS item_drops")
+        cursor.execute("DROP TABLE IF EXISTS resource_drops")
         cursor.execute("DROP TABLE IF EXISTS monster_names")
         cursor.execute(
             "CREATE TABLE item_drops (item INTEGER, monster_ankama_id INTEGER, rate REAL)")
         cursor.execute(
+            "CREATE TABLE resource_drops (resource_ankama_id INTEGER, monster_ankama_id INTEGER, rate REAL)")
+        cursor.execute(
             "CREATE TABLE monster_names (monster_ankama_id INTEGER, language TEXT, name TEXT)")
 
         drop_rows = []
+        resource_drop_rows = []
         name_rows = []
         seen_monster = set()
         matched_items = 0
+        matched_resources = 0
         for object_id_str, monsters in drops.items():
-            item_id = ankama_to_id.get(int(object_id_str))
-            if item_id is None:
-                continue  # a dropped resource/consumable we don't carry
-            matched_items += 1
+            object_id = int(object_id_str)
+            item_id = ankama_to_id.get(object_id)
+            is_resource = object_id in resource_ankama_ids
+            if item_id is None and not is_resource:
+                continue  # a dropped thing we neither carry nor give a page to
+            if item_id is not None:
+                matched_items += 1
+            if is_resource:
+                matched_resources += 1
             for m in monsters:
                 mid = m["monster_ankama_id"]
                 rate = max(m.get("rates") or [0]) or 0
-                drop_rows.append((item_id, mid, rate))
+                if item_id is not None:
+                    drop_rows.append((item_id, mid, rate))
+                if is_resource:
+                    resource_drop_rows.append((object_id, mid, rate))
                 if mid not in seen_monster:
                     seen_monster.add(mid)
                     names = m.get("names") or {}
@@ -86,15 +112,20 @@ def store_drops(drops_path, game_version="dofus3"):
             "INSERT INTO item_drops (item, monster_ankama_id, rate) VALUES (?, ?, ?)",
             drop_rows)
         cursor.executemany(
+            "INSERT INTO resource_drops (resource_ankama_id, monster_ankama_id, rate) VALUES (?, ?, ?)",
+            resource_drop_rows)
+        cursor.executemany(
             "INSERT INTO monster_names (monster_ankama_id, language, name) VALUES (?, ?, ?)",
             name_rows)
         cursor.execute("CREATE INDEX idx_item_drops_item ON item_drops (item)")
+        cursor.execute("CREATE INDEX idx_resource_drops_res ON resource_drops (resource_ankama_id)")
         cursor.execute(
             "CREATE INDEX idx_monster_names_id ON monster_names (monster_ankama_id)")
         conn.commit()
-        print("[%s] item_drops: %d rows for %d items; monster_names: %d rows (%d monsters)"
-              % (game_version, len(drop_rows), matched_items, len(name_rows),
-                 len(seen_monster)))
+        print("[%s] item_drops: %d rows / %d items; resource_drops: %d rows / %d resources; "
+              "monster_names: %d rows (%d monsters)"
+              % (game_version, len(drop_rows), matched_items, len(resource_drop_rows),
+                 matched_resources, len(name_rows), len(seen_monster)))
     finally:
         conn.close()
 

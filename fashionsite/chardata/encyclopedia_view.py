@@ -1324,6 +1324,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
 
     resource_name = None
     used_in = []
+    drops = []
     conn = None
     try:
         conn = sqlite3.connect(get_items_db_path(game_version))
@@ -1364,6 +1365,28 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                     'url': get_item_link(item_ankama_type, item_ankama_id, item_name,
                                          game_version=game_version),
                 })
+
+        # Resources are also dropped by monsters: show "Dropped by ..." like item pages.
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'resource_drops'")
+        if resource_name is not None and cursor.fetchone() is not None:
+            cursor.execute(
+                """
+                SELECT d.monster_ankama_id, d.rate,
+                       (SELECT name FROM monster_names
+                        WHERE monster_ankama_id = d.monster_ankama_id AND language = ?),
+                       (SELECT name FROM monster_names
+                        WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en')
+                FROM resource_drops d
+                WHERE d.resource_ankama_id = ?
+                ORDER BY d.rate DESC
+                """,
+                (language, target_ankama_id))
+            for monster_id, rate, name_loc, name_en in cursor.fetchall():
+                drops.append({
+                    'name': name_loc or name_en or ('#%s' % monster_id),
+                    'rate': rate,
+                })
     except Exception:
         pass
     finally:
@@ -1396,4 +1419,5 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 'ankama_id': target_ankama_id,
             },
             'used_in': used_in,
+            'drops': drops,
         })

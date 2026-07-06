@@ -2709,3 +2709,36 @@ class EncyclopediaResourcePageTests(TestCase):
     def test_unknown_resource_redirects_to_the_encyclopedia(self):
         resp = self.client.get('/encyclopedia/resource/resources/999999999-x/')
         self.assertEqual(resp.status_code, 302)
+
+    def _resource_with_drops(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='resource_drops'")
+            if cur.fetchone() is None:
+                return None
+            return cur.execute(
+                """
+                SELECT d.resource_ankama_id, n.name
+                FROM resource_drops d
+                JOIN item_recipe_ingredient_names n
+                  ON n.ingredient_ankama_id = d.resource_ankama_id
+                 AND n.ingredient_subtype = 'resources' AND n.language = 'en'
+                GROUP BY d.resource_ankama_id
+                ORDER BY COUNT(*) DESC
+                LIMIT 1
+                """).fetchone()
+        finally:
+            conn.close()
+
+    def test_resource_page_shows_the_monsters_that_drop_it(self):
+        resource = self._resource_with_drops()
+        if resource is None:
+            self.skipTest('no resource_drops table/data in this build')
+        ankama_id, name = resource
+        resp = self.client.get('/encyclopedia/resource/resources/%d-x/' % ankama_id,
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('Dropped by', resp.content.decode('utf-8'))

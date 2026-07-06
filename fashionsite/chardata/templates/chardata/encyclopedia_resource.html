@@ -58,6 +58,19 @@
     opacity: 0.7;
     font-size: 0.9em;
 }
+.drop-rate {
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+.encyclopedia-drops-more {
+    margin-top: 6px;
+}
+.encyclopedia-drops-more > summary {
+    cursor: pointer;
+    padding-left: 20px;
+    font-size: 0.95em;
+    opacity: 0.85;
+}
 .dark-theme-active .encyclopedia-item-card {
     border-color: #5a5a5a;
     background: #1f1f1f;
@@ -104,6 +117,27 @@
                 {% endfor %}
             </ul>
         </div>
+
+        {% if drops %}
+        <div class="encyclopedia-section">
+            <b>{{ t.dropped_by_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for drop in drops|slice:":12" %}
+                <li>{{ drop.name }} <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
+                {% endfor %}
+            </ul>
+            {% if drops|length > 12 %}
+            <details class="encyclopedia-drops-more">
+                <summary>{{ t.show_more_drops_label }} ({{ drops|length|add:"-12" }})</summary>
+                <ul class="encyclopedia-list">
+                    {% for drop in drops|slice:"12:" %}
+                    <li>{{ drop.name }} <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

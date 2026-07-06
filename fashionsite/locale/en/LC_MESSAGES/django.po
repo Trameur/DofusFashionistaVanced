@@ -5233,6 +5233,6 @@ msgstr ""
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid ""
-"Each recipe ingredient now has its own page listing every item it is used to"
-" craft."
+"Each recipe ingredient now has its own page listing the items it crafts and "
+"the monsters that drop it."
 msgstr ""

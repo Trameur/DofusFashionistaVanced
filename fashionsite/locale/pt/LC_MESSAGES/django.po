@@ -7358,11 +7358,11 @@ msgstr "Páginas de recursos na enciclopédia"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid ""
-"Each recipe ingredient now has its own page listing every item it is used to"
-" craft."
+"Each recipe ingredient now has its own page listing the items it crafts and "
+"the monsters that drop it."
 msgstr ""
-"Cada ingrediente de receita agora tem a sua página com todos os itens que "
-"ele permite fabricar."
+"Cada ingrediente de receita agora tem a sua página com os itens que ele "
+"permite fabricar e os monstros que o dropam."
 
 #~ msgid "Send"
 #~ msgstr "Enviar"
