@@ -1408,100 +1408,100 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Planning a maging run: use the simulator before you burn your kamas",
-                'desc': "Smithmagic is a money pit when you improvise. How the Fashionista's simulator works — sink, over/exo weight, the 101 cap, the ~1% exos — and how to plan a run before touching a single rune.",
+                'desc': "Smithmagic is a money pit when you improvise. How the Fashionista's simulator works (sink, over/exo weight, the 101 cap, the ~1% exos) and how to plan a run before touching a single rune.",
                 'lead': "Every mager has a story about the item they destroyed at 3 a.m. The simulator exists so that story isn't yours: plan the runs, see what can pass, then spend.",
                 'body': '''
 <h2>What the simulator does</h2>
-<p>Open the <a href="/forgemagie/">smithmagic simulator</a>, pick an item, and set the stats you want on it. The tool knows every stat's rune weight and the item's sink, and tells you whether your plan is even possible — before you buy anything.</p>
+<p>Open the <a href="/forgemagie/">smithmagic simulator</a>, pick an item, and set the stats you want on it. The tool knows every stat's rune weight and the item's sink, and tells you whether your plan is even possible, before you buy anything.</p>
 
 <h2>Sink, in one paragraph</h2>
 <p>Every stat you push above the item's natural roll costs weight, and the item only has so much room. The simulator tracks that budget for you: a plan that fits reads as safe, a tight one reads as risky, and an impossible one is called out in red. No more discovering the hard way that your dream line never fit.</p>
 
 <h2>The two rules that kill plans</h2>
-<p>First, the <strong>101 cap</strong>: the total over/exo weight on a single stat can never exceed 101 — the simulator flags any stat where your target crosses it. Second, <strong>AP, MP and Range exos</strong> only land on a critical success, commonly estimated around 1% per rune: the tool marks these lines so you budget them as a long grind, not a quick job.</p>
+<p>First, the <strong>101 cap</strong>: the total over/exo weight on a single stat can never exceed 101, and the simulator flags any stat where your target crosses it. Second, <strong>AP, MP and Range exos</strong> only land on a critical success, commonly estimated around 1% per rune: the tool marks these lines so you budget them as a long grind, not a quick job.</p>
 
 <h2>A sane workflow</h2>
-<p>Generate your target build first, so you know which stats the set actually needs. Then simulate the maging on each candidate item and compare: sometimes hunting a different item beats overmaging the one you own. When the plan reads safe, buy the runes — and not before.</p>
+<p>Generate your target build first, so you know which stats the set actually needs. Then simulate the maging on each candidate item and compare: sometimes hunting a different item beats overmaging the one you own. When the plan reads safe, buy the runes, and not before.</p>
 
 <p><em>Got an item in mind? <a href="/forgemagie/">Open the simulator</a> and test your plan.</em></p>
 ''',
             },
             'fr': {
                 'title': "Planifier ta forgemagie : passe par le simulateur avant de brûler tes kamas",
-                'desc': "La forgemagie est un gouffre à kamas quand on improvise. Comment marche le simulateur de la Fashionista — puits, poids over/exo, le plafond de 101, les exos à ~1 % — et comment planifier avant de toucher une rune.",
+                'desc': "La forgemagie est un gouffre à kamas quand on improvise. Comment marche le simulateur de la Fashionista (puits, poids over/exo, le plafond de 101, les exos à ~1 %) et comment planifier avant de toucher une rune.",
                 'lead': "Chaque forgemage a une histoire d'objet détruit à 3 h du matin. Le simulateur existe pour que cette histoire ne soit pas la tienne : planifie, vois ce qui peut passer, puis dépense.",
                 'body': '''
 <h2>Ce que fait le simulateur</h2>
-<p>Ouvre le <a href="/forgemagie/">simulateur de forgemagie</a>, choisis un objet, et pose les stats que tu veux dessus. L'outil connaît le poids de rune de chaque stat et le puits de l'objet, et te dit si ton plan est seulement possible — avant d'acheter quoi que ce soit.</p>
+<p>Ouvre le <a href="/forgemagie/">simulateur de forgemagie</a>, choisis un objet, et pose les stats que tu veux dessus. L'outil connaît le poids de rune de chaque stat et le puits de l'objet, et te dit si ton plan est seulement possible, avant d'acheter quoi que ce soit.</p>
 
 <h2>Le puits, en un paragraphe</h2>
 <p>Chaque stat que tu montes au-dessus du jet naturel de l'objet coûte du poids, et l'objet n'a qu'une marge limitée. Le simulateur suit ce budget pour toi : un plan qui rentre s'affiche comme sûr, un plan serré comme risqué, et un plan impossible est signalé en rouge. Fini de découvrir à tes dépens que ta ligne de rêve ne rentrait pas.</p>
 
 <h2>Les deux règles qui tuent les plans</h2>
-<p>D'abord, le <strong>plafond de 101</strong> : le poids total en over/exo sur une même stat ne peut jamais dépasser 101 — le simulateur signale toute stat où ta cible le franchit. Ensuite, les <strong>exos PA, PM et PO</strong> ne passent que sur un succès critique, estimé autour de 1 % par rune : l'outil marque ces lignes pour que tu les budgètes comme un long grind, pas comme une affaire vite pliée.</p>
+<p>D'abord, le <strong>plafond de 101</strong> : le poids total en over/exo sur une même stat ne peut jamais dépasser 101, et le simulateur signale toute stat où ta cible le franchit. Ensuite, les <strong>exos PA, PM et PO</strong> ne passent que sur un succès critique, estimé autour de 1 % par rune : l'outil marque ces lignes pour que tu les budgètes comme un long grind, pas comme une affaire vite pliée.</p>
 
 <h2>Un déroulé sain</h2>
-<p>Génère d'abord ton build cible, pour savoir quelles stats le set attend vraiment. Puis simule la forgemagie sur chaque objet candidat et compare : parfois, chasser un autre objet vaut mieux qu'overmager celui que tu possèdes. Quand le plan s'affiche sûr, achète les runes — et pas avant.</p>
+<p>Génère d'abord ton build cible, pour savoir quelles stats le set attend vraiment. Puis simule la forgemagie sur chaque objet candidat et compare : parfois, chasser un autre objet vaut mieux qu'overmager celui que tu possèdes. Quand le plan s'affiche sûr, achète les runes, et pas avant.</p>
 
 <p><em>Un objet en tête ? <a href="/forgemagie/">Ouvre le simulateur</a> et teste ton plan.</em></p>
 ''',
             },
             'es': {
                 'title': "Planificar tu forjamagia: pasa por el simulador antes de quemar tus kamas",
-                'desc': "La forjamagia es un pozo de kamas cuando improvisas. Cómo funciona el simulador de la Fashionista — pozo, peso over/exo, el límite de 101, los exos al ~1% — y cómo planificar antes de tocar una runa.",
+                'desc': "La forjamagia es un pozo de kamas cuando improvisas. Cómo funciona el simulador de la Fashionista (pozo, peso over/exo, el límite de 101, los exos al ~1%) y cómo planificar antes de tocar una runa.",
                 'lead': "Todo forjamago tiene una historia de un objeto destruido a las 3 de la mañana. El simulador existe para que esa historia no sea la tuya: planifica, mira qué puede pasar, y luego gasta.",
                 'body': '''
 <h2>Qué hace el simulador</h2>
-<p>Abre el <a href="/forgemagie/">simulador de forjamagia</a>, elige un objeto y pon las estadísticas que quieres en él. La herramienta conoce el peso de runa de cada estadística y el pozo del objeto, y te dice si tu plan es siquiera posible — antes de comprar nada.</p>
+<p>Abre el <a href="/forgemagie/">simulador de forjamagia</a>, elige un objeto y pon las estadísticas que quieres en él. La herramienta conoce el peso de runa de cada estadística y el pozo del objeto, y te dice si tu plan es siquiera posible, antes de comprar nada.</p>
 
 <h2>El pozo, en un párrafo</h2>
 <p>Cada estadística que subes por encima de la tirada natural del objeto cuesta peso, y el objeto solo tiene un margen limitado. El simulador lleva ese presupuesto por ti: un plan que cabe se muestra seguro, uno justo se muestra arriesgado, y uno imposible se marca en rojo. Se acabó descubrir por las malas que tu línea soñada nunca cabía.</p>
 
 <h2>Las dos reglas que matan planes</h2>
-<p>Primero, el <strong>límite de 101</strong>: el peso total en over/exo sobre una misma estadística nunca puede superar 101 — el simulador marca cualquier estadística donde tu objetivo lo cruce. Segundo, los <strong>exos de PA, PM y Alcance</strong> solo pasan con un éxito crítico, estimado en torno al 1% por runa: la herramienta señala esas líneas para que las presupuestes como un grind largo, no como algo rápido.</p>
+<p>Primero, el <strong>límite de 101</strong>: el peso total en over/exo sobre una misma estadística nunca puede superar 101, y el simulador marca cualquier estadística donde tu objetivo lo cruce. Segundo, los <strong>exos de PA, PM y Alcance</strong> solo pasan con un éxito crítico, estimado en torno al 1% por runa: la herramienta señala esas líneas para que las presupuestes como un grind largo, no como algo rápido.</p>
 
 <h2>Un flujo sensato</h2>
-<p>Genera primero tu build objetivo, para saber qué estadísticas necesita de verdad el set. Luego simula la forja en cada objeto candidato y compara: a veces cazar otro objeto gana a overmagear el que ya tienes. Cuando el plan se muestre seguro, compra las runas — y no antes.</p>
+<p>Genera primero tu build objetivo, para saber qué estadísticas necesita de verdad el set. Luego simula la forja en cada objeto candidato y compara: a veces cazar otro objeto gana a overmagear el que ya tienes. Cuando el plan se muestre seguro, compra las runas, y no antes.</p>
 
 <p><em>¿Un objeto en mente? <a href="/forgemagie/">Abre el simulador</a> y prueba tu plan.</em></p>
 ''',
             },
             'pt': {
                 'title': "Planejando sua forjamagia: passe pelo simulador antes de queimar seus kamas",
-                'desc': "Forjamagia é um poço de kamas quando você improvisa. Como funciona o simulador da Fashionista — poço, peso over/exo, o teto de 101, os exos a ~1% — e como planejar antes de tocar numa runa.",
+                'desc': "Forjamagia é um poço de kamas quando você improvisa. Como funciona o simulador da Fashionista (poço, peso over/exo, o teto de 101, os exos a ~1%) e como planejar antes de tocar numa runa.",
                 'lead': "Todo forjamago tem uma história de item destruído às 3 da manhã. O simulador existe para que essa história não seja a sua: planeje, veja o que pode passar, depois gaste.",
                 'body': '''
 <h2>O que o simulador faz</h2>
-<p>Abra o <a href="/forgemagie/">simulador de forjamagia</a>, escolha um item e defina os atributos que você quer nele. A ferramenta conhece o peso de runa de cada atributo e o poço do item, e diz se o seu plano é sequer possível — antes de comprar qualquer coisa.</p>
+<p>Abra o <a href="/forgemagie/">simulador de forjamagia</a>, escolha um item e defina os atributos que você quer nele. A ferramenta conhece o peso de runa de cada atributo e o poço do item, e diz se o seu plano é sequer possível, antes de comprar qualquer coisa.</p>
 
 <h2>O poço, em um parágrafo</h2>
 <p>Cada atributo que você sobe acima do jet natural do item custa peso, e o item só tem uma margem limitada. O simulador acompanha esse orçamento por você: um plano que cabe aparece como seguro, um apertado como arriscado, e um impossível é marcado em vermelho. Chega de descobrir do jeito difícil que a sua linha dos sonhos nunca coube.</p>
 
 <h2>As duas regras que matam planos</h2>
-<p>Primeiro, o <strong>teto de 101</strong>: o peso total em over/exo em um mesmo atributo nunca pode passar de 101 — o simulador sinaliza qualquer atributo em que a sua meta o ultrapasse. Segundo, os <strong>exos de PA, PM e Alcance</strong> só passam com um sucesso crítico, estimado em torno de 1% por runa: a ferramenta marca essas linhas para você orçá-las como um grind longo, não como serviço rápido.</p>
+<p>Primeiro, o <strong>teto de 101</strong>: o peso total em over/exo em um mesmo atributo nunca pode passar de 101, e o simulador sinaliza qualquer atributo em que a sua meta o ultrapasse. Segundo, os <strong>exos de PA, PM e Alcance</strong> só passam com um sucesso crítico, estimado em torno de 1% por runa: a ferramenta marca essas linhas para você orçá-las como um grind longo, não como serviço rápido.</p>
 
 <h2>Um fluxo saudável</h2>
-<p>Gere primeiro o seu build alvo, para saber quais atributos o set realmente precisa. Depois simule a forja em cada item candidato e compare: às vezes caçar outro item ganha de overmagear o que você já tem. Quando o plano aparecer seguro, compre as runas — e não antes.</p>
+<p>Gere primeiro o seu build alvo, para saber quais atributos o set realmente precisa. Depois simule a forja em cada item candidato e compare: às vezes caçar outro item ganha de overmagear o que você já tem. Quando o plano aparecer seguro, compre as runas, e não antes.</p>
 
 <p><em>Um item em mente? <a href="/forgemagie/">Abra o simulador</a> e teste seu plano.</em></p>
 ''',
             },
             'de': {
                 'title': "Schmiedemagie planen: erst der Simulator, dann die Kamas",
-                'desc': "Schmiedemagie ist ein Kama-Grab, wenn man improvisiert. Wie der Simulator der Fashionista funktioniert — Senke, Over/Exo-Gewicht, die 101-Grenze, die ~1%-Exos — und wie du einen Run planst, bevor du eine Rune anfasst.",
+                'desc': "Schmiedemagie ist ein Kama-Grab, wenn man improvisiert. Wie der Simulator der Fashionista funktioniert (Senke, Over/Exo-Gewicht, die 101-Grenze, die ~1%-Exos) und wie du einen Run planst, bevor du eine Rune anfasst.",
                 'lead': "Jeder Schmiedemagier hat eine Geschichte über das Item, das er um 3 Uhr nachts zerstört hat. Den Simulator gibt es, damit diese Geschichte nicht deine wird: planen, sehen was durchgehen kann, dann ausgeben.",
                 'body': '''
 <h2>Was der Simulator macht</h2>
-<p>Öffne den <a href="/forgemagie/">Schmiedemagie-Simulator</a>, wähl ein Item und setz die Werte, die du darauf willst. Das Tool kennt das Runengewicht jedes Werts und die Senke des Items — und sagt dir, ob dein Plan überhaupt möglich ist, bevor du irgendetwas kaufst.</p>
+<p>Öffne den <a href="/forgemagie/">Schmiedemagie-Simulator</a>, wähl ein Item und setz die Werte, die du darauf willst. Das Tool kennt das Runengewicht jedes Werts und die Senke des Items, und sagt dir, ob dein Plan überhaupt möglich ist, bevor du irgendetwas kaufst.</p>
 
 <h2>Die Senke, in einem Absatz</h2>
 <p>Jeder Wert, den du über den natürlichen Wurf des Items hinaus treibst, kostet Gewicht, und das Item hat nur begrenzten Spielraum. Der Simulator führt dieses Budget für dich: ein Plan, der passt, gilt als sicher, ein knapper als riskant, und ein unmöglicher wird rot markiert. Nie wieder auf die harte Tour lernen, dass die Traumzeile nie gepasst hätte.</p>
 
 <h2>Die zwei Regeln, die Pläne killen</h2>
-<p>Erstens die <strong>101-Grenze</strong>: das gesamte Over/Exo-Gewicht auf einem einzelnen Wert kann nie über 101 gehen — der Simulator markiert jeden Wert, bei dem dein Ziel sie reißt. Zweitens landen <strong>AP-, BP- und Reichweiten-Exos</strong> nur bei einem kritischen Erfolg, üblicherweise um 1% pro Rune geschätzt: das Tool kennzeichnet diese Zeilen, damit du sie als langen Grind einplanst, nicht als schnelle Nummer.</p>
+<p>Erstens die <strong>101-Grenze</strong>: das gesamte Over/Exo-Gewicht auf einem einzelnen Wert kann nie über 101 gehen, und der Simulator markiert jeden Wert, bei dem dein Ziel sie reißt. Zweitens landen <strong>AP-, BP- und Reichweiten-Exos</strong> nur bei einem kritischen Erfolg, üblicherweise um 1% pro Rune geschätzt: das Tool kennzeichnet diese Zeilen, damit du sie als langen Grind einplanst, nicht als schnelle Nummer.</p>
 
 <h2>Ein vernünftiger Ablauf</h2>
-<p>Erzeuge zuerst dein Ziel-Build, damit du weißt, welche Werte das Set wirklich braucht. Dann simuliere die Schmiedemagie auf jedem Kandidaten-Item und vergleiche: manchmal schlägt die Jagd nach einem anderen Item das Overmagen des eigenen. Erst wenn der Plan sicher aussieht, kauf die Runen — und nicht vorher.</p>
+<p>Erzeuge zuerst dein Ziel-Build, damit du weißt, welche Werte das Set wirklich braucht. Dann simuliere die Schmiedemagie auf jedem Kandidaten-Item und vergleiche: manchmal schlägt die Jagd nach einem anderen Item das Overmagen des eigenen. Erst wenn der Plan sicher aussieht, kauf die Runen, und nicht vorher.</p>
 
 <p><em>Ein Item im Kopf? <a href="/forgemagie/">Öffne den Simulator</a> und teste deinen Plan.</em></p>
 ''',
