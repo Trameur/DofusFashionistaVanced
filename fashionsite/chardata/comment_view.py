@@ -95,7 +95,7 @@ def _author_language(owner):
 def _notify_build_owner(request, build, comment):
     """Email the build owner when someone else comments on their build.
 
-    Silent on failure — a SMTP hiccup must not break the comment POST.
+    Silent on failure, a SMTP hiccup must not break the comment POST.
     """
     owner = build.owner
     if owner is None or not owner.email:

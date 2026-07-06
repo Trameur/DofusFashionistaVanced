@@ -12,7 +12,7 @@ Google-login accounts can't be used on a localhost test server (OAuth isn't
 wired for localhost), which locks the owner out of the admin. This command
 makes a plain username/password superuser. The site login pre-hashes the
 password in the browser (SHA256('dofusfashionista' + password), see login.js),
-so the stored password is make_password(<that hash>) — otherwise the site
+so the stored password is make_password(<that hash>), otherwise the site
 login would reject it.
 
     python manage.py create_local_admin --username boss --email you@example.com
@@ -65,7 +65,7 @@ class Command(BaseCommand):
         user.save()
 
         self.stdout.write(self.style.SUCCESS(
-            '%s local admin "%s"%s — log in from the site login form '
+            '%s local admin "%s"%s, log in from the site login form '
             '(top-right), then open /admin-tools/ or /admin/.'
             % ('Created' if created else 'Updated', username,
                (' <%s>' % email) if email else '')))

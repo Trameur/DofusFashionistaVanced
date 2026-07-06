@@ -122,7 +122,7 @@ class BuildTag(models.Model):
 
 
 class UserFollow(models.Model):
-    """One-way follow relationship — A follows B."""
+    """One-way follow relationship, A follows B."""
     follower = models.ForeignKey(User, on_delete=models.CASCADE,
                                  related_name='following_set')
     followed = models.ForeignKey(User, on_delete=models.CASCADE,
@@ -141,7 +141,7 @@ class WorkshopItem(models.Model):
     """A single item the user wants to craft (or remember to acquire).
 
     Stored per game_version so a Dofus 3 craft list is independent from a
-    Dofus 2 one. Quantity defaults to 1 — players who add the same item
+    Dofus 2 one. Quantity defaults to 1, players who add the same item
     multiple times bump the counter rather than creating duplicates."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item_id = models.IntegerField()  # internal id from structure.items_dict

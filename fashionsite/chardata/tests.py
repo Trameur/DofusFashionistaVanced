@@ -582,7 +582,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('/guides/getting-started/', body)
 
     def test_sitemap_lists_shared_builds_with_a_solution_only(self):
-        # Shared builds are content pages worth indexing — but a build with no
+        # Shared builds are content pages worth indexing, but a build with no
         # stored solution answers 404 on /s/, so it must stay out of the sitemap.
         import pickle
         from django.contrib.auth.models import User

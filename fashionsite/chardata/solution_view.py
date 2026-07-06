@@ -63,14 +63,14 @@ _SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
 # options for the slot (so a top pick is never flagged) AND the equipped item
 # must score below this fraction of the slot's best score (so "good enough"
 # items stay silent). Score = the item's stats dotted with the build's stat
-# weights — the same ranking the "switch item" list uses, so a low-level item
+# weights, the same ranking the "switch item" list uses, so a low-level item
 # that scores well for the build is correctly left alone.
 _UPGRADE_MIN_BETTER = 5
 _UPGRADE_SCORE_RATIO = 0.8
 _UPGRADE_MAX_HINTS = 4
 # Slots whose item is well-modelled by the build's stat weights. Weapons are
 # valued by damage/AP (own ranking), and Dofus/Pet are picked for unique
-# effects, quests or ownership — a flat stat score is a poor "upgrade" signal
+# effects, quests or ownership, a flat stat score is a poor "upgrade" signal
 # for those, so they're left out to keep hints trustworthy.
 _CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
 
@@ -100,7 +100,7 @@ def _weighted_rate(structure, item, weights):
 def _build_check(char, solution):
     """Heuristic build review. For each equipped slot, score the equipped item
     against every item that fits the slot using the build's own stat weights and
-    hint only the slots where the equipped item is clearly suboptimal — many
+    hint only the slots where the equipped item is clearly suboptimal, many
     stronger options *and* well below the slot's best score. Stays silent for
     items that are already top picks (including low-level items that score well)
     and for pieces kept by an active set bonus. Returns equipped count + the
@@ -139,7 +139,7 @@ def _build_check(char, solution):
                 continue
 
             type_name = structure.get_type_name_by_id(structure_item.type)
-            # Skip slots whose stored item no longer matches the slot's type —
+            # Skip slots whose stored item no longer matches the slot's type,
             # old builds carry item ids that current versions reuse for a
             # different item, which would otherwise be ranked against the wrong
             # list. (Such builds are surfaced as outdated elsewhere.)
@@ -162,7 +162,7 @@ def _build_check(char, solution):
 
             best_rate = candidate_rates[0]
             if best_rate <= 0:
-                # The build doesn't value this slot's stats — nothing to upgrade toward.
+                # The build doesn't value this slot's stats, nothing to upgrade toward.
                 continue
 
             equipped_rate = _weighted_rate(structure, structure_item, weights)

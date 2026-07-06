@@ -8,9 +8,9 @@
 """Content moderation for user-submitted text (comments, etc.).
 
 Two layers:
-  1. Link filter — only links to dofusfashionista.gg / fashionistavanced.com
+  1. Link filter, only links to dofusfashionista.gg / fashionistavanced.com
      pass through. Any other domain rejects the message.
-  2. Profanity filter — a curated FR / EN / ES / PT word list rejects messages
+  2. Profanity filter, a curated FR / EN / ES / PT word list rejects messages
      that contain insults or slurs. Word-boundary matching + ASCII folding so
      we don't false-flag legitimate words (e.g. class names) that happen to
      contain a banned substring, and so accents don't bypass the filter.
@@ -41,7 +41,7 @@ _URL_RE = re.compile(
 
 # Curated insult / slur list. Lowercased, ASCII-folded.
 # Word-boundary matching means short tokens (tg, pd) only match standalone.
-# Be mindful when adding short words — avoid Dofus class names (Cra, Iop, Sram,
+# Be mindful when adding short words, avoid Dofus class names (Cra, Iop, Sram,
 # etc.), elemental stats, or common substrings.
 _PROFANITY_WORDS = {
     # French insults
@@ -69,7 +69,7 @@ _PROFANITY_WORDS = {
     'buceta', 'bucetas', 'piranha', 'piranhas', 'foda', 'foder', 'fodase',
     'fodam', 'fodido', 'fodida', 'fodidos', 'fodidas', 'caralha', 'porras', 'pqp',
     'puta que pariu', 'arrombado', 'arrombados', 'otario', 'otarios',
-    # Slurs (multi-lang) — strict
+    # Slurs (multi-lang), strict
     'faggot', 'faggots', 'fag', 'nigger', 'niggers', 'nigga', 'niggas',
     'kike', 'spic', 'chink', 'gook',
 }

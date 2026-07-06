@@ -137,7 +137,7 @@ def follow_user(request, user_id):
 
 @login_required
 def feed(request):
-    """Builds from people the current user follows — newest first."""
+    """Builds from people the current user follows, newest first."""
     game_version = getattr(request, 'game_version', 'dofus3')
     followed_ids = list(UserFollow.objects
                         .filter(follower=request.user)

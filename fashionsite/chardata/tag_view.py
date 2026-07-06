@@ -5,7 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Tag endpoints — add / remove a free-form tag on a build (owner only)."""
+"""Tag endpoints, add / remove a free-form tag on a build (owner only)."""
 
 import re
 import unicodedata

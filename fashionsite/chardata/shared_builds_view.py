@@ -272,7 +272,7 @@ def shared_builds(request):
             selected_aspects.append(aspect)
     
     # Start with all shared, non-deleted builds for the current game version.
-    # Only annotate vote counts when needed for ordering — it's an expensive JOIN.
+    # Only annotate vote counts when needed for ordering, it's an expensive JOIN.
     game_version = getattr(request, 'game_version', 'dofus3')
     needs_vote_annotation = order_by in ('likes', 'favorites') or (
         request.user.is_authenticated and (show_liked or show_favorited)
@@ -433,7 +433,7 @@ def shared_builds(request):
         page_chars = list(builds_page.object_list)
         meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
 
-    # Bulk-fetch vote counts for just the page items (1–2 queries for N items)
+    # Bulk-fetch vote counts for just the page items (1-2 queries for N items)
     if page_chars:
         page_char_ids = [char.id for char in page_chars]
         if not needs_vote_annotation:

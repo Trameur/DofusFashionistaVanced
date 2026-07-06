@@ -83,7 +83,7 @@ def admin_tools(request, char_id=0):
                 'author': _display_name(c.user),
                 'report_count': len({r.user_id for r in reps}),
                 'reasons': ', '.join(reasons),
-                'build_name': c.build.name or c.build.char_name or '—',
+                'build_name': c.build.name or c.build.char_name or '-',
                 'build_url': _build_url(c.build),
             })
 
@@ -95,7 +95,7 @@ def admin_tools(request, char_id=0):
         recent_comments.append({
             'comment': c,
             'author': _display_name(c.user),
-            'build_name': c.build.name or c.build.char_name or '—',
+            'build_name': c.build.name or c.build.char_name or '-',
             'build_url': _build_url(c.build),
         })
 
@@ -123,7 +123,7 @@ def admin_tools(request, char_id=0):
 
 def _display_name(user):
     if user is None:
-        return '—'
+        return '-'
     try:
         if user.useralias and user.useralias.alias:
             return user.useralias.alias

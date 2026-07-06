@@ -11,7 +11,7 @@ class RateLimitedErrorFilter(logging.Filter):
 
     Attached to the `mail_admins` handler so we don't flood the inbox when the
     same exception fires hundreds of times. Signature is derived from the
-    exception class and the bottom frame (file:lineno) — same bug = same
+    exception class and the bottom frame (file:lineno), same bug = same
     signature regardless of incidental data (user id, URL params, etc.).
     """
 

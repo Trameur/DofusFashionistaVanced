@@ -343,7 +343,7 @@ def get_items_to_exchange(request, char_id):
             
     # The switch popup shows each item's icon via item.file. evolve_result_item
     # only sets the slot placeholder, so set the real version-aware item icon here
-    # (like the solution page) — otherwise the popup shows broken/placeholder images.
+    # (like the solution page), otherwise the popup shows broken/placeholder images.
     for ri in itemResults:
         ri.file = static(get_image_url(ri.type, ri.name))
 

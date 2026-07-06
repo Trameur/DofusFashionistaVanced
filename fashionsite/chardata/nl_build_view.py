@@ -8,7 +8,7 @@
 """Natural-language build generator (no LLM).
 
 A single text box: type "Iop 200 terre PvM" and get a ready build. Parsing is
-keyword-based (see nl_parser), works in FR/EN/ES/PT/DE, offline and free — our
+keyword-based (see nl_parser), works in FR/EN/ES/PT/DE, offline and free, our
 answer to Dafous' conversational generator, backed by the LP solver.
 """
 
@@ -103,7 +103,7 @@ def smart_build(request):
 
         if not request.POST.get('confirm'):
             # Echo the interpretation and let the user confirm or edit before we
-            # build — keeps a misread from silently producing the wrong set.
+            # build, keeps a misread from silently producing the wrong set.
             return set_response(request, 'chardata/smart_build.html', {
                 'query': query,
                 'interpretation': _interpretation(parsed, confirmed=True),

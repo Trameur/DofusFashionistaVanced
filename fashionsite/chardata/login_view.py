@@ -87,7 +87,7 @@ def register(request):
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
-    # MySQL's username index is case-insensitive, so match that here too —
+    # MySQL's username index is case-insensitive, so match that here too,
     # otherwise a case-only duplicate slips through and the insert fails.
     users = User.objects.filter(username__iexact=username)
     if users:

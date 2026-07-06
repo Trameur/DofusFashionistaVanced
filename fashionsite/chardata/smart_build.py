@@ -635,7 +635,7 @@ def _set_minimums(char, aspects):
                               * param_for_build(race, elements, 'range_importance', 'float_avg'))
 
     # Preserve user-customized AP/MP/Range if they already exist and exceed the new defaults
-    # (skip for mule/leech builds — always use 0)
+    # (skip for mule/leech builds, always use 0)
     if not is_mule and not is_leech and char.minimum_stats:
         saved = pickle.loads(char.minimum_stats)
         for stat_key, stat_name in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range')]:

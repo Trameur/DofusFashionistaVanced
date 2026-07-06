@@ -1,9 +1,9 @@
-# Copyright (C) 2026 The Dofus Fashionista — LGPL (see COPYING.LESSER)
+# Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Loader for the transcendence-rune catalogue (scraped from DofusDB).
 
 Transcendence runes finalise an item at 100% success and then PREVENT any
 further forgemagie ("Empêche les futures forgemagies"). They exist only on the
-modern client (Dofus 2/3 — Songes Infinis), so they are gated to the 'modern'
+modern client (Dofus 2/3, Songes Infinis), so they are gated to the 'modern'
 ruleset. Data file: forgemagie_transcendance.json (regenerate with
 scripts/scrape_transcendance_runes.py). Stat keys match forgemagie_data.py.
 """

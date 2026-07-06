@@ -1175,7 +1175,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
 
     if matched_item is None:
         # Item doesn't exist in this game version (e.g. after switching versions
-        # from an item page, or pruned in a data update) — show the version's
+        # from an item page, or pruned in a data update), show the version's
         # main encyclopedia so the visitor still lands somewhere useful, but as
         # a real 404 so search engines drop the dead URL instead of treating
         # the old redirect as a soft-404.

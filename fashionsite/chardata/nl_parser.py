@@ -8,7 +8,7 @@
 """Keyword-based natural-language build request parser.
 
 Turns a free-text query like "Iop 200 terre PvM" or "Cra agi pvp niveau 150"
-into structured build parameters. No LLM — pure multilingual keyword matching
+into structured build parameters. No LLM, pure multilingual keyword matching
 (FR / EN / ES / PT / DE), so it works offline, instantly and for free.
 
 Output: dict with char_class, level, element_aspect (str/int/cha/agi/omni or

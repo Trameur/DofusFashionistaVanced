@@ -73,7 +73,7 @@ def game_version(request):
         if stripped.startswith(prefix):
             base_path = '/' + stripped[len(prefix):]
             break
-    # Char-specific pages don't translate across versions — a build exists in
+    # Char-specific pages don't translate across versions, a build exists in
     # only one game version. Send the version switcher to home instead of a
     # broken URL. Owned pages carry a numeric id; shared/linked pages an encoded one.
     if _CHAR_ID_RE.search(base_path) or base_path.lstrip('/').startswith(_LINKED_PREFIXES):
