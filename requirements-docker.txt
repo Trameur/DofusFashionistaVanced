@@ -49,7 +49,7 @@ oauthlib==3.2.2
 packaging==26.2
 Pillow==12.2.0
 ply==3.11
-prettytable==3.17.0
+prettytable==3.18.0
 prompt-toolkit==3.0.52
 protobuf==5.29.6
 PuLP==2.7.0
