@@ -109,13 +109,26 @@
         <div class="encyclopedia-section">
             <b>{{ t.used_to_craft_label }} ({{ used_in|length }})</b>
             <ul class="encyclopedia-list">
-                {% for used_item in used_in %}
+                {% for used_item in used_in|slice:":20" %}
                 <li>
                     {% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
                     <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span>
                 </li>
                 {% endfor %}
             </ul>
+            {% if used_in|length > 20 %}
+            <details class="encyclopedia-drops-more">
+                <summary>{{ t.show_more_drops_label }} ({{ used_in|length|add:"-20" }})</summary>
+                <ul class="encyclopedia-list">
+                    {% for used_item in used_in|slice:"20:" %}
+                    <li>
+                        {% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
+                        <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
         </div>
 
         {% if drops %}
