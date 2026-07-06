@@ -449,7 +449,7 @@ GUIDES = {
         'published': '2026-06-30',
         'i18n': {
             'en': {
-                'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: which one are you on?',
+                'title': "Dofus 3, Beta, Dofus 2, Retro, Touch: which do you play?",
                 'desc': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's what each is, who plays it, and how to switch.",
                 'lead': "One thing that sets the Fashionista apart: it covers five flavors of Dofus, not just the live one. Here's the quick map so you optimize on the right data.",
                 'body': '''
@@ -475,7 +475,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': 'Dofus 3, Bêta, Dofus 2, Retro, Touch : tu joues à laquelle ?',
+                'title': "Dofus 3, Bêta, Dofus 2, Retro, Touch : ta version ?",
                 'desc': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà ce qu'est chacune, qui y joue, et comment switcher.",
                 'lead': "Un truc qui distingue la Fashionista : elle couvre cinq versions de Dofus, pas juste la live. Voilà la carte rapide pour optimiser sur les bonnes données.",
                 'body': '''
@@ -856,7 +856,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': "Mono-élément ou multi-élément ? Choisis-en un et tape plus fort",
+                'title': "Mono ou multi-élément ? Choisis-en un et tape plus fort",
                 'desc': "Répartir tes dégâts sur deux éléments rassure, mais tape moins fort que tout miser sur un. Pourquoi le mono gagne presque toujours, et les rares exceptions.",
                 'lead': "Répartir tes dégâts sur deux éléments rassure, mais ça tape souvent moins fort que de tout miser sur un seul. Voilà pourquoi se concentrer paie, et quand ça ne paie pas.",
                 'body': '''
@@ -908,7 +908,7 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': "Mono-elemento ou multi-elemento? Escolha um e bata mais forte",
+                'title': "Mono ou multi-elemento? Escolha um e bata mais forte",
                 'desc': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco que apostar em um só. Por que o mono quase sempre ganha, e as exceções.",
                 'lead': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco do que apostar em um só. Veja por que se concentrar compensa, e quando não.",
                 'body': '''
@@ -934,7 +934,7 @@ GUIDES = {
 ''',
             },
             'de': {
-                'title': "Mono-Element oder Multi-Element? Nimm eins und hau härter zu",
+                'title': "Mono oder Multi-Element? Nimm eins und hau härter zu",
                 'desc': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber weicher zu als eins zu wählen. Warum Mono fast immer gewinnt, und die Ausnahmen.",
                 'lead': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Fokus sich lohnt, und wann nicht.",
                 'body': '''
@@ -967,7 +967,7 @@ GUIDES = {
         'published': '2026-07-01',
         'i18n': {
             'en': {
-                'title': "You've got the build: now how do you actually get the gear?",
+                'title': "You've got the build: now how do you get the gear?",
                 'desc': "The optimizer hands you a perfect set, then reality hits: you own none of it. How to get each item (drop, craft, or buy) and where to start.",
                 'lead': "The optimizer hands you a perfect set, then reality hits: you don't own a single piece. Here's how to actually get the gear, without going broke.",
                 'body': '''
@@ -1089,7 +1089,7 @@ GUIDES = {
         'published': '2026-07-01',
         'i18n': {
             'en': {
-                'title': "Comparing builds side by side: stop guessing which set is better",
+                'title': "Comparing builds side by side: which set is better?",
                 'desc': "You've got two sets and aren't sure which to wear. Throw them into the comparison and the Fashionista shows exactly what you gain and lose, stat by stat.",
                 'lead': "You've got two sets and you're not sure which one to wear. Instead of squinting at two tabs, put them side by side and let the numbers decide.",
                 'body': '''
@@ -1109,7 +1109,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': "Comparer deux builds côte à côte : arrête de deviner quel set est meilleur",
+                'title': "Comparer deux builds côte à côte : lequel est meilleur ?",
                 'desc': "T'as deux sets et tu sais pas lequel porter. Balance-les dans le comparateur : la Fashionista te montre exactement ce que tu gagnes et perds, stat par stat.",
                 'lead': "T'as deux sets et tu sais pas lequel porter. Plutôt que de loucher sur deux onglets, mets-les côte à côte et laisse les chiffres trancher.",
                 'body': '''
@@ -1129,7 +1129,7 @@ GUIDES = {
 ''',
             },
             'es': {
-                'title': "Comparar builds lado a lado: deja de adivinar qué set es mejor",
+                'title': "Comparar builds lado a lado: ¿cuál set es mejor?",
                 'desc': "Tienes dos sets y no sabes cuál llevar. Mételos en el comparador y la Fashionista te muestra exactamente qué ganas y qué pierdes, estadística por estadística.",
                 'lead': "Tienes dos sets y no sabes cuál llevar. En vez de bizquear entre dos pestañas, ponlos lado a lado y deja que los números decidan.",
                 'body': '''
@@ -1149,7 +1149,7 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': "Comparar builds lado a lado: pare de adivinhar qual set é melhor",
+                'title': "Comparar builds lado a lado: qual set é melhor?",
                 'desc': "Você tem dois sets e não sabe qual usar. Jogue os dois no comparador e a Fashionista mostra exatamente o que você ganha e perde, atributo por atributo.",
                 'lead': "Você tem dois sets e não sabe qual usar. Em vez de apertar os olhos entre duas abas, coloque-os lado a lado e deixe os números decidirem.",
                 'body': '''
@@ -1169,7 +1169,7 @@ GUIDES = {
 ''',
             },
             'de': {
-                'title': "Builds nebeneinander vergleichen: hör auf zu raten, welches Set besser ist",
+                'title': "Builds nebeneinander vergleichen: welches Set ist besser?",
                 'desc': "Du hast zwei Sets und weißt nicht, welches du trägst. Wirf sie in den Vergleich: die Fashionista zeigt genau, was du gewinnst und verlierst, Wert für Wert.",
                 'lead': "Du hast zwei Sets und weißt nicht, welches du tragen sollst. Statt zwischen zwei Tabs zu schielen, stell sie nebeneinander und lass die Zahlen entscheiden.",
                 'body': '''
@@ -1195,7 +1195,7 @@ GUIDES = {
         'published': '2026-07-01',
         'i18n': {
             'en': {
-                'title': "Reading your solution: what the optimizer's result page is actually telling you",
+                'title': "Reading your solution page: what the result tells you",
                 'desc': "The Fashionista handed you a full set. Now what? How to read the solution page: the items it picked, your final stats, and the warnings that actually matter.",
                 'lead': "You hit generate and a full set appears. Before you copy it into the game, it pays to understand what the solution page is showing you, and what to do when something looks off.",
                 'body': '''
@@ -1215,7 +1215,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': "Lire ta solution : ce que la page de résultat de l'optimiseur te dit vraiment",
+                'title': "Lire ta page de solution : ce que le résultat te dit",
                 'desc': "La Fashionista t'a sorti un set complet. Et maintenant ? Lire la page de solution : les items choisis, tes stats finales, les avertissements importants.",
                 'lead': "Tu cliques sur générer et un set complet apparaît. Avant de le recopier en jeu, ça vaut le coup de comprendre ce que la page de solution te montre, et quoi faire quand un truc cloche.",
                 'body': '''
@@ -1235,7 +1235,7 @@ GUIDES = {
 ''',
             },
             'es': {
-                'title': "Leer tu solución: lo que la página de resultado del optimizador te dice de verdad",
+                'title': "Leer tu solución: lo que la página de resultado te dice",
                 'desc': "La Fashionista te sacó un set completo. ¿Y ahora? Cómo leer la página de solución: los ítems elegidos, tus estadísticas finales y los avisos que importan.",
                 'lead': "Le das a generar y aparece un set completo. Antes de copiarlo al juego, vale la pena entender qué te muestra la página de solución, y qué hacer cuando algo no cuadra.",
                 'body': '''
@@ -1255,7 +1255,7 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': "Ler sua solução: o que a página de resultado do otimizador está mesmo te dizendo",
+                'title': "Ler sua solução: o que a página de resultado te diz",
                 'desc': "A Fashionista te entregou um set completo. E agora? Como ler a página de solução: os itens escolhidos, seus atributos finais e os avisos que importam.",
                 'lead': "Você clica em gerar e aparece um set completo. Antes de copiar pro jogo, vale entender o que a página de solução está mostrando, e o que fazer quando algo parece errado.",
                 'body': '''
@@ -1275,7 +1275,7 @@ GUIDES = {
 ''',
             },
             'de': {
-                'title': "Deine Lösung lesen: was dir die Ergebnisseite des Optimierers wirklich sagt",
+                'title': "Deine Lösung lesen: was die Ergebnisseite wirklich sagt",
                 'desc': "Die Fashionista hat dir ein komplettes Set gebaut. Und jetzt? Wie du die Lösungsseite liest: die gewählten Items, deine Endwerte und die Warnungen, die zählen.",
                 'lead': "Du klickst auf Generieren und ein komplettes Set erscheint. Bevor du es ins Spiel überträgst, lohnt es sich zu verstehen, was die Lösungsseite dir zeigt, und was zu tun ist, wenn etwas nicht passt.",
                 'body': '''
@@ -1301,7 +1301,7 @@ GUIDES = {
         'published': '2026-07-02',
         'i18n': {
             'en': {
-                'title': "Tuning your weights: how to tell the optimizer what actually matters",
+                'title': "Tuning your weights: tell the optimizer what matters",
                 'desc': "The weights page is where a generic set becomes your set. What the numbers mean, presets vs custom weights, and the mistakes that quietly ruin a solution.",
                 'lead': "The optimizer doesn't guess what you want: it maximizes exactly what you tell it to. The weights page is where you tell it. Five minutes here beats an hour of switching items by hand.",
                 'body': '''
@@ -1321,7 +1321,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': "Bien régler tes poids : dire à l'optimiseur ce qui compte vraiment",
+                'title': "Bien régler tes poids : dire à l'optimiseur ce qui compte",
                 'desc': "La page des poids, c'est là qu'un set générique devient ton set. Ce que veulent dire les chiffres, presets ou poids perso, et les erreurs qui ruinent tout.",
                 'lead': "L'optimiseur ne devine pas ce que tu veux : il maximise exactement ce que tu lui dis. La page des poids, c'est là que tu lui dis. Cinq minutes ici valent mieux qu'une heure à changer les items à la main.",
                 'body': '''
@@ -1341,7 +1341,7 @@ GUIDES = {
 ''',
             },
             'es': {
-                'title': "Ajustar tus pesos: cómo decirle al optimizador lo que de verdad importa",
+                'title': "Ajustar tus pesos: dile al optimizador lo que importa",
                 'desc': "La página de pesos es donde un set genérico se vuelve tuyo. Qué significan los números, presets o pesos personalizados, y los errores que arruinan todo.",
                 'lead': "El optimizador no adivina lo que quieres: maximiza exactamente lo que le dices. La página de pesos es donde se lo dices. Cinco minutos aquí valen más que una hora cambiando ítems a mano.",
                 'body': '''
@@ -1361,7 +1361,7 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': "Ajustando seus pesos: como dizer ao otimizador o que realmente importa",
+                'title': "Ajustar seus pesos: diga ao otimizador o que importa",
                 'desc': "A página de pesos é onde um set genérico vira o seu. O que os números significam, presets ou pesos personalizados, e os erros que arruínam tudo.",
                 'lead': "O otimizador não adivinha o que você quer: ele maximiza exatamente o que você diz. A página de pesos é onde você diz. Cinco minutos aqui valem mais que uma hora trocando itens na mão.",
                 'body': '''
@@ -1381,7 +1381,7 @@ GUIDES = {
 ''',
             },
             'de': {
-                'title': "Gewichte richtig einstellen: dem Optimierer sagen, was wirklich zählt",
+                'title': "Gewichte einstellen: dem Optimierer sagen, was zählt",
                 'desc': "Auf der Gewichte-Seite wird aus einem generischen Set dein Set. Was die Zahlen bedeuten, Presets oder eigene Gewichte, und welche Fehler alles ruinieren.",
                 'lead': "Der Optimierer rät nicht, was du willst: er maximiert genau das, was du ihm sagst. Auf der Gewichte-Seite sagst du es ihm. Fünf Minuten hier schlagen eine Stunde Items-Tauschen von Hand.",
                 'body': '''
@@ -1407,7 +1407,7 @@ GUIDES = {
         'published': '2026-07-02',
         'i18n': {
             'en': {
-                'title': "Planning a maging run: use the simulator before you burn your kamas",
+                'title': "Planning a maging run: simulate before you burn kamas",
                 'desc': "Smithmagic is a money pit when you improvise. How the simulator works (sink, over/exo weight, the 101 cap) and how to plan a run before you buy runes.",
                 'lead': "Every mager has a story about the item they destroyed at 3 a.m. The simulator exists so that story isn't yours: plan the runs, see what can pass, then spend.",
                 'body': '''
@@ -1427,7 +1427,7 @@ GUIDES = {
 ''',
             },
             'fr': {
-                'title': "Planifier ta forgemagie : passe par le simulateur avant de brûler tes kamas",
+                'title': "Planifier ta forgemagie : simule avant de brûler tes kamas",
                 'desc': "La forgemagie est un gouffre à kamas quand on improvise. Comprends le simulateur (puits, poids over/exo, plafond 101) et planifie avant d'acheter des runes.",
                 'lead': "Chaque forgemage a une histoire d'objet détruit à 3 h du matin. Le simulateur existe pour que cette histoire ne soit pas la tienne : planifie, vois ce qui peut passer, puis dépense.",
                 'body': '''
@@ -1447,7 +1447,7 @@ GUIDES = {
 ''',
             },
             'es': {
-                'title': "Planificar tu forjamagia: pasa por el simulador antes de quemar tus kamas",
+                'title': "Planificar tu forjamagia: simula antes de quemar kamas",
                 'desc': "La forjamagia es un pozo de kamas cuando improvisas. Cómo funciona el simulador (pozo, peso over/exo, límite de 101) y cómo planificar antes de comprar runas.",
                 'lead': "Todo forjamago tiene una historia de un objeto destruido a las 3 de la mañana. El simulador existe para que esa historia no sea la tuya: planifica, mira qué puede pasar, y luego gasta.",
                 'body': '''
@@ -1467,7 +1467,7 @@ GUIDES = {
 ''',
             },
             'pt': {
-                'title': "Planejando sua forjamagia: passe pelo simulador antes de queimar seus kamas",
+                'title': "Planejar sua forjamagia: simule antes de queimar kamas",
                 'desc': "Forjamagia é um poço de kamas quando você improvisa. Como funciona o simulador (poço, peso over/exo, teto de 101) e como planejar antes de comprar runas.",
                 'lead': "Todo forjamago tem uma história de item destruído às 3 da manhã. O simulador existe para que essa história não seja a sua: planeje, veja o que pode passar, depois gaste.",
                 'body': '''
