@@ -24,7 +24,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'Your first Dofus build, step by step',
-                'desc': "You picked a class, you're staring at a wall of items, and you have no clue which belt actually fits. Here's how to go from nothing to a full optimized set in a few minutes.",
+                'desc': "You picked a class, you're staring at a wall of items with no clue which belt fits. Here's how to go from nothing to a full optimized set in minutes.",
                 'lead': "You picked a class, you're staring at a wall of items, and you have no clue which belt actually fits. That's exactly what the Fashionista is for.",
                 'body': '''
 <h2>1. Start a project</h2>
@@ -53,7 +53,7 @@ GUIDES = {
             },
             'fr': {
                 'title': 'Ton premier stuff Dofus, étape par étape',
-                'desc': "T'as choisi ta classe, t'as une montagne d'items devant les yeux et aucune idée de quelle ceinture coller. Voilà comment passer de zéro à un stuff complet et optimisé en quelques minutes.",
+                'desc': "T'as choisi ta classe, une montagne d'items devant les yeux, aucune idée de quoi mettre. Passer de zéro à un stuff complet et optimisé en quelques minutes.",
                 'lead': "T'as choisi ta classe, t'as une montagne d'items devant les yeux et aucune idée de quelle ceinture coller. C'est exactement à ça que sert la Fashionista.",
                 'body': '''
 <h2>1. Crée un projet</h2>
@@ -111,7 +111,7 @@ GUIDES = {
             },
             'pt': {
                 'title': 'Seu primeiro build de Dofus, passo a passo',
-                'desc': "Você escolheu a classe, tem uma parede de itens na frente e nenhuma ideia de qual cinto encaixa. Veja como sair do zero até um set completo e otimizado em poucos minutos.",
+                'desc': "Você escolheu a classe, tem uma parede de itens na frente e nenhuma ideia de qual cinto usar. Veja como sair do zero a um set completo e otimizado em minutos.",
                 'lead': "Você escolheu a classe, tem uma parede de itens na frente e nenhuma ideia de qual cinto encaixa de verdade. É exatamente para isso que a Fashionista serve.",
                 'body': '''
 <h2>1. Crie um projeto</h2>
@@ -140,7 +140,7 @@ GUIDES = {
             },
             'de': {
                 'title': 'Dein erstes Dofus-Build, Schritt für Schritt',
-                'desc': "Klasse gewählt, eine Wand voller Items vor dir, und keine Ahnung, welcher Gürtel eigentlich passt. So kommst du in ein paar Minuten von null zum fertigen, optimierten Set.",
+                'desc': "Klasse gewählt, eine Wand voller Items vor dir, keine Ahnung, welcher Gürtel passt. So kommst du in Minuten von null zum fertigen, optimierten Set.",
                 'lead': "Klasse gewählt, eine Wand voller Items vor dir, und keine Ahnung, welcher Gürtel eigentlich passt. Genau dafür ist die Fashionista da.",
                 'body': '''
 <h2>1. Leg ein Projekt an</h2>
@@ -313,7 +313,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'Dofus stats, and how much each one is worth',
-                'desc': "AP, range, masteries, vitality, crits… Dofus throws a lot of numbers at you. Here's a no-nonsense rundown of what actually matters and how to weight it in a build.",
+                'desc': "AP, range, masteries, vitality, crits… Dofus throws a lot of numbers at you. A no-nonsense rundown of what actually matters and how to weight it.",
                 'lead': "AP, range, masteries, vitality, crits… Dofus throws a lot of numbers at you. Here's a no-nonsense rundown of what actually matters and how to weight it.",
                 'body': '''
 <h2>The kingmakers: AP, MP and range</h2>
@@ -339,7 +339,7 @@ GUIDES = {
             },
             'fr': {
                 'title': 'Les stats de Dofus, et combien chacune vaut',
-                'desc': "PA, portée, maîtrises, vitalité, coups critiques… Dofus te balance un paquet de chiffres. Voilà un topo sans blabla sur ce qui compte vraiment et comment le pondérer dans un build.",
+                'desc': "PA, portée, maîtrises, vitalité, critiques… Dofus te balance un paquet de chiffres. Un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
                 'lead': "PA, portée, maîtrises, vitalité, coups critiques… Dofus te balance un paquet de chiffres. Voilà un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
                 'body': '''
 <h2>Les rois : PA, PM et portée</h2>
@@ -365,7 +365,7 @@ GUIDES = {
             },
             'es': {
                 'title': 'Las estadísticas de Dofus y cuánto vale cada una',
-                'desc': "PA, alcance, dominios, vitalidad, críticos… Dofus te tira un montón de números. Aquí va un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo en un build.",
+                'desc': "PA, alcance, dominios, vitalidad, críticos… Dofus te tira un montón de números. Un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
                 'lead': "PA, alcance, dominios, vitalidad, críticos… Dofus te tira un montón de números. Aquí va un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
                 'body': '''
 <h2>Los que mandan: PA, PM y alcance</h2>
@@ -391,7 +391,7 @@ GUIDES = {
             },
             'pt': {
                 'title': 'Os atributos de Dofus e quanto cada um vale',
-                'desc': "PA, alcance, domínios, vitalidade, críticos… Dofus joga um monte de números em você. Aqui vai um resumo sem enrolação do que importa de verdade e como ponderar num build.",
+                'desc': "PA, alcance, domínios, vitalidade, críticos… Dofus joga um monte de números em você. Um resumo sem enrolação do que importa e como ponderar.",
                 'lead': "PA, alcance, domínios, vitalidade, críticos… Dofus joga um monte de números em você. Aqui vai um resumo sem enrolação do que importa de verdade e como ponderar.",
                 'body': '''
 <h2>Os que mandam: PA, PM e alcance</h2>
@@ -417,7 +417,7 @@ GUIDES = {
             },
             'de': {
                 'title': 'Dofus-Werte und wie viel jeder wert ist',
-                'desc': "AP, Reichweite, Beherrschungen, Vitalität, Kritische… Dofus wirft dir eine Menge Zahlen hin. Hier ist ein klarer Überblick, was wirklich zählt und wie du es im Build gewichtest.",
+                'desc': "AP, Reichweite, Beherrschungen, Vitalität, Kritische… Dofus wirft dir viele Zahlen hin. Ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
                 'lead': "AP, Reichweite, Beherrschungen, Vitalität, Kritische… Dofus wirft dir eine Menge Zahlen hin. Hier ist ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
                 'body': '''
 <h2>Die Königsmacher: AP, BP und Reichweite</h2>
@@ -554,7 +554,7 @@ GUIDES = {
             },
             'de': {
                 'title': 'Dofus 3, Beta, Dofus 2, Retro, Touch: welches spielst du?',
-                'desc': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist, was jede ist, wer sie spielt und wie du umschaltest.",
+                'desc': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Dofus-Varianten ab, nicht nur die Live-Version. Was jede ist, wer sie spielt und wie du umschaltest.",
                 'lead': "Eine Sache hebt die Fashionista ab: Sie deckt fünf Spielarten von Dofus ab, nicht nur die Live-Version. Hier ist die schnelle Übersicht, damit du mit den richtigen Daten optimierst.",
                 'body': '''
 <h2>Warum das überhaupt wichtig ist</h2>
@@ -587,7 +587,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Building for PvM, PvP and Kolossium",
-                'desc': "The same character needs a different build depending on whether you're farming dungeons, dueling, or grinding Kolossium. Here's how to weight each one without rebuilding from scratch.",
+                'desc': "The same character needs a different build for farming dungeons, dueling, or grinding Kolossium. How to weight each one without rebuilding from scratch.",
                 'lead': "The same character needs a different build depending on whether you're farming dungeons, dueling, or grinding Kolossium. Same items, different priorities: here's how to weight each.",
                 'body': '''
 <h2>Why one build isn't enough</h2>
@@ -610,7 +610,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Optimiser son stuff pour le PvM, le PvP et le Kolizéum",
-                'desc': "Le même perso a besoin d'un build différent selon que tu farmes du donjon, que tu duelles ou que tu grind le Kolizéum. Voilà comment pondérer chacun sans tout refaire de zéro.",
+                'desc': "Le même perso a besoin d'un build différent pour farmer du donjon, dueller ou grind le Kolizéum. Comment pondérer chacun sans tout refaire de zéro.",
                 'lead': "Le même perso a besoin d'un build différent selon que tu farmes du donjon, que tu duelles ou que tu grind le Kolizéum. Mêmes items, priorités différentes : voilà comment pondérer chacun.",
                 'body': '''
 <h2>Pourquoi un seul build ne suffit pas</h2>
@@ -633,7 +633,7 @@ GUIDES = {
             },
             'es': {
                 'title': "Optimizar tu build para PvM, PvP y Koliseo",
-                'desc': "El mismo personaje necesita un build distinto según si farmeas mazmorras, dueleas o grindeas Koliseo. Aquí tienes cómo ponderar cada uno sin rehacerlo todo de cero.",
+                'desc': "El mismo personaje necesita un build distinto para farmear mazmorras, duelear o grindear Koliseo. Cómo ponderar cada uno sin rehacerlo todo de cero.",
                 'lead': "El mismo personaje necesita un build distinto según si farmeas mazmorras, dueleas o grindeas Koliseo. Mismos ítems, prioridades distintas: aquí tienes cómo ponderar cada uno.",
                 'body': '''
 <h2>Por qué un solo build no basta</h2>
@@ -679,7 +679,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Builds für PvM, PvP und Kolosseum",
-                'desc': "Derselbe Charakter braucht je nach dem ein anderes Build, ob du Dungeons farmst, duellierst oder Kolosseum grindest. So gewichtest du jeden Modus, ohne alles neu zu bauen.",
+                'desc': "Derselbe Charakter braucht je nach Modus ein anderes Build: Dungeons farmen, duellieren oder Kolosseum grinden. So gewichtest du jeden, ohne alles neu zu bauen.",
                 'lead': "Derselbe Charakter braucht je nach dem ein anderes Build, ob du Dungeons farmst, duellierst oder Kolosseum grindest. Gleiche Items, andere Prioritäten: so gewichtest du jeden.",
                 'body': '''
 <h2>Warum ein Build nicht reicht</h2>
@@ -831,7 +831,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Mono-element or multi-element? Pick one and hit harder",
-                'desc': "Spreading your damage across two elements feels safe, but it usually hits softer than committing to one. Here's why mono almost always wins, and the few times it doesn't.",
+                'desc': "Spreading damage across two elements feels safe, but usually hits softer than committing to one. Why mono almost always wins, and the few times it doesn't.",
                 'lead': "Spreading your damage across two elements feels safe, but it usually hits softer than committing to one. Here's why focusing pays off, and when it doesn't.",
                 'body': '''
 <h2>Why one element usually wins</h2>
@@ -857,7 +857,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Mono-élément ou multi-élément ? Choisis-en un et tape plus fort",
-                'desc': "Répartir tes dégâts sur deux éléments rassure, mais ça tape souvent moins fort que de tout miser sur un seul. Voilà pourquoi le mono gagne presque toujours, et les rares cas où non.",
+                'desc': "Répartir tes dégâts sur deux éléments rassure, mais tape moins fort que tout miser sur un. Pourquoi le mono gagne presque toujours, et les rares exceptions.",
                 'lead': "Répartir tes dégâts sur deux éléments rassure, mais ça tape souvent moins fort que de tout miser sur un seul. Voilà pourquoi se concentrer paie, et quand ça ne paie pas.",
                 'body': '''
 <h2>Pourquoi un seul élément gagne d'habitude</h2>
@@ -883,7 +883,7 @@ GUIDES = {
             },
             'es': {
                 'title': "¿Monoelemento o multielemento? Elige uno y pega más fuerte",
-                'desc': "Repartir tu daño entre dos elementos da sensación de seguridad, pero suele pegar más flojo que apostar por uno solo. Aquí tienes por qué el mono casi siempre gana, y las pocas veces que no.",
+                'desc': "Repartir tu daño en dos elementos da seguridad, pero pega más flojo que apostar por uno. Por qué el mono casi siempre gana, y las pocas veces que no.",
                 'lead': "Repartir tu daño entre dos elementos da sensación de seguridad, pero suele pegar más flojo que apostar por uno solo. Aquí tienes por qué concentrarse compensa, y cuándo no.",
                 'body': '''
 <h2>Por qué un solo elemento suele ganar</h2>
@@ -909,7 +909,7 @@ GUIDES = {
             },
             'pt': {
                 'title': "Mono-elemento ou multi-elemento? Escolha um e bata mais forte",
-                'desc': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco do que apostar em um só. Veja por que o mono quase sempre ganha, e as poucas vezes que não.",
+                'desc': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco que apostar em um só. Por que o mono quase sempre ganha, e as exceções.",
                 'lead': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco do que apostar em um só. Veja por que se concentrar compensa, e quando não.",
                 'body': '''
 <h2>Por que um só elemento costuma ganhar</h2>
@@ -935,7 +935,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Mono-Element oder Multi-Element? Nimm eins und hau härter zu",
-                'desc': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Mono fast immer gewinnt, und die wenigen Fälle, in denen nicht.",
+                'desc': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber weicher zu als eins zu wählen. Warum Mono fast immer gewinnt, und die Ausnahmen.",
                 'lead': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Fokus sich lohnt, und wann nicht.",
                 'body': '''
 <h2>Warum ein Element meist gewinnt</h2>
@@ -968,7 +968,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "You've got the build: now how do you actually get the gear?",
-                'desc': "The optimizer hands you a perfect set, then reality hits: you don't own a single piece. Here's how to get each item (drop it, craft it, or buy it) and where to start.",
+                'desc': "The optimizer hands you a perfect set, then reality hits: you own none of it. How to get each item (drop, craft, or buy) and where to start.",
                 'lead': "The optimizer hands you a perfect set, then reality hits: you don't own a single piece. Here's how to actually get the gear, without going broke.",
                 'body': '''
 <h2>Three ways to get any item</h2>
@@ -991,7 +991,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "T'as le build : maintenant, comment choper le stuff ?",
-                'desc': "L'optimiseur te sort un set parfait, puis la réalité te rattrape : t'as pas une seule pièce. Voilà comment obtenir chaque item (le drop, le crafter ou l'acheter) et par où commencer.",
+                'desc': "L'optimiseur te sort un set parfait, puis la réalité te rattrape : t'as pas une pièce. Comment obtenir chaque item (drop, craft ou achat) et par où commencer.",
                 'lead': "L'optimiseur te sort un set parfait, puis la réalité te rattrape : t'as pas une seule pièce. Voilà comment choper le stuff pour de vrai, sans te ruiner.",
                 'body': '''
 <h2>Trois façons d'avoir n'importe quel item</h2>
@@ -1014,7 +1014,7 @@ GUIDES = {
             },
             'es': {
                 'title': "Ya tienes el build: ¿y ahora cómo consigues el equipo?",
-                'desc': "El optimizador te da un set perfecto, y entonces llega la realidad: no tienes ni una pieza. Aquí tienes cómo conseguir cada ítem (dropearlo, fabricarlo o comprarlo) y por dónde empezar.",
+                'desc': "El optimizador te da un set perfecto, y llega la realidad: no tienes ni una pieza. Cómo conseguir cada ítem (dropear, fabricar o comprar) y por dónde empezar.",
                 'lead': "El optimizador te da un set perfecto, y entonces llega la realidad: no tienes ni una pieza. Aquí tienes cómo conseguir el equipo de verdad, sin arruinarte.",
                 'body': '''
 <h2>Tres formas de conseguir cualquier ítem</h2>
@@ -1037,7 +1037,7 @@ GUIDES = {
             },
             'pt': {
                 'title': "Você tem o build: e agora, como conseguir o equipamento?",
-                'desc': "O otimizador te dá um set perfeito, e aí bate a realidade: você não tem uma peça sequer. Veja como conseguir cada item (dropar, fabricar ou comprar) e por onde começar.",
+                'desc': "O otimizador te dá um set perfeito, e aí bate a realidade: você não tem uma peça. Como conseguir cada item (dropar, fabricar ou comprar) e por onde começar.",
                 'lead': "O otimizador te dá um set perfeito, e aí bate a realidade: você não tem uma peça sequer. Veja como conseguir o equipamento de verdade, sem quebrar.",
                 'body': '''
 <h2>Três jeitos de conseguir qualquer item</h2>
@@ -1060,7 +1060,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Du hast das Build: aber wie kommst du an die Ausrüstung?",
-                'desc': "Der Optimierer gibt dir ein perfektes Set, dann kommt die Realität: Du besitzt kein einziges Teil. So bekommst du jedes Item (droppen, herstellen oder kaufen) und wo du anfängst.",
+                'desc': "Der Optimierer gibt dir ein perfektes Set, dann die Realität: Du besitzt kein Teil. So bekommst du jedes Item (droppen, herstellen, kaufen) und wo du anfängst.",
                 'lead': "Der Optimierer gibt dir ein perfektes Set, dann kommt die Realität: Du besitzt kein einziges Teil. So kommst du wirklich an die Ausrüstung, ohne pleitezugehen.",
                 'body': '''
 <h2>Drei Wege zu jedem Item</h2>
@@ -1090,7 +1090,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Comparing builds side by side: stop guessing which set is better",
-                'desc': "You've got two sets and you're not sure which one to wear. Throw them into the comparison and the Fashionista shows you exactly what you gain and lose, stat by stat.",
+                'desc': "You've got two sets and aren't sure which to wear. Throw them into the comparison and the Fashionista shows exactly what you gain and lose, stat by stat.",
                 'lead': "You've got two sets and you're not sure which one to wear. Instead of squinting at two tabs, put them side by side and let the numbers decide.",
                 'body': '''
 <h2>Why compare at all</h2>
@@ -1110,7 +1110,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Comparer deux builds côte à côte : arrête de deviner quel set est meilleur",
-                'desc': "T'as deux sets et tu sais pas lequel porter. Balance-les dans le comparateur et la Fashionista te montre exactement ce que tu gagnes et ce que tu perds, stat par stat.",
+                'desc': "T'as deux sets et tu sais pas lequel porter. Balance-les dans le comparateur : la Fashionista te montre exactement ce que tu gagnes et perds, stat par stat.",
                 'lead': "T'as deux sets et tu sais pas lequel porter. Plutôt que de loucher sur deux onglets, mets-les côte à côte et laisse les chiffres trancher.",
                 'body': '''
 <h2>Pourquoi comparer</h2>
@@ -1170,7 +1170,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Builds nebeneinander vergleichen: hör auf zu raten, welches Set besser ist",
-                'desc': "Du hast zwei Sets und weißt nicht, welches du tragen sollst. Wirf sie in den Vergleich und die Fashionista zeigt dir genau, was du gewinnst und verlierst, Wert für Wert.",
+                'desc': "Du hast zwei Sets und weißt nicht, welches du trägst. Wirf sie in den Vergleich: die Fashionista zeigt genau, was du gewinnst und verlierst, Wert für Wert.",
                 'lead': "Du hast zwei Sets und weißt nicht, welches du tragen sollst. Statt zwischen zwei Tabs zu schielen, stell sie nebeneinander und lass die Zahlen entscheiden.",
                 'body': '''
 <h2>Warum überhaupt vergleichen</h2>
@@ -1196,7 +1196,7 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': "Reading your solution: what the optimizer's result page is actually telling you",
-                'desc': "The Fashionista handed you a full set. Now what? How to read the solution page: the items it picked, the stats you end up with, and the warnings that actually matter.",
+                'desc': "The Fashionista handed you a full set. Now what? How to read the solution page: the items it picked, your final stats, and the warnings that actually matter.",
                 'lead': "You hit generate and a full set appears. Before you copy it into the game, it pays to understand what the solution page is showing you, and what to do when something looks off.",
                 'body': '''
 <h2>The set it built</h2>
@@ -1216,7 +1216,7 @@ GUIDES = {
             },
             'fr': {
                 'title': "Lire ta solution : ce que la page de résultat de l'optimiseur te dit vraiment",
-                'desc': "La Fashionista t'a sorti un set complet. Et maintenant ? Comment lire la page de solution : les items choisis, les stats que t'obtiens au final, et les avertissements qui comptent vraiment.",
+                'desc': "La Fashionista t'a sorti un set complet. Et maintenant ? Lire la page de solution : les items choisis, tes stats finales, les avertissements importants.",
                 'lead': "Tu cliques sur générer et un set complet apparaît. Avant de le recopier en jeu, ça vaut le coup de comprendre ce que la page de solution te montre, et quoi faire quand un truc cloche.",
                 'body': '''
 <h2>Le set qu'elle a construit</h2>
@@ -1236,7 +1236,7 @@ GUIDES = {
             },
             'es': {
                 'title': "Leer tu solución: lo que la página de resultado del optimizador te dice de verdad",
-                'desc': "La Fashionista te sacó un set completo. ¿Y ahora? Cómo leer la página de solución: los ítems elegidos, las estadísticas que acabas teniendo y los avisos que de verdad importan.",
+                'desc': "La Fashionista te sacó un set completo. ¿Y ahora? Cómo leer la página de solución: los ítems elegidos, tus estadísticas finales y los avisos que importan.",
                 'lead': "Le das a generar y aparece un set completo. Antes de copiarlo al juego, vale la pena entender qué te muestra la página de solución, y qué hacer cuando algo no cuadra.",
                 'body': '''
 <h2>El set que montó</h2>
@@ -1256,7 +1256,7 @@ GUIDES = {
             },
             'pt': {
                 'title': "Ler sua solução: o que a página de resultado do otimizador está mesmo te dizendo",
-                'desc': "A Fashionista te entregou um set completo. E agora? Como ler a página de solução: os itens escolhidos, os atributos que você acaba tendo e os avisos que realmente importam.",
+                'desc': "A Fashionista te entregou um set completo. E agora? Como ler a página de solução: os itens escolhidos, seus atributos finais e os avisos que importam.",
                 'lead': "Você clica em gerar e aparece um set completo. Antes de copiar pro jogo, vale entender o que a página de solução está mostrando, e o que fazer quando algo parece errado.",
                 'body': '''
 <h2>O set que ela montou</h2>
@@ -1276,7 +1276,7 @@ GUIDES = {
             },
             'de': {
                 'title': "Deine Lösung lesen: was dir die Ergebnisseite des Optimierers wirklich sagt",
-                'desc': "Die Fashionista hat dir ein komplettes Set gebaut. Und jetzt? Wie du die Lösungsseite liest: die gewählten Items, die Werte, die am Ende rauskommen, und die Warnungen, die wirklich zählen.",
+                'desc': "Die Fashionista hat dir ein komplettes Set gebaut. Und jetzt? Wie du die Lösungsseite liest: die gewählten Items, deine Endwerte und die Warnungen, die zählen.",
                 'lead': "Du klickst auf Generieren und ein komplettes Set erscheint. Bevor du es ins Spiel überträgst, lohnt es sich zu verstehen, was die Lösungsseite dir zeigt, und was zu tun ist, wenn etwas nicht passt.",
                 'body': '''
 <h2>Das Set, das sie gebaut hat</h2>
