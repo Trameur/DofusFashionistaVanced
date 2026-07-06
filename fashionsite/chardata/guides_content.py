@@ -1303,19 +1303,19 @@ GUIDES = {
             'en': {
                 'title': "Tuning your weights: how to tell the optimizer what actually matters",
                 'desc': "The weights page is where a generic set becomes your set. What the numbers mean, how presets differ from custom weights, and the mistakes that quietly ruin a solution.",
-                'lead': "The optimizer doesn't guess what you want — it maximizes exactly what you tell it to. The weights page is where you tell it. Five minutes here beats an hour of switching items by hand.",
+                'lead': "The optimizer doesn't guess what you want: it maximizes exactly what you tell it to. The weights page is where you tell it. Five minutes here beats an hour of switching items by hand.",
                 'body': '''
 <h2>What a weight actually is</h2>
-<p>Every characteristic gets a number: how many points of value one unit of that stat is worth to you. The solver adds it all up across every candidate set and returns the highest total. A weight of 0 means "I don't care at all" — the stat can end up at anything. A big weight means the solver will sacrifice other things to get it. There is no magic scale; only the ratios between your weights matter.</p>
+<p>Every characteristic gets a number: how many points of value one unit of that stat is worth to you. The solver adds it all up across every candidate set and returns the highest total. A weight of 0 means "I don't care at all": the stat can end up at anything. A big weight means the solver will sacrifice other things to get it. There is no magic scale; only the ratios between your weights matter.</p>
 
 <h2>Presets first, custom second</h2>
 <p>The wizard's questions (element, playstyle, level) generate a sensible starting profile, and the <a href="/smartbuild/">smart build</a> does the same from a text description. Start there. Then open the weights page and nudge: hunting resistances for a tanky feel, raising crit for a crit build, zeroing prospecting if you never farm. Small edits to a good preset beat writing twenty numbers from scratch.</p>
 
 <h2>Weights are wishes; minimums are rules</h2>
-<p>If something is non-negotiable — 12 AP, 6 MP, a vitality floor — don't inflate its weight: set a <strong>minimum</strong> instead. A minimum is a hard constraint the solver must satisfy; a weight is a preference it trades against everything else. Overweighting AP "to be safe" is the classic mistake: the solver chases AP the set already has and neglects the stats you actually wanted.</p>
+<p>If something is non-negotiable (12 AP, 6 MP, a vitality floor), don't inflate its weight: set a <strong>minimum</strong> instead. A minimum is a hard constraint the solver must satisfy; a weight is a preference it trades against everything else. Overweighting AP "to be safe" is the classic mistake: the solver chases AP the set already has and neglects the stats you actually wanted.</p>
 
 <h2>When the result looks off</h2>
-<p>A weird solution is almost always the weights talking. Too much vitality and no damage? Your vitality weight dominates. An empty slot? No item there scores positive value under your weights. Iterate: change one number, re-run, compare — the <a href="/choose_compare_sets/">comparison</a> shows exactly what your edit bought you.</p>
+<p>A weird solution is almost always the weights talking. Too much vitality and no damage? Your vitality weight dominates. An empty slot? No item there scores positive value under your weights. Iterate: change one number, re-run, compare. The <a href="/choose_compare_sets/">comparison</a> shows exactly what your edit bought you.</p>
 
 <p><em>Ready to fine-tune? <a href="/setup/">Open a project</a> and head to the weights page.</em></p>
 ''',
@@ -1323,19 +1323,19 @@ GUIDES = {
             'fr': {
                 'title': "Bien régler tes poids : dire à l'optimiseur ce qui compte vraiment",
                 'desc': "La page des poids, c'est là qu'un set générique devient ton set. Ce que veulent dire les chiffres, la différence entre presets et poids personnalisés, et les erreurs qui ruinent une solution en silence.",
-                'lead': "L'optimiseur ne devine pas ce que tu veux — il maximise exactement ce que tu lui dis. La page des poids, c'est là que tu lui dis. Cinq minutes ici valent mieux qu'une heure à changer les items à la main.",
+                'lead': "L'optimiseur ne devine pas ce que tu veux : il maximise exactement ce que tu lui dis. La page des poids, c'est là que tu lui dis. Cinq minutes ici valent mieux qu'une heure à changer les items à la main.",
                 'body': '''
 <h2>C'est quoi, un poids</h2>
-<p>Chaque caractéristique reçoit un nombre : combien de points de valeur vaut une unité de cette stat pour toi. Le solveur additionne tout sur chaque set candidat et renvoie le meilleur total. Un poids de 0 veut dire « je m'en fiche complètement » — la stat peut finir n'importe où. Un gros poids, et le solveur sacrifiera le reste pour l'obtenir. Il n'y a pas d'échelle magique ; seuls les rapports entre tes poids comptent.</p>
+<p>Chaque caractéristique reçoit un nombre : combien de points de valeur vaut une unité de cette stat pour toi. Le solveur additionne tout sur chaque set candidat et renvoie le meilleur total. Un poids de 0 veut dire « je m'en fiche complètement » : la stat peut finir n'importe où. Un gros poids, et le solveur sacrifiera le reste pour l'obtenir. Il n'y a pas d'échelle magique ; seuls les rapports entre tes poids comptent.</p>
 
 <h2>Preset d'abord, personnalisation ensuite</h2>
 <p>Les questions de l'assistant (élément, style de jeu, niveau) génèrent un profil de départ raisonnable, et le <a href="/smartbuild/">build intelligent</a> fait pareil depuis une description texte. Pars de là. Puis ouvre la page des poids et ajuste : monte les résistances pour un feeling tanky, monte le critique pour un build crit, mets la prospection à zéro si tu ne farmes jamais. Retoucher un bon preset bat l'écriture de vingt chiffres à partir de rien.</p>
 
 <h2>Les poids sont des souhaits ; les minimums sont des règles</h2>
-<p>Si quelque chose est non négociable — 12 PA, 6 PM, un plancher de vitalité — ne gonfle pas son poids : mets un <strong>minimum</strong> à la place. Un minimum est une contrainte dure que le solveur doit satisfaire ; un poids est une préférence qu'il arbitre contre tout le reste. Surponder les PA « par sécurité » est l'erreur classique : le solveur court après des PA que le set a déjà et néglige les stats que tu voulais vraiment.</p>
+<p>Si quelque chose est non négociable (12 PA, 6 PM, un plancher de vitalité), ne gonfle pas son poids : mets un <strong>minimum</strong> à la place. Un minimum est une contrainte dure que le solveur doit satisfaire ; un poids est une préférence qu'il arbitre contre tout le reste. Surponder les PA « par sécurité » est l'erreur classique : le solveur court après des PA que le set a déjà et néglige les stats que tu voulais vraiment.</p>
 
 <h2>Quand le résultat semble bizarre</h2>
-<p>Une solution étrange, c'est presque toujours les poids qui parlent. Trop de vitalité et pas de dégâts ? Ton poids vitalité domine. Un emplacement vide ? Aucun item n'y apporte de valeur positive avec tes poids. Itère : change un chiffre, relance, compare — le <a href="/choose_compare_sets/">comparateur</a> montre exactement ce que ta retouche t'a acheté.</p>
+<p>Une solution étrange, c'est presque toujours les poids qui parlent. Trop de vitalité et pas de dégâts ? Ton poids vitalité domine. Un emplacement vide ? Aucun item n'y apporte de valeur positive avec tes poids. Itère : change un chiffre, relance, compare. Le <a href="/choose_compare_sets/">comparateur</a> montre exactement ce que ta retouche t'a acheté.</p>
 
 <p><em>Prêt à affiner ? <a href="/setup/">Ouvre un projet</a> et va sur la page des poids.</em></p>
 ''',
@@ -1343,19 +1343,19 @@ GUIDES = {
             'es': {
                 'title': "Ajustar tus pesos: cómo decirle al optimizador lo que de verdad importa",
                 'desc': "La página de pesos es donde un set genérico se convierte en tu set. Qué significan los números, en qué se diferencian los presets de los pesos personalizados, y los errores que arruinan una solución en silencio.",
-                'lead': "El optimizador no adivina lo que quieres — maximiza exactamente lo que le dices. La página de pesos es donde se lo dices. Cinco minutos aquí valen más que una hora cambiando ítems a mano.",
+                'lead': "El optimizador no adivina lo que quieres: maximiza exactamente lo que le dices. La página de pesos es donde se lo dices. Cinco minutos aquí valen más que una hora cambiando ítems a mano.",
                 'body': '''
 <h2>Qué es un peso</h2>
-<p>Cada característica recibe un número: cuántos puntos de valor vale para ti una unidad de esa estadística. El solucionador lo suma todo en cada set candidato y devuelve el mejor total. Un peso de 0 significa "no me importa nada" — la estadística puede acabar en cualquier valor. Un peso grande, y el solucionador sacrificará el resto para conseguirla. No hay escala mágica; solo importan las proporciones entre tus pesos.</p>
+<p>Cada característica recibe un número: cuántos puntos de valor vale para ti una unidad de esa estadística. El solucionador lo suma todo en cada set candidato y devuelve el mejor total. Un peso de 0 significa "no me importa nada": la estadística puede acabar en cualquier valor. Un peso grande, y el solucionador sacrificará el resto para conseguirla. No hay escala mágica; solo importan las proporciones entre tus pesos.</p>
 
 <h2>Primero el preset, después lo personalizado</h2>
 <p>Las preguntas del asistente (elemento, estilo de juego, nivel) generan un perfil de partida razonable, y el <a href="/smartbuild/">build inteligente</a> hace lo mismo desde una descripción de texto. Empieza ahí. Luego abre la página de pesos y ajusta: sube las resistencias para un toque tanque, sube el crítico para un build de críticos, pon la prospección a cero si nunca farmeas. Retocar un buen preset gana a escribir veinte números desde cero.</p>
 
 <h2>Los pesos son deseos; los mínimos son reglas</h2>
-<p>Si algo no es negociable — 12 PA, 6 PM, un suelo de vitalidad — no infles su peso: pon un <strong>mínimo</strong>. Un mínimo es una restricción dura que el solucionador debe cumplir; un peso es una preferencia que negocia contra todo lo demás. Sobreponderar los PA "por seguridad" es el error clásico: el solucionador persigue PA que el set ya tiene y descuida las estadísticas que de verdad querías.</p>
+<p>Si algo no es negociable (12 PA, 6 PM, un suelo de vitalidad), no infles su peso: pon un <strong>mínimo</strong>. Un mínimo es una restricción dura que el solucionador debe cumplir; un peso es una preferencia que negocia contra todo lo demás. Sobreponderar los PA "por seguridad" es el error clásico: el solucionador persigue PA que el set ya tiene y descuida las estadísticas que de verdad querías.</p>
 
 <h2>Cuando el resultado se ve raro</h2>
-<p>Una solución extraña casi siempre son los pesos hablando. ¿Mucha vitalidad y nada de daño? Tu peso de vitalidad domina. ¿Una ranura vacía? Ningún ítem aporta ahí valor positivo con tus pesos. Itera: cambia un número, relanza, compara — el <a href="/choose_compare_sets/">comparador</a> muestra exactamente qué te compró tu ajuste.</p>
+<p>Una solución extraña casi siempre son los pesos hablando. ¿Mucha vitalidad y nada de daño? Tu peso de vitalidad domina. ¿Una ranura vacía? Ningún ítem aporta ahí valor positivo con tus pesos. Itera: cambia un número, relanza, compara. El <a href="/choose_compare_sets/">comparador</a> muestra exactamente qué te compró tu ajuste.</p>
 
 <p><em>¿Listo para afinar? <a href="/setup/">Abre un proyecto</a> y ve a la página de pesos.</em></p>
 ''',
@@ -1363,19 +1363,19 @@ GUIDES = {
             'pt': {
                 'title': "Ajustando seus pesos: como dizer ao otimizador o que realmente importa",
                 'desc': "A página de pesos é onde um set genérico vira o seu set. O que os números significam, a diferença entre presets e pesos personalizados, e os erros que arruínam uma solução em silêncio.",
-                'lead': "O otimizador não adivinha o que você quer — ele maximiza exatamente o que você diz. A página de pesos é onde você diz. Cinco minutos aqui valem mais que uma hora trocando itens na mão.",
+                'lead': "O otimizador não adivinha o que você quer: ele maximiza exatamente o que você diz. A página de pesos é onde você diz. Cinco minutos aqui valem mais que uma hora trocando itens na mão.",
                 'body': '''
 <h2>O que é um peso</h2>
-<p>Cada característica recebe um número: quantos pontos de valor uma unidade daquele atributo vale para você. O solver soma tudo em cada set candidato e devolve o melhor total. Peso 0 significa "não me importo nada" — o atributo pode terminar em qualquer valor. Um peso grande, e o solver sacrifica o resto para consegui-lo. Não existe escala mágica; só as proporções entre os seus pesos importam.</p>
+<p>Cada característica recebe um número: quantos pontos de valor uma unidade daquele atributo vale para você. O solver soma tudo em cada set candidato e devolve o melhor total. Peso 0 significa "não me importo nada": o atributo pode terminar em qualquer valor. Um peso grande, e o solver sacrifica o resto para consegui-lo. Não existe escala mágica; só as proporções entre os seus pesos importam.</p>
 
 <h2>Preset primeiro, personalização depois</h2>
 <p>As perguntas do assistente (elemento, estilo de jogo, nível) geram um perfil inicial razoável, e o <a href="/smartbuild/">build inteligente</a> faz o mesmo a partir de uma descrição em texto. Comece por aí. Depois abra a página de pesos e ajuste: suba as resistências para um jeito tanque, suba o crítico para um build de crítico, zere a prospecção se você nunca farma. Retocar um bom preset ganha de escrever vinte números do zero.</p>
 
 <h2>Pesos são desejos; mínimos são regras</h2>
-<p>Se algo é inegociável — 12 PA, 6 PM, um piso de vitalidade — não infle o peso: defina um <strong>mínimo</strong>. Um mínimo é uma restrição dura que o solver precisa cumprir; um peso é uma preferência que ele negocia contra todo o resto. Superponderar PA "por garantia" é o erro clássico: o solver corre atrás de PA que o set já tem e negligencia os atributos que você queria de verdade.</p>
+<p>Se algo é inegociável (12 PA, 6 PM, um piso de vitalidade), não infle o peso: defina um <strong>mínimo</strong>. Um mínimo é uma restrição dura que o solver precisa cumprir; um peso é uma preferência que ele negocia contra todo o resto. Superponderar PA "por garantia" é o erro clássico: o solver corre atrás de PA que o set já tem e negligencia os atributos que você queria de verdade.</p>
 
 <h2>Quando o resultado parece estranho</h2>
-<p>Uma solução esquisita é quase sempre culpa dos pesos. Muita vitalidade e nada de dano? Seu peso de vitalidade domina. Um slot vazio? Nenhum item ali soma valor positivo com os seus pesos. Itere: mude um número, rode de novo, compare — o <a href="/choose_compare_sets/">comparador</a> mostra exatamente o que o seu ajuste comprou.</p>
+<p>Uma solução esquisita é quase sempre culpa dos pesos. Muita vitalidade e nada de dano? Seu peso de vitalidade domina. Um slot vazio? Nenhum item ali soma valor positivo com os seus pesos. Itere: mude um número, rode de novo, compare. O <a href="/choose_compare_sets/">comparador</a> mostra exatamente o que o seu ajuste comprou.</p>
 
 <p><em>Pronto para afinar? <a href="/setup/">Abra um projeto</a> e vá à página de pesos.</em></p>
 ''',
@@ -1383,19 +1383,19 @@ GUIDES = {
             'de': {
                 'title': "Gewichte richtig einstellen: dem Optimierer sagen, was wirklich zählt",
                 'desc': "Auf der Gewichte-Seite wird aus einem generischen Set dein Set. Was die Zahlen bedeuten, wie sich Presets von eigenen Gewichten unterscheiden, und welche Fehler eine Lösung leise ruinieren.",
-                'lead': "Der Optimierer rät nicht, was du willst — er maximiert genau das, was du ihm sagst. Auf der Gewichte-Seite sagst du es ihm. Fünf Minuten hier schlagen eine Stunde Items-Tauschen von Hand.",
+                'lead': "Der Optimierer rät nicht, was du willst: er maximiert genau das, was du ihm sagst. Auf der Gewichte-Seite sagst du es ihm. Fünf Minuten hier schlagen eine Stunde Items-Tauschen von Hand.",
                 'body': '''
 <h2>Was ein Gewicht eigentlich ist</h2>
-<p>Jede Eigenschaft bekommt eine Zahl: wie viele Wertpunkte dir eine Einheit dieses Werts bedeutet. Der Solver summiert alles über jedes Kandidaten-Set und liefert die höchste Gesamtsumme. Ein Gewicht von 0 heißt "völlig egal" — der Wert kann irgendwo landen. Ein großes Gewicht, und der Solver opfert anderes dafür. Es gibt keine magische Skala; nur die Verhältnisse zwischen deinen Gewichten zählen.</p>
+<p>Jede Eigenschaft bekommt eine Zahl: wie viele Wertpunkte dir eine Einheit dieses Werts bedeutet. Der Solver summiert alles über jedes Kandidaten-Set und liefert die höchste Gesamtsumme. Ein Gewicht von 0 heißt "völlig egal": der Wert kann irgendwo landen. Ein großes Gewicht, und der Solver opfert anderes dafür. Es gibt keine magische Skala; nur die Verhältnisse zwischen deinen Gewichten zählen.</p>
 
 <h2>Erst Preset, dann Feintuning</h2>
 <p>Die Fragen des Assistenten (Element, Spielstil, Stufe) erzeugen ein vernünftiges Startprofil, und das <a href="/smartbuild/">Smart Build</a> macht dasselbe aus einer Textbeschreibung. Fang dort an. Dann öffne die Gewichte-Seite und justiere nach: Resistenzen hoch für ein zäheres Set, Krit hoch für ein Krit-Build, Prospektion auf null, wenn du nie farmst. Ein gutes Preset nachzuschärfen schlägt zwanzig Zahlen aus dem Nichts.</p>
 
 <h2>Gewichte sind Wünsche; Minima sind Regeln</h2>
-<p>Wenn etwas nicht verhandelbar ist — 12 AP, 6 BP, eine Vitalitäts-Untergrenze — bläh nicht das Gewicht auf: setz stattdessen ein <strong>Minimum</strong>. Ein Minimum ist eine harte Bedingung, die der Solver erfüllen muss; ein Gewicht ist eine Vorliebe, die er gegen alles andere abwägt. AP "zur Sicherheit" zu übergewichten ist der Klassiker: der Solver jagt AP hinterher, die das Set längst hat, und vernachlässigt die Werte, die du eigentlich wolltest.</p>
+<p>Wenn etwas nicht verhandelbar ist (12 AP, 6 BP, eine Vitalitäts-Untergrenze), bläh nicht das Gewicht auf: setz stattdessen ein <strong>Minimum</strong>. Ein Minimum ist eine harte Bedingung, die der Solver erfüllen muss; ein Gewicht ist eine Vorliebe, die er gegen alles andere abwägt. AP "zur Sicherheit" zu übergewichten ist der Klassiker: der Solver jagt AP hinterher, die das Set längst hat, und vernachlässigt die Werte, die du eigentlich wolltest.</p>
 
 <h2>Wenn das Ergebnis komisch aussieht</h2>
-<p>Eine seltsame Lösung sind fast immer die Gewichte. Viel Vitalität, kein Schaden? Dein Vitalitätsgewicht dominiert. Ein leerer Platz? Kein Item bringt dort mit deinen Gewichten positiven Wert. Iteriere: eine Zahl ändern, neu laufen lassen, vergleichen — der <a href="/choose_compare_sets/">Vergleich</a> zeigt genau, was dir die Änderung gebracht hat.</p>
+<p>Eine seltsame Lösung sind fast immer die Gewichte. Viel Vitalität, kein Schaden? Dein Vitalitätsgewicht dominiert. Ein leerer Platz? Kein Item bringt dort mit deinen Gewichten positiven Wert. Iteriere: eine Zahl ändern, neu laufen lassen, vergleichen. Der <a href="/choose_compare_sets/">Vergleich</a> zeigt genau, was dir die Änderung gebracht hat.</p>
 
 <p><em>Bereit zum Feintuning? <a href="/setup/">Öffne ein Projekt</a> und geh zur Gewichte-Seite.</em></p>
 ''',
