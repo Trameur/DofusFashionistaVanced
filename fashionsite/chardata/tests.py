@@ -397,7 +397,7 @@ class PublicRouteSmokeTests(TestCase):
         # The error page is user-visible in every language; the fr heading had
         # silently shipped in english.
         cases = {'fr': '404 - Page non trouvée', 'es': '404 - Página no encontrada',
-                 'de': '404 – Seite nicht gefunden'}
+                 'de': '404 - Seite nicht gefunden'}
         for lang, needle in cases.items():
             with self.subTest(lang=lang):
                 resp = self.client.get('/this-page-does-not-exist-xyz123/',
