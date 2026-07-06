@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""scrape_retro_pet_bonuses.py — auto-build retro_pet_bonuses.json from dofux.org.
+"""scrape_retro_pet_bonuses.py: auto-build retro_pet_bonuses.json from dofux.org.
 
 Dofus Retro pet bonuses (the stats a pet can be fed toward, and their caps) are
 not in Ankama's lang data. The fan database dofux.org lists them per pet in a
@@ -52,7 +52,7 @@ FOOD_STATS = {
 # Manual data (keyed by English items_retro.db name) that overrides / fills the
 # scrape. dofux omits a "Nourriture" block for some quest-reward pets, so they're
 # supplied here from community sources (millenium / dofusretro.jeuxonline).
-# Edit this to correct any pet — it takes precedence over the scrape.
+# Edit this to correct any pet, it takes precedence over the scrape.
 OVERRIDES = {
     'Nomoon': [['Prospecting', 80]],
     'Bworky': [['Pods', 1000]],

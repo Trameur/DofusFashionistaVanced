@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""store_retro_set_bonuses.py — fill missing Dofus Retro set bonuses.
+"""store_retro_set_bonuses.py: fill missing Dofus Retro set bonuses.
 
 Set bonuses are not in Ankama's Retro lang CDN (they're server-side), so the
 builder seeds them from a vendored 1.29 community snapshot
@@ -91,7 +91,7 @@ def _code_to_stat(code, value):
             if fr_element in label:
                 stat = ('%% %s Resist' % en_element) if is_percent else ('%s Resist' % en_element)
                 return stat, parsed_value
-    return None, parsed_value  # e.g. "reduction physique" — no matching stat row
+    return None, parsed_value  # e.g. "reduction physique", no matching stat row
 
 
 def fetch_api_records():

@@ -204,13 +204,13 @@ def test_changelog():
 def test_changelog_translations():
     section("Changelog translations")
     lang_checks = [
-        ("fr", "Décembre 2024",       "French — December 2024"),
-        ("fr", "Dofus 3.0",           "French — Dofus 3.0 badge"),
-        ("fr", "Mise à jour Dofus",   "French — Dofus 3.x title"),
-        ("de", "Dezember 2024",       "German — December 2024"),
-        ("de", "Kompatibilitäts",     "German — compatibility entry"),
-        ("es", "Diciembre",           "Spanish — December 2024"),
-        ("pt", "Dezembro",            "Portuguese — December 2024"),
+        ("fr", "Décembre 2024",       "French, December 2024"),
+        ("fr", "Dofus 3.0",           "French, Dofus 3.0 badge"),
+        ("fr", "Mise à jour Dofus",   "French, Dofus 3.x title"),
+        ("de", "Dezember 2024",       "German, December 2024"),
+        ("de", "Kompatibilitäts",     "German, compatibility entry"),
+        ("es", "Diciembre",           "Spanish, December 2024"),
+        ("pt", "Dezembro",            "Portuguese, December 2024"),
     ]
     for lang, needle, name in lang_checks:
         check_contains(name, "/", needle, cookies={"django_language": lang})
@@ -222,7 +222,7 @@ def test_encyclopedia():
                    "encyclopedia-page-link")
     check_contains("Search results for 'bouftou'", "/encyclopedia/?search=bouftou",
                    "encyclopedia")
-    # Ensure a known item page loads — find a real ankama_id from search
+    # Ensure a known item page loads, find a real ankama_id from search
     try:
         r = get("/encyclopedia/?search=Bouftou+Amulet")
         m = re.search(r'/encyclopedia/item/([^/]+)/(\d+)-([^/]+)/', r.text)
@@ -268,7 +268,7 @@ def test_i18n():
         try:
             r = get("/", cookies={"django_language": lang})
             if r.status_code == 200 and "<html" in r.text.lower():
-                ok(f"Language '{lang}' — page renders without error")
+                ok(f"Language '{lang}', page renders without error")
             else:
                 fail(f"Language '{lang}'", f"HTTP {r.status_code}")
         except Exception as e:
@@ -366,7 +366,7 @@ def main():
 
     BASE = args.url.rstrip("/")
 
-    print(f"\n{BOLD}DofusFashionistaVanced — automated tests{RESET}")
+    print(f"\n{BOLD}DofusFashionistaVanced, automated tests{RESET}")
     print(f"Target: {CYAN}{BASE}{RESET}\n")
 
     # Quick connectivity check

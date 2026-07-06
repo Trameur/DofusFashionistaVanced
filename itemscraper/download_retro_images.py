@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-download_retro_images.py — fetch Dofus Retro item/mount/pet icons.
+download_retro_images.py: fetch Dofus Retro item/mount/pet icons.
 
 Source: the community Cyberia CDN (github.com/Lounek09/Cyberia.Cdn, served at
 amphibian.fr), which has real Retro icons keyed by <item_type>/<size>/<gfx>.png.

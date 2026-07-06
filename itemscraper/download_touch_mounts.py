@@ -3,7 +3,7 @@
 Fetch Dofus Touch mounts (Dragodindes) with their stats.
 
 Touch's data backend has the mount catalogue (the Mounts table: id + localized
-names) but not the stats — a mount's effects are server-side, derived from its
+names) but not the stats, a mount's effects are server-side, derived from its
 breeding, so they're never in the static data. The official Touch encyclopedia
 does publish each mount's effects, so we take the names from the backend and the
 effects from the encyclopedia and join them on the mount id (they share Ankama's

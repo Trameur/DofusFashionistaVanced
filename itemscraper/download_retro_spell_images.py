@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-download_retro_spell_images.py — fetch Dofus Retro damage-spell icons.
+download_retro_spell_images.py: fetch Dofus Retro damage-spell icons.
 
 Source: the community Cyberia CDN (github.com/Lounek09/Cyberia.Cdn), which serves
 Retro spell icons keyed by spell id at images/dofus/spells/<size>/<id>.jpg. We only

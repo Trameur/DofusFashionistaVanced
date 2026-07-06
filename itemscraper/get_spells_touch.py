@@ -4,7 +4,7 @@ Build the Dofus Touch damage-spells dataset (per class) from the Touch backend.
 
 Unlike items, the spell data is fully in Touch's own data backend: Breeds gives
 each class its spell ids (breedSpellsId), Spells gives each spell its grades
-(spellLevels), and SpellLevels carries the per-grade effects — including separate
+(spellLevels), and SpellLevels carries the per-grade effects, including separate
 non-crit (`effects`) and crit (`criticalEffect`) lists, so no encyclopedia scrape
 is needed. Elemental damage uses the same effect ids as items (96 Water, 97 Earth,
 98 Air, 99 Fire, 100 Neutral); diceNum/diceSide are the min/max of the hit.

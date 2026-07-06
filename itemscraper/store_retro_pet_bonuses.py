@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""store_retro_pet_bonuses.py — maxed-stat variants for Dofus Retro pets.
+"""store_retro_pet_bonuses.py: maxed-stat variants for Dofus Retro pets.
 
 Classic Retro pets have no fixed stats in Ankama's data: you feed them and one
 stat grows to a cap. Crucially, *most pets are locked to a specific stat* (Air
@@ -14,7 +14,7 @@ hand-editable data file: itemscraper/retro_pet_bonuses.json
 A stat name beginning with "%" is treated as a percentage. A pet may list
 several entries if it genuinely offers a choice; an empty list (or a pet absent
 from the file) gets no variant. For each listed (pet, stat) this creates a
-maxed Pet item — "<Pet> (+80 Agility)" — that the optimizer can use, localized
+maxed Pet item, "<Pet> (+80 Agility)", that the optimizer can use, localized
 in FR/ES/PT/DE. Variants reuse the pet's ankama id (encyclopedia still shows one
 pet) and live in a reserved id range so re-runs replace cleanly. Re-dumps
 items_retro.db. Run after load_item_db (like the other retro post-steps)."""
@@ -34,7 +34,7 @@ from store_item_obtainment import (  # noqa: E402  (sys.path set above)
 
 GAME_VERSION = 'retro'
 BONUSES_PATH = os.path.join(CURRENT_DIRECTORY, 'retro_pet_bonuses.json')
-# Synthetic id range for generated variants — lets the script wipe & rebuild its
+# Synthetic id range for generated variants, lets the script wipe & rebuild its
 # own rows without touching real items (real retro ids are < 100000).
 VARIANT_ID_BASE = 10_000_000
 NON_EN_LANGUAGES = ['fr', 'es', 'pt', 'de']

@@ -6,7 +6,7 @@ The Touch client doesn't expose a public API; it pulls its data straight from it
 own backend, so we go to the same place. config.json hands back the current data
 host (dataUrl), then each table is a POST to /data/map with the class name. The
 response is the whole table, keyed by id, with names already localised to the
-requested language. Plain GETs 404 — the route only answers POST.
+requested language. Plain GETs 404, the route only answers POST.
 
   config : GET  https://earlyproxy.touch.dofus.com/config.json?lang=<lang>
   table  : POST <dataUrl>/data/map   {"class": "Items", "lang": "<lang>"}
@@ -39,7 +39,7 @@ FALLBACK_DATA_URL = "https://dt-proxy-production-early.ankama-games.com"
 USER_AGENT = "Dofus/2 CFNetwork"
 
 # Tables needed to build an equipment optimizer. (Many more exist: Spells,
-# Monsters, Areas, Jobs, … — add as needed.)
+# Monsters, Areas, Jobs, …, add as needed.)
 DEFAULT_CLASSES = [
     'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
 ]

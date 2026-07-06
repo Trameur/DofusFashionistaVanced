@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""store_retro_set_names.py — localize Dofus Retro set names.
+"""store_retro_set_names.py: localize Dofus Retro set names.
 
 The retro builder only ingested French set names, so `sets.name` and the
 `set_names` table in items_retro.db are French-only. Because structure.py sets
@@ -11,7 +11,7 @@ French name (e.g. "Panoplie Ventouse" instead of "Sucker Set").
 Set names live in the Ankama `itemsets` lang file (global `IS`, keyed by set
 ankama id, field `n` = name), per language. This script pulls itemsets for every
 language, sets the canonical `sets.name` to the English name and fills
-`set_names` with all languages, then re-dumps items_retro.db — mirroring how the
+`set_names` with all languages, then re-dumps items_retro.db, mirroring how the
 other versions localize set names.
 """
 

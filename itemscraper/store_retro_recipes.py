@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""store_retro_recipes.py — populate recipe data for Dofus Retro.
+"""store_retro_recipes.py: populate recipe data for Dofus Retro.
 
 Unlike the other versions (whose recipes come from the dofusdu.de all_*.json
 files), Dofus Retro ships its data as Ankama "lang" SWF files. Recipes live in
@@ -14,7 +14,7 @@ ankama id, field `n` = name), which we pull per language.
 
 This script downloads (or reuses cached) crafts + items lang data, then fills
 the item_recipes / item_recipe_ingredient_names tables in items_retro.db and
-re-dumps it — mirroring what store_item_obtainment.py does for the other
+re-dumps it, mirroring what store_item_obtainment.py does for the other
 versions, so chardata.recipe_util / the encyclopedia work unchanged for retro.
 """
 

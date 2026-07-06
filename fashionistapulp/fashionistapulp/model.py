@@ -50,7 +50,7 @@ class Model:
 
     def _apply_stat_overrides(self, stat_overrides):
         """Deep-copy overridden items and modify their stats before constraint creation.
-        AP/MP/Range overrides are skipped — the exo option handles them in modify_stat_total_constraints."""
+        AP/MP/Range overrides are skipped, the exo option handles them in modify_stat_total_constraints."""
         new_items_list = []
         for item in self.items_list:
             item_overrides = stat_overrides.get(item.id)
@@ -135,7 +135,7 @@ class Model:
 
         # Stats that appear in any set's max_caps need an overage variable so the LP can
         # represent effective stats below the character's base (e.g. 6-piece Cire Momore caps MP at 2
-        # while base MP is 3 — without overage the equality constraint makes that infeasible).
+        # while base MP is 3, without overage the equality constraint makes that infeasible).
         self._capped_stat_ids = set()
         for item_set in self.sets_list:
             if not item_set.max_caps:

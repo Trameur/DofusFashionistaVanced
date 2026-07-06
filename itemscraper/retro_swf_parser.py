@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-retro_swf_parser.py — pure-Python parser for Dofus Retro "lang" SWF files.
+retro_swf_parser.py: pure-Python parser for Dofus Retro "lang" SWF files.
 
 Dofus Retro ships its game data as SWF files whose payload is an ActionScript 2
 program that builds global objects (e.g. `I` for items). This module:
