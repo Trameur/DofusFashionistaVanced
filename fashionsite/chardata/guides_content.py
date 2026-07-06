@@ -1094,13 +1094,13 @@ GUIDES = {
                 'lead': "You've got two sets and you're not sure which one to wear. Instead of squinting at two tabs, put them side by side and let the numbers decide.",
                 'body': '''
 <h2>Why compare at all</h2>
-<p>Two builds can look similar and play completely differently. One has 200 more vitality; the other hits 8% harder. Eyeballing that across a dozen slots is hopeless. The comparison lines both sets up column by column so the trade-offs jump out — no spreadsheet, no guesswork.</p>
+<p>Two builds can look similar and play completely differently. One has 200 more vitality; the other hits 8% harder. Eyeballing that across a dozen slots is hopeless. The comparison lines both sets up column by column so the trade-offs jump out: no spreadsheet, no guesswork.</p>
 
 <h2>How to set it up</h2>
-<p>On any solution page (yours or a shared build), hit <strong>Add to comparison</strong>. Do it on a second build — or a third, or a fourth — and open the <a href="/choose_compare_sets/">comparison</a>. You can also paste build share links straight in. Your cart sticks around as you browse, so you can collect candidates and compare them all at once.</p>
+<p>On any solution page (yours or a shared build), hit <strong>Add to comparison</strong>. Do it on a second build (or a third, or a fourth) and open the <a href="/choose_compare_sets/">comparison</a>. You can also paste build share links straight in. Your cart sticks around as you browse, so you can collect candidates and compare them all at once.</p>
 
 <h2>Reading the result</h2>
-<p>Each build gets a column; with exactly two, you also get a <em>diff</em> column that spells out the gap on every stat. Items shared between sets line up, so you instantly see which pieces actually differ and which carry over. That's usually where the real decision lives — not in the totals, but in the two or three slots that aren't the same.</p>
+<p>Each build gets a column; with exactly two, you also get a <em>diff</em> column that spells out the gap on every stat. Items shared between sets line up, so you instantly see which pieces actually differ and which carry over. That's usually where the real decision lives, not in the totals, but in the two or three slots that aren't the same.</p>
 
 <h2>What to compare</h2>
 <p>The obvious use is "my current set vs. the optimizer's suggestion." But it's just as good for "PvM vs. Kolossium variant," "cheap vs. expensive version," or settling a guild argument by dropping two shared builds in together. Anytime you're torn between two directions, compare them instead of debating them.</p>
@@ -1114,13 +1114,13 @@ GUIDES = {
                 'lead': "T'as deux sets et tu sais pas lequel porter. Plutôt que de loucher sur deux onglets, mets-les côte à côte et laisse les chiffres trancher.",
                 'body': '''
 <h2>Pourquoi comparer</h2>
-<p>Deux builds peuvent sembler proches et jouer complètement différemment. L'un a 200 vita de plus ; l'autre tape 8% plus fort. Juger ça à l'œil sur douze emplacements, c'est mission impossible. Le comparateur aligne les deux sets colonne par colonne pour que les compromis sautent aux yeux — pas de tableur, pas de devinette.</p>
+<p>Deux builds peuvent sembler proches et jouer complètement différemment. L'un a 200 vita de plus ; l'autre tape 8% plus fort. Juger ça à l'œil sur douze emplacements, c'est mission impossible. Le comparateur aligne les deux sets colonne par colonne pour que les compromis sautent aux yeux : pas de tableur, pas de devinette.</p>
 
 <h2>Comment le lancer</h2>
-<p>Sur n'importe quelle page de solution (la tienne ou un build partagé), clique sur <strong>Ajouter à la comparaison</strong>. Fais-le sur un deuxième build — ou un troisième, ou un quatrième — et ouvre le <a href="/choose_compare_sets/">comparateur</a>. Tu peux aussi coller directement des liens de partage. Ton panier reste en place pendant que tu navigues, donc tu collectes des candidats et tu compares tout d'un coup.</p>
+<p>Sur n'importe quelle page de solution (la tienne ou un build partagé), clique sur <strong>Ajouter à la comparaison</strong>. Fais-le sur un deuxième build (ou un troisième, ou un quatrième) et ouvre le <a href="/choose_compare_sets/">comparateur</a>. Tu peux aussi coller directement des liens de partage. Ton panier reste en place pendant que tu navigues, donc tu collectes des candidats et tu compares tout d'un coup.</p>
 
 <h2>Lire le résultat</h2>
-<p>Chaque build a sa colonne ; avec exactement deux, t'as en plus une colonne <em>diff</em> qui détaille l'écart sur chaque stat. Les items communs aux deux sets s'alignent, donc tu vois direct quelles pièces diffèrent vraiment et lesquelles reviennent. C'est en général là que se joue la vraie décision — pas dans les totaux, mais dans les deux-trois emplacements qui ne sont pas les mêmes.</p>
+<p>Chaque build a sa colonne ; avec exactement deux, t'as en plus une colonne <em>diff</em> qui détaille l'écart sur chaque stat. Les items communs aux deux sets s'alignent, donc tu vois direct quelles pièces diffèrent vraiment et lesquelles reviennent. C'est en général là que se joue la vraie décision, pas dans les totaux, mais dans les deux-trois emplacements qui ne sont pas les mêmes.</p>
 
 <h2>Quoi comparer</h2>
 <p>L'usage évident, c'est "mon set actuel vs la propo de l'optimiseur". Mais c'est aussi parfait pour "variante PvM vs Kolizéum", "version cheap vs chère", ou clore un débat de guilde en mettant deux builds partagés ensemble. Dès que t'hésites entre deux directions, compare-les au lieu d'en débattre.</p>
@@ -1134,13 +1134,13 @@ GUIDES = {
                 'lead': "Tienes dos sets y no sabes cuál llevar. En vez de bizquear entre dos pestañas, ponlos lado a lado y deja que los números decidan.",
                 'body': '''
 <h2>Por qué comparar</h2>
-<p>Dos builds pueden parecer iguales y jugarse completamente distinto. Uno tiene 200 de vitalidad más; el otro pega un 8% más fuerte. Juzgar eso a ojo en una docena de ranuras es imposible. El comparador alinea los dos sets columna por columna para que los compromisos salten a la vista — sin hoja de cálculo, sin adivinar.</p>
+<p>Dos builds pueden parecer iguales y jugarse completamente distinto. Uno tiene 200 de vitalidad más; el otro pega un 8% más fuerte. Juzgar eso a ojo en una docena de ranuras es imposible. El comparador alinea los dos sets columna por columna para que los compromisos salten a la vista: sin hoja de cálculo, sin adivinar.</p>
 
 <h2>Cómo montarlo</h2>
-<p>En cualquier página de solución (la tuya o un build compartido), dale a <strong>Añadir a la comparación</strong>. Hazlo en un segundo build — o un tercero, o un cuarto — y abre el <a href="/choose_compare_sets/">comparador</a>. También puedes pegar enlaces de builds compartidos directamente. Tu carrito se queda mientras navegas, así que reúnes candidatos y los comparas todos de golpe.</p>
+<p>En cualquier página de solución (la tuya o un build compartido), dale a <strong>Añadir a la comparación</strong>. Hazlo en un segundo build (o un tercero, o un cuarto) y abre el <a href="/choose_compare_sets/">comparador</a>. También puedes pegar enlaces de builds compartidos directamente. Tu carrito se queda mientras navegas, así que reúnes candidatos y los comparas todos de golpe.</p>
 
 <h2>Leer el resultado</h2>
-<p>Cada build tiene su columna; con exactamente dos, tienes además una columna <em>diff</em> que detalla la diferencia en cada estadística. Los ítems compartidos entre sets se alinean, así que ves al instante qué piezas difieren de verdad y cuáles se repiten. Ahí suele estar la decisión real — no en los totales, sino en las dos o tres ranuras que no son iguales.</p>
+<p>Cada build tiene su columna; con exactamente dos, tienes además una columna <em>diff</em> que detalla la diferencia en cada estadística. Los ítems compartidos entre sets se alinean, así que ves al instante qué piezas difieren de verdad y cuáles se repiten. Ahí suele estar la decisión real, no en los totales, sino en las dos o tres ranuras que no son iguales.</p>
 
 <h2>Qué comparar</h2>
 <p>El uso obvio es "mi set actual vs. la sugerencia del optimizador". Pero va igual de bien para "variante PvM vs. Koliseo", "versión barata vs. cara", o zanjar una discusión de gremio metiendo dos builds compartidos juntos. Cuando dudes entre dos direcciones, compáralas en vez de debatirlas.</p>
@@ -1154,13 +1154,13 @@ GUIDES = {
                 'lead': "Você tem dois sets e não sabe qual usar. Em vez de apertar os olhos entre duas abas, coloque-os lado a lado e deixe os números decidirem.",
                 'body': '''
 <h2>Por que comparar</h2>
-<p>Dois builds podem parecer iguais e jogar de um jeito completamente diferente. Um tem 200 de vitalidade a mais; o outro bate 8% mais forte. Julgar isso no olho em uma dúzia de slots é impossível. O comparador alinha os dois sets coluna por coluna pra que os trade-offs saltem aos olhos — sem planilha, sem adivinhação.</p>
+<p>Dois builds podem parecer iguais e jogar de um jeito completamente diferente. Um tem 200 de vitalidade a mais; o outro bate 8% mais forte. Julgar isso no olho em uma dúzia de slots é impossível. O comparador alinha os dois sets coluna por coluna pra que os trade-offs saltem aos olhos: sem planilha, sem adivinhação.</p>
 
 <h2>Como montar</h2>
-<p>Em qualquer página de solução (a sua ou um build compartilhado), clique em <strong>Adicionar à comparação</strong>. Faça isso num segundo build — ou num terceiro, ou quarto — e abra o <a href="/choose_compare_sets/">comparador</a>. Você também pode colar links de builds compartilhados direto. Seu carrinho fica enquanto você navega, então você junta candidatos e compara todos de uma vez.</p>
+<p>Em qualquer página de solução (a sua ou um build compartilhado), clique em <strong>Adicionar à comparação</strong>. Faça isso num segundo build (ou num terceiro, ou quarto) e abra o <a href="/choose_compare_sets/">comparador</a>. Você também pode colar links de builds compartilhados direto. Seu carrinho fica enquanto você navega, então você junta candidatos e compara todos de uma vez.</p>
 
 <h2>Ler o resultado</h2>
-<p>Cada build ganha uma coluna; com exatamente dois, você ainda ganha uma coluna <em>diff</em> que detalha a diferença em cada atributo. Os itens compartilhados entre os sets se alinham, então você vê na hora quais peças realmente diferem e quais se repetem. Geralmente é aí que mora a decisão de verdade — não nos totais, mas nos dois ou três slots que não são iguais.</p>
+<p>Cada build ganha uma coluna; com exatamente dois, você ainda ganha uma coluna <em>diff</em> que detalha a diferença em cada atributo. Os itens compartilhados entre os sets se alinham, então você vê na hora quais peças realmente diferem e quais se repetem. Geralmente é aí que mora a decisão de verdade, não nos totais, mas nos dois ou três slots que não são iguais.</p>
 
 <h2>O que comparar</h2>
 <p>O uso óbvio é "meu set atual vs. a sugestão do otimizador". Mas serve igual pra "variante PvM vs. Koliseu", "versão barata vs. cara", ou encerrar uma discussão de guilda colocando dois builds compartilhados juntos. Sempre que estiver dividido entre duas direções, compare em vez de debater.</p>
@@ -1174,13 +1174,13 @@ GUIDES = {
                 'lead': "Du hast zwei Sets und weißt nicht, welches du tragen sollst. Statt zwischen zwei Tabs zu schielen, stell sie nebeneinander und lass die Zahlen entscheiden.",
                 'body': '''
 <h2>Warum überhaupt vergleichen</h2>
-<p>Zwei Builds können ähnlich aussehen und sich völlig anders spielen. Eins hat 200 Vitalität mehr; das andere haut 8% härter zu. Das über ein Dutzend Plätze nach Augenmaß zu beurteilen, ist aussichtslos. Der Vergleich stellt beide Sets Spalte für Spalte auf, sodass die Kompromisse ins Auge springen — keine Tabelle, kein Raten.</p>
+<p>Zwei Builds können ähnlich aussehen und sich völlig anders spielen. Eins hat 200 Vitalität mehr; das andere haut 8% härter zu. Das über ein Dutzend Plätze nach Augenmaß zu beurteilen, ist aussichtslos. Der Vergleich stellt beide Sets Spalte für Spalte auf, sodass die Kompromisse ins Auge springen: keine Tabelle, kein Raten.</p>
 
 <h2>So richtest du es ein</h2>
-<p>Klick auf einer beliebigen Lösungsseite (deiner oder einem geteilten Build) auf <strong>Zum Vergleich hinzufügen</strong>. Mach das bei einem zweiten Build — oder einem dritten, oder vierten — und öffne den <a href="/choose_compare_sets/">Vergleich</a>. Du kannst auch Teil-Links direkt einfügen. Dein Warenkorb bleibt beim Stöbern erhalten, du sammelst also Kandidaten und vergleichst sie alle auf einmal.</p>
+<p>Klick auf einer beliebigen Lösungsseite (deiner oder einem geteilten Build) auf <strong>Zum Vergleich hinzufügen</strong>. Mach das bei einem zweiten Build (oder einem dritten, oder vierten) und öffne den <a href="/choose_compare_sets/">Vergleich</a>. Du kannst auch Teil-Links direkt einfügen. Dein Warenkorb bleibt beim Stöbern erhalten, du sammelst also Kandidaten und vergleichst sie alle auf einmal.</p>
 
 <h2>Das Ergebnis lesen</h2>
-<p>Jedes Build bekommt eine Spalte; bei genau zweien gibt es zusätzlich eine <em>Diff</em>-Spalte, die den Abstand bei jedem Wert aufschlüsselt. Items, die sich beide Sets teilen, stehen auf einer Linie, sodass du sofort siehst, welche Teile sich wirklich unterscheiden und welche gleich bleiben. Da liegt meist die echte Entscheidung — nicht in den Summen, sondern in den zwei, drei Plätzen, die nicht gleich sind.</p>
+<p>Jedes Build bekommt eine Spalte; bei genau zweien gibt es zusätzlich eine <em>Diff</em>-Spalte, die den Abstand bei jedem Wert aufschlüsselt. Items, die sich beide Sets teilen, stehen auf einer Linie, sodass du sofort siehst, welche Teile sich wirklich unterscheiden und welche gleich bleiben. Da liegt meist die echte Entscheidung, nicht in den Summen, sondern in den zwei, drei Plätzen, die nicht gleich sind.</p>
 
 <h2>Was du vergleichen kannst</h2>
 <p>Der naheliegende Einsatz ist "mein aktuelles Set vs. der Vorschlag des Optimierers". Aber es taugt genauso für "PvM- vs. Kolosseum-Variante", "günstige vs. teure Version" oder um einen Gildenstreit zu klären, indem du zwei geteilte Builds zusammenwirfst. Immer wenn du zwischen zwei Richtungen schwankst, vergleich sie, statt zu diskutieren.</p>
