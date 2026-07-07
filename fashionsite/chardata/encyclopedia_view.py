@@ -688,7 +688,8 @@ def _get_ankama_type_aliases(ankama_type):
     return alias_map.get(normalized, {normalized})
 
 
-def _get_item_extra_info(representative_item, language, t, game_version='dofus3'):
+def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
+                         variant_items=None):
     default_data = {
         'description': None,
         'pods': None,
@@ -698,6 +699,11 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
 
     if representative_item is None:
         return default_data
+
+    drop_item_ids = sorted({
+        int(item.id) for item in (variant_items or [representative_item])
+        if item is not None and getattr(item, 'id', None) is not None
+    })
 
     conn = None
     try:
@@ -826,19 +832,21 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_drops'"
         )
-        if cursor.fetchone() is not None:
+        if cursor.fetchone() is not None and drop_item_ids:
+            placeholders = ', '.join('?' for _ in drop_item_ids)
             cursor.execute(
                 """
-                SELECT d.monster_ankama_id, d.rate,
+                SELECT d.monster_ankama_id, MAX(d.rate) AS rate,
                        (SELECT name FROM monster_names
                         WHERE monster_ankama_id = d.monster_ankama_id AND language = ?),
                        (SELECT name FROM monster_names
                         WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en')
                 FROM item_drops d
-                WHERE d.item = ?
-                ORDER BY d.rate DESC
-                """,
-                (language, representative_item.id),
+                WHERE d.item IN (%s)
+                GROUP BY d.monster_ankama_id
+                ORDER BY rate DESC
+                """ % placeholders,
+                (language,) + tuple(drop_item_ids),
             )
             for monster_id, rate, name_loc, name_en in cursor.fetchall():
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
@@ -1271,8 +1279,10 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     if extras is None:
         extras = representative_item.localized_extras.get('en', [])
 
-    extra_info = _get_item_extra_info(representative_item, language, t,
-                                      game_version=getattr(request, 'game_version', 'dofus3'))
+    extra_info = _get_item_extra_info(
+        representative_item, language, t,
+        game_version=getattr(request, 'game_version', 'dofus3'),
+        variant_items=grouped_variants)
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
     game_version = getattr(request, 'game_version', 'dofus3')

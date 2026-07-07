@@ -2898,6 +2898,78 @@ class EncyclopediaMonsterPageTests(TestCase):
     """Monster encyclopedia pages are version-scoped and built from the per-version
     drop tables, so Retro monsters never borrow modern drops or names."""
 
+    def _retro_item_url_with_variant_only_drop(self):
+        import sqlite3
+        from collections import defaultdict
+
+        from chardata.encyclopedia_view import (
+            _get_group_representative,
+            _get_item_group_key,
+        )
+        from chardata.official_site import get_item_link
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure, set_current_game_version
+
+        set_current_game_version('retro')
+        structure = get_structure('retro')
+        grouped_items = defaultdict(list)
+        for item in structure.get_concatenated_items_lists():
+            if not getattr(item, 'ankama_id', None):
+                continue
+            if (item.ankama_type or '').lower() != 'equipment':
+                continue
+            grouped_items[_get_item_group_key(item)].append(item)
+
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='item_drops'")
+            if cur.fetchone() is None:
+                return None
+
+            cur.execute("SELECT item FROM item_drops")
+            dropped_item_ids = {row[0] for row in cur.fetchall()}
+            for variants in grouped_items.values():
+                representative = _get_group_representative(variants)
+                variant_ids = [item.id for item in variants]
+                if len(variant_ids) < 2:
+                    continue
+                if representative.id in dropped_item_ids:
+                    continue
+                if not any(item_id in dropped_item_ids for item_id in variant_ids):
+                    continue
+
+                placeholders = ','.join('?' for _ in variant_ids)
+                cur.execute(
+                    """
+                    SELECT d.monster_ankama_id,
+                           COALESCE(
+                               (SELECT name FROM monster_names
+                                WHERE monster_ankama_id = d.monster_ankama_id
+                                  AND language = 'fr'),
+                               (SELECT name FROM monster_names
+                                WHERE monster_ankama_id = d.monster_ankama_id
+                                  AND language = 'en'),
+                               '#' || d.monster_ankama_id)
+                    FROM item_drops d
+                    WHERE d.item IN (%s)
+                    ORDER BY d.rate DESC
+                    LIMIT 1
+                    """ % placeholders,
+                    variant_ids)
+                row = cur.fetchone()
+                item_url = get_item_link(
+                    representative.ankama_type,
+                    representative.ankama_id,
+                    representative.name,
+                    'retro')
+                if row is not None and item_url:
+                    return item_url, row[0], row[1]
+        finally:
+            conn.close()
+
+        return None
+
     def test_retro_monsters_list_is_localized_and_version_prefixed(self):
         resp = self.client.get('/retro/encyclopedia/monsters/?q=bouftou',
                                HTTP_ACCEPT_LANGUAGE='fr')
@@ -2987,3 +3059,15 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(item_resp.status_code, 200)
         self.assertIn('/retro/encyclopedia/monster/101-',
                       item_resp.content.decode('utf-8'))
+
+    def test_item_page_lists_drops_from_other_variants_in_same_version(self):
+        item_case = self._retro_item_url_with_variant_only_drop()
+        if item_case is None:
+            self.skipTest('no Retro item variant group with variant-only drops')
+
+        item_url, monster_id, monster_name = item_case
+        item_resp = self.client.get(item_url, HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(item_resp.status_code, 200)
+        body = item_resp.content.decode('utf-8')
+        self.assertIn('/retro/encyclopedia/monster/%d-' % monster_id, body)
+        self.assertIn(monster_name, body)

@@ -7415,3 +7415,7 @@ msgstr "Monsterseiten zeigen jetzt Typ und Stufe gedroppter Items neben den Drop
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Resource pages now show the type and level of each item they can craft"
 msgstr "Ressourcenseiten zeigen jetzt Typ und Stufe jedes Items, das damit hergestellt werden kann"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now include monster drops attached to any variant of the same item"
+msgstr "Itemseiten enthalten jetzt Monsterdrops, die an eine beliebige Variante desselben Items gebunden sind"

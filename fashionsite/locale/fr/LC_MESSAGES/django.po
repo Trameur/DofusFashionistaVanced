@@ -7881,6 +7881,10 @@ msgstr "Les pages de monstres affichent maintenant le type et le niveau des obje
 msgid "Resource pages now show the type and level of each item they can craft"
 msgstr "Les pages de ressources affichent maintenant le type et le niveau de chaque objet qu'elles permettent de fabriquer"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now include monster drops attached to any variant of the same item"
+msgstr "Les pages d'objets incluent maintenant les drops de monstres attachés à toute variante du même objet"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

@@ -7427,5 +7427,9 @@ msgstr "Las páginas de monstruos ahora muestran el tipo y nivel de los objetos 
 msgid "Resource pages now show the type and level of each item they can craft"
 msgstr "Las páginas de recursos ahora muestran el tipo y nivel de cada objeto que pueden fabricar"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now include monster drops attached to any variant of the same item"
+msgstr "Las páginas de objetos ahora incluyen los drops de monstruos vinculados a cualquier variante del mismo objeto"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"
