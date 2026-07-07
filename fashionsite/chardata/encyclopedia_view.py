@@ -1427,14 +1427,18 @@ def encyclopedia_monsters(request):
                          WHERE monster_ankama_id = dm.monster_ankama_id AND language = ? LIMIT 1),
                        (SELECT name FROM monster_names
                         WHERE monster_ankama_id = dm.monster_ankama_id AND language = 'en' LIMIT 1),
+                       (SELECT GROUP_CONCAT(name, ' ') FROM monster_names
+                        WHERE monster_ankama_id = dm.monster_ankama_id),
                        %s AS resource_count,
                        %s AS item_count
                 FROM dropped_monsters dm
                 """ % (dropped_monsters_sql, resource_count_sql, item_count_sql),
                 (language,))
-            for monster_id, name_loc, name_en, resource_count, item_count in cursor.fetchall():
+            for (monster_id, name_loc, name_en, search_aliases, resource_count,
+                 item_count) in cursor.fetchall():
                 name = name_loc or name_en or '#%s' % monster_id
-                search_blob = _normalized_text('%s %s %s' % (name, name_en or '', monster_id))
+                search_blob = _normalized_text('%s %s %s' % (
+                    name, search_aliases or '', monster_id))
                 if needle and needle not in search_blob:
                     continue
                 monsters.append({

@@ -2797,6 +2797,14 @@ class EncyclopediaMonsterPageTests(TestCase):
                 self.assertEqual(resp.status_code, 200)
                 self.assertIn('Monsters', resp.content.decode('utf-8'))
 
+    def test_monsters_search_matches_names_from_other_languages(self):
+        resp = self.client.get('/retro/encyclopedia/monsters/?q=bouftou',
+                               HTTP_ACCEPT_LANGUAGE='es')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('/retro/encyclopedia/monster/101-', body)
+        self.assertIn('Jalat', body)
+
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')
