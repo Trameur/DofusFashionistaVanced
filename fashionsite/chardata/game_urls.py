@@ -115,6 +115,8 @@ urlpatterns = [
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
             encyclopedia_view.encyclopedia_item, name='encyclopedia_item'),
+    re_path(r'^encyclopedia/resource/(?P<subtype>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
+            encyclopedia_view.encyclopedia_resource, name='encyclopedia_resource'),
     re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets, name='encyclopedia_sets'),
     re_path(r'^encyclopedia/set/(?P<set_id>\d+)/$', encyclopedia_view.encyclopedia_set,
             name='encyclopedia_set'),

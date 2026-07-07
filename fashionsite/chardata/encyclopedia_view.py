@@ -505,6 +505,14 @@ def _breadcrumb_jsonld(crumbs):
     return payload.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
 
 
+def _absolute_versioned_url(path, game_version='dofus3'):
+    if not path.startswith('/'):
+        path = '/%s' % path
+    if game_version and game_version != 'dofus3':
+        path = '/%s%s' % (game_version, path)
+    return 'https://dofusfashionista.gg%s' % path
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -1045,9 +1053,7 @@ def encyclopedia(request):
             'request': request,
             'char_id': 0,
             't': t,
-            # The encyclopedia is dofus3 data under every version prefix, so the
-            # /retro/, /touch/ ... copies are duplicates -> canonical to the global URL.
-            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/',
+            'canonical_url': _absolute_versioned_url('/encyclopedia/', game_version),
             'items_page': page_obj,
             'items_count': len(filtered_items),
             'search_text': search_text,
@@ -1083,10 +1089,11 @@ def encyclopedia_set(request, set_id):
     game_version = getattr(request, 'game_version', 'dofus3')
     set_name = (item_set.localized_names.get(language)
                 or item_set.localized_names.get('en') or item_set.name)
-    canonical_url = 'https://dofusfashionista.gg/encyclopedia/set/%d/' % set_id
+    canonical_url = _absolute_versioned_url('/encyclopedia/set/%d/' % set_id, game_version)
+    encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
-        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (t.get('title') or 'Encyclopedia', encyclopedia_url),
         (set_name, canonical_url),
     ])
 
@@ -1141,7 +1148,8 @@ def encyclopedia_sets(request):
             'request': request,
             'char_id': 0,
             't': t,
-            'canonical_url': 'https://dofusfashionista.gg/encyclopedia/sets/',
+            'canonical_url': _absolute_versioned_url(
+                '/encyclopedia/sets/', getattr(request, 'game_version', 'dofus3')),
             'sets': sets,
             'search_text': search_text,
             'sets_count': len(sets),
@@ -1264,15 +1272,15 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                       game_version=getattr(request, 'game_version', 'dofus3'))
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
-    # The item page is dofus3 data under every version prefix -> canonical to the
-    # global dofus3 item URL (also folds slug variations onto one URL).
+    game_version = getattr(request, 'game_version', 'dofus3')
     canonical_path = get_item_link(representative_item.ankama_type,
                                    representative_item.ankama_id, localized_name,
-                                   game_version='dofus3')
+                                   game_version=game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+    encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
-        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (t.get('title') or 'Encyclopedia', encyclopedia_url),
         (localized_name, canonical_url),
     ])
 
@@ -1351,19 +1359,33 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         if resource_name is not None and cursor.fetchone() is not None:
             cursor.execute(
                 """
-                SELECT DISTINCT i.ankama_id, i.ankama_type, i.name, i.level, it.name
+                SELECT DISTINCT i.ankama_id, i.ankama_type, i.name, i.level, it.name,
+                       COALESCE(
+                           (SELECT item_names.name
+                            FROM item_names
+                            WHERE item_names.item = i.id
+                              AND item_names.language = ?
+                            LIMIT 1),
+                           (SELECT item_names.name
+                            FROM item_names
+                            WHERE item_names.item = i.id
+                              AND item_names.language = 'en'
+                            LIMIT 1),
+                           i.name
+                       ) AS localized_name
                 FROM item_recipes r
                 JOIN items i ON i.id = r.item
                 LEFT JOIN item_types it ON it.id = i.type
                 WHERE r.ingredient_ankama_id = ? AND r.ingredient_subtype = ?
-                ORDER BY i.level DESC, i.name ASC
+                ORDER BY i.level DESC, localized_name ASC
                 """,
-                (target_ankama_id, subtype))
-            for item_ankama_id, item_ankama_type, item_name, item_level, item_type_name in cursor.fetchall():
+                (language, target_ankama_id, subtype))
+            for (item_ankama_id, item_ankama_type, item_name, item_level,
+                 item_type_name, localized_item_name) in cursor.fetchall():
                 used_in.append({
-                    'name': item_name,
+                    'name': localized_item_name,
                     'level': item_level,
-                    'url': get_item_link(item_ankama_type, item_ankama_id, item_name,
+                    'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
                                          game_version=game_version),
                     'image_url': static(get_image_url(item_type_name, item_name)),
                 })
@@ -1400,9 +1422,10 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
 
     canonical_path = get_resource_link(subtype, target_ankama_id, resource_name, game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+    encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
-        (t.get('title') or 'Encyclopedia', 'https://dofusfashionista.gg/encyclopedia/'),
+        (t.get('title') or 'Encyclopedia', encyclopedia_url),
         (resource_name, canonical_url),
     ])
 

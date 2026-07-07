@@ -664,35 +664,28 @@ class CanonicalUrlTests(TestCase):
         self.assertEqual(self._canonical('/retro/'),
                          'https://dofusfashionista.gg/retro/')
 
-    def test_version_prefixed_encyclopedia_pages_canonical_to_global(self):
-        # The encyclopedia is dofus3 data under every prefix, so /retro/encyclopedia/...
-        # etc. are duplicates and must canonicalize to the global URL.
+    def test_version_prefixed_encyclopedia_pages_keep_self_canonical(self):
+        # Encyclopedia data, items, recipes and calculations differ by version.
         self.assertEqual(self._canonical('/retro/encyclopedia/'),
-                         'https://dofusfashionista.gg/encyclopedia/')
+                         'https://dofusfashionista.gg/retro/encyclopedia/')
         self.assertEqual(self._canonical('/beta/encyclopedia/sets/'),
-                         'https://dofusfashionista.gg/encyclopedia/sets/')
+                         'https://dofusfashionista.gg/beta/encyclopedia/sets/')
         self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
-                         'https://dofusfashionista.gg/encyclopedia/set/1/')
-        # Item pages canonicalize to the global dofus3 item URL (prefix dropped).
+                         'https://dofusfashionista.gg/touch/encyclopedia/set/1/')
         from fashionistapulp.structure import get_structure
-        s = get_structure()
+        s = get_structure('dofus2')
         it = None
-        for iset in s.sets_dict.values():
-            if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
-                for iid in iset.items:
-                    cand = s.get_item_by_id(iid)
-                    if (cand and getattr(cand, 'ankama_id', None)
-                            and getattr(cand, 'ankama_type', None)):
-                        it = cand
-                        break
-            if it:
+        for cand in s.get_concatenated_items_lists():
+            if (cand and not cand.removed and getattr(cand, 'ankama_id', None)
+                    and getattr(cand, 'ankama_type', None)):
+                it = cand
                 break
-        self.assertIsNotNone(it, 'no renderable set item found')
+        self.assertIsNotNone(it, 'no renderable dofus2 item found')
         canon = self._canonical('/dofus2/encyclopedia/item/%s/%s-x/'
                                 % (it.ankama_type, it.ankama_id))
-        self.assertTrue(canon.startswith('https://dofusfashionista.gg/encyclopedia/item/'),
+        self.assertTrue(canon.startswith('https://dofusfashionista.gg/dofus2/encyclopedia/item/'),
                         msg=canon)
-        self.assertNotIn('/dofus2/', canon)
+        self.assertIn('/dofus2/', canon)
 
 
 class RegistrationTests(TestCase):
@@ -2674,10 +2667,10 @@ class EncyclopediaResourcePageTests(TestCase):
     ingredient is used in, and item recipes link to it. See
     encyclopedia_view.encyclopedia_resource."""
 
-    def _busiest_resource(self):
+    def _busiest_resource(self, game_version='dofus3'):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
-        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        conn = sqlite3.connect(get_items_db_path(game_version))
         try:
             return conn.cursor().execute(
                 """
@@ -2706,9 +2699,44 @@ class EncyclopediaResourcePageTests(TestCase):
         self.assertIn(name, body)
         self.assertIn('/encyclopedia/item/', body)
 
+    def test_retro_resource_page_uses_retro_route_and_data(self):
+        ankama_id = 2448
+        resp = self.client.get(
+            '/retro/encyclopedia/resource/resources/%d-cervelle-de-bouftou/' % ankama_id,
+            HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Cervelle de Bouftou', body)
+        self.assertIn('/retro/encyclopedia/item/', body)
+        self.assertIn(
+            'https://dofusfashionista.gg/retro/encyclopedia/resource/resources/%d-' % ankama_id,
+            body)
+
+    def test_retro_resource_page_localizes_crafted_item_names(self):
+        expected_names = {
+            'fr': 'Cape du Boufcoul',
+            'es': 'Capa del jalatranki',
+            'pt': 'Capa do Gobkool',
+            'de': 'Fresscool-Mantel',
+        }
+        for language, expected_name in expected_names.items():
+            with self.subTest(language=language):
+                resp = self.client.get(
+                    '/retro/encyclopedia/resource/resources/384-laine-de-bouftou/',
+                    HTTP_ACCEPT_LANGUAGE=language)
+                self.assertEqual(resp.status_code, 200)
+                body = resp.content.decode('utf-8')
+                self.assertIn(expected_name, body)
+                self.assertIn('/retro/encyclopedia/item/', body)
+
     def test_unknown_resource_redirects_to_the_encyclopedia(self):
         resp = self.client.get('/encyclopedia/resource/resources/999999999-x/')
         self.assertEqual(resp.status_code, 302)
+
+    def test_unknown_versioned_resource_redirects_to_version_encyclopedia(self):
+        resp = self.client.get('/retro/encyclopedia/resource/resources/999999999-x/')
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp['Location'], '/retro/encyclopedia/')
 
     def _resource_with_drops(self):
         import sqlite3
