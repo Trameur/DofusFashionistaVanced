@@ -593,6 +593,44 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/encyclopedia/resource/resources/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/resource/resources/384-', body)
 
+    def test_sitemap_lists_non_resource_recipe_ingredient_urls(self):
+        import sqlite3
+        from chardata.official_site import get_resource_link
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT r.ingredient_subtype, r.ingredient_ankama_id, n.name
+                FROM item_recipes r
+                JOIN item_recipe_ingredient_names n
+                  ON n.ingredient_ankama_id = r.ingredient_ankama_id
+                 AND n.ingredient_subtype = r.ingredient_subtype
+                 AND n.language = 'en'
+                WHERE r.ingredient_subtype <> 'resources'
+                GROUP BY r.ingredient_subtype, r.ingredient_ankama_id, n.name
+                ORDER BY CASE WHEN r.ingredient_subtype = 'consumables' THEN 0 ELSE 1 END,
+                         r.ingredient_subtype, r.ingredient_ankama_id
+                LIMIT 1
+                """)
+            ingredient = cur.fetchone()
+        finally:
+            conn.close()
+
+        if ingredient is None:
+            self.skipTest('no non-resource recipe ingredient in this build')
+
+        subtype, ankama_id, name = ingredient
+        link = get_resource_link(subtype, ankama_id, name, game_version='dofus3')
+        self.assertTrue(link)
+        page_resp = self.client.get(link)
+        self.assertEqual(page_resp.status_code, 200)
+
+        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        self.assertIn('https://dofusfashionista.gg%s' % link, body)
+
     def test_sitemap_lists_versioned_item_urls(self):
         body = self.client.get('/sitemap.xml').content.decode('utf-8')
         self.assertIn('https://dofusfashionista.gg/encyclopedia/item/', body)

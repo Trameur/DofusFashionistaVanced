@@ -244,9 +244,9 @@ _SITEMAP_RESOURCE_CACHE = {'ts': 0.0, 'xml': ''}
 
 
 def _sitemap_encyclopedia_resources(base_url):
-    """Best-effort <url> block for encyclopedia resource pages in every game
-    version. Resources can differ across versions, so each version gets its own
-    canonical URLs."""
+    """Best-effort <url> block for encyclopedia ingredient pages in every game
+    version. Ingredients can differ across versions, so each version gets its
+    own canonical URLs."""
     now = _sitemap_time.time()
     cached = _SITEMAP_RESOURCE_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
@@ -267,30 +267,33 @@ def _sitemap_encyclopedia_resources(base_url):
                 if cursor.fetchone() is None:
                     continue
 
-                resource_sources = []
+                ingredient_sources = []
                 cursor.execute(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipes'")
                 if cursor.fetchone() is not None:
-                    resource_sources.append(
-                        "SELECT ingredient_ankama_id AS ankama_id FROM item_recipes "
-                        "WHERE ingredient_subtype = 'resources'")
+                    ingredient_sources.append(
+                        "SELECT ingredient_ankama_id AS ankama_id, "
+                        "ingredient_subtype AS subtype FROM item_recipes")
                 cursor.execute(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'resource_drops'")
                 if cursor.fetchone() is not None:
-                    resource_sources.append('SELECT resource_ankama_id AS ankama_id FROM resource_drops')
-                if not resource_sources:
+                    ingredient_sources.append(
+                        "SELECT resource_ankama_id AS ankama_id, 'resources' AS subtype "
+                        "FROM resource_drops")
+                if not ingredient_sources:
                     continue
 
                 cursor.execute(
                     """
-                    WITH resource_ids AS (%s)
+                    WITH ingredient_ids AS (%s)
                     SELECT DISTINCT n.ingredient_ankama_id, n.ingredient_subtype, n.name
                     FROM item_recipe_ingredient_names n
-                    JOIN resource_ids r
-                      ON r.ankama_id = n.ingredient_ankama_id
-                    WHERE n.language = 'en' AND n.ingredient_subtype = 'resources'
-                    ORDER BY n.ingredient_ankama_id
-                    """ % ' UNION '.join(resource_sources))
+                    JOIN ingredient_ids i
+                      ON i.ankama_id = n.ingredient_ankama_id
+                     AND i.subtype = n.ingredient_subtype
+                    WHERE n.language = 'en'
+                    ORDER BY n.ingredient_subtype, n.ingredient_ankama_id
+                    """ % ' UNION '.join(ingredient_sources))
                 for ankama_id, subtype, name in cursor.fetchall():
                     link = get_resource_link(subtype, ankama_id, name or '',
                                              game_version=game_version)

@@ -7889,6 +7889,10 @@ msgstr "Les pages d'objets incluent maintenant les drops de monstres attachés �
 msgid "Monster search now also matches dropped resource and item names"
 msgstr "La recherche de monstres trouve maintenant aussi les noms des ressources et objets droppés"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
+msgstr "Le sitemap inclut maintenant toutes les pages d'ingrédients de recettes, y compris les ingrédients qui ne sont pas des ressources"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
