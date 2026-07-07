@@ -93,3 +93,20 @@ def get_resource_link(subtype, ankama_id, name, game_version='dofus3'):
     if game_version != 'dofus3':
         return f'/{game_version}{path}'
     return path
+
+
+def get_monster_link(monster_ankama_id, name, game_version='dofus3'):
+    if not monster_ankama_id:
+        return None
+
+    name = (name or '').strip().lower()
+    name = name.replace('\'s', '')
+    name = name.replace(' ', '-')
+    name = re.compile('[^a-zA-Z-]').sub('', name)
+    if not name:
+        name = 'monster'
+
+    path = '/encyclopedia/monster/%d-%s/' % (int(monster_ankama_id), name)
+    if game_version != 'dofus3':
+        return f'/{game_version}{path}'
+    return path

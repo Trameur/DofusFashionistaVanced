@@ -2770,3 +2770,59 @@ class EncyclopediaResourcePageTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         self.assertIn('Dropped by', resp.content.decode('utf-8'))
+
+
+class EncyclopediaMonsterPageTests(TestCase):
+    """Monster encyclopedia pages are version-scoped and built from the per-version
+    drop tables, so Retro monsters never borrow modern drops or names."""
+
+    def test_retro_monsters_list_is_localized_and_version_prefixed(self):
+        resp = self.client.get('/retro/encyclopedia/monsters/?q=bouftou',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Bouftou', body)
+        self.assertIn('/retro/encyclopedia/monster/101-', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/monsters/', body)
+
+    def test_monsters_list_renders_for_every_supported_version(self):
+        for path in (
+                '/encyclopedia/monsters/',
+                '/dofus2/encyclopedia/monsters/',
+                '/retro/encyclopedia/monsters/',
+                '/touch/encyclopedia/monsters/',
+                '/beta/encyclopedia/monsters/'):
+            with self.subTest(path=path):
+                resp = self.client.get(path, HTTP_ACCEPT_LANGUAGE='en')
+                self.assertEqual(resp.status_code, 200)
+                self.assertIn('Monsters', resp.content.decode('utf-8'))
+
+    def test_retro_monster_page_lists_resource_and_item_drops(self):
+        resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Bouftou', body)
+        self.assertIn('Laine de Bouftou', body)
+        self.assertIn('Marteau du Bouftou', body)
+        self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
+        self.assertIn('/retro/encyclopedia/item/equipment/2416-', body)
+
+    def test_unknown_versioned_monster_redirects_to_version_monster_list(self):
+        resp = self.client.get('/retro/encyclopedia/monster/999999999-gone/')
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp['Location'], '/retro/encyclopedia/monsters/')
+
+    def test_existing_drop_lists_link_to_monster_pages(self):
+        resource_resp = self.client.get(
+            '/retro/encyclopedia/resource/resources/384-laine-de-bouftou/',
+            HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resource_resp.status_code, 200)
+        self.assertIn('/retro/encyclopedia/monster/101-',
+                      resource_resp.content.decode('utf-8'))
+
+        item_resp = self.client.get('/retro/encyclopedia/item/equipment/2416-x/',
+                                    HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(item_resp.status_code, 200)
+        self.assertIn('/retro/encyclopedia/monster/101-',
+                      item_resp.content.decode('utf-8'))

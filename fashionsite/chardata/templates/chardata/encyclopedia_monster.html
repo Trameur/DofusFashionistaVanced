@@ -1,0 +1,118 @@
+{% extends "chardata/base.html" %}
+{% load version_url %}
+{% load static_s3 %}
+{% load i18n %}
+
+{% block title %}{{ monster.name }} - {{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
+
+{% block meta_description %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endblock %}
+
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{% block og_meta %}
+    <meta property="og:title" content="{{ monster.name }} - {{ mt.monster_kind_label }}">
+    <meta property="og:description" content="{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
+
+{% block css %}
+<style>
+.encyclopedia-monster { padding: 12px; }
+.encyclopedia-crumbs { font-size: 0.85em; opacity: 0.75; margin-bottom: 10px; }
+.encyclopedia-crumbs a { text-decoration: none; }
+.encyclopedia-crumbs a:hover { text-decoration: underline; }
+.encyclopedia-monster-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; padding: 12px; box-sizing: border-box; }
+.encyclopedia-monster-name { font-size: 1.25rem; font-weight: 700; }
+.encyclopedia-monster-meta { opacity: 0.9; }
+.encyclopedia-section { margin-top: 14px; }
+.encyclopedia-list { margin: 4px 0 0; padding-left: 20px; }
+.encyclopedia-list li { margin-bottom: 4px; }
+.encyclopedia-list li.drop-item { display: flex; align-items: center; gap: 8px; }
+.drop-icon { width: 32px; height: 32px; object-fit: contain; flex: 0 0 auto; }
+.drop-rate { opacity: 0.7; font-size: 0.9em; }
+.encyclopedia-drops-more { margin-top: 6px; }
+.encyclopedia-drops-more > summary { cursor: pointer; padding-left: 20px; font-size: 0.95em; opacity: 0.85; }
+.dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
+.dark-theme-active .encyclopedia-monster,
+.dark-theme-active .encyclopedia-monster-card,
+.dark-theme-active .encyclopedia-monster-card div,
+.dark-theme-active .encyclopedia-monster-card span,
+.dark-theme-active .encyclopedia-monster-card li { color: #f0f0f0; }
+.dark-theme-active .encyclopedia-section b { color: #fff1d6; }
+.dark-theme-active .encyclopedia-monster a { color: #ffd8a8; }
+.dark-theme-active .encyclopedia-monster a:hover { color: #ffe4bf; }
+</style>
+{% endblock %}
+
+{% block main %}
+{% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+<div class="encyclopedia-monster text">
+    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+        <a href="{% game_url 'home' %}">{% trans "Home" %}</a> &gt;
+        <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> &gt;
+        <a href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }}</a> &gt;
+        <span>{{ monster.name }}</span>
+    </nav>
+
+    <div class="encyclopedia-monster-card brown-box">
+        <div class="encyclopedia-monster-name">{{ monster.name }}</div>
+        <div class="encyclopedia-monster-meta">{{ mt.monster_kind_label }}</div>
+
+        {% if resource_drops %}
+        <div class="encyclopedia-section">
+            <b>{{ mt.dropped_resources_label }} ({{ resource_drops|length }})</b>
+            <ul class="encyclopedia-list">
+                {% for drop in resource_drops|slice:":20" %}
+                <li>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
+                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
+                {% endfor %}
+            </ul>
+            {% if resource_drops|length > 20 %}
+            <details class="encyclopedia-drops-more">
+                <summary>{{ t.show_more_drops_label }} ({{ resource_drops|length|add:"-20" }})</summary>
+                <ul class="encyclopedia-list">
+                    {% for drop in resource_drops|slice:"20:" %}
+                    <li>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
+                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if item_drops %}
+        <div class="encyclopedia-section">
+            <b>{{ mt.dropped_items_label }} ({{ item_drops|length }})</b>
+            <ul class="encyclopedia-list">
+                {% for drop in item_drops|slice:":20" %}
+                <li class="drop-item">
+                    <img class="drop-icon" src="{{ drop.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <span>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
+                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% if item_drops|length > 20 %}
+            <details class="encyclopedia-drops-more">
+                <summary>{{ t.show_more_drops_label }} ({{ item_drops|length|add:"-20" }})</summary>
+                <ul class="encyclopedia-list">
+                    {% for drop in item_drops|slice:"20:" %}
+                    <li class="drop-item">
+                        <img class="drop-icon" src="{{ drop.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                        <span>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
+                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

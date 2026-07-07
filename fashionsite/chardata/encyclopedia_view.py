@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.image_store import get_image_url
-from chardata.official_site import get_item_link, get_resource_link
+from chardata.official_site import get_item_link, get_monster_link, get_resource_link
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
@@ -841,9 +841,11 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                 (language, representative_item.id),
             )
             for monster_id, rate, name_loc, name_en in cursor.fetchall():
+                monster_name = name_loc or name_en or ('#%s' % monster_id)
                 default_data['drops'].append({
-                    'name': name_loc or name_en or ('#%s' % monster_id),
+                    'name': monster_name,
                     'rate': rate,
+                    'url': get_monster_link(monster_id, monster_name, game_version),
                 })
 
     except Exception:
@@ -1053,6 +1055,7 @@ def encyclopedia(request):
             'request': request,
             'char_id': 0,
             't': t,
+            'mt': _monster_ui_text(),
             'canonical_url': _absolute_versioned_url('/encyclopedia/', game_version),
             'items_page': page_obj,
             'items_count': len(filtered_items),
@@ -1318,6 +1321,285 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     )
 
 
+MONSTER_UI = {
+    'en': {
+        'monsters_label': 'Monsters',
+        'monster_kind_label': 'Monster',
+        'monster_search_placeholder': 'Monster name',
+        'dropped_resources_label': 'Dropped resources',
+        'dropped_items_label': 'Dropped items',
+        'no_monsters': 'No monsters match your search.',
+    },
+    'fr': {
+        'monsters_label': 'Monstres',
+        'monster_kind_label': 'Monstre',
+        'monster_search_placeholder': 'Nom du monstre',
+        'dropped_resources_label': 'Ressources droppees',
+        'dropped_items_label': 'Objets droppes',
+        'no_monsters': 'Aucun monstre ne correspond a votre recherche.',
+    },
+    'es': {
+        'monsters_label': 'Monstruos',
+        'monster_kind_label': 'Monstruo',
+        'monster_search_placeholder': 'Nombre del monstruo',
+        'dropped_resources_label': 'Recursos soltados',
+        'dropped_items_label': 'Objetos soltados',
+        'no_monsters': 'Ningun monstruo coincide con tu busqueda.',
+    },
+    'pt': {
+        'monsters_label': 'Monstros',
+        'monster_kind_label': 'Monstro',
+        'monster_search_placeholder': 'Nome do monstro',
+        'dropped_resources_label': 'Recursos dropados',
+        'dropped_items_label': 'Itens dropados',
+        'no_monsters': 'Nenhum monstro corresponde a sua pesquisa.',
+    },
+    'de': {
+        'monsters_label': 'Monster',
+        'monster_kind_label': 'Monster',
+        'monster_search_placeholder': 'Monstername',
+        'dropped_resources_label': 'Gedroppte Ressourcen',
+        'dropped_items_label': 'Gedroppte Gegenstaende',
+        'no_monsters': 'Keine Monster entsprechen deiner Suche.',
+    },
+}
+
+
+def _monster_ui_text():
+    language = get_supported_language()
+    return MONSTER_UI.get(language, MONSTER_UI['en'])
+
+
+def _db_table_exists(cursor, table_name):
+    cursor.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (table_name,))
+    return cursor.fetchone() is not None
+
+
+def _get_monster_display_name(cursor, monster_id, language):
+    cursor.execute(
+        "SELECT name FROM monster_names WHERE monster_ankama_id = ? AND language = ? LIMIT 1",
+        (monster_id, language))
+    row = cursor.fetchone()
+    if row is None and language != 'en':
+        cursor.execute(
+            "SELECT name FROM monster_names WHERE monster_ankama_id = ? AND language = 'en' LIMIT 1",
+            (monster_id,))
+        row = cursor.fetchone()
+    return row[0] if row is not None else '#%s' % monster_id
+
+
+def encyclopedia_monsters(request):
+    language = get_supported_language()
+    t = _ui_text()
+    mt = _monster_ui_text()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    search_text = (request.GET.get('q') or '').strip()
+    needle = _normalized_text(search_text) if search_text else ''
+
+    monsters = []
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        has_monster_names = _db_table_exists(cursor, 'monster_names')
+        has_resource_drops = _db_table_exists(cursor, 'resource_drops')
+        has_item_drops = _db_table_exists(cursor, 'item_drops')
+        if has_monster_names and (has_resource_drops or has_item_drops):
+            drop_sources = []
+            if has_resource_drops:
+                drop_sources.append('SELECT monster_ankama_id FROM resource_drops')
+            if has_item_drops:
+                drop_sources.append('SELECT monster_ankama_id FROM item_drops')
+            dropped_monsters_sql = ' UNION '.join(drop_sources)
+            resource_count_sql = (
+                '(SELECT COUNT(*) FROM resource_drops rd '
+                'WHERE rd.monster_ankama_id = dm.monster_ankama_id)'
+                if has_resource_drops else '0')
+            item_count_sql = (
+                '(SELECT COUNT(*) FROM item_drops id '
+                'WHERE id.monster_ankama_id = dm.monster_ankama_id)'
+                if has_item_drops else '0')
+            cursor.execute(
+                """
+                WITH dropped_monsters AS (%s)
+                SELECT dm.monster_ankama_id,
+                       (SELECT name FROM monster_names
+                         WHERE monster_ankama_id = dm.monster_ankama_id AND language = ? LIMIT 1),
+                       (SELECT name FROM monster_names
+                        WHERE monster_ankama_id = dm.monster_ankama_id AND language = 'en' LIMIT 1),
+                       %s AS resource_count,
+                       %s AS item_count
+                FROM dropped_monsters dm
+                """ % (dropped_monsters_sql, resource_count_sql, item_count_sql),
+                (language,))
+            for monster_id, name_loc, name_en, resource_count, item_count in cursor.fetchall():
+                name = name_loc or name_en or '#%s' % monster_id
+                search_blob = _normalized_text('%s %s %s' % (name, name_en or '', monster_id))
+                if needle and needle not in search_blob:
+                    continue
+                monsters.append({
+                    'id': monster_id,
+                    'name': name,
+                    'resource_count': resource_count,
+                    'item_count': item_count,
+                    'total_drops': resource_count + item_count,
+                    'url': get_monster_link(monster_id, name, game_version),
+                })
+    except Exception:
+        monsters = []
+    finally:
+        if conn is not None:
+            conn.close()
+
+    monsters.sort(key=lambda entry: ((entry['name'] or '').lower(), entry['id']))
+    paginator = Paginator(monsters, 60)
+    page = request.GET.get('page', 1)
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    query_without_page = request.GET.copy()
+    if 'page' in query_without_page:
+        del query_without_page['page']
+    page_query_prefix = query_without_page.urlencode()
+    if page_query_prefix:
+        page_query_prefix = '%s&' % page_query_prefix
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_monsters.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'mt': mt,
+            'canonical_url': _absolute_versioned_url('/encyclopedia/monsters/', game_version),
+            'monsters_page': page_obj,
+            'monsters_count': len(monsters),
+            'search_text': search_text,
+            'page_query_prefix': page_query_prefix,
+        },
+    )
+
+
+def encyclopedia_monster(request, monster_id, slug=None):
+    language = get_supported_language()
+    t = _ui_text()
+    mt = _monster_ui_text()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    target_monster_id = safe_int(monster_id, None)
+    if target_monster_id is None:
+        return redirect(version_reverse(request, 'encyclopedia_monsters'))
+
+    monster_name = None
+    resource_drops = []
+    item_drops = []
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        if not _db_table_exists(cursor, 'monster_names'):
+            return redirect(version_reverse(request, 'encyclopedia_monsters'))
+        monster_name = _get_monster_display_name(cursor, target_monster_id, language)
+        if monster_name.startswith('#'):
+            return redirect(version_reverse(request, 'encyclopedia_monsters'))
+
+        if _db_table_exists(cursor, 'resource_drops'):
+            cursor.execute(
+                """
+                SELECT d.resource_ankama_id, d.rate,
+                       (SELECT name FROM item_recipe_ingredient_names
+                        WHERE ingredient_ankama_id = d.resource_ankama_id
+                          AND ingredient_subtype = 'resources'
+                          AND language = ? LIMIT 1),
+                       (SELECT name FROM item_recipe_ingredient_names
+                        WHERE ingredient_ankama_id = d.resource_ankama_id
+                          AND ingredient_subtype = 'resources'
+                          AND language = 'en' LIMIT 1)
+                FROM resource_drops d
+                WHERE d.monster_ankama_id = ?
+                ORDER BY d.rate DESC
+                """,
+                (language, target_monster_id))
+            for resource_id, rate, name_loc, name_en in cursor.fetchall():
+                resource_name = name_loc or name_en or ('#%s' % resource_id)
+                resource_drops.append({
+                    'id': resource_id,
+                    'name': resource_name,
+                    'rate': rate,
+                    'url': get_resource_link('resources', resource_id, resource_name, game_version),
+                })
+
+        if _db_table_exists(cursor, 'item_drops'):
+            cursor.execute(
+                """
+                SELECT d.item, d.rate, i.ankama_id, i.ankama_type, i.name, i.level, it.name,
+                       COALESCE(
+                           (SELECT item_names.name FROM item_names
+                             WHERE item_names.item = i.id AND item_names.language = ? LIMIT 1),
+                           (SELECT item_names.name FROM item_names
+                            WHERE item_names.item = i.id AND item_names.language = 'en' LIMIT 1),
+                           i.name
+                       ) AS localized_name
+                FROM item_drops d
+                JOIN items i ON i.id = d.item
+                LEFT JOIN item_types it ON it.id = i.type
+                WHERE d.monster_ankama_id = ?
+                ORDER BY d.rate DESC, localized_name ASC
+                """,
+                (language, target_monster_id))
+            for (_item_id, rate, item_ankama_id, item_ankama_type, item_name, item_level,
+                 item_type_name, localized_item_name) in cursor.fetchall():
+                item_drops.append({
+                    'name': localized_item_name,
+                    'level': item_level,
+                    'rate': rate,
+                    'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
+                                         game_version=game_version),
+                    'image_url': static(get_image_url(item_type_name, item_name)),
+                })
+    except Exception:
+        return redirect(version_reverse(request, 'encyclopedia_monsters'))
+    finally:
+        if conn is not None:
+            conn.close()
+
+    if not resource_drops and not item_drops:
+        return redirect(version_reverse(request, 'encyclopedia_monsters'))
+
+    canonical_path = get_monster_link(target_monster_id, monster_name, game_version)
+    canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/monsters/')
+    encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
+    monsters_url = _absolute_versioned_url('/encyclopedia/monsters/', game_version)
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', encyclopedia_url),
+        (mt.get('monsters_label') or 'Monsters', monsters_url),
+        (monster_name, canonical_url),
+    ])
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_monster.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'mt': mt,
+            'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
+            'monster': {
+                'id': target_monster_id,
+                'name': monster_name,
+            },
+            'resource_drops': resource_drops,
+            'item_drops': item_drops,
+        })
+
+
 def encyclopedia_resource(request, subtype, ankama_id, slug=None):
     """A crafting ingredient (resource) page: lists every item this ingredient is
     used to craft, in the current game version. Reached from item recipe lines."""
@@ -1407,9 +1689,11 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 """,
                 (language, target_ankama_id))
             for monster_id, rate, name_loc, name_en in cursor.fetchall():
+                monster_name = name_loc or name_en or ('#%s' % monster_id)
                 drops.append({
-                    'name': name_loc or name_en or ('#%s' % monster_id),
+                    'name': monster_name,
                     'rate': rate,
+                    'url': get_monster_link(monster_id, monster_name, game_version),
                 })
     except Exception:
         pass
