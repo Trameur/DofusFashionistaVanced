@@ -7419,3 +7419,7 @@ msgstr "Ressourcenseiten zeigen jetzt Typ und Stufe jedes Items, das damit herge
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item pages now include monster drops attached to any variant of the same item"
 msgstr "Itemseiten enthalten jetzt Monsterdrops, die an eine beliebige Variante desselben Items gebunden sind"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster search now also matches dropped resource and item names"
+msgstr "Die Monstersuche findet jetzt auch Namen gedroppter Ressourcen und Items"

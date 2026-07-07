@@ -7885,6 +7885,10 @@ msgstr "Les pages de ressources affichent maintenant le type et le niveau de cha
 msgid "Item pages now include monster drops attached to any variant of the same item"
 msgstr "Les pages d'objets incluent maintenant les drops de monstres attachés à toute variante du même objet"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster search now also matches dropped resource and item names"
+msgstr "La recherche de monstres trouve maintenant aussi les noms des ressources et objets droppés"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

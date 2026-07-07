@@ -1335,7 +1335,7 @@ MONSTER_UI = {
     'en': {
         'monsters_label': 'Monsters',
         'monster_kind_label': 'Monster',
-        'monster_search_placeholder': 'Monster name',
+        'monster_search_placeholder': 'Monster or drop name',
         'dropped_resources_label': 'Dropped resources',
         'dropped_items_label': 'Dropped items',
         'no_monsters': 'No monsters match your search.',
@@ -1343,7 +1343,7 @@ MONSTER_UI = {
     'fr': {
         'monsters_label': 'Monstres',
         'monster_kind_label': 'Monstre',
-        'monster_search_placeholder': 'Nom du monstre',
+        'monster_search_placeholder': 'Nom du monstre ou du drop',
         'dropped_resources_label': 'Ressources droppées',
         'dropped_items_label': 'Objets droppés',
         'no_monsters': 'Aucun monstre ne correspond à votre recherche.',
@@ -1351,7 +1351,7 @@ MONSTER_UI = {
     'es': {
         'monsters_label': 'Monstruos',
         'monster_kind_label': 'Monstruo',
-        'monster_search_placeholder': 'Nombre del monstruo',
+        'monster_search_placeholder': 'Nombre del monstruo o drop',
         'dropped_resources_label': 'Recursos soltados',
         'dropped_items_label': 'Objetos soltados',
         'no_monsters': 'Ningún monstruo coincide con tu búsqueda.',
@@ -1359,7 +1359,7 @@ MONSTER_UI = {
     'pt': {
         'monsters_label': 'Monstros',
         'monster_kind_label': 'Monstro',
-        'monster_search_placeholder': 'Nome do monstro',
+        'monster_search_placeholder': 'Nome do monstro ou drop',
         'dropped_resources_label': 'Recursos dropados',
         'dropped_items_label': 'Itens dropados',
         'no_monsters': 'Nenhum monstro corresponde à sua pesquisa.',
@@ -1367,7 +1367,7 @@ MONSTER_UI = {
     'de': {
         'monsters_label': 'Monster',
         'monster_kind_label': 'Monster',
-        'monster_search_placeholder': 'Monstername',
+        'monster_search_placeholder': 'Monster- oder Dropname',
         'dropped_resources_label': 'Gedroppte Ressourcen',
         'dropped_items_label': 'Gedroppte Gegenstände',
         'no_monsters': 'Keine Monster entsprechen deiner Suche.',
@@ -1414,6 +1414,8 @@ def encyclopedia_monsters(request):
         has_monster_names = _db_table_exists(cursor, 'monster_names')
         has_resource_drops = _db_table_exists(cursor, 'resource_drops')
         has_item_drops = _db_table_exists(cursor, 'item_drops')
+        has_resource_names = _db_table_exists(cursor, 'item_recipe_ingredient_names')
+        has_item_names = _db_table_exists(cursor, 'item_names')
         if has_monster_names and (has_resource_drops or has_item_drops):
             drop_sources = []
             if has_resource_drops:
@@ -1429,6 +1431,26 @@ def encyclopedia_monsters(request):
                 '(SELECT COUNT(*) FROM item_drops id '
                 'WHERE id.monster_ankama_id = dm.monster_ankama_id)'
                 if has_item_drops else '0')
+            resource_search_sql = (
+                "(SELECT GROUP_CONCAT(n.name, ' ') "
+                "FROM resource_drops rd "
+                "JOIN item_recipe_ingredient_names n "
+                "ON n.ingredient_ankama_id = rd.resource_ankama_id "
+                "AND n.ingredient_subtype = 'resources' "
+                "WHERE rd.monster_ankama_id = dm.monster_ankama_id)"
+                if has_resource_drops and has_resource_names else "''")
+            item_search_sql = (
+                "(SELECT GROUP_CONCAT(COALESCE(item_name.name, item.name), ' ') "
+                "FROM item_drops item_drop "
+                "JOIN items item ON item.id = item_drop.item "
+                "LEFT JOIN item_names item_name ON item_name.item = item.id "
+                "WHERE item_drop.monster_ankama_id = dm.monster_ankama_id)"
+                if has_item_drops and has_item_names else
+                "(SELECT GROUP_CONCAT(item.name, ' ') "
+                "FROM item_drops item_drop "
+                "JOIN items item ON item.id = item_drop.item "
+                "WHERE item_drop.monster_ankama_id = dm.monster_ankama_id)"
+                if has_item_drops else "''")
             cursor.execute(
                 """
                 WITH dropped_monsters AS (%s)
@@ -1440,15 +1462,22 @@ def encyclopedia_monsters(request):
                        (SELECT GROUP_CONCAT(name, ' ') FROM monster_names
                         WHERE monster_ankama_id = dm.monster_ankama_id),
                        %s AS resource_count,
-                       %s AS item_count
+                       %s AS item_count,
+                       %s AS resource_search_aliases,
+                       %s AS item_search_aliases
                 FROM dropped_monsters dm
-                """ % (dropped_monsters_sql, resource_count_sql, item_count_sql),
+                """ % (dropped_monsters_sql, resource_count_sql, item_count_sql,
+                       resource_search_sql, item_search_sql),
                 (language,))
             for (monster_id, name_loc, name_en, search_aliases, resource_count,
-                 item_count) in cursor.fetchall():
+                 item_count, resource_search_aliases, item_search_aliases) in cursor.fetchall():
                 name = name_loc or name_en or '#%s' % monster_id
-                search_blob = _normalized_text('%s %s %s' % (
-                    name, search_aliases or '', monster_id))
+                search_blob = _normalized_text('%s %s %s %s %s' % (
+                    name,
+                    search_aliases or '',
+                    resource_search_aliases or '',
+                    item_search_aliases or '',
+                    monster_id))
                 if needle and needle not in search_blob:
                     continue
                 monsters.append({
