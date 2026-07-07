@@ -7399,3 +7399,15 @@ msgstr "Zauberschaden-Vorschau"
 #: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Krit."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Spell damage in set comparisons"
+msgstr "Zauberschaden in Set-Vergleichen"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+msgstr "Set-Vergleiche zeigen jetzt Vorschauen für Zauber- und Waffenschaden, damit du schnell siehst, welcher Build stärker trifft"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster pages now show dropped item types and levels next to their drop rates"
+msgstr "Monsterseiten zeigen jetzt Typ und Stufe gedroppter Items neben den Drop-Raten"

@@ -7404,3 +7404,15 @@ msgstr "Prévia de dano dos feitiços"
 #: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crít."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Spell damage in set comparisons"
+msgstr "Dano de feitiços nas comparações de sets"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+msgstr "Comparar sets agora mostra prévias de dano de feitiços e armas, para ver rápido qual build bate mais"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster pages now show dropped item types and levels next to their drop rates"
+msgstr "As páginas de monstros agora mostram o tipo e o nível dos itens dropados junto das taxas de drop"

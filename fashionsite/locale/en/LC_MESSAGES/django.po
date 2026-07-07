@@ -5244,3 +5244,15 @@ msgstr "Spell damage preview"
 #: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crit."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Spell damage in set comparisons"
+msgstr "Spell damage in set comparisons"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+msgstr "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster pages now show dropped item types and levels next to their drop rates"
+msgstr "Monster pages now show dropped item types and levels next to their drop rates"

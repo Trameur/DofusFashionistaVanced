@@ -7411,5 +7411,17 @@ msgstr "Vista previa de daños de hechizos"
 msgid "Crit."
 msgstr "Crít."
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Spell damage in set comparisons"
+msgstr "Daño de hechizos en las comparaciones de sets"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+msgstr "Comparar sets ahora muestra vistas previas del daño de hechizos y armas, para ver rápido qué build pega más"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster pages now show dropped item types and levels next to their drop rates"
+msgstr "Las páginas de monstruos ahora muestran el tipo y nivel de los objetos dropeados junto a sus tasas de drop"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

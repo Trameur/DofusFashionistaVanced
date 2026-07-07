@@ -7865,6 +7865,18 @@ msgstr "Aperçu des dégâts des sorts"
 msgid "Crit."
 msgstr "Crit."
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Spell damage in set comparisons"
+msgstr "Dégâts de sorts dans les comparaisons d'équipements"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+msgstr "Comparer les panoplies affiche maintenant un aperçu des dégâts des sorts et des armes, pour voir rapidement quel build tape le plus"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster pages now show dropped item types and levels next to their drop rates"
+msgstr "Les pages de monstres affichent maintenant le type et le niveau des objets droppés à côté du taux de drop"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
