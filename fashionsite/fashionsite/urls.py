@@ -216,9 +216,9 @@ _SITEMAP_RESOURCE_CACHE = {'ts': 0.0, 'xml': ''}
 
 
 def _sitemap_encyclopedia_resources(base_url):
-    """Best-effort <url> block for dofus3 encyclopedia resource pages (the reverse
-    recipe index: which items a crafting resource is used in). Same defensive,
-    cached pattern as _sitemap_encyclopedia_items."""
+    """Best-effort <url> block for encyclopedia resource pages in every game
+    version. Resources can differ across versions, so each version gets its own
+    canonical URLs."""
     now = _sitemap_time.time()
     cached = _SITEMAP_RESOURCE_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
@@ -227,28 +227,51 @@ def _sitemap_encyclopedia_resources(base_url):
         import sqlite3
         from chardata.official_site import get_resource_link
         from fashionistapulp.fashionista_config import get_items_db_path
-        conn = sqlite3.connect(get_items_db_path('dofus3'))
         rows = []
         seen = set()
-        try:
-            cursor = conn.cursor()
-            cursor.execute(
-                """
-                SELECT DISTINCT n.ingredient_ankama_id, n.ingredient_subtype, n.name
-                FROM item_recipe_ingredient_names n
-                JOIN item_recipes r
-                  ON r.ingredient_ankama_id = n.ingredient_ankama_id
-                 AND r.ingredient_subtype = n.ingredient_subtype
-                WHERE n.language = 'en' AND n.ingredient_subtype = 'resources'
-                """)
-            for ankama_id, subtype, name in cursor.fetchall():
-                link = get_resource_link(subtype, ankama_id, name or '', game_version='dofus3')
-                if not link or link in seen:
+        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' "
+                    "AND name = 'item_recipe_ingredient_names'")
+                if cursor.fetchone() is None:
                     continue
-                seen.add(link)
-                rows.append(_sitemap_url(base_url + link, 'monthly', '0.5'))
-        finally:
-            conn.close()
+
+                resource_sources = []
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipes'")
+                if cursor.fetchone() is not None:
+                    resource_sources.append(
+                        "SELECT ingredient_ankama_id AS ankama_id FROM item_recipes "
+                        "WHERE ingredient_subtype = 'resources'")
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'resource_drops'")
+                if cursor.fetchone() is not None:
+                    resource_sources.append('SELECT resource_ankama_id AS ankama_id FROM resource_drops')
+                if not resource_sources:
+                    continue
+
+                cursor.execute(
+                    """
+                    WITH resource_ids AS (%s)
+                    SELECT DISTINCT n.ingredient_ankama_id, n.ingredient_subtype, n.name
+                    FROM item_recipe_ingredient_names n
+                    JOIN resource_ids r
+                      ON r.ankama_id = n.ingredient_ankama_id
+                    WHERE n.language = 'en' AND n.ingredient_subtype = 'resources'
+                    ORDER BY n.ingredient_ankama_id
+                    """ % ' UNION '.join(resource_sources))
+                for ankama_id, subtype, name in cursor.fetchall():
+                    link = get_resource_link(subtype, ankama_id, name or '',
+                                             game_version=game_version)
+                    if not link or link in seen:
+                        continue
+                    seen.add(link)
+                    rows.append(_sitemap_url(base_url + link, 'monthly', '0.5'))
+            finally:
+                conn.close()
         xml = '\n'.join(rows)
     except Exception:
         return cached['xml'] or ''
