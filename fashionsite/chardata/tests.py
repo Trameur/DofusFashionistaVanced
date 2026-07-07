@@ -2933,6 +2933,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('Bouftou', body)
         self.assertIn('Laine de Bouftou', body)
         self.assertIn('Marteau du Bouftou', body)
+        self.assertIn('Arme | Niv.', body)
         self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
         self.assertIn('/retro/encyclopedia/item/equipment/2416-', body)
 

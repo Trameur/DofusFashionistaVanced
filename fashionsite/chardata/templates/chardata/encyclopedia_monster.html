@@ -34,6 +34,7 @@
 .encyclopedia-list li.drop-item { display: flex; align-items: center; gap: 8px; }
 .drop-icon { width: 32px; height: 32px; object-fit: contain; flex: 0 0 auto; }
 .drop-rate { opacity: 0.7; font-size: 0.9em; }
+.drop-meta { display: block; opacity: 0.75; font-size: 0.85em; }
 .encyclopedia-drops-more { margin-top: 6px; }
 .encyclopedia-drops-more > summary { cursor: pointer; padding-left: 20px; font-size: 0.95em; opacity: 0.85; }
 .dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
@@ -93,7 +94,8 @@
                 <li class="drop-item">
                     <img class="drop-icon" src="{{ drop.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                     <span>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
-                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></span>
+                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>
+                    <span class="drop-meta">{{ drop.type_name }} | {{ t.item_level }} {{ drop.level }}</span></span>
                 </li>
                 {% endfor %}
             </ul>
@@ -105,7 +107,8 @@
                     <li class="drop-item">
                         <img class="drop-icon" src="{{ drop.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         <span>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
-                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span></span>
+                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>
+                        <span class="drop-meta">{{ drop.type_name }} | {{ t.item_level }} {{ drop.level }}</span></span>
                     </li>
                     {% endfor %}
                 </ul>

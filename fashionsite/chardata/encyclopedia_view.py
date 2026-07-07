@@ -1560,6 +1560,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                 item_drops.append({
                     'name': localized_item_name,
                     'level': item_level,
+                    'type_name': _localized_label(item_type_name, language),
                     'rate': rate,
                     'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
                                          game_version=game_version),
