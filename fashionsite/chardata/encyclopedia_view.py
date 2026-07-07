@@ -22,7 +22,7 @@ from static_s3.templatetags.static_s3 import static
 LOCALIZED_UI = {
     'en': {
         'title': 'Encyclopedia',
-        'subtitle': 'Search and filter all available items.',
+        'subtitle': 'Search items and browse sets, monsters and drops for this game version.',
         'search_label': 'Search',
         'search_placeholder': 'Item name (example: Kings Staff)',
         'type_label': 'Type',
@@ -70,7 +70,7 @@ LOCALIZED_UI = {
     },
     'fr': {
         'title': 'Encyclopédie',
-        'subtitle': 'Recherchez et filtrez tous les objets disponibles.',
+        'subtitle': 'Recherchez les objets et parcourez les panoplies, monstres et drops de cette version.',
         'search_label': 'Recherche',
         'search_placeholder': "Nom de l'objet (exemple : Kings Staff)",
         'type_label': 'Type',
@@ -118,7 +118,7 @@ LOCALIZED_UI = {
     },
     'es': {
         'title': 'Enciclopedia',
-        'subtitle': 'Busca y filtra todos los objetos disponibles.',
+        'subtitle': 'Busca objetos y explora sets, monstruos y drops de esta versión.',
         'search_label': 'Búsqueda',
         'search_placeholder': 'Nombre del objeto (ejemplo: Kings Staff)',
         'type_label': 'Tipo',
@@ -166,7 +166,7 @@ LOCALIZED_UI = {
     },
     'pt': {
         'title': 'Enciclopédia',
-        'subtitle': 'Pesquise e filtre todos os itens disponíveis.',
+        'subtitle': 'Busque itens e explore conjuntos, monstros e drops desta versão.',
         'search_label': 'Pesquisa',
         'search_placeholder': 'Nome do item (exemplo: Kings Staff)',
         'type_label': 'Tipo',
@@ -214,7 +214,7 @@ LOCALIZED_UI = {
     },
     'de': {
         'title': 'Enzyklopädie',
-        'subtitle': 'Suche und filtere alle verfügbaren Gegenstände.',
+        'subtitle': 'Suche Items und durchstöbere Sets, Monster und Drops dieser Version.',
         'search_label': 'Suche',
         'search_placeholder': 'Gegenstandsname (Beispiel: Kings Staff)',
         'type_label': 'Typ',

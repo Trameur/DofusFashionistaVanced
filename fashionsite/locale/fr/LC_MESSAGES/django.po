@@ -6413,13 +6413,8 @@ msgstr ""
 "Dofus prises en charge, comptes et plus encore."
 
 #: privacy/meta i18n
-msgid ""
-"Browse the full Dofus item encyclopedia: stats, effects, equip conditions "
-"and craft recipes for every item, with search by name, type and level."
-msgstr ""
-"Parcourez l'encyclopédie complète des objets Dofus : caractéristiques, "
-"effets, conditions d'équipement et recettes de craft pour chaque objet, avec"
-" recherche par nom, type et niveau."
+msgid "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, effects, equip conditions and recipes for each game version."
+msgstr "Parcourez l'encyclopédie Dofus complète : objets, panoplies, monstres, drops, stats, effets, conditions d'équipement et recettes pour chaque version."
 
 #: privacy/meta i18n
 msgid ""

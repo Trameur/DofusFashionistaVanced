@@ -5890,13 +5890,8 @@ msgstr ""
 "Konten und mehr."
 
 #: privacy/meta i18n
-msgid ""
-"Browse the full Dofus item encyclopedia: stats, effects, equip conditions "
-"and craft recipes for every item, with search by name, type and level."
-msgstr ""
-"Durchstöbern Sie die vollständige Dofus-Gegenstandsenzyklopädie: Werte, "
-"Effekte, Ausrüstungsbedingungen und Handwerksrezepte für jeden Gegenstand, "
-"mit Suche nach Name, Typ und Stufe."
+msgid "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, effects, equip conditions and recipes for each game version."
+msgstr "Durchstöbere die komplette Dofus-Enzyklopädie: Items, Sets, Monster, Drops, Werte, Effekte, Ausrüstungsbedingungen und Rezepte für jede Version."
 
 #: privacy/meta i18n
 msgid ""
