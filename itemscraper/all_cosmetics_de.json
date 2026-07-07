@@ -105698,6 +105698,49 @@
                 }
             ],
             "pods": 1
+        },
+        {
+            "ankama_id": 34536,
+            "name": "[!] Krozti",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18947-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18947-128.png"
+            },
+            "description": "[!] Krozti, et le dragon sera en vous.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

@@ -122218,12 +122218,11 @@
         {
             "ankama_id": 1102,
             "name": "Conjunto dos 25 Anos do Krosmoz",
-            "items": 17,
+            "items": 18,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                34502,
                 34512,
                 34513,
                 34514,
@@ -122239,7 +122238,9 @@
                 34524,
                 34525,
                 34526,
-                34527
+                34527,
+                34528,
+                34536
             ]
         }
     ]

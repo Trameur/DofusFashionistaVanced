@@ -48326,7 +48326,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gains 1x Vendetta"
+                    "formatted": "Gains 1x"
                 }
             ],
             "pods": 10
@@ -48371,7 +48371,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Gains 1x Vendetta"
+                    "formatted": "Gains 1x"
                 }
             ],
             "pods": 10

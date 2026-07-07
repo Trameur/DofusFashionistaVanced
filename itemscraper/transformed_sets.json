@@ -61852,9 +61852,8 @@
         "name_es": "Set de los 25 años del Krosmoz",
         "name_pt": "Conjunto dos 25 Anos do Krosmoz",
         "name_de": "25-Jahre-Jubiläumsset des Krosmoz",
-        "items": 17,
+        "items": 18,
         "equipment_ids": [
-            34502,
             34512,
             34513,
             34514,
@@ -61870,7 +61869,9 @@
             34524,
             34525,
             34526,
-            34527
+            34527,
+            34528,
+            34536
         ]
     }
 ]
