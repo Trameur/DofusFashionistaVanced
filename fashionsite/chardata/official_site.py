@@ -14,8 +14,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from django.utils.translation import get_language
 import re
+
+from django.utils.translation import get_language
+from fashionistapulp.fashion_util import strip_accents
 
 
 BASE_URLS = {
@@ -56,15 +58,18 @@ ANKAMA_TYPE_TO_SITE_CATEGORY = {
 }
 
 
+def _slugify_name(name, fallback):
+    slug_source = strip_accents(name or '').strip().lower()
+    slug_source = slug_source.replace('\'s', '')
+    slug = re.sub(r'[^a-z0-9]+', '-', slug_source).strip('-')
+    return slug or fallback
+
+
 def get_item_link(ankama_type, ankama_id, name, game_version='dofus3'):
     if not ankama_id or not ankama_type:
         return None
 
-    name = name.strip().lower()
-    name = name.replace('\'s', '')
-    name = name.replace(' ', '-')
-    regex = re.compile('[^a-zA-Z-]')
-    name = regex.sub('', name)
+    name = _slugify_name(name, 'item')
 
     lang = (get_language() or 'en').split('-')[0]
     if lang not in BASE_URLS:
@@ -84,10 +89,7 @@ def get_resource_link(subtype, ankama_id, name, game_version='dofus3'):
     if not ankama_id or not subtype:
         return None
 
-    name = name.strip().lower()
-    name = name.replace('\'s', '')
-    name = name.replace(' ', '-')
-    name = re.compile('[^a-zA-Z-]').sub('', name)
+    name = _slugify_name(name, 'resource')
 
     path = '/encyclopedia/resource/%s/%d-%s/' % (subtype, int(ankama_id), name)
     if game_version != 'dofus3':
@@ -99,12 +101,7 @@ def get_monster_link(monster_ankama_id, name, game_version='dofus3'):
     if not monster_ankama_id:
         return None
 
-    name = (name or '').strip().lower()
-    name = name.replace('\'s', '')
-    name = name.replace(' ', '-')
-    name = re.compile('[^a-zA-Z-]').sub('', name)
-    if not name:
-        name = 'monster'
+    name = _slugify_name(name, 'monster')
 
     path = '/encyclopedia/monster/%d-%s/' % (int(monster_ankama_id), name)
     if game_version != 'dofus3':

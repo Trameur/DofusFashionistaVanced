@@ -5300,3 +5300,7 @@ msgstr "Compare Sets now lets you choose which class spells to preview"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster search results now show sample drops on each monster card"
 msgstr "Monster search results now show sample drops on each monster card"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Encyclopedia URLs now keep accented item, resource and monster names readable"
+msgstr "Encyclopedia URLs now keep accented item, resource and monster names readable"

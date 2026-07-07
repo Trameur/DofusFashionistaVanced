@@ -68,6 +68,26 @@ class PoFileFormatTests(SimpleTestCase):
                 self.assertEqual(proc.returncode, 0, msg=proc.stderr[:2000])
 
 
+class OfficialSiteUrlTests(SimpleTestCase):
+    """Internal encyclopedia URLs should stay readable for localized names."""
+
+    def test_internal_links_transliterate_accented_names(self):
+        from chardata.official_site import (
+            get_item_link,
+            get_monster_link,
+            get_resource_link,
+        )
+        self.assertEqual(
+            get_item_link('equipment', 999, "Épée d'Âme"),
+            '/encyclopedia/item/equipment/999-epee-d-ame/')
+        self.assertEqual(
+            get_resource_link('resources', 395, 'Trèfle à 5 feuilles', 'retro'),
+            '/retro/encyclopedia/resource/resources/395-trefle-a-5-feuilles/')
+        self.assertEqual(
+            get_monster_link(123, 'Jalató Real', 'retro'),
+            '/retro/encyclopedia/monster/123-jalato-real/')
+
+
 class EmailTemplateTranslationTests(SimpleTestCase):
     """Email templates render server-side in the recipient's language and are
     never seen during normal dev, so a blocktrans whose text drifts from its .po

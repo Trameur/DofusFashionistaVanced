@@ -7455,3 +7455,7 @@ msgstr "Set-Vergleiche lassen dich jetzt auswählen, welche Klassenzauber angeze
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster search results now show sample drops on each monster card"
 msgstr "Monstersuchergebnisse zeigen jetzt Beispieldrops auf jeder Monsterkarte"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Encyclopedia URLs now keep accented item, resource and monster names readable"
+msgstr "Enzyklopädie-URLs behalten akzentuierte Item-, Ressourcen- und Monsternamen jetzt lesbar"
