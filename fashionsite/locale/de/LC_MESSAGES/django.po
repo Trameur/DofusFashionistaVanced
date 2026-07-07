@@ -7431,3 +7431,7 @@ msgstr "Die Sitemap enthält jetzt jede Rezeptzutaten-Seite, einschließlich Zut
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Non-resource ingredient pages now use the correct ingredient label"
 msgstr "Zutatenseiten, die keine Ressourcen sind, verwenden jetzt die richtige Zutaten-Bezeichnung"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which other items they are used to craft"
+msgstr "Itemseiten zeigen jetzt, welche anderen Items damit hergestellt werden"

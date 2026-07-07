@@ -7443,5 +7443,9 @@ msgstr "El sitemap ahora incluye todas las páginas de ingredientes de recetas, 
 msgid "Non-resource ingredient pages now use the correct ingredient label"
 msgstr "Las páginas de ingredientes que no son recursos ahora usan la etiqueta correcta de ingrediente"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which other items they are used to craft"
+msgstr "Las páginas de objetos ahora muestran qué otros objetos ayudan a fabricar"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

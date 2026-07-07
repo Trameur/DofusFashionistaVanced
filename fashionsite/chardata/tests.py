@@ -2861,6 +2861,37 @@ class EncyclopediaResourcePageTests(TestCase):
         finally:
             conn.close()
 
+    def _retro_equipment_ingredient_used_in(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            return conn.cursor().execute(
+                """
+                SELECT r.ingredient_ankama_id, n.name,
+                       (SELECT COALESCE(crafted_name.name, crafted.name)
+                        FROM item_recipes r2
+                        JOIN items crafted ON crafted.id = r2.item
+                        LEFT JOIN item_names crafted_name
+                          ON crafted_name.item = crafted.id
+                         AND crafted_name.language = 'en'
+                        WHERE r2.ingredient_subtype = 'equipment'
+                          AND r2.ingredient_ankama_id = r.ingredient_ankama_id
+                        ORDER BY crafted.level DESC
+                        LIMIT 1)
+                FROM item_recipes r
+                JOIN item_recipe_ingredient_names n
+                  ON n.ingredient_ankama_id = r.ingredient_ankama_id
+                 AND n.ingredient_subtype = r.ingredient_subtype
+                 AND n.language = 'en'
+                WHERE r.ingredient_subtype = 'equipment'
+                GROUP BY r.ingredient_ankama_id, n.name
+                ORDER BY COUNT(DISTINCT r.item) DESC
+                LIMIT 1
+                """).fetchone()
+        finally:
+            conn.close()
+
     def test_resource_page_lists_the_items_it_crafts(self):
         resource = self._busiest_resource()
         self.assertIsNotNone(resource, 'expected at least one resource with a recipe')
@@ -2888,6 +2919,20 @@ class EncyclopediaResourcePageTests(TestCase):
         self.assertIn('<div class="encyclopedia-item-meta">Ingredient</div>', body)
         self.assertIn('uses this ingredient', body)
         self.assertNotIn('uses this resource', body)
+
+    def test_item_page_lists_items_it_is_used_to_craft(self):
+        ingredient = self._retro_equipment_ingredient_used_in()
+        if ingredient is None:
+            self.skipTest('no Retro equipment ingredient in this build')
+
+        from chardata.official_site import get_item_link
+        ankama_id, name, crafted_name = ingredient
+        url = get_item_link('equipment', ankama_id, name, game_version='retro')
+        resp = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Used to craft', body)
+        self.assertIn(crafted_name, body)
 
     def test_retro_resource_page_uses_retro_route_and_data(self):
         ankama_id = 2448

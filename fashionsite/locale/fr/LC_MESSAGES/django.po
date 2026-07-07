@@ -7897,6 +7897,10 @@ msgstr "Le sitemap inclut maintenant toutes les pages d'ingrédients de recettes
 msgid "Non-resource ingredient pages now use the correct ingredient label"
 msgstr "Les pages d'ingrédients qui ne sont pas des ressources utilisent maintenant le bon libellé d'ingrédient"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which other items they are used to craft"
+msgstr "Les pages d'objets indiquent maintenant quels autres objets ils servent à fabriquer"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

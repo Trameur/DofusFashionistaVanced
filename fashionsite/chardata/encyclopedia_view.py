@@ -699,6 +699,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
         'description': None,
         'pods': None,
         'recipe': [],
+        'used_in': [],
         'drops': [],
     }
 
@@ -833,6 +834,46 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'local_item_url': local_item_url,
                     'resource_url': resource_url,
                 })
+
+            if (getattr(representative_item, 'ankama_id', None)
+                    and getattr(representative_item, 'ankama_type', None)):
+                ingredient_subtypes = sorted(_get_ankama_type_aliases(
+                    representative_item.ankama_type))
+                placeholders = ', '.join('?' for _ in ingredient_subtypes)
+                cursor.execute(
+                    """
+                    SELECT DISTINCT i.ankama_id, i.ankama_type, i.name, i.level, it.name,
+                           COALESCE(
+                               (SELECT item_names.name
+                                FROM item_names
+                                WHERE item_names.item = i.id
+                                  AND item_names.language = ?
+                                LIMIT 1),
+                               (SELECT item_names.name
+                                FROM item_names
+                                WHERE item_names.item = i.id
+                                  AND item_names.language = 'en'
+                                LIMIT 1),
+                               i.name
+                           ) AS localized_name
+                    FROM item_recipes r
+                    JOIN items i ON i.id = r.item
+                    LEFT JOIN item_types it ON it.id = i.type
+                    WHERE r.ingredient_ankama_id = ?
+                      AND r.ingredient_subtype IN (%s)
+                    ORDER BY i.level DESC, localized_name ASC
+                    """ % placeholders,
+                    (language, representative_item.ankama_id) + tuple(ingredient_subtypes))
+                for (item_ankama_id, item_ankama_type, item_name, item_level,
+                     item_type_name, localized_item_name) in cursor.fetchall():
+                    default_data['used_in'].append({
+                        'name': localized_item_name,
+                        'level': item_level,
+                        'type_name': _localized_label(item_type_name, language),
+                        'url': get_item_link(item_ankama_type, item_ankama_id,
+                                             localized_item_name, game_version=game_version),
+                        'image_url': static(get_image_url(item_type_name, item_name)),
+                    })
 
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_drops'"
@@ -1331,6 +1372,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'description': extra_info['description'],
             'pods': extra_info['pods'],
             'recipe': extra_info['recipe'],
+            'used_in': extra_info['used_in'],
             'drops': extra_info['drops'],
         },
     )

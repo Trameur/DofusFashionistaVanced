@@ -5276,3 +5276,7 @@ msgstr "The sitemap now includes every recipe ingredient page, including non-res
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Non-resource ingredient pages now use the correct ingredient label"
 msgstr "Non-resource ingredient pages now use the correct ingredient label"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which other items they are used to craft"
+msgstr "Item pages now show which other items they are used to craft"
