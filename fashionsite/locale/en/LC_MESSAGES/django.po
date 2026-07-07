@@ -5236,3 +5236,11 @@ msgid ""
 "Each recipe ingredient now has its own page listing the items it crafts and "
 "the monsters that drop it."
 msgstr ""
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Spell damage preview"
+msgstr "Spell damage preview"
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Crit."
+msgstr "Crit."

@@ -7857,6 +7857,14 @@ msgstr ""
 "Chaque ingrédient de recette a désormais sa page listant les items qu'il "
 "permet de fabriquer et les monstres qui le droppent."
 
+#: chardata/templates/chardata/compare_sets.html
+msgid "Spell damage preview"
+msgstr "Aperçu des dégâts des sorts"
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Crit."
+msgstr "Crit."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

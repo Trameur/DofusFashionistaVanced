@@ -7396,3 +7396,11 @@ msgstr ""
 
 #~ msgid "Neu"
 #~ msgstr "Neu"
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Spell damage preview"
+msgstr "Prévia de dano dos feitiços"
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Crit."
+msgstr "Crít."

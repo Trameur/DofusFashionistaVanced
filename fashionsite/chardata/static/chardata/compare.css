@@ -11,3 +11,26 @@
     border-radius: 0px 0px 10px 10px;
     padding: 8px;
 }
+
+.compare-spell-preview-table {
+    margin-top: 10px;
+}
+
+.compare-spell-preview-title {
+    padding: 6px 8px;
+    text-align: left;
+}
+
+.compare-spell-icon {
+    height: 28px;
+    object-fit: contain;
+    width: 28px;
+}
+
+.compare-spell-name-cell {
+    min-width: 140px;
+}
+
+.compare-spell-best {
+    font-weight: bold;
+}

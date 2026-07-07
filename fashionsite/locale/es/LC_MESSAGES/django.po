@@ -7403,5 +7403,13 @@ msgstr ""
 #~ msgid "Neu"
 #~ msgstr "Neu"
 
+#: chardata/templates/chardata/compare_sets.html
+msgid "Spell damage preview"
+msgstr "Vista previa de daños de hechizos"
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Crit."
+msgstr "Crít."
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

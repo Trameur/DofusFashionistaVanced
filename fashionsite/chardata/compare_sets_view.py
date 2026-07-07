@@ -30,6 +30,8 @@ from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
+from chardata.spell_buffs import get_damage_spells_for_version
+from chardata.spells_view import _create_spell_web_digest, _create_weapon_web_digest
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
                            HttpResponseText, char_belongs_to_user, get_char_id_possibly_encoded,
                            HttpResponseJson, version_reverse)
@@ -51,6 +53,10 @@ TYPE_ORDER = [
     'Dofus',
 ]
 
+NON_DAMAGE_PREVIEW_ELEMENTS = {
+    'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
+
+
 def _process_parameters(sets_params):
     return [x for x in sets_params.split('/') if x]
 
@@ -70,11 +76,13 @@ def compare_sets(request, sets_params):
         # Fewer than two of the requested builds still exist -- nothing to compare.
         raise Http404
     solutions = {}
+    model_results = {}
     is_guest = {}
     links = {}
     all_chars_are_shared = True
     for char in chars:
         solution = get_solution(char)
+        model_results[char.pk] = solution
         sol_result = SolutionResult(solution)
         solutions[char.pk] = sol_result.get_params()
         is_guest[char.pk] = not char_belongs_to_user(request, char)
@@ -107,11 +115,81 @@ def compare_sets(request, sets_params):
               'links': links,
               'compare_link_shared': compare_link_shared,
               'get_compare_link_url': get_compare_link_url}
+    params.update(_build_spell_preview_context(request, chars, model_results))
     
     response = set_response(request, 
                             'chardata/compare_sets.html',
                             params)
     return response
+
+def _build_spell_preview_context(request, chars, model_results):
+    game_version = getattr(request, 'game_version', 'dofus3')
+    spells_by_class = get_damage_spells_for_version(game_version)
+    reference_char = chars[0]
+    spell_rows = []
+    spell_digests = []
+    for spell in (spells_by_class.get(reference_char.char_class, [])
+                  + spells_by_class.get('default', [])):
+        if not _spell_has_direct_damage(spell):
+            continue
+        digest = _create_spell_web_digest(spell, game_version)
+        compare_key = 'spell_%d' % len(spell_digests)
+        digest['compare_key'] = compare_key
+        spell_digests.append(digest)
+        spell_rows.append({
+            'key': compare_key,
+            'kind': 'spell',
+            'name': digest['name'],
+            'image_url': digest['image_url'],
+        })
+
+    weapon_digests = {}
+    for char in chars:
+        solution = model_results.get(char.pk)
+        if solution is None:
+            continue
+        weapons = solution.items.get('Weapon', [])
+        if not weapons:
+            continue
+        weapon = weapons[0]
+        if weapon.item_added and hasattr(weapon, 'non_crit_hits'):
+            weapon_digests[str(char.pk)] = _create_weapon_web_digest(weapon)
+
+    rows = []
+    if weapon_digests:
+        rows.append({
+            'key': 'weapon',
+            'kind': 'weapon',
+            'name': _('Weapon'),
+            'image_url': '',
+        })
+    rows.extend(spell_rows)
+
+    return {
+        'spell_preview_rows': rows,
+        'spell_preview_digests_json': jsonpickle.encode(
+            spell_digests, unpicklable=False),
+        'weapon_digests_json': jsonpickle.encode(
+            weapon_digests, unpicklable=False),
+        'char_levels_json': json.dumps(
+            {str(char.pk): char.level for char in chars}),
+    }
+
+
+def _spell_has_direct_damage(spell):
+    digest = spell.get_effects_digest()
+    for level_dams in list(digest.non_crit_dams) + list(digest.crit_dams):
+        for effect in level_dams:
+            if _is_direct_damage_effect(effect):
+                return True
+    return False
+
+
+def _is_direct_damage_effect(effect):
+    return (not getattr(effect, 'heals', False)
+            and 'buff' not in effect.element
+            and effect.element not in NON_DAMAGE_PREVIEW_ELEMENTS)
+
 
 def _sort_items(solutions):
     item_counters = {}

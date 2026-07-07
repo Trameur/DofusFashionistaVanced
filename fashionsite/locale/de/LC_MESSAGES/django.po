@@ -7391,3 +7391,11 @@ msgid ""
 msgstr ""
 "Jede Rezeptzutat hat jetzt eine eigene Seite mit den Items, die man damit "
 "herstellt, und den Monstern, die sie fallen lassen."
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Spell damage preview"
+msgstr "Zauberschaden-Vorschau"
+
+#: chardata/templates/chardata/compare_sets.html
+msgid "Crit."
+msgstr "Krit."

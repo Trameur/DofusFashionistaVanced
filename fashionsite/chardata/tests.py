@@ -1762,6 +1762,91 @@ class SharedSolutionPageDeepTests(TestCase):
         self.assertIsNone(minimal.item_per_slot.get('hat'))
 
 
+class CompareSetsSpellPreviewTests(TestCase):
+    """The set comparison page should expose spell/weapon damage previews."""
+
+    @staticmethod
+    def _base_input():
+        return {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated',
+            'char_level': 200,
+            'base_stats_by_attr': {
+                'Vitality': 0,
+                'Wisdom': 0,
+                'Strength': 0,
+                'Intelligence': 0,
+                'Chance': 0,
+                'Agility': 0,
+            },
+            'locked_equips': {},
+        }
+
+    @staticmethod
+    def _first_weapon(structure):
+        for weapon_item in structure.get_unique_items_by_type_and_level('Weapon', 200):
+            weapon = structure.get_weapon_by_name(weapon_item.name)
+            if (not weapon_item.removed and weapon_item.ankama_id
+                    and weapon is not None and weapon.non_crit_hits):
+                return weapon_item
+        return None
+
+    @staticmethod
+    def _stats(**overrides):
+        stats = {'vit': 0, 'wis': 0, 'str': 0, 'int': 0, 'cha': 0, 'agi': 0}
+        stats.update(overrides)
+        return stats
+
+    def _build(self, owner, name, item_per_slot, stats=None, game_version='dofus3'):
+        import pickle as _pickle
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        return Char.objects.create(
+            name=name, char_name=name.lower(), char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal(
+                item_per_slot, self._base_input(), stats or {})),
+            owner=owner, link_shared=True, game_version=game_version)
+
+    def test_compare_sets_includes_spell_damage_preview_payloads(self):
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        weapon = self._first_weapon(structure)
+        self.assertIsNotNone(weapon, 'no renderable test weapon found')
+        owner = User.objects.create_user('damagecompare', 'dc@test.local', 'pw-42-solid')
+        first = self._build(owner, 'DamageOne', {'weapon': weapon.id}, self._stats(str=0))
+        second = self._build(owner, 'DamageTwo', {'weapon': weapon.id}, self._stats(str=250))
+        self.client.force_login(owner)
+
+        resp = self.client.get('/compare_sets/%d/%d/' % (first.pk, second.pk))
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertIn('Spell damage preview', html)
+        self.assertIn('compareSpellDigests', html)
+        self.assertIn('compareWeaponDigests', html)
+        self.assertIn('compareCharLevels', html)
+        self.assertIn('spell_damage_weapon_%d' % first.pk, html)
+
+    def test_retro_compare_uses_retro_spell_payloads(self):
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('retro')
+        owner = User.objects.create_user('retrocompare', 'rc@test.local', 'pw-42-solid')
+        first = self._build(owner, 'RetroOne', {}, game_version='retro')
+        second = self._build(owner, 'RetroTwo', {}, game_version='retro')
+        self.client.force_login(owner)
+
+        resp = self.client.get('/retro/compare_sets/%d/%d/' % (first.pk, second.pk))
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertIn('Spell damage preview', html)
+        self.assertIn('chardata/spells/retro/', html)
+
+
 class InlineScriptSyntaxTests(TestCase):
     """Syntax-check every inline script of the key pages with node. A single
     stray quote in a jQuery string can kill a whole page's JS silently, so this
@@ -1775,7 +1860,8 @@ class InlineScriptSyntaxTests(TestCase):
         from chardata.models import Char
         from chardata.encoded_char_id import encode_char_id
         from fashionistapulp.modelresult import ModelResultMinimal
-        from fashionistapulp.structure import get_structure
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        set_current_game_version('dofus3')
         s = get_structure('dofus3')
         hat = next(i for i in s.get_unique_items_by_type_and_level('Hat', 200)
                    if not i.removed and i.ankama_id)
@@ -1790,11 +1876,21 @@ class InlineScriptSyntaxTests(TestCase):
             options=b'', inclusions=b'', exclusions=b'',
             minimal_solution=_pickle.dumps(ModelResultMinimal({'hat': hat.id}, input_, {})),
             owner=owner, link_shared=True, game_version='dofus3')
+        char2 = Char.objects.create(
+            name='JsCheckTwo', char_name='jschecktwo', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal(
+                {'hat': hat.id}, input_,
+                {'vit': 0, 'wis': 0, 'str': 100, 'int': 0, 'cha': 0, 'agi': 0})),
+            owner=owner, link_shared=True, game_version='dofus3')
         self.client.force_login(owner)
 
         pages = ['/', '/encyclopedia/', '/sharedbuilds/',
                  '/s/jscheck/%s/' % encode_char_id(char.pk),
                  '/solution/%d/' % char.pk,
+                 '/compare_sets/%d/%d/' % (char.pk, char2.pk),
                  '/wizard/%d/' % char.pk,
                  '/setup/%d/' % char.pk,
                  '/spells/%d/' % char.pk,

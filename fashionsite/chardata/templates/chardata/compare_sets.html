@@ -199,6 +199,44 @@
             {% include "chardata/compare_stat_line.html" with icon="chardata/Agility.png" stat_name=_("% Air Resist") stat_key="airresper" char_ids=char_ids_cols %}
             
         </table>
+
+        {% if spell_preview_rows %}
+        <br>
+        <table class="solution-stat-table compare-spell-preview-table">
+            <tr>
+                <td colspan="99" class="compare-spell-preview-title">
+                    <b>{% trans "Spell damage preview" %}</b>
+                </td>
+            </tr>
+            <tr class="solution-stat-summary-line">
+                <td class="solution-stat-summary-icon-header"></td>
+                <td class="solution-stat-summary-name-header"></td>
+                {% for char_id in char_ids_cols %}
+                <td align="center" width="70"><b>
+                    {% if char_id == 'diff' %}
+                        {% trans "Diff" %}
+                    {% else %}
+                        {% blocktrans with n=forloop.counter %}Set {{n}}{% endblocktrans %}
+                    {% endif %}
+                </b></td>
+                {% endfor %}
+            </tr>
+            {% for row in spell_preview_rows %}
+            <tr class="solution-stat-summary-line compare-spell-row" data-spell-key="{{ row.key }}">
+                <td class="solution-stat-summary-icon-cell">
+                    {% if row.image_url %}
+                    {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+                    <img alt="" src="{{ row.image_url }}" class="compare-spell-icon" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    {% endif %}
+                </td>
+                <td class="compare-spell-name-cell">{{ row.name }}</td>
+                {% for char_id in char_ids_cols %}
+                <td align="center" name="spell_damage_{{ row.key }}_{{ char_id }}" class="solution-stat-summary-value-cell">-</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
     </td>
     </tr></table>
             
@@ -242,6 +280,21 @@ var allCharIds = [];
 var allStatTotals = {};
 var allStatGears = {};
 var allOptions = {};
+var compareSpellDigests = {{ spell_preview_digests_json|safe }};
+var compareWeaponDigests = {{ weapon_digests_json|safe }};
+var compareCharLevels = {{ char_levels_json|safe }};
+var compareSpellsByKey = {};
+var COMPARE_LEVEL_TO_ELEMENT = ['N', 'E', 'F', 'W', 'A'];
+var COMPARE_NON_DAMAGE_ELEMENTS = {
+    'attracts': true,
+    'pushes': true,
+    'advances': true,
+    'steals_mp': true,
+    'removes_ap': true
+};
+$.each(compareSpellDigests, function(i, spell) {
+    compareSpellsByKey[spell.compare_key] = spell;
+});
 {% for char_id in char_ids %}
 {% with dict=solutions|get_item:char_id %}
 allCharIds.push({{char_id}});
@@ -349,11 +402,226 @@ function updateAllStats(allCharIds) {
     });
 }
 
+function getCompareNumber(stats, key) {
+    var value = stats[key];
+    if (value === undefined || value === null || value === '-') {
+        return 0;
+    }
+    return Number(value) || 0;
+}
+
+function getCompareBestElementKey(stats) {
+    var best = 'str';
+    var bestVal = getCompareNumber(stats, 'str');
+    $.each({int: 'int', cha: 'cha', agi: 'agi'}, function(k, v) {
+        var statVal = getCompareNumber(stats, v);
+        if (statVal > bestVal) {
+            best = v;
+            bestVal = statVal;
+        }
+    });
+    return best;
+}
+
+function resolveCompareBestElement(element, stats) {
+    if (element !== 'best') {
+        return element;
+    }
+    return {str: 'earth', int: 'fire', cha: 'water', agi: 'air'}[getCompareBestElementKey(stats)];
+}
+
+function getCompareSpellLevel(spell, charLevel) {
+    if (spell.type == 'spell') {
+        var numLevels = spell.level.length;
+        if (charLevel < spell.level[0] || numLevels == 1) {
+            return 0;
+        }
+        var i = 0;
+        while (i < numLevels - 1) {
+            if (charLevel >= spell.level[i] && charLevel < spell.level[i + 1]) {
+                return i;
+            }
+            i = i + 1;
+        }
+        return i;
+    } else if (spell.type == 'weapon') {
+        return Math.max(COMPARE_LEVEL_TO_ELEMENT.indexOf(
+            spell.element_maged.charAt(0).toUpperCase()), 0);
+    } else {
+        return 0;
+    }
+}
+
+function calculateCompareDamageValue(damageHit, isCrit, isMin, spell, stats) {
+    var mainStat = {neut: 'str', earth: 'str', fire: 'int', water: 'cha', air: 'agi'}
+        [damageHit.element] || getCompareBestElementKey(stats);
+    var baseValue = (isMin ? damageHit.min_dam : damageHit.max_dam);
+    var multiplier = 100 + getCompareNumber(stats, mainStat);
+    if (!damageHit.heals) {
+        multiplier += getCompareNumber(stats, 'pow');
+    }
+    if (spell.type == 'weapon' || spell.type == 'weapon_non_mageable') {
+        multiplier += getCompareNumber(stats, 'powweap');
+    }
+    var multipliedDamage = Math.floor(baseValue * multiplier / 100.0);
+
+    var linearDamage;
+    if (!damageHit.heals) {
+        var resolvedEl = resolveCompareBestElement(damageHit.element, stats);
+        var elementalDamage = resolvedEl + 'dam';
+        linearDamage = (getCompareNumber(stats, 'dam')
+                        + getCompareNumber(stats, elementalDamage));
+        if (isCrit) {
+            linearDamage += getCompareNumber(stats, 'cridam');
+        }
+    } else {
+        linearDamage = getCompareNumber(stats, 'heals');
+    }
+    var finalDamage = Math.max(0, multipliedDamage + linearDamage);
+    if (!damageHit.heals) {
+        finalDamage *= (100 + getCompareNumber(stats, 'final')) / 100;
+        finalDamage *= (100 - getCompareNumber(stats, 'negfinal')) / 100;
+    } else {
+        finalDamage *= (100 + getCompareNumber(stats, 'finalheals')) / 100;
+    }
+    if ((spell.type == 'weapon' || spell.type == 'weapon_non_mageable') && (!damageHit.heals)) {
+        finalDamage *= (100 + getCompareNumber(stats, 'perweadam')) / 100;
+    }
+    if ((spell.type != 'weapon' && spell.type != 'weapon_non_mageable') && (!damageHit.heals)) {
+        finalDamage *= (100 + getCompareNumber(stats, 'perspedam')) / 100;
+    }
+    return Math.round(finalDamage);
+}
+
+function isCompareDirectDamageHit(damageHit) {
+    return (damageHit
+            && damageHit.element
+            && damageHit.element.indexOf('buff') == -1
+            && !COMPARE_NON_DAMAGE_ELEMENTS[damageHit.element]
+            && !damageHit.heals);
+}
+
+function summarizeCompareHits(spell, hits, isCrit, stats) {
+    if (!hits) {
+        return null;
+    }
+    var minDamage = 0;
+    var maxDamage = 0;
+    var hitCount = 0;
+    $.each(hits, function(i, hit) {
+        if (!isCompareDirectDamageHit(hit)) {
+            return;
+        }
+        var resolvedElement = resolveCompareBestElement(hit.element, stats);
+        var resolvedHit = $.extend({}, hit, {element: resolvedElement});
+        minDamage += calculateCompareDamageValue(resolvedHit, isCrit, true, spell, stats);
+        maxDamage += calculateCompareDamageValue(resolvedHit, isCrit, false, spell, stats);
+        hitCount += 1;
+    });
+    if (hitCount == 0) {
+        return null;
+    }
+    return {avg: Math.round((minDamage + maxDamage) / 2.0)};
+}
+
+function summarizeCompareSpell(spell, stats, charLevel) {
+    if (!spell) {
+        return null;
+    }
+    if (spell.type == 'spell' && spell.level && charLevel < spell.level[0]) {
+        return null;
+    }
+    var level = getCompareSpellLevel(spell, charLevel);
+    var normal = summarizeCompareHits(
+        spell, spell.non_crit_dams && spell.non_crit_dams[level], false, stats);
+    var critical = summarizeCompareHits(
+        spell, spell.crit_dams && spell.crit_dams[level], true, stats);
+    if (!normal && !critical) {
+        return null;
+    }
+    return {
+        normalAvg: normal ? normal.avg : null,
+        criticalAvg: critical ? critical.avg : null,
+        bestAvg: critical ? critical.avg : normal.avg
+    };
+}
+
+function formatCompareSpellSummary(summary) {
+    if (!summary) {
+        return '-';
+    }
+    var text = summary.normalAvg === null ? '-' : summary.normalAvg.toString();
+    if (summary.criticalAvg !== null) {
+        text += "<br><span class='small-text'>{{ _('Crit.')|escapejs }} "
+                + summary.criticalAvg.toString() + "</span>";
+    }
+    return text;
+}
+
+function formatCompareSpellDiff(firstSummary, secondSummary) {
+    if (!firstSummary || !secondSummary) {
+        return '-';
+    }
+    var diffValue = secondSummary.bestAvg - firstSummary.bestAvg;
+    var diffValueString = diffValue.toString();
+    if (diffValue < 0) {
+        diffValueString = "<span class='red-text'>" + diffValueString + "</span>";
+    } else if (diffValue > 0) {
+        diffValueString = "<span class='green-text'>" + diffValueString + "</span>";
+    }
+    return diffValueString;
+}
+
+function getCompareSpellForRow(rowKey, charId) {
+    if (rowKey == 'weapon') {
+        return compareWeaponDigests[charId.toString()];
+    }
+    return compareSpellsByKey[rowKey];
+}
+
+function updateSpellPreview() {
+    var newStatsDict = getAllStatsDict();
+    $(".compare-spell-row").each(function() {
+        var rowKey = $(this).data('spell-key');
+        var summaries = {};
+        var bestChars = [];
+        var bestValue = Number.NEGATIVE_INFINITY;
+        $.each(allCharIds, function(i, charId) {
+            var spell = getCompareSpellForRow(rowKey, charId);
+            var summary = summarizeCompareSpell(
+                spell, newStatsDict[charId], compareCharLevels[charId.toString()]);
+            summaries[charId] = summary;
+            var cell = $("td[name=spell_damage_" + rowKey + "_" + charId + "]");
+            cell.removeClass("compare-spell-best");
+            cell.html(formatCompareSpellSummary(summary));
+            if (summary) {
+                if (summary.bestAvg > bestValue) {
+                    bestValue = summary.bestAvg;
+                    bestChars = [charId];
+                } else if (summary.bestAvg == bestValue) {
+                    bestChars.push(charId);
+                }
+            }
+        });
+        if (allCharIds.length == 2) {
+            $("td[name=spell_damage_" + rowKey + "_diff]").html(
+                formatCompareSpellDiff(summaries[allCharIds[0]], summaries[allCharIds[1]]));
+        }
+        if (allCharIds.length > 2 && bestChars.length > 0 && bestChars.length < allCharIds.length) {
+            $.each(bestChars, function(i, charId) {
+                $("td[name=spell_damage_" + rowKey + "_" + charId + "]")
+                    .addClass("compare-spell-best");
+            });
+        }
+    });
+}
+
 function updateStatsTable() {
     updateAllStats(allCharIds);
     if (allCharIds.length == 2) {
         updateDiffs(allCharIds);
     }
+    updateSpellPreview();
 }
 
 $(document).ready(function() {
@@ -388,4 +656,3 @@ $(document).ready(function() {
 </script>
     
 {% endblock %}
-
