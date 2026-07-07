@@ -7463,5 +7463,9 @@ msgstr "La búsqueda de objetos ahora encuentra nombres en todos los idiomas com
 msgid "Compare Sets now lets you choose which class spells to preview"
 msgstr "Comparar sets ahora permite elegir los hechizos de clase para previsualizar"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster search results now show sample drops on each monster card"
+msgstr "Los resultados de búsqueda de monstruos ahora muestran botín de ejemplo en cada tarjeta de monstruo"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

@@ -3160,6 +3160,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn('/retro/encyclopedia/monster/101-', body)
         self.assertIn('Jalat', body)
+        self.assertIn('Botín:', body)
 
     def test_monsters_search_matches_drop_names(self):
         resp = self.client.get('/retro/encyclopedia/monsters/?q=laine',
@@ -3168,6 +3169,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn('/retro/encyclopedia/monster/101-', body)
         self.assertIn('Bouftou', body)
+        self.assertIn('Drops: Laine de Bouftou', body)
 
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',

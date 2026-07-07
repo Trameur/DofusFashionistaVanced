@@ -7456,3 +7456,7 @@ msgstr "A busca de itens agora encontra nomes em todos os idiomas compatíveis"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Compare Sets now lets you choose which class spells to preview"
 msgstr "Comparar sets agora permite escolher os feitiços de classe para pré-visualizar"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster search results now show sample drops on each monster card"
+msgstr "Os resultados da busca de monstros agora mostram drops de exemplo em cada carta de monstro"

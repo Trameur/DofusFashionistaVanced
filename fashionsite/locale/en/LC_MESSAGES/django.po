@@ -5296,3 +5296,7 @@ msgstr "Item search now matches item names from every supported language"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Compare Sets now lets you choose which class spells to preview"
 msgstr "Compare Sets now lets you choose which class spells to preview"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster search results now show sample drops on each monster card"
+msgstr "Monster search results now show sample drops on each monster card"

@@ -1387,6 +1387,7 @@ MONSTER_UI = {
         'monsters_label': 'Monsters',
         'monster_kind_label': 'Monster',
         'monster_search_placeholder': 'Monster or drop name',
+        'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Dropped resources',
         'dropped_items_label': 'Dropped items',
         'no_monsters': 'No monsters match your search.',
@@ -1395,6 +1396,7 @@ MONSTER_UI = {
         'monsters_label': 'Monstres',
         'monster_kind_label': 'Monstre',
         'monster_search_placeholder': 'Nom du monstre ou du drop',
+        'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Ressources droppées',
         'dropped_items_label': 'Objets droppés',
         'no_monsters': 'Aucun monstre ne correspond à votre recherche.',
@@ -1403,6 +1405,7 @@ MONSTER_UI = {
         'monsters_label': 'Monstruos',
         'monster_kind_label': 'Monstruo',
         'monster_search_placeholder': 'Nombre del monstruo o drop',
+        'drop_preview_label': 'Botín',
         'dropped_resources_label': 'Recursos soltados',
         'dropped_items_label': 'Objetos soltados',
         'no_monsters': 'Ningún monstruo coincide con tu búsqueda.',
@@ -1411,6 +1414,7 @@ MONSTER_UI = {
         'monsters_label': 'Monstros',
         'monster_kind_label': 'Monstro',
         'monster_search_placeholder': 'Nome do monstro ou drop',
+        'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Recursos dropados',
         'dropped_items_label': 'Itens dropados',
         'no_monsters': 'Nenhum monstro corresponde à sua pesquisa.',
@@ -1419,6 +1423,7 @@ MONSTER_UI = {
         'monsters_label': 'Monster',
         'monster_kind_label': 'Monster',
         'monster_search_placeholder': 'Monster- oder Dropname',
+        'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Gedroppte Ressourcen',
         'dropped_items_label': 'Gedroppte Gegenstände',
         'no_monsters': 'Keine Monster entsprechen deiner Suche.',
@@ -1447,6 +1452,74 @@ def _get_monster_display_name(cursor, monster_id, language):
             (monster_id,))
         row = cursor.fetchone()
     return row[0] if row is not None else '#%s' % monster_id
+
+
+def _get_monster_drop_preview(cursor, monster_id, language, limit=4):
+    sources = []
+    params = []
+
+    if _db_table_exists(cursor, 'resource_drops'):
+        if _db_table_exists(cursor, 'item_recipe_ingredient_names'):
+            resource_name_sql = """
+                COALESCE(
+                    (SELECT n.name FROM item_recipe_ingredient_names n
+                     WHERE n.ingredient_ankama_id = rd.resource_ankama_id
+                       AND n.ingredient_subtype = 'resources'
+                       AND n.language = ? LIMIT 1),
+                    (SELECT n.name FROM item_recipe_ingredient_names n
+                     WHERE n.ingredient_ankama_id = rd.resource_ankama_id
+                       AND n.ingredient_subtype = 'resources'
+                       AND n.language = 'en' LIMIT 1),
+                    '#' || rd.resource_ankama_id)
+            """
+            params.append(language)
+        else:
+            resource_name_sql = "'#' || rd.resource_ankama_id"
+        sources.append("""
+            SELECT %s AS name, rd.rate AS rate
+            FROM resource_drops rd
+            WHERE rd.monster_ankama_id = ?
+        """ % resource_name_sql)
+        params.append(monster_id)
+
+    if _db_table_exists(cursor, 'item_drops') and _db_table_exists(cursor, 'items'):
+        if _db_table_exists(cursor, 'item_names'):
+            item_name_sql = """
+                COALESCE(
+                    (SELECT item_names.name FROM item_names
+                     WHERE item_names.item = i.id
+                       AND item_names.language = ? LIMIT 1),
+                    (SELECT item_names.name FROM item_names
+                     WHERE item_names.item = i.id
+                       AND item_names.language = 'en' LIMIT 1),
+                    i.name)
+            """
+            params.append(language)
+        else:
+            item_name_sql = "i.name"
+        sources.append("""
+            SELECT %s AS name, d.rate AS rate
+            FROM item_drops d
+            JOIN items i ON i.id = d.item
+            WHERE d.monster_ankama_id = ?
+        """ % item_name_sql)
+        params.append(monster_id)
+
+    if not sources:
+        return []
+
+    params.append(limit)
+    cursor.execute(
+        """
+        SELECT name
+        FROM (%s)
+        WHERE name IS NOT NULL AND name <> ''
+        GROUP BY name
+        ORDER BY MAX(rate) DESC, LOWER(name) ASC
+        LIMIT ?
+        """ % ' UNION ALL '.join(sources),
+        params)
+    return [row[0] for row in cursor.fetchall()]
 
 
 def encyclopedia_monsters(request):
@@ -1554,6 +1627,20 @@ def encyclopedia_monsters(request):
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
+
+    preview_conn = None
+    try:
+        preview_conn = sqlite3.connect(get_items_db_path(game_version))
+        preview_cursor = preview_conn.cursor()
+        for monster in page_obj.object_list:
+            monster['sample_drops'] = _get_monster_drop_preview(
+                preview_cursor, monster['id'], language)
+    except Exception:
+        for monster in page_obj.object_list:
+            monster['sample_drops'] = []
+    finally:
+        if preview_conn is not None:
+            preview_conn.close()
 
     query_without_page = request.GET.copy()
     if 'page' in query_without_page:

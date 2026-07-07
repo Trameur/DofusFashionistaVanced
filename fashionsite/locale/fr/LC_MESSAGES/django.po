@@ -7917,6 +7917,10 @@ msgstr "La recherche d'objets trouve maintenant les noms dans toutes les langues
 msgid "Compare Sets now lets you choose which class spells to preview"
 msgstr "Comparer les panoplies permet maintenant de choisir les sorts de classe à prévisualiser"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster search results now show sample drops on each monster card"
+msgstr "Les résultats de recherche de monstres affichent maintenant des exemples de drops sur chaque carte"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
