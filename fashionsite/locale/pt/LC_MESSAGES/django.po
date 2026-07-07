@@ -7432,3 +7432,7 @@ msgstr "A busca de monstros agora também encontra nomes de recursos e itens dro
 #: chardata/templates/chardata/changelog_modal.html
 msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
 msgstr "O sitemap agora inclui todas as páginas de ingredientes de receitas, incluindo ingredientes que não são recursos"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Non-resource ingredient pages now use the correct ingredient label"
+msgstr "As páginas de ingredientes que não são recursos agora usam o rótulo correto de ingrediente"

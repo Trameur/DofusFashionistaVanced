@@ -7439,5 +7439,9 @@ msgstr "La búsqueda de monstruos ahora también encuentra nombres de recursos y
 msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
 msgstr "El sitemap ahora incluye todas las páginas de ingredientes de recetas, incluidos los ingredientes que no son recursos"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Non-resource ingredient pages now use the correct ingredient label"
+msgstr "Las páginas de ingredientes que no son recursos ahora usan la etiqueta correcta de ingrediente"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

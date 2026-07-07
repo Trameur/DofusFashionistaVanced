@@ -7427,3 +7427,7 @@ msgstr "Die Monstersuche findet jetzt auch Namen gedroppter Ressourcen und Items
 #: chardata/templates/chardata/changelog_modal.html
 msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
 msgstr "Die Sitemap enthält jetzt jede Rezeptzutaten-Seite, einschließlich Zutaten, die keine Ressourcen sind"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Non-resource ingredient pages now use the correct ingredient label"
+msgstr "Zutatenseiten, die keine Ressourcen sind, verwenden jetzt die richtige Zutaten-Bezeichnung"

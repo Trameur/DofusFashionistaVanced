@@ -64,6 +64,7 @@ LOCALIZED_UI = {
         'item_not_found': 'Item not found in the encyclopedia.',
         'pet_feedable_label': 'Possible bonuses (when fed)',
         'resource_kind_label': 'Resource',
+        'ingredient_kind_label': 'Ingredient',
         'used_to_craft_label': 'Used to craft',
         'resource_not_found': 'Resource not found in the encyclopedia.',
     },
@@ -111,6 +112,7 @@ LOCALIZED_UI = {
         'item_not_found': "Objet introuvable dans l'encyclopédie.",
         'pet_feedable_label': 'Bonus possibles (selon le nourrissage)',
         'resource_kind_label': 'Ressource',
+        'ingredient_kind_label': 'Ingrédient',
         'used_to_craft_label': 'Sert à fabriquer',
         'resource_not_found': "Ressource introuvable dans l'encyclopédie.",
     },
@@ -158,6 +160,7 @@ LOCALIZED_UI = {
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
         'pet_feedable_label': 'Bonificaciones posibles (según la comida)',
         'resource_kind_label': 'Recurso',
+        'ingredient_kind_label': 'Ingrediente',
         'used_to_craft_label': 'Se usa para fabricar',
         'resource_not_found': 'Recurso no encontrado en la enciclopedia.',
     },
@@ -205,6 +208,7 @@ LOCALIZED_UI = {
         'item_not_found': 'Item não encontrado na enciclopédia.',
         'pet_feedable_label': 'Bônus possíveis (conforme alimentado)',
         'resource_kind_label': 'Recurso',
+        'ingredient_kind_label': 'Ingrediente',
         'used_to_craft_label': 'Usado para fabricar',
         'resource_not_found': 'Recurso não encontrado na enciclopédia.',
     },
@@ -252,6 +256,7 @@ LOCALIZED_UI = {
         'item_not_found': 'Gegenstand nicht in der Enzyklopädie gefunden.',
         'pet_feedable_label': 'Mögliche Boni (je nach Fütterung)',
         'resource_kind_label': 'Ressource',
+        'ingredient_kind_label': 'Zutat',
         'used_to_craft_label': 'Wird verwendet für',
         'resource_not_found': 'Ressource nicht in der Enzyklopädie gefunden.',
     },
@@ -1757,6 +1762,9 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         (t.get('title') or 'Encyclopedia', encyclopedia_url),
         (resource_name, canonical_url),
     ])
+    kind_label = (
+        t['resource_kind_label'] if subtype == 'resources'
+        else t.get('ingredient_kind_label', t['resource_kind_label']))
 
     return set_response(
         request,
@@ -1769,6 +1777,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'resource': {
                 'name': resource_name,
+                'kind_label': kind_label,
                 'subtype': subtype,
                 'ankama_id': target_ankama_id,
             },

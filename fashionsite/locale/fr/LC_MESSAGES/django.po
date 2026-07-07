@@ -7893,6 +7893,10 @@ msgstr "La recherche de monstres trouve maintenant aussi les noms des ressources
 msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
 msgstr "Le sitemap inclut maintenant toutes les pages d'ingrédients de recettes, y compris les ingrédients qui ne sont pas des ressources"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Non-resource ingredient pages now use the correct ingredient label"
+msgstr "Les pages d'ingrédients qui ne sont pas des ressources utilisent maintenant le bon libellé d'ingrédient"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

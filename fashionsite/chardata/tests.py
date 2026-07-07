@@ -2839,6 +2839,28 @@ class EncyclopediaResourcePageTests(TestCase):
         finally:
             conn.close()
 
+    def _non_resource_ingredient(self, game_version='dofus3'):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        try:
+            return conn.cursor().execute(
+                """
+                SELECT r.ingredient_subtype, r.ingredient_ankama_id, n.name
+                FROM item_recipes r
+                JOIN item_recipe_ingredient_names n
+                  ON n.ingredient_ankama_id = r.ingredient_ankama_id
+                 AND n.ingredient_subtype = r.ingredient_subtype
+                 AND n.language = 'en'
+                WHERE r.ingredient_subtype <> 'resources'
+                GROUP BY r.ingredient_subtype, r.ingredient_ankama_id, n.name
+                ORDER BY CASE WHEN r.ingredient_subtype = 'consumables' THEN 0 ELSE 1 END,
+                         r.ingredient_subtype, r.ingredient_ankama_id
+                LIMIT 1
+                """).fetchone()
+        finally:
+            conn.close()
+
     def test_resource_page_lists_the_items_it_crafts(self):
         resource = self._busiest_resource()
         self.assertIsNotNone(resource, 'expected at least one resource with a recipe')
@@ -2848,7 +2870,22 @@ class EncyclopediaResourcePageTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn(name, body)
+        self.assertIn('<div class="encyclopedia-item-meta">Resource</div>', body)
         self.assertIn('/encyclopedia/item/', body)
+
+    def test_non_resource_ingredient_page_uses_ingredient_label(self):
+        ingredient = self._non_resource_ingredient()
+        if ingredient is None:
+            self.skipTest('no non-resource recipe ingredient in this build')
+
+        from chardata.official_site import get_resource_link
+        subtype, ankama_id, name = ingredient
+        url = get_resource_link(subtype, ankama_id, name, game_version='dofus3')
+        resp = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn(name, body)
+        self.assertIn('<div class="encyclopedia-item-meta">Ingredient</div>', body)
 
     def test_retro_resource_page_uses_retro_route_and_data(self):
         ankama_id = 2448
