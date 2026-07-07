@@ -147,7 +147,8 @@ def _sitemap_url(loc, changefreq, priority):
 
 
 def _sitemap_encyclopedia_items(base_url):
-    """Best-effort <url> block for dofus3 encyclopedia item pages.
+    """Best-effort <url> block for encyclopedia item pages in every game
+    version.
 
     Cached for a few hours and fully defensive: any failure yields the
     previously cached value (or an empty string), so the sitemap never breaks.
@@ -157,22 +158,49 @@ def _sitemap_encyclopedia_items(base_url):
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
         return cached['xml']
     try:
-        from chardata import encyclopedia_view
+        import sqlite3
         from chardata.official_site import get_item_link
-        structure = encyclopedia_view.get_structure()
+        from fashionistapulp.fashionista_config import get_items_db_path
         seen = set()
         rows = []
-        for item in encyclopedia_view._collect_unique_items(structure):
-            ankama_id = getattr(item, 'ankama_id', None)
-            ankama_type = getattr(item, 'ankama_type', None)
-            if not ankama_id or not ankama_type:
-                continue
-            link = get_item_link(ankama_type, ankama_id, getattr(item, 'name', '') or '',
-                                 game_version='dofus3')
-            if not link or link in seen:
-                continue
-            seen.add(link)
-            rows.append(_sitemap_url(base_url + link, 'monthly', '0.6'))
+        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'items'")
+                if cursor.fetchone() is None:
+                    continue
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_names'")
+                has_item_names = cursor.fetchone() is not None
+                name_join_sql = (
+                    "LEFT JOIN item_names en ON en.item = i.id AND en.language = 'en'"
+                    if has_item_names else '')
+                localized_name_sql = 'COALESCE(en.name, i.name)' if has_item_names else 'i.name'
+                cursor.execute(
+                    """
+                    WITH representative_items AS (
+                        SELECT MIN(id) AS item_id
+                        FROM items
+                        WHERE ankama_id IS NOT NULL AND ankama_type IS NOT NULL
+                        GROUP BY ankama_type, ankama_id
+                    )
+                    SELECT i.ankama_type, i.ankama_id, %s AS localized_name
+                    FROM representative_items ri
+                    JOIN items i ON i.id = ri.item_id
+                    %s
+                    ORDER BY i.ankama_type, i.ankama_id
+                    """ % (localized_name_sql, name_join_sql))
+                for ankama_type, ankama_id, name in cursor.fetchall():
+                    link = get_item_link(ankama_type, ankama_id, name or '',
+                                         game_version=game_version)
+                    if not link or link in seen:
+                        continue
+                    seen.add(link)
+                    rows.append(_sitemap_url(base_url + link, 'monthly', '0.6'))
+            finally:
+                conn.close()
         xml = '\n'.join(rows)
     except Exception:
         return cached['xml'] or ''

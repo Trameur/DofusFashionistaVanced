@@ -593,6 +593,11 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/encyclopedia/resource/resources/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/resource/resources/384-', body)
 
+    def test_sitemap_lists_versioned_item_urls(self):
+        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        self.assertIn('https://dofusfashionista.gg/encyclopedia/item/', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/item/equipment/2416-', body)
+
     def test_sitemap_lists_shared_builds_with_a_solution_only(self):
         # Shared builds are content pages worth indexing, but a build with no
         # stored solution answers 404 on /s/, so it must stay out of the sitemap.
