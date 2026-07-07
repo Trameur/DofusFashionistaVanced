@@ -7402,6 +7402,10 @@ msgid "Spell damage preview"
 msgstr "Prévia de dano dos feitiços"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell class"
+msgstr "Classe dos feitiços"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crít."
 
@@ -7448,3 +7452,7 @@ msgstr "Os hubs de enciclopédia específicos de cada versão agora estão inclu
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item search now matches item names from every supported language"
 msgstr "A busca de itens agora encontra nomes em todos os idiomas compatíveis"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now lets you choose which class spells to preview"
+msgstr "Comparar sets agora permite escolher os feitiços de classe para pré-visualizar"

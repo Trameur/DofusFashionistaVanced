@@ -205,7 +205,19 @@
         <table class="solution-stat-table compare-spell-preview-table">
             <tr>
                 <td colspan="99" class="compare-spell-preview-title">
-                    <b>{% trans "Spell damage preview" %}</b>
+                    <div style="display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;">
+                        <b>{% trans "Spell damage preview" %}</b>
+                        {% if spell_preview_class_options %}
+                        <form method="get" style="margin:0;">
+                            <label for="compare_spell_class">{% trans "Spell class" %}</label>
+                            <select id="compare_spell_class" name="spell_class" onchange="this.form.submit()">
+                                {% for option in spell_preview_class_options %}
+                                <option value="{{ option.value }}"{% if option.selected %} selected{% endif %}>{{ option.label }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                        {% endif %}
+                    </div>
                 </td>
             </tr>
             <tr class="solution-stat-summary-line">

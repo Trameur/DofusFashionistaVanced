@@ -32,6 +32,7 @@ from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spells_view import _create_spell_web_digest, _create_weapon_web_digest
+from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
                            HttpResponseText, char_belongs_to_user, get_char_id_possibly_encoded,
                            HttpResponseJson, version_reverse)
@@ -126,9 +127,19 @@ def _build_spell_preview_context(request, chars, model_results):
     game_version = getattr(request, 'game_version', 'dofus3')
     spells_by_class = get_damage_spells_for_version(game_version)
     reference_char = chars[0]
+    available_spell_classes = sorted(
+        class_name for class_name in spells_by_class
+        if class_name != 'default')
+    selected_spell_class = reference_char.char_class
+    requested_spell_class = (request.GET.get('spell_class') or '').strip()
+    if selected_spell_class not in available_spell_classes and available_spell_classes:
+        selected_spell_class = available_spell_classes[0]
+    if requested_spell_class in available_spell_classes:
+        selected_spell_class = requested_spell_class
+
     spell_rows = []
     spell_digests = []
-    for spell in (spells_by_class.get(reference_char.char_class, [])
+    for spell in (spells_by_class.get(selected_spell_class, [])
                   + spells_by_class.get('default', [])):
         if not _spell_has_direct_damage(spell):
             continue
@@ -167,6 +178,15 @@ def _build_spell_preview_context(request, chars, model_results):
 
     return {
         'spell_preview_rows': rows,
+        'spell_preview_selected_class': selected_spell_class,
+        'spell_preview_class_options': [
+            {
+                'value': class_name,
+                'label': str(LOCALIZED_CHARACTER_CLASSES.get(class_name, class_name)),
+                'selected': class_name == selected_spell_class,
+            }
+            for class_name in available_spell_classes
+        ],
         'spell_preview_digests_json': jsonpickle.encode(
             spell_digests, unpicklable=False),
         'weapon_digests_json': jsonpickle.encode(

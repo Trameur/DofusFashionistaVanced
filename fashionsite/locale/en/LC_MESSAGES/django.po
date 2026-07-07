@@ -5242,6 +5242,10 @@ msgid "Spell damage preview"
 msgstr "Spell damage preview"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell class"
+msgstr "Spell class"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crit."
 
@@ -5288,3 +5292,7 @@ msgstr "Version-specific encyclopedia hubs are now included in the sitemap"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item search now matches item names from every supported language"
 msgstr "Item search now matches item names from every supported language"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now lets you choose which class spells to preview"
+msgstr "Compare Sets now lets you choose which class spells to preview"

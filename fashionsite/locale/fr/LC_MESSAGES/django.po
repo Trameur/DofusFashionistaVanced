@@ -7862,6 +7862,10 @@ msgid "Spell damage preview"
 msgstr "Aperçu des dégâts des sorts"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell class"
+msgstr "Classe des sorts"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crit."
 
@@ -7908,6 +7912,10 @@ msgstr "Les hubs d'encyclopédie propres à chaque version sont maintenant inclu
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item search now matches item names from every supported language"
 msgstr "La recherche d'objets trouve maintenant les noms dans toutes les langues prises en charge"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now lets you choose which class spells to preview"
+msgstr "Comparer les panoplies permet maintenant de choisir les sorts de classe à prévisualiser"
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"

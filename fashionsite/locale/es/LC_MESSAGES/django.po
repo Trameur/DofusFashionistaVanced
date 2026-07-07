@@ -7408,6 +7408,10 @@ msgid "Spell damage preview"
 msgstr "Vista previa de daños de hechizos"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell class"
+msgstr "Clase de hechizos"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crít."
 
@@ -7454,6 +7458,10 @@ msgstr "Los hubs de enciclopedia específicos de cada versión ahora están incl
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item search now matches item names from every supported language"
 msgstr "La búsqueda de objetos ahora encuentra nombres en todos los idiomas compatibles"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now lets you choose which class spells to preview"
+msgstr "Comparar sets ahora permite elegir los hechizos de clase para previsualizar"
 
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

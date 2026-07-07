@@ -1890,6 +1890,24 @@ class CompareSetsSpellPreviewTests(TestCase):
         self.assertIn('compareWeaponDigests', html)
         self.assertIn('compareCharLevels', html)
         self.assertIn('spell_damage_weapon_%d' % first.pk, html)
+        self.assertIn('name="spell_class"', html)
+
+    def test_compare_sets_can_choose_spell_preview_class(self):
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('spellclasscompare', 'scc@test.local', 'pw-42-solid')
+        first = self._build(owner, 'ClassOne', {}, self._stats(str=0))
+        second = self._build(owner, 'ClassTwo', {}, self._stats(str=250))
+        self.client.force_login(owner)
+
+        resp = self.client.get(
+            '/compare_sets/%d/%d/' % (first.pk, second.pk),
+            {'spell_class': 'Cra'})
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertEqual(resp.context['spell_preview_selected_class'], 'Cra')
+        self.assertRegex(
+            html,
+            r'<option(?=[^>]*\bvalue="Cra")(?=[^>]*\bselected(?:=""|(?=[\s>])))[^>]*>')
 
     def test_retro_compare_uses_retro_spell_payloads(self):
         from django.contrib.auth.models import User

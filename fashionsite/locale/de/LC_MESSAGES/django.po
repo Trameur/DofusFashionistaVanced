@@ -7397,6 +7397,10 @@ msgid "Spell damage preview"
 msgstr "Zauberschaden-Vorschau"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell class"
+msgstr "Zauberklasse"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Krit."
 
@@ -7443,3 +7447,7 @@ msgstr "Versionsspezifische Enzyklopädie-Hubs sind jetzt in der Sitemap enthalt
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item search now matches item names from every supported language"
 msgstr "Die Itemsuche findet jetzt Itemnamen aus jeder unterstützten Sprache"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now lets you choose which class spells to preview"
+msgstr "Set-Vergleiche lassen dich jetzt auswählen, welche Klassenzauber angezeigt werden"
