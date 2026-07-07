@@ -125,7 +125,7 @@
                 <li class="craft-item">
                     <img class="craft-icon" src="{{ used_item.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                     <span>{% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
-                    <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span></span>
+                    <span class="item-level">{{ used_item.type_name }} | {{ t.item_level }} {{ used_item.level }}</span></span>
                 </li>
                 {% endfor %}
             </ul>
@@ -137,7 +137,7 @@
                     <li class="craft-item">
                         <img class="craft-icon" src="{{ used_item.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         <span>{% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
-                        <span class="item-level">{{ t.item_level }} {{ used_item.level }}</span></span>
+                        <span class="item-level">{{ used_item.type_name }} | {{ t.item_level }} {{ used_item.level }}</span></span>
                     </li>
                     {% endfor %}
                 </ul>

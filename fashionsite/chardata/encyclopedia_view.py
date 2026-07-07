@@ -1672,6 +1672,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 used_in.append({
                     'name': localized_item_name,
                     'level': item_level,
+                    'type_name': _localized_label(item_type_name, language),
                     'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
                                          game_version=game_version),
                     'image_url': static(get_image_url(item_type_name, item_name)),

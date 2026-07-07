@@ -2847,6 +2847,8 @@ class EncyclopediaResourcePageTests(TestCase):
                 body = resp.content.decode('utf-8')
                 self.assertIn(expected_resource_names[language], body)
                 self.assertIn(expected_name, body)
+                if language == 'fr':
+                    self.assertIn('Cape | Niv.', body)
                 self.assertIn('/retro/encyclopedia/item/', body)
 
     def test_unknown_resource_redirects_to_the_encyclopedia(self):

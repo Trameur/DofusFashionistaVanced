@@ -7423,5 +7423,9 @@ msgstr "Comparar sets ahora muestra vistas previas del daño de hechizos y armas
 msgid "Monster pages now show dropped item types and levels next to their drop rates"
 msgstr "Las páginas de monstruos ahora muestran el tipo y nivel de los objetos dropeados junto a sus tasas de drop"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Resource pages now show the type and level of each item they can craft"
+msgstr "Las páginas de recursos ahora muestran el tipo y nivel de cada objeto que pueden fabricar"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

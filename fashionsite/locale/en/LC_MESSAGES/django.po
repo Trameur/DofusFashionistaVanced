@@ -5256,3 +5256,7 @@ msgstr "Compare Sets now shows spell and weapon damage previews, so you can quic
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster pages now show dropped item types and levels next to their drop rates"
 msgstr "Monster pages now show dropped item types and levels next to their drop rates"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Resource pages now show the type and level of each item they can craft"
+msgstr "Resource pages now show the type and level of each item they can craft"

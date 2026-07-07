@@ -7416,3 +7416,7 @@ msgstr "Comparar sets agora mostra prévias de dano de feitiços e armas, para v
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster pages now show dropped item types and levels next to their drop rates"
 msgstr "As páginas de monstros agora mostram o tipo e o nível dos itens dropados junto das taxas de drop"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Resource pages now show the type and level of each item they can craft"
+msgstr "As páginas de recursos agora mostram o tipo e o nível de cada item que podem fabricar"
