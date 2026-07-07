@@ -2731,6 +2731,12 @@ class EncyclopediaResourcePageTests(TestCase):
             'pt': 'Capa do Gobkool',
             'de': 'Fresscool-Mantel',
         }
+        expected_resource_names = {
+            'fr': 'Laine de Bouftou',
+            'es': 'Lana de jalató',
+            'pt': 'Lã de Gobball',
+            'de': 'Fresssackwolle',
+        }
         for language, expected_name in expected_names.items():
             with self.subTest(language=language):
                 resp = self.client.get(
@@ -2738,6 +2744,7 @@ class EncyclopediaResourcePageTests(TestCase):
                     HTTP_ACCEPT_LANGUAGE=language)
                 self.assertEqual(resp.status_code, 200)
                 body = resp.content.decode('utf-8')
+                self.assertIn(expected_resource_names[language], body)
                 self.assertIn(expected_name, body)
                 self.assertIn('/retro/encyclopedia/item/', body)
 
@@ -2827,6 +2834,22 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('Marteau du Bouftou', body)
         self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
         self.assertIn('/retro/encyclopedia/item/equipment/2416-', body)
+
+    def test_retro_monster_page_localizes_drops_for_supported_languages(self):
+        expected_drops = {
+            'fr': ('Laine de Bouftou', 'Marteau du Bouftou'),
+            'es': ('Lana de jalató', 'Martillo del jalató'),
+            'pt': ('Lã de Gobball', 'Martelo do Gobball'),
+            'de': ('Fresssackwolle', 'Hammer des Fresssacks'),
+        }
+        for language, (resource_name, item_name) in expected_drops.items():
+            with self.subTest(language=language):
+                resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
+                                       HTTP_ACCEPT_LANGUAGE=language)
+                self.assertEqual(resp.status_code, 200)
+                body = resp.content.decode('utf-8')
+                self.assertIn(resource_name, body)
+                self.assertIn(item_name, body)
 
     def test_unknown_versioned_monster_redirects_to_version_monster_list(self):
         resp = self.client.get('/retro/encyclopedia/monster/999999999-gone/')
