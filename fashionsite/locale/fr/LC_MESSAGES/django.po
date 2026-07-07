@@ -7905,6 +7905,10 @@ msgstr "Les pages d'objets indiquent maintenant quels autres objets ils servent 
 msgid "Version-specific encyclopedia hubs are now included in the sitemap"
 msgstr "Les hubs d'encyclopédie propres à chaque version sont maintenant inclus dans le sitemap"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item search now matches item names from every supported language"
+msgstr "La recherche d'objets trouve maintenant les noms dans toutes les langues prises en charge"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

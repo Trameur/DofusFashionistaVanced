@@ -7439,3 +7439,7 @@ msgstr "Itemseiten zeigen jetzt, welche anderen Items damit hergestellt werden"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Version-specific encyclopedia hubs are now included in the sitemap"
 msgstr "Versionsspezifische Enzyklopädie-Hubs sind jetzt in der Sitemap enthalten"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item search now matches item names from every supported language"
+msgstr "Die Itemsuche findet jetzt Itemnamen aus jeder unterstützten Sprache"

@@ -475,6 +475,28 @@ class PublicRouteSmokeTests(TestCase):
         self.assertGreater(hits, 0, 'narrow search returned no result cards')
         self.assertLess(hits, 40, 'narrow search rendered the whole catalog')
 
+    def test_encyclopedia_search_matches_item_names_from_other_languages(self):
+        from chardata.encyclopedia_view import _normalized_text
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        query = None
+        for item in structure.get_concatenated_items_lists():
+            if not getattr(item, 'ankama_id', None) or getattr(item, 'removed', False):
+                continue
+            english_name = structure.get_item_name_in_language(item, 'en')
+            french_name = structure.get_item_name_in_language(item, 'fr')
+            current_blob = _normalized_text('%s %s' % (english_name, item.or_name))
+            if french_name and english_name and _normalized_text(french_name) not in current_blob:
+                query = french_name
+                break
+        if query is None:
+            self.skipTest('no cross-language item name found in this build')
+
+        resp = self.client.get('/encyclopedia/', {'q': query}, HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        hits = resp.content.decode('utf-8').count('/encyclopedia/item/')
+        self.assertGreater(hits, 0, 'cross-language item search returned no result cards')
+
     def test_encyclopedia_search_no_result_is_clean(self):
         resp = self.client.get('/encyclopedia/', {'q': 'zzzznotanitemzzzz'})
         self.assertEqual(resp.status_code, 200)

@@ -584,14 +584,18 @@ def _get_light_index(structure, language):
             if _real_variant is not None:
                 item = _real_variant
         display_name = _get_display_name_for_group(structure, variants, language)
-        localized_name = structure.get_item_name_in_language(item, language)
+        search_names = [
+            structure.get_item_name_in_language(item, search_language)
+            for search_language in ('en', 'fr', 'es', 'pt', 'de')
+        ]
+        search_names.append(item.or_name)
         entries.append({
             'item': item,
             'name': display_name,
             'level': item.level,
             'raw_type_name': structure.get_type_name_by_id(item.type),
             'stats_map': _get_stats_map(item),
-            'search_blob': _normalized_text('%s %s' % (localized_name, item.or_name)),
+            'search_blob': _normalized_text(' '.join(name or '' for name in search_names)),
         })
     _light_index_cache[key] = entries
     return entries

@@ -5284,3 +5284,7 @@ msgstr "Item pages now show which other items they are used to craft"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Version-specific encyclopedia hubs are now included in the sitemap"
 msgstr "Version-specific encyclopedia hubs are now included in the sitemap"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item search now matches item names from every supported language"
+msgstr "Item search now matches item names from every supported language"
