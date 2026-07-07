@@ -7839,10 +7839,10 @@ msgstr ""
 #: chardata/templates/chardata/encyclopedia_resource.html
 msgid ""
 "Which Dofus items are crafted with %(resource_name)s. Find every item that "
-"uses this resource and optimize your build with the Dofus Fashionista."
+"uses this ingredient and optimize your build with the Dofus Fashionista."
 msgstr ""
 "Quels items Dofus se fabriquent avec %(resource_name)s. Trouvez tous les "
-"items qui utilisent cette ressource et optimisez votre build avec le Dofus "
+"items qui utilisent cet ingrédient et optimisez votre build avec le Dofus "
 "Fashionista."
 
 #: chardata/templates/chardata/changelog_modal.html

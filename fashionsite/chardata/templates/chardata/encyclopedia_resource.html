@@ -5,13 +5,13 @@
 
 {% block title %}{{ resource.name }} - {{ resource.kind_label }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this resource and optimize your build with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this ingredient and optimize your build with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 {% block og_meta %}
     <meta property="og:title" content="{{ resource.name }} · {{ resource.kind_label }}">
-    <meta property="og:description" content="{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this resource and optimize your build with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:description" content="{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this ingredient and optimize your build with the Dofus Fashionista.{% endblocktrans %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical_url }}">
     <meta name="twitter:card" content="summary">

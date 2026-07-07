@@ -5224,7 +5224,7 @@ msgstr ""
 #: chardata/templates/chardata/encyclopedia_resource.html
 msgid ""
 "Which Dofus items are crafted with %(resource_name)s. Find every item that "
-"uses this resource and optimize your build with the Dofus Fashionista."
+"uses this ingredient and optimize your build with the Dofus Fashionista."
 msgstr ""
 
 #: chardata/templates/chardata/changelog_modal.html

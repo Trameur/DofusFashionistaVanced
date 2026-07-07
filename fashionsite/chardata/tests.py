@@ -2886,6 +2886,8 @@ class EncyclopediaResourcePageTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn(name, body)
         self.assertIn('<div class="encyclopedia-item-meta">Ingredient</div>', body)
+        self.assertIn('uses this ingredient', body)
+        self.assertNotIn('uses this resource', body)
 
     def test_retro_resource_page_uses_retro_route_and_data(self):
         ankama_id = 2448
