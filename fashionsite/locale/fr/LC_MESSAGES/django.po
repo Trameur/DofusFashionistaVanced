@@ -7901,6 +7901,10 @@ msgstr "Les pages d'ingrédients qui ne sont pas des ressources utilisent mainte
 msgid "Item pages now show which other items they are used to craft"
 msgstr "Les pages d'objets indiquent maintenant quels autres objets ils servent à fabriquer"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Version-specific encyclopedia hubs are now included in the sitemap"
+msgstr "Les hubs d'encyclopédie propres à chaque version sont maintenant inclus dans le sitemap"
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

@@ -5280,3 +5280,7 @@ msgstr "Non-resource ingredient pages now use the correct ingredient label"
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item pages now show which other items they are used to craft"
 msgstr "Item pages now show which other items they are used to craft"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Version-specific encyclopedia hubs are now included in the sitemap"
+msgstr "Version-specific encyclopedia hubs are now included in the sitemap"

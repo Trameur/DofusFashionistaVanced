@@ -7,7 +7,7 @@
 
 {% block meta_description %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 
-{# Version-prefixed copies (/retro/encyclopedia/item/... etc.) are dofus3 duplicates -> canonical to the global URL. #}
+{# Version-prefixed item pages are canonical because each game version has distinct item data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 {# Item-specific social preview (name + icon) instead of the generic site card. #}

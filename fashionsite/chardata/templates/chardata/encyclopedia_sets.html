@@ -6,7 +6,7 @@
 
 {% block meta_description %}{% trans "Browse every Dofus set (panoply) and its bonuses. Find a set and build it with the Dofus Fashionista." %}{% endblock %}
 
-{# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
+{# Version-prefixed set lists are canonical because each game version has distinct set data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 {% block css %}

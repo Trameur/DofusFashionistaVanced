@@ -572,11 +572,11 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('<?xml', body)
         self.assertIn('<urlset', body)
         self.assertIn('/privacy/', body)
-        # Global encyclopedia is listed; the version-prefixed generic encyclopedia
-        # hub canonicalizes to the global one, so that exact URL stays out.
-        # Version-specific content pages still are.
+        # Global and version-specific encyclopedia hubs are all canonical because
+        # each game version has distinct data and calculations.
         self.assertIn('https://dofusfashionista.gg/encyclopedia/', body)
-        self.assertNotIn('https://dofusfashionista.gg/retro/encyclopedia/</loc>', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/</loc>', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/sets/', body)
         self.assertIn('/retro/forgemagie/', body)
         # Original guide content is listed (hub + at least one article).
         self.assertIn('https://dofusfashionista.gg/guides/', body)

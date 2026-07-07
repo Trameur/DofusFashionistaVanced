@@ -437,11 +437,11 @@ def sitemap_view(request):
 
     for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
         vbase = '%s/%s' % (base_url, version_slug)
-        # /{version}/encyclopedia/ is dofus3 data that canonicalizes to the global
-        # /encyclopedia/, so it is intentionally omitted (a sitemap should list canonical
-        # URLs only). /setup/, /sharedbuilds/, /forgemagie/ are genuinely version-specific.
+        # Every game version has distinct equipment data and calculations, so
+        # its encyclopedia hub and set index are canonical versioned URLs.
         for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
-                          ('/forgemagie/', '0.6')):
+                          ('/forgemagie/', '0.6'), ('/encyclopedia/', '0.8'),
+                          ('/encyclopedia/sets/', '0.7')):
             blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
 
     try:

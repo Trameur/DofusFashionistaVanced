@@ -7435,3 +7435,7 @@ msgstr "Zutatenseiten, die keine Ressourcen sind, verwenden jetzt die richtige Z
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item pages now show which other items they are used to craft"
 msgstr "Itemseiten zeigen jetzt, welche anderen Items damit hergestellt werden"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Version-specific encyclopedia hubs are now included in the sitemap"
+msgstr "Versionsspezifische Enzyklopädie-Hubs sind jetzt in der Sitemap enthalten"

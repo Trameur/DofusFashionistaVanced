@@ -7,7 +7,7 @@
 
 {% block meta_description %}{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 
-{# Version-prefixed copies are dofus3 duplicates -> canonical to the global URL. #}
+{# Version-prefixed set pages are canonical because each game version has distinct set data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 {# Set-specific social preview (set name + first item icon) instead of the generic card. #}

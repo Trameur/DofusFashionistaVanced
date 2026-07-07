@@ -7447,5 +7447,9 @@ msgstr "Las páginas de ingredientes que no son recursos ahora usan la etiqueta 
 msgid "Item pages now show which other items they are used to craft"
 msgstr "Las páginas de objetos ahora muestran qué otros objetos ayudan a fabricar"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Version-specific encyclopedia hubs are now included in the sitemap"
+msgstr "Los hubs de enciclopedia específicos de cada versión ahora están incluidos en el sitemap"
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

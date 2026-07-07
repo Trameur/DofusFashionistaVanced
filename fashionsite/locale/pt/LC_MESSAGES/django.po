@@ -7440,3 +7440,7 @@ msgstr "As páginas de ingredientes que não são recursos agora usam o rótulo 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item pages now show which other items they are used to craft"
 msgstr "As páginas de itens agora mostram quais outros itens eles ajudam a fabricar"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Version-specific encyclopedia hubs are now included in the sitemap"
+msgstr "Os hubs de enciclopédia específicos de cada versão agora estão incluídos no sitemap"
