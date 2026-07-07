@@ -1334,9 +1334,9 @@ MONSTER_UI = {
         'monsters_label': 'Monstres',
         'monster_kind_label': 'Monstre',
         'monster_search_placeholder': 'Nom du monstre',
-        'dropped_resources_label': 'Ressources droppees',
-        'dropped_items_label': 'Objets droppes',
-        'no_monsters': 'Aucun monstre ne correspond a votre recherche.',
+        'dropped_resources_label': 'Ressources droppées',
+        'dropped_items_label': 'Objets droppés',
+        'no_monsters': 'Aucun monstre ne correspond à votre recherche.',
     },
     'es': {
         'monsters_label': 'Monstruos',
@@ -1344,7 +1344,7 @@ MONSTER_UI = {
         'monster_search_placeholder': 'Nombre del monstruo',
         'dropped_resources_label': 'Recursos soltados',
         'dropped_items_label': 'Objetos soltados',
-        'no_monsters': 'Ningun monstruo coincide con tu busqueda.',
+        'no_monsters': 'Ningún monstruo coincide con tu búsqueda.',
     },
     'pt': {
         'monsters_label': 'Monstros',
@@ -1352,14 +1352,14 @@ MONSTER_UI = {
         'monster_search_placeholder': 'Nome do monstro',
         'dropped_resources_label': 'Recursos dropados',
         'dropped_items_label': 'Itens dropados',
-        'no_monsters': 'Nenhum monstro corresponde a sua pesquisa.',
+        'no_monsters': 'Nenhum monstro corresponde à sua pesquisa.',
     },
     'de': {
         'monsters_label': 'Monster',
         'monster_kind_label': 'Monster',
         'monster_search_placeholder': 'Monstername',
         'dropped_resources_label': 'Gedroppte Ressourcen',
-        'dropped_items_label': 'Gedroppte Gegenstaende',
+        'dropped_items_label': 'Gedroppte Gegenstände',
         'no_monsters': 'Keine Monster entsprechen deiner Suche.',
     },
 }

@@ -2851,6 +2851,20 @@ class EncyclopediaMonsterPageTests(TestCase):
                 self.assertIn(resource_name, body)
                 self.assertIn(item_name, body)
 
+    def test_retro_monster_page_localizes_section_labels(self):
+        expected_labels = {
+            'fr': ('Ressources droppées', 'Objets droppés'),
+            'de': ('Gedroppte Ressourcen', 'Gedroppte Gegenstände'),
+        }
+        for language, labels in expected_labels.items():
+            with self.subTest(language=language):
+                resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
+                                       HTTP_ACCEPT_LANGUAGE=language)
+                self.assertEqual(resp.status_code, 200)
+                body = resp.content.decode('utf-8')
+                for label in labels:
+                    self.assertIn(label, body)
+
     def test_unknown_versioned_monster_redirects_to_version_monster_list(self):
         resp = self.client.get('/retro/encyclopedia/monster/999999999-gone/')
         self.assertEqual(resp.status_code, 302)
