@@ -572,14 +572,21 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('<?xml', body)
         self.assertIn('<urlset', body)
         self.assertIn('/privacy/', body)
-        # Global encyclopedia is listed; version-prefixed encyclopedia URLs are not
-        # (they canonicalize to the global one). Version-specific pages still are.
+        # Global encyclopedia is listed; the version-prefixed generic encyclopedia
+        # hub canonicalizes to the global one, so that exact URL stays out.
+        # Version-specific content pages still are.
         self.assertIn('https://dofusfashionista.gg/encyclopedia/', body)
-        self.assertNotIn('/retro/encyclopedia/', body)
+        self.assertNotIn('https://dofusfashionista.gg/retro/encyclopedia/</loc>', body)
         self.assertIn('/retro/forgemagie/', body)
         # Original guide content is listed (hub + at least one article).
         self.assertIn('https://dofusfashionista.gg/guides/', body)
         self.assertIn('/guides/getting-started/', body)
+
+    def test_sitemap_lists_monster_encyclopedia_urls(self):
+        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        self.assertIn('https://dofusfashionista.gg/encyclopedia/monsters/', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/monsters/', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/monster/101-', body)
 
     def test_sitemap_lists_shared_builds_with_a_solution_only(self):
         # Shared builds are content pages worth indexing, but a build with no

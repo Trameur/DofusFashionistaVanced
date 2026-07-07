@@ -257,6 +257,80 @@ def _sitemap_encyclopedia_resources(base_url):
     return xml
 
 
+_SITEMAP_MONSTER_CACHE = {'ts': 0.0, 'xml': ''}
+
+
+def _sitemap_encyclopedia_monsters(base_url):
+    """Best-effort <url> block for monster encyclopedia pages in every game
+    version. Monster drops are version-specific, so these URLs are canonical per
+    version unlike the generic encyclopedia list."""
+    now = _sitemap_time.time()
+    cached = _SITEMAP_MONSTER_CACHE
+    if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
+        return cached['xml']
+    try:
+        import sqlite3
+        from chardata.official_site import get_monster_link
+        from fashionistapulp.fashionista_config import get_items_db_path
+        rows = []
+        seen = set()
+        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
+            list_link = '%s/encyclopedia/monsters/' % version_prefix
+            if list_link not in seen:
+                seen.add(list_link)
+                rows.append(_sitemap_url(base_url + list_link, 'weekly', '0.7'))
+
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'monster_names'")
+                if cursor.fetchone() is None:
+                    continue
+
+                drop_sources = []
+                for table_name in ('resource_drops', 'item_drops'):
+                    cursor.execute(
+                        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?",
+                        (table_name,))
+                    if cursor.fetchone() is not None:
+                        drop_sources.append('SELECT monster_ankama_id FROM %s' % table_name)
+                if not drop_sources:
+                    continue
+
+                cursor.execute(
+                    """
+                    WITH dropped_monsters AS (%s)
+                    SELECT dm.monster_ankama_id,
+                           COALESCE(
+                               (SELECT name FROM monster_names
+                                WHERE monster_ankama_id = dm.monster_ankama_id
+                                  AND language = 'en'
+                                LIMIT 1),
+                               (SELECT name FROM monster_names
+                                WHERE monster_ankama_id = dm.monster_ankama_id
+                                LIMIT 1)
+                           )
+                    FROM dropped_monsters dm
+                    ORDER BY dm.monster_ankama_id
+                    """ % ' UNION '.join(drop_sources))
+                for monster_id, name in cursor.fetchall():
+                    link = get_monster_link(monster_id, name or '', game_version=game_version)
+                    if not link or link in seen:
+                        continue
+                    seen.add(link)
+                    rows.append(_sitemap_url(base_url + link, 'monthly', '0.5'))
+            finally:
+                conn.close()
+        xml = '\n'.join(rows)
+    except Exception:
+        return cached['xml'] or ''
+    cached['ts'] = now
+    cached['xml'] = xml
+    return xml
+
+
 def sitemap_view(request):
     """Comprehensive sitemap.xml for AdSense and SEO.
 
@@ -351,6 +425,10 @@ def sitemap_view(request):
     resources_xml = _sitemap_encyclopedia_resources(base_url)
     if resources_xml:
         blocks.append(resources_xml)
+
+    monsters_xml = _sitemap_encyclopedia_monsters(base_url)
+    if monsters_xml:
+        blocks.append(monsters_xml)
 
     sitemap_content = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
