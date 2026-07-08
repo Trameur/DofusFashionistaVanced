@@ -1,5 +1,5 @@
 /* ============================================================================
-   Dofus Fashionista — MODERN skin (opt-in)  v2
+   Dofus Fashionista: MODERN skin (opt-in)  v2
    Active only when <html> has class `fm-modern` (the "New look" toggle, saved
    in localStorage). Without the class the classic design is 100% untouched.
    Keeps the original gold / brown / parchment identity, adapting to light/dark
@@ -404,7 +404,7 @@ html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1p
 html.fm-modern .error-message{ color:#e0584f; }
 
 /* ============================================================================
-   Responsive — modern collapses the float layout into one column
+   Responsive: modern collapses the float layout into one column
    ============================================================================ */
 @media (max-width: 900px){
   html.fm-modern .add-banner{ padding:0 12px !important; }
@@ -434,7 +434,7 @@ html.fm-modern .error-message{ color:#e0584f; }
 }
 
 /* ============================================================================
-   Bespoke-page overrides — force modern surfaces/text on pages that ship their
+   Bespoke-page overrides: force modern surfaces/text on pages that ship their
    own <style> blocks (shared builds, encyclopedia item, smithmagic).
    ============================================================================ */
 /* --- Shared builds cards --- */
@@ -487,7 +487,7 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
 }
 
 /* ============================================================================
-   Mobile overflow safety (modern) — pages that ship fixed-width tables/links
+   Mobile overflow safety (modern): pages that ship fixed-width tables/links
    ============================================================================ */
 @media (max-width: 900px){
   /* contact form: stack label/field, full width */
@@ -535,7 +535,7 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
 
 /* Very narrow screens (<=480px): keep items | stats side by side (no stacking) but
    compact the item box so the icon + 4 action buttons and the stats all fit without
-   overflowing — smaller icon, smaller buttons that wrap, tighter columns/padding. */
+   overflowing: smaller icon, smaller buttons that wrap, tighter columns/padding. */
 @media (max-width: 480px){
   html.fm-modern .solution-table{ table-layout:fixed; width:100% !important; }
   html.fm-modern .solution-item-summary{ width:56% !important; vertical-align:top; }
@@ -558,7 +558,7 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
 }
 
 /* ============================================================================
-   Unified modern icon set (modern skin only) — replaces mismatched raster
+   Unified modern icon set (modern skin only): replaces mismatched raster
    control icons with inline SVG in the CSS content. Classic keeps its own
    icons. Gold = neutral action, muted red = destructive. (Baked colors --
    inline content cannot use currentColor; chosen to read on light & dark.)
@@ -622,7 +622,7 @@ html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Cs
 }
 
 /* ============================================================================
-   Premium gold buttons — richer minted-gold gradient, soft top sheen + warm
+   Premium gold buttons: richer minted-gold gradient, soft top sheen + warm
    shadow + hairline border (replaces the flat lemon look).
    ============================================================================ */
 html.fm-modern .button-generic, html.fm-modern .button-generic-foreground, html.fm-modern .submit-button,
@@ -645,7 +645,7 @@ html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:
 html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:translateY(0); box-shadow:inset 0 1px 3px rgba(120,85,15,.4) !important; }
 
 /* ============================================================================
-   Solution stats panel — modern segmented toggle + clean tabular rows.
+   Solution stats panel: modern segmented toggle + clean tabular rows.
    ============================================================================ */
 /* Total / Equip / With-buffs as a segmented pill control (no :has needed) */
 html.fm-modern .solution-stat-summary-mode-option-container{ float:none !important; width:auto !important; display:inline-flex !important; vertical-align:middle; margin:0 5px 6px 0 !important; }
@@ -699,7 +699,7 @@ html.fm-modern .item-exchange-header,
 html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header{
   background:var(--fm-surface-3) !important; color:var(--fm-head) !important;
 }
-/* content / stat panels — bg only (the popup card already frames them) */
+/* content / stat panels: bg only (the popup card already frames them) */
 html.fm-modern .item-exchange-stats, html.fm-modern .item-exchange-comparison,
 html.fm-modern .item-exchange-violations,
 html.fm-modern .solution-item-expand-content, html.fm-modern .solution-set-expand-content{
@@ -719,7 +719,7 @@ html.fm-modern .pages-link{ color:var(--fm-accent-text) !important; }
 html.fm-modern .pages-current{ color:var(--fm-head) !important; }
 
 /* ============================================================
-   Comparison cart — a small cart in the header. Hovering (or a tap
+   Comparison cart: a small cart in the header. Hovering (or a tap
    on touch) opens a dropdown of the collected builds; the panel's
    button compares them. Self-contained colors so it reads on any
    header theme (classic / light / dark / modern).
@@ -781,7 +781,7 @@ html.fm-modern .pages-current{ color:var(--fm-head) !important; }
 @media (max-width:600px){ .compare-cart-panel{ width:230px; } }
 
 /* ============================================================
-   Comparison result page (compare_sets) — modern theme. The old
+   Comparison result page (compare_sets): modern theme. The old
    page leaned on .brown-table (beige skin) which clashed badly
    with the modern look; restyle its panels to match the stats.
    ============================================================ */
