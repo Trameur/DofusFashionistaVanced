@@ -35,6 +35,10 @@
 .drop-icon { width: 32px; height: 32px; object-fit: contain; flex: 0 0 auto; }
 .drop-rate { opacity: 0.7; font-size: 0.9em; }
 .drop-meta { display: block; opacity: 0.75; font-size: 0.85em; }
+.monster-version-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.monster-version-link { border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; display: inline-block; padding: 6px 8px; text-decoration: none; }
+.monster-version-link-label { display: block; font-weight: 700; }
+.monster-version-link-meta { display: block; opacity: 0.75; font-size: 0.85em; }
 .encyclopedia-drops-more { margin-top: 6px; }
 .encyclopedia-drops-more > summary { cursor: pointer; padding-left: 20px; font-size: 0.95em; opacity: 0.85; }
 .dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
@@ -46,6 +50,7 @@
 .dark-theme-active .encyclopedia-section b { color: #fff1d6; }
 .dark-theme-active .encyclopedia-monster a { color: #ffd8a8; }
 .dark-theme-active .encyclopedia-monster a:hover { color: #ffe4bf; }
+.dark-theme-active .monster-version-link { border-color: #5a5a5a; }
 </style>
 {% endblock %}
 
@@ -62,6 +67,20 @@
     <div class="encyclopedia-monster-card brown-box">
         <div class="encyclopedia-monster-name">{{ monster.name }}</div>
         <div class="encyclopedia-monster-meta">{{ mt.monster_kind_label }}</div>
+
+        {% if monster_version_links %}
+        <div class="encyclopedia-section">
+            <b>{{ mt.other_versions_label }}</b>
+            <div class="monster-version-links">
+                {% for version in monster_version_links %}
+                <a class="monster-version-link" href="{{ version.url }}">
+                    <span class="monster-version-link-label">{{ version.label }}</span>
+                    <span class="monster-version-link-meta">{{ mt.dropped_resources_label }}: {{ version.resource_count }} - {{ mt.dropped_items_label }}: {{ version.item_count }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
 
         {% if resource_drops %}
         <div class="encyclopedia-section">

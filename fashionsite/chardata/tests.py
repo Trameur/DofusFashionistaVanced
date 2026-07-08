@@ -3543,6 +3543,36 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
         self.assertIn('/retro/encyclopedia/item/equipment/2416-', body)
 
+    def test_monster_page_links_same_monster_in_other_versions(self):
+        resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Autres versions', body)
+        self.assertIn('/encyclopedia/monster/101-bouftou/', body)
+        self.assertIn('/touch/encyclopedia/monster/101-bouftou/', body)
+
+        version_links = {
+            link['game_version']: link
+            for link in resp.context['monster_version_links']
+        }
+        self.assertIn('dofus3', version_links)
+        self.assertIn('touch', version_links)
+        self.assertNotIn('retro', version_links)
+        self.assertEqual(version_links['dofus3']['resource_count'], 3)
+        self.assertEqual(version_links['dofus3']['item_count'], 2)
+        self.assertEqual(version_links['touch']['resource_count'], 4)
+        self.assertEqual(version_links['touch']['item_count'], 1)
+
+    def test_monster_version_links_only_include_versions_with_drops(self):
+        resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        for version in resp.context['monster_version_links']:
+            self.assertGreater(
+                version['resource_count'] + version['item_count'], 0,
+                version['game_version'])
+
     def test_retro_monster_page_localizes_drops_for_supported_languages(self):
         expected_drops = {
             'fr': ('Laine de Bouftou', 'Marteau du Bouftou'),

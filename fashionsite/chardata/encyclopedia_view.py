@@ -6,6 +6,7 @@ import sqlite3
 from django.utils.translation import gettext as _
 from django.utils import translation
 
+from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.image_store import get_image_url
 from chardata.official_site import (
     get_item_link, get_monster_link, get_resource_link, get_set_link)
@@ -1441,6 +1442,7 @@ MONSTER_UI = {
         'sort_total_drops': 'Most drops',
         'sort_resource_drops': 'Most resources',
         'sort_item_drops': 'Most items',
+        'other_versions_label': 'Other versions',
     },
     'fr': {
         'monsters_label': 'Monstres',
@@ -1460,6 +1462,7 @@ MONSTER_UI = {
         'sort_total_drops': 'Plus de drops',
         'sort_resource_drops': 'Plus de ressources',
         'sort_item_drops': 'Plus d\'objets',
+        'other_versions_label': 'Autres versions',
     },
     'es': {
         'monsters_label': 'Monstruos',
@@ -1469,16 +1472,17 @@ MONSTER_UI = {
         'dropped_resources_label': 'Recursos soltados',
         'dropped_items_label': 'Objetos soltados',
         'no_monsters': 'Ningún monstruo coincide con tu búsqueda.',
-        'drop_filter_label': 'Tipo de botin',
+        'drop_filter_label': 'Tipo de botín',
         'drop_filter_all': 'Todos los drops',
         'drop_filter_resources': 'Con recursos',
         'drop_filter_items': 'Con objetos',
         'drop_filter_both': 'Recursos y objetos',
         'sort_label': 'Ordenar por',
         'sort_name': 'Nombre',
-        'sort_total_drops': 'Mas drops',
-        'sort_resource_drops': 'Mas recursos',
-        'sort_item_drops': 'Mas objetos',
+        'sort_total_drops': 'Más drops',
+        'sort_resource_drops': 'Más recursos',
+        'sort_item_drops': 'Más objetos',
+        'other_versions_label': 'Otras versiones',
     },
     'pt': {
         'monsters_label': 'Monstros',
@@ -1498,6 +1502,7 @@ MONSTER_UI = {
         'sort_total_drops': 'Mais drops',
         'sort_resource_drops': 'Mais recursos',
         'sort_item_drops': 'Mais itens',
+        'other_versions_label': 'Outras versões',
     },
     'de': {
         'monsters_label': 'Monster',
@@ -1517,6 +1522,7 @@ MONSTER_UI = {
         'sort_total_drops': 'Meiste Drops',
         'sort_resource_drops': 'Meiste Ressourcen',
         'sort_item_drops': 'Meiste Items',
+        'other_versions_label': 'Andere Versionen',
     },
 }
 
@@ -1631,6 +1637,52 @@ def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=
             'url': url or '',
         })
     return drops
+
+
+def _get_monster_version_links(monster_id, current_game_version, language):
+    links = []
+    for game_version, version_label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_game_version:
+            continue
+        conn = None
+        try:
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            cursor = conn.cursor()
+            if not _db_table_exists(cursor, 'monster_names'):
+                continue
+            monster_name = _get_monster_display_name(cursor, monster_id, language)
+            if monster_name.startswith('#'):
+                continue
+
+            resource_count = 0
+            item_count = 0
+            if _db_table_exists(cursor, 'resource_drops'):
+                cursor.execute(
+                    'SELECT COUNT(*) FROM resource_drops WHERE monster_ankama_id = ?',
+                    (monster_id,))
+                resource_count = cursor.fetchone()[0] or 0
+            if _db_table_exists(cursor, 'item_drops'):
+                cursor.execute(
+                    'SELECT COUNT(*) FROM item_drops WHERE monster_ankama_id = ?',
+                    (monster_id,))
+                item_count = cursor.fetchone()[0] or 0
+            if resource_count <= 0 and item_count <= 0:
+                continue
+
+            links.append({
+                'game_version': game_version,
+                'label': version_label,
+                'name': monster_name,
+                'resource_count': resource_count,
+                'item_count': item_count,
+                'url': get_monster_link(monster_id, monster_name, game_version),
+            })
+        except Exception:
+            continue
+        finally:
+            if conn is not None:
+                conn.close()
+    return links
 
 
 def encyclopedia_monsters(request):
@@ -1908,6 +1960,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
     if not resource_drops and not item_drops:
         return redirect(version_reverse(request, 'encyclopedia_monsters'))
 
+    monster_version_links = _get_monster_version_links(
+        target_monster_id, game_version, language)
     canonical_path = get_monster_link(target_monster_id, monster_name, game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/monsters/')
     encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
@@ -1935,6 +1989,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             },
             'resource_drops': resource_drops,
             'item_drops': item_drops,
+            'monster_version_links': monster_version_links,
         })
 
 
