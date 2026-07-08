@@ -715,6 +715,24 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/encyclopedia/item/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/item/equipment/2416-', body)
 
+    def test_sitemap_lists_versioned_set_detail_urls(self):
+        from fashionistapulp.structure import get_structure
+
+        structure = get_structure('retro')
+        set_id = None
+        for candidate_id, item_set in structure.sets_dict.items():
+            if (getattr(item_set, 'items', None)
+                    and (item_set.localized_names.get('en') or item_set.name)):
+                set_id = candidate_id
+                break
+        if set_id is None:
+            self.skipTest('no retro set in this build')
+
+        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        self.assertIn('https://dofusfashionista.gg/encyclopedia/set/', body)
+        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/set/%s/' % set_id,
+                      body)
+
     def test_sitemap_lists_shared_builds_with_a_solution_only(self):
         # Shared builds are content pages worth indexing, but a build with no
         # stored solution answers 404 on /s/, so it must stay out of the sitemap.

@@ -213,25 +213,29 @@ _SITEMAP_SET_CACHE = {'ts': 0.0, 'xml': ''}
 
 
 def _sitemap_encyclopedia_sets(base_url):
-    """Best-effort <url> block for dofus3 encyclopedia set (panoply) pages.
-
-    Same defensive, cached pattern as _sitemap_encyclopedia_items.
-    """
+    """Best-effort <url> block for encyclopedia set pages in every version."""
     now = _sitemap_time.time()
     cached = _SITEMAP_SET_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
         return cached['xml']
     try:
         from chardata import encyclopedia_view
-        structure = encyclopedia_view.get_structure()
         rows = []
-        for set_id, item_set in structure.sets_dict.items():
-            if not getattr(item_set, 'items', None):
-                continue
-            if not (item_set.localized_names.get('en') or item_set.name):
-                continue
-            rows.append(_sitemap_url('%s/encyclopedia/set/%s/' % (base_url, set_id),
-                                     'monthly', '0.6'))
+        seen = set()
+        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
+            structure = encyclopedia_view.get_structure(game_version)
+            for set_id, item_set in structure.sets_dict.items():
+                if not getattr(item_set, 'items', None):
+                    continue
+                if not (item_set.localized_names.get('en') or item_set.name):
+                    continue
+                link = '%s/encyclopedia/set/%s/' % (version_prefix, set_id)
+                if link in seen:
+                    continue
+                seen.add(link)
+                rows.append(_sitemap_url('%s%s' % (base_url, link),
+                                         'monthly', '0.6'))
         xml = '\n'.join(rows)
     except Exception:
         return cached['xml'] or ''
