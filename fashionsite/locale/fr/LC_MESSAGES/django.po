@@ -6051,18 +6051,21 @@ msgstr "Pondéré avec les valeurs de stats de ce projet."
 msgid "Build score"
 msgstr "Score du stuff"
 
-
 #: chardata/generated-feature-history
 msgid "Saved generation"
-msgstr "G?n?ration sauvegard?e"
+msgstr "Génération sauvegardée"
 
 #: chardata/generated-feature-history
-msgid "This is a saved generation. Restore it to edit it, or compare it with your current build."
-msgstr "C'est une g?n?ration sauvegard?e. Restaure-la pour la modifier, ou compare-la ? ton stuff actuel."
+msgid ""
+"This is a saved generation. Restore it to edit it, or compare it with your "
+"current build."
+msgstr ""
+"C'est une génération sauvegardée. Restaure-la pour la modifier, ou compare-"
+"la à ton stuff actuel."
 
 #: chardata/generated-feature-history
 msgid "Viewing saved generation"
-msgstr "G?n?ration sauvegard?e"
+msgstr "Génération sauvegardée"
 
 #: chardata/generated-feature-history
 msgid "Restore"
@@ -6074,7 +6077,7 @@ msgstr "Retour au stuff actuel"
 
 #: chardata/generated-feature-history
 msgid "Recent generations"
-msgstr "Derni?res g?n?rations"
+msgstr "Dernières générations"
 
 #: chardata/generated-feature-history
 msgid "Open"
@@ -6090,7 +6093,8 @@ msgstr "Score public"
 
 #: chardata/generated-feature-history
 msgid "Saved generations cannot be shared directly."
-msgstr "Les g?n?rations sauvegard?es ne peuvent pas ?tre partag?es directement."
+msgstr ""
+"Les générations sauvegardées ne peuvent pas être partagées directement."
 
 #: chardata/generated-feature-history
 msgid "Project %s is not in this game version."
@@ -6098,15 +6102,22 @@ msgstr "Le projet %s n'existe pas dans cette version du jeu."
 
 #: chardata/generated-feature-history
 msgid "Generation history and build scores"
-msgstr "Historique des g?n?rations et scores de stuff"
+msgstr "Historique des générations et scores de stuff"
 
 #: chardata/generated-feature-history
-msgid "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
-msgstr "Les solutions gardent maintenant les derni?res g?n?rations pour rouvrir, restaurer et comparer d'anciens stuffs."
+msgid ""
+"Solutions now keep recent generations so you can reopen, restore and compare"
+" previous builds."
+msgstr ""
+"Les solutions gardent maintenant les dernières générations pour rouvrir, "
+"restaurer et comparer d'anciens stuffs."
 
 #: chardata/generated-feature-history
 msgid "Shared builds now use a public score weighted for balanced builds."
-msgstr "Les stuffs partag?s utilisent maintenant un score public pond?r? pour les builds ?quilibr?s."
+msgstr ""
+"Les stuffs partagés utilisent maintenant un score public pondéré pour les "
+"builds équilibrés."
+
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
 msgstr "Juin 2026"
@@ -6477,8 +6488,13 @@ msgstr ""
 "Dofus prises en charge, comptes et plus encore."
 
 #: privacy/meta i18n
-msgid "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, effects, equip conditions and recipes for each game version."
-msgstr "Parcourez l'encyclopédie Dofus complète : objets, panoplies, monstres, drops, stats, effets, conditions d'équipement et recettes pour chaque version."
+msgid ""
+"Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, "
+"effects, equip conditions and recipes for each game version."
+msgstr ""
+"Parcourez l'encyclopédie Dofus complète : objets, panoplies, monstres, "
+"drops, stats, effets, conditions d'équipement et recettes pour chaque "
+"version."
 
 #: privacy/meta i18n
 msgid ""
@@ -7941,80 +7957,136 @@ msgid "Spell damage in set comparisons"
 msgstr "Dégâts de sorts dans les comparaisons d'équipements"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
-msgstr "Comparer les panoplies affiche maintenant un aperçu des dégâts des sorts et des armes, pour voir rapidement quel build tape le plus"
+msgid ""
+"Compare Sets now shows spell and weapon damage previews, so you can quickly "
+"see which build hits harder"
+msgstr ""
+"Comparer les panoplies affiche maintenant un aperçu des dégâts des sorts et "
+"des armes, pour voir rapidement quel build tape le plus"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Monster pages now show dropped item types and levels next to their drop rates"
-msgstr "Les pages de monstres affichent maintenant le type et le niveau des objets droppés à côté du taux de drop"
+msgid ""
+"Monster pages now show dropped item types and levels next to their drop "
+"rates"
+msgstr ""
+"Les pages de monstres affichent maintenant le type et le niveau des objets "
+"droppés à côté du taux de drop"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Resource pages now show the type and level of each item they can craft"
-msgstr "Les pages de ressources affichent maintenant le type et le niveau de chaque objet qu'elles permettent de fabriquer"
+msgstr ""
+"Les pages de ressources affichent maintenant le type et le niveau de chaque "
+"objet qu'elles permettent de fabriquer"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Item pages now include monster drops attached to any variant of the same item"
-msgstr "Les pages d'objets incluent maintenant les drops de monstres attachés à toute variante du même objet"
+msgid ""
+"Item pages now include monster drops attached to any variant of the same "
+"item"
+msgstr ""
+"Les pages d'objets incluent maintenant les drops de monstres attachés à "
+"toute variante du même objet"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster search now also matches dropped resource and item names"
-msgstr "La recherche de monstres trouve maintenant aussi les noms des ressources et objets droppés"
+msgstr ""
+"La recherche de monstres trouve maintenant aussi les noms des ressources et "
+"objets droppés"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
-msgstr "Le sitemap inclut maintenant toutes les pages d'ingrédients de recettes, y compris les ingrédients qui ne sont pas des ressources"
+msgid ""
+"The sitemap now includes every recipe ingredient page, including non-"
+"resource ingredients"
+msgstr ""
+"Le sitemap inclut maintenant toutes les pages d'ingrédients de recettes, y "
+"compris les ingrédients qui ne sont pas des ressources"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Non-resource ingredient pages now use the correct ingredient label"
-msgstr "Les pages d'ingrédients qui ne sont pas des ressources utilisent maintenant le bon libellé d'ingrédient"
+msgstr ""
+"Les pages d'ingrédients qui ne sont pas des ressources utilisent maintenant "
+"le bon libellé d'ingrédient"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item pages now show which other items they are used to craft"
-msgstr "Les pages d'objets indiquent maintenant quels autres objets ils servent à fabriquer"
+msgstr ""
+"Les pages d'objets indiquent maintenant quels autres objets ils servent à "
+"fabriquer"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Version-specific encyclopedia hubs are now included in the sitemap"
-msgstr "Les hubs d'encyclopédie propres à chaque version sont maintenant inclus dans le sitemap"
+msgstr ""
+"Les hubs d'encyclopédie propres à chaque version sont maintenant inclus dans"
+" le sitemap"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Item search now matches item names from every supported language"
-msgstr "La recherche d'objets trouve maintenant les noms dans toutes les langues prises en charge"
+msgstr ""
+"La recherche d'objets trouve maintenant les noms dans toutes les langues "
+"prises en charge"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Compare Sets now lets you choose which class spells to preview"
-msgstr "Comparer les panoplies permet maintenant de choisir les sorts de classe à prévisualiser"
+msgstr ""
+"Comparer les panoplies permet maintenant de choisir les sorts de classe à "
+"prévisualiser"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster search results now show sample drops on each monster card"
-msgstr "Les résultats de recherche de monstres affichent maintenant des exemples de drops sur chaque carte"
+msgstr ""
+"Les résultats de recherche de monstres affichent maintenant des exemples de "
+"drops sur chaque carte"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Encyclopedia URLs now keep accented item, resource and monster names readable"
-msgstr "Les URLs de l'encyclopédie gardent maintenant les noms accentués d'objets, de ressources et de monstres lisibles"
+msgid ""
+"Encyclopedia URLs now keep accented item, resource and monster names "
+"readable"
+msgstr ""
+"Les URLs de l'encyclopédie gardent maintenant les noms accentués d'objets, "
+"de ressources et de monstres lisibles"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Encyclopedia drops and recipes"
 msgstr "Encyclopédie : drops et recettes"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "The encyclopedia now links items, ingredients and monsters together: see what drops an item, where an ingredient drops, and what each ingredient is used to craft."
-msgstr "L'encyclopédie relie maintenant objets, ingrédients et monstres : voyez quels monstres droppent un objet, où obtenir un ingrédient, et ce que chaque ingrédient permet de fabriquer."
+msgid ""
+"The encyclopedia now links items, ingredients and monsters together: see "
+"what drops an item, where an ingredient drops, and what each ingredient is "
+"used to craft."
+msgstr ""
+"L'encyclopédie relie maintenant objets, ingrédients et monstres : voyez "
+"quels monstres droppent un objet, où obtenir un ingrédient, et ce que chaque"
+" ingrédient permet de fabriquer."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Monster cards and search now surface useful drops directly, across every supported game version."
-msgstr "Les cartes et la recherche de monstres affichent maintenant les drops utiles directement, pour chaque version du jeu prise en charge."
+msgid ""
+"Monster cards and search now surface useful drops directly, across every "
+"supported game version."
+msgstr ""
+"Les cartes et la recherche de monstres affichent maintenant les drops utiles"
+" directement, pour chaque version du jeu prise en charge."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
-msgstr "Le comparateur de stuffs affiche maintenant les dégâts des sorts et des armes, avec un choix de classe et de sort, afin de voir vite quel build tape le plus fort."
+msgid ""
+"Compare Sets now shows spell and weapon damage previews, with class and "
+"spell selectors, so you can quickly see which build hits harder."
+msgstr ""
+"Le comparateur de stuffs affiche maintenant les dégâts des sorts et des "
+"armes, avec un choix de classe et de sort, afin de voir vite quel build tape"
+" le plus fort."
 
 #: chardata/templates/chardata/encyclopedia_sets.html
 msgid "Search a set or item"
 msgstr "Rechercher une panoplie ou un objet"
 
 #: chardata/templates/chardata/encyclopedia_sets.html
-msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
-msgstr "Parcourez toutes les panoplies Dofus et leurs bonus. Retrouvez une panoplie par son nom ou par l'un de ses objets, puis créez-la avec le Dofus Fashionista."
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set by its name or "
+"one of its items and build it with the Dofus Fashionista."
+msgstr ""
+"Parcourez toutes les panoplies Dofus et leurs bonus. Retrouvez une panoplie "
+"par son nom ou par l'un de ses objets, puis créez-la avec le Dofus "
+"Fashionista."
 
 #: chardata/compare_sets_view.py
 #: chardata/templates/chardata/choose_compare_sets.html
@@ -8039,7 +8111,9 @@ msgstr "Aucun build aime pour cette version pour le moment."
 
 #: chardata/templates/chardata/choose_compare_sets.html
 msgid "Select 2 to 4 builds below, or paste solution/share links manually."
-msgstr "Selectionne 2 a 4 builds ci-dessous, ou colle des liens de solution/partage a la main."
+msgstr ""
+"Selectionne 2 a 4 builds ci-dessous, ou colle des liens de solution/partage "
+"a la main."
 
 #: chardata/templates/chardata/choose_compare_sets.html
 msgid "Log in to pick from your builds, favorites and likes."
@@ -8054,8 +8128,12 @@ msgid "Saved builds in set comparisons"
 msgstr "Builds enregistres dans les comparatifs"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Start a comparison from your saved builds, favorites and likes, or keep pasting links manually."
-msgstr "Lance un comparatif depuis tes builds enregistres, tes favoris et tes likes, ou continue a coller des liens a la main."
+msgid ""
+"Start a comparison from your saved builds, favorites and likes, or keep "
+"pasting links manually."
+msgstr ""
+"Lance un comparatif depuis tes builds enregistres, tes favoris et tes likes,"
+" ou continue a coller des liens a la main."
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"
