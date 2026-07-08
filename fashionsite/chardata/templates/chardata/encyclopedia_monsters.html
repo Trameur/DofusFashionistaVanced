@@ -17,19 +17,25 @@
 .encyclopedia-monsters-search { margin: 10px 0 14px; }
 .encyclopedia-monsters-search input[type="text"] { padding: 6px 10px; min-width: 240px; }
 .encyclopedia-monsters-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
-.encyclopedia-monsters-grid a { display: block; border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 6px; padding: 10px; text-decoration: none; }
+.encyclopedia-monster-card { display: block; border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 6px; padding: 10px; }
+.encyclopedia-monster-main-link { display: block; text-decoration: none; }
+.encyclopedia-monster-main-link:hover .encyclopedia-monsters-name,
+.encyclopedia-monster-drop-link:hover { text-decoration: underline; }
+.encyclopedia-monster-drop-link { text-decoration: none; }
 .encyclopedia-monsters-name { font-weight: 600; }
 .encyclopedia-monsters-meta { opacity: 0.85; font-size: 0.9em; }
 .encyclopedia-monsters-preview { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
 .encyclopedia-pagination { margin-top: 14px; display: flex; gap: 4px; flex-wrap: wrap; }
 .encyclopedia-page-link { display: inline-block; text-decoration: underline; }
 .encyclopedia-page-link-current { font-weight: 700; }
-.dark-theme-active .encyclopedia-monsters-grid a { border-color: #5a5a5a; background: #1f1f1f; }
+.dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
 .dark-theme-active .encyclopedia-monsters,
-.dark-theme-active .encyclopedia-monsters-grid a,
-.dark-theme-active .encyclopedia-monsters-grid a div { color: #f3efe6; }
+.dark-theme-active .encyclopedia-monster-card,
+.dark-theme-active .encyclopedia-monster-card div,
+.dark-theme-active .encyclopedia-monster-main-link { color: #f3efe6; }
 .dark-theme-active .encyclopedia-monsters-name { color: #fff1d6; }
-.dark-theme-active .encyclopedia-crumbs a { color: #ffd8a8; }
+.dark-theme-active .encyclopedia-crumbs a,
+.dark-theme-active .encyclopedia-monster-drop-link { color: #ffd8a8; }
 </style>
 {% endblock %}
 
@@ -51,15 +57,21 @@
     <div class="encyclopedia-monsters-meta">{{ monsters_count }} {{ mt.monsters_label|lower }}</div>
     <div class="encyclopedia-monsters-grid">
         {% for monster in monsters_page.object_list %}
-        <a href="{{ monster.url }}">
-            <div class="encyclopedia-monsters-name">{{ monster.name }}</div>
-            <div class="encyclopedia-monsters-meta">
-                {{ mt.dropped_resources_label }}: {{ monster.resource_count }} - {{ mt.dropped_items_label }}: {{ monster.item_count }}
-            </div>
+        <div class="encyclopedia-monster-card">
+            <a class="encyclopedia-monster-main-link" href="{{ monster.url }}">
+                <div class="encyclopedia-monsters-name">{{ monster.name }}</div>
+                <div class="encyclopedia-monsters-meta">
+                    {{ mt.dropped_resources_label }}: {{ monster.resource_count }} - {{ mt.dropped_items_label }}: {{ monster.item_count }}
+                </div>
+            </a>
             {% if monster.sample_drops %}
-            <div class="encyclopedia-monsters-preview">{{ mt.drop_preview_label }}: {{ monster.sample_drops|join:", " }}</div>
+            <div class="encyclopedia-monsters-preview">{{ mt.drop_preview_label }}:
+                {% for drop in monster.sample_drops %}
+                    {% if drop.url %}<a class="encyclopedia-monster-drop-link" href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
             {% endif %}
-        </a>
+        </div>
         {% endfor %}
     </div>
 

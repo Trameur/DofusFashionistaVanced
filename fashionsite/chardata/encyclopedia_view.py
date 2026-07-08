@@ -1454,7 +1454,7 @@ def _get_monster_display_name(cursor, monster_id, language):
     return row[0] if row is not None else '#%s' % monster_id
 
 
-def _get_monster_drop_preview(cursor, monster_id, language, limit=4):
+def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=4):
     sources = []
     params = []
 
@@ -1476,7 +1476,10 @@ def _get_monster_drop_preview(cursor, monster_id, language, limit=4):
         else:
             resource_name_sql = "'#' || rd.resource_ankama_id"
         sources.append("""
-            SELECT %s AS name, rd.rate AS rate
+            SELECT %s AS name, rd.rate AS rate, 'resource' AS kind,
+                   rd.resource_ankama_id AS ankama_id,
+                   'resources' AS subtype,
+                   NULL AS ankama_type
             FROM resource_drops rd
             WHERE rd.monster_ankama_id = ?
         """ % resource_name_sql)
@@ -1498,7 +1501,10 @@ def _get_monster_drop_preview(cursor, monster_id, language, limit=4):
         else:
             item_name_sql = "i.name"
         sources.append("""
-            SELECT %s AS name, d.rate AS rate
+            SELECT %s AS name, d.rate AS rate, 'item' AS kind,
+                   i.ankama_id AS ankama_id,
+                   NULL AS subtype,
+                   i.ankama_type AS ankama_type
             FROM item_drops d
             JOIN items i ON i.id = d.item
             WHERE d.monster_ankama_id = ?
@@ -1511,15 +1517,25 @@ def _get_monster_drop_preview(cursor, monster_id, language, limit=4):
     params.append(limit)
     cursor.execute(
         """
-        SELECT name
+        SELECT name, kind, ankama_id, subtype, ankama_type
         FROM (%s)
         WHERE name IS NOT NULL AND name <> ''
-        GROUP BY name
+        GROUP BY name, kind, ankama_id, subtype, ankama_type
         ORDER BY MAX(rate) DESC, LOWER(name) ASC
         LIMIT ?
         """ % ' UNION ALL '.join(sources),
         params)
-    return [row[0] for row in cursor.fetchall()]
+    drops = []
+    for name, kind, ankama_id, subtype, ankama_type in cursor.fetchall():
+        if kind == 'resource':
+            url = get_resource_link(subtype, ankama_id, name, game_version)
+        else:
+            url = get_item_link(ankama_type, ankama_id, name, game_version=game_version)
+        drops.append({
+            'name': name,
+            'url': url or '',
+        })
+    return drops
 
 
 def encyclopedia_monsters(request):
@@ -1634,7 +1650,7 @@ def encyclopedia_monsters(request):
         preview_cursor = preview_conn.cursor()
         for monster in page_obj.object_list:
             monster['sample_drops'] = _get_monster_drop_preview(
-                preview_cursor, monster['id'], language)
+                preview_cursor, monster['id'], language, game_version)
     except Exception:
         for monster in page_obj.object_list:
             monster['sample_drops'] = []
