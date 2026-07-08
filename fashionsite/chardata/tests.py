@@ -3955,12 +3955,24 @@ class EncyclopediaMonsterPageTests(TestCase):
 class NoMojibakeInTranslationsTests(SimpleTestCase):
     """Guard against encoding corruption in the .po catalogs: a tool writing them
     with the wrong encoding turns accents into literal question marks (seen live:
-    'Derni?res g?n?rations' instead of 'Dernieres generations' with accents).
-    msgfmt does not catch this because the file stays valid, so scan every msgstr
-    for a '?' squeezed between letters, which never occurs in legitimate copy."""
+    'Derni?res g?n?rations', 'Comparer ? l'actuel', '?ffnen'). msgfmt does not
+    catch this because the file stays valid. Two detectors:
+    - a '?' squeezed between letters never occurs in legitimate copy;
+    - a translation should not carry more '?' than its source string (one final
+      question mark is tolerated: some languages phrase a statement as a question)."""
 
     LANGS = ('en', 'fr', 'es', 'pt', 'de')
+    CATALOGS = ('django.po', 'djangojs.po')
     MOJIBAKE = re.compile(r'[^\W\d_]\?[^\W\d_]', re.UNICODE)
+
+    @staticmethod
+    def _suspicious(msgid, text):
+        if NoMojibakeInTranslationsTests.MOJIBAKE.search(text):
+            return True
+        body = text.rstrip()
+        if body.endswith('?'):
+            body = body[:-1]
+        return body.count('?') > msgid.count('?')
 
     def test_no_question_mark_mojibake_in_any_msgstr(self):
         try:
@@ -3969,16 +3981,20 @@ class NoMojibakeInTranslationsTests(SimpleTestCase):
             self.skipTest('polib not installed')
         offenders = []
         for lang in self.LANGS:
-            path = os.path.join(os.path.dirname(__file__), '..', 'locale',
-                                lang, 'LC_MESSAGES', 'django.po')
-            for entry in polib.pofile(path):
-                if entry.obsolete:
+            for catalog in self.CATALOGS:
+                path = os.path.join(os.path.dirname(__file__), '..', 'locale',
+                                    lang, 'LC_MESSAGES', catalog)
+                if not os.path.exists(path):
                     continue
-                candidates = [entry.msgstr] + list(entry.msgstr_plural.values())
-                for text in candidates:
-                    if text and self.MOJIBAKE.search(text):
-                        offenders.append('%s: %s -> %s'
-                                         % (lang, entry.msgid[:40], text[:60]))
+                for entry in polib.pofile(path):
+                    if entry.obsolete:
+                        continue
+                    candidates = [entry.msgstr] + list(entry.msgstr_plural.values())
+                    for text in candidates:
+                        if text and self._suspicious(entry.msgid, text):
+                            offenders.append('%s/%s: %s -> %s'
+                                             % (lang, catalog, entry.msgid[:40],
+                                                text[:60]))
         self.assertEqual(
             offenders, [],
             'mojibake question marks found in translations (broken accents, '
