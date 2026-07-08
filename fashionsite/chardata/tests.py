@@ -3569,6 +3569,14 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('Arme | Niv.', body)
         self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
         self.assertIn('/retro/encyclopedia/item/equipment/2416-', body)
+        self.assertIn('href="#resource-drops"', body)
+        self.assertIn('href="#item-drops"', body)
+        self.assertIn('id="resource-drops"', body)
+        self.assertIn('id="item-drops"', body)
+        self.assertIn('<span class="monster-drop-summary-count">11</span> Ressources droppées',
+                      body)
+        self.assertIn('<span class="monster-drop-summary-count">3</span> Objets droppés',
+                      body)
 
     def test_monster_page_links_same_monster_in_other_versions(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',

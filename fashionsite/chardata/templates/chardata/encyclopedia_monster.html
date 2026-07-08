@@ -28,6 +28,9 @@
 .encyclopedia-monster-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; padding: 12px; box-sizing: border-box; }
 .encyclopedia-monster-name { font-size: 1.25rem; font-weight: 700; }
 .encyclopedia-monster-meta { opacity: 0.9; }
+.monster-drop-summary { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.monster-drop-summary-link { border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; display: inline-block; padding: 6px 8px; text-decoration: none; }
+.monster-drop-summary-count { font-weight: 700; }
 .encyclopedia-section { margin-top: 14px; }
 .encyclopedia-list { margin: 4px 0 0; padding-left: 20px; }
 .encyclopedia-list li { margin-bottom: 4px; }
@@ -50,6 +53,7 @@
 .dark-theme-active .encyclopedia-section b { color: #fff1d6; }
 .dark-theme-active .encyclopedia-monster a { color: #ffd8a8; }
 .dark-theme-active .encyclopedia-monster a:hover { color: #ffe4bf; }
+.dark-theme-active .monster-drop-summary-link,
 .dark-theme-active .monster-version-link { border-color: #5a5a5a; }
 </style>
 {% endblock %}
@@ -67,6 +71,18 @@
     <div class="encyclopedia-monster-card brown-box">
         <div class="encyclopedia-monster-name">{{ monster.name }}</div>
         <div class="encyclopedia-monster-meta">{{ mt.monster_kind_label }}</div>
+        <div class="monster-drop-summary">
+            {% if resource_drops %}
+            <a class="monster-drop-summary-link" href="#resource-drops">
+                <span class="monster-drop-summary-count">{{ resource_drops|length }}</span> {{ mt.dropped_resources_label }}
+            </a>
+            {% endif %}
+            {% if item_drops %}
+            <a class="monster-drop-summary-link" href="#item-drops">
+                <span class="monster-drop-summary-count">{{ item_drops|length }}</span> {{ mt.dropped_items_label }}
+            </a>
+            {% endif %}
+        </div>
 
         {% if monster_version_links %}
         <div class="encyclopedia-section">
@@ -83,7 +99,7 @@
         {% endif %}
 
         {% if resource_drops %}
-        <div class="encyclopedia-section">
+        <div class="encyclopedia-section" id="resource-drops">
             <b>{{ mt.dropped_resources_label }} ({{ resource_drops|length }})</b>
             <ul class="encyclopedia-list">
                 {% for drop in resource_drops|slice:":20" %}
@@ -106,7 +122,7 @@
         {% endif %}
 
         {% if item_drops %}
-        <div class="encyclopedia-section">
+        <div class="encyclopedia-section" id="item-drops">
             <b>{{ mt.dropped_items_label }} ({{ item_drops|length }})</b>
             <ul class="encyclopedia-list">
                 {% for drop in item_drops|slice:":20" %}
