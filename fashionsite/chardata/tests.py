@@ -1987,7 +1987,17 @@ class CompareSetsSpellPreviewTests(TestCase):
             if row['kind'] == 'spell'
         ]
         self.assertEqual(len(spell_rows), 1)
-        self.assertIn('name="spell_name"', resp.content.decode('utf-8', 'replace'))
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertIn('name="spell_name"', html)
+        self.assertIn('spell_class=Cra', resp.context['compare_link_shared'])
+        self.assertIn('spell_name=', resp.context['compare_link_shared'])
+
+        share_resp = self.client.get(
+            '/get_compare_sharing_link/%d/%d/' % (first.pk, second.pk),
+            {'spell_class': 'Cra', 'spell_name': cra_spell.name})
+        self.assertEqual(share_resp.status_code, 200)
+        self.assertIn('spell_class=Cra', share_resp.content.decode('utf-8'))
+        self.assertIn('spell_name=', share_resp.content.decode('utf-8'))
 
     def test_retro_compare_uses_retro_spell_payloads(self):
         from django.contrib.auth.models import User

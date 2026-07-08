@@ -23,7 +23,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 import json
 import jsonpickle
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urlparse
 
 from chardata.encoded_char_id import decode_char_id, encode_char_id
 from chardata.models import Char
@@ -53,6 +53,8 @@ TYPE_ORDER = [
     'Shield',
     'Dofus',
 ]
+
+COMPARE_SHARE_QUERY_KEYS = ('spell_class', 'spell_name')
 
 NON_DAMAGE_PREVIEW_ELEMENTS = {
     'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
@@ -102,7 +104,8 @@ def compare_sets(request, sets_params):
     
     compare_link_shared = None
     if all_chars_are_shared:
-        compare_link_shared = _generate_share_compare_link(request, char_ids)
+        compare_link_shared = _generate_share_compare_link(
+            request, char_ids, _compare_share_query_string(request))
 
     get_compare_link_url = version_reverse(request, 'get_compare_sharing_link',
                                            sets_params)
@@ -362,11 +365,25 @@ def get_sharing_link(request, sets_params):
                 return _get_text_error_response(_('Project %s is not shared.') % char_str)
         char_ids.append(char_id)
 
-    return HttpResponseText(_generate_share_compare_link(request, char_ids))
+    return HttpResponseText(_generate_share_compare_link(
+        request, char_ids, _compare_share_query_string(request)))
 
-def _generate_share_compare_link(request, char_ids):
+
+def _compare_share_query_string(request):
+    query = []
+    for key in COMPARE_SHARE_QUERY_KEYS:
+        value = (request.GET.get(key) or '').strip()
+        if value:
+            query.append((key, value))
+    return urlencode(query)
+
+
+def _generate_share_compare_link(request, char_ids, query_string=''):
     params = '/'.join(['s%s' % encode_char_id(char_id) for char_id in char_ids])
-    return request.build_absolute_uri(version_reverse(request, 'compare_sets', params))
+    url = request.build_absolute_uri(version_reverse(request, 'compare_sets', params))
+    if query_string:
+        url = '%s?%s' % (url, query_string)
+    return url
 
 def get_item_stats(request):
     item_id = request.POST.get('itemId', None)

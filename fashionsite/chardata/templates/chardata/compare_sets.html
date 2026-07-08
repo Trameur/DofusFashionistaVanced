@@ -292,7 +292,7 @@ function initLinkSharing() {
 }
 
 function setLinkSharing() {
-    $.get('{{get_compare_link_url}}', {}, function(data) {
+    $.get('{{get_compare_link_url}}' + (window.location.search || ""), {}, function(data) {
         link = data;
         initLinkSharing();
         $("#link_sharing_url_text").select();
