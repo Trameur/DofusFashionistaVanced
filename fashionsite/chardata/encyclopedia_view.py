@@ -1,8 +1,10 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import redirect
+from collections import Counter, defaultdict
 import json
 import re
 import sqlite3
+
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 from django.utils import translation
 
@@ -1642,6 +1644,7 @@ MONSTER_UI = {
 
 MONSTER_DROP_FILTERS = ('all', 'resources', 'items', 'both')
 MONSTER_SORTS = ('name', 'total_drops', 'resource_drops', 'item_drops')
+_monster_index_cache = {}
 
 
 def _monster_ui_text():
@@ -1667,9 +1670,55 @@ def _get_monster_display_name(cursor, monster_id, language):
     return row[0] if row is not None else '#%s' % monster_id
 
 
-def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=4):
-    sources = []
-    params = []
+def _append_monster_drop(drop_groups, monster_id, name, rate, kind, ankama_id,
+                         subtype=None, ankama_type=None):
+    if not name:
+        return
+    key = (name, kind, ankama_id, subtype, ankama_type)
+    current = drop_groups[monster_id].get(key)
+    if current is None or (rate or 0) > (current['rate'] or 0):
+        drop_groups[monster_id][key] = {
+            'name': name,
+            'rate': rate,
+            'kind': kind,
+            'ankama_id': ankama_id,
+            'subtype': subtype,
+            'ankama_type': ankama_type,
+        }
+
+
+def _format_monster_drop_previews(drop_groups, game_version, limit=4):
+    previews = {}
+    for monster_id, grouped_drops in drop_groups.items():
+        drops = []
+        sorted_drops = sorted(
+            grouped_drops.values(),
+            key=lambda drop: (-(drop['rate'] or 0), (drop['name'] or '').lower()))
+        for drop in sorted_drops[:limit]:
+            kind = drop['kind']
+            name = drop['name']
+            ankama_id = drop['ankama_id']
+            if kind == 'resource':
+                url = get_resource_link(drop['subtype'], ankama_id, name, game_version)
+            else:
+                url = get_item_link(drop['ankama_type'], ankama_id, name,
+                                    game_version=game_version)
+            drops.append({
+                'name': name,
+                'rate': drop['rate'],
+                'url': url or '',
+            })
+        previews[monster_id] = drops
+    return previews
+
+
+def _get_monster_drop_previews(cursor, monster_ids, language, game_version, limit=4):
+    monster_ids = list(dict.fromkeys(monster_ids))
+    if not monster_ids:
+        return {}
+
+    placeholders = ','.join('?' for _ in monster_ids)
+    drop_groups = defaultdict(dict)
 
     if _db_table_exists(cursor, 'resource_drops'):
         if _db_table_exists(cursor, 'item_recipe_ingredient_names'):
@@ -1685,18 +1734,22 @@ def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=
                        AND n.language = 'en' LIMIT 1),
                     '#' || rd.resource_ankama_id)
             """
-            params.append(language)
+            resource_params = [language] + monster_ids
         else:
             resource_name_sql = "'#' || rd.resource_ankama_id"
-        sources.append("""
-            SELECT %s AS name, rd.rate AS rate, 'resource' AS kind,
-                   rd.resource_ankama_id AS ankama_id,
-                   'resources' AS subtype,
-                   NULL AS ankama_type
+            resource_params = monster_ids
+        cursor.execute(
+            """
+            SELECT rd.monster_ankama_id, %s AS name, rd.rate,
+                   rd.resource_ankama_id
             FROM resource_drops rd
-            WHERE rd.monster_ankama_id = ?
-        """ % resource_name_sql)
-        params.append(monster_id)
+            WHERE rd.monster_ankama_id IN (%s)
+            """ % (resource_name_sql, placeholders),
+            resource_params)
+        for monster_id, name, rate, resource_id in cursor.fetchall():
+            _append_monster_drop(
+                drop_groups, monster_id, name, rate, 'resource',
+                resource_id, subtype='resources')
 
     if _db_table_exists(cursor, 'item_drops') and _db_table_exists(cursor, 'items'):
         if _db_table_exists(cursor, 'item_names'):
@@ -1710,46 +1763,117 @@ def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=
                        AND item_names.language = 'en' LIMIT 1),
                     i.name)
             """
-            params.append(language)
+            item_params = [language] + monster_ids
         else:
             item_name_sql = "i.name"
-        sources.append("""
-            SELECT %s AS name, d.rate AS rate, 'item' AS kind,
-                   i.ankama_id AS ankama_id,
-                   NULL AS subtype,
-                   i.ankama_type AS ankama_type
+            item_params = monster_ids
+        cursor.execute(
+            """
+            SELECT d.monster_ankama_id, %s AS name, d.rate,
+                   i.ankama_id, i.ankama_type
             FROM item_drops d
             JOIN items i ON i.id = d.item
-            WHERE d.monster_ankama_id = ?
-        """ % item_name_sql)
-        params.append(monster_id)
+            WHERE d.monster_ankama_id IN (%s)
+            """ % (item_name_sql, placeholders),
+            item_params)
+        for monster_id, name, rate, ankama_id, ankama_type in cursor.fetchall():
+            _append_monster_drop(
+                drop_groups, monster_id, name, rate, 'item',
+                ankama_id, ankama_type=ankama_type)
 
-    if not sources:
-        return []
+    return _format_monster_drop_previews(drop_groups, game_version, limit=limit)
 
-    params.append(limit)
-    cursor.execute(
-        """
-        SELECT name, MAX(rate) AS rate, kind, ankama_id, subtype, ankama_type
-        FROM (%s)
-        WHERE name IS NOT NULL AND name <> ''
-        GROUP BY name, kind, ankama_id, subtype, ankama_type
-        ORDER BY MAX(rate) DESC, LOWER(name) ASC
-        LIMIT ?
-        """ % ' UNION ALL '.join(sources),
-        params)
-    drops = []
-    for name, rate, kind, ankama_id, subtype, ankama_type in cursor.fetchall():
-        if kind == 'resource':
-            url = get_resource_link(subtype, ankama_id, name, game_version)
-        else:
-            url = get_item_link(ankama_type, ankama_id, name, game_version=game_version)
-        drops.append({
-            'name': name,
-            'rate': rate,
-            'url': url or '',
-        })
-    return drops
+
+def _get_monster_index(game_version, language):
+    cache_key = (game_version, language)
+    cached = _monster_index_cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    monsters = []
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        if not _db_table_exists(cursor, 'monster_names'):
+            _monster_index_cache[cache_key] = monsters
+            return monsters
+
+        monster_names = defaultdict(dict)
+        monster_aliases = defaultdict(list)
+        cursor.execute('SELECT monster_ankama_id, language, name FROM monster_names')
+        for monster_id, name_language, name in cursor.fetchall():
+            monster_names[monster_id][name_language] = name
+            if name:
+                monster_aliases[monster_id].append(name)
+
+        resource_counts = Counter()
+        resource_aliases = defaultdict(list)
+        if _db_table_exists(cursor, 'resource_drops'):
+            resource_names = defaultdict(list)
+            if _db_table_exists(cursor, 'item_recipe_ingredient_names'):
+                cursor.execute(
+                    """
+                    SELECT ingredient_ankama_id, name
+                    FROM item_recipe_ingredient_names
+                    WHERE ingredient_subtype = 'resources'
+                    """)
+                for resource_id, name in cursor.fetchall():
+                    if name:
+                        resource_names[resource_id].append(name)
+            cursor.execute('SELECT resource_ankama_id, monster_ankama_id FROM resource_drops')
+            for resource_id, monster_id in cursor.fetchall():
+                resource_counts[monster_id] += 1
+                resource_aliases[monster_id].extend(resource_names.get(resource_id, []))
+
+        item_counts = Counter()
+        item_aliases = defaultdict(list)
+        if _db_table_exists(cursor, 'item_drops'):
+            item_names = defaultdict(list)
+            if _db_table_exists(cursor, 'items'):
+                cursor.execute('SELECT id, name FROM items')
+                for item_id, name in cursor.fetchall():
+                    if name:
+                        item_names[item_id].append(name)
+            if _db_table_exists(cursor, 'item_names'):
+                cursor.execute('SELECT item, name FROM item_names')
+                for item_id, name in cursor.fetchall():
+                    if name:
+                        item_names[item_id].append(name)
+            cursor.execute('SELECT item, monster_ankama_id FROM item_drops')
+            for item_id, monster_id in cursor.fetchall():
+                item_counts[monster_id] += 1
+                item_aliases[monster_id].extend(item_names.get(item_id, []))
+
+        dropped_monster_ids = sorted(set(resource_counts) | set(item_counts))
+        for monster_id in dropped_monster_ids:
+            names = monster_names.get(monster_id, {})
+            name = names.get(language) or names.get('en') or '#%s' % monster_id
+            resource_count = resource_counts[monster_id]
+            item_count = item_counts[monster_id]
+            search_blob = _normalized_text('%s %s %s %s %s' % (
+                name,
+                ' '.join(monster_aliases.get(monster_id, [])),
+                ' '.join(resource_aliases.get(monster_id, [])),
+                ' '.join(item_aliases.get(monster_id, [])),
+                monster_id))
+            monsters.append({
+                'id': monster_id,
+                'name': name,
+                'resource_count': resource_count,
+                'item_count': item_count,
+                'total_drops': resource_count + item_count,
+                'url': get_monster_link(monster_id, name, game_version),
+                'search_blob': search_blob,
+            })
+    except Exception:
+        monsters = []
+    finally:
+        if conn is not None:
+            conn.close()
+
+    _monster_index_cache[cache_key] = monsters
+    return monsters
 
 
 def _get_monster_version_links(monster_id, current_game_version, language):
@@ -1813,100 +1937,16 @@ def encyclopedia_monsters(request):
         sort_key = 'name'
 
     monsters = []
-    conn = None
-    try:
-        conn = sqlite3.connect(get_items_db_path(game_version))
-        cursor = conn.cursor()
-        has_monster_names = _db_table_exists(cursor, 'monster_names')
-        has_resource_drops = _db_table_exists(cursor, 'resource_drops')
-        has_item_drops = _db_table_exists(cursor, 'item_drops')
-        has_resource_names = _db_table_exists(cursor, 'item_recipe_ingredient_names')
-        has_item_names = _db_table_exists(cursor, 'item_names')
-        if has_monster_names and (has_resource_drops or has_item_drops):
-            drop_sources = []
-            if has_resource_drops:
-                drop_sources.append('SELECT monster_ankama_id FROM resource_drops')
-            if has_item_drops:
-                drop_sources.append('SELECT monster_ankama_id FROM item_drops')
-            dropped_monsters_sql = ' UNION '.join(drop_sources)
-            resource_count_sql = (
-                '(SELECT COUNT(*) FROM resource_drops rd '
-                'WHERE rd.monster_ankama_id = dm.monster_ankama_id)'
-                if has_resource_drops else '0')
-            item_count_sql = (
-                '(SELECT COUNT(*) FROM item_drops id '
-                'WHERE id.monster_ankama_id = dm.monster_ankama_id)'
-                if has_item_drops else '0')
-            resource_search_sql = (
-                "(SELECT GROUP_CONCAT(n.name, ' ') "
-                "FROM resource_drops rd "
-                "JOIN item_recipe_ingredient_names n "
-                "ON n.ingredient_ankama_id = rd.resource_ankama_id "
-                "AND n.ingredient_subtype = 'resources' "
-                "WHERE rd.monster_ankama_id = dm.monster_ankama_id)"
-                if has_resource_drops and has_resource_names else "''")
-            item_search_sql = (
-                "(SELECT GROUP_CONCAT(COALESCE(item_name.name, item.name), ' ') "
-                "FROM item_drops item_drop "
-                "JOIN items item ON item.id = item_drop.item "
-                "LEFT JOIN item_names item_name ON item_name.item = item.id "
-                "WHERE item_drop.monster_ankama_id = dm.monster_ankama_id)"
-                if has_item_drops and has_item_names else
-                "(SELECT GROUP_CONCAT(item.name, ' ') "
-                "FROM item_drops item_drop "
-                "JOIN items item ON item.id = item_drop.item "
-                "WHERE item_drop.monster_ankama_id = dm.monster_ankama_id)"
-                if has_item_drops else "''")
-            cursor.execute(
-                """
-                WITH dropped_monsters AS (%s)
-                SELECT dm.monster_ankama_id,
-                       (SELECT name FROM monster_names
-                         WHERE monster_ankama_id = dm.monster_ankama_id AND language = ? LIMIT 1),
-                       (SELECT name FROM monster_names
-                        WHERE monster_ankama_id = dm.monster_ankama_id AND language = 'en' LIMIT 1),
-                       (SELECT GROUP_CONCAT(name, ' ') FROM monster_names
-                        WHERE monster_ankama_id = dm.monster_ankama_id),
-                       %s AS resource_count,
-                       %s AS item_count,
-                       %s AS resource_search_aliases,
-                       %s AS item_search_aliases
-                FROM dropped_monsters dm
-                """ % (dropped_monsters_sql, resource_count_sql, item_count_sql,
-                       resource_search_sql, item_search_sql),
-                (language,))
-            for (monster_id, name_loc, name_en, search_aliases, resource_count,
-                 item_count, resource_search_aliases, item_search_aliases) in cursor.fetchall():
-                name = name_loc or name_en or '#%s' % monster_id
-                resource_count = resource_count or 0
-                item_count = item_count or 0
-                if drop_kind == 'resources' and resource_count <= 0:
-                    continue
-                if drop_kind == 'items' and item_count <= 0:
-                    continue
-                if drop_kind == 'both' and (resource_count <= 0 or item_count <= 0):
-                    continue
-                search_blob = _normalized_text('%s %s %s %s %s' % (
-                    name,
-                    search_aliases or '',
-                    resource_search_aliases or '',
-                    item_search_aliases or '',
-                    monster_id))
-                if needle and needle not in search_blob:
-                    continue
-                monsters.append({
-                    'id': monster_id,
-                    'name': name,
-                    'resource_count': resource_count,
-                    'item_count': item_count,
-                    'total_drops': resource_count + item_count,
-                    'url': get_monster_link(monster_id, name, game_version),
-                })
-    except Exception:
-        monsters = []
-    finally:
-        if conn is not None:
-            conn.close()
+    for entry in _get_monster_index(game_version, language):
+        if drop_kind == 'resources' and entry['resource_count'] <= 0:
+            continue
+        if drop_kind == 'items' and entry['item_count'] <= 0:
+            continue
+        if drop_kind == 'both' and (entry['resource_count'] <= 0 or entry['item_count'] <= 0):
+            continue
+        if needle and needle not in entry['search_blob']:
+            continue
+        monsters.append(entry.copy())
 
     def monster_sort_key(entry):
         name_key = ((entry['name'] or '').lower(), entry['id'])
@@ -1932,9 +1972,11 @@ def encyclopedia_monsters(request):
     try:
         preview_conn = sqlite3.connect(get_items_db_path(game_version))
         preview_cursor = preview_conn.cursor()
+        preview_ids = [monster['id'] for monster in page_obj.object_list]
+        previews = _get_monster_drop_previews(
+            preview_cursor, preview_ids, language, game_version)
         for monster in page_obj.object_list:
-            monster['sample_drops'] = _get_monster_drop_preview(
-                preview_cursor, monster['id'], language, game_version)
+            monster['sample_drops'] = previews.get(monster['id'], [])
     except Exception:
         for monster in page_obj.object_list:
             monster['sample_drops'] = []
