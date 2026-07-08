@@ -527,6 +527,35 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Sets')
 
+    def test_encyclopedia_sets_search_matches_item_names_across_languages(self):
+        from chardata.encyclopedia_view import _normalized_text
+        from fashionistapulp.structure import get_structure
+        s = get_structure('dofus3')
+        target = None
+        for sid, iset in s.sets_dict.items():
+            if not getattr(iset, 'items', None):
+                continue
+            set_blob = _normalized_text('%s %s' % (
+                iset.localized_names.get('en') or iset.name,
+                iset.name))
+            for item_id in iset.items:
+                item = s.get_item_by_id(item_id)
+                if item is None:
+                    continue
+                french_name = s.get_item_name_in_language(item, 'fr')
+                if french_name and _normalized_text(french_name) not in set_blob:
+                    target = (sid, french_name)
+                    break
+            if target is not None:
+                break
+        if target is None:
+            self.skipTest('no set item with a distinct French name found')
+
+        set_id, query = target
+        resp = self.client.get('/encyclopedia/sets/', {'q': query}, HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, '/encyclopedia/set/%s/' % set_id)
+
     def test_encyclopedia_set_detail_shows_items_and_bonuses(self):
         from fashionistapulp.structure import get_structure
         s = get_structure()

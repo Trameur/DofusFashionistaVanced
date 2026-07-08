@@ -14,7 +14,7 @@ from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
-from fashionistapulp.translation import get_supported_language
+from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
@@ -586,7 +586,7 @@ def _get_light_index(structure, language):
         display_name = _get_display_name_for_group(structure, variants, language)
         search_names = [
             structure.get_item_name_in_language(item, search_language)
-            for search_language in ('en', 'fr', 'es', 'pt', 'de')
+            for search_language in SUPPORTED_LANGUAGES
         ]
         search_names.append(item.or_name)
         entries.append({
@@ -1180,7 +1180,7 @@ def encyclopedia_sets(request):
     t = _ui_text()
 
     search_text = (request.GET.get('q') or '').strip()
-    needle = _normalized_slug(search_text) if search_text else ''
+    needle = _normalized_text(search_text) if search_text else ''
 
     sets = []
     for set_id, item_set in structure.sets_dict.items():
@@ -1190,7 +1190,18 @@ def encyclopedia_sets(request):
                 or item_set.localized_names.get('en') or item_set.name)
         if not name:
             continue
-        if needle and needle not in _normalized_slug(name):
+        searchable_parts = [name, item_set.name]
+        for item_id in item_set.items:
+            item = structure.get_item_by_id(item_id)
+            if item is None:
+                continue
+            searchable_parts.extend(
+                structure.get_item_name_in_language(item, search_language)
+                for search_language in SUPPORTED_LANGUAGES
+            )
+            searchable_parts.append(item.or_name)
+        if needle and needle not in _normalized_text(
+                ' '.join(part or '' for part in searchable_parts)):
             continue
         max_pieces = 0
         if getattr(item_set, 'bonus', None):
