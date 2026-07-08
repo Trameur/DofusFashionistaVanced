@@ -7483,3 +7483,11 @@ msgstr "Os cards e a busca de monstros agora mostram drops úteis diretamente, e
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
 msgstr "Comparar conjuntos agora mostra prévias de dano de feitiços e armas, com seletores de classe e feitiço, para ver rapidamente qual build bate mais forte."
+
+#: chardata/templates/chardata/encyclopedia_sets.html
+msgid "Search a set or item"
+msgstr "Procurar um conjunto ou item"
+
+#: chardata/templates/chardata/encyclopedia_sets.html
+msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
+msgstr "Explore todos os conjuntos de Dofus e seus bônus. Encontre um conjunto pelo nome ou por um de seus itens e monte-o com o Dofus Fashionista."

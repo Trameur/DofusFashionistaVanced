@@ -4,7 +4,7 @@
 
 {% block title %}{% trans "Sets" %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% trans "Browse every Dofus set (panoply) and its bonuses. Find a set and build it with the Dofus Fashionista." %}{% endblock %}
+{% block meta_description %}{% trans "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista." %}{% endblock %}
 
 {# Version-prefixed set lists are canonical because each game version has distinct set data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
@@ -40,7 +40,7 @@
     </nav>
 
     <form class="encyclopedia-sets-search" method="get" action="{% game_url 'encyclopedia_sets' %}">
-        <input type="text" name="q" value="{{ search_text }}" placeholder="{% trans 'Search a set' %}">
+        <input type="text" name="q" value="{{ search_text }}" placeholder="{% trans 'Search a set or item' %}">
         <button type="submit" class="button-generic">{% trans "Search" %}</button>
     </form>
 

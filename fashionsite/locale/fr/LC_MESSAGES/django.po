@@ -7944,6 +7944,14 @@ msgstr "Les cartes et la recherche de monstres affichent maintenant les drops ut
 msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
 msgstr "Le comparateur de stuffs affiche maintenant les dégâts des sorts et des armes, avec un choix de classe et de sort, afin de voir vite quel build tape le plus fort."
 
+#: chardata/templates/chardata/encyclopedia_sets.html
+msgid "Search a set or item"
+msgstr "Rechercher une panoplie ou un objet"
+
+#: chardata/templates/chardata/encyclopedia_sets.html
+msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
+msgstr "Parcourez toutes les panoplies Dofus et leurs bonus. Retrouvez une panoplie par son nom ou par l'un de ses objets, puis créez-la avec le Dofus Fashionista."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

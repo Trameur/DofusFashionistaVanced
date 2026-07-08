@@ -7490,5 +7490,13 @@ msgstr "Las tarjetas y la búsqueda de monstruos ahora muestran drops útiles di
 msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
 msgstr "Comparar sets ahora muestra previsiones de daño de hechizos y armas, con selectores de clase y hechizo, para ver rápidamente qué build pega más."
 
+#: chardata/templates/chardata/encyclopedia_sets.html
+msgid "Search a set or item"
+msgstr "Buscar un set o un objeto"
+
+#: chardata/templates/chardata/encyclopedia_sets.html
+msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
+msgstr "Explora todos los sets de Dofus y sus bonus. Encuentra un set por su nombre o por uno de sus objetos y constrúyelo con el Dofus Fashionista."
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"
