@@ -5560,7 +5560,7 @@ msgstr "Letzte Generierungen"
 
 #: chardata/generated-feature-history
 msgid "Open"
-msgstr "?ffnen"
+msgstr "Öffnen"
 
 #: chardata/generated-feature-history
 msgid "Compare with current"
@@ -5568,7 +5568,7 @@ msgstr "Mit aktuellem vergleichen"
 
 #: chardata/generated-feature-history
 msgid "Public score"
-msgstr "?ffentliche Wertung"
+msgstr "Öffentliche Wertung"
 
 #: chardata/generated-feature-history
 msgid "Saved generations cannot be shared directly."

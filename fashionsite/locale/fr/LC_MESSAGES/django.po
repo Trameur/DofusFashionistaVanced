@@ -6085,7 +6085,7 @@ msgstr "Ouvrir"
 
 #: chardata/generated-feature-history
 msgid "Compare with current"
-msgstr "Comparer ? l'actuel"
+msgstr "Comparer à l'actuel"
 
 #: chardata/generated-feature-history
 msgid "Public score"
