@@ -280,21 +280,21 @@
 }
 
 .solution-history-panel-header {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: #3D200D;
 }
 
 .solution-history-list {
     display: grid;
-    gap: 8px;
+    gap: 5px;
 }
 
 .solution-history-entry {
     display: grid;
-    grid-template-columns: minmax(150px, 220px) 1fr auto;
+    grid-template-columns: minmax(120px, 160px) 1fr auto;
     gap: 10px;
     align-items: center;
-    padding: 8px;
+    padding: 4px 8px;
     border: 1px solid rgba(61, 32, 13, 0.16);
     border-radius: 6px;
 }
@@ -305,25 +305,34 @@
 
 .solution-history-entry-date {
     font-weight: bold;
+    font-size: 0.9em;
 }
 
 .solution-history-entry-score {
     display: flex;
     gap: 6px;
     align-items: baseline;
-    margin-top: 3px;
+    font-size: 0.9em;
 }
 
 .solution-history-preview {
     display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
+    gap: 3px;
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
 .solution-history-preview img {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.solution-history-actions .button-generic {
+    padding: 2px 8px;
+    font-size: 0.85em;
+    line-height: 1.6;
 }
 
 @media (max-width: 900px) {
