@@ -3371,6 +3371,9 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('Bouftou', body)
         self.assertIn('Drops:', body)
         self.assertIn('Laine de Bouftou', body)
+        self.assertRegex(
+            body,
+            r'Laine de Bouftou</a>\s*<span class="drop-rate">[0-9,.]+%</span>')
         self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
 
     def test_retro_monster_page_lists_resource_and_item_drops(self):

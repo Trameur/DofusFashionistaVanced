@@ -1557,7 +1557,7 @@ def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=
     params.append(limit)
     cursor.execute(
         """
-        SELECT name, kind, ankama_id, subtype, ankama_type
+        SELECT name, MAX(rate) AS rate, kind, ankama_id, subtype, ankama_type
         FROM (%s)
         WHERE name IS NOT NULL AND name <> ''
         GROUP BY name, kind, ankama_id, subtype, ankama_type
@@ -1566,13 +1566,14 @@ def _get_monster_drop_preview(cursor, monster_id, language, game_version, limit=
         """ % ' UNION ALL '.join(sources),
         params)
     drops = []
-    for name, kind, ankama_id, subtype, ankama_type in cursor.fetchall():
+    for name, rate, kind, ankama_id, subtype, ankama_type in cursor.fetchall():
         if kind == 'resource':
             url = get_resource_link(subtype, ankama_id, name, game_version)
         else:
             url = get_item_link(ankama_type, ankama_id, name, game_version=game_version)
         drops.append({
             'name': name,
+            'rate': rate,
             'url': url or '',
         })
     return drops

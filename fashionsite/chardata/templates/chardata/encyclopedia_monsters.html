@@ -25,6 +25,7 @@
 .encyclopedia-monsters-name { font-weight: 600; }
 .encyclopedia-monsters-meta { opacity: 0.85; font-size: 0.9em; }
 .encyclopedia-monsters-preview { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
+.drop-rate { opacity: 0.7; font-size: 0.9em; }
 .encyclopedia-pagination { margin-top: 14px; display: flex; gap: 4px; flex-wrap: wrap; }
 .encyclopedia-page-link { display: inline-block; text-decoration: underline; }
 .encyclopedia-page-link-current { font-weight: 700; }
@@ -67,7 +68,8 @@
             {% if monster.sample_drops %}
             <div class="encyclopedia-monsters-preview">{{ mt.drop_preview_label }}:
                 {% for drop in monster.sample_drops %}
-                    {% if drop.url %}<a class="encyclopedia-monster-drop-link" href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}{% if not forloop.last %}, {% endif %}
+                    {% if drop.url %}<a class="encyclopedia-monster-drop-link" href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
+                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             </div>
             {% endif %}
