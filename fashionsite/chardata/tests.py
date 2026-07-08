@@ -2107,6 +2107,34 @@ class SharedSolutionPageTests(TestCase):
         self.assertEqual(after.modified_time, before,
                          'a mere view must not touch modified_time')
 
+    def test_shared_page_shows_weighted_build_score_without_saving(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.encoded_char_id import encode_char_id
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner = User.objects.create_user('scorer', 'score@test.local', 'pw-42-solid')
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False},
+                  'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {'Vitality': 100},
+                  'locked_equips': {}}
+        build = Char.objects.create(
+            name='Score', char_name='score', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'vit': 2}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, input_, {})),
+            owner=owner, link_shared=True, game_version='dofus3')
+
+        before = Char.objects.get(pk=build.pk).modified_time
+        resp = self.client.get('/s/score/%s/' % encode_char_id(build.pk))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Build score')
+        self.assertContains(resp, '200')
+        self.assertEqual(Char.objects.get(pk=build.pk).modified_time, before,
+                         'showing the score must not re-save shared builds')
+
 
 class SharedSolutionPageDeepTests(TestCase):
     """Same fixture as SharedSolutionPageTests but with a real item equipped:

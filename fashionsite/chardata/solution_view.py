@@ -20,6 +20,7 @@ from django.db.models import Count, F
 from django.core.cache import cache
 import json
 import logging
+import math
 import pickle
 
 logger = logging.getLogger(__name__)
@@ -95,6 +96,44 @@ def _weighted_rate(structure, item, weights):
         if stat is not None and stat.key in weights:
             rating += value * weights[stat.key]
     return rating
+
+
+def _calculate_build_score(char, solution):
+    if solution is None or not char.stats_weight:
+        return None
+    try:
+        weights = pickle.loads(char.stats_weight)
+    except Exception:
+        return None
+    if not isinstance(weights, dict):
+        return None
+
+    try:
+        total_stats = solution.get_stats_total()
+        valid_stat_keys = set(stat.key for stat in get_structure().get_stats_list())
+    except Exception:
+        return None
+
+    score = 0.0
+    has_weight = False
+    for stat_key, raw_weight in weights.items():
+        if stat_key == 'meleeness' or stat_key not in valid_stat_keys:
+            continue
+        try:
+            weight = float(raw_weight)
+        except (TypeError, ValueError):
+            continue
+        if weight == 0:
+            continue
+        stat_value = total_stats.get(stat_key, 0)
+        if not isinstance(stat_value, (int, float)):
+            continue
+        score += stat_value * weight
+        has_weight = True
+
+    if not has_weight or not math.isfinite(score):
+        return None
+    return int(round(score))
 
 
 def _build_check(char, solution):
@@ -347,14 +386,17 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
 
     share_text = ''
     build_check = None
+    build_score = None
     try:
         _sol_for_text = get_solution(char)
         if _sol_for_text is not None:
             share_text = _build_share_text(request, char, _sol_for_text)
             build_check = _build_check(char, _sol_for_text)
+            build_score = _calculate_build_score(char, _sol_for_text)
     except Exception:
         share_text = ''
         build_check = None
+        build_score = None
 
     params = {'char_id': char_id,
               'lock_item': static('chardata/lock-icon.png'),
@@ -372,6 +414,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'class_avatar': class_avatar,
               'share_text': share_text,
               'build_check': build_check,
+              'build_score': build_score,
+              'has_build_score': build_score is not None,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

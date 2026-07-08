@@ -5509,6 +5509,14 @@ msgid "Stats with your class self-buffs fully active."
 msgstr ""
 "Estatísticas com os autobuffs de feitiço da tua classe totalmente ativos."
 
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Weighted by this project's stat values."
+msgstr "Ponderada com os valores de atributos deste projeto."
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Build score"
+msgstr "Pontuação do conjunto"
+
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
 msgstr "Junho de 2026"

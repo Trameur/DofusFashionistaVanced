@@ -5522,6 +5522,14 @@ msgstr "Mit Buffs"
 msgid "Stats with your class self-buffs fully active."
 msgstr "Werte mit den voll aktiven Zauber-Selbstbuffs deiner Klasse."
 
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Weighted by this project's stat values."
+msgstr "Mit den Stat-Werten dieses Projekts gewichtet."
+
+#: fashionsite/chardata/templates/chardata/solution.html
+msgid "Build score"
+msgstr "Build-Wertung"
+
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
 msgstr "Juni 2026"

@@ -212,6 +212,30 @@
     padding: 2px;
 }
 
+.solution-build-score-row td {
+    padding: 4px 0 8px;
+}
+
+.solution-build-score {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 2px 0 4px;
+    padding: 6px 8px;
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 4px;
+}
+
+.solution-build-score-label {
+    font-weight: bold;
+}
+
+.solution-build-score-value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .checkbox-text, .removing-div {
     font-weight: bold;
 }

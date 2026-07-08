@@ -491,6 +491,16 @@
                 <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell"><a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a></td>
                 <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
             </tr>
+            {% if has_build_score %}
+            <tr class="solution-build-score-row">
+                <td colspan="4">
+                    <div class="solution-build-score" title="{% trans "Weighted by this project's stat values." %}">
+                        <span class="solution-build-score-label">{% trans "Build score" %}</span>
+                        <span class="solution-build-score-value">{{ build_score }}</span>
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
 
             {% trans "HP" as HP %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Health_Points.png" stat_name=HP stat_key="hp" %}
