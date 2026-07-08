@@ -630,7 +630,7 @@ function updateSpellPreview() {
             $("td[name=spell_damage_" + rowKey + "_diff]").html(
                 formatCompareSpellDiff(summaries[allCharIds[0]], summaries[allCharIds[1]]));
         }
-        if (allCharIds.length > 2 && bestChars.length > 0 && bestChars.length < allCharIds.length) {
+        if (allCharIds.length > 1 && bestChars.length > 0 && bestChars.length < allCharIds.length) {
             $.each(bestChars, function(i, charId) {
                 $("td[name=spell_damage_" + rowKey + "_" + charId + "]")
                     .addClass("compare-spell-best");

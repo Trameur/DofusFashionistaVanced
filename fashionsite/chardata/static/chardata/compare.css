@@ -33,4 +33,9 @@
 
 .compare-spell-best {
     font-weight: bold;
+    color: #2f6b25;
+}
+
+.dark-theme-active .compare-spell-best {
+    color: #a9e58f;
 }

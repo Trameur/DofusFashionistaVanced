@@ -2055,6 +2055,7 @@ class CompareSetsSpellPreviewTests(TestCase):
         self.assertIn('compareCharLevels', html)
         self.assertIn('spell_damage_weapon_%d' % first.pk, html)
         self.assertIn('name="spell_class"', html)
+        self.assertIn('allCharIds.length > 1 && bestChars.length > 0', html)
 
     def test_compare_sets_can_choose_spell_preview_class(self):
         from django.contrib.auth.models import User
