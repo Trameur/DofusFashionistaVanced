@@ -978,6 +978,30 @@ class ProjectActionRobustnessTests(TestCase):
         self.assertEqual(resp.status_code, 404)
 
 
+class SolutionSetTemplateTests(SimpleTestCase):
+
+    def _render_set_link(self, game_version):
+        from types import SimpleNamespace
+        from django.template.loader import render_to_string
+        set_result = SimpleNamespace(
+            id=123,
+            localized_name='Bouftou Set',
+            number_of_items=1,
+            total_number_of_items=8,
+            parts={},
+            stats_lines=[],
+        )
+        return render_to_string('chardata/solution_set.html', {
+            'current_game_version': game_version,
+            'set_result': set_result,
+        })
+
+    def test_set_link_uses_current_game_version(self):
+        html = self._render_set_link('retro')
+        self.assertIn('href="/retro/encyclopedia/set/123/"', html)
+        self.assertIn('View this set', html)
+
+
 class SharedBuildCompareIdTests(TestCase):
     """Regression: a *shared* build added to the comparison cart must carry the
     's' prefix on its encoded id. Commit 496a717e shipped it without the prefix,

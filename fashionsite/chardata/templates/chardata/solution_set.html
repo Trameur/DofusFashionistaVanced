@@ -6,7 +6,7 @@
         <div class="solution-set-expand-header-cell" width="100%">
             <span>{{set_result.localized_name}}</span><br>
             <span class="solution-item-level">({{set_result.number_of_items}}/{{set_result.total_number_of_items}} {% trans "pieces" %})</span>
-            {% if current_game_version == 'dofus3' and set_result.id %}
+            {% if set_result.id %}
             <br><a class="solution-set-encyclo-link" href="{% game_url 'encyclopedia_set' set_result.id %}" onclick="event.stopPropagation();">{% trans "View this set" %} &gt;</a>
             {% endif %}
         </div>
