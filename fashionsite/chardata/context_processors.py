@@ -62,6 +62,7 @@ _CHAR_ID_RE = re.compile(r'/\d+/')
 # are version-specific too, but their char id is encoded (non-numeric), so the
 # numeric check above doesn't catch them.
 _LINKED_PREFIXES = ('s/', 'spells_linked/')
+_VERSION_SWITCH_NUMERIC_SAFE_PREFIXES = ('encyclopedia/',)
 
 
 def game_version(request):
@@ -73,10 +74,15 @@ def game_version(request):
         if stripped.startswith(prefix):
             base_path = '/' + stripped[len(prefix):]
             break
+    base_stripped = base_path.lstrip('/')
     # Char-specific pages don't translate across versions, a build exists in
     # only one game version. Send the version switcher to home instead of a
     # broken URL. Owned pages carry a numeric id; shared/linked pages an encoded one.
-    if _CHAR_ID_RE.search(base_path) or base_path.lstrip('/').startswith(_LINKED_PREFIXES):
+    # Encyclopedia pages are public versioned data, so keep their numeric ids.
+    safe_numeric_path = base_stripped.startswith(_VERSION_SWITCH_NUMERIC_SAFE_PREFIXES)
+    if (not safe_numeric_path
+            and (_CHAR_ID_RE.search(base_path)
+                 or base_stripped.startswith(_LINKED_PREFIXES))):
         base_path = '/'
 
     # api_base is the URL prefix for AJAX calls: '' for dofus3, '/beta' for beta, etc.

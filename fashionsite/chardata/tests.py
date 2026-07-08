@@ -861,6 +861,33 @@ class CanonicalUrlTests(TestCase):
         self.assertIn('/dofus2/', canon)
 
 
+class VersionSwitcherPathTests(SimpleTestCase):
+    """The global version switcher should preserve public encyclopedia pages,
+    but not private/user build URLs whose numeric ids are version-specific."""
+
+    def _base_path(self, path, game_version):
+        from types import SimpleNamespace
+        from chardata.context_processors import game_version as context_game_version
+        request = SimpleNamespace(path_info=path, game_version=game_version)
+        return context_game_version(request)['version_switch_base_path']
+
+    def test_encyclopedia_monster_path_survives_version_switching(self):
+        self.assertEqual(
+            self._base_path('/retro/encyclopedia/monster/101-bouftou/', 'retro'),
+            '/encyclopedia/monster/101-bouftou/')
+
+    def test_encyclopedia_resource_path_survives_version_switching(self):
+        self.assertEqual(
+            self._base_path('/dofus2/encyclopedia/resource/resources/384-x/', 'dofus2'),
+            '/encyclopedia/resource/resources/384-x/')
+
+    def test_private_numeric_build_path_still_switches_to_home(self):
+        self.assertEqual(self._base_path('/retro/solution/123/', 'retro'), '/')
+
+    def test_shared_build_path_still_switches_to_home(self):
+        self.assertEqual(self._base_path('/retro/s/name/AbCdEf_/', 'retro'), '/')
+
+
 class RegistrationTests(TestCase):
     """Username uniqueness must be case-insensitive (MySQL's unique index is), so a
     case-only variant is detected as taken instead of 500ing later in create_user."""
