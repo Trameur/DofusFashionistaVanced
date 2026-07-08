@@ -123,7 +123,7 @@ urlpatterns = [
             encyclopedia_view.encyclopedia_monster,
             name='encyclopedia_monster'),
     re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets, name='encyclopedia_sets'),
-    re_path(r'^encyclopedia/set/(?P<set_id>\d+)/$', encyclopedia_view.encyclopedia_set,
+    re_path(r'^encyclopedia/set/(?P<set_id>\d+)(?:-[^/]+)?/$', encyclopedia_view.encyclopedia_set,
             name='encyclopedia_set'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
     re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),

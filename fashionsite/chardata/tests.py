@@ -76,6 +76,7 @@ class OfficialSiteUrlTests(SimpleTestCase):
             get_item_link,
             get_monster_link,
             get_resource_link,
+            get_set_link,
         )
         self.assertEqual(
             get_item_link('equipment', 999, "Épée d'Âme"),
@@ -86,6 +87,9 @@ class OfficialSiteUrlTests(SimpleTestCase):
         self.assertEqual(
             get_monster_link(123, 'Jalató Real', 'retro'),
             '/retro/encyclopedia/monster/123-jalato-real/')
+        self.assertEqual(
+            get_set_link(321, 'Panoplie du Bouftou Royal', 'retro'),
+            '/retro/encyclopedia/set/321-panoplie-du-bouftou-royal/')
 
 
 class EmailTemplateTranslationTests(SimpleTestCase):
@@ -556,25 +560,33 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Search a set or item')
         self.assertContains(resp, 'Items:')
-        self.assertContains(resp, '/encyclopedia/set/%s/' % set_id)
+        self.assertRegex(resp.content.decode('utf-8', 'replace'),
+                         r'/encyclopedia/set/%s-[^"]+/' % set_id)
 
     def test_encyclopedia_set_detail_shows_items_and_bonuses(self):
+        from chardata.official_site import get_set_link
         from fashionistapulp.structure import get_structure
         s = get_structure()
         target_id = None
+        target_name = None
         for sid, iset in s.sets_dict.items():
             if (getattr(iset, 'bonus', None) and getattr(iset, 'items', None)
                     and any(s.get_item_by_id(i) and getattr(s.get_item_by_id(i), 'ankama_id', None)
                             for i in iset.items)):
                 target_id = sid
+                target_name = iset.localized_names.get('en') or iset.name
                 break
         self.assertIsNotNone(target_id, 'no bonus set with items found')
-        resp = self.client.get('/encyclopedia/set/%s/' % target_id)
+        set_url = get_set_link(target_id, target_name)
+        resp = self.client.get(set_url)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Set bonuses')
         self.assertContains(resp, '/encyclopedia/item/')  # at least one item links out
         self.assertContains(resp, 'property="og:image"')  # set-specific social preview
         self.assertContains(resp, 'BreadcrumbList')  # breadcrumb structured data
+        legacy_resp = self.client.get('/encyclopedia/set/%s/' % target_id)
+        self.assertEqual(legacy_resp.status_code, 200)
+        self.assertContains(legacy_resp, 'https://dofusfashionista.gg%s' % set_url)
 
     def test_encyclopedia_item_has_valid_breadcrumb_jsonld(self):
         import json
@@ -716,22 +728,25 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/item/equipment/2416-', body)
 
     def test_sitemap_lists_versioned_set_detail_urls(self):
+        from chardata.official_site import get_set_link
         from fashionistapulp.structure import get_structure
 
         structure = get_structure('retro')
         set_id = None
+        set_name = None
         for candidate_id, item_set in structure.sets_dict.items():
             if (getattr(item_set, 'items', None)
                     and (item_set.localized_names.get('en') or item_set.name)):
                 set_id = candidate_id
+                set_name = item_set.localized_names.get('en') or item_set.name
                 break
         if set_id is None:
             self.skipTest('no retro set in this build')
 
+        retro_set_url = get_set_link(set_id, set_name, 'retro')
         body = self.client.get('/sitemap.xml').content.decode('utf-8')
         self.assertIn('https://dofusfashionista.gg/encyclopedia/set/', body)
-        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/set/%s/' % set_id,
-                      body)
+        self.assertIn('https://dofusfashionista.gg%s' % retro_set_url, body)
 
     def test_sitemap_lists_shared_builds_with_a_solution_only(self):
         # Shared builds are content pages worth indexing, but a build with no
@@ -822,9 +837,15 @@ class CanonicalUrlTests(TestCase):
                          'https://dofusfashionista.gg/retro/encyclopedia/')
         self.assertEqual(self._canonical('/beta/encyclopedia/sets/'),
                          'https://dofusfashionista.gg/beta/encyclopedia/sets/')
-        self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
-                         'https://dofusfashionista.gg/touch/encyclopedia/set/1/')
+        from chardata.official_site import get_set_link
         from fashionistapulp.structure import get_structure
+        touch = get_structure('touch')
+        touch_set = touch.sets_dict.get(1) or touch.dt_sets_dict.get(1)
+        self.assertIsNotNone(touch_set, 'touch set 1 missing')
+        touch_set_name = touch_set.localized_names.get('en') or touch_set.name
+        self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
+                         'https://dofusfashionista.gg%s'
+                         % get_set_link(1, touch_set_name, 'touch'))
         s = get_structure('dofus2')
         it = None
         for cand in s.get_concatenated_items_lists():

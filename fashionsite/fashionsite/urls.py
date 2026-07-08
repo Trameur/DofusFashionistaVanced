@@ -220,17 +220,20 @@ def _sitemap_encyclopedia_sets(base_url):
         return cached['xml']
     try:
         from chardata import encyclopedia_view
+        from chardata.official_site import get_set_link
         rows = []
         seen = set()
         for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
-            version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
             structure = encyclopedia_view.get_structure(game_version)
             for set_id, item_set in structure.sets_dict.items():
                 if not getattr(item_set, 'items', None):
                     continue
-                if not (item_set.localized_names.get('en') or item_set.name):
+                set_name = item_set.localized_names.get('en') or item_set.name
+                if not set_name:
                     continue
-                link = '%s/encyclopedia/set/%s/' % (version_prefix, set_id)
+                link = get_set_link(set_id, set_name, game_version=game_version)
+                if not link:
+                    continue
                 if link in seen:
                     continue
                 seen.add(link)
@@ -631,7 +634,7 @@ urlpatterns = [
             encyclopedia_view.encyclopedia_monster,
             name='encyclopedia_monster'),
     re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets, name='encyclopedia_sets'),
-    re_path(r'^encyclopedia/set/(?P<set_id>\d+)/$', encyclopedia_view.encyclopedia_set,
+    re_path(r'^encyclopedia/set/(?P<set_id>\d+)(?:-[^/]+)?/$', encyclopedia_view.encyclopedia_set,
             name='encyclopedia_set'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
     re_path(r'^forgemagie/items/$', forgemagie_view.forgemagie_items, name='forgemagie_items'),

@@ -107,3 +107,15 @@ def get_monster_link(monster_ankama_id, name, game_version='dofus3'):
     if game_version != 'dofus3':
         return f'/{game_version}{path}'
     return path
+
+
+def get_set_link(set_id, name, game_version='dofus3'):
+    if not set_id:
+        return None
+
+    name = _slugify_name(name, 'set')
+
+    path = '/encyclopedia/set/%d-%s/' % (int(set_id), name)
+    if game_version != 'dofus3':
+        return f'/{game_version}{path}'
+    return path

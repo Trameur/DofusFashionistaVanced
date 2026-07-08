@@ -145,7 +145,7 @@
                 <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
                 <div class="encyclopedia-item-meta">ID: {{ item.ankama_id }} ({{ item.ankama_type }})</div>
                 {% if item_set_name %}
-                <div class="encyclopedia-item-meta">{{ t.set_label }}: {% if item_set_id %}<a href="{% game_url 'encyclopedia_set' item_set_id %}">{{ item_set_name }}</a>{% else %}{{ item_set_name }}{% endif %}</div>
+                <div class="encyclopedia-item-meta">{{ t.set_label }}: {% if item_set_url %}<a href="{{ item_set_url }}">{{ item_set_name }}</a>{% else %}{{ item_set_name }}{% endif %}</div>
                 {% endif %}
             </div>
         </div>

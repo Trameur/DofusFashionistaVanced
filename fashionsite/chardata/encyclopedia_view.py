@@ -7,7 +7,8 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.image_store import get_image_url
-from chardata.official_site import get_item_link, get_monster_link, get_resource_link
+from chardata.official_site import (
+    get_item_link, get_monster_link, get_resource_link, get_set_link)
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
@@ -1080,6 +1081,11 @@ def encyclopedia(request):
             'set_id': item_set.id if item_set else None,
             'set_name': (item_set.localized_names.get(language)
                          or item_set.localized_names.get('en') or item_set.name) if item_set else None,
+            'set_url': get_set_link(
+                item_set.id,
+                (item_set.localized_names.get(language)
+                 or item_set.localized_names.get('en') or item_set.name),
+                game_version=game_version) if item_set else None,
             'stat_lines': _get_stat_lines(structure, item, language),
             'stats_map': entry['stats_map'],
         })
@@ -1155,7 +1161,8 @@ def encyclopedia_set(request, set_id):
     game_version = getattr(request, 'game_version', 'dofus3')
     set_name = (item_set.localized_names.get(language)
                 or item_set.localized_names.get('en') or item_set.name)
-    canonical_url = _absolute_versioned_url('/encyclopedia/set/%d/' % set_id, game_version)
+    canonical_path = get_set_link(set_id, set_name, game_version=game_version)
+    canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/sets/')
     encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
@@ -1225,7 +1232,8 @@ def encyclopedia_sets(request):
             'max_pieces': max_pieces,
             'sample_items': item_names[:4],
             'more_items_count': max(len(item_names) - 4, 0),
-            'url': version_reverse(request, 'encyclopedia_set', set_id),
+            'url': get_set_link(set_id, name,
+                                game_version=getattr(request, 'game_version', 'dofus3')),
         })
     sets.sort(key=lambda entry: (entry['name'] or '').lower())
 
@@ -1394,6 +1402,11 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
             'item_set_id': item_set.id if item_set else None,
+            'item_set_url': get_set_link(
+                item_set.id,
+                item_set.localized_names.get(language)
+                or item_set.localized_names.get('en') or item_set.name,
+                game_version=game_version) if item_set else None,
             'set_bonuses': set_bonuses,
             'stats': stat_lines,
             'pet_feedable_bonuses': pet_feedable_bonuses,
