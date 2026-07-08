@@ -1935,6 +1935,31 @@ class CompareSetsSpellPreviewTests(TestCase):
             html,
             r'<option(?=[^>]*\bvalue="Cra")(?=[^>]*\bselected(?:=""|(?=[\s>])))[^>]*>')
 
+    def test_compare_sets_can_choose_single_spell_preview(self):
+        from django.contrib.auth.models import User
+        from chardata.compare_sets_view import _spell_has_direct_damage
+        from chardata.spell_buffs import get_damage_spells_for_version
+        cra_spell = next(
+            spell for spell in get_damage_spells_for_version('dofus3')['Cra']
+            if _spell_has_direct_damage(spell))
+        owner = User.objects.create_user('spellpickcompare', 'spc@test.local', 'pw-42-solid')
+        first = self._build(owner, 'SpellOne', {}, self._stats(str=0))
+        second = self._build(owner, 'SpellTwo', {}, self._stats(str=250))
+        self.client.force_login(owner)
+
+        resp = self.client.get(
+            '/compare_sets/%d/%d/' % (first.pk, second.pk),
+            {'spell_class': 'Cra', 'spell_name': cra_spell.name})
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['spell_preview_selected_spell'], cra_spell.name)
+        spell_rows = [
+            row for row in resp.context['spell_preview_rows']
+            if row['kind'] == 'spell'
+        ]
+        self.assertEqual(len(spell_rows), 1)
+        self.assertIn('name="spell_name"', resp.content.decode('utf-8', 'replace'))
+
     def test_retro_compare_uses_retro_spell_payloads(self):
         from django.contrib.auth.models import User
         from fashionistapulp.structure import set_current_game_version

@@ -217,6 +217,17 @@
                             </select>
                         </form>
                         {% endif %}
+                        {% if spell_preview_spell_options %}
+                        <form method="get" style="margin:0;">
+                            <input type="hidden" name="spell_class" value="{{ spell_preview_selected_class }}">
+                            <label for="compare_spell_name">{% trans "Spell" %}</label>
+                            <select id="compare_spell_name" name="spell_name" onchange="this.form.submit()">
+                                {% for option in spell_preview_spell_options %}
+                                <option value="{{ option.value }}"{% if option.selected %} selected{% endif %}>{{ option.label }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                        {% endif %}
                     </div>
                 </td>
             </tr>

@@ -7396,6 +7396,14 @@ msgid "Spell class"
 msgstr "Zauberklasse"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell"
+msgstr "Zauber"
+
+#: chardata/compare_sets_view.py
+msgid "All damage spells"
+msgstr "Alle Schadenszauber"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Krit."
 
@@ -7468,5 +7476,5 @@ msgid "Monster cards and search now surface useful drops directly, across every 
 msgstr "Monsterkarten und Monstersuche zeigen nützliche Drops jetzt direkt, für jede unterstützte Spielversion."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, with a class selector for spells, so you can quickly see which build hits harder."
-msgstr "Der Set-Vergleich zeigt jetzt Schadensvorschauen für Zauber und Waffen, mit Klassenauswahl für Zauber, damit du schnell siehst, welches Build härter trifft."
+msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
+msgstr "Der Set-Vergleich zeigt jetzt Schadensvorschauen für Zauber und Waffen, mit Klassen- und Zauberauswahl, damit du schnell siehst, welches Build härter trifft."

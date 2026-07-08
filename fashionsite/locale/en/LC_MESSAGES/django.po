@@ -5246,6 +5246,14 @@ msgid "Spell class"
 msgstr "Spell class"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell"
+msgstr "Spell"
+
+#: chardata/compare_sets_view.py
+msgid "All damage spells"
+msgstr "All damage spells"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crit."
 
@@ -5322,5 +5330,5 @@ msgid "Monster cards and search now surface useful drops directly, across every 
 msgstr "Monster cards and search now surface useful drops directly, across every supported game version."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, with a class selector for spells, so you can quickly see which build hits harder."
-msgstr "Compare Sets now shows spell and weapon damage previews, with a class selector for spells, so you can quickly see which build hits harder."
+msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
+msgstr "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."

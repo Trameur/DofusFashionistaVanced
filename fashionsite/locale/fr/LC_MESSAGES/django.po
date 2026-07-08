@@ -7861,6 +7861,14 @@ msgid "Spell class"
 msgstr "Classe des sorts"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell"
+msgstr "Sort"
+
+#: chardata/compare_sets_view.py
+msgid "All damage spells"
+msgstr "Tous les sorts de dégâts"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crit."
 
@@ -7933,8 +7941,8 @@ msgid "Monster cards and search now surface useful drops directly, across every 
 msgstr "Les cartes et la recherche de monstres affichent maintenant les drops utiles directement, pour chaque version du jeu prise en charge."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, with a class selector for spells, so you can quickly see which build hits harder."
-msgstr "Le comparateur de stuffs affiche maintenant les dégâts des sorts et des armes, avec un choix de classe pour les sorts, afin de voir vite quel build tape le plus fort."
+msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
+msgstr "Le comparateur de stuffs affiche maintenant les dégâts des sorts et des armes, avec un choix de classe et de sort, afin de voir vite quel build tape le plus fort."
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"

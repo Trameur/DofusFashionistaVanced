@@ -7407,6 +7407,14 @@ msgid "Spell class"
 msgstr "Clase de hechizos"
 
 #: chardata/templates/chardata/compare_sets.html
+msgid "Spell"
+msgstr "Hechizo"
+
+#: chardata/compare_sets_view.py
+msgid "All damage spells"
+msgstr "Todos los hechizos de daño"
+
+#: chardata/templates/chardata/compare_sets.html
 msgid "Crit."
 msgstr "Crít."
 
@@ -7479,8 +7487,8 @@ msgid "Monster cards and search now surface useful drops directly, across every 
 msgstr "Las tarjetas y la búsqueda de monstruos ahora muestran drops útiles directamente, en cada versión del juego compatible."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, with a class selector for spells, so you can quickly see which build hits harder."
-msgstr "Comparar sets ahora muestra previsiones de daño de hechizos y armas, con selector de clase para los hechizos, para ver rápidamente qué build pega más."
+msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
+msgstr "Comparar sets ahora muestra previsiones de daño de hechizos y armas, con selectores de clase y hechizo, para ver rápidamente qué build pega más."
 
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

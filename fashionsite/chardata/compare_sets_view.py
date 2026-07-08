@@ -137,22 +137,35 @@ def _build_spell_preview_context(request, chars, model_results):
     if requested_spell_class in available_spell_classes:
         selected_spell_class = requested_spell_class
 
-    spell_rows = []
-    spell_digests = []
+    requested_spell_name = (request.GET.get('spell_name') or '').strip()
+    spell_entries = []
     for spell in (spells_by_class.get(selected_spell_class, [])
                   + spells_by_class.get('default', [])):
         if not _spell_has_direct_damage(spell):
             continue
         digest = _create_spell_web_digest(spell, game_version)
-        compare_key = 'spell_%d' % len(spell_digests)
+        compare_key = 'spell_%d' % len(spell_entries)
         digest['compare_key'] = compare_key
-        spell_digests.append(digest)
-        spell_rows.append({
+        row = {
             'key': compare_key,
             'kind': 'spell',
             'name': digest['name'],
             'image_url': digest['image_url'],
+        }
+        spell_entries.append({
+            'value': spell.name,
+            'row': row,
+            'digest': digest,
         })
+    selected_spell_name = ''
+    if requested_spell_name in {entry['value'] for entry in spell_entries}:
+        selected_spell_name = requested_spell_name
+    displayed_spell_entries = [
+        entry for entry in spell_entries
+        if not selected_spell_name or entry['value'] == selected_spell_name
+    ]
+    spell_rows = [entry['row'] for entry in displayed_spell_entries]
+    spell_digests = [entry['digest'] for entry in displayed_spell_entries]
 
     weapon_digests = {}
     for char in chars:
@@ -187,6 +200,21 @@ def _build_spell_preview_context(request, chars, model_results):
             }
             for class_name in available_spell_classes
         ],
+        'spell_preview_selected_spell': selected_spell_name,
+        'spell_preview_spell_options': (
+            [{
+                'value': '',
+                'label': str(_('All damage spells')),
+                'selected': selected_spell_name == '',
+            }] + [
+                {
+                    'value': entry['value'],
+                    'label': entry['row']['name'],
+                    'selected': entry['value'] == selected_spell_name,
+                }
+                for entry in spell_entries
+            ] if spell_entries else []
+        ),
         'spell_preview_digests_json': jsonpickle.encode(
             spell_digests, unpicklable=False),
         'weapon_digests_json': jsonpickle.encode(
