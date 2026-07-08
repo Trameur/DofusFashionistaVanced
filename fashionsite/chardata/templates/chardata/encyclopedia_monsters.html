@@ -15,7 +15,10 @@
 .encyclopedia-crumbs a { text-decoration: none; }
 .encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-monsters-search { margin: 10px 0 14px; }
-.encyclopedia-monsters-search input[type="text"] { padding: 6px 10px; min-width: 240px; }
+.encyclopedia-monsters-search-grid { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(150px, 190px) minmax(150px, 190px) auto; gap: 8px; align-items: end; }
+.encyclopedia-monsters-search-grid label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.encyclopedia-monsters-search-grid input,
+.encyclopedia-monsters-search-grid select { box-sizing: border-box; padding: 6px 10px; width: 100%; }
 .encyclopedia-monsters-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
 .encyclopedia-monster-card { display: block; border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 6px; padding: 10px; }
 .encyclopedia-monster-main-link { display: block; text-decoration: none; }
@@ -37,6 +40,9 @@
 .dark-theme-active .encyclopedia-monsters-name { color: #fff1d6; }
 .dark-theme-active .encyclopedia-crumbs a,
 .dark-theme-active .encyclopedia-monster-drop-link { color: #ffd8a8; }
+@media (max-width: 720px) {
+    .encyclopedia-monsters-search-grid { grid-template-columns: 1fr; }
+}
 </style>
 {% endblock %}
 
@@ -50,8 +56,29 @@
     </nav>
 
     <form class="encyclopedia-monsters-search" method="get" action="{% game_url 'encyclopedia_monsters' %}">
-        <input type="text" name="q" value="{{ search_text }}" placeholder="{{ mt.monster_search_placeholder }}">
-        <button type="submit" class="button-generic">{{ t.search_label }}</button>
+        <div class="encyclopedia-monsters-search-grid">
+            <label>
+                <span>{{ t.search_label }}</span>
+                <input type="text" name="q" value="{{ search_text }}" placeholder="{{ mt.monster_search_placeholder }}">
+            </label>
+            <label>
+                <span>{{ mt.drop_filter_label }}</span>
+                <select name="drop_kind">
+                    {% for option in drop_filter_options %}
+                    <option value="{{ option.value }}"{% if option.selected %} selected{% endif %}>{{ option.label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                <span>{{ mt.sort_label }}</span>
+                <select name="sort">
+                    {% for option in sort_options %}
+                    <option value="{{ option.value }}"{% if option.selected %} selected{% endif %}>{{ option.label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button type="submit" class="button-generic">{{ t.search_label }}</button>
+        </div>
     </form>
 
     {% if monsters_page.object_list %}

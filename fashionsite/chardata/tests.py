@@ -3495,6 +3495,42 @@ class EncyclopediaMonsterPageTests(TestCase):
             r'Laine de Bouftou</a>\s*<span class="drop-rate">[0-9,.]+%</span>')
         self.assertIn('/retro/encyclopedia/resource/resources/384-', body)
 
+    def test_monsters_list_can_filter_and_sort_by_drop_kind(self):
+        resp = self.client.get(
+            '/retro/encyclopedia/monsters/?drop_kind=items&sort=item_drops',
+            HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Type de drop', body)
+        self.assertIn('Trier par', body)
+        self.assertEqual(resp.context['drop_kind'], 'items')
+        self.assertEqual(resp.context['sort_key'], 'item_drops')
+        monsters = list(resp.context['monsters_page'].object_list)
+        self.assertTrue(monsters)
+        self.assertTrue(all(monster['item_count'] > 0 for monster in monsters))
+        item_counts = [monster['item_count'] for monster in monsters]
+        self.assertEqual(item_counts, sorted(item_counts, reverse=True))
+
+    def test_monsters_pagination_preserves_filters(self):
+        resp = self.client.get(
+            '/retro/encyclopedia/monsters/?drop_kind=resources&sort=resource_drops',
+            HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        if not resp.context['monsters_page'].has_next():
+            self.skipTest('not enough Retro monsters with resource drops for pagination')
+        body = resp.content.decode('utf-8')
+        self.assertIn('drop_kind=resources', body)
+        self.assertIn('sort=resource_drops', body)
+        self.assertIn('page=2', body)
+
+    def test_invalid_monster_filters_fall_back_to_defaults(self):
+        resp = self.client.get(
+            '/retro/encyclopedia/monsters/?drop_kind=bad&sort=bad',
+            HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['drop_kind'], 'all')
+        self.assertEqual(resp.context['sort_key'], 'name')
+
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')

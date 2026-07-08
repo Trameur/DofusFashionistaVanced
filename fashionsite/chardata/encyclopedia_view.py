@@ -1431,6 +1431,16 @@ MONSTER_UI = {
         'dropped_resources_label': 'Dropped resources',
         'dropped_items_label': 'Dropped items',
         'no_monsters': 'No monsters match your search.',
+        'drop_filter_label': 'Drop type',
+        'drop_filter_all': 'All drops',
+        'drop_filter_resources': 'With resources',
+        'drop_filter_items': 'With items',
+        'drop_filter_both': 'Resources and items',
+        'sort_label': 'Sort by',
+        'sort_name': 'Name',
+        'sort_total_drops': 'Most drops',
+        'sort_resource_drops': 'Most resources',
+        'sort_item_drops': 'Most items',
     },
     'fr': {
         'monsters_label': 'Monstres',
@@ -1440,6 +1450,16 @@ MONSTER_UI = {
         'dropped_resources_label': 'Ressources droppées',
         'dropped_items_label': 'Objets droppés',
         'no_monsters': 'Aucun monstre ne correspond à votre recherche.',
+        'drop_filter_label': 'Type de drop',
+        'drop_filter_all': 'Tous les drops',
+        'drop_filter_resources': 'Avec ressources',
+        'drop_filter_items': 'Avec objets',
+        'drop_filter_both': 'Ressources et objets',
+        'sort_label': 'Trier par',
+        'sort_name': 'Nom',
+        'sort_total_drops': 'Plus de drops',
+        'sort_resource_drops': 'Plus de ressources',
+        'sort_item_drops': 'Plus d\'objets',
     },
     'es': {
         'monsters_label': 'Monstruos',
@@ -1449,6 +1469,16 @@ MONSTER_UI = {
         'dropped_resources_label': 'Recursos soltados',
         'dropped_items_label': 'Objetos soltados',
         'no_monsters': 'Ningún monstruo coincide con tu búsqueda.',
+        'drop_filter_label': 'Tipo de botin',
+        'drop_filter_all': 'Todos los drops',
+        'drop_filter_resources': 'Con recursos',
+        'drop_filter_items': 'Con objetos',
+        'drop_filter_both': 'Recursos y objetos',
+        'sort_label': 'Ordenar por',
+        'sort_name': 'Nombre',
+        'sort_total_drops': 'Mas drops',
+        'sort_resource_drops': 'Mas recursos',
+        'sort_item_drops': 'Mas objetos',
     },
     'pt': {
         'monsters_label': 'Monstros',
@@ -1458,6 +1488,16 @@ MONSTER_UI = {
         'dropped_resources_label': 'Recursos dropados',
         'dropped_items_label': 'Itens dropados',
         'no_monsters': 'Nenhum monstro corresponde à sua pesquisa.',
+        'drop_filter_label': 'Tipo de drop',
+        'drop_filter_all': 'Todos os drops',
+        'drop_filter_resources': 'Com recursos',
+        'drop_filter_items': 'Com itens',
+        'drop_filter_both': 'Recursos e itens',
+        'sort_label': 'Ordenar por',
+        'sort_name': 'Nome',
+        'sort_total_drops': 'Mais drops',
+        'sort_resource_drops': 'Mais recursos',
+        'sort_item_drops': 'Mais itens',
     },
     'de': {
         'monsters_label': 'Monster',
@@ -1467,8 +1507,22 @@ MONSTER_UI = {
         'dropped_resources_label': 'Gedroppte Ressourcen',
         'dropped_items_label': 'Gedroppte Gegenstände',
         'no_monsters': 'Keine Monster entsprechen deiner Suche.',
+        'drop_filter_label': 'Drop-Typ',
+        'drop_filter_all': 'Alle Drops',
+        'drop_filter_resources': 'Mit Ressourcen',
+        'drop_filter_items': 'Mit Items',
+        'drop_filter_both': 'Ressourcen und Items',
+        'sort_label': 'Sortieren nach',
+        'sort_name': 'Name',
+        'sort_total_drops': 'Meiste Drops',
+        'sort_resource_drops': 'Meiste Ressourcen',
+        'sort_item_drops': 'Meiste Items',
     },
 }
+
+
+MONSTER_DROP_FILTERS = ('all', 'resources', 'items', 'both')
+MONSTER_SORTS = ('name', 'total_drops', 'resource_drops', 'item_drops')
 
 
 def _monster_ui_text():
@@ -1586,6 +1640,12 @@ def encyclopedia_monsters(request):
     game_version = getattr(request, 'game_version', 'dofus3')
     search_text = (request.GET.get('q') or '').strip()
     needle = _normalized_text(search_text) if search_text else ''
+    drop_kind = request.GET.get('drop_kind', 'all')
+    if drop_kind not in MONSTER_DROP_FILTERS:
+        drop_kind = 'all'
+    sort_key = request.GET.get('sort', 'name')
+    if sort_key not in MONSTER_SORTS:
+        sort_key = 'name'
 
     monsters = []
     conn = None
@@ -1653,6 +1713,14 @@ def encyclopedia_monsters(request):
             for (monster_id, name_loc, name_en, search_aliases, resource_count,
                  item_count, resource_search_aliases, item_search_aliases) in cursor.fetchall():
                 name = name_loc or name_en or '#%s' % monster_id
+                resource_count = resource_count or 0
+                item_count = item_count or 0
+                if drop_kind == 'resources' and resource_count <= 0:
+                    continue
+                if drop_kind == 'items' and item_count <= 0:
+                    continue
+                if drop_kind == 'both' and (resource_count <= 0 or item_count <= 0):
+                    continue
                 search_blob = _normalized_text('%s %s %s %s %s' % (
                     name,
                     search_aliases or '',
@@ -1675,7 +1743,17 @@ def encyclopedia_monsters(request):
         if conn is not None:
             conn.close()
 
-    monsters.sort(key=lambda entry: ((entry['name'] or '').lower(), entry['id']))
+    def monster_sort_key(entry):
+        name_key = ((entry['name'] or '').lower(), entry['id'])
+        if sort_key == 'total_drops':
+            return (-entry['total_drops'],) + name_key
+        if sort_key == 'resource_drops':
+            return (-entry['resource_count'],) + name_key
+        if sort_key == 'item_drops':
+            return (-entry['item_count'],) + name_key
+        return name_key
+
+    monsters.sort(key=monster_sort_key)
     paginator = Paginator(monsters, 60)
     page = request.GET.get('page', 1)
     try:
@@ -1706,6 +1784,23 @@ def encyclopedia_monsters(request):
     if page_query_prefix:
         page_query_prefix = '%s&' % page_query_prefix
 
+    drop_filter_options = [
+        {
+            'value': value,
+            'label': mt['drop_filter_%s' % value],
+            'selected': value == drop_kind,
+        }
+        for value in MONSTER_DROP_FILTERS
+    ]
+    sort_options = [
+        {
+            'value': value,
+            'label': mt['sort_%s' % value],
+            'selected': value == sort_key,
+        }
+        for value in MONSTER_SORTS
+    ]
+
     return set_response(
         request,
         'chardata/encyclopedia_monsters.html',
@@ -1718,6 +1813,10 @@ def encyclopedia_monsters(request):
             'monsters_page': page_obj,
             'monsters_count': len(monsters),
             'search_text': search_text,
+            'drop_kind': drop_kind,
+            'sort_key': sort_key,
+            'drop_filter_options': drop_filter_options,
+            'sort_options': sort_options,
             'page_query_prefix': page_query_prefix,
         },
     )
