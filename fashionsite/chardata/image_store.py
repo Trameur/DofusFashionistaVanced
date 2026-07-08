@@ -35,9 +35,10 @@ def _static_exists(path):
 
 RETRO_PLACEHOLDER = 'chardata/QuestionMark-lighttheme.png'
 
-# Variant items produced by the data pipeline ("Nomoon 2", "Sponghield 2")
-# reuse the base item's artwork; only the base icon exists on disk.
-_VARIANT_SUFFIX = re.compile(r' \d+$')
+# Variant items produced by the data pipeline ("Nomoon 2", "Animagi (GM)",
+# "Boune (+80 Agility)") reuse the base item's artwork; only the base icon
+# exists on disk. The fallback only applies when the exact icon is missing.
+_VARIANT_SUFFIX = re.compile(r' (?:\d+|\([^)]*\))$')
 
 
 def _icon_path(type_dir, name, version_dir=None):
