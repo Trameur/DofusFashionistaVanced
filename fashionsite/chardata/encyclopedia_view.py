@@ -1874,6 +1874,12 @@ def encyclopedia_monsters(request):
     )
 
 
+def _monster_not_found_response(request):
+    response = encyclopedia_monsters(request)
+    response.status_code = 404
+    return response
+
+
 def encyclopedia_monster(request, monster_id, slug=None):
     language = get_supported_language()
     t = _ui_text()
@@ -1881,7 +1887,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
     game_version = getattr(request, 'game_version', 'dofus3')
     target_monster_id = safe_int(monster_id, None)
     if target_monster_id is None:
-        return redirect(version_reverse(request, 'encyclopedia_monsters'))
+        return _monster_not_found_response(request)
 
     monster_name = None
     resource_drops = []
@@ -1891,10 +1897,10 @@ def encyclopedia_monster(request, monster_id, slug=None):
         conn = sqlite3.connect(get_items_db_path(game_version))
         cursor = conn.cursor()
         if not _db_table_exists(cursor, 'monster_names'):
-            return redirect(version_reverse(request, 'encyclopedia_monsters'))
+            return _monster_not_found_response(request)
         monster_name = _get_monster_display_name(cursor, target_monster_id, language)
         if monster_name.startswith('#'):
-            return redirect(version_reverse(request, 'encyclopedia_monsters'))
+            return _monster_not_found_response(request)
 
         if _db_table_exists(cursor, 'resource_drops'):
             cursor.execute(
@@ -1952,13 +1958,13 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'image_url': static(get_image_url(item_type_name, item_name)),
                 })
     except Exception:
-        return redirect(version_reverse(request, 'encyclopedia_monsters'))
+        return _monster_not_found_response(request)
     finally:
         if conn is not None:
             conn.close()
 
     if not resource_drops and not item_drops:
-        return redirect(version_reverse(request, 'encyclopedia_monsters'))
+        return _monster_not_found_response(request)
 
     monster_version_links = _get_monster_version_links(
         target_monster_id, game_version, language)

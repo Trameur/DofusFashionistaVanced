@@ -3638,10 +3638,12 @@ class EncyclopediaMonsterPageTests(TestCase):
                 for label in labels:
                     self.assertIn(label, body)
 
-    def test_unknown_versioned_monster_redirects_to_version_monster_list(self):
+    def test_unknown_versioned_monster_is_real_404_with_version_monster_list(self):
         resp = self.client.get('/retro/encyclopedia/monster/999999999-gone/')
-        self.assertEqual(resp.status_code, 302)
-        self.assertEqual(resp['Location'], '/retro/encyclopedia/monsters/')
+        self.assertEqual(resp.status_code, 404)
+        body = resp.content.decode('utf-8')
+        self.assertIn('/retro/encyclopedia/monsters/', body)
+        self.assertIn('Monsters', body)
 
     def test_existing_drop_lists_link_to_monster_pages(self):
         resource_resp = self.client.get(
