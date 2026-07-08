@@ -630,12 +630,52 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_encyclopedia_unknown_set_is_a_real_404_with_useful_page(self):
         # Pruned/unknown sets and items must answer 404 (so search engines
-        # drop them) while still rendering the encyclopedia hub for humans.
-        for url in ('/encyclopedia/set/99999999/',
-                    '/encyclopedia/item/equipment/99999999-gone/'):
-            resp = self.client.get(url)
-            self.assertEqual(resp.status_code, 404, url)
-            self.assertContains(resp, '/encyclopedia/', status_code=404)
+        # drop them) while still giving humans a clear way back.
+        resp = self.client.get('/encyclopedia/set/99999999/')
+        self.assertEqual(resp.status_code, 404)
+        self.assertContains(resp, '/encyclopedia/', status_code=404)
+
+        resp = self.client.get('/encyclopedia/item/equipment/99999999-gone/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 404)
+        self.assertContains(resp, 'Item unavailable in this version', status_code=404)
+        self.assertContains(resp, 'does not exist in the Dofus 3 encyclopedia',
+                            status_code=404)
+        self.assertContains(resp, '/encyclopedia/', status_code=404)
+
+    def test_missing_versioned_item_has_graceful_localized_404(self):
+        from chardata.official_site import get_item_link
+        from fashionistapulp.structure import get_structure
+
+        modern = get_structure('dofus3')
+        retro = get_structure('retro')
+        retro_keys = {
+            ((item.ankama_type or '').strip().lower(), item.ankama_id)
+            for item in retro.get_concatenated_items_lists()
+            if getattr(item, 'ankama_id', None)
+        }
+        candidate = None
+        for item in modern.get_concatenated_items_lists():
+            key = ((item.ankama_type or '').strip().lower(), item.ankama_id)
+            if (getattr(item, 'ankama_id', None)
+                    and getattr(item, 'ankama_type', None)
+                    and key not in retro_keys):
+                candidate = item
+                break
+        if candidate is None:
+            self.skipTest('no Dofus 3 item missing from Retro data')
+
+        name = modern.get_item_name_in_language(candidate, 'fr') or candidate.name
+        url = get_item_link(candidate.ankama_type, candidate.ankama_id, name,
+                            game_version='retro')
+        resp = self.client.get(url, HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 404)
+        self.assertContains(resp, name, status_code=404)
+        self.assertContains(resp, "n'existe pas dans l'encyclopédie Retro",
+                            status_code=404)
+        self.assertContains(resp, '/retro/encyclopedia/', status_code=404)
+        self.assertContains(resp, "Retourner à l'encyclopédie de cette version",
+                            status_code=404)
 
     def test_encyclopedia_list_card_links_to_set(self):
         # Items in a panoply now expose a link to their set page from the list card.
@@ -3638,12 +3678,71 @@ class EncyclopediaMonsterPageTests(TestCase):
                 for label in labels:
                     self.assertIn(label, body)
 
-    def test_unknown_versioned_monster_is_real_404_with_version_monster_list(self):
-        resp = self.client.get('/retro/encyclopedia/monster/999999999-gone/')
+    def test_missing_versioned_monster_uses_name_from_other_version(self):
+        import sqlite3
+        from chardata.official_site import get_monster_link
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        def dropped_monster_ids(game_version):
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                cur = conn.cursor()
+                sources = []
+                for table_name in ('resource_drops', 'item_drops'):
+                    cur.execute(
+                        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+                        (table_name,))
+                    if cur.fetchone() is not None:
+                        sources.append('SELECT monster_ankama_id FROM %s' % table_name)
+                if not sources:
+                    return set()
+                cur.execute(' UNION '.join(sources))
+                return {row[0] for row in cur.fetchall()}
+            finally:
+                conn.close()
+
+        modern_ids = dropped_monster_ids('dofus3')
+        retro_ids = dropped_monster_ids('retro')
+        missing_ids = sorted(modern_ids - retro_ids)
+        if not missing_ids:
+            self.skipTest('no Dofus 3 dropped monster missing from Retro data')
+
+        monster_id = missing_ids[0]
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT COALESCE(
+                    (SELECT name FROM monster_names
+                     WHERE monster_ankama_id = ? AND language = 'fr'),
+                    (SELECT name FROM monster_names
+                     WHERE monster_ankama_id = ? AND language = 'en'),
+                    '#' || ?)
+                """,
+                (monster_id, monster_id, monster_id))
+            name = cur.fetchone()[0]
+        finally:
+            conn.close()
+
+        resp = self.client.get(
+            get_monster_link(monster_id, name, game_version='retro'),
+            HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 404)
+        self.assertContains(resp, name, status_code=404)
+        self.assertContains(resp, "n'existe pas dans l'encyclopédie Retro",
+                            status_code=404)
+        self.assertContains(resp, '/retro/encyclopedia/', status_code=404)
+
+    def test_unknown_versioned_monster_has_graceful_localized_404(self):
+        resp = self.client.get('/retro/encyclopedia/monster/999999999-gone/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 404)
         body = resp.content.decode('utf-8')
-        self.assertIn('/retro/encyclopedia/monsters/', body)
-        self.assertIn('Monsters', body)
+        self.assertIn('Monstre indisponible dans cette version', body)
+        self.assertIn("Le monstre Gone n'existe pas dans l'encyclopédie Retro", body)
+        self.assertIn('/retro/encyclopedia/', body)
+        self.assertIn("Retourner à l'encyclopédie de cette version", body)
 
     def test_existing_drop_lists_link_to_monster_pages(self):
         resource_resp = self.client.get(

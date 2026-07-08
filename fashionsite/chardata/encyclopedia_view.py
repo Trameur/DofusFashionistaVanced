@@ -70,6 +70,11 @@ LOCALIZED_UI = {
         'used_to_craft_label': 'Used to craft',
         'set_items_label': 'Items',
         'resource_not_found': 'Resource not found in the encyclopedia.',
+        'missing_item_title': 'Item unavailable in this version',
+        'missing_monster_title': 'Monster unavailable in this version',
+        'missing_item_message': 'The item %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own items, drops and data.',
+        'missing_monster_message': 'The monster %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own monsters, drops and data.',
+        'missing_back_to_encyclopedia': 'Back to this version encyclopedia',
     },
     'fr': {
         'title': 'Encyclopédie',
@@ -119,6 +124,11 @@ LOCALIZED_UI = {
         'used_to_craft_label': 'Sert à fabriquer',
         'set_items_label': 'Objets',
         'resource_not_found': "Ressource introuvable dans l'encyclopédie.",
+        'missing_item_title': 'Objet indisponible dans cette version',
+        'missing_monster_title': 'Monstre indisponible dans cette version',
+        'missing_item_message': "L'objet %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres objets, drops et données.",
+        'missing_monster_message': "Le monstre %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres monstres, drops et données.",
+        'missing_back_to_encyclopedia': "Retourner à l'encyclopédie de cette version",
     },
     'es': {
         'title': 'Enciclopedia',
@@ -168,6 +178,11 @@ LOCALIZED_UI = {
         'used_to_craft_label': 'Se usa para fabricar',
         'set_items_label': 'Objetos',
         'resource_not_found': 'Recurso no encontrado en la enciclopedia.',
+        'missing_item_title': 'Objeto no disponible en esta versión',
+        'missing_monster_title': 'Monstruo no disponible en esta versión',
+        'missing_item_message': 'El objeto %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios objetos, drops y datos.',
+        'missing_monster_message': 'El monstruo %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios monstruos, drops y datos.',
+        'missing_back_to_encyclopedia': 'Volver a la enciclopedia de esta versión',
     },
     'pt': {
         'title': 'Enciclopédia',
@@ -217,6 +232,11 @@ LOCALIZED_UI = {
         'used_to_craft_label': 'Usado para fabricar',
         'set_items_label': 'Itens',
         'resource_not_found': 'Recurso não encontrado na enciclopédia.',
+        'missing_item_title': 'Item indisponível nesta versão',
+        'missing_monster_title': 'Monstro indisponível nesta versão',
+        'missing_item_message': 'O item %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios itens, drops e dados.',
+        'missing_monster_message': 'O monstro %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios monstros, drops e dados.',
+        'missing_back_to_encyclopedia': 'Voltar para a enciclopédia desta versão',
     },
     'de': {
         'title': 'Enzyklopädie',
@@ -266,6 +286,11 @@ LOCALIZED_UI = {
         'used_to_craft_label': 'Wird verwendet für',
         'set_items_label': 'Items',
         'resource_not_found': 'Ressource nicht in der Enzyklopädie gefunden.',
+        'missing_item_title': 'Gegenstand in dieser Version nicht verfügbar',
+        'missing_monster_title': 'Monster in dieser Version nicht verfügbar',
+        'missing_item_message': 'Der Gegenstand %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Gegenstände, Drops und Daten.',
+        'missing_monster_message': 'Das Monster %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Monster, Drops und Daten.',
+        'missing_back_to_encyclopedia': 'Zur Enzyklopädie dieser Version',
     },
 }
 
@@ -702,6 +727,99 @@ def _get_ankama_type_aliases(ankama_type):
         'equipment': {'equipment', 'equipement', 'equipements', 'equipments'},
     }
     return alias_map.get(normalized, {normalized})
+
+
+def _version_label(game_version):
+    return dict(ACTIVE_GAME_VERSIONS).get(game_version, 'Dofus 3')
+
+
+def _humanize_missing_slug(slug, fallback):
+    value = re.sub(r'[-_]+', ' ', slug or '').strip()
+    value = re.sub(r'\s+', ' ', value)
+    if not value:
+        return fallback
+    return value[:1].upper() + value[1:]
+
+
+def _resolve_missing_item_name(ankama_type, ankama_id, slug, language, current_game_version):
+    fallback = _humanize_missing_slug(slug, '#%s' % ankama_id)
+    target_types = _get_ankama_type_aliases(ankama_type)
+    for game_version, _label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_game_version:
+            continue
+        try:
+            structure = get_structure(game_version)
+            for item in structure.get_concatenated_items_lists():
+                item_type = (item.ankama_type or '').strip().lower()
+                if item.ankama_id == ankama_id and item_type in target_types:
+                    name = structure.get_item_name_in_language(item, language)
+                    return name or item.or_name or item.name or fallback
+        except Exception:
+            continue
+    return fallback
+
+
+def _resolve_missing_monster_name(monster_id, slug, language, current_game_version,
+                                  current_name=None):
+    if current_name and not current_name.startswith('#'):
+        return current_name
+    fallback = _humanize_missing_slug(slug, '#%s' % monster_id)
+    for game_version, _label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_game_version:
+            continue
+        conn = None
+        try:
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            cursor = conn.cursor()
+            if not _db_table_exists(cursor, 'monster_names'):
+                continue
+            name = _get_monster_display_name(cursor, monster_id, language)
+            if name and not name.startswith('#'):
+                return name
+        except Exception:
+            continue
+        finally:
+            if conn is not None:
+                conn.close()
+    return fallback
+
+
+def _encyclopedia_missing_response(request, kind, requested_name):
+    t = _ui_text()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    version_label = _version_label(game_version)
+    title = t['missing_%s_title' % kind]
+    message = t['missing_%s_message' % kind] % {
+        'name': requested_name,
+        'version': version_label,
+    }
+    encyclopedia_url = version_reverse(request, 'encyclopedia')
+    canonical_url = _absolute_versioned_url('/encyclopedia/', game_version)
+    breadcrumb_jsonld = _breadcrumb_jsonld([
+        ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+        (t.get('title') or 'Encyclopedia', canonical_url),
+        (title, canonical_url),
+    ])
+    response = set_response(
+        request,
+        'chardata/encyclopedia_missing.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': t,
+            'canonical_url': canonical_url,
+            'breadcrumb_jsonld': breadcrumb_jsonld,
+            'missing': {
+                'title': title,
+                'message': message,
+                'name': requested_name,
+                'version_label': version_label,
+                'encyclopedia_url': encyclopedia_url,
+                'cta_label': t['missing_back_to_encyclopedia'],
+            },
+        })
+    response.status_code = 404
+    return response
 
 
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
@@ -1258,6 +1376,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     structure = get_structure()
     language = get_supported_language()
     t = _ui_text()
+    game_version = getattr(request, 'game_version', 'dofus3')
 
     try:
         target_ankama_id = int(ankama_id)
@@ -1303,14 +1422,9 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                         break
 
     if matched_item is None:
-        # Item doesn't exist in this game version (e.g. after switching versions
-        # from an item page, or pruned in a data update), show the version's
-        # main encyclopedia so the visitor still lands somewhere useful, but as
-        # a real 404 so search engines drop the dead URL instead of treating
-        # the old redirect as a soft-404.
-        response = encyclopedia(request)
-        response.status_code = 404
-        return response
+        requested_name = _resolve_missing_item_name(
+            ankama_type, target_ankama_id, slug, language, game_version)
+        return _encyclopedia_missing_response(request, 'item', requested_name)
 
     group_key = _get_item_group_key(matched_item)
     grouped_variants = [
@@ -1371,7 +1485,6 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         variant_items=grouped_variants)
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
-    game_version = getattr(request, 'game_version', 'dofus3')
     canonical_path = get_item_link(representative_item.ankama_type,
                                    representative_item.ankama_id, localized_name,
                                    game_version=game_version)
@@ -1874,10 +1987,16 @@ def encyclopedia_monsters(request):
     )
 
 
-def _monster_not_found_response(request):
-    response = encyclopedia_monsters(request)
-    response.status_code = 404
-    return response
+def _monster_not_found_response(request, monster_id=None, slug=None, current_name=None):
+    language = get_supported_language()
+    mt = _monster_ui_text()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    if monster_id is None:
+        requested_name = _humanize_missing_slug(slug, mt['monster_kind_label'])
+    else:
+        requested_name = _resolve_missing_monster_name(
+            monster_id, slug, language, game_version, current_name=current_name)
+    return _encyclopedia_missing_response(request, 'monster', requested_name)
 
 
 def encyclopedia_monster(request, monster_id, slug=None):
@@ -1887,7 +2006,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
     game_version = getattr(request, 'game_version', 'dofus3')
     target_monster_id = safe_int(monster_id, None)
     if target_monster_id is None:
-        return _monster_not_found_response(request)
+        return _monster_not_found_response(request, slug=slug)
 
     monster_name = None
     resource_drops = []
@@ -1897,10 +2016,10 @@ def encyclopedia_monster(request, monster_id, slug=None):
         conn = sqlite3.connect(get_items_db_path(game_version))
         cursor = conn.cursor()
         if not _db_table_exists(cursor, 'monster_names'):
-            return _monster_not_found_response(request)
+            return _monster_not_found_response(request, target_monster_id, slug)
         monster_name = _get_monster_display_name(cursor, target_monster_id, language)
         if monster_name.startswith('#'):
-            return _monster_not_found_response(request)
+            return _monster_not_found_response(request, target_monster_id, slug)
 
         if _db_table_exists(cursor, 'resource_drops'):
             cursor.execute(
@@ -1958,13 +2077,13 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'image_url': static(get_image_url(item_type_name, item_name)),
                 })
     except Exception:
-        return _monster_not_found_response(request)
+        return _monster_not_found_response(request, target_monster_id, slug, monster_name)
     finally:
         if conn is not None:
             conn.close()
 
     if not resource_drops and not item_drops:
-        return _monster_not_found_response(request)
+        return _monster_not_found_response(request, target_monster_id, slug, monster_name)
 
     monster_version_links = _get_monster_version_links(
         target_monster_id, game_version, language)
