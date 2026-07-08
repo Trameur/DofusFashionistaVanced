@@ -7920,6 +7920,22 @@ msgstr "Les résultats de recherche de monstres affichent maintenant des exemple
 msgid "Encyclopedia URLs now keep accented item, resource and monster names readable"
 msgstr "Les URLs de l'encyclopédie gardent maintenant les noms accentués d'objets, de ressources et de monstres lisibles"
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Encyclopedia drops and recipes"
+msgstr "Encyclopédie : drops et recettes"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "The encyclopedia now links items, ingredients and monsters together: see what drops an item, where an ingredient drops, and what each ingredient is used to craft."
+msgstr "L'encyclopédie relie maintenant objets, ingrédients et monstres : voyez quels monstres droppent un objet, où obtenir un ingrédient, et ce que chaque ingrédient permet de fabriquer."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Monster cards and search now surface useful drops directly, across every supported game version."
+msgstr "Les cartes et la recherche de monstres affichent maintenant les drops utiles directement, pour chaque version du jeu prise en charge."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Compare Sets now shows spell and weapon damage previews, with a class selector for spells, so you can quickly see which build hits harder."
+msgstr "Le comparateur de stuffs affiche maintenant les dégâts des sorts et des armes, avec un choix de classe pour les sorts, afin de voir vite quel build tape le plus fort."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 
