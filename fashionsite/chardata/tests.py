@@ -3950,3 +3950,36 @@ class EncyclopediaMonsterPageTests(TestCase):
         body = item_resp.content.decode('utf-8')
         self.assertIn('/retro/encyclopedia/monster/%d-' % monster_id, body)
         self.assertIn(monster_name, body)
+
+
+class NoMojibakeInTranslationsTests(SimpleTestCase):
+    """Guard against encoding corruption in the .po catalogs: a tool writing them
+    with the wrong encoding turns accents into literal question marks (seen live:
+    'Derni?res g?n?rations' instead of 'Dernieres generations' with accents).
+    msgfmt does not catch this because the file stays valid, so scan every msgstr
+    for a '?' squeezed between letters, which never occurs in legitimate copy."""
+
+    LANGS = ('en', 'fr', 'es', 'pt', 'de')
+    MOJIBAKE = re.compile(r'[^\W\d_]\?[^\W\d_]', re.UNICODE)
+
+    def test_no_question_mark_mojibake_in_any_msgstr(self):
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        offenders = []
+        for lang in self.LANGS:
+            path = os.path.join(os.path.dirname(__file__), '..', 'locale',
+                                lang, 'LC_MESSAGES', 'django.po')
+            for entry in polib.pofile(path):
+                if entry.obsolete:
+                    continue
+                candidates = [entry.msgstr] + list(entry.msgstr_plural.values())
+                for text in candidates:
+                    if text and self.MOJIBAKE.search(text):
+                        offenders.append('%s: %s -> %s'
+                                         % (lang, entry.msgid[:40], text[:60]))
+        self.assertEqual(
+            offenders, [],
+            'mojibake question marks found in translations (broken accents, '
+            'rewrite the .po in UTF-8): %s' % offenders)
