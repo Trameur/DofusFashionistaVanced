@@ -66,6 +66,7 @@ LOCALIZED_UI = {
         'resource_kind_label': 'Resource',
         'ingredient_kind_label': 'Ingredient',
         'used_to_craft_label': 'Used to craft',
+        'set_items_label': 'Items',
         'resource_not_found': 'Resource not found in the encyclopedia.',
     },
     'fr': {
@@ -114,6 +115,7 @@ LOCALIZED_UI = {
         'resource_kind_label': 'Ressource',
         'ingredient_kind_label': 'Ingrédient',
         'used_to_craft_label': 'Sert à fabriquer',
+        'set_items_label': 'Objets',
         'resource_not_found': "Ressource introuvable dans l'encyclopédie.",
     },
     'es': {
@@ -162,6 +164,7 @@ LOCALIZED_UI = {
         'resource_kind_label': 'Recurso',
         'ingredient_kind_label': 'Ingrediente',
         'used_to_craft_label': 'Se usa para fabricar',
+        'set_items_label': 'Objetos',
         'resource_not_found': 'Recurso no encontrado en la enciclopedia.',
     },
     'pt': {
@@ -210,6 +213,7 @@ LOCALIZED_UI = {
         'resource_kind_label': 'Recurso',
         'ingredient_kind_label': 'Ingrediente',
         'used_to_craft_label': 'Usado para fabricar',
+        'set_items_label': 'Itens',
         'resource_not_found': 'Recurso não encontrado na enciclopédia.',
     },
     'de': {
@@ -258,6 +262,7 @@ LOCALIZED_UI = {
         'resource_kind_label': 'Ressource',
         'ingredient_kind_label': 'Zutat',
         'used_to_craft_label': 'Wird verwendet für',
+        'set_items_label': 'Items',
         'resource_not_found': 'Ressource nicht in der Enzyklopädie gefunden.',
     },
 }
@@ -1191,10 +1196,19 @@ def encyclopedia_sets(request):
         if not name:
             continue
         searchable_parts = [name, item_set.name]
+        item_names = []
+        seen_item_keys = set()
         for item_id in item_set.items:
             item = structure.get_item_by_id(item_id)
             if item is None:
                 continue
+            item_key = (item.ankama_type, item.ankama_id or item.id)
+            if item_key in seen_item_keys:
+                continue
+            seen_item_keys.add(item_key)
+            item_name = structure.get_item_name_in_language(item, language)
+            if item_name:
+                item_names.append(item_name)
             searchable_parts.extend(
                 structure.get_item_name_in_language(item, search_language)
                 for search_language in SUPPORTED_LANGUAGES
@@ -1209,6 +1223,8 @@ def encyclopedia_sets(request):
         sets.append({
             'name': name,
             'max_pieces': max_pieces,
+            'sample_items': item_names[:4],
+            'more_items_count': max(len(item_names) - 4, 0),
             'url': version_reverse(request, 'encyclopedia_set', set_id),
         })
     sets.sort(key=lambda entry: (entry['name'] or '').lower())

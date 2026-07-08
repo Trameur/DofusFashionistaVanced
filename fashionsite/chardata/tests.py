@@ -555,6 +555,7 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/encyclopedia/sets/', {'q': query}, HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Search a set or item')
+        self.assertContains(resp, 'Items:')
         self.assertContains(resp, '/encyclopedia/set/%s/' % set_id)
 
     def test_encyclopedia_set_detail_shows_items_and_bonuses(self):

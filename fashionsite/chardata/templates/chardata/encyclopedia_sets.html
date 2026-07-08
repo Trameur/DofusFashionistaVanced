@@ -21,6 +21,7 @@
 .encyclopedia-sets-grid a { display: block; border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 6px; padding: 10px; text-decoration: none; }
 .encyclopedia-sets-name { font-weight: 600; }
 .encyclopedia-sets-meta { opacity: 0.85; font-size: 0.9em; }
+.encyclopedia-sets-items { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
 .dark-theme-active .encyclopedia-sets-grid a { border-color: #5a5a5a; background: #1f1f1f; }
 .dark-theme-active .encyclopedia-sets,
 .dark-theme-active .encyclopedia-sets-grid a,
@@ -51,6 +52,9 @@
         <a href="{{ set_entry.url }}">
             <div class="encyclopedia-sets-name">{{ set_entry.name }}</div>
             {% if set_entry.max_pieces %}<div class="encyclopedia-sets-meta">{% blocktrans with n=set_entry.max_pieces %}Up to {{ n }} pieces{% endblocktrans %}</div>{% endif %}
+            {% if set_entry.sample_items %}
+            <div class="encyclopedia-sets-items">{{ t.set_items_label }}: {{ set_entry.sample_items|join:", " }}{% if set_entry.more_items_count %} +{{ set_entry.more_items_count }}{% endif %}</div>
+            {% endif %}
         </a>
         {% endfor %}
     </div>
