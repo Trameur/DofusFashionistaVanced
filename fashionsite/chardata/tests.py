@@ -1001,7 +1001,7 @@ class ProjectActionRobustnessTests(TestCase):
 
 class SolutionSetTemplateTests(SimpleTestCase):
 
-    def _render_set_link(self, game_version):
+    def _render_set_link(self, game_version, url=None):
         from types import SimpleNamespace
         from django.template.loader import render_to_string
         set_result = SimpleNamespace(
@@ -1009,6 +1009,7 @@ class SolutionSetTemplateTests(SimpleTestCase):
             localized_name='Bouftou Set',
             number_of_items=1,
             total_number_of_items=8,
+            url=url,
             parts={},
             stats_lines=[],
         )
@@ -1021,6 +1022,49 @@ class SolutionSetTemplateTests(SimpleTestCase):
         html = self._render_set_link('retro')
         self.assertIn('href="/retro/encyclopedia/set/123/"', html)
         self.assertIn('View this set', html)
+
+    def test_set_link_prefers_readable_url(self):
+        html = self._render_set_link(
+            'retro', '/retro/encyclopedia/set/123-bouftou-set/')
+        self.assertIn('href="/retro/encyclopedia/set/123-bouftou-set/"', html)
+
+    def test_solution_result_sets_readable_set_url(self):
+        from chardata.solution_result import SolutionResult
+        from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE
+        from fashionistapulp.modelresult import ModelResultSet
+        from fashionistapulp.structure import get_structure, set_current_game_version
+
+        class _FakeResult:
+            input = {'options': {}, 'origin': 'generated'}
+
+            def __init__(self, result_set):
+                self.items = {
+                    slot_type: [] for slot_type in set(SLOT_NAME_TO_TYPE.values())
+                }
+                self.sets = [result_set]
+
+            def get_violations_on_item(self, result_item):
+                return []
+
+            def get_stats_base(self):
+                return {}
+
+            def get_stats_gear(self):
+                return {}
+
+            def get_stats_total(self):
+                return {}
+
+        set_current_game_version('retro')
+        try:
+            structure = get_structure('retro')
+            item_set = next(iset for iset in structure.sets_dict.values()
+                            if getattr(iset, 'items', None))
+            params = SolutionResult(_FakeResult(ModelResultSet(item_set, 1))).get_params()
+            self.assertRegex(params['sets'][0].url,
+                             r'^/retro/encyclopedia/set/%d-[^/]+/$' % item_set.id)
+        finally:
+            set_current_game_version('dofus3')
 
 
 class SharedBuildCompareIdTests(TestCase):

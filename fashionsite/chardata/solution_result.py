@@ -30,7 +30,7 @@ from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.stat_icons import get_stat_icon_path
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
-from chardata.official_site import get_item_link
+from chardata.official_site import get_item_link, get_set_link
 
 
 class SolutionResult:
@@ -97,6 +97,8 @@ class SolutionResult:
                 
         # TODO: Grafting this attribute is a hack.
         for result_set in r.sets:
+            result_set.url = get_set_link(result_set.id, result_set.localized_name,
+                                          game_version=get_current_game_version())
             stats_from_result_set = sorted(iter(result_set.get_bonus().items()),
                                            key=lambda x: STAT_ORDER[x[0]])
 
