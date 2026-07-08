@@ -7,7 +7,9 @@
 
 from django.contrib import admin
 
-from chardata.models import BuildComment, BuildTag, CommentReport, UserAlias, UserFollow, WorkshopItem
+from chardata.models import (BuildComment, BuildTag, CommentReport,
+                             SolutionGeneration, UserAlias, UserFollow,
+                             WorkshopItem)
 
 
 @admin.register(BuildComment)
@@ -76,4 +78,11 @@ class UserFollowAdmin(admin.ModelAdmin):
 class BuildTagAdmin(admin.ModelAdmin):
     list_display = ('id', 'char', 'name', 'display_name', 'created_time')
     search_fields = ('name', 'display_name', 'char__name')
+    raw_id_fields = ('char',)
+
+
+@admin.register(SolutionGeneration)
+class SolutionGenerationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'char', 'game_version', 'created_time')
+    list_filter = ('game_version', 'created_time')
     raw_id_fields = ('char',)

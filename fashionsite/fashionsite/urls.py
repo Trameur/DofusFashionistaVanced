@@ -600,6 +600,10 @@ urlpatterns = [
     re_path(r'^fashion/(?P<char_id>\d+)/', fashion_action.fashion, name='fashion'),
 
     re_path(r'^solution/(?P<char_id>\d+)/(?P<empty>.*)/', solution_view.solution, name='solution'),
+    re_path(r'^solutiongeneration/(?P<char_id>\d+)/(?P<generation_id>\d+)/',
+            solution_view.solution_generation, name='solution_generation'),
+    re_path(r'^restoregeneration/(?P<char_id>\d+)/(?P<generation_id>\d+)/',
+            solution_view.restore_generation, name='restore_generation'),
     re_path(r'^solution/(?P<char_id>\d+)/', solution_view.solution, name='solution_2'),
     re_path(r'^getsharinglink/(?P<char_id>\d+)/', solution_view.get_sharing_link, name='get_sharing_link'),
     re_path(r'^hidesharinglink/(?P<char_id>\d+)/', solution_view.hide_sharing_link),

@@ -31,6 +31,7 @@ from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
 from chardata.image_store import get_image_url
 from chardata.solution import get_solution
+from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
@@ -62,17 +63,11 @@ def _meta_cache_key(pk, modified_time):
     modified_marker = 'none'
     if modified_time is not None:
         modified_marker = str(int(modified_time.timestamp() * 1000000))
-    return 'shared-build-meta-%s-%s-%s' % (pk, modified_marker, get_supported_language())
+    return 'shared-build-meta-v2-%s-%s-%s' % (pk, modified_marker, get_supported_language())
 
 
 def _get_shared_build_meta_cache_key(char):
     return _meta_cache_key(char.pk, char.modified_time)
-
-
-def _get_total_stats_score(solution):
-    total_stats = solution.get_stats_total()
-    return sum(value for value in total_stats.values()
-               if isinstance(value, (int, float)) and value > 0)
 
 
 def _get_preview_items(minimal_solution, structure):
@@ -132,7 +127,7 @@ def _get_shared_build_meta(char):
         'has_condition_issues': False,
         'has_missing_items': False,
         'is_invalid': False,
-        'total_stats': 0,
+        'public_score': 0,
         'preview_items': [],
         'compact_stats': [],
     }
@@ -179,10 +174,10 @@ def _get_shared_build_meta(char):
         return meta
 
     try:
-        meta['total_stats'] = _get_total_stats_score(solution)
+        meta['public_score'] = calculate_public_build_score(solution) or 0
         meta['compact_stats'] = _get_compact_stats(solution, structure)
     except Exception:
-        meta['total_stats'] = 0
+        meta['public_score'] = 0
         meta['compact_stats'] = []
 
     item_condition_violations = False
@@ -499,7 +494,7 @@ def shared_builds(request):
             'char': char,
             'link': link,
             'encoded_id': encoded_id,
-            'total_stats': build_meta['total_stats'],
+            'public_score': build_meta.get('public_score', 0),
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],
             'view_count': char.view_count,

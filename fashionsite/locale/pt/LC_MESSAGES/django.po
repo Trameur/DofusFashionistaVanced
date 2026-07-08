@@ -5517,6 +5517,62 @@ msgstr "Ponderada com os valores de atributos deste projeto."
 msgid "Build score"
 msgstr "Pontuação do conjunto"
 
+
+#: chardata/generated-feature-history
+msgid "Saved generation"
+msgstr "Gera??o salva"
+
+#: chardata/generated-feature-history
+msgid "This is a saved generation. Restore it to edit it, or compare it with your current build."
+msgstr "Esta ? uma gera??o salva. Restaure para editar, ou compare com o seu build atual."
+
+#: chardata/generated-feature-history
+msgid "Viewing saved generation"
+msgstr "Gera??o salva"
+
+#: chardata/generated-feature-history
+msgid "Restore"
+msgstr "Restaurar"
+
+#: chardata/generated-feature-history
+msgid "Back to current build"
+msgstr "Voltar ao build atual"
+
+#: chardata/generated-feature-history
+msgid "Recent generations"
+msgstr "Gera??es recentes"
+
+#: chardata/generated-feature-history
+msgid "Open"
+msgstr "Abrir"
+
+#: chardata/generated-feature-history
+msgid "Compare with current"
+msgstr "Comparar com o atual"
+
+#: chardata/generated-feature-history
+msgid "Public score"
+msgstr "Pontua??o p?blica"
+
+#: chardata/generated-feature-history
+msgid "Saved generations cannot be shared directly."
+msgstr "Gera??es salvas n?o podem ser compartilhadas diretamente."
+
+#: chardata/generated-feature-history
+msgid "Project %s is not in this game version."
+msgstr "O projeto %s n?o est? nesta vers?o do jogo."
+
+#: chardata/generated-feature-history
+msgid "Generation history and build scores"
+msgstr "Hist?rico de gera??es e pontua??es de build"
+
+#: chardata/generated-feature-history
+msgid "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
+msgstr "As solu??es agora guardam gera??es recentes para reabrir, restaurar e comparar builds anteriores."
+
+#: chardata/generated-feature-history
+msgid "Shared builds now use a public score weighted for balanced builds."
+msgstr "Builds compartilhados agora usam uma pontua??o p?blica ponderada para builds equilibrados."
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
 msgstr "Junho de 2026"

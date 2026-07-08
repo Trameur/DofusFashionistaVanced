@@ -5348,3 +5348,59 @@ msgstr "Weighted by this project's stat values."
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "Build score"
 msgstr "Build score"
+
+#: chardata/generated-feature-history
+msgid "Saved generation"
+msgstr "Saved generation"
+
+#: chardata/generated-feature-history
+msgid "This is a saved generation. Restore it to edit it, or compare it with your current build."
+msgstr "This is a saved generation. Restore it to edit it, or compare it with your current build."
+
+#: chardata/generated-feature-history
+msgid "Viewing saved generation"
+msgstr "Viewing saved generation"
+
+#: chardata/generated-feature-history
+msgid "Restore"
+msgstr "Restore"
+
+#: chardata/generated-feature-history
+msgid "Back to current build"
+msgstr "Back to current build"
+
+#: chardata/generated-feature-history
+msgid "Recent generations"
+msgstr "Recent generations"
+
+#: chardata/generated-feature-history
+msgid "Open"
+msgstr "Open"
+
+#: chardata/generated-feature-history
+msgid "Compare with current"
+msgstr "Compare with current"
+
+#: chardata/generated-feature-history
+msgid "Public score"
+msgstr "Public score"
+
+#: chardata/generated-feature-history
+msgid "Saved generations cannot be shared directly."
+msgstr "Saved generations cannot be shared directly."
+
+#: chardata/generated-feature-history
+msgid "Project %s is not in this game version."
+msgstr "Project %s is not in this game version."
+
+#: chardata/generated-feature-history
+msgid "Generation history and build scores"
+msgstr "Generation history and build scores"
+
+#: chardata/generated-feature-history
+msgid "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
+msgstr "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
+
+#: chardata/generated-feature-history
+msgid "Shared builds now use a public score weighted for balanced builds."
+msgstr "Shared builds now use a public score weighted for balanced builds."

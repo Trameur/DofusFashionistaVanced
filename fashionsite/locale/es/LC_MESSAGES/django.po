@@ -5521,6 +5521,62 @@ msgstr "Ponderada con los valores de estadísticas de este proyecto."
 msgid "Build score"
 msgstr "Puntuación del set"
 
+
+#: chardata/generated-feature-history
+msgid "Saved generation"
+msgstr "Generaci?n guardada"
+
+#: chardata/generated-feature-history
+msgid "This is a saved generation. Restore it to edit it, or compare it with your current build."
+msgstr "Esta es una generaci?n guardada. Rest?urala para editarla, o comp?rala con tu build actual."
+
+#: chardata/generated-feature-history
+msgid "Viewing saved generation"
+msgstr "Generaci?n guardada"
+
+#: chardata/generated-feature-history
+msgid "Restore"
+msgstr "Restaurar"
+
+#: chardata/generated-feature-history
+msgid "Back to current build"
+msgstr "Volver al build actual"
+
+#: chardata/generated-feature-history
+msgid "Recent generations"
+msgstr "Generaciones recientes"
+
+#: chardata/generated-feature-history
+msgid "Open"
+msgstr "Abrir"
+
+#: chardata/generated-feature-history
+msgid "Compare with current"
+msgstr "Comparar con el actual"
+
+#: chardata/generated-feature-history
+msgid "Public score"
+msgstr "Puntuaci?n p?blica"
+
+#: chardata/generated-feature-history
+msgid "Saved generations cannot be shared directly."
+msgstr "Las generaciones guardadas no se pueden compartir directamente."
+
+#: chardata/generated-feature-history
+msgid "Project %s is not in this game version."
+msgstr "El proyecto %s no est? en esta versi?n del juego."
+
+#: chardata/generated-feature-history
+msgid "Generation history and build scores"
+msgstr "Historial de generaciones y puntuaciones de build"
+
+#: chardata/generated-feature-history
+msgid "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
+msgstr "Las soluciones ahora guardan generaciones recientes para reabrir, restaurar y comparar builds anteriores."
+
+#: chardata/generated-feature-history
+msgid "Shared builds now use a public score weighted for balanced builds."
+msgstr "Los builds compartidos ahora usan una puntuaci?n p?blica ponderada para builds equilibrados."
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
 msgstr "Junio de 2026"

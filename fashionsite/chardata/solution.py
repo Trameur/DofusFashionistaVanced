@@ -20,13 +20,24 @@ import pickle
 from chardata.util import get_stats, get_scrolled_stats
 from chardata.inventory_solver import get_effective_stat_overrides
 
+
+def get_solution_from_minimal(char, minimal_solution):
+    if minimal_solution:
+        minimal_solution.update_base_stats(get_stats(char), get_scrolled_stats(char))
+        stat_overrides = get_effective_stat_overrides(char) or None
+        return model_result_from_minimal(minimal_solution, stat_overrides)
+    return None
+
+
+def get_solution_from_blob(char, minimal_solution_blob):
+    if minimal_solution_blob:
+        return get_solution_from_minimal(char, pickle.loads(minimal_solution_blob))
+    return None
+
+
 def get_solution(char):
     if char.minimal_solution:
-        minimal_solution = pickle.loads(char.minimal_solution)
-        if minimal_solution:
-            minimal_solution.update_base_stats(get_stats(char), get_scrolled_stats(char))
-            stat_overrides = get_effective_stat_overrides(char) or None
-            return model_result_from_minimal(minimal_solution, stat_overrides)
+        return get_solution_from_blob(char, char.minimal_solution)
     return None
 
 def set_solution(char, solution):

@@ -121,6 +121,26 @@ class BuildTag(models.Model):
         ]
 
 
+class SolutionGeneration(models.Model):
+    """Recent generated solutions for a character.
+
+    A generation is deliberately tied to one Char and one game version: Dofus 3,
+    Retro and Touch builds never share item ids or calculations.
+    """
+    char = models.ForeignKey(Char, on_delete=models.CASCADE,
+                             related_name='solution_generations')
+    game_version = models.CharField(max_length=20, default='dofus3', db_index=True)
+    minimal_solution = models.BinaryField()
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_time', '-id']
+        indexes = [
+            models.Index(fields=['char', 'created_time']),
+            models.Index(fields=['char', 'game_version', 'created_time']),
+        ]
+
+
 class UserFollow(models.Model):
     """One-way follow relationship, A follows B."""
     follower = models.ForeignKey(User, on_delete=models.CASCADE,

@@ -5530,6 +5530,62 @@ msgstr "Mit den Stat-Werten dieses Projekts gewichtet."
 msgid "Build score"
 msgstr "Build-Wertung"
 
+
+#: chardata/generated-feature-history
+msgid "Saved generation"
+msgstr "Gespeicherte Generierung"
+
+#: chardata/generated-feature-history
+msgid "This is a saved generation. Restore it to edit it, or compare it with your current build."
+msgstr "Dies ist eine gespeicherte Generierung. Stelle sie wieder her, um sie zu bearbeiten, oder vergleiche sie mit deinem aktuellen Build."
+
+#: chardata/generated-feature-history
+msgid "Viewing saved generation"
+msgstr "Gespeicherte Generierung"
+
+#: chardata/generated-feature-history
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: chardata/generated-feature-history
+msgid "Back to current build"
+msgstr "Zur?ck zum aktuellen Build"
+
+#: chardata/generated-feature-history
+msgid "Recent generations"
+msgstr "Letzte Generierungen"
+
+#: chardata/generated-feature-history
+msgid "Open"
+msgstr "?ffnen"
+
+#: chardata/generated-feature-history
+msgid "Compare with current"
+msgstr "Mit aktuellem vergleichen"
+
+#: chardata/generated-feature-history
+msgid "Public score"
+msgstr "?ffentliche Wertung"
+
+#: chardata/generated-feature-history
+msgid "Saved generations cannot be shared directly."
+msgstr "Gespeicherte Generierungen k?nnen nicht direkt geteilt werden."
+
+#: chardata/generated-feature-history
+msgid "Project %s is not in this game version."
+msgstr "Projekt %s ist nicht in dieser Spielversion."
+
+#: chardata/generated-feature-history
+msgid "Generation history and build scores"
+msgstr "Generierungsverlauf und Build-Wertungen"
+
+#: chardata/generated-feature-history
+msgid "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
+msgstr "L?sungen behalten jetzt letzte Generierungen, damit du fr?here Builds erneut ?ffnen, wiederherstellen und vergleichen kannst."
+
+#: chardata/generated-feature-history
+msgid "Shared builds now use a public score weighted for balanced builds."
+msgstr "Geteilte Builds verwenden jetzt eine ?ffentliche Wertung, die f?r ausgewogene Builds gewichtet ist."
 #: fashionsite/chardata/templates/chardata/changelog_modal.html
 msgid "June 2026"
 msgstr "Juni 2026"

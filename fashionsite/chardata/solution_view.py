@@ -14,13 +14,12 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, F
 from django.core.cache import cache
 import json
 import logging
-import math
 import pickle
 
 logger = logging.getLogger(__name__)
@@ -33,9 +32,11 @@ from chardata.lock_forbid import (set_excluded,
                                   get_all_exclusions_en_names,
                                   get_empty_slots, set_empty_slot)
 from chardata.comment_view import get_comments_for_build
-from chardata.models import Char, BuildVote, BuildView
+from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
+from chardata.solution_history import get_generation_preview_items, get_generation_solution
+from chardata.solution_scores import calculate_project_build_score
 from chardata.spell_buffs import compute_full_buff_stats
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -96,44 +97,6 @@ def _weighted_rate(structure, item, weights):
         if stat is not None and stat.key in weights:
             rating += value * weights[stat.key]
     return rating
-
-
-def _calculate_build_score(char, solution):
-    if solution is None or not char.stats_weight:
-        return None
-    try:
-        weights = pickle.loads(char.stats_weight)
-    except Exception:
-        return None
-    if not isinstance(weights, dict):
-        return None
-
-    try:
-        total_stats = solution.get_stats_total()
-        valid_stat_keys = set(stat.key for stat in get_structure().get_stats_list())
-    except Exception:
-        return None
-
-    score = 0.0
-    has_weight = False
-    for stat_key, raw_weight in weights.items():
-        if stat_key == 'meleeness' or stat_key not in valid_stat_keys:
-            continue
-        try:
-            weight = float(raw_weight)
-        except (TypeError, ValueError):
-            continue
-        if weight == 0:
-            continue
-        stat_value = total_stats.get(stat_key, 0)
-        if not isinstance(stat_value, (int, float)):
-            continue
-        score += stat_value * weight
-        has_weight = True
-
-    if not has_weight or not math.isfinite(score):
-        return None
-    return int(round(score))
 
 
 def _build_check(char, solution):
@@ -363,18 +326,90 @@ def solution(request, char_id, empty=False):
             input_['char_level'] = char.level
             set_minimal_solution(char, ModelResultMinimal.generate_empty_solution(input_))
     return _solution(request, char_id, False, char=char)
-    
-def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
+
+
+def _generation_compare_id(generation):
+    return 'g%d' % generation.id
+
+
+def _build_generation_history(request, char, current_generation=None):
+    generations = (SolutionGeneration.objects
+                   .filter(char=char, game_version=char.game_version)
+                   .order_by('-created_time', '-id')[:10])
+    entries = []
+    for generation in generations:
+        solution = None
+        build_score = None
+        try:
+            solution = get_generation_solution(char, generation)
+            build_score = calculate_project_build_score(char, solution)
+        except Exception:
+            build_score = None
+        compare_id = _generation_compare_id(generation)
+        entries.append({
+            'id': generation.id,
+            'created_time': generation.created_time,
+            'score': build_score,
+            'has_score': build_score is not None,
+            'preview_items': get_generation_preview_items(generation),
+            'view_url': version_reverse(request, 'solution_generation', char.id, generation.id),
+            'restore_url': version_reverse(request, 'restore_generation', char.id, generation.id),
+            'compare_id': compare_id,
+            'compare_with_current_url': version_reverse(
+                request, 'compare_sets', '%s/%s' % (char.id, compare_id)),
+            'is_current_snapshot': (
+                current_generation is not None and current_generation.id == generation.id),
+            'is_broken': solution is None,
+        })
+    return entries
+
+
+def solution_generation(request, char_id, generation_id):
+    char = get_char_or_raise(request, char_id)
+    generation = get_object_or_404(SolutionGeneration,
+                                   pk=generation_id,
+                                   char=char,
+                                   game_version=char.game_version)
+    if get_generation_solution(char, generation) is None:
+        raise Http404
+    return _solution(request, char_id, False, char=char, generation=generation)
+
+
+def restore_generation(request, char_id, generation_id):
+    if request.method != 'POST':
+        raise Http404
+    char = get_char_or_raise(request, char_id)
+    generation = get_object_or_404(SolutionGeneration,
+                                   pk=generation_id,
+                                   char=char,
+                                   game_version=char.game_version)
+    if get_generation_solution(char, generation) is None:
+        raise Http404
+    char.minimal_solution = generation.minimal_solution
+    char.save()
+    from chardata.util import remove_cache_for_char
+    remove_cache_for_char(char.id)
+    return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
+
+
+def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, generation=None):
     if char is None:
         char = get_object_or_404(Char, pk=char_id)
 
-    if is_guest and char.link_shared:
+    snapshot_solution = None
+    is_generation_snapshot = generation is not None
+    if generation is not None:
+        snapshot_solution = get_generation_solution(char, generation)
+        if snapshot_solution is None:
+            raise Http404
+
+    if is_guest and char.link_shared and generation is None:
         solution_params = _get_shared_solution_params(char)
     else:
         inclusions = get_all_inclusions_en_names(char)
         exclusions = get_all_exclusions_en_names(char)
         empty_slots = get_empty_slots(char)
-        solution = get_solution(char)
+        solution = snapshot_solution if snapshot_solution is not None else get_solution(char)
         solution_result = SolutionResult(solution,
                                          inclusions,
                                          exclusions,
@@ -388,11 +423,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
     build_check = None
     build_score = None
     try:
-        _sol_for_text = get_solution(char)
+        _sol_for_text = snapshot_solution if snapshot_solution is not None else get_solution(char)
         if _sol_for_text is not None:
             share_text = _build_share_text(request, char, _sol_for_text)
             build_check = _build_check(char, _sol_for_text)
-            build_score = _calculate_build_score(char, _sol_for_text)
+            build_score = calculate_project_build_score(char, _sol_for_text)
     except Exception:
         share_text = ''
         build_check = None
@@ -416,6 +451,15 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None):
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,
+              'generation_history': [] if is_guest else _build_generation_history(request, char, generation),
+              'is_generation_snapshot': is_generation_snapshot,
+              'generation_created_time': generation.created_time if generation else None,
+              'restore_generation_url': (
+                  version_reverse(request, 'restore_generation', char.id, generation.id)
+                  if generation else ''),
+              'current_solution_url': version_reverse(request, 'solution_2', char.id),
+              'current_solution_compare_id': char.id,
+              'disable_solution_item_actions': is_generation_snapshot,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

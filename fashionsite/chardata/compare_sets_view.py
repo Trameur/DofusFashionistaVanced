@@ -17,7 +17,6 @@
 from collections import Counter
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse, Http404
-from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -26,8 +25,9 @@ import jsonpickle
 from urllib.parse import urlencode, urlparse
 
 from chardata.encoded_char_id import decode_char_id, encode_char_id
-from chardata.models import BuildVote, Char
+from chardata.models import BuildVote, Char, SolutionGeneration
 from chardata.solution import get_solution
+from chardata.solution_history import get_generation_solution
 from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
 from chardata.spell_buffs import get_damage_spells_for_version
@@ -61,8 +61,63 @@ NON_DAMAGE_PREVIEW_ELEMENTS = {
     'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
 
 
+class _CompareBuild:
+
+    def __init__(self, key, char, solution, link, is_guest, shareable, name=None):
+        self.id = key
+        self.pk = key
+        self.char = char
+        self.solution = solution
+        self.link = link
+        self.is_guest = is_guest
+        self.shareable = shareable
+        self.name = name or char.name
+        self.char_name = char.char_name
+        self.char_class = char.char_class
+        self.level = char.level
+        self.link_shared = char.link_shared
+
+
 def _process_parameters(sets_params):
     return [x for x in sets_params.split('/') if x]
+
+
+def _resolve_compare_build(request, char_str):
+    game_version = getattr(request, 'game_version', 'dofus3')
+    if char_str.startswith('g'):
+        try:
+            generation_id = int(char_str[1:])
+        except (TypeError, ValueError):
+            raise Http404
+        generation = get_object_or_404(SolutionGeneration,
+                                       pk=generation_id,
+                                       game_version=game_version)
+        char = generation.char
+        if not char_belongs_to_user(request, char):
+            raise PermissionDenied
+        solution = get_generation_solution(char, generation)
+        if solution is None:
+            raise Http404
+        link = version_reverse(request, 'solution_generation', char.id, generation.id)
+        return _CompareBuild(
+            char_str,
+            char,
+            solution,
+            link,
+            True,
+            False,
+            '%s - %s' % (char.name, _('Saved generation')))
+
+    char = get_char_possibly_encoded_or_raise(request, char_str)
+    if char.game_version != game_version:
+        raise Http404
+    solution = get_solution(char)
+    if solution is None:
+        raise Http404
+    is_guest = not char_belongs_to_user(request, char)
+    link = generate_link(request, char) if is_guest else version_reverse(request, 'solution_2', char.pk)
+    return _CompareBuild(char.pk, char, solution, link, is_guest, char.link_shared)
+
 
 def compare_sets(request, sets_params):
     char_strs = _process_parameters(sets_params)
@@ -70,7 +125,7 @@ def compare_sets(request, sets_params):
     chars = []
     for char_str in char_strs:
         try:
-            chars.append(get_char_possibly_encoded_or_raise(request, char_str))
+            chars.append(_resolve_compare_build(request, char_str))
         except (Http404, PermissionDenied):
             # A build that was removed (or made private) since it was added to the
             # comparison cart: drop it and compare the rest instead of 404ing the
@@ -85,17 +140,13 @@ def compare_sets(request, sets_params):
     links = {}
     all_chars_are_shared = True
     for char in chars:
-        solution = get_solution(char)
+        solution = char.solution
         model_results[char.pk] = solution
         sol_result = SolutionResult(solution)
         solutions[char.pk] = sol_result.get_params()
-        is_guest[char.pk] = not char_belongs_to_user(request, char)
-        if not char_belongs_to_user(request, char):
-            links[char.pk] = generate_link(request, char)
-        else:
-            links[char.pk] = request.build_absolute_uri(reverse('solution_2',
-                                    args=(char.pk,)))
-        all_chars_are_shared = all_chars_are_shared and char.link_shared
+        is_guest[char.pk] = char.is_guest
+        links[char.pk] = request.build_absolute_uri(char.link)
+        all_chars_are_shared = all_chars_are_shared and char.shareable
     
     char_ids = [char.pk for char in chars]
     if len(char_ids) > 2:
@@ -401,10 +452,19 @@ def choose_compare_sets_post(request):
     for i, mystery_char_id in enumerate(links_digested):
         if not mystery_char_id:
             return _get_text_error_response(_('%s is not a valid share link') % links[i])
-        if mystery_char_id.isdigit():
+        if mystery_char_id.startswith('g') and mystery_char_id[1:].isdigit():
+            generation = get_or_none(SolutionGeneration, pk=int(mystery_char_id[1:]))
+            if not generation or generation.game_version != getattr(request, 'game_version', 'dofus3'):
+                return _get_text_error_response(_('%s does not refer to a valid project')
+                                                % links[i])
+            if not char_belongs_to_user(request, generation.char):
+                return _get_text_error_response(_('%s refers to someone else\'s project')
+                                                % links[i])
+            char_ids.append(mystery_char_id)
+        elif mystery_char_id.isdigit():
             char_id = int(mystery_char_id)
             char = get_or_none(Char, pk=char_id)
-            if not char:
+            if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
                 return _get_text_error_response(_('%s does not refer to a valid project')
                                                 % links[i])
             if not char_belongs_to_user(request, char):
@@ -419,6 +479,9 @@ def choose_compare_sets_post(request):
             if char_id is None:
                 return _get_text_error_response(_('%s is not a valid share link') % links[i])
             char = get_or_none(Char, pk=char_id)
+            if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
+                return _get_text_error_response(_('%s does not refer to a valid project')
+                                                % links[i])
             if not char.link_shared:
                 return _get_text_error_response(_('%s is not shared') % links[i])
             char_ids.append('s' + mystery_char_id)
@@ -429,7 +492,9 @@ def choose_compare_sets_post(request):
 
 def _process_link(l):
     parsed = urlparse(l)
-    path_pieces = parsed.path.split('/')
+    path_pieces = [piece for piece in parsed.path.split('/') if piece]
+    if len(path_pieces) >= 3 and path_pieces[-3] == 'solutiongeneration':
+        return 'g%s' % path_pieces[-1]
     for path_piece in reversed(path_pieces):
         if path_piece:
             return path_piece
@@ -439,8 +504,12 @@ def get_sharing_link(request, sets_params):
     char_strs = _process_parameters(sets_params)
     char_ids = []
     for char_str in char_strs:
+        if char_str.startswith('g'):
+            return _get_text_error_response(_('Saved generations cannot be shared directly.'))
         char_id, was_encoded = get_char_id_possibly_encoded(char_str)
         char = get_object_or_404(Char, pk=char_id)
+        if char.game_version != getattr(request, 'game_version', 'dofus3'):
+            return _get_text_error_response(_('Project %s is not in this game version.') % char_str)
         if char_belongs_to_user(request, char):
             # Share it, if still not shared.
             if not char.link_shared:

@@ -25,6 +25,7 @@ from chardata.inventory_solver import (get_inventory_solver_settings,
 from chardata.min_stats import get_min_stats_digested
 from chardata.models import CharBaseStats
 from chardata.solution import set_minimal_solution
+from chardata.solution_history import record_solution_generation
 from chardata.solution_memory import DatabaseSolutionMemory
 from chardata.stats_weights import get_stats_weights
 from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
@@ -161,6 +162,7 @@ def fashion(request, char_id, spells=False):
     if char.allow_points_distribution:
         set_stats(char, stats)
     set_minimal_solution(char, result)
+    record_solution_generation(char, result)
 
     if spells:
         return HttpResponseRedirect(version_reverse(request, 'spells', char.id))

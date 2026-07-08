@@ -20,6 +20,9 @@
             {% endif %}
         
             <div class="solution-item-icons">
+            {% if disable_solution_item_actions %}
+                <span class="solution-item-actions-disabled">{% trans "Saved generation" %}</span>
+            {% else %}
             {% if item.id %}
                 <img alt="" src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-button" title='{% trans "Lock" context "button name" %}'>
                 <img alt="" src="{% static "chardata/delete-icon.png" %}" class="solution-item-button solution-item-forbid-button" title='{% trans "Forbid" %}'>
@@ -28,6 +31,7 @@
             {% else %}
                 <img alt="" src="{% static "chardata/add-icon.png" %}" class="solution-item-button solution-item-add-button" title='{% trans "Add" %}'>
                 <img alt="" src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-empty-button" title='{% trans "Lock empty" %}'>
+            {% endif %}
             {% endif %}
             </div>
         </td>
@@ -63,7 +67,7 @@
             {% endfor %}
         {% endif %}
         </div>
-        {% if item.id %}
+        {% if item.id and not disable_solution_item_actions %}
         <div style="margin-top:6px;">
             <button type="button" id="stat-override-btn-sol-{{item.slot}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>
         </div>

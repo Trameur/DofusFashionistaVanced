@@ -236,6 +236,109 @@
     font-weight: bold;
 }
 
+.solution-item-actions-disabled {
+    display: inline-block;
+    font-size: 12px;
+    opacity: 0.75;
+    padding-top: 2px;
+}
+
+.solution-history-notice,
+.solution-history-panel {
+    max-width: 1180px;
+    margin: 10px auto 16px;
+    padding: 10px;
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 6px;
+}
+
+.solution-history-notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #3D200D;
+}
+
+.solution-history-notice-actions,
+.solution-history-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.solution-history-notice-actions form,
+.solution-history-actions form {
+    margin: 0;
+}
+
+.solution-history-link-button {
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.solution-history-panel-header {
+    margin-bottom: 8px;
+    color: #3D200D;
+}
+
+.solution-history-list {
+    display: grid;
+    gap: 8px;
+}
+
+.solution-history-entry {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid rgba(61, 32, 13, 0.16);
+    border-radius: 6px;
+}
+
+.solution-history-entry-current {
+    border-color: rgba(61, 32, 13, 0.45);
+}
+
+.solution-history-entry-date {
+    font-weight: bold;
+}
+
+.solution-history-entry-score {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    margin-top: 3px;
+}
+
+.solution-history-preview {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.solution-history-preview img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    .solution-history-notice,
+    .solution-history-entry {
+        display: block;
+    }
+
+    .solution-history-notice-actions,
+    .solution-history-actions,
+    .solution-history-preview {
+        margin-top: 8px;
+    }
+}
+
 .checkbox-text, .removing-div {
     font-weight: bold;
 }

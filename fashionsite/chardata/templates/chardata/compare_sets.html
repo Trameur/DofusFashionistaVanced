@@ -41,14 +41,7 @@
                             <div align="left" style="padding-left: 7px; padding-right: 7px;">
                         {% for char in chars %}
                             <b>{% blocktrans with n=forloop.counter %}Set {{n}}{% endblocktrans %}</b>: 
-                            <a 
-                            {% with guest=char_is_guest|get_item:char.id %}
-                               {% if guest %}
-                            href="{{ links|get_item:char.id }}"
-                               {% else %}
-                            href="{% game_url 'solution_2' char.id %}"
-                               {% endif %}
-                            {% endwith %}>{{ char.name }}</a><br>
+                            <a href="{{ links|get_item:char.id }}">{{ char.name }}</a><br>
                         {% endfor %}
                             </div>
                         </td>
@@ -320,10 +313,11 @@ $.each(compareSpellDigests, function(i, spell) {
 });
 {% for char_id in char_ids %}
 {% with dict=solutions|get_item:char_id %}
-allCharIds.push({{char_id}});
-allStatTotals[{{char_id}}] = {{dict.stats_total_json | safe}};
-allStatGears[{{char_id}}] = {{dict.stats_gear_json | safe}};
-allOptions[{{char_id}}] = {{dict.options_json | safe}}
+var compareCharId = "{{ char_id|escapejs }}";
+allCharIds.push(compareCharId);
+allStatTotals[compareCharId] = {{dict.stats_total_json | safe}};
+allStatGears[compareCharId] = {{dict.stats_gear_json | safe}};
+allOptions[compareCharId] = {{dict.options_json | safe}}
 {% endwith %}
 {% endfor %}
 

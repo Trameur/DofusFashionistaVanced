@@ -320,7 +320,11 @@
 
     {% if not is_guest %}
 
-    {% if is_generated %}
+    {% if is_generation_snapshot %}
+    <p class="text">
+        {% trans "This is a saved generation. Restore it to edit it, or compare it with your current build." %}
+    </p>
+    {% elif is_generated %}
     <p class="text">
     {% if char.char_name %}
         {% blocktrans with char.char_name as charname %}This is the set that we suggest for <b>{{charname}}</b>. {% endblocktrans %}
@@ -339,6 +343,7 @@
     </p>
     {% endif %}
 
+    {% if not is_generation_snapshot %}
     <div align="center">
         <div style="display: inline-block;">
             <button type="button" class="button-generic" style="margin-right: 5px;"
@@ -361,6 +366,7 @@
         </div>
     </div>
     <br>
+    {% endif %}
     {% else %}
     <p class="text">
     {% if owner_alias %}
@@ -414,6 +420,67 @@
     {% endif %}
     {% endif %}
 
+    {% if is_generation_snapshot %}
+    <div class="solution-history-notice">
+        <div>
+            <strong>{% trans "Viewing saved generation" %}</strong>
+            <span>{{ generation_created_time|date:"SHORT_DATETIME_FORMAT" }}</span>
+        </div>
+        <div class="solution-history-notice-actions">
+            <form method="post" action="{{ restore_generation_url }}">
+                {% csrf_token %}
+                <button type="submit" class="button-generic">{% trans "Restore" %}</button>
+            </form>
+            <a class="button-generic solution-history-link-button" href="{{ current_solution_url }}">{% trans "Back to current build" %}</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if generation_history %}
+    <div class="solution-history-panel">
+        <div class="solution-history-panel-header">
+            <strong>{% trans "Recent generations" %}</strong>
+        </div>
+        <div class="solution-history-list">
+            {% for generation in generation_history %}
+            <div class="solution-history-entry{% if generation.is_current_snapshot %} solution-history-entry-current{% endif %}">
+                <div class="solution-history-entry-main">
+                    <div class="solution-history-entry-date">{{ generation.created_time|date:"SHORT_DATETIME_FORMAT" }}</div>
+                    {% if generation.has_score %}
+                    <div class="solution-history-entry-score">
+                        <span>{% trans "Build score" %}</span>
+                        <strong>{{ generation.score }}</strong>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="solution-history-preview">
+                    {% for item in generation.preview_items %}
+                    <img src="{{ item.image_url }}" alt="{{ item.name }}" title="{{ item.name }}">
+                    {% endfor %}
+                </div>
+                <div class="solution-history-actions">
+                    {% trans "Saved generation" as saved_generation_label %}
+                    <a class="button-generic solution-history-link-button" href="{{ generation.view_url }}">{% trans "Open" %}</a>
+                    <a class="button-generic solution-history-link-button" href="{{ generation.compare_with_current_url }}">{% trans "Compare with current" %}</a>
+                    <button type="button" class="button-generic"
+                            data-compare-add
+                            data-build-id="{{ generation.compare_id }}"
+                            data-build-name="{{ char.char_name|default:char.name }} - {{ saved_generation_label }}"
+                            data-build-cls="{{ char.char_class }}"
+                            data-build-level="{{ char.level }}"
+                            data-build-avatar="{{ class_avatar }}"
+                            data-build-base="{{ api_base }}">+ {% trans "Add to comparison" %}</button>
+                    <form method="post" action="{{ generation.restore_url }}">
+                        {% csrf_token %}
+                        <button type="submit" class="button-generic">{% trans "Restore" %}</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <table class="solution-table"><tr>
     <td class="solution-item-summary">
 
@@ -438,7 +505,7 @@
     {% endfor %}
     </div>
 
-    {% if not is_guest %}
+    {% if not is_guest and not is_generation_snapshot %}
     <div align="center">
 
     <a href="{% game_url 'fashion' char_id %}" style='color: white; text-decoration: none; margin:10px;' class='submit-button button-generic rerun-button'><img src="{% static 'chardata/1413454601_needle.png' %}" class="button-img" alt="">{% trans "Tailor a New Set" %}</a>
@@ -446,7 +513,7 @@
     </div>
     {% endif %}
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and not is_generation_snapshot %}
     <div align="center" style="margin-top: 8px;">
         <button id="add_to_workshop_btn" type="button" class="button-generic" onclick="addSolutionToWorkshop();">
             {% trans "Add all items to my Workshop" %}

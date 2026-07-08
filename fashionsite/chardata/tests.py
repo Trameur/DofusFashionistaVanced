@@ -2112,28 +2112,181 @@ class SharedSolutionPageTests(TestCase):
         from django.contrib.auth.models import User
         from chardata.models import Char
         from chardata.encoded_char_id import encode_char_id
+        from chardata.solution import get_solution
+        from chardata.solution_scores import calculate_project_build_score
         from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
         owner = User.objects.create_user('scorer', 'score@test.local', 'pw-42-solid')
+        structure = get_structure('dofus3')
+        hat = None
+        scored_stat_key = None
+        for candidate in structure.get_unique_items_by_type_and_level('Hat', 200):
+            for stat_id, value in candidate.stats:
+                stat = structure.get_stat_by_id(stat_id)
+                if not candidate.removed and stat is not None and value > 0:
+                    hat = candidate
+                    scored_stat_key = stat.key
+                    break
+            if hat is not None:
+                break
+        self.assertIsNotNone(hat)
         input_ = {'options': {'ap_exo': False, 'mp_exo': False},
                   'origin': 'generated', 'char_level': 200,
-                  'base_stats_by_attr': {'Vitality': 100},
+                  'base_stats_by_attr': {},
                   'locked_equips': {}}
         build = Char.objects.create(
             name='Score', char_name='score', char_class='Iop',
             char_build='build', level=200,
             minimum_stats=b'', minimum_crits=b'',
-            stats_weight=_pickle.dumps({'vit': 2}),
+            stats_weight=_pickle.dumps({scored_stat_key: 2}),
             options=b'', inclusions=b'', exclusions=b'',
-            minimal_solution=_pickle.dumps(ModelResultMinimal({}, input_, {})),
+            minimal_solution=_pickle.dumps(ModelResultMinimal({'hat': hat.id}, input_, {})),
             owner=owner, link_shared=True, game_version='dofus3')
+        expected_score = calculate_project_build_score(build, get_solution(build))
 
         before = Char.objects.get(pk=build.pk).modified_time
         resp = self.client.get('/s/score/%s/' % encode_char_id(build.pk))
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Build score')
-        self.assertContains(resp, '200')
+        self.assertContains(resp, str(expected_score))
         self.assertEqual(Char.objects.get(pk=build.pk).modified_time, before,
                          'showing the score must not re-save shared builds')
+
+
+class BuildScoreTests(SimpleTestCase):
+
+    def test_public_score_weights_major_stats_more_than_elemental_points(self):
+        from chardata.solution_scores import (GENERIC_BUILD_WEIGHTS,
+                                              calculate_score_from_stats)
+        ap_score = calculate_score_from_stats({'ap': 1, 'cha': 0}, GENERIC_BUILD_WEIGHTS)
+        chance_score = calculate_score_from_stats({'ap': 0, 'cha': 1}, GENERIC_BUILD_WEIGHTS)
+        self.assertGreater(ap_score, chance_score * 50)
+
+
+class SolutionGenerationHistoryTests(TestCase):
+    """Generated sets should be kept as private, comparable snapshots."""
+
+    @staticmethod
+    def _base_input():
+        return {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated',
+            'char_level': 200,
+            'base_stats_by_attr': {
+                'Vitality': 0,
+                'Wisdom': 0,
+                'Strength': 0,
+                'Intelligence': 0,
+                'Chance': 0,
+                'Agility': 0,
+            },
+            'locked_equips': {},
+        }
+
+    def _build_char_with_items(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        hats = [
+            item for item in structure.get_unique_items_by_type_and_level('Hat', 200)
+            if not item.removed and item.ankama_id
+        ][:12]
+        self.assertGreaterEqual(len(hats), 2)
+        owner = User.objects.create_user('historyowner', 'hist@test.local', 'pw-42-solid')
+        current_minimal = ModelResultMinimal({'hat': hats[0].id}, self._base_input(), {})
+        char = Char.objects.create(
+            name='HistoryBuild', char_name='history', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'vit': 1, 'str': 1, 'int': 1, 'cha': 1, 'agi': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(current_minimal),
+            owner=owner, link_shared=True, game_version='dofus3')
+        return owner, char, hats
+
+    def test_record_solution_generation_keeps_last_ten(self):
+        from chardata.models import SolutionGeneration
+        from chardata.solution_history import record_solution_generation
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner, char, hats = self._build_char_with_items()
+
+        created_ids = []
+        for idx, hat in enumerate(hats):
+            generation = record_solution_generation(
+                char,
+                ModelResultMinimal({'hat': hat.id}, self._base_input(), {'str': idx}))
+            created_ids.append(generation.id)
+
+        kept_ids = list(SolutionGeneration.objects
+                        .filter(char=char)
+                        .order_by('id')
+                        .values_list('id', flat=True))
+        self.assertEqual(len(kept_ids), 10)
+        self.assertEqual(kept_ids, created_ids[-10:])
+
+    def test_solution_page_lists_saved_generations(self):
+        from chardata.solution_history import record_solution_generation
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner, char, hats = self._build_char_with_items()
+        generation = record_solution_generation(
+            char,
+            ModelResultMinimal({'hat': hats[1].id}, self._base_input(), {}))
+        self.client.force_login(owner)
+
+        resp = self.client.get('/solution/%d/' % char.pk)
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Recent generations')
+        self.assertContains(resp, 'g%d' % generation.pk)
+        self.assertContains(resp, 'Compare with current')
+
+    def test_saved_generation_can_be_opened_compared_and_restored(self):
+        import pickle as _pickle
+        from chardata.solution_history import record_solution_generation
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner, char, hats = self._build_char_with_items()
+        old_minimal = ModelResultMinimal({'hat': hats[1].id}, self._base_input(), {})
+        generation = record_solution_generation(char, old_minimal)
+        self.client.force_login(owner)
+
+        snapshot_resp = self.client.get('/solutiongeneration/%d/%d/' % (char.pk, generation.pk))
+        self.assertEqual(snapshot_resp.status_code, 200)
+        self.assertContains(snapshot_resp, 'Viewing saved generation')
+        self.assertContains(snapshot_resp, 'This is a saved generation')
+
+        compare_resp = self.client.get('/compare_sets/%d/g%d/' % (char.pk, generation.pk))
+        self.assertEqual(compare_resp.status_code, 200)
+        self.assertEqual(compare_resp.context['char_ids'], [char.pk, 'g%d' % generation.pk])
+        self.assertContains(compare_resp, 'Saved generation')
+
+        restore_resp = self.client.post('/restoregeneration/%d/%d/' % (char.pk, generation.pk))
+        self.assertEqual(restore_resp.status_code, 302)
+        char.refresh_from_db()
+        restored = _pickle.loads(char.minimal_solution)
+        self.assertEqual(restored.item_per_slot.get('hat'), hats[1].id)
+
+    def test_compare_post_accepts_generation_links(self):
+        import json
+        from chardata.solution_history import record_solution_generation
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner, char, hats = self._build_char_with_items()
+        generation = record_solution_generation(
+            char,
+            ModelResultMinimal({'hat': hats[1].id}, self._base_input(), {}))
+        self.client.force_login(owner)
+
+        resp = self.client.post('/choose_compare_sets_post/',
+                                {'links': json.dumps([
+                                    '/solution/%d/' % char.pk,
+                                    '/solutiongeneration/%d/%d/' % (char.pk, generation.pk),
+                                ])})
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content.decode('utf-8'),
+                         '/compare_sets/%d/g%d' % (char.pk, generation.pk))
 
 
 class SharedSolutionPageDeepTests(TestCase):
