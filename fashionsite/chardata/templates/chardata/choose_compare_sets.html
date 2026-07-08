@@ -11,9 +11,109 @@
 {% block main %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+.compare-picker {
+    margin: 0 auto 18px;
+    max-width: 960px;
+}
+.compare-picker-intro {
+    margin: 0 0 10px;
+    text-align: center;
+}
+.compare-picker-sections {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.compare-picker-section {
+    border: 1px solid rgba(61, 32, 13, 0.24);
+    border-radius: 6px;
+    padding: 10px;
+}
+.compare-picker-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.compare-picker-list {
+    display: grid;
+    gap: 6px;
+}
+.compare-build-choice-card {
+    align-items: flex-start;
+    border: 1px solid rgba(61, 32, 13, 0.18);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+}
+.compare-build-choice-card.selected {
+    border-color: #6c9b3d;
+    box-shadow: inset 0 0 0 1px #6c9b3d;
+}
+.compare-build-name {
+    display: block;
+    font-weight: 700;
+}
+.compare-build-meta,
+.compare-picker-empty {
+    opacity: 0.78;
+    font-size: 0.9em;
+}
+.compare-manual-title {
+    font-weight: 700;
+    margin-top: 16px;
+    text-align: center;
+}
+.dark-theme-active .compare-picker-section,
+.dark-theme-active .compare-build-choice-card {
+    border-color: #5a5a5a;
+}
+.dark-theme-active .compare-build-choice-card.selected {
+    border-color: #a9e58f;
+    box-shadow: inset 0 0 0 1px #a9e58f;
+}
+</style>
 
 <h1 align="center">{% trans "Choose sets to compare" %}</h1>
 
+{% trans "Choose at most 4 builds to compare" as too_many_builds_error %}
+<script>
+var compareTooManyBuildsError = "{{ too_many_builds_error|escapejs }}";
+</script>
+
+{% if user.is_authenticated %}
+<div class="compare-picker text">
+    <p class="compare-picker-intro">{% trans "Select 2 to 4 builds below, or paste solution/share links manually." %}</p>
+    <div class="compare-picker-sections">
+        {% for section in compare_picker_sections %}
+        <section class="compare-picker-section">
+            <div class="compare-picker-title">{{ section.title }}</div>
+            {% if section.builds %}
+            <div class="compare-picker-list">
+                {% for build in section.builds %}
+                <label class="compare-build-choice-card">
+                    <input type="checkbox" class="compare-build-choice" value="{{ build.link }}">
+                    <span>
+                        <span class="compare-build-name">{{ build.name }}</span>
+                        <span class="compare-build-meta">{{ build.char_class }} &middot; {% trans "level" %} {{ build.level }} &middot; {{ build.build }}</span>
+                    </span>
+                </label>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="compare-picker-empty">{{ section.empty }}</p>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<p class="text" align="center">{% trans "Log in to pick from your builds, favorites and likes." %}</p>
+{% endif %}
+
+<div class="compare-manual-title text">{% trans "Manual links" %}</div>
 <p class="text">{% blocktrans %}To compare projects that you own, type the project name or paste a link to the solution such as:{% endblocktrans %}<br>
 <span class="link-text">http://dofusfashionista.com/solution/12345/</span><br><br>
 {% blocktrans %}To compare other people's projects paste the sharing link, for example:{% endblocktrans %}<br>
@@ -47,13 +147,34 @@ function setError(error) {
     $("#error-text").text(error);
 }
 
-function onCompareClick() {
+function addCompareLink(links, seenLinks, link) {
+    link = $.trim(link || "");
+    if (link && !seenLinks[link]) {
+        links.push(link);
+        seenLinks[link] = true;
+    }
+}
+
+function getCompareLinks() {
     var links = [];
+    var seenLinks = {};
+
+    $(".compare-build-choice:checked").each(function() {
+        addCompareLink(links, seenLinks, $(this).val());
+    });
+
     for (var i = 0; i < 4; i++) {
         var link = $("#compare-link-input-" + i).val();
-        if (link) {
-            links.push(link);
-        }
+        addCompareLink(links, seenLinks, link);
+    }
+    return links;
+}
+
+function onCompareClick() {
+    var links = getCompareLinks();
+    if (links.length > 4) {
+        setError(compareTooManyBuildsError);
+        return;
     }
     $.ajax({type: "POST",
            url: "{% game_url 'choose_compare_sets_post' %}",
@@ -75,6 +196,11 @@ function onCompareClick() {
 
 $(document).ready(function() {
     $("#compare-button").click(onCompareClick);
+
+    $(".compare-build-choice").change(function() {
+        $(this).closest(".compare-build-choice-card").toggleClass("selected", this.checked);
+        setError('');
+    });
     
     $(".compare-link-input").each(function() {
     
@@ -102,4 +228,3 @@ $(document).ready(function() {
 
 </script>
 {% endblock %}
-

@@ -7491,3 +7491,44 @@ msgstr "Procurar um conjunto ou item"
 #: chardata/templates/chardata/encyclopedia_sets.html
 msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
 msgstr "Explore todos os conjuntos de Dofus e seus bônus. Encontre um conjunto pelo nome ou por um de seus itens e monte-o com o Dofus Fashionista."
+
+#: chardata/compare_sets_view.py
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Choose at most 4 builds to compare"
+msgstr "Escolha no maximo 4 builds para comparar"
+
+#: chardata/compare_sets_view.py
+msgid "My builds"
+msgstr "Minhas builds"
+
+#: chardata/compare_sets_view.py
+msgid "No saved builds with a solution yet."
+msgstr "Ainda nao ha builds salvas com uma solucao."
+
+#: chardata/compare_sets_view.py
+msgid "No favorite builds for this version yet."
+msgstr "Ainda nao ha builds favoritas para esta versao."
+
+#: chardata/compare_sets_view.py
+msgid "No liked builds for this version yet."
+msgstr "Ainda nao ha builds curtidas para esta versao."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Select 2 to 4 builds below, or paste solution/share links manually."
+msgstr "Selecione de 2 a 4 builds abaixo, ou cole links de solucao/compartilhamento manualmente."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Log in to pick from your builds, favorites and likes."
+msgstr "Entre para escolher entre suas builds, favoritos e likes."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Manual links"
+msgstr "Links manuais"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Saved builds in set comparisons"
+msgstr "Builds salvas nas comparacoes"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Start a comparison from your saved builds, favorites and likes, or keep pasting links manually."
+msgstr "Inicie uma comparacao pelas suas builds salvas, favoritos e likes, ou continue colando links manualmente."

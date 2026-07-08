@@ -7498,5 +7498,46 @@ msgstr "Buscar un set o un objeto"
 msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
 msgstr "Explora todos los sets de Dofus y sus bonus. Encuentra un set por su nombre o por uno de sus objetos y constrúyelo con el Dofus Fashionista."
 
+#: chardata/compare_sets_view.py
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Choose at most 4 builds to compare"
+msgstr "Elige como maximo 4 builds para comparar"
+
+#: chardata/compare_sets_view.py
+msgid "My builds"
+msgstr "Mis builds"
+
+#: chardata/compare_sets_view.py
+msgid "No saved builds with a solution yet."
+msgstr "Aun no hay builds guardadas con una solucion."
+
+#: chardata/compare_sets_view.py
+msgid "No favorite builds for this version yet."
+msgstr "Aun no hay builds favoritas para esta version."
+
+#: chardata/compare_sets_view.py
+msgid "No liked builds for this version yet."
+msgstr "Aun no hay builds con like para esta version."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Select 2 to 4 builds below, or paste solution/share links manually."
+msgstr "Selecciona de 2 a 4 builds abajo, o pega enlaces de solucion/compartidos manualmente."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Log in to pick from your builds, favorites and likes."
+msgstr "Inicia sesion para elegir entre tus builds, favoritos y likes."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Manual links"
+msgstr "Enlaces manuales"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Saved builds in set comparisons"
+msgstr "Builds guardadas en comparaciones"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Start a comparison from your saved builds, favorites and likes, or keep pasting links manually."
+msgstr "Inicia una comparacion desde tus builds guardadas, favoritos y likes, o sigue pegando enlaces manualmente."
+
 #~ msgid "If a Bomba de agua is present"
 #~ msgstr "Si una bomba está presente"

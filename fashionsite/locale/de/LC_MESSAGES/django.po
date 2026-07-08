@@ -7486,3 +7486,44 @@ msgstr "Set oder Item suchen"
 #: chardata/templates/chardata/encyclopedia_sets.html
 msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
 msgstr "Durchstöbere alle Dofus-Sets (Panoplien) und ihre Boni. Finde ein Set über seinen Namen oder eines seiner Items und baue es mit dem Dofus Fashionista."
+
+#: chardata/compare_sets_view.py
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Choose at most 4 builds to compare"
+msgstr "Waehle hoechstens 4 Builds zum Vergleichen aus"
+
+#: chardata/compare_sets_view.py
+msgid "My builds"
+msgstr "Meine Builds"
+
+#: chardata/compare_sets_view.py
+msgid "No saved builds with a solution yet."
+msgstr "Noch keine gespeicherten Builds mit einer Loesung."
+
+#: chardata/compare_sets_view.py
+msgid "No favorite builds for this version yet."
+msgstr "Noch keine Favoriten-Builds fuer diese Version."
+
+#: chardata/compare_sets_view.py
+msgid "No liked builds for this version yet."
+msgstr "Noch keine gelikten Builds fuer diese Version."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Select 2 to 4 builds below, or paste solution/share links manually."
+msgstr "Waehle unten 2 bis 4 Builds aus oder fuege Loesungs-/Teilen-Links manuell ein."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Log in to pick from your builds, favorites and likes."
+msgstr "Melde dich an, um aus deinen Builds, Favoriten und Likes zu waehlen."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Manual links"
+msgstr "Manuelle Links"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Saved builds in set comparisons"
+msgstr "Gespeicherte Builds im Set-Vergleich"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Start a comparison from your saved builds, favorites and likes, or keep pasting links manually."
+msgstr "Starte einen Vergleich aus deinen gespeicherten Builds, Favoriten und Likes, oder fuege Links weiter manuell ein."

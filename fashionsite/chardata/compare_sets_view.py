@@ -26,7 +26,7 @@ import jsonpickle
 from urllib.parse import urlencode, urlparse
 
 from chardata.encoded_char_id import decode_char_id, encode_char_id
-from chardata.models import Char
+from chardata.models import BuildVote, Char
 from chardata.solution import get_solution
 from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
@@ -55,6 +55,7 @@ TYPE_ORDER = [
 ]
 
 COMPARE_SHARE_QUERY_KEYS = ('spell_class', 'spell_name')
+COMPARE_PICKER_LIMIT = 24
 
 NON_DAMAGE_PREVIEW_ELEMENTS = {
     'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
@@ -284,7 +285,9 @@ def _sort_items(solutions):
     return result
 
 def choose_compare_sets(request):
-    params = {}
+    params = {
+        'compare_picker_sections': _build_compare_picker_sections(request),
+    }
              
     for i in range(4):
         char_id = request.POST.get('char%d' % i, None)
@@ -295,23 +298,109 @@ def choose_compare_sets(request):
                         'chardata/choose_compare_sets.html',
                         params)
 
+
+def _build_compare_picker_sections(request):
+    if not request.user.is_authenticated:
+        return []
+
+    game_version = getattr(request, 'game_version', 'dofus3')
+    own_builds = (Char.objects
+                  .filter(owner=request.user, deleted=False, game_version=game_version)
+                  .exclude(minimal_solution=b'')
+                  .order_by('-modified_time')[:COMPARE_PICKER_LIMIT])
+
+    favorite_votes = (BuildVote.objects
+                      .filter(user=request.user, vote_type='favorite',
+                              build__deleted=False, build__game_version=game_version)
+                      .exclude(build__minimal_solution=b'')
+                      .select_related('build')
+                      .order_by('-created_time')[:COMPARE_PICKER_LIMIT])
+    liked_votes = (BuildVote.objects
+                   .filter(user=request.user, vote_type='like',
+                           build__deleted=False, build__game_version=game_version)
+                   .exclude(build__minimal_solution=b'')
+                   .select_related('build')
+                   .order_by('-created_time')[:COMPARE_PICKER_LIMIT])
+
+    return [
+        {
+            'key': 'owned',
+            'title': _('My builds'),
+            'empty': _('No saved builds with a solution yet.'),
+            'builds': _compare_picker_entries(request, own_builds),
+        },
+        {
+            'key': 'favorites',
+            'title': _('Favorites'),
+            'empty': _('No favorite builds for this version yet.'),
+            'builds': _compare_picker_entries(
+                request, (vote.build for vote in favorite_votes)),
+        },
+        {
+            'key': 'likes',
+            'title': _('Likes'),
+            'empty': _('No liked builds for this version yet.'),
+            'builds': _compare_picker_entries(
+                request, (vote.build for vote in liked_votes)),
+        },
+    ]
+
+
+def _compare_picker_entries(request, chars):
+    entries = []
+    seen = set()
+    for char in chars:
+        if char.pk in seen:
+            continue
+        seen.add(char.pk)
+        link = _compare_picker_link(request, char)
+        if not link:
+            continue
+        entries.append({
+            'id': char.pk,
+            'name': char.name,
+            'char_class': LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class),
+            'level': char.level,
+            'build': char.char_build,
+            'link': link,
+        })
+    return entries
+
+
+def _compare_picker_link(request, char):
+    if char_belongs_to_user(request, char):
+        return version_reverse(request, 'solution_2', char.pk)
+    if char.link_shared:
+        return generate_link(request, char)
+    return ''
+
 @require_POST
 def choose_compare_sets_post(request):
     links_json = request.POST.get('links', None)
     if links_json is None:
         return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
     try:
-        links = json.loads(links_json)
+        parsed_links = json.loads(links_json)
+        if not isinstance(parsed_links, list):
+            raise ValueError
+        links = [
+            link.strip() for link in parsed_links
+            if isinstance(link, str) and link.strip()
+        ]
     except (ValueError, TypeError):
         return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
     links_digested = [_process_link(l) for l in links]
     
     if len(links_digested) <= 1:
         return _get_text_error_response(_('Paste links of at least 2 projects to compare'))
+    if len(links_digested) > 4:
+        return _get_text_error_response(_('Choose at most 4 builds to compare'))
 
     # Validation
     char_ids = []
     for i, mystery_char_id in enumerate(links_digested):
+        if not mystery_char_id:
+            return _get_text_error_response(_('%s is not a valid share link') % links[i])
         if mystery_char_id.isdigit():
             char_id = int(mystery_char_id)
             char = get_or_none(Char, pk=char_id)
@@ -411,7 +500,9 @@ def compare_set_search_proj_name(request):
     name_piece = request.POST.get('name[term]', None)
     
     if (request.user is not None and not request.user.is_anonymous):
-        chars = Char.objects.filter(owner=request.user)
+        chars = Char.objects.filter(
+            owner=request.user,
+            game_version=getattr(request, 'game_version', 'dofus3'))
         chars = chars.exclude(deleted=True)
         
         char_list = []
@@ -426,4 +517,4 @@ def compare_set_search_proj_name(request):
     return JsonResponse(char_list, safe=False)
 
 def _get_text_error_response(cause):
-    return HttpResponseText('Error')
+    return HttpResponseText('Error: %s' % cause)

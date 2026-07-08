@@ -7952,6 +7952,47 @@ msgstr "Rechercher une panoplie ou un objet"
 msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
 msgstr "Parcourez toutes les panoplies Dofus et leurs bonus. Retrouvez une panoplie par son nom ou par l'un de ses objets, puis créez-la avec le Dofus Fashionista."
 
+#: chardata/compare_sets_view.py
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Choose at most 4 builds to compare"
+msgstr "Choisis au maximum 4 builds a comparer"
+
+#: chardata/compare_sets_view.py
+msgid "My builds"
+msgstr "Mes builds"
+
+#: chardata/compare_sets_view.py
+msgid "No saved builds with a solution yet."
+msgstr "Aucun build enregistre avec une solution pour le moment."
+
+#: chardata/compare_sets_view.py
+msgid "No favorite builds for this version yet."
+msgstr "Aucun build favori pour cette version pour le moment."
+
+#: chardata/compare_sets_view.py
+msgid "No liked builds for this version yet."
+msgstr "Aucun build aime pour cette version pour le moment."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Select 2 to 4 builds below, or paste solution/share links manually."
+msgstr "Selectionne 2 a 4 builds ci-dessous, ou colle des liens de solution/partage a la main."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Log in to pick from your builds, favorites and likes."
+msgstr "Connecte-toi pour choisir parmi tes builds, tes favoris et tes likes."
+
+#: chardata/templates/chardata/choose_compare_sets.html
+msgid "Manual links"
+msgstr "Liens manuels"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Saved builds in set comparisons"
+msgstr "Builds enregistres dans les comparatifs"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Start a comparison from your saved builds, favorites and likes, or keep pasting links manually."
+msgstr "Lance un comparatif depuis tes builds enregistres, tes favoris et tes likes, ou continue a coller des liens a la main."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

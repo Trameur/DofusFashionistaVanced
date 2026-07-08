@@ -1130,6 +1130,125 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class ChooseCompareSetsPickerTests(TestCase):
+    """The comparison chooser should expose saved builds from the current
+    version without leaking private ids from other users."""
+
+    @staticmethod
+    def _minimal_solution():
+        import pickle as _pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        input_ = {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated',
+            'char_level': 200,
+            'base_stats_by_attr': {
+                'Vitality': 0,
+                'Wisdom': 0,
+                'Strength': 0,
+                'Intelligence': 0,
+                'Chance': 0,
+                'Agility': 0,
+            },
+            'locked_equips': {},
+        }
+        return _pickle.dumps(ModelResultMinimal({}, input_, {}))
+
+    def _make_char(self, owner, name, game_version='dofus3',
+                   link_shared=False, has_solution=True):
+        from chardata.models import Char
+        return Char.objects.create(
+            name=name, char_name=name.lower().replace(' ', '-'),
+            char_class='Iop', char_build='Damage', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=(self._minimal_solution() if has_solution else b''),
+            owner=owner, link_shared=link_shared, game_version=game_version)
+
+    def test_logged_in_picker_lists_owned_favorite_and_liked_builds_for_current_version(self):
+        from django.contrib.auth.models import User
+        from chardata.models import BuildVote
+        user = User.objects.create_user('comparepicker', 'cp@test.local', 'pw-42-solid')
+        other = User.objects.create_user('otherpicker', 'op@test.local', 'pw-42-solid')
+        own = self._make_char(user, 'Retro Own', game_version='retro')
+        favorite = self._make_char(other, 'Retro Favorite', game_version='retro',
+                                   link_shared=True)
+        liked = self._make_char(other, 'Retro Like', game_version='retro',
+                                link_shared=True)
+        self._make_char(user, 'Dofus3 Own', game_version='dofus3')
+        self._make_char(user, 'No Solution', game_version='retro', has_solution=False)
+        BuildVote.objects.create(user=user, build=favorite, vote_type='favorite')
+        BuildVote.objects.create(user=user, build=liked, vote_type='like')
+        self.client.force_login(user)
+
+        resp = self.client.get('/retro/choose_compare_sets/')
+        self.assertEqual(resp.status_code, 200)
+        sections = {
+            section['key']: section
+            for section in resp.context['compare_picker_sections']
+        }
+
+        self.assertEqual([entry['name'] for entry in sections['owned']['builds']],
+                         ['Retro Own'])
+        self.assertEqual([entry['name'] for entry in sections['favorites']['builds']],
+                         ['Retro Favorite'])
+        self.assertEqual([entry['name'] for entry in sections['likes']['builds']],
+                         ['Retro Like'])
+        self.assertEqual(sections['owned']['builds'][0]['link'],
+                         '/retro/solution/%d/' % own.pk)
+        self.assertIn('/retro/s/retro-favorite/',
+                      sections['favorites']['builds'][0]['link'])
+        html = resp.content.decode('utf-8')
+        self.assertIn('Retro Own', html)
+        self.assertNotIn('Dofus3 Own', html)
+        self.assertNotIn('No Solution', html)
+
+    def test_anonymous_picker_keeps_manual_flow(self):
+        resp = self.client.get('/choose_compare_sets/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8')
+        self.assertIn('Log in to pick from your builds, favorites and likes.', html)
+        self.assertIn('Manual links', html)
+
+    def test_post_rejects_too_many_links_with_visible_error(self):
+        import json
+        links = [
+            'http://testserver/solution/%d/' % i
+            for i in range(1, 6)
+        ]
+        resp = self.client.post('/choose_compare_sets_post/',
+                                {'links': json.dumps(links)})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content.decode('utf-8'),
+                         'Error: Choose at most 4 builds to compare')
+
+    def test_post_errors_keep_ajax_prefix(self):
+        import json
+        resp = self.client.post('/choose_compare_sets_post/',
+                                {'links': json.dumps([])})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.content.decode('utf-8').startswith('Error: '))
+
+    def test_post_rejects_malformed_link_without_500(self):
+        import json
+        resp = self.client.post('/choose_compare_sets_post/',
+                                {'links': json.dumps(['////', '/solution/1/'])})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.content.decode('utf-8').startswith('Error: '))
+
+    def test_name_search_only_returns_current_version_builds(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('versionsearch', 'vs@test.local', 'pw-42-solid')
+        retro = self._make_char(user, 'Own Retro Search', game_version='retro')
+        self._make_char(user, 'Own Dofus3 Search', game_version='dofus3')
+        self.client.force_login(user)
+
+        resp = self.client.post('/retro/compare_set_search_proj_name/',
+                                {'name[term]': 'Own'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json(), [{'label': 'Own Retro Search', 'idx': retro.pk}])
+
+
 class WorkshopTests(TestCase):
     """The workshop aggregates the items a player wants to craft; cover the
     add endpoint happy path, its error paths and the auth guard."""
