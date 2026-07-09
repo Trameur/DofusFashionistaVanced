@@ -677,6 +677,16 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 6.5,
             },
         },
+        # Sram 1.29: earth is the stated best path (earth traps carry the
+        # early game, then Deadly Attack, the kit's biggest hit, 41-60 checked
+        # against the lang; strength raised to 200-300 then vitality/agility).
+        # Sources: Breakflip, Millenium, Guidactik, Gamosaurus, jeuxonline
+        # Sram 1.29 guides and the dofus.com Sram Terre thread.
+        'Sram': {
+            'str': {
+                'earthdam': 6.5,
+            },
+        },
     },
 }
 
