@@ -119,11 +119,20 @@ def main():
                     "SELECT language, name FROM item_names WHERE item = ?", (pet_id,)).fetchall():
                 base_names[lang] = name
 
+            base_stats = set(cursor.execute(
+                "SELECT stat, value FROM stats_of_item WHERE item = ?",
+                (pet_id,)).fetchall())
+
             for entry in entries:
                 stat_name, value = entry[0], int(entry[1])
                 stat_id = stat_id_by_name.get(stat_name)
                 if stat_id is None:
                     print('  ! unknown stat %r for %s, skipping' % (stat_name, pet_name))
+                    continue
+                # Some pets already carry their maxed bonus as datacenter
+                # stats (Sirocco 160 agi...): a variant duplicating the base
+                # item would just clutter the pool.
+                if (stat_id, value) in base_stats:
                     continue
                 is_percent = stat_name.strip().startswith('%')
                 variant_id = next_id
