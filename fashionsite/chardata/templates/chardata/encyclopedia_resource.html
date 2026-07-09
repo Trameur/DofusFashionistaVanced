@@ -69,6 +69,13 @@
     object-fit: contain;
     flex: 0 0 auto;
 }
+.resource-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 8px;
+}
 .drop-rate {
     opacity: 0.7;
     font-size: 0.9em;
@@ -115,7 +122,7 @@
     </nav>
 
     <div class="encyclopedia-item-card brown-box">
-        <div class="encyclopedia-item-name">{{ resource.name }}</div>
+        <div class="encyclopedia-item-name">{% if resource_image %}<img class="resource-icon" src="{{ resource_image }}" alt="" onerror="this.style.display='none'">{% endif %}{{ resource.name }}</div>
         <div class="encyclopedia-item-meta">{{ resource.kind_label }}</div>
 
         <div class="encyclopedia-section">

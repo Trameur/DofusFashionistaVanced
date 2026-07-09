@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
-from chardata.image_store import get_image_url
+from chardata.image_store import get_image_url, _static_exists
 from chardata.official_site import (
     get_item_link, get_monster_link, get_resource_link, get_set_link)
 from chardata.stat_icons import get_stat_icon_path
@@ -2343,6 +2343,15 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         t['resource_kind_label'] if subtype == 'resources'
         else t.get('ingredient_kind_label', t['resource_kind_label']))
 
+    # Ingredient icons are stored by ankama id under resources/60x60, shared by
+    # dofus3 and beta (same id space). Other versions have their own item id
+    # spaces, so showing the dofus3 art there could be the wrong item.
+    resource_image = None
+    if game_version in ('dofus3', 'beta'):
+        icon_rel = 'chardata/resources/60x60/%d-60-60.png' % target_ankama_id
+        if _static_exists(icon_rel):
+            resource_image = static(icon_rel)
+
     return set_response(
         request,
         'chardata/encyclopedia_resource.html',
@@ -2358,6 +2367,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 'subtype': subtype,
                 'ankama_id': target_ankama_id,
             },
+            'resource_image': resource_image,
             'used_in': used_in,
             'drops': drops,
         })

@@ -194,6 +194,7 @@ def main() -> None:
 
     if do_images:
         step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)  # --game-version defaults to dofus3
+        step("resource-icons", [PY, "download_resource_icons.py"], cwd=ITEMSCRAPER)
 
     if do_data:
         step("spells/download", [
