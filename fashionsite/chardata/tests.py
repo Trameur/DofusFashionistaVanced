@@ -486,6 +486,20 @@ class PublicRouteSmokeTests(TestCase):
                           resp.content.decode('utf-8')).group(1)
         self.assertIn('Dofus Fashionista', title)
 
+    def test_craft_line_shows_the_profession(self):
+        # Twiggy Sword is a Smith recipe.
+        resp = self.client.get('/encyclopedia/item/equipment/44-x/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Crafted by')
+        self.assertContains(resp, 'Smith')
+
+    def test_base_job_recipes_hide_the_craft_line(self):
+        # Musamune is a "Base" (job 1) recipe: a special workbench craft no
+        # player profession can learn, so no "Crafted by" line.
+        resp = self.client.get('/encyclopedia/item/equipment/23590-x/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotContains(resp, 'Crafted by')
+
     def test_encyclopedia_search_filters_results(self):
         # The WebSite SearchAction points google at /encyclopedia/?q=...; the
         # search must actually filter (a broken filter would surface directly

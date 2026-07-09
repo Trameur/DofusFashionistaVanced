@@ -1016,6 +1016,8 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_craft_jobs'"
         )
         if cursor.fetchone() is not None:
+            # Job 1 ("Base") is Ankama's placeholder for special workbench
+            # recipes no player profession can learn; hide the craft line.
             cursor.execute(
                 """
                 SELECT cj.level,
@@ -1024,7 +1026,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                        (SELECT name FROM job_names
                         WHERE job_ankama_id = cj.job_ankama_id AND language = 'en')
                 FROM item_craft_jobs cj
-                WHERE cj.item = ?
+                WHERE cj.item = ? AND cj.job_ankama_id != 1
                 """,
                 (language, representative_item.id),
             )
