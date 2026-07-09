@@ -652,6 +652,20 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'airdam': 4.5,
             },
         },
+        # Eniripsa 1.29: THE healer of the game (int raised to 200-300 before
+        # vitality, heals scale with int), far from the offensive Dofus 3
+        # profile (heals_importance 0.05); the water path is built around
+        # Vampiric Word (kit check: 31-40 line steal, damage + self-sustain).
+        # Sources: Millenium, Breakflip, Gamosaurus, Guidactik, jeuxonline
+        # Eniripsa 1.29 guides.
+        'Eniripsa': {
+            'all': {
+                'heals_importance': 0.6,
+            },
+            'cha': {
+                'waterdam': 6.5,
+            },
+        },
     },
 }
 
