@@ -7437,7 +7437,7 @@ msgstr ""
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Resource pages in the encyclopedia"
-msgstr "Páginas de recursos en la enciclopedia"
+msgstr "Las páginas de recursos en la enciclopedia"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid ""
@@ -7666,6 +7666,13 @@ msgstr "Los oficios de fabricación en la enciclopedia"
 msgid "Item pages now show which profession crafts each recipe."
 msgstr ""
 "Las páginas de items ahora muestran el oficio que fabrica cada receta."
+
+msgid ""
+"Every crafting ingredient now has its own page: which items it crafts, which"
+" monsters drop it, with the official icons."
+msgstr ""
+"Cada ingrediente de fabricación tiene ahora su propia página: qué objetos "
+"fabrica, qué monstruos lo sueltan, con los iconos oficiales."
 
 #~ msgid "Send"
 #~ msgstr "Enviar"
