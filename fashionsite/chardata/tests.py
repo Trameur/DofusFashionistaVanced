@@ -292,7 +292,8 @@ class PublicRouteSmokeTests(TestCase):
         from fashionistapulp.fashionista_config import get_items_db_path
         for version, prefix, icon_dir in (
                 ('dofus3', '', 'resources/60x60'),
-                ('touch', '/touch', 'resources/touch/60x60')):
+                ('touch', '/touch', 'resources/touch/60x60'),
+                ('retro', '/retro', 'resources/retro/60x60')):
             with self.subTest(version=version):
                 conn = sqlite3.connect(get_items_db_path(version))
                 row = conn.execute(

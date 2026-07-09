@@ -27,6 +27,11 @@ image_urls.icon, 64px); target is chardata/resources/60x60/.
 --game-version touch: ids come from items_touch.db, icons from the official
 Touch assets CDN (config.json assetsUrl + /gfx/items/<iconId>.png, iconId
 from touch_raw/Items_fr.json); target is chardata/resources/touch/60x60/.
+
+--game-version retro: ids come from items_retro.db, icons from the community
+Cyberia CDN (same source as download_retro_images.py: items/<type>/64/<gfx>.png,
+type and gfx from retro_raw/items_fr.json); target is
+chardata/resources/retro/60x60/. Icons missing on the CDN just stay absent.
 """
 
 import argparse
@@ -53,6 +58,10 @@ TOUCH_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_
 TOUCH_CONFIG_URL = 'https://earlyproxy.touch.dofus.com/config.json'
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.1_lZbcGsQeC3PlPF-Fg,tut0oqPD5idyLwzy')
+
+RETRO_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_retro.db')
+RETRO_CDN = ('https://raw.githubusercontent.com/Lounek09/Cyberia.Cdn/main/'
+             'images/dofus/items/%s/64/%s.png')
 
 
 def target_dirs(version_subdir):
@@ -111,10 +120,20 @@ def touch_icon_urls():
             for item_id, item in items.items() if item.get('iconId')}
 
 
+def retro_icon_urls():
+    path = os.path.join(CURRENT_DIR, 'retro_raw', 'items_fr.json')
+    with open(path, encoding='utf-8') as fh:
+        items = json.load(fh)['I']['u']
+    return {int(item_id): RETRO_CDN % (item['t'], item['g'])
+            for item_id, item in items.items()
+            if item.get('g') is not None and item.get('t') is not None}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--game-version', default='dofus3', choices=['dofus3', 'touch'],
-                        help='dofus3 (default, shared with beta) or touch')
+    parser.add_argument('--game-version', default='dofus3',
+                        choices=['dofus3', 'touch', 'retro'],
+                        help='dofus3 (default, shared with beta), touch or retro')
     parser.add_argument('--force', action='store_true',
                         help='Redownload icons that already exist')
     args = parser.parse_args()
@@ -123,6 +142,10 @@ def main():
         ids = ingredient_ids([TOUCH_DB_PATH])
         urls = touch_icon_urls()
         targets_root = target_dirs('touch')
+    elif args.game_version == 'retro':
+        ids = ingredient_ids([RETRO_DB_PATH])
+        urls = retro_icon_urls()
+        targets_root = target_dirs('retro')
     else:
         ids = ingredient_ids(DB_PATHS)
         urls = icon_urls()
@@ -138,7 +161,7 @@ def main():
         print('no icon url (left without image): %s%s'
               % (missing[:20], '...' if len(missing) > 20 else ''))
 
-    done = skipped = failed = 0
+    done = skipped = failed = absent = 0
     session = requests.Session()
     for ankama_id in todo:
         fname = '%d-60-60.png' % ankama_id
@@ -148,6 +171,11 @@ def main():
             continue
         try:
             resp = session.get(urls[ankama_id], timeout=30)
+            if resp.status_code == 404:
+                # Not an error: the source simply has no icon for this item
+                # (community CDNs are incomplete); the page shows no image.
+                absent += 1
+                continue
             resp.raise_for_status()
             img = Image.open(io.BytesIO(resp.content)).convert('RGBA')
             img = img.resize((60, 60))
@@ -159,7 +187,8 @@ def main():
             print('failed %s: %s' % (ankama_id, exc))
         if done and done % 200 == 0:
             print('downloaded %d/%d' % (done, len(todo)))
-    print('done: %d downloaded, %d already present, %d failed' % (done, skipped, failed))
+    print('done: %d downloaded, %d already present, %d absent at source, %d failed'
+          % (done, skipped, absent, failed))
     if failed and failed > len(todo) // 10:
         sys.exit(1)
 

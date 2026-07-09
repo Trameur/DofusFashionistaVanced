@@ -218,6 +218,10 @@ def main() -> None:
             "--raw-dir", RETRO_RAW_DIR,
             "--lang", args.lang,
         ], cwd=ITEMSCRAPER)
+        step("resource-icons", [
+            PY, "download_resource_icons.py",
+            "--game-version", "retro",
+        ], cwd=ITEMSCRAPER)
 
     step("spells/decode", [
         PY, "get_spells_retro.py",
