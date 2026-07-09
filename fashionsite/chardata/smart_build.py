@@ -717,6 +717,22 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'firedam': 6.5,
             },
         },
+        # Xelor 1.29: fire is the obvious path (early spells, correct damage
+        # plus the AP removal identity; int 200-300 then vitality/wisdom: the
+        # AP removal runs through wisdom, covered by the engine tuning and the
+        # AP Removal preset). Earth hits hardest (Xelor Punch 41-45 checked)
+        # but only late: inherit. Air is an acceptable alternative: inherit.
+        # Water is viable only with wisdom and high-level gear. Sources:
+        # Breakflip, Gamosaurus, Millenium, Guidactik, jeuxonline Xelor 1.29
+        # guides.
+        'Xelor': {
+            'int': {
+                'firedam': 6.5,
+            },
+            'cha': {
+                'waterdam': 5.5,
+            },
+        },
     },
 }
 
