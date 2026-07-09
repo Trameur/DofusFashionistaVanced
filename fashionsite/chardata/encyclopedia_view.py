@@ -840,6 +840,7 @@ def _encyclopedia_missing_response(request, kind, requested_name):
 # otherwise the dofus3 art could be a different item. No file, no icon.
 _INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
                          'retro': 'retro/', 'dofus2': 'dofus2/'}
+_resource_search_index_cache = {}
 
 
 def _ingredient_icon_url(game_version, ankama_id):
@@ -852,12 +853,11 @@ def _ingredient_icon_url(game_version, ankama_id):
     return None
 
 
-def _search_resources(game_version, normalized_search, language, limit=12):
-    """Recipe ingredients matching the encyclopedia search box, as links to
-    their resource pages. Matches every language with the same accent-insensitive
-    normalization as items and monsters."""
-    if not normalized_search:
-        return []
+def _get_resource_search_index(game_version):
+    cached = _resource_search_index_cache.get(game_version)
+    if cached is not None:
+        return cached
+
     conn = None
     try:
         conn = sqlite3.connect(get_items_db_path(game_version))
@@ -865,6 +865,7 @@ def _search_resources(game_version, normalized_search, language, limit=12):
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipe_ingredient_names'")
         if cursor.fetchone() is None:
+            _resource_search_index_cache[game_version] = []
             return []
         rows = cursor.execute(
             """SELECT ingredient_ankama_id, ingredient_subtype, language, name
@@ -877,24 +878,52 @@ def _search_resources(game_version, normalized_search, language, limit=12):
 
     names_by_key = {}
     for ankama_id, subtype, row_lang, name in rows:
+        if not name or not row_lang:
+            continue
         names_by_key.setdefault((ankama_id, subtype), {})[row_lang] = name
 
-    hits = []
+    entries = []
     for (ankama_id, subtype), names in names_by_key.items():
-        if not any(normalized_search in _normalized_text(n)
-                   for n in names.values() if n):
+        normalized_names = [_normalized_text(name) for name in names.values() if name]
+        if not normalized_names:
             continue
+        entries.append({
+            'ankama_id': ankama_id,
+            'subtype': subtype,
+            'names': names,
+            'normalized_names': normalized_names,
+            'search_blob': ' '.join(normalized_names),
+        })
+    _resource_search_index_cache[game_version] = entries
+    return entries
+
+
+def _search_resources(game_version, normalized_search, language, limit=12):
+    """Recipe ingredients matching the encyclopedia search box, as links to
+    their resource pages. Matches every language with the same accent-insensitive
+    normalization as items and monsters."""
+    if not normalized_search:
+        return []
+
+    hits = []
+    for entry in _get_resource_search_index(game_version):
+        if normalized_search not in entry['search_blob']:
+            continue
+        names = entry['names']
         display = names.get(language) or names.get('en') or next(iter(names.values()))
         hits.append({
             'name': display,
-            'starts': _normalized_text(display).startswith(normalized_search),
-            'url': get_resource_link(subtype, ankama_id, display, game_version),
-            'image_url': _ingredient_icon_url(game_version, ankama_id),
+            'starts': any(name.startswith(normalized_search)
+                          for name in entry['normalized_names']),
+            'subtype': entry['subtype'],
+            'ankama_id': entry['ankama_id'],
         })
     hits.sort(key=lambda h: (not h['starts'], (h['name'] or '').lower()))
-    for h in hits:
-        del h['starts']
-    return hits[:limit]
+    return [{
+        'name': h['name'],
+        'url': get_resource_link(h['subtype'], h['ankama_id'], h['name'], game_version),
+        'image_url': _ingredient_icon_url(game_version, h['ankama_id']),
+    } for h in hits[:limit]]
 
 
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',

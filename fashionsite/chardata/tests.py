@@ -290,7 +290,9 @@ class PublicRouteSmokeTests(TestCase):
     def test_search_finds_resources(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
-        for version, prefix in (('dofus3', ''), ('touch', '/touch')):
+        for version, prefix in (('dofus3', ''), ('beta', '/beta'),
+                                ('touch', '/touch'), ('retro', '/retro'),
+                                ('dofus2', '/dofus2')):
             with self.subTest(version=version):
                 conn = sqlite3.connect(get_items_db_path(version))
                 row = conn.execute(
@@ -302,7 +304,31 @@ class PublicRouteSmokeTests(TestCase):
                 resp = self.client.get('%s/encyclopedia/' % prefix, {'q': row[0]})
                 self.assertEqual(resp.status_code, 200)
                 self.assertContains(resp, 'encyclopedia-resource-hit')
-                self.assertContains(resp, '/encyclopedia/resource/')
+                self.assertContains(resp, '%s/encyclopedia/resource/' % prefix)
+
+    def test_resource_search_reuses_cached_index_per_version(self):
+        import sqlite3
+        from chardata import encyclopedia_view
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        row = conn.execute(
+            "SELECT name FROM item_recipe_ingredient_names "
+            "WHERE language = 'en' AND ingredient_subtype = 'resources' "
+            "ORDER BY ingredient_ankama_id LIMIT 1").fetchone()
+        conn.close()
+        self.assertIsNotNone(row, 'no resource ingredient for retro')
+
+        encyclopedia_view._resource_search_index_cache.clear()
+        try:
+            with unittest.mock.patch.object(encyclopedia_view.sqlite3, 'connect',
+                                           wraps=sqlite3.connect) as connect_mock:
+                needle = encyclopedia_view._normalized_text(row[0])
+                self.assertTrue(encyclopedia_view._search_resources('retro', needle, 'en'))
+                self.assertTrue(encyclopedia_view._search_resources('retro', needle, 'fr'))
+                self.assertEqual(connect_mock.call_count, 1)
+        finally:
+            encyclopedia_view._resource_search_index_cache.clear()
 
     def test_resource_page_shows_the_ingredient_icon(self):
         import sqlite3
