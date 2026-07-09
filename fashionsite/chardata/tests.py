@@ -2288,6 +2288,40 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertEqual(resp.content.decode('utf-8'),
                          '/compare_sets/%d/g%d' % (char.pk, generation.pk))
 
+    def test_generation_endpoints_deny_non_owners(self):
+        # Saved generations are private snapshots: another logged-in user must not
+        # be able to view them, restore them over the owner's build, or pull them
+        # into a comparison, even when the owner's build itself is link-shared.
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.solution_history import record_solution_generation
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner, char, hats = self._build_char_with_items()
+        generation = record_solution_generation(
+            char,
+            ModelResultMinimal({'hat': hats[1].id}, self._base_input(), {}))
+        blob_before = bytes(char.minimal_solution)
+
+        intruder = User.objects.create_user(
+            'historyintruder', 'intruder@test.local', 'pw-42-solid')
+        self.client.force_login(intruder)
+
+        view_resp = self.client.get(
+            '/solutiongeneration/%d/%d/' % (char.pk, generation.pk))
+        self.assertEqual(view_resp.status_code, 403)
+
+        restore_resp = self.client.post(
+            '/restoregeneration/%d/%d/' % (char.pk, generation.pk))
+        self.assertEqual(restore_resp.status_code, 403)
+        char.refresh_from_db()
+        self.assertEqual(bytes(char.minimal_solution), blob_before,
+                         'a non-owner restore must not touch the stored solution')
+
+        # The whole comparison collapses (<2 accessible builds) instead of leaking.
+        compare_resp = self.client.get(
+            '/compare_sets/%d/g%d/' % (char.pk, generation.pk))
+        self.assertEqual(compare_resp.status_code, 404)
+
 
 class SharedSolutionPageDeepTests(TestCase):
     """Same fixture as SharedSolutionPageTests but with a real item equipped:
