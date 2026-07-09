@@ -287,6 +287,23 @@ class BreadcrumbJsonLdTests(SimpleTestCase):
 class PublicRouteSmokeTests(TestCase):
     """Key public routes resolve and return the expected status codes."""
 
+    def test_search_finds_resources(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version, prefix in (('dofus3', ''), ('touch', '/touch')):
+            with self.subTest(version=version):
+                conn = sqlite3.connect(get_items_db_path(version))
+                row = conn.execute(
+                    "SELECT name FROM item_recipe_ingredient_names "
+                    "WHERE language = 'en' AND ingredient_subtype = 'resources' "
+                    "ORDER BY ingredient_ankama_id LIMIT 1").fetchone()
+                conn.close()
+                self.assertIsNotNone(row, 'no resource ingredient for ' + version)
+                resp = self.client.get('%s/encyclopedia/' % prefix, {'q': row[0]})
+                self.assertEqual(resp.status_code, 200)
+                self.assertContains(resp, 'encyclopedia-resource-hit')
+                self.assertContains(resp, '/encyclopedia/resource/')
+
     def test_resource_page_shows_the_ingredient_icon(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path

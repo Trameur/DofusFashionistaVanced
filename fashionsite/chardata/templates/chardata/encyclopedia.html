@@ -255,6 +255,31 @@
         grid-template-columns: minmax(0, 1fr);
     }
 }
+.encyclopedia-resource-hits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 6px 0 14px;
+}
+.encyclopedia-resource-hit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 14px;
+    text-decoration: none;
+}
+.encyclopedia-resource-hit img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+.dark-theme-active .encyclopedia-resource-hit {
+    border-color: #5a5a5a;
+    background: #1f1f1f;
+    color: #ffd8a8;
+}
 </style>
 {% endblock %}
 
@@ -568,6 +593,17 @@
         syncOrderRowsJson();
     })();
     </script>
+
+    {% if resource_results %}
+    <div class="encyclopedia-results-header big-text">{{ t.resources_label }}: {{ resource_results|length }}</div>
+    <div class="encyclopedia-resource-hits">
+        {% for res in resource_results %}
+        <a class="encyclopedia-resource-hit" href="{{ res.url }}">
+            {% if res.image_url %}<img src="{{ res.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ res.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <div class="encyclopedia-results-header big-text">{{ t.results }}: {{ items_count }}</div>
 

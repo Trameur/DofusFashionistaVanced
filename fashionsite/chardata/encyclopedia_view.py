@@ -46,6 +46,7 @@ LOCALIZED_UI = {
         'apply_filters': 'Apply filters',
         'clear_filters': 'Clear',
         'results': 'Results',
+        'resources_label': 'Resources',
         'no_results': 'No items match your filters.',
         'item_level': 'Lvl.',
         'open_item': 'Open item details',
@@ -101,6 +102,7 @@ LOCALIZED_UI = {
         'apply_filters': 'Appliquer les filtres',
         'clear_filters': 'Effacer',
         'results': 'Résultats',
+        'resources_label': 'Ressources',
         'no_results': 'Aucun objet ne correspond à vos filtres.',
         'item_level': 'Niv.',
         'open_item': 'Ouvrir les détails',
@@ -156,6 +158,7 @@ LOCALIZED_UI = {
         'apply_filters': 'Aplicar filtros',
         'clear_filters': 'Limpiar',
         'results': 'Resultados',
+        'resources_label': 'Recursos',
         'no_results': 'No hay objetos con esos filtros.',
         'item_level': 'Nv.',
         'open_item': 'Abrir detalles del objeto',
@@ -211,6 +214,7 @@ LOCALIZED_UI = {
         'apply_filters': 'Aplicar filtros',
         'clear_filters': 'Limpar',
         'results': 'Resultados',
+        'resources_label': 'Recursos',
         'no_results': 'Nenhum item corresponde aos filtros.',
         'item_level': 'Nv.',
         'open_item': 'Abrir detalhes do item',
@@ -266,6 +270,7 @@ LOCALIZED_UI = {
         'apply_filters': 'Filter anwenden',
         'clear_filters': 'Zurücksetzen',
         'results': 'Ergebnisse',
+        'resources_label': 'Ressourcen',
         'no_results': 'Keine Gegenstände entsprechen den Filtern.',
         'item_level': 'Lvl.',
         'open_item': 'Gegenstandsdetails öffnen',
@@ -847,6 +852,51 @@ def _ingredient_icon_url(game_version, ankama_id):
     return None
 
 
+def _search_resources(game_version, normalized_search, language, limit=12):
+    """Recipe ingredients matching the encyclopedia search box, as links to
+    their resource pages. Matches every language with the same accent-insensitive
+    normalization as items and monsters."""
+    if not normalized_search:
+        return []
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipe_ingredient_names'")
+        if cursor.fetchone() is None:
+            return []
+        rows = cursor.execute(
+            """SELECT ingredient_ankama_id, ingredient_subtype, language, name
+               FROM item_recipe_ingredient_names""").fetchall()
+    except sqlite3.Error:
+        return []
+    finally:
+        if conn is not None:
+            conn.close()
+
+    names_by_key = {}
+    for ankama_id, subtype, row_lang, name in rows:
+        names_by_key.setdefault((ankama_id, subtype), {})[row_lang] = name
+
+    hits = []
+    for (ankama_id, subtype), names in names_by_key.items():
+        if not any(normalized_search in _normalized_text(n)
+                   for n in names.values() if n):
+            continue
+        display = names.get(language) or names.get('en') or next(iter(names.values()))
+        hits.append({
+            'name': display,
+            'starts': _normalized_text(display).startswith(normalized_search),
+            'url': get_resource_link(subtype, ankama_id, display, game_version),
+            'image_url': _ingredient_icon_url(game_version, ankama_id),
+        })
+    hits.sort(key=lambda h: (not h['starts'], (h['name'] or '').lower()))
+    for h in hits:
+        del h['starts']
+    return hits[:limit]
+
+
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
                          variant_items=None):
     default_data = {
@@ -1098,6 +1148,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
 def encyclopedia(request):
     structure = get_structure()
     language = get_supported_language()
+    game_version = getattr(request, 'game_version', 'dofus3')
     t = _ui_text()
 
     search_text = (request.GET.get('q') or '').strip()
@@ -1185,6 +1236,7 @@ def encyclopedia(request):
             selected_stat_orders.append((order_key, order_dir))
 
     normalized_search = _normalized_text(search_text) if search_text else ''
+    resource_results = _search_resources(game_version, normalized_search, language)
     filtered_items = []
     for entry in _get_light_index(structure, language):
         if selected_type and entry['raw_type_name'] != selected_type:
@@ -1231,7 +1283,6 @@ def encyclopedia(request):
         page_obj = paginator.page(paginator.num_pages)
 
     # Materialize the full cards for the current page only.
-    game_version = getattr(request, 'game_version', 'dofus3')
     cards = []
     for entry in page_obj.object_list:
         item = entry['item']
@@ -1302,6 +1353,7 @@ def encyclopedia(request):
             'canonical_url': _absolute_versioned_url('/encyclopedia/', game_version),
             'items_page': page_obj,
             'items_count': len(filtered_items),
+            'resource_results': resource_results,
             'search_text': search_text,
             'selected_type': selected_type,
             'min_level': '' if min_level is None else min_level,
