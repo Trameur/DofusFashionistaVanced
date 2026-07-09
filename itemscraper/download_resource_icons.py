@@ -16,12 +16,17 @@
 
 """Download the official icons of every recipe ingredient (resource pages).
 
-Ingredient ids come from item_recipe_ingredient_names in items.db and
+Icons are stored by ANKAMA ID (not name: resource names carry characters
+filenames cannot). Existing files are skipped, so the step is cheap on re-runs.
+
+Default (dofus3, shared with beta like the root items/ directory):
+ingredient ids come from item_recipe_ingredient_names in items.db and
 items_beta.db; icon URLs come from the dofusdude raw files (all_*_en.json,
-image_urls.icon, 64px). Icons are stored by ANKAMA ID (not name: resource
-names carry characters filenames cannot) under chardata/resources/60x60/,
-shared by dofus3 and beta like the root items/ directory. Existing files are
-skipped, so the step is cheap on re-runs.
+image_urls.icon, 64px); target is chardata/resources/60x60/.
+
+--game-version touch: ids come from items_touch.db, icons from the official
+Touch assets CDN (config.json assetsUrl + /gfx/items/<iconId>.png, iconId
+from touch_raw/Items_fr.json); target is chardata/resources/touch/60x60/.
 """
 
 import argparse
@@ -44,15 +49,23 @@ DB_PATHS = [
 RAW_DIRS = [CURRENT_DIR, os.path.join(CURRENT_DIR, 'beta')]
 RAW_KINDS = ('resources', 'consumables', 'quest_items', 'equipment', 'cosmetics')
 
-TARGET_DIRS = [
-    os.path.join(ROOT, 'fashionsite', 'chardata', 'static', 'chardata', 'resources', '60x60'),
-    os.path.join(ROOT, 'fashionsite', 'staticfiles', 'chardata', 'resources', '60x60'),
-]
+TOUCH_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_touch.db')
+TOUCH_CONFIG_URL = 'https://earlyproxy.touch.dofus.com/config.json'
+TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
+                             '3.2.1_lZbcGsQeC3PlPF-Fg,tut0oqPD5idyLwzy')
 
 
-def ingredient_ids():
+def target_dirs(version_subdir):
+    parts = ['resources'] + ([version_subdir] if version_subdir else []) + ['60x60']
+    return [
+        os.path.join(ROOT, 'fashionsite', 'chardata', 'static', 'chardata', *parts),
+        os.path.join(ROOT, 'fashionsite', 'staticfiles', 'chardata', *parts),
+    ]
+
+
+def ingredient_ids(db_paths):
     ids = set()
-    for db_path in DB_PATHS:
+    for db_path in db_paths:
         if not os.path.exists(db_path):
             continue
         con = sqlite3.connect(db_path)
@@ -85,15 +98,36 @@ def icon_urls():
     return urls
 
 
+def touch_icon_urls():
+    try:
+        assets = requests.get(TOUCH_CONFIG_URL, timeout=30).json().get('assetsUrl')
+    except Exception:
+        assets = None
+    assets = assets or TOUCH_FALLBACK_ASSETS_URL
+    path = os.path.join(CURRENT_DIR, 'touch_raw', 'Items_fr.json')
+    with open(path, encoding='utf-8') as fh:
+        items = json.load(fh)
+    return {int(item_id): '%s/gfx/items/%d.png' % (assets, item['iconId'])
+            for item_id, item in items.items() if item.get('iconId')}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--game-version', default='dofus3', choices=['dofus3', 'touch'],
+                        help='dofus3 (default, shared with beta) or touch')
     parser.add_argument('--force', action='store_true',
                         help='Redownload icons that already exist')
     args = parser.parse_args()
 
-    ids = ingredient_ids()
-    urls = icon_urls()
-    for target in TARGET_DIRS:
+    if args.game_version == 'touch':
+        ids = ingredient_ids([TOUCH_DB_PATH])
+        urls = touch_icon_urls()
+        targets_root = target_dirs('touch')
+    else:
+        ids = ingredient_ids(DB_PATHS)
+        urls = icon_urls()
+        targets_root = target_dirs('')
+    for target in targets_root:
         os.makedirs(target, exist_ok=True)
 
     todo = sorted(i for i in ids if i in urls)
@@ -108,7 +142,7 @@ def main():
     session = requests.Session()
     for ankama_id in todo:
         fname = '%d-60-60.png' % ankama_id
-        targets = [os.path.join(t, fname) for t in TARGET_DIRS]
+        targets = [os.path.join(t, fname) for t in targets_root]
         if not args.force and all(os.path.exists(t) for t in targets):
             skipped += 1
             continue

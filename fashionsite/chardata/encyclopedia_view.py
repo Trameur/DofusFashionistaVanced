@@ -829,6 +829,23 @@ def _encyclopedia_missing_response(request, kind, requested_name):
     return response
 
 
+# Ingredient icons are stored by ankama id (resource names carry characters
+# filenames cannot). dofus3 and beta share the root directory (same id space);
+# other versions have their own id spaces so each needs its own subdirectory,
+# otherwise the dofus3 art could be a different item. No file, no icon.
+_INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/'}
+
+
+def _ingredient_icon_url(game_version, ankama_id):
+    subdir = _INGREDIENT_ICON_DIRS.get(game_version)
+    if subdir is None:
+        return None
+    icon_rel = 'chardata/resources/%s60x60/%d-60-60.png' % (subdir, ankama_id)
+    if _static_exists(icon_rel):
+        return static(icon_rel)
+    return None
+
+
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
                          variant_items=None):
     default_data = {
@@ -963,14 +980,8 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     resource_url = get_resource_link(
                         ingredient_subtype, ingredient_ankama_id, ingredient_name, game_version)
 
-                # Same id-keyed icons as the resource pages (dofus3/beta only:
-                # other versions have their own item id spaces).
-                ingredient_image = None
-                if game_version in ('dofus3', 'beta'):
-                    icon_rel = ('chardata/resources/60x60/%d-60-60.png'
-                                % ingredient_ankama_id)
-                    if _static_exists(icon_rel):
-                        ingredient_image = static(icon_rel)
+                ingredient_image = _ingredient_icon_url(game_version,
+                                                        ingredient_ankama_id)
 
                 default_data['recipe'].append({
                     'name': ingredient_name,
@@ -2353,14 +2364,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         t['resource_kind_label'] if subtype == 'resources'
         else t.get('ingredient_kind_label', t['resource_kind_label']))
 
-    # Ingredient icons are stored by ankama id under resources/60x60, shared by
-    # dofus3 and beta (same id space). Other versions have their own item id
-    # spaces, so showing the dofus3 art there could be the wrong item.
-    resource_image = None
-    if game_version in ('dofus3', 'beta'):
-        icon_rel = 'chardata/resources/60x60/%d-60-60.png' % target_ankama_id
-        if _static_exists(icon_rel):
-            resource_image = static(icon_rel)
+    resource_image = _ingredient_icon_url(game_version, target_ankama_id)
 
     return set_response(
         request,
