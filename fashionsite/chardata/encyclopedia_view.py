@@ -963,6 +963,15 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     resource_url = get_resource_link(
                         ingredient_subtype, ingredient_ankama_id, ingredient_name, game_version)
 
+                # Same id-keyed icons as the resource pages (dofus3/beta only:
+                # other versions have their own item id spaces).
+                ingredient_image = None
+                if game_version in ('dofus3', 'beta'):
+                    icon_rel = ('chardata/resources/60x60/%d-60-60.png'
+                                % ingredient_ankama_id)
+                    if _static_exists(icon_rel):
+                        ingredient_image = static(icon_rel)
+
                 default_data['recipe'].append({
                     'name': ingredient_name,
                     'quantity': quantity,
@@ -970,6 +979,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'ankama_id': ingredient_ankama_id,
                     'local_item_url': local_item_url,
                     'resource_url': resource_url,
+                    'image_url': ingredient_image,
                 })
 
             if (getattr(representative_item, 'ankama_id', None)

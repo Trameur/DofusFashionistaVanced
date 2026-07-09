@@ -277,7 +277,9 @@
             {% if recipe %}
             <ul class="encyclopedia-list">
                 {% for ingredient in recipe %}
-                <li>
+                <li{% if ingredient.image_url %} class="craft-item"{% endif %}>
+                    {% if ingredient.image_url %}<img class="craft-icon" src="{{ ingredient.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}
+                    <span>
                     {% if ingredient.local_item_url %}
                     <a href="{{ ingredient.local_item_url }}">{{ ingredient.name }}</a>
                     {% elif ingredient.resource_url %}
@@ -286,6 +288,7 @@
                     {{ ingredient.name }}
                     {% endif %}
                     x{{ ingredient.quantity }}
+                    </span>
                 </li>
                 {% endfor %}
             </ul>
