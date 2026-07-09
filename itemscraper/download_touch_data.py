@@ -109,9 +109,10 @@ def main(argv=None):
             print(f"  FAILED {cls} ({args.lang}): {exc}", file=sys.stderr)
             failures += 1
 
-    # Other languages: only the name-bearing tables (Items/ItemSets/ItemTypes/Monsters).
+    # Other languages: only the name-bearing tables (Recipes carries the
+    # localized jobName used by the craft-profession display).
     if args.all_langs:
-        name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes', 'Monsters')
+        name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes', 'Monsters', 'Recipes')
                        if c in args.classes]
         for lang in ALL_LANGS:
             if lang == args.lang:

@@ -165,6 +165,19 @@ def main() -> None:
     step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
     step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
 
+    # Craft professions -> item_craft_jobs / job_names ("Crafted by ..."). The
+    # localized Recipes_<lang>.json come from data/download with --all-langs.
+    step("craftjobs/transform", [
+        PY, "get_craft_jobs_touch.py",
+        "--raw-dir", TOUCH_RAW_DIR,
+        "--output", "transformed_craft_jobs_touch.json",
+    ], cwd=ITEMSCRAPER)
+    step("craftjobs/store", [
+        PY, "store_craft_jobs.py",
+        "--jobs", "transformed_craft_jobs_touch.json",
+        "--game-version", "touch",
+    ], cwd=ITEMSCRAPER)
+
     # Damage spells per class -> dofus_constants_touch_spells.py (independent of items).
     step("spells/build", [PY, "get_spells_touch.py"], cwd=ITEMSCRAPER)
 
