@@ -3108,27 +3108,32 @@ class VersionWeightTuningTests(SimpleTestCase):
         from unittest.mock import patch
         from chardata.smart_build import (RACE_PROFILE_OVERRIDES_BY_VERSION,
                                           param_for_build)
-        retro_cra = {'all': {'mpred_importance': 0.9},
+        # Ecaflip has no real retro override, so the injected one is isolated.
+        retro_eca = {'all': {'mpred_importance': 0.9},
                      'agi': {'airdam': 3.0}}
         with patch.dict(RACE_PROFILE_OVERRIDES_BY_VERSION['retro'],
-                        {'Cra': retro_cra}):
+                        {'Ecaflip': retro_eca}):
             self.assertEqual(
-                param_for_build('Cra', ['agi'], 'airdam', game_version='retro'), 3.0)
+                param_for_build('Ecaflip', ['agi'], 'airdam', game_version='retro'), 3.0)
             self.assertEqual(
-                param_for_build('Cra', ['agi'], 'mpred_importance',
+                param_for_build('Ecaflip', ['agi'], 'mpred_importance',
                                 game_version='retro'), 0.9)
             # Params the override does not state inherit the base profile.
             self.assertEqual(
-                param_for_build('Cra', ['agi'], 'meleeness', game_version='retro'),
-                param_for_build('Cra', ['agi'], 'meleeness'))
+                param_for_build('Ecaflip', ['agi'], 'meleeness', game_version='retro'),
+                param_for_build('Ecaflip', ['agi'], 'meleeness'))
             # Other versions are untouched.
-            self.assertEqual(param_for_build('Cra', ['agi'], 'airdam'), 6.0)
+            self.assertEqual(param_for_build('Ecaflip', ['agi'], 'airdam'), 6.0)
             # And the whole weight vector reacts on retro only.
-            wr = self._weights('retro', {'agi'}, race='Cra')
-            w3 = self._weights('dofus3', {'agi'}, race='Cra')
+            wr = self._weights('retro', {'agi'}, race='Ecaflip')
+            w3 = self._weights('dofus3', {'agi'}, race='Ecaflip')
             self.assertLess(wr['airdam'], w3['airdam'])
         self.assertEqual(
-            param_for_build('Cra', ['agi'], 'airdam', game_version='retro'), 6.0)
+            param_for_build('Ecaflip', ['agi'], 'airdam', game_version='retro'), 6.0)
+        # The real, committed retro tuning is live (Cra 1.29).
+        self.assertEqual(
+            param_for_build('Cra', ['agi'], 'airdam', game_version='retro'), 5.5)
+        self.assertEqual(param_for_build('Cra', ['agi'], 'airdam'), 6.0)
 
 
 class StatsWeightCapTests(TestCase):
