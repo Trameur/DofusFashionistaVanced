@@ -18,14 +18,24 @@ import argparse
 import io
 import json
 import os
-import re
+import sys
+from pathlib import Path
 
 import requests
 from PIL import Image, ImageChops, ImageStat
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'fashionistapulp'))
+
+from fashionistapulp.fashion_util import normalize_name, safe_icon_name
+
 
 def sanitize_filename(name):
-    return re.sub(r'[\\/*?:"<>|]', "", name)
+    # The runtime looks icons up under safe_icon_name(normalize_name(item)),
+    # so files must be materialized under that exact name: variant suffixes
+    # like " (GM)" or " (#2)" reuse the base artwork, and Windows-forbidden
+    # characters are stripped. A raw name here would produce a thumbnail the
+    # site can never serve.
+    return safe_icon_name(normalize_name(name))
 
 
 def images_differ(existing_path, new_content, threshold=0.01):
@@ -95,7 +105,7 @@ def main():
         image_url = item.get('image_url')
         if image_url:
             original_name = f"{item['name_en']}.png"
-            sanitized_name = sanitize_filename(original_name)
+            sanitized_name = f"{sanitize_filename(item['name_en'])}.png"
             if original_name != sanitized_name:
                 print(f"Filename modified: {original_name} -> {sanitized_name}")
 
