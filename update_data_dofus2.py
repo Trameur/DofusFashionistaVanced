@@ -240,6 +240,27 @@ def main() -> None:
             "--drops", "transformed_drops_dofus2.json",
             "--game-version", "dofus2",
         ], cwd=ITEMSCRAPER)
+        # Craft professions -> item_craft_jobs / job_names ("Crafted by ...").
+        # The dofus2 release ships no jobs.json: job ids are stable since the
+        # 2.44 profession merge, so borrow the dofus3 id->nameId table (the
+        # names still resolve in the dofus2 language files).
+        from fashionista_version import FASHIONISTA_VERSION as _dofus3_version
+        step("craftjobs/jobs-table", [
+            PY, "-m", "itemscraper.download_raw_data",
+            "--tag", _dofus3_version,
+            "--filter", "jobs.json",
+        ])
+        step("craftjobs/transform", [
+            PY, "get_craft_jobs.py",
+            "--dataset-dir", f"raw/{version}",
+            "--jobs-file", f"raw/{_dofus3_version}/jobs.json",
+            "--output", "transformed_craft_jobs_dofus2.json",
+        ], cwd=ITEMSCRAPER)
+        step("craftjobs/store", [
+            PY, "store_craft_jobs.py",
+            "--jobs", "transformed_craft_jobs_dofus2.json",
+            "--game-version", "dofus2",
+        ], cwd=ITEMSCRAPER)
 
     if do_images:
         step("spell-images", [

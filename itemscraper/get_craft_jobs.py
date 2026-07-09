@@ -42,8 +42,12 @@ def _load_recipes(path: Path):
 
 
 def build_craft_jobs_index(dataset_dir: Path,
-                           languages: Sequence[str] = LANGUAGES) -> Dict[str, Any]:
-    jobs = _load_datacenter_table(dataset_dir / "jobs.json")
+                           languages: Sequence[str] = LANGUAGES,
+                           jobs_file: Path | None = None) -> Dict[str, Any]:
+    # The Dofus 2 release ships no jobs.json, but job ids have been stable since
+    # the 2.44 profession merge, so its pipeline borrows the dofus3 id->nameId
+    # table while the names still come from the dataset's own language files.
+    jobs = _load_datacenter_table(jobs_file or (dataset_dir / "jobs.json"))
     translations = _load_translations(dataset_dir, languages)
 
     job_names: Dict[int, Dict[str, str]] = {}
@@ -75,9 +79,11 @@ def main() -> None:
     parser.add_argument("--dataset-dir", required=True, type=Path)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--languages", nargs="*", default=list(LANGUAGES))
+    parser.add_argument("--jobs-file", type=Path, default=None,
+                        help="jobs.json to use when the dataset has none (Dofus 2)")
     args = parser.parse_args()
 
-    index = build_craft_jobs_index(args.dataset_dir, args.languages)
+    index = build_craft_jobs_index(args.dataset_dir, args.languages, args.jobs_file)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as fh:
         json.dump(index, fh, ensure_ascii=False)
