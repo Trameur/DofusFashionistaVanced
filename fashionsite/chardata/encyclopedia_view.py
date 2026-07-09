@@ -63,6 +63,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Recipe',
         'dropped_by_label': 'Dropped by',
         'show_more_drops_label': 'Show more',
+        'craft_job_label': 'Crafted by',
         'no_recipe': 'No recipe available.',
         'recipe_unknown_ingredient': 'Unknown ingredient',
         'item_not_found': 'Item not found in the encyclopedia.',
@@ -117,6 +118,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Recette',
         'dropped_by_label': 'Droppé par',
         'show_more_drops_label': 'Voir plus',
+        'craft_job_label': 'Fabriqué par',
         'no_recipe': 'Aucune recette disponible.',
         'recipe_unknown_ingredient': 'Ingrédient inconnu',
         'item_not_found': "Objet introuvable dans l'encyclopédie.",
@@ -171,6 +173,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Receta',
         'dropped_by_label': 'Soltado por',
         'show_more_drops_label': 'Ver más',
+        'craft_job_label': 'Fabricado por',
         'no_recipe': 'No hay receta disponible.',
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
         'item_not_found': 'Objeto no encontrado en la enciclopedia.',
@@ -225,6 +228,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Receita',
         'dropped_by_label': 'Dropado por',
         'show_more_drops_label': 'Ver mais',
+        'craft_job_label': 'Fabricado por',
         'no_recipe': 'Receita não disponível.',
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
         'item_not_found': 'Item não encontrado na enciclopédia.',
@@ -279,6 +283,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Rezept',
         'dropped_by_label': 'Beute von',
         'show_more_drops_label': 'Mehr anzeigen',
+        'craft_job_label': 'Hergestellt von',
         'no_recipe': 'Kein Rezept verfügbar.',
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
         'item_not_found': 'Gegenstand nicht in der Enzyklopädie gefunden.',
@@ -832,6 +837,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
         'recipe': [],
         'used_in': [],
         'drops': [],
+        'craft_job': None,
     }
 
     if representative_item is None:
@@ -1005,6 +1011,29 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                                              localized_item_name, game_version=game_version),
                         'image_url': static(get_image_url(item_type_name, item_name)),
                     })
+
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_craft_jobs'"
+        )
+        if cursor.fetchone() is not None:
+            cursor.execute(
+                """
+                SELECT cj.level,
+                       (SELECT name FROM job_names
+                        WHERE job_ankama_id = cj.job_ankama_id AND language = ?),
+                       (SELECT name FROM job_names
+                        WHERE job_ankama_id = cj.job_ankama_id AND language = 'en')
+                FROM item_craft_jobs cj
+                WHERE cj.item = ?
+                """,
+                (language, representative_item.id),
+            )
+            row = cursor.fetchone()
+            if row is not None:
+                level, name_loc, name_en = row
+                job_name = name_loc or name_en
+                if job_name:
+                    default_data['craft_job'] = {'name': job_name, 'level': level}
 
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_drops'"
@@ -1534,6 +1563,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'recipe': extra_info['recipe'],
             'used_in': extra_info['used_in'],
             'drops': extra_info['drops'],
+            'craft_job': extra_info['craft_job'],
         },
     )
 

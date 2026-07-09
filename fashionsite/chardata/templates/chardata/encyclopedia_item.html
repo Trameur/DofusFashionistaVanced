@@ -271,6 +271,9 @@
 
         <div class="encyclopedia-section">
             <b>{{ t.recipe_label }}</b>
+            {% if craft_job %}
+            <div class="encyclopedia-item-meta">{{ t.craft_job_label }} {{ craft_job.name }}{% if craft_job.level %} ({{ t.item_level }} {{ craft_job.level }}){% endif %}</div>
+            {% endif %}
             {% if recipe %}
             <ul class="encyclopedia-list">
                 {% for ingredient in recipe %}

@@ -203,6 +203,8 @@ def main() -> None:
             "--filter", "effects.json",
             "--filter", "breeds.json",
             "--filter", "monsters.json",
+            "--filter", "recipes.json",
+            "--filter", "jobs.json",
             "--filter", "en.json",
             "--filter", "fr.json",
             "--filter", "es.json",
@@ -231,6 +233,17 @@ def main() -> None:
         step("drops/store", [
             PY, "store_drops.py",
             "--drops", "transformed_drops.json",
+            "--game-version", "dofus3",
+        ], cwd=ITEMSCRAPER)
+        # Craft professions -> item_craft_jobs / job_names tables ("Crafted by ...").
+        step("craftjobs/transform", [
+            PY, "get_craft_jobs.py",
+            "--dataset-dir", f"raw/{version}",
+            "--output", "transformed_craft_jobs.json",
+        ], cwd=ITEMSCRAPER)
+        step("craftjobs/store", [
+            PY, "store_craft_jobs.py",
+            "--jobs", "transformed_craft_jobs.json",
             "--game-version", "dofus3",
         ], cwd=ITEMSCRAPER)
 
