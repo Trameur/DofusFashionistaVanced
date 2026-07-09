@@ -833,7 +833,8 @@ def _encyclopedia_missing_response(request, kind, requested_name):
 # filenames cannot). dofus3 and beta share the root directory (same id space);
 # other versions have their own id spaces so each needs its own subdirectory,
 # otherwise the dofus3 art could be a different item. No file, no icon.
-_INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/', 'retro': 'retro/'}
+_INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
+                         'retro': 'retro/', 'dofus2': 'dofus2/'}
 
 
 def _ingredient_icon_url(game_version, ankama_id):

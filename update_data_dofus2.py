@@ -201,6 +201,8 @@ def main() -> None:
             "--game-version", "dofus2",
             "--input-file", str(ITEMSCRAPER / "dofus2" / "transformed_equipment.json"),
         ], cwd=ITEMSCRAPER)
+        step("resource-icons", [PY, "download_resource_icons.py", "--game-version", "dofus2"],
+             cwd=ITEMSCRAPER)
 
     if do_data:
         step("spells/download", [

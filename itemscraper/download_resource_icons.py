@@ -32,6 +32,10 @@ from touch_raw/Items_fr.json); target is chardata/resources/touch/60x60/.
 Cyberia CDN (same source as download_retro_images.py: items/<type>/64/<gfx>.png,
 type and gfx from retro_raw/items_fr.json); target is
 chardata/resources/retro/60x60/. Icons missing on the CDN just stay absent.
+
+--game-version dofus2: same dofusdude mechanism as dofus3 but against the
+dofus2 API raws (itemscraper/dofus2/all_*_en.json, ids from items_dofus2.db);
+target is chardata/resources/dofus2/60x60/.
 """
 
 import argparse
@@ -88,9 +92,9 @@ def ingredient_ids(db_paths):
     return ids
 
 
-def icon_urls():
+def icon_urls(raw_dirs=RAW_DIRS):
     urls = {}
-    for raw_dir in RAW_DIRS:
+    for raw_dir in raw_dirs:
         for kind in RAW_KINDS:
             path = os.path.join(raw_dir, 'all_%s_en.json' % kind)
             if not os.path.exists(path):
@@ -132,8 +136,8 @@ def retro_icon_urls():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3',
-                        choices=['dofus3', 'touch', 'retro'],
-                        help='dofus3 (default, shared with beta), touch or retro')
+                        choices=['dofus3', 'touch', 'retro', 'dofus2'],
+                        help='dofus3 (default, shared with beta), touch, retro or dofus2')
     parser.add_argument('--force', action='store_true',
                         help='Redownload icons that already exist')
     args = parser.parse_args()
@@ -146,6 +150,11 @@ def main():
         ids = ingredient_ids([RETRO_DB_PATH])
         urls = retro_icon_urls()
         targets_root = target_dirs('retro')
+    elif args.game_version == 'dofus2':
+        dofus2_db = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_dofus2.db')
+        ids = ingredient_ids([dofus2_db])
+        urls = icon_urls([os.path.join(CURRENT_DIR, 'dofus2')])
+        targets_root = target_dirs('dofus2')
     else:
         ids = ingredient_ids(DB_PATHS)
         urls = icon_urls()
