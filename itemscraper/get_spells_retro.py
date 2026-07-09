@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
 # Retro effect id -> element token (matches dofus_constants element tokens).
@@ -217,14 +218,20 @@ def main(argv=None):
 
     by_class, missing = build(spells_root, classes_root)
 
-    # Localized spell names from the per-language spell lang files (if present).
+    # Localized spell names from the per-language spell lang files. Every
+    # supported language is REQUIRED: a partial run would silently emit a
+    # module without en/es/pt/de names (retro_raw is not committed, the
+    # pipeline downloads the langs first; run download_retro_langs.py for
+    # the missing ones before this script).
     names_by_lang = {}
     for lang in ('en', 'es', 'pt', 'de'):
         path = raw / f'spells_{lang}.json'
-        if path.exists():
-            lang_spells = json.loads(path.read_text(encoding='utf-8'))['S']
-            names_by_lang[lang] = {k: v.get('n') for k, v in lang_spells.items()
-                                   if isinstance(v, dict) and v.get('n')}
+        if not path.exists():
+            sys.exit('missing %s: download the spell langs for every '
+                     'language before regenerating the module' % path)
+        lang_spells = json.loads(path.read_text(encoding='utf-8'))['S']
+        names_by_lang[lang] = {k: v.get('n') for k, v in lang_spells.items()
+                               if isinstance(v, dict) and v.get('n')}
     spell_names = build_spell_names(by_class, names_by_lang)
 
     out_path = Path(args.out)
