@@ -158,6 +158,13 @@ def main() -> None:
         "--drops", "transformed_drops_touch.json", "--game-version", "touch",
     ], cwd=ITEMSCRAPER)
 
+    # Feeding pets carry no bonuses in the backend datacenter: scrape the official
+    # dofus-touch.com encyclopedia hormone caps, then generate the maxed variants
+    # ("<Pet> (+110 Agility)") the optimizer picks from. Runs after drops so the
+    # re-dump keeps every table in sync.
+    step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
+    step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
+
     # Damage spells per class -> dofus_constants_touch_spells.py (independent of items).
     step("spells/build", [PY, "get_spells_touch.py"], cwd=ITEMSCRAPER)
 

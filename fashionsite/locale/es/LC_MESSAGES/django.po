@@ -7646,6 +7646,18 @@ msgstr ""
 "Inicia una comparacion desde tus builds guardadas, favoritos y likes, o "
 "sigue pegando enlaces manualmente."
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Maxed pets on Dofus Touch"
+msgstr "Mascotas al máximo en Dofus Touch"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid ""
+"Feeding pets now come as maxed variants in the optimizer, with the official "
+"hormone caps."
+msgstr ""
+"Las mascotas que se alimentan ahora tienen variantes al máximo en el "
+"optimizador, con los topes oficiales bajo hormona."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

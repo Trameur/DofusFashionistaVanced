@@ -7660,3 +7660,15 @@ msgid ""
 msgstr ""
 "Starte einen Vergleich aus deinen gespeicherten Builds, Favoriten und Likes,"
 " oder fuege Links weiter manuell ein."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Maxed pets on Dofus Touch"
+msgstr "Gemaxte Vertraute auf Dofus Touch"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid ""
+"Feeding pets now come as maxed variants in the optimizer, with the official "
+"hormone caps."
+msgstr ""
+"Fütterbare Vertraute gibt es jetzt als gemaxte Varianten im Optimierer, mit "
+"den offiziellen Hormon-Obergrenzen."

@@ -8135,6 +8135,18 @@ msgstr ""
 "Lance un comparatif depuis tes builds enregistres, tes favoris et tes likes,"
 " ou continue a coller des liens a la main."
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Maxed pets on Dofus Touch"
+msgstr "Familiers maxés sur Dofus Touch"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid ""
+"Feeding pets now come as maxed variants in the optimizer, with the official "
+"hormone caps."
+msgstr ""
+"Les familiers à nourrir existent maintenant en variantes maxées dans "
+"l'optimiseur, avec les plafonds officiels sous hormone."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

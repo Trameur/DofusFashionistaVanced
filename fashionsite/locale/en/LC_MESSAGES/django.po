@@ -5262,28 +5262,45 @@ msgid "Spell damage in set comparisons"
 msgstr "Spell damage in set comparisons"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
-msgstr "Compare Sets now shows spell and weapon damage previews, so you can quickly see which build hits harder"
+msgid ""
+"Compare Sets now shows spell and weapon damage previews, so you can quickly "
+"see which build hits harder"
+msgstr ""
+"Compare Sets now shows spell and weapon damage previews, so you can quickly "
+"see which build hits harder"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Monster pages now show dropped item types and levels next to their drop rates"
-msgstr "Monster pages now show dropped item types and levels next to their drop rates"
+msgid ""
+"Monster pages now show dropped item types and levels next to their drop "
+"rates"
+msgstr ""
+"Monster pages now show dropped item types and levels next to their drop "
+"rates"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Resource pages now show the type and level of each item they can craft"
-msgstr "Resource pages now show the type and level of each item they can craft"
+msgstr ""
+"Resource pages now show the type and level of each item they can craft"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Item pages now include monster drops attached to any variant of the same item"
-msgstr "Item pages now include monster drops attached to any variant of the same item"
+msgid ""
+"Item pages now include monster drops attached to any variant of the same "
+"item"
+msgstr ""
+"Item pages now include monster drops attached to any variant of the same "
+"item"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Monster search now also matches dropped resource and item names"
 msgstr "Monster search now also matches dropped resource and item names"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
-msgstr "The sitemap now includes every recipe ingredient page, including non-resource ingredients"
+msgid ""
+"The sitemap now includes every recipe ingredient page, including non-"
+"resource ingredients"
+msgstr ""
+"The sitemap now includes every recipe ingredient page, including non-"
+"resource ingredients"
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Non-resource ingredient pages now use the correct ingredient label"
@@ -5310,36 +5327,62 @@ msgid "Monster search results now show sample drops on each monster card"
 msgstr "Monster search results now show sample drops on each monster card"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Encyclopedia URLs now keep accented item, resource and monster names readable"
-msgstr "Encyclopedia URLs now keep accented item, resource and monster names readable"
+msgid ""
+"Encyclopedia URLs now keep accented item, resource and monster names "
+"readable"
+msgstr ""
+"Encyclopedia URLs now keep accented item, resource and monster names "
+"readable"
 
 #: chardata/templates/chardata/encyclopedia.html
-msgid "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, effects, equip conditions and recipes for each game version."
-msgstr "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, effects, equip conditions and recipes for each game version."
+msgid ""
+"Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, "
+"effects, equip conditions and recipes for each game version."
+msgstr ""
+"Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, "
+"effects, equip conditions and recipes for each game version."
 
 #: chardata/templates/chardata/changelog_modal.html
 msgid "Encyclopedia drops and recipes"
 msgstr "Encyclopedia drops and recipes"
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "The encyclopedia now links items, ingredients and monsters together: see what drops an item, where an ingredient drops, and what each ingredient is used to craft."
-msgstr "The encyclopedia now links items, ingredients and monsters together: see what drops an item, where an ingredient drops, and what each ingredient is used to craft."
+msgid ""
+"The encyclopedia now links items, ingredients and monsters together: see "
+"what drops an item, where an ingredient drops, and what each ingredient is "
+"used to craft."
+msgstr ""
+"The encyclopedia now links items, ingredients and monsters together: see "
+"what drops an item, where an ingredient drops, and what each ingredient is "
+"used to craft."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Monster cards and search now surface useful drops directly, across every supported game version."
-msgstr "Monster cards and search now surface useful drops directly, across every supported game version."
+msgid ""
+"Monster cards and search now surface useful drops directly, across every "
+"supported game version."
+msgstr ""
+"Monster cards and search now surface useful drops directly, across every "
+"supported game version."
 
 #: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
-msgstr "Compare Sets now shows spell and weapon damage previews, with class and spell selectors, so you can quickly see which build hits harder."
+msgid ""
+"Compare Sets now shows spell and weapon damage previews, with class and "
+"spell selectors, so you can quickly see which build hits harder."
+msgstr ""
+"Compare Sets now shows spell and weapon damage previews, with class and "
+"spell selectors, so you can quickly see which build hits harder."
 
 #: chardata/templates/chardata/encyclopedia_sets.html
 msgid "Search a set or item"
 msgstr "Search a set or item"
 
 #: chardata/templates/chardata/encyclopedia_sets.html
-msgid "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
-msgstr "Browse every Dofus set (panoply) and its bonuses. Find a set by its name or one of its items and build it with the Dofus Fashionista."
+msgid ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set by its name or "
+"one of its items and build it with the Dofus Fashionista."
+msgstr ""
+"Browse every Dofus set (panoply) and its bonuses. Find a set by its name or "
+"one of its items and build it with the Dofus Fashionista."
 
 #: fashionsite/chardata/templates/chardata/solution.html
 msgid "Weighted by this project's stat values."
@@ -5354,8 +5397,12 @@ msgid "Saved generation"
 msgstr "Saved generation"
 
 #: chardata/generated-feature-history
-msgid "This is a saved generation. Restore it to edit it, or compare it with your current build."
-msgstr "This is a saved generation. Restore it to edit it, or compare it with your current build."
+msgid ""
+"This is a saved generation. Restore it to edit it, or compare it with your "
+"current build."
+msgstr ""
+"This is a saved generation. Restore it to edit it, or compare it with your "
+"current build."
 
 #: chardata/generated-feature-history
 msgid "Viewing saved generation"
@@ -5398,9 +5445,23 @@ msgid "Generation history and build scores"
 msgstr "Generation history and build scores"
 
 #: chardata/generated-feature-history
-msgid "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
-msgstr "Solutions now keep recent generations so you can reopen, restore and compare previous builds."
+msgid ""
+"Solutions now keep recent generations so you can reopen, restore and compare"
+" previous builds."
+msgstr ""
+"Solutions now keep recent generations so you can reopen, restore and compare"
+" previous builds."
 
 #: chardata/generated-feature-history
 msgid "Shared builds now use a public score weighted for balanced builds."
 msgstr "Shared builds now use a public score weighted for balanced builds."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Maxed pets on Dofus Touch"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid ""
+"Feeding pets now come as maxed variants in the optimizer, with the official "
+"hormone caps."
+msgstr ""
