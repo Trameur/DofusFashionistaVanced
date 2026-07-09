@@ -3106,6 +3106,50 @@ class SolverSmokeTests(TestCase):
         self.assertGreaterEqual(equipped, 3,
                                 'a level 50 strength solve should equip several items')
 
+class TouchPetSolveTests(TestCase):
+    """Maxed pet variants (scraped from the official Dofus Touch encyclopedia)
+    must reach the solver: at level 50 no mount is equippable (all level 60)
+    and no natural pet beats the maxed bonuses, so a strength solve has to put
+    a synthesized variant in the Pet slot."""
+
+    VARIANT_ID_BASE = 200000000
+
+    def test_touch_structure_has_maxed_pet_variants(self):
+        from fashionistapulp.structure import get_structure
+        st = get_structure('touch')
+        variant = st.get_item_by_name('Bow Meow (+110 Strength)')
+        self.assertIsNotNone(variant,
+                             'maxed touch pet variants missing from items_touch.db')
+        self.assertGreaterEqual(variant.id, self.VARIANT_ID_BASE)
+        self.assertEqual(st.get_type_name_by_id(variant.type), 'Pet')
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_touch_strength_solve_equips_a_maxed_pet_variant(self):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        set_current_game_version('touch')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('touchsolve', 'ts@test.local', 'pw-42-solid')
+        req = RequestFactory().post('/')
+        req.user = owner
+        # The real creation path seeds the default exclusions (GM pets...).
+        char = create_build(req, 'Iop', 50, {'str'}, 'touch')
+        self.client.force_login(owner)
+        resp = self.client.get('/touch/fashion/%d/' % char.pk)
+        self.assertIn(resp.status_code, (200, 302))
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, 'no solution stored after solving')
+        pet = next((ri for ri in solution.item_list
+                    if ri.item_added and ri.type == 'Pet'), None)
+        self.assertIsNotNone(pet, 'no pet equipped on a touch strength solve')
+        self.assertGreaterEqual(
+            pet.id, self.VARIANT_ID_BASE,
+            'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
+
 class WeaponTypeDisplayTests(TestCase):
     """Weapons with no standard type (magnifying glass, fishing rod...) show
     their AP line without a placeholder type prefix."""
