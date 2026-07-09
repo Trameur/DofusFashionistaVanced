@@ -604,7 +604,27 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
     'beta': {},
     'dofus2': {},
     'touch': {},
-    'retro': {},
+    'retro': {
+        # Cra 1.29: the kit is 4 fire arrows (Magic/Burning/Explosive: the solo
+        # PvM reference), a water line crowned by Expiation (37-39, the hardest
+        # hitting arrow) plus Slow Down/Immobilisation (MP removal runs through
+        # wisdom in 1.29, handled by VERSION_WEIGHT_TUNING), a reduced earth
+        # line (post-1.29-nerf: Punitive/Destructive only) and an air line
+        # around the lvl 70 steal (Absorbing Arrow, PvP leaning). Sources: the
+        # 1.29 spell kit from the official lang (dofus_constants_retro_spells),
+        # dofuswiki Cra guides and dofus.com Cra forum threads on the nerf.
+        'Cra': {
+            'str': {
+                'earthdam': 5.0,
+            },
+            'cha': {
+                'waterdam': 6.5,
+            },
+            'agi': {
+                'airdam': 5.5,
+            },
+        },
+    },
 }
 
 
