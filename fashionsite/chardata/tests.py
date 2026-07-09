@@ -2331,6 +2331,54 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, 'g%d' % generation.pk)
         self.assertContains(resp, 'Compare with current')
 
+    def test_generation_preview_uses_the_generation_game_version(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.image_store import get_image_url
+        from chardata.models import Char
+        from chardata.solution_history import get_generation_preview_items
+        from chardata.solution_history import record_solution_generation
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        from static_s3.templatetags.static_s3 import static
+
+        retro = get_structure('retro')
+        modern = get_structure('dofus3')
+        retro_hat = None
+        for candidate in retro.get_unique_items_by_type_and_level('Hat', 200):
+            if candidate.removed:
+                continue
+            modern_item = modern.get_item_by_id(candidate.id)
+            if modern_item is None or modern_item.name != candidate.name:
+                retro_hat = candidate
+                break
+        self.assertIsNotNone(retro_hat)
+
+        owner = User.objects.create_user('retrohistoryowner', 'retrohist@test.local',
+                                         'pw-42-solid')
+        char = Char.objects.create(
+            name='RetroHistoryBuild', char_name='retrohistory', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'str': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(
+                ModelResultMinimal({'hat': retro_hat.id}, self._base_input(), {})),
+            owner=owner, link_shared=True, game_version='retro')
+        generation = record_solution_generation(
+            char,
+            ModelResultMinimal({'hat': retro_hat.id}, self._base_input(), {}))
+
+        with translation.override('en'):
+            preview = get_generation_preview_items(generation)
+
+        self.assertEqual(len(preview), 1)
+        self.assertEqual(preview[0]['name'],
+                         retro.get_item_name_in_language(retro_hat, 'en'))
+        expected_image_url = static(get_image_url(
+            retro.get_type_name_by_id(retro_hat.type), retro_hat.name, 'retro'))
+        self.assertEqual(preview[0]['image_url'], expected_image_url)
+
     def test_saved_generation_can_be_opened_compared_and_restored(self):
         import pickle as _pickle
         from chardata.solution_history import record_solution_generation

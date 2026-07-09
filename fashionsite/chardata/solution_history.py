@@ -55,7 +55,7 @@ def get_generation_preview_items(generation, limit=12):
     except Exception:
         return []
 
-    structure = get_structure()
+    structure = get_structure(generation.game_version)
     language = get_supported_language()
     preview_items = []
     for slot in SLOTS:
@@ -67,7 +67,10 @@ def get_generation_preview_items(generation, limit=12):
             continue
         preview_items.append({
             'name': structure.get_item_name_in_language(item, language),
-            'image_url': static(get_image_url(structure.get_type_name_by_id(item.type), item.name)),
+            'image_url': static(get_image_url(
+                structure.get_type_name_by_id(item.type),
+                item.name,
+                generation.game_version)),
         })
         if len(preview_items) >= limit:
             break
