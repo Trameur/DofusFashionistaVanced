@@ -5465,3 +5465,11 @@ msgid ""
 "Feeding pets now come as maxed variants in the optimizer, with the official "
 "hormone caps."
 msgstr ""
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Craft professions in the encyclopedia"
+msgstr ""
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which profession crafts each recipe."
+msgstr ""

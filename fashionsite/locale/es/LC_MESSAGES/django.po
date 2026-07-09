@@ -7658,6 +7658,15 @@ msgstr ""
 "Las mascotas que se alimentan ahora tienen variantes al máximo en el "
 "optimizador, con los topes oficiales bajo hormona."
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Craft professions in the encyclopedia"
+msgstr "Los oficios de fabricación en la enciclopedia"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which profession crafts each recipe."
+msgstr ""
+"Las páginas de items ahora muestran el oficio que fabrica cada receta."
+
 #~ msgid "Send"
 #~ msgstr "Enviar"
 

@@ -8147,6 +8147,16 @@ msgstr ""
 "Les familiers à nourrir existent maintenant en variantes maxées dans "
 "l'optimiseur, avec les plafonds officiels sous hormone."
 
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Craft professions in the encyclopedia"
+msgstr "Les métiers de craft dans l'encyclopédie"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which profession crafts each recipe."
+msgstr ""
+"Les pages d'items affichent maintenant le métier qui fabrique chaque "
+"recette."
+
 #~ msgid "Send"
 #~ msgstr "Envoyer"
 

@@ -149,6 +149,7 @@ def main() -> None:
         PY, "download_retro_langs.py",
         "--lang", args.lang,
         "--categories", "items", "itemstats", "itemsets", "spells", "classes",
+        "jobs", "skills",
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
@@ -160,7 +161,7 @@ def main() -> None:
             step(f"lang/download-{lang}", [
                 PY, "download_retro_langs.py",
                 "--lang", lang,
-                "--categories", "items", "spells",
+                "--categories", "items", "spells", "jobs",
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
@@ -193,6 +194,21 @@ def main() -> None:
     step("drops/store", [
         PY, "store_drops.py",
         "--drops", "transformed_drops_retro.json",
+        "--game-version", "retro",
+    ], cwd=ITEMSCRAPER)
+
+    # Craft professions ("Crafted by ..."): the 1.29 skills lang lists every
+    # craftable item per skill (cl) with its owning job; jobs_<lang> localizes
+    # the pre-merge profession names. No per-recipe level in 1.29 data.
+    step("craftjobs/transform", [
+        PY, "get_craft_jobs_retro.py",
+        "--raw-dir", RETRO_RAW_DIR,
+        "--output", "transformed_craft_jobs_retro.json",
+    ], cwd=ITEMSCRAPER)
+
+    step("craftjobs/store", [
+        PY, "store_craft_jobs.py",
+        "--jobs", "transformed_craft_jobs_retro.json",
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 

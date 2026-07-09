@@ -7672,3 +7672,11 @@ msgid ""
 msgstr ""
 "Fütterbare Vertraute gibt es jetzt als gemaxte Varianten im Optimierer, mit "
 "den offiziellen Hormon-Obergrenzen."
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Craft professions in the encyclopedia"
+msgstr "Die Handwerksberufe in der Enzyklopädie"
+
+#: chardata/templates/chardata/changelog_modal.html
+msgid "Item pages now show which profession crafts each recipe."
+msgstr "Die Item-Seiten zeigen jetzt, welcher Beruf jedes Rezept herstellt."
