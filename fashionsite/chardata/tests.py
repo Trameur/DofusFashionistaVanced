@@ -4033,3 +4033,45 @@ class NoMojibakeInTranslationsTests(SimpleTestCase):
             offenders, [],
             'mojibake question marks found in translations (broken accents, '
             'rewrite the .po in UTF-8): %s' % offenders)
+
+
+class NoEmDashInCodeTests(SimpleTestCase):
+    """Em/en dashes read machine-generated, so the whole site avoids them (copy,
+    comments, CSS, JS). The 2026-07 sweep brought every first-party source to zero;
+    this test freezes that state. Allowlisted leftovers:
+    - <title>/og:title separator dashes (ranking-sensitive, pending a decision);
+    - this test file itself (the guard literals);
+    - third-party minified libraries."""
+
+    DASH_RE = re.compile('[—–]')
+    EXTENSIONS = ('.py', '.html', '.css', '.js')
+    SKIP_DIRS = {'locale', 'staticfiles', 'migrations', '__pycache__', 'admin'}
+    SKIP_FILES = {'tests.py', 'mousetrap.min.js', 'sha256.js',
+                  'jquery-ui-touch-punch-min.js'}
+    LINE_ALLOWLIST = ('og:title', 'block title')
+
+    def test_no_em_dash_in_first_party_sources(self):
+        chardata_dir = os.path.dirname(os.path.abspath(__file__))
+        fashionsite_root = os.path.dirname(chardata_dir)
+        offenders = []
+        for dirpath, dirnames, filenames in os.walk(fashionsite_root):
+            dirnames[:] = [d for d in dirnames if d not in self.SKIP_DIRS]
+            for filename in filenames:
+                if not filename.endswith(self.EXTENSIONS):
+                    continue
+                if filename in self.SKIP_FILES or '.min.' in filename:
+                    continue
+                path = os.path.join(dirpath, filename)
+                with open(path, encoding='utf-8', errors='replace') as fh:
+                    for lineno, line in enumerate(fh, 1):
+                        if not self.DASH_RE.search(line):
+                            continue
+                        if any(allow in line for allow in self.LINE_ALLOWLIST):
+                            continue
+                        rel = os.path.relpath(path, fashionsite_root)
+                        offenders.append('%s:%d: %s'
+                                         % (rel, lineno, line.strip()[:60]))
+        self.assertEqual(
+            offenders, [],
+            'em/en dash found in first-party sources (use ., :, , or '
+            'parentheses): %s' % offenders)
