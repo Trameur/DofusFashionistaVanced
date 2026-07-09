@@ -132,7 +132,7 @@ def collect_damage(effect_list):
 
 def decode_spell(spell, spell_levels):
     """Touch spell -> damage-spell dict, or None if it deals no elemental damage."""
-    per_nc, per_cr, levels_req, elements = [], [], [], []
+    per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     for lid in (spell.get('spellLevels') or []):
         lv = spell_levels.get(str(lid))
         if not lv:
@@ -142,6 +142,12 @@ def decode_spell(spell, spell_levels):
         per_nc.append(nc)
         per_cr.append(cr)
         levels_req.append(max(1, int(lv.get('minPlayerLevel') or 1)))
+        try:
+            stack = int(lv.get('maxStack') or 0)
+        except (TypeError, ValueError):
+            stack = 0
+        if stack > 1:
+            stacks.append(stack)
         for elem in list(nc) + list(cr):
             if elem not in elements:
                 elements.append(elem)
@@ -164,6 +170,9 @@ def decode_spell(spell, spell_levels):
         'elements': elements,
         'non_crit_ranges': non_crit,
         'crit_ranges': crit,
+        # The buff can accumulate (maxStack in the game data): the damage
+        # simulator shows the multiplier like on Dofus 3.
+        'stacks': max(stacks) if stacks else None,
     }
 
 
@@ -218,7 +227,10 @@ def emit_module(by_class, spell_names, path):
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
-            lines.append("        )),")
+            if s.get('stacks'):
+                lines.append("        ), stacks=%d)," % s['stacks'])
+            else:
+                lines.append("        )),")
         lines.append("    ],")
     lines.append("    'default': [],")
     lines.append("}")
