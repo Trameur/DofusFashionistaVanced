@@ -3095,6 +3095,48 @@ class FullScrollRetroTests(TestCase):
         self.assertEqual(self._full_scroll_values('dofus3'), {100})
 
 
+class VersionWeightTuningTests(SimpleTestCase):
+    """Each game version is a different game: the smart-build weights zero the
+    stats that version's item pool does not carry, and encode 1.29 mechanics
+    (wisdom as the AP/MP defense stat, rarer % resistance gear, stronger
+    initiative). The Dofus 3 engine itself must not move."""
+
+    def _weights(self, version, aspects):
+        from types import SimpleNamespace
+        from chardata.smart_build import _set_weights
+        char = SimpleNamespace(char_class='Iop', level=200, game_version=version)
+        return _set_weights(char, aspects, apply=False)
+
+    def test_dead_stats_are_zeroed_per_version(self):
+        for version, dead in (
+                ('retro', ('cridam', 'apres', 'mpres', 'apred', 'mpred', 'lock')),
+                ('touch', ('permedam', 'perrandam', 'perweadam', 'perspedam',
+                           'respermee', 'resperran')),
+                ('dofus2', ('ref',))):
+            w = self._weights(version, {'str'})
+            for key in dead:
+                if key in w:
+                    self.assertEqual(w[key], 0,
+                                     '%s should weigh 0 on %s' % (key, version))
+
+    def test_dofus3_engine_unchanged(self):
+        w = self._weights('dofus3', {'str'})
+        for key in ('cridam', 'permedam', 'apres', 'earthresper'):
+            self.assertGreater(w[key], 0, key)
+
+    def test_retro_mechanics_differ_from_dofus3(self):
+        w3 = self._weights('dofus3', {'str'})
+        wr = self._weights('retro', {'str'})
+        self.assertGreater(wr['wis'], w3['wis'])
+        self.assertGreater(wr['init'], w3['init'])
+        self.assertLess(wr['earthresper'], w3['earthresper'])
+
+    def test_retro_ap_mp_defense_routes_through_wisdom(self):
+        w = self._weights('retro', {'str', 'aprape'})
+        self.assertGreaterEqual(w['wis'], 12 * 20)
+        self.assertEqual(w['apred'], 0)
+
+
 class StatsWeightCapTests(TestCase):
     """A build whose weights exceed the old 5k guard (high-end crit/omni builds
     store weights via _set_weights, which never checks the bound) used to 500 on

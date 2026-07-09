@@ -34,6 +34,42 @@ ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
                     'trap', 'summon', 'pushback',
                     'pp', 'pods']
 
+# Every game version is a different game: the weight engine below is tuned for
+# Dofus 3, and each other version overrides what actually differs.
+#
+# 'zero_stats' is DATA-DRIVEN: stats no item of that version's pool carries
+# (measured against items_<version>.db), so weighting them only pollutes the
+# advanced tuning page. The remaining knobs encode 1.29 mechanics:
+#  - in 1.29 there are no AP/MP dodge/withdrawal item stats; WISDOM plays that
+#    role (10 wis = 1 AP/MP dodge and withdrawal), so its baseline is higher
+#    and the aprape/mprape presets route through it;
+#  - % resistance gear is rare in 1.29 (a few sets, PvP-only shields), so the
+#    quadratic Dofus 3 endgame curve overvalues it: linear, gentler curve;
+#  - first turns decide short 1.29 fights and initiative gear is common, so
+#    initiative is worth more than in Dofus 3.
+VERSION_WEIGHT_TUNING = {
+    'dofus3': {},
+    'beta': {},
+    'dofus2': {
+        'zero_stats': ('ref',),
+    },
+    'touch': {
+        'zero_stats': ('ref', 'trapdam', 'trapdamper',
+                       'permedam', 'perrandam', 'perweadam', 'perspedam',
+                       'respermee', 'resperran', 'resperwea'),
+    },
+    'retro': {
+        'zero_stats': ('ref', 'cridam', 'apred', 'mpred', 'apres', 'mpres',
+                       'lock', 'pshdam', 'pshres', 'crires',
+                       'permedam', 'perrandam', 'perweadam', 'perspedam',
+                       'respermee', 'resperran', 'resperwea'),
+        'res_per_factor': lambda level_pct: 2 + 4 * level_pct,
+        'wis_base': 4,
+        'wis_rape_floor': 12,
+        'init_mult': 3,
+    },
+}
+
 ALL_ASPECTS = set(ALL_ASPECTS_LIST)
 
 ASPECT_TO_NAME = {
@@ -689,9 +725,11 @@ def _set_weights(char, aspects, apply=True):
     level_pct = level / 200.0
     elements = get_elements(aspects)
     element_count = len(elements)
-    
+    tuning = VERSION_WEIGHT_TUNING.get(
+        getattr(char, 'game_version', 'dofus3') or 'dofus3', {})
+
     w = {}
-    
+
     # Weights
     b = 20
 
@@ -704,7 +742,10 @@ def _set_weights(char, aspects, apply=True):
     if 'glasscannon' in aspects:
         attack_factor *= 1.5
     dam_mult = 2 if 'dam' in aspects else 1
-    res_per_factor = 2 + (10 * level_pct * level_pct)
+    if 'res_per_factor' in tuning:
+        res_per_factor = tuning['res_per_factor'](level_pct)
+    else:
+        res_per_factor = 2 + (10 * level_pct * level_pct)
     w['lock'] = param_for_build(race, elements, 'lock_importance', 'float_avg') * 10 * b
     w['dodge'] = param_for_build(race, elements, 'dodge_importance', 'float_avg') * 10 * b
     if 'vit' in aspects:
@@ -713,7 +754,7 @@ def _set_weights(char, aspects, apply=True):
         w['vit'] = (param_for_build(race, elements, 'vit_importance', 'float_avg') + 0.5) * b
     w['hp'] = w['vit']
 
-    w['wis'] = (25 if 'wis' in aspects else 2) * b
+    w['wis'] = (25 if 'wis' in aspects else tuning.get('wis_base', 2)) * b
     w['str'] = attack_factor * b if 'str' in elements else 0
     w['int'] = attack_factor * b if 'int' in elements else 0
     w['agi'] = attack_factor * b if 'agi' in elements else 0
@@ -759,6 +800,11 @@ def _set_weights(char, aspects, apply=True):
     if 'mprape' in aspects:
         w['mpred'] = max(2.5 * w['mpred'], minimum_red)
     w['wis'] = max(w['wis'], (w['apred'] + w['mpred'] + w['apres'] + w['mpres']) / 10.0)
+    # Versions where wisdom itself is the AP/MP defense stat (1.29): the
+    # aprape/mprape presets must push wisdom, since the item stats they
+    # normally push do not exist there.
+    if 'wis_rape_floor' in tuning and ('aprape' in aspects or 'mprape' in aspects):
+        w['wis'] = max(w['wis'], tuning['wis_rape_floor'] * b)
     
     if 'dam' in aspects:
         w['dam'] = max(w['dam'], 30 * b)
@@ -781,7 +827,9 @@ def _set_weights(char, aspects, apply=True):
     w['cha'] = max(w['cha'], w['pp'] / 10.0)
     w['cha'] += 0.1 * w['pp']
 
-    w['init'] =  0.3 * b if 'duel' in aspects else 0.1 * b if 'pvp' in aspects else 0.03 * b
+    w['init'] = (0.3 * b if 'duel' in aspects else
+                 0.1 * b if 'pvp' in aspects else 0.03 * b)
+    w['init'] *= tuning.get('init_mult', 1)
 
     if 'pods' in aspects:
         w['pod'] = 10 * b
@@ -882,6 +930,12 @@ def _set_weights(char, aspects, apply=True):
             w['%sresper' % damage_type] = 0
             w['%sdam' % damage_type] = 0
         w['dam'] = 0
+
+    # Stats no item of this version's pool carries (see VERSION_WEIGHT_TUNING):
+    # keep the keys so the tuning page stays stable, but at 0.
+    for zero_key in tuning.get('zero_stats', ()):
+        if zero_key in w:
+            w[zero_key] = 0
 
     # Discretize w
     for k in w:
