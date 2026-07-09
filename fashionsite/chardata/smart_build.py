@@ -603,7 +603,73 @@ RACES_WITH_HYBRID_PROFILES = ['Huppermage']
 RACE_PROFILE_OVERRIDES_BY_VERSION = {
     'beta': {},
     'dofus2': {},
-    'touch': {},
+    # Touch overrides. Primary factual basis: the Touch spell kits verified
+    # line by line against the live game backend (dofus_constants_touch_spells,
+    # 165/165 audit), rated per element by kit depth and hardest hit at max
+    # grade; plus the explicit element verdicts of the Guidactik Touch PvM
+    # tier list (2025). Rule of thumb: +0.5 for the clearly dominant element,
+    # -1.0 for a clearly poor kit (top hit under ~75% of the class best),
+    # explicit guide warnings take precedence.
+    'touch': {
+        # Transfusion Arrow 48-52 towers over the kit; the air kit tops at
+        # 26-28, roughly half of it.
+        'Cra': {
+            'str': {'earthdam': 6.5},
+            'agi': {'airdam': 5.0},
+        },
+        # Troubling Word 42-44 leads; the air kit is thin (3 spells, top
+        # 28-30). Touch Eniripsa remains the game's healer (S tier as such),
+        # unlike the offensive Dofus 3 profile.
+        'Eniripsa': {
+            'all': {'heals_importance': 0.5},
+            'int': {'firedam': 6.5},
+            'agi': {'airdam': 5.0},
+        },
+        # Guidactik: the fire path "lacks power"; earth and water kits are
+        # even (34-37 / 34-38).
+        'Enutrof': {
+            'int': {'firedam': 5.5},
+        },
+        # Furnace 33-37 leads a small, even kit (2 spells per element).
+        'Feca': {
+            'int': {'firedam': 6.5},
+        },
+        # Ecume 38-42 leads (5 water spells).
+        'Foggernaut': {
+            'cha': {'waterdam': 6.5},
+        },
+        # Sword of Fate 41-45 leads the kit.
+        'Iop': {
+            'int': {'firedam': 6.5},
+        },
+        # Guidactik: the Touch Zobal is "restricted to the air pathway";
+        # water is also the weakest kit (top 26-30).
+        'Masqueraider': {
+            'agi': {'airdam': 6.5},
+            'cha': {'waterdam': 5.5},
+        },
+        # Pandatak 42-46 leads the kit.
+        'Pandawa': {
+            'str': {'earthdam': 6.5},
+        },
+        # Carnage 41-45 leads; the earth kit tops at 28-32, clearly behind.
+        'Sacrier': {
+            'agi': {'airdam': 6.5},
+            'str': {'earthdam': 5.0},
+        },
+        # Aggressive Brambles 41-46 leads the kit.
+        'Sadida': {
+            'str': {'earthdam': 6.5},
+        },
+        # Deadly Attack 50-54 towers over the kit; the fire kit tops at
+        # 32-36, clearly behind.
+        'Sram': {
+            'str': {'earthdam': 6.5},
+            'int': {'firedam': 5.0},
+        },
+        # Ecaflip, Osamodas, Rogue, Xelor: even kits, no explicit guide
+        # verdict: inherit the base profile.
+    },
     'retro': {
         # Cra 1.29: the kit is 4 fire arrows (Magic/Burning/Explosive: the solo
         # PvM reference), a water line crowned by Expiation (37-39, the hardest
@@ -733,6 +799,28 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 5.5,
             },
         },
+        # Ecaflip 1.29: earth is the class's main element (6 earth spells,
+        # top Feline Spirit 36-50 checked; strength to 200 then vitality).
+        # Sources: Breakflip, Millenium Ecaflip 1.29 guides.
+        'Ecaflip': {
+            'str': {
+                'earthdam': 6.5,
+            },
+        },
+        # Sadida 1.29: damage is "essentially earth" (Aggressive Brambles),
+        # while the fire kit is marginal (3 spells, top Wild Grass 11-20
+        # checked). Air's lone big hit (Poupesque Sacrifice 41-45) consumes a
+        # doll: inherited. Sources: Breakflip, Millenium Sadida 1.29 guides.
+        'Sadida': {
+            'str': {
+                'earthdam': 6.5,
+            },
+            'int': {
+                'firedam': 5.0,
+            },
+        },
+        # Pandawa 1.29: no override on purpose; the sources split (earth "most
+        # accessible" vs fire "cheapest in AP") and the lang kit is balanced.
     },
 }
 
