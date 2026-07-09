@@ -1645,6 +1645,7 @@ MONSTER_UI = {
 MONSTER_DROP_FILTERS = ('all', 'resources', 'items', 'both')
 MONSTER_SORTS = ('name', 'total_drops', 'resource_drops', 'item_drops')
 _monster_index_cache = {}
+_monster_core_cache = {}
 
 
 def _monster_ui_text():
@@ -1784,33 +1785,43 @@ def _get_monster_drop_previews(cursor, monster_ids, language, game_version, limi
     return _format_monster_drop_previews(drop_groups, game_version, limit=limit)
 
 
-def _get_monster_index(game_version, language):
-    cache_key = (game_version, language)
-    cached = _monster_index_cache.get(cache_key)
-    if cached is not None:
-        return cached
-
+def _build_monster_core(game_version):
+    """Language-neutral part of the monster index (drop counts, all localized
+    names, normalized search blob). This is the expensive build (SQL scans +
+    accent stripping), so it runs once per version; _get_monster_index derives
+    the cheap per-language view from it. Each alias is normalized once via a
+    memo: the old code re-normalized giant concatenated blobs (a popular drop
+    like a common resource was re-processed once per dropping monster), which
+    dominated the page's cold render time."""
     monsters = []
     conn = None
     try:
         conn = sqlite3.connect(get_items_db_path(game_version))
         cursor = conn.cursor()
         if not _db_table_exists(cursor, 'monster_names'):
-            _monster_index_cache[cache_key] = monsters
             return monsters
 
+        norm_cache = {}
+
+        def norm(value):
+            normalized = norm_cache.get(value)
+            if normalized is None:
+                normalized = _normalized_text(value)
+                norm_cache[value] = normalized
+            return normalized
+
         monster_names = defaultdict(dict)
-        monster_aliases = defaultdict(list)
+        monster_aliases = defaultdict(set)
         cursor.execute('SELECT monster_ankama_id, language, name FROM monster_names')
         for monster_id, name_language, name in cursor.fetchall():
             monster_names[monster_id][name_language] = name
             if name:
-                monster_aliases[monster_id].append(name)
+                monster_aliases[monster_id].add(norm(name))
 
         resource_counts = Counter()
-        resource_aliases = defaultdict(list)
+        resource_aliases = defaultdict(set)
         if _db_table_exists(cursor, 'resource_drops'):
-            resource_names = defaultdict(list)
+            resource_names = defaultdict(set)
             if _db_table_exists(cursor, 'item_recipe_ingredient_names'):
                 cursor.execute(
                     """
@@ -1820,57 +1831,80 @@ def _get_monster_index(game_version, language):
                     """)
                 for resource_id, name in cursor.fetchall():
                     if name:
-                        resource_names[resource_id].append(name)
+                        resource_names[resource_id].add(norm(name))
             cursor.execute('SELECT resource_ankama_id, monster_ankama_id FROM resource_drops')
             for resource_id, monster_id in cursor.fetchall():
                 resource_counts[monster_id] += 1
-                resource_aliases[monster_id].extend(resource_names.get(resource_id, []))
+                resource_aliases[monster_id].update(resource_names.get(resource_id, ()))
 
         item_counts = Counter()
-        item_aliases = defaultdict(list)
+        item_aliases = defaultdict(set)
         if _db_table_exists(cursor, 'item_drops'):
-            item_names = defaultdict(list)
+            item_names = defaultdict(set)
             if _db_table_exists(cursor, 'items'):
                 cursor.execute('SELECT id, name FROM items')
                 for item_id, name in cursor.fetchall():
                     if name:
-                        item_names[item_id].append(name)
+                        item_names[item_id].add(norm(name))
             if _db_table_exists(cursor, 'item_names'):
                 cursor.execute('SELECT item, name FROM item_names')
                 for item_id, name in cursor.fetchall():
                     if name:
-                        item_names[item_id].append(name)
+                        item_names[item_id].add(norm(name))
             cursor.execute('SELECT item, monster_ankama_id FROM item_drops')
             for item_id, monster_id in cursor.fetchall():
                 item_counts[monster_id] += 1
-                item_aliases[monster_id].extend(item_names.get(item_id, []))
+                item_aliases[monster_id].update(item_names.get(item_id, ()))
 
         dropped_monster_ids = sorted(set(resource_counts) | set(item_counts))
         for monster_id in dropped_monster_ids:
-            names = monster_names.get(monster_id, {})
-            name = names.get(language) or names.get('en') or '#%s' % monster_id
+            pieces = set()
+            pieces.update(monster_aliases.get(monster_id, ()))
+            pieces.update(resource_aliases.get(monster_id, ()))
+            pieces.update(item_aliases.get(monster_id, ()))
+            pieces.add(str(monster_id))
             resource_count = resource_counts[monster_id]
             item_count = item_counts[monster_id]
-            search_blob = _normalized_text('%s %s %s %s %s' % (
-                name,
-                ' '.join(monster_aliases.get(monster_id, [])),
-                ' '.join(resource_aliases.get(monster_id, [])),
-                ' '.join(item_aliases.get(monster_id, [])),
-                monster_id))
             monsters.append({
                 'id': monster_id,
-                'name': name,
+                'names': dict(monster_names.get(monster_id, {})),
                 'resource_count': resource_count,
                 'item_count': item_count,
                 'total_drops': resource_count + item_count,
-                'url': get_monster_link(monster_id, name, game_version),
-                'search_blob': search_blob,
+                'search_blob': ' '.join(sorted(piece for piece in pieces if piece)),
             })
     except Exception:
         monsters = []
     finally:
         if conn is not None:
             conn.close()
+    return monsters
+
+
+def _get_monster_index(game_version, language):
+    cache_key = (game_version, language)
+    cached = _monster_index_cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    core = _monster_core_cache.get(game_version)
+    if core is None:
+        core = _build_monster_core(game_version)
+        _monster_core_cache[game_version] = core
+
+    monsters = []
+    for entry in core:
+        names = entry['names']
+        name = names.get(language) or names.get('en') or '#%s' % entry['id']
+        monsters.append({
+            'id': entry['id'],
+            'name': name,
+            'resource_count': entry['resource_count'],
+            'item_count': entry['item_count'],
+            'total_drops': entry['total_drops'],
+            'url': get_monster_link(entry['id'], name, game_version),
+            'search_blob': entry['search_blob'],
+        })
 
     _monster_index_cache[cache_key] = monsters
     return monsters
