@@ -1,0 +1,1226 @@
+{
+ "Air Bwak": [
+  [
+   "Agility",
+   110
+  ],
+  [
+   "% Air Resist",
+   27
+  ],
+  [
+   "Vitality",
+   110
+  ]
+ ],
+ "Atooin": [
+  [
+   "Heals",
+   17
+  ],
+  [
+   "Damage",
+   17
+  ]
+ ],
+ "Baby Crowdzilla": [
+  [
+   "Prospecting",
+   90
+  ]
+ ],
+ "Bilby": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Black Dragoone": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Black Madreggon": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Black Quaquack": [
+  [
+   "Heals",
+   55
+  ],
+  [
+   "Heals",
+   1
+  ]
+ ],
+ "Bloalak": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Bloody Koalak": [
+  [
+   "Wisdom",
+   220
+  ]
+ ],
+ "Blue Piwin": [
+  [
+   "Chance",
+   110
+  ]
+ ],
+ "Boarhog": [
+  [
+   "Pods",
+   1100
+  ],
+  [
+   "Pods",
+   10
+  ]
+ ],
+ "Bontarian Boon": [
+  [
+   "Heals",
+   55
+  ],
+  [
+   "Heals",
+   1
+  ]
+ ],
+ "Bontarian Tofu": [
+  [
+   "Initiative",
+   2100
+  ],
+  [
+   "Initiative",
+   10
+  ]
+ ],
+ "Bontick": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Boonax": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Borbat": [
+  [
+   "Pods",
+   1100
+  ],
+  [
+   "Pods",
+   10
+  ]
+ ],
+ "Bow Meow": [
+  [
+   "Agility",
+   110
+  ],
+  [
+   "Strength",
+   110
+  ],
+  [
+   "% Neutral Resist",
+   27
+  ],
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "Vitality",
+   110
+  ],
+  [
+   "Chance",
+   110
+  ]
+ ],
+ "Brakarina": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Brakmarian Boon": [
+  [
+   "Pods",
+   1100
+  ],
+  [
+   "Pods",
+   10
+  ]
+ ],
+ "Brindled Bow Wow": [
+  [
+   "Damage",
+   17
+  ],
+  [
+   "Damage",
+   1
+  ]
+ ],
+ "Brindled Minifoux": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Brulay": [
+  [
+   "Intelligence",
+   160
+  ],
+  [
+   "Intelligence",
+   1
+  ]
+ ],
+ "Bulbisou": [
+  [
+   "Earth Damage",
+   22
+  ],
+  [
+   "Earth Damage",
+   1
+  ]
+ ],
+ "Bulbutting": [
+  [
+   "Pods",
+   1100
+  ],
+  [
+   "Pods",
+   10
+  ]
+ ],
+ "Bworky": [
+  [
+   "Pods",
+   1100
+  ]
+ ],
+ "Charming Boon": [
+  [
+   "% Water Resist",
+   27
+  ],
+  [
+   "% Water Resist",
+   1
+  ]
+ ],
+ "Charming Bow Meow": [
+  [
+   "Water Damage",
+   22
+  ],
+  [
+   "Water Damage",
+   1
+  ]
+ ],
+ "Charming Godron": [
+  [
+   "Water Resist",
+   44
+  ],
+  [
+   "Water Resist",
+   1
+  ]
+ ],
+ "Charming Tofu": [
+  [
+   "Chance",
+   110
+  ],
+  [
+   "Chance",
+   1
+  ]
+ ],
+ "Cromagmunk": [
+  [
+   "Damage",
+   17
+  ]
+ ],
+ "Cromigmite": [
+  [
+   "Vitality",
+   550
+  ]
+ ],
+ "Croum": [
+  [
+   "% Air Resist",
+   26
+  ],
+  [
+   "% Water Resist",
+   26
+  ],
+  [
+   "% Earth Resist",
+   26
+  ],
+  [
+   "% Fire Resist",
+   26
+  ],
+  [
+   "% Neutral Resist",
+   26
+  ]
+ ],
+ "Dauge": [
+  [
+   "Strength",
+   110
+  ],
+  [
+   "Strength",
+   1
+  ]
+ ],
+ "Dehluge": [
+  [
+   "Chance",
+   160
+  ],
+  [
+   "Chance",
+   1
+  ]
+ ],
+ "Dhrellthat": [
+  [
+   "Agility",
+   110
+  ],
+  [
+   "Agility",
+   1
+  ]
+ ],
+ "Earth Bwak": [
+  [
+   "Strength",
+   110
+  ],
+  [
+   "% Earth Resist",
+   27
+  ],
+  [
+   "Vitality",
+   110
+  ]
+ ],
+ "El Scarador": [
+  [
+   "% Fire Resist",
+   26
+  ],
+  [
+   "% Water Resist",
+   26
+  ],
+  [
+   "% Earth Resist",
+   26
+  ],
+  [
+   "% Air Resist",
+   26
+  ],
+  [
+   "% Neutral Resist",
+   26
+  ],
+  [
+   "% Fire Resist",
+   1
+  ],
+  [
+   "% Water Resist",
+   1
+  ],
+  [
+   "% Earth Resist",
+   1
+  ],
+  [
+   "% Air Resist",
+   1
+  ],
+  [
+   "% Neutral Resist",
+   1
+  ]
+ ],
+ "Eliom": [
+  [
+   "Chance",
+   110
+  ],
+  [
+   "Chance",
+   1
+  ]
+ ],
+ "Fire Bwak": [
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "% Fire Resist",
+   27
+  ],
+  [
+   "Vitality",
+   110
+  ]
+ ],
+ "Fosfor": [
+  [
+   "Pods",
+   1100
+  ],
+  [
+   "Pods",
+   10
+  ]
+ ],
+ "Friendrake": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Ghast": [
+  [
+   "Vitality",
+   550
+  ]
+ ],
+ "Glub": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Goba Vett": [
+  [
+   "Prospecting",
+   40
+  ]
+ ],
+ "Gobtubby": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Golden Dragoone": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Grauler": [
+  [
+   "Wisdom",
+   90
+  ]
+ ],
+ "Green Piwin": [
+  [
+   "Strength",
+   110
+  ]
+ ],
+ "Groogler": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Gupin": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Homlett": [
+  [
+   "Initiative",
+   2100
+  ],
+  [
+   "Initiative",
+   10
+  ]
+ ],
+ "Icky Boon": [
+  [
+   "% Earth Resist",
+   27
+  ],
+  [
+   "% Earth Resist",
+   1
+  ]
+ ],
+ "Icky Bow Meow": [
+  [
+   "Earth Damage",
+   22
+  ],
+  [
+   "Earth Damage",
+   1
+  ]
+ ],
+ "Icky Godron": [
+  [
+   "Earth Resist",
+   44
+  ],
+  [
+   "Earth Resist",
+   1
+  ]
+ ],
+ "Icky Tofu": [
+  [
+   "Strength",
+   110
+  ],
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "Strength",
+   1
+  ],
+  [
+   "Intelligence",
+   1
+  ]
+ ],
+ "Jellifrost": [
+  [
+   "Heals",
+   55
+  ]
+ ],
+ "Jumbow Meow": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Kanigloopy": [
+  [
+   "Water Damage",
+   22
+  ],
+  [
+   "Water Damage",
+   1
+  ]
+ ],
+ "Karmeleon": [
+  [
+   "% Neutral Resist",
+   5
+  ],
+  [
+   "% Earth Resist",
+   5
+  ],
+  [
+   "% Water Resist",
+   5
+  ],
+  [
+   "% Fire Resist",
+   5
+  ],
+  [
+   "% Air Resist",
+   5
+  ]
+ ],
+ "Kerubaby": [
+  [
+   "Pods",
+   1100
+  ]
+ ],
+ "Khin-Tohoun": [
+  [
+   "Vitality",
+   125
+  ]
+ ],
+ "Kompost": [
+  [
+   "Strength",
+   160
+  ],
+  [
+   "Strength",
+   1
+  ]
+ ],
+ "Little White Bow Meow": [
+  [
+   "Initiative",
+   2100
+  ]
+ ],
+ "Mastostroke": [
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "Intelligence",
+   1
+  ]
+ ],
+ "Maulleycat": [
+  [
+   "Initiative",
+   2100
+  ],
+  [
+   "Initiative",
+   10
+  ]
+ ],
+ "Measured Boon": [
+  [
+   "% Air Resist",
+   27
+  ],
+  [
+   "% Air Resist",
+   1
+  ]
+ ],
+ "Measured Bow Meow": [
+  [
+   "Air Damage",
+   22
+  ],
+  [
+   "Air Damage",
+   1
+  ]
+ ],
+ "Measured Godron": [
+  [
+   "Air Resist",
+   44
+  ],
+  [
+   "Air Resist",
+   1
+  ]
+ ],
+ "Measured Tofu": [
+  [
+   "Agility",
+   110
+  ],
+  [
+   "Agility",
+   1
+  ]
+ ],
+ "Mekrab": [
+  [
+   "Damage",
+   17
+  ],
+  [
+   "Damage",
+   1
+  ]
+ ],
+ "Mini Wa": [
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "Agility",
+   110
+  ],
+  [
+   "Chance",
+   110
+  ],
+  [
+   "Strength",
+   110
+  ]
+ ],
+ "Minifoux": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Moowitty": [
+  [
+   "Prospecting",
+   53
+  ],
+  [
+   "Wisdom",
+   98
+  ]
+ ],
+ "Mosk": [
+  [
+   "Agility",
+   110
+  ],
+  [
+   "Agility",
+   1
+  ]
+ ],
+ "Mouselet": [
+  [
+   "Vitality",
+   300
+  ],
+  [
+   "Initiative",
+   300
+  ]
+ ],
+ "Newborn Grifforis": [
+  [
+   "Prospecting",
+   25
+  ],
+  [
+   "Initiative",
+   50
+  ]
+ ],
+ "Nomoon": [
+  [
+   "Prospecting",
+   90
+  ]
+ ],
+ "Noxine": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Paunchy Boon": [
+  [
+   "% Fire Resist",
+   27
+  ],
+  [
+   "% Fire Resist",
+   1
+  ]
+ ],
+ "Paunchy Bow Meow": [
+  [
+   "Fire Damage",
+   22
+  ],
+  [
+   "Fire Damage",
+   1
+  ]
+ ],
+ "Paunchy Godron": [
+  [
+   "Fire Resist",
+   44
+  ],
+  [
+   "Fire Resist",
+   1
+  ]
+ ],
+ "Paunchy Tofu": [
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "Intelligence",
+   1
+  ]
+ ],
+ "Peki Peki": [
+  [
+   "Vitality",
+   550
+  ]
+ ],
+ "Phoenix": [
+  [
+   "Wisdom",
+   45
+  ],
+  [
+   "Prospecting",
+   45
+  ]
+ ],
+ "Pink Dragoone": [
+  [
+   "Wisdom",
+   220
+  ]
+ ],
+ "Pink Piwin": [
+  [
+   "Heals",
+   55
+  ]
+ ],
+ "Platypus": [
+  [
+   "Damage",
+   17
+  ]
+ ],
+ "Plop": [
+  [
+   "Heals",
+   55
+  ],
+  [
+   "Heals",
+   1
+  ]
+ ],
+ "Plump Tofurby": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Purple Piwin": [
+  [
+   "Damage",
+   17
+  ]
+ ],
+ "Raccoon": [
+  [
+   "Strength",
+   110
+  ],
+  [
+   "Strength",
+   1
+  ]
+ ],
+ "Ratcham": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Red Piwin": [
+  [
+   "Intelligence",
+   110
+  ]
+ ],
+ "Ross": [
+  [
+   "Heals",
+   55
+  ]
+ ],
+ "Rushu's Shushu": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Scarakiri": [
+  [
+   "Damage",
+   15
+  ]
+ ],
+ "Sirocco": [
+  [
+   "Agility",
+   160
+  ],
+  [
+   "Agility",
+   1
+  ]
+ ],
+ "Skrot": [
+  [
+   "Initiative",
+   2100
+  ],
+  [
+   "Initiative",
+   10
+  ]
+ ],
+ "Slayhound": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Smush": [
+  [
+   "Heals",
+   55
+  ],
+  [
+   "Heals",
+   1
+  ]
+ ],
+ "Snow Bow Meow": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Snowfoux": [
+  [
+   "Wisdom",
+   220
+  ]
+ ],
+ "Solid Plissken": [
+  [
+   "Damage",
+   17
+  ],
+  [
+   "Damage",
+   1
+  ]
+ ],
+ "Sting": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Tarantulino": [
+  [
+   "Vitality",
+   150
+  ],
+  [
+   "% Earth Resist",
+   5
+  ],
+  [
+   "% Water Resist",
+   5
+  ],
+  [
+   "% Fire Resist",
+   5
+  ],
+  [
+   "% Neutral Resist",
+   5
+  ],
+  [
+   "% Air Resist",
+   5
+  ]
+ ],
+ "Tatouh": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Teddybearbarian": [
+  [
+   "Fire Damage",
+   22
+  ],
+  [
+   "Fire Damage",
+   1
+  ]
+ ],
+ "The Godfather's Gobtubby": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Tofrazzle": [
+  [
+   "Damage",
+   17
+  ],
+  [
+   "Damage",
+   1
+  ]
+ ],
+ "Tofury": [
+  [
+   "Prospecting",
+   90
+  ],
+  [
+   "Prospecting",
+   1
+  ]
+ ],
+ "Toucantankerous": [
+  [
+   "Air Resist",
+   44
+  ],
+  [
+   "Earth Resist",
+   44
+  ],
+  [
+   "Water Resist",
+   44
+  ],
+  [
+   "Fire Resist",
+   44
+  ],
+  [
+   "Neutral Resist",
+   44
+  ],
+  [
+   "Air Resist",
+   1
+  ],
+  [
+   "Earth Resist",
+   1
+  ],
+  [
+   "Water Resist",
+   1
+  ],
+  [
+   "Fire Resist",
+   1
+  ],
+  [
+   "Neutral Resist",
+   1
+  ]
+ ],
+ "Tubskito": [
+  [
+   "Wisdom",
+   220
+  ],
+  [
+   "Wisdom",
+   1
+  ]
+ ],
+ "Vampyrina": [
+  [
+   "Vitality",
+   550
+  ],
+  [
+   "Vitality",
+   10
+  ]
+ ],
+ "Wabbit": [
+  [
+   "Wisdom",
+   110
+  ],
+  [
+   "Chance",
+   110
+  ],
+  [
+   "Intelligence",
+   110
+  ],
+  [
+   "Strength",
+   110
+  ],
+  [
+   "Agility",
+   110
+  ]
+ ],
+ "Water Bwak": [
+  [
+   "Chance",
+   110
+  ],
+  [
+   "% Water Resist",
+   27
+  ],
+  [
+   "Vitality",
+   110
+  ]
+ ],
+ "Yellow Piwin": [
+  [
+   "Agility",
+   110
+  ]
+ ]
+}
