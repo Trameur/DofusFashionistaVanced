@@ -441,11 +441,17 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_404_page_is_translated(self):
         # The error page is user-visible in every language; the fr heading had
-        # silently shipped in english.
-        cases = {'fr': '404 - Page non trouvée', 'es': '404 - Página no encontrada',
-                 'de': '404 - Seite nicht gefunden'}
-        for lang, needle in cases.items():
+        # silently shipped in english. The expected text comes from the
+        # catalog so a translation rewording cannot silently break the test
+        # (a de rewording once left main red for a whole tick).
+        from django.utils import translation
+        msgid = '404 - Page Not Found'
+        for lang in ('fr', 'es', 'de'):
             with self.subTest(lang=lang):
+                with translation.override(lang):
+                    needle = translation.gettext(msgid)
+                self.assertNotEqual(needle, msgid,
+                                    'the 404 heading has no %s translation' % lang)
                 resp = self.client.get('/this-page-does-not-exist-xyz123/',
                                        headers={'accept-language': lang})
                 self.assertEqual(resp.status_code, 404)
@@ -707,10 +713,12 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get(url, HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 404)
         self.assertContains(resp, name, status_code=404)
-        self.assertContains(resp, "n'existe pas dans l'encyclopédie Retro",
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        fr_fragment = LOCALIZED_UI['fr']['missing_item_message'].split('%(version)s')[0].split('%(name)s')[1]
+        self.assertContains(resp, fr_fragment.strip(),
                             status_code=404)
         self.assertContains(resp, '/retro/encyclopedia/', status_code=404)
-        self.assertContains(resp, "Retourner à l'encyclopédie de cette version",
+        self.assertContains(resp, LOCALIZED_UI['fr']['missing_back_to_encyclopedia'],
                             status_code=404)
 
     def test_encyclopedia_list_card_links_to_set(self):
@@ -4140,7 +4148,9 @@ class EncyclopediaMonsterPageTests(TestCase):
             HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 404)
         self.assertContains(resp, name, status_code=404)
-        self.assertContains(resp, "n'existe pas dans l'encyclopédie Retro",
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        fr_fragment = LOCALIZED_UI['fr']['missing_item_message'].split('%(version)s')[0].split('%(name)s')[1]
+        self.assertContains(resp, fr_fragment.strip(),
                             status_code=404)
         self.assertContains(resp, '/retro/encyclopedia/', status_code=404)
 
@@ -4150,9 +4160,11 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.status_code, 404)
         body = resp.content.decode('utf-8')
         self.assertIn('Monstre indisponible dans cette version', body)
-        self.assertIn("Le monstre Gone n'existe pas dans l'encyclopédie Retro", body)
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        monster_fragment = LOCALIZED_UI['fr']['missing_monster_message'].split('%(version)s')[0] % {'name': 'Gone'}
+        self.assertIn(monster_fragment.strip(), body)
         self.assertIn('/retro/encyclopedia/', body)
-        self.assertIn("Retourner à l'encyclopédie de cette version", body)
+        self.assertIn(LOCALIZED_UI['fr']['missing_back_to_encyclopedia'], body)
 
     def test_existing_drop_lists_link_to_monster_pages(self):
         resource_resp = self.client.get(
