@@ -330,6 +330,21 @@ class PublicRouteSmokeTests(TestCase):
         finally:
             encyclopedia_view._resource_search_index_cache.clear()
 
+    def test_search_finds_monsters(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version, prefix in (('dofus3', ''), ('retro', '/retro')):
+            with self.subTest(version=version):
+                conn = sqlite3.connect(get_items_db_path(version))
+                row = conn.execute(
+                    "SELECT name FROM monster_names WHERE language = 'en' "
+                    "ORDER BY monster_ankama_id LIMIT 1").fetchone()
+                conn.close()
+                self.assertIsNotNone(row, 'no monster for ' + version)
+                resp = self.client.get('%s/encyclopedia/' % prefix, {'q': row[0]})
+                self.assertEqual(resp.status_code, 200)
+                self.assertContains(resp, '/encyclopedia/monster/')
+
     def test_resource_page_shows_the_ingredient_icon(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path

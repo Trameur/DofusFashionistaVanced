@@ -605,6 +605,15 @@
     </div>
     {% endif %}
 
+    {% if monster_results %}
+    <div class="encyclopedia-results-header big-text">{{ mt.monsters_label }}: {{ monster_results|length }}</div>
+    <div class="encyclopedia-resource-hits">
+        {% for mon in monster_results %}
+        <a class="encyclopedia-resource-hit" href="{{ mon.url }}"><span>{{ mon.name }}</span></a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="encyclopedia-results-header big-text">{{ t.results }}: {{ items_count }}</div>
 
     {% if items_page.object_list %}

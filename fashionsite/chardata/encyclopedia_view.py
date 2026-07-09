@@ -926,6 +926,26 @@ def _search_resources(game_version, normalized_search, language, limit=12):
     } for h in hits[:limit]]
 
 
+def _search_monsters(game_version, normalized_search, language, limit=12):
+    """Monsters matching the encyclopedia search box, as links to their pages.
+    Reuses the cached per-version monster index (same normalization)."""
+    if not normalized_search:
+        return []
+    hits = []
+    for monster in _get_monster_index(game_version, language):
+        if normalized_search not in monster['search_blob']:
+            continue
+        hits.append({
+            'name': monster['name'],
+            'starts': _normalized_text(monster['name']).startswith(normalized_search),
+            'url': monster['url'],
+        })
+    hits.sort(key=lambda h: (not h['starts'], (h['name'] or '').lower()))
+    for h in hits:
+        del h['starts']
+    return hits[:limit]
+
+
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
                          variant_items=None):
     default_data = {
@@ -1266,6 +1286,7 @@ def encyclopedia(request):
 
     normalized_search = _normalized_text(search_text) if search_text else ''
     resource_results = _search_resources(game_version, normalized_search, language)
+    monster_results = _search_monsters(game_version, normalized_search, language)
     filtered_items = []
     for entry in _get_light_index(structure, language):
         if selected_type and entry['raw_type_name'] != selected_type:
@@ -1383,6 +1404,7 @@ def encyclopedia(request):
             'items_page': page_obj,
             'items_count': len(filtered_items),
             'resource_results': resource_results,
+            'monster_results': monster_results,
             'search_text': search_text,
             'selected_type': selected_type,
             'min_level': '' if min_level is None else min_level,
