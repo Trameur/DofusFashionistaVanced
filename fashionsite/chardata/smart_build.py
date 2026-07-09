@@ -638,6 +638,20 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 6.5,
             },
         },
+        # Iop 1.29: fire is the recommended path (Storm of Power at 60,
+        # "unmatched", 9 AP = three per turn; kit check: 36-40 fire), earth
+        # stays the endgame classic (Iop's Wrath 51-70, "without competition"),
+        # and the guides explicitly advise AGAINST the air path. Sources:
+        # Guidactik, Gamosaurus, Millenium, Breakflip, jeuxonline Iop 1.29
+        # guides and the dofus.com retro forum (fire vs air thread).
+        'Iop': {
+            'int': {
+                'firedam': 6.5,
+            },
+            'agi': {
+                'airdam': 4.5,
+            },
+        },
     },
 }
 
