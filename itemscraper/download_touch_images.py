@@ -33,7 +33,7 @@ from get_equipments_touch import TYPE_MAP
 
 CONFIG_URL = "https://earlyproxy.touch.dofus.com/config.json"
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
-                       "3.2.1_7fTvG3ZsRr-pTNWR6-JvD0Qb4fXI0CMG")
+                       "3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5")
 USER_AGENT = "Dofus/2 CFNetwork"
 STATIC = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata'
 # Mounts have no icon; the Touch CDN renders them from their "look" string.

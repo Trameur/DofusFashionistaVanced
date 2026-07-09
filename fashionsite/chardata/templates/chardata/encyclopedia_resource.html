@@ -14,6 +14,7 @@
     <meta property="og:description" content="{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this ingredient and optimize your build with the Dofus Fashionista.{% endblocktrans %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical_url }}">
+    {% if resource_image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ resource_image }}">{% endif %}
     <meta name="twitter:card" content="summary">
 {% endblock %}
 

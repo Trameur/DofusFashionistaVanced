@@ -61,7 +61,7 @@ RAW_KINDS = ('resources', 'consumables', 'quest_items', 'equipment', 'cosmetics'
 TOUCH_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_touch.db')
 TOUCH_CONFIG_URL = 'https://earlyproxy.touch.dofus.com/config.json'
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
-                             '3.2.1_lZbcGsQeC3PlPF-Fg,tut0oqPD5idyLwzy')
+                             '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 
 RETRO_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_retro.db')
 RETRO_CDN = ('https://raw.githubusercontent.com/Lounek09/Cyberia.Cdn/main/'
