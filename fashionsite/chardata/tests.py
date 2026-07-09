@@ -2871,6 +2871,23 @@ class UnobtainableItemsTests(SimpleTestCase):
                               % (item.name, ankama_id, version))
 
 
+class OfficialNamePunctuationTests(SimpleTestCase):
+    """The dofus3/beta transform used to strip Windows-forbidden characters
+    from the displayed EN name ("Wand Else" instead of "Wand Else?"); only
+    icon filenames need that. Lock the official punctuation so a future
+    pipeline run cannot regress it."""
+
+    def test_names_keep_their_official_punctuation(self):
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta'):
+            s = get_structure(version)
+            for name in ('Wand Else?', 'Plushy-Ball: Tofu'):
+                self.assertIsNotNone(
+                    s.get_item_by_name(name),
+                    '%r missing on %s: display-name sanitization regressed?'
+                    % (name, version))
+
+
 class GmExclusionRetrofitMigrationTests(TestCase):
     """Default exclusions are only seeded at char creation, so chars created
     before the GM items joined the defaults could still equip them; migration
