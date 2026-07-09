@@ -666,6 +666,17 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 6.5,
             },
         },
+        # Enutrof 1.29: water is the stated main path (Pelle Massacrante, the
+        # kit's biggest hit, 45-50 checked against the lang; chance also feeds
+        # the class's dropper identity, raised to ~150 then vitality). The MP
+        # removal identity has no item stat in 1.29 (wisdom covers it at the
+        # engine level). Sources: Millenium, Guidactik, Gamosaurus, Breakflip,
+        # jeuxonline Enutrof 1.29 guides.
+        'Enutrof': {
+            'cha': {
+                'waterdam': 6.5,
+            },
+        },
     },
 }
 
