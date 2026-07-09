@@ -77752,7 +77752,7 @@ INSERT INTO "items" VALUES(8607,'Studded Staff',107,1,NULL,8607,'equipment',NULL
 INSERT INTO "items" VALUES(8608,'Scrap Staff',85,1,NULL,8608,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(8609,'Bushi''Bow',81,1,NULL,8609,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(8610,'Bow Liwood',79,1,NULL,8610,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(8611,'Wand Else',69,1,NULL,8611,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(8611,'Wand Else?',69,1,NULL,8611,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(8612,'The Bidjiz',74,1,NULL,8612,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(8613,'Shovel Minster',70,1,NULL,8613,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(8614,'RIP Shovel',66,1,NULL,8614,'equipment',NULL,NULL);
@@ -79607,11 +79607,11 @@ INSERT INTO "items" VALUES(21235,'Turtelonia Horn',200,3,472,21235,'equipment',N
 INSERT INTO "items" VALUES(21451,'Prytekt-O-Mat',200,9,NULL,21451,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(21452,'Shiny Prytekt',200,9,NULL,21452,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(21453,'Iridescent Prytekt',200,9,NULL,21453,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(21506,'Plushy-Ball Drheller',1,1,NULL,21506,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(21507,'Plushy-Ball Gobball',1,1,NULL,21507,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(21508,'Plushy-Ball Tofu',1,1,NULL,21508,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(21509,'Plushy-Ball Bow Meow',1,1,NULL,21509,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(21510,'Plushy-Ball Minikron',1,1,NULL,21510,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(21506,'Plushy-Ball: Drheller',1,1,NULL,21506,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(21507,'Plushy-Ball: Gobball',1,1,NULL,21507,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(21508,'Plushy-Ball: Tofu',1,1,NULL,21508,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(21509,'Plushy-Ball: Bow Meow',1,1,NULL,21509,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(21510,'Plushy-Ball: Minikron',1,1,NULL,21510,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(21711,'Weighted Wooden Wings',1,4,NULL,21711,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(21712,'Weighted Helmet',1,3,NULL,21712,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(21878,'Nightmare Catcher',10,1,NULL,21878,'equipment',NULL,NULL);
@@ -79825,7 +79825,7 @@ INSERT INTO "items" VALUES(29134,'Sylvan Dofus',180,9,NULL,29134,'equipment',NUL
 INSERT INTO "items" VALUES(29135,'Verdant Dofus',180,9,NULL,29135,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(29136,'Sylvan Dofus 2',180,9,NULL,29136,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(29463,'Tonbarian Shield',15,2,NULL,29463,'equipment',NULL,NULL);
-INSERT INTO "items" VALUES(29485,'Proof of Victory Alone Against the League',1,9,NULL,29485,'equipment',NULL,NULL);
+INSERT INTO "items" VALUES(29485,'Proof of Victory: "Alone Against the League"',1,9,NULL,29485,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(30060,'Allister''s Aegis',197,2,243,30060,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(30356,'Aiwuztheya Dofus',20,9,NULL,30356,'equipment',NULL,NULL);
 INSERT INTO "items" VALUES(30451,'Cautious',150,9,NULL,30451,'equipment',NULL,NULL);

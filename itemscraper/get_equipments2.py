@@ -18,7 +18,6 @@ import argparse
 import json
 from copy import deepcopy
 import os
-import re
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -165,10 +164,11 @@ STAT_TRANSLATE = {
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
 
-def sanitize_filename(name):
-    name = re.sub(r'[\\/*?:"<>|]', "", name) 
-    name = name.replace("[!]", "") # Remove unavailable language tag
-    return name.strip()
+def clean_display_name(name):
+    # Only strip the dofusdude "[!]" unavailable-language tag. Windows-forbidden
+    # characters stay in the display name ("Wand Else?", "Plushy-Ball: Tofu");
+    # icon filenames are normalized separately (get_equipments4/image_store).
+    return name.replace("[!]", "").strip()
 
 def parse_conditions(tree):
     """
@@ -295,10 +295,10 @@ for item in equipment_data['en']['items']:
             if lang_item:
                 original_name = lang_item['name']
                 if lang == "en":
-                    sanitized_name = sanitize_filename(original_name)
-                    if original_name != sanitized_name:
-                        print(f"Modified name for {lang_name_key}: '{original_name}' -> '{sanitized_name}'")
-                    transformed_item[lang_name_key] = sanitized_name
+                    cleaned_name = clean_display_name(original_name)
+                    if original_name != cleaned_name:
+                        print(f"Modified name for {lang_name_key}: '{original_name}' -> '{cleaned_name}'")
+                    transformed_item[lang_name_key] = cleaned_name
                 else:
                     transformed_item[lang_name_key] = original_name
             else:
