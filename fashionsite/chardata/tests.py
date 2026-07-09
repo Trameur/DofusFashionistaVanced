@@ -363,6 +363,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/tuning-your-weights/',
                      '/guides/forgemagie-planning/',
                      '/guides/mono-vs-multi-element/', '/guides/gearing-up/',
+                     '/guides/crafting-and-professions/',
                      '/guides/comparing-builds/', '/guides/versions-explained/',
                      '/offline/', '/robots.txt', '/manifest.webmanifest',
                      '/sw.js', '/ads.txt']:

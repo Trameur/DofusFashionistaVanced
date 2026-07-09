@@ -1508,7 +1508,128 @@ GUIDES = {
             },
         },
     },
+    'crafting-and-professions': {
+        'published': '2026-07-10',
+        'i18n': {
+            'en': {
+                'title': 'Crafting and professions in Dofus, version by version',
+                'desc': "Where a recipe comes from, which profession crafts it and where the ingredients drop: how to plan a craft with the encyclopedia, in every Dofus version.",
+                'lead': "Crafting looks simple until you need one missing ingredient at the worst moment. Here is how to plan a craft from the item page down to the monsters you will actually hunt.",
+                'body': '''
+<h2>Start from the item, not from the recipe</h2>
+<p>Open any craftable item in the <a href="/encyclopedia/">encyclopedia</a> and the recipe sits right on its page, with the profession that crafts it and, where the game defines one, the level it asks for. Special workbench recipes that no player profession can learn simply show no profession line: that is the game's own data, not a gap.</p>
+
+<h2>Every ingredient is one click away</h2>
+<p>Each ingredient in a recipe links to its own resource page: what else it is used to craft, and which monsters drop it with their rates. That last part turns a shopping list into a hunting plan: if the resource drops from a monster you can farm, you can decide whether to buy or to hunt with actual numbers instead of guesses.</p>
+
+<h2>Professions differ by version</h2>
+<p>The profession behind a recipe is not the same story in every version. Modern Dofus merged the old crafting professions, so a sword recipe belongs to the unified Smith. Dofus Retro (1.29) still lives before that merge: the encyclopedia shows the era-accurate professions like Sword Smith or Hammer Smith, and recipes there carry no level requirement because the 1.29 data defines none. Dofus Touch sits in between with its own set of professions. The tool reads each version's own game files, so what you see matches what your version actually plays like.</p>
+
+<h2>Resources are searchable too</h2>
+<p>The encyclopedia search does not stop at equipment: type a resource name and you will land on its page directly, in any of the five supported languages, accents optional. From there, the "used to craft" list answers the reverse question: is this thing in my bank worth keeping?</p>
+
+<h2>Planning a craft for a build</h2>
+<p>The practical loop: generate your build, open the items the optimizer picked, and check their recipes. If a piece is craftable, its ingredients and their drop sources tell you whether crafting beats buying on your server. Keep the resource pages open while you farm; the drop rates are per monster, so you can pick the target that actually pays.</p>
+
+<p><em>Missing one ingredient right now? <a href="/encyclopedia/">Search it in the encyclopedia</a> and see who drops it.</em></p>
+''',
+            },
+            'fr': {
+                'title': 'Craft et métiers sur Dofus, version par version',
+                'desc': "D'où vient une recette, quel métier la fabrique et où droppent les ingrédients : comment planifier un craft avec l'encyclopédie, dans chaque version de Dofus.",
+                'lead': "Le craft a l'air simple jusqu'au moment où il manque un ingrédient au pire moment. Voici comment planifier un craft depuis la page de l'objet jusqu'aux monstres que vous allez vraiment chasser.",
+                'body': '''
+<h2>Partez de l'objet, pas de la recette</h2>
+<p>Ouvrez n'importe quel objet fabricable dans l'<a href="/encyclopedia/">encyclopédie</a> : la recette est sur sa page, avec le métier qui la fabrique et, quand le jeu en définit un, le niveau demandé. Les recettes d'établis spéciaux qu'aucun métier de joueur ne peut apprendre n'affichent simplement pas de ligne de métier : c'est la donnée du jeu, pas un oubli.</p>
+
+<h2>Chaque ingrédient est à un clic</h2>
+<p>Chaque ingrédient d'une recette mène à sa propre page de ressource : ce qu'il sert à fabriquer d'autre, et quels monstres le droppent avec leurs taux. C'est ce qui transforme une liste de courses en plan de chasse : si la ressource tombe sur un monstre farmable, vous décidez d'acheter ou de chasser avec de vrais chiffres plutôt qu'au doigt mouillé.</p>
+
+<h2>Les métiers changent selon la version</h2>
+<p>Le métier derrière une recette ne raconte pas la même histoire partout. Le Dofus moderne a fusionné les anciens métiers de forge, donc une recette d'épée appartient au Forgeron unifié. Dofus Retro (1.29) vit encore avant cette fusion : l'encyclopédie y montre les métiers d'époque comme Forgeur d'Épées ou Forgeur de Marteaux, et les recettes n'y portent pas de niveau requis parce que les données 1.29 n'en définissent pas. Dofus Touch a son propre jeu de métiers, entre les deux. L'outil lit les fichiers de jeu de chaque version : ce que vous voyez correspond à ce que votre version joue vraiment.</p>
+
+<h2>Les ressources aussi se cherchent</h2>
+<p>La recherche de l'encyclopédie ne s'arrête pas aux équipements : tapez un nom de ressource et vous arrivez directement sur sa page, dans n'importe laquelle des cinq langues du site, accents facultatifs. De là, la liste « Sert à fabriquer » répond à la question inverse : ce truc dans ma banque vaut-il la peine d'être gardé ?</p>
+
+<h2>Planifier un craft pour un build</h2>
+<p>La boucle pratique : générez votre build, ouvrez les objets choisis par l'optimiseur et regardez leurs recettes. Si une pièce est fabricable, ses ingrédients et leurs sources de drop vous disent si le craft bat l'achat sur votre serveur. Gardez les pages de ressources ouvertes pendant le farm : les taux sont par monstre, vous choisissez la cible qui rapporte vraiment.</p>
+
+<p><em>Il vous manque un ingrédient là, tout de suite ? <a href="/encyclopedia/">Cherchez-le dans l'encyclopédie</a> et voyez qui le droppe.</em></p>
+''',
+            },
+            'es': {
+                'title': 'Fabricación y oficios en Dofus, versión por versión',
+                'desc': "De dónde sale una receta, qué oficio la fabrica y dónde caen los ingredientes: cómo planificar una fabricación con la enciclopedia, en cada versión de Dofus.",
+                'lead': "Fabricar parece sencillo hasta que falta un ingrediente en el peor momento. Así se planifica una fabricación desde la página del objeto hasta los monstruos que de verdad vas a cazar.",
+                'body': '''
+<h2>Empieza por el objeto, no por la receta</h2>
+<p>Abre cualquier objeto fabricable en la <a href="/encyclopedia/">enciclopedia</a>: la receta está en su página, con el oficio que la fabrica y, cuando el juego lo define, el nivel que exige. Las recetas de bancos de trabajo especiales que ningún oficio de jugador puede aprender simplemente no muestran línea de oficio: es el dato del juego, no un descuido.</p>
+
+<h2>Cada ingrediente está a un clic</h2>
+<p>Cada ingrediente de una receta lleva a su propia página de recurso: qué más sirve para fabricar y qué monstruos lo sueltan con sus tasas. Eso convierte una lista de la compra en un plan de caza: si el recurso cae de un monstruo farmeable, decides entre comprar o cazar con números reales en la mano.</p>
+
+<h2>Los oficios cambian según la versión</h2>
+<p>El oficio detrás de una receta no cuenta la misma historia en todas partes. El Dofus moderno fusionó los antiguos oficios de forja, así que una receta de espada pertenece al Herrero unificado. Dofus Retro (1.29) vive antes de esa fusión: la enciclopedia muestra los oficios de la época, como Forjador de Espadas, y las recetas no llevan nivel requerido porque los datos de 1.29 no lo definen. Dofus Touch tiene su propio conjunto de oficios, a medio camino. La herramienta lee los archivos de juego de cada versión: lo que ves corresponde a lo que tu versión realmente juega.</p>
+
+<h2>Los recursos también se buscan</h2>
+<p>La búsqueda de la enciclopedia no se queda en el equipamiento: escribe el nombre de un recurso y aterrizas directamente en su página, en cualquiera de los cinco idiomas del sitio, con o sin acentos. Desde ahí, la lista « Sirve para fabricar » responde la pregunta inversa: ¿vale la pena guardar esto que tengo en el banco?</p>
+
+<h2>Planificar una fabricación para un build</h2>
+<p>El bucle práctico: genera tu build, abre los objetos que eligió el optimizador y mira sus recetas. Si una pieza es fabricable, sus ingredientes y sus fuentes de drop te dicen si fabricar gana a comprar en tu servidor. Mantén abiertas las páginas de recursos mientras farmeas: las tasas son por monstruo, así eliges el objetivo que de verdad compensa.</p>
+
+<p><em>¿Te falta un ingrediente ahora mismo? <a href="/encyclopedia/">Búscalo en la enciclopedia</a> y mira quién lo suelta.</em></p>
+''',
+            },
+            'pt': {
+                'title': 'Fabricação e profissões no Dofus, versão por versão',
+                'desc': "De onde vem uma receita, qual profissão a fabrica e onde os ingredientes dropam: como planejar uma fabricação com a enciclopédia, em cada versão de Dofus.",
+                'lead': "Fabricar parece simples até faltar um ingrediente na pior hora. Veja como planejar uma fabricação da página do item até os monstros que você vai realmente caçar.",
+                'body': '''
+<h2>Comece pelo item, não pela receita</h2>
+<p>Abra qualquer item fabricável na <a href="/encyclopedia/">enciclopédia</a>: a receita está na página dele, com a profissão que a fabrica e, quando o jogo define, o nível exigido. Receitas de bancadas especiais que nenhuma profissão de jogador pode aprender simplesmente não mostram linha de profissão: é o dado do jogo, não um esquecimento.</p>
+
+<h2>Cada ingrediente está a um clique</h2>
+<p>Cada ingrediente de uma receita leva à sua própria página de recurso: o que mais ele fabrica e quais monstros o dropam, com as taxas. Isso transforma uma lista de compras em plano de caça: se o recurso cai de um monstro farmável, você decide entre comprar ou caçar com números de verdade.</p>
+
+<h2>As profissões mudam conforme a versão</h2>
+<p>A profissão por trás de uma receita não conta a mesma história em todo lugar. O Dofus moderno fundiu as antigas profissões de forja, então uma receita de espada pertence ao Ferreiro unificado. O Dofus Retro (1.29) ainda vive antes dessa fusão: a enciclopédia mostra as profissões da época, como Forjador de Espadas, e as receitas não trazem nível exigido porque os dados de 1.29 não o definem. O Dofus Touch tem seu próprio conjunto de profissões, no meio do caminho. A ferramenta lê os arquivos de jogo de cada versão: o que você vê corresponde ao que a sua versão realmente joga.</p>
+
+<h2>Recursos também aparecem na busca</h2>
+<p>A busca da enciclopédia não para no equipamento: digite o nome de um recurso e você cai direto na página dele, em qualquer um dos cinco idiomas do site, com ou sem acentos. De lá, a lista « Serve para fabricar » responde a pergunta inversa: vale a pena guardar isso que está no meu banco?</p>
+
+<h2>Planejando uma fabricação para um build</h2>
+<p>O ciclo prático: gere seu build, abra os itens que o otimizador escolheu e veja as receitas. Se uma peça é fabricável, os ingredientes e as fontes de drop dizem se fabricar vence comprar no seu servidor. Deixe as páginas de recursos abertas enquanto farma: as taxas são por monstro, então você escolhe o alvo que realmente compensa.</p>
+
+<p><em>Faltando um ingrediente agora? <a href="/encyclopedia/">Procure na enciclopédia</a> e veja quem dropa.</em></p>
+''',
+            },
+            'de': {
+                'title': 'Handwerk und Berufe in Dofus, Version für Version',
+                'desc': "Woher ein Rezept kommt, welcher Beruf es herstellt und wo die Zutaten droppen: So planst du ein Handwerk mit der Enzyklopädie, in jeder Dofus-Version.",
+                'lead': "Handwerk wirkt simpel, bis im dümmsten Moment eine Zutat fehlt. So planst du ein Handwerk von der Item-Seite bis zu den Monstern, die du wirklich jagen wirst.",
+                'body': '''
+<h2>Beim Item anfangen, nicht beim Rezept</h2>
+<p>Öffne ein beliebiges herstellbares Item in der <a href="/encyclopedia/">Enzyklopädie</a>: Das Rezept steht direkt auf seiner Seite, mit dem Beruf, der es herstellt, und, wo das Spiel eines definiert, dem verlangten Level. Rezepte spezieller Werkbänke, die kein Spielerberuf lernen kann, zeigen schlicht keine Berufszeile: Das sind die Spieldaten selbst, keine Lücke.</p>
+
+<h2>Jede Zutat ist einen Klick entfernt</h2>
+<p>Jede Zutat eines Rezepts führt zu ihrer eigenen Ressourcen-Seite: wofür sie sonst noch gebraucht wird und welche Monster sie mit welchen Raten fallen lassen. Genau das macht aus einer Einkaufsliste einen Jagdplan: Droppt die Ressource bei einem farmbaren Monster, entscheidest du mit echten Zahlen, ob du kaufst oder jagst.</p>
+
+<h2>Berufe unterscheiden sich je nach Version</h2>
+<p>Der Beruf hinter einem Rezept erzählt nicht überall dieselbe Geschichte. Das moderne Dofus hat die alten Schmiedeberufe zusammengelegt, ein Schwertrezept gehört also zum vereinten Schmied. Dofus Retro (1.29) lebt noch vor dieser Fusion: Die Enzyklopädie zeigt dort die zeitgenössischen Berufe wie Schwertschmied, und Rezepte tragen kein Mindestlevel, weil die 1.29-Daten keines definieren. Dofus Touch hat seinen eigenen Berufssatz dazwischen. Das Tool liest die Spieldateien jeder Version: Was du siehst, entspricht dem, was deine Version wirklich spielt.</p>
+
+<h2>Auch Ressourcen sind durchsuchbar</h2>
+<p>Die Enzyklopädie-Suche endet nicht beim Equipment: Tippe einen Ressourcennamen und du landest direkt auf ihrer Seite, in jeder der fünf Sprachen der Seite, Akzente optional. Von dort beantwortet die Liste „Wird gebraucht für" die umgekehrte Frage: Lohnt es sich, das Zeug in meiner Bank zu behalten?</p>
+
+<h2>Ein Handwerk für ein Build planen</h2>
+<p>Der praktische Ablauf: Erzeuge dein Build, öffne die Items, die der Optimierer gewählt hat, und prüfe ihre Rezepte. Ist ein Teil herstellbar, sagen dir die Zutaten und ihre Drop-Quellen, ob Herstellen auf deinem Server das Kaufen schlägt. Lass die Ressourcen-Seiten beim Farmen offen: Die Raten gelten pro Monster, du wählst also das Ziel, das sich wirklich lohnt.</p>
+
+<p><em>Fehlt dir gerade eine Zutat? <a href="/encyclopedia/">Such sie in der Enzyklopädie</a> und sieh, wer sie droppt.</em></p>
+''',
+            },
+        },
+    },
 }
+
 
 
 def _lang(code):
