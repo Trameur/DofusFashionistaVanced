@@ -125,7 +125,7 @@
     <div class="workshop-wrapper">
         <p class="workshop-meta">
             <span>
-                {% blocktrans count counter=workshop_count %}
+                {% blocktrans trimmed count counter=workshop_count %}
                 {{ counter }} item · {{ workshop_total_units }} total
                 {% plural %}
                 {{ counter }} items · {{ workshop_total_units }} total

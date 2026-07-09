@@ -29,7 +29,7 @@
     <h1 align="center">{% trans "My Feed" %}</h1>
     <div class="feed-wrap">
         <p style="text-align: center; opacity: 0.85;">
-            {% blocktrans count counter=follow_count %}
+            {% blocktrans trimmed count counter=follow_count %}
             Latest builds from the {{ counter }} person you follow.
             {% plural %}
             Latest builds from the {{ counter }} people you follow.

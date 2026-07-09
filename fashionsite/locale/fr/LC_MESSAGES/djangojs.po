@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-28 14:04+0000\n"
+"POT-Creation-Date: 2026-07-10 00:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: admin/js/SelectFilter2.js:45 staticfiles/admin/js/SelectFilter2.js:38
+#: .\admin\js\SelectFilter2.js:45
 #, javascript-format
 msgid "Available %s"
 msgstr "Available %s"
 
-#: admin/js/SelectFilter2.js:46 staticfiles/admin/js/SelectFilter2.js:44
+#: .\admin\js\SelectFilter2.js:46
 #, javascript-format
 msgid ""
 "This is the list of available %s. You may choose some by selecting them in "
@@ -31,39 +31,38 @@ msgstr ""
 "This is the list of available %s. You may choose some by selecting them in "
 "the box below and then clicking the \"Choose\" arrow between the two boxes."
 
-#: admin/js/SelectFilter2.js:53 staticfiles/admin/js/SelectFilter2.js:60
+#: .\admin\js\SelectFilter2.js:53
 #, javascript-format
 msgid "Type into this box to filter down the list of available %s."
 msgstr "Type into this box to filter down the list of available %s."
 
-#: admin/js/SelectFilter2.js:57 staticfiles/admin/js/SelectFilter2.js:65
-#: staticfiles/admin/js/SelectFilter2.js:110
+#: .\admin\js\SelectFilter2.js:57
 msgid "Filter"
 msgstr "Filter"
 
-#: admin/js/SelectFilter2.js:61 staticfiles/admin/js/SelectFilter2.js:69
+#: .\admin\js\SelectFilter2.js:61
 msgid "Choose all"
 msgstr "Choose all"
 
-#: admin/js/SelectFilter2.js:61 staticfiles/admin/js/SelectFilter2.js:69
+#: .\admin\js\SelectFilter2.js:61
 #, javascript-format
 msgid "Click to choose all %s at once."
 msgstr "Click to choose all %s at once."
 
-#: admin/js/SelectFilter2.js:67 staticfiles/admin/js/SelectFilter2.js:75
+#: .\admin\js\SelectFilter2.js:67
 msgid "Choose"
 msgstr "Choose"
 
-#: admin/js/SelectFilter2.js:69 staticfiles/admin/js/SelectFilter2.js:77
+#: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
 msgstr "Retirer "
 
-#: admin/js/SelectFilter2.js:75 staticfiles/admin/js/SelectFilter2.js:83
+#: .\admin\js\SelectFilter2.js:75
 #, javascript-format
 msgid "Chosen %s"
 msgstr "Chosen %s"
 
-#: admin/js/SelectFilter2.js:76 staticfiles/admin/js/SelectFilter2.js:89
+#: .\admin\js\SelectFilter2.js:76
 #, javascript-format
 msgid ""
 "This is the list of chosen %s. You may remove some by selecting them in the "
@@ -72,24 +71,22 @@ msgstr ""
 "This is the list of chosen %s. You may remove some by selecting them in the "
 "box below and then clicking the \"Remove\" arrow between the two boxes."
 
-#: admin/js/SelectFilter2.js:80 staticfiles/admin/js/SelectFilter2.js:120
+#: .\admin\js\SelectFilter2.js:80
 msgid "Remove all"
 msgstr "Retirer "
 
-#: admin/js/SelectFilter2.js:80 staticfiles/admin/js/SelectFilter2.js:120
+#: .\admin\js\SelectFilter2.js:80
 #, javascript-format
 msgid "Click to remove all chosen %s at once."
 msgstr "Click to remove all chosen %s at once."
 
-#: admin/js/actions.js:18 admin/js/actions.min.js:1
-#: staticfiles/admin/js/actions.js:67
+#: .\admin\js\actions.js:18 .\admin\js\actions.min.js:1
 msgid "%(sel)s of %(cnt)s selected"
 msgid_plural "%(sel)s of %(cnt)s selected"
 msgstr[0] "%(sel)s sur %(cnt)s selectionne"
 msgstr[1] "%(sel)s sur %(cnt)s selectionnes"
 
-#: admin/js/actions.js:109 admin/js/actions.min.js:5
-#: staticfiles/admin/js/actions.js:161
+#: .\admin\js\actions.js:109 .\admin\js\actions.min.js:5
 msgid ""
 "You have unsaved changes on individual editable fields. If you run an "
 "action, your unsaved changes will be lost."
@@ -97,7 +94,7 @@ msgstr ""
 "You have unsaved changes on individual editable fields. If you run an "
 "action, your unsaved changes will be lost."
 
-#: admin/js/actions.js:121 admin/js/actions.min.js:5
+#: .\admin\js\actions.js:121 .\admin\js\actions.min.js:5
 msgid ""
 "You have selected an action, but you haven't saved your changes to "
 "individual fields yet. Please click OK to save. You'll need to re-run the "
@@ -107,7 +104,7 @@ msgstr ""
 "individual fields yet. Please click OK to save. You'll need to re-run the "
 "action."
 
-#: admin/js/actions.js:123 admin/js/actions.min.js:6
+#: .\admin\js\actions.js:123 .\admin\js\actions.min.js:6
 msgid ""
 "You have selected an action, and you haven't made any changes on individual "
 "fields. You're probably looking for the Go button rather than the Save "
@@ -117,66 +114,54 @@ msgstr ""
 "fields. You're probably looking for the Go button rather than the Save "
 "button."
 
-#: admin/js/admin/DateTimeShortcuts.js:52
-#: admin/js/admin/DateTimeShortcuts.js:88
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:13
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:110
+#: .\admin\js\admin\DateTimeShortcuts.js:52
+#: .\admin\js\admin\DateTimeShortcuts.js:88
 msgid "Now"
 msgstr "Now"
 
-#: admin/js/admin/DateTimeShortcuts.js:56
+#: .\admin\js\admin\DateTimeShortcuts.js:56
 msgid "Clock"
 msgstr "Clock"
 
-#: admin/js/admin/DateTimeShortcuts.js:84
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:158
+#: .\admin\js\admin\DateTimeShortcuts.js:84
 msgid "Choose a time"
 msgstr "Choose a time"
 
-#: admin/js/admin/DateTimeShortcuts.js:89
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:14
+#: .\admin\js\admin\DateTimeShortcuts.js:89
 msgid "Midnight"
 msgstr "Midnight"
 
-#: admin/js/admin/DateTimeShortcuts.js:90
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:15
+#: .\admin\js\admin\DateTimeShortcuts.js:90
 msgid "6 a.m."
 msgstr "6 a.m."
 
-#: admin/js/admin/DateTimeShortcuts.js:91
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:16
+#: .\admin\js\admin\DateTimeShortcuts.js:91
 msgid "Noon"
 msgstr "Noon"
 
-#: admin/js/admin/DateTimeShortcuts.js:95
-#: admin/js/admin/DateTimeShortcuts.js:208
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:175
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:333
+#: .\admin\js\admin\DateTimeShortcuts.js:95
+#: .\admin\js\admin\DateTimeShortcuts.js:208
 msgid "Cancel"
 msgstr "Cancel"
 
-#: admin/js/admin/DateTimeShortcuts.js:148
-#: admin/js/admin/DateTimeShortcuts.js:201
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:238
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:318
+#: .\admin\js\admin\DateTimeShortcuts.js:148
+#: .\admin\js\admin\DateTimeShortcuts.js:201
 msgid "Today"
 msgstr "Today"
 
-#: admin/js/admin/DateTimeShortcuts.js:152
+#: .\admin\js\admin\DateTimeShortcuts.js:152
 msgid "Calendar"
 msgstr "Calendar"
 
-#: admin/js/admin/DateTimeShortcuts.js:199
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:312
+#: .\admin\js\admin\DateTimeShortcuts.js:199
 msgid "Yesterday"
 msgstr "Yesterday"
 
-#: admin/js/admin/DateTimeShortcuts.js:203
-#: staticfiles/admin/js/admin/DateTimeShortcuts.js:324
+#: .\admin\js\admin\DateTimeShortcuts.js:203
 msgid "Tomorrow"
 msgstr "Tomorrow"
 
-#: admin/js/calendar.js:8
+#: .\admin\js\calendar.js:8
 msgid ""
 "January February March April May June July August September October November"
 " December"
@@ -184,144 +169,184 @@ msgstr ""
 "January February March April May June July August September October November"
 " December"
 
-#: admin/js/calendar.js:9
+#: .\admin\js\calendar.js:9
 msgid "S M T W T F S"
 msgstr "S M T W T F S"
 
-#: admin/js/collapse.js:8 admin/js/collapse.js:19 admin/js/collapse.min.js:1
-#: staticfiles/admin/js/collapse.js:16 staticfiles/admin/js/collapse.js:34
+#: .\admin\js\collapse.js:8 .\admin\js\collapse.js:19
+#: .\admin\js\collapse.min.js:1
 msgid "Show"
 msgstr "Show"
 
-#: admin/js/collapse.js:16 admin/js/collapse.min.js:1
-#: staticfiles/admin/js/collapse.js:30
+#: .\admin\js\collapse.js:16 .\admin\js\collapse.min.js:1
 msgid "Hide"
 msgstr "Hide"
 
-#: chardata/static/chardata/inclusions.js:13
-#: chardata/static/chardata/solution_popup.js:458
-#: staticfiles/chardata/inclusions.js:13
-#: staticfiles/chardata/solution_popup.js:458
+#: .\chardata\static\chardata\compare_sets_popup.js:19
+msgid "Close"
+msgstr "Fermer"
+
+#: .\chardata\static\chardata\inclusions.js:15
+#: .\chardata\static\chardata\solution_popup.js:589
 msgid "Lvl."
 msgstr "Niv."
 
-#: chardata/static/chardata/login.js:13 staticfiles/chardata/login.js:13
+#: .\chardata\static\chardata\login.js:13
 msgid "The username and password entered do not match."
 msgstr "Nom de compte ou mot de passe incorrect."
 
-#: chardata/static/chardata/login.js:15 staticfiles/chardata/login.js:15
+#: .\chardata\static\chardata\login.js:15
 msgid "Confirm your email to log in."
 msgstr "Confirmer votre email pour vous connectez."
 
-#: chardata/static/chardata/login.js:17 staticfiles/chardata/login.js:17
+#: .\chardata\static\chardata\login.js:17
 msgid "Error while logging in."
 msgstr "Erreur de connexion."
 
-#: chardata/static/chardata/login.js:29 staticfiles/chardata/login.js:29
+#: .\chardata\static\chardata\login.js:29
 msgid "Your password has been changed."
 msgstr "Votre mot de passe a été modifié avec succès."
 
-#: chardata/static/chardata/login.js:35 staticfiles/chardata/login.js:35
+#: .\chardata\static\chardata\login.js:35
 msgid "Your password did not match our records."
 msgstr "Votre mot de passe est incorrect. Veuillez essayer à nouveau."
 
-#: chardata/static/chardata/login.js:47 staticfiles/chardata/login.js:47
+#: .\chardata\static\chardata\login.js:47
 msgid "This username is already in use."
 msgstr "Ce nom de compte est déjà utilisé."
 
-#: chardata/static/chardata/login.js:63 staticfiles/chardata/login.js:63
+#: .\chardata\static\chardata\login.js:63
 msgid "The passwords don't match. Please try again."
 msgstr "Les mots de passe ne correspondent pas, veuillez recommencer."
 
-#: chardata/static/chardata/login.js:81 staticfiles/chardata/login.js:81
+#: .\chardata\static\chardata\login.js:81
 msgid "You need to enter a valid username."
 msgstr "Entrer un nom de compte valide."
 
-#: chardata/static/chardata/login.js:87 staticfiles/chardata/login.js:87
+#: .\chardata\static\chardata\login.js:87
 msgid "You need to enter a password."
 msgstr "Entrer un mot de passe."
 
-#: chardata/static/chardata/login.js:93 staticfiles/chardata/login.js:93
+#: .\chardata\static\chardata\login.js:93
 msgid "You need to enter a valid email."
 msgstr "Entrer un email valide."
 
-#: chardata/static/chardata/options.js:133 staticfiles/chardata/options.js:133
+#: .\chardata\static\chardata\options.js:139
 msgid "You need to be a higher level to equip this Dofus"
 msgstr "Vous devez être un niveau plus élevé d'équiper ce Dofus"
 
-#: chardata/static/chardata/solution_popup.js:106
-#: chardata/static/chardata/solution_popup.js:122
-#: staticfiles/chardata/solution_popup.js:106
-#: staticfiles/chardata/solution_popup.js:122
+#: .\chardata\static\chardata\solution_popup.js:50
+msgid "AP"
+msgstr "PA"
+
+#: .\chardata\static\chardata\solution_popup.js:51
+#| msgctxt "one letter Monday"
+#| msgid "M"
+msgid "MP"
+msgstr "PM"
+
+#: .\chardata\static\chardata\solution_popup.js:52
+msgid "Range"
+msgstr "Portée"
+
+#: .\chardata\static\chardata\solution_popup.js:53
+msgid "Summons"
+msgstr "Invocations"
+
+#: .\chardata\static\chardata\solution_popup.js:54
+msgid "Vitality"
+msgstr "Vitalité"
+
+#: .\chardata\static\chardata\solution_popup.js:55
+msgid "Wisdom"
+msgstr "Sagesse"
+
+#: .\chardata\static\chardata\solution_popup.js:56
+msgid "Strength"
+msgstr "Force"
+
+#: .\chardata\static\chardata\solution_popup.js:57
+msgid "Intelligence"
+msgstr "Intelligence"
+
+#: .\chardata\static\chardata\solution_popup.js:58
+#| msgid "Cancel"
+msgid "Chance"
+msgstr "Chance"
+
+#: .\chardata\static\chardata\solution_popup.js:59
+msgid "Agility"
+msgstr "Agilité"
+
+#: .\chardata\static\chardata\solution_popup.js:131
+#: .\chardata\static\chardata\solution_popup.js:213
 msgid "Removing "
 msgstr "Retirer "
 
-#: chardata/static/chardata/solution_popup.js:108
-#: chardata/static/chardata/solution_popup.js:124
-#: staticfiles/chardata/solution_popup.js:108
-#: staticfiles/chardata/solution_popup.js:124
+#: .\chardata\static\chardata\solution_popup.js:133
+#: .\chardata\static\chardata\solution_popup.js:215
 msgid "Adding Item"
 msgstr "Ajout de Item"
 
-#: chardata/static/chardata/solution_popup.js:115
-#: staticfiles/chardata/solution_popup.js:115
+#: .\chardata\static\chardata\solution_popup.js:140
 msgid "Loading"
 msgstr "Chargement"
 
-#: chardata/static/chardata/solution_popup.js:127
-#: staticfiles/chardata/solution_popup.js:127
+#: .\chardata\static\chardata\solution_popup.js:155
+msgid "Any stat"
+msgstr "N'importe quelle stat"
+
+#: .\chardata\static\chardata\solution_popup.js:168
+msgid "Minimum"
+msgstr "Minimum"
+
+#: .\chardata\static\chardata\solution_popup.js:218
 msgid "Search"
 msgstr "Rechercher"
 
-#: chardata/static/chardata/solution_popup.js:128
-#: staticfiles/chardata/solution_popup.js:128
+#: .\chardata\static\chardata\solution_popup.js:219
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: chardata/static/chardata/solution_popup.js:164
-#: staticfiles/chardata/solution_popup.js:164
+#: .\chardata\static\chardata\solution_popup.js:220
+msgid "Add filter"
+msgstr "Ajouter un filtre"
+
+#: .\chardata\static\chardata\solution_popup.js:231
+msgid "Only my items"
+msgstr "Seulement mes objets"
+
+#: .\chardata\static\chardata\solution_popup.js:281
 msgid "Order by stats"
 msgstr "Commander par caractéristiques"
 
-#: chardata/static/chardata/solution_popup.js:165
-#: staticfiles/chardata/solution_popup.js:165
+#: .\chardata\static\chardata\solution_popup.js:282
 msgid "Order by hits"
 msgstr "Commander par dommage"
 
-#: chardata/static/chardata/solution_popup.js:292
-#: staticfiles/chardata/solution_popup.js:292
+#: .\chardata\static\chardata\solution_popup.js:410
 msgid "This item no longer exists"
 msgstr "Cet item n'existe plus"
 
-#: chardata/static/chardata/solution_popup.js:296
-#: chardata/static/chardata/solution_popup.js:305
-#: chardata/static/chardata/solution_popup.js:314
-#: chardata/static/chardata/solution_popup.js:323
-#: chardata/static/chardata/solution_popup.js:340
-#: chardata/static/chardata/solution_popup.js:349
-#: chardata/static/chardata/solution_popup.js:358
-#: staticfiles/chardata/solution_popup.js:296
-#: staticfiles/chardata/solution_popup.js:305
-#: staticfiles/chardata/solution_popup.js:314
-#: staticfiles/chardata/solution_popup.js:323
-#: staticfiles/chardata/solution_popup.js:340
-#: staticfiles/chardata/solution_popup.js:349
-#: staticfiles/chardata/solution_popup.js:358
+#: .\chardata\static\chardata\solution_popup.js:414
+#: .\chardata\static\chardata\solution_popup.js:423
+#: .\chardata\static\chardata\solution_popup.js:432
+#: .\chardata\static\chardata\solution_popup.js:441
+#: .\chardata\static\chardata\solution_popup.js:458
+#: .\chardata\static\chardata\solution_popup.js:467
+#: .\chardata\static\chardata\solution_popup.js:476
 msgid "Violates %(item)s's condition:"
 msgstr "Va à l'encontre des conditions de %(item)s:"
 
-#: chardata/static/chardata/solution_popup.js:332
-#: staticfiles/chardata/solution_popup.js:332
+#: .\chardata\static\chardata\solution_popup.js:450
 msgid "%(item)s is already equipped"
 msgstr "%(item)s est déjà équipé"
 
-#: chardata/static/chardata/solution_popup.js:373
-#: staticfiles/chardata/solution_popup.js:373
+#: .\chardata\static\chardata\solution_popup.js:491
 msgid "You cannot equip this item."
 msgstr "Vous ne pouvez pas équiper cet item."
 
-#: chardata/static/chardata/solution_popup.js:375
-#: staticfiles/chardata/solution_popup.js:375
+#: .\chardata\static\chardata\solution_popup.js:493
 #, javascript-format
 msgid ""
 " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
@@ -330,16 +355,14 @@ msgstr ""
 " Pour trouver un équipement qui l'inclut, verrouillez le <a "
 "href=\"/inclusions/%s/\">ici</a> et générez un nouvel équipement."
 
-#: chardata/static/chardata/solution_popup.js:383
-#: staticfiles/chardata/solution_popup.js:383
+#: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
 "You can equip this item, but some project minimums will not be respected."
 msgstr ""
 "Vous pouvez équiper cet item, mais certains critères minimaux du projet ne "
 "seront pas respectés."
 
-#: chardata/static/chardata/solution_popup.js:385
-#: staticfiles/chardata/solution_popup.js:385
+#: .\chardata\static\chardata\solution_popup.js:503
 #, javascript-format
 msgid ""
 " To find a set including it that fulfills these conditions, lock it <a "
@@ -348,46 +371,79 @@ msgstr ""
 " Pour trouver un équipement qui l'inclut, verrouillez le <a "
 "href=\"/inclusions/%s/\">ici</a> et générez un nouvel équipement."
 
-#: chardata/static/chardata/solution_popup.js:442
-#: staticfiles/chardata/solution_popup.js:442
+#: .\chardata\static\chardata\solution_popup.js:569
 msgid "There are no differences."
 msgstr "Il n'y a pas de différences."
 
-#: chardata/static/chardata/solution_popup.js:453
-#: staticfiles/chardata/solution_popup.js:453
+#: .\chardata\static\chardata\solution_popup.js:580
 msgid "No items found containing"
 msgstr "Aucun item trouvé contenant"
 
-#: chardata/static/chardata/solution_popup.js:465
-#: staticfiles/chardata/solution_popup.js:465
+#: .\chardata\static\chardata\solution_popup.js:587
+msgid "In my inventory"
+msgstr "Dans mon inventaire"
+
+#: .\chardata\static\chardata\solution_popup.js:596
 msgid "Comparison"
 msgstr "Comparaison"
 
-#: chardata/static/chardata/solution_popup.js:466
-#: staticfiles/chardata/solution_popup.js:466
+#: .\chardata\static\chardata\solution_popup.js:597
 msgid "Attributes"
 msgstr "Attributs"
 
-#: chardata/static/chardata/solution_popup.js:472
-#: staticfiles/chardata/solution_popup.js:472
+#: .\chardata\static\chardata\solution_popup.js:603
 msgid "Select"
 msgstr "Choisir"
 
-#: chardata/static/chardata/solution_popup.js
-msgid "Add filter"
-msgstr "Ajouter un filtre"
+#: .\chardata\static\chardata\solution_popup.js:646
+msgid "The average damage/AP of this weapon while %(element)s maged would be"
+msgstr "Les dégâts moyens/PA de  l’arme forgemagé %(element)s seront de"
+
+#: .\chardata\static\chardata\solution_popup.js:652
+msgid "The average damage/AP of this weapon would be"
+msgstr "Les dégâts moyens/PA de l’arme seront de"
+
+#: .\chardata\static\chardata\solution_popup.js:661
+msgid "With the current set this weapon would hit "
+msgstr "Avec cet équipement, l’arme va frapper "
+
+#: .\chardata\static\chardata\solution_popup.js:663
+msgid ""
+"With the current set this weapon would <font color=\"#CC0000\">heal</font> "
+msgstr "Avec cet équipement, l’arme va <font color=\"#CC0000\">soigner</font> "
+
+#: .\chardata\static\chardata\solution_popup.js:684
+msgid ""
+"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit, "
+"and from <b> %(minCritDam)s </b> to <b> %(maxCritDam)s </b> on a critical "
+"hit."
+msgstr ""
+"de <b> %(minNonCrit)s </b> à <b> %(maxNoncritDam)s </b> sans coup critique, "
+"et de <b> %(minCritDam)s </b> à <b> %(maxCritDam)s </b> en coup critique."
+
+#: .\chardata\static\chardata\solution_popup.js:694
+msgid ""
+"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
+msgstr ""
+"de <b> %(minNonCrit)s </b> à <b> %(maxNoncritDam)s </b> sans coup critique."
+
+#: .\chardata\static\chardata\stateengine.js:5
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: .\chardata\static\chardata\stateengine.js:5
+msgid "Saved"
+msgstr "Sauvegardé"
+
+#: .\chardata\static\chardata\stateengine.js:72
+msgid "You have unsaved changes. They will be discarded if you leave."
+msgstr ""
+"Vous avez effectué des changements sur cette page. Si vous quittez la page, "
+"ils ne seront pas sauvegardés."
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"
 msgstr "Filtres de stats"
-
-#: chardata/static/chardata/solution_popup.js
-msgid "Any stat"
-msgstr "N'importe quelle stat"
-
-#: chardata/static/chardata/solution_popup.js
-msgid "Minimum"
-msgstr "Minimum"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Damage"
@@ -412,61 +468,6 @@ msgstr "Resistance Eau"
 #: chardata/static/chardata/solution_popup.js
 msgid "Air Resistance"
 msgstr "Resistance Air"
-
-#: chardata/static/chardata/solution_popup.js:515
-#: staticfiles/chardata/solution_popup.js:515
-msgid "The average damage/AP of this weapon while %(element)s maged would be"
-msgstr "Les dégâts moyens/PA de  l’arme forgemagé %(element)s seront de"
-
-#: chardata/static/chardata/solution_popup.js:521
-#: staticfiles/chardata/solution_popup.js:521
-msgid "The average damage/AP of this weapon would be"
-msgstr "Les dégâts moyens/PA de l’arme seront de"
-
-#: chardata/static/chardata/solution_popup.js:530
-#: staticfiles/chardata/solution_popup.js:530
-msgid "With the current set this weapon would hit "
-msgstr "Avec cet équipement, l’arme va frapper "
-
-#: chardata/static/chardata/solution_popup.js:532
-#: staticfiles/chardata/solution_popup.js:532
-msgid ""
-"With the current set this weapon would <font color=\"#CC0000\">heal</font> "
-msgstr "Avec cet équipement, l’arme va <font color=\"#CC0000\">soigner</font> "
-
-#: chardata/static/chardata/solution_popup.js:553
-#: staticfiles/chardata/solution_popup.js:553
-msgid ""
-"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit, "
-"and from <b> %(minCritDam)s </b> to <b> %(maxCritDam)s </b> on a critical "
-"hit."
-msgstr ""
-"de <b> %(minNonCrit)s </b> à <b> %(maxNoncritDam)s </b> sans coup critique, "
-"et de <b> %(minCritDam)s </b> à <b> %(maxCritDam)s </b> en coup critique."
-
-#: chardata/static/chardata/solution_popup.js:563
-#: staticfiles/chardata/solution_popup.js:563
-msgid ""
-"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
-msgstr ""
-"de <b> %(minNonCrit)s </b> à <b> %(maxNoncritDam)s </b> sans coup critique."
-
-#: chardata/static/chardata/stateengine.js:5
-#: staticfiles/chardata/stateengine.js:5
-msgid "Save"
-msgstr "Sauvegarder"
-
-#: chardata/static/chardata/stateengine.js:5
-#: staticfiles/chardata/stateengine.js:5
-msgid "Saved"
-msgstr "Sauvegardé"
-
-#: chardata/static/chardata/stateengine.js:72
-#: staticfiles/chardata/stateengine.js:72
-msgid "You have unsaved changes. They will be discarded if you leave."
-msgstr ""
-"Vous avez effectué des changements sur cette page. Si vous quittez la page, "
-"ils ne seront pas sauvegardés."
 
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
@@ -669,15 +670,3 @@ msgstr "F"
 msgctxt "one letter Saturday"
 msgid "S"
 msgstr "S"
-
-#: fashionsite/chardata/static/chardata/solution_popup.js
-msgid "Only my items"
-msgstr "Seulement mes objets"
-
-#: fashionsite/chardata/static/chardata/solution_popup.js
-msgid "In my inventory"
-msgstr "Dans mon inventaire"
-
-#: chardata/static/chardata/compare_sets_popup.js:0
-msgid "Close"
-msgstr "Fermer"
