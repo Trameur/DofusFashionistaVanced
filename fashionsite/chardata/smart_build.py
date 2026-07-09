@@ -705,6 +705,18 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 5.5,
             },
         },
+        # Osamodas 1.29: fire is the advised path (Crackler Punch 18-37
+        # checked: single target, through obstacles, plus an AoE, and int
+        # also boosts the heals; int to 200 then vitality; the Red Dragoone
+        # is the fire ultimate). The summoner identity is already carried by
+        # the base profile (summons_are_important, 2-3 summons minimum).
+        # Sources: Millenium, Guidactik, Gamosaurus, Breakflip, jeuxonline
+        # Osamodas 1.29 guides.
+        'Osamodas': {
+            'int': {
+                'firedam': 6.5,
+            },
+        },
     },
 }
 
