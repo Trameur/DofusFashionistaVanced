@@ -23,7 +23,10 @@ import re
 from pathlib import Path
 
 # Retro effect id -> element token (matches dofus_constants element tokens).
-DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral'}
+# 96-100 = elemental damage, 91-95 = elemental steals (same hit, heals the
+# caster); both verified against the 1.29 effects lang (effects_fr.json).
+DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
+                  91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
 # Standard Dofus class id -> Fashionista class name (Retro = the original 12).
 CLASS_ID_TO_NAME = {
@@ -46,13 +49,20 @@ def dice_range(d):
 
 
 def _collect(effect_list):
-    """One effect list -> {element_token: (min, max)} for elemental damage."""
+    """One effect list -> {element_token: (min, max)} for elemental damage.
+
+    A level can carry several lines of one element (conditional branches,
+    damage/steal pairs): keep the strongest line per element (by midpoint),
+    like the Touch decoder."""
     out = {}
     for e in (effect_list or []):
         if isinstance(e, list) and len(e) >= 2 and e[-1] in DAMAGE_EFFECTS:
             rng = dice_range(e[0])
             if rng:
-                out[DAMAGE_EFFECTS[e[-1]]] = rng
+                elem = DAMAGE_EFFECTS[e[-1]]
+                prev = out.get(elem)
+                if prev is None or rng[0] + rng[1] > prev[0] + prev[1]:
+                    out[elem] = rng
     return out
 
 
