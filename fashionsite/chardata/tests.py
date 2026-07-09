@@ -2834,6 +2834,28 @@ class UnobtainableItemsTests(SimpleTestCase):
         # ...but still in the pool, so it can be un-forbidden by hand.
         self.assertIn(item.id, {it.id for it in s.get_available_items_list()})
 
+    def test_gm_items_forbidden_by_default(self):
+        # Staff-only items (GM suffix) exist in the scraped data of several
+        # versions but no player can obtain them, so the solver must not
+        # propose them (reported after the Touch pet pool review).
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        gm_ankama_ids = (6894,   # Ultra-powerful Combat Bow Meow (GM)
+                        6895,   # Small Combat Bow Meow (GM)
+                        7913,   # Animagi (GM)
+                        7920)   # Tournament Wand (GM)
+        for version in ('touch', 'dofus3'):
+            set_current_game_version(version)
+            structure = get_structure(version)
+            defaults = set(get_default_exclusions(char=None))
+            for ankama_id in gm_ankama_ids:
+                item = structure.get_item_by_ankama_id(ankama_id)
+                if item is None:
+                    continue  # not every GM item exists in every version
+                self.assertIn(item.id, defaults,
+                              '%s (%s) should be forbidden by default on %s'
+                              % (item.name, ankama_id, version))
+
 
 class VersionItemAvailabilityTests(SimpleTestCase):
     """Items in a version's data that shouldn't be proposed there are forbidden by

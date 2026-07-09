@@ -32,6 +32,8 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     9202,   # Gore Master's Other Ring (Retro)
     6894,   # Ultra-powerful Combat Bow Meow (GM)
     6895,   # Small Combat Bow Meow (GM)
+    7913,   # Animagi (GM)
+    7920,   # Tournament Wand (GM)
     2155,   # Jiva Necklace
     18853,  # Fiery Tongue Sword
     8575,   # First Blood Staff
