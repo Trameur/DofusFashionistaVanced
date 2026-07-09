@@ -212,6 +212,10 @@ def main() -> None:
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 
+    # Data changed: refresh the scanned list of runtime-translated
+    # strings (item types, stats...) so makemessages keeps them.
+    step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
+
     if not args.skip_images:
         step("item-images", [
             PY, "download_retro_images.py",

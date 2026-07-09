@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-10 00:13+0200\n"
+"POT-Creation-Date: 2026-07-10 00:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,7 +81,8 @@ msgstr "Você já denunciou este comentário"
 msgid "Saved generation"
 msgstr "Geração salva"
 
-#: .\chardata\compare_sets_view.py:242 .\chardata\exclusions_view.py:29
+#: .\chardata\compare_sets_view.py:242 .\chardata\dynamic_translations.py:148
+#: .\chardata\exclusions_view.py:29
 msgid "Weapon"
 msgstr "Arma"
 
@@ -162,6 +163,813 @@ msgstr "O projeto %s não está nesta versão do jogo."
 msgid "Project %s is not shared."
 msgstr "O projeto %s não está compartilhado"
 
+#: .\chardata\dynamic_translations.py:9
+#: .\chardata\templates\chardata\compare_sets.html:192
+#: .\chardata\templates\chardata\stats.html:79
+msgid "% Air Resist"
+msgstr "% Resistência Ar"
+
+#: .\chardata\dynamic_translations.py:10
+msgid "% Air Resist in PVP"
+msgstr "% Resistência Ar em PvP"
+
+#: .\chardata\dynamic_translations.py:11
+#: .\chardata\templates\chardata\compare_sets.html:189
+#: .\chardata\templates\chardata\stats.html:76
+msgid "% Earth Resist"
+msgstr "% Resistência Terra"
+
+#: .\chardata\dynamic_translations.py:12
+msgid "% Earth Resist in PVP"
+msgstr "% Resistência Terra em PvP"
+
+#: .\chardata\dynamic_translations.py:13
+#: .\chardata\templates\chardata\compare_sets.html:190
+#: .\chardata\templates\chardata\stats.html:77
+msgid "% Fire Resist"
+msgstr "% Resistência Fogo"
+
+#: .\chardata\dynamic_translations.py:14
+msgid "% Fire Resist in PVP"
+msgstr "% Resistência Fogo em PvP"
+
+#: .\chardata\dynamic_translations.py:15
+#: .\chardata\templates\chardata\stats.html:31
+#: .\chardata\translation_util.py:103
+msgid "% Melee Damage"
+msgstr "% danos corpo a corpo"
+
+#: .\chardata\dynamic_translations.py:16
+#: .\chardata\templates\chardata\stats.html:95
+#: .\chardata\translation_util.py:107
+msgid "% Melee Resist"
+msgstr "% Resist. corpo a corpo"
+
+#: .\chardata\dynamic_translations.py:17
+#: .\chardata\templates\chardata\compare_sets.html:188
+#: .\chardata\templates\chardata\stats.html:75
+msgid "% Neutral Resist"
+msgstr "% Resistência Neutra"
+
+#: .\chardata\dynamic_translations.py:18
+msgid "% Neutral Resist in PVP"
+msgstr "% Resistência Neutra em PvP"
+
+#: .\chardata\dynamic_translations.py:19
+#: .\chardata\templates\chardata\stats.html:32
+#: .\chardata\translation_util.py:104
+msgid "% Ranged Damage"
+msgstr "% danos distância"
+
+#: .\chardata\dynamic_translations.py:20
+#: .\chardata\templates\chardata\stats.html:97
+#: .\chardata\translation_util.py:108
+msgid "% Ranged Resist"
+msgstr "% Resist. distância"
+
+#: .\chardata\dynamic_translations.py:21 .\chardata\translation_util.py:106
+msgid "% Spell Damage"
+msgstr "% danos feitiços"
+
+#: .\chardata\dynamic_translations.py:22
+#: .\chardata\templates\chardata\compare_sets.html:161
+#: .\chardata\templates\chardata\stats.html:55
+#: .\chardata\translation_util.py:88 .\chardata\wizard_sliders.py:59
+msgid "% Trap Damage"
+msgstr "Potência (Armadilhas)"
+
+#: .\chardata\dynamic_translations.py:23
+#: .\chardata\templates\chardata\compare_sets.html:191
+#: .\chardata\templates\chardata\stats.html:78
+msgid "% Water Resist"
+msgstr "% Resistência Água"
+
+#: .\chardata\dynamic_translations.py:24
+msgid "% Water Resist in PVP"
+msgstr "% Resistência Água em PvP"
+
+#: .\chardata\dynamic_translations.py:25
+#: .\chardata\templates\chardata\stats.html:33
+#: .\chardata\translation_util.py:105
+msgid "% Weapon Damage"
+msgstr "% danos armas"
+
+#: .\chardata\dynamic_translations.py:26
+#: .\chardata\templates\chardata\stats.html:96
+#: .\chardata\translation_util.py:109
+msgid "% Weapon Resist"
+msgstr "% Resistência às Armas"
+
+#: .\chardata\dynamic_translations.py:27
+#| msgid "Advances %(cells)d cells"
+msgid "(Advances by cell)"
+msgstr "(Avança em células)"
+
+#: .\chardata\dynamic_translations.py:28
+#| msgid "Air Damage"
+msgid "(Air damage)"
+msgstr "(Danos Ar)"
+
+#: .\chardata\dynamic_translations.py:29
+msgid "(Air steal)"
+msgstr "(Roubo Ar)"
+
+#: .\chardata\dynamic_translations.py:30
+#| msgid "Attracts %(cells)d cells"
+msgid "(Attracts by cell)"
+msgstr "(Atrai em células)"
+
+#: .\chardata\dynamic_translations.py:31
+#| msgid "Best element"
+msgid "(Damage (best element))"
+msgstr "(Danos (melhor elemento))"
+
+#: .\chardata\dynamic_translations.py:32
+#| msgid "Earth Damage"
+msgid "(Earth damage)"
+msgstr "(Danos Terra)"
+
+#: .\chardata\dynamic_translations.py:33
+#| msgid "Earth Resist"
+msgid "(Earth steal)"
+msgstr "(Roubo Terra)"
+
+#: .\chardata\dynamic_translations.py:34
+#| msgid "Fire Damage"
+msgid "(Fire damage)"
+msgstr "(Danos Fogo)"
+
+#: .\chardata\dynamic_translations.py:35
+msgid "(MP)"
+msgstr "(PM)"
+
+#: .\chardata\dynamic_translations.py:36
+#| msgid "Neutral Damage"
+msgid "(Neutral damage)"
+msgstr "(Danos Neutro)"
+
+#: .\chardata\dynamic_translations.py:37
+#| msgid "Neutral Resist"
+msgid "(Neutral steal)"
+msgstr "(Roubo Neutro)"
+
+#: .\chardata\dynamic_translations.py:38
+#| msgid "Pushes %(cells)d cells"
+msgid "(Pushes back cell)"
+msgstr "(Empurra em células)"
+
+#: .\chardata\dynamic_translations.py:39
+#| msgid "Steals"
+msgid "(Steals MP)"
+msgstr "(Rouba PM)"
+
+#: .\chardata\dynamic_translations.py:40
+#| msgid "Steals %(kamas)d kamas"
+msgid "(Steals kamas)"
+msgstr "(Rouba kamas)"
+
+#: .\chardata\dynamic_translations.py:41
+#| msgid "Water Damage"
+msgid "(Water damage)"
+msgstr "(Danos Água)"
+
+#: .\chardata\dynamic_translations.py:42
+#| msgid "Water Resist"
+msgid "(Water steal)"
+msgstr "(Roubo Água)"
+
+#: .\chardata\dynamic_translations.py:43
+#| msgid "Best element"
+msgid "(best-element damage)"
+msgstr "(danos do melhor elemento)"
+
+#: .\chardata\dynamic_translations.py:44
+#| msgid "Best element"
+msgid "(best-element steal)"
+msgstr "(roubo do melhor elemento)"
+
+#: .\chardata\dynamic_translations.py:45
+msgid "-special spell-"
+msgstr "-feitiço especial-"
+
+#: .\chardata\dynamic_translations.py:46
+msgid "/"
+msgstr "/"
+
+#: .\chardata\dynamic_translations.py:47
+#| msgid "Damage"
+msgid ": + Damage"
+msgstr ": + Danos"
+
+#: .\chardata\dynamic_translations.py:48
+msgid ": + Maximum Range"
+msgstr ": + Alcance máximo"
+
+#: .\chardata\dynamic_translations.py:49
+#| msgid "% Ranged Damage"
+msgid ": + base damage"
+msgstr ": + danos de base"
+
+#: .\chardata\dynamic_translations.py:50
+msgid ": + cast(s) per target"
+msgstr ": + lançamento(s) por alvo"
+
+#: .\chardata\dynamic_translations.py:51
+msgid ": + cast(s) per turn"
+msgstr ": + lançamento(s) por turno"
+
+#: .\chardata\dynamic_translations.py:52
+#| msgid "Critical Hits"
+msgid ": +% Critical"
+msgstr ": +% Crítico"
+
+#: .\chardata\dynamic_translations.py:53
+msgid ": - AP"
+msgstr ": - PA"
+
+#: .\chardata\dynamic_translations.py:54
+msgid ": - Minimum Range"
+msgstr ": - Alcance mínimo"
+
+#: .\chardata\dynamic_translations.py:55
+msgid ": - cooldown"
+msgstr ": - intervalo de relançamento"
+
+#: .\chardata\dynamic_translations.py:56
+msgid ": line of sight off"
+msgstr ": linha de visão desativada"
+
+#: .\chardata\dynamic_translations.py:57
+msgid ": modifiable Range"
+msgstr ": Alcance modificável"
+
+#: .\chardata\dynamic_translations.py:58
+msgid ": occupied cell needed off"
+msgstr ": célula ocupada exigida desativada"
+
+#: .\chardata\dynamic_translations.py:59
+msgid ": straight-line casting off"
+msgstr ": lançamento em linha desativado"
+
+#: .\chardata\dynamic_translations.py:60 .\chardata\min_stats_view.py:95
+#: .\chardata\templates\chardata\compare_sets.html:139
+#: .\chardata\templates\chardata\solution.html:601
+#: .\chardata\templates\chardata\stats.html:36
+#: .\chardata\templates\chardata\wizard_min_stats.html:6
+#: .\chardata\translation_util.py:69
+msgid "AP"
+msgstr "PA"
+
+#: .\chardata\dynamic_translations.py:61
+#: .\chardata\templates\chardata\compare_sets.html:154
+#: .\chardata\templates\chardata\solution.html:624
+#: .\chardata\templates\chardata\stats.html:48
+#: .\chardata\translation_util.py:81 .\chardata\wizard_sliders.py:79
+msgid "AP Loss Resist"
+msgstr "Esquiva PA"
+
+#: .\chardata\dynamic_translations.py:62
+#: .\chardata\templates\chardata\compare_sets.html:152
+#: .\chardata\templates\chardata\solution.html:620
+#: .\chardata\templates\chardata\stats.html:46
+#: .\chardata\translation_util.py:79 .\chardata\wizard_sliders.py:82
+msgid "AP Reduction"
+msgstr "Retirada de PA"
+
+#: .\chardata\dynamic_translations.py:63
+msgid "Add a temporary spell"
+msgstr "Adiciona um feitiço temporário"
+
+#: .\chardata\dynamic_translations.py:64 .\chardata\smart_build.py:79
+#: .\chardata\templates\chardata\chardata.html:36
+#: .\chardata\templates\chardata\chardata.html:92
+#: .\chardata\templates\chardata\compare_sets.html:133
+#: .\chardata\templates\chardata\solution.html:584
+#: .\chardata\templates\chardata\spells.html:43
+#: .\chardata\templates\chardata\spells.html:715
+#: .\chardata\templates\chardata\stats.html:29
+#: .\chardata\translation_util.py:67
+msgid "Agility"
+msgstr "Agilidade"
+
+#: .\chardata\dynamic_translations.py:65 .\chardata\translation_util.py:48
+msgid "Air"
+msgstr "Ar"
+
+#: .\chardata\dynamic_translations.py:66
+#: .\chardata\templates\chardata\compare_sets.html:171
+#: .\chardata\templates\chardata\solution.html:655
+#: .\chardata\templates\chardata\stats.html:62
+#: .\chardata\translation_util.py:94
+msgid "Air Damage"
+msgstr "Danos Ar"
+
+#: .\chardata\dynamic_translations.py:67
+#: .\chardata\templates\chardata\compare_sets.html:183
+#: .\chardata\templates\chardata\solution.html:676
+#: .\chardata\templates\chardata\stats.html:72
+#: .\chardata\translation_util.py:102
+msgid "Air Resist"
+msgstr "Resistência Ar"
+
+#: .\chardata\dynamic_translations.py:68
+msgid "Air Resist in PVP"
+msgstr "Resistência Ar em PvP"
+
+#: .\chardata\dynamic_translations.py:69 .\chardata\exclusions_view.py:34
+msgid "Amulet"
+msgstr "Amuleto"
+
+#: .\chardata\dynamic_translations.py:70 .\chardata\translation_util.py:114
+msgid "Axe"
+msgstr "Machado"
+
+#: .\chardata\dynamic_translations.py:71 .\chardata\exclusions_view.py:37
+msgid "Belt"
+msgstr "Cinto"
+
+#: .\chardata\dynamic_translations.py:72 .\chardata\exclusions_view.py:36
+msgid "Boots"
+msgstr "Botas"
+
+#: .\chardata\dynamic_translations.py:73 .\chardata\translation_util.py:119
+msgid "Bow"
+msgstr "Arco"
+
+#: .\chardata\dynamic_translations.py:74 .\chardata\smart_build.py:78
+#: .\chardata\templates\chardata\chardata.html:35
+#: .\chardata\templates\chardata\chardata.html:89
+#: .\chardata\templates\chardata\compare_sets.html:132
+#: .\chardata\templates\chardata\solution.html:582
+#: .\chardata\templates\chardata\spells.html:47
+#: .\chardata\templates\chardata\spells.html:713
+#: .\chardata\templates\chardata\stats.html:28
+#: .\chardata\translation_util.py:66
+msgid "Chance"
+msgstr "Sorte"
+
+#: .\chardata\dynamic_translations.py:75
+#| msgid "Change password"
+msgid "Changes appearance"
+msgstr "Muda a aparência"
+
+#: .\chardata\dynamic_translations.py:76
+#| msgid "Change Sets"
+msgid "Changes speech"
+msgstr "Muda a fala"
+
+#: .\chardata\dynamic_translations.py:77 .\chardata\exclusions_view.py:32
+msgid "Cloak"
+msgstr "Capa"
+
+#: .\chardata\dynamic_translations.py:78
+msgid "Cooperative crafting impossible"
+msgstr "Fabricação cooperativa impossível"
+
+#: .\chardata\dynamic_translations.py:79
+#: .\chardata\templates\chardata\compare_sets.html:172
+#: .\chardata\templates\chardata\solution.html:660
+#: .\chardata\templates\chardata\stats.html:63
+#: .\chardata\translation_util.py:95 .\chardata\wizard_sliders.py:52
+msgid "Critical Damage"
+msgstr "Danos Críticos"
+
+#: .\chardata\dynamic_translations.py:80
+msgid "Critical Failure"
+msgstr "Falha Crítica"
+
+#: .\chardata\dynamic_translations.py:81 .\chardata\smart_build.py:85
+#: .\chardata\templates\chardata\compare_sets.html:143
+#: .\chardata\templates\chardata\solution.html:609
+#: .\chardata\templates\chardata\stats.html:40
+#: .\chardata\translation_util.py:74 .\chardata\wizard_sliders.py:51
+msgid "Critical Hits"
+msgstr "Golpes Críticos"
+
+#: .\chardata\dynamic_translations.py:82
+#: .\chardata\templates\chardata\compare_sets.html:157
+#: .\chardata\templates\chardata\solution.html:633
+#: .\chardata\templates\chardata\stats.html:51
+#: .\chardata\translation_util.py:84 .\chardata\wizard_sliders.py:71
+msgid "Critical Resist"
+msgstr "Resistência Crítica"
+
+#: .\chardata\dynamic_translations.py:83 .\chardata\translation_util.py:118
+msgid "Dagger"
+msgstr "Adaga"
+
+#: .\chardata\dynamic_translations.py:84
+#: .\chardata\templates\chardata\compare_sets.html:166
+#: .\chardata\templates\chardata\solution.html:645
+#: .\chardata\templates\chardata\spells.html:707
+#: .\chardata\templates\chardata\stats.html:57
+#: .\chardata\translation_util.py:89
+msgid "Damage"
+msgstr "Danos"
+
+#: .\chardata\dynamic_translations.py:85
+#: .\chardata\templates\chardata\compare_sets.html:151
+#: .\chardata\templates\chardata\solution.html:618
+#: .\chardata\templates\chardata\stats.html:45
+#: .\chardata\translation_util.py:78 .\chardata\wizard_sliders.py:77
+msgid "Dodge"
+msgstr "Fuga"
+
+#: .\chardata\dynamic_translations.py:86 .\chardata\exclusions_view.py:38
+msgid "Dofus"
+msgstr "Dofus"
+
+#: .\chardata\dynamic_translations.py:87 .\chardata\translation_util.py:45
+msgid "Earth"
+msgstr "Terra"
+
+#: .\chardata\dynamic_translations.py:88
+#: .\chardata\templates\chardata\compare_sets.html:168
+#: .\chardata\templates\chardata\solution.html:649
+#: .\chardata\templates\chardata\stats.html:59
+#: .\chardata\translation_util.py:91
+msgid "Earth Damage"
+msgstr "Danos Terra"
+
+#: .\chardata\dynamic_translations.py:89
+#: .\chardata\templates\chardata\compare_sets.html:180
+#: .\chardata\templates\chardata\solution.html:670
+#: .\chardata\templates\chardata\stats.html:69
+#: .\chardata\translation_util.py:99
+msgid "Earth Resist"
+msgstr "Resistência Terra"
+
+#: .\chardata\dynamic_translations.py:90
+msgid "Earth Resist in PVP"
+msgstr "Resistência Terra em PvP"
+
+#: .\chardata\dynamic_translations.py:91
+msgid "Emote"
+msgstr "Emote"
+
+#: .\chardata\dynamic_translations.py:92
+msgid "Exchangeable"
+msgstr "Trocável"
+
+#: .\chardata\dynamic_translations.py:93
+msgid "Fertile"
+msgstr "Fértil"
+
+#: .\chardata\dynamic_translations.py:94 .\chardata\translation_util.py:44
+msgid "Fire"
+msgstr "Fogo"
+
+#: .\chardata\dynamic_translations.py:95
+#: .\chardata\templates\chardata\compare_sets.html:169
+#: .\chardata\templates\chardata\solution.html:651
+#: .\chardata\templates\chardata\stats.html:60
+#: .\chardata\translation_util.py:92
+msgid "Fire Damage"
+msgstr "Danos Fogo"
+
+#: .\chardata\dynamic_translations.py:96
+#: .\chardata\templates\chardata\compare_sets.html:181
+#: .\chardata\templates\chardata\solution.html:672
+#: .\chardata\templates\chardata\stats.html:70
+#: .\chardata\translation_util.py:100
+msgid "Fire Resist"
+msgstr "Resistência Fogo"
+
+#: .\chardata\dynamic_translations.py:97
+msgid "Fire Resist in PVP"
+msgstr "Resistência Fogo em PvP"
+
+#: .\chardata\dynamic_translations.py:98
+#| msgid "Steals"
+msgid "Fire Steal"
+msgstr "Roubo Fogo"
+
+#: .\chardata\dynamic_translations.py:99
+#| msgid "Fire Resist"
+msgid "Fire heals"
+msgstr "Curas Fogo"
+
+#: .\chardata\dynamic_translations.py:100 .\chardata\min_stats_view.py:110
+#: .\chardata\templates\chardata\compare_sets.html:127
+#: .\chardata\templates\chardata\solution.html:572
+#: .\chardata\translation_util.py:61
+msgid "HP"
+msgstr "PV"
+
+#: .\chardata\dynamic_translations.py:101 .\chardata\translation_util.py:113
+msgid "Hammer"
+msgstr "Martelo"
+
+#: .\chardata\dynamic_translations.py:102 .\chardata\exclusions_view.py:31
+msgid "Hat"
+msgstr "Chapéu"
+
+#: .\chardata\dynamic_translations.py:103
+#: .\chardata\templates\chardata\compare_sets.html:174
+#: .\chardata\templates\chardata\solution.html:665
+#: .\chardata\templates\chardata\spells.html:585
+#: .\chardata\templates\chardata\spells.html:689
+#: .\chardata\templates\chardata\spells.html:719
+#: .\chardata\templates\chardata\stats.html:65
+#: .\chardata\translation_util.py:97 .\chardata\wizard_sliders.py:91
+msgid "Heals"
+msgstr "Cura"
+
+#: .\chardata\dynamic_translations.py:104
+#| msgid "Weapon"
+msgid "Hunting Weapon"
+msgstr "Arma de caça"
+
+#: .\chardata\dynamic_translations.py:105
+#: .\chardata\templates\chardata\compare_sets.html:148
+#: .\chardata\templates\chardata\solution.html:612
+#: .\chardata\templates\chardata\stats.html:42
+#: .\chardata\translation_util.py:75 .\chardata\wizard_sliders.py:85
+msgid "Initiative"
+msgstr "Iniciativa"
+
+#: .\chardata\dynamic_translations.py:106 .\chardata\smart_build.py:77
+#: .\chardata\templates\chardata\chardata.html:34
+#: .\chardata\templates\chardata\chardata.html:86
+#: .\chardata\templates\chardata\compare_sets.html:131
+#: .\chardata\templates\chardata\solution.html:580
+#: .\chardata\templates\chardata\spells.html:51
+#: .\chardata\templates\chardata\spells.html:711
+#: .\chardata\templates\chardata\stats.html:27
+#: .\chardata\translation_util.py:65
+msgid "Intelligence"
+msgstr "Inteligência"
+
+#: .\chardata\dynamic_translations.py:107 .\chardata\translation_util.py:123
+msgid "Lance"
+msgstr "Lança"
+
+#: .\chardata\dynamic_translations.py:108
+msgid "Linked to the character"
+msgstr "Vinculado ao personagem"
+
+#: .\chardata\dynamic_translations.py:109
+#: .\chardata\templates\chardata\compare_sets.html:150
+#: .\chardata\templates\chardata\solution.html:616
+#: .\chardata\templates\chardata\stats.html:44
+#: .\chardata\translation_util.py:77 .\chardata\wizard_sliders.py:76
+msgid "Lock"
+msgstr "Bloqueio"
+
+#: .\chardata\dynamic_translations.py:110 .\chardata\min_stats_view.py:100
+#: .\chardata\templates\chardata\compare_sets.html:140
+#: .\chardata\templates\chardata\solution.html:603
+#: .\chardata\templates\chardata\spells.html:731
+#: .\chardata\templates\chardata\stats.html:37
+#: .\chardata\templates\chardata\wizard_min_stats.html:10
+#: .\chardata\tests.py:214 .\chardata\translation_util.py:70
+msgid "MP"
+msgstr "PM"
+
+#: .\chardata\dynamic_translations.py:111
+#: .\chardata\templates\chardata\compare_sets.html:155
+#: .\chardata\templates\chardata\solution.html:626
+#: .\chardata\templates\chardata\stats.html:49
+#: .\chardata\translation_util.py:82 .\chardata\wizard_sliders.py:80
+msgid "MP Loss Resist"
+msgstr "Esquiva PM"
+
+#: .\chardata\dynamic_translations.py:112
+#: .\chardata\templates\chardata\compare_sets.html:153
+#: .\chardata\templates\chardata\solution.html:622
+#: .\chardata\templates\chardata\stats.html:47
+#: .\chardata\translation_util.py:80 .\chardata\wizard_sliders.py:84
+msgid "MP Reduction"
+msgstr "Retirada de PM"
+
+#: .\chardata\dynamic_translations.py:113
+msgid "Max."
+msgstr "Máx."
+
+#: .\chardata\dynamic_translations.py:114 .\chardata\translation_util.py:46
+msgid "Neutral"
+msgstr "Neutro"
+
+#: .\chardata\dynamic_translations.py:115
+#: .\chardata\templates\chardata\compare_sets.html:167
+#: .\chardata\templates\chardata\solution.html:647
+#: .\chardata\templates\chardata\stats.html:58
+#: .\chardata\translation_util.py:90
+msgid "Neutral Damage"
+msgstr "Danos Neutro"
+
+#: .\chardata\dynamic_translations.py:116
+#: .\chardata\templates\chardata\compare_sets.html:179
+#: .\chardata\templates\chardata\solution.html:668
+#: .\chardata\templates\chardata\stats.html:68
+#: .\chardata\translation_util.py:98
+msgid "Neutral Resist"
+msgstr "Resistência Neutra"
+
+#: .\chardata\dynamic_translations.py:117
+msgid "Neutral Resist in PVP"
+msgstr "Resistência Neutra em PvP"
+
+#: .\chardata\dynamic_translations.py:118
+msgid "Number of victims:"
+msgstr "Número de vítimas:"
+
+#: .\chardata\dynamic_translations.py:119 .\chardata\exclusions_view.py:33
+msgid "Pet"
+msgstr "Mascote"
+
+#: .\chardata\dynamic_translations.py:120 .\chardata\translation_util.py:121
+msgid "Pickaxe"
+msgstr "Picareta"
+
+#: .\chardata\dynamic_translations.py:121 .\chardata\smart_build.py:96
+#: .\chardata\templates\chardata\compare_sets.html:158
+#: .\chardata\templates\chardata\solution.html:636
+#: .\chardata\templates\chardata\stats.html:52
+#: .\chardata\translation_util.py:85
+msgid "Pods"
+msgstr "Pods"
+
+#: .\chardata\dynamic_translations.py:122
+#: .\chardata\templates\chardata\compare_sets.html:134
+#: .\chardata\templates\chardata\solution.html:586
+#: .\chardata\templates\chardata\spells.html:693
+#: .\chardata\templates\chardata\spells.html:695
+#: .\chardata\templates\chardata\spells.html:697
+#: .\chardata\templates\chardata\spells.html:699
+#: .\chardata\templates\chardata\spells.html:701
+#: .\chardata\templates\chardata\spells.html:703
+#: .\chardata\templates\chardata\spells.html:705
+#: .\chardata\templates\chardata\stats.html:30
+#: .\chardata\translation_util.py:68 .\chardata\wizard_sliders.py:43
+msgid "Power"
+msgstr "Potência"
+
+#: .\chardata\dynamic_translations.py:123 .\chardata\smart_build.py:95
+#: .\chardata\templates\chardata\compare_sets.html:149
+#: .\chardata\templates\chardata\solution.html:614
+#: .\chardata\templates\chardata\stats.html:43
+#: .\chardata\translation_util.py:76 .\chardata\wizard_sliders.py:99
+msgid "Prospecting"
+msgstr "Prospecção"
+
+#: .\chardata\dynamic_translations.py:124
+#: .\chardata\templates\chardata\compare_sets.html:173
+#: .\chardata\templates\chardata\solution.html:662
+#: .\chardata\templates\chardata\spells.html:717
+#: .\chardata\templates\chardata\stats.html:64
+#: .\chardata\translation_util.py:96 .\chardata\wizard_sliders.py:55
+msgid "Pushback Damage"
+msgstr "Danos de Empurrão"
+
+#: .\chardata\dynamic_translations.py:125
+#: .\chardata\templates\chardata\compare_sets.html:156
+#: .\chardata\templates\chardata\solution.html:631
+#: .\chardata\templates\chardata\stats.html:50
+#: .\chardata\translation_util.py:83
+msgid "Pushback Resist"
+msgstr "Resistência ao Empurrão"
+
+#: .\chardata\dynamic_translations.py:126 .\chardata\min_stats_view.py:105
+#: .\chardata\templates\chardata\compare_sets.html:141
+#: .\chardata\templates\chardata\solution.html:605
+#: .\chardata\templates\chardata\stats.html:38
+#: .\chardata\templates\chardata\wizard_min_stats.html:14
+#: .\chardata\translation_util.py:71
+msgid "Range"
+msgstr "AL"
+
+#: .\chardata\dynamic_translations.py:127
+msgid "Received on"
+msgstr "Recebido em"
+
+#: .\chardata\dynamic_translations.py:128
+#: .\chardata\templates\chardata\compare_sets.html:159
+#: .\chardata\templates\chardata\solution.html:638
+#: .\chardata\templates\chardata\stats.html:53
+#: .\chardata\translation_util.py:86
+msgid "Reflects"
+msgstr "Danos Refletidos"
+
+#: .\chardata\dynamic_translations.py:129 .\chardata\exclusions_view.py:35
+msgid "Ring"
+msgstr "Anel"
+
+#: .\chardata\dynamic_translations.py:130 .\chardata\translation_util.py:122
+msgid "Scythe"
+msgstr "Gadanha"
+
+#: .\chardata\dynamic_translations.py:131 .\chardata\exclusions_view.py:30
+msgid "Shield"
+msgstr "Escudo"
+
+#: .\chardata\dynamic_translations.py:132 .\chardata\translation_util.py:115
+msgid "Shovel"
+msgstr "Pá"
+
+#: .\chardata\dynamic_translations.py:133
+msgid "Size: %"
+msgstr "Tamanho: %"
+
+#: .\chardata\dynamic_translations.py:134
+msgid "Someone's following you!"
+msgstr "Alguém está te seguindo!"
+
+#: .\chardata\dynamic_translations.py:135 .\chardata\translation_util.py:116
+msgid "Staff"
+msgstr "Bastão"
+
+#: .\chardata\dynamic_translations.py:136 .\chardata\smart_build.py:76
+#: .\chardata\templates\chardata\chardata.html:33
+#: .\chardata\templates\chardata\chardata.html:83
+#: .\chardata\templates\chardata\compare_sets.html:130
+#: .\chardata\templates\chardata\solution.html:578
+#: .\chardata\templates\chardata\spells.html:55
+#: .\chardata\templates\chardata\spells.html:709
+#: .\chardata\templates\chardata\stats.html:26
+#: .\chardata\translation_util.py:64
+msgid "Strength"
+msgstr "Força"
+
+#: .\chardata\dynamic_translations.py:137
+#: .\chardata\templates\chardata\spells.html:812
+#: .\chardata\translation_util.py:73
+msgid "Summon"
+msgstr "Invocações"
+
+#: .\chardata\dynamic_translations.py:138 .\chardata\translation_util.py:117
+msgid "Sword"
+msgstr "Espada"
+
+#: .\chardata\dynamic_translations.py:139
+#| msgid "report"
+msgid "Teleport"
+msgstr "Teletransporta"
+
+#: .\chardata\dynamic_translations.py:140
+msgid "Title:"
+msgstr "Título:"
+
+#: .\chardata\dynamic_translations.py:141
+#: .\chardata\templates\chardata\compare_sets.html:160
+#: .\chardata\templates\chardata\solution.html:640
+#: .\chardata\templates\chardata\stats.html:54
+#: .\chardata\translation_util.py:87 .\chardata\wizard_sliders.py:58
+msgid "Trap Damage"
+msgstr "Danos Armadilhas"
+
+#: .\chardata\dynamic_translations.py:142 .\chardata\smart_build.py:80
+#: .\chardata\templates\chardata\chardata.html:31
+#: .\chardata\templates\chardata\chardata.html:77
+#: .\chardata\templates\chardata\compare_sets.html:128
+#: .\chardata\templates\chardata\solution.html:574
+#: .\chardata\templates\chardata\stats.html:24
+#: .\chardata\translation_util.py:62 .\chardata\wizard_sliders.py:64
+msgid "Vitality"
+msgstr "Vitalidade"
+
+#: .\chardata\dynamic_translations.py:143 .\chardata\translation_util.py:120
+msgid "Wand"
+msgstr "Varinha"
+
+#: .\chardata\dynamic_translations.py:144 .\chardata\translation_util.py:47
+msgid "Water"
+msgstr "Água"
+
+#: .\chardata\dynamic_translations.py:145
+#: .\chardata\templates\chardata\compare_sets.html:170
+#: .\chardata\templates\chardata\solution.html:653
+#: .\chardata\templates\chardata\stats.html:61
+#: .\chardata\translation_util.py:93
+msgid "Water Damage"
+msgstr "Danos Água"
+
+#: .\chardata\dynamic_translations.py:146
+#: .\chardata\templates\chardata\compare_sets.html:182
+#: .\chardata\templates\chardata\solution.html:674
+#: .\chardata\templates\chardata\stats.html:71
+#: .\chardata\translation_util.py:101
+msgid "Water Resist"
+msgstr "Resistência Água"
+
+#: .\chardata\dynamic_translations.py:147
+msgid "Water Resist in PVP"
+msgstr "Resistência Água em PvP"
+
+#: .\chardata\dynamic_translations.py:149
+msgid "What's inside?"
+msgstr "O que tem dentro?"
+
+#: .\chardata\dynamic_translations.py:150
+#: .\chardata\templates\chardata\chardata.html:32
+#: .\chardata\templates\chardata\chardata.html:80
+#: .\chardata\templates\chardata\compare_sets.html:129
+#: .\chardata\templates\chardata\solution.html:576
+#: .\chardata\templates\chardata\stats.html:25
+#: .\chardata\translation_util.py:63 .\chardata\wizard_sliders.py:98
+msgid "Wisdom"
+msgstr "Sabedoria"
+
 #: .\chardata\encyclopedia_view.py:418 .\chardata\solution_result.py:222
 #, python-format
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
@@ -187,42 +995,6 @@ msgstr "%(min)d a %(max)d curas %(element)s"
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
 msgstr "%(min)d a %(max)d (%(element)s)"
-
-#: .\chardata\exclusions_view.py:30
-msgid "Shield"
-msgstr "Escudo"
-
-#: .\chardata\exclusions_view.py:31
-msgid "Hat"
-msgstr "Chapéu"
-
-#: .\chardata\exclusions_view.py:32
-msgid "Cloak"
-msgstr "Capa"
-
-#: .\chardata\exclusions_view.py:33
-msgid "Pet"
-msgstr "Mascote"
-
-#: .\chardata\exclusions_view.py:34
-msgid "Amulet"
-msgstr "Amuleto"
-
-#: .\chardata\exclusions_view.py:35
-msgid "Ring"
-msgstr "Anel"
-
-#: .\chardata\exclusions_view.py:36
-msgid "Boots"
-msgstr "Botas"
-
-#: .\chardata\exclusions_view.py:37
-msgid "Belt"
-msgstr "Cinto"
-
-#: .\chardata\exclusions_view.py:38
-msgid "Dofus"
-msgstr "Dofus"
 
 #: .\chardata\home_view.py:75 .\chardata\profile_view.py:169
 msgid "Anonymous"
@@ -294,41 +1066,6 @@ msgstr "Você precisa inserir uma nova senha."
 #: .\chardata\login_view.py:290
 msgid "The passwords do not match."
 msgstr "As senhas não coincidem."
-
-#: .\chardata\min_stats_view.py:95
-#: .\chardata\templates\chardata\compare_sets.html:139
-#: .\chardata\templates\chardata\solution.html:601
-#: .\chardata\templates\chardata\stats.html:36
-#: .\chardata\templates\chardata\wizard_min_stats.html:6
-#: .\chardata\translation_util.py:69
-msgid "AP"
-msgstr "PA"
-
-#: .\chardata\min_stats_view.py:100
-#: .\chardata\templates\chardata\compare_sets.html:140
-#: .\chardata\templates\chardata\solution.html:603
-#: .\chardata\templates\chardata\spells.html:731
-#: .\chardata\templates\chardata\stats.html:37
-#: .\chardata\templates\chardata\wizard_min_stats.html:10
-#: .\chardata\tests.py:214 .\chardata\translation_util.py:70
-msgid "MP"
-msgstr "PM"
-
-#: .\chardata\min_stats_view.py:105
-#: .\chardata\templates\chardata\compare_sets.html:141
-#: .\chardata\templates\chardata\solution.html:605
-#: .\chardata\templates\chardata\stats.html:38
-#: .\chardata\templates\chardata\wizard_min_stats.html:14
-#: .\chardata\translation_util.py:71
-msgid "Range"
-msgstr "AL"
-
-#: .\chardata\min_stats_view.py:110
-#: .\chardata\templates\chardata\compare_sets.html:127
-#: .\chardata\templates\chardata\solution.html:572
-#: .\chardata\translation_util.py:61
-msgid "HP"
-msgstr "PV"
 
 #: .\chardata\moderation.py:114
 msgid ""
@@ -490,59 +1227,6 @@ msgstr "Ação inválida"
 msgid "Internal server error"
 msgstr "Erro interno do servidor"
 
-#: .\chardata\smart_build.py:76 .\chardata\templates\chardata\chardata.html:33
-#: .\chardata\templates\chardata\chardata.html:83
-#: .\chardata\templates\chardata\compare_sets.html:130
-#: .\chardata\templates\chardata\solution.html:578
-#: .\chardata\templates\chardata\spells.html:55
-#: .\chardata\templates\chardata\spells.html:709
-#: .\chardata\templates\chardata\stats.html:26
-#: .\chardata\translation_util.py:64
-msgid "Strength"
-msgstr "Força"
-
-#: .\chardata\smart_build.py:77 .\chardata\templates\chardata\chardata.html:34
-#: .\chardata\templates\chardata\chardata.html:86
-#: .\chardata\templates\chardata\compare_sets.html:131
-#: .\chardata\templates\chardata\solution.html:580
-#: .\chardata\templates\chardata\spells.html:51
-#: .\chardata\templates\chardata\spells.html:711
-#: .\chardata\templates\chardata\stats.html:27
-#: .\chardata\translation_util.py:65
-msgid "Intelligence"
-msgstr "Inteligência"
-
-#: .\chardata\smart_build.py:78 .\chardata\templates\chardata\chardata.html:35
-#: .\chardata\templates\chardata\chardata.html:89
-#: .\chardata\templates\chardata\compare_sets.html:132
-#: .\chardata\templates\chardata\solution.html:582
-#: .\chardata\templates\chardata\spells.html:47
-#: .\chardata\templates\chardata\spells.html:713
-#: .\chardata\templates\chardata\stats.html:28
-#: .\chardata\translation_util.py:66
-msgid "Chance"
-msgstr "Sorte"
-
-#: .\chardata\smart_build.py:79 .\chardata\templates\chardata\chardata.html:36
-#: .\chardata\templates\chardata\chardata.html:92
-#: .\chardata\templates\chardata\compare_sets.html:133
-#: .\chardata\templates\chardata\solution.html:584
-#: .\chardata\templates\chardata\spells.html:43
-#: .\chardata\templates\chardata\spells.html:715
-#: .\chardata\templates\chardata\stats.html:29
-#: .\chardata\translation_util.py:67
-msgid "Agility"
-msgstr "Agilidade"
-
-#: .\chardata\smart_build.py:80 .\chardata\templates\chardata\chardata.html:31
-#: .\chardata\templates\chardata\chardata.html:77
-#: .\chardata\templates\chardata\compare_sets.html:128
-#: .\chardata\templates\chardata\solution.html:574
-#: .\chardata\templates\chardata\stats.html:24
-#: .\chardata\translation_util.py:62 .\chardata\wizard_sliders.py:64
-msgid "Vitality"
-msgstr "Vitalidade"
-
 #: .\chardata\smart_build.py:81
 msgid "Resists"
 msgstr "Resistência"
@@ -558,14 +1242,6 @@ msgstr "UP"
 #: .\chardata\smart_build.py:84
 msgid "Linear Damage"
 msgstr "Danos Lineares"
-
-#: .\chardata\smart_build.py:85
-#: .\chardata\templates\chardata\compare_sets.html:143
-#: .\chardata\templates\chardata\solution.html:609
-#: .\chardata\templates\chardata\stats.html:40
-#: .\chardata\translation_util.py:74 .\chardata\wizard_sliders.py:51
-msgid "Critical Hits"
-msgstr "Golpes Críticos"
 
 #: .\chardata\smart_build.py:86
 msgid "Avoid Critical Hits"
@@ -608,22 +1284,6 @@ msgstr "Invocações"
 #: .\chardata\smart_build.py:94
 msgid "Pushback"
 msgstr "Empurrão"
-
-#: .\chardata\smart_build.py:95
-#: .\chardata\templates\chardata\compare_sets.html:149
-#: .\chardata\templates\chardata\solution.html:614
-#: .\chardata\templates\chardata\stats.html:43
-#: .\chardata\translation_util.py:76 .\chardata\wizard_sliders.py:99
-msgid "Prospecting"
-msgstr "Prospecção"
-
-#: .\chardata\smart_build.py:96
-#: .\chardata\templates\chardata\compare_sets.html:158
-#: .\chardata\templates\chardata\solution.html:636
-#: .\chardata\templates\chardata\stats.html:52
-#: .\chardata\translation_util.py:85
-msgid "Pods"
-msgstr "Pods"
 
 #: .\chardata\smart_build.py:97
 msgid "Balanced"
@@ -2183,15 +2843,6 @@ msgstr "Pontos"
 msgid "Total"
 msgstr "Total"
 
-#: .\chardata\templates\chardata\chardata.html:32
-#: .\chardata\templates\chardata\chardata.html:80
-#: .\chardata\templates\chardata\compare_sets.html:129
-#: .\chardata\templates\chardata\solution.html:576
-#: .\chardata\templates\chardata\stats.html:25
-#: .\chardata\translation_util.py:63 .\chardata\wizard_sliders.py:98
-msgid "Wisdom"
-msgstr "Sabedoria"
-
 #: .\chardata\templates\chardata\chardata.html:38
 msgid "Characteristics points:"
 msgstr "Pontos de Base:"
@@ -2389,231 +3040,6 @@ msgstr "Equip"
 #: .\chardata\templates\chardata\compare_sets.html:233
 msgid "Diff"
 msgstr "Dif."
-
-#: .\chardata\templates\chardata\compare_sets.html:134
-#: .\chardata\templates\chardata\solution.html:586
-#: .\chardata\templates\chardata\spells.html:693
-#: .\chardata\templates\chardata\spells.html:695
-#: .\chardata\templates\chardata\spells.html:697
-#: .\chardata\templates\chardata\spells.html:699
-#: .\chardata\templates\chardata\spells.html:701
-#: .\chardata\templates\chardata\spells.html:703
-#: .\chardata\templates\chardata\spells.html:705
-#: .\chardata\templates\chardata\stats.html:30
-#: .\chardata\translation_util.py:68 .\chardata\wizard_sliders.py:43
-msgid "Power"
-msgstr "Potência"
-
-#: .\chardata\templates\chardata\compare_sets.html:148
-#: .\chardata\templates\chardata\solution.html:612
-#: .\chardata\templates\chardata\stats.html:42
-#: .\chardata\translation_util.py:75 .\chardata\wizard_sliders.py:85
-msgid "Initiative"
-msgstr "Iniciativa"
-
-#: .\chardata\templates\chardata\compare_sets.html:150
-#: .\chardata\templates\chardata\solution.html:616
-#: .\chardata\templates\chardata\stats.html:44
-#: .\chardata\translation_util.py:77 .\chardata\wizard_sliders.py:76
-msgid "Lock"
-msgstr "Bloqueio"
-
-#: .\chardata\templates\chardata\compare_sets.html:151
-#: .\chardata\templates\chardata\solution.html:618
-#: .\chardata\templates\chardata\stats.html:45
-#: .\chardata\translation_util.py:78 .\chardata\wizard_sliders.py:77
-msgid "Dodge"
-msgstr "Fuga"
-
-#: .\chardata\templates\chardata\compare_sets.html:152
-#: .\chardata\templates\chardata\solution.html:620
-#: .\chardata\templates\chardata\stats.html:46
-#: .\chardata\translation_util.py:79 .\chardata\wizard_sliders.py:82
-msgid "AP Reduction"
-msgstr "Retirada de PA"
-
-#: .\chardata\templates\chardata\compare_sets.html:153
-#: .\chardata\templates\chardata\solution.html:622
-#: .\chardata\templates\chardata\stats.html:47
-#: .\chardata\translation_util.py:80 .\chardata\wizard_sliders.py:84
-msgid "MP Reduction"
-msgstr "Retirada de PM"
-
-#: .\chardata\templates\chardata\compare_sets.html:154
-#: .\chardata\templates\chardata\solution.html:624
-#: .\chardata\templates\chardata\stats.html:48
-#: .\chardata\translation_util.py:81 .\chardata\wizard_sliders.py:79
-msgid "AP Loss Resist"
-msgstr "Esquiva PA"
-
-#: .\chardata\templates\chardata\compare_sets.html:155
-#: .\chardata\templates\chardata\solution.html:626
-#: .\chardata\templates\chardata\stats.html:49
-#: .\chardata\translation_util.py:82 .\chardata\wizard_sliders.py:80
-msgid "MP Loss Resist"
-msgstr "Esquiva PM"
-
-#: .\chardata\templates\chardata\compare_sets.html:156
-#: .\chardata\templates\chardata\solution.html:631
-#: .\chardata\templates\chardata\stats.html:50
-#: .\chardata\translation_util.py:83
-msgid "Pushback Resist"
-msgstr "Resistência ao Empurrão"
-
-#: .\chardata\templates\chardata\compare_sets.html:157
-#: .\chardata\templates\chardata\solution.html:633
-#: .\chardata\templates\chardata\stats.html:51
-#: .\chardata\translation_util.py:84 .\chardata\wizard_sliders.py:71
-msgid "Critical Resist"
-msgstr "Resistência Crítica"
-
-#: .\chardata\templates\chardata\compare_sets.html:159
-#: .\chardata\templates\chardata\solution.html:638
-#: .\chardata\templates\chardata\stats.html:53
-#: .\chardata\translation_util.py:86
-msgid "Reflects"
-msgstr "Danos Refletidos"
-
-#: .\chardata\templates\chardata\compare_sets.html:160
-#: .\chardata\templates\chardata\solution.html:640
-#: .\chardata\templates\chardata\stats.html:54
-#: .\chardata\translation_util.py:87 .\chardata\wizard_sliders.py:58
-msgid "Trap Damage"
-msgstr "Danos Armadilhas"
-
-#: .\chardata\templates\chardata\compare_sets.html:161
-#: .\chardata\templates\chardata\stats.html:55
-#: .\chardata\translation_util.py:88 .\chardata\wizard_sliders.py:59
-msgid "% Trap Damage"
-msgstr "Potência (Armadilhas)"
-
-#: .\chardata\templates\chardata\compare_sets.html:166
-#: .\chardata\templates\chardata\solution.html:645
-#: .\chardata\templates\chardata\spells.html:707
-#: .\chardata\templates\chardata\stats.html:57
-#: .\chardata\translation_util.py:89
-msgid "Damage"
-msgstr "Danos"
-
-#: .\chardata\templates\chardata\compare_sets.html:167
-#: .\chardata\templates\chardata\solution.html:647
-#: .\chardata\templates\chardata\stats.html:58
-#: .\chardata\translation_util.py:90
-msgid "Neutral Damage"
-msgstr "Danos Neutro"
-
-#: .\chardata\templates\chardata\compare_sets.html:168
-#: .\chardata\templates\chardata\solution.html:649
-#: .\chardata\templates\chardata\stats.html:59
-#: .\chardata\translation_util.py:91
-msgid "Earth Damage"
-msgstr "Danos Terra"
-
-#: .\chardata\templates\chardata\compare_sets.html:169
-#: .\chardata\templates\chardata\solution.html:651
-#: .\chardata\templates\chardata\stats.html:60
-#: .\chardata\translation_util.py:92
-msgid "Fire Damage"
-msgstr "Danos Fogo"
-
-#: .\chardata\templates\chardata\compare_sets.html:170
-#: .\chardata\templates\chardata\solution.html:653
-#: .\chardata\templates\chardata\stats.html:61
-#: .\chardata\translation_util.py:93
-msgid "Water Damage"
-msgstr "Danos Água"
-
-#: .\chardata\templates\chardata\compare_sets.html:171
-#: .\chardata\templates\chardata\solution.html:655
-#: .\chardata\templates\chardata\stats.html:62
-#: .\chardata\translation_util.py:94
-msgid "Air Damage"
-msgstr "Danos Ar"
-
-#: .\chardata\templates\chardata\compare_sets.html:172
-#: .\chardata\templates\chardata\solution.html:660
-#: .\chardata\templates\chardata\stats.html:63
-#: .\chardata\translation_util.py:95 .\chardata\wizard_sliders.py:52
-msgid "Critical Damage"
-msgstr "Danos Críticos"
-
-#: .\chardata\templates\chardata\compare_sets.html:173
-#: .\chardata\templates\chardata\solution.html:662
-#: .\chardata\templates\chardata\spells.html:717
-#: .\chardata\templates\chardata\stats.html:64
-#: .\chardata\translation_util.py:96 .\chardata\wizard_sliders.py:55
-msgid "Pushback Damage"
-msgstr "Danos de Empurrão"
-
-#: .\chardata\templates\chardata\compare_sets.html:174
-#: .\chardata\templates\chardata\solution.html:665
-#: .\chardata\templates\chardata\spells.html:585
-#: .\chardata\templates\chardata\spells.html:689
-#: .\chardata\templates\chardata\spells.html:719
-#: .\chardata\templates\chardata\stats.html:65
-#: .\chardata\translation_util.py:97 .\chardata\wizard_sliders.py:91
-msgid "Heals"
-msgstr "Cura"
-
-#: .\chardata\templates\chardata\compare_sets.html:179
-#: .\chardata\templates\chardata\solution.html:668
-#: .\chardata\templates\chardata\stats.html:68
-#: .\chardata\translation_util.py:98
-msgid "Neutral Resist"
-msgstr "Resistência Neutra"
-
-#: .\chardata\templates\chardata\compare_sets.html:180
-#: .\chardata\templates\chardata\solution.html:670
-#: .\chardata\templates\chardata\stats.html:69
-#: .\chardata\translation_util.py:99
-msgid "Earth Resist"
-msgstr "Resistência Terra"
-
-#: .\chardata\templates\chardata\compare_sets.html:181
-#: .\chardata\templates\chardata\solution.html:672
-#: .\chardata\templates\chardata\stats.html:70
-#: .\chardata\translation_util.py:100
-msgid "Fire Resist"
-msgstr "Resistência Fogo"
-
-#: .\chardata\templates\chardata\compare_sets.html:182
-#: .\chardata\templates\chardata\solution.html:674
-#: .\chardata\templates\chardata\stats.html:71
-#: .\chardata\translation_util.py:101
-msgid "Water Resist"
-msgstr "Resistência Água"
-
-#: .\chardata\templates\chardata\compare_sets.html:183
-#: .\chardata\templates\chardata\solution.html:676
-#: .\chardata\templates\chardata\stats.html:72
-#: .\chardata\translation_util.py:102
-msgid "Air Resist"
-msgstr "Resistência Ar"
-
-#: .\chardata\templates\chardata\compare_sets.html:188
-#: .\chardata\templates\chardata\stats.html:75
-msgid "% Neutral Resist"
-msgstr "% Resistência Neutra"
-
-#: .\chardata\templates\chardata\compare_sets.html:189
-#: .\chardata\templates\chardata\stats.html:76
-msgid "% Earth Resist"
-msgstr "% Resistência Terra"
-
-#: .\chardata\templates\chardata\compare_sets.html:190
-#: .\chardata\templates\chardata\stats.html:77
-msgid "% Fire Resist"
-msgstr "% Resistência Fogo"
-
-#: .\chardata\templates\chardata\compare_sets.html:191
-#: .\chardata\templates\chardata\stats.html:78
-msgid "% Water Resist"
-msgstr "% Resistência Água"
-
-#: .\chardata\templates\chardata\compare_sets.html:192
-#: .\chardata\templates\chardata\stats.html:79
-msgid "% Air Resist"
-msgstr "% Resistência Ar"
 
 #: .\chardata\templates\chardata\compare_sets.html:202
 msgid "Spell damage preview"
@@ -3037,14 +3463,6 @@ msgstr ""
 
 #: .\chardata\templates\chardata\feed.html:32
 #, python-format
-#| msgid ""
-#| "\n"
-#| "            Latest builds from the %(counter)s person you follow.\n"
-#| "            "
-#| msgid_plural ""
-#| "\n"
-#| "            Latest builds from the %(counter)s people you follow.\n"
-#| "            "
 msgid "Latest builds from the %(counter)s person you follow."
 msgid_plural "Latest builds from the %(counter)s people you follow."
 msgstr[0] "Últimos builds de %(counter)s pessoa que você segue."
@@ -5214,11 +5632,6 @@ msgstr "Empurra"
 msgid "Advances"
 msgstr "Avança"
 
-#: .\chardata\templates\chardata\spells.html:812
-#: .\chardata\translation_util.py:73
-msgid "Summon"
-msgstr "Invocações"
-
 #: .\chardata\templates\chardata\spells.html:822
 msgid "MP used"
 msgstr "PM usados"
@@ -5285,21 +5698,6 @@ msgstr ""
 " sacrificados em favor daquele que foi aumentado. Diminuir o peso de um "
 "atributo faz com que este atributo seja sacrificado pelos outros."
 
-#: .\chardata\templates\chardata\stats.html:31
-#: .\chardata\translation_util.py:103
-msgid "% Melee Damage"
-msgstr "% danos corpo a corpo"
-
-#: .\chardata\templates\chardata\stats.html:32
-#: .\chardata\translation_util.py:104
-msgid "% Ranged Damage"
-msgstr "% danos distância"
-
-#: .\chardata\templates\chardata\stats.html:33
-#: .\chardata\translation_util.py:105
-msgid "% Weapon Damage"
-msgstr "% danos armas"
-
 #: .\chardata\templates\chardata\stats.html:34
 msgid "% Spells Damage"
 msgstr "% danos feitiços"
@@ -5331,21 +5729,6 @@ msgstr "% Resistência Água (PvP)"
 #: .\chardata\templates\chardata\stats.html:92
 msgid "% Air Resist (PvP)"
 msgstr "% Resistência Ar (PvP)"
-
-#: .\chardata\templates\chardata\stats.html:95
-#: .\chardata\translation_util.py:107
-msgid "% Melee Resist"
-msgstr "% Resist. corpo a corpo"
-
-#: .\chardata\templates\chardata\stats.html:96
-#: .\chardata\translation_util.py:109
-msgid "% Weapon Resist"
-msgstr "% Resistência às Armas"
-
-#: .\chardata\templates\chardata\stats.html:97
-#: .\chardata\translation_util.py:108
-msgid "% Ranged Resist"
-msgstr "% Resist. distância"
 
 #: .\chardata\templates\chardata\support.html:32
 msgid ""
@@ -5544,14 +5927,6 @@ msgstr ""
 
 #: .\chardata\templates\chardata\workshop.html:128
 #, python-format
-#| msgid ""
-#| "\n"
-#| "                %(counter)s item · %(workshop_total_units)s total\n"
-#| "                "
-#| msgid_plural ""
-#| "\n"
-#| "                %(counter)s items · %(workshop_total_units)s total\n"
-#| "                "
 msgid "%(counter)s item · %(workshop_total_units)s total"
 msgid_plural "%(counter)s items · %(workshop_total_units)s total"
 msgstr[0] "%(counter)s item · %(workshop_total_units)s no total"
@@ -5674,26 +6049,6 @@ msgstr "Kilorf"
 msgid "Forgelance"
 msgstr "Forjalança"
 
-#: .\chardata\translation_util.py:44
-msgid "Fire"
-msgstr "Fogo"
-
-#: .\chardata\translation_util.py:45
-msgid "Earth"
-msgstr "Terra"
-
-#: .\chardata\translation_util.py:46
-msgid "Neutral"
-msgstr "Neutro"
-
-#: .\chardata\translation_util.py:47
-msgid "Water"
-msgstr "Água"
-
-#: .\chardata\translation_util.py:48
-msgid "Air"
-msgstr "Ar"
-
 #: .\chardata\translation_util.py:49
 msgid "Best element"
 msgstr "Melhor elemento"
@@ -5717,54 +6072,6 @@ msgstr "Soma de todas as resistências fixas"
 #: .\chardata\translation_util.py:57
 msgid "Sum of all Linear Resists except neutral"
 msgstr "Soma de todas as resistências fixas, exceto a neutra"
-
-#: .\chardata\translation_util.py:106
-msgid "% Spell Damage"
-msgstr "% danos feitiços"
-
-#: .\chardata\translation_util.py:113
-msgid "Hammer"
-msgstr "Martelo"
-
-#: .\chardata\translation_util.py:114
-msgid "Axe"
-msgstr "Machado"
-
-#: .\chardata\translation_util.py:115
-msgid "Shovel"
-msgstr "Pá"
-
-#: .\chardata\translation_util.py:116
-msgid "Staff"
-msgstr "Bastão"
-
-#: .\chardata\translation_util.py:117
-msgid "Sword"
-msgstr "Espada"
-
-#: .\chardata\translation_util.py:118
-msgid "Dagger"
-msgstr "Adaga"
-
-#: .\chardata\translation_util.py:119
-msgid "Bow"
-msgstr "Arco"
-
-#: .\chardata\translation_util.py:120
-msgid "Wand"
-msgstr "Varinha"
-
-#: .\chardata\translation_util.py:121
-msgid "Pickaxe"
-msgstr "Picareta"
-
-#: .\chardata\translation_util.py:122
-msgid "Scythe"
-msgstr "Gadanha"
-
-#: .\chardata\translation_util.py:123
-msgid "Lance"
-msgstr "Lança"
 
 #: .\chardata\wizard_sliders.py:36
 msgctxt "Slider section"
@@ -5810,2417 +6117,3 @@ msgstr "Item não encontrado"
 #: .\chardata\workshop_view.py:213 .\chardata\workshop_view.py:242
 msgid "Build has no solution yet"
 msgstr "Este build ainda não tem solução"
-
-#: chardata/login_view.py:204
-msgid "Password for The Dofus Fashionista has been reset"
-msgstr "Senha para o site Dofus Fashionista foi resetada"
-
-#: chardata/login_view.py:205
-#, python-brace-format
-msgid ""
-"Hello, {username}!\n"
-"The following password has been generated for you:\n"
-"\n"
-"{new_password}\n"
-"\n"
-"Change it to a new one or just keep this email ;-)"
-msgstr ""
-"Olá, {username}!\n"
-"A seguinte senha foi gerada para você:\n"
-"\n"
-"{new_password}\n"
-"\n"
-"Mude para uma nova, ou simplesmente guarde este email ;-)"
-
-#: chardata/templates/chardata/about.html:30
-msgid "English version by: "
-msgstr "English version by: "
-
-#: chardata/templates/chardata/language-selector.html:25
-#: chardata/templates/chardata/language-selector.html:45
-msgid "Italian"
-msgstr "Italian"
-
-#: chardata/templates/chardata/license.html:62
-msgid "The Dofus Fashionista does not share any data with third parties."
-msgstr "Dofus Fashionista nao compartilha nenhum dado com terceiros."
-
-#: chardata/templates/chardata/nomessage.html:13
-msgid "Please login and try again."
-msgstr "Por favor, faça login e tente novamente."
-
-#: chardata/templates/chardata/options.html:113
-msgid "Allow dofuses:"
-msgstr "Permitir dofus:"
-
-#: chardata/templates/chardata/options.html:113
-msgid "Allow dofuses and prysmaradite:"
-msgstr "Permitir dofus e prysmaradite:"
-
-#: chardata/templates/chardata/options.html:238
-msgid "Black-Spotted"
-msgstr "Black-Spotted"
-
-#: chardata/templates/chardata/password_was_reset.html:18
-#, python-format
-msgid "The password for <b>%(username)s</b> has been reset to:"
-msgstr "A senha para <b>%(username)s</b> foi redefinida para:"
-
-#: chardata/templates/chardata/wizard_options.html:37
-msgid "Dofuses"
-msgstr "Dofus"
-
-#: chardata/templates/chardata/wizard_options.html:37
-msgid "Dofuses and Prysmaradite"
-msgstr "Dofus e Prysmaradite"
-
-#: chardata/translation_util.py:111
-msgid "Perfidious Boomerang"
-msgstr "Bumerangue Pérfido"
-
-#: chardata/translation_util.py:112
-msgid "Leek Pie"
-msgstr "Flâmula"
-
-#: chardata/translation_util.py:113
-msgid "Moon Hammer"
-msgstr "Martelo de Moon"
-
-#: chardata/translation_util.py:114
-msgid "Lightning Strike"
-msgstr "Fulminante"
-
-#: chardata/translation_util.py:115
-msgid "Weapon Skill"
-msgstr "Domínio de Arma"
-
-#: chardata/translation_util.py:116
-msgid "Magic Arrow"
-msgstr "Flecha Mágica"
-
-#: chardata/translation_util.py:117
-msgid "Concentration Arrow"
-msgstr "Flecha de Concentração"
-
-#: chardata/translation_util.py:118
-msgid "Retreat Arrow"
-msgstr "Flecha de Recuo"
-
-#: chardata/translation_util.py:119
-msgid "Erosive Arrow"
-msgstr "Flecha Erosiva"
-
-#: chardata/translation_util.py:120
-msgid "Frozen Arrow"
-msgstr "Flecha Congelada"
-
-#: chardata/translation_util.py:121
-msgid "Paralyzing Arrow Fire"
-msgstr "Flecha Paralisante"
-
-#: chardata/translation_util.py:122
-msgid "Burning Arrow"
-msgstr "Flecha Flamejante"
-
-#: chardata/translation_util.py:123
-msgid "Repulsive Arrow"
-msgstr "Flecha Repulsiva"
-
-#: chardata/translation_util.py:124
-msgid "Atonement Arrow"
-msgstr "Flecha de Expiação"
-
-#: chardata/translation_util.py:125
-msgid "Redemption Arrow"
-msgstr "Flecha de Redenção"
-
-#: chardata/translation_util.py:126
-msgid "Bat's Eye"
-msgstr "Olho de Toupeira"
-
-#: chardata/translation_util.py:127
-msgid "Crushing Arrow"
-msgstr "Flecha Esmagadora"
-
-#: chardata/translation_util.py:128
-msgid "Critical Shooting"
-msgstr "Tiro Crítico"
-
-#: chardata/translation_util.py:129
-msgid "Paralyzing Arrow"
-msgstr "Flecha de Imobilização"
-
-#: chardata/translation_util.py:130
-msgid "Assailing Arrow"
-msgstr "Flecha Agressora"
-
-#: chardata/translation_util.py:131
-msgid "Punitive Arrow"
-msgstr "Flecha Punitiva"
-
-#: chardata/translation_util.py:132
-msgid "Arrow of Judgement"
-msgstr "Flecha do Julgamento"
-
-#: chardata/translation_util.py:133
-msgid "Powerful Shooting"
-msgstr "Tiro Poderoso"
-
-#: chardata/translation_util.py:134
-msgid "Plaguing Arrow"
-msgstr "Flecha Incoveniente"
-
-#: chardata/translation_util.py:135
-msgid "Slaughtering Arrow"
-msgstr "Flecha Massacrante"
-
-#: chardata/translation_util.py:136
-msgid "Poisoned Arrow"
-msgstr "Flecha Envenenada"
-
-#: chardata/translation_util.py:137
-msgid "Tormenting Arrow"
-msgstr "Flecha Perseguidora"
-
-#: chardata/translation_util.py:138
-msgid "Tyrannical Arrow"
-msgstr "Flecha Tirânica"
-
-#: chardata/translation_util.py:139
-msgid "Destructive Arrow"
-msgstr "Flecha Destrutiva"
-
-#: chardata/translation_util.py:140
-msgid "Barricade Shot"
-msgstr "Tiro de Barricada"
-
-#: chardata/translation_util.py:141
-msgid "Absorptive Arrow"
-msgstr "Flecha Absorvente"
-
-#: chardata/translation_util.py:142
-msgid "Devouring Arrow"
-msgstr "Flecha Devoradora"
-
-#: chardata/translation_util.py:143
-msgid "Slow Down Arrow"
-msgstr "Flecha Desaceleradora"
-
-#: chardata/translation_util.py:144
-msgid "Striking Arrow"
-msgstr "Flecha Impactante"
-
-#: chardata/translation_util.py:145
-msgid "Explosive Arrow"
-msgstr "Flecha Explosiva"
-
-#: chardata/translation_util.py:146
-msgid "Fulminating Arrow"
-msgstr "Flecha Fulminante"
-
-#: chardata/translation_util.py:147
-msgid "Bow Skill"
-msgstr "Domínio do Arco"
-
-#: chardata/translation_util.py:148
-msgid "Sentinel"
-msgstr "Sentinela"
-
-#: chardata/translation_util.py:149
-msgid "Heads or Tails 1"
-msgstr "Cara ou Coroa 1"
-
-#: chardata/translation_util.py:150
-msgid "Heads or Tails 2"
-msgstr "Cara ou Coroa 2"
-
-#: chardata/translation_util.py:151
-msgid "Bluff"
-msgstr "Blefe"
-
-#: chardata/translation_util.py:152
-msgid "Nerve"
-msgstr "Ousadia"
-
-#: chardata/translation_util.py:153
-msgid "Topkaj"
-msgstr "Topkaj"
-
-#: chardata/translation_util.py:154
-msgid "Yowling"
-msgstr "Rugido Felino"
-
-#: chardata/translation_util.py:155
-msgid "All or Nothing"
-msgstr "Tudo ou Nada"
-
-#: chardata/translation_util.py:156
-msgid "Peril"
-msgstr "Perigo"
-
-#: chardata/translation_util.py:157
-msgid "Rough Tongue"
-msgstr "Língua Áspera"
-
-#: chardata/translation_util.py:158
-msgid "Lapping Up"
-msgstr "Lambidela"
-
-#: chardata/translation_util.py:159
-msgid "Wheel of Fortune"
-msgstr "Roda da Fortuna"
-
-#: chardata/translation_util.py:160
-msgid "Feline Spirit"
-msgstr "Espírito Felino"
-
-#: chardata/translation_util.py:161
-msgid "Pawpads"
-msgstr "Amortecimento"
-
-#: chardata/translation_util.py:162
-msgid "Reflex"
-msgstr "Reflexos"
-
-#: chardata/translation_util.py:163
-msgid "Bravado"
-msgstr "Fanfarronice"
-
-#: chardata/translation_util.py:164
-msgid "Playful Claw"
-msgstr "Garra Brincalhona"
-
-#: chardata/translation_util.py:165
-msgid "Misadventure"
-msgstr "Desventura"
-
-#: chardata/translation_util.py:166
-msgid "Felintion"
-msgstr "Felinação"
-
-#: chardata/translation_util.py:167
-msgid "Kraps"
-msgstr "Jogo de Dados"
-
-#: chardata/translation_util.py:168
-msgid "Claw of Ceangal"
-msgstr "Garra de Ceangal"
-
-#: chardata/translation_util.py:169
-msgid "Misfortune"
-msgstr "Infortúnio"
-
-#: chardata/translation_util.py:170
-msgid "Rekop"
-msgstr "Rekop"
-
-#: chardata/translation_util.py:171
-msgid "Trickery"
-msgstr "Enganação"
-
-#: chardata/translation_util.py:172
-msgid "Fate of Ecaflip"
-msgstr "Destino de Ecaflip"
-
-#: chardata/translation_util.py:173
-msgid "Ecaflip's Audacity"
-msgstr "Audácia de Ecaflip"
-
-#: chardata/translation_util.py:174
-msgid "Alternative Word"
-msgstr "Palavra Alternativa"
-
-#: chardata/translation_util.py:175
-msgid "Striking Word"
-msgstr "Palavra Marcante"
-
-#: chardata/translation_util.py:176
-msgid "Wounding Word"
-msgstr "Palavra que Fere"
-
-#: chardata/translation_util.py:177
-msgid "Slighting Word"
-msgstr "Palavra Perturbadora"
-
-#: chardata/translation_util.py:178
-msgid "Forbidden Word"
-msgstr "Palavra Proibida"
-
-#: chardata/translation_util.py:179
-msgid "Taboo Word"
-msgstr "Palavra Tabu"
-
-#: chardata/translation_util.py:180
-msgid "Seductive Word"
-msgstr "Palavra de Sedução"
-
-#: chardata/translation_util.py:181
-msgid "Self-Sacrificing Word"
-msgstr "Palavra de Abnegação"
-
-#: chardata/translation_util.py:182
-msgid "Brutal Word"
-msgstr "Palavra Brutal"
-
-#: chardata/translation_util.py:183
-msgid "Pernicious Word"
-msgstr "Palavra Perniciosa"
-
-#: chardata/translation_util.py:184
-msgid "Defensive Word"
-msgstr "Palavra Vetada"
-
-#: chardata/translation_util.py:185
-msgid "Selective Word"
-msgstr "Palavra Seletiva"
-
-#: chardata/translation_util.py:186
-msgid "Impartial Word"
-msgstr "Palavra Imparcial"
-
-#: chardata/translation_util.py:187
-msgid "Blaring Word"
-msgstr "Palavra Deslumbrante"
-
-#: chardata/translation_util.py:188
-msgid "Resounding Word"
-msgstr "Palavra Retumbante"
-
-#: chardata/translation_util.py:189
-msgid "Agonising Word"
-msgstr "Palavra de Agonia"
-
-#: chardata/translation_util.py:190
-msgid "Turbulent Word"
-msgstr "Palavra Turbulenta"
-
-#: chardata/translation_util.py:191
-msgid "Mischievous Word"
-msgstr "Palavra Maliciosa"
-
-#: chardata/translation_util.py:192
-msgid "Puzzling Word"
-msgstr "Palavra Desconcertante"
-
-#: chardata/translation_util.py:193
-msgid "Furious Word"
-msgstr "Palavra Furiosa"
-
-#: chardata/translation_util.py:194
-msgid "Whirling Word 1"
-msgstr "Palavra Giratória"
-
-#: chardata/translation_util.py:195
-msgid "Whirling Word 2"
-msgstr "Palavra Turbilhonante"
-
-#: chardata/translation_util.py:196
-msgid "Thunderous Word"
-msgstr "Palavra Estrondosa"
-
-#: chardata/translation_util.py:197
-msgid "Overwhelming Word"
-msgstr "Palavra Arrasadora"
-
-#: chardata/translation_util.py:198
-msgid "Coins Throwing"
-msgstr "Arremesso de Moedas"
-
-#: chardata/translation_util.py:199
-msgid "Hard Cash"
-msgstr "Moeda Falsa"
-
-#: chardata/translation_util.py:200
-msgid "Shovel Throwing"
-msgstr "Arremesso de Pá"
-
-#: chardata/translation_util.py:201
-msgid "Spade Throw"
-msgstr "Arremesso de Enxada"
-
-#: chardata/translation_util.py:202
-msgid "Ghostly Shovel"
-msgstr "Pá Fantasmagórica"
-
-#: chardata/translation_util.py:203
-msgid "Ghostly Spade"
-msgstr "Enxada Fantasmagórica"
-
-#: chardata/translation_util.py:204
-msgid "Mound"
-msgstr "Aterro"
-
-#: chardata/translation_util.py:205
-msgid "Peat Bog"
-msgstr "Turfeira"
-
-#: chardata/translation_util.py:206
-msgid "Prime of Life"
-msgstr "Flor da Idade"
-
-#: chardata/translation_util.py:207
-msgid "Obsolescence"
-msgstr "Obsolescência"
-
-#: chardata/translation_util.py:208
-msgid "Greed"
-msgstr "Cupidez"
-
-#: chardata/translation_util.py:209
-msgid "Shovel Kiss"
-msgstr "Pá Virada"
-
-#: chardata/translation_util.py:210
-msgid "Spade Kiss"
-msgstr "Enxada Virada"
-
-#: chardata/translation_util.py:211
-msgid "Loafylactic"
-msgstr "Abate"
-
-#: chardata/translation_util.py:212
-msgid "Fortune"
-msgstr "Sorte"
-
-#: chardata/translation_util.py:213
-msgid "Opportuneness"
-msgstr "Oportunidade"
-
-#: chardata/translation_util.py:214
-msgid "Shovel of Judgment"
-msgstr "Pá do Julgamento"
-
-#: chardata/translation_util.py:215
-msgid "Spade of Judgment"
-msgstr "Enxada do Julgamento"
-
-#: chardata/translation_util.py:216
-msgid "Slaughtering Shovel"
-msgstr "Pá Massacrante"
-
-#: chardata/translation_util.py:217
-msgid "Carnivore Spade"
-msgstr "Enxada Carnívora"
-
-#: chardata/translation_util.py:218
-msgid "Unsummoning"
-msgstr "Desinvocação"
-
-#: chardata/translation_util.py:219 chardata/translation_util.py:489
-msgid "Correction"
-msgstr "Correção"
-
-#: chardata/translation_util.py:220
-msgid "Natural Attack"
-msgstr "Ataque Natural"
-
-#: chardata/translation_util.py:221
-msgid "Natural Attraction"
-msgstr "Atração Natural"
-
-#: chardata/translation_util.py:222
-msgid "Blindness"
-msgstr "Cegueira"
-
-#: chardata/translation_util.py:223
-msgid "Dazzling"
-msgstr "Ofuscamento"
-
-#: chardata/translation_util.py:224
-msgid "Typhoon"
-msgstr "Tufão"
-
-#: chardata/translation_util.py:225
-msgid "Gust"
-msgstr "Borrasca"
-
-#: chardata/translation_util.py:226
-msgid "Bubble"
-msgstr "Bolha"
-
-#: chardata/translation_util.py:227
-msgid "Swelling"
-msgstr "Tumefação"
-
-#: chardata/translation_util.py:228
-msgid "Aggressive Glyph"
-msgstr "Glifo Agressivo"
-
-#: chardata/translation_util.py:229
-msgid "Fulminating Glyph"
-msgstr "Glifo Fulminante"
-
-#: chardata/translation_util.py:230
-msgid "Lethargy"
-msgstr "Letargia"
-
-#: chardata/translation_util.py:231
-msgid "Lifelessness"
-msgstr "Atonia"
-
-#: chardata/translation_util.py:232
-msgid "Cloudy Attack"
-msgstr "Ataque Nebuloso"
-
-#: chardata/translation_util.py:233
-msgid "Stormy Attack"
-msgstr "Ataque Tempestuoso"
-
-#: chardata/translation_util.py:234
-msgid "Bastion"
-msgstr "Bastião"
-
-#: chardata/translation_util.py:235
-msgid "Backlash"
-msgstr "Retrocesso"
-
-#: chardata/translation_util.py:236
-msgid "Tetany"
-msgstr "Tetania"
-
-#: chardata/translation_util.py:237
-msgid "Repulsion Glyph"
-msgstr "Glifo de Repulsão"
-
-#: chardata/translation_util.py:238
-msgid "Barrier"
-msgstr "Barreira"
-
-#: chardata/translation_util.py:239
-msgid "Blinding Glyph"
-msgstr "Glifo de Cegueira"
-
-#: chardata/translation_util.py:240
-msgid "Protective Glyph"
-msgstr "Glifo Protetor"
-
-#: chardata/translation_util.py:241
-msgid "Shiver"
-msgstr "Calafrio"
-
-#: chardata/translation_util.py:242
-msgid "Tension"
-msgstr "Tensão"
-
-#: chardata/translation_util.py:243
-msgid "Paralyzing Glyph"
-msgstr "Glifo Óptico"
-
-#: chardata/translation_util.py:244
-msgid "Roaming Glyph"
-msgstr "Glifo de Itinerância"
-
-#: chardata/translation_util.py:245
-msgid "Reinforced Protection"
-msgstr "Advertência"
-
-#: chardata/translation_util.py:246
-msgid "Burning Glyph"
-msgstr "Glifo Flamejante"
-
-#: chardata/translation_util.py:247
-msgid "Perception Glyph"
-msgstr "Glifo de Percepção"
-
-#: chardata/translation_util.py:248
-msgid "Anchor"
-msgstr "Ancoragem"
-
-#: chardata/translation_util.py:249
-msgid "Mooring"
-msgstr "Amarras"
-
-#: chardata/translation_util.py:250
-msgid "Pilfer"
-msgstr "Pirataria"
-
-#: chardata/translation_util.py:251
-msgid "Scuttle"
-msgstr "Sabotagem"
-
-#: chardata/translation_util.py:252
-msgid "Torrent"
-msgstr "Corrente"
-
-#: chardata/translation_util.py:253
-msgid "Harmattan"
-msgstr "Harmatão"
-
-#: chardata/translation_util.py:254
-msgid "Scaphander"
-msgstr "Escafandro"
-
-#: chardata/translation_util.py:255
-msgid "Backwash"
-msgstr "Refluxo"
-
-#: chardata/translation_util.py:256
-msgid "Torpedo"
-msgstr "Torpedo"
-
-#: chardata/translation_util.py:257
-msgid "Tide"
-msgstr "Maré"
-
-#: chardata/translation_util.py:258
-msgid "Corrosion"
-msgstr "Corrosão"
-
-#: chardata/translation_util.py:259
-msgid "Vapour"
-msgstr "Vapor"
-
-#: chardata/translation_util.py:260
-msgid "Valve"
-msgstr "Registro"
-
-#: chardata/translation_util.py:261
-msgid "Periscope 1"
-msgstr "Luneta"
-
-#: chardata/translation_util.py:262
-msgid "Periscope 2"
-msgstr "Periscópio"
-
-#: chardata/translation_util.py:263
-msgid "First Aid"
-msgstr "Primeiros Socorros"
-
-#: chardata/translation_util.py:264
-msgid "Rescue"
-msgstr "Salvamento"
-
-#: chardata/translation_util.py:265
-msgid "Surge"
-msgstr "Salitre"
-
-#: chardata/translation_util.py:266
-msgid "Short-Circuit"
-msgstr "Curto-Circuito"
-
-#: chardata/translation_util.py:267 chardata/translation_util.py:436
-msgid "Ambush"
-msgstr "Emboscada"
-
-#: chardata/translation_util.py:268
-msgid "Froth"
-msgstr "Espuma"
-
-#: chardata/translation_util.py:269
-msgid "Nautilus"
-msgstr "Náutilo"
-
-#: chardata/translation_util.py:270
-msgid "Trident"
-msgstr "Arpéu"
-
-#: chardata/translation_util.py:271
-msgid "Seizing"
-msgstr "Abalroar"
-
-#: chardata/translation_util.py:272
-msgid "Intimidation"
-msgstr "Intimidação"
-
-#: chardata/translation_util.py:273
-msgid "Pressure"
-msgstr "Pressão"
-
-#: chardata/translation_util.py:274
-msgid "Pounding"
-msgstr "Zurzidela"
-
-#: chardata/translation_util.py:275
-msgid "Outpouring"
-msgstr "Pandemônio"
-
-#: chardata/translation_util.py:276
-msgid "Threat"
-msgstr "Ameaça"
-
-#: chardata/translation_util.py:277
-msgid "Divine Sword"
-msgstr "Espada Divina"
-
-#: chardata/translation_util.py:278
-msgid "Cleaver"
-msgstr "Rachador"
-
-#: chardata/translation_util.py:279
-msgid "Destructive Sword"
-msgstr "Espada Destrutiva"
-
-#: chardata/translation_util.py:280
-msgid "Destructive Ring"
-msgstr "Anel Destruidor"
-
-#: chardata/translation_util.py:281
-msgid "Concentration"
-msgstr "Concentração"
-
-#: chardata/translation_util.py:282
-msgid "Accumulation"
-msgstr "Acumulação"
-
-#: chardata/translation_util.py:283
-msgid "Cut"
-msgstr "Corte"
-
-#: chardata/translation_util.py:284
-msgid "Fracture"
-msgstr "Fratura"
-
-#: chardata/translation_util.py:285
-msgid "Sword of Judgement"
-msgstr "Espada do Julgamento"
-
-#: chardata/translation_util.py:286
-msgid "Condemnation"
-msgstr "Condenação"
-
-#: chardata/translation_util.py:288
-msgid "Strengthstorm"
-msgstr "Tempestade de Poder"
-
-#: chardata/translation_util.py:289
-msgid "Tumult"
-msgstr "Tumulto"
-
-#: chardata/translation_util.py:290
-msgid "Celestial Sword"
-msgstr "Espada Celestial"
-
-#: chardata/translation_util.py:291
-msgid "Zenith"
-msgstr "Zênite"
-
-#: chardata/translation_util.py:292
-msgid "Endurance"
-msgstr "Resistência"
-
-#: chardata/translation_util.py:293
-msgid "Sword of Iop"
-msgstr "Espada de Iop"
-
-#: chardata/translation_util.py:294
-msgid "Pygmachia"
-msgstr "Pugilato"
-
-#: chardata/translation_util.py:295
-msgid "Sword of Fate"
-msgstr "Espada do Destino"
-
-#: chardata/translation_util.py:296
-msgid "Sentence"
-msgstr "Sentença"
-
-#: chardata/translation_util.py:297
-msgid "Iop's Wrath"
-msgstr "Ira de Iop"
-
-#: chardata/translation_util.py:298
-msgid "Fit of Rage"
-msgstr "Furor"
-
-#: chardata/translation_util.py:299
-msgid "Picada"
-msgstr "Picada"
-
-#: chardata/translation_util.py:300
-msgid "Agular"
-msgstr "Agular"
-
-#: chardata/translation_util.py:301
-msgid "Martelo"
-msgstr "Martelo"
-
-#: chardata/translation_util.py:302
-msgid "Parafuso"
-msgstr "Parafuso"
-
-#: chardata/translation_util.py:303
-msgid "Reinforcement"
-msgstr "Apoio"
-
-#: chardata/translation_util.py:304
-msgid "Retention"
-msgstr "Retenção"
-
-#: chardata/translation_util.py:305
-msgid "Estrelia"
-msgstr "Estrelia"
-
-#: chardata/translation_util.py:306
-msgid "Furia"
-msgstr "Cólera"
-
-#: chardata/translation_util.py:307
-msgid "Cavalcade"
-msgstr "Cavalgada"
-
-#: chardata/translation_util.py:308
-msgid "Distance"
-msgstr "Distância"
-
-#: chardata/translation_util.py:309
-msgid "Atabak"
-msgstr "Atabak"
-
-#: chardata/translation_util.py:310
-msgid "Ginga"
-msgstr "Ginga"
-
-#: chardata/translation_util.py:311
-msgid "Neurosis"
-msgstr "Neurose"
-
-#: chardata/translation_util.py:312
-msgid "Capering"
-msgstr "Cabriola"
-
-#: chardata/translation_util.py:313
-msgid "Bocciara"
-msgstr "Bocciara"
-
-#: chardata/translation_util.py:314
-msgid "Decoy"
-msgstr "Chamariz"
-
-#: chardata/translation_util.py:315
-msgid "Catalepsy"
-msgstr "Catalepsia"
-
-#: chardata/translation_util.py:316
-msgid "Apostasy"
-msgstr "Apostasia"
-
-#: chardata/translation_util.py:317
-msgid "Brincaderia"
-msgstr "Brincadeira"
-
-#: chardata/translation_util.py:318
-msgid "Apathy"
-msgstr "Apatia"
-
-#: chardata/translation_util.py:319
-msgid "Ponteira"
-msgstr "Ponteira"
-
-#: chardata/translation_util.py:320
-msgid "Boliche"
-msgstr "Boliche"
-
-#: chardata/translation_util.py:321
-msgid "Inferno"
-msgstr "Inferno"
-
-#: chardata/translation_util.py:322
-msgid "Canine"
-msgstr "Canino"
-
-#: chardata/translation_util.py:323
-msgid "Repulsive Fang"
-msgstr "Presa Repulsiva"
-
-#: chardata/translation_util.py:324
-msgid "Dragonic"
-msgstr "Dragônico"
-
-#: chardata/translation_util.py:325
-msgid "Aquatic Wave"
-msgstr "Onda Aquática"
-
-#: chardata/translation_util.py:326
-msgid "Fossil"
-msgstr "Fóssil"
-
-#: chardata/translation_util.py:327
-msgid "Sedimentation"
-msgstr "Sedimentação"
-
-#: chardata/translation_util.py:328
-msgid "Takeoff"
-msgstr "Voo"
-
-#: chardata/translation_util.py:329
-msgid "Whip"
-msgstr "Chicote"
-
-#: chardata/translation_util.py:330
-msgid "Duster"
-msgstr "Penacho"
-
-#: chardata/translation_util.py:331
-msgid "Plucking"
-msgstr "Depenagem"
-
-#: chardata/translation_util.py:332
-msgid "Dragon's Breath"
-msgstr "Sopro do Dragão"
-
-#: chardata/translation_util.py:333
-msgid "Crackler Punch"
-msgstr "Golpe do Smagador"
-
-#: chardata/translation_util.py:334
-msgid "Constriction"
-msgstr "Constrição"
-
-#: chardata/translation_util.py:335
-msgid "Geyser"
-msgstr "Gêiser"
-
-#: chardata/translation_util.py:336
-msgid "Whirlwind"
-msgstr "Redemoinho"
-
-#: chardata/translation_util.py:337
-msgid "Blazing Fist"
-msgstr "Punho Flamejante"
-
-#: chardata/translation_util.py:338
-msgid "Burning Circle"
-msgstr "Círculo Ardente"
-
-#: chardata/translation_util.py:339
-msgid "Debauchery"
-msgstr "Esbórnia"
-
-#: chardata/translation_util.py:340
-msgid "Hangover"
-msgstr "Ressaca"
-
-#: chardata/translation_util.py:341
-msgid "Alcoholic Breath"
-msgstr "Sopro Alcoolizado"
-
-#: chardata/translation_util.py:342
-msgid "Numbness"
-msgstr "Dormência"
-
-#: chardata/translation_util.py:343
-msgid "Schnaps"
-msgstr "Aguardente"
-
-#: chardata/translation_util.py:344
-msgid "Liqueur"
-msgstr "Licor"
-
-#: chardata/translation_util.py:345
-msgid "Propulsion"
-msgstr "Propulsão"
-
-#: chardata/translation_util.py:346
-msgid "Eviction"
-msgstr "Despejo"
-
-#: chardata/translation_util.py:347
-msgid "Nausea"
-msgstr "Náusea"
-
-#: chardata/translation_util.py:348
-msgid "Tipple"
-msgstr "Etílico"
-
-#: chardata/translation_util.py:349
-msgid "Distillation"
-msgstr "Destilação"
-
-#: chardata/translation_util.py:350
-msgid "Melancholy"
-msgstr "Onda de Tristeza"
-
-#: chardata/translation_util.py:351
-msgid "Hooch"
-msgstr "Goró"
-
-#: chardata/translation_util.py:352
-msgid "Zatoishwan's Wrath"
-msgstr "Ira de Zatoishwan"
-
-#: chardata/translation_util.py:353
-msgid "Explosive Flask"
-msgstr "Frasco Explosivo"
-
-#: chardata/translation_util.py:354
-msgid "Absinthe"
-msgstr "Absinto"
-
-#: chardata/translation_util.py:355
-msgid "Pandatak"
-msgstr "Pandatak"
-
-#: chardata/translation_util.py:356
-msgid "Filthipint"
-msgstr "Zurrapa"
-
-#: chardata/translation_util.py:357
-msgid "Explobomb"
-msgstr "Explobomba"
-
-#: chardata/translation_util.py:358
-msgid "Extraction"
-msgstr "Extração"
-
-#: chardata/translation_util.py:359
-msgid "Obliteration"
-msgstr "Obliteração"
-
-#: chardata/translation_util.py:360
-msgid "Musket"
-msgstr "Mosquete"
-
-#: chardata/translation_util.py:361
-msgid "Grenado"
-msgstr "Tornabomba"
-
-#: chardata/translation_util.py:362
-msgid "Boomerang Daggers"
-msgstr "Adagas Bumerangue"
-
-#: chardata/translation_util.py:363
-msgid "Cadence"
-msgstr "Cadência"
-
-#: chardata/translation_util.py:364
-msgid "Deception"
-msgstr "Trapaça"
-
-#: chardata/translation_util.py:365
-msgid "Stolen Goods"
-msgstr "Encobrimento"
-
-#: chardata/translation_util.py:366
-msgid "Water Bomb"
-msgstr "Bomba d'Água"
-
-#: chardata/translation_util.py:367
-msgid "Pulsar"
-msgstr "Pulsar"
-
-#: chardata/translation_util.py:368
-msgid "Gluing Explobomb"
-msgstr "Explobomba Pegajosa"
-
-#: chardata/translation_util.py:369
-msgid "Arquebus"
-msgstr "Arcabuz"
-
-#: chardata/translation_util.py:370
-msgid "Carbine"
-msgstr "Carabine"
-
-#: chardata/translation_util.py:371
-msgid "Machine Gun"
-msgstr "Metralha"
-
-#: chardata/translation_util.py:372
-msgid "Last Breath"
-msgstr "Último Suspiro"
-
-#: chardata/translation_util.py:373
-msgid "Seismobomb"
-msgstr "Sismobomba"
-
-#: chardata/translation_util.py:374
-msgid "Blunderbuss"
-msgstr "Mosquete 2"
-
-#: chardata/translation_util.py:375
-msgid "Weigh Down"
-msgstr "Rebaixamento"
-
-#: chardata/translation_util.py:376
-msgid "Absorption"
-msgstr "Absorção"
-
-#: chardata/translation_util.py:377
-msgid "Slaughter"
-msgstr "Hecatombe"
-
-#: chardata/translation_util.py:378
-msgid "Fury"
-msgstr "Fúria"
-
-#: chardata/translation_util.py:379
-msgid "Carnage"
-msgstr "Carnificina"
-
-#: chardata/translation_util.py:380
-msgid "Stase"
-msgstr "Estase"
-
-#: chardata/translation_util.py:381
-msgid "Dissolution"
-msgstr "Dissolução"
-
-#: chardata/translation_util.py:382
-msgid "Motivating Pain"
-msgstr "Dor Motivadora"
-
-#: chardata/translation_util.py:383
-msgid "Cauterisation"
-msgstr "Cauterização"
-
-#: chardata/translation_util.py:384
-msgid "Assault"
-msgstr "Assalto"
-
-#: chardata/translation_util.py:385
-msgid "Aversion"
-msgstr "Aversão"
-
-#: chardata/translation_util.py:386
-msgid "Mutilation"
-msgstr "Mutilação"
-
-#: chardata/translation_util.py:387
-msgid "Light Speed"
-msgstr "Fulgurância"
-
-#: chardata/translation_util.py:388
-msgid "Condensation"
-msgstr "Condensação"
-
-#: chardata/translation_util.py:389
-msgid "Nervousness"
-msgstr "Nervosismo"
-
-#: chardata/translation_util.py:390
-msgid "Clobbering"
-msgstr "Desencadeamento"
-
-#: chardata/translation_util.py:391
-msgid "Projection"
-msgstr "Projeção"
-
-#: chardata/translation_util.py:392
-msgid "Hostility"
-msgstr "Hostilidade"
-
-#: chardata/translation_util.py:393
-msgid "Torture"
-msgstr "Suplício"
-
-#: chardata/translation_util.py:394
-msgid "Desolation"
-msgstr "Desolação"
-
-#: chardata/translation_util.py:395
-msgid "Influx"
-msgstr "Afluxo"
-
-#: chardata/translation_util.py:396
-msgid "Ravages"
-msgstr "Devastação"
-
-#: chardata/translation_util.py:397
-msgid "Decimation"
-msgstr "Dizimação"
-
-#: chardata/translation_util.py:398
-msgid "Gash"
-msgstr "Entalhe"
-
-#: chardata/translation_util.py:399
-msgid "Blood Bath"
-msgstr "Banho de Sangue"
-
-#: chardata/translation_util.py:400
-msgid "Ritual Bloodletting"
-msgstr "Sangria Ritual"
-
-#: chardata/translation_util.py:401
-msgid "Bramble"
-msgstr "Sarça"
-
-#: chardata/translation_util.py:402
-msgid "Poisoned Undergrowth"
-msgstr "Matagal Envenenado"
-
-#: chardata/translation_util.py:403
-msgid "Paralysing Poison"
-msgstr "Veneno Paralisante"
-
-#: chardata/translation_util.py:404
-msgid "Tear"
-msgstr "Lágrima"
-
-#: chardata/translation_util.py:405
-msgid "Rise of Sap"
-msgstr "Inundação de Seiva"
-
-#: chardata/translation_util.py:406
-msgid "Soothing Bramble"
-msgstr "Sarça Calmante"
-
-#: chardata/translation_util.py:407
-msgid "Earthquake"
-msgstr "Terremoto"
-
-#: chardata/translation_util.py:408
-msgid "Shake"
-msgstr "Abalo"
-
-#: chardata/translation_util.py:409
-msgid "Natural Gift"
-msgstr "Dom Natural"
-
-#: chardata/translation_util.py:410
-msgid "Inoculation"
-msgstr "Inoculação"
-
-#: chardata/translation_util.py:411
-msgid "Manifold Bramble"
-msgstr "Sarças Múltiplas"
-
-#: chardata/translation_util.py:412
-msgid "Force of Nature"
-msgstr "Força da Natureza"
-
-#: chardata/translation_util.py:413
-msgid "Dolly Sacrifice"
-msgstr "Sacrifício Bonecal"
-
-#: chardata/translation_util.py:414
-msgid "Bane"
-msgstr "Flagelo"
-
-#: chardata/translation_util.py:415
-msgid "Aggressive Bramble"
-msgstr "Sarças Agressivas"
-
-#: chardata/translation_util.py:416
-msgid "Plaguing Bramble"
-msgstr "Sarça Inconveniente"
-
-#: chardata/translation_util.py:417
-msgid "Wild Grass"
-msgstr "Erva Daninha"
-
-#: chardata/translation_util.py:418
-msgid "Contagion"
-msgstr "Contágio"
-
-#: chardata/translation_util.py:419
-msgid "Bush Fire"
-msgstr "Incêndio Florestal"
-
-#: chardata/translation_util.py:420
-msgid "Voodoo Curse"
-msgstr "Maldição Vodu"
-
-#: chardata/translation_util.py:421
-msgid "Paralysing Bramble"
-msgstr "Sarça Paralisante"
-
-#: chardata/translation_util.py:422
-msgid "Tricky Trap"
-msgstr "Armadilha Enganosa"
-
-#: chardata/translation_util.py:423
-msgid "Deviousness"
-msgstr "Engano"
-
-#: chardata/translation_util.py:424
-msgid "Pitfall"
-msgstr "Estrepe"
-
-#: chardata/translation_util.py:425
-msgid "Insidious Poison"
-msgstr "Veneno Insidioso"
-
-#: chardata/translation_util.py:426
-msgid "Toxines"
-msgstr "Toxinas"
-
-#: chardata/translation_util.py:427
-msgid "Mistake"
-msgstr "Extravo"
-
-#: chardata/translation_util.py:428
-msgid "Raiding"
-msgstr "Saque"
-
-#: chardata/translation_util.py:429
-msgid "Tricky Blow"
-msgstr "Golpe Dissimulado"
-
-#: chardata/translation_util.py:430
-msgid "Cut-Throat"
-msgstr "Degolador"
-
-#: chardata/translation_util.py:431
-msgid "Miry Trap"
-msgstr "Armadilha Abjeta"
-
-#: chardata/translation_util.py:432
-msgid "Larceny"
-msgstr "Furto"
-
-#: chardata/translation_util.py:433
-msgid "Mass Trap"
-msgstr "Armadilha de Massa"
-
-#: chardata/translation_util.py:434
-msgid "Trapster"
-msgstr "Cilada"
-
-#: chardata/translation_util.py:435
-msgid "Cruelty"
-msgstr "Crueldade"
-
-#: chardata/translation_util.py:437
-msgid "Poisoned Trap"
-msgstr "Armadilha Envenenada"
-
-#: chardata/translation_util.py:438
-msgid "Toxic Injection"
-msgstr "Injeção Tóxica"
-
-#: chardata/translation_util.py:439
-msgid "Chakra Concentration"
-msgstr "Concentração de Chakra"
-
-#: chardata/translation_util.py:440
-msgid "Fragmentation Trap"
-msgstr "Armadilha de Fragmentação"
-
-#: chardata/translation_util.py:441
-msgid "Insidious Trap"
-msgstr "Armadilha Insidiosa"
-
-#: chardata/translation_util.py:442
-msgid "Epidemic"
-msgstr "Epidemia"
-
-#: chardata/translation_util.py:443
-msgid "Repelling Trap"
-msgstr "Armadilha Repulsiva"
-
-#: chardata/translation_util.py:444
-msgid "Con"
-msgstr "Burla"
-
-#: chardata/translation_util.py:445
-msgid "Jinx"
-msgstr "Zica"
-
-#: chardata/translation_util.py:446
-msgid "Calamity"
-msgstr "Calamidade"
-
-#: chardata/translation_util.py:447
-msgid "Furrow"
-msgstr "Perfídia"
-
-#: chardata/translation_util.py:448
-msgid "Perquisition"
-msgstr "Perquisição"
-
-#: chardata/translation_util.py:449
-msgid "Lethal Attack"
-msgstr "Ataque Mortal"
-
-#: chardata/translation_util.py:450
-msgid "Malevolent Trap"
-msgstr "Armadilha Funesta"
-
-#: chardata/translation_util.py:451
-msgid "Lethal Trap"
-msgstr "Armadilha Mortal"
-
-#: chardata/translation_util.py:452
-msgid "Perfidy"
-msgstr "Torpeza"
-
-#: chardata/translation_util.py:453
-msgid "Slow Down"
-msgstr "Desaceleração"
-
-#: chardata/translation_util.py:454
-msgid "Souvenir"
-msgstr "Souvenir"
-
-#: chardata/translation_util.py:455
-msgid "Hand"
-msgstr "Ponteiro"
-
-#: chardata/translation_util.py:456
-msgid "Cog"
-msgstr "Mecanismo"
-
-#: chardata/translation_util.py:457
-msgid "Shriveling"
-msgstr "Murchidão"
-
-#: chardata/translation_util.py:458
-msgid "Drying Up"
-msgstr "Ressecamento"
-
-#: chardata/translation_util.py:459
-msgid "Xelor's Punch"
-msgstr "Golpe de Xelor"
-
-#: chardata/translation_util.py:460
-msgid "Gear"
-msgstr "Engrenagem"
-
-#: chardata/translation_util.py:461
-msgid "Frostbite"
-msgstr "Enregelamento"
-
-#: chardata/translation_util.py:462
-msgid "Disruption"
-msgstr "Perturbação"
-
-#: chardata/translation_util.py:463
-msgid "Xelor's Sandglass"
-msgstr "Ampulheta de Xelor"
-
-#: chardata/translation_util.py:464
-msgid "Temporal Distortion"
-msgstr "Distorção Temporal"
-
-#: chardata/translation_util.py:465
-msgid "Time Theft"
-msgstr "Tempo Roubado"
-
-#: chardata/translation_util.py:466
-msgid "Petrification"
-msgstr "Petrificação"
-
-#: chardata/translation_util.py:467
-msgid "Temporal Dust"
-msgstr "Poeira Temporal"
-
-#: chardata/translation_util.py:468
-msgid "Temporal Suspension"
-msgstr "Suspensão Temporal"
-
-#: chardata/translation_util.py:469
-msgid "Loss of Motivation"
-msgstr "Desmotivação"
-
-#: chardata/translation_util.py:470
-msgid "Pendulum"
-msgstr "Pêndulo"
-
-#: chardata/translation_util.py:471
-msgid "Clock"
-msgstr "Relógio"
-
-#: chardata/translation_util.py:472
-msgid "Water Clock"
-msgstr "Clepsidra"
-
-#: chardata/translation_util.py:473
-msgid "Dark Ray"
-msgstr "Raio Obscuro"
-
-#: chardata/translation_util.py:474
-msgid "Shadowy Beam"
-msgstr "Raio Tenebroso"
-
-#: chardata/translation_util.py:475
-msgid "Knell"
-msgstr "Dobre Fúnebre"
-
-#: chardata/translation_util.py:476
-msgid "Affliction"
-msgstr "Aflição"
-
-#: chardata/translation_util.py:477
-msgid "Tribulation"
-msgstr "Tribulação"
-
-#: chardata/translation_util.py:478
-msgid "Insult"
-msgstr "Afronta"
-
-#: chardata/translation_util.py:479
-msgid "Contempt"
-msgstr "Desprezo"
-
-#: chardata/translation_util.py:480
-msgid "Shock"
-msgstr "Comoção"
-
-#: chardata/translation_util.py:481
-msgid "Convulsion"
-msgstr "Convulsão"
-
-#: chardata/translation_util.py:482
-msgid "Wakfu Ray"
-msgstr "Raio de Wakfu"
-
-#: chardata/translation_util.py:483
-msgid "Lazybeam"
-msgstr "Feixe"
-
-#: chardata/translation_util.py:484
-msgid "Offence"
-msgstr "Ofensa"
-
-#: chardata/translation_util.py:485
-msgid "Affront"
-msgstr "Injúria"
-
-#: chardata/translation_util.py:486
-msgid "Therapy"
-msgstr "Terapia"
-
-#: chardata/translation_util.py:487
-msgid "Sinecure"
-msgstr "Mamata"
-
-#: chardata/translation_util.py:488
-msgid "Bullying"
-msgstr "Implicância"
-
-#: chardata/translation_util.py:490
-msgid "Lightning Fist"
-msgstr "Punho Fulminante"
-
-#: chardata/translation_util.py:491
-msgid "Snub"
-msgstr "Solavanco"
-
-#: chardata/translation_util.py:492
-msgid "Audacious"
-msgstr "Audácia"
-
-#: chardata/translation_util.py:493
-msgid "Composure"
-msgstr "Aprumo"
-
-#: chardata/translation_util.py:495
-msgid "Parasite"
-msgstr "Parasita"
-
-#: chardata/translation_util.py:496
-msgid "Virus"
-msgstr "Vírus"
-
-#: chardata/translation_util.py:497
-msgid "Ridicule"
-msgstr "Chacota"
-
-#: chardata/translation_util.py:498
-msgid "Persiflage"
-msgstr "Galhofa"
-
-#: chardata/translation_util.py:499
-msgid "Ether"
-msgstr "Éter"
-
-#: chardata/translation_util.py:500
-msgid "Stinger"
-msgstr "Dardo"
-
-#: chardata/translation_util.py:501
-msgid "Telluric Wave"
-msgstr "Onda Telúrica"
-
-#: chardata/translation_util.py:502
-msgid "Celestial Wave"
-msgstr "Onda Celestial"
-
-#: chardata/translation_util.py:503
-msgid "Flamethrower"
-msgstr "Lança-Chamas"
-
-#: chardata/translation_util.py:504
-msgid "Cataract"
-msgstr "Catarata"
-
-#: chardata/translation_util.py:505
-msgid "Stalagmite"
-msgstr "Estalagmite"
-
-#: chardata/translation_util.py:506
-msgid "Ember"
-msgstr "Tição"
-
-#: chardata/translation_util.py:507
-msgid "Elemental Drain"
-msgstr "Dreno Elementar"
-
-#: chardata/translation_util.py:508
-msgid "Morph"
-msgstr "Morf"
-
-#: chardata/translation_util.py:509
-msgid "Storm"
-msgstr "Tormenta"
-
-#: chardata/translation_util.py:510
-msgid "Tectonic Breach"
-msgstr "Brecha Tectônica"
-
-#: chardata/translation_util.py:511
-msgid "Astral Blade"
-msgstr "Lâmina Astral"
-
-#: chardata/translation_util.py:512
-msgid "Telluric Blade"
-msgstr "Lâmina Telúrica"
-
-#: chardata/translation_util.py:513
-msgid "Burning Stroke"
-msgstr "Tiro Ardente"
-
-#: chardata/translation_util.py:514
-msgid "Volcano"
-msgstr "Vulcão"
-
-#: chardata/translation_util.py:515
-msgid "Glacier"
-msgstr "Geleira"
-
-#: chardata/translation_util.py:516
-msgid "Stalactite"
-msgstr "Estalactite"
-
-#: chardata/translation_util.py:517
-msgid "Journey"
-msgstr "Travessia"
-
-#: chardata/translation_util.py:518
-msgid "Deflagration"
-msgstr "Deflagração"
-
-#: chardata/translation_util.py:519
-msgid "Flood"
-msgstr "Dilúvio"
-
-#: chardata/translation_util.py:520
-msgid "Contribution"
-msgstr "Contribuição"
-
-#: chardata/translation_util.py:521
-msgid "Icy Shards"
-msgstr "Fragmentos Gelados"
-
-#: chardata/translation_util.py:522
-msgid "Sun Lance"
-msgstr "Lança Solar"
-
-#: chardata/translation_util.py:523
-msgid "Transfixing Gust"
-msgstr "Rajada Trespassante"
-
-#: chardata/translation_util.py:524
-msgid "Hurricane"
-msgstr "Furacão"
-
-#: chardata/translation_util.py:525
-msgid "Striking Meteor"
-msgstr "Meteoro Percuciente"
-
-#: chardata/translation_util.py:526
-msgid "Comet"
-msgstr "Cometa"
-
-#: chardata/translation_util.py:527
-msgid "Watchdog"
-msgstr "Molosso"
-
-#: chardata/translation_util.py:528
-msgid "Jaw"
-msgstr "Mandíbula"
-
-#: chardata/translation_util.py:529
-msgid "Ulna"
-msgstr "Cúbito"
-
-#: chardata/translation_util.py:530
-msgid "Calcaneus"
-msgstr "Calcâneo"
-
-#: chardata/translation_util.py:531
-msgid "Carcass"
-msgstr "Carcaça"
-
-#: chardata/translation_util.py:532
-msgid "Stripping"
-msgstr "Esfoladura"
-
-#: chardata/translation_util.py:533
-msgid "Cutting Down"
-msgstr "Abatimento"
-
-#: chardata/translation_util.py:534
-msgid "Woof"
-msgstr "Ladrido"
-
-#: chardata/translation_util.py:535
-msgid "Mastiff"
-msgstr "Dogue"
-
-#: chardata/translation_util.py:536
-msgid "Muzzle"
-msgstr "Mordaça"
-
-#: chardata/translation_util.py:537
-msgid "Tibia"
-msgstr "Tíbia"
-
-#: chardata/translation_util.py:538
-msgid "Humerous"
-msgstr "Úmero"
-
-#: chardata/translation_util.py:539
-msgid "Tracking"
-msgstr "Assédio"
-
-#: chardata/translation_util.py:540
-msgid "Hunt"
-msgstr "Caça"
-
-#: chardata/translation_util.py:541
-msgid "Bloodhound"
-msgstr "Sabujo"
-
-#: chardata/translation_util.py:542
-msgid "Beaten"
-msgstr "Caça de Batida"
-
-#: chardata/translation_util.py:543
-msgid "R-Canine"
-msgstr "Arcanino"
-
-#: chardata/translation_util.py:544
-msgid "Carrion"
-msgstr "Cadáver"
-
-#: chardata/translation_util.py:545
-msgid "Radius"
-msgstr "Rádio"
-
-#: chardata/translation_util.py:546
-msgid "Marrow Bone"
-msgstr "Tutano"
-
-#: chardata/translation_util.py:547
-msgid "Vertebra"
-msgstr "Vértebra"
-
-#: chardata/translation_util.py:548
-msgid "Cerberus"
-msgstr "Cérbero"
-
-#: chardata/translation_util.py:549
-msgid "Amarok"
-msgstr "Amarok"
-
-#: chardata/translation_util.py:550
-msgid "Tetanisation"
-msgstr "Tetanização"
-
-#: chardata/translation_util.py:551
-msgid "Carving Up"
-msgstr "Desmembramento"
-
-#: chardata/translation_util.py:555
-msgid "25% chance of"
-msgstr "25% de chance de"
-
-#: chardata/translation_util.py:556
-msgid "Not charged"
-msgstr "Sem carregar"
-
-#: chardata/translation_util.py:557
-msgid "Not Charged"
-msgstr "Sem Carregar"
-
-#: chardata/translation_util.py:558
-msgid "Charged once"
-msgstr "Carregado uma vez"
-
-#: chardata/translation_util.py:559
-msgid "Charged twice"
-msgstr "Carregado duas vezes"
-
-#: chardata/translation_util.py:560 chardata/translation_util.py:576
-msgid "If the target is pushed"
-msgstr "Se o alvo for empurrado"
-
-#: chardata/translation_util.py:561
-msgid "If the target suffers pushback damage"
-msgstr "Se o alvo sofrer danos de empurrão"
-
-#: chardata/translation_util.py:562
-msgid "Regular shot"
-msgstr "Tiro normal"
-
-#: chardata/translation_util.py:563
-msgid "After postponing once"
-msgstr "Depois de adiar uma vez"
-
-#: chardata/translation_util.py:564
-msgid "After postponing twice"
-msgstr "Depois de adiar duas vezes"
-
-#: chardata/translation_util.py:565
-msgid "Enemies"
-msgstr "Inimigos"
-
-#: chardata/translation_util.py:566
-msgid "Allies"
-msgstr "Aliados"
-
-#: chardata/translation_util.py:567
-msgid "Enemies (imediately)"
-msgstr "Inimigos (imediatamente)"
-
-#: chardata/translation_util.py:568
-msgid "Enemies (next turn)"
-msgstr "Inimigos (próximo turno)"
-
-#: chardata/translation_util.py:569
-msgid "Allies (imediately)"
-msgstr "Aliados (imediatamente)"
-
-#: chardata/translation_util.py:570
-msgid "Allies (next turn)"
-msgstr "Aliados (próximo turno)"
-
-#: chardata/translation_util.py:571
-msgid "If the target has more than 50% HP"
-msgstr "Se o alvo tiver mais de 50% de PV"
-
-#: chardata/translation_util.py:572
-msgid "If the target has less than 50% HP"
-msgstr "Se o alvo tiver menos de 50% de PV"
-
-#: chardata/translation_util.py:573
-msgid "In one turn"
-msgstr "Em um turno"
-
-#: chardata/translation_util.py:574
-msgid "In two turns"
-msgstr "Em dois turnos"
-
-#: chardata/translation_util.py:575
-msgid "In three turns"
-msgstr "Em três turnos"
-
-#: chardata/translation_util.py:577
-msgid "Enemy or around ally"
-msgstr "Em um inimigo ou em torno de um aliado"
-
-#: chardata/translation_util.py:578
-msgid "Ally or around enemy"
-msgstr "Em um aliado ou em torno de um inimigo"
-
-#: chardata/translation_util.py:579
-msgid "Non-summons"
-msgstr "Não invocações"
-
-#: chardata/translation_util.py:581
-msgid "Hit"
-msgstr "Ao bater"
-
-#: chardata/translation_util.py:582
-msgid "Pushback Poison"
-msgstr "Veneno de empurrão"
-
-#: chardata/translation_util.py:584
-msgid "Charged"
-msgstr "Carregado"
-
-#: chardata/translation_util.py:585
-msgid "Tofu"
-msgstr "Tofu"
-
-#: chardata/translation_util.py:586
-msgid "Gobball"
-msgstr "Papatudo"
-
-#: chardata/translation_util.py:587
-msgid "Toad"
-msgstr "Sapo"
-
-#: chardata/translation_util.py:588
-msgid "Wyrmling (enemies)"
-msgstr "Dragoneto (inimigos)"
-
-#: chardata/translation_util.py:589
-msgid "Wyrmling (allies)"
-msgstr "Dragoneto (aliados)"
-
-#: chardata/translation_util.py:590
-msgid "No Tofus"
-msgstr "Sem Tofus"
-
-#: chardata/translation_util.py:591
-msgid "One Tofu"
-msgstr "Um Tofu"
-
-#: chardata/translation_util.py:592
-msgid "Two Tofus"
-msgstr "Dois Tofus"
-
-#: chardata/translation_util.py:593
-msgid "Three Tofus"
-msgstr "Três Tofus"
-
-#: chardata/translation_util.py:594
-msgid "Four Tofus"
-msgstr "Quatro Tofus"
-
-#: chardata/translation_util.py:595
-msgid "Five Tofus"
-msgstr "Cinco Tofus"
-
-#: chardata/translation_util.py:596
-msgid "If an Explobomb is present"
-msgstr "Se uma Explobomba estiver presente"
-
-#: chardata/translation_util.py:597
-msgid "If a Grenado is present"
-msgstr "Se uma Tornabomba estiver presente"
-
-#: chardata/translation_util.py:598
-msgid "If a Waterbomb is present"
-msgstr "Se uma Bomba d'Água estiver presente"
-
-#: chardata/translation_util.py:599
-msgid "If a Seismobomb is present"
-msgstr "Se uma Sismobomba estiver presente"
-
-#: chardata/translation_util.py:600
-msgid "Allies/Summons"
-msgstr "Aliados/Invocações"
-
-#: chardata/translation_util.py:601
-msgid "If the target loses MP"
-msgstr "Se o alvo perder PM"
-
-#: chardata/translation_util.py:602
-msgid "If the target loses AP"
-msgstr "Se o alvo perder PA"
-
-#: chardata/translation_util.py:603
-msgid "At the center"
-msgstr "No centro"
-
-#: chardata/translation_util.py:604
-msgid "One tile away from the center"
-msgstr "A uma casa de distância do centro"
-
-#: chardata/translation_util.py:605
-msgid "Two tiles away from the center"
-msgstr "A duas casas de distância do centro"
-
-#: chardata/translation_util.py:606
-msgid "Three tiles away from the center"
-msgstr "A três casas de distância do centro"
-
-#: chardata/translation_util.py:607
-msgid "Directly"
-msgstr "Diretamente"
-
-#: chardata/translation_util.py:608
-msgid "Through a portal"
-msgstr "Através de um portal"
-
-#: chardata/translation_util.py:609
-msgid "Target in air state"
-msgstr "Alvo no estado ar"
-
-#: chardata/translation_util.py:610
-msgid "Target in fire state"
-msgstr "Alvo no estado fogo"
-
-#: chardata/translation_util.py:611
-msgid "Target in water state"
-msgstr "Alvo no estado água"
-
-#: chardata/translation_util.py:612
-msgid "Target in earth state"
-msgstr "Alvo no estado terra"
-
-#: chardata/translation_util.py:613
-msgid "If the target is Prey"
-msgstr "Se o alvo for a Presa"
-
-#: chardata/translation_util.py:614
-msgid "After hitting a Prey once"
-msgstr "Depois de bater em uma Presa uma vez"
-
-#: chardata/translation_util.py:615
-msgid "After hitting a Prey twice"
-msgstr "Depois de bater em uma Presa duas vezes"
-
-#: chardata/translation_util.py:616
-msgid "After hitting a Prey 3x"
-msgstr "Depois de bater em uma Presa 3x"
-
-#: chardata/translation_util.py:617
-msgid "After hitting a Prey 4x"
-msgstr "Depois de bater em uma Presa 4x"
-
-#: chardata/translation_util.py:618
-msgid "After hitting a Prey 5x"
-msgstr "Depois de bater em uma Presa 5x"
-
-#: chardata/templates/chardata/shared_builds.html
-msgid "All Builds"
-msgstr "Todos os Sets"
-
-#: chardata/templates/chardata/shared_builds.html
-msgid "showing first 100"
-msgstr "mostrando os primeiros 100"
-
-#: chardata/templates/chardata/shared_builds.html
-msgid "Total Stats"
-msgstr "Estatísticas Totais"
-
-msgid "Hit in best element"
-msgstr "Golpeia no melhor elemento"
-
-msgid "builds"
-msgstr "sets"
-
-msgid "Hunting Weapon"
-msgstr "Arma de caça"
-
-msgid "Exchangeable"
-msgstr "Trocável"
-
-msgid "Linked to the character"
-msgstr "Vinculado ao personagem"
-
-msgid "Cooperative crafting impossible"
-msgstr "Fabricação cooperativa impossível"
-
-msgid "Fertile"
-msgstr "Fértil"
-
-msgid "Mobile UI overhaul"
-msgstr "Reformulação da interface móvel"
-
-msgid "Solution page redesigned for mobile screens"
-msgstr "Página de solução redesenhada para telas móveis"
-
-msgid "Main page now mobile-friendly"
-msgstr "Página principal agora compatível com dispositivos móveis"
-
-msgid ""
-"100% translation coverage for all 5 supported languages (en, fr, de, es, pt)"
-msgstr ""
-"Cobertura de tradução a 100% para todos os 5 idiomas suportados (en, fr, de,"
-" es, pt)"
-
-msgid "Spell damage simulator — extended"
-msgstr "Simulador de dano de feitiços — extendido"
-
-msgid "Spell images scraped and displayed per spell in the simulator"
-msgstr "Imagens de feitiços coletadas e exibidas por feitiço no simulador"
-
-msgid "Sram class spells added to the simulator"
-msgstr "Feitiços da classe Sram adicionados ao simulador"
-
-msgid "Spell damage simulator v1"
-msgstr "Simulador de dano de feitiços v1"
-
-msgid "Google Analytics integrated"
-msgstr "Google Analytics integrado"
-
-msgid "Sitemap and robots.txt added for SEO"
-msgstr "Sitemap e robots.txt adicionados para SEO"
-
-msgid "August 2023"
-msgstr "Agosto de 2023"
-
-msgid ""
-"Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
-msgstr ""
-"Site relaçado como DofusFashionistaVanced na AWS com Django e armazenamento "
-"S3"
-
-msgid "Compare sets: side-by-side comparison of two builds"
-msgstr "Comparar sets: comparação lado a lado de duas builds"
-
-msgid "Build save and load system fixed"
-msgstr "Sistema de salvamento e carregamento de builds corrigido"
-
-msgid "Email and password reset fixed"
-msgstr "Correção de redefinição de e-mail e senha"
-
-msgid "2020 – 2021"
-msgstr "2020 – 2021"
-
-msgid "Docker support added (community contribution)"
-msgstr "Suporte ao Docker adicionado (contribuição da comunidade)"
-
-msgid "Neutral Resist in PVP"
-msgstr "Resistência Neutra em PvP"
-
-msgid "Water Resist in PVP"
-msgstr "Resistência Água em PvP"
-
-msgid "Air Resist in PVP"
-msgstr "Resistência Ar em PvP"
-
-msgid "Fire Resist in PVP"
-msgstr "Resistência Fogo em PvP"
-
-msgid "Earth Resist in PVP"
-msgstr "Resistência Terra em PvP"
-
-msgid "% Neutral Resist in PVP"
-msgstr "% Resistência Neutra em PvP"
-
-msgid "% Air Resist in PVP"
-msgstr "% Resistência Ar em PvP"
-
-msgid "% Fire Resist in PVP"
-msgstr "% Resistência Fogo em PvP"
-
-msgid "% Water Resist in PVP"
-msgstr "% Resistência Água em PvP"
-
-msgid "% Earth Resist in PVP"
-msgstr "% Resistência Terra em PvP"
-
-msgid "Critical Failure"
-msgstr "Falha Crítica"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus 2 version added"
-msgstr "Adicionada a versão Dofus 2"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Dofus Retro launched at /retro/ with its own item database, built from "
-"Ankama's official Retro data"
-msgstr ""
-"Dofus Retro lançado em /retro/ com a sua própria base de itens, criada a "
-"partir dos dados oficiais do Retro da Ankama"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Retro is now selectable in the version switcher"
-msgstr "O Retro já pode ser selecionado no seletor de versão"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Retro spell damage simulator added, with damage spells per class"
-msgstr ""
-"Adicionado o simulador de dano de feitiços do Retro, com feitiços de dano "
-"por classe"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid ""
-"PvP resistances supported on Retro items: shown on the solution page and "
-"weightable in the stats page"
-msgstr ""
-"Resistências PvP suportadas nos itens do Retro: mostradas na página de "
-"sugestão e ponderáveis na página de estatísticas"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Retro shields and Dragoturkey mounts added"
-msgstr "Adicionados escudos do Retro e montarias Dragoperu"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Set bonuses for Retro sets, with the full per-piece bonus tables"
-msgstr ""
-"Bónus de conjunto para os conjuntos do Retro, com as tabelas completas por "
-"número de peças"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Familiars: the stats they can be fed are shown in the encyclopedia and used "
-"by the optimizer"
-msgstr ""
-"Familiares: as estatísticas que podem comer são mostradas na enciclopédia e "
-"usadas pelo otimizador"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Craft recipes added, and item, set and spell names localized in all 5 "
-"languages"
-msgstr ""
-"Adicionadas receitas de fabrico, e nomes de itens, conjuntos e feitiços "
-"traduzidos nas 5 línguas"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Optimizer adapted to Retro rules (12 classes, no ring doubling, no exo mages"
-" or prysmaradite)"
-msgstr ""
-"Otimizador adaptado às regras do Retro (12 classes, sem duplicação de anel, "
-"sem exo magia nem prysmaradite)"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus 2 version added at /dofus2/ with its own item and set database"
-msgstr ""
-"Versão Dofus 2 adicionada em /dofus2/ com a sua própria base de itens e "
-"conjuntos"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Public read-only REST API (v1)"
-msgstr "API REST pública só de leitura (v1)"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Installable app (PWA) with offline fallback"
-msgstr "Aplicação instalável (PWA) com modo offline de recurso"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Support page with donation links"
-msgstr "Página de apoio com ligações de doação"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Build check now flags low-level equipped items, and password reset was fixed"
-msgstr ""
-"A verificação do build agora assinala os itens equipados de nível baixo, e a"
-" reposição da palavra-passe foi corrigida"
-
-#: fashionsite/chardata/templates/chardata/changelog_modal.html
-msgid "Dofus Retro version launched at /retro/ with its own item database"
-msgstr "Versão Dofus Retro lançada em /retro/ com a sua própria base de itens"
-
-#: fashionsite/chardata/templates
-msgid "Use only items from my inventory"
-msgstr "Usar apenas itens do meu inventário"
-
-#: fashionsite/chardata/templates
-msgid "No, use all items"
-msgstr "Não, usar todos os itens"
-
-#: fashionsite/chardata/templates/chardata/home.html
-msgid "Create the best Dofus equipment set, automatically"
-msgstr "Crie o melhor equipamento de Dofus, automaticamente"
-
-#: fashionsite/chardata/templates/chardata/home.html
-msgid ""
-"Dofus Fashionista is a free set optimizer. Choose your class, level and the "
-"stats you want, and it automatically finds the best combination of equipment"
-" — weapons, armor, rings, dofus and more — for your build. Then compare "
-"different sets, save your characters, and share your builds with the "
-"community."
-msgstr ""
-"O Dofus Fashionista é um otimizador de equipamento gratuito. Escolha sua "
-"classe, seu nível e os atributos que você quer, e ele encontra "
-"automaticamente a melhor combinação de equipamento — armas, armaduras, "
-"anéis, dofus e muito mais — para o seu build. Depois compare diferentes "
-"sets, salve seus personagens e compartilhe seus builds com a comunidade."
-
-msgid "Search a set"
-msgstr "Procurar um set"
-
-msgid ""
-"Browse every Dofus set (panoply) and its bonuses. Find a set and build it "
-"with the Dofus Fashionista."
-msgstr ""
-"Explore todos os sets (panóplias) de Dofus e seus bônus. Encontre um set e "
-"monte-o com o Dofus Fashionista."
-
-msgid "Suggest trophies"
-msgstr "Sugerir troféus"
-
-msgid "Can't equip a two handed weapon and a shield."
-msgstr "Não dá para equipar uma arma de duas mãos e um escudo."
-
-msgid "Monster drops in the encyclopedia"
-msgstr "Drops de monstros na enciclopédia"
-
-msgid ""
-"Each item page now lists the monsters that drop it, with the drop rate."
-msgstr ""
-"Cada página de item agora lista os monstros que o dropam, com a taxa de "
-"drop."
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Each recipe ingredient now has its own page listing the items it crafts and "
-"the monsters that drop it."
-msgstr ""
-"Cada ingrediente de receita agora tem a sua página com os itens que ele "
-"permite fabricar e os monstros que o dropam."
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Compare Sets now shows spell and weapon damage previews, so you can quickly "
-"see which build hits harder"
-msgstr ""
-"Comparar sets agora mostra prévias de dano de feitiços e armas, para ver "
-"rápido qual build bate mais"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Monster pages now show dropped item types and levels next to their drop "
-"rates"
-msgstr ""
-"As páginas de monstros agora mostram o tipo e o nível dos itens dropados "
-"junto das taxas de drop"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Resource pages now show the type and level of each item they can craft"
-msgstr ""
-"As páginas de recursos agora mostram o tipo e o nível de cada item que podem"
-" fabricar"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Item pages now include monster drops attached to any variant of the same "
-"item"
-msgstr ""
-"As páginas de itens agora incluem drops de monstros ligados a qualquer "
-"variante do mesmo item"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Monster search now also matches dropped resource and item names"
-msgstr ""
-"A busca de monstros agora também encontra nomes de recursos e itens dropados"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid ""
-"The sitemap now includes every recipe ingredient page, including non-"
-"resource ingredients"
-msgstr ""
-"O sitemap agora inclui todas as páginas de ingredientes de receitas, "
-"incluindo ingredientes que não são recursos"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Non-resource ingredient pages now use the correct ingredient label"
-msgstr ""
-"As páginas de ingredientes que não são recursos agora usam o rótulo correto "
-"de ingrediente"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Item pages now show which other items they are used to craft"
-msgstr ""
-"As páginas de itens agora mostram quais outros itens eles ajudam a fabricar"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Version-specific encyclopedia hubs are now included in the sitemap"
-msgstr ""
-"Os hubs de enciclopédia específicos de cada versão agora estão incluídos no "
-"sitemap"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Item search now matches item names from every supported language"
-msgstr "A busca de itens agora encontra nomes em todos os idiomas compatíveis"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Compare Sets now lets you choose which class spells to preview"
-msgstr ""
-"Comparar sets agora permite escolher os feitiços de classe para pré-"
-"visualizar"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid "Monster search results now show sample drops on each monster card"
-msgstr ""
-"Os resultados da busca de monstros agora mostram drops de exemplo em cada "
-"carta de monstro"
-
-#: chardata/templates/chardata/changelog_modal.html
-msgid ""
-"Encyclopedia URLs now keep accented item, resource and monster names "
-"readable"
-msgstr ""
-"As URLs da enciclopédia agora mantêm legíveis os nomes acentuados de itens, "
-"recursos e monstros"

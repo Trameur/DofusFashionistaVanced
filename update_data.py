@@ -243,10 +243,15 @@ def main() -> None:
             "--output", "transformed_craft_jobs.json",
         ], cwd=ITEMSCRAPER)
         step("craftjobs/store", [
+
             PY, "store_craft_jobs.py",
             "--jobs", "transformed_craft_jobs.json",
             "--game-version", "dofus3",
         ], cwd=ITEMSCRAPER)
+
+    # Data changed: refresh the scanned list of runtime-translated
+    # strings (item types, stats...) so makemessages keeps them.
+    step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("spell-images", [
