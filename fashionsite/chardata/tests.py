@@ -2871,6 +2871,41 @@ class UnobtainableItemsTests(SimpleTestCase):
                               % (item.name, ankama_id, version))
 
 
+class GmExclusionRetrofitMigrationTests(TestCase):
+    """Default exclusions are only seeded at char creation, so chars created
+    before the GM items joined the defaults could still equip them; migration
+    0026 retrofits exactly those ids, preserving the user's own exclusions and
+    unpinning a GM item if it was included."""
+
+    def test_migration_adds_gm_ids_and_unpins_them(self):
+        import importlib
+        import pickle as _pickle
+        from django.apps import apps as django_apps
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import get_structure
+        from chardata.models import Char
+        mig = importlib.import_module(
+            'chardata.migrations.0026_forbid_gm_items_on_existing_chars')
+        touch = get_structure('touch')
+        gm_pet = touch.get_item_by_ankama_id(6895)  # Small Combat Bow Meow (GM)
+        self.assertIsNotNone(gm_pet)
+        owner = User.objects.create_user('retrofit', 'rf@test.local', 'pw-42-solid')
+        legacy = Char.objects.create(
+            name='Legacy', char_name='legacy', char_class='Iop',
+            char_build='build', level=50,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=_pickle.dumps({'Pet': gm_pet.id}),
+            exclusions=_pickle.dumps([12345]),
+            aspects=b'', owner=owner, link_shared=False, game_version='touch')
+        mig.forbid_gm_items_on_existing_chars(django_apps, None)
+        legacy.refresh_from_db()
+        exclusions = _pickle.loads(legacy.exclusions)
+        self.assertIn(gm_pet.id, exclusions)
+        self.assertIn(12345, exclusions)
+        inclusions = _pickle.loads(legacy.inclusions)
+        self.assertEqual(inclusions.get('Pet'), '')
+
+
 class VersionItemAvailabilityTests(SimpleTestCase):
     """Items in a version's data that shouldn't be proposed there are forbidden by
     default per version, without touching the versions where they are real
