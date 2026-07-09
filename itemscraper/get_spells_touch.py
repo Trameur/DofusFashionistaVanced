@@ -35,7 +35,10 @@ SPELL_ICON_URL = "%s/gfx/spells/sort_%s.png"
 SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chardata'
                  / 'static' / 'chardata' / 'spells' / 'touch')
 
-DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral'}
+# 96-100 = elemental damage, 91-95 = elemental steals (same hit, heals the
+# caster); both families verified against the proxy Effects table.
+DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
+                  91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
                           'air': 'AIR', 'neutral': 'NEUTRAL'}
 
@@ -105,7 +108,13 @@ def fetch_table(data_url, cls, lang='fr'):
 
 
 def collect_damage(effect_list):
-    """One effect list -> {element: (min, max)} for elemental damage hits."""
+    """One effect list -> {element: (min, max)} for elemental damage hits.
+
+    A spell level can carry several lines of the same element: state-dependent
+    branches (targetMask '#A,E<state>' or 'v50') and damage/steal pairs. Keep
+    the strongest line per element (by midpoint): mutually exclusive branches
+    resolve to the best case, which is also how the aggregated Dofus 3 spells
+    are modeled ("Hit in best element")."""
     out = {}
     for e in (effect_list or []):
         eid = e.get('effectId')
@@ -114,7 +123,10 @@ def collect_damage(effect_list):
             hi = e.get('diceSide') or 0
             if hi < lo:                      # diceSide==0 (or < min) => fixed hit
                 hi = lo
-            out[DAMAGE_EFFECTS[eid]] = (lo, hi)
+            elem = DAMAGE_EFFECTS[eid]
+            prev = out.get(elem)
+            if prev is None or lo + hi > prev[0] + prev[1]:
+                out[elem] = (lo, hi)
     return out
 
 

@@ -30,8 +30,8 @@ TOUCH_DAMAGE_SPELLS = {
             [EARTH],
         )),
         Spell("Flèche Perforante", [73, 73, 73, 73, 123, 173], Effects(
-            [["3-5", "4-6", "5-7", "6-8", "7-9", "8-10"]],
-            [["3-5", "4-6", "5-7", "6-8", "7-9", "8-10"]],
+            [["11-13", "13-15", "15-17", "18-20", "21-23", "25-27"]],
+            [["13-15", "15-17", "17-19", "20-22", "23-25", "27-29"]],
             [FIRE],
         )),
         Spell("Flèche Punitive", [90, 90, 90, 90, 140, 190], Effects(
@@ -64,6 +64,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["18-21", "19-22", "20-23", "22-25", "23-26", "27-30"]],
             [AIR],
         )),
+        Spell("Flèche de Transfusion", [1, 1, 1, 1, 51, 101], Effects(
+            [["22-26", "26-30", "30-34", "34-38", "40-44", "48-52"]],
+            [["26-30", "30-34", "34-38", "38-42", "44-48", "52-56"]],
+            [EARTH],
+        )),
         Spell("Oeil de Taupe", [85, 85, 85, 85, 135, 185], Effects(
             [["14-16", "16-18", "18-20", "20-22", "22-24", "26-28"]],
             [["17-19", "19-21", "21-23", "23-25", "25-27", "29-31"]],
@@ -81,10 +86,20 @@ TOUCH_DAMAGE_SPELLS = {
             [["37-41", "38-42", "39-43", "40-44", "41-45", "45-49"]],
             [AIR],
         )),
+        Spell("Esprit Félin", [1, 1, 1, 1, 51, 101], Effects(
+            [["15-18", "17-20", "19-22", "21-24", "24-27", "27-30"]],
+            [["20-20", "22-22", "24-24", "26-26", "29-29", "32-32"]],
+            [AIR],
+        )),
         Spell("Fanfaronnade", [100, 100, 100, 100, 150, 200], Effects(
             [["2-4", "2-4", "3-5", "4-6", "5-7", "6-8"], ["2-4", "2-4", "3-5", "4-6", "5-7", "6-8"], ["2-4", "2-4", "3-5", "4-6", "5-7", "6-8"]],
             [["2-4", "2-4", "3-5", "4-6", "5-7", "6-8"], ["2-4", "2-4", "3-5", "4-6", "5-7", "6-8"], ["2-4", "2-4", "3-5", "4-6", "5-7", "6-8"]],
             [WATER, AIR, EARTH],
+        )),
+        Spell("Félintion", [90, 90, 90, 90, 140, 190], Effects(
+            [["32-35", "33-36", "34-37", "35-38", "36-39", "37-40"]],
+            [["34-37", "35-38", "36-39", "37-40", "38-41", "39-42"]],
+            [WATER],
         )),
         Spell("Griffe Joueuse", [19, 19, 19, 19, 69, 119], Effects(
             [["28-31", "30-33", "32-35", "34-37", "36-39", "39-42"]],
@@ -113,8 +128,13 @@ TOUCH_DAMAGE_SPELLS = {
         )),
         Spell("Réflexes", [55, 55, 55, 55, 105, 155], Effects(
             [["21-25", "23-27", "25-29", "27-31", "29-33", "34-38"]],
-            [["21-25", "23-27", "25-29", "27-31", "29-33", "34-38"]],
+            [["27-27", "29-29", "31-31", "33-33", "35-35", "40-40"]],
             [EARTH],
+        )),
+        Spell("Topkaj", [1, 1, 1, 1, 51, 101], Effects(
+            [["11-14", "13-16", "15-18", "17-20", "20-23", "23-26"]],
+            [["14-17", "16-19", "18-21", "20-23", "23-26", "26-29"]],
+            [WATER],
         )),
         Spell("Toupet", [49, 49, 49, 49, 99, 149], Effects(
             [["32-36", "33-37", "34-38", "35-39", "36-40", "38-42"]],
@@ -148,6 +168,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["20-21", "22-23", "24-25", "26-27", "28-29", "31-32"]],
             [AIR],
         )),
+        Spell("Mot Marquant", [1, 1, 1, 1, 51, 101], Effects(
+            [["7-9", "9-11", "11-13", "13-15", "15-17", "17-19"]],
+            [["9-11", "11-13", "13-15", "15-17", "17-19", "21-23"]],
+            [WATER],
+        )),
         Spell("Mot Résonnant", [1, 1, 1, 1, 51, 101], Effects(
             [["11-13", "13-15", "15-17", "17-19", "19-21", "22-24"]],
             [["13-15", "15-17", "17-19", "19-21", "21-23", "24-26"]],
@@ -162,6 +187,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["29-31", "31-33", "33-35", "35-37", "39-41", "42-44"]],
             [["32-33", "34-35", "36-37", "38-39", "42-43", "45-46"]],
             [FIRE],
+        )),
+        Spell("Mot Vampirique", [61, 61, 61, 61, 111, 161], Effects(
+            [["19-22", "21-24", "23-26", "25-28", "27-30", "31-34"]],
+            [["24-24", "26-26", "28-28", "30-30", "32-32", "36-36"]],
+            [WATER],
         )),
         Spell("Mot Éreintant", [85, 85, 85, 85, 135, 185], Effects(
             [["16-19", "17-20", "18-21", "19-22", "20-23", "22-25"]],
@@ -201,8 +231,8 @@ TOUCH_DAMAGE_SPELLS = {
             [WATER],
         )),
         Spell("Pelle Aveuglante", [79, 79, 79, 79, 129, 179], Effects(
-            [["5-7", "6-8", "7-9", "8-10", "9-11", "12-14"]],
-            [["5-7", "6-8", "7-9", "8-10", "9-11", "12-14"]],
+            [["11-13", "12-14", "13-15", "14-16", "15-17", "17-19"]],
+            [["12-14", "15-17", "16-18", "17-19", "18-20", "20-22"]],
             [EARTH],
         )),
         Spell("Pelle Fantomatique", [61, 61, 61, 61, 111, 161], Effects(
@@ -289,9 +319,14 @@ TOUCH_DAMAGE_SPELLS = {
             [["2-6", "3-7", "4-8", "5-9", "6-10", "9-13"], ["2-6", "3-7", "4-8", "5-9", "6-10", "9-13"], ["2-6", "3-7", "4-8", "5-9", "6-10", "9-13"]],
             [FIRE, WATER, EARTH],
         )),
+        Spell("Flibuste", [1, 1, 1, 1, 51, 101], Effects(
+            [["12-14", "13-15", "14-16", "15-17", "17-19", "21-24"]],
+            [["15-17", "16-18", "17-19", "18-20", "20-22", "25-28"]],
+            [FIRE],
+        )),
         Spell("Foène", [90, 90, 90, 90, 140, 190], Effects(
-            [["7-9", "8-10", "9-11", "10-12", "11-13", "13-15"]],
-            [["7-9", "8-10", "9-11", "10-12", "11-13", "13-15"]],
+            [["21-25", "22-26", "23-27", "24-28", "25-29", "31-35"]],
+            [["25-29", "26-30", "27-31", "28-32", "29-33", "35-39"]],
             [EARTH],
         )),
         Spell("Longue Vue", [1, 1, 1, 1, 51, 101], Effects(
@@ -357,8 +392,8 @@ TOUCH_DAMAGE_SPELLS = {
             [FIRE],
         )),
         Spell("Epée du Jugement", [85, 85, 85, 85, 135, 185], Effects(
-            [["6-8", "7-9", "8-10", "9-11", "11-13", "13-15"]],
-            [["8-10", "9-11", "10-12", "11-13", "13-15", "15-17"]],
+            [["9-13", "10-14", "11-15", "12-16", "14-18", "16-20"]],
+            [["13-13", "14-14", "15-15", "16-16", "18-18", "20-20"]],
             [AIR],
         )),
         Spell("Poursuite", [1, 1, 1, 1, 51, 101], Effects(
@@ -393,6 +428,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["17-20", "18-21", "19-22", "20-23", "21-24", "27-30"]],
             [EARTH],
         )),
+        Spell("Appeau", [1, 1, 1, 1, 51, 101], Effects(
+            [["17-21", "18-22", "19-23", "20-24", "21-25", "25-29"]],
+            [["21-25", "22-26", "23-27", "24-28", "25-29", "28-32"]],
+            [WATER],
+        )),
         Spell("Appui", [7, 7, 7, 7, 57, 107], Effects(
             [["2-3", "3-4", "4-5", "5-6", "6-7", "8-9"], ["2-3", "3-4", "4-5", "5-6", "6-7", "8-9"], ["2-3", "3-4", "4-5", "5-6", "6-7", "8-9"]],
             [["4-5", "5-6", "6-7", "7-8", "8-9", "10-11"], ["4-5", "5-6", "6-7", "7-8", "8-9", "10-11"], ["4-5", "5-6", "6-7", "7-8", "8-9", "10-11"]],
@@ -418,9 +458,19 @@ TOUCH_DAMAGE_SPELLS = {
             [["25-29", "27-31", "29-33", "31-35", "33-37", "35-39"]],
             [EARTH],
         )),
+        Spell("Martelo", [1, 1, 1, 1, 51, 101], Effects(
+            [["12-14", "14-16", "16-19", "18-21", "22-25", "25-28"]],
+            [["16-18", "18-20", "20-23", "22-25", "25-28", "29-32"]],
+            [EARTH],
+        )),
         Spell("Picada", [31, 31, 31, 31, 81, 131], Effects(
             [["14-16", "16-18", "18-20", "20-22", "23-25", "26-28"]],
             [["17-19", "19-21", "21-23", "23-25", "26-28", "29-31"]],
+            [AIR],
+        )),
+        Spell("Rétention", [1, 1, 1, 1, 51, 101], Effects(
+            [["14-18", "15-19", "16-20", "17-21", "19-23", "24-28"]],
+            [["18-22", "19-23", "20-24", "21-25", "23-27", "27-31"]],
             [AIR],
         )),
     ],
@@ -435,9 +485,14 @@ TOUCH_DAMAGE_SPELLS = {
             [["28-32", "30-34", "32-36", "34-38", "37-41", "41-45"]],
             [AIR],
         )),
+        Spell("Griffe Cinglante", [1, 1, 1, 1, 51, 101], Effects(
+            [["10-12", "12-14", "14-16", "16-18", "19-21", "22-24"]],
+            [["13-15", "15-17", "17-19", "19-21", "22-24", "25-27"]],
+            [AIR],
+        )),
         Spell("Griffe Corrosive", [1, 1, 1, 1, 51, 101], Effects(
-            [["4-5", "5-6", "6-7", "7-8", "8-9", "9-10"]],
-            [["6-7", "7-8", "8-9", "9-10", "10-11", "11-12"]],
+            [["8-10", "9-11", "10-12", "11-13", "13-15", "15-17"]],
+            [["10-12", "11-13", "12-14", "13-15", "15-17", "17-19"]],
             [WATER],
         )),
         Spell("Griffe Spectrale", [1, 1, 1, 1, 51, 101], Effects(
@@ -487,6 +542,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["16-20", "17-21", "18-22", "19-23", "20-24", "25-29"]],
             [EARTH],
         )),
+        Spell("Liqueur", [49, 49, 49, 49, 99, 149], Effects(
+            [["13-16", "15-18", "17-20", "19-22", "21-24", "23-26"]],
+            [["15-18", "17-20", "19-22", "21-24", "23-26", "26-29"]],
+            [AIR],
+        )),
         Spell("Pandatak", [13, 13, 13, 13, 63, 113], Effects(
             [["31-35", "33-37", "35-39", "37-41", "39-43", "42-46"]],
             [["37-41", "39-43", "41-45", "43-47", "45-49", "48-52"]],
@@ -534,10 +594,20 @@ TOUCH_DAMAGE_SPELLS = {
             [["25-27", "27-29", "29-31", "31-33", "34-36", "39-41"]],
             [AIR],
         )),
+        Spell("Extraction", [1, 1, 1, 1, 51, 101], Effects(
+            [["9-11", "12-14", "14-16", "15-17", "18-20", "22-24"]],
+            [["12-14", "15-17", "17-19", "20-22", "23-25", "27-29"]],
+            [FIRE],
+        )),
         Spell("Pulsar", [85, 85, 85, 85, 135, 185], Effects(
             [["26-30", "28-32", "30-34", "33-37", "35-39", "38-42"]],
             [["29-33", "31-35", "33-37", "36-40", "38-42", "41-45"]],
             [FIRE],
+        )),
+        Spell("Resquille", [1, 1, 1, 1, 51, 101], Effects(
+            [["11-15", "12-16", "13-17", "14-18", "16-20", "22-26"]],
+            [["14-18", "15-19", "16-20", "17-21", "19-23", "26-30"]],
+            [WATER],
         )),
         Spell("Tromblon", [79, 79, 79, 79, 129, 179], Effects(
             [["28-32", "29-33", "30-34", "31-35", "32-36", "36-40"]],
@@ -566,6 +636,16 @@ TOUCH_DAMAGE_SPELLS = {
             [["14-17", "16-19", "18-21", "20-23", "21-24", "26-30"]],
             [EARTH],
         )),
+        Spell("Condensation", [49, 49, 49, 49, 99, 149], Effects(
+            [["20-23", "21-24", "22-25", "23-26", "24-27", "28-32"]],
+            [["22-25", "23-26", "24-27", "25-28", "26-29", "31-35"]],
+            [EARTH],
+        )),
+        Spell("Dissolution", [19, 19, 19, 19, 69, 119], Effects(
+            [["12-15", "14-17", "16-19", "18-21", "21-24", "24-27"]],
+            [["15-18", "17-20", "19-22", "21-24", "24-27", "27-30"]],
+            [WATER],
+        )),
         Spell("Fulgurance", [90, 90, 90, 90, 140, 190], Effects(
             [["11-15", "12-16", "13-17", "14-18", "15-19", "21-25"]],
             [["13-17", "14-18", "15-19", "16-20", "17-21", "26-30"]],
@@ -576,9 +656,24 @@ TOUCH_DAMAGE_SPELLS = {
             [["13-16", "15-18", "17-20", "19-22", "21-24", "25-28"]],
             [WATER],
         )),
+        Spell("Hémostatique", [25, 25, 25, 25, 75, 125], Effects(
+            [["18-22", "19-23", "20-24", "22-26", "25-29", "28-32"]],
+            [["22-26", "23-27", "24-28", "26-30", "29-33", "32-36"]],
+            [AIR],
+        )),
+        Spell("Pied du Sacrieur", [1, 1, 1, 1, 51, 101], Effects(
+            [["12-14", "13-15", "14-16", "17-19", "18-20", "21-23"]],
+            [["14-16", "15-17", "16-18", "19-21", "20-22", "23-25"]],
+            [EARTH],
+        )),
         Spell("Ponction", [55, 55, 55, 55, 105, 155], Effects(
             [["19-22", "21-24", "23-26", "26-29", "30-33", "34-37"]],
             [["22-25", "24-27", "26-29", "29-32", "33-36", "37-40"]],
+            [WATER],
+        )),
+        Spell("Sang Lié", [85, 85, 85, 85, 135, 185], Effects(
+            [["19-23", "21-25", "23-27", "25-29", "27-31", "33-37"]],
+            [["24-28", "26-30", "28-32", "30-34", "32-36", "38-42"]],
             [WATER],
         )),
     ],
@@ -589,8 +684,8 @@ TOUCH_DAMAGE_SPELLS = {
             [WATER],
         )),
         Spell("Herbe Folle", [1, 1, 1, 1, 51, 101], Effects(
-            [["7-10", "8-11", "9-12", "11-14", "13-16", "15-18"]],
-            [["9-12", "10-13", "11-14", "13-16", "15-18", "17-21"]],
+            [["17-20", "18-21", "19-22", "21-24", "23-26", "25-28"]],
+            [["19-22", "20-23", "21-24", "23-26", "25-28", "27-31"]],
             [FIRE],
         )),
         Spell("Larme", [1, 1, 1, 1, 51, 101], Effects(
@@ -599,8 +694,8 @@ TOUCH_DAMAGE_SPELLS = {
             [WATER],
         )),
         Spell("Poison Paralysant", [25, 25, 25, 25, 75, 125], Effects(
-            [["3-4", "4-5", "5-6", "6-7", "7-8", "9-10"]],
-            [["3-4", "4-5", "5-6", "6-7", "7-8", "9-10"]],
+            [["15-18", "17-20", "19-22", "21-24", "25-28", "29-32"]],
+            [["19-22", "21-24", "23-26", "25-28", "29-32", "33-36"]],
             [FIRE],
         )),
         Spell("Ronce", [1, 1, 1, 1, 51, 101], Effects(
@@ -622,6 +717,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["17-19", "19-21", "21-24", "23-26", "25-28", "27-30"]],
             [["21-23", "23-25", "25-28", "27-30", "29-32", "32-36"]],
             [EARTH],
+        )),
+        Spell("Sacrifice Poupesque", [79, 79, 79, 79, 129, 179], Effects(
+            [["21-24", "23-26", "25-28", "27-30", "29-32", "31-34"]],
+            [["23-26", "25-28", "27-30", "29-32", "31-34", "33-36"]],
+            [WATER],
         )),
         Spell("Saignée Végétale", [49, 49, 49, 49, 99, 149], Effects(
             [["14-17", "16-19", "18-21", "20-23", "22-25", "25-28"]],
@@ -668,6 +768,11 @@ TOUCH_DAMAGE_SPELLS = {
         Spell("Larcin", [43, 43, 43, 43, 93, 143], Effects(
             [["24-28", "25-29", "26-30", "27-31", "29-33", "32-36"]],
             [["28-32", "29-33", "30-34", "31-35", "33-37", "36-40"]],
+            [FIRE],
+        )),
+        Spell("Machination", [90, 90, 90, 90, 140, 190], Effects(
+            [["8-8", "9-9", "10-10", "11-11", "13-13", "15-15"]],
+            [["8-8", "9-9", "10-10", "11-11", "13-13", "15-15"]],
             [FIRE],
         )),
         Spell("Perfidie", [49, 49, 49, 49, 99, 149], Effects(
@@ -743,8 +848,8 @@ TOUCH_DAMAGE_SPELLS = {
             [FIRE],
         )),
         Spell("Sablier de Xélor", [1, 1, 1, 1, 51, 101], Effects(
-            [["10-12", "10-12", "10-12", "10-12", "10-12", "10-12"]],
-            [["10-12", "10-12", "10-12", "10-12", "10-12", "10-12"]],
+            [["16-19", "18-21", "20-23", "22-25", "24-27", "27-30"]],
+            [["19-22", "21-24", "23-26", "25-28", "27-30", "30-33"]],
             [WATER],
         )),
         Spell("Secousse Temporelle", [43, 43, 43, 43, 93, 143], Effects(
@@ -791,6 +896,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Apatía",
   "fr": "Apathie",
   "pt": "Apatia"
+ },
+ "Appeau": {
+  "de": "Lockvogel",
+  "en": "Decoy",
+  "es": "Reclamo",
+  "fr": "Appeau",
+  "pt": "Chamariz"
  },
  "Appui": {
   "de": "Abspringen",
@@ -911,6 +1023,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Concentration",
   "pt": "Concentração"
  },
+ "Condensation": {
+  "de": "Kondensation",
+  "en": "Condensation",
+  "es": "Condensación",
+  "fr": "Condensation",
+  "pt": "Condensação"
+ },
  "Coup Sournois": {
   "de": "Tückischer Angriff",
   "en": "Tricky Blow",
@@ -938,6 +1057,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Destino de Zurcarák",
   "fr": "Destin d'Ecaflip",
   "pt": "Destino de Ecaflip"
+ },
+ "Dissolution": {
+  "de": "Auflösung",
+  "en": "Dissolution",
+  "es": "Disolución",
+  "fr": "Dissolution",
+  "pt": "Dissolução"
  },
  "Distance": {
   "de": "Abstand",
@@ -1016,6 +1142,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Espingole",
   "pt": "Carabina"
  },
+ "Esprit Félin": {
+  "de": "Katzengeist",
+  "en": "Feline Spirit",
+  "es": "Espíritu Felino",
+  "fr": "Esprit Félin",
+  "pt": "Espírito Felino"
+ },
  "Ethylo": {
   "de": "Ethyllo",
   "en": "Tipple",
@@ -1023,12 +1156,26 @@ TOUCH_SPELL_NAMES = {
   "fr": "Ethylo",
   "pt": "Beberricar"
  },
+ "Extraction": {
+  "de": "Extrahieren",
+  "en": "Extraction",
+  "es": "Extracción",
+  "fr": "Extraction",
+  "pt": "Execução"
+ },
  "Fanfaronnade": {
   "de": "Prahlerei",
   "en": "Bravado",
   "es": "Fantasmada",
   "fr": "Fanfaronnade",
   "pt": "Fanfarronice"
+ },
+ "Flibuste": {
+  "de": "Bukanier",
+  "en": "Pilfer",
+  "es": "Piratería",
+  "fr": "Flibuste",
+  "pt": "Pirataria"
  },
  "Flèche Aveuglante": {
   "de": "Blendender Pfeil",
@@ -1114,6 +1261,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Flèche de Recul",
   "pt": "Flecha de Recuo"
  },
+ "Flèche de Transfusion": {
+  "de": "Transfusionspfeil",
+  "en": "Transfusion Arrow",
+  "es": "Flecha de Transfusión",
+  "fr": "Flèche de Transfusion",
+  "pt": "Flecha de Transfusão"
+ },
  "Force de l'Age": {
   "de": "Kraft des Alters",
   "en": "Prime of Life",
@@ -1170,6 +1324,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Furie",
   "pt": "Fúria"
  },
+ "Félintion": {
+  "de": "Felienchen",
+  "en": "Felintion",
+  "es": "Feliación",
+  "fr": "Félintion",
+  "pt": "Felinação"
+ },
  "Gelure": {
   "de": "Einfrieren",
   "en": "Frostbite",
@@ -1190,6 +1351,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Orujo",
   "fr": "Gnôle",
   "pt": "Goró"
+ },
+ "Griffe Cinglante": {
+  "de": "Zupackende Kralle",
+  "en": "Lashing Claw",
+  "es": "Garra Azotadora",
+  "fr": "Griffe Cinglante",
+  "pt": "Garra Fustigante"
  },
  "Griffe Corrosive": {
   "de": "Korrosive Kralle",
@@ -1247,6 +1415,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Horloge",
   "pt": "Relógio"
  },
+ "Hémostatique": {
+  "de": "Blutstiller",
+  "en": "Hemostatic",
+  "es": "Hemostático",
+  "fr": "Hémostatique",
+  "pt": "Hemostático"
+ },
  "Kraps": {
   "de": "Kraps",
   "en": "Kraps",
@@ -1289,12 +1464,33 @@ TOUCH_SPELL_NAMES = {
   "fr": "Larme",
   "pt": "Lágrima"
  },
+ "Liqueur": {
+  "de": "Likör",
+  "en": "Liqueur",
+  "es": "Licor",
+  "fr": "Liqueur",
+  "pt": "Licor"
+ },
  "Longue Vue": {
   "de": "Fernrohr",
   "en": "Periscope",
   "es": "Avistamiento",
   "fr": "Longue Vue",
   "pt": "Luneta"
+ },
+ "Machination": {
+  "de": "Machenschaft",
+  "en": "Conspiracy",
+  "es": "Maquinación",
+  "fr": "Machination",
+  "pt": "Maquinação"
+ },
+ "Martelo": {
+  "de": "Einbläuen",
+  "en": "Martelo",
+  "es": "Martelo",
+  "fr": "Martelo",
+  "pt": "Martelo"
  },
  "Marée": {
   "de": "Gezeiten",
@@ -1338,6 +1534,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Mot Drainant",
   "pt": "Palavra Drenadora"
  },
+ "Mot Marquant": {
+  "de": "Schlagendes Wort",
+  "en": "Striking Word",
+  "es": "Palabra Memorable",
+  "fr": "Mot Marquant",
+  "pt": "Palavra Marcante"
+ },
  "Mot Résonnant": {
   "de": "Donnerndes Wort",
   "en": "Resonating Word",
@@ -1358,6 +1561,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Palabra Perturbadora",
   "fr": "Mot Troublant",
   "pt": "Palavra Inquietante"
+ },
+ "Mot Vampirique": {
+  "de": "Vampirhaftes Wort",
+  "en": "Vampiric Word",
+  "es": "Palabra Vampírica",
+  "fr": "Mot Vampirique",
+  "pt": "Palavra Vampírica"
  },
  "Mot Éreintant": {
   "de": "Kräftezehrendes Wort",
@@ -1442,6 +1652,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Picado",
   "fr": "Picada",
   "pt": "Picada"
+ },
+ "Pied du Sacrieur": {
+  "de": "Sacrieurs Fuß",
+  "en": "Sacrier's Foot",
+  "es": "Pie de Sacrógrito",
+  "fr": "Pied du Sacrieur",
+  "pt": "Pé do Sacrier"
  },
  "Pile ou Face": {
   "de": "Kopf oder Zahl",
@@ -1541,6 +1758,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Remblai",
   "pt": "Aterro"
  },
+ "Resquille": {
+  "de": "Prellen",
+  "en": "Deception",
+  "es": "Colado",
+  "fr": "Resquille",
+  "pt": "Trapaça"
+ },
  "Ressac": {
   "de": "Brandung",
   "en": "Backwash",
@@ -1604,6 +1828,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Réflexes",
   "pt": "Reflexos"
  },
+ "Rétention": {
+  "de": "Aufhalten",
+  "en": "Retention",
+  "es": "Retención",
+  "fr": "Rétention",
+  "pt": "Retenção"
+ },
  "Sablier de Xélor": {
   "de": "Sanduhr von Xélor",
   "en": "Xelor's Sandglass",
@@ -1611,12 +1842,26 @@ TOUCH_SPELL_NAMES = {
   "fr": "Sablier de Xélor",
   "pt": "Ampulheta de Xelor"
  },
+ "Sacrifice Poupesque": {
+  "de": "Puppenhaftes Opfer",
+  "en": "Dolly Sacrifice",
+  "es": "Sacrificio Muñequero",
+  "fr": "Sacrifice Poupesque",
+  "pt": "Sacrifício Bonecal"
+ },
  "Saignée Végétale": {
   "de": "Pflanzenschröpfen",
   "en": "Plant Bloodletting",
   "es": "Sangría Vegetal",
   "fr": "Saignée Végétale",
   "pt": "Sangria Vegetal"
+ },
+ "Sang Lié": {
+  "de": "Blutsbande",
+  "en": "Hot-Blooded",
+  "es": "Malasangre",
+  "fr": "Sang Lié",
+  "pt": "Sangue Vinculado"
  },
  "Saut Scission": {
   "de": "Spaltsprung",
@@ -1701,6 +1946,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Tempestad de Potencia",
   "fr": "Tempête de Puissance",
   "pt": "Tempestade de Poder"
+ },
+ "Topkaj": {
+  "de": "Topkaj",
+  "en": "Topkaj",
+  "es": "Topkaj",
+  "fr": "Topkaj",
+  "pt": "Topkaj"
  },
  "Toupet": {
   "de": "Dreistigkeit",
