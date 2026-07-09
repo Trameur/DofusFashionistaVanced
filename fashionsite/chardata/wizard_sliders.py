@@ -28,6 +28,7 @@ def get_wizard_sliders(char):
     aspects = get_char_aspects(char)   
     elements = get_elements(aspects)
     race = char.char_class
+    game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
     
     all_sliders = []
     
@@ -50,10 +51,10 @@ def get_wizard_sliders(char):
     main_offense_slider.add_subslider(Slider('ch', _('Critical Hits'), False))
     main_offense_slider.add_subslider(Slider('cridam', _('Critical Damage'), False))
     
-    if 'pushback' in aspects or param_for_build(race, elements, 'pshdam_importance') > 0:
+    if 'pushback' in aspects or param_for_build(race, elements, 'pshdam_importance', game_version=game_version) > 0:
         main_offense_slider.add_subslider(Slider('pshdam', _('Pushback Damage'), False))
         
-    if 'trap' in aspects or param_for_build(race, elements, 'traps_are_important'):
+    if 'trap' in aspects or param_for_build(race, elements, 'traps_are_important', game_version=game_version):
         main_offense_slider.add_subslider(Slider('trapdam', _('Trap Damage'), False))
         main_offense_slider.add_subslider(Slider('trapdamper', _('% Trap Damage'), False))
 
@@ -77,18 +78,18 @@ def get_wizard_sliders(char):
     if 'pvp' in aspects:
         main_mobility_slider.add_subslider(Slider('apres', _('AP Loss Resist'), False))
         main_mobility_slider.add_subslider(Slider('mpres', _('MP Loss Resist'), False))
-    if 'apred' in aspects or param_for_build(race, elements, 'apred_importance') > 0:
+    if 'apred' in aspects or param_for_build(race, elements, 'apred_importance', game_version=game_version) > 0:
         main_mobility_slider.add_subslider(Slider('apred', _('AP Reduction'), False))
-    if 'mpred' in aspects or param_for_build(race, elements, 'mpred_importance') > 0:
+    if 'mpred' in aspects or param_for_build(race, elements, 'mpred_importance', game_version=game_version) > 0:
         main_mobility_slider.add_subslider(Slider('mpred', _('MP Reduction'), False))
     main_mobility_slider.add_subslider(Slider('init', _('Initiative'), False))
 
     # Special
     main_special_slider = Slider('special', pgettext('Slider section', 'Special'), True)
     all_sliders.append(main_special_slider)
-    if 'heal' in aspects or param_for_build(race, elements, 'heals_importance') > 0:
+    if 'heal' in aspects or param_for_build(race, elements, 'heals_importance', game_version=game_version) > 0:
         main_special_slider.add_subslider(Slider('heals', _('Heals'), False))
-    if 'summon' in aspects or param_for_build(race, elements, 'summons_are_important'):
+    if 'summon' in aspects or param_for_build(race, elements, 'summons_are_important', game_version=game_version):
         main_special_slider.add_subslider(Slider('summon', _('Summons'), False))
     # Wisdom (XP) and Prospecting (drop rate) apply to any build, not just
     # specific archetypes, so always offer them here for discoverability

@@ -3066,10 +3066,10 @@ class VersionWeightTuningTests(SimpleTestCase):
     (wisdom as the AP/MP defense stat, rarer % resistance gear, stronger
     initiative). The Dofus 3 engine itself must not move."""
 
-    def _weights(self, version, aspects):
+    def _weights(self, version, aspects, race='Iop'):
         from types import SimpleNamespace
         from chardata.smart_build import _set_weights
-        char = SimpleNamespace(char_class='Iop', level=200, game_version=version)
+        char = SimpleNamespace(char_class=race, level=200, game_version=version)
         return _set_weights(char, aspects, apply=False)
 
     def test_dead_stats_are_zeroed_per_version(self):
@@ -3100,6 +3100,35 @@ class VersionWeightTuningTests(SimpleTestCase):
         w = self._weights('retro', {'str', 'aprape'})
         self.assertGreaterEqual(w['wis'], 12 * 20)
         self.assertEqual(w['apred'], 0)
+
+    def test_class_profiles_can_be_overridden_per_version(self):
+        # Every class x element/preset x version is independently tunable:
+        # a retro override must change retro weights only, at the right
+        # specificity (element beats 'all', override beats base profile).
+        from unittest.mock import patch
+        from chardata.smart_build import (RACE_PROFILE_OVERRIDES_BY_VERSION,
+                                          param_for_build)
+        retro_cra = {'all': {'mpred_importance': 0.9},
+                     'agi': {'airdam': 3.0}}
+        with patch.dict(RACE_PROFILE_OVERRIDES_BY_VERSION['retro'],
+                        {'Cra': retro_cra}):
+            self.assertEqual(
+                param_for_build('Cra', ['agi'], 'airdam', game_version='retro'), 3.0)
+            self.assertEqual(
+                param_for_build('Cra', ['agi'], 'mpred_importance',
+                                game_version='retro'), 0.9)
+            # Params the override does not state inherit the base profile.
+            self.assertEqual(
+                param_for_build('Cra', ['agi'], 'meleeness', game_version='retro'),
+                param_for_build('Cra', ['agi'], 'meleeness'))
+            # Other versions are untouched.
+            self.assertEqual(param_for_build('Cra', ['agi'], 'airdam'), 6.0)
+            # And the whole weight vector reacts on retro only.
+            wr = self._weights('retro', {'agi'}, race='Cra')
+            w3 = self._weights('dofus3', {'agi'}, race='Cra')
+            self.assertLess(wr['airdam'], w3['airdam'])
+        self.assertEqual(
+            param_for_build('Cra', ['agi'], 'airdam', game_version='retro'), 6.0)
 
 
 class StatsWeightCapTests(TestCase):

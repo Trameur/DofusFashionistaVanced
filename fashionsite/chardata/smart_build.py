@@ -582,11 +582,43 @@ RACE_TO_BUILD_PROFILE = {
 
 RACES_WITH_HYBRID_PROFILES = ['Huppermage']
 
-def param_for_build(race, elements, param, policy='max'):
+# Per-version overrides of the class build profiles. Every game version is a
+# different game: a class plays differently, a stat that is strong in Dofus 3
+# can be worthless in 1.29, so every class x element/preset x version must be
+# tunable independently. Same shape as RACE_TO_BUILD_PROFILE, resolved most
+# specific first:
+#   version race element/preset param  >  version race 'all' param
+#   > base race element param  >  base race 'all' param
+#   > version 'default' param  >  base 'default' param
+# so an override only states what actually differs in that version. Example:
+#   'retro': {
+#       'Cra': {
+#           'all': {'mpred_importance': 0.9},
+#           'agi': {'airdam': 5.0},
+#       },
+#   }
+# Keep entries sourced from the current meta of that version (guides, class
+# spell kits), one class at a time; empty means "inherit the Dofus 3 profile"
+# (minus the engine-level VERSION_WEIGHT_TUNING above).
+RACE_PROFILE_OVERRIDES_BY_VERSION = {
+    'beta': {},
+    'dofus2': {},
+    'touch': {},
+    'retro': {},
+}
+
+
+def _version_profile(race, game_version):
+    return RACE_PROFILE_OVERRIDES_BY_VERSION.get(game_version, {}).get(race)
+
+
+def param_for_build(race, elements, param, policy='max', game_version='dofus3'):
     if len(elements) == 0:
-        return _param_for_race(race, param)
+        return _param_for_race(race, param, game_version)
     elif len(elements) == 1:
-        return _param_for_profile_element(race, elements[0], param, is_combination=False)
+        return _param_for_profile_element(race, elements[0], param,
+                                          is_combination=False,
+                                          game_version=game_version)
     else:
         values = []
 
@@ -594,7 +626,8 @@ def param_for_build(race, elements, param, policy='max'):
             for element_combination in combinations(elements, 2):
                 combination = '/'.join(sorted(element_combination))
                 param_for_element = _param_for_profile_element(race, combination, param,
-                                                               is_combination=True)
+                                                               is_combination=True,
+                                                               game_version=game_version)
                 if param_for_element is not None:
                     # Weight 2 for combinations.
                     for _ in  range(2):
@@ -602,7 +635,8 @@ def param_for_build(race, elements, param, policy='max'):
 
         for element in elements:
             param_for_element = _param_for_profile_element(race, element, param,
-                                                           is_combination=False)
+                                                           is_combination=False,
+                                                           game_version=game_version)
             # Weight 1 for single elements.
             values.append(param_for_element)
 
@@ -613,7 +647,13 @@ def param_for_build(race, elements, param, policy='max'):
         else:
             logger.warning('Unknown aggregation policy %s', policy)
 
-def _param_for_profile_element(race, element, param, is_combination):
+def _param_for_profile_element(race, element, param, is_combination, game_version='dofus3'):
+    override = _version_profile(race, game_version)
+    if override is not None:
+        val = (override.get(element) or {}).get(param)
+        if val is not None:
+            return val
+
     profile = RACE_TO_BUILD_PROFILE[race]
     element_profile = profile.get(element, None)
     if element_profile is not None:
@@ -624,17 +664,28 @@ def _param_for_profile_element(race, element, param, is_combination):
     if is_combination:
         return None
     else:
-        return _param_for_race(race, param)
+        return _param_for_race(race, param, game_version)
 
-def _param_for_race(race, param):
+def _param_for_race(race, param, game_version='dofus3'):
+    override = _version_profile(race, game_version)
+    if override is not None:
+        val = (override.get('all') or {}).get(param)
+        if val is not None:
+            return val
+
     profile = RACE_TO_BUILD_PROFILE[race]
     val = profile['all'].get(param, None)
     if val is not None:
         return val
+
+    default_override = _version_profile('default', game_version)
+    if default_override is not None and param in default_override:
+        return default_override[param]
     return RACE_TO_BUILD_PROFILE['default'][param]
 
 def _set_minimums(char, aspects):
     race = char.char_class
+    game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
     level = char.level
     elements = get_elements(aspects)
     is_mule = not elements and ('pp' in aspects or 'pods' in aspects)
@@ -663,12 +714,12 @@ def _set_minimums(char, aspects):
         mins['ap'], mins['mp'] = 11, 5
         mins['range'] = 4
     else:
-        mins['ap'], mins['mp'] = param_for_build(race, elements, 'endgame_mins')
+        mins['ap'], mins['mp'] = param_for_build(race, elements, 'endgame_mins', game_version=game_version)
         mins['range'] = 4
 
     if not (is_mule or is_leech):
         mins['range'] = round(mins['range']
-                              * param_for_build(race, elements, 'range_importance', 'float_avg'))
+                              * param_for_build(race, elements, 'range_importance', 'float_avg', game_version=game_version))
 
     # Preserve user-customized AP/MP/Range if they already exist and exceed the new defaults
     # (skip for mule/leech builds, always use 0)
@@ -681,9 +732,9 @@ def _set_minimums(char, aspects):
     if level < 40:
         mins['summon'] = 1
     elif level < 180:
-        mins['summon'] = param_for_build(race, elements, 'min_summons_low_level')
+        mins['summon'] = param_for_build(race, elements, 'min_summons_low_level', game_version=game_version)
     else:
-        mins['summon'] = param_for_build(race, elements, 'min_summons_high_level')
+        mins['summon'] = param_for_build(race, elements, 'min_summons_high_level', game_version=game_version)
 
     if 'summon' in aspects:
         mins['summon'] += 1
@@ -725,8 +776,12 @@ def _set_weights(char, aspects, apply=True):
     level_pct = level / 200.0
     elements = get_elements(aspects)
     element_count = len(elements)
-    tuning = VERSION_WEIGHT_TUNING.get(
-        getattr(char, 'game_version', 'dofus3') or 'dofus3', {})
+    game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
+    tuning = VERSION_WEIGHT_TUNING.get(game_version, {})
+
+    def pfb(*args, **kwargs):
+        kwargs.setdefault('game_version', game_version)
+        return param_for_build(*args, **kwargs)
 
     w = {}
 
@@ -735,7 +790,7 @@ def _set_weights(char, aspects, apply=True):
 
     w['ap'] = (20 + 100 * level_pct) * b
     w['mp'] = (20 + 100 * level_pct) * b
-    range_importance = param_for_build(race, elements, 'range_importance', 'float_avg')
+    range_importance = pfb(race, elements, 'range_importance', 'float_avg')
     w['range'] = (16 + 80 * level_pct) * range_importance * b
     # Increased main stat priority: mono 7 (was 4.5), bi 6 (was 4), tri 4 (was 3), omni 3 (was 2.5)
     attack_factor = {0: 0, 1: 6, 2: 5, 3: 3, 4: 2}[element_count]
@@ -746,12 +801,12 @@ def _set_weights(char, aspects, apply=True):
         res_per_factor = tuning['res_per_factor'](level_pct)
     else:
         res_per_factor = 2 + (10 * level_pct * level_pct)
-    w['lock'] = param_for_build(race, elements, 'lock_importance', 'float_avg') * 10 * b
-    w['dodge'] = param_for_build(race, elements, 'dodge_importance', 'float_avg') * 10 * b
+    w['lock'] = pfb(race, elements, 'lock_importance', 'float_avg') * 10 * b
+    w['dodge'] = pfb(race, elements, 'dodge_importance', 'float_avg') * 10 * b
     if 'vit' in aspects:
         w['vit'] = 1.5  * b
     else:
-        w['vit'] = (param_for_build(race, elements, 'vit_importance', 'float_avg') + 0.5) * b
+        w['vit'] = (pfb(race, elements, 'vit_importance', 'float_avg') + 0.5) * b
     w['hp'] = w['vit']
 
     w['wis'] = (25 if 'wis' in aspects else tuning.get('wis_base', 2)) * b
@@ -766,13 +821,13 @@ def _set_weights(char, aspects, apply=True):
     w['pow'] = {0: 0, 1: 4, 2: 8, 3: 8, 4: 8.5}[element_count] * b
     if 'glasscannon' in aspects:
         w['pow'] *= 1.5
-    w['pow'] *= param_for_build(race, elements, 'pow_power', 'float_avg')
+    w['pow'] *= pfb(race, elements, 'pow_power', 'float_avg')
 
-    w['earthdam'] = w['str'] * param_for_build(race, elements, 'earthdam') * dam_mult
-    w['firedam'] = w['int'] * param_for_build(race, elements, 'firedam') * dam_mult
-    w['airdam'] = w['agi'] * param_for_build(race, elements, 'airdam') * dam_mult
-    w['waterdam'] = w['cha'] * param_for_build(race, elements, 'waterdam') * dam_mult
-    w['neutdam'] = param_for_build(race, elements, 'neutdam') * w['earthdam']
+    w['earthdam'] = w['str'] * pfb(race, elements, 'earthdam') * dam_mult
+    w['firedam'] = w['int'] * pfb(race, elements, 'firedam') * dam_mult
+    w['airdam'] = w['agi'] * pfb(race, elements, 'airdam') * dam_mult
+    w['waterdam'] = w['cha'] * pfb(race, elements, 'waterdam') * dam_mult
+    w['neutdam'] = pfb(race, elements, 'neutdam') * w['earthdam']
     w['dam'] = w['neutdam'] + w['earthdam'] + w['firedam'] + w['airdam'] + w['waterdam']
     # Damage weight scales with the chosen element(s) (attack_factor), resist did
     # not, so 'res' next to an element barely moved the set. Boost it enough to
@@ -786,11 +841,11 @@ def _set_weights(char, aspects, apply=True):
         w['%sresper' % damage_type] = resper_w
     
     linear_res_bonus_factor = (0.5 * level_pct + 0.5)
-    w['fireres'] *= (1 + param_for_build(race, elements, 'fireres', 'float_avg') * linear_res_bonus_factor)
-    w['fireresper'] *= (1 + param_for_build(race, elements, '%fireres', 'float_avg'))
+    w['fireres'] *= (1 + pfb(race, elements, 'fireres', 'float_avg') * linear_res_bonus_factor)
+    w['fireresper'] *= (1 + pfb(race, elements, '%fireres', 'float_avg'))
     
-    w['apred'] = param_for_build(race, elements, 'apred_importance', 'float_avg') * 12 * b
-    w['mpred'] = param_for_build(race, elements, 'mpred_importance', 'float_avg') * 12 * b
+    w['apred'] = pfb(race, elements, 'apred_importance', 'float_avg') * 12 * b
+    w['mpred'] = pfb(race, elements, 'mpred_importance', 'float_avg') * 12 * b
     w['apres'] = 5 * b if 'pvp' in aspects else 1 * b
     w['mpres'] = 2 * b if 'pvp' in aspects else 1 * b
     
@@ -809,13 +864,13 @@ def _set_weights(char, aspects, apply=True):
     if 'dam' in aspects:
         w['dam'] = max(w['dam'], 30 * b)
 
-    w['heals'] = param_for_build(race, elements, 'heals_importance', 'float_avg') * 8 * b
+    w['heals'] = pfb(race, elements, 'heals_importance', 'float_avg') * 8 * b
     if 'heal' in aspects:
         w['heals'] = 4 * b + w['heals'] * 1.5
         int_per_heals_factor = 5 # TODO: Depend on class
         w['int'] = max(w['int'], w['heals'] / int_per_heals_factor)
 
-    if param_for_build(race, elements, 'traps_are_important'):
+    if pfb(race, elements, 'traps_are_important'):
         if 'trap' in aspects:
             w['trapdam'] = 10 * b
             w['trapdamper'] = 3 * b
@@ -838,9 +893,9 @@ def _set_weights(char, aspects, apply=True):
     if 'pushback' in aspects:
         w['pshdam'] = 15 * b
     else:
-        w['pshdam'] = param_for_build(race, elements, 'pshdam_importance', 'float_avg') * 10 * b
+        w['pshdam'] = pfb(race, elements, 'pshdam_importance', 'float_avg') * 10 * b
 
-    if param_for_build(race, elements, 'summons_are_important'):
+    if pfb(race, elements, 'summons_are_important'):
         w['summon'] = 40 * b if 'summon' in aspects else 10 * b
     else:
         w['summon'] = 20 * b if 'summon' in aspects else 0 * b
@@ -858,17 +913,17 @@ def _set_weights(char, aspects, apply=True):
     # Crits
     if 'crit' in aspects:
         w['ch'] = 140 * b
-        w['cridam'] = 1.85 * w['dam'] * param_for_build(race, elements, 'cridam', 'float_avg')
+        w['cridam'] = 1.85 * w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
     elif 'noncrit' in aspects:
         w['ch'] = -4 * b
         w['cridam'] = 0
     else:
         w['ch'] = 12 * b
-        w['cridam'] = w['dam'] * param_for_build(race, elements, 'cridam', 'float_avg')
+        w['cridam'] = w['dam'] * pfb(race, elements, 'cridam', 'float_avg')
 
     marginal_final_damage_effect = _lerp(2, 12, level_pct)
     marginal_final_damage_w = w['pow'] * marginal_final_damage_effect
-    meleeness = param_for_build(race, elements, 'meleeness', 'float_avg')
+    meleeness = pfb(race, elements, 'meleeness', 'float_avg')
 
     # Melee vs ranged % final damage
     chance_of_melee_atk_for_cras = 0.1
