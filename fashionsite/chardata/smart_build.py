@@ -687,6 +687,24 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'earthdam': 6.5,
             },
         },
+        # Feca 1.29: fire/int is the reference path (int 200-300 then
+        # vitality; the Burning Glyph is the signature and the armors scale
+        # with int, so int both damages and mitigates), the guides explicitly
+        # advise against earth ("losing the burning glyph is really
+        # unfortunate") and call water more limited (Bubble 16-24 checked).
+        # Sources: Gamosaurus, Breakflip, Guidactik, jeuxonline Feca 1.29
+        # guides and the dofus.com Feca fire guide thread.
+        'Feca': {
+            'int': {
+                'firedam': 6.5,
+            },
+            'str': {
+                'earthdam': 5.0,
+            },
+            'cha': {
+                'waterdam': 5.5,
+            },
+        },
     },
 }
 
