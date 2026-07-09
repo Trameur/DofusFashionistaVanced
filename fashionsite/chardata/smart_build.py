@@ -624,6 +624,20 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'airdam': 5.5,
             },
         },
+        # Sacrier 1.29: the guides are unanimous (Millenium, Gamosaurus,
+        # Breakflip, jeuxonline): full vitality at every level (the class gets
+        # 2 HP per point), and the water path (Dissolution, a melee-zone life
+        # steal, 8 AP = two per turn) is the PvM reference; every path stays
+        # viable. Kit check against the 1.29 lang: Dissolution 22-26 water
+        # steal, Absorption 23-27 fire steal.
+        'Sacrier': {
+            'all': {
+                'vit_importance': 1.0,
+            },
+            'cha': {
+                'waterdam': 6.5,
+            },
+        },
     },
 }
 
