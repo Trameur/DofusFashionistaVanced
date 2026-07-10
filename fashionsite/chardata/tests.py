@@ -4292,6 +4292,9 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
                 self.assertIn((id(structure), language), ev._light_index_cache)
                 self.assertIn((version, language), ev._monster_index_cache)
             self.assertIn(version, ev._monster_core_by_id_cache)
+            subdir = ev._MONSTER_IMAGE_DIRS.get(version)
+            if subdir is not None:
+                self.assertIn(subdir, ev._monster_image_ids_cache)
             self.assertIn(version, ev._version_item_keys_cache)
             self.assertIn(version, ev._version_resource_keys_cache)
             self.assertIn(version, ev._resource_search_index_cache)
@@ -4759,6 +4762,26 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('height="24"', body)
         self.assertIn('loading="lazy"', body)
         self.assertIn('decoding="async"', body)
+
+    def test_monsters_hub_shows_thumbnails_from_cached_id_set(self):
+        from chardata import encyclopedia_view as ev
+
+        # The hub renders 60 rows per page: availability comes from one
+        # cached directory listing, never per-file probing.
+        resp = self.client.get('/encyclopedia/monsters/', {'q': 'bouftou'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'chardata/monsters/96/')
+        resp = self.client.get('/retro/encyclopedia/monsters/', {'q': 'bouftou'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotContains(resp, 'chardata/monsters/96/')
+
+        # Warm set answers without listing the disk again.
+        self.assertIn(101, ev._monster_image_ids('dofus3'))
+        with unittest.mock.patch.object(
+                ev, 'list_static_dir',
+                side_effect=AssertionError('directory listed on a warm cache')):
+            self.assertTrue(ev._monster_image_url('dofus3', 101))
+            self.assertIsNone(ev._monster_image_url('retro', 101))
 
     def test_monster_version_links_served_from_cache(self):
         from chardata import encyclopedia_view

@@ -28,6 +28,7 @@
 .encyclopedia-monsters-name { font-weight: 600; }
 .encyclopedia-monsters-meta { opacity: 0.85; font-size: 0.9em; }
 .encyclopedia-monsters-preview { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
+.encyclopedia-monsters-thumb { width: 32px; height: 32px; object-fit: contain; vertical-align: middle; margin-right: 6px; }
 .drop-rate { opacity: 0.7; font-size: 0.9em; }
 .encyclopedia-pagination { margin-top: 14px; display: flex; gap: 4px; flex-wrap: wrap; }
 .encyclopedia-page-link { display: inline-block; text-decoration: underline; }
@@ -87,7 +88,7 @@
         {% for monster in monsters_page.object_list %}
         <div class="encyclopedia-monster-card">
             <a class="encyclopedia-monster-main-link" href="{{ monster.url }}">
-                <div class="encyclopedia-monsters-name">{{ monster.name }}</div>
+                <div class="encyclopedia-monsters-name">{% if monster.image_url %}<img class="encyclopedia-monsters-thumb" src="{{ monster.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}{{ monster.name }}</div>
                 <div class="encyclopedia-monsters-meta">
                     {{ mt.dropped_resources_label }}: {{ monster.resource_count }} - {{ mt.dropped_items_label }}: {{ monster.item_count }}
                 </div>

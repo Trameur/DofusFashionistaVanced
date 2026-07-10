@@ -33,6 +33,20 @@ def _static_exists(path):
     return False
 
 
+def list_static_dir(path):
+    """File names inside a static directory, from the app statics or
+    STATIC_ROOT (collectstatic output), whichever exists. Lets callers build
+    an in-memory availability set instead of probing files one by one."""
+    directory = finders.find(path)
+    if not directory or not os.path.isdir(directory):
+        static_root = getattr(settings, 'STATIC_ROOT', None)
+        candidate = os.path.join(static_root, path) if static_root else None
+        directory = candidate if candidate and os.path.isdir(candidate) else None
+    if not directory:
+        return []
+    return os.listdir(directory)
+
+
 RETRO_PLACEHOLDER = 'chardata/QuestionMark-lighttheme.png'
 
 # Variant items produced by the data pipeline ("Nomoon 2", "Animagi (GM)",

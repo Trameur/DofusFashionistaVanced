@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
-from chardata.image_store import get_image_url, _static_exists
+from chardata.image_store import get_image_url, _static_exists, list_static_dir
 from chardata.official_site import (
     get_item_link, get_monster_link, get_resource_link, get_set_link)
 from chardata.stat_icons import get_stat_icon_path
@@ -931,15 +931,29 @@ def _ingredient_icon_url(game_version, ankama_id):
 # id namespace); Touch and Retro need their own asset sources before they can
 # be wired here, never dofus3 art.
 _MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': ''}
+_monster_image_ids_cache = {}
+
+
+def _monster_image_ids(game_version):
+    """Ids with local monster artwork, one directory listing per process:
+    the hub renders 60 rows per page, so per-file probing is off the table."""
+    subdir = _MONSTER_IMAGE_DIRS.get(game_version)
+    if subdir is None:
+        return frozenset()
+    cached = _monster_image_ids_cache.get(subdir)
+    if cached is None:
+        cached = frozenset(
+            int(name[:-5])
+            for name in list_static_dir('chardata/monsters/%s96' % subdir)
+            if name.endswith('.webp') and name[:-5].isdigit())
+        _monster_image_ids_cache[subdir] = cached
+    return cached
 
 
 def _monster_image_url(game_version, monster_id):
-    subdir = _MONSTER_IMAGE_DIRS.get(game_version)
-    if subdir is None:
-        return None
-    image_rel = 'chardata/monsters/%s96/%d.webp' % (subdir, monster_id)
-    if _static_exists(image_rel):
-        return static(image_rel)
+    if monster_id in _monster_image_ids(game_version):
+        subdir = _MONSTER_IMAGE_DIRS[game_version]
+        return static('chardata/monsters/%s96/%d.webp' % (subdir, monster_id))
     return None
 
 
@@ -2301,6 +2315,7 @@ def warm_caches():
             _get_light_index(structure, language)
             _get_monster_index(game_version, language)
         _get_monster_core_by_id(game_version)
+        _monster_image_ids(game_version)
         _version_item_keys(game_version)
         _version_resource_keys(game_version)
         _get_resource_search_index(game_version)
@@ -2378,6 +2393,8 @@ def encyclopedia_monsters(request):
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
+    for entry in page_obj.object_list:
+        entry['image_url'] = _monster_image_url(game_version, entry['id'])
 
     preview_conn = None
     try:
