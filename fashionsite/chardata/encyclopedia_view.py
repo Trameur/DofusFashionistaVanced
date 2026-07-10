@@ -1062,12 +1062,14 @@ def _other_versions_with_resource(current_version, subtype, ankama_id, name):
     return links
 
 
-def _search_resources(game_version, normalized_search, language, limit=12):
+def _search_resources(game_version, normalized_search, language, limit=48):
     """Recipe ingredients matching the encyclopedia search box, as links to
     their resource pages. Matches every language with the same accent-insensitive
-    normalization as items and monsters."""
+    normalization as items and monsters. Returns (entries, total): entries are
+    capped at limit for the page, total is the real match count so the UI can
+    show honest numbers."""
     if not normalized_search:
-        return []
+        return [], 0
 
     hits = []
     for entry in _get_resource_search_index(game_version):
@@ -1087,14 +1089,15 @@ def _search_resources(game_version, normalized_search, language, limit=12):
         'name': h['name'],
         'url': get_resource_link(h['subtype'], h['ankama_id'], h['name'], game_version),
         'image_url': _ingredient_icon_url(game_version, h['ankama_id']),
-    } for h in hits[:limit]]
+    } for h in hits[:limit]], len(hits)
 
 
-def _search_monsters(game_version, normalized_search, language, limit=12):
+def _search_monsters(game_version, normalized_search, language, limit=48):
     """Monsters matching the encyclopedia search box, as links to their pages.
-    Reuses the cached per-version monster index (same normalization)."""
+    Reuses the cached per-version monster index (same normalization). Returns
+    (entries, total) like _search_resources."""
     if not normalized_search:
-        return []
+        return [], 0
     hits = []
     for monster in _get_monster_index(game_version, language):
         if normalized_search not in monster['search_blob']:
@@ -1108,7 +1111,7 @@ def _search_monsters(game_version, normalized_search, language, limit=12):
     hits.sort(key=lambda h: (not h['starts'], (h['name'] or '').lower()))
     for h in hits:
         del h['starts']
-    return hits[:limit]
+    return hits[:limit], len(hits)
 
 
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
@@ -1452,9 +1455,13 @@ def encyclopedia(request):
     normalized_search = _normalized_text(search_text) if search_text else ''
     resource_results = []
     monster_results = []
+    resource_total = 0
+    monster_total = 0
     if normalized_search:
-        resource_results = _search_resources(game_version, normalized_search, language)
-        monster_results = _search_monsters(game_version, normalized_search, language)
+        resource_results, resource_total = _search_resources(
+            game_version, normalized_search, language)
+        monster_results, monster_total = _search_monsters(
+            game_version, normalized_search, language)
     filtered_items = []
     for entry in _get_light_index(structure, language):
         if selected_type and entry['raw_type_name'] != selected_type:
@@ -1573,6 +1580,8 @@ def encyclopedia(request):
             'items_count': len(filtered_items),
             'resource_results': resource_results,
             'monster_results': monster_results,
+            'resource_total': resource_total,
+            'monster_total': monster_total,
             'result_family_count': sum(
                 1 for hits in (filtered_items, resource_results, monster_results)
                 if hits),

@@ -339,6 +339,30 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotIn('class="encyclopedia-family-nav"',
                          resp.content.decode('utf-8'))
 
+    def test_search_totals_are_real_not_capped(self):
+        from chardata import encyclopedia_view as ev
+
+        # A one-letter needle matches far more than the display cap: the
+        # total must say so while the page entries stay capped.
+        entries, total = ev._search_resources('retro', 'e', 'en')
+        self.assertLessEqual(len(entries), 48)
+        self.assertGreater(total, 12)
+        self.assertGreaterEqual(total, len(entries))
+
+        # Rendered: the section header carries the real total, and the chips
+        # beyond the first 12 fold behind a details block.
+        needle = ev._normalized_text('bouftou')
+        _entries, res_total = ev._search_resources('retro', needle, 'fr')
+        resp = self.client.get('/retro/encyclopedia/', {'q': 'bouftou'},
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        m = re.search(r'id="resources-results">[^<]*?(\d+)<', body)
+        self.assertIsNotNone(m, 'resources header missing')
+        self.assertEqual(int(m.group(1)), res_total)
+        if res_total > 12:
+            self.assertIn('class="encyclopedia-hits-more"', body)
+
     def test_resource_search_reuses_cached_index_per_version(self):
         import sqlite3
         from chardata import encyclopedia_view
@@ -357,8 +381,8 @@ class PublicRouteSmokeTests(TestCase):
             with unittest.mock.patch.object(encyclopedia_view.sqlite3, 'connect',
                                            wraps=sqlite3.connect) as connect_mock:
                 needle = encyclopedia_view._normalized_text(row[0])
-                self.assertTrue(encyclopedia_view._search_resources('retro', needle, 'en'))
-                self.assertTrue(encyclopedia_view._search_resources('retro', needle, 'fr'))
+                self.assertTrue(encyclopedia_view._search_resources('retro', needle, 'en')[0])
+                self.assertTrue(encyclopedia_view._search_resources('retro', needle, 'fr')[0])
                 self.assertEqual(connect_mock.call_count, 1)
         finally:
             encyclopedia_view._resource_search_index_cache.clear()
@@ -533,7 +557,7 @@ class PublicRouteSmokeTests(TestCase):
                         'url': '/name-match/',
                     },
                 ]):
-            hits = encyclopedia_view._search_monsters(
+            hits, _total = encyclopedia_view._search_monsters(
                 'dofus3', encyclopedia_view._normalized_text('blue'), 'fr', limit=3)
 
         self.assertEqual([hit['url'] for hit in hits],
