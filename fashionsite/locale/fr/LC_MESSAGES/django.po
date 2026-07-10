@@ -6163,3 +6163,13 @@ msgstr "Objet introuvable"
 #: .\chardata\workshop_view.py:213 .\chardata\workshop_view.py:242
 msgid "Build has no solution yet"
 msgstr "Ce build n'a pas encore de solution"
+
+msgid "Unified encyclopedia search"
+msgstr "La recherche d'encyclopédie unifiée"
+
+msgid ""
+"The encyclopedia search now also finds resources and monsters, in every "
+"language."
+msgstr ""
+"La recherche de l'encyclopédie trouve maintenant aussi les ressources et les"
+" monstres, dans toutes les langues."
