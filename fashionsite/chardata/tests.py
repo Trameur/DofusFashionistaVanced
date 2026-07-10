@@ -585,6 +585,62 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertEqual(resp.status_code, 200)
                 self.assertContains(resp, '%s/%d-60-60.png' % (icon_dir, ankama_id))
 
+    def test_encyclopedia_item_icons_use_the_current_version(self):
+        import sqlite3
+        from chardata import encyclopedia_view
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        real_get_image_url = encyclopedia_view.get_image_url
+        seen_versions = []
+
+        def tracking_get_image_url(type_name, item_name, game_version=None):
+            seen_versions.append(game_version)
+            return real_get_image_url(type_name, item_name, game_version)
+
+        structure = encyclopedia_view.get_structure('retro')
+        representative_item = next(
+            item for item in structure.get_concatenated_items_lists()
+            if getattr(item, 'ankama_id', None) and not getattr(item, 'removed', False))
+        representative_set = next(
+            item_set for item_set in structure.sets_dict.values()
+            if getattr(item_set, 'items', None))
+
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            resource_row = conn.execute(
+                "SELECT ingredient_ankama_id, ingredient_subtype "
+                "FROM item_recipe_ingredient_names WHERE language = 'en' "
+                "ORDER BY ingredient_ankama_id LIMIT 1").fetchone()
+            monster_row = conn.execute(
+                "SELECT monster_ankama_id FROM item_drops "
+                "ORDER BY monster_ankama_id LIMIT 1").fetchone()
+        finally:
+            conn.close()
+        self.assertIsNotNone(resource_row)
+        self.assertIsNotNone(monster_row)
+
+        item_url = encyclopedia_view.get_item_link(
+            representative_item.ankama_type,
+            representative_item.ankama_id,
+            representative_item.name,
+            game_version='retro')
+        resource_url = '/retro/encyclopedia/resource/%s/%d-x/' % (
+            resource_row[1], resource_row[0])
+        monster_url = '/retro/encyclopedia/monster/%d-x/' % monster_row[0]
+
+        with unittest.mock.patch.object(
+                encyclopedia_view, 'get_image_url',
+                side_effect=tracking_get_image_url):
+            for path in ('/retro/encyclopedia/', item_url, resource_url, monster_url):
+                with self.subTest(path=path):
+                    resp = self.client.get(path)
+                    self.assertEqual(resp.status_code, 200)
+            encyclopedia_view._get_set_items(
+                structure, representative_set, 'en', 'retro')
+
+        self.assertTrue(seen_versions)
+        self.assertEqual(set(seen_versions), {'retro'})
+
     def test_public_pages_ok(self):
         for path in ['/', '/about/', '/faq/', '/privacy/', '/support/',
                      '/license/', '/encyclopedia/', '/sharedbuilds/',
@@ -4841,6 +4897,21 @@ class EncyclopediaMonsterPageTests(TestCase):
                 body = resp.content.decode('utf-8')
                 for label in labels:
                     self.assertIn(label, body)
+
+    def test_monsters_empty_result_skips_drop_preview_db(self):
+        from chardata import encyclopedia_view
+
+        with unittest.mock.patch.object(
+                encyclopedia_view, '_get_monster_index', return_value=[]):
+            with unittest.mock.patch.object(
+                    encyclopedia_view.sqlite3, 'connect') as connect_mock:
+                resp = self.client.get(
+                    '/encyclopedia/monsters/',
+                    {'q': 'zzzznothingmatchesthis'})
+
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['monsters_count'], 0)
+        connect_mock.assert_not_called()
 
     def test_missing_versioned_monster_uses_name_from_other_version(self):
         import sqlite3

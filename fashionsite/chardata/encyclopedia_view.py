@@ -542,7 +542,7 @@ def _get_set_items(structure, item_set, language, game_version):
             'name': display_name,
             'level': item.level,
             'type_name': _localized_label(type_name, language),
-            'image_url': static(get_image_url(type_name, item.name)),
+            'image_url': static(get_image_url(type_name, item.name, game_version)),
             'detail_url': get_item_link(item.ankama_type, item.ankama_id,
                                         display_name, game_version=game_version),
         })
@@ -1350,7 +1350,8 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                         'type_name': _localized_label(item_type_name, language),
                         'url': get_item_link(item_ankama_type, item_ankama_id,
                                              localized_item_name, game_version=game_version),
-                        'image_url': static(get_image_url(item_type_name, item_name)),
+                        'image_url': static(get_image_url(
+                            item_type_name, item_name, game_version)),
                     })
 
         cursor.execute(
@@ -1577,7 +1578,7 @@ def encyclopedia(request):
             'or_name': item.or_name,
             'level': item.level,
             'type_name': _localized_label(type_name, language),
-            'image_url': static(get_image_url(type_name, item.name)),
+            'image_url': static(get_image_url(type_name, item.name, game_version)),
             'detail_url': get_item_link(item.ankama_type, item.ankama_id,
                                         display_name, game_version=game_version),
             'set_id': item_set.id if item_set else None,
@@ -1902,7 +1903,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 'type_name': localized_type_name,
                 'ankama_id': representative_item.ankama_id,
                 'ankama_type': representative_item.ankama_type,
-                'image_url': static(get_image_url(type_name, representative_item.name)),
+                'image_url': static(get_image_url(
+                    type_name, representative_item.name, game_version)),
             },
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
             'item_set_id': item_set.id if item_set else None,
@@ -2414,21 +2416,22 @@ def encyclopedia_monsters(request):
     for entry in page_obj.object_list:
         entry['image_url'] = _monster_image_url(game_version, entry['id'])
 
-    preview_conn = None
-    try:
-        preview_conn = sqlite3.connect(get_items_db_path(game_version))
-        preview_cursor = preview_conn.cursor()
-        preview_ids = [monster['id'] for monster in page_obj.object_list]
-        previews = _get_monster_drop_previews(
-            preview_cursor, preview_ids, language, game_version)
-        for monster in page_obj.object_list:
-            monster['sample_drops'] = previews.get(monster['id'], [])
-    except Exception:
-        for monster in page_obj.object_list:
-            monster['sample_drops'] = []
-    finally:
-        if preview_conn is not None:
-            preview_conn.close()
+    preview_ids = [monster['id'] for monster in page_obj.object_list]
+    if preview_ids:
+        preview_conn = None
+        try:
+            preview_conn = sqlite3.connect(get_items_db_path(game_version))
+            preview_cursor = preview_conn.cursor()
+            previews = _get_monster_drop_previews(
+                preview_cursor, preview_ids, language, game_version)
+            for monster in page_obj.object_list:
+                monster['sample_drops'] = previews.get(monster['id'], [])
+        except Exception:
+            for monster in page_obj.object_list:
+                monster['sample_drops'] = []
+        finally:
+            if preview_conn is not None:
+                preview_conn.close()
 
     query_without_page = request.GET.copy()
     if 'page' in query_without_page:
@@ -2570,7 +2573,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'rate': rate,
                     'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
                                          game_version=game_version),
-                    'image_url': static(get_image_url(item_type_name, item_name)),
+                    'image_url': static(get_image_url(
+                        item_type_name, item_name, game_version)),
                 })
     except Exception:
         return _monster_not_found_response(request, target_monster_id, slug, monster_name)
@@ -2685,7 +2689,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                     'type_name': _localized_label(item_type_name, language),
                     'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
                                          game_version=game_version),
-                    'image_url': static(get_image_url(item_type_name, item_name)),
+                    'image_url': static(get_image_url(
+                        item_type_name, item_name, game_version)),
                 })
 
         # Resources are also dropped by monsters: show "Dropped by ..." like item pages.
