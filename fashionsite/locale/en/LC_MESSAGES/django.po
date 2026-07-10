@@ -4785,15 +4785,6 @@ msgid ""
 "Spell damage, item flags, and weapon hit data fixed for Dofus 3.5 items"
 msgstr ""
 
-msgid "Mobile UI overhaul"
-msgstr ""
-
-msgid "Solution page redesigned for mobile screens"
-msgstr ""
-
-msgid "Main page now mobile-friendly"
-msgstr ""
-
 msgid "Beta version launched"
 msgstr ""
 
@@ -4910,12 +4901,6 @@ msgid ""
 "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
 msgstr ""
 
-msgid "Spell images scraped and displayed per spell in the simulator"
-msgstr ""
-
-msgid "Sram class spells added to the simulator"
-msgstr ""
-
 msgid "Spell descriptions translated in all 5 languages"
 msgstr ""
 
@@ -4965,29 +4950,7 @@ msgstr ""
 msgid "Updated to Dofus 3.3 with new items and icons"
 msgstr ""
 
-msgid "Google Analytics integrated"
-msgstr ""
-
-msgid "Sitemap and robots.txt added for SEO"
-msgstr ""
-
-msgid "August 2023"
-msgstr ""
-
 msgid "Site relaunch on AWS"
-msgstr ""
-
-msgid ""
-"Site relaunched as DofusFashionistaVanced on AWS with Django and S3 storage"
-msgstr ""
-
-msgid "Compare sets: side-by-side comparison of two builds"
-msgstr ""
-
-msgid "Build save and load system fixed"
-msgstr ""
-
-msgid "Email and password reset fixed"
 msgstr ""
 
 msgid "April 2023"
@@ -5027,9 +4990,6 @@ msgid "Item database updated through Dofus 3.0 (3.0.14.10 → 3.0.51.48)"
 msgstr ""
 
 msgid "Windows 11 compatibility improvements"
-msgstr ""
-
-msgid "Docker support added (community contribution)"
 msgstr ""
 
 msgid "Fixed item equip conditions display"
