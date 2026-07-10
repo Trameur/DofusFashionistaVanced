@@ -2315,6 +2315,84 @@ class SharedBuildsHideInvalidTests(TestCase):
         self.assertContains(resp, 'CorrompuCache')
 
 
+class SharedBuildMetaVersionTests(TestCase):
+    """Shared-build cards must score and preview items from the build's own
+    game version, even when called outside a versioned request."""
+
+    @staticmethod
+    def _base_input():
+        return {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated',
+            'char_level': 200,
+            'base_stats_by_attr': {
+                'Vitality': 0,
+                'Wisdom': 0,
+                'Strength': 0,
+                'Intelligence': 0,
+                'Chance': 0,
+                'Agility': 0,
+            },
+            'locked_equips': {},
+        }
+
+    def test_meta_uses_build_game_version_for_preview_and_public_score(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from django.core.cache import cache
+        from chardata.image_store import get_image_url
+        from chardata.models import Char
+        from chardata.shared_builds_view import _get_shared_build_meta
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import (get_current_game_version,
+                                               get_structure,
+                                               set_current_game_version)
+        from static_s3.templatetags.static_s3 import static
+
+        cache.clear()
+        retro = get_structure('retro')
+        modern = get_structure('dofus3')
+        retro_hat = None
+        for candidate in retro.get_unique_items_by_type_and_level('Hat', 200):
+            modern_item = modern.get_item_by_id(candidate.id)
+            has_public_score = any(
+                value > 0 and retro.get_stat_by_id(stat_id) is not None
+                for stat_id, value in candidate.stats)
+            if (not candidate.removed and candidate.ankama_id and has_public_score
+                    and (modern_item is None or modern_item.name != candidate.name)):
+                retro_hat = candidate
+                break
+        self.assertIsNotNone(retro_hat, 'no distinct Retro hat found')
+
+        owner = User.objects.create_user('retrometa', 'retrometa@test.local',
+                                         'pw-42-solid')
+        char = Char.objects.create(
+            name='RetroMeta', char_name='retrometa', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal(
+                {'hat': retro_hat.id}, self._base_input(), {})),
+            owner=owner, link_shared=True, game_version='retro')
+
+        previous_version = get_current_game_version()
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, previous_version)
+        with translation.override('en'):
+            meta = _get_shared_build_meta(char)
+
+        self.assertFalse(meta['has_missing_items'])
+        self.assertFalse(meta['has_outdated_slots'])
+        self.assertGreater(meta['public_score'], 0)
+        self.assertEqual(len(meta['preview_items']), 1)
+        self.assertEqual(meta['preview_items'][0]['name'],
+                         retro.get_item_name_in_language(retro_hat, 'en'))
+        expected_image_url = static(get_image_url(
+            retro.get_type_name_by_id(retro_hat.type), retro_hat.name, 'retro'))
+        self.assertEqual(meta['preview_items'][0]['image_url'], expected_image_url)
+        self.assertEqual(get_current_game_version(), 'dofus3')
+
+
 class SharedLinkWithoutSolutionTests(TestCase):
     """A shared link to a build whose solution was never stored (or was reset)
     404s cleanly, without counting a view."""

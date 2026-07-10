@@ -35,7 +35,8 @@ from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
-from fashionistapulp.structure import get_structure
+from fashionistapulp.structure import (get_current_game_version, get_structure,
+                                       set_current_game_version)
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
 
@@ -59,18 +60,19 @@ def _get_valid_slots_for_type(type_name):
     return {slot_name}
 
 
-def _meta_cache_key(pk, modified_time):
+def _meta_cache_key(pk, modified_time, game_version='dofus3'):
     modified_marker = 'none'
     if modified_time is not None:
         modified_marker = str(int(modified_time.timestamp() * 1000000))
-    return 'shared-build-meta-v2-%s-%s-%s' % (pk, modified_marker, get_supported_language())
+    return 'shared-build-meta-v3-%s-%s-%s-%s' % (
+        pk, game_version or 'dofus3', modified_marker, get_supported_language())
 
 
 def _get_shared_build_meta_cache_key(char):
-    return _meta_cache_key(char.pk, char.modified_time)
+    return _meta_cache_key(char.pk, char.modified_time, char.game_version)
 
 
-def _get_preview_items(minimal_solution, structure):
+def _get_preview_items(minimal_solution, structure, game_version):
     preview_items = []
     item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
     language = get_supported_language()
@@ -85,7 +87,10 @@ def _get_preview_items(minimal_solution, structure):
         preview_items.append({
             'slot': slot,
             'name': structure.get_item_name_in_language(item, language),
-            'image_url': static(get_image_url(structure.get_type_name_by_id(item.type), item.name)),
+            'image_url': static(get_image_url(
+                structure.get_type_name_by_id(item.type),
+                item.name,
+                game_version)),
         })
     return preview_items
 
@@ -136,61 +141,72 @@ def _get_shared_build_meta(char):
         cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
         return meta
 
-    structure = get_structure()
-
+    game_version = char.game_version or 'dofus3'
+    previous_game_version = get_current_game_version()
+    set_current_game_version(game_version)
     try:
-        minimal_solution = pickle.loads(char.minimal_solution)
-    except Exception:
-        meta['has_outdated_slots'] = True
-        meta['is_invalid'] = True
+        structure = get_structure(game_version)
+
+        try:
+            minimal_solution = pickle.loads(char.minimal_solution)
+        except Exception:
+            meta['has_outdated_slots'] = True
+            meta['is_invalid'] = True
+            cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
+            return meta
+
+        item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
+        meta['preview_items'] = _get_preview_items(
+            minimal_solution, structure, game_version)
+        for slot, item_id in item_per_slot.items():
+            if item_id is None:
+                continue
+
+            item = structure.get_item_by_id(item_id)
+            if item is None:
+                meta['has_missing_items'] = True
+                meta['has_outdated_slots'] = True
+                continue
+
+            item_type_name = structure.get_type_name_by_id(item.type)
+            if slot not in _get_valid_slots_for_type(item_type_name):
+                meta['has_outdated_slots'] = True
+
+        try:
+            solution = get_solution(char)
+        except Exception:
+            solution = None
+            meta['has_condition_issues'] = True
+
+        if solution is None:
+            meta['is_invalid'] = (
+                meta['has_outdated_slots'] or meta['has_condition_issues'])
+            cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
+            return meta
+
+        try:
+            meta['public_score'] = calculate_public_build_score(solution) or 0
+            meta['compact_stats'] = _get_compact_stats(solution, structure)
+        except Exception:
+            meta['public_score'] = 0
+            meta['compact_stats'] = []
+
+        item_condition_violations = False
+        for item in solution.item_list:
+            if item.item_added and solution.get_violations_on_item(item):
+                item_condition_violations = True
+                break
+
+        project_min_violations = solution._get_min_violations(
+            get_min_stats_digested_by_key(char))
+        meta['has_condition_issues'] = (
+            item_condition_violations or bool(project_min_violations))
+        meta['is_invalid'] = (
+            meta['has_outdated_slots'] or meta['has_condition_issues'])
         cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
         return meta
-
-    item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
-    meta['preview_items'] = _get_preview_items(minimal_solution, structure)
-    for slot, item_id in item_per_slot.items():
-        if item_id is None:
-            continue
-
-        item = structure.get_item_by_id(item_id)
-        if item is None:
-            meta['has_missing_items'] = True
-            meta['has_outdated_slots'] = True
-            continue
-
-        item_type_name = structure.get_type_name_by_id(item.type)
-        if slot not in _get_valid_slots_for_type(item_type_name):
-            meta['has_outdated_slots'] = True
-
-    try:
-        solution = get_solution(char)
-    except Exception:
-        solution = None
-        meta['has_condition_issues'] = True
-
-    if solution is None:
-        meta['is_invalid'] = meta['has_outdated_slots'] or meta['has_condition_issues']
-        cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
-        return meta
-
-    try:
-        meta['public_score'] = calculate_public_build_score(solution) or 0
-        meta['compact_stats'] = _get_compact_stats(solution, structure)
-    except Exception:
-        meta['public_score'] = 0
-        meta['compact_stats'] = []
-
-    item_condition_violations = False
-    for item in solution.item_list:
-        if item.item_added and solution.get_violations_on_item(item):
-            item_condition_violations = True
-            break
-
-    project_min_violations = solution._get_min_violations(get_min_stats_digested_by_key(char))
-    meta['has_condition_issues'] = item_condition_violations or bool(project_min_violations)
-    meta['is_invalid'] = meta['has_outdated_slots'] or meta['has_condition_issues']
-    cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
-    return meta
+    finally:
+        set_current_game_version(previous_game_version)
 
 def translate_build_name(build_name):
     """Translate a build name that may contain multiple aspects separated by / or spaces"""
@@ -388,11 +404,12 @@ def shared_builds(request):
         # 2-column scan instead of loading 2000+ Char rows (solution blobs
         # included). Full rows are fetched only for cache misses and for the
         # page actually shown.
-        id_rows = list(builds.values_list('id', 'modified_time'))
+        id_rows = list(builds.values_list('id', 'modified_time', 'game_version'))
         metas = {}
         miss_ids = []
-        for row_id, row_modified in id_rows:
-            cached = cache.get(_meta_cache_key(row_id, row_modified))
+        for row_id, row_modified, row_game_version in id_rows:
+            cached = cache.get(_meta_cache_key(
+                row_id, row_modified, row_game_version))
             if cached is not None:
                 metas[row_id] = cached
             else:
@@ -401,7 +418,7 @@ def shared_builds(request):
             for char in builds.filter(id__in=miss_ids):
                 metas[char.id] = _get_shared_build_meta(char)
 
-        valid_ids = [row_id for row_id, _row_modified in id_rows
+        valid_ids = [row_id for row_id, _row_modified, _row_game_version in id_rows
                      if row_id in metas and not metas[row_id]['is_invalid']]
 
         paginator = Paginator(valid_ids, SHARED_BUILDS_PAGE_SIZE)
