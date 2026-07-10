@@ -98,6 +98,18 @@ def get_wizard_sliders(char):
     main_special_slider.add_subslider(Slider('wis', _('Wisdom'), False))
     main_special_slider.add_subslider(Slider('pp', _('Prospecting'), False))
 
+    # Stats no item of this game version carries weigh 0 by construction
+    # (VERSION_WEIGHT_TUNING zero_stats): offering their sliders would only
+    # mislead, so drop them (e.g. no Critical Damage or AP Reduction gear
+    # exists in 1.29, no Trap Damage gear on Touch).
+    from chardata.smart_build import VERSION_WEIGHT_TUNING
+    dead_stats = set(VERSION_WEIGHT_TUNING.get(game_version, {}).get('zero_stats', ()))
+    if dead_stats:
+        for slider in all_sliders:
+            if slider.subsliders is not None:
+                slider.subsliders = [s for s in slider.subsliders
+                                     if s.key not in dead_stats]
+
     weights = get_stats_weights(char)
     for slider in all_sliders:
         slider.calculate(weights)

@@ -3279,6 +3279,49 @@ class VersionWeightTuningTests(SimpleTestCase):
         self.assertEqual(param_for_build('Cra', ['agi'], 'airdam'), 6.0)
 
 
+class WizardSlidersPerVersionTests(TestCase):
+    """The wizard hides sliders for stats no item of the version carries
+    (VERSION_WEIGHT_TUNING zero_stats): a retro build has no Critical Damage
+    or AP Reduction gear, a touch build no Trap Damage gear. Dofus 3 keeps
+    everything."""
+
+    def _slider_keys(self, version, char_class='Iop', aspects=None):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.wizard_sliders import get_wizard_sliders
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner, _ = User.objects.get_or_create(
+            username='wizver', defaults={'email': 'wv@test.local'})
+        req = RequestFactory().post('/')
+        req.user = owner
+        char = create_build(req, char_class, 150, aspects or {'str'}, version)
+        keys = set()
+        for section in get_wizard_sliders(char):
+            for sub in (section.subsliders or []):
+                keys.add(sub.key)
+        return keys
+
+    def test_retro_hides_dead_stat_sliders(self):
+        keys = self._slider_keys('retro', 'Sram', {'str', 'trap'})
+        for dead in ('cridam', 'apred', 'mpred', 'lock', 'crires'):
+            self.assertNotIn(dead, keys)
+        self.assertIn('trapdam', keys)
+
+    def test_touch_hides_trap_damage_sliders(self):
+        keys = self._slider_keys('touch', 'Sram', {'str', 'trap'})
+        self.assertNotIn('trapdam', keys)
+        self.assertNotIn('trapdamper', keys)
+        self.assertIn('cridam', keys)
+
+    def test_dofus3_keeps_all_sliders(self):
+        keys = self._slider_keys('dofus3', 'Sram', {'str', 'trap'})
+        for key in ('cridam', 'trapdam', 'lock', 'crires'):
+            self.assertIn(key, keys)
+
+
 class StatsWeightCapTests(TestCase):
     """A build whose weights exceed the old 5k guard (high-end crit/omni builds
     store weights via _set_weights, which never checks the bound) used to 500 on
