@@ -4295,6 +4295,8 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
             subdir = ev._MONSTER_IMAGE_DIRS.get(version)
             if subdir is not None:
                 self.assertIn(subdir, ev._monster_image_ids_cache)
+            self.assertIn(ev._INGREDIENT_ICON_DIRS[version],
+                          ev._ingredient_icon_ids_cache)
             self.assertIn(version, ev._version_item_keys_cache)
             self.assertIn(version, ev._version_resource_keys_cache)
             self.assertIn(version, ev._resource_search_index_cache)
@@ -4782,6 +4784,19 @@ class EncyclopediaMonsterPageTests(TestCase):
                 side_effect=AssertionError('directory listed on a warm cache')):
             self.assertTrue(ev._monster_image_url('dofus3', 101))
             self.assertIsNone(ev._monster_image_url('retro', 101))
+
+    def test_ingredient_icons_served_from_cached_id_set(self):
+        from chardata import encyclopedia_view as ev
+
+        # Sesame Seed (287) has an icon in every version; after the per-dir
+        # set is warm, no icon lookup may list the disk again.
+        for version in ('dofus3', 'beta', 'touch', 'retro', 'dofus2'):
+            self.assertIn(287, ev._ingredient_icon_ids(version), version)
+        with unittest.mock.patch.object(
+                ev, 'list_static_dir',
+                side_effect=AssertionError('directory listed on a warm cache')):
+            for version in ('dofus3', 'beta', 'touch', 'retro', 'dofus2'):
+                self.assertTrue(ev._ingredient_icon_url(version, 287), version)
 
     def test_monster_version_links_served_from_cache(self):
         from chardata import encyclopedia_view

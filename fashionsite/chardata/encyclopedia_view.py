@@ -917,13 +917,30 @@ _INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
 _resource_search_index_cache = {}
 
 
-def _ingredient_icon_url(game_version, ankama_id):
+_ingredient_icon_ids_cache = {}
+
+
+def _ingredient_icon_ids(game_version):
+    """Ids with a local ingredient icon, one directory listing per process:
+    resource pages render up to 100+ recipe lines, so per-file probing added
+    that many disk hits per render."""
     subdir = _INGREDIENT_ICON_DIRS.get(game_version)
     if subdir is None:
-        return None
-    icon_rel = 'chardata/resources/%s60x60/%d-60-60.png' % (subdir, ankama_id)
-    if _static_exists(icon_rel):
-        return static(icon_rel)
+        return frozenset()
+    cached = _ingredient_icon_ids_cache.get(subdir)
+    if cached is None:
+        cached = frozenset(
+            int(name.split('-')[0])
+            for name in list_static_dir('chardata/resources/%s60x60' % subdir)
+            if name.endswith('-60-60.png') and name.split('-')[0].isdigit())
+        _ingredient_icon_ids_cache[subdir] = cached
+    return cached
+
+
+def _ingredient_icon_url(game_version, ankama_id):
+    if ankama_id in _ingredient_icon_ids(game_version):
+        subdir = _INGREDIENT_ICON_DIRS[game_version]
+        return static('chardata/resources/%s60x60/%d-60-60.png' % (subdir, ankama_id))
     return None
 
 
@@ -2316,6 +2333,7 @@ def warm_caches():
             _get_monster_index(game_version, language)
         _get_monster_core_by_id(game_version)
         _monster_image_ids(game_version)
+        _ingredient_icon_ids(game_version)
         _version_item_keys(game_version)
         _version_resource_keys(game_version)
         _get_resource_search_index(game_version)
