@@ -4190,6 +4190,31 @@ class NoEmDashInGuidesTests(SimpleTestCase):
             offenders, [],
             'em/en dash found in guide content (use ., :, , or parentheses): %s' % offenders)
 
+    def test_no_dash_in_templates_or_catalogs(self):
+        # Same rule for everything else we render: template sources and the
+        # translation catalogs. The footer separators and og:titles carried
+        # ndash/mdash entities for years; this pins the cleanup.
+        import glob
+        import io
+        import os
+
+        banned = ('—', '–', '&mdash;', '&ndash;')
+        here = os.path.dirname(os.path.abspath(__file__))
+        scan = glob.glob(os.path.join(here, 'templates', 'chardata', '*'))
+        scan += glob.glob(os.path.join(here, '..', 'locale', '*',
+                                       'LC_MESSAGES', '*.po'))
+        offenders = []
+        for path in scan:
+            if not os.path.isfile(path):
+                continue
+            text = io.open(path, encoding='utf-8', errors='replace').read()
+            for token in banned:
+                if token in text:
+                    offenders.append('%s (%s)' % (os.path.basename(path), token))
+        self.assertEqual(
+            offenders, [],
+            'em/en dash in rendered sources (use ., :, &middot; or |): %s' % offenders)
+
 
 class GuideMetaDescriptionLengthTests(SimpleTestCase):
     """Each guide 'desc' is the <meta name="description">, og:description and JSON-LD

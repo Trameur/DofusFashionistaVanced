@@ -310,12 +310,12 @@
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->
-                <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &ndash;
-                <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &ndash;
-                <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> &ndash;
-                <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &ndash;
-                <a href="{% game_url 'support' %}">{% trans "Support the project" %}</a> &ndash;
-                <a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a> &ndash;
+                <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &middot;
+                <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &middot;
+                <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> &middot;
+                <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &middot;
+                <a href="{% game_url 'support' %}">{% trans "Support the project" %}</a> &middot;
+                <a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a> &middot;
                 <a href="{% url 'privacy' %}">{% trans "Privacy Policy" %}</a>
                 <br><br> <!-- Adds space between general links and Discord links -->
             

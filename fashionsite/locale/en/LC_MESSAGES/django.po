@@ -4766,11 +4766,6 @@ msgid ""
 "equipped"
 msgstr ""
 
-msgid ""
-"New: Customize Stats — modify the stats of a specific item for your build "
-"(undercrafted items, familiars below max level)"
-msgstr ""
-
 msgid "Exo mage stats now handled correctly in the custom stats editor"
 msgstr ""
 
@@ -4911,12 +4906,6 @@ msgstr ""
 msgid "Updated to Dofus 3.5.6.7 items"
 msgstr ""
 
-msgid "December 2025 – February 2026"
-msgstr ""
-
-msgid "Spell damage simulator — extended"
-msgstr ""
-
 msgid ""
 "Spell simulator extended: heals, steals, stacks, power buffs, and glyphes"
 msgstr ""
@@ -5013,9 +5002,6 @@ msgstr ""
 msgid "Windows compatibility and standalone executable added"
 msgstr ""
 
-msgid "2020 – 2021"
-msgstr ""
-
 msgid "Original DofusFashionista"
 msgstr ""
 
@@ -5026,9 +5012,6 @@ msgstr ""
 
 # Changelog 2024-2025 era entries
 msgid "December 2024"
-msgstr ""
-
-msgid "April – September 2025"
 msgstr ""
 
 msgid "Dofus 3.0 update"

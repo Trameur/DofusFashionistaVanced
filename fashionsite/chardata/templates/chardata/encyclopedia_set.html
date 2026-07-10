@@ -12,7 +12,7 @@
 
 {# Set-specific social preview (set name + first item icon) instead of the generic card. #}
 {% block og_meta %}
-    <meta property="og:title" content="{{ set_name }} — {{ t.set_label }} — {{ t.title }}">
+    <meta property="og:title" content="{{ set_name }} · {{ t.set_label }} · {{ t.title }}">
     <meta property="og:description" content="{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical_url }}">

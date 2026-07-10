@@ -4,7 +4,7 @@ Allow: /
 
 User-agent: *
 # The public content lives at /, /guides/, /encyclopedia/, /sharedbuilds/,
-# /s/<build>/, /user/<name>/, /compare_sets/... — all crawlable.
+# /s/<build>/, /user/<name>/, /compare_sets/... : all crawlable.
 # Everything below is an action endpoint or a per-project/private page: not
 # indexable content. Crawling them only wastes crawl budget and fills Search
 # Console with 403 / soft-404 / noindex "errors". The */path/ form also covers

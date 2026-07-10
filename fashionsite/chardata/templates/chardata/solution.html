@@ -10,7 +10,7 @@
 
 {% block og_meta %}
 {% if link_shared %}
-    <meta property="og:title" content="{{ char.char_name|default:char.name }} — {{ char.char_class }} {% trans 'lvl' %} {{ char.level }}">
+    <meta property="og:title" content="{{ char.char_name|default:char.name }} · {{ char.char_class }} {% trans 'lvl' %} {{ char.level }}">
     <meta property="og:description" content="{{ char.char_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}">
     <meta property="og:type" content="article">
     {% if class_avatar %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ class_avatar }}">{% endif %}
