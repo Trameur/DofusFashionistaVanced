@@ -344,6 +344,47 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, expected)
 
+    def test_no_items_notice_hidden_when_other_families_match(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        row = conn.execute(
+            "SELECT name FROM monster_names WHERE language = 'en' "
+            "ORDER BY monster_ankama_id LIMIT 1").fetchone()
+        resource_row = conn.execute(
+            """
+            SELECT rn.name
+            FROM item_recipe_ingredient_names rn
+            WHERE rn.language = 'en'
+              AND rn.ingredient_subtype = 'resources'
+              AND NOT EXISTS (
+                  SELECT 1 FROM item_names i
+                  WHERE i.language = 'en'
+                    AND (
+                        lower(i.name) LIKE '%' || lower(rn.name) || '%'
+                        OR lower(rn.name) LIKE '%' || lower(i.name) || '%'
+                    )
+              )
+            ORDER BY rn.ingredient_ankama_id
+            LIMIT 1
+            """).fetchone()
+        conn.close()
+        self.assertIsNotNone(row, 'no monster name found')
+        self.assertIsNotNone(resource_row, 'no resource-only name found')
+        # A monster-only query: chips shown, and the misleading "no items
+        # match your filters" notice must stay hidden.
+        resp = self.client.get('/encyclopedia/', {'q': row[0]})
+        self.assertContains(resp, '/encyclopedia/monster/')
+        self.assertNotContains(resp, LOCALIZED_UI['en']['no_results'])
+        # Same contract for a resource-only query.
+        resp = self.client.get('/encyclopedia/', {'q': resource_row[0]})
+        self.assertContains(resp, '/encyclopedia/resource/')
+        self.assertNotContains(resp, LOCALIZED_UI['en']['no_results'])
+        # A query matching nothing at all keeps the notice.
+        resp = self.client.get('/encyclopedia/', {'q': 'zzzznothingmatchesthis'})
+        self.assertContains(resp, LOCALIZED_UI['en']['no_results'])
+
     def test_search_finds_monsters(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
