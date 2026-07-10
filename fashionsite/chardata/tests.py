@@ -330,6 +330,20 @@ class PublicRouteSmokeTests(TestCase):
         finally:
             encyclopedia_view._resource_search_index_cache.clear()
 
+    def test_item_page_renders_translated_dynamic_stats(self):
+        # The runtime-translated data strings (dynamic_translations) must
+        # actually render localized: Sulik carries the 'Reflects' stat. The
+        # expected text comes from the catalog, never hardcoded.
+        from django.utils import translation
+        with translation.override('fr'):
+            expected = translation.gettext('Reflects')
+        self.assertNotEqual(expected, 'Reflects',
+                            'the Reflects stat has no fr translation')
+        resp = self.client.get('/encyclopedia/item/equipment/6988-x/',
+                               headers={'accept-language': 'fr'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, expected)
+
     def test_search_finds_monsters(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
