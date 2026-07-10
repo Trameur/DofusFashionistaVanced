@@ -81,6 +81,7 @@ LOCALIZED_UI = {
         'missing_monster_message': 'The monster %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own monsters, drops and data.',
         'missing_resource_message': 'The resource %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own resources, drops and data.',
         'missing_back_to_encyclopedia': 'Back to this version encyclopedia',
+        'also_in_label': 'Also in',
     },
     'fr': {
         'title': 'Encyclopédie',
@@ -139,6 +140,7 @@ LOCALIZED_UI = {
         'missing_monster_message': "Le monstre %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres monstres, drops et données.",
         'missing_resource_message': "La ressource %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres ressources, drops et données.",
         'missing_back_to_encyclopedia': "Retourner à l'encyclopédie de cette version",
+        'also_in_label': 'Aussi sur',
     },
     'es': {
         'title': 'Enciclopedia',
@@ -197,6 +199,7 @@ LOCALIZED_UI = {
         'missing_monster_message': 'El monstruo %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios monstruos, drops y datos.',
         'missing_resource_message': 'El recurso %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios recursos, drops y datos.',
         'missing_back_to_encyclopedia': 'Volver a la enciclopedia de esta versión',
+        'also_in_label': 'También en',
     },
     'pt': {
         'title': 'Enciclopédia',
@@ -255,6 +258,7 @@ LOCALIZED_UI = {
         'missing_monster_message': 'O monstro %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios monstros, drops e dados.',
         'missing_resource_message': 'O recurso %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios recursos, drops e dados.',
         'missing_back_to_encyclopedia': 'Voltar para a enciclopédia desta versão',
+        'also_in_label': 'Também em',
     },
     'de': {
         'title': 'Enzyklopädie',
@@ -313,6 +317,7 @@ LOCALIZED_UI = {
         'missing_monster_message': 'Das Monster %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Monster, Drops und Daten.',
         'missing_resource_message': 'Die Ressource %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Ressourcen, Drops und Daten.',
         'missing_back_to_encyclopedia': 'Zur Enzyklopädie dieser Version',
+        'also_in_label': 'Auch in',
     },
 }
 
@@ -944,6 +949,49 @@ def _get_resource_search_index(game_version):
         })
     _resource_search_index_cache[game_version] = entries
     return entries
+
+
+_version_item_keys_cache = {}
+
+
+def _version_item_keys(game_version):
+    """Set of (ankama_type, ankama_id) available in a version's pool."""
+    cached = _version_item_keys_cache.get(game_version)
+    if cached is not None:
+        return cached
+    keys = set()
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        for ankama_type, ankama_id in conn.execute(
+                "SELECT ankama_type, ankama_id FROM items "
+                "WHERE ankama_id IS NOT NULL AND ankama_type IS NOT NULL"):
+            keys.add((ankama_type, ankama_id))
+    except sqlite3.Error:
+        keys = set()
+    finally:
+        if conn is not None:
+            conn.close()
+    _version_item_keys_cache[game_version] = keys
+    return keys
+
+
+def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
+    """Cross-version links for an item page: every OTHER version whose own
+    pool carries the same item (same ankama id namespace across versions)."""
+    if not ankama_type or not ankama_id:
+        return []
+    links = []
+    for game_version, label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_version:
+            continue
+        if (ankama_type, ankama_id) in _version_item_keys(game_version):
+            links.append({
+                'label': label,
+                'url': get_item_link(ankama_type, ankama_id, name,
+                                     game_version=game_version),
+            })
+    return links
 
 
 def _search_resources(game_version, normalized_search, language, limit=12):
@@ -1740,6 +1788,9 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'used_in': extra_info['used_in'],
             'drops': extra_info['drops'],
             'craft_job': extra_info['craft_job'],
+            'other_versions': _other_versions_with_item(
+                game_version, representative_item.ankama_type,
+                representative_item.ankama_id, localized_name),
         },
     )
 

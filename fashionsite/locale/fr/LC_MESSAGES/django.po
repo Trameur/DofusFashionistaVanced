@@ -5234,6 +5234,10 @@ msgstr "Dernières générations"
 msgid "Build score"
 msgstr "Score du stuff"
 
+#: .\chardata\templates\chardata\solution.html:454
+msgid "vs current"
+msgstr "vs actuel"
+
 #: .\chardata\templates\chardata\solution.html:463
 msgid "Open"
 msgstr "Ouvrir"

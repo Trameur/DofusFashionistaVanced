@@ -385,6 +385,28 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/encyclopedia/', {'q': 'zzzznothingmatchesthis'})
         self.assertContains(resp, LOCALIZED_UI['en']['no_results'])
 
+    def test_item_page_links_other_versions(self):
+        # Twiggy Sword (44) exists on dofus3, dofus2 and retro but not touch:
+        # the "Also in" block cross-links only the versions that carry the
+        # item (unlike the global version switcher, which links blindly).
+        resp = self.client.get('/encyclopedia/item/equipment/44-x/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        m = re.search(
+            r'encyclopedia-other-versions.*?</div>', body, re.S)
+        self.assertIsNotNone(m, 'Also in block missing')
+        block = m.group(0)
+        self.assertIn('/retro/encyclopedia/item/equipment/44-', block)
+        self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
+        self.assertNotIn('/touch/', block)
+        # And the retro page links back to dofus3 (unprefixed URL).
+        resp = self.client.get('/retro/encyclopedia/item/equipment/44-x/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
+        self.assertIsNotNone(m)
+        self.assertIn('"/encyclopedia/item/equipment/44-', m.group(0))
+
     def test_search_finds_monsters(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -2447,6 +2469,57 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, 'Recent generations')
         self.assertContains(resp, 'g%d' % generation.pk)
         self.assertContains(resp, 'Compare with current')
+
+    def test_solution_history_shows_score_delta_against_current_build(self):
+        import pickle as _pickle
+        from chardata.solution import get_solution
+        from chardata.solution_history import get_generation_solution, record_solution_generation
+        from chardata.solution_scores import calculate_project_build_score
+        from fashionistapulp.modelresult import ModelResultMinimal
+
+        owner, char, hats = self._build_char_with_items()
+
+        def minimal_for(hat):
+            return ModelResultMinimal({'hat': hat.id}, self._base_input(), {})
+
+        generation = None
+        expected_delta = None
+        for current_hat in hats:
+            char.minimal_solution = _pickle.dumps(minimal_for(current_hat))
+            char.save()
+            current_score = calculate_project_build_score(char, get_solution(char))
+            if current_score is None:
+                continue
+            for saved_hat in hats:
+                if current_hat.id == saved_hat.id:
+                    continue
+                candidate = record_solution_generation(char, minimal_for(saved_hat))
+                saved_score = calculate_project_build_score(
+                    char, get_generation_solution(char, candidate))
+                if saved_score is not None and saved_score != current_score:
+                    generation = candidate
+                    expected_delta = saved_score - current_score
+                    break
+            if generation is not None:
+                break
+        if generation is None:
+            self.skipTest('no two test hats with different build scores')
+
+        self.client.force_login(owner)
+
+        resp = self.client.get('/solution/%d/' % char.pk)
+
+        self.assertEqual(resp.status_code, 200)
+        history = resp.context['generation_history']
+        self.assertEqual(history[0]['id'], generation.id)
+        self.assertTrue(history[0]['has_score'])
+        self.assertTrue(resp.context['has_build_score'])
+        expected_delta = history[0]['score'] - resp.context['build_score']
+        expected_text = '+%d' % expected_delta if expected_delta > 0 else str(expected_delta)
+        self.assertEqual(history[0]['score_delta'], expected_delta)
+        self.assertEqual(history[0]['score_delta_text'], expected_text)
+        self.assertContains(resp, expected_text)
+        self.assertContains(resp, 'vs current')
 
     def test_generation_preview_uses_the_generation_game_version(self):
         import pickle as _pickle

@@ -332,25 +332,48 @@ def _generation_compare_id(generation):
     return 'g%d' % generation.id
 
 
+def _score_delta_text(delta):
+    return '+%d' % delta if delta > 0 else str(delta)
+
+
 def _build_generation_history(request, char, current_generation=None):
     generations = (SolutionGeneration.objects
                    .filter(char=char, game_version=char.game_version)
                    .order_by('-created_time', '-id')[:10])
+    current_score = None
+    try:
+        current_score = calculate_project_build_score(char, get_solution(char))
+    except Exception:
+        current_score = None
     entries = []
     for generation in generations:
         solution = None
         build_score = None
+        score_delta = None
         try:
             solution = get_generation_solution(char, generation)
             build_score = calculate_project_build_score(char, solution)
+            if build_score is not None and current_score is not None:
+                score_delta = build_score - current_score
         except Exception:
             build_score = None
+            score_delta = None
         compare_id = _generation_compare_id(generation)
+        score_delta_class = 'same'
+        if score_delta is not None:
+            if score_delta > 0:
+                score_delta_class = 'positive'
+            elif score_delta < 0:
+                score_delta_class = 'negative'
         entries.append({
             'id': generation.id,
             'created_time': generation.created_time,
             'score': build_score,
             'has_score': build_score is not None,
+            'score_delta': score_delta,
+            'score_delta_text': _score_delta_text(score_delta) if score_delta is not None else '',
+            'score_delta_class': score_delta_class,
+            'has_score_delta': score_delta is not None,
             'preview_items': get_generation_preview_items(generation),
             'view_url': version_reverse(request, 'solution_generation', char.id, generation.id),
             'restore_url': version_reverse(request, 'restore_generation', char.id, generation.id),

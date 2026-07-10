@@ -315,6 +315,19 @@
     font-size: 0.9em;
 }
 
+.solution-history-entry-score-delta {
+    font-size: 0.85em;
+    opacity: 0.85;
+}
+
+.solution-history-entry-score-delta-positive {
+    color: #227a2f;
+}
+
+.solution-history-entry-score-delta-negative {
+    color: #9d2b20;
+}
+
 .solution-history-preview {
     display: flex;
     gap: 3px;

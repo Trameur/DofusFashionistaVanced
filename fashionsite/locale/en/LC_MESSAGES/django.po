@@ -5393,6 +5393,10 @@ msgid "Build score"
 msgstr "Build score"
 
 #: chardata/generated-feature-history
+msgid "vs current"
+msgstr "vs current"
+
+#: chardata/generated-feature-history
 msgid "Saved generation"
 msgstr "Saved generation"
 

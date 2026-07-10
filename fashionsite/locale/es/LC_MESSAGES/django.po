@@ -5202,6 +5202,10 @@ msgstr "Generaciones recientes"
 msgid "Build score"
 msgstr "Puntuación del set"
 
+#: .\chardata\templates\chardata\solution.html:454
+msgid "vs current"
+msgstr "frente al actual"
+
 #: .\chardata\templates\chardata\solution.html:463
 msgid "Open"
 msgstr "Abrir"

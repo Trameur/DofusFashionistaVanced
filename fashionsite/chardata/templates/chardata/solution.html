@@ -450,6 +450,11 @@
                     <div class="solution-history-entry-score">
                         <span>{% trans "Build score" %}</span>
                         <strong>{{ generation.score }}</strong>
+                        {% if generation.has_score_delta %}
+                        <span class="solution-history-entry-score-delta solution-history-entry-score-delta-{{ generation.score_delta_class }}">
+                            {{ generation.score_delta_text }} <span>{% trans "vs current" %}</span>
+                        </span>
+                        {% endif %}
                     </div>
                     {% endif %}
                 </div>
