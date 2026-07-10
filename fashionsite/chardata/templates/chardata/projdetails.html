@@ -49,6 +49,9 @@
                             <option value="{{class_to_name|get_item:c}}"{% if char.char_class == class_to_name|get_item:c %} selected="selected"{% endif %}>{{c}}</option>
                         {% endfor %}
                     </select>
+                    {% if is_new_char %}
+                    <div style="font-size: 0.85em; opacity: 0.85; margin-top: 3px;"><a href="/guides/choosing-your-class/">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
+                    {% endif %}
                     </td>
                   </tr>  
                   <tr class='register-line'>

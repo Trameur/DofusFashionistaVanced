@@ -6131,3 +6131,7 @@ msgid ""
 msgstr ""
 "A busca da enciclopédia agora também encontra recursos e monstros nas "
 "versões compatíveis."
+
+#: fashionsite/chardata/templates/chardata/projdetails.html:52
+msgid "Not sure which class to pick? Read the guide"
+msgstr "Não sabe qual classe escolher? Leia o guia"

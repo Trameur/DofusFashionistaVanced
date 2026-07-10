@@ -6158,3 +6158,7 @@ msgid ""
 msgstr ""
 "Die Enzyklopädie-Suche findet jetzt auch Ressourcen und Monster in den "
 "unterstützten Versionen."
+
+#: fashionsite/chardata/templates/chardata/projdetails.html:52
+msgid "Not sure which class to pick? Read the guide"
+msgstr "Unsicher bei der Klassenwahl? Lies den Guide"

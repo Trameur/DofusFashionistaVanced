@@ -287,6 +287,21 @@ class BreadcrumbJsonLdTests(SimpleTestCase):
 class PublicRouteSmokeTests(TestCase):
     """Key public routes resolve and return the expected status codes."""
 
+    def test_setup_links_the_class_guide(self):
+        # The class dropdown is where the "which class?" question actually
+        # happens: the setup page must link the class guide there, localized.
+        resp = self.client.get('/setup/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'href="/guides/choosing-your-class/"')
+        with translation.override('fr'):
+            expected = translation.gettext(
+                'Not sure which class to pick? Read the guide')
+        self.assertNotEqual(
+            expected, 'Not sure which class to pick? Read the guide',
+            'fr catalog entry missing')
+        resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertContains(resp, expected)
+
     def test_search_finds_resources(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path

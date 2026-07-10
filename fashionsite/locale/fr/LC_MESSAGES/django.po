@@ -6175,5 +6175,9 @@ msgid ""
 "The encyclopedia search now also finds resources and monsters across "
 "supported versions."
 msgstr ""
-"La recherche de l'encyclopédie trouve maintenant aussi les ressources et les "
-"monstres dans les versions prises en charge."
+"La recherche de l'encyclopédie trouve maintenant aussi les ressources et les"
+" monstres dans les versions prises en charge."
+
+#: fashionsite/chardata/templates/chardata/projdetails.html:52
+msgid "Not sure which class to pick? Read the guide"
+msgstr "Vous hésitez sur la classe ? Lisez le guide"
