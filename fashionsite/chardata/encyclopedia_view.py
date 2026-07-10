@@ -612,16 +612,16 @@ def _collect_unique_items(structure):
     return items
 
 
-# Light listing entries per (structure, language): grouping, display names,
-# stats maps and search blobs never change during a process lifetime
-# (structures are forever singletons), so build them once instead of on
-# every /encyclopedia/ request. Entries are read-only downstream.
+# Light listing entries per structure: grouping, stats maps and search blobs
+# never change during a process lifetime (structures are forever singletons), so
+# build that expensive core once and derive the cheap localized labels from it.
+_light_core_cache = {}
 _light_index_cache = {}
 
 
-def _get_light_index(structure, language):
-    key = (id(structure), language)
-    cached = _light_index_cache.get(key)
+def _get_light_core(structure):
+    key = id(structure)
+    cached = _light_core_cache.get(key)
     if cached is not None:
         return cached
 
@@ -642,7 +642,6 @@ def _get_light_index(structure, language):
             _real_variant = next((v for v in _or_variants if getattr(v, 'ankama_id', None)), None)
             if _real_variant is not None:
                 item = _real_variant
-        display_name = _get_display_name_for_group(structure, variants, language)
         search_names = [
             structure.get_item_name_in_language(item, search_language)
             for search_language in SUPPORTED_LANGUAGES
@@ -650,11 +649,33 @@ def _get_light_index(structure, language):
         search_names.append(item.or_name)
         entries.append({
             'item': item,
-            'name': display_name,
+            'variant_items': variants,
             'level': item.level,
             'raw_type_name': structure.get_type_name_by_id(item.type),
             'stats_map': _get_stats_map(item),
             'search_blob': _normalized_text(' '.join(name or '' for name in search_names)),
+        })
+    _light_core_cache[key] = entries
+    return entries
+
+
+def _get_light_index(structure, language):
+    key = (id(structure), language)
+    cached = _light_index_cache.get(key)
+    if cached is not None:
+        return cached
+
+    entries = []
+    for core_entry in _get_light_core(structure):
+        display_name = _get_display_name_for_group(
+            structure, core_entry['variant_items'], language)
+        entries.append({
+            'item': core_entry['item'],
+            'name': display_name,
+            'level': core_entry['level'],
+            'raw_type_name': core_entry['raw_type_name'],
+            'stats_map': core_entry['stats_map'],
+            'search_blob': core_entry['search_blob'],
         })
     _light_index_cache[key] = entries
     return entries
@@ -2236,12 +2257,16 @@ def _get_monster_index(game_version, language):
 
 
 def warm_caches():
-    """Pre-build the per-version encyclopedia caches (monster cores, item and
-    resource key sets, resource search index). Called from a background thread
-    at wsgi startup so the first visitor after a worker (re)start does not pay
-    the cold builds; gunicorn recycles workers every ~1000 requests, so cold
-    starts are routine in production, not just at deploys."""
+    """Pre-build the per-version encyclopedia caches. Called from a background
+    thread at wsgi startup so the first visitor after a worker (re)start does
+    not pay the cold builds; gunicorn recycles workers every ~1000 requests, so
+    cold starts are routine in production, not just at deploys."""
     for game_version, _label in ACTIVE_GAME_VERSIONS:
+        structure = get_structure(game_version)
+        _get_light_core(structure)
+        for language in SUPPORTED_LANGUAGES:
+            _get_light_index(structure, language)
+            _get_monster_index(game_version, language)
         _get_monster_core_by_id(game_version)
         _version_item_keys(game_version)
         _version_resource_keys(game_version)

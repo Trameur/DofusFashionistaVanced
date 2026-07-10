@@ -330,6 +330,26 @@ class PublicRouteSmokeTests(TestCase):
         finally:
             encyclopedia_view._resource_search_index_cache.clear()
 
+    def test_item_light_index_reuses_language_neutral_core(self):
+        from chardata import encyclopedia_view
+        from fashionistapulp.structure import get_structure
+
+        structure = get_structure('dofus3')
+        encyclopedia_view._light_core_cache.clear()
+        encyclopedia_view._light_index_cache.clear()
+        try:
+            first = encyclopedia_view._get_light_index(structure, 'en')
+            self.assertTrue(first)
+            with unittest.mock.patch.object(
+                    encyclopedia_view, '_collect_unique_items',
+                    side_effect=AssertionError('rebuilt item core')):
+                second = encyclopedia_view._get_light_index(structure, 'fr')
+            self.assertEqual(len(first), len(second))
+            self.assertEqual(first[0]['search_blob'], second[0]['search_blob'])
+        finally:
+            encyclopedia_view._light_core_cache.clear()
+            encyclopedia_view._light_index_cache.clear()
+
     def test_item_page_renders_translated_dynamic_stats(self):
         # The runtime-translated data strings (dynamic_translations) must
         # actually render localized: Sulik carries the 'Reflects' stat. The
@@ -4174,6 +4194,11 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
 
         ev.warm_caches()
         for version, _label in ev.ACTIVE_GAME_VERSIONS:
+            structure = ev.get_structure(version)
+            self.assertIn(id(structure), ev._light_core_cache)
+            for language in ev.SUPPORTED_LANGUAGES:
+                self.assertIn((id(structure), language), ev._light_index_cache)
+                self.assertIn((version, language), ev._monster_index_cache)
             self.assertIn(version, ev._monster_core_by_id_cache)
             self.assertIn(version, ev._version_item_keys_cache)
             self.assertIn(version, ev._version_resource_keys_cache)
@@ -4188,6 +4213,7 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
             self.assertTrue(ev._other_versions_with_resource(
                 'dofus3', 'resources', 287, 'x'))
             self.assertTrue(ev._get_monster_version_links(101, 'retro', 'fr'))
+            self.assertTrue(ev._get_light_index(ev.get_structure('retro'), 'fr'))
 
 
 class EncyclopediaResourcePageTests(TestCase):
