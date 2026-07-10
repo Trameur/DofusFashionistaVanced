@@ -1918,8 +1918,18 @@ class GuidesContentTests(TestCase):
         resp = self.client.get('/guides/')
         self.assertEqual(resp.status_code, 200)
         html = resp.content.decode('utf-8', 'replace')
-        for slug in guides_content.ORDER:
+        for slug in guides_content.GUIDES:
             self.assertIn('/guides/%s/' % slug, html)
+
+    def test_order_covers_every_guide(self):
+        # The crafting guide shipped published but invisible for a morning:
+        # only ORDER feeds the hub and the sitemap, and it was missing there.
+        # ordered_slugs() now catches forgotten slugs at runtime; this catches
+        # them at test time, where the author actually sees it.
+        from chardata import guides_content
+        self.assertEqual(set(guides_content.ORDER),
+                         set(guides_content.GUIDES),
+                         'ORDER and GUIDES must list the same guide slugs')
 
     def test_unknown_guide_is_404(self):
         self.assertEqual(self.client.get('/guides/not-a-real-guide/').status_code, 404)
