@@ -26,9 +26,14 @@ the DofusDB asset mirror (api.dofusdb.fr/img/monsters/<id>.png, the same
 source our spell audits already trust). Monsters missing there just stay
 without a file and the site renders them without an image.
 
-Other versions are NOT handled yet: Touch and Retro have their own asset
-sources (Touch CDN gfx/monsters, Cyberia for 1.29) and must be wired
-separately, never by pointing them at dofus3 artwork.
+--game-version touch: monster ids come from items_touch.db; artwork comes
+from the official Touch assets CDN (config.json assetsUrl +
+/gfx/monsters/<monsterId>.png, indexed by MONSTER id there, unlike DofusDB);
+target is chardata/monsters/touch/96/. The era-accurate 2D art differs from
+the modern renders on purpose.
+
+Retro and dofus2 are NOT handled yet: no artwork source found so far (see
+the loop TODO), and they must never borrow another version's art.
 """
 
 import argparse
@@ -48,15 +53,21 @@ DB_PATHS = [
     os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items.db'),
     os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_beta.db'),
 ]
+TOUCH_DB_PATHS = [
+    os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_touch.db'),
+]
 # The image file name is the monster's gfxId, NOT its id (monster 46 renders
 # img/monsters/12.png): the id -> img mapping must come from the monsters API.
 DOFUSDB_MONSTERS_URL = 'https://api.dofusdb.fr/monsters?%%24limit=%d&%%24skip=%d'
 PAGE_SIZE = 50
+TOUCH_CONFIG_URL = 'https://earlyproxy.touch.dofus.com/config.json'
+TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
+                             '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 SIZE = 96
 
 
-def target_dirs():
-    parts = ['monsters', '96']
+def target_dirs(version_subdir=''):
+    parts = ['monsters'] + ([version_subdir] if version_subdir else []) + ['96']
     return [
         os.path.join(ROOT, 'fashionsite', 'chardata', 'static', 'chardata', *parts),
         os.path.join(ROOT, 'fashionsite', 'staticfiles', 'chardata', *parts),
@@ -121,23 +132,39 @@ def fetch_one(session, monster_id, url, dirs):
     return 'ok'
 
 
+def touch_image_urls(session, ids):
+    try:
+        assets = session.get(TOUCH_CONFIG_URL, timeout=30).json().get('assetsUrl')
+    except Exception:
+        assets = None
+    assets = assets or TOUCH_FALLBACK_ASSETS_URL
+    return {mid: '%s/gfx/monsters/%d.png' % (assets, mid) for mid in ids}
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--game-version', default='dofus3', choices=['dofus3'])
+    parser.add_argument('--game-version', default='dofus3',
+                        choices=['dofus3', 'touch'])
     parser.add_argument('--workers', type=int, default=8)
     args = parser.parse_args()
 
-    dirs = target_dirs()
+    subdir = 'touch' if args.game_version == 'touch' else ''
+    dirs = target_dirs(subdir)
     for directory in dirs:
         os.makedirs(directory, exist_ok=True)
 
-    ids = sorted(monster_ids(DB_PATHS))
+    db_paths = TOUCH_DB_PATHS if args.game_version == 'touch' else DB_PATHS
+    ids = sorted(monster_ids(db_paths))
     print('monsters to check: %d' % len(ids))
     session = requests.Session()
     session.headers['User-Agent'] = 'Mozilla/5.0 (DofusFashionista asset sync)'
 
-    urls = image_urls(session)
-    print('dofusdb knows artwork for %d monsters' % len(urls))
+    if args.game_version == 'touch':
+        urls = touch_image_urls(session, ids)
+        print('touch cdn candidates: %d (missing ones just 403/404)' % len(urls))
+    else:
+        urls = image_urls(session)
+        print('dofusdb knows artwork for %d monsters' % len(urls))
 
     counts = {'ok': 0, 'skip': 0, 'missing': 0, 'error': 0}
     with ThreadPoolExecutor(max_workers=args.workers) as pool:

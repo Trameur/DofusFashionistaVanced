@@ -190,6 +190,8 @@ def main() -> None:
              cwd=ITEMSCRAPER)
         step("resource-icons", [PY, "download_resource_icons.py", "--game-version", "touch"],
              cwd=ITEMSCRAPER)
+        step("monster-images", [PY, "download_monster_images.py", "--game-version", "touch"],
+             cwd=ITEMSCRAPER)
 
     elapsed = time.time() - t_total
     print(f"\n{'='*60}")

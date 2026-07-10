@@ -4786,14 +4786,25 @@ class EncyclopediaMonsterPageTests(TestCase):
 
     def test_monster_page_shows_the_artwork(self):
         # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
-        # file name is the gfxId, not the monster id). Versions without their
-        # own artwork source must never borrow dofus3 art.
+        # file name is the gfxId, not the monster id); touch has its own
+        # era-accurate art from the official Touch CDN (indexed by monster
+        # id). Versions without a source must never borrow another's art.
         from chardata import encyclopedia_view as ev
 
         self.assertTrue(ev._monster_image_url('dofus3', 101))
         self.assertTrue(ev._monster_image_url('beta', 101))
-        for version in ('retro', 'touch', 'dofus2'):
+        touch_url = ev._monster_image_url('touch', 101)
+        self.assertTrue(touch_url)
+        self.assertIn('monsters/touch/96/101.webp', touch_url)
+        for version in ('retro', 'dofus2'):
             self.assertIsNone(ev._monster_image_url(version, 101), version)
+
+        # The touch page serves the touch art, not the modern render.
+        resp = self.client.get('/touch/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('chardata/monsters/touch/96/101.webp', body)
+        self.assertNotIn('chardata/monsters/96/101.webp', body)
 
         resp = self.client.get('/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)
