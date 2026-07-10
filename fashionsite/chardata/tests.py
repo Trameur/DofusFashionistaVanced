@@ -4505,6 +4505,20 @@ class EncyclopediaMonsterPageTests(TestCase):
                 version['resource_count'] + version['item_count'], 0,
                 version['game_version'])
 
+    def test_monster_version_links_served_from_cache(self):
+        from chardata import encyclopedia_view
+
+        # Warm the per-version caches, then cut sqlite off: the links must
+        # come out of memory (one db scan per version per process, not four
+        # db opens plus counts on every monster page view).
+        first = encyclopedia_view._get_monster_version_links(101, 'retro', 'fr')
+        self.assertTrue(first)
+        with unittest.mock.patch.object(
+                encyclopedia_view.sqlite3, 'connect',
+                side_effect=AssertionError('db hit on a warm cache')):
+            cached = encyclopedia_view._get_monster_version_links(101, 'retro', 'fr')
+        self.assertEqual(first, cached)
+
     def test_retro_monster_page_localizes_drops_for_supported_languages(self):
         expected_drops = {
             'fr': ('Laine de Bouftou', 'Marteau du Bouftou'),

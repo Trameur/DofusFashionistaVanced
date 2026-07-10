@@ -2189,16 +2189,32 @@ def _build_monster_core(game_version):
     return monsters
 
 
+def _get_monster_core(game_version):
+    core = _monster_core_cache.get(game_version)
+    if core is None:
+        core = _build_monster_core(game_version)
+        _monster_core_cache[game_version] = core
+    return core
+
+
+_monster_core_by_id_cache = {}
+
+
+def _get_monster_core_by_id(game_version):
+    cached = _monster_core_by_id_cache.get(game_version)
+    if cached is None:
+        cached = {entry['id']: entry for entry in _get_monster_core(game_version)}
+        _monster_core_by_id_cache[game_version] = cached
+    return cached
+
+
 def _get_monster_index(game_version, language):
     cache_key = (game_version, language)
     cached = _monster_index_cache.get(cache_key)
     if cached is not None:
         return cached
 
-    core = _monster_core_cache.get(game_version)
-    if core is None:
-        core = _build_monster_core(game_version)
-        _monster_core_cache[game_version] = core
+    core = _get_monster_core(game_version)
 
     monsters = []
     for entry in core:
@@ -2220,48 +2236,29 @@ def _get_monster_index(game_version, language):
 
 
 def _get_monster_version_links(monster_id, current_game_version, language):
+    """Cross-version links for a monster page, served from the cached monster
+    core (the core only carries monsters that drop something, which is exactly
+    the condition for the target page to be worth linking). The old version
+    opened every other version's db and ran drop counts on each page view."""
     links = []
     for game_version, version_label in ACTIVE_GAME_VERSIONS:
         if game_version == current_game_version:
             continue
-        conn = None
-        try:
-            conn = sqlite3.connect(get_items_db_path(game_version))
-            cursor = conn.cursor()
-            if not _db_table_exists(cursor, 'monster_names'):
-                continue
-            monster_name = _get_monster_display_name(cursor, monster_id, language)
-            if monster_name.startswith('#'):
-                continue
-
-            resource_count = 0
-            item_count = 0
-            if _db_table_exists(cursor, 'resource_drops'):
-                cursor.execute(
-                    'SELECT COUNT(*) FROM resource_drops WHERE monster_ankama_id = ?',
-                    (monster_id,))
-                resource_count = cursor.fetchone()[0] or 0
-            if _db_table_exists(cursor, 'item_drops'):
-                cursor.execute(
-                    'SELECT COUNT(*) FROM item_drops WHERE monster_ankama_id = ?',
-                    (monster_id,))
-                item_count = cursor.fetchone()[0] or 0
-            if resource_count <= 0 and item_count <= 0:
-                continue
-
-            links.append({
-                'game_version': game_version,
-                'label': version_label,
-                'name': monster_name,
-                'resource_count': resource_count,
-                'item_count': item_count,
-                'url': get_monster_link(monster_id, monster_name, game_version),
-            })
-        except Exception:
+        entry = _get_monster_core_by_id(game_version).get(monster_id)
+        if entry is None:
             continue
-        finally:
-            if conn is not None:
-                conn.close()
+        names = entry['names']
+        monster_name = names.get(language) or names.get('en')
+        if not monster_name:
+            continue
+        links.append({
+            'game_version': game_version,
+            'label': version_label,
+            'name': monster_name,
+            'resource_count': entry['resource_count'],
+            'item_count': entry['item_count'],
+            'url': get_monster_link(monster_id, monster_name, game_version),
+        })
     return links
 
 
