@@ -4141,14 +4141,20 @@ class EncyclopediaResourcePageTests(TestCase):
                     self.assertIn('Cape | Niv.', body)
                 self.assertIn('/retro/encyclopedia/item/', body)
 
-    def test_unknown_resource_redirects_to_the_encyclopedia(self):
+    def test_unknown_resource_shows_the_graceful_missing_page(self):
+        from chardata.encyclopedia_view import LOCALIZED_UI
         resp = self.client.get('/encyclopedia/resource/resources/999999999-x/')
-        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.status_code, 404)
+        self.assertContains(resp, LOCALIZED_UI['en']['missing_resource_title'],
+                            status_code=404)
 
-    def test_unknown_versioned_resource_redirects_to_version_encyclopedia(self):
+    def test_unknown_versioned_resource_shows_versioned_missing_page(self):
+        from chardata.encyclopedia_view import LOCALIZED_UI
         resp = self.client.get('/retro/encyclopedia/resource/resources/999999999-x/')
-        self.assertEqual(resp.status_code, 302)
-        self.assertEqual(resp['Location'], '/retro/encyclopedia/')
+        self.assertEqual(resp.status_code, 404)
+        self.assertContains(resp, LOCALIZED_UI['en']['missing_back_to_encyclopedia'],
+                            status_code=404)
+        self.assertContains(resp, '/retro/encyclopedia/', status_code=404)
 
     def _resource_with_drops(self):
         import sqlite3
@@ -4487,6 +4493,67 @@ class EncyclopediaMonsterPageTests(TestCase):
         from chardata.encyclopedia_view import LOCALIZED_UI
         monster_fragment = LOCALIZED_UI['fr']['missing_monster_message'].split('%(version)s')[0] % {'name': 'Gone'}
         self.assertIn(monster_fragment.strip(), body)
+        self.assertIn('/retro/encyclopedia/', body)
+        self.assertIn(LOCALIZED_UI['fr']['missing_back_to_encyclopedia'], body)
+
+    def test_missing_versioned_resource_uses_name_from_other_version(self):
+        import sqlite3
+        from chardata.official_site import get_resource_link
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        def resource_ids(game_version):
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                cur = conn.cursor()
+                cur.execute(
+                    """
+                    SELECT DISTINCT ingredient_ankama_id
+                    FROM item_recipe_ingredient_names
+                    WHERE ingredient_subtype = 'resources'
+                    """)
+                return {row[0] for row in cur.fetchall()}
+            finally:
+                conn.close()
+
+        modern_ids = resource_ids('dofus3')
+        retro_ids = resource_ids('retro')
+        missing_ids = sorted(modern_ids - retro_ids)
+        if not missing_ids:
+            self.skipTest('no Dofus 3 resource missing from Retro data')
+
+        resource_id = missing_ids[0]
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            cur = conn.cursor()
+            cur.execute(
+                """
+                SELECT COALESCE(
+                    (SELECT name FROM item_recipe_ingredient_names
+                     WHERE ingredient_ankama_id = ?
+                       AND ingredient_subtype = 'resources'
+                       AND language = 'fr'),
+                    (SELECT name FROM item_recipe_ingredient_names
+                     WHERE ingredient_ankama_id = ?
+                       AND ingredient_subtype = 'resources'
+                       AND language = 'en'),
+                    '#' || ?)
+                """,
+                (resource_id, resource_id, resource_id))
+            name = cur.fetchone()[0]
+        finally:
+            conn.close()
+
+        resp = self.client.get(
+            get_resource_link('resources', resource_id, name, game_version='retro'),
+            HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 404)
+        body = resp.content.decode('utf-8')
+        self.assertIn(name, body)
+        from chardata.encyclopedia_view import LOCALIZED_UI
+        resource_fragment = (
+            LOCALIZED_UI['fr']['missing_resource_message']
+            .split('%(version)s')[0] % {'name': name})
+        self.assertIn(resource_fragment.strip(), body)
         self.assertIn('/retro/encyclopedia/', body)
         self.assertIn(LOCALIZED_UI['fr']['missing_back_to_encyclopedia'], body)
 

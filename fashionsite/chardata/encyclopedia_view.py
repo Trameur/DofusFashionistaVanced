@@ -76,8 +76,10 @@ LOCALIZED_UI = {
         'resource_not_found': 'Resource not found in the encyclopedia.',
         'missing_item_title': 'Item unavailable in this version',
         'missing_monster_title': 'Monster unavailable in this version',
+        'missing_resource_title': 'Resource unavailable in this version',
         'missing_item_message': 'The item %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own items, drops and data.',
         'missing_monster_message': 'The monster %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own monsters, drops and data.',
+        'missing_resource_message': 'The resource %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own resources, drops and data.',
         'missing_back_to_encyclopedia': 'Back to this version encyclopedia',
     },
     'fr': {
@@ -132,8 +134,10 @@ LOCALIZED_UI = {
         'resource_not_found': "Ressource introuvable dans l'encyclopédie.",
         'missing_item_title': 'Objet indisponible dans cette version',
         'missing_monster_title': 'Monstre indisponible dans cette version',
+        'missing_resource_title': 'Ressource indisponible dans cette version',
         'missing_item_message': "L'objet %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres objets, drops et données.",
         'missing_monster_message': "Le monstre %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres monstres, drops et données.",
+        'missing_resource_message': "La ressource %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres ressources, drops et données.",
         'missing_back_to_encyclopedia': "Retourner à l'encyclopédie de cette version",
     },
     'es': {
@@ -188,8 +192,10 @@ LOCALIZED_UI = {
         'resource_not_found': 'Recurso no encontrado en la enciclopedia.',
         'missing_item_title': 'Objeto no disponible en esta versión',
         'missing_monster_title': 'Monstruo no disponible en esta versión',
+        'missing_resource_title': 'Recurso no disponible en esta versión',
         'missing_item_message': 'El objeto %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios objetos, drops y datos.',
         'missing_monster_message': 'El monstruo %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios monstruos, drops y datos.',
+        'missing_resource_message': 'El recurso %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios recursos, drops y datos.',
         'missing_back_to_encyclopedia': 'Volver a la enciclopedia de esta versión',
     },
     'pt': {
@@ -244,8 +250,10 @@ LOCALIZED_UI = {
         'resource_not_found': 'Recurso não encontrado na enciclopédia.',
         'missing_item_title': 'Item indisponível nesta versão',
         'missing_monster_title': 'Monstro indisponível nesta versão',
+        'missing_resource_title': 'Recurso indisponível nesta versão',
         'missing_item_message': 'O item %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios itens, drops e dados.',
         'missing_monster_message': 'O monstro %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios monstros, drops e dados.',
+        'missing_resource_message': 'O recurso %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios recursos, drops e dados.',
         'missing_back_to_encyclopedia': 'Voltar para a enciclopédia desta versão',
     },
     'de': {
@@ -300,8 +308,10 @@ LOCALIZED_UI = {
         'resource_not_found': 'Ressource nicht in der Enzyklopädie gefunden.',
         'missing_item_title': 'Gegenstand in dieser Version nicht verfügbar',
         'missing_monster_title': 'Monster in dieser Version nicht verfügbar',
+        'missing_resource_title': 'Ressource in dieser Version nicht verfügbar',
         'missing_item_message': 'Der Gegenstand %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Gegenstände, Drops und Daten.',
         'missing_monster_message': 'Das Monster %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Monster, Drops und Daten.',
+        'missing_resource_message': 'Die Ressource %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Ressourcen, Drops und Daten.',
         'missing_back_to_encyclopedia': 'Zur Enzyklopädie dieser Version',
     },
 }
@@ -788,6 +798,44 @@ def _resolve_missing_monster_name(monster_id, slug, language, current_game_versi
             name = _get_monster_display_name(cursor, monster_id, language)
             if name and not name.startswith('#'):
                 return name
+        except Exception:
+            continue
+        finally:
+            if conn is not None:
+                conn.close()
+    return fallback
+
+
+def _resolve_missing_resource_name(subtype, ankama_id, slug, language,
+                                   current_game_version, current_name=None):
+    if current_name:
+        return current_name
+    fallback = _humanize_missing_slug(slug, '#%s' % ankama_id)
+    for game_version, _label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_game_version:
+            continue
+        conn = None
+        try:
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            cursor = conn.cursor()
+            if not _db_table_exists(cursor, 'item_recipe_ingredient_names'):
+                continue
+            cursor.execute(
+                """
+                SELECT COALESCE(
+                    (SELECT name FROM item_recipe_ingredient_names
+                     WHERE ingredient_ankama_id = ?
+                       AND ingredient_subtype = ?
+                       AND language = ? LIMIT 1),
+                    (SELECT name FROM item_recipe_ingredient_names
+                     WHERE ingredient_ankama_id = ?
+                       AND ingredient_subtype = ?
+                       AND language = 'en' LIMIT 1))
+                """,
+                (ankama_id, subtype, language, ankama_id, subtype))
+            row = cursor.fetchone()
+            if row and row[0]:
+                return row[0]
         except Exception:
             continue
         finally:
@@ -2235,6 +2283,14 @@ def _monster_not_found_response(request, monster_id=None, slug=None, current_nam
     return _encyclopedia_missing_response(request, 'monster', requested_name)
 
 
+def _resource_not_found_response(request, subtype, ankama_id, slug=None, current_name=None):
+    language = get_supported_language()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    requested_name = _resolve_missing_resource_name(
+        subtype, ankama_id, slug, language, game_version, current_name=current_name)
+    return _encyclopedia_missing_response(request, 'resource', requested_name)
+
+
 def encyclopedia_monster(request, monster_id, slug=None):
     language = get_supported_language()
     t = _ui_text()
@@ -2457,7 +2513,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             conn.close()
 
     if not resource_name or not used_in:
-        return redirect(version_reverse(request, 'encyclopedia'))
+        return _resource_not_found_response(
+            request, subtype, target_ankama_id, slug, current_name=resource_name)
 
     canonical_path = get_resource_link(subtype, target_ankama_id, resource_name, game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
