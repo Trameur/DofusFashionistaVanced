@@ -72,3 +72,20 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'fashionsite.settings'
 # Initialiser Django
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
+
+# Prechauffer les caches encyclopedie en arriere-plan : gunicorn recycle les
+# workers (--max-requests), sans ca le premier visiteur de chaque nouveau
+# worker paie les constructions a froid (~0.5s par version rien que pour le
+# coeur monstres). Les requetes servies pendant la chauffe construisent
+# elles-memes ce qui leur manque, comme avant.
+import threading
+
+def _warm_encyclopedia_caches():
+    try:
+        from chardata.encyclopedia_view import warm_caches
+        warm_caches()
+    except Exception:
+        pass
+
+threading.Thread(target=_warm_encyclopedia_caches, daemon=True,
+                 name='encyclopedia-warmup').start()

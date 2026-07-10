@@ -4168,6 +4168,28 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
             % (self.MAX_DESC, offenders))
 
 
+class EncyclopediaCacheWarmupTests(SimpleTestCase):
+    def test_warm_caches_covers_every_version(self):
+        from chardata import encyclopedia_view as ev
+
+        ev.warm_caches()
+        for version, _label in ev.ACTIVE_GAME_VERSIONS:
+            self.assertIn(version, ev._monster_core_by_id_cache)
+            self.assertIn(version, ev._version_item_keys_cache)
+            self.assertIn(version, ev._version_resource_keys_cache)
+            self.assertIn(version, ev._resource_search_index_cache)
+        # After the warmup every cross-version helper must answer without
+        # touching sqlite (this is what the wsgi background thread buys us).
+        with unittest.mock.patch.object(
+                ev.sqlite3, 'connect',
+                side_effect=AssertionError('cold db hit after warmup')):
+            self.assertTrue(ev._other_versions_with_item(
+                'dofus3', 'equipment', 44, 'x'))
+            self.assertTrue(ev._other_versions_with_resource(
+                'dofus3', 'resources', 287, 'x'))
+            self.assertTrue(ev._get_monster_version_links(101, 'retro', 'fr'))
+
+
 class EncyclopediaResourcePageTests(TestCase):
     """The resource page is the reverse recipe index: it lists every item a crafting
     ingredient is used in, and item recipes link to it. See

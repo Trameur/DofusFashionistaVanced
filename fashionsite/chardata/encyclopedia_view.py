@@ -2235,6 +2235,19 @@ def _get_monster_index(game_version, language):
     return monsters
 
 
+def warm_caches():
+    """Pre-build the per-version encyclopedia caches (monster cores, item and
+    resource key sets, resource search index). Called from a background thread
+    at wsgi startup so the first visitor after a worker (re)start does not pay
+    the cold builds; gunicorn recycles workers every ~1000 requests, so cold
+    starts are routine in production, not just at deploys."""
+    for game_version, _label in ACTIVE_GAME_VERSIONS:
+        _get_monster_core_by_id(game_version)
+        _version_item_keys(game_version)
+        _version_resource_keys(game_version)
+        _get_resource_search_index(game_version)
+
+
 def _get_monster_version_links(monster_id, current_game_version, language):
     """Cross-version links for a monster page, served from the cached monster
     core (the core only carries monsters that drop something, which is exactly
