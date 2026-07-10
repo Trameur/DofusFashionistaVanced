@@ -637,7 +637,7 @@
     <div class="encyclopedia-resource-hits">
         {% for res in resource_results|slice:":12" %}
         <a class="encyclopedia-resource-hit" href="{{ res.url }}">
-            {% if res.image_url %}<img src="{{ res.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ res.name }}</span>
+            {% if res.image_url %}<img src="{{ res.image_url }}" alt="" width="24" height="24" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}<span>{{ res.name }}</span>
         </a>
         {% endfor %}
     </div>
@@ -647,7 +647,7 @@
         <div class="encyclopedia-resource-hits">
             {% for res in resource_results|slice:"12:" %}
             <a class="encyclopedia-resource-hit" href="{{ res.url }}">
-                {% if res.image_url %}<img src="{{ res.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ res.name }}</span>
+                {% if res.image_url %}<img src="{{ res.image_url }}" alt="" width="24" height="24" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}<span>{{ res.name }}</span>
             </a>
             {% endfor %}
         </div>
@@ -659,7 +659,7 @@
     <div class="encyclopedia-results-header big-text" id="monsters-results">{{ mt.monsters_label }}: {{ monster_total }}</div>
     <div class="encyclopedia-resource-hits">
         {% for mon in monster_results|slice:":12" %}
-        <a class="encyclopedia-resource-hit" href="{{ mon.url }}">{% if mon.image_url %}<img src="{{ mon.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ mon.name }}</span></a>
+        <a class="encyclopedia-resource-hit" href="{{ mon.url }}">{% if mon.image_url %}<img src="{{ mon.image_url }}" alt="" width="24" height="24" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}<span>{{ mon.name }}</span></a>
         {% endfor %}
     </div>
     {% if monster_results|length > 12 %}
@@ -667,7 +667,7 @@
         <summary>{{ t.show_more_drops_label }} ({{ monster_results|length|add:"-12" }})</summary>
         <div class="encyclopedia-resource-hits">
             {% for mon in monster_results|slice:"12:" %}
-            <a class="encyclopedia-resource-hit" href="{{ mon.url }}">{% if mon.image_url %}<img src="{{ mon.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ mon.name }}</span></a>
+            <a class="encyclopedia-resource-hit" href="{{ mon.url }}">{% if mon.image_url %}<img src="{{ mon.image_url }}" alt="" width="24" height="24" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}<span>{{ mon.name }}</span></a>
             {% endfor %}
         </div>
     </details>
@@ -682,7 +682,7 @@
         <div class="encyclopedia-card brown-box">
             <div>
                 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
-                <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                <img src="{{ item.image_url }}" alt="{{ item.name }}" width="60" height="60" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
             <div>
                 <div class="encyclopedia-card-name">{{ item.name }}</div>
@@ -693,7 +693,7 @@
                     {% for stat_line in item.stat_lines %}
                         <div class="encyclopedia-card-stat-line {% if stat_line.negative %}encyclopedia-card-stat-negative{% endif %}">
                             {% if stat_line.icon_url %}
-                            <img class="encyclopedia-card-stat-icon" src="{{ stat_line.icon_url }}" alt="">
+                            <img class="encyclopedia-card-stat-icon" src="{{ stat_line.icon_url }}" alt="" width="14" height="14" loading="lazy" decoding="async">
                             {% endif %}
                             <span>{{ stat_line.text }}</span>
                         </div>

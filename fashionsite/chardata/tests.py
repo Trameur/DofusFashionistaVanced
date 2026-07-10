@@ -4738,6 +4738,9 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('class="monster-portrait"', body)
+        self.assertIn('width="48"', body)
+        self.assertIn('height="48"', body)
+        self.assertIn('decoding="async"', body)
         self.assertIn('chardata/monsters/96/101.webp', body)
         self.assertIn('property="og:image"', body)
 
@@ -4750,7 +4753,12 @@ class EncyclopediaMonsterPageTests(TestCase):
 
         # Search chips reuse the same artwork on dofus3.
         resp = self.client.get('/encyclopedia/', {'q': 'bouftou'})
-        self.assertContains(resp, 'chardata/monsters/96/')
+        body = resp.content.decode('utf-8')
+        self.assertIn('chardata/monsters/96/', body)
+        self.assertIn('width="24"', body)
+        self.assertIn('height="24"', body)
+        self.assertIn('loading="lazy"', body)
+        self.assertIn('decoding="async"', body)
 
     def test_monster_version_links_served_from_cache(self):
         from chardata import encyclopedia_view
