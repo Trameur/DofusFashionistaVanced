@@ -994,6 +994,53 @@ def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
     return links
 
 
+_version_resource_keys_cache = {}
+
+
+def _version_resource_keys(game_version):
+    """Set of (subtype, ankama_id) with a working resource page in a version:
+    named ingredients used by at least one recipe of that version."""
+    cached = _version_resource_keys_cache.get(game_version)
+    if cached is not None:
+        return cached
+    keys = set()
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        if (_db_table_exists(cursor, 'item_recipes')
+                and _db_table_exists(cursor, 'item_recipe_ingredient_names')):
+            for subtype, ankama_id in cursor.execute(
+                    """SELECT DISTINCT r.ingredient_subtype, r.ingredient_ankama_id
+                       FROM item_recipes r
+                       JOIN item_recipe_ingredient_names n
+                         ON n.ingredient_ankama_id = r.ingredient_ankama_id
+                        AND n.ingredient_subtype = r.ingredient_subtype"""):
+                keys.add((subtype, ankama_id))
+    except sqlite3.Error:
+        keys = set()
+    finally:
+        if conn is not None:
+            conn.close()
+    _version_resource_keys_cache[game_version] = keys
+    return keys
+
+
+def _other_versions_with_resource(current_version, subtype, ankama_id, name):
+    """Cross-version links for a resource page: every OTHER version where the
+    same ingredient has its own working resource page."""
+    links = []
+    for game_version, label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_version:
+            continue
+        if (subtype, ankama_id) in _version_resource_keys(game_version):
+            links.append({
+                'label': label,
+                'url': get_resource_link(subtype, ankama_id, name, game_version),
+            })
+    return links
+
+
 def _search_resources(game_version, normalized_search, language, limit=12):
     """Recipe ingredients matching the encyclopedia search box, as links to
     their resource pages. Matches every language with the same accent-insensitive
@@ -1382,8 +1429,11 @@ def encyclopedia(request):
             selected_stat_orders.append((order_key, order_dir))
 
     normalized_search = _normalized_text(search_text) if search_text else ''
-    resource_results = _search_resources(game_version, normalized_search, language)
-    monster_results = _search_monsters(game_version, normalized_search, language)
+    resource_results = []
+    monster_results = []
+    if normalized_search:
+        resource_results = _search_resources(game_version, normalized_search, language)
+        monster_results = _search_monsters(game_version, normalized_search, language)
     filtered_items = []
     for entry in _get_light_index(structure, language):
         if selected_type and entry['raw_type_name'] != selected_type:
@@ -2599,4 +2649,6 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             'resource_image': resource_image,
             'used_in': used_in,
             'drops': drops,
+            'other_versions': _other_versions_with_resource(
+                game_version, subtype, target_ankama_id, resource_name),
         })

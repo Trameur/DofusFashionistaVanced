@@ -385,6 +385,12 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get('/encyclopedia/', {'q': 'zzzznothingmatchesthis'})
         self.assertContains(resp, LOCALIZED_UI['en']['no_results'])
 
+    def test_encyclopedia_hub_does_not_search_other_families_without_query(self):
+        resp = self.client.get('/encyclopedia/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['resource_results'], [])
+        self.assertEqual(resp.context['monster_results'], [])
+
     def test_item_page_links_other_versions(self):
         # Twiggy Sword (44) exists on dofus3, dofus2 and retro but not touch:
         # the "Also in" block cross-links only the versions that carry the
@@ -406,6 +412,36 @@ class PublicRouteSmokeTests(TestCase):
         m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
         self.assertIsNotNone(m)
         self.assertIn('"/encyclopedia/item/equipment/44-', m.group(0))
+
+    def test_resource_page_links_other_versions(self):
+        # Sesame Seed (resources/287) is a craft ingredient in every version:
+        # the "Also in" block must cross-link them all.
+        resp = self.client.get('/encyclopedia/resource/resources/287-x/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
+        self.assertIsNotNone(m, 'Also in block missing')
+        block = m.group(0)
+        for prefix in ('/retro', '/dofus2', '/touch', '/beta'):
+            self.assertIn('%s/encyclopedia/resource/resources/287-' % prefix,
+                          block)
+        # Strawberry (resources/381) is only used by dofus3-era recipes:
+        # no touch/retro link even though the global switcher lists them.
+        resp = self.client.get('/encyclopedia/resource/resources/381-x/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
+        self.assertIsNotNone(m, 'Also in block missing')
+        block = m.group(0)
+        self.assertNotIn('/touch/', block)
+        self.assertNotIn('/retro/', block)
+        # And the retro page links back to dofus3 (unprefixed URL).
+        resp = self.client.get('/retro/encyclopedia/resource/resources/287-x/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
+        self.assertIsNotNone(m)
+        self.assertIn('"/encyclopedia/resource/resources/287-', m.group(0))
 
     def test_search_finds_monsters(self):
         import sqlite3
