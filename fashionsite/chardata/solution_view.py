@@ -336,15 +336,15 @@ def _score_delta_text(delta):
     return '+%d' % delta if delta > 0 else str(delta)
 
 
-def _build_generation_history(request, char, current_generation=None):
+def _build_generation_history(request, char, current_generation=None, current_score=None):
     generations = (SolutionGeneration.objects
                    .filter(char=char, game_version=char.game_version)
                    .order_by('-created_time', '-id')[:10])
-    current_score = None
-    try:
-        current_score = calculate_project_build_score(char, get_solution(char))
-    except Exception:
-        current_score = None
+    if current_score is None:
+        try:
+            current_score = calculate_project_build_score(char, get_solution(char))
+        except Exception:
+            current_score = None
     entries = []
     for generation in generations:
         solution = None
@@ -474,7 +474,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,
-              'generation_history': [] if is_guest else _build_generation_history(request, char, generation),
+              'generation_history': [] if is_guest else _build_generation_history(
+                  request, char, generation, build_score),
               'is_generation_snapshot': is_generation_snapshot,
               'generation_created_time': generation.created_time if generation else None,
               'restore_generation_url': (
