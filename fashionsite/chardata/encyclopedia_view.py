@@ -937,7 +937,8 @@ def _search_monsters(game_version, normalized_search, language, limit=12):
             continue
         hits.append({
             'name': monster['name'],
-            'starts': _normalized_text(monster['name']).startswith(normalized_search),
+            'starts': any(alias.startswith(normalized_search)
+                          for alias in monster['name_aliases']),
             'url': monster['url'],
         })
     hits.sort(key=lambda h: (not h['starts'], (h['name'] or '').lower()))
@@ -2025,6 +2026,7 @@ def _build_monster_core(game_version):
             monsters.append({
                 'id': monster_id,
                 'names': dict(monster_names.get(monster_id, {})),
+                'name_aliases': sorted(monster_aliases.get(monster_id, ())),
                 'resource_count': resource_count,
                 'item_count': item_count,
                 'total_drops': resource_count + item_count,
@@ -2060,6 +2062,7 @@ def _get_monster_index(game_version, language):
             'item_count': entry['item_count'],
             'total_drops': entry['total_drops'],
             'url': get_monster_link(entry['id'], name, game_version),
+            'name_aliases': entry['name_aliases'],
             'search_blob': entry['search_blob'],
         })
 

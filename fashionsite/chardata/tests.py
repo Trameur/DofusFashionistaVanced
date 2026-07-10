@@ -333,7 +333,9 @@ class PublicRouteSmokeTests(TestCase):
     def test_search_finds_monsters(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
-        for version, prefix in (('dofus3', ''), ('retro', '/retro')):
+        for version, prefix in (('dofus3', ''), ('beta', '/beta'),
+                                ('touch', '/touch'), ('retro', '/retro'),
+                                ('dofus2', '/dofus2')):
             with self.subTest(version=version):
                 conn = sqlite3.connect(get_items_db_path(version))
                 row = conn.execute(
@@ -343,7 +345,33 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertIsNotNone(row, 'no monster for ' + version)
                 resp = self.client.get('%s/encyclopedia/' % prefix, {'q': row[0]})
                 self.assertEqual(resp.status_code, 200)
-                self.assertContains(resp, '/encyclopedia/monster/')
+                self.assertContains(resp, '%s/encyclopedia/monster/' % prefix)
+
+    def test_monster_search_prioritizes_names_across_languages(self):
+        from chardata import encyclopedia_view
+
+        with unittest.mock.patch.object(
+                encyclopedia_view,
+                '_get_monster_index',
+                return_value=[
+                    {
+                        'name': 'Found through a drop',
+                        'search_blob': 'blue resource',
+                        'name_aliases': ['gobball'],
+                        'url': '/drop-match/',
+                    },
+                    {
+                        'name': 'Larve Bleue',
+                        'search_blob': 'blue larva larve bleue',
+                        'name_aliases': ['blue larva', 'larve bleue'],
+                        'url': '/name-match/',
+                    },
+                ]):
+            hits = encyclopedia_view._search_monsters(
+                'dofus3', encyclopedia_view._normalized_text('blue'), 'fr', limit=3)
+
+        self.assertEqual([hit['url'] for hit in hits],
+                         ['/name-match/', '/drop-match/'])
 
     def test_resource_page_shows_the_ingredient_icon(self):
         import sqlite3
