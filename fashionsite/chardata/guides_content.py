@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'how-it-works', 'stats-explained', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'versions-explained']
+ORDER = ['getting-started', 'choosing-your-class', 'how-it-works', 'stats-explained', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
 
 
 GUIDES = {
@@ -1628,6 +1628,127 @@ GUIDES = {
             },
         },
     },
+    # ------------------------------------------------------------------ #
+    'choosing-your-class': {
+        'published': '2026-07-10',
+        'i18n': {
+            'en': {
+                'title': 'Choosing your class in Dofus, version by version',
+                'desc': "Iop or Cra, Retro or Touch: why the best class depends on the Dofus version you play, and how to audition a class with an optimized build first.",
+                'lead': "Most class guides open with a tier list. This one opens with a warning: the best class depends on which Dofus you play, and the same name rarely plays the same way twice.",
+                'body': '''
+<h2>Pick a role, not a rank</h2>
+<p>Tier lists age badly; roles do not. Decide what you want to be doing turn after turn: hitting from range (Cra), bursting in melee (Iop), healing and shielding (Eniripsa), locking the map down (Feca), trading your own life for damage (Sacrier), or playing dirty with traps and invisibility (Sram). You will spend hundreds of hours in that role, so start from what you enjoy, then check how your version treats it.</p>
+
+<h2>The same class is not the same game</h2>
+<p>Kits, spells and balance differ across <a href="/guides/versions-explained/">Dofus versions</a>. Dofus Retro (1.29) is the extreme case: era gear is rigid, vitality and wisdom carry enormous weight, and the classic Sacrier is played as a nearly unkillable vitality sponge rather than a damage dealer. Dofus Touch froze its own branch of the game and balances it separately, so some classes shine there on paths that no longer exist elsewhere. Dofus 3 rebalances regularly, which keeps the modern meta moving. If a friend swears by a class, ask which version they play before copying them.</p>
+
+<h2>The element is half the choice</h2>
+<p>Inside one class, the real fork is the element path: a fire build and an air build of the same class gear completely differently and often play differently too. Whether to stay mono-element or split is its own topic, covered in <a href="/guides/mono-vs-multi-element/">mono vs multi element</a>. When in doubt, pick the path your version's gear actually supports at your level: that is usually the constraint that decides.</p>
+
+<h2>Let the optimizer absorb the decision</h2>
+<p>This is where the tool does the heavy lifting: when you <a href="/setup/">create a project</a>, the Fashionista weights stats for your class, your element and your exact game version, because a stat that wins fights in one version can be dead weight in another. Style presets (glass cannon, tanky, balanced) tilt those weights toward how you want to play, and <a href="/guides/tuning-your-weights/">you can retune everything</a> once you know your own priorities.</p>
+
+<h2>Audition your shortlist</h2>
+<p>Builds are free and take a minute. Shortlist two or three classes, generate a build for each at the level you actually play, and <a href="/guides/comparing-builds/">compare the results side by side</a>. Seeing what each class realistically wears and reaches at your level answers the question better than any ranking written for someone else's version.</p>
+
+<p><em>Undecided? <a href="/setup/">Start a project</a> for each candidate and let the sets argue for them.</em></p>
+''',
+            },
+            'fr': {
+                'title': 'Choisir sa classe sur Dofus, version par version',
+                'desc': "Iop ou Crâ, Retro ou Touch : la meilleure classe dépend de la version de Dofus que vous jouez. Comment auditionner une classe avec un build optimisé.",
+                'lead': "La plupart des guides de classes commencent par une tier list. Celui-ci commence par un avertissement : la meilleure classe dépend du Dofus que vous jouez, et le même nom se joue rarement deux fois pareil.",
+                'body': '''
+<h2>Choisissez un rôle, pas un rang</h2>
+<p>Les tier lists vieillissent mal ; les rôles, non. Décidez ce que vous voulez faire tour après tour : frapper à distance (Crâ), exploser au corps à corps (Iop), soigner et protéger (Eniripsa), verrouiller la carte (Feca), échanger votre vie contre des dégâts (Sacrieur), ou jouer sale avec pièges et invisibilité (Sram). Vous passerez des centaines d'heures dans ce rôle : partez de ce qui vous amuse, puis regardez comment votre version le traite.</p>
+
+<h2>La même classe n'est pas le même jeu</h2>
+<p>Kits, sorts et équilibrage changent selon les <a href="/guides/versions-explained/">versions de Dofus</a>. Dofus Retro (1.29) est le cas extrême : l'équipement d'époque est rigide, la vitalité et la sagesse pèsent énormément, et le Sacrieur classique s'y joue en éponge de vitalité quasi intuable plutôt qu'en attaquant. Dofus Touch a gelé sa propre branche du jeu et l'équilibre séparément : certaines classes y brillent sur des voies qui n'existent plus ailleurs. Dofus 3 rééquilibre régulièrement, ce qui fait bouger la méta moderne. Si un ami ne jure que par une classe, demandez-lui d'abord sa version avant de le copier.</p>
+
+<h2>L'élément est la moitié du choix</h2>
+<p>Au sein d'une classe, la vraie bifurcation est la voie élémentaire : un build feu et un build air de la même classe s'équipent tout autrement et se jouent souvent différemment. Rester mono-élément ou se répartir est un sujet à part entière, traité dans <a href="/guides/mono-vs-multi-element/">mono ou multi élément</a>. Dans le doute, prenez la voie que l'équipement de votre version soutient vraiment à votre niveau : c'est presque toujours la contrainte qui tranche.</p>
+
+<h2>Laissez l'optimiseur absorber la décision</h2>
+<p>C'est là que l'outil fait le gros du travail : quand vous <a href="/setup/">créez un projet</a>, le Fashionista pondère les stats pour votre classe, votre élément et votre version exacte du jeu, parce qu'une stat qui gagne des combats dans une version peut être du poids mort dans une autre. Les styles prédéfinis (glass cannon, tanky, équilibré) inclinent ces poids vers votre façon de jouer, et <a href="/guides/tuning-your-weights/">tout se réajuste</a> quand vous connaissez vos priorités.</p>
+
+<h2>Auditionnez votre short-list</h2>
+<p>Les builds sont gratuits et prennent une minute. Retenez deux ou trois classes, générez un build pour chacune au niveau que vous jouez vraiment, et <a href="/guides/comparing-builds/">comparez les résultats côte à côte</a>. Voir ce que chaque classe porte et atteint réellement à votre niveau répond mieux à la question que n'importe quel classement écrit pour la version de quelqu'un d'autre.</p>
+
+<p><em>Indécis ? <a href="/setup/">Créez un projet</a> par candidate et laissez les panoplies plaider.</em></p>
+''',
+            },
+            'es': {
+                'title': 'Elegir tu clase en Dofus, versión por versión',
+                'desc': "Yopuka u Ocra, Retro o Touch: por qué la mejor clase depende de la versión de Dofus que juegas, y cómo probar una clase con un build optimizado antes.",
+                'lead': "La mayoría de las guías de clases empiezan con una tier list. Esta empieza con una advertencia: la mejor clase depende de qué Dofus juegas, y el mismo nombre rara vez se juega igual dos veces.",
+                'body': '''
+<h2>Elige un rol, no un puesto</h2>
+<p>Las tier lists envejecen mal; los roles, no. Decide qué quieres hacer turno tras turno: golpear a distancia (Ocra), reventar en cuerpo a cuerpo (Yopuka), curar y proteger (Aniripsa), bloquear el mapa (Feca), cambiar tu propia vida por daño (Sacrógrito) o jugar sucio con trampas e invisibilidad (Sram). Vas a pasar cientos de horas en ese rol: parte de lo que te divierte y luego mira cómo lo trata tu versión.</p>
+
+<h2>La misma clase no es el mismo juego</h2>
+<p>Kits, hechizos y equilibrio cambian según la <a href="/guides/versions-explained/">versión de Dofus</a>. Dofus Retro (1.29) es el caso extremo: el equipo de la época es rígido, la vitalidad y la sabiduría pesan muchísimo, y el Sacrógrito clásico se juega como una esponja de vitalidad casi inmatable, no como atacante. Dofus Touch congeló su propia rama del juego y la equilibra por separado: algunas clases brillan allí por caminos que ya no existen en otras versiones. Dofus 3 reequilibra con regularidad, así que la meta moderna no deja de moverse. Si un amigo jura por una clase, pregúntale primero qué versión juega antes de copiarle.</p>
+
+<h2>El elemento es la mitad de la elección</h2>
+<p>Dentro de una clase, la bifurcación real es la vía elemental: un build de fuego y uno de aire de la misma clase se equipan de forma totalmente distinta y a menudo también se juegan distinto. Quedarse mono elemento o repartirse es un tema aparte, tratado en <a href="/guides/mono-vs-multi-element/">mono o multi elemento</a>. Ante la duda, elige la vía que el equipo de tu versión realmente sostiene a tu nivel: esa suele ser la restricción que decide.</p>
+
+<h2>Deja que el optimizador absorba la decisión</h2>
+<p>Aquí es donde la herramienta hace el trabajo pesado: cuando <a href="/setup/">creas un proyecto</a>, el Fashionista pondera las características para tu clase, tu elemento y tu versión exacta del juego, porque una característica que gana combates en una versión puede ser peso muerto en otra. Los estilos predefinidos (glass cannon, tanque, equilibrado) inclinan esos pesos hacia tu forma de jugar, y <a href="/guides/tuning-your-weights/">todo se puede reajustar</a> cuando conozcas tus prioridades.</p>
+
+<h2>Haz una audición a tu lista corta</h2>
+<p>Los builds son gratis y toman un minuto. Preselecciona dos o tres clases, genera un build para cada una al nivel que realmente juegas y <a href="/guides/comparing-builds/">compara los resultados lado a lado</a>. Ver lo que cada clase lleva y alcanza de verdad a tu nivel responde mejor la pregunta que cualquier ranking escrito para la versión de otro.</p>
+
+<p><em>¿Indeciso? <a href="/setup/">Crea un proyecto</a> por candidata y deja que los sets aboguen por ellas.</em></p>
+''',
+            },
+            'pt': {
+                'title': 'Escolhendo sua classe no Dofus, versão por versão',
+                'desc': "Iop ou Cra, Retro ou Touch: por que a melhor classe depende da versão de Dofus que você joga, e como testar uma classe com um build otimizado antes.",
+                'lead': "A maioria dos guias de classe abre com uma tier list. Este abre com um aviso: a melhor classe depende de qual Dofus você joga, e o mesmo nome raramente se joga igual duas vezes.",
+                'body': '''
+<h2>Escolha um papel, não uma posição</h2>
+<p>Tier lists envelhecem mal; papéis, não. Decida o que você quer fazer turno após turno: atacar de longe (Cra), explodir no corpo a corpo (Iop), curar e proteger (Eniripsa), travar o mapa (Feca), trocar a própria vida por dano (Sacrier) ou jogar sujo com armadilhas e invisibilidade (Sram). Você vai passar centenas de horas nesse papel: parta do que te diverte e depois veja como a sua versão o trata.</p>
+
+<h2>A mesma classe não é o mesmo jogo</h2>
+<p>Kits, feitiços e balanceamento mudam conforme a <a href="/guides/versions-explained/">versão de Dofus</a>. Dofus Retro (1.29) é o caso extremo: o equipamento da época é rígido, vitalidade e sabedoria pesam muito, e o Sacrier clássico se joga como uma esponja de vitalidade quase imortal, não como atacante. Dofus Touch congelou o próprio ramo do jogo e o balanceia em separado: algumas classes brilham lá por caminhos que já não existem em outras versões. Dofus 3 rebalanceia com frequência, então a meta moderna segue mudando. Se um amigo jura por uma classe, pergunte primeiro qual versão ele joga antes de copiar.</p>
+
+<h2>O elemento é metade da escolha</h2>
+<p>Dentro de uma classe, a bifurcação real é a via elemental: um build de fogo e um de ar da mesma classe se equipam de forma totalmente diferente e muitas vezes também se jogam diferente. Ficar mono elemento ou dividir é assunto próprio, tratado em <a href="/guides/mono-vs-multi-element/">mono ou multi elemento</a>. Na dúvida, escolha a via que o equipamento da sua versão realmente sustenta no seu nível: essa costuma ser a restrição que decide.</p>
+
+<h2>Deixe o otimizador absorver a decisão</h2>
+<p>É aqui que a ferramenta faz o trabalho pesado: quando você <a href="/setup/">cria um projeto</a>, o Fashionista pondera os atributos para a sua classe, o seu elemento e a sua versão exata do jogo, porque um atributo que ganha lutas numa versão pode ser peso morto em outra. Os estilos predefinidos (glass cannon, tanque, equilibrado) inclinam esses pesos para o seu jeito de jogar, e <a href="/guides/tuning-your-weights/">tudo pode ser reajustado</a> quando você conhecer as suas prioridades.</p>
+
+<h2>Faça um teste com sua lista curta</h2>
+<p>Builds são grátis e levam um minuto. Selecione duas ou três classes, gere um build para cada uma no nível que você realmente joga e <a href="/guides/comparing-builds/">compare os resultados lado a lado</a>. Ver o que cada classe realmente veste e alcança no seu nível responde melhor à pergunta do que qualquer ranking escrito para a versão de outra pessoa.</p>
+
+<p><em>Indeciso? <a href="/setup/">Crie um projeto</a> por candidata e deixe os sets defenderem cada uma.</em></p>
+''',
+            },
+            'de': {
+                'title': 'Die Klassenwahl in Dofus, Version für Version',
+                'desc': "Iop oder Crâ, Retro oder Touch: warum die beste Klasse von deiner Dofus-Version abhängt, und wie du eine Klasse erst mit einem optimierten Build testest.",
+                'lead': "Die meisten Klassenguides beginnen mit einer Tierlist. Dieser beginnt mit einer Warnung: Die beste Klasse hängt davon ab, welches Dofus du spielst, und derselbe Name spielt sich selten zweimal gleich.",
+                'body': '''
+<h2>Wähle eine Rolle, keinen Rang</h2>
+<p>Tierlists altern schlecht; Rollen nicht. Entscheide, was du Zug um Zug tun willst: aus der Distanz treffen (Crâ), im Nahkampf explodieren (Iop), heilen und schützen (Eniripsa), die Karte verriegeln (Féca), das eigene Leben gegen Schaden tauschen (Sacrieur) oder mit Fallen und Unsichtbarkeit tricksen (Sram). In dieser Rolle wirst du Hunderte Stunden verbringen: Geh von dem aus, was dir Spass macht, und schau dann, wie deine Version sie behandelt.</p>
+
+<h2>Dieselbe Klasse ist nicht dasselbe Spiel</h2>
+<p>Ausrüstung, Zauber und Balancing unterscheiden sich je nach <a href="/guides/versions-explained/">Dofus-Version</a>. Dofus Retro (1.29) ist der Extremfall: Die Ausrüstung der Ära ist starr, Vitalität und Weisheit wiegen enorm, und der klassische Sacrieur wird als kaum totzukriegender Vitalitätsschwamm gespielt, nicht als Schadensklasse. Dofus Touch hat seinen eigenen Zweig des Spiels eingefroren und balanciert ihn separat: Manche Klassen glänzen dort auf Wegen, die es anderswo nicht mehr gibt. Dofus 3 balanciert regelmässig nach, die moderne Meta bleibt also in Bewegung. Wenn ein Freund auf eine Klasse schwört, frag zuerst, welche Version er spielt, bevor du ihn kopierst.</p>
+
+<h2>Das Element ist die halbe Entscheidung</h2>
+<p>Innerhalb einer Klasse ist die echte Weggabelung der Elementarpfad: Ein Feuer-Build und ein Luft-Build derselben Klasse rüsten sich völlig anders aus und spielen sich oft auch anders. Ob mono oder verteilt, ist ein eigenes Thema und wird in <a href="/guides/mono-vs-multi-element/">Mono oder Multi Element</a> behandelt. Im Zweifel nimm den Pfad, den die Ausrüstung deiner Version auf deiner Stufe wirklich trägt: Das ist meist die Einschränkung, die entscheidet.</p>
+
+<h2>Lass den Optimierer die Entscheidung abfedern</h2>
+<p>Hier übernimmt das Werkzeug die schwere Arbeit: Wenn du <a href="/setup/">ein Projekt erstellst</a>, gewichtet der Fashionista die Werte für deine Klasse, dein Element und deine exakte Spielversion, denn ein Wert, der in einer Version Kämpfe gewinnt, kann in einer anderen totes Gewicht sein. Stil-Presets (Glaskanone, tanky, ausgewogen) neigen diese Gewichte zu deiner Spielweise, und <a href="/guides/tuning-your-weights/">alles lässt sich nachjustieren</a>, sobald du deine Prioritäten kennst.</p>
+
+<h2>Lass deine Favoriten vorspielen</h2>
+<p>Builds sind kostenlos und dauern eine Minute. Nimm zwei oder drei Klassen in die engere Wahl, erzeuge für jede einen Build auf der Stufe, die du wirklich spielst, und <a href="/guides/comparing-builds/">vergleiche die Ergebnisse nebeneinander</a>. Zu sehen, was jede Klasse auf deiner Stufe realistisch trägt und erreicht, beantwortet die Frage besser als jedes Ranking, das für die Version von jemand anderem geschrieben wurde.</p>
+
+<p><em>Unentschlossen? <a href="/setup/">Erstell pro Kandidatin ein Projekt</a> und lass die Sets für sie sprechen.</em></p>
+''',
+            },
+        },
+    },
 }
 
 
@@ -1640,11 +1761,19 @@ def _lang(code):
     return code if code in ('en', 'fr', 'es', 'pt', 'de') else 'en'
 
 
+def ordered_slugs():
+    """Every guide slug, hub display order first. ORDER drives the order, but
+    a slug missing from it must still be listed everywhere (hub, sitemap):
+    the crafting guide shipped unlisted for a morning because only its page
+    existed, nothing linked it."""
+    return ORDER + [slug for slug in GUIDES if slug not in ORDER]
+
+
 def list_guides(language_code):
     """Return [{slug, title, desc}] in display order for a language."""
     lang = _lang(language_code)
     out = []
-    for slug in ORDER:
+    for slug in ordered_slugs():
         guide = GUIDES[slug]
         block = guide['i18n'].get(lang) or guide['i18n']['en']
         out.append({

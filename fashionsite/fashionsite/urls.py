@@ -432,7 +432,7 @@ def sitemap_view(request):
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
     try:
         from chardata import guides_content
-        for slug in guides_content.ORDER:
+        for slug in guides_content.ordered_slugs():
             published = guides_content.GUIDES[slug].get('published')
             lastmod = ('\n    <lastmod>%s</lastmod>' % published) if published else ''
             blocks.append('  <url>\n    <loc>%s/guides/%s/</loc>%s\n'
