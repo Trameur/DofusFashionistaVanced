@@ -97,7 +97,7 @@ msgstr "Meine Builds"
 
 #: .\chardata\compare_sets_view.py:380
 msgid "No saved builds with a solution yet."
-msgstr "Noch keine gespeicherten Builds mit einer Loesung."
+msgstr "Noch keine gespeicherten Builds mit einer Lösung."
 
 #: .\chardata\compare_sets_view.py:385
 #: .\chardata\templates\chardata\shared_builds.html:657
@@ -107,7 +107,7 @@ msgstr "Favoriten"
 
 #: .\chardata\compare_sets_view.py:386
 msgid "No favorite builds for this version yet."
-msgstr "Noch keine Favoriten-Builds fuer diese Version."
+msgstr "Noch keine Favoriten-Builds für diese Version."
 
 #: .\chardata\compare_sets_view.py:392
 #: .\chardata\templates\chardata\shared_builds.html:653
@@ -117,7 +117,7 @@ msgstr "Likes"
 
 #: .\chardata\compare_sets_view.py:393
 msgid "No liked builds for this version yet."
-msgstr "Noch keine gelikten Builds fuer diese Version."
+msgstr "Noch keine gelikten Builds für diese Version."
 
 #: .\chardata\compare_sets_view.py:432 .\chardata\compare_sets_view.py:442
 #: .\chardata\compare_sets_view.py:446
@@ -127,7 +127,7 @@ msgstr "Fügen Sie Links von mindestens 2 Projekten zum Vergleich ein"
 #: .\chardata\compare_sets_view.py:448
 #: .\chardata\templates\chardata\choose_compare_sets.html:81
 msgid "Choose at most 4 builds to compare"
-msgstr "Waehle hoechstens 4 Builds zum Vergleichen aus"
+msgstr "Wähle höchstens 4 Builds zum Vergleichen aus"
 
 #: .\chardata\compare_sets_view.py:454 .\chardata\compare_sets_view.py:480
 #, python-format
@@ -2034,7 +2034,7 @@ msgid ""
 "pasting links manually."
 msgstr ""
 "Starte einen Vergleich aus deinen gespeicherten Builds, Favoriten und Likes,"
-" oder fuege Links weiter manuell ein."
+" oder füge Links weiter manuell ein."
 
 #: .\chardata\templates\chardata\changelog_modal.html:71
 msgid "Encyclopedia drops and recipes"
@@ -2917,7 +2917,7 @@ msgstr "Stufe"
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:113
 msgid "Log in to pick from your builds, favorites and likes."
-msgstr "Melde dich an, um aus deinen Builds, Favoriten und Likes zu waehlen."
+msgstr "Melde dich an, um aus deinen Builds, Favoriten und Likes zu wählen."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:116
 msgid "Manual links"

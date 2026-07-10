@@ -96,7 +96,7 @@ msgstr "Mes builds"
 
 #: .\chardata\compare_sets_view.py:380
 msgid "No saved builds with a solution yet."
-msgstr "Aucun build enregistre avec une solution pour le moment."
+msgstr "Aucun build enregistré avec une solution pour le moment."
 
 #: .\chardata\compare_sets_view.py:385
 #: .\chardata\templates\chardata\shared_builds.html:657
@@ -116,17 +116,17 @@ msgstr "J'aime"
 
 #: .\chardata\compare_sets_view.py:393
 msgid "No liked builds for this version yet."
-msgstr "Aucun build aime pour cette version pour le moment."
+msgstr "Aucun build liké pour cette version pour le moment."
 
 #: .\chardata\compare_sets_view.py:432 .\chardata\compare_sets_view.py:442
 #: .\chardata\compare_sets_view.py:446
 msgid "Paste links of at least 2 projects to compare"
-msgstr "Collez le lien sur au moins 2 projets pour comparer"
+msgstr "Colle les liens d'au moins 2 projets à comparer"
 
 #: .\chardata\compare_sets_view.py:448
 #: .\chardata\templates\chardata\choose_compare_sets.html:81
 msgid "Choose at most 4 builds to compare"
-msgstr "Choisis au maximum 4 builds a comparer"
+msgstr "Choisis au maximum 4 builds à comparer"
 
 #: .\chardata\compare_sets_view.py:454 .\chardata\compare_sets_view.py:480
 #, python-format
@@ -2031,8 +2031,8 @@ msgid ""
 "Start a comparison from your saved builds, favorites and likes, or keep "
 "pasting links manually."
 msgstr ""
-"Lance un comparatif depuis tes builds enregistres, tes favoris et tes likes,"
-" ou continue a coller des liens a la main."
+"Lance un comparatif depuis tes builds enregistrés, tes favoris et tes likes,"
+" ou continue à coller des liens à la main."
 
 #: .\chardata\templates\chardata\changelog_modal.html:71
 msgid "Encyclopedia drops and recipes"
