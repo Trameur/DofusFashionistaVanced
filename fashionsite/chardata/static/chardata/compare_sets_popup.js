@@ -102,7 +102,7 @@ function popupSeriously(top) {
 }
 
 function getItemStats(itemId) {
-    $.post("/get_item_stats_compare/",
+    $.post(window.compareItemStatsUrl || "/get_item_stats_compare/",
            {itemId: itemId},
            function(data) {
                populatePopUp(data);

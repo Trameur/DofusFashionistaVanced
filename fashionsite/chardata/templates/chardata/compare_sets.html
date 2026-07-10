@@ -263,6 +263,9 @@
     <div id="popUpDiv" style="display:none;">
         <div class="item-stats"></div>
     </div>
+    <script>
+        var compareItemStatsUrl = "{% game_url 'get_item_stats' %}";
+    </script>
     <script src="{% static "chardata/compare_sets_popup.js" %}"></script>
 <script>
 $.ajaxSetup({

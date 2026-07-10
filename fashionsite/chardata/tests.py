@@ -1509,6 +1509,25 @@ class GetItemStatsTests(TestCase):
         resp = self.client.post('/get_item_stats_compare/')
         self.assertEqual(resp.status_code, 200)
 
+    def test_versioned_item_stats_use_version_specific_items(self):
+        from fashionistapulp.structure import get_structure
+        dofus3_ids = {
+            item.id for item in get_structure('dofus3').get_concatenated_items_lists()
+        }
+        retro_item = next(
+            (item for item in get_structure('retro').get_concatenated_items_lists()
+             if item.id not in dofus3_ids and not item.removed),
+            None)
+        self.assertIsNotNone(retro_item, 'no retro-only item found')
+
+        resp = self.client.post('/retro/get_item_stats_compare/', {'itemId': retro_item.id})
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('"id": %d' % retro_item.id, resp.content.decode('utf-8'))
+
+        default_resp = self.client.post('/get_item_stats_compare/', {'itemId': retro_item.id})
+        self.assertEqual(default_resp.status_code, 200)
+        self.assertEqual(default_resp.content.decode('utf-8'), 'None')
+
     def test_item_details_survives_unknown_or_malformed_id(self):
         from fashionistapulp.structure import get_structure
         item = next(iter(get_structure('dofus3').get_concatenated_items_lists()))
@@ -2707,6 +2726,7 @@ class CompareSetsSpellPreviewTests(TestCase):
         from django.contrib.auth.models import User
         from fashionistapulp.structure import set_current_game_version
         set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
         owner = User.objects.create_user('retrocompare', 'rc@test.local', 'pw-42-solid')
         first = self._build(owner, 'RetroOne', {}, game_version='retro')
         second = self._build(owner, 'RetroTwo', {}, game_version='retro')
@@ -2717,6 +2737,22 @@ class CompareSetsSpellPreviewTests(TestCase):
         html = resp.content.decode('utf-8', 'replace')
         self.assertIn('Spell damage preview', html)
         self.assertIn('chardata/spells/retro/', html)
+
+    def test_retro_compare_item_popup_uses_versioned_stats_endpoint(self):
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('retropopup', 'rp@test.local', 'pw-42-solid')
+        first = self._build(owner, 'RetroPopupOne', {}, game_version='retro')
+        second = self._build(owner, 'RetroPopupTwo', {}, game_version='retro')
+        self.client.force_login(owner)
+
+        resp = self.client.get('/retro/compare_sets/%d/%d/' % (first.pk, second.pk))
+
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertIn('var compareItemStatsUrl = "/retro/get_item_stats_compare/";', html)
 
     def test_retro_compare_hides_dead_stat_rows(self):
         from django.contrib.auth.models import User
