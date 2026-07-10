@@ -30,6 +30,7 @@ from chardata.solution import get_solution
 from chardata.solution_history import get_generation_solution
 from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
+from chardata.smart_build import VERSION_WEIGHT_TUNING
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spells_view import _create_spell_web_digest, _create_weapon_web_digest
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
@@ -120,6 +121,7 @@ def _resolve_compare_build(request, char_str):
 
 
 def compare_sets(request, sets_params):
+    game_version = getattr(request, 'game_version', 'dofus3')
     char_strs = _process_parameters(sets_params)
     
     chars = []
@@ -170,7 +172,10 @@ def compare_sets(request, sets_params):
               'char_is_guest': is_guest,
               'links': links,
               'compare_link_shared': compare_link_shared,
-              'get_compare_link_url': get_compare_link_url}
+              'get_compare_link_url': get_compare_link_url,
+              'hidden_stat_keys': set(VERSION_WEIGHT_TUNING
+                                      .get(game_version, {})
+                                      .get('zero_stats', ()))}
     params.update(_build_spell_preview_context(request, chars, model_results))
     
     response = set_response(request, 

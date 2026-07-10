@@ -2704,6 +2704,61 @@ class CompareSetsSpellPreviewTests(TestCase):
         self.assertIn('Spell damage preview', html)
         self.assertIn('chardata/spells/retro/', html)
 
+    def test_retro_compare_hides_dead_stat_rows(self):
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('retrodeadstats', 'rds@test.local', 'pw-42-solid')
+        first = self._build(owner, 'RetroDeadOne', {}, game_version='retro')
+        second = self._build(owner, 'RetroDeadTwo', {}, game_version='retro')
+        self.client.force_login(owner)
+
+        resp = self.client.get('/retro/compare_sets/%d/%d/' % (first.pk, second.pk))
+
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertNotIn('stat_value_cridam_', html)
+        self.assertNotIn('stat_value_apred_', html)
+        self.assertNotIn('stat_value_lock_', html)
+        self.assertIn('stat_value_trapdam_', html)
+
+    def test_touch_compare_hides_touch_dead_stat_rows(self):
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('touch')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('touchdeadstats', 'tds@test.local', 'pw-42-solid')
+        first = self._build(owner, 'TouchDeadOne', {}, game_version='touch')
+        second = self._build(owner, 'TouchDeadTwo', {}, game_version='touch')
+        self.client.force_login(owner)
+
+        resp = self.client.get('/touch/compare_sets/%d/%d/' % (first.pk, second.pk))
+
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertNotIn('stat_value_trapdam_', html)
+        self.assertNotIn('stat_value_trapdamper_', html)
+        self.assertNotIn('stat_value_permedam_', html)
+        self.assertIn('stat_value_cridam_', html)
+
+    def test_dofus3_compare_keeps_stat_rows(self):
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('modernstats', 'modernstats@test.local',
+                                         'pw-42-solid')
+        first = self._build(owner, 'ModernOne', {})
+        second = self._build(owner, 'ModernTwo', {})
+        self.client.force_login(owner)
+
+        resp = self.client.get('/compare_sets/%d/%d/' % (first.pk, second.pk))
+
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8', 'replace')
+        self.assertIn('stat_value_cridam_', html)
+        self.assertIn('stat_value_apred_', html)
+        self.assertIn('stat_value_lock_', html)
+        self.assertIn('stat_value_trapdam_', html)
+
 
 class InlineScriptSyntaxTests(TestCase):
     """Syntax-check every inline script of the key pages with node. A single

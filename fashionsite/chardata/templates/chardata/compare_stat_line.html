@@ -1,6 +1,7 @@
 {% load static_s3 %}
 {% load chardata_stat_icons %}
 {% stat_icon_path stat_key as resolved_icon %}
+{% if not hidden_stat_keys or stat_key not in hidden_stat_keys %}
 <tr class="solution-stat-summary-line">
     <td class="solution-stat-summary-icon-cell">
         {% if resolved_icon %}
@@ -17,3 +18,4 @@
     </td>
     {% endfor %}
 </tr>
+{% endif %}
