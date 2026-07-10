@@ -1573,6 +1573,9 @@ def encyclopedia(request):
             'items_count': len(filtered_items),
             'resource_results': resource_results,
             'monster_results': monster_results,
+            'result_family_count': sum(
+                1 for hits in (filtered_items, resource_results, monster_results)
+                if hits),
             'search_text': search_text,
             'selected_type': selected_type,
             'min_level': '' if min_level is None else min_level,

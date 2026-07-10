@@ -321,6 +321,24 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertContains(resp, 'encyclopedia-resource-hit')
                 self.assertContains(resp, '%s/encyclopedia/resource/' % prefix)
 
+    def test_search_family_nav_links_each_result_family(self):
+        # Multi-family searches get an anchored count bar above the results;
+        # plain browsing (no query) never shows it.
+        resp = self.client.get('/retro/encyclopedia/', {'q': 'bouftou'},
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('class="encyclopedia-family-nav"', body)
+        for anchor in ('#resources-results', '#monsters-results',
+                       '#items-results'):
+            self.assertIn('href="%s"' % anchor, body)
+        for section_id in ('id="resources-results"', 'id="monsters-results"',
+                           'id="items-results"'):
+            self.assertIn(section_id, body)
+        resp = self.client.get('/encyclopedia/')
+        self.assertNotIn('class="encyclopedia-family-nav"',
+                         resp.content.decode('utf-8'))
+
     def test_resource_search_reuses_cached_index_per_version(self):
         import sqlite3
         from chardata import encyclopedia_view

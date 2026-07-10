@@ -280,6 +280,27 @@
     background: #1f1f1f;
     color: #ffd8a8;
 }
+.encyclopedia-family-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 2px;
+}
+.encyclopedia-family-nav a {
+    padding: 3px 10px;
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 600;
+}
+.encyclopedia-family-nav a:hover {
+    text-decoration: underline;
+}
+.dark-theme-active .encyclopedia-family-nav a {
+    border-color: #5a5a5a;
+    background: #1f1f1f;
+    color: #ffd8a8;
+}
 </style>
 {% endblock %}
 
@@ -594,8 +615,16 @@
     })();
     </script>
 
+    {% if search_text and result_family_count > 1 %}
+    <div class="encyclopedia-family-nav">
+        {% if resource_results %}<a href="#resources-results">{{ t.resources_label }} ({{ resource_results|length }})</a>{% endif %}
+        {% if monster_results %}<a href="#monsters-results">{{ mt.monsters_label }} ({{ monster_results|length }})</a>{% endif %}
+        {% if items_count %}<a href="#items-results">{{ t.results }} ({{ items_count }})</a>{% endif %}
+    </div>
+    {% endif %}
+
     {% if resource_results %}
-    <div class="encyclopedia-results-header big-text">{{ t.resources_label }}: {{ resource_results|length }}</div>
+    <div class="encyclopedia-results-header big-text" id="resources-results">{{ t.resources_label }}: {{ resource_results|length }}</div>
     <div class="encyclopedia-resource-hits">
         {% for res in resource_results %}
         <a class="encyclopedia-resource-hit" href="{{ res.url }}">
@@ -606,7 +635,7 @@
     {% endif %}
 
     {% if monster_results %}
-    <div class="encyclopedia-results-header big-text">{{ mt.monsters_label }}: {{ monster_results|length }}</div>
+    <div class="encyclopedia-results-header big-text" id="monsters-results">{{ mt.monsters_label }}: {{ monster_results|length }}</div>
     <div class="encyclopedia-resource-hits">
         {% for mon in monster_results %}
         <a class="encyclopedia-resource-hit" href="{{ mon.url }}"><span>{{ mon.name }}</span></a>
@@ -614,7 +643,7 @@
     </div>
     {% endif %}
 
-    <div class="encyclopedia-results-header big-text">{{ t.results }}: {{ items_count }}</div>
+    <div class="encyclopedia-results-header big-text" id="items-results">{{ t.results }}: {{ items_count }}</div>
 
     {% if items_page.object_list %}
     <div class="encyclopedia-grid">
