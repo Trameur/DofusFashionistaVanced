@@ -14,6 +14,7 @@
     <meta property="og:description" content="{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical_url }}">
+    {% if monster.image_url %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ monster.image_url }}">{% endif %}
     <meta name="twitter:card" content="summary">
 {% endblock %}
 
@@ -27,6 +28,7 @@
 .encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-monster-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; padding: 12px; box-sizing: border-box; }
 .encyclopedia-monster-name { font-size: 1.25rem; font-weight: 700; }
+.monster-portrait { width: 48px; height: 48px; object-fit: contain; vertical-align: middle; margin-right: 8px; }
 .encyclopedia-monster-meta { opacity: 0.9; }
 .monster-drop-summary { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .monster-drop-summary-link { border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; display: inline-block; padding: 6px 8px; text-decoration: none; }
@@ -69,7 +71,7 @@
     </nav>
 
     <div class="encyclopedia-monster-card brown-box">
-        <div class="encyclopedia-monster-name">{{ monster.name }}</div>
+        <div class="encyclopedia-monster-name">{% if monster.image_url %}<img class="monster-portrait" src="{{ monster.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}{{ monster.name }}</div>
         <div class="encyclopedia-monster-meta">{{ mt.monster_kind_label }}</div>
         <div class="monster-drop-summary">
             {% if resource_drops %}

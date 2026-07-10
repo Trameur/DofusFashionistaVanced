@@ -659,7 +659,7 @@
     <div class="encyclopedia-results-header big-text" id="monsters-results">{{ mt.monsters_label }}: {{ monster_total }}</div>
     <div class="encyclopedia-resource-hits">
         {% for mon in monster_results|slice:":12" %}
-        <a class="encyclopedia-resource-hit" href="{{ mon.url }}"><span>{{ mon.name }}</span></a>
+        <a class="encyclopedia-resource-hit" href="{{ mon.url }}">{% if mon.image_url %}<img src="{{ mon.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ mon.name }}</span></a>
         {% endfor %}
     </div>
     {% if monster_results|length > 12 %}
@@ -667,7 +667,7 @@
         <summary>{{ t.show_more_drops_label }} ({{ monster_results|length|add:"-12" }})</summary>
         <div class="encyclopedia-resource-hits">
             {% for mon in monster_results|slice:"12:" %}
-            <a class="encyclopedia-resource-hit" href="{{ mon.url }}"><span>{{ mon.name }}</span></a>
+            <a class="encyclopedia-resource-hit" href="{{ mon.url }}">{% if mon.image_url %}<img src="{{ mon.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}<span>{{ mon.name }}</span></a>
             {% endfor %}
         </div>
     </details>

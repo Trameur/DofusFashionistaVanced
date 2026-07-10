@@ -4723,6 +4723,35 @@ class EncyclopediaMonsterPageTests(TestCase):
                 version['resource_count'] + version['item_count'], 0,
                 version['game_version'])
 
+    def test_monster_page_shows_the_artwork(self):
+        # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
+        # file name is the gfxId, not the monster id). Versions without their
+        # own artwork source must never borrow dofus3 art.
+        from chardata import encyclopedia_view as ev
+
+        self.assertTrue(ev._monster_image_url('dofus3', 101))
+        self.assertTrue(ev._monster_image_url('beta', 101))
+        for version in ('retro', 'touch', 'dofus2'):
+            self.assertIsNone(ev._monster_image_url(version, 101), version)
+
+        resp = self.client.get('/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('class="monster-portrait"', body)
+        self.assertIn('chardata/monsters/96/101.webp', body)
+        self.assertIn('property="og:image"', body)
+
+        # The retro page of the same monster carries no modern artwork.
+        resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertNotIn('class="monster-portrait"', body)
+        self.assertNotIn('property="og:image"', body)
+
+        # Search chips reuse the same artwork on dofus3.
+        resp = self.client.get('/encyclopedia/', {'q': 'bouftou'})
+        self.assertContains(resp, 'chardata/monsters/96/')
+
     def test_monster_version_links_served_from_cache(self):
         from chardata import encyclopedia_view
 

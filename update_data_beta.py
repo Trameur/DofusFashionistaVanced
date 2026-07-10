@@ -208,6 +208,7 @@ def main() -> None:
             "--input-file", str(ITEMSCRAPER / "beta" / "transformed_equipment.json"),
         ], cwd=ITEMSCRAPER)
         step("resource-icons", [PY, "download_resource_icons.py"], cwd=ITEMSCRAPER)
+        step("monster-images", [PY, "download_monster_images.py"], cwd=ITEMSCRAPER)
 
     if do_data:
         step("spells/download", [

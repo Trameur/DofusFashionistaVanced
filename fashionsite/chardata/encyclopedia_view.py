@@ -927,6 +927,22 @@ def _ingredient_icon_url(game_version, ankama_id):
     return None
 
 
+# Monster artwork exists for dofus3/beta only so far (shared directory, same
+# id namespace); Touch and Retro need their own asset sources before they can
+# be wired here, never dofus3 art.
+_MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': ''}
+
+
+def _monster_image_url(game_version, monster_id):
+    subdir = _MONSTER_IMAGE_DIRS.get(game_version)
+    if subdir is None:
+        return None
+    image_rel = 'chardata/monsters/%s96/%d.webp' % (subdir, monster_id)
+    if _static_exists(image_rel):
+        return static(image_rel)
+    return None
+
+
 def _get_resource_search_index(game_version):
     cached = _resource_search_index_cache.get(game_version)
     if cached is not None:
@@ -1107,11 +1123,16 @@ def _search_monsters(game_version, normalized_search, language, limit=48):
             'starts': any(alias.startswith(normalized_search)
                           for alias in monster['name_aliases']),
             'url': monster['url'],
+            'id': monster.get('id'),
         })
     hits.sort(key=lambda h: (not h['starts'], (h['name'] or '').lower()))
-    for h in hits:
+    entries = hits[:limit]
+    for h in entries:
         del h['starts']
-    return hits[:limit], len(hits)
+        monster_id = h.pop('id')
+        h['image_url'] = (_monster_image_url(game_version, monster_id)
+                          if monster_id is not None else None)
+    return entries, len(hits)
 
 
 def _get_item_extra_info(representative_item, language, t, game_version='dofus3',
@@ -2551,6 +2572,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'monster': {
                 'id': target_monster_id,
                 'name': monster_name,
+                'image_url': _monster_image_url(game_version, target_monster_id),
             },
             'resource_drops': resource_drops,
             'item_drops': item_drops,
