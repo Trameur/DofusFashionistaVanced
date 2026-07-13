@@ -18,7 +18,7 @@ chevron==0.14.0
 colorama==0.4.4
 configobj==5.0.9
 constantly==23.10.4
-cryptography==48.0.1
+cryptography==49.0.0
 dbus-python==1.4.0
 defusedxml==0.7.1
 distro==1.9.0
