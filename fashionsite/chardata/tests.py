@@ -1119,6 +1119,7 @@ class PublicRouteSmokeTests(TestCase):
                  AND n.language = 'en'
                 WHERE r.ingredient_subtype <> 'resources'
                 GROUP BY r.ingredient_subtype, r.ingredient_ankama_id, n.name
+                HAVING COUNT(*) >= 2
                 ORDER BY CASE WHEN r.ingredient_subtype = 'consumables' THEN 0 ELSE 1 END,
                          r.ingredient_subtype, r.ingredient_ankama_id
                 LIMIT 1
@@ -4461,6 +4462,7 @@ class EncyclopediaResourcePageTests(TestCase):
                  AND n.language = 'en'
                 WHERE r.ingredient_subtype <> 'resources'
                 GROUP BY r.ingredient_subtype, r.ingredient_ankama_id, n.name
+                HAVING COUNT(*) >= 2
                 ORDER BY CASE WHEN r.ingredient_subtype = 'consumables' THEN 0 ELSE 1 END,
                          r.ingredient_subtype, r.ingredient_ankama_id
                 LIMIT 1
