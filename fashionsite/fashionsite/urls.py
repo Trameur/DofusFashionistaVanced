@@ -274,33 +274,45 @@ def _sitemap_encyclopedia_resources(base_url):
                 if cursor.fetchone() is None:
                     continue
 
-                ingredient_sources = []
                 cursor.execute(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipes'")
-                if cursor.fetchone() is not None:
-                    ingredient_sources.append(
-                        "SELECT ingredient_ankama_id AS ankama_id, "
-                        "ingredient_subtype AS subtype FROM item_recipes")
+                if cursor.fetchone() is None:
+                    continue
                 cursor.execute(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'resource_drops'")
-                if cursor.fetchone() is not None:
-                    ingredient_sources.append(
-                        "SELECT resource_ankama_id AS ankama_id, 'resources' AS subtype "
-                        "FROM resource_drops")
-                if not ingredient_sources:
-                    continue
+                has_drops = cursor.fetchone() is not None
 
+                # The resource page only exists when the ingredient is used
+                # by at least one recipe; only submit it for indexing when it
+                # carries real content beyond one line: several recipe usages,
+                # or a drop section. Thin pages stay served, just unsubmitted.
+                drop_join = ''
+                drop_criterion = ''
+                if has_drops:
+                    drop_join = (
+                        " LEFT JOIN (SELECT resource_ankama_id AS ankama_id,"
+                        " COUNT(*) AS drops FROM resource_drops GROUP BY 1) d"
+                        " ON d.ankama_id = n.ingredient_ankama_id"
+                        " AND n.ingredient_subtype = 'resources'")
+                    drop_criterion = ' OR COALESCE(d.drops, 0) >= 1'
                 cursor.execute(
                     """
-                    WITH ingredient_ids AS (%s)
+                    WITH usage_counts AS (
+                        SELECT ingredient_ankama_id AS ankama_id,
+                               ingredient_subtype AS subtype,
+                               COUNT(*) AS uses
+                        FROM item_recipes
+                        GROUP BY 1, 2
+                    )
                     SELECT DISTINCT n.ingredient_ankama_id, n.ingredient_subtype, n.name
                     FROM item_recipe_ingredient_names n
-                    JOIN ingredient_ids i
-                      ON i.ankama_id = n.ingredient_ankama_id
-                     AND i.subtype = n.ingredient_subtype
-                    WHERE n.language = 'en'
+                    JOIN usage_counts u
+                      ON u.ankama_id = n.ingredient_ankama_id
+                     AND u.subtype = n.ingredient_subtype
+                    %s
+                    WHERE n.language = 'en' AND (u.uses >= 2%s)
                     ORDER BY n.ingredient_subtype, n.ingredient_ankama_id
-                    """ % ' UNION '.join(ingredient_sources))
+                    """ % (drop_join, drop_criterion))
                 for ankama_id, subtype, name in cursor.fetchall():
                     link = get_resource_link(subtype, ankama_id, name or '',
                                              game_version=game_version)
@@ -360,9 +372,18 @@ def _sitemap_encyclopedia_monsters(base_url):
                 if not drop_sources:
                     continue
 
+                # Only submit monster pages with at least 2 drops: the
+                # single-drop pages (3500+ on dofus3 alone) are one-line
+                # thin pages, prime "low value content" signal for crawlers
+                # and ad reviews. They stay served and internally linked,
+                # they are just not pushed for indexing.
                 cursor.execute(
                     """
-                    WITH dropped_monsters AS (%s)
+                    WITH dropped_monsters AS (
+                        SELECT monster_ankama_id FROM (%s)
+                        GROUP BY monster_ankama_id
+                        HAVING COUNT(*) >= 2
+                    )
                     SELECT dm.monster_ankama_id,
                            COALESCE(
                                (SELECT name FROM monster_names
@@ -375,7 +396,7 @@ def _sitemap_encyclopedia_monsters(base_url):
                            )
                     FROM dropped_monsters dm
                     ORDER BY dm.monster_ankama_id
-                    """ % ' UNION '.join(drop_sources))
+                    """ % ' UNION ALL '.join(drop_sources))
                 for monster_id, name in cursor.fetchall():
                     link = get_monster_link(monster_id, name or '', game_version=game_version)
                     if not link or link in seen:
