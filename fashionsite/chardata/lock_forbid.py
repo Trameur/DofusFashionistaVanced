@@ -62,7 +62,31 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
 # genuine Retro shield but does not exist in Dofus Touch).
 DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
     'touch': [
+        # Shields that exist in the Touch client data (2.x heritage) but have
+        # no obtention source there: no recipe and no drop in the official
+        # Touch data. PC-era event rewards, honor rewards and test items were
+        # never distributed on Touch (player report 2026-07-19 for 10076).
+        # The 70 craftable/dropped shields stay proposable.
         10076,  # Unique Hispanian Shield / Bouclier Hispanique Unique (not in Dofus Touch)
+        17304,  # Beakler (PC event shield)
+        12615,  # Escudo Epico (Spanish community event, PC)
+        14201,  # Koolich Aid (PC event shield)
+        10798,  # Novice Shield (2.x starter reward, no Touch source)
+        14306,  # Rat Shield (PC event shield)
+        9566,   # Raydi Shield (PC event shield)
+        10906,  # Scale Shield (PC event shield)
+        13158,  # Thousand Shield (PC event shield)
+        18864,  # Albueran Honorific Targe (honor reward, no Touch source)
+        18902,  # Albueran Honorific Targe (honor reward, no Touch source)
+        18904,  # Albueran Honorific Targe (honor reward, no Touch source)
+        18906,  # Albueran Honorific Targe (honor reward, no Touch source)
+        12660,  # Incarnam Shield (2.x quest reward, no Touch source)
+        19837,  # Small Inferno Shelter (event shield, no Touch source)
+        19841,  # Small Rock Shelter (event shield, no Touch source)
+        19835,  # Small Storm Shelter (event shield, no Touch source)
+        19839,  # Small Tide Shelter (event shield, no Touch source)
+        14993,  # Charlie's Agents Shield (PC event shield)
+        21593,  # [!] Unshakeable test shield (internal test item)
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus

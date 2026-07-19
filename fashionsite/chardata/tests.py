@@ -3603,6 +3603,40 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         self.assertNotIn(retro.get_item_by_ankama_id(10076).id,
                          get_default_exclusions(char=None))
 
+    def test_sourceless_touch_shields_are_forbidden_by_default(self):
+        # Shields in the Touch client data with no obtention source there
+        # (no recipe, no drop) are 2.x PC leftovers never distributed on
+        # Touch: every one of them must be in the touch defaults. The list
+        # is recomputed from the data so a future re-scrape keeps it honest.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+
+        conn = sqlite3.connect(get_items_db_path('touch'))
+        try:
+            rows = conn.execute("""
+                SELECT i.id, i.name FROM items i
+                JOIN item_types it ON it.id = i.type
+                WHERE it.name = 'Shield'
+                  AND NOT EXISTS (SELECT 1 FROM item_recipes r WHERE r.item = i.id)
+                  AND NOT EXISTS (SELECT 1 FROM item_drops d WHERE d.item = i.id)
+                """).fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(rows, 'expected sourceless shields in the touch data')
+
+        set_current_game_version('touch')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure('touch')
+        defaults = set(get_default_exclusions(char=None))
+        pool = {it.id for it in structure.get_available_items_list()}
+        for item_id, name in rows:
+            self.assertIn(item_id, defaults,
+                          '%s has no Touch obtention source but is proposable' % name)
+            # Still in the pool: a player who owns one can un-forbid it.
+            self.assertIn(item_id, pool, name)
+
     def test_ice_dofus_forbidden_by_default_on_retro_not_on_dofus3(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
