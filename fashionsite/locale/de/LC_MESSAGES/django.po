@@ -6162,3 +6162,23 @@ msgstr ""
 #: fashionsite/chardata/templates/chardata/projdetails.html:52
 msgid "Not sure which class to pick? Read the guide"
 msgstr "Unsicher bei der Klassenwahl? Lies den Guide"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html:15
+msgid "Monster pages with artwork and full stats"
+msgstr "Monsterseiten mit Artwork und vollständigen Werten"
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html:15
+msgid ""
+"Monster pages now show the official stats per grade: level, HP, AP, MP and "
+"resistances, each version with its own numbers."
+msgstr ""
+"Die Monsterseiten zeigen jetzt die offiziellen Werte pro Grad: Stufe, LP, "
+"AP, BP und Resistenzen, jede Version mit ihren eigenen Zahlen."
+
+#: fashionsite/chardata/templates/chardata/changelog_modal.html:15
+msgid ""
+"Monsters now have their artwork on Dofus 3, the beta and Dofus Touch, each "
+"from its own game files."
+msgstr ""
+"Monster haben jetzt ihr Artwork auf Dofus 3, der Beta und Dofus Touch, jedes"
+" aus den Dateien seines eigenen Spiels."
