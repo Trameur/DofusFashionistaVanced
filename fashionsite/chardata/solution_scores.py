@@ -8,7 +8,8 @@
 import math
 import pickle
 
-from fashionistapulp.structure import get_structure
+from fashionistapulp.structure import (get_current_game_version, get_structure,
+                                       set_current_game_version)
 
 
 # A stable, build-agnostic score for public/shared build cards. The scale is
@@ -82,8 +83,9 @@ GENERIC_BUILD_WEIGHTS = {
 }
 
 
-def calculate_score_from_stats(stats, weights):
-    valid_stat_keys = set(stat.key for stat in get_structure().get_stats_list())
+def calculate_score_from_stats(stats, weights, game_version=None):
+    valid_stat_keys = set(
+        stat.key for stat in get_structure(game_version).get_stats_list())
     score = 0.0
     has_weight = False
     for stat_key, raw_weight in weights.items():
@@ -106,6 +108,17 @@ def calculate_score_from_stats(stats, weights):
     return int(round(score))
 
 
+def _get_stats_gear_for_version(solution, game_version=None):
+    if game_version is None:
+        return solution.get_stats_gear()
+    previous_game_version = get_current_game_version()
+    set_current_game_version(game_version)
+    try:
+        return solution.get_stats_gear()
+    finally:
+        set_current_game_version(previous_game_version)
+
+
 def calculate_project_build_score(char, solution):
     if solution is None or not char.stats_weight:
         return None
@@ -116,15 +129,22 @@ def calculate_project_build_score(char, solution):
     if not isinstance(weights, dict):
         return None
     try:
-        return calculate_score_from_stats(solution.get_stats_gear(), weights)
+        game_version = getattr(char, 'game_version', None) or 'dofus3'
+        return calculate_score_from_stats(
+            _get_stats_gear_for_version(solution, game_version),
+            weights,
+            game_version)
     except Exception:
         return None
 
 
-def calculate_public_build_score(solution):
+def calculate_public_build_score(solution, game_version=None):
     if solution is None:
         return None
     try:
-        return calculate_score_from_stats(solution.get_stats_gear(), GENERIC_BUILD_WEIGHTS)
+        return calculate_score_from_stats(
+            _get_stats_gear_for_version(solution, game_version),
+            GENERIC_BUILD_WEIGHTS,
+            game_version)
     except Exception:
         return None

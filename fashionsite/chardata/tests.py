@@ -2646,6 +2646,57 @@ class BuildScoreTests(SimpleTestCase):
         chance_score = calculate_score_from_stats({'ap': 0, 'cha': 1}, GENERIC_BUILD_WEIGHTS)
         self.assertGreater(ap_score, chance_score * 50)
 
+    def test_project_score_uses_the_build_game_version(self):
+        import pickle as _pickle
+        from types import SimpleNamespace
+
+        from chardata.solution_scores import calculate_project_build_score
+        from fashionistapulp.structure import (get_current_game_version,
+                                               set_current_game_version)
+
+        class VersionAwareSolution:
+            seen_game_version = None
+
+            def get_stats_gear(self):
+                self.seen_game_version = get_current_game_version()
+                return {'ap': 1}
+
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        solution = VersionAwareSolution()
+        char = SimpleNamespace(
+            stats_weight=_pickle.dumps({'ap': 1}),
+            game_version='retro')
+
+        score = calculate_project_build_score(char, solution)
+
+        self.assertEqual(score, 1)
+        self.assertEqual(solution.seen_game_version, 'retro')
+        self.assertEqual(get_current_game_version(), 'dofus3')
+
+    def test_public_score_can_be_scoped_to_a_game_version(self):
+        from chardata.solution_scores import (GENERIC_BUILD_WEIGHTS,
+                                              calculate_public_build_score)
+        from fashionistapulp.structure import (get_current_game_version,
+                                               set_current_game_version)
+
+        class VersionAwareSolution:
+            seen_game_version = None
+
+            def get_stats_gear(self):
+                self.seen_game_version = get_current_game_version()
+                return {'ap': 1}
+
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        solution = VersionAwareSolution()
+
+        score = calculate_public_build_score(solution, 'touch')
+
+        self.assertEqual(score, GENERIC_BUILD_WEIGHTS['ap'])
+        self.assertEqual(solution.seen_game_version, 'touch')
+        self.assertEqual(get_current_game_version(), 'dofus3')
+
 
 class SolutionGenerationHistoryTests(TestCase):
     """Generated sets should be kept as private, comparable snapshots."""

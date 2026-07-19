@@ -185,7 +185,8 @@ def _get_shared_build_meta(char):
             return meta
 
         try:
-            meta['public_score'] = calculate_public_build_score(solution) or 0
+            meta['public_score'] = calculate_public_build_score(
+                solution, game_version) or 0
             meta['compact_stats'] = _get_compact_stats(solution, structure)
         except Exception:
             meta['public_score'] = 0
