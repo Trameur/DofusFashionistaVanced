@@ -4897,8 +4897,26 @@ class EncyclopediaMonsterPageTests(TestCase):
             self.assertIn('<td>%d</td>' % level, body)
             self.assertIn('<td>%d</td>' % hp, body)
 
-        # Other versions have no touch numbers: no stats section at all.
-        for prefix in ('', '/retro', '/dofus2'):
+        # dofus3 has its OWN grades (DofusDB source): same monster id, its
+        # own numbers. The two versions must differ, proving no data sharing.
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            d3_rows = conn.execute(
+                """SELECT grade, level, life_points FROM monster_grades
+                   WHERE monster_ankama_id = 101 ORDER BY grade""").fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(d3_rows, 'no dofus3 grades stored for the Gobball')
+        self.assertNotEqual(rows, d3_rows,
+                            'touch and dofus3 grades must be version-specific')
+        resp = self.client.get('/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-stats"', body)
+        self.assertIn('<td>%d</td>' % d3_rows[0][1], body)
+
+        # Versions without their own source show no stats section at all.
+        for prefix in ('/retro', '/dofus2'):
             resp = self.client.get(
                 '%s/encyclopedia/monster/101-bouftou/' % prefix)
             self.assertEqual(resp.status_code, 200, prefix)
