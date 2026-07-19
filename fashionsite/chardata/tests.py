@@ -4915,8 +4915,25 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('id="monster-stats"', body)
         self.assertIn('<td>%d</td>' % d3_rows[0][1], body)
 
+        # retro has its own 1.29 numbers from the Solomonk bestiary.
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            retro_rows = conn.execute(
+                """SELECT grade, level, life_points FROM monster_grades
+                   WHERE monster_ankama_id = 101 ORDER BY grade""").fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(retro_rows, 'no retro grades stored for the Gobball')
+        self.assertNotEqual(retro_rows, d3_rows,
+                            'retro and dofus3 grades must be version-specific')
+        resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-stats"', body)
+        self.assertIn('<td>%d</td>' % retro_rows[0][1], body)
+
         # Versions without their own source show no stats section at all.
-        for prefix in ('/retro', '/dofus2'):
+        for prefix in ('/dofus2',):
             resp = self.client.get(
                 '%s/encyclopedia/monster/101-bouftou/' % prefix)
             self.assertEqual(resp.status_code, 200, prefix)

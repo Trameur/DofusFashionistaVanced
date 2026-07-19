@@ -197,6 +197,12 @@ def main() -> None:
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 
+    # Per-grade 1.29 monster stats from the same Solomonk bestiary cards
+    # (level, HP, AP, MP, dodges, resistances); re-dumps to stay in sync.
+    step("monsters/grades", [
+        PY, "store_retro_monster_grades.py",
+    ], cwd=ITEMSCRAPER)
+
     # Craft professions ("Crafted by ..."): the 1.29 skills lang lists every
     # craftable item per skill (cl) with its owning job; jobs_<lang> localizes
     # the pre-merge profession names. No per-recipe level in 1.29 data.
