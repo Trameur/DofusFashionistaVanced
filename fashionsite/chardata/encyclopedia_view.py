@@ -1937,6 +1937,17 @@ MONSTER_UI = {
     'en': {
         'monsters_label': 'Monsters',
         'monster_kind_label': 'Monster',
+        'stats_section_label': 'Stats per grade',
+        'grade_label': 'Grade',
+        'level_label': 'Level',
+        'hp_label': 'HP',
+        'ap_label': 'AP',
+        'mp_label': 'MP',
+        'earth_label': 'Earth',
+        'fire_label': 'Fire',
+        'water_label': 'Water',
+        'air_label': 'Air',
+        'neutral_label': 'Neutral',
         'monster_search_placeholder': 'Monster or drop name',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Dropped resources',
@@ -1957,6 +1968,17 @@ MONSTER_UI = {
     'fr': {
         'monsters_label': 'Monstres',
         'monster_kind_label': 'Monstre',
+        'stats_section_label': 'Caractéristiques par grade',
+        'grade_label': 'Grade',
+        'level_label': 'Niveau',
+        'hp_label': 'PV',
+        'ap_label': 'PA',
+        'mp_label': 'PM',
+        'earth_label': 'Terre',
+        'fire_label': 'Feu',
+        'water_label': 'Eau',
+        'air_label': 'Air',
+        'neutral_label': 'Neutre',
         'monster_search_placeholder': 'Nom du monstre ou du drop',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Ressources droppées',
@@ -1977,6 +1999,17 @@ MONSTER_UI = {
     'es': {
         'monsters_label': 'Monstruos',
         'monster_kind_label': 'Monstruo',
+        'stats_section_label': 'Características por grado',
+        'grade_label': 'Grado',
+        'level_label': 'Nivel',
+        'hp_label': 'PdV',
+        'ap_label': 'PA',
+        'mp_label': 'PM',
+        'earth_label': 'Tierra',
+        'fire_label': 'Fuego',
+        'water_label': 'Agua',
+        'air_label': 'Aire',
+        'neutral_label': 'Neutral',
         'monster_search_placeholder': 'Nombre del monstruo o drop',
         'drop_preview_label': 'Botín',
         'dropped_resources_label': 'Recursos soltados',
@@ -1997,6 +2030,17 @@ MONSTER_UI = {
     'pt': {
         'monsters_label': 'Monstros',
         'monster_kind_label': 'Monstro',
+        'stats_section_label': 'Características por grau',
+        'grade_label': 'Grau',
+        'level_label': 'Nível',
+        'hp_label': 'PV',
+        'ap_label': 'PA',
+        'mp_label': 'PM',
+        'earth_label': 'Terra',
+        'fire_label': 'Fogo',
+        'water_label': 'Água',
+        'air_label': 'Ar',
+        'neutral_label': 'Neutro',
         'monster_search_placeholder': 'Nome do monstro ou drop',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Recursos dropados',
@@ -2017,6 +2061,17 @@ MONSTER_UI = {
     'de': {
         'monsters_label': 'Monster',
         'monster_kind_label': 'Monster',
+        'stats_section_label': 'Werte pro Stufe',
+        'grade_label': 'Grad',
+        'level_label': 'Stufe',
+        'hp_label': 'LP',
+        'ap_label': 'AP',
+        'mp_label': 'BP',
+        'earth_label': 'Erde',
+        'fire_label': 'Feuer',
+        'water_label': 'Wasser',
+        'air_label': 'Luft',
+        'neutral_label': 'Neutral',
         'monster_search_placeholder': 'Monster- oder Dropname',
         'drop_preview_label': 'Drops',
         'dropped_resources_label': 'Gedroppte Ressourcen',
@@ -2511,6 +2566,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
     monster_name = None
     resource_drops = []
     item_drops = []
+    grades = []
     conn = None
     try:
         conn = sqlite3.connect(get_items_db_path(game_version))
@@ -2518,6 +2574,26 @@ def encyclopedia_monster(request, monster_id, slug=None):
         if not _db_table_exists(cursor, 'monster_names'):
             return _monster_not_found_response(request, target_monster_id, slug)
         monster_name = _get_monster_display_name(cursor, target_monster_id, language)
+
+        # Official per-grade stats, stored per version from that version's own
+        # source (touch: the backend Monsters table). Versions without the
+        # table simply show no stats section, never another version's numbers.
+        if _db_table_exists(cursor, 'monster_grades'):
+            for row in cursor.execute(
+                    """
+                    SELECT grade, level, life_points, action_points,
+                           movement_points, earth_resistance, fire_resistance,
+                           water_resistance, air_resistance, neutral_resistance
+                    FROM monster_grades
+                    WHERE monster_ankama_id = ?
+                    ORDER BY grade
+                    """, (target_monster_id,)):
+                grades.append({
+                    'grade': row[0], 'level': row[1], 'hp': row[2],
+                    'ap': row[3], 'mp': row[4], 'earth': row[5],
+                    'fire': row[6], 'water': row[7], 'air': row[8],
+                    'neutral': row[9],
+                })
         if monster_name.startswith('#'):
             return _monster_not_found_response(request, target_monster_id, slug)
 
@@ -2616,6 +2692,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             },
             'resource_drops': resource_drops,
             'item_drops': item_drops,
+            'grades': grades,
             'monster_version_links': monster_version_links,
         })
 

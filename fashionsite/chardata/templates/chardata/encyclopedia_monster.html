@@ -44,6 +44,12 @@
 .monster-version-link { border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; display: inline-block; padding: 6px 8px; text-decoration: none; }
 .monster-version-link-label { display: block; font-weight: 700; }
 .monster-version-link-meta { display: block; opacity: 0.75; font-size: 0.85em; }
+.monster-grades-scroll { overflow-x: auto; margin-top: 6px; }
+.monster-grades { border-collapse: collapse; font-size: 0.95em; min-width: 420px; }
+.monster-grades th, .monster-grades td { padding: 3px 9px; text-align: right; border-bottom: 1px solid rgba(61, 32, 13, 0.15); }
+.monster-grades th { font-weight: 700; text-align: right; }
+.monster-grades th:first-child, .monster-grades td:first-child { text-align: left; }
+.dark-theme-active .monster-grades th, .dark-theme-active .monster-grades td { border-bottom-color: #4a4a4a; }
 .encyclopedia-drops-more { margin-top: 6px; }
 .encyclopedia-drops-more > summary { cursor: pointer; padding-left: 20px; font-size: 0.95em; opacity: 0.85; }
 .dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
@@ -85,6 +91,46 @@
             </a>
             {% endif %}
         </div>
+
+        {% if grades %}
+        <div class="encyclopedia-section" id="monster-stats">
+            <b>{{ mt.stats_section_label }}</b>
+            <div class="monster-grades-scroll">
+            <table class="monster-grades">
+                <thead>
+                    <tr>
+                        <th>{{ mt.grade_label }}</th>
+                        <th>{{ mt.level_label }}</th>
+                        <th>{{ mt.hp_label }}</th>
+                        <th>{{ mt.ap_label }}</th>
+                        <th>{{ mt.mp_label }}</th>
+                        <th>{{ mt.earth_label }}</th>
+                        <th>{{ mt.fire_label }}</th>
+                        <th>{{ mt.water_label }}</th>
+                        <th>{{ mt.air_label }}</th>
+                        <th>{{ mt.neutral_label }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for g in grades %}
+                    <tr>
+                        <td>{{ g.grade }}</td>
+                        <td>{{ g.level }}</td>
+                        <td>{{ g.hp }}</td>
+                        <td>{{ g.ap }}</td>
+                        <td>{{ g.mp }}</td>
+                        <td>{{ g.earth }}%</td>
+                        <td>{{ g.fire }}%</td>
+                        <td>{{ g.water }}%</td>
+                        <td>{{ g.air }}%</td>
+                        <td>{{ g.neutral }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        {% endif %}
 
         {% if monster_version_links %}
         <div class="encyclopedia-section">

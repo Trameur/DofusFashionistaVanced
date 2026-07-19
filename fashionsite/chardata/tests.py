@@ -4871,6 +4871,40 @@ class EncyclopediaMonsterPageTests(TestCase):
                 version['resource_count'] + version['item_count'], 0,
                 version['game_version'])
 
+    def test_touch_monster_page_shows_official_grade_stats(self):
+        # The stats-per-grade section comes from the Touch backend Monsters
+        # table (monster_grades, stored by store_touch_monster_grades.py).
+        # Expectations are read back from the db so a re-scrape stays honest.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        conn = sqlite3.connect(get_items_db_path('touch'))
+        try:
+            rows = conn.execute(
+                """SELECT grade, level, life_points FROM monster_grades
+                   WHERE monster_ankama_id = 101 ORDER BY grade""").fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(rows, 'no touch grades stored for the Gobball')
+
+        resp = self.client.get('/touch/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-stats"', body)
+        self.assertIn('Caractéristiques par grade', body)
+        for grade, level, hp in rows:
+            self.assertIn('<td>%d</td>' % level, body)
+            self.assertIn('<td>%d</td>' % hp, body)
+
+        # Other versions have no touch numbers: no stats section at all.
+        for prefix in ('', '/retro', '/dofus2'):
+            resp = self.client.get(
+                '%s/encyclopedia/monster/101-bouftou/' % prefix)
+            self.assertEqual(resp.status_code, 200, prefix)
+            self.assertNotIn('id="monster-stats"',
+                             resp.content.decode('utf-8'), prefix)
+
     def test_monster_page_shows_the_artwork(self):
         # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
         # file name is the gfxId, not the monster id); touch has its own

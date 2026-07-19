@@ -157,6 +157,9 @@ def main() -> None:
         PY, "store_drops.py",
         "--drops", "transformed_drops_touch.json", "--game-version", "touch",
     ], cwd=ITEMSCRAPER)
+    step("monsters/grades", [
+        PY, "store_touch_monster_grades.py", "--raw-dir", TOUCH_RAW_DIR,
+    ], cwd=ITEMSCRAPER)
 
     # Feeding pets carry no bonuses in the backend datacenter: scrape the official
     # dofus-touch.com encyclopedia hormone caps, then generate the maxed variants
