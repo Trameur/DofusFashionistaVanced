@@ -19,7 +19,7 @@
 import logging
 from copy import deepcopy
 
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for, tier_widths_after_scroll
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
 import pulp
@@ -796,16 +796,19 @@ class Model:
         self.restrictions.fourth_stats_points_constraint = restriction 
 
     def modify_stats_points_constraints(self, char_class, stat_points, base_stats_by_attr=None):
-        caps = get_soft_caps_for(getattr(self.structure, 'game_version', 'dofus3'),
-                                 char_class)
+        game_version = getattr(self.structure, 'game_version', 'dofus3')
+        caps = get_soft_caps_for(game_version, char_class)
         base_stats_by_attr = base_stats_by_attr or {}
         # base_stats_by_attr is keyed by full stat name; the cost tiers by stat key.
         name_by_key = {stat.key: stat.name for stat in self.main_stats_list}
+        push_curve = scrolls_push_cost_curve(game_version)
         for stat in caps:
-            # In distribute mode base_stats_by_attr holds the scrolled base, which
-            # eats the cheap low tiers before any point is spent (see the retro Iop
-            # Intelligence case). Fixed mode has no points to spend, so it is a no-op.
-            scrolled = base_stats_by_attr.get(name_by_key.get(stat), 0)
+            # On retro/touch the scrolled base eats the cheap low tiers before
+            # any point is spent (see the retro Iop Intelligence case); since
+            # Dofus 2.48 scrolls are tracked separately, so on modern versions
+            # the cost curve only counts invested points.
+            scrolled = (base_stats_by_attr.get(name_by_key.get(stat), 0)
+                        if push_curve else 0)
             widths = tier_widths_after_scroll(caps[stat], scrolled)
             second = self.restrictions.second_stats_points_constraints.get(stat, None)
             third = self.restrictions.third_stats_points_constraints.get(stat, None)

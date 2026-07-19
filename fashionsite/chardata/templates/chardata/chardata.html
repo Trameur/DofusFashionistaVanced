@@ -141,6 +141,11 @@
         }
     }
 
+    // Retro/Touch: scrolled points consume the cheap cost tiers (old rule).
+    // Since Dofus 2.48 scrolls are tracked separately: on modern versions the
+    // cost curve only counts invested points.
+    var scrollsPushCurve = {{ scrolls_push_curve|yesno:"true,false" }};
+
     var softcapsForStat = {};
     var softcaps;
     {% for stat_key, values in soft_caps.items %}
@@ -158,7 +163,7 @@
 
         {% for stat_key, values in soft_caps.items %}
 
-        var scrolled = parseInt($("#scrolled_{{stat_key}}").val()) || 0;
+        var scrolled = scrollsPushCurve ? (parseInt($("#scrolled_{{stat_key}}").val()) || 0) : 0;
         var points = parseInt($("#points_{{stat_key}}").val()) || 0;
         var total = scrolled + points;
         var used = 0;
@@ -235,7 +240,7 @@
     }
     
     function findNextSoftcapLevelForStat(statKey) {
-        var scrolled = parseInt($("#scrolled_" + statKey).val()) || 0;
+        var scrolled = scrollsPushCurve ? (parseInt($("#scrolled_" + statKey).val()) || 0) : 0;
         var points = parseInt($("#points_" + statKey).val()) || 0;
         var currentTotal = scrolled + points;
         var softcaps = softcapsForStat[statKey];
@@ -265,7 +270,7 @@
             return null;
         }
         
-        var scrolled = parseInt($("#scrolled_" + statKey).val()) || 0;
+        var scrolled = scrollsPushCurve ? (parseInt($("#scrolled_" + statKey).val()) || 0) : 0;
         var points = parseInt($("#points_" + statKey).val()) || 0;
         var total = scrolled + points;
 

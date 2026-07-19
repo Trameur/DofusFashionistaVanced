@@ -5131,6 +5131,19 @@ def get_soft_caps_for(game_version, char_class):
     return SOFT_CAPS.get(char_class, DEFAULT_SOFT_CAPS)
 
 
+def scrolls_push_cost_curve(game_version):
+    """Whether scrolled points consume the cheap characteristic cost tiers.
+
+    Retro (1.29) and Touch (2.x fork frozen before update 2.48) use the old
+    rule: a character scrolled to 100 pays its first invested point at the
+    2:1 tier. Since Dofus 2.48 (October 2018) scrolled points are tracked
+    separately and never push the cost curve, so dofus2 (2.73), dofus3 and
+    beta all pay 1:1 for the first 100 invested points regardless of scrolls.
+    Source: tofus.fr/fiches/parchemin.php ("Depuis octobre 2018, les points
+    additionnels sont comptes separement des points naturels")."""
+    return game_version in ('retro', 'touch')
+
+
 def tier_widths_after_scroll(caps_for_stat, scrolled):
     """Per-tier room left for characteristic points once scrolls are accounted for.
 

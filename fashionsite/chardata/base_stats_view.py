@@ -19,7 +19,9 @@ from django.http import HttpResponseRedirect
 from chardata.models import CharBaseStats
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 
-from fashionistapulp.dofus_constants import get_soft_caps_for, STATS_NAMES, max_scroll_for_version
+from fashionistapulp.dofus_constants import (get_soft_caps_for, STATS_NAMES,
+                                             max_scroll_for_version,
+                                             scrolls_push_cost_curve)
 
 import json
 from chardata.themes import get_theme
@@ -66,6 +68,7 @@ def _page(request, char_id, is_new_char):
                          'advanced': True,
                          'soft_caps': soft_caps,
                          'lower_soft_caps': lower_soft_caps,
+                         'scrolls_push_curve': scrolls_push_cost_curve(char.game_version),
                          'max_scroll': max_scroll_for_version(char.game_version),
                          'theme': get_theme(request)},
                         char)
