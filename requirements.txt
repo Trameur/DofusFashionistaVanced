@@ -4,7 +4,7 @@ Automat==25.4.16
 awk==1.2.1
 #aws-cfn-bootstrap==2.0
 #awscrt==0.16.7
-Babel==2.9.1
+Babel==2.18.0
 beautifulsoup4==4.15.0
 boto==2.49.0
 boto3==1.43.4
