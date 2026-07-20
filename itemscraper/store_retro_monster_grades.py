@@ -139,7 +139,11 @@ def main():
                 if not isinstance(entry, dict):
                     continue
                 grades = {}
-                for gnum in range(1, 6):
+                # Up to SIX grades: 98 monsters (mostly bosses) carry an
+                # official g6; Solomonk's cards expose rank 6 for a few of
+                # them and the fusion should prefer the official numbers
+                # there too.
+                for gnum in range(1, 7):
                     g = entry.get('g%d' % gnum)
                     if isinstance(g, dict) and 'r' in g and len(g['r']) >= 7:
                         r = g['r']
