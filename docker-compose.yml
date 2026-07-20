@@ -61,6 +61,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 600s
 
   # Serveur web Nginx (optionnel, pour la production)
   nginx:

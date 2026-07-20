@@ -44,10 +44,12 @@ echo "    origin self-check (maintenance on): HTTP $(curl -sk -o /dev/null -w '%
 echo ">>> restart web"
 docker compose --profile production up -d web
 
-# Wait until web actually answers before lifting maintenance (up to ~3 min).
+# Wait until web actually answers before lifting maintenance (up to ~10 min:
+# the boot imports the item dumps before gunicorn listens, and they keep
+# growing; 3 min was not enough once the monster data landed).
 echo ">>> wait for web to come back"
 web_up=0
-for i in $(seq 1 90); do
+for i in $(seq 1 300); do
     if docker compose --profile production exec -T web \
         curl -fsS -H 'Host: dofusfashionista.gg' http://localhost:8000/ >/dev/null 2>&1; then
         web_up=1
