@@ -74,3 +74,8 @@
     border-color: #3D200D;
     border-radius: 15px;
 }
+
+.solution-history-notice,
+.solution-history-panel-header {
+    color: #DDD;
+}

@@ -73,3 +73,19 @@
     border-color: #3D200D;
     border-radius: 10px;
 }
+
+.solution-history-notice,
+.solution-history-panel-header {
+    color: #3D200D;
+}
+
+/* Classic look: the build score row sits straight on the dark stat panel
+   (#3D200D) where inherited text is the same brown; give it the pale
+   stripe its neighbour summary lines use. The modern look restyles the
+   panel and needs neither rule. */
+html:not(.fm-modern) .solution-build-score {
+    background-color: #E4E6BC;
+}
+html:not(.fm-modern) a.solution-history-link-button {
+    color: #F2E3C6;
+}

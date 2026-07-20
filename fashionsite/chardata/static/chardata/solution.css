@@ -257,7 +257,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    color: #3D200D;
+    /* color lives in the theme files: hardcoding the light-theme brown
+       here made it near-invisible on the dark theme. */
 }
 
 .solution-history-notice-actions,
@@ -281,7 +282,6 @@
 
 .solution-history-panel-header {
     margin-bottom: 6px;
-    color: #3D200D;
 }
 
 .solution-history-list {

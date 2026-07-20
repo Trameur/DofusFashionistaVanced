@@ -22,3 +22,10 @@
     color: #505050;
     background: #111111;
 }
+
+/* The collapsed-nav toggle inherits the page color, which resolves to
+   black here: force a readable tone on the dark chrome. The element+class
+   selector outranks responsive.css's `color: inherit`, which loads later. */
+button.mobile-nav-toggle {
+    color: #DDD;
+}
