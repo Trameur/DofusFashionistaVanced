@@ -22,6 +22,11 @@ artwork clip per gfxId in clips/artworks/big/<gfxId>.swf; the official
 lang (retro_raw/monsters_fr.json, category "monsters") maps each monster
 to its gfxId. No fan site involved.
 
+A handful of monsters have no artwork clip at all; for those the standing
+pose of the in-game sprite (clips/sprites/<gfxId>.swf, linkage staticR/
+staticL) is rendered instead, zoomed since those vectors are at game
+scale.
+
 The clips are Flash vectors placed off-canvas (the game slides them in at
 runtime), so a plain frame render comes out blank. The working chain is:
   1. read the Cytrus manifest (FlatBuffers) and download the clip;
@@ -68,7 +73,9 @@ DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
                        'items_retro.db')
 LANG_MONSTERS = os.path.join(CURRENT_DIR, 'retro_raw', 'monsters_fr.json')
 SWF_CACHE_DIR = os.path.join(CURRENT_DIR, 'retro_raw', 'artworks_big')
+SPRITE_CACHE_DIR = os.path.join(CURRENT_DIR, 'retro_raw', 'sprites')
 ARTWORK_PREFIX = 'resources/app/retroclient/clips/artworks/big/'
+SPRITE_PREFIX = 'resources/app/retroclient/clips/sprites/'
 SIZE = 96
 
 SVG_NS = 'http://www.w3.org/2000/svg'
@@ -339,6 +346,16 @@ def svg_to_cropped_png(svg_path, png_path, resvg_exe, target=512):
     return True
 
 
+def _save_webp(image, webp_name, dirs):
+    image = image.convert('RGBA')
+    image.thumbnail((SIZE, SIZE), Image.LANCZOS)
+    buffer = io.BytesIO()
+    image.save(buffer, 'WEBP', quality=82, method=6)
+    for directory in dirs:
+        with open(os.path.join(directory, webp_name), 'wb') as fh:
+            fh.write(buffer.getvalue())
+
+
 def render_swf(swf_path, webp_name, dirs, java, ffdec_jar, resvg_exe):
     with tempfile.TemporaryDirectory(prefix='retro_art_') as tmp:
         subprocess.run(
@@ -351,13 +368,70 @@ def render_swf(swf_path, webp_name, dirs, java, ffdec_jar, resvg_exe):
         png_path = os.path.join(tmp, 'render.png')
         if not svg_to_cropped_png(svg_path, png_path, resvg_exe):
             return False
-        image = Image.open(png_path).convert('RGBA')
-        image.thumbnail((SIZE, SIZE), Image.LANCZOS)
-        buffer = io.BytesIO()
-        image.save(buffer, 'WEBP', quality=82, method=6)
-    for directory in dirs:
-        with open(os.path.join(directory, webp_name), 'wb') as fh:
-            fh.write(buffer.getvalue())
+        image = Image.open(png_path)
+        image.load()
+    _save_webp(image, webp_name, dirs)
+    return True
+
+
+def _export_assets(swf_path):
+    """Linkage name -> character id from the SWF's ExportAssets tags."""
+    import zlib
+    with open(swf_path, 'rb') as fh:
+        data = fh.read()
+    if data[:3] == b'CWS':
+        data = data[:8] + zlib.decompress(data[8:])
+    nbits = data[8] >> 3
+    pos = 8 + (5 + 4 * nbits + 7) // 8 + 4
+    out = {}
+    while pos < len(data):
+        code_len = struct.unpack_from('<H', data, pos)[0]
+        code, length = code_len >> 6, code_len & 0x3F
+        pos += 2
+        if length == 0x3F:
+            length = struct.unpack_from('<I', data, pos)[0]
+            pos += 4
+        if code == 56:  # ExportAssets
+            body = data[pos:pos + length]
+            count = struct.unpack_from('<H', body, 0)[0]
+            p = 2
+            for _ in range(count):
+                cid = struct.unpack_from('<H', body, p)[0]
+                p += 2
+                end = body.index(b'\x00', p)
+                out[body[p:end].decode('latin1')] = cid
+                p = end + 1
+        pos += length
+        if code == 0:
+            break
+    return out
+
+
+def render_static_sprite(swf_path, webp_name, dirs, java, ffdec_jar):
+    """Fallback for monsters without an artwork clip: render the in-game
+    standing pose. The sprite SWF exports its clips by linkage name
+    (staticR/staticL for the idle poses); the vectors are at game scale
+    (~20px), so ffdec renders them zoomed before the 96px resize."""
+    names = _export_assets(swf_path)
+    char_id = names.get('staticR') or names.get('staticL')
+    if not char_id:
+        return False
+    with tempfile.TemporaryDirectory(prefix='retro_sprite_') as tmp:
+        subprocess.run(
+            [java, '-jar', ffdec_jar, '-zoom', '8', '-format', 'sprite:png',
+             '-selectid', str(char_id), '-export', 'sprite', tmp, swf_path],
+            check=True, capture_output=True)
+        pngs = [os.path.join(walk_root, name)
+                for walk_root, _dirs, files in os.walk(tmp)
+                for name in files if name.endswith('.png')]
+        if not pngs:
+            return False
+        image = Image.open(pngs[0]).convert('RGBA')
+        bbox = image.getbbox()
+        if not bbox:
+            return False
+        image = image.crop(bbox)
+    _save_webp(image, webp_name, dirs)
     return True
 
 
@@ -413,6 +487,7 @@ def main():
     for directory in dirs:
         os.makedirs(directory, exist_ok=True)
     os.makedirs(SWF_CACHE_DIR, exist_ok=True)
+    os.makedirs(SPRITE_CACHE_DIR, exist_ok=True)
 
     wanted = monster_gfx_ids()
     todo = {mid: gfx for mid, gfx in wanted.items()
@@ -426,20 +501,31 @@ def main():
     manifest = download_manifest()
     files, chunk_map = load_fragment(manifest, 'classic')
 
-    counts = {'ok': 0, 'no_artwork': 0, 'empty': 0, 'error': 0}
+    counts = {'ok': 0, 'ok_sprite': 0, 'no_artwork': 0, 'empty': 0,
+              'error': 0}
 
     def process(item):
         mid, gfx = item
-        entry = files.get('%s%d.swf' % (ARTWORK_PREFIX, gfx))
-        if entry is None:
-            return 'no_artwork', mid
-        swf_path = os.path.join(SWF_CACHE_DIR, '%d.swf' % gfx)
         try:
+            entry = files.get('%s%d.swf' % (ARTWORK_PREFIX, gfx))
+            if entry is not None:
+                swf_path = os.path.join(SWF_CACHE_DIR, '%d.swf' % gfx)
+                if not os.path.exists(swf_path):
+                    download_file(entry, chunk_map, swf_path)
+                rendered = render_swf(swf_path, '%d.webp' % mid, dirs,
+                                      java, ffdec_jar, resvg_exe)
+                return ('ok' if rendered else 'empty'), mid
+            # No artwork clip in the client: fall back to the standing pose
+            # of the in-game sprite.
+            entry = files.get('%s%d.swf' % (SPRITE_PREFIX, gfx))
+            if entry is None:
+                return 'no_artwork', mid
+            swf_path = os.path.join(SPRITE_CACHE_DIR, '%d.swf' % gfx)
             if not os.path.exists(swf_path):
                 download_file(entry, chunk_map, swf_path)
-            rendered = render_swf(swf_path, '%d.webp' % mid, dirs,
-                                  java, ffdec_jar, resvg_exe)
-            return ('ok' if rendered else 'empty'), mid
+            rendered = render_static_sprite(swf_path, '%d.webp' % mid, dirs,
+                                            java, ffdec_jar)
+            return ('ok_sprite' if rendered else 'empty'), mid
         except Exception as exc:
             print('  ERROR %d (gfx %d): %s' % (mid, gfx, exc))
             return 'error', mid
