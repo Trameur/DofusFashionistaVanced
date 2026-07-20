@@ -1960,6 +1960,7 @@ MONSTER_UI = {
         'drop_filter_both': 'Resources and items',
         'sort_label': 'Sort by',
         'sort_name': 'Name',
+        'sort_level': 'Level',
         'sort_total_drops': 'Most drops',
         'sort_resource_drops': 'Most resources',
         'sort_item_drops': 'Most items',
@@ -1991,6 +1992,7 @@ MONSTER_UI = {
         'drop_filter_both': 'Ressources et objets',
         'sort_label': 'Trier par',
         'sort_name': 'Nom',
+        'sort_level': 'Niveau',
         'sort_total_drops': 'Plus de drops',
         'sort_resource_drops': 'Plus de ressources',
         'sort_item_drops': 'Plus d\'objets',
@@ -2022,6 +2024,7 @@ MONSTER_UI = {
         'drop_filter_both': 'Recursos y objetos',
         'sort_label': 'Ordenar por',
         'sort_name': 'Nombre',
+        'sort_level': 'Nivel',
         'sort_total_drops': 'Más drops',
         'sort_resource_drops': 'Más recursos',
         'sort_item_drops': 'Más objetos',
@@ -2053,6 +2056,7 @@ MONSTER_UI = {
         'drop_filter_both': 'Recursos e itens',
         'sort_label': 'Ordenar por',
         'sort_name': 'Nome',
+        'sort_level': 'Nível',
         'sort_total_drops': 'Mais drops',
         'sort_resource_drops': 'Mais recursos',
         'sort_item_drops': 'Mais itens',
@@ -2084,6 +2088,7 @@ MONSTER_UI = {
         'drop_filter_both': 'Ressourcen und Items',
         'sort_label': 'Sortieren nach',
         'sort_name': 'Name',
+        'sort_level': 'Stufe',
         'sort_total_drops': 'Meiste Drops',
         'sort_resource_drops': 'Meiste Ressourcen',
         'sort_item_drops': 'Meiste Items',
@@ -2093,7 +2098,7 @@ MONSTER_UI = {
 
 
 MONSTER_DROP_FILTERS = ('all', 'resources', 'items', 'both')
-MONSTER_SORTS = ('name', 'total_drops', 'resource_drops', 'item_drops')
+MONSTER_SORTS = ('name', 'level', 'total_drops', 'resource_drops', 'item_drops')
 _monster_index_cache = {}
 _monster_core_cache = {}
 
@@ -2306,6 +2311,17 @@ def _build_monster_core(game_version):
                 item_counts[monster_id] += 1
                 item_aliases[monster_id].update(item_names.get(item_id, ()))
 
+        level_spans = {}
+        if _db_table_exists(cursor, 'monster_grades'):
+            cursor.execute(
+                """
+                SELECT monster_ankama_id, MIN(level), MAX(level)
+                FROM monster_grades WHERE level IS NOT NULL
+                GROUP BY monster_ankama_id
+                """)
+            for monster_id, level_min, level_max in cursor.fetchall():
+                level_spans[monster_id] = (level_min, level_max)
+
         dropped_monster_ids = sorted(set(resource_counts) | set(item_counts))
         for monster_id in dropped_monster_ids:
             pieces = set()
@@ -2315,6 +2331,7 @@ def _build_monster_core(game_version):
             pieces.add(str(monster_id))
             resource_count = resource_counts[monster_id]
             item_count = item_counts[monster_id]
+            level_min, level_max = level_spans.get(monster_id, (None, None))
             monsters.append({
                 'id': monster_id,
                 'names': dict(monster_names.get(monster_id, {})),
@@ -2322,6 +2339,8 @@ def _build_monster_core(game_version):
                 'resource_count': resource_count,
                 'item_count': item_count,
                 'total_drops': resource_count + item_count,
+                'level_min': level_min,
+                'level_max': level_max,
                 'search_blob': ' '.join(sorted(piece for piece in pieces if piece)),
             })
     except Exception:
@@ -2369,6 +2388,8 @@ def _get_monster_index(game_version, language):
             'resource_count': entry['resource_count'],
             'item_count': entry['item_count'],
             'total_drops': entry['total_drops'],
+            'level_min': entry['level_min'],
+            'level_max': entry['level_max'],
             'url': get_monster_link(entry['id'], name, game_version),
             'name_aliases': entry['name_aliases'],
             'search_blob': entry['search_blob'],
@@ -2458,6 +2479,8 @@ def encyclopedia_monsters(request):
             return (-entry['resource_count'],) + name_key
         if sort_key == 'item_drops':
             return (-entry['item_count'],) + name_key
+        if sort_key == 'level':
+            return (entry['level_min'] is None, entry['level_min'] or 0) + name_key
         return name_key
 
     monsters.sort(key=monster_sort_key)
@@ -2504,6 +2527,10 @@ def encyclopedia_monsters(request):
         }
         for value in MONSTER_DROP_FILTERS
     ]
+    # The level sort only makes sense for versions whose db carries the
+    # per-grade stats (dofus2 has no source for them).
+    has_levels = any(entry['level_min'] is not None
+                     for entry in _get_monster_index(game_version, language))
     sort_options = [
         {
             'value': value,
@@ -2511,6 +2538,7 @@ def encyclopedia_monsters(request):
             'selected': value == sort_key,
         }
         for value in MONSTER_SORTS
+        if value != 'level' or has_levels
     ]
 
     return set_response(

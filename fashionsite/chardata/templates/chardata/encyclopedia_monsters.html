@@ -89,6 +89,11 @@
         <div class="encyclopedia-monster-card">
             <a class="encyclopedia-monster-main-link" href="{{ monster.url }}">
                 <div class="encyclopedia-monsters-name">{% if monster.image_url %}<img class="encyclopedia-monsters-thumb" src="{{ monster.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}{{ monster.name }}</div>
+                {% if monster.level_min %}
+                <div class="encyclopedia-monsters-meta encyclopedia-monsters-level">
+                    {{ mt.level_label }} {{ monster.level_min }}{% if monster.level_max != monster.level_min %}-{{ monster.level_max }}{% endif %}
+                </div>
+                {% endif %}
                 <div class="encyclopedia-monsters-meta">
                     {{ mt.dropped_resources_label }}: {{ monster.resource_count }} - {{ mt.dropped_items_label }}: {{ monster.item_count }}
                 </div>

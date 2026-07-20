@@ -4940,6 +4940,49 @@ class EncyclopediaMonsterPageTests(TestCase):
             self.assertNotIn('id="monster-stats"',
                              resp.content.decode('utf-8'), prefix)
 
+    def test_monster_hub_shows_level_ranges_per_version(self):
+        # The hub cards show the level span across grades, read from each
+        # version's own monster_grades table; expectations come from the db.
+        import re
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        for prefix, version in (('/touch', 'touch'), ('/retro', 'retro'), ('', 'dofus3')):
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                level_min, level_max = conn.execute(
+                    """SELECT MIN(level), MAX(level) FROM monster_grades
+                       WHERE monster_ankama_id = 101 AND level IS NOT NULL""").fetchone()
+            finally:
+                conn.close()
+            self.assertIsNotNone(level_min, version)
+            resp = self.client.get('%s/encyclopedia/monsters/?q=bouftou' % prefix,
+                                   HTTP_ACCEPT_LANGUAGE='fr')
+            self.assertEqual(resp.status_code, 200, version)
+            body = resp.content.decode('utf-8')
+            expected = ('Niveau %d-%d' % (level_min, level_max)
+                        if level_max != level_min else 'Niveau %d' % level_min)
+            self.assertIn(expected, re.sub(r'\s+', ' ', body), version)
+
+        # dofus2 has no grade source: no level line and no level sort option.
+        resp = self.client.get('/dofus2/encyclopedia/monsters/?q=bouftou',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertNotIn('encyclopedia-monsters-level', body)
+        self.assertNotIn('value="level"', body)
+
+        # Sorting by level orders the touch hub by ascending level span.
+        resp = self.client.get('/touch/encyclopedia/monsters/?sort=level',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = re.sub(r'\s+', ' ', resp.content.decode('utf-8'))
+        self.assertEqual(resp.context['sort_key'], 'level')
+        self.assertIn('value="level"', body)
+        mins = [int(m) for m in re.findall(r'Niveau (\d+)', body)]
+        self.assertTrue(mins, 'no level lines rendered on the sorted hub')
+        self.assertEqual(mins, sorted(mins))
+
     def test_monster_page_shows_the_artwork(self):
         # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
         # file name is the gfxId, not the monster id); touch has its own
