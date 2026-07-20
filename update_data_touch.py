@@ -161,6 +161,12 @@ def main() -> None:
         PY, "store_touch_monster_grades.py", "--raw-dir", TOUCH_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
+    # Where each monster can be found: the client's SubAreas table (official
+    # data proxy) lists the monsters per subarea with localized names.
+    step("monsters/subareas", [
+        PY, "store_touch_monster_subareas.py", "--download",
+    ], cwd=ITEMSCRAPER)
+
     # Feeding pets carry no bonuses in the backend datacenter: scrape the official
     # dofus-touch.com encyclopedia hormone caps, then generate the maxed variants
     # ("<Pet> (+110 Agility)") the optimizer picks from. Runs after drops so the

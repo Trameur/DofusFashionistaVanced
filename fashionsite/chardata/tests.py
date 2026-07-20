@@ -5040,6 +5040,31 @@ class EncyclopediaMonsterPageTests(TestCase):
         for (name,) in rows[:3]:
             self.assertIn(name, body)
 
+        # Touch has its OWN first-hand locations (the client SubAreas
+        # table): same monster id, its own zones, natively localized.
+        conn = sqlite3.connect(get_items_db_path('touch'))
+        try:
+            touch_rows = conn.execute(
+                """SELECT name FROM monster_subareas
+                   WHERE monster_ankama_id = 101 AND language = 'fr'
+                   ORDER BY position""").fetchall()
+            touch_de = conn.execute(
+                """SELECT COUNT(*) FROM monster_subareas
+                   WHERE monster_ankama_id = 101 AND language = 'de'""").fetchone()[0]
+        finally:
+            conn.close()
+        self.assertTrue(touch_rows, 'no touch subareas stored for the Gobball')
+        self.assertGreater(touch_de, 0, 'touch subareas must be localized')
+        self.assertNotEqual([r[0] for r in touch_rows], [r[0] for r in rows],
+                            'touch and retro locations must be version-specific')
+        resp = self.client.get('/touch/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-subareas"', body)
+        for (name,) in touch_rows[:2]:
+            self.assertIn(name, body)
+
         # dofus2 has no source for monster locations: no section at all.
         resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)
