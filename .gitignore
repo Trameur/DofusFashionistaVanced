@@ -51,3 +51,7 @@ fashionsite/staticfiles/
 # Transient item-db rebuild files (load_item_db.py builds into a private
 # temp then os.replace's it; interrupted processes can leave one behind)
 *.db.tmp.*
+
+# Stray get_equipments3 artifact when run from an unexpected cwd (the real
+# dumps live in fashionistapulp/fashionistapulp/)
+itemscraper/item_db_dumped.dump
