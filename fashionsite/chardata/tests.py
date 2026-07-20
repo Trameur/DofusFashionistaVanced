@@ -5092,7 +5092,8 @@ class EncyclopediaMonsterPageTests(TestCase):
         # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
         # file name is the gfxId, not the monster id); touch has its own
         # era-accurate art from the official Touch CDN (indexed by monster
-        # id). Versions without a source must never borrow another's art.
+        # id); retro has the vectors extracted from the official 1.29 client.
+        # Versions without a source (dofus2) must never borrow another's art.
         from chardata import encyclopedia_view as ev
 
         self.assertTrue(ev._monster_image_url('dofus3', 101))
@@ -5100,8 +5101,10 @@ class EncyclopediaMonsterPageTests(TestCase):
         touch_url = ev._monster_image_url('touch', 101)
         self.assertTrue(touch_url)
         self.assertIn('monsters/touch/96/101.webp', touch_url)
-        for version in ('retro', 'dofus2'):
-            self.assertIsNone(ev._monster_image_url(version, 101), version)
+        retro_url = ev._monster_image_url('retro', 101)
+        self.assertTrue(retro_url)
+        self.assertIn('monsters/retro/96/101.webp', retro_url)
+        self.assertIsNone(ev._monster_image_url('dofus2', 101))
 
         # The touch page serves the touch art, not the modern render.
         resp = self.client.get('/touch/encyclopedia/monster/101-bouftou/')
@@ -5120,12 +5123,14 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('chardata/monsters/96/101.webp', body)
         self.assertIn('property="og:image"', body)
 
-        # The retro page of the same monster carries no modern artwork.
+        # The retro page serves the 1.29 art, never the modern render.
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
-        self.assertNotIn('class="monster-portrait"', body)
-        self.assertNotIn('property="og:image"', body)
+        self.assertIn('class="monster-portrait"', body)
+        self.assertIn('chardata/monsters/retro/96/101.webp', body)
+        self.assertNotIn('chardata/monsters/96/101.webp', body)
+        self.assertIn('property="og:image"', body)
 
         # Search chips reuse the same artwork on dofus3.
         resp = self.client.get('/encyclopedia/', {'q': 'bouftou'})
@@ -5147,14 +5152,17 @@ class EncyclopediaMonsterPageTests(TestCase):
         resp = self.client.get('/retro/encyclopedia/monsters/', {'q': 'bouftou'})
         self.assertEqual(resp.status_code, 200)
         self.assertNotContains(resp, 'chardata/monsters/96/')
+        self.assertContains(resp, 'chardata/monsters/retro/96/')
 
         # Warm set answers without listing the disk again.
         self.assertIn(101, ev._monster_image_ids('dofus3'))
+        self.assertIn(101, ev._monster_image_ids('retro'))
         with unittest.mock.patch.object(
                 ev, 'list_static_dir',
                 side_effect=AssertionError('directory listed on a warm cache')):
             self.assertTrue(ev._monster_image_url('dofus3', 101))
-            self.assertIsNone(ev._monster_image_url('retro', 101))
+            self.assertTrue(ev._monster_image_url('retro', 101))
+            self.assertIsNone(ev._monster_image_url('dofus2', 101))
 
     def test_ingredient_icons_served_from_cached_id_set(self):
         from chardata import encyclopedia_view as ev

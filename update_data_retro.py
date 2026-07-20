@@ -227,6 +227,13 @@ def main() -> None:
         PY, "store_retro_monster_subareas.py",
     ], cwd=ITEMSCRAPER)
 
+    # Monster artworks straight from the official 1.29 client (Cytrus CDN,
+    # clips/artworks/big). Existing WebPs are skipped; without java/ffdec/
+    # resvg on the machine the script warns and leaves the committed art.
+    step("monsters/artworks", [
+        PY, "download_retro_monster_artworks.py",
+    ], cwd=ITEMSCRAPER)
+
     # Refresh the pet feeding caps first (dofux + Solomonk, credited on
     # About; no first-hand source: the caps are server-side in 1.29). A
     # network failure leaves the committed retro_pet_bonuses.json in place.

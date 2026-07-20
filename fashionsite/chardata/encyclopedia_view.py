@@ -946,9 +946,11 @@ def _ingredient_icon_url(game_version, ankama_id):
 
 # Monster artwork per version: dofus3/beta share the modern renders (DofusDB
 # id -> gfx mapping), touch has its own era-accurate 2D art from the official
-# Touch CDN (indexed by monster id there). Retro and dofus2 have no artwork
-# source yet and must never borrow another version's art.
-_MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/'}
+# Touch CDN (indexed by monster id there), retro has the vector artworks
+# extracted from the official 1.29 client (download_retro_monster_artworks).
+# Dofus 2 has no artwork source yet and must never borrow another version's.
+_MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
+                       'retro': 'retro/'}
 _monster_image_ids_cache = {}
 
 

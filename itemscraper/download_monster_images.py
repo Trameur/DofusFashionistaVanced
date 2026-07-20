@@ -32,8 +32,10 @@ from the official Touch assets CDN (config.json assetsUrl +
 target is chardata/monsters/touch/96/. The era-accurate 2D art differs from
 the modern renders on purpose.
 
-Retro and dofus2 are NOT handled yet: no artwork source found so far (see
-the loop TODO), and they must never borrow another version's art.
+Retro is handled by download_retro_monster_artworks.py (vectors extracted
+from the official 1.29 client via Cytrus). Dofus2 is NOT handled: no
+artwork source found so far (see the loop TODO), and versions must never
+borrow another version's art.
 """
 
 import argparse
