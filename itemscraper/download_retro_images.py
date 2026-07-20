@@ -51,7 +51,7 @@ import zlib
 
 import numpy as np
 
-from fashionistapulp.fashion_util import normalize_name
+from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 from get_equipments_retro import TYPE_MAP
 from download_retro_monster_artworks import (
     download_manifest, load_fragment, download_file, find_tool)
@@ -180,7 +180,10 @@ def main(argv=None):
         if not name:
             continue
         type_dir = 'pets' if TYPE_MAP[type_id][0] == 'Pet' else 'items'
-        dest = STATIC / type_dir / 'retro' / '60x60' / ('%s-60-60.png' % normalize_name(name))
+        # safe_icon_name mirrors image_store's lookup ("Wand Else?" is
+        # requested without the '?', which Windows cannot store anyway).
+        dest = (STATIC / type_dir / 'retro' / '60x60'
+                / ('%s-60-60.png' % safe_icon_name(normalize_name(name))))
         try:
             if dest.exists() and not args.force:
                 skipped += 1
