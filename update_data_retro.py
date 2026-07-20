@@ -150,7 +150,7 @@ def main() -> None:
         PY, "download_retro_langs.py",
         "--lang", args.lang,
         "--categories", "items", "itemstats", "itemsets", "spells", "classes",
-        "jobs", "skills",
+        "jobs", "skills", "monsters",
         "--dest", RETRO_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 

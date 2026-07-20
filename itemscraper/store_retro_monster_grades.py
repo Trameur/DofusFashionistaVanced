@@ -16,13 +16,16 @@
 
 """Store the 1.29 monster stats per grade into items_retro.db.
 
-Source: the Solomonk bestiary (the same AJAX endpoint the Retro drops come
-from; Ankama has no Retro encyclopedia). Every stat in a card carries its
-five grades as data-rank-N attributes keyed by data-mobid, with unambiguous
-icon classes: icon-vita/icon-pa/icon-pm for the characteristics, the level
-in the Niv. span, icon-neutral/earth/fire/water/air percent resistances and
-the icon-pa/icon-pm percent AP/MP loss dodges. Numbers are language-neutral
-so the French pages are enough.
+Two sources, first-hand data first (per the site's sourcing policy):
+  - level, elemental resistances and AP/MP dodges come from Ankama's OWN
+    lang CDN (retro_raw/monsters_fr.json, category "monsters"): each grade
+    carries l plus r = [mp dodge, ap dodge, air, water, fire, earth,
+    neutral], validated 3990/3990 against the previous data.
+  - HP/AP/MP are server-side in 1.29 (not in any client file), so they come
+    from the Solomonk bestiary cards (credited on the About page): the same
+    AJAX endpoint the Retro drops come from, data-rank-N attributes keyed
+    by data-mobid with icon-vita/icon-pa/icon-pm classes.
+Monsters absent from the lang (none today) keep the full Solomonk card.
 
 The endpoint now requires a prior visit to the search page in the same
 session (it answers "Restricted access" otherwise; hardening added some
@@ -118,6 +121,34 @@ def main():
     with opener.open(SEARCH_PAGE, timeout=60) as resp:
         resp.read()
 
+    # First-hand grade data from the official lang CDN. The raw is not
+    # committed (the pipeline's lang/download-fr step fetches it, category
+    # "monsters"); without it fall back to the Solomonk-only behaviour.
+    lang_path = os.path.join(CURRENT_DIR, 'retro_raw', 'monsters_fr.json')
+    lang_grades = {}
+    if not os.path.exists(lang_path):
+        print('WARNING: %s missing (run download_retro_langs.py with '
+              '--categories monsters); falling back to Solomonk for every '
+              'field' % lang_path)
+    else:
+        with open(lang_path, encoding='utf-8') as fh:
+            for mid, entry in json.load(fh)['M'].items():
+                if not isinstance(entry, dict):
+                    continue
+                grades = {}
+                for gnum in range(1, 6):
+                    g = entry.get('g%d' % gnum)
+                    if isinstance(g, dict) and 'r' in g and len(g['r']) >= 7:
+                        r = g['r']
+                        grades[gnum] = {
+                            'level': g.get('l'),
+                            'mp_dodge': r[0], 'ap_dodge': r[1],
+                            'air': r[2], 'water': r[3], 'fire': r[4],
+                            'earth': r[5], 'neutral': r[6],
+                        }
+                if grades:
+                    lang_grades[int(mid)] = grades
+
     stats = {}
     page = 0
     empty_streak = 0
@@ -172,13 +203,21 @@ def main():
         for grade in sorted(grades):
             def val(key):
                 return per_stat.get(key, {}).get(grade)
+            official = lang_grades.get(mobid, {}).get(grade)
+            if official is not None:
+                row = (mobid, grade, official['level'], val('vita'),
+                       val('pa'), val('pm'), official['ap_dodge'],
+                       official['mp_dodge'], official['earth'],
+                       official['air'], official['fire'], official['water'],
+                       official['neutral'])
+            else:
+                row = (mobid, grade, val('level'), val('vita'), val('pa'),
+                       val('pm'), val('pct_pa'), val('pct_pm'),
+                       val('pct_earth'), val('pct_air'), val('pct_fire'),
+                       val('pct_water'), val('pct_neutral'))
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_grades VALUES '
-                '(?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                (mobid, grade, val('level'), val('vita'), val('pa'),
-                 val('pm'), val('pct_pa'), val('pct_pm'), val('pct_earth'),
-                 val('pct_air'), val('pct_fire'), val('pct_water'),
-                 val('pct_neutral')))
+                '(?,?,?,?,?,?,?,?,?,?,?,?,?)', row)
             stored += 1
     conn.commit()
     conn.close()
