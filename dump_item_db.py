@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import argparse
 import os
 import platform
 import subprocess
@@ -24,8 +25,15 @@ import sqlite3
 from fashionistapulp.fashionista_config import get_items_db_path, get_items_dump_path
 
 def main():
-    items_db_path = get_items_db_path()
-    dump_path = get_items_dump_path()
+    parser = argparse.ArgumentParser(description="Dump an items db to its SQL dump file")
+    parser.add_argument("--game-version", default="dofus3",
+                        choices=("dofus3", "beta", "dofus2", "touch", "retro"),
+                        help="Which version's db/dump pair to use (default dofus3; "
+                             "the argument used to be silently ignored)")
+    args = parser.parse_args()
+
+    items_db_path = get_items_db_path(args.game_version)
+    dump_path = get_items_dump_path(args.game_version)
     
     if platform.system() == 'Windows':
         try:
