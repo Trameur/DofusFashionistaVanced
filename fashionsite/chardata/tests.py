@@ -5065,6 +5065,23 @@ class EncyclopediaMonsterPageTests(TestCase):
         for (name,) in touch_rows[:2]:
             self.assertIn(name, body)
 
+        # dofus3 locations come from DofusDB (its own zones, own ids).
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            d3_rows = conn.execute(
+                """SELECT name FROM monster_subareas
+                   WHERE monster_ankama_id = 101 AND language = 'fr'
+                   ORDER BY position""").fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(d3_rows, 'no dofus3 subareas stored for the Gobball')
+        resp = self.client.get('/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-subareas"', body)
+        self.assertIn(d3_rows[0][0], body)
+
         # dofus2 has no source for monster locations: no section at all.
         resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)

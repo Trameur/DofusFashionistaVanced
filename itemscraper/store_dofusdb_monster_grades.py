@@ -125,6 +125,11 @@ def main():
             stored += 1
     conn.commit()
     conn.close()
+    # Keep the version's dump in sync (load-db rebuilds from it; the beta
+    # dump silently lacked these tables until 2026-07-20).
+    sys.path.insert(0, CURRENT_DIR)
+    from store_item_obtainment import _save_db_to_dump
+    _save_db_to_dump(db_path, args.game_version)
     print('stored %d grade rows for %d monsters' % (stored, matched))
     return 0
 
