@@ -18,6 +18,7 @@ from collections import Counter
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.utils.html import escape
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 import json
@@ -456,25 +457,25 @@ def choose_compare_sets_post(request):
     char_ids = []
     for i, mystery_char_id in enumerate(links_digested):
         if not mystery_char_id:
-            return _get_text_error_response(_('%s is not a valid share link') % links[i])
+            return _rejected_link_error(_('%s is not a valid share link'), links[i])
         if mystery_char_id.startswith('g') and mystery_char_id[1:].isdigit():
             generation = get_or_none(SolutionGeneration, pk=int(mystery_char_id[1:]))
             if not generation or generation.game_version != getattr(request, 'game_version', 'dofus3'):
-                return _get_text_error_response(_('%s does not refer to a valid project')
-                                                % links[i])
+                return _rejected_link_error(_('%s does not refer to a valid project'),
+                                            links[i])
             if not char_belongs_to_user(request, generation.char):
-                return _get_text_error_response(_('%s refers to someone else\'s project')
-                                                % links[i])
+                return _rejected_link_error(_('%s refers to someone else\'s project'),
+                                            links[i])
             char_ids.append(mystery_char_id)
         elif mystery_char_id.isdigit():
             char_id = int(mystery_char_id)
             char = get_or_none(Char, pk=char_id)
             if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
-                return _get_text_error_response(_('%s does not refer to a valid project')
-                                                % links[i])
+                return _rejected_link_error(_('%s does not refer to a valid project'),
+                                            links[i])
             if not char_belongs_to_user(request, char):
-                return _get_text_error_response(_('%s refers to someone else\'s project')
-                                                % links[i])
+                return _rejected_link_error(_('%s refers to someone else\'s project'),
+                                            links[i])
             char_ids.append(mystery_char_id)
         else:
             try:
@@ -482,13 +483,13 @@ def choose_compare_sets_post(request):
             except:
                 char_id = None
             if char_id is None:
-                return _get_text_error_response(_('%s is not a valid share link') % links[i])
+                return _rejected_link_error(_('%s is not a valid share link'), links[i])
             char = get_or_none(Char, pk=char_id)
             if not char or char.game_version != getattr(request, 'game_version', 'dofus3'):
-                return _get_text_error_response(_('%s does not refer to a valid project')
-                                                % links[i])
+                return _rejected_link_error(_('%s does not refer to a valid project'),
+                                            links[i])
             if not char.link_shared:
-                return _get_text_error_response(_('%s is not shared') % links[i])
+                return _rejected_link_error(_('%s is not shared'), links[i])
             char_ids.append('s' + mystery_char_id)
 
     compare_path = '/'.join(char_ids)
@@ -591,4 +592,14 @@ def compare_set_search_proj_name(request):
     return JsonResponse(char_list, safe=False)
 
 def _get_text_error_response(cause):
+    # The response is text/plain (+ site-wide nosniff) and the picker page
+    # renders it with jQuery .text(), so nothing executes today; escaping
+    # the user-echoed parts (see _rejected_link_error) keeps it that way if
+    # a future consumer renders the message as HTML.
     return HttpResponseText('Error: %s' % cause)
+
+
+def _rejected_link_error(message, raw_link):
+    """Error response echoing a user-pasted link: escape the link (and cap
+    it, a paste can be arbitrarily long) before it enters the message."""
+    return _get_text_error_response(message % escape(raw_link[:120]))

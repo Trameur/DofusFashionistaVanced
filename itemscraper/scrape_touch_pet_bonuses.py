@@ -73,7 +73,10 @@ def _norm(text):
 
 
 def _page_lines(html):
-    text = re.sub(r'<script[\s\S]*?</script>', '', html)
+    # Case-insensitive and attribute-tolerant: CodeQL (py/bad-tag-filter)
+    # rightly notes <SCRIPT> or </script foo> would slip through otherwise.
+    text = re.sub(r'<script\b[\s\S]*?</script[^>]*>', '', html,
+                  flags=re.IGNORECASE)
     text = re.sub(r'<[^>]+>', '\n', text)
     return [line.strip() for line in text.split('\n') if line.strip()]
 
