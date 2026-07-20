@@ -21,10 +21,13 @@ Two sources, first-hand data first (per the site's sourcing policy):
     lang CDN (retro_raw/monsters_fr.json, category "monsters"): each grade
     carries l plus r = [mp dodge, ap dodge, air, water, fire, earth,
     neutral], validated 3990/3990 against the previous data.
-  - HP/AP/MP are server-side in 1.29 (not in any client file), so they come
-    from the Solomonk bestiary cards (credited on the About page): the same
-    AJAX endpoint the Retro drops come from, data-rank-N attributes keyed
-    by data-mobid with icon-vita/icon-pa/icon-pm classes.
+  - HP/AP/MP are mostly server-side in 1.29, BUT the current lang carries
+    lp/ap/mp for a small set of monsters (68 as of 1.48); those official
+    values win over the Solomonk bestiary cards (credited on the About
+    page), which remain the source for every other monster: the same AJAX
+    endpoint the Retro drops come from, data-rank-N attributes keyed by
+    data-mobid with icon-vita/icon-pa/icon-pm classes. Disagreements on
+    the overlap are printed so Solomonk's accuracy stays observable.
 Monsters absent from the lang (none today) keep the full Solomonk card.
 
 The endpoint now requires a prior visit to the search page in the same
@@ -145,6 +148,10 @@ def main():
                             'mp_dodge': r[0], 'ap_dodge': r[1],
                             'air': r[2], 'water': r[3], 'fire': r[4],
                             'earth': r[5], 'neutral': r[6],
+                            # Official HP/AP/MP exist for a few monsters
+                            # only; None means "ask Solomonk".
+                            'lp': g.get('lp'), 'ap': g.get('ap'),
+                            'mp': g.get('mp'),
                         }
                 if grades:
                     lang_grades[int(mid)] = grades
@@ -193,6 +200,7 @@ def main():
         )
         """)
     stored = matched = 0
+    official_hp = disagreements = 0
     for mobid, per_stat in sorted(stats.items()):
         if mobid not in known_ids:
             continue
@@ -205,8 +213,27 @@ def main():
                 return per_stat.get(key, {}).get(grade)
             official = lang_grades.get(mobid, {}).get(grade)
             if official is not None:
-                row = (mobid, grade, official['level'], val('vita'),
-                       val('pa'), val('pm'), official['ap_dodge'],
+                # Official lp/ap/mp win when the lang has them; print the
+                # overlap disagreements to keep an eye on Solomonk.
+                hp_ap_mp = []
+                for lang_key, solomonk_key in (('lp', 'vita'), ('ap', 'pa'),
+                                               ('mp', 'pm')):
+                    lang_value = official.get(lang_key)
+                    solomonk_value = val(solomonk_key)
+                    if lang_value is None:
+                        hp_ap_mp.append(solomonk_value)
+                        continue
+                    official_hp += 1
+                    hp_ap_mp.append(lang_value)
+                    if (solomonk_value is not None
+                            and solomonk_value != lang_value):
+                        disagreements += 1
+                        print('  overlap mismatch: monster %d grade %d %s: '
+                              'lang %s vs solomonk %s'
+                              % (mobid, grade, lang_key, lang_value,
+                                 solomonk_value))
+                row = (mobid, grade, official['level'], hp_ap_mp[0],
+                       hp_ap_mp[1], hp_ap_mp[2], official['ap_dodge'],
                        official['mp_dodge'], official['earth'],
                        official['air'], official['fire'], official['water'],
                        official['neutral'])
