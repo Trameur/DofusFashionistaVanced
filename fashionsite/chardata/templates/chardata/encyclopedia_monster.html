@@ -132,6 +132,15 @@
         </div>
         {% endif %}
 
+        {% if subareas %}
+        <div class="encyclopedia-section" id="monster-subareas">
+            <b>{{ mt.subareas_label }}</b>
+            <div class="monster-subareas-list">
+                {% for subarea in subareas %}{{ subarea }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         {% if monster_version_links %}
         <div class="encyclopedia-section">
             <b>{{ mt.other_versions_label }}</b>

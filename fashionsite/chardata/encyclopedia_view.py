@@ -1961,6 +1961,7 @@ MONSTER_UI = {
         'sort_label': 'Sort by',
         'sort_name': 'Name',
         'sort_level': 'Level',
+        'subareas_label': 'Found in',
         'sort_total_drops': 'Most drops',
         'sort_resource_drops': 'Most resources',
         'sort_item_drops': 'Most items',
@@ -1993,6 +1994,7 @@ MONSTER_UI = {
         'sort_label': 'Trier par',
         'sort_name': 'Nom',
         'sort_level': 'Niveau',
+        'subareas_label': 'Où le trouver',
         'sort_total_drops': 'Plus de drops',
         'sort_resource_drops': 'Plus de ressources',
         'sort_item_drops': 'Plus d\'objets',
@@ -2025,6 +2027,7 @@ MONSTER_UI = {
         'sort_label': 'Ordenar por',
         'sort_name': 'Nombre',
         'sort_level': 'Nivel',
+        'subareas_label': 'Dónde encontrarlo',
         'sort_total_drops': 'Más drops',
         'sort_resource_drops': 'Más recursos',
         'sort_item_drops': 'Más objetos',
@@ -2057,6 +2060,7 @@ MONSTER_UI = {
         'sort_label': 'Ordenar por',
         'sort_name': 'Nome',
         'sort_level': 'Nível',
+        'subareas_label': 'Onde encontrá-lo',
         'sort_total_drops': 'Mais drops',
         'sort_resource_drops': 'Mais recursos',
         'sort_item_drops': 'Mais itens',
@@ -2089,6 +2093,7 @@ MONSTER_UI = {
         'sort_label': 'Sortieren nach',
         'sort_name': 'Name',
         'sort_level': 'Stufe',
+        'subareas_label': 'Fundorte',
         'sort_total_drops': 'Meiste Drops',
         'sort_resource_drops': 'Meiste Ressourcen',
         'sort_item_drops': 'Meiste Items',
@@ -2631,6 +2636,27 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'fire': row[6], 'water': row[7], 'air': row[8],
                     'neutral': row[9],
                 })
+        # Where the monster can be found, from the version's own source
+        # (retro: the Solomonk bestiary subarea blocks). Localized names per
+        # language with a French fallback; versions without the table simply
+        # show no section.
+        subareas = []
+        if _db_table_exists(cursor, 'monster_subareas'):
+            rows = cursor.execute(
+                """
+                SELECT name FROM monster_subareas
+                WHERE monster_ankama_id = ? AND language = ?
+                ORDER BY position
+                """, (target_monster_id, language)).fetchall()
+            if not rows and language != 'fr':
+                rows = cursor.execute(
+                    """
+                    SELECT name FROM monster_subareas
+                    WHERE monster_ankama_id = ? AND language = 'fr'
+                    ORDER BY position
+                    """, (target_monster_id,)).fetchall()
+            subareas = [row[0] for row in rows]
+
         if monster_name.startswith('#'):
             return _monster_not_found_response(request, target_monster_id, slug)
 
@@ -2731,6 +2757,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'item_drops': item_drops,
             'grades': grades,
             'level_span': _grade_level_span(grades),
+            'subareas': subareas,
             'monster_version_links': monster_version_links,
         })
 

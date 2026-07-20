@@ -5014,6 +5014,38 @@ class EncyclopediaMonsterPageTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertNotIn('Niveau', body.split('</title>')[0])
 
+    def test_retro_monster_page_lists_its_subareas(self):
+        # "Where to find it" comes from the version's own source (retro:
+        # the Solomonk bestiary subarea blocks); expectations are read back
+        # from the db. Versions without the table show no section.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            rows = conn.execute(
+                """SELECT name FROM monster_subareas
+                   WHERE monster_ankama_id = 101 AND language = 'fr'
+                   ORDER BY position""").fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(rows, 'no retro subareas stored for the Gobball')
+
+        resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-subareas"', body)
+        self.assertIn('Où le trouver', body)
+        for (name,) in rows[:3]:
+            self.assertIn(name, body)
+
+        # dofus2 has no source for monster locations: no section at all.
+        resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn('id="monster-subareas"',
+                         resp.content.decode('utf-8'))
+
     def test_monster_page_shows_the_artwork(self):
         # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
         # file name is the gfxId, not the monster id); touch has its own

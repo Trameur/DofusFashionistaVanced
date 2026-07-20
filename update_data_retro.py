@@ -220,6 +220,12 @@ def main() -> None:
         PY, "store_retro_monster_grades.py",
     ], cwd=ITEMSCRAPER)
 
+    # Where each monster can be found (Solomonk subarea blocks, localized);
+    # re-dumps to stay in sync like the other stores.
+    step("monsters/subareas", [
+        PY, "store_retro_monster_subareas.py",
+    ], cwd=ITEMSCRAPER)
+
     # Pet variants (one maxed variant per bonus, from the vendored
     # retro_pet_bonuses.json snapshot): load-db drops them with every
     # rebuild, this recreates them (idempotent) and re-dumps.
