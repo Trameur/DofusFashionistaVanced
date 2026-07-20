@@ -86,6 +86,18 @@ def main():
     if os.path.exists(tmp_db_path):
         os.remove(tmp_db_path)
 
+    # Sweep temp files left behind by interrupted rebuilds (killed test
+    # runs, stopped dev servers). Only old ones: a concurrent process may
+    # legitimately be building its own right now.
+    import glob
+    import time
+    for stale in glob.glob('%s.tmp.*' % items_db_path):
+        try:
+            if time.time() - os.path.getmtime(stale) > 3600:
+                os.remove(stale)
+        except OSError:
+            pass
+
     print(f"Importing database from {dumped_db_path} to {items_db_path}")
     try:
         _build_db_file(tmp_db_path, dumped_db_path)
