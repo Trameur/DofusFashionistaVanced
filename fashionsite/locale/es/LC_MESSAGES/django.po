@@ -6164,3 +6164,57 @@ msgid ""
 msgstr ""
 "Los monstruos ahora tienen su artwork en Dofus 3, la beta y Dofus Touch, "
 "cada uno desde los archivos de su propio juego."
+
+#: chardata/templates/chardata/about.html:1
+msgid "Data sources & credits"
+msgstr "Fuentes de datos y créditos"
+
+#: chardata/templates/chardata/about.html:1
+msgid ""
+"Dofus is a game by Ankama. Whenever possible, the data on this site comes "
+"first-hand from the official game data: Ankama's lang CDN for Dofus Retro, "
+"the Dofus Touch game files and the official Dofus Touch encyclopedia."
+msgstr ""
+"Dofus es un juego de Ankama. Siempre que es posible, los datos de este sitio"
+" provienen directamente de los datos oficiales del juego: el CDN de idiomas "
+"de Ankama para Dofus Retro, los archivos del juego Dofus Touch y la "
+"enciclopedia oficial de Dofus Touch."
+
+#: chardata/templates/chardata/about.html:1
+msgid ""
+"Some data has no first-hand source; it comes from these community projects, "
+"with our thanks:"
+msgstr ""
+"Algunos datos no tienen una fuente oficial utilizable; provienen de estos "
+"proyectos comunitarios, a los que damos las gracias:"
+
+#: chardata/templates/chardata/about.html:1
+msgid ""
+"open data and API for the Dofus 3 and Beta items, sets, spells, recipes and "
+"drops"
+msgstr ""
+"datos abiertos y API para los objetos, conjuntos, hechizos, recetas y "
+"botines de Dofus 3 y de la Beta"
+
+#: chardata/templates/chardata/about.html:1
+msgid "monster stats and artwork for Dofus 3 and the Beta"
+msgstr ""
+"características e ilustraciones de los monstruos para Dofus 3 y la Beta"
+
+#: chardata/templates/chardata/about.html:1
+msgid "Dofus Retro bestiary: monster drops, stats per grade and locations"
+msgstr ""
+"bestiario de Dofus Retro: botines, características por grado y zonas de los "
+"monstruos"
+
+#: chardata/templates/chardata/about.html:1
+msgid "Dofus Retro set bonuses"
+msgstr "bonus de conjuntos de Dofus Retro"
+
+#: chardata/templates/chardata/about.html:1
+msgid "Dofus Retro item and spell icons"
+msgstr "iconos de objetos y hechizos de Dofus Retro"
+
+#: chardata/templates/chardata/about.html:1
+msgid "part of the Dofus Retro pet bonuses"
+msgstr "una parte de los bonus de mascotas de Dofus Retro"
