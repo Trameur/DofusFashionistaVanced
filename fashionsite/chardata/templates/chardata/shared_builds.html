@@ -414,6 +414,26 @@
         .build-boxes-section br {
             display: none;
         }
+        /* Theme-aware corrections: the palette above was written against
+           the dark chrome (gold text, translucent panels, #555 greys) and
+           parts of it are unreadable on the other theme. base.html stamps
+           fm-light/fm-dark on <html>, so both directions are fixable in
+           pure CSS here. */
+        html.fm-light .filter-label,
+        html.fm-light .build-title,
+        html.fm-light .build-label,
+        html.fm-light .stat-value,
+        html.fm-light .build-compact-stat,
+        html.fm-light .vote-btn,
+        html.fm-light .pagination a,
+        html.fm-light .pagination span {
+            color: #7A5C10;
+        }
+        html.fm-dark .build-value,
+        html.fm-dark .results-count,
+        html.fm-dark .text {
+            color: #A8A8A8;
+        }
     </style>
 {% endblock %}
 
@@ -522,13 +542,13 @@
             {% if user.is_authenticated %}
             <div class="filter-row">
                 <div class="filter-group">
-                    <label style="color: #D4AF37;">
+                    <label class="filter-label">
                         <input type="checkbox" name="show_liked" value="1" {% if filters.show_liked %}checked{% endif %}>
                         {% trans "Show only my liked builds" %}
                     </label>
                 </div>
                 <div class="filter-group">
-                    <label style="color: #D4AF37;">
+                    <label class="filter-label">
                         <input type="checkbox" name="show_favorited" value="1" {% if filters.show_favorited %}checked{% endif %}>
                         {% trans "Show only my favorited builds" %}
                     </label>
@@ -538,7 +558,7 @@
 
             <div class="filter-row">
                 <div class="filter-group">
-                    <label style="color: #D4AF37;">
+                    <label class="filter-label">
                         <input type="checkbox" name="hide_invalid" value="1" {% if filters.hide_invalid %}checked{% endif %}>
                         {% trans "Hide invalid or outdated builds" %}
                     </label>

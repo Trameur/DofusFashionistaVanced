@@ -11,3 +11,11 @@
 .body-base {
     background: #E4E6BC;
 }
+
+/* Classic look: links dressed as buttons kept the page's orange link
+   color on the dark brown button background (2.5:1). Give every such
+   link the buttons' cream text; the modern look restyles them. */
+html:not(.fm-modern) a.button-generic,
+html:not(.fm-modern) a.button-generic-foreground {
+    color: #F2E3C6;
+}

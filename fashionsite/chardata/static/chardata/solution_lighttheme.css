@@ -86,6 +86,3 @@
 html:not(.fm-modern) .solution-build-score {
     background-color: #E4E6BC;
 }
-html:not(.fm-modern) a.solution-history-link-button {
-    color: #F2E3C6;
-}
