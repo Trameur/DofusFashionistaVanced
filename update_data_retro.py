@@ -22,9 +22,10 @@ Pipeline steps:
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
     spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (Cyberia CDN)
 
-Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side), so they come
-from a vendored community snapshot itemscraper/retro_set_bonuses.json (retro-craft/
-scrapstuff), matched to lang sets by name inside get_equipments_retro.py.
+Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side): they are
+scraped from Solomonk set pages by get_retro_set_bonuses.py (legacy snapshot and
+committed-db fallbacks for the sets Solomonk lacks) into retro_set_bonuses.json,
+matched to lang sets by ankama id inside get_equipments_retro.py.
 
 Item/mount icons and damage-spell icons come from the community Cyberia CDN
 (download_retro_images.py, download_retro_spell_images.py).
@@ -165,6 +166,13 @@ def main() -> None:
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
+    # Set bonuses from Solomonk (live 1.48), with legacy/committed-db
+    # fallbacks inside the scraper; a network failure leaves the committed
+    # retro_set_bonuses.json in place for items/transform below.
+    step("sets/bonuses", [
+        PY, "get_retro_set_bonuses.py",
+    ], cwd=ITEMSCRAPER)
+
     step("items/transform", [
         PY, "get_equipments_retro.py",
         "--raw-dir", RETRO_RAW_DIR,
@@ -195,6 +203,12 @@ def main() -> None:
         PY, "store_drops.py",
         "--drops", "transformed_drops_retro.json",
         "--game-version", "retro",
+    ], cwd=ITEMSCRAPER)
+
+    # Craft recipes from the 1.29 crafts lang (load-db rebuilds the DB from
+    # the dump, dropping them: this restores the tables and re-dumps).
+    step("recipes/store", [
+        PY, "store_retro_recipes.py",
     ], cwd=ITEMSCRAPER)
 
     # Per-grade 1.29 monster stats from the same Solomonk bestiary cards

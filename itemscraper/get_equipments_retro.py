@@ -113,8 +113,17 @@ def _ascii(s):
     return unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode('ascii').lower().strip()
 
 
+_SET_STAT_EN_PASSTHROUGH = (set(_SET_STAT_FR_TO_EN.values())
+                            | {'%s Resist' % e for e in _SET_ELEMENTS_FR.values()}
+                            | {'%% %s Resist' % e for e in _SET_ELEMENTS_FR.values()}
+                            | {'Power', 'Trap Damage', '% Trap Damage', 'Vitality'})
+
+
 def _map_set_stat(fr_type):
-    """French set-bonus label -> English stat name (or None to skip)."""
+    """French set-bonus label -> English stat name (or None to skip).
+    English stat names (from the committed-db fallback entries) pass through."""
+    if fr_type in _SET_STAT_EN_PASSTHROUGH:
+        return fr_type
     pct = '%' in fr_type
     n = ' '.join(_ascii(fr_type).replace('%', '').replace('.', '').split())
     if 'res' in n and 'faiblesse' not in n:
@@ -147,6 +156,7 @@ def load_set_bonuses(path):
     data = json.loads(p.read_text(encoding='utf-8'))
     out = []
     for s in data:
+        ankama_id = s.get('ankama_id')
         stats_list = []
         # bonus[i] is the cumulative bonus for wearing (i+1) pieces: bonus[0] is the
         # 1-piece tier (always empty -- no 1-item set bonus in Dofus).
@@ -166,16 +176,24 @@ def load_set_bonuses(path):
                 stats_list.append({'effect_key': num_pieces, 'effects': effects})
         if stats_list:
             item_names = frozenset(_ascii(n) for n in s.get('items', []) if n)
-            out.append((item_names, stats_list))
+            out.append((ankama_id, item_names, stats_list))
     return out
 
 
-def _match_set_bonuses(lang_item_names, set_bonuses):
-    """Pick the bonus entry whose items best overlap this lang set's items."""
+def _match_set_bonuses(lang_item_names, set_bonuses, set_ankama_id=None):
+    """Pick the bonus entry for this lang set: by ankama id when the entry
+    carries one (the Solomonk scrape does), else by best item-name overlap
+    (the legacy snapshot format has no ids)."""
+    if set_ankama_id is not None:
+        for ankama_id, _item_names, stats_list in set_bonuses:
+            if ankama_id == set_ankama_id:
+                return stats_list
     if not lang_item_names:
         return []
     best_stats, best_overlap, best_size = [], 0, 0
-    for item_names, stats_list in set_bonuses:
+    for ankama_id, item_names, stats_list in set_bonuses:
+        if ankama_id is not None:
+            continue  # id-carrying entries only ever match by id
         overlap = len(lang_item_names & item_names)
         if overlap > best_overlap:
             best_overlap, best_stats, best_size = overlap, stats_list, len(item_names)
@@ -363,7 +381,8 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
         lang_item_names = {item_name_by_id.get(str(i), '') for i in sd['i']}
         lang_item_names.discard('')
         max_pieces = min(len(equipment_ids), 9)
-        stats_list = [t for t in _match_set_bonuses(lang_item_names, set_bonuses)
+        stats_list = [t for t in _match_set_bonuses(lang_item_names, set_bonuses,
+                                                    set_ankama_id)
                       if t['effect_key'] <= max_pieces]
         # Canonical name is English (structure.py uses sets.name as the 'en' name);
         # other languages flow into the set_names table.
