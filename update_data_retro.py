@@ -227,6 +227,13 @@ def main() -> None:
         PY, "store_retro_monster_subareas.py",
     ], cwd=ITEMSCRAPER)
 
+    # Refresh the pet feeding caps first (dofux + Solomonk, credited on
+    # About; no first-hand source: the caps are server-side in 1.29). A
+    # network failure leaves the committed retro_pet_bonuses.json in place.
+    step("pets/scrape", [
+        PY, "scrape_retro_pet_bonuses.py",
+    ], cwd=ITEMSCRAPER)
+
     # Pet variants (one maxed variant per bonus, from the vendored
     # retro_pet_bonuses.json snapshot): load-db drops them with every
     # rebuild, this recreates them (idempotent) and re-dumps.
