@@ -46,9 +46,13 @@ def _pulp_solver_available():
 
 
 class ScrollCostCurveTests(TestCase):
-    def test_only_retro_and_touch_push_the_curve(self):
+    def test_only_retro_pushes_the_curve(self):
+        # Touch adopted the post-2.48 separate tracking despite its 2.x
+        # origin: a live Touch character (int scrolled 51, 305 invested)
+        # was charged the flat 925, not the pushed 1078; the site's -153
+        # mismatch (2026-07-20 player report) pinned the rule down.
         for version, expected in (('dofus3', False), ('beta', False),
-                                  ('dofus2', False), ('touch', True),
+                                  ('dofus2', False), ('touch', False),
                                   ('retro', True)):
             self.assertEqual(scrolls_push_cost_curve(version), expected, version)
 
@@ -65,7 +69,7 @@ class ScrollCostCurveTests(TestCase):
 
         cases = (('dofus3', '', 'scrollsPushCurve = false'),
                  ('retro', '/retro', 'scrollsPushCurve = true'),
-                 ('touch', '/touch', 'scrollsPushCurve = true'))
+                 ('touch', '/touch', 'scrollsPushCurve = false'))
         self.client.force_login(owner)
         for version, prefix, needle in cases:
             with self.subTest(version=version):
