@@ -43,9 +43,13 @@ cd /app/fashionsite
 echo "Running Django migrations..."
 python manage.py migrate --noinput
 
-# Collecter les fichiers statiques
+# Collecter les fichiers statiques. Pas de --clear : le volume static_files
+# persiste entre les deploys et --clear forcait la recopie COMPLETE des
+# ~40k fichiers (webp monstres inclus) a chaque boot, soit plusieurs minutes
+# de maintenance sur les I/O du VPS. La copie incrementale suffit ; les
+# rares fichiers orphelins restent servis mais ne cassent rien.
 echo "Collecting static files..."
-python manage.py collectstatic --noinput --clear
+python manage.py collectstatic --noinput
 
 echo "Starting Gunicorn server..."
 # On small instances, 2 workers is usually more stable than 3.
