@@ -51,7 +51,17 @@ def _build_db_file(target_path, dumped_db_path):
         conn.commit()
         conn.close()
     else:
-        return_code = os.system('sqlite3 %s < %s' % (target_path, dumped_db_path))
+        # One big transaction with fsync disabled while building the private
+        # temp file. The dump carries no BEGIN/COMMIT, so the bare CLI used
+        # to run every INSERT in its own autocommit with an fsync each
+        # (~76k fsyncs once the monster grades landed): minutes of boot on
+        # VPS disks, which kept production in maintenance on 2026-07-20.
+        # Crash-safety is not needed here: the temp file is discarded on
+        # failure and os.replace provides the atomicity.
+        return_code = os.system(
+            '{ echo "PRAGMA synchronous=OFF; PRAGMA journal_mode=MEMORY; '
+            'BEGIN TRANSACTION;"; cat %s; echo "COMMIT;"; } | sqlite3 %s'
+            % (dumped_db_path, target_path))
         if return_code != 0:
             raise RuntimeError('sqlite3 import failed (exit %d)' % return_code)
         os.system('chmod 666 %s' % target_path)

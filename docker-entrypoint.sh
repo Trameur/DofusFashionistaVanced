@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+# Unbuffered Python output: during the 2026-07-20 outage the boot looked
+# frozen because every print was stuck in a stdio buffer while only the
+# sqlite CLI's stderr reached the logs.
+export PYTHONUNBUFFERED=1
+
 echo "Starting DofusFashionistaVanced container..."
 
 # Fusionner les configurations existantes avec les valeurs par défaut
