@@ -64,7 +64,8 @@ OVERRIDES = {
     'Red Dragoone': [['Wisdom', 50]],
 }
 
-_FOOD_RE = re.compile(r'(\d+)\s*[àa]\s*(\d+)\s*en\s+([A-Za-zàâçéèêëîïôûùü]+)', re.I)
+_FOOD_RE = re.compile(
+    r'(\d+)\s*[àa]\s*(\d+)\s*(?:en|[àa]\s+la)\s+([A-Za-zàâçéèêëîïôûùü]+)', re.I)
 _PCTDMG_RE = re.compile(r'(\d+)\s*[àa]\s*(\d+)\s*%\s*de\s+dommages', re.I)
 _RES_RE = re.compile(
     r'(\d+)\s*[àa]\s*(\d+)\s*%\s*de\s+r[ée]sistance[^.(]*?(feu|terre|air|eau|neutre)', re.I)
@@ -114,6 +115,78 @@ def _parse_dofux(html):
     return pets
 
 
+_SOLOMONK_LIST = 'https://solomonk.fr/fr/equipements/18/familier'
+_SOLOMONK_AJAX = 'https://solomonk.fr/ajax/select_stuff.php'
+_CARD_RE = re.compile(
+    r'card-solo-item-title"><a href="https://solomonk\.fr/fr/equipement/(\d+)/')
+_EFFECT_LINE_RE = re.compile(r'<span class="font-weight-bold">([^<]+)</span>')
+
+
+def _parse_effect_lines(lines):
+    """[[stat, max], ...] from Solomonk effect lines like
+    '+0 à 80 en intelligence (Capacités accrues : 90)'."""
+    bonuses = []
+    seen = set()
+
+    def add(stat, value):
+        key = (stat, value)
+        if stat and key not in seen:
+            seen.add(key)
+            bonuses.append([stat, value])
+
+    for line in lines:
+        for _lo, hi, word in _FOOD_RE.findall(line):
+            add(FOOD_STATS.get(_norm(word)), int(hi))
+        for _lo, hi in _PCTDMG_RE.findall(line):
+            add('% Weapon Damage', int(hi))
+        for _lo, hi, element in _RES_RE.findall(line):
+            add('%% %s Resist' % ELEMENTS[element.lower()], int(hi))
+    return bonuses
+
+
+def _fetch_solomonk_pets():
+    """{ankama_id: [[stat, max], ...]} from the Solomonk pets listing (the
+    live 1.48 reference; covers event pets dofux never had). Cards come from
+    the select_stuff endpoint (session-primed, T=18, minimal params: adding
+    C=false makes it return empty) and carry the ankama id in the item URL.
+    The endpoint intermittently serves empty pages mid-crawl, so only two
+    consecutive empties end the crawl (same rule as the bestiary scrapers)."""
+    session = requests.Session()
+    session.headers['User-Agent'] = 'Mozilla/5.0'
+    session.get(_SOLOMONK_LIST, timeout=60)
+    pets = {}
+    offset = 0
+    empty_streak = 0
+    for _ in range(80):
+        response = session.get(_SOLOMONK_AJAX, timeout=60, params={
+            'lang': 'fr', 'Q': 10, 'O': offset, 'T': '18',
+        }, headers={'Referer': _SOLOMONK_LIST,
+                    'X-Requested-With': 'XMLHttpRequest'})
+        try:
+            html = response.json().get('html') or ''
+        except ValueError:
+            html = ''
+        cards = list(_CARD_RE.finditer(html))
+        if not cards:
+            empty_streak += 1
+            if empty_streak > 2:
+                break
+            import time
+            time.sleep(2.0)
+            continue
+        empty_streak = 0
+        for index, match in enumerate(cards):
+            end = cards[index + 1].start() if index + 1 < len(cards) else len(html)
+            lines = _EFFECT_LINE_RE.findall(html[match.end():end])
+            bonuses = _parse_effect_lines(lines)
+            if bonuses:
+                pets[int(match.group(1))] = bonuses
+        offset += 10
+        import time
+        time.sleep(0.4)
+    return pets
+
+
 def _lang_names(lang):
     with open(os.path.join(RAW_DIR, 'items_%s.json' % lang), encoding='utf-8') as in_file:
         return (json.load(in_file).get('I') or {}).get('u') or {}
@@ -153,6 +226,18 @@ def main():
             scraped_en[en_name] = bonuses
         else:
             unmatched.append(fr_norm)
+
+    # Solomonk (live 1.48, id-keyed: no name matching) overrides dofux.
+    print('Fetching the Solomonk pets listing ...')
+    solomonk = _fetch_solomonk_pets()
+    solomonk_named = 0
+    for ankama_id, bonuses in solomonk.items():
+        en_name = en_by_id.get(ankama_id)
+        if en_name:
+            scraped_en[en_name] = bonuses
+            solomonk_named += 1
+    print('Parsed bonuses for %d pets from Solomonk (%d matched to the db).'
+          % (len(solomonk), solomonk_named))
 
     # Result: every DB-feedable pet as a key (so it's a complete checklist),
     # filled from the scrape where available, plus any extra scraped pets.

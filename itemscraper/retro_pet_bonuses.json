@@ -43,7 +43,12 @@
       50
     ]
   ],
-  "Blue Piwin": [],
+  "Blue Piwin": [
+    [
+      "Chance",
+      80
+    ]
+  ],
   "Bobot": [],
   "Borbat": [],
   "Bow Meow": [
@@ -60,11 +65,11 @@
       80
     ],
     [
-      "Agility",
+      "Chance",
       80
     ],
     [
-      "Chance",
+      "Agility",
       80
     ],
     [
@@ -99,15 +104,15 @@
       20
     ],
     [
+      "% Fire Resist",
+      20
+    ],
+    [
       "% Water Resist",
       20
     ],
     [
       "% Air Resist",
-      20
-    ],
-    [
-      "% Fire Resist",
       20
     ]
   ],
@@ -128,7 +133,28 @@
       20
     ]
   ],
-  "El Palador": [],
+  "El Palador": [
+    [
+      "% Neutral Resist",
+      20
+    ],
+    [
+      "% Earth Resist",
+      20
+    ],
+    [
+      "% Fire Resist",
+      20
+    ],
+    [
+      "% Water Resist",
+      20
+    ],
+    [
+      "% Air Resist",
+      20
+    ]
+  ],
   "El Scarador": [
     [
       "% Neutral Resist",
@@ -152,9 +178,35 @@
     ]
   ],
   "Eliaboo": [],
-  "Estok": [],
+  "Estok": [
+    [
+      "% Neutral Resist",
+      20
+    ],
+    [
+      "% Earth Resist",
+      20
+    ],
+    [
+      "% Fire Resist",
+      20
+    ],
+    [
+      "% Water Resist",
+      20
+    ],
+    [
+      "% Air Resist",
+      20
+    ]
+  ],
   "Feanor": [],
-  "Fiery Croum": [],
+  "Fiery Croum": [
+    [
+      "Intelligence",
+      80
+    ]
+  ],
   "Fire Bwak": [
     [
       "Vitality",
@@ -208,9 +260,19 @@
   ],
   "Karne": [],
   "Kerubaby": [],
-  "Komet": [],
+  "Komet": [
+    [
+      "Prospecting",
+      80
+    ]
+  ],
   "Kurial": [],
-  "Kwismas Reindeer": [],
+  "Kwismas Reindeer": [
+    [
+      "Prospecting",
+      80
+    ]
+  ],
   "Leokasper the Friendly Ghost": [],
   "Leopardo": [],
   "Lethal Ström": [],
@@ -235,6 +297,10 @@
       80
     ],
     [
+      "Chance",
+      80
+    ],
+    [
       "Agility",
       80
     ]
@@ -247,7 +313,12 @@
   ],
   "Minimino": [],
   "Miniminotot": [],
-  "Minipoth": [],
+  "Minipoth": [
+    [
+      "Initiative",
+      800
+    ]
+  ],
   "Mischievous Squirrel": [],
   "Mount Certificate": [],
   "Necrobulb": [],
@@ -260,7 +331,12 @@
   "Ogrine Seeker": [],
   "Original Boon": [],
   "Pandawa Cub": [],
-  "Pandiscamp": [],
+  "Pandiscamp": [
+    [
+      "Vitality",
+      400
+    ]
+  ],
   "Paradoxine": [],
   "Patrick the Sandcastle": [],
   "Peki": [
@@ -316,7 +392,12 @@
     ]
   ],
   "Solar Bear": [],
-  "Sting": [],
+  "Sting": [
+    [
+      "Prospecting",
+      80
+    ]
+  ],
   "Tabby Bow Meow": [],
   "Tarzantula": [
     [
@@ -343,24 +424,38 @@
       150
     ]
   ],
-  "Vegetal Croum": [],
+  "Vegetal Croum": [
+    [
+      "Strength",
+      80
+    ]
+  ],
   "Veteran ": [],
-  "Volatile Croum": [],
-  "Wabbit": [
+  "Volatile Croum": [
     [
       "Agility",
       80
+    ]
+  ],
+  "Wabbit": [
+    [
+      "Wisdom",
+      27
     ],
     [
       "Strength",
       80
     ],
     [
-      "Wisdom",
-      27
+      "Intelligence",
+      80
     ],
     [
-      "Intelligence",
+      "Chance",
+      80
+    ],
+    [
+      "Agility",
       80
     ]
   ],
@@ -370,12 +465,38 @@
       80
     ],
     [
+      "Chance",
+      80
+    ],
+    [
       "% Water Resist",
       20
     ]
   ],
-  "Watery Croum": [],
-  "Weegle Owl": [],
+  "Watery Croum": [
+    [
+      "Chance",
+      80
+    ]
+  ],
+  "Weegle Owl": [
+    [
+      "Strength",
+      80
+    ],
+    [
+      "Intelligence",
+      80
+    ],
+    [
+      "Chance",
+      80
+    ],
+    [
+      "Agility",
+      80
+    ]
+  ],
   "Wild Almond Dragoturkey": [],
   "Wild Ginger Dragoturkey": [],
   "Wild Golden Dragoturkey": [],
