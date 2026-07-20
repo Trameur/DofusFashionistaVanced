@@ -2582,6 +2582,15 @@ def _resource_not_found_response(request, subtype, ankama_id, slug=None, current
     return _encyclopedia_missing_response(request, 'resource', requested_name)
 
 
+def _grade_level_span(grades):
+    """'22-30' (or '22') across the version's own grades, for title/meta."""
+    levels = [g['level'] for g in grades if g.get('level') is not None]
+    if not levels:
+        return None
+    low, high = min(levels), max(levels)
+    return '%d-%d' % (low, high) if high != low else '%d' % low
+
+
 def encyclopedia_monster(request, monster_id, slug=None):
     language = get_supported_language()
     t = _ui_text()
@@ -2721,6 +2730,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'resource_drops': resource_drops,
             'item_drops': item_drops,
             'grades': grades,
+            'level_span': _grade_level_span(grades),
             'monster_version_links': monster_version_links,
         })
 

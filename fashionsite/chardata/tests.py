@@ -4983,6 +4983,37 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertTrue(mins, 'no level lines rendered on the sorted hub')
         self.assertEqual(mins, sorted(mins))
 
+    def test_monster_page_title_carries_the_level_span(self):
+        # The title/meta use the version's own grade levels; dofus2 has no
+        # grades so its title stays untouched.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        conn = sqlite3.connect(get_items_db_path('touch'))
+        try:
+            level_min, level_max = conn.execute(
+                """SELECT MIN(level), MAX(level) FROM monster_grades
+                   WHERE monster_ankama_id = 101 AND level IS NOT NULL""").fetchone()
+        finally:
+            conn.close()
+        self.assertIsNotNone(level_min)
+        span = ('%d-%d' % (level_min, level_max)
+                if level_max != level_min else '%d' % level_min)
+
+        resp = self.client.get('/touch/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Niveau %s - Monstre' % span, body)
+        # The minifier reorders attributes: match the content only.
+        self.assertIn('content="Niveau %s. Drops' % span, body)
+
+        resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertNotIn('Niveau', body.split('</title>')[0])
+
     def test_monster_page_shows_the_artwork(self):
         # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
         # file name is the gfxId, not the monster id); touch has its own

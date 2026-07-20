@@ -3,9 +3,9 @@
 {% load static_s3 %}
 {% load i18n %}
 
-{% block title %}{{ monster.name }} - {{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{{ monster.name }} - {% if level_span %}{{ mt.level_label }} {{ level_span }} - {% endif %}{{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
