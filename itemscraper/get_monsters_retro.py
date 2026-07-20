@@ -131,14 +131,23 @@ def _fetch_language(lang: str, delay: float, max_pages: int,
     """Return {monster_id: {"name": str, "drops": [(item_id, rate)]}} for one lang."""
     monsters: Dict[int, Dict[str, Any]] = {}
     offset = 0
-    for _ in range(max_pages):
+    pages_done = 0
+    empty_streak = 0
+    while pages_done < max_pages:
         query = urlencode({"lang": lang, "Q": BATCH, "O": offset, "T": "all", **COLLAPSE})
         data = _http_get_json("%s?%s" % (AJAX, query))
-        if not data:
-            break
-        cards = _parse_cards(data.get("html") or "")
+        cards = _parse_cards((data or {}).get("html") or "")
         if not cards:
-            break
+            # The endpoint intermittently serves an empty page mid-crawl:
+            # retry the same offset before treating it as the real end
+            # (a premature break once silently dropped 3/4 of the bestiary).
+            empty_streak += 1
+            if empty_streak > 2:
+                break
+            time.sleep(2.0)
+            continue
+        empty_streak = 0
+        pages_done += 1
         for monster_id, name, drops in cards:
             monsters[monster_id] = {"name": name, "drops": drops}
         next_offset = data.get("offset")

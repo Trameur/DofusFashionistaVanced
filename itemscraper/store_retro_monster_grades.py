@@ -119,11 +119,21 @@ def main():
         resp.read()
 
     stats = {}
-    for page in range(args.max_pages):
+    page = 0
+    empty_streak = 0
+    while page < args.max_pages:
         html = fetch_page(opener, page * BATCH)
         if html is None:
-            break
+            # Intermittent empty responses mid-crawl: retry the same page
+            # before treating it as the end of the bestiary.
+            empty_streak += 1
+            if empty_streak > 2:
+                break
+            time.sleep(2.0)
+            continue
+        empty_streak = 0
         collect(html, stats)
+        page += 1
         time.sleep(args.delay)
     print('collected stats for %d monsters over %d pages' % (len(stats), page))
 

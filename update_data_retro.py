@@ -194,6 +194,15 @@ def main() -> None:
     # not the server-side drop tables, and Ankama has no Retro monster encyclopedia), so we scrape
     # the current (1.48) community reference Solomonk.fr. Runs after load-db, which rebuilds the DB
     # from the dump; store_drops then adds the two tables and re-dumps so both stay in sync.
+    # Craft recipes from the 1.29 crafts lang (load-db rebuilds the DB from
+    # the dump, dropping them: this restores the tables and re-dumps).
+    # MUST run before drops/store: store_drops classifies a drop as a
+    # resource via item_recipe_ingredient_names, which is empty until here
+    # (an empty table once zeroed resource_drops on a full rebuild).
+    step("recipes/store", [
+        PY, "store_retro_recipes.py",
+    ], cwd=ITEMSCRAPER)
+
     step("drops/transform", [
         PY, "get_monsters_retro.py",
         "--output", "transformed_drops_retro.json",
@@ -205,16 +214,17 @@ def main() -> None:
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 
-    # Craft recipes from the 1.29 crafts lang (load-db rebuilds the DB from
-    # the dump, dropping them: this restores the tables and re-dumps).
-    step("recipes/store", [
-        PY, "store_retro_recipes.py",
-    ], cwd=ITEMSCRAPER)
-
     # Per-grade 1.29 monster stats from the same Solomonk bestiary cards
     # (level, HP, AP, MP, dodges, resistances); re-dumps to stay in sync.
     step("monsters/grades", [
         PY, "store_retro_monster_grades.py",
+    ], cwd=ITEMSCRAPER)
+
+    # Pet variants (one maxed variant per bonus, from the vendored
+    # retro_pet_bonuses.json snapshot): load-db drops them with every
+    # rebuild, this recreates them (idempotent) and re-dumps.
+    step("pets/store", [
+        PY, "store_retro_pet_bonuses.py",
     ], cwd=ITEMSCRAPER)
 
     # Craft professions ("Crafted by ..."): the 1.29 skills lang lists every

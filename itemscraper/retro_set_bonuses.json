@@ -6709,9 +6709,9 @@
   "name": "Panoplie Vioutifoule",
   "items": [
    "Bottes Vioutifoule",
+   "Cape Vioutifoule",
    "Casque Vioutifoule",
-   "Ceinture Vioutifoule",
-   "Cape Vioutifoule"
+   "Ceinture Vioutifoule"
   ],
   "bonus": [
    [],
@@ -6754,7 +6754,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 76,
@@ -6762,8 +6762,8 @@
   "items": [
    "Mégabottes",
    "Mégacape",
-   "Mégature",
-   "Mégacoiffe"
+   "Mégacoiffe",
+   "Mégature"
   ],
   "bonus": [
    [],
@@ -6806,7 +6806,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 77,
@@ -10702,10 +10702,10 @@
   "ankama_id": 110,
   "name": "Panoplie Gato",
   "items": [
-   "Tartamulette",
-   "Caskogato",
    "Beignature",
-   "Capogato"
+   "Capogato",
+   "Caskogato",
+   "Tartamulette"
   ],
   "bonus": [
    [],
@@ -10748,16 +10748,16 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 111,
   "name": "Panoplie Paupayahn",
   "items": [
-   "Chapeau Paupayahn",
-   "Bottes Paupayahn",
    "Anneau Paupayahn",
-   "Cape Paupayahn"
+   "Bottes Paupayahn",
+   "Cape Paupayahn",
+   "Chapeau Paupayahn"
   ],
   "bonus": [
    [],
@@ -10800,7 +10800,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 112,
@@ -10902,8 +10902,8 @@
   "ankama_id": 114,
   "name": "Panoplie du Bois de l'Est",
   "items": [
-   "Cape du bois de l'est",
    "Bottes du bois de l'est",
+   "Cape du bois de l'est",
    "Ceinture du bois de l'est",
    "Chapeau du bois de l'est"
   ],
@@ -10944,7 +10944,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 115,
@@ -10998,10 +10998,10 @@
   "ankama_id": 116,
   "name": "Panoplie de Charlie",
   "items": [
-   "La Chaplivate",
-   "Les Chaplures",
    "La Chaplanne",
-   "Le Chapleau"
+   "La Chaplivate",
+   "Le Chapleau",
+   "Les Chaplures"
   ],
   "bonus": [
    [],
@@ -11036,7 +11036,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 117,
@@ -11296,8 +11296,8 @@
   "ankama_id": 122,
   "name": "Panoplie Cigale",
   "items": [
-   "Cigaloclier",
    "Cigalocape",
+   "Cigaloclier",
    "Cigalocoiffe"
   ],
   "bonus": [
@@ -11319,14 +11319,14 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 123,
   "name": "Panoplie Posh",
   "items": [
-   "Poshoclier",
    "Poshocape",
+   "Poshoclier",
    "Poshocoiffe"
   ],
   "bonus": [
@@ -11348,7 +11348,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 124,
@@ -11395,9 +11395,9 @@
   "name": "Panoplie Cristaline",
   "items": [
    "Anneau Cristalin",
-   "Coiffe Cristaline",
    "Cape Cristaline",
-   "Ceinture Cristaline"
+   "Ceinture Cristaline",
+   "Coiffe Cristaline"
   ],
   "bonus": [
    [],
@@ -11436,17 +11436,17 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 126,
   "name": "Panoplie du Parrain",
   "items": [
-   "Souliers laqués du Parrain",
    "Borsalino du Parrain",
-   "Cape du Parrain",
    "Caleçon à bretelles du Parrain",
-   "Grosse Bagouze du Parrain"
+   "Cape du Parrain",
+   "Grosse Bagouze du Parrain",
+   "Souliers laqués du Parrain"
   ],
   "bonus": [
    [],
@@ -11527,16 +11527,16 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 127,
   "name": "Panoplie du Black Wab",
   "items": [
-   "Coiffe du Black Wab",
-   "Cape du Black Wab",
    "Bottines du Black Wab",
-   "Ceinture du Black Wab"
+   "Cape du Black Wab",
+   "Ceinture du Black Wab",
+   "Coiffe du Black Wab"
   ],
   "bonus": [
    [],
@@ -11571,15 +11571,15 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 128,
   "name": "Panoplie de Slait",
   "items": [
    "Anneau de Slait",
-   "Cape de Slait",
    "Bottes de Slait",
+   "Cape de Slait",
    "Noreilles de Slait"
   ],
   "bonus": [
@@ -11627,16 +11627,16 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 129,
   "name": "Panoplie Papayou",
   "items": [
    "Amulette Papayou",
-   "Sandales Papayou",
    "Bandeau Papayou",
-   "Cape Papayou"
+   "Cape Papayou",
+   "Sandales Papayou"
   ],
   "bonus": [
    [],
@@ -11671,7 +11671,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 130,
@@ -11755,9 +11755,9 @@
   "ankama_id": 131,
   "name": "Panoplie Mystère",
   "items": [
+   "Bottes Siks Won Naïne",
    "Cape Siks Won Naïne",
    "Ceinture Siks Won Naïne",
-   "Bottes Siks Won Naïne",
    "Masque Siks Won Naïne"
   ],
   "bonus": [
@@ -11801,15 +11801,15 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 132,
   "name": "Panoplie Tétounik",
   "items": [
-   "Chaussures du Tétounik",
-   "Ceinture du Tétounik",
    "Bracelet du Tétounik",
+   "Ceinture du Tétounik",
+   "Chaussures du Tétounik",
    "Coiffe Mulet du Tétounik"
   ],
   "bonus": [
@@ -11845,7 +11845,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 133,
@@ -11889,16 +11889,16 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 134,
   "name": "Panoplie Yug",
   "items": [
-   "Yugoufle",
-   "Yugure",
+   "Yugolette",
    "Yugonnet",
-   "Yugolette"
+   "Yugoufle",
+   "Yugure"
   ],
   "bonus": [
    [],
@@ -11933,16 +11933,16 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 135,
   "name": "Panoplie de Noké",
   "items": [
    "Cape de Noké",
-   "Masque de Noké",
    "Collier de Noké",
-   "Dagues de Noké"
+   "Dagues de Noké",
+   "Masque de Noké"
   ],
   "bonus": [
    [],
@@ -11977,15 +11977,15 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 136,
   "name": "Panoplie Solaire",
   "items": [
-   "L'Esteban",
    "Anneau solaire",
    "Bouclier solaire",
+   "L'Esteban",
    "Masque solaire"
   ],
   "bonus": [
@@ -12021,7 +12021,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 137,
@@ -12065,15 +12065,15 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 138,
   "name": "Panoplie Chisp",
   "items": [
+   "Chispocasque",
    "Chispottes",
    "Chispouclier",
-   "Chispocasque",
    "Mitaines de Chisp"
   ],
   "bonus": [
@@ -12109,7 +12109,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 139,
@@ -12153,16 +12153,16 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 140,
   "name": "Panoplie Sleump",
   "items": [
-   "Kaskwette",
-   "Les Sleumpettes",
+   "Bâton Poupinateur",
    "Collier Sleump",
-   "Bâton Poupinateur"
+   "Kaskwette",
+   "Les Sleumpettes"
   ],
   "bonus": [
    [],
@@ -12197,17 +12197,17 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 142,
   "name": "Panoplie Real Boitar",
   "items": [
-   "Bouclier du Real Boitar",
-   "Gantelet du Real Boitar",
-   "Ceinture de Tolot",
    "Bottes du Real Boitar",
-   "Chapeau de Tolot"
+   "Bouclier du Real Boitar",
+   "Ceinture de Tolot",
+   "Chapeau de Tolot",
+   "Gantelet du Real Boitar"
   ],
   "bonus": [
    [],
@@ -12260,17 +12260,17 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 143,
   "name": "Panoplie des Bouftons Rouges",
   "items": [
-   "Bouclier des Bouftons Rouges",
-   "Gantelet des Bouftons Rouges",
-   "Ceinture de Mounu",
    "Bottes des Bouftons Rouges",
-   "Chapeau de Beneji"
+   "Bouclier des Bouftons Rouges",
+   "Ceinture de Mounu",
+   "Chapeau de Beneji",
+   "Gantelet des Bouftons Rouges"
   ],
   "bonus": [
    [],
@@ -12323,7 +12323,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 144,
@@ -12900,11 +12900,11 @@
   "ankama_id": 155,
   "name": "Panoplie du Corbeau Noir",
   "items": [
+   "Anneau du Corbeau Noir",
+   "Bottes du Corbeau Noir",
    "Cape du Corbeau Noir",
    "Casque du Corbeau Noir",
-   "Bottes du Corbeau Noir",
-   "Pik Epik du Corbeau Noir",
-   "Anneau du Corbeau Noir"
+   "Pik Epik du Corbeau Noir"
   ],
   "bonus": [
    [],
@@ -12957,7 +12957,7 @@
     }
    ]
   ],
-  "source": "committed-db"
+  "source": "legacy-1.29"
  },
  {
   "ankama_id": 163,
