@@ -28,10 +28,11 @@ image_urls.icon, 64px); target is chardata/resources/60x60/.
 Touch assets CDN (config.json assetsUrl + /gfx/items/<iconId>.png, iconId
 from touch_raw/Items_fr.json); target is chardata/resources/touch/60x60/.
 
---game-version retro: ids come from items_retro.db, icons from the community
-Cyberia CDN (same source as download_retro_images.py: items/<type>/64/<gfx>.png,
-type and gfx from retro_raw/items_fr.json); target is
-chardata/resources/retro/60x60/. Icons missing on the CDN just stay absent.
+--game-version retro: ids come from items_retro.db; icons are RENDERED from
+the official 1.29 client (clips/items/<type>/<gfx>.swf via the Cytrus CDN,
+type and gfx from retro_raw/items_fr.json), reusing download_retro_images'
+dual-background renderer and SWF cache. Needs java + ffdec (warns and keeps
+the committed icons without them). A gfx missing in the client stays absent.
 
 --game-version dofus2: same dofusdude mechanism as dofus3 but against the
 dofus2 API raws (itemscraper/dofus2/all_*_en.json, ids from items_dofus2.db);
@@ -64,8 +65,6 @@ TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 
 RETRO_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_retro.db')
-RETRO_CDN = ('https://raw.githubusercontent.com/Lounek09/Cyberia.Cdn/main/'
-             'images/dofus/items/%s/64/%s.png')
 
 
 def target_dirs(version_subdir):
@@ -124,13 +123,97 @@ def touch_icon_urls():
             for item_id, item in items.items() if item.get('iconId')}
 
 
-def retro_icon_urls():
+def retro_icon_keys():
+    """ankama id -> (type, gfx), the client clip address of each icon."""
     path = os.path.join(CURRENT_DIR, 'retro_raw', 'items_fr.json')
     with open(path, encoding='utf-8') as fh:
         items = json.load(fh)['I']['u']
-    return {int(item_id): RETRO_CDN % (item['t'], item['g'])
+    return {int(item_id): (str(item['t']), str(item['g']))
             for item_id, item in items.items()
-            if item.get('g') is not None and item.get('t') is not None}
+            if isinstance(item, dict)
+            and item.get('g') is not None and item.get('t') is not None}
+
+
+def run_retro(force):
+    """Render the retro ingredient icons from the official client (the
+    other versions download ready-made PNGs; retro has none first-hand)."""
+    from concurrent.futures import ThreadPoolExecutor
+    from download_retro_monster_artworks import (
+        download_manifest, load_fragment, find_tool)
+    import download_retro_images as retro_items
+
+    java = find_tool(None, 'JAVA_EXE', ['java'])
+    ffdec_jar = os.environ.get('FFDEC_JAR')
+    if not (java and ffdec_jar and os.path.exists(ffdec_jar)):
+        print('WARNING: java + ffdec.jar (JAVA_EXE/FFDEC_JAR) are needed to '
+              'render the retro icons; skipping, the committed PNGs stay.')
+        return
+
+    ids = ingredient_ids([RETRO_DB_PATH])
+    keys = retro_icon_keys()
+    targets_root = target_dirs('retro')
+    for target in targets_root:
+        os.makedirs(target, exist_ok=True)
+
+    todo = {}
+    skipped = no_key = 0
+    for ankama_id in sorted(ids):
+        key = keys.get(ankama_id)
+        if key is None:
+            no_key += 1
+            continue
+        targets = [os.path.join(t, '%d-60-60.png' % ankama_id)
+                   for t in targets_root]
+        if not force and all(os.path.exists(t) for t in targets):
+            skipped += 1
+            continue
+        todo.setdefault(key, []).append(ankama_id)
+    print('ingredients: %d | to render: %d icons for %d ids | already '
+          'present: %d | no type/gfx: %d'
+          % (len(ids), len(todo), sum(len(v) for v in todo.values()),
+             skipped, no_key))
+    if not todo:
+        print('done: nothing to render')
+        return
+
+    manifest = download_manifest()
+    files, chunk_map = load_fragment(manifest, 'classic')
+    retro_items.CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    counts = {'ok': 0, 'missing': 0, 'empty': 0, 'error': 0}
+    written = 0
+
+    def process(key):
+        type_id, gfx = key
+        entry = files.get('%s%s/%s.swf'
+                          % (retro_items.ICON_PREFIX, type_id, gfx))
+        if entry is None:
+            return key, 'missing', None
+        swf_path = retro_items.CACHE_DIR / ('%s_%s.swf' % (type_id, gfx))
+        try:
+            if not swf_path.exists():
+                retro_items.download_file(entry, chunk_map, str(swf_path))
+            png = retro_items.render_icon(swf_path, java, ffdec_jar)
+            return key, ('ok' if png else 'empty'), png
+        except Exception as exc:
+            print('  ERROR %s/%s: %s' % (type_id, gfx, exc))
+            return key, 'error', None
+
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        for key, status, png in pool.map(process, sorted(todo)):
+            counts[status] += 1
+            if png:
+                for ankama_id in todo[key]:
+                    for target in targets_root:
+                        with open(os.path.join(
+                                target, '%d-60-60.png' % ankama_id),
+                                'wb') as fh:
+                            fh.write(png)
+                    written += 1
+            done = sum(counts.values())
+            if done % 250 == 0:
+                print('  %d/%d %s' % (done, len(todo), counts))
+    print('done: renders=%s ids written=%d' % (counts, written))
 
 
 def main():
@@ -142,14 +225,14 @@ def main():
                         help='Redownload icons that already exist')
     args = parser.parse_args()
 
+    if args.game_version == 'retro':
+        run_retro(args.force)
+        return
+
     if args.game_version == 'touch':
         ids = ingredient_ids([TOUCH_DB_PATH])
         urls = touch_icon_urls()
         targets_root = target_dirs('touch')
-    elif args.game_version == 'retro':
-        ids = ingredient_ids([RETRO_DB_PATH])
-        urls = retro_icon_urls()
-        targets_root = target_dirs('retro')
     elif args.game_version == 'dofus2':
         dofus2_db = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_dofus2.db')
         ids = ingredient_ids([dofus2_db])
