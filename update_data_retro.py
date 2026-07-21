@@ -18,17 +18,22 @@ Pipeline steps:
     items/load-db        load_item_db.py           -> items_retro.db
     drops/transform      get_monsters_retro.py     -> itemscraper/transformed_drops_retro.json (Solomonk.fr 1.48)
     drops/store          store_drops.py            -> item_drops / monster_names in items_retro.db
-    item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (Cyberia CDN)
+    item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (rendered from the official client via Cytrus)
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
-    spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (Cyberia CDN)
+    spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (old official web CDN mirror + client compose for the missing ones)
 
 Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side): they are
 scraped from Solomonk set pages by get_retro_set_bonuses.py (legacy snapshot and
 committed-db fallbacks for the sets Solomonk lacks) into retro_set_bonuses.json,
 matched to lang sets by ankama id inside get_equipments_retro.py.
 
-Item/mount icons and damage-spell icons come from the community Cyberia CDN
-(download_retro_images.py, download_retro_spell_images.py).
+Item/mount icons are rendered from the official 1.29 client via the Cytrus
+CDN (download_retro_images.py, needs java+ffdec, warns and keeps the
+committed icons without them). Damage-spell icons are Ankama's old web CDN
+renders (mirrored by Cyberia, credited); the ones the frozen mirror lacks
+are composed from the client (download_retro_spell_images.py
+--compose-missing). retro_raw/ stays UNversioned on purpose: the
+lang/download steps above fetch every category the later steps consume.
 """
 
 from __future__ import annotations
@@ -127,7 +132,7 @@ def main() -> None:
     parser.add_argument("--skip-translations", action="store_true",
                         help="Skip the EN/ES/PT/DE name downloads (use FR names everywhere)")
     parser.add_argument("--skip-images", action="store_true",
-                        help="Skip the item/mount icon download from the Cyberia CDN")
+                        help="Skip the item/mount icon rendering step")
     parser.add_argument("--lang", default="fr", help="Primary lang for names (default fr)")
     args = parser.parse_args()
 
