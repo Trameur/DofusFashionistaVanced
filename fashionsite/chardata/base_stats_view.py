@@ -33,8 +33,12 @@ def setup_base_stats(request, char_id=0):
     return _page(request, char_id, False)
 
 def save_char(request, char_id):
-    char = _post(request, char_id)        
-    return HttpResponseJson(json.dumps(_get_stats(char)))
+    char = _post(request, char_id)
+    stats = _get_stats(char)
+    # The page's state engine replaces its reference state with this
+    # response; without distrib, "discard changes" unchecked the box.
+    stats['distrib'] = char.allow_points_distribution
+    return HttpResponseJson(json.dumps(stats))
 
 def init_base_stats(request, char_id):
     return _page(request, char_id, True)
@@ -92,7 +96,15 @@ def _post(request, char_id):
             basestats.scrolled_value <= max_scroll_for_version(char.game_version)
         basestats.save()
         
-    allow_point_distribution = str(request.POST.get('choose_stats', '')).strip().lower() in ('true', 'on', '1', 'yes')
+    # HTML checkboxes post their value attribute when checked (this form
+    # sends "choose_stats") and post NOTHING when unchecked: presence is
+    # the signal. The old whitelist ('true', 'on'...) never matched the
+    # real payload, so every save from the page silently forced the flag
+    # to False and the box would not stay checked.
+    raw = request.POST.get('choose_stats')
+    allow_point_distribution = (raw is not None and
+                                str(raw).strip().lower()
+                                not in ('false', '0', 'no', 'off'))
     char.allow_points_distribution = allow_point_distribution
     char.save()
     

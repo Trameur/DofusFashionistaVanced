@@ -102,3 +102,56 @@ class ScrollCostCurveTests(TestCase):
         self.assertGreaterEqual(
             strength, 390,
             'distribution still pays the scrolled tiers: %d str' % strength)
+
+
+class ChooseStatsCheckboxTests(TestCase):
+    """User report (2026-07-21): once unchecked and saved, the "Distribute
+    the points for me" box could never be re-enabled. The form posts the
+    checkbox's value attribute ("choose_stats"), which the old server-side
+    whitelist ('true', 'on'...) never matched: EVERY save from the page
+    forced the flag to False, checked or not."""
+
+    def _char(self, owner):
+        from chardata.coaching_view import create_build
+        req = RequestFactory().post('/')
+        req.user = owner
+        return create_build(req, 'Iop', 100, {'str'}, 'dofus3')
+
+    def _save_payload(self, with_checkbox):
+        payload = {}
+        for abr in ('vit', 'wis', 'str', 'int', 'cha', 'agi'):
+            payload['scrolled_%s' % abr] = '0'
+            payload['points_%s' % abr] = '0'
+        if with_checkbox:
+            # The exact value a real browser posts for this form.
+            payload['choose_stats'] = 'choose_stats'
+        return payload
+
+    def test_checkbox_survives_a_real_browser_save(self):
+        owner = User.objects.create_user('cbx', 'cbx@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        char = self._char(owner)
+
+        resp = self.client.post('/save_char/%d/' % char.pk,
+                                self._save_payload(with_checkbox=True))
+        self.assertEqual(resp.status_code, 200)
+        char.refresh_from_db()
+        self.assertTrue(char.allow_points_distribution)
+        # The state engine reuses this response as its reference state:
+        # distrib must be in it or "discard changes" unchecks the box.
+        self.assertIn('"distrib": true', resp.content.decode('utf-8'))
+
+    def test_unchecking_then_rechecking_round_trips(self):
+        owner = User.objects.create_user('cbx2', 'cbx2@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        char = self._char(owner)
+
+        self.client.post('/save_char/%d/' % char.pk,
+                         self._save_payload(with_checkbox=False))
+        char.refresh_from_db()
+        self.assertFalse(char.allow_points_distribution)
+
+        self.client.post('/save_char/%d/' % char.pk,
+                         self._save_payload(with_checkbox=True))
+        char.refresh_from_db()
+        self.assertTrue(char.allow_points_distribution)
