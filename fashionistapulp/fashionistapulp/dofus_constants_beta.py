@@ -309,8 +309,9 @@ WEIRD_CONDITION_TO_ID = {v: k for k, v in WEIRD_CONDITION_FROM_ID.items()}
 WEIRD_CONDITIONS = list(WEIRD_CONDITION_TO_ID.keys()) 
 
 class Spell:
-    def __init__(self, name, level_req, effects, aggregates=[], 
-                 is_linked=None, stacks=1, special=None, buff_scaling=None):
+    def __init__(self, name, level_req, effects, aggregates=[],
+                 is_linked=None, stacks=1, special=None, buff_scaling=None,
+                 spell_id=None):
         self.name = name
         self.level_req = level_req
         self.effects = effects
@@ -320,6 +321,9 @@ class Spell:
         self.is_linked = is_linked
         self.special = special
         self.buff_scaling = buff_scaling
+        # Ankama/dofusdude spell id (audits match DofusDB by id, names have
+        # homonyms); None for the hand-written shared specs.
+        self.spell_id = spell_id
 
     def get_effects_digest(self):
         if self.digest is None:
