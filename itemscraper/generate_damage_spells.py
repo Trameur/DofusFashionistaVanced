@@ -1354,6 +1354,10 @@ def render_spell(entry: SpellEntry) -> List[str]:
     if entry.buff_scaling:
         scaling_literal = pprint.pformat(entry.buff_scaling)
         extra_args.append(f"buff_scaling={scaling_literal}")
+    if entry.ankama_id:
+        # Lets the audits match DofusDB by id instead of by (homonymous)
+        # name; the hand-written defaults have no id and stay name-based.
+        extra_args.append(f"spell_id={entry.ankama_id}")
     if extra_args:
         closing += ", " + ", ".join(extra_args)
     closing += ")"
