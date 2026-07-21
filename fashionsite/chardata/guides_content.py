@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'choosing-your-class', 'how-it-works', 'stats-explained', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
 
 
 GUIDES = {
@@ -1745,6 +1745,172 @@ GUIDES = {
 <p>Builds sind kostenlos und dauern eine Minute. Nimm zwei oder drei Klassen in die engere Wahl, erzeuge für jede einen Build auf der Stufe, die du wirklich spielst, und <a href="/guides/comparing-builds/">vergleiche die Ergebnisse nebeneinander</a>. Zu sehen, was jede Klasse auf deiner Stufe realistisch trägt und erreicht, beantwortet die Frage besser als jedes Ranking, das für die Version von jemand anderem geschrieben wurde.</p>
 
 <p><em>Unentschlossen? <a href="/setup/">Erstell pro Kandidatin ein Projekt</a> und lass die Sets für sie sprechen.</em></p>
+''',
+            },
+        },
+    },
+    # ------------------------------------------------------------------ #
+    'beginner-mistakes': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'Six beginner mistakes that quietly ruin your builds',
+                'desc': "Most bad builds die one of the same six deaths: stat greed, ignored AP, dream items, wasted vitality... How to spot each trap and dodge it with the optimizer.",
+                'lead': "Most bad builds don't fail in some exotic way. They die one of the same six deaths, and every one of them is avoidable before it costs you a single kama.",
+                'body': '''
+<h2>1. Chasing the biggest totals</h2>
+<p>A set with +900 total stats in things you don't use loses to one with +600 in exactly the right places. The optimizer maximizes whatever you tell it to value, so the classic beginner move is to leave every slider high and get back a build that is impressively mediocre at everything. Decide what actually wins your fights and say so. That is the whole craft of <a href="/guides/tuning-your-weights/">setting your weights</a>.</p>
+
+<h2>2. Optimizing damage before AP and MP</h2>
+<p>Damage feels like the goal, but action points and movement points decide what you can even do in a turn. An extra spell cast beats a slightly bigger hit almost every time. Set your AP and MP targets first, as hard requirements rather than wishes, then let the tool squeeze the most damage out of what's left. If you're not sure what each stat is even for, the <a href="/guides/stats-explained/">stats guide</a> ranks them honestly.</p>
+
+<h2>3. Building around items you'll never afford</h2>
+<p>The mathematically perfect set is worthless if it costs three years of farming. When the suggestion includes something outside your budget, don't screenshot it and sigh: <strong>forbid</strong> the item and tailor again, and the optimizer will find the best set that exists without it. A build you can actually equip this week beats a museum piece. The full workflow is in <a href="/guides/understanding-your-solution/">understanding your solution</a>.</p>
+
+<h2>4. Overpaying for vitality</h2>
+<p>Raw HP is the most reassuring number on the sheet, which is exactly why it gets overvalued. Vitality doesn't remove your enemies, it only lets you lose more slowly, unless soaking hits is genuinely your job. Weight it for the content you play: higher when enemies focus you and nobody heals you, lower when you sit at range or a healer has your back. If your damage output is anemic, no amount of HP fixes that.</p>
+
+<h2>5. Splashing every element at once</h2>
+<p>Items can rarely be the best in four elements at the same time, so every element you add dilutes the others. Mono-element builds hit harder in their lane; multi-element buys flexibility at a real price and usually needs higher-end gear to work. Pick deliberately, not by accident: the trade-offs are laid out in <a href="/guides/mono-vs-multi-element/">mono versus multi element</a>.</p>
+
+<h2>6. Copying a build from another version</h2>
+<p>Dofus 3, the beta, Dofus 2, Retro and Touch are five different games. An item that is core in one may not exist in another, or exists with different stats, and the rules around scrolls and characteristics differ too. A build guide written for someone else's version is a trap in yours. Optimize in the version you actually play, and if you're unsure what runs where, see <a href="/guides/versions-explained/">versions explained</a>.</p>
+
+<h2>The setting everyone forgets: your scrolls</h2>
+<p>A new project assumes your characteristics are fully scrolled, 100 in each. If your character isn't, the tool is optimizing a slightly richer character than yours: totals, item conditions you meet and the best way to distribute your points all shift. Open your project's characteristics page and set your real scroll state, it takes ten seconds and every suggestion after that fits your actual character.</p>
+
+<h2>What you do not have to worry about</h2>
+<p>The game's fussy legality rules are already enforced for you: item conditions are checked before an item is ever suggested, set bonuses are counted properly, and version caps like trophy limits are respected. Your job is taste and honesty about how you play. The arithmetic is covered. If you still want to read an item card like a pro, start with <a href="/guides/reading-an-item/">reading an item</a>.</p>
+
+<p><em>Recognized yourself in one of these? <a href="/quickstart/">Rebuild in two minutes</a> and see what changes.</em></p>
+''',
+            },
+            'fr': {
+                'title': 'Six pièges de débutant qui plombent tes stuffs en douce',
+                'desc': "Les mauvais stuffs meurent des six mêmes morts : gloutonnerie de stats, PA ignorés, items de rêve, vita surpayée... Comment repérer chaque piège et l'éviter.",
+                'lead': "La plupart des mauvais stuffs n'échouent pas de façon exotique. Ils meurent d'une des six mêmes morts, et chacune s'évite avant de te coûter le moindre kama.",
+                'body': '''
+<h2>1. Courir après les plus gros totaux</h2>
+<p>Un set à +900 de stats totales dans des trucs que tu n'utilises pas perd contre un set à +600 pile aux bons endroits. L'optimiseur maximise ce que tu lui dis de valoriser : le réflexe classique du débutant, c'est de laisser tous les curseurs à fond et de récupérer un stuff remarquablement moyen partout. Décide ce qui gagne vraiment tes combats et dis-le. C'est tout l'art de <a href="/guides/tuning-your-weights/">régler tes poids</a>.</p>
+
+<h2>2. Optimiser les dégâts avant les PA et les PM</h2>
+<p>Les dégâts ont l'air d'être le but, mais ce sont les points d'action et de mouvement qui décident de ce que tu peux faire dans un tour. Un sort de plus par tour bat presque toujours un coup un peu plus gros. Fixe d'abord tes objectifs de PA et de PM, comme des exigences dures et pas des souhaits, puis laisse l'outil presser un maximum de dégâts de ce qui reste. Et si tu ne sais pas à quoi sert chaque carac, le <a href="/guides/stats-explained/">guide des stats</a> les classe honnêtement.</p>
+
+<h2>3. Construire autour d'items que tu n'auras jamais</h2>
+<p>Le set mathématiquement parfait ne vaut rien s'il coûte trois ans de farm. Quand la proposition contient un truc hors budget, ne fais pas une capture d'écran en soupirant : <strong>interdis</strong> l'item et retaille, l'optimiseur trouvera le meilleur set qui existe sans lui. Un stuff que tu peux vraiment équiper cette semaine bat une pièce de musée. Tout le déroulé est dans <a href="/guides/understanding-your-solution/">comprendre ta solution</a>.</p>
+
+<h2>4. Surpayer la vitalité</h2>
+<p>Les PV bruts sont le chiffre le plus rassurant de la fiche, et c'est exactement pour ça qu'on les surévalue. La vita ne fait pas disparaître tes ennemis, elle te fait juste perdre plus lentement, sauf si encaisser est vraiment ton rôle. Pondère-la selon ton contenu : plus haut quand on te focus et que personne ne te soigne, plus bas quand tu joues à distance ou qu'un soigneur te couvre. Si tes dégâts sont anémiques, aucun total de PV ne rattrapera ça.</p>
+
+<h2>5. Taper dans tous les éléments à la fois</h2>
+<p>Un item est rarement le meilleur dans quatre éléments en même temps : chaque élément que tu ajoutes dilue les autres. Le mono-élément tape plus fort dans son couloir ; le multi achète de la souplesse à un vrai prix et demande en général du matos plus haut de gamme pour fonctionner. Choisis exprès, pas par accident : les compromis sont posés dans <a href="/guides/mono-vs-multi-element/">mono ou multi élément</a>.</p>
+
+<h2>6. Copier un build d'une autre version</h2>
+<p>Dofus 3, la bêta, Dofus 2, Retro et Touch sont cinq jeux différents. Un item central dans l'un peut ne pas exister dans l'autre, ou exister avec d'autres stats, et les règles de parchotage et de caracs changent aussi. Un guide de build écrit pour la version de quelqu'un d'autre est un piège dans la tienne. Optimise dans la version que tu joues vraiment, et si tu ne sais plus qui joue quoi, va voir <a href="/guides/versions-explained/">les versions expliquées</a>.</p>
+
+<h2>Le réglage que tout le monde oublie : tes parchemins</h2>
+<p>Un nouveau projet suppose tes caracs parchotées à fond, 100 partout. Si ton perso ne l'est pas, l'outil optimise un personnage un peu plus riche que le tien : les totaux, les conditions d'items que tu remplis et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton projet et mets ton vrai parchotage, ça prend dix secondes et toutes les propositions suivantes collent à ton vrai perso.</p>
+
+<h2>Ce dont tu n'as pas à te soucier</h2>
+<p>Les règles tatillonnes du jeu sont déjà appliquées pour toi : les conditions d'items sont vérifiées avant même qu'un item soit proposé, les bonus de panoplie sont comptés proprement, et les plafonds de version comme les limites de trophées sont respectés. Ton boulot, c'est le goût et l'honnêteté sur ta façon de jouer. L'arithmétique est couverte. Et si tu veux quand même lire une fiche d'item comme un pro, commence par <a href="/guides/reading-an-item/">lire un item</a>.</p>
+
+<p><em>Tu t'es reconnu dans un de ces pièges ? <a href="/quickstart/">Refais ton build en deux minutes</a> et regarde ce qui change.</em></p>
+''',
+            },
+            'es': {
+                'title': 'Seis errores de novato que arruinan tus builds sin avisar',
+                'desc': "Los builds malos mueren de las mismas seis muertes: avaricia de stats, PA ignorados, ítems soñados, vitalidad sobrepagada... Cómo ver y esquivar cada trampa.",
+                'lead': "La mayoría de los builds malos no fallan de forma exótica. Mueren de una de las mismas seis muertes, y todas se pueden evitar antes de que te cuesten una sola kama.",
+                'body': '''
+<h2>1. Perseguir los totales más grandes</h2>
+<p>Un set con +900 stats totales en cosas que no usas pierde contra uno con +600 justo donde importa. El optimizador maximiza lo que tú le digas que valore: el clásico movimiento de novato es dejar todos los deslizadores altos y recibir un build impresionantemente mediocre en todo. Decide qué gana de verdad tus combates y dilo. Ese es todo el arte de <a href="/guides/tuning-your-weights/">ajustar tus pesos</a>.</p>
+
+<h2>2. Optimizar el daño antes que los PA y los PM</h2>
+<p>El daño parece la meta, pero los puntos de acción y de movimiento deciden qué puedes hacer siquiera en un turno. Un hechizo más casi siempre gana a un golpe un poco más grande. Fija primero tus objetivos de PA y PM, como requisitos duros y no como deseos, y deja que la herramienta exprima el máximo daño de lo que quede. Y si no tienes claro para qué sirve cada stat, la <a href="/guides/stats-explained/">guía de características</a> las ordena con honestidad.</p>
+
+<h2>3. Construir alrededor de ítems que nunca tendrás</h2>
+<p>El set matemáticamente perfecto no vale nada si cuesta tres años de farmeo. Cuando la sugerencia incluya algo fuera de tu presupuesto, no hagas una captura y suspires: <strong>prohíbe</strong> el ítem y vuelve a optimizar, y el optimizador encontrará el mejor set que exista sin él. Un build que puedas equipar esta semana gana a una pieza de museo. El flujo completo está en <a href="/guides/understanding-your-solution/">entender tu solución</a>.</p>
+
+<h2>4. Pagar de más por la vitalidad</h2>
+<p>Los PdV brutos son el número más tranquilizador de la ficha, y justo por eso se sobrevaloran. La vitalidad no elimina a tus enemigos, solo te deja perder más despacio, salvo que aguantar golpes sea de verdad tu papel. Pondérala según tu contenido: más alta cuando te enfocan y nadie te cura, más baja cuando juegas a distancia o un sanador te cubre. Si tu daño es anémico, ninguna cantidad de PdV lo arregla.</p>
+
+<h2>5. Repartirte entre todos los elementos a la vez</h2>
+<p>Un ítem rara vez es el mejor en cuatro elementos al mismo tiempo: cada elemento que añades diluye los demás. El mono elemento pega más fuerte en su carril; el multi compra flexibilidad a un precio real y suele exigir equipo de gama más alta para funcionar. Elige a propósito, no por accidente: los pros y contras están en <a href="/guides/mono-vs-multi-element/">mono contra multi elemento</a>.</p>
+
+<h2>6. Copiar un build de otra versión</h2>
+<p>Dofus 3, la beta, Dofus 2, Retro y Touch son cinco juegos distintos. Un ítem central en uno puede no existir en otro, o existir con otras stats, y las reglas de pergaminos y características también cambian. Una guía de build escrita para la versión de otro es una trampa en la tuya. Optimiza en la versión que juegas de verdad, y si no sabes qué corre dónde, mira <a href="/guides/versions-explained/">las versiones explicadas</a>.</p>
+
+<h2>El ajuste que todo el mundo olvida: tus pergaminos</h2>
+<p>Un proyecto nuevo asume tus características pergamineadas al máximo, 100 en cada una. Si tu personaje no lo está, la herramienta optimiza un personaje algo más rico que el tuyo: los totales, las condiciones de ítems que cumples y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu proyecto y pon tu estado real de pergaminos, tarda diez segundos y todas las sugerencias siguientes encajarán con tu personaje real.</p>
+
+<h2>De qué no tienes que preocuparte</h2>
+<p>Las reglas quisquillosas del juego ya se aplican por ti: las condiciones de los ítems se comprueban antes de sugerirte nada, los bonus de panoplia se cuentan bien y los topes por versión, como los límites de trofeos, se respetan. Tu trabajo es el criterio y la honestidad sobre cómo juegas. La aritmética está cubierta. Y si aun así quieres leer una ficha de ítem como un pro, empieza por <a href="/guides/reading-an-item/">leer un ítem</a>.</p>
+
+<p><em>¿Te has reconocido en alguna de estas trampas? <a href="/quickstart/">Rehaz tu build en dos minutos</a> y mira qué cambia.</em></p>
+''',
+            },
+            'pt': {
+                'title': 'Seis erros de iniciante que estragam seus builds em silêncio',
+                'desc': "Builds ruins morrem das mesmas seis mortes: ganância de stats, PA ignorados, itens dos sonhos, vitalidade cara demais... Como ver cada armadilha e desviar.",
+                'lead': "A maioria dos builds ruins não falha de um jeito exótico. Eles morrem de uma das mesmas seis mortes, e todas dá para evitar antes que custem uma única kama.",
+                'body': '''
+<h2>1. Correr atrás dos maiores totais</h2>
+<p>Um set com +900 stats totais em coisas que você não usa perde para um com +600 exatamente nos lugares certos. O otimizador maximiza o que você mandar ele valorizar: o clássico movimento de iniciante é deixar todos os controles no alto e receber um build impressionantemente mediano em tudo. Decida o que ganha de verdade as suas lutas e diga isso. Essa é toda a arte de <a href="/guides/tuning-your-weights/">ajustar seus pesos</a>.</p>
+
+<h2>2. Otimizar o dano antes dos PA e PM</h2>
+<p>O dano parece ser a meta, mas são os pontos de ação e de movimento que decidem o que você consegue sequer fazer num turno. Um feitiço a mais quase sempre vale mais que um golpe um pouco maior. Defina primeiro suas metas de PA e PM, como exigências duras e não desejos, e deixe a ferramenta espremer o máximo de dano do que sobrar. E se você não sabe para que serve cada stat, o <a href="/guides/stats-explained/">guia de características</a> as classifica com honestidade.</p>
+
+<h2>3. Construir em volta de itens que você nunca vai ter</h2>
+<p>O set matematicamente perfeito não vale nada se custa três anos de farm. Quando a sugestão incluir algo fora do seu orçamento, não tire print suspirando: <strong>proíba</strong> o item e otimize de novo, e o otimizador vai achar o melhor set que existe sem ele. Um build que você consegue equipar esta semana ganha de uma peça de museu. O fluxo completo está em <a href="/guides/understanding-your-solution/">entendendo sua solução</a>.</p>
+
+<h2>4. Pagar caro demais pela vitalidade</h2>
+<p>PV bruto é o número mais reconfortante da ficha, e é exatamente por isso que ele é supervalorizado. Vitalidade não elimina seus inimigos, só deixa você perder mais devagar, a menos que aguentar pancada seja de fato o seu papel. Dê a ela um peso honesto para o seu conteúdo: mais alto quando focam você e ninguém cura, mais baixo quando você joga de longe ou um curandeiro te cobre. Se o seu dano é anêmico, nenhuma quantidade de PV resolve.</p>
+
+<h2>5. Espalhar em todos os elementos ao mesmo tempo</h2>
+<p>Um item raramente é o melhor em quatro elementos ao mesmo tempo: cada elemento que você adiciona dilui os outros. Mono elemento bate mais forte na própria pista; multi compra flexibilidade por um preço real e costuma exigir equipamento de nível mais alto para funcionar. Escolha de propósito, não por acidente: os prós e contras estão em <a href="/guides/mono-vs-multi-element/">mono contra multi elemento</a>.</p>
+
+<h2>6. Copiar um build de outra versão</h2>
+<p>Dofus 3, o beta, Dofus 2, Retro e Touch são cinco jogos diferentes. Um item central em um pode nem existir no outro, ou existir com outras stats, e as regras de pergaminhos e características também mudam. Um guia de build escrito para a versão de outra pessoa é uma armadilha na sua. Otimize na versão que você joga de verdade, e se não souber o que roda onde, veja <a href="/guides/versions-explained/">as versões explicadas</a>.</p>
+
+<h2>O ajuste que todo mundo esquece: seus pergaminhos</h2>
+<p>Um projeto novo assume suas características totalmente pergaminhadas, 100 em cada. Se o seu personagem não está, a ferramenta otimiza um personagem um pouco mais rico que o seu: os totais, as condições de itens que você cumpre e a melhor distribuição dos seus pontos mudam. Abra a página de características do seu projeto e coloque seu estado real de pergaminhos, leva dez segundos e todas as sugestões seguintes vão servir no seu personagem de verdade.</p>
+
+<h2>Com o que você não precisa se preocupar</h2>
+<p>As regras chatas do jogo já são aplicadas por você: as condições dos itens são verificadas antes de qualquer sugestão, os bônus de panóplia são contados direito e os tetos por versão, como os limites de troféus, são respeitados. O seu trabalho é gosto e honestidade sobre como você joga. A aritmética está coberta. E se ainda quiser ler a ficha de um item como um pro, comece por <a href="/guides/reading-an-item/">lendo um item</a>.</p>
+
+<p><em>Se reconheceu em alguma dessas armadilhas? <a href="/quickstart/">Refaça seu build em dois minutos</a> e veja o que muda.</em></p>
+''',
+            },
+            'de': {
+                'title': 'Sechs Anfängerfehler, die dein Build leise ruinieren',
+                'desc': "Schlechte Builds sterben einen von sechs immer gleichen Toden: Wertegier, ignorierte AP, Traum-Items, überbezahlte Vitalität... So erkennst du jede Falle.",
+                'lead': "Die meisten schlechten Builds scheitern nicht auf exotische Weise. Sie sterben einen von sechs immer gleichen Toden, und jeder davon lässt sich vermeiden, bevor er dich auch nur eine Kama kostet.",
+                'body': '''
+<h2>1. Den größten Summen hinterherjagen</h2>
+<p>Ein Set mit +900 Gesamtwerten in Dingen, die du nicht nutzt, verliert gegen eines mit +600 genau an den richtigen Stellen. Der Optimierer maximiert, was immer du ihm als wertvoll angibst: Der klassische Anfängerzug ist, alle Regler oben zu lassen und ein Build zurückzubekommen, das beeindruckend mittelmäßig in allem ist. Entscheide, was deine Kämpfe wirklich gewinnt, und sag es. Genau das ist die Kunst beim <a href="/guides/tuning-your-weights/">Einstellen deiner Gewichte</a>.</p>
+
+<h2>2. Schaden optimieren, bevor AP und BP stehen</h2>
+<p>Schaden fühlt sich wie das Ziel an, aber Aktions- und Bewegungspunkte entscheiden, was du in einer Runde überhaupt tun kannst. Ein zusätzlicher Zauber schlägt fast immer einen etwas größeren Treffer. Setz zuerst deine AP- und BP-Ziele, als harte Anforderungen statt als Wünsche, und lass das Werkzeug dann aus dem Rest den maximalen Schaden herausquetschen. Und wenn du nicht sicher bist, wofür ein Wert überhaupt gut ist: Der <a href="/guides/stats-explained/">Werte-Guide</a> ordnet sie ehrlich ein.</p>
+
+<h2>3. Um Items bauen, die du nie haben wirst</h2>
+<p>Das mathematisch perfekte Set ist wertlos, wenn es drei Jahre Farmen kostet. Wenn der Vorschlag etwas außerhalb deines Budgets enthält, mach keinen Screenshot und seufz: <strong>Verbiete</strong> das Item und optimiere neu, und der Optimierer findet das beste Set, das es ohne dieses Item gibt. Ein Build, das du diese Woche wirklich anziehen kannst, schlägt ein Museumsstück. Der komplette Ablauf steht in <a href="/guides/understanding-your-solution/">deine Lösung verstehen</a>.</p>
+
+<h2>4. Zu viel für Vitalität bezahlen</h2>
+<p>Rohe LP sind die beruhigendste Zahl auf dem Bogen, und genau deshalb werden sie überbewertet. Vitalität lässt deine Gegner nicht verschwinden, sie lässt dich nur langsamer verlieren, außer Einstecken ist wirklich deine Aufgabe. Gewichte sie ehrlich für deinen Inhalt: höher, wenn du fokussiert wirst und dich niemand heilt, niedriger, wenn du auf Distanz spielst oder ein Heiler hinter dir steht. Wenn dein Schaden blutleer ist, rettet dich keine LP-Menge.</p>
+
+<h2>5. Auf alle Elemente gleichzeitig setzen</h2>
+<p>Ein Item ist selten in vier Elementen gleichzeitig das beste: Jedes Element, das du dazunimmst, verwässert die anderen. Mono-Element schlägt härter in seiner Spur; Multi kauft Flexibilität zu einem echten Preis und braucht meist höherwertige Ausrüstung, um zu funktionieren. Wähle absichtlich, nicht aus Versehen: Die Abwägungen stehen in <a href="/guides/mono-vs-multi-element/">Mono gegen Multi</a>.</p>
+
+<h2>6. Ein Build aus einer anderen Version kopieren</h2>
+<p>Dofus 3, die Beta, Dofus 2, Retro und Touch sind fünf verschiedene Spiele. Ein Item, das in einer Version zentral ist, existiert in einer anderen vielleicht gar nicht oder mit anderen Werten, und auch die Regeln für Rollen und Charakteristiken unterscheiden sich. Ein Build-Guide für die Version von jemand anderem ist in deiner eine Falle. Optimiere in der Version, die du wirklich spielst, und wenn du nicht weißt, was wo läuft, schau in <a href="/guides/versions-explained/">die Versionen erklärt</a>.</p>
+
+<h2>Die Einstellung, die alle vergessen: deine Rollen</h2>
+<p>Ein neues Projekt nimmt an, dass deine Charakteristiken voll gerollt sind, 100 in jeder. Wenn dein Charakter das nicht ist, optimiert das Werkzeug einen etwas reicheren Charakter als deinen: Die Summen, die Item-Bedingungen, die du erfüllst, und die beste Verteilung deiner Punkte verschieben sich alle. Öffne die Charakteristiken-Seite deines Projekts und trag deinen echten Rollen-Stand ein, das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
+
+<h2>Worum du dich nicht kümmern musst</h2>
+<p>Die pingeligen Regeln des Spiels werden schon für dich durchgesetzt: Item-Bedingungen werden geprüft, bevor ein Item überhaupt vorgeschlagen wird, Set-Boni werden richtig gezählt, und Versions-Obergrenzen wie Trophäen-Limits werden eingehalten. Dein Job ist Geschmack und Ehrlichkeit darüber, wie du spielst. Das Rechnen ist abgedeckt. Und wenn du trotzdem eine Item-Karte wie ein Profi lesen willst, fang mit <a href="/guides/reading-an-item/">ein Item lesen</a> an.</p>
+
+<p><em>Dich in einer dieser Fallen wiedererkannt? <a href="/quickstart/">Bau dein Build in zwei Minuten neu</a> und schau, was sich ändert.</em></p>
 ''',
             },
         },

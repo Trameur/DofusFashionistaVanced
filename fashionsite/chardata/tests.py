@@ -646,6 +646,8 @@ class PublicRouteSmokeTests(TestCase):
                      '/license/', '/encyclopedia/', '/sharedbuilds/',
                      '/quickstart/', '/smartbuild/', '/forgemagie/',
                      '/guides/', '/guides/getting-started/',
+                     '/guides/beginner-mistakes/',
+                     '/guides/choosing-your-class/',
                      '/guides/how-it-works/', '/guides/stats-explained/',
                      '/guides/game-modes/', '/guides/reading-an-item/',
                      '/guides/understanding-your-solution/',
