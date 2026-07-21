@@ -166,9 +166,3 @@ h2 {
     background: #a8885e;
     color: #ffffff;
 }
-
-/* Classic header: the version links' orange sat below 3:1 on the tan
-   band; darker copper keeps the hue and passes. */
-html:not(.fm-modern) .version-link:not(.active) {
-    color: #6E3208;
-}
