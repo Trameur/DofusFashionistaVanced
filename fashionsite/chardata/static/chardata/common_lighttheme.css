@@ -16,7 +16,10 @@
    color on the dark brown button background (2.5:1). Give every such
    link the buttons' cream text; the modern look restyles them. */
 html:not(.fm-modern) a.button-generic,
-html:not(.fm-modern) a.button-generic-foreground {
+html:not(.fm-modern) a.button-generic-foreground,
+html:not(.fm-modern) a.button-thin,
+html:not(.fm-modern) a.button-thin-foreground,
+html:not(.fm-modern) a.button-thin-chardata {
     color: #F2E3C6;
 }
 
