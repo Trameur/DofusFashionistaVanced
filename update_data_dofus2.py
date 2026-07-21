@@ -219,18 +219,12 @@ def main() -> None:
             "--filter", "pt.json",
             "--filter", "de.json",
         ])
-        step("spells/transform", [
-            PY, "-m", "itemscraper.get_spells",
-            "--tag", version,
-            "--output", "itemscraper/transformed_spells_dofus2.json",
-            "--class-output", "itemscraper/transformed_class_spells_dofus2.json",
-        ])
-        step("spells/constants", [
-            PY, "-m", "itemscraper.generate_damage_spells",
-            "--class-json", "itemscraper/transformed_class_spells_dofus2.json",
-            "--spells-json", "itemscraper/transformed_spells_dofus2.json",
-            "--constants", "fashionistapulp/fashionistapulp/dofus_constants_dofus2.py",
-        ])
+        # NO spells/transform + spells/constants here: the dofus2 archives
+        # (2.73.3.7 and 2.73.3.9 are the only ones) ship no spell level
+        # data at all, so get_spells/generate_damage_spells can never run
+        # for this version. The committed DAMAGE_SPELLS block is the 2.73
+        # content Dofus 3 launched with, with spell ids injected from the
+        # archive names (see dofus_constants_dofus2.py header).
         # Monster drops -> item_drops / monster_names in items_dofus2.db (encyclopedia "Dropped by").
         step("drops/transform", [
             PY, "get_monsters.py",
