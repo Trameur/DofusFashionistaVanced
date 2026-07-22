@@ -225,7 +225,7 @@ _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Fec
 _CLASS_AVATAR_COUNT = 6
 
 
-def _get_class_avatar(char):
+def get_class_avatar(char):
     """Stable per-char avatar URL, falling back to a placeholder for classes
     without art (Forgelance) or unknown values."""
     cls = char.char_class or ''
@@ -440,7 +440,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         solution_params = solution_result.get_params()
 
     vote_data = _get_live_vote_data(request, char)
-    class_avatar = _get_class_avatar(char)
+    class_avatar = get_class_avatar(char)
 
     share_text = ''
     build_check = None

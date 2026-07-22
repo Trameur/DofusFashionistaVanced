@@ -3812,7 +3812,7 @@ class SoftCapTableColumnsTests(TestCase):
 class WizardAvatarFallbackTests(TestCase):
     """The wizard avatar used a raw class path, so a Forgelance project (Dofus 3
     only, no shipped art) rendered a 404 image. It now reuses the solution page's
-    _get_class_avatar helper, which falls back to the placeholder."""
+    get_class_avatar helper, which falls back to the placeholder."""
 
     def _wizard_char(self, char_class):
         import pickle
