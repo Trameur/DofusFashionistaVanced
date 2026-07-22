@@ -97,7 +97,7 @@ LOCALIZED_UI = {
         'min_value_label': 'Valeur min',
         'add_stat_filter': 'Ajouter un filtre',
         'remove_stat_filter': 'Supprimer',
-        'order_stats': 'Trier par caracteristiques',
+        'order_stats': 'Trier par caractéristiques',
         'order_direction_label': 'Ordre',
         'direction_desc': 'Décroissant',
         'direction_asc': 'Croissant',
