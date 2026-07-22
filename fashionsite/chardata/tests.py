@@ -3576,6 +3576,36 @@ class TouchSoftCapsTests(SimpleTestCase):
         self.assertEqual(self._capital_for_extra(get_soft_caps_for('retro', 'Iop')['vit'], 100, 1), 1)
 
 
+class StatMaximumPerVersionTests(SimpleTestCase):
+    """AP/MP/Range are hard-capped at 12/6/6 by the Dofus 2 "PA/PM limitation"
+    which Dofus 3, the beta, Dofus 2 and Touch keep, but Dofus Retro (1.29) never
+    got it (17 AP / 7 MP exo items exist there). So the optimizer must not cap
+    AP/MP/Range on Retro, while still capping them everywhere else."""
+
+    def test_modern_and_touch_cap_ap_mp_range(self):
+        from fashionistapulp.dofus_constants import get_stat_maximum
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            caps = get_stat_maximum(version)
+            self.assertEqual(caps['AP'], 12, version)
+            self.assertEqual(caps['MP'], 6, version)
+            self.assertEqual(caps['Range'], 6, version)
+
+    def test_retro_does_not_cap_ap_mp_range(self):
+        from fashionistapulp.dofus_constants import get_stat_maximum
+        caps = get_stat_maximum('retro')
+        self.assertNotIn('AP', caps)
+        self.assertNotIn('MP', caps)
+        self.assertNotIn('Range', caps)
+
+    def test_resist_cap_is_version_neutral(self):
+        from fashionistapulp.dofus_constants import get_stat_maximum
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            caps = get_stat_maximum(version)
+            for element in ('% Neutral Resist', '% Air Resist', '% Fire Resist',
+                            '% Water Resist', '% Earth Resist'):
+                self.assertEqual(caps[element], 53, '%s %s' % (version, element))
+
+
 class UnobtainableItemsTests(SimpleTestCase):
     """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
     are forbidden by default through the standard mechanism, so the solver never
@@ -4149,6 +4179,34 @@ class TouchPetSolveTests(TestCase):
         self.assertGreaterEqual(
             pet.id, self.VARIANT_ID_BASE,
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
+
+class RetroUncappedApSolveTests(TestCase):
+    """Retro (1.29) has no 12/6/6 AP/MP/Range cap, so the optimizer leaves those
+    stats uncapped there. A full retro solve must still complete (the LP stays
+    bounded through gear) now that the caps are gone for that version."""
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_retro_solve_completes_with_uncapped_ap(self):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('retrosolve', 'rs@test.local', 'pw-42-solid')
+        req = RequestFactory().post('/')
+        req.user = owner
+        char = create_build(req, 'Iop', 100, {'str'}, 'retro')
+        self.client.force_login(owner)
+        resp = self.client.get('/retro/fashion/%d/' % char.pk)
+        self.assertIn(resp.status_code, (200, 302))
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, 'no solution stored after a retro solve')
+        equipped = sum(1 for ri in solution.item_list if ri.item_added)
+        self.assertGreaterEqual(equipped, 3)
+
 
 class WeaponTypeDisplayTests(TestCase):
     """Weapons with no standard type (magnifying glass, fishing rod...) show

@@ -19,7 +19,7 @@
 import logging
 from copy import deepcopy
 
-from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, STAT_MAXIMUM, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
+from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
 import pulp
@@ -81,6 +81,8 @@ class Model:
         
     def create_structure(self):
         self.structure = get_structure()
+        self.stat_maximum = get_stat_maximum(
+            getattr(self.structure, 'game_version', 'dofus3'))
         self.items_list = self.structure.get_available_items_list()
         self.sets_list = self.structure.get_sets_list()
         self.stats_list = self.structure.get_stats_list()
@@ -142,19 +144,19 @@ class Model:
                 continue
             for num_items, stat_id, max_value in item_set.max_caps:
                 stat = self.structure.get_stat_by_id(stat_id)
-                if stat and stat.name in STAT_MAXIMUM:
+                if stat and stat.name in self.stat_maximum:
                     self._capped_stat_ids.add(stat_id)
 
         for stat in self.stats_list:
-            if stat.name in STAT_MAXIMUM:
-                self.problem.setup_variable('stat', stat.id, None, STAT_MAXIMUM[stat.name])
+            if stat.name in self.stat_maximum:
+                self.problem.setup_variable('stat', stat.id, None, self.stat_maximum[stat.name])
             else:
                 self.problem.setup_variable('stat', stat.id, None, None)
 
         for stat_id in self._capped_stat_ids:
             stat = self.structure.get_stat_by_id(stat_id)
-            if stat and stat.name in STAT_MAXIMUM:
-                self.problem.setup_variable('overage', stat_id, 0, STAT_MAXIMUM[stat.name])
+            if stat and stat.name in self.stat_maximum:
+                self.problem.setup_variable('overage', stat_id, 0, self.stat_maximum[stat.name])
 
     def create_stat_points_variables(self):
         self.stat_count = len(self.stats_list)
@@ -949,9 +951,9 @@ class Model:
                 continue
             for num_items, stat_id, max_value in item_set.max_caps:
                 stat = self.structure.get_stat_by_id(stat_id)
-                if stat is None or stat.name not in STAT_MAXIMUM:
+                if stat is None or stat.name not in self.stat_maximum:
                     continue
-                global_max = STAT_MAXIMUM[stat.name]
+                global_max = self.stat_maximum[stat.name]
                 if max_value >= global_max:
                     continue
                 matrix = [
@@ -969,9 +971,9 @@ class Model:
         # → overage=0 when no cap active; overage free up to global_max when any cap fires.
         for stat_id, ss_keys in overage_ss_per_stat.items():
             stat = self.structure.get_stat_by_id(stat_id)
-            if not stat or stat.name not in STAT_MAXIMUM:
+            if not stat or stat.name not in self.stat_maximum:
                 continue
-            global_max = STAT_MAXIMUM[stat.name]
+            global_max = self.stat_maximum[stat.name]
             overage_matrix = [(1, 'overage', stat_id)]
             for (set_id, k) in ss_keys:
                 overage_matrix.append((-global_max, 'ss', '%d_%d' % (set_id, k)))

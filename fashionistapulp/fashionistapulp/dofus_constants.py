@@ -225,26 +225,35 @@ STAT_ORDER = {
 }
 
 # Hard upper bounds the optimizer enforces on a build's TOTAL for these stats:
-# model.py caps the LP variable (and set overages) at these values. AP/MP/Range/
-# Summon are the game's stat caps. The "% X Resist" entries are NOT an arbitrary
-# limit: Dofus hard-caps percent elemental resistance, so any resistance gear
-# gives beyond the cap is wasted in-game and the optimizer must not chase it.
-# Items easily sum to far more than this (measured ceilings of 110-320% per
-# element across the versions), which is exactly why the cap has to be here.
-# Shared across versions for now; if a version's resistance cap is ever
-# confirmed different from a first-party source, split this per version like
-# get_soft_caps_for.
-STAT_MAXIMUM = {
-    'AP': 12,
-    'MP': 6,
-    'Range': 6,
-    'Summon': 10,
-    '% Neutral Resist': 53,
-    '% Air Resist': 53,
-    '% Fire Resist': 53,
-    '% Water Resist': 53,
-    '% Earth Resist': 53,
-}
+# model.py caps the LP variable (and set overages) at these values, PER VERSION.
+#
+# AP/MP/Range are hard-limited to 12/6/6 including exos by the "PA/PM limitation"
+# Ankama introduced in Dofus 2; Dofus 3, the beta, Dofus 2 and Touch all keep it.
+# Dofus Retro (1.29) never got that limitation, so it has NO AP/MP/Range cap and
+# gear alone limits them there (17 AP / 7 MP exo items exist in Retro).
+#
+# The per-element "% X Resist" raw cap stays 53 in every version. In-game, percent
+# elemental resistance is effectively capped at 50% for damage; the extra few
+# points are the buffer that keeps you at 50% under vulnerability debuffs, and the
+# 50% effective cap on the summed-resistance advanced-min is enforced separately
+# by the capped_resist variables in model.py. Summon has no in-game cap (limited
+# only by gear); the 10 here is just a loose LP bound. Both are version-neutral.
+#
+# Sources: official Dofus forums (Resist Cap; "Limitation PA/PM sur DOFUS Retro").
+def get_stat_maximum(game_version):
+    caps = {
+        'Summon': 10,
+        '% Neutral Resist': 53,
+        '% Air Resist': 53,
+        '% Fire Resist': 53,
+        '% Water Resist': 53,
+        '% Earth Resist': 53,
+    }
+    if game_version != 'retro':
+        caps['AP'] = 12
+        caps['MP'] = 6
+        caps['Range'] = 6
+    return caps
 
 STAT_KEY_TO_NAME = {v: k for k, v in STAT_NAME_TO_KEY.items()}
 
