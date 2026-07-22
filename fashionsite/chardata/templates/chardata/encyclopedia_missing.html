@@ -1,6 +1,7 @@
 {% extends "chardata/base.html" %}
 {% load version_url %}
 {% load i18n %}
+{% load static_s3 %}
 
 {% block title %}{{ missing.title }} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -11,19 +12,7 @@
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
 {% block css %}
-<style>
-.encyclopedia-missing { padding: 12px; }
-.encyclopedia-crumbs { font-size: 0.85em; opacity: 0.75; margin-bottom: 10px; }
-.encyclopedia-crumbs a { text-decoration: none; }
-.encyclopedia-crumbs a:hover { text-decoration: underline; }
-.encyclopedia-missing-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; box-sizing: border-box; padding: 16px; }
-.encyclopedia-missing-card h1 { font-size: 1.35rem; margin: 0 0 8px; }
-.encyclopedia-missing-card p { margin: 0 0 12px; }
-.encyclopedia-missing-meta { margin-bottom: 14px; opacity: 0.85; }
-.encyclopedia-missing-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.dark-theme-active .encyclopedia-missing-card { border-color: #5a5a5a; background: #1f1f1f; color: #f0f0f0; }
-.dark-theme-active .encyclopedia-missing a { color: #ffd8a8; }
-</style>
+<link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_missing.css" %}">
 {% endblock %}
 
 {% block main %}
