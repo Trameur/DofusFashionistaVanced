@@ -3709,6 +3709,40 @@ class WizardTrophyOptionTests(TestCase):
         self.assertContains(resp, 'name="trophies"')
 
 
+class WizardAvatarFallbackTests(TestCase):
+    """The wizard avatar used a raw class path, so a Forgelance project (Dofus 3
+    only, no shipped art) rendered a 404 image. It now reuses the solution page's
+    _get_class_avatar helper, which falls back to the placeholder."""
+
+    def _wizard_char(self, char_class):
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner = User.objects.create_user(
+            'wizav_%s' % char_class.lower(), 'wa@test.local', 'pw-wiz-av-77')
+        char = Char.objects.create(
+            name='Wiz', char_name='wiz', char_class=char_class, char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'', aspects=pickle.dumps({'str'}),
+            owner=owner, link_shared=False, game_version='dofus3')
+        self.client.force_login(owner)
+        return char
+
+    def test_forgelance_wizard_uses_placeholder_not_404(self):
+        char = self._wizard_char('Forgelance')
+        resp = self.client.get('/wizard/%d/' % char.pk)
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8')
+        self.assertIn('QuestionMark', html)
+        self.assertNotIn('designs/wizard/Forgelance', html)
+
+    def test_class_with_art_keeps_its_avatar(self):
+        char = self._wizard_char('Iop')
+        resp = self.client.get('/wizard/%d/' % char.pk)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('designs/wizard/Iop/myWizardIop', resp.content.decode('utf-8'))
+
+
 class RetroShieldsDefaultTests(TestCase):
     """Retro shields only work in PvP, so a PvM preset forbids them by default;
     the PvP preset (and every non-retro version) keeps them."""

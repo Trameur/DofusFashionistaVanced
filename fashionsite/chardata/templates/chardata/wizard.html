@@ -16,7 +16,7 @@
     {% csrf_token %}
     <h1 align="center">{% trans "Wizard" %}</h1><br><br>
     <div class= 'wizard-flying-pic'>
-         <img src="{% static wizard_pic %}" alt=""></img>
+         <img src="{{ wizard_pic }}" alt=""></img>
     </div>
     
     <table align="center">

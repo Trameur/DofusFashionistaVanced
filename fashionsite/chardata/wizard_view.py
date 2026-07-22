@@ -25,6 +25,7 @@ from chardata.options import get_options, set_options, DOFUS_OPTIONS, get_availa
 from chardata.options_view import parse_options_post, parse_inventory_options, \
     inventory_source_context
 from chardata.smart_build import reapply_weights
+from chardata.solution_view import _get_class_avatar
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson, version_reverse
 from chardata.wizard_sliders import get_wizard_sliders, set_wizard_sliders
 from fashionistapulp.dofus_constants import STATS_NAMES, SLOT_NAME_TO_TYPE, max_scroll_for_version
@@ -42,9 +43,10 @@ def wizard(request, char_id):
 
     wizard_data = Data(char)
     constant_data = ConstantData(char)
-    wizard_pic = 'chardata/designs/wizard/%s/myWizard%s%d.png' % (char.char_class,
-                                                                  char.char_class,
-                                                                  1 + (int(char_id) % 6))
+    # Reuse the solution page's avatar helper so classes without shipped art
+    # (Forgelance) fall back to the placeholder instead of a 404 image, and so
+    # the two pages can never drift on which classes have avatars.
+    wizard_pic = _get_class_avatar(char)
 
     context = {'char_id': char_id,
                'wizard_pic': wizard_pic,
