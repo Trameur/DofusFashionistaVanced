@@ -3709,6 +3709,57 @@ class WizardTrophyOptionTests(TestCase):
         self.assertContains(resp, 'name="trophies"')
 
 
+class SoftCapTableColumnsTests(TestCase):
+    """The soft-cap reference table on the base-characteristics page must show the
+    cost-tier columns that actually exist for the char's VERSION, not a Retro-only
+    guess keyed on class name. Modern all-classes have a 4:1 tier; Touch has 5:1;
+    modern has no 1:2 and no 5:1 (so Sacrier must not grow phantom columns)."""
+
+    def _char(self, char_class, version):
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner = User.objects.create_user(
+            'sc_%s_%s' % (version, char_class.lower()), 'sc@test.local', 'pw-sc-77')
+        char = Char.objects.create(
+            name='SC', char_name='sc', char_class=char_class, char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'', aspects=pickle.dumps({'str'}),
+            owner=owner, link_shared=False, game_version=version)
+        self.client.force_login(owner)
+        return char
+
+    def _headers(self, char):
+        import re
+        # Non-dofus3 versions live under a URL prefix that sets request.game_version;
+        # without it get_char_or_raise 404s on the version mismatch.
+        prefix = '' if char.game_version == 'dofus3' else '/%s' % char.game_version
+        resp = self.client.get('%s/setup/%d/' % (prefix, char.pk))
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8')
+        # The response HTML is minified (single quotes normalized to double).
+        return set(re.findall(r'<th class="stat-title">(\d:\d)</th>', html))
+
+    def test_modern_pandawa_shows_the_four_to_one_tier(self):
+        # Regression: 4:1 was hidden for Pandawa/Foggernaut/Rogue on every version.
+        cols = self._headers(self._char('Pandawa', 'dofus3'))
+        self.assertEqual(cols, {'1:1', '2:1', '3:1', '4:1'})
+
+    def test_modern_sacrier_has_no_phantom_columns(self):
+        cols = self._headers(self._char('Sacrier', 'dofus3'))
+        self.assertNotIn('1:2', cols)
+        self.assertNotIn('5:1', cols)
+        self.assertIn('4:1', cols)
+
+    def test_touch_shows_the_five_to_one_tier(self):
+        cols = self._headers(self._char('Iop', 'touch'))
+        self.assertIn('5:1', cols)
+
+    def test_retro_pandawa_hides_the_four_to_one_tier(self):
+        cols = self._headers(self._char('Pandawa', 'retro'))
+        self.assertNotIn('4:1', cols)
+
+
 class WizardAvatarFallbackTests(TestCase):
     """The wizard avatar used a raw class path, so a Forgelance project (Dofus 3
     only, no shipped art) rendered a 404 image. It now reuses the solution page's

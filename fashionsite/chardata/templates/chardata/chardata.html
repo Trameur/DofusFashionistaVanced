@@ -58,20 +58,12 @@
                   <tr>
                     <th></th>
                     <th class='stat-title'></th>
-            
-                {% if char.char_class and char.char_class == 'Sacrier' %}
-                    <th class='stat-title'>1:2</th> 
-                {% endif %}
-
-                    <th class='stat-title'>1:1</th> 
-                    <th class='stat-title'>2:1</th>
-                    <th class='stat-title'>3:1</th> 
-                {% if char.char_class and char.char_class != 'Pandawa' and char.char_class != 'Foggernaut' and char.char_class != 'Rogue' %}
-                    <th class='stat-title'>4:1</th>
-                    {% if char.char_class and char.char_class == 'Sacrier' or char.char_class == 'Masqueraider' %}
-                        <th class='stat-title'>5:1</th> 
-                    {% endif %}
-                {% endif %}
+                {% if show_tiers.0 %}<th class='stat-title'>1:2</th>{% endif %}
+                {% if show_tiers.1 %}<th class='stat-title'>1:1</th>{% endif %}
+                {% if show_tiers.2 %}<th class='stat-title'>2:1</th>{% endif %}
+                {% if show_tiers.3 %}<th class='stat-title'>3:1</th>{% endif %}
+                {% if show_tiers.4 %}<th class='stat-title'>4:1</th>{% endif %}
+                {% if show_tiers.5 %}<th class='stat-title'>5:1</th>{% endif %}
                   </tr>
                   <tr class='softcap-stat-line'>
                    {% include "chardata/softcap_line.html" with icon="chardata/Vitality.png" stat_name=_("Vitality") stat_key="vit" given_lis=soft_caps.vit lower_given_lis=lower_soft_caps.vit char=char %}

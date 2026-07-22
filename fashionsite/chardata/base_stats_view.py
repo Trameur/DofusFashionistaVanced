@@ -64,6 +64,17 @@ def _page(request, char_id, is_new_char):
                 new_list.append(None)
         lower_soft_caps[stat] = new_list
 
+    # Which of the six cost tiers (1:2, 1:1, 2:1, 3:1, 4:1, 5:1) to show, driven
+    # by the actual soft-cap data instead of class names: a tier is present when
+    # some stat has a real threshold (a number) or an open-ended tier (None)
+    # there, absent when every stat has 0. The old class-name conditionals were
+    # only true for Retro, so modern Pandawa/Foggernaut/Rogue lost their real 4:1
+    # tier, Touch hid its 5:1, and modern Sacrier grew phantom 1:2/5:1 columns.
+    show_tiers = [any((caps[n] is None) or (caps[n] and caps[n] > 0)
+                      for caps in soft_caps.values())
+                  for n in range(6)]
+    last_tier = max((n for n in range(6) if show_tiers[n]), default=1)
+
     return set_response(request,
                         'chardata/chardata.html',
                         {'char_id': char_id,
@@ -72,6 +83,8 @@ def _page(request, char_id, is_new_char):
                          'advanced': True,
                          'soft_caps': soft_caps,
                          'lower_soft_caps': lower_soft_caps,
+                         'show_tiers': show_tiers,
+                         'last_tier': last_tier,
                          'scrolls_push_curve': scrolls_push_cost_curve(char.game_version),
                          'max_scroll': max_scroll_for_version(char.game_version),
                          'theme': get_theme(request)},

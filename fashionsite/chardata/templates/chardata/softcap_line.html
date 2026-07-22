@@ -11,31 +11,21 @@
       </td>
     {% endif %}
     <td class='softcap-stat-name'>{{stat_name}}</td>
-{% if char.char_class and char.char_class == 'Sacrier' %}
-    <td class='stat-softcap'>{% if given_lis.0 == 0 %} - {% else %} {% if not given_lis.0 %} 1~∞ {% else %} {{lower_given_lis.0}}-{{given_lis.0}} {% endif %}{% endif %}</td> 
+{% if show_tiers.0 %}
+    <td class='stat-softcap{% if stat_name == 'Agility' and last_tier == 0 %} bottom-right-cell{% endif %}'>{% if given_lis.0 == 0 %} - {% else %} {% if not given_lis.0 %} 1~∞ {% else %} {{lower_given_lis.0}}-{{given_lis.0}} {% endif %}{% endif %}</td>
 {% endif %}
-
-    <td class='stat-softcap'>{% if given_lis.1 == 0 %} - {% else %} {% if not given_lis.1 %} {{lower_given_lis.0}}~∞ {% else %} {{lower_given_lis.0}}-{{given_lis.1}} {% endif %}{% endif %}</td>
-    <td class='stat-softcap'>{% if given_lis.2 == 0 %} - {% else %} {% if not given_lis.2 %} {{lower_given_lis.1}}~∞ {% else %} {{lower_given_lis.1}}-{{given_lis.2}} {% endif %}{% endif %}</td>
-{% if stat_name == 'Agility' %}
-{% if char.char_class and char.char_class == 'Pandawa' or char.char_class == 'Foggernaut' or char.char_class == 'Rogue' %}    
-    <td class='stat-softcap bottom-right-cell'>{% if given_lis.3 == 0 %} - {% else %} {% if not given_lis.3 %} {{lower_given_lis.2}}~∞ {% else %} {{lower_given_lis.2}}-{{given_lis.3}} {% endif %}{% endif %}</td>
-{% else %}
-    <td class='stat-softcap'>{% if given_lis.3 == 0 %} - {% else %} {% if not given_lis.3 %} {{lower_given_lis.2}}~∞ {% else %} {{lower_given_lis.2}}-{{given_lis.3}} {% endif %}{% endif %}</td>
+{% if show_tiers.1 %}
+    <td class='stat-softcap{% if stat_name == 'Agility' and last_tier == 1 %} bottom-right-cell{% endif %}'>{% if given_lis.1 == 0 %} - {% else %} {% if not given_lis.1 %} {{lower_given_lis.0}}~∞ {% else %} {{lower_given_lis.0}}-{{given_lis.1}} {% endif %}{% endif %}</td>
 {% endif %}
-{% else %}
-    <td class='stat-softcap'>{% if given_lis.3 == 0 %} - {% else %} {% if not given_lis.3 %} {{lower_given_lis.2}}~∞ {% else %} {{lower_given_lis.2}}-{{given_lis.3}} {% endif %}{% endif %}</td>
+{% if show_tiers.2 %}
+    <td class='stat-softcap{% if stat_name == 'Agility' and last_tier == 2 %} bottom-right-cell{% endif %}'>{% if given_lis.2 == 0 %} - {% else %} {% if not given_lis.2 %} {{lower_given_lis.1}}~∞ {% else %} {{lower_given_lis.1}}-{{given_lis.2}} {% endif %}{% endif %}</td>
 {% endif %}
-
-{% if char.char_class and char.char_class != 'Pandawa' and char.char_class != 'Foggernaut' and char.char_class != 'Rogue' %}
-{% if char.char_class != 'Sacrier' and char.char_class != 'Masqueraider' %}    
-    <td class='stat-softcap' bottom-right-cell'>{% if given_lis.4 == 0 %} - {% else %} {% if not given_lis.4 %} {{lower_given_lis.3}}~∞ {% else %} {{lower_given_lis.3}}-{{given_lis.4}} {% endif %}{% endif %}</td>
-{% else %}
-    <td class='stat-softcap'>{% if given_lis.4 == 0 %} - {% else %} {% if not given_lis.4 %} {{lower_given_lis.3}}~∞ {% else %} {{lower_given_lis.3}}-{{given_lis.4}} {% endif %}{% endif %}</td>
-    {% if stat_name == 'Agility' %}
-      <td class='stat-softcap bottom-right-cell'>{% if given_lis.4 == 0 %} - {% else %} {% if not given_lis.5 %} {{lower_given_lis.4}}~∞ {% else %} {{lower_given_lis.4}}-{{given_lis.5}} {% endif %}{% endif %}</td>
-    {% else %}
-      <td class='stat-softcap'>{% if given_lis.4 == 0 %} - {% else %} {% if not given_lis.5 %} {{lower_given_lis.4}}~∞ {% else %} {{lower_given_lis.4}}-{{given_lis.5}} {% endif %}{% endif %}</td>
-    {% endif %}
+{% if show_tiers.3 %}
+    <td class='stat-softcap{% if stat_name == 'Agility' and last_tier == 3 %} bottom-right-cell{% endif %}'>{% if given_lis.3 == 0 %} - {% else %} {% if not given_lis.3 %} {{lower_given_lis.2}}~∞ {% else %} {{lower_given_lis.2}}-{{given_lis.3}} {% endif %}{% endif %}</td>
 {% endif %}
+{% if show_tiers.4 %}
+    <td class='stat-softcap{% if stat_name == 'Agility' and last_tier == 4 %} bottom-right-cell{% endif %}'>{% if given_lis.4 == 0 %} - {% else %} {% if not given_lis.4 %} {{lower_given_lis.3}}~∞ {% else %} {{lower_given_lis.3}}-{{given_lis.4}} {% endif %}{% endif %}</td>
+{% endif %}
+{% if show_tiers.5 %}
+    <td class='stat-softcap{% if stat_name == 'Agility' and last_tier == 5 %} bottom-right-cell{% endif %}'>{% if given_lis.4 == 0 %} - {% else %} {% if not given_lis.5 %} {{lower_given_lis.4}}~∞ {% else %} {{lower_given_lis.4}}-{{given_lis.5}} {% endif %}{% endif %}</td>
 {% endif %}
