@@ -3888,24 +3888,39 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         self.assertGreater(trophy, 0)
 
 
-class RetroDofusLevelTests(SimpleTestCase):
-    """Retro 1.29 lets a character equip the classic Dofus from level 6 (sourced:
-    dofux / dragoune.fr 1.29 references), while modern Dofus are level-gated
-    (Emerald 100, Vulbis 180...). This is a real per-version rule: the same Dofus
-    resolves to a different equip level per version, so a shared modern gate on a
-    Retro build would be wrong."""
+class DofusEquipLevelPerVersionTests(SimpleTestCase):
+    """The same Dofus has a different equip level per version, each faithful to
+    that version's own source, so no version should borrow another's gate:
+    - Retro 1.29 equips the classic Dofus from level 6 (sourced: dofux /
+      dragoune.fr 1.29 references);
+    - PC Dofus 3 / beta / Dofus 2 level-gate them (Emerald 100, Vulbis 180...);
+    - Dofus Touch keeps Vulbis/Crimson/Turquoise at level 6 (VERIFIED against the
+      Touch backend Items_en.json: level 6, criteria null) while gating Emerald
+      at 140. It looks like a data bug but it is genuine Touch data, so it must
+      NOT be 'fixed' to the PC levels."""
 
-    def test_retro_dofus_equip_from_level_6_but_modern_gates_them(self):
+    def test_retro_dofus_equip_from_level_6_but_pc_gates_them(self):
         from fashionistapulp.structure import get_structure
         for name in ('Emerald Dofus', 'Vulbis Dofus', 'Crimson Dofus', 'Turquoise Dofus'):
             retro = get_structure('retro').get_item_by_name(name)
-            modern = get_structure('dofus3').get_item_by_name(name)
+            pc = get_structure('dofus3').get_item_by_name(name)
             self.assertIsNotNone(retro, 'missing %s in Retro' % name)
-            self.assertIsNotNone(modern, 'missing %s in dofus3' % name)
+            self.assertIsNotNone(pc, 'missing %s in dofus3' % name)
             self.assertLessEqual(retro.level, 6,
                                  '%s should be low-level (<=6) in Retro 1.29' % name)
-            self.assertGreater(modern.level, 6,
-                               '%s should be level-gated in modern Dofus' % name)
+            self.assertGreater(pc.level, 6,
+                               '%s should be level-gated on PC Dofus 3' % name)
+
+    def test_touch_keeps_classic_dofus_low_level(self):
+        # Genuine Touch data (first-party backend), not a bug: these three are
+        # equippable from level 6 on Touch even though PC gates them high.
+        from fashionistapulp.structure import get_structure
+        touch = get_structure('touch')
+        for name in ('Vulbis Dofus', 'Crimson Dofus', 'Turquoise Dofus'):
+            item = touch.get_item_by_name(name)
+            self.assertIsNotNone(item, 'missing %s in Touch' % name)
+            self.assertLessEqual(item.level, 6,
+                                 '%s is level 6 on the Touch backend; do not gate it' % name)
 
 
 class UnobtainableItemsTests(SimpleTestCase):
