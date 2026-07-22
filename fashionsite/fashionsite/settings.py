@@ -191,6 +191,12 @@ if not DEBUG:
     SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 
+# Reset the global current game version before each test so a test that sets a
+# non-default version cannot leak it into the next one (only read by manage.py
+# test; inert in production).
+TEST_RUNNER = 'fashionsite.test_runner.ResetGameVersionRunner'
+
+
 USE_MYSQL = True
 if USE_MYSQL:
     # Support pour Docker avec variables d'environnement

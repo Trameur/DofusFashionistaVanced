@@ -4358,15 +4358,9 @@ class RetroUncappedApSolveTests(TestCase):
 
 class WeaponTypeDisplayTests(TestCase):
     """Weapons with no standard type (magnifying glass, fishing rod...) show
-    their AP line without a placeholder type prefix."""
-
-    def setUp(self):
-        # evolve_result_item formats the damage line from the *global* current
-        # game version, so pin it to dofus3 here rather than depending on
-        # whatever version a previously-run test happened to leave set.
-        from fashionistapulp.structure import set_current_game_version
-        set_current_game_version('dofus3')
-        self.addCleanup(set_current_game_version, 'dofus3')
+    their AP line without a placeholder type prefix. evolve_result_item formats
+    the damage line from the global current game version; the test runner resets
+    it to dofus3 before each test, so no per-class pinning is needed here."""
 
     def _damage_head(self, item_name):
         from fashionistapulp.structure import get_structure
