@@ -4917,6 +4917,22 @@ class VersionSpecificGuideTests(TestCase):
         # Touch has the Kolossium, so it canonicals to the global modern page.
         self.assertIn('https://dofusfashionista.gg/guides/game-modes/', head)
 
+    def test_retro_game_modes_variant_names_no_mode_absent_from_1_29(self):
+        # The Retro variant frames PvM/PvP only. Retro 1.29 has neither the
+        # Kolossium (a modern ranked mode) nor alliances/prisms (a Dofus 2.x
+        # feature), so naming either would be version-incorrect in any language.
+        import re
+        from chardata import guides_content
+        absent_in_retro = re.compile(
+            r'koliz|koloss|kolise|alliance|prisme|\bprism\b', re.IGNORECASE)
+        for language in ('en', 'fr', 'es', 'pt', 'de'):
+            guide = guides_content.get_guide('game-modes', language, 'retro')
+            blob = '%s %s %s' % (guide['title'], guide['desc'], guide['body'])
+            self.assertNotRegex(
+                blob, absent_in_retro,
+                'retro game-modes/%s names a mode Retro 1.29 does not have' % language)
+            self.assertIn('PvP', blob)
+
     def test_plain_guide_stays_global_canonical_under_a_version(self):
         for path in ('/guides/getting-started/', '/retro/guides/getting-started/'):
             _, head = self._head(path)
