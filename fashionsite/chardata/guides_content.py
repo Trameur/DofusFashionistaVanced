@@ -981,8 +981,8 @@ GUIDES = {
 <h2>The kingmakers: AP, MP and range</h2>
 <p>These three decide what your character can even do on a turn. One more AP can mean a whole extra spell; one more MP is positioning and kiting; range makes or breaks half the classes in the game. They're scarce, every build fights over them, so in the tool you usually <strong>lock them to a target</strong> rather than weight them: "give me exactly 11 AP and 6 MP, then optimize the rest."</p>
 
-<h2>Your element and mastery</h2>
-<p>Your damage comes from one (or more) of Strength, Intelligence, Agility and Chance, paired with the matching elemental mastery. Pick the element your main spells scale with and lean into it: a focused mono-element build almost always out-damages a smeared multi-element one. Since the 3.6 characteristic rework, masteries carry even more of the weight, so they deserve a high slider on any damage build.</p>
+<h2>Your damage element</h2>
+<p>Your damage comes from one (or more) of Strength, Intelligence, Agility and Chance, each powering the element that matches it. Pick the element your main spells scale with and lean into it: a focused mono-element build almost always out-damages a smeared multi-element one. Your damage element is the engine of any offensive build, so it deserves a high slider.</p>
 
 <h2>Staying alive</h2>
 <p>Vitality is raw HP and it's cheap to stack, but more isn't always better: 1000 extra HP you didn't need is a damage stat you threw away. Resistance (flat and %) is what actually keeps you up in PvP and tough fights. For Kolossium, weight resistance seriously; for mobbing PvM, you can often get away with less.</p>
@@ -1007,8 +1007,8 @@ GUIDES = {
 <h2>Les rois : PA, PM et portée</h2>
 <p>Ces trois-là décident de ce que ton perso peut faire dans un tour, point. Un PA de plus, c'est parfois un sort entier en rab ; un PM de plus, c'est du placement et du kite ; la portée fait ou défait la moitié des classes du jeu. C'est rare, tous les builds se les arrachent, donc dans l'outil tu les <strong>verrouilles à un objectif</strong> plutôt que de les pondérer : "donne-moi exactement 11 PA et 6 PM, puis optimise le reste".</p>
 
-<h2>Ton élément et ta maîtrise</h2>
-<p>Tes dégâts viennent d'un (ou plusieurs) parmi Force, Intelligence, Agilité et Chance, couplés à la maîtrise élémentaire correspondante. Choisis l'élément sur lequel scalent tes sorts principaux et fonce dessus : un build mono-élément concentré tape presque toujours plus fort qu'un build multi-élément dilué. Depuis la refonte des caracs 3.6, les maîtrises pèsent encore plus lourd, donc elles méritent un gros curseur sur tout build dégâts.</p>
+<h2>Ton élément de dégâts</h2>
+<p>Tes dégâts viennent d'un (ou plusieurs) parmi Force, Intelligence, Agilité et Chance, chacune alimentant l'élément qui lui correspond. Choisis l'élément sur lequel scalent tes sorts principaux et fonce dessus : un build mono-élément concentré tape presque toujours plus fort qu'un build multi-élément dilué. Ton élément de dégâts est le moteur de tout build offensif, donc il mérite un gros curseur.</p>
 
 <h2>Rester en vie</h2>
 <p>La vitalité, c'est des PV bruts et ça s'empile pas cher, mais plus n'est pas toujours mieux : 1000 PV en trop dont t'avais pas besoin, c'est une stat de dégâts jetée à la poubelle. La résistance (fixe et %) c'est ce qui te garde debout en PvP et dans les combats velus. Pour le Kolizéum, pondère la résistance sérieusement ; en PvM de mob, tu peux souvent t'en passer un peu.</p>
@@ -1033,8 +1033,8 @@ GUIDES = {
 <h2>Los que mandan: PA, PM y alcance</h2>
 <p>Estos tres deciden lo que tu personaje puede hacer en un turno, y punto. Un PA más a veces es un hechizo entero extra; un PM más es colocación y kiteo; el alcance hace o deshace a la mitad de las clases del juego. Son escasos, todos los builds se pelean por ellos, así que en la herramienta normalmente los <strong>bloqueas a un objetivo</strong> en vez de ponderarlos: "dame exactamente 11 PA y 6 PM, y luego optimiza el resto".</p>
 
-<h2>Tu elemento y tu dominio</h2>
-<p>Tu daño sale de uno (o varios) entre Fuerza, Inteligencia, Agilidad y Suerte, junto con el dominio elemental correspondiente. Elige el elemento con el que escalan tus hechizos principales y ve a por él: un build monoelemento concentrado casi siempre pega más que uno multielemento diluido. Desde el rework de características de 3.6, los dominios pesan aún más, así que merecen un deslizador alto en cualquier build de daño.</p>
+<h2>Tu elemento de daño</h2>
+<p>Tu daño sale de uno (o varios) entre Fuerza, Inteligencia, Agilidad y Suerte, y cada una alimenta el elemento que le corresponde. Elige el elemento con el que escalan tus hechizos principales y ve a por él: un build monoelemento concentrado casi siempre pega más que uno multielemento diluido. Tu elemento de daño es el motor de cualquier build ofensivo, así que merece un deslizador alto.</p>
 
 <h2>Seguir vivo</h2>
 <p>La vitalidad son PV en bruto y apilarla es barato, pero más no siempre es mejor: 1000 PV de más que no necesitabas es una estadística de daño tirada a la basura. La resistencia (fija y %) es lo que de verdad te mantiene en pie en PvP y en peleas duras. Para el Koliseo, pondera la resistencia en serio; en PvM de mobeo, muchas veces puedes ir con menos.</p>
@@ -1059,8 +1059,8 @@ GUIDES = {
 <h2>Os que mandam: PA, PM e alcance</h2>
 <p>Esses três decidem o que seu personagem consegue fazer num turno, ponto. Um PA a mais às vezes é um feitiço inteiro extra; um PM a mais é posicionamento e kite; o alcance faz ou quebra metade das classes do jogo. São escassos, todo build briga por eles, então na ferramenta você geralmente os <strong>trava num objetivo</strong> em vez de ponderar: "me dá exatamente 11 PA e 6 PM, e depois otimiza o resto".</p>
 
-<h2>Seu elemento e seu domínio</h2>
-<p>Seu dano vem de um (ou mais) entre Força, Inteligência, Agilidade e Sorte, junto com o domínio elemental correspondente. Escolha o elemento com que seus feitiços principais escalam e vá fundo nele: um build mono-elemento concentrado quase sempre bate mais que um multi-elemento diluído. Desde a reformulação de características da 3.6, os domínios pesam ainda mais, então merecem um controle alto em qualquer build de dano.</p>
+<h2>Seu elemento de dano</h2>
+<p>Seu dano vem de um (ou mais) entre Força, Inteligência, Agilidade e Sorte, e cada uma alimenta o elemento que lhe corresponde. Escolha o elemento com que seus feitiços principais escalam e vá fundo nele: um build mono-elemento concentrado quase sempre bate mais que um multi-elemento diluído. Seu elemento de dano é o motor de qualquer build ofensivo, então merece um controle alto.</p>
 
 <h2>Continuar vivo</h2>
 <p>Vitalidade é PV cru e empilhar é barato, mas mais nem sempre é melhor: 1000 PV a mais de que você não precisava é um atributo de dano jogado fora. Resistência (fixa e %) é o que de fato te mantém em pé no PvP e em lutas pesadas. Pro Koliseu, pondere resistência a sério; em PvM de mob, muitas vezes dá pra ir com menos.</p>
@@ -1085,8 +1085,8 @@ GUIDES = {
 <h2>Die Königsmacher: AP, BP und Reichweite</h2>
 <p>Diese drei entscheiden, was deine Figur in einer Runde überhaupt tun kann. Ein AP mehr ist manchmal ein ganzer zusätzlicher Zauber; ein BP mehr ist Positionierung und Kiten; Reichweite macht oder bricht die Hälfte der Klassen im Spiel. Sie sind knapp, jedes Build kämpft darum, deshalb <strong>fixierst</strong> du sie im Tool meist auf ein Ziel, statt sie zu gewichten: "gib mir genau 11 AP und 6 BP, dann optimiere den Rest".</p>
 
-<h2>Dein Element und deine Beherrschung</h2>
-<p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Beweglichkeit und Glück, zusammen mit der passenden Elementarbeherrschung. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch: ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Seit dem Charakterwerte-Rework in 3.6 wiegen Beherrschungen noch schwerer, also verdienen sie in jedem Schadens-Build einen hohen Regler.</p>
+<h2>Dein Schadenselement</h2>
+<p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Beweglichkeit und Glück, und jede treibt das Element an, das zu ihr passt. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch: ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Dein Schadenselement ist der Motor jedes Angriffs-Builds, also verdient es einen hohen Regler.</p>
 
 <h2>Am Leben bleiben</h2>
 <p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser: 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Fürs Kolosseum gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
