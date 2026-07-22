@@ -5276,6 +5276,19 @@ class EncyclopediaMonsterPageTests(TestCase):
         # the stylesheet, so it proves a card actually carries the tag.
         self.assertIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness', body)
         self.assertIn('Weakness: Fire', body)
+        # The tag is a shortcut into the weakness filter for that element.
+        self.assertIn('/encyclopedia/monsters/?weak=fire', body)
+        self.assertIn('Show monsters with this weakness', body)
+
+    def test_hub_card_weakness_tag_links_into_the_filter(self):
+        # Following a card's weakness tag lands on the filtered hub for that
+        # element, with the same monster present (the tag closes the loop).
+        resp = self.client.get('/encyclopedia/monsters/?weak=fire',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['weakness_filter'], 'fire')
+        self.assertTrue(all(m['weakest_element'] == 'fire'
+                            for m in resp.context['monsters_page'].object_list))
 
     def test_hub_card_has_no_weakness_tag_without_grade_stats(self):
         # dofus2 monsters have no resistance data, so no card claims a weakness.

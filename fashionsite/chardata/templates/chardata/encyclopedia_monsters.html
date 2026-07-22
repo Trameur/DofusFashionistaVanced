@@ -27,9 +27,11 @@
 .encyclopedia-monster-drop-link { text-decoration: none; }
 .encyclopedia-monsters-name { font-weight: 600; }
 .encyclopedia-monsters-meta { opacity: 0.85; font-size: 0.9em; }
-.encyclopedia-monsters-weakness { color: #0a7d0a; opacity: 1; font-weight: 600; }
-.dark-theme-active .encyclopedia-monster-card .encyclopedia-monsters-weakness,
-html.fm-dark .encyclopedia-monster-card .encyclopedia-monsters-weakness { color: #74e074; }
+.encyclopedia-monsters-weakness { display: block; opacity: 1; font-weight: 600; text-decoration: none; }
+.encyclopedia-monsters-weakness:hover { text-decoration: underline; }
+.encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #0a7d0a; }
+.dark-theme-active .encyclopedia-monster-card a.encyclopedia-monsters-weakness,
+html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #74e074; }
 .encyclopedia-monsters-preview { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
 .encyclopedia-monsters-thumb { width: 32px; height: 32px; object-fit: contain; vertical-align: middle; margin-right: 6px; }
 .drop-rate { opacity: 0.7; font-size: 0.9em; }
@@ -110,10 +112,10 @@ html.fm-dark .encyclopedia-monster-card .encyclopedia-monsters-weakness { color:
                 <div class="encyclopedia-monsters-meta">
                     {{ mt.dropped_resources_label }}: {{ monster.resource_count }} - {{ mt.dropped_items_label }}: {{ monster.item_count }}
                 </div>
-                {% if monster.weakest_element_name %}
-                <div class="encyclopedia-monsters-meta encyclopedia-monsters-weakness">{{ mt.weakness_label }}: {{ monster.weakest_element_name }}</div>
-                {% endif %}
             </a>
+            {% if monster.weakest_element_name %}
+            <a class="encyclopedia-monsters-meta encyclopedia-monsters-weakness" href="{% game_url 'encyclopedia_monsters' %}?weak={{ monster.weakest_element }}" title="{{ mt.weakness_filter_link_title }}">{{ mt.weakness_label }}: {{ monster.weakest_element_name }}</a>
+            {% endif %}
             {% if monster.sample_drops %}
             <div class="encyclopedia-monsters-preview">{{ mt.drop_preview_label }}:
                 {% for drop in monster.sample_drops %}
