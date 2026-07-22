@@ -2584,6 +2584,8 @@ def encyclopedia_monsters(request):
         page_obj = paginator.page(paginator.num_pages)
     for entry in page_obj.object_list:
         entry['image_url'] = _monster_image_url(game_version, entry['id'])
+        element = entry.get('weakest_element')
+        entry['weakest_element_name'] = mt['%s_label' % element] if element else None
 
     preview_ids = [monster['id'] for monster in page_obj.object_list]
     if preview_ids:

@@ -5265,6 +5265,26 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.context['weakness_options'], [])
         self.assertNotIn('name="weak"', resp.content.decode('utf-8'))
 
+    def test_hub_card_shows_weakness_tag(self):
+        # Crocodyl (261) is weakest to fire in dofus3, so its hub card surfaces
+        # the weakness at a glance, matching the monster page's "Weakness: Fire".
+        resp = self.client.get('/encyclopedia/monsters/?q=crocodyl',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        # The combined class attribute only appears on a rendered card, never in
+        # the stylesheet, so it proves a card actually carries the tag.
+        self.assertIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness', body)
+        self.assertIn('Weakness: Fire', body)
+
+    def test_hub_card_has_no_weakness_tag_without_grade_stats(self):
+        # dofus2 monsters have no resistance data, so no card claims a weakness.
+        resp = self.client.get('/dofus2/encyclopedia/monsters/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness',
+                         resp.content.decode('utf-8'))
+
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')
