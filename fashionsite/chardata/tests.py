@@ -4934,6 +4934,36 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
             % (self.MAX_DESC, offenders))
 
 
+class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
+    """Elemental "mastery" (maitrise / dominio / dominio / Beherrschung) is a modern-Dofus
+    stat: it does not exist in Retro 1.29, where elemental damage comes straight from the
+    element characteristic (Strength/Intelligence/Agility/Chance). The guides are shared
+    across every version, so any "mastery" wording is wrong for Retro readers. Frame
+    damage-scaling around the element and its characteristic instead, which is true on all
+    versions. Guard every localized guide field so a future edit cannot reintroduce it.
+    See chardata.guides_content.GUIDES."""
+
+    MASTERY_TERMS = ('mastery', 'masteries', 'maîtrise',
+                     'dominio', 'domínio', 'beherrschung')
+
+    def test_no_guide_field_mentions_the_modern_only_mastery_stat(self):
+        from chardata import guides_content
+        offenders = []
+        for slug, variant, language, fields in guides_content.iter_content_blocks():
+            for field_name, value in fields.items():
+                if not isinstance(value, str):
+                    continue
+                low = value.lower()
+                for term in self.MASTERY_TERMS:
+                    if term in low:
+                        offenders.append('%s/%s/%s/%s (%s)'
+                                         % (slug, variant, language, field_name, term))
+        self.assertEqual(
+            offenders, [],
+            'modern-only mastery stat named in a guide (Retro has no mastery; frame '
+            'damage via the element characteristic): %s' % offenders)
+
+
 class VersionSpecificGuideTests(TestCase):
     """Critical hits are a different SYSTEM per version, so the crit guide serves
     the modern content on modern versions (canonical at the global /guides/ URL)

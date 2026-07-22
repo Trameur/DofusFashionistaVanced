@@ -975,8 +975,8 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'Dofus stats, and how much each one is worth',
-                'desc': "AP, range, masteries, vitality, crits… Dofus throws a lot of numbers at you. A no-nonsense rundown of what actually matters and how to weight it.",
-                'lead': "AP, range, masteries, vitality, crits… Dofus throws a lot of numbers at you. Here's a no-nonsense rundown of what actually matters and how to weight it.",
+                'desc': "AP, range, damage, vitality, crits… Dofus throws a lot of numbers at you. A no-nonsense rundown of what actually matters and how to weight it.",
+                'lead': "AP, range, damage, vitality, crits… Dofus throws a lot of numbers at you. Here's a no-nonsense rundown of what actually matters and how to weight it.",
                 'body': '''
 <h2>The kingmakers: AP, MP and range</h2>
 <p>These three decide what your character can even do on a turn. One more AP can mean a whole extra spell; one more MP is positioning and kiting; range makes or breaks half the classes in the game. They're scarce, every build fights over them, so in the tool you usually <strong>lock them to a target</strong> rather than weight them: "give me exactly 11 AP and 6 MP, then optimize the rest."</p>
@@ -1001,8 +1001,8 @@ GUIDES = {
             },
             'fr': {
                 'title': 'Les stats de Dofus, et combien chacune vaut',
-                'desc': "PA, portée, maîtrises, vitalité, critiques… Dofus te balance un paquet de chiffres. Un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
-                'lead': "PA, portée, maîtrises, vitalité, coups critiques… Dofus te balance un paquet de chiffres. Voilà un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
+                'desc': "PA, portée, dégâts, vitalité, critiques… Dofus te balance un paquet de chiffres. Un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
+                'lead': "PA, portée, dégâts, vitalité, coups critiques… Dofus te balance un paquet de chiffres. Voilà un topo sans blabla sur ce qui compte vraiment et comment le pondérer.",
                 'body': '''
 <h2>Les rois : PA, PM et portée</h2>
 <p>Ces trois-là décident de ce que ton perso peut faire dans un tour, point. Un PA de plus, c'est parfois un sort entier en rab ; un PM de plus, c'est du placement et du kite ; la portée fait ou défait la moitié des classes du jeu. C'est rare, tous les builds se les arrachent, donc dans l'outil tu les <strong>verrouilles à un objectif</strong> plutôt que de les pondérer : "donne-moi exactement 11 PA et 6 PM, puis optimise le reste".</p>
@@ -1027,8 +1027,8 @@ GUIDES = {
             },
             'es': {
                 'title': 'Las estadísticas de Dofus y cuánto vale cada una',
-                'desc': "PA, alcance, dominios, vitalidad, críticos… Dofus te tira un montón de números. Un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
-                'lead': "PA, alcance, dominios, vitalidad, críticos… Dofus te tira un montón de números. Aquí va un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
+                'desc': "PA, alcance, daño, vitalidad, críticos… Dofus te tira un montón de números. Un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
+                'lead': "PA, alcance, daño, vitalidad, críticos… Dofus te tira un montón de números. Aquí va un repaso sin rodeos de lo que importa de verdad y cómo ponderarlo.",
                 'body': '''
 <h2>Los que mandan: PA, PM y alcance</h2>
 <p>Estos tres deciden lo que tu personaje puede hacer en un turno, y punto. Un PA más a veces es un hechizo entero extra; un PM más es colocación y kiteo; el alcance hace o deshace a la mitad de las clases del juego. Son escasos, todos los builds se pelean por ellos, así que en la herramienta normalmente los <strong>bloqueas a un objetivo</strong> en vez de ponderarlos: "dame exactamente 11 PA y 6 PM, y luego optimiza el resto".</p>
@@ -1053,8 +1053,8 @@ GUIDES = {
             },
             'pt': {
                 'title': 'Os atributos de Dofus e quanto cada um vale',
-                'desc': "PA, alcance, domínios, vitalidade, críticos… Dofus joga um monte de números em você. Um resumo sem enrolação do que importa e como ponderar.",
-                'lead': "PA, alcance, domínios, vitalidade, críticos… Dofus joga um monte de números em você. Aqui vai um resumo sem enrolação do que importa de verdade e como ponderar.",
+                'desc': "PA, alcance, dano, vitalidade, críticos… Dofus joga um monte de números em você. Um resumo sem enrolação do que importa e como ponderar.",
+                'lead': "PA, alcance, dano, vitalidade, críticos… Dofus joga um monte de números em você. Aqui vai um resumo sem enrolação do que importa de verdade e como ponderar.",
                 'body': '''
 <h2>Os que mandam: PA, PM e alcance</h2>
 <p>Esses três decidem o que seu personagem consegue fazer num turno, ponto. Um PA a mais às vezes é um feitiço inteiro extra; um PM a mais é posicionamento e kite; o alcance faz ou quebra metade das classes do jogo. São escassos, todo build briga por eles, então na ferramenta você geralmente os <strong>trava num objetivo</strong> em vez de ponderar: "me dá exatamente 11 PA e 6 PM, e depois otimiza o resto".</p>
@@ -1079,8 +1079,8 @@ GUIDES = {
             },
             'de': {
                 'title': 'Dofus-Werte und wie viel jeder wert ist',
-                'desc': "AP, Reichweite, Beherrschungen, Vitalität, Kritische… Dofus wirft dir viele Zahlen hin. Ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
-                'lead': "AP, Reichweite, Beherrschungen, Vitalität, Kritische… Dofus wirft dir eine Menge Zahlen hin. Hier ist ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
+                'desc': "AP, Reichweite, Schaden, Vitalität, Kritische… Dofus wirft dir viele Zahlen hin. Ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
+                'lead': "AP, Reichweite, Schaden, Vitalität, Kritische… Dofus wirft dir eine Menge Zahlen hin. Hier ist ein klarer Überblick, was wirklich zählt und wie du es gewichtest.",
                 'body': '''
 <h2>Die Königsmacher: AP, BP und Reichweite</h2>
 <p>Diese drei entscheiden, was deine Figur in einer Runde überhaupt tun kann. Ein AP mehr ist manchmal ein ganzer zusätzlicher Zauber; ein BP mehr ist Positionierung und Kiten; Reichweite macht oder bricht die Hälfte der Klassen im Spiel. Sie sind knapp, jedes Build kämpft darum, deshalb <strong>fixierst</strong> du sie im Tool meist auf ein Ziel, statt sie zu gewichten: "gib mir genau 11 AP und 6 BP, dann optimiere den Rest".</p>
@@ -1622,10 +1622,10 @@ GUIDES = {
                 'lead': "Spreading your damage across two elements feels safe, but it usually hits softer than committing to one. Here's why focusing pays off, and when it doesn't.",
                 'body': '''
 <h2>Why one element usually wins</h2>
-<p>Your damage scales with the matching mastery: fire damage with fire mastery, and so on. Split your gear across two elements and every point of mastery only helps half your hits; pour it all into one and every point counts every time. The same goes for the characteristic behind it (Strength, Intelligence, Agility, Chance). Concentration compounds: a focused mono-element set almost always out-damages a smeared two-element one of the same level.</p>
+<p>Your damage scales with the element you commit to: the characteristic behind it (Strength for earth, Intelligence for fire, Agility for air, Chance for water) and the gear that pushes that element. Split your gear across two elements and every point only helps half your hits; pour it all into one and every point counts every time. Concentration compounds: a focused mono-element set almost always out-damages a smeared two-element one of the same level.</p>
 
 <h2>It's really just your sliders</h2>
-<p>In the tool, mono-vs-multi isn't a separate setting: it's how you weight your elements. Crank one element and its mastery, leave the others low, and the optimizer builds you a focused hitter. Weight two elements equally and it'll happily split your gear between them. So if your build came out spread when you wanted focused, your weights are the place to look.</p>
+<p>In the tool, mono-vs-multi isn't a separate setting: it's how you weight your elements. Crank one element and its characteristic, leave the others low, and the optimizer builds you a focused hitter. Weight two elements equally and it'll happily split your gear between them. So if your build came out spread when you wanted focused, your weights are the place to look.</p>
 
 <h2>When multi-element is actually right</h2>
 <p>It's not always wrong. A few cases genuinely want two elements:</p>
@@ -1637,7 +1637,7 @@ GUIDES = {
 <p>Outside those, splitting is usually just leaving damage on the table.</p>
 
 <h2>Pick the element your spells love</h2>
-<p>Choose the element your main damage spells scale on (check them on the spells page if you're not sure) and weight that one and its mastery high. Let the optimizer do the rest. One clean element beats two half-hearted ones nearly every time.</p>
+<p>Choose the element your main damage spells scale on (check them on the spells page if you're not sure) and weight that one and its characteristic high. Let the optimizer do the rest. One clean element beats two half-hearted ones nearly every time.</p>
 
 <p><em>Try both and compare: <a href="/setup/">build a set</a> and see the damage for yourself.</em></p>
 ''',
@@ -1648,10 +1648,10 @@ GUIDES = {
                 'lead': "Répartir tes dégâts sur deux éléments rassure, mais ça tape souvent moins fort que de tout miser sur un seul. Voilà pourquoi se concentrer paie, et quand ça ne paie pas.",
                 'body': '''
 <h2>Pourquoi un seul élément gagne d'habitude</h2>
-<p>Tes dégâts scalent avec la maîtrise correspondante : dégâts feu avec maîtrise feu, etc. Répartis ton stuff sur deux éléments et chaque point de maîtrise n'aide que la moitié de tes coups ; mets tout sur un seul et chaque point compte à chaque fois. Pareil pour la caractéristique derrière (Force, Intelligence, Agilité, Chance). La concentration se cumule : un set mono-élément concentré tape presque toujours plus fort qu'un set bi-élément dilué du même niveau.</p>
+<p>Tes dégâts scalent avec l'élément que tu choisis : la caractéristique derrière (Force pour la terre, Intelligence pour le feu, Agilité pour l'air, Chance pour l'eau) et le stuff qui pousse cet élément. Répartis ton stuff sur deux éléments et chaque point n'aide que la moitié de tes coups ; mets tout sur un seul et chaque point compte à chaque fois. La concentration se cumule : un set mono-élément concentré tape presque toujours plus fort qu'un set bi-élément dilué du même niveau.</p>
 
 <h2>En vrai, c'est juste tes curseurs</h2>
-<p>Dans l'outil, le mono-vs-multi n'est pas un réglage à part : c'est la façon dont tu pondères tes éléments. Monte un élément et sa maîtrise, laisse les autres bas, et l'optimiseur te construit un frappeur concentré. Pondère deux éléments à égalité et il répartira ton stuff entre les deux sans souci. Donc si ton build est sorti dilué alors que tu le voulais concentré, c'est tes poids qu'il faut regarder.</p>
+<p>Dans l'outil, le mono-vs-multi n'est pas un réglage à part : c'est la façon dont tu pondères tes éléments. Monte un élément et sa caractéristique, laisse les autres bas, et l'optimiseur te construit un frappeur concentré. Pondère deux éléments à égalité et il répartira ton stuff entre les deux sans souci. Donc si ton build est sorti dilué alors que tu le voulais concentré, c'est tes poids qu'il faut regarder.</p>
 
 <h2>Quand le multi-élément a vraiment du sens</h2>
 <p>C'est pas toujours un tort. Quelques cas veulent vraiment deux éléments :</p>
@@ -1663,7 +1663,7 @@ GUIDES = {
 <p>En dehors de ça, répartir, c'est en général laisser du dégât sur la table.</p>
 
 <h2>Choisis l'élément que tes sorts préfèrent</h2>
-<p>Prends l'élément sur lequel scalent tes sorts de dégâts principaux (vérifie-les sur la page des sorts si tu hésites) et pondère celui-là et sa maîtrise haut. Laisse l'optimiseur faire le reste. Un élément propre bat deux éléments à moitié presque à chaque fois.</p>
+<p>Prends l'élément sur lequel scalent tes sorts de dégâts principaux (vérifie-les sur la page des sorts si tu hésites) et pondère celui-là et sa caractéristique haut. Laisse l'optimiseur faire le reste. Un élément propre bat deux éléments à moitié presque à chaque fois.</p>
 
 <p><em>Teste les deux et compare : <a href="/setup/">construis un set</a> et regarde les dégâts toi-même.</em></p>
 ''',
@@ -1674,10 +1674,10 @@ GUIDES = {
                 'lead': "Repartir tu daño entre dos elementos da sensación de seguridad, pero suele pegar más flojo que apostar por uno solo. Aquí tienes por qué concentrarse compensa, y cuándo no.",
                 'body': '''
 <h2>Por qué un solo elemento suele ganar</h2>
-<p>Tu daño escala con el dominio correspondiente: daño de fuego con dominio de fuego, y así. Reparte tu equipo entre dos elementos y cada punto de dominio solo ayuda a la mitad de tus golpes; mételo todo en uno y cada punto cuenta siempre. Lo mismo con la característica detrás (Fuerza, Inteligencia, Agilidad, Suerte). La concentración se acumula: un set monoelemento concentrado casi siempre pega más que uno bielemento diluido del mismo nivel.</p>
+<p>Tu daño escala con el elemento que eliges: la característica detrás (Fuerza para tierra, Inteligencia para fuego, Agilidad para aire, Suerte para agua) y el equipo que empuja ese elemento. Reparte tu equipo entre dos elementos y cada punto solo ayuda a la mitad de tus golpes; mételo todo en uno y cada punto cuenta siempre. La concentración se acumula: un set monoelemento concentrado casi siempre pega más que uno bielemento diluido del mismo nivel.</p>
 
 <h2>En realidad son tus deslizadores</h2>
-<p>En la herramienta, mono-vs-multi no es un ajuste aparte: es cómo ponderas tus elementos. Sube un elemento y su dominio, deja los demás bajos, y el optimizador te monta un pegador concentrado. Pondera dos elementos por igual y repartirá tu equipo entre ambos sin problema. Así que si tu build salió repartido cuando lo querías concentrado, mira tus pesos.</p>
+<p>En la herramienta, mono-vs-multi no es un ajuste aparte: es cómo ponderas tus elementos. Sube un elemento y su característica, deja los demás bajos, y el optimizador te monta un pegador concentrado. Pondera dos elementos por igual y repartirá tu equipo entre ambos sin problema. Así que si tu build salió repartido cuando lo querías concentrado, mira tus pesos.</p>
 
 <h2>Cuándo el multielemento sí tiene sentido</h2>
 <p>No siempre está mal. Algunos casos quieren de verdad dos elementos:</p>
@@ -1689,7 +1689,7 @@ GUIDES = {
 <p>Fuera de eso, repartir suele ser dejar daño sin aprovechar.</p>
 
 <h2>Elige el elemento que aman tus hechizos</h2>
-<p>Coge el elemento con el que escalan tus hechizos de daño principales (míralos en la página de hechizos si dudas) y pondera ese y su dominio alto. Deja que el optimizador haga el resto. Un elemento limpio gana a dos a medias casi siempre.</p>
+<p>Coge el elemento con el que escalan tus hechizos de daño principales (míralos en la página de hechizos si dudas) y pondera ese y su característica alto. Deja que el optimizador haga el resto. Un elemento limpio gana a dos a medias casi siempre.</p>
 
 <p><em>Prueba ambos y compara: <a href="/setup/">monta un set</a> y mira el daño tú mismo.</em></p>
 ''',
@@ -1700,10 +1700,10 @@ GUIDES = {
                 'lead': "Espalhar seu dano em dois elementos passa segurança, mas costuma bater mais fraco do que apostar em um só. Veja por que se concentrar compensa, e quando não.",
                 'body': '''
 <h2>Por que um só elemento costuma ganhar</h2>
-<p>Seu dano escala com o domínio correspondente: dano de fogo com domínio de fogo, e por aí. Espalhe seu equipamento entre dois elementos e cada ponto de domínio só ajuda metade dos seus golpes; jogue tudo em um e cada ponto conta sempre. O mesmo vale pra característica por trás (Força, Inteligência, Agilidade, Sorte). A concentração acumula: um set mono-elemento concentrado quase sempre bate mais que um bi-elemento diluído do mesmo nível.</p>
+<p>Seu dano escala com o elemento que você escolhe: a característica por trás (Força para terra, Inteligência para fogo, Agilidade para ar, Sorte para água) e o equipamento que empurra esse elemento. Espalhe seu equipamento entre dois elementos e cada ponto só ajuda metade dos seus golpes; jogue tudo em um e cada ponto conta sempre. A concentração acumula: um set mono-elemento concentrado quase sempre bate mais que um bi-elemento diluído do mesmo nível.</p>
 
 <h2>Na real, são seus controles</h2>
-<p>Na ferramenta, mono-vs-multi não é um ajuste à parte: é como você pondera seus elementos. Suba um elemento e seu domínio, deixe os outros baixos, e o otimizador monta um batedor concentrado. Pondere dois elementos igual e ele espalha seu equipamento entre os dois numa boa. Então se seu build saiu espalhado quando você queria concentrado, olhe seus pesos.</p>
+<p>Na ferramenta, mono-vs-multi não é um ajuste à parte: é como você pondera seus elementos. Suba um elemento e sua característica, deixe os outros baixos, e o otimizador monta um batedor concentrado. Pondere dois elementos igual e ele espalha seu equipamento entre os dois numa boa. Então se seu build saiu espalhado quando você queria concentrado, olhe seus pesos.</p>
 
 <h2>Quando o multi-elemento faz sentido mesmo</h2>
 <p>Nem sempre é errado. Alguns casos querem de verdade dois elementos:</p>
@@ -1715,7 +1715,7 @@ GUIDES = {
 <p>Fora isso, espalhar costuma ser deixar dano na mesa.</p>
 
 <h2>Escolha o elemento que seus feitiços amam</h2>
-<p>Pegue o elemento com que seus feitiços de dano principais escalam (confira na página de feitiços se tiver dúvida) e pondere ele e seu domínio alto. Deixe o otimizador fazer o resto. Um elemento limpo ganha de dois pela metade quase sempre.</p>
+<p>Pegue o elemento com que seus feitiços de dano principais escalam (confira na página de feitiços se tiver dúvida) e pondere ele e sua característica alto. Deixe o otimizador fazer o resto. Um elemento limpo ganha de dois pela metade quase sempre.</p>
 
 <p><em>Teste os dois e compare: <a href="/setup/">monte um set</a> e veja o dano você mesmo.</em></p>
 ''',
@@ -1726,10 +1726,10 @@ GUIDES = {
                 'lead': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Fokus sich lohnt, und wann nicht.",
                 'body': '''
 <h2>Warum ein Element meist gewinnt</h2>
-<p>Dein Schaden skaliert mit der passenden Beherrschung: Feuerschaden mit Feuerbeherrschung, und so weiter. Verteil deine Ausrüstung auf zwei Elemente, und jeder Beherrschungspunkt hilft nur der Hälfte deiner Treffer; steck alles in eins, und jeder Punkt zählt jedes Mal. Dasselbe gilt für den Wert dahinter (Stärke, Intelligenz, Beweglichkeit, Glück). Fokus summiert sich: Ein konzentriertes Mono-Element-Set macht fast immer mehr Schaden als ein verwässertes Zwei-Element-Set desselben Levels.</p>
+<p>Dein Schaden skaliert mit dem Element, auf das du dich festlegst: dem Wert dahinter (Stärke für Erde, Intelligenz für Feuer, Beweglichkeit für Luft, Glück für Wasser) und der Ausrüstung, die dieses Element pusht. Verteil deine Ausrüstung auf zwei Elemente, und jeder Punkt hilft nur der Hälfte deiner Treffer; steck alles in eins, und jeder Punkt zählt jedes Mal. Fokus summiert sich: Ein konzentriertes Mono-Element-Set macht fast immer mehr Schaden als ein verwässertes Zwei-Element-Set desselben Levels.</p>
 
 <h2>Es sind eigentlich nur deine Regler</h2>
-<p>Im Tool ist Mono-vs-Multi keine eigene Einstellung: es ist, wie du deine Elemente gewichtest. Dreh ein Element und seine Beherrschung hoch, lass die anderen niedrig, und der Optimierer baut dir einen fokussierten Schläger. Gewichte zwei Elemente gleich, und er verteilt deine Ausrüstung gern auf beide. Wenn dein Build also verstreut rauskam, obwohl du Fokus wolltest, schau bei deinen Gewichten.</p>
+<p>Im Tool ist Mono-vs-Multi keine eigene Einstellung: es ist, wie du deine Elemente gewichtest. Dreh ein Element und seinen Wert hoch, lass die anderen niedrig, und der Optimierer baut dir einen fokussierten Schläger. Gewichte zwei Elemente gleich, und er verteilt deine Ausrüstung gern auf beide. Wenn dein Build also verstreut rauskam, obwohl du Fokus wolltest, schau bei deinen Gewichten.</p>
 
 <h2>Wann Multi-Element wirklich richtig ist</h2>
 <p>Es ist nicht immer falsch. Ein paar Fälle wollen echt zwei Elemente:</p>
@@ -1741,7 +1741,7 @@ GUIDES = {
 <p>Außerhalb davon lässt Verteilen meist Schaden liegen.</p>
 
 <h2>Wähl das Element, das deine Zauber lieben</h2>
-<p>Nimm das Element, auf dem deine Hauptschadenszauber skalieren (schau sie auf der Zauberseite an, wenn du unsicher bist) und gewichte dieses und seine Beherrschung hoch. Den Rest macht der Optimierer. Ein sauberes Element schlägt zwei halbe fast jedes Mal.</p>
+<p>Nimm das Element, auf dem deine Hauptschadenszauber skalieren (schau sie auf der Zauberseite an, wenn du unsicher bist) und gewichte dieses und seinen Wert hoch. Den Rest macht der Optimierer. Ein sauberes Element schlägt zwei halbe fast jedes Mal.</p>
 
 <p><em>Probier beide und vergleiche: <a href="/setup/">bau ein Set</a> und sieh dir den Schaden selbst an.</em></p>
 ''',
