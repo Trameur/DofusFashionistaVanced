@@ -2346,6 +2346,31 @@ class LocalizedUiParityTests(SimpleTestCase):
         from chardata.encyclopedia_view import LOCALIZED_UI
         self._assert_parity(LOCALIZED_UI, 'encyclopedia')
 
+    def test_localized_ui_dicts_use_native_accents(self):
+        # The forgemagie and inventory dicts once shipped ASCII-transliterated
+        # (fuer, Waehle, anaden), a whole-block authoring slip. These three dicts
+        # are prose-heavy in every language and always carry many accented
+        # letters; a transliterated block drops to almost none, so a floor of 8
+        # flags the slip without false-positiving (the lowest legitimate count
+        # here is 13). MONSTER_UI is intentionally not checked: its values are
+        # one-word labels (German Erde/Feuer/Stufe legitimately have no umlaut),
+        # too short for a count-based guard.
+        from chardata import encyclopedia_view, forgemagie_view, inventory_view
+        accented = re.compile('[À-ɏ]')
+        dicts = {
+            'encyclopedia.LOCALIZED_UI': encyclopedia_view.LOCALIZED_UI,
+            'forgemagie.LOCALIZED_UI': forgemagie_view.LOCALIZED_UI,
+            'inventory.LOCALIZED_UI': inventory_view.LOCALIZED_UI,
+        }
+        for name, d in dicts.items():
+            for lang in ('fr', 'es', 'pt', 'de'):
+                text = ' '.join(str(v) for v in d[lang].values())
+                with self.subTest(dict=name, lang=lang):
+                    self.assertGreaterEqual(
+                        len(accented.findall(text)), 8,
+                        '%s[%s] reads as ASCII-transliterated (missing native accents)'
+                        % (name, lang))
+
 
 class ApiDocsTests(TestCase):
     """The public API advertises /about/#api as its docs; that section must
