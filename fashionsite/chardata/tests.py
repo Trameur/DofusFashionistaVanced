@@ -4898,6 +4898,25 @@ class VersionSpecificGuideTests(TestCase):
         # Touch uses the modern system, so it canonicals to the global page.
         self.assertIn('https://dofusfashionista.gg/guides/critical-hits/', head)
 
+    def test_modern_game_modes_guide_mentions_kolossium(self):
+        html, head = self._head('/guides/game-modes/')
+        self.assertIn('Kolossium', html)
+        self.assertIn('https://dofusfashionista.gg/guides/game-modes/', head)
+
+    def test_retro_game_modes_guide_drops_kolossium(self):
+        # Dofus Retro (1.29) has no Kolossium, so the Retro variant frames the
+        # two real poles (PvM and PvP) and never names the modern ranked mode.
+        html, head = self._head('/retro/guides/game-modes/')
+        self.assertIn('Building for PvM and PvP', html)
+        self.assertNotIn('Kolossium', html)
+        self.assertIn('https://dofusfashionista.gg/retro/guides/game-modes/', head)
+
+    def test_touch_game_modes_shares_the_modern_page(self):
+        html, head = self._head('/touch/guides/game-modes/')
+        self.assertIn('Kolossium', html)
+        # Touch has the Kolossium, so it canonicals to the global modern page.
+        self.assertIn('https://dofusfashionista.gg/guides/game-modes/', head)
+
     def test_plain_guide_stays_global_canonical_under_a_version(self):
         for path in ('/guides/getting-started/', '/retro/guides/getting-started/'):
             _, head = self._head(path)
@@ -4909,6 +4928,8 @@ class VersionSpecificGuideTests(TestCase):
         self.assertEqual(guides_content.canonical_versions('getting-started'),
                          ['dofus3'])
         self.assertEqual(sorted(guides_content.canonical_versions('critical-hits')),
+                         ['dofus3', 'retro'])
+        self.assertEqual(sorted(guides_content.canonical_versions('game-modes')),
                          ['dofus3', 'retro'])
 
     def test_body_link_to_a_version_guide_follows_the_reader_version(self):
