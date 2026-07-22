@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
 
 
 GUIDES = {
@@ -2047,6 +2047,112 @@ GUIDES = {
 <p>Du kannst trotzdem darum herum planen. Trag deinen echten Roll-Stand ein, bau, und das Werkzeug arbeitet mit dem Charakter, den du heute hast, statt mit einem idealisierten. Später, wenn du mehr rollst, aktualisiere die Zahl und optimiere erneut: oft werden investierte Punkte frei und du schaltest Items frei, die du vorher nicht tragen konntest. Zuerst deine Haupt-Schadenscharakteristik zu rollen ist der übliche Rat, aber gewichte ihn nach dem Inhalt, den du spielst, genauso wie du <a href="/guides/stats-explained/">jeden anderen Wert bewerten</a> würdest.</p>
 
 <p><em>Nicht sicher, wo dein Charakter steht? <a href="/setup/">Öffne dein Projekt</a>, setz deine Rollen und optimiere erneut, um dein echtes Build zu sehen.</em></p>
+''',
+            },
+        },
+    },
+    # ------------------------------------------------------------------ #
+    'resistance-explained': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'How much resistance you actually need',
+                'desc': "Percent resistance caps at 50% in every Dofus version, so stacking more is usually wasted. Fixed vs percent, the cap, and when surplus still helps.",
+                'lead': "Resistance is the most misunderstood defensive stat in Dofus. More is not always better, and there is a hard ceiling that quietly wastes anything you stack past it.",
+                'body': '''
+<h2>Two kinds of resistance</h2>
+<p>Dofus has two separate defensive stats with the same name. <strong>Fixed</strong> (linear) resistance subtracts a flat amount from every hit you take. <strong>Percent</strong> resistance reduces the damage by a percentage. They stack, and the fixed part is applied first, then the percentage. Fixed resistance shines against lots of small hits; percent shines against big ones. Most gear gives percent, which is where the confusion starts.</p>
+
+<h2>The 50% ceiling</h2>
+<p>Percent elemental resistance is <strong>hard-capped at 50%</strong> for players, and this is true in every version of the game: Dofus 3, the beta, Dofus 2, Dofus Touch and Dofus Retro (1.29) alike. Once an element sits at 50%, more percent resistance in that element does nothing against normal damage. So a set that reads +65% Fire resist is really only using 50 of it. The optimizer knows this and will not waste your build chasing percent resist past the useful ceiling, which is why it sometimes stops adding resist gear that looks like it should help.</p>
+
+<h2>When surplus still helps</h2>
+<p>There is one situation where stacking past 50% pays off: <strong>vulnerability</strong>. In PvP, and with some monster mechanics, your resistances get lowered by debuffs. A buffer above 50% keeps you sitting at the cap even after a -10% vulnerability, so Kolossium players deliberately overstack one or two elements. Fixed resistance, by contrast, has no cap at all, so every point of it is always doing something, especially against chip damage and multi-hit spells.</p>
+
+<h2>How to weight it in the tool</h2>
+<p>For PvM, put weight on percent resist for the elements that actually threaten you and stop worrying once the build reaches the cap. For PvP, push it higher on purpose for the vulnerability buffer, and give fixed resist some weight too. You do not enter target numbers item by item: you tell the tool how much resistance is worth to you in the <a href="/guides/tuning-your-weights/">weights</a>, the same way you would <a href="/guides/stats-explained/">value any other stat</a>, and it finds the set that fits.</p>
+
+<p><em>Not sure your defence is pulling its weight? <a href="/quickstart/">Build a set</a>, crank the resist weights and see what the optimizer keeps.</em></p>
+''',
+            },
+            'fr': {
+                'title': 'De combien de résistance tu as vraiment besoin',
+                'desc': "La résistance en pourcentage plafonne à 50 % dans toutes les versions : au-delà c'est gaspillé. Fixe vs pourcentage, le plafond, et quand le surplus sert.",
+                'lead': "La résistance est la stat défensive la plus mal comprise de Dofus. Plus n'est pas toujours mieux, et il y a un plafond dur qui gaspille en silence tout ce que tu empiles au-delà.",
+                'body': '''
+<h2>Deux types de résistance</h2>
+<p>Dofus a deux stats défensives distinctes qui portent le même nom. La résistance <strong>fixe</strong> (linéaire) retire un montant fixe à chaque coup que tu prends. La résistance en <strong>pourcentage</strong> réduit les dégâts d'un certain pourcentage. Elles se cumulent, et la partie fixe s'applique d'abord, le pourcentage ensuite. La fixe brille contre plein de petits coups ; le pourcentage brille contre les gros. La plupart du stuff donne du pourcentage, et c'est là que naît la confusion.</p>
+
+<h2>Le plafond de 50 %</h2>
+<p>La résistance élémentaire en pourcentage est <strong>plafonnée à 50 %</strong> pour les joueurs, et c'est vrai dans toutes les versions du jeu : Dofus 3, la bêta, Dofus 2, Dofus Touch et Dofus Retro (1.29) pareil. Une fois un élément à 50 %, ajouter du pourcentage dans cet élément ne fait plus rien contre les dégâts normaux. Donc un stuff affiché +65 % de résistance Feu n'en utilise réellement que 50. L'optimiseur le sait et ne gaspille pas ton build à courir après du pourcentage au-delà du plafond utile : c'est pour ça qu'il arrête parfois de mettre des items resist qui semblent utiles.</p>
+
+<h2>Quand le surplus sert encore</h2>
+<p>Il y a une situation où dépasser 50 % paie : la <strong>vulnérabilité</strong>. En PvP, et avec certaines mécaniques de monstres, tes résistances sont baissées par des debuffs. Un buffer au-dessus de 50 % te maintient au plafond même après une vulnérabilité de -10 %, donc les joueurs de Kolizéum sur-empilent volontairement un ou deux éléments. La résistance fixe, elle, n'a aucun plafond : chaque point sert toujours à quelque chose, surtout contre les dégâts qui grignotent et les sorts multi-coups.</p>
+
+<h2>Comment la pondérer dans l'outil</h2>
+<p>En PvM, mets du poids sur le pourcentage de résistance des éléments qui te menacent vraiment et arrête de t'en soucier une fois le plafond atteint. En PvP, pousse-le plus haut exprès pour le buffer de vulnérabilité, et donne aussi du poids à la résistance fixe. Tu n'entres pas des cibles item par item : tu dis à l'outil combien la résistance vaut pour toi dans les <a href="/guides/tuning-your-weights/">poids</a>, comme tu le ferais pour <a href="/guides/stats-explained/">n'importe quelle autre stat</a>, et il trouve le set qui colle.</p>
+
+<p><em>Pas sûr que ta défense soit rentable ? <a href="/quickstart/">Fais un stuff</a>, monte les poids de résistance et regarde ce que l'optimiseur garde.</em></p>
+''',
+            },
+            'es': {
+                'title': 'Cuánta resistencia necesitas de verdad',
+                'desc': "La resistencia en porcentaje tiene tope del 50 % en todas las versiones: acumular más suele ser inútil. Fija vs porcentaje y cuándo el excedente ayuda.",
+                'lead': "La resistencia es la stat defensiva peor entendida de Dofus. Más no siempre es mejor, y hay un techo duro que desperdicia en silencio todo lo que apiles por encima.",
+                'body': '''
+<h2>Dos tipos de resistencia</h2>
+<p>Dofus tiene dos stats defensivas distintas con el mismo nombre. La resistencia <strong>fija</strong> (lineal) resta una cantidad fija a cada golpe que recibes. La resistencia en <strong>porcentaje</strong> reduce el daño en un porcentaje. Se acumulan, y la parte fija se aplica primero y el porcentaje después. La fija brilla contra muchos golpes pequeños; el porcentaje brilla contra los grandes. La mayoría del equipo da porcentaje, y ahí empieza la confusión.</p>
+
+<h2>El techo del 50 %</h2>
+<p>La resistencia elemental en porcentaje tiene un <strong>tope del 50 %</strong> para los jugadores, y esto vale en todas las versiones del juego: Dofus 3, la beta, Dofus 2, Dofus Touch y Dofus Retro (1.29) igual. Una vez que un elemento está al 50 %, más porcentaje en ese elemento no hace nada contra el daño normal. Así que un equipo que pone +65 % de resistencia de Fuego solo usa 50 de verdad. El optimizador lo sabe y no desperdicia tu build persiguiendo porcentaje por encima del techo útil: por eso a veces deja de añadir equipo de resistencia que parece que debería ayudar.</p>
+
+<h2>Cuándo el excedente sí ayuda</h2>
+<p>Hay una situación en la que pasar del 50 % compensa: la <strong>vulnerabilidad</strong>. En PvP, y con algunas mecánicas de monstruos, tus resistencias bajan por debuffs. Un margen por encima del 50 % te mantiene en el tope incluso tras una vulnerabilidad de -10 %, así que en el Koliseo se sobreacumulan a propósito uno o dos elementos. La resistencia fija, en cambio, no tiene tope: cada punto siempre hace algo, sobre todo contra el daño que desgasta y los hechizos de varios golpes.</p>
+
+<h2>Cómo ponderarla en la herramienta</h2>
+<p>En PvM, da peso al porcentaje de resistencia de los elementos que de verdad te amenazan y deja de preocuparte una vez alcanzado el tope. En PvP, súbelo a propósito por el margen de vulnerabilidad, y da algo de peso también a la resistencia fija. No metes objetivos objeto a objeto: le dices a la herramienta cuánto vale la resistencia para ti en los <a href="/guides/tuning-your-weights/">pesos</a>, igual que <a href="/guides/stats-explained/">valorarías cualquier otra stat</a>, y ella encuentra el set que encaja.</p>
+
+<p><em>¿No sabes si tu defensa rinde? <a href="/quickstart/">Monta un set</a>, sube los pesos de resistencia y mira qué conserva el optimizador.</em></p>
+''',
+            },
+            'pt': {
+                'title': 'Quanta resistência você realmente precisa',
+                'desc': "A resistência em porcentagem tem teto de 50% em todas as versões: acumular mais é desperdício. Fixa vs porcentagem e quando o excedente ajuda.",
+                'lead': "A resistência é a stat defensiva mais mal compreendida de Dofus. Mais nem sempre é melhor, e existe um teto rígido que desperdiça em silêncio tudo o que você empilha além dele.",
+                'body': '''
+<h2>Dois tipos de resistência</h2>
+<p>Dofus tem duas stats defensivas distintas com o mesmo nome. A resistência <strong>fixa</strong> (linear) subtrai um valor fixo de cada golpe que você recebe. A resistência em <strong>porcentagem</strong> reduz o dano por uma porcentagem. Elas se somam, e a parte fixa é aplicada primeiro, a porcentagem depois. A fixa brilha contra muitos golpes pequenos; a porcentagem brilha contra os grandes. A maioria do equipamento dá porcentagem, e é aí que começa a confusão.</p>
+
+<h2>O teto de 50%</h2>
+<p>A resistência elemental em porcentagem tem <strong>teto de 50%</strong> para os jogadores, e isso vale em todas as versões do jogo: Dofus 3, o beta, Dofus 2, Dofus Touch e Dofus Retro (1.29) igual. Quando um elemento está em 50%, mais porcentagem nesse elemento não faz nada contra o dano normal. Então um equipamento que mostra +65% de resistência de Fogo só usa 50 de verdade. O otimizador sabe disso e não desperdiça seu build atrás de porcentagem além do teto útil: é por isso que às vezes ele para de adicionar equipamento de resistência que parece que deveria ajudar.</p>
+
+<h2>Quando o excedente ainda ajuda</h2>
+<p>Há uma situação em que passar de 50% compensa: a <strong>vulnerabilidade</strong>. No PvP, e com algumas mecânicas de monstros, suas resistências são reduzidas por debuffs. Uma margem acima de 50% te mantém no teto mesmo depois de uma vulnerabilidade de -10%, então no Kolosseu os jogadores sobrecarregam de propósito um ou dois elementos. A resistência fixa, por outro lado, não tem teto: cada ponto sempre faz algo, principalmente contra o dano que corrói e feitiços de vários golpes.</p>
+
+<h2>Como ponderar na ferramenta</h2>
+<p>No PvM, dê peso à porcentagem de resistência dos elementos que de fato te ameaçam e pare de se preocupar quando o build atinge o teto. No PvP, aumente de propósito pela margem de vulnerabilidade, e dê algum peso também à resistência fixa. Você não insere alvos item a item: você diz à ferramenta quanto a resistência vale para você nos <a href="/guides/tuning-your-weights/">pesos</a>, do mesmo jeito que <a href="/guides/stats-explained/">avaliaria qualquer outra stat</a>, e ela encontra o set que encaixa.</p>
+
+<p><em>Não sabe se sua defesa está valendo a pena? <a href="/quickstart/">Monte um set</a>, aumente os pesos de resistência e veja o que o otimizador mantém.</em></p>
+''',
+            },
+            'de': {
+                'title': 'Wie viel Resistenz du wirklich brauchst',
+                'desc': "Prozent-Resistenz ist in jeder Dofus-Version bei 50% gedeckelt, mehr stapeln bringt meist nichts. Fest vs Prozent, die Grenze und wann Überschuss doch hilft.",
+                'lead': "Resistenz ist der am meisten missverstandene Verteidigungswert in Dofus. Mehr ist nicht immer besser, und es gibt eine harte Grenze, die alles darüber leise verschwendet.",
+                'body': '''
+<h2>Zwei Arten von Resistenz</h2>
+<p>Dofus hat zwei getrennte Verteidigungswerte mit demselben Namen. <strong>Feste</strong> (lineare) Resistenz zieht von jedem Treffer einen festen Betrag ab. <strong>Prozentuale</strong> Resistenz senkt den Schaden um einen Prozentsatz. Sie stapeln sich, und der feste Teil wird zuerst angewendet, der Prozentsatz danach. Feste Resistenz glänzt gegen viele kleine Treffer; Prozent glänzt gegen große. Die meiste Ausrüstung gibt Prozent, und da fängt die Verwirrung an.</p>
+
+<h2>Die 50%-Grenze</h2>
+<p>Prozentuale Elementarresistenz ist für Spieler <strong>hart bei 50% gedeckelt</strong>, und das gilt in jeder Version des Spiels: Dofus 3, der Beta, Dofus 2, Dofus Touch und Dofus Retro (1.29) gleichermaßen. Sobald ein Element bei 50% liegt, bringt mehr Prozent in diesem Element gegen normalen Schaden nichts. Eine Ausrüstung mit +65% Feuerresistenz nutzt also wirklich nur 50 davon. Der Optimierer weiß das und verschwendet dein Build nicht damit, Prozent-Resistenz über die nützliche Grenze zu jagen, weshalb er manchmal aufhört, Resistenz-Ausrüstung hinzuzufügen, die zu helfen scheint.</p>
+
+<h2>Wann Überschuss doch hilft</h2>
+<p>Es gibt eine Situation, in der ein Stapeln über 50% sich lohnt: <strong>Verwundbarkeit</strong>. Im PvP und bei manchen Monster-Mechaniken werden deine Resistenzen durch Debuffs gesenkt. Ein Puffer über 50% hält dich selbst nach einer -10%-Verwundbarkeit an der Grenze, deshalb stapeln Kolosseum-Spieler bewusst ein oder zwei Elemente über. Feste Resistenz dagegen hat gar keine Grenze, also tut jeder Punkt davon immer etwas, besonders gegen Dauerschaden und Mehrfachtreffer-Zauber.</p>
+
+<h2>Wie du sie im Werkzeug gewichtest</h2>
+<p>Für PvM leg Gewicht auf Prozent-Resistenz der Elemente, die dich wirklich bedrohen, und mach dir keine Sorgen mehr, sobald das Build die Grenze erreicht. Für PvP schieb sie bewusst höher für den Verwundbarkeits-Puffer, und gib auch fester Resistenz etwas Gewicht. Du gibst keine Zielwerte Item für Item ein: du sagst dem Werkzeug in den <a href="/guides/tuning-your-weights/">Gewichten</a>, wie viel dir Resistenz wert ist, genauso wie du <a href="/guides/stats-explained/">jeden anderen Wert bewerten</a> würdest, und es findet das passende Set.</p>
+
+<p><em>Nicht sicher, ob deine Verteidigung sich lohnt? <a href="/quickstart/">Bau ein Set</a>, dreh die Resistenz-Gewichte hoch und schau, was der Optimierer behält.</em></p>
 ''',
             },
         },
