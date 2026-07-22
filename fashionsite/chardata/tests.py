@@ -3678,6 +3678,31 @@ class StatMaximumPerVersionTests(SimpleTestCase):
                 self.assertEqual(caps[element], 53, '%s %s' % (version, element))
 
 
+class DropMonsterLevelTests(TestCase):
+    """Item and resource "Dropped by" lines show the dropping monster's level
+    range (a farmability cue), sourced from monster_grades. Treering (ankama_id
+    836) is dropped by Treechnid, whose grades span level 38-50 in dofus3."""
+
+    def test_drop_level_text_helper(self):
+        from chardata import encyclopedia_view
+        text = encyclopedia_view._drop_level_text
+        self.assertIsNone(text(None, 'Level'))
+        self.assertIsNone(text((None, None), 'Level'))
+        self.assertEqual(text((100, 100), 'Level'), 'Level 100')
+        self.assertEqual(text((38, 50), 'Level'), 'Level 38-50')
+
+    def test_item_page_shows_dropper_level_range(self):
+        from chardata import encyclopedia_view
+        from fashionistapulp.structure import get_structure
+        item = get_structure('dofus3').get_item_by_ankama_id(836)
+        self.assertIsNotNone(item, 'missing fixture item Treering (836)')
+        url = encyclopedia_view.get_item_link(
+            item.ankama_type, item.ankama_id, item.name, 'dofus3')
+        html = self.client.get(url).content.decode('utf-8')
+        self.assertIn('drop-level', html)
+        self.assertIn('38-50', html)
+
+
 class UnobtainableItemsTests(SimpleTestCase):
     """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
     are forbidden by default through the standard mechanism, so the solver never

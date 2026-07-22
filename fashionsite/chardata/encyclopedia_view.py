@@ -1401,12 +1401,18 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                 """ % placeholders,
                 (language,) + tuple(drop_item_ids),
             )
-            for monster_id, rate, name_loc, name_en in cursor.fetchall():
+            drop_rows = cursor.fetchall()
+            level_spans = _monster_level_spans(
+                cursor, [row[0] for row in drop_rows])
+            level_label = _monster_ui_text()['level_label']
+            for monster_id, rate, name_loc, name_en in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
                 default_data['drops'].append({
                     'name': monster_name,
                     'rate': rate,
                     'url': get_monster_link(monster_id, monster_name, game_version),
+                    'level': _drop_level_text(
+                        level_spans.get(monster_id), level_label),
                 })
 
     except Exception:
@@ -2118,6 +2124,38 @@ def _monster_ui_text():
 def _db_table_exists(cursor, table_name):
     cursor.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (table_name,))
     return cursor.fetchone() is not None
+
+
+def _monster_level_spans(cursor, monster_ids):
+    """{monster_ankama_id: (min_level, max_level)} across the monster's grades, so
+    a "Dropped by" line can show how strong the monster is (a farmability cue).
+    Empty when monster_grades is absent (older version DBs) or the ids have no
+    graded level."""
+    spans = {}
+    monster_ids = [mid for mid in set(monster_ids) if mid is not None]
+    if not monster_ids or not _db_table_exists(cursor, 'monster_grades'):
+        return spans
+    placeholders = ', '.join('?' for _ in monster_ids)
+    cursor.execute(
+        "SELECT monster_ankama_id, MIN(level), MAX(level) FROM monster_grades "
+        "WHERE level IS NOT NULL AND monster_ankama_id IN (%s) "
+        "GROUP BY monster_ankama_id" % placeholders,
+        tuple(monster_ids))
+    for monster_id, level_min, level_max in cursor.fetchall():
+        spans[monster_id] = (level_min, level_max)
+    return spans
+
+
+def _drop_level_text(level_span, level_label):
+    """"Level 8" or "Level 8-14" from a (min, max) span, or None if unknown."""
+    if not level_span:
+        return None
+    level_min, level_max = level_span
+    if level_min is None:
+        return None
+    if level_max is None or level_max == level_min:
+        return '%s %s' % (level_label, level_min)
+    return '%s %s-%s' % (level_label, level_min, level_max)
 
 
 def _get_monster_display_name(cursor, monster_id, language):
@@ -2854,12 +2892,18 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 ORDER BY d.rate DESC
                 """,
                 (language, target_ankama_id))
-            for monster_id, rate, name_loc, name_en in cursor.fetchall():
+            drop_rows = cursor.fetchall()
+            level_spans = _monster_level_spans(
+                cursor, [row[0] for row in drop_rows])
+            level_label = _monster_ui_text()['level_label']
+            for monster_id, rate, name_loc, name_en in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
                 drops.append({
                     'name': monster_name,
                     'rate': rate,
                     'url': get_monster_link(monster_id, monster_name, game_version),
+                    'level': _drop_level_text(
+                        level_spans.get(monster_id), level_label),
                 })
     except Exception:
         pass

@@ -37,6 +37,10 @@
     opacity: 0.7;
     font-size: 0.9em;
 }
+.drop-level {
+    opacity: 0.7;
+    font-size: 0.9em;
+}
 .encyclopedia-list li.craft-item {
     display: flex;
     align-items: center;
