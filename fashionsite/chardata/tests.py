@@ -3734,6 +3734,26 @@ class MonsterWeakestElementTests(TestCase):
         self.assertIn('monster-weak', html)
         self.assertIn('monster-weakest-hint', html)
 
+    def test_consistent_weakest_helper(self):
+        from chardata import encyclopedia_view
+        pick = encyclopedia_view._consistent_weakest
+        self.assertEqual(pick([{'weakest': {'fire'}}, {'weakest': {'fire'}}]), 'fire')
+        self.assertIsNone(pick([{'weakest': {'fire'}}, {'weakest': {'water'}}]))
+        self.assertIsNone(pick([{'weakest': {'fire', 'water'}}]))
+        self.assertIsNone(pick([{'weakest': set()}]))
+        self.assertIsNone(pick([]))
+
+    def test_monster_page_shows_weakness_summary_and_meta(self):
+        from chardata import encyclopedia_view
+        url = encyclopedia_view.get_monster_link(261, 'Crocodyl', 'dofus3')
+        html = self.client.get(url).content.decode('utf-8')
+        # Crocodyl resists fire the least in every grade -> explicit summary.
+        self.assertIn('Weakness:', html)
+        self.assertIn('Fire', html)
+        # The weakness also feeds the meta description (in <head>, before the body).
+        head = html.split('</head>', 1)[0]
+        self.assertIn('Weakness: Fire', head)
+
 
 class UnobtainableItemsTests(SimpleTestCase):
     """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
@@ -5329,8 +5349,9 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('Niveau %s - Monstre' % span, body)
-        # The minifier reorders attributes: match the content only.
-        self.assertIn('content="Niveau %s. Drops' % span, body)
+        # The minifier reorders attributes: match the content only. The meta
+        # description opens with the level span (a weakness line may follow).
+        self.assertIn('content="Niveau %s. ' % span, body)
 
         resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')

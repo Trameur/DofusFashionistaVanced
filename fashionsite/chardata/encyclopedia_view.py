@@ -1947,6 +1947,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monster',
         'stats_section_label': 'Stats per grade',
         'weakest_hint': 'Green marks the weakest element (most damage).',
+        'weakness_label': 'Weakness',
         'grade_label': 'Grade',
         'level_label': 'Level',
         'hp_label': 'HP',
@@ -1981,6 +1982,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monstre',
         'stats_section_label': 'Caractéristiques par grade',
         'weakest_hint': "Le vert indique l'élément le plus faible (dégâts maximum).",
+        'weakness_label': 'Faiblesse',
         'grade_label': 'Grade',
         'level_label': 'Niveau',
         'hp_label': 'PV',
@@ -2015,6 +2017,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monstruo',
         'stats_section_label': 'Características por grado',
         'weakest_hint': 'El verde marca el elemento más débil (más daño).',
+        'weakness_label': 'Debilidad',
         'grade_label': 'Grado',
         'level_label': 'Nivel',
         'hp_label': 'PdV',
@@ -2049,6 +2052,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monstro',
         'stats_section_label': 'Características por grau',
         'weakest_hint': 'O verde marca o elemento mais fraco (mais dano).',
+        'weakness_label': 'Fraqueza',
         'grade_label': 'Grau',
         'level_label': 'Nível',
         'hp_label': 'PV',
@@ -2083,6 +2087,7 @@ MONSTER_UI = {
         'monster_kind_label': 'Monster',
         'stats_section_label': 'Werte pro Stufe',
         'weakest_hint': 'Grün markiert das schwächste Element (höchster Schaden).',
+        'weakness_label': 'Schwäche',
         'grade_label': 'Grad',
         'level_label': 'Stufe',
         'hp_label': 'LP',
@@ -2658,6 +2663,17 @@ def _weakest_elements(grade):
     return {key for key, value in present.items() if value == low}
 
 
+def _consistent_weakest(grades):
+    """The single element every grade is weakest to, for a one-line summary and
+    the meta description. None when the grades disagree, tie, or have no distinct
+    weakness, so the summary only claims a weakness that actually holds."""
+    weak_sets = [grade.get('weakest') or set() for grade in grades]
+    if not weak_sets or any(len(weak) != 1 for weak in weak_sets):
+        return None
+    elements = set().union(*weak_sets)
+    return next(iter(elements)) if len(elements) == 1 else None
+
+
 def encyclopedia_monster(request, monster_id, slug=None):
     language = get_supported_language()
     t = _ui_text()
@@ -2802,6 +2818,9 @@ def encyclopedia_monster(request, monster_id, slug=None):
         (monster_name, canonical_url),
     ])
 
+    weakest_key = _consistent_weakest(grades)
+    weakness_element_name = mt.get('%s_label' % weakest_key) if weakest_key else None
+
     return set_response(
         request,
         'chardata/encyclopedia_monster.html',
@@ -2821,6 +2840,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'item_drops': item_drops,
             'grades': grades,
             'has_weakness': any(g['weakest'] for g in grades),
+            'weakness_element_name': weakness_element_name,
             'level_span': _grade_level_span(grades),
             'subareas': subareas,
             'monster_version_links': monster_version_links,

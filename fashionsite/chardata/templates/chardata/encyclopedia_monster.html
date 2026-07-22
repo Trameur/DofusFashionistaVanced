@@ -5,7 +5,7 @@
 
 {% block title %}{{ monster.name }} - {% if level_span %}{{ mt.level_label }} {{ level_span }} - {% endif %}{{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% if weakness_element_name %}{{ mt.weakness_label }}: {{ weakness_element_name }}. {% endif %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
@@ -83,6 +83,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
     <div class="encyclopedia-monster-card brown-box">
         <div class="encyclopedia-monster-name">{% if monster.image_url %}<img class="monster-portrait" src="{{ monster.image_url }}" alt="" width="48" height="48" decoding="async" onerror="this.style.display='none'">{% endif %}{{ monster.name }}</div>
         <div class="encyclopedia-monster-meta">{{ mt.monster_kind_label }}</div>
+        {% if weakness_element_name %}<div class="encyclopedia-monster-meta"><b>{{ mt.weakness_label }}:</b> {{ weakness_element_name }}</div>{% endif %}
         <div class="monster-drop-summary">
             {% if resource_drops %}
             <a class="monster-drop-summary-link" href="#resource-drops">
