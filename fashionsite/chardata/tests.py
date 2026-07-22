@@ -649,6 +649,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/beginner-mistakes/',
                      '/guides/choosing-your-class/',
                      '/guides/how-it-works/', '/guides/stats-explained/',
+                     '/guides/critical-hits/',
                      '/guides/scrolls-and-characteristics/',
                      '/guides/ap-mp-range-caps/',
                      '/guides/game-modes/', '/guides/reading-an-item/',
@@ -2138,9 +2139,8 @@ class GuidesContentTests(TestCase):
         # until a reader hits it.
         from chardata import guides_content
         hrefs = set()
-        for guide in guides_content.GUIDES.values():
-            for block in guide['i18n'].values():
-                hrefs.update(re.findall(r'href="(/[^"]*)"', block['body']))
+        for slug, variant, lang, block in guides_content.iter_content_blocks():
+            hrefs.update(re.findall(r'href="(/[^"]*)"', block['body']))
         self.assertTrue(hrefs)
         for href in sorted(hrefs):
             resp = self.client.get(href.split('#')[0])
@@ -2171,17 +2171,16 @@ class GuidesContentTests(TestCase):
         # of 8 flags a stripped block without false-positiving.
         from chardata import guides_content
         accented = re.compile('[À-ɏ]')
-        for slug, guide in guides_content.GUIDES.items():
-            for lang in ('fr', 'es', 'pt', 'de'):
-                block = guide['i18n'].get(lang)
-                if not block:
-                    continue
-                text = block['title'] + block['desc'] + block['lead'] + block['body']
-                with self.subTest(slug=slug, lang=lang):
-                    self.assertGreaterEqual(
-                        len(accented.findall(text)), 8,
-                        '%s/%s reads as ASCII-transliterated (missing native accents)'
-                        % (slug, lang))
+        for slug, variant, lang, block in guides_content.iter_content_blocks():
+            if lang not in ('fr', 'es', 'pt', 'de'):
+                continue
+            text = block['title'] + block['desc'] + block['lead'] + block['body']
+            label = '%s/%s/%s' % (slug, variant, lang) if variant else '%s/%s' % (slug, lang)
+            with self.subTest(slug=slug, variant=variant, lang=lang):
+                self.assertGreaterEqual(
+                    len(accented.findall(text)), 8,
+                    '%s reads as ASCII-transliterated (missing native accents)'
+                    % label)
 
 
 class NlParserTests(SimpleTestCase):
@@ -4361,6 +4360,14 @@ class WeaponTypeDisplayTests(TestCase):
     """Weapons with no standard type (magnifying glass, fishing rod...) show
     their AP line without a placeholder type prefix."""
 
+    def setUp(self):
+        # evolve_result_item formats the damage line from the *global* current
+        # game version, so pin it to dofus3 here rather than depending on
+        # whatever version a previously-run test happened to leave set.
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, 'dofus3')
+
     def _damage_head(self, item_name):
         from fashionistapulp.structure import get_structure
         from fashionistapulp.modelresult import ModelResultItem
@@ -4707,13 +4714,12 @@ class NoEmDashInGuidesTests(SimpleTestCase):
     and the og:description). See chardata.guides_content.GUIDES."""
 
     def test_no_guide_field_contains_an_em_or_en_dash(self):
-        from chardata.guides_content import GUIDES
+        from chardata import guides_content
         offenders = []
-        for slug, guide in GUIDES.items():
-            for language, fields in guide.get('i18n', {}).items():
-                for field_name, value in fields.items():
-                    if isinstance(value, str) and ('—' in value or '–' in value):
-                        offenders.append('%s/%s/%s' % (slug, language, field_name))
+        for slug, variant, language, fields in guides_content.iter_content_blocks():
+            for field_name, value in fields.items():
+                if isinstance(value, str) and ('—' in value or '–' in value):
+                    offenders.append('%s/%s/%s/%s' % (slug, variant, language, field_name))
         self.assertEqual(
             offenders, [],
             'em/en dash found in guide content (use ., :, , or parentheses): %s' % offenders)
@@ -4753,17 +4759,62 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
     MAX_DESC = 160
 
     def test_guide_descriptions_fit_the_search_snippet(self):
-        from chardata.guides_content import GUIDES
+        from chardata import guides_content
         offenders = []
-        for slug, guide in GUIDES.items():
-            for language, fields in guide.get('i18n', {}).items():
-                desc = fields.get('desc', '')
-                if len(desc) > self.MAX_DESC:
-                    offenders.append('%s/%s (%d)' % (slug, language, len(desc)))
+        for slug, variant, language, fields in guides_content.iter_content_blocks():
+            desc = fields.get('desc', '')
+            if len(desc) > self.MAX_DESC:
+                offenders.append('%s/%s/%s (%d)' % (slug, variant, language, len(desc)))
         self.assertEqual(
             offenders, [],
             'guide desc over %d chars (Google truncates the snippet): %s'
             % (self.MAX_DESC, offenders))
+
+
+class VersionSpecificGuideTests(TestCase):
+    """Critical hits are a different SYSTEM per version, so the crit guide serves
+    the modern content on modern versions (canonical at the global /guides/ URL)
+    and the Retro content under /retro/, self-canonical, so each system is its
+    own indexable page. Plain guides stay global on every version."""
+
+    def _head(self, path):
+        resp = self.client.get(path)
+        self.assertEqual(resp.status_code, 200, path)
+        html = resp.content.decode('utf-8')
+        return html, html.split('</head>', 1)[0]
+
+    def test_modern_crit_guide_is_percentage_and_global_canonical(self):
+        html, head = self._head('/guides/critical-hits/')
+        self.assertIn('percentage', html)
+        self.assertIn('no effect on critical hits', html)
+        self.assertIn('https://dofusfashionista.gg/guides/critical-hits/', head)
+
+    def test_retro_crit_guide_is_fraction_and_self_canonical(self):
+        html, head = self._head('/retro/guides/critical-hits/')
+        self.assertIn('1/X', html)
+        self.assertIn('Agility raises your critical hit rate', html)
+        self.assertIn('https://dofusfashionista.gg/retro/guides/critical-hits/', head)
+        # The modern-only "no effect on critical hits" line must not leak here.
+        self.assertNotIn('no effect on critical hits', html)
+
+    def test_touch_crit_shares_the_modern_page(self):
+        html, head = self._head('/touch/guides/critical-hits/')
+        self.assertIn('percentage', html)
+        # Touch uses the modern system, so it canonicals to the global page.
+        self.assertIn('https://dofusfashionista.gg/guides/critical-hits/', head)
+
+    def test_plain_guide_stays_global_canonical_under_a_version(self):
+        for path in ('/guides/getting-started/', '/retro/guides/getting-started/'):
+            _, head = self._head(path)
+            self.assertIn(
+                'https://dofusfashionista.gg/guides/getting-started/', head)
+
+    def test_canonical_versions_helper(self):
+        from chardata import guides_content
+        self.assertEqual(guides_content.canonical_versions('getting-started'),
+                         ['dofus3'])
+        self.assertEqual(sorted(guides_content.canonical_versions('critical-hits')),
+                         ['dofus3', 'retro'])
 
 
 class EncyclopediaCacheWarmupTests(SimpleTestCase):

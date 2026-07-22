@@ -14,10 +14,229 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
 
 
 GUIDES = {
+    # ------------------------------------------------------------------ #
+    # Critical hits are a genuinely different SYSTEM per version: Retro (1.29)
+    # uses the old 1/X fraction where Agility raises the rate, while the modern
+    # game (Dofus 3, beta, Dofus 2, Touch) uses a flat percentage where Agility
+    # does nothing. So this guide carries one content per system, selected from
+    # the version the reader is on. Sources: DofuX (dofux.org) 1.29 crit
+    # calculator (1/X + Agility) for Retro; official forums / Touch crit rework
+    # (percentage, 50% cap) for modern.
+    'critical-hits': {
+        'published': '2026-07-22',
+        'version_groups': {'retro': 'retro'},
+        'i18n_by_group': {
+            'modern': {
+                'en': {
+                    'title': 'Critical hits in modern Dofus: how they really work',
+                    'desc': "In modern Dofus, crit is a percentage: spell base plus gear, capped at 50%, and Agility does nothing. How to build for critical hits.",
+                    'lead': "In Dofus 3, the beta, Dofus 2 and Touch, critical hits run on percentages. Here is what actually drives your crit rate, and when to build for it.",
+                    'body': '''
+<h2>How critical hits work now</h2>
+<p>In modern Dofus (Dofus 3, the beta, Dofus 2 and Touch), your critical hit rate is a <strong>percentage</strong>. Every spell and weapon has its own base crit chance, usually somewhere between 5% and 25%. Gear that gives +Critical Hits adds its percentage on top of that base, and the total is your chance to crit with that attack.</p>
+
+<h2>Agility does not touch your crit rate</h2>
+<p>This is the big difference from the old game: in modern Dofus, <strong>Agility has no effect on critical hits</strong>. Your crit rate comes only from the spell's base and your gear's +Critical Hits. Building Agility for crits is a Retro habit that does nothing here.</p>
+
+<h2>The cap, and crit damage</h2>
+<p>No matter how much +Critical Hits you stack, your chance is capped at <strong>50%</strong> per attack. Once you are there, more crit chance is wasted. Separately, the Critical Damage stat (the "+X on critical hits" you see on items) makes your crits hit harder but does <em>not</em> change how often they land. Chance and damage are two different stats.</p>
+
+<h2>When to build for crits</h2>
+<p>Crits are worth chasing when the spell's critical line adds a meaningful bonus and you can push the rate high enough to rely on it. A spell that gains little on a crit, or a build stuck at a low rate, is usually better served by flat damage or Power. In the Fashionista, weight Critical Hits when your key spells reward it, and check the spell before you commit.</p>
+
+<p><em>Wondering if crits fit your build? <a href="/setup/">Weight them here.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Les coups critiques sur le Dofus moderne : comment ça marche",
+                    'desc': "Sur le Dofus moderne, le critique est un pourcentage : base du sort plus stuff, plafonné à 50 %, et l'Agilité n'y fait rien. Comment build pour les critiques.",
+                    'lead': "Sur Dofus 3, la bêta, Dofus 2 et Touch, les coups critiques tournent en pourcentages. Voici ce qui décide vraiment ton taux, et quand build pour.",
+                    'body': '''
+<h2>Comment marchent les coups critiques aujourd'hui</h2>
+<p>Sur le Dofus moderne (Dofus 3, la bêta, Dofus 2 et Touch), ton taux de coup critique est un <strong>pourcentage</strong>. Chaque sort et chaque arme a sa propre chance de critique de base, en général entre 5 % et 25 %. Le stuff qui donne des +Coups Critiques ajoute son pourcentage par-dessus cette base, et le total est ta chance de critiquer avec cette attaque.</p>
+
+<h2>L'Agilité ne touche pas ton taux de critique</h2>
+<p>C'est la grande différence avec l'ancien jeu : sur le Dofus moderne, <strong>l'Agilité n'a aucun effet sur les coups critiques</strong>. Ton taux vient uniquement de la base du sort et des +Coups Critiques de ton stuff. Monter l'Agilité pour les critiques est un réflexe Rétro qui ne sert à rien ici.</p>
+
+<h2>Le plafond, et les dommages critiques</h2>
+<p>Peu importe combien de +Coups Critiques tu empiles, ta chance est plafonnée à <strong>50 %</strong> par attaque. Une fois à ce niveau, plus de taux de critique est gaspillé. À part ça, la stat Dommages Critiques (le « +X en cas de critique » sur les items) fait taper tes critiques plus fort mais ne change <em>pas</em> leur fréquence. Chance et dégâts sont deux stats différentes.</p>
+
+<h2>Quand build pour les critiques</h2>
+<p>Les critiques valent le coup quand la ligne critique du sort ajoute un vrai bonus et que tu peux monter le taux assez haut pour compter dessus. Un sort qui gagne peu en critique, ou un build coincé à un taux bas, est souvent mieux servi par des dommages fixes ou de la Puissance. Dans la Fashionista, pondère les Coups Critiques quand tes sorts clés le récompensent, et vérifie le sort avant de t'engager.</p>
+
+<p><em>Tu te demandes si les critiques collent à ton build ? <a href="/setup/">Pondère-les ici.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': "Los golpes críticos en el Dofus moderno: cómo funcionan",
+                    'desc': "En el Dofus moderno, el crítico es un porcentaje: base del hechizo más equipo, con tope del 50 %, y la Agilidad no hace nada. Cómo construir para críticos.",
+                    'lead': "En Dofus 3, la beta, Dofus 2 y Touch, los golpes críticos van por porcentajes. Esto es lo que decide de verdad tu tasa, y cuándo construir para ella.",
+                    'body': '''
+<h2>Cómo funcionan los críticos ahora</h2>
+<p>En el Dofus moderno (Dofus 3, la beta, Dofus 2 y Touch), tu tasa de golpe crítico es un <strong>porcentaje</strong>. Cada hechizo y cada arma tiene su propia probabilidad de crítico base, normalmente entre el 5 % y el 25 %. El equipo que da +Golpes Críticos suma su porcentaje sobre esa base, y el total es tu probabilidad de criticar con ese ataque.</p>
+
+<h2>La Agilidad no toca tu tasa de crítico</h2>
+<p>Esta es la gran diferencia con el juego antiguo: en el Dofus moderno, <strong>la Agilidad no tiene ningún efecto sobre los golpes críticos</strong>. Tu tasa viene solo de la base del hechizo y de los +Golpes Críticos de tu equipo. Subir Agilidad para los críticos es un hábito de Retro que aquí no sirve de nada.</p>
+
+<h2>El tope, y el daño crítico</h2>
+<p>Por mucho +Golpes Críticos que acumules, tu probabilidad está limitada al <strong>50 %</strong> por ataque. Una vez ahí, más tasa de crítico se desperdicia. Aparte, la estadística Daño Crítico (el «+X en crítico» de los objetos) hace que tus críticos peguen más fuerte pero <em>no</em> cambia su frecuencia. Probabilidad y daño son dos estadísticas distintas.</p>
+
+<h2>Cuándo construir para críticos</h2>
+<p>Los críticos merecen la pena cuando la línea crítica del hechizo añade un bonus real y puedes subir la tasa lo suficiente como para depender de ella. Un hechizo que gana poco en crítico, o un build atascado en una tasa baja, suele estar mejor servido con daño fijo o Potencia. En la Fashionista, pondera los Golpes Críticos cuando tus hechizos clave lo recompensen, y revisa el hechizo antes de comprometerte.</p>
+
+<p><em>¿Te preguntas si los críticos encajan en tu build? <a href="/setup/">Pondéralos aquí.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': "Os golpes críticos no Dofus moderno: como funcionam",
+                    'desc': "No Dofus moderno, o crítico é uma porcentagem: base do feitiço mais equipamento, com teto de 50 %, e a Agilidade não faz nada. Como construir para críticos.",
+                    'lead': "No Dofus 3, no beta, no Dofus 2 e no Touch, os golpes críticos funcionam por porcentagens. Aqui está o que decide sua taxa, e quando construir para ela.",
+                    'body': '''
+<h2>Como os críticos funcionam agora</h2>
+<p>No Dofus moderno (Dofus 3, o beta, Dofus 2 e Touch), sua taxa de golpe crítico é uma <strong>porcentagem</strong>. Cada feitiço e cada arma tem sua própria chance de crítico base, geralmente entre 5 % e 25 %. O equipamento que dá +Golpes Críticos soma sua porcentagem sobre essa base, e o total é sua chance de critar com aquele ataque.</p>
+
+<h2>A Agilidade não mexe na sua taxa de crítico</h2>
+<p>Essa é a grande diferença em relação ao jogo antigo: no Dofus moderno, <strong>a Agilidade não tem nenhum efeito sobre os golpes críticos</strong>. Sua taxa vem só da base do feitiço e dos +Golpes Críticos do seu equipamento. Subir Agilidade para os críticos é um hábito de Retro que aqui não serve para nada.</p>
+
+<h2>O teto, e o dano crítico</h2>
+<p>Não importa quanto +Golpes Críticos você empilhe, sua chance é limitada a <strong>50 %</strong> por ataque. Uma vez lá, mais taxa de crítico é desperdiçada. À parte disso, o atributo Dano Crítico (o «+X no crítico» dos itens) faz seus críticos baterem mais forte mas <em>não</em> muda a frequência deles. Chance e dano são dois atributos diferentes.</p>
+
+<h2>Quando construir para críticos</h2>
+<p>Os críticos valem a pena quando a linha crítica do feitiço adiciona um bônus real e você consegue subir a taxa alto o bastante para contar com ela. Um feitiço que ganha pouco no crítico, ou um build preso numa taxa baixa, costuma ser melhor servido por dano fixo ou Potência. Na Fashionista, pondere os Golpes Críticos quando seus feitiços principais recompensarem, e confira o feitiço antes de se comprometer.</p>
+
+<p><em>Será que os críticos combinam com seu build? <a href="/setup/">Pondere-os aqui.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': "Kritische Treffer im modernen Dofus: wie sie wirklich funktionieren",
+                    'desc': "Im modernen Dofus ist Kritisch ein Prozentwert: Zauber-Basis plus Ausrüstung, gedeckelt bei 50 %, und Agilität bringt nichts. So baust du auf Kritische.",
+                    'lead': "In Dofus 3, der Beta, Dofus 2 und Touch laufen kritische Treffer über Prozente. Hier steht, was deine Kritrate wirklich treibt, und wann du darauf baust.",
+                    'body': '''
+<h2>Wie kritische Treffer heute funktionieren</h2>
+<p>Im modernen Dofus (Dofus 3, die Beta, Dofus 2 und Touch) ist deine kritische Trefferrate ein <strong>Prozentwert</strong>. Jeder Zauber und jede Waffe hat eine eigene Basis-Kritchance, meist zwischen 5 % und 25 %. Ausrüstung mit +Kritische Treffer addiert ihren Prozentsatz auf diese Basis, und die Summe ist deine Chance, mit diesem Angriff kritisch zu treffen.</p>
+
+<h2>Agilität berührt deine Kritrate nicht</h2>
+<p>Das ist der große Unterschied zum alten Spiel: im modernen Dofus hat <strong>Agilität keinerlei Wirkung auf kritische Treffer</strong>. Deine Rate kommt allein aus der Zauber-Basis und den +Kritische Treffer deiner Ausrüstung. Agilität für Kritische zu steigern ist eine Retro-Gewohnheit, die hier nichts bringt.</p>
+
+<h2>Die Deckelung, und der kritische Schaden</h2>
+<p>Egal wie viel +Kritische Treffer du stapelst, deine Chance ist pro Angriff bei <strong>50 %</strong> gedeckelt. Ab da ist mehr Kritrate verschwendet. Davon getrennt lässt der Wert Kritischer Schaden (das „+X bei kritischem Treffer" auf Items) deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen. Chance und Schaden sind zwei verschiedene Werte.</p>
+
+<h2>Wann du auf Kritische baust</h2>
+<p>Kritische lohnen sich, wenn die kritische Zeile des Zaubers einen echten Bonus gibt und du die Rate hoch genug bringst, um dich darauf zu verlassen. Ein Zauber, der beim Kritischen kaum gewinnt, oder ein Build mit niedriger Rate, fährt oft besser mit festem Schaden oder Kraft. Gewichte in der Fashionista Kritische Treffer, wenn deine Schlüsselzauber es belohnen, und prüfe den Zauber, bevor du dich festlegst.</p>
+
+<p><em>Fragst du dich, ob Kritische zu deinem Build passen? <a href="/setup/">Gewichte sie hier.</a></em></p>
+''',
+                },
+            },
+            'retro': {
+                'en': {
+                    'title': 'Critical hits in Dofus Retro: the 1/X system',
+                    'desc': "Dofus Retro (1.29) uses the old crit system: a 1/X fraction, capped at 1/2, and Agility raises your rate. How to build for critical hits.",
+                    'lead': "Dofus Retro (1.29) keeps the classic crit system, and it works nothing like modern Dofus. Here is how your critical hit rate really works.",
+                    'body': '''
+<h2>How critical hits work in Retro</h2>
+<p>Dofus Retro (1.29) uses the old system: your critical hit rate is a <strong>fraction, written 1/X</strong>. A weapon or spell listed at 1/30 crits once in thirty hits on average. The lower the X, the more often you crit, and gear and characteristics can push it down.</p>
+
+<h2>Agility is your crit stat</h2>
+<p>Here is the key Retro difference: <strong>Agility raises your critical hit rate</strong>. Investing in Agility lowers your crit fraction, so an Agility build crits noticeably more often. This is the opposite of modern Dofus, where Agility does nothing for crits. On Retro, if you want reliable crits, Agility is part of the plan alongside +Critical Hits gear.</p>
+
+<h2>The cap, and crit damage</h2>
+<p>Your crit rate cannot go better than <strong>1/2</strong> (a one-in-two chance), no matter how much Agility and gear you stack. Past that, more crit rate is wasted. The critical-damage bonus on gear makes your crits hit harder but does <em>not</em> change how often they land.</p>
+
+<h2>When to build for crits</h2>
+<p>On Retro, crits pay off when the extra critical damage is worth the Agility and gear you spend to reach a good rate. Some builds lean fully into Agility for both dodge and crits; others take crits as a bonus on top of a Strength or Chance build. In the Fashionista, weight Critical Hits (and Agility) when your weapon and spells reward the crit, and leave them low when they do not.</p>
+
+<p><em>Building for Retro crits? <a href="/setup/">Set your weights here.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Les coups critiques sur Dofus Rétro : le système en 1/X",
+                    'desc': "Dofus Rétro (1.29) garde l'ancien système : une fraction 1/X, plafonnée à 1/2, et l'Agilité monte ton taux. Comment build pour les coups critiques.",
+                    'lead': "Dofus Rétro (1.29) garde le système de critique classique, et il ne marche pas du tout comme le Dofus moderne. Voici comment ton taux fonctionne vraiment.",
+                    'body': '''
+<h2>Comment marchent les critiques sur Rétro</h2>
+<p>Dofus Rétro (1.29) utilise l'ancien système : ton taux de coup critique est une <strong>fraction, notée 1/X</strong>. Une arme ou un sort à 1/30 critique une fois sur trente en moyenne. Plus le X est petit, plus tu critiques souvent, et le stuff comme les caractéristiques peuvent le faire baisser.</p>
+
+<h2>L'Agilité est ta stat de critique</h2>
+<p>Voilà la différence clé du Rétro : <strong>l'Agilité monte ton taux de coup critique</strong>. Investir en Agilité baisse ta fraction de critique, donc un build Agilité critique nettement plus souvent. C'est l'inverse du Dofus moderne, où l'Agilité ne fait rien pour les critiques. Sur Rétro, si tu veux des critiques fiables, l'Agilité fait partie du plan avec le stuff +Coups Critiques.</p>
+
+<h2>Le plafond, et les dommages critiques</h2>
+<p>Ton taux de critique ne peut pas dépasser <strong>1/2</strong> (une chance sur deux), peu importe l'Agilité et le stuff que tu empiles. Au-delà, plus de taux est gaspillé. Le bonus de dommages critiques du stuff fait taper tes critiques plus fort mais ne change <em>pas</em> leur fréquence.</p>
+
+<h2>Quand build pour les critiques</h2>
+<p>Sur Rétro, les critiques paient quand le surplus de dégâts critiques vaut l'Agilité et le stuff dépensés pour atteindre un bon taux. Certains builds foncent à fond dans l'Agilité pour l'esquive et les critiques ; d'autres prennent les critiques en bonus sur un build Force ou Chance. Dans la Fashionista, pondère les Coups Critiques (et l'Agilité) quand ton arme et tes sorts récompensent le critique, et laisse-les bas sinon.</p>
+
+<p><em>Tu build pour les critiques Rétro ? <a href="/setup/">Règle tes poids ici.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': "Los golpes críticos en Dofus Retro: el sistema 1/X",
+                    'desc': "Dofus Retro (1.29) mantiene el sistema antiguo: una fracción 1/X, con tope de 1/2, y la Agilidad sube tu tasa. Cómo construir para golpes críticos.",
+                    'lead': "Dofus Retro (1.29) mantiene el sistema de crítico clásico, y no funciona para nada como el Dofus moderno. Así funciona de verdad tu tasa de crítico.",
+                    'body': '''
+<h2>Cómo funcionan los críticos en Retro</h2>
+<p>Dofus Retro (1.29) usa el sistema antiguo: tu tasa de golpe crítico es una <strong>fracción, escrita 1/X</strong>. Un arma o un hechizo a 1/30 critica una vez de cada treinta de media. Cuanto más pequeño el X, más a menudo criticas, y tanto el equipo como las características pueden bajarlo.</p>
+
+<h2>La Agilidad es tu estadística de crítico</h2>
+<p>Esta es la diferencia clave de Retro: <strong>la Agilidad sube tu tasa de golpe crítico</strong>. Invertir en Agilidad baja tu fracción de crítico, así que un build de Agilidad critica bastante más a menudo. Es lo contrario del Dofus moderno, donde la Agilidad no hace nada por los críticos. En Retro, si quieres críticos fiables, la Agilidad es parte del plan junto al equipo +Golpes Críticos.</p>
+
+<h2>El tope, y el daño crítico</h2>
+<p>Tu tasa de crítico no puede pasar de <strong>1/2</strong> (una probabilidad entre dos), por mucha Agilidad y equipo que acumules. Más allá, la tasa de más se desperdicia. El bonus de daño crítico del equipo hace que tus críticos peguen más fuerte pero <em>no</em> cambia su frecuencia.</p>
+
+<h2>Cuándo construir para críticos</h2>
+<p>En Retro, los críticos valen la pena cuando el daño crítico extra compensa la Agilidad y el equipo que gastas para alcanzar una buena tasa. Algunos builds se lanzan de lleno a la Agilidad para esquiva y críticos; otros toman los críticos como un extra sobre un build de Fuerza o Suerte. En la Fashionista, pondera los Golpes Críticos (y la Agilidad) cuando tu arma y tus hechizos recompensen el crítico, y déjalos bajos si no.</p>
+
+<p><em>¿Construyes para críticos en Retro? <a href="/setup/">Ajusta tus pesos aquí.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': "Os golpes críticos no Dofus Retro: o sistema 1/X",
+                    'desc': "O Dofus Retro (1.29) mantém o sistema antigo: uma fração 1/X, com teto de 1/2, e a Agilidade aumenta sua taxa. Como construir para golpes críticos.",
+                    'lead': "O Dofus Retro (1.29) mantém o sistema de crítico clássico, e ele não funciona nada como o Dofus moderno. É assim que sua taxa de crítico funciona de verdade.",
+                    'body': '''
+<h2>Como os críticos funcionam no Retro</h2>
+<p>O Dofus Retro (1.29) usa o sistema antigo: sua taxa de golpe crítico é uma <strong>fração, escrita 1/X</strong>. Uma arma ou feitiço a 1/30 crita uma vez a cada trinta em média. Quanto menor o X, mais você crita, e tanto o equipamento quanto as características podem baixá-lo.</p>
+
+<h2>A Agilidade é o seu atributo de crítico</h2>
+<p>Essa é a diferença central do Retro: <strong>a Agilidade aumenta sua taxa de golpe crítico</strong>. Investir em Agilidade baixa sua fração de crítico, então um build de Agilidade crita bem mais vezes. É o contrário do Dofus moderno, onde a Agilidade não faz nada pelos críticos. No Retro, se você quer críticos confiáveis, a Agilidade faz parte do plano junto ao equipamento +Golpes Críticos.</p>
+
+<h2>O teto, e o dano crítico</h2>
+<p>Sua taxa de crítico não pode passar de <strong>1/2</strong> (uma chance em duas), não importa quanta Agilidade e equipamento você empilhe. Além disso, a taxa a mais é desperdiçada. O bônus de dano crítico do equipamento faz seus críticos baterem mais forte mas <em>não</em> muda a frequência deles.</p>
+
+<h2>Quando construir para críticos</h2>
+<p>No Retro, os críticos valem a pena quando o dano crítico extra compensa a Agilidade e o equipamento que você gasta para alcançar uma boa taxa. Alguns builds vão fundo na Agilidade para esquiva e críticos; outros pegam os críticos como um extra sobre um build de Força ou Sorte. Na Fashionista, pondere os Golpes Críticos (e a Agilidade) quando sua arma e seus feitiços recompensarem o crítico, e deixe baixos caso contrário.</p>
+
+<p><em>Construindo para críticos no Retro? <a href="/setup/">Ajuste seus pesos aqui.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': "Kritische Treffer in Dofus Retro: das 1/X-System",
+                    'desc': "Dofus Retro (1.29) behält das alte Kritsystem: ein Bruch 1/X, gedeckelt bei 1/2, und Agilität hebt deine Rate. So baust du auf kritische Treffer.",
+                    'lead': "Dofus Retro (1.29) behält das klassische Kritsystem, und es funktioniert ganz anders als das moderne Dofus. So funktioniert deine Kritrate wirklich.",
+                    'body': '''
+<h2>Wie kritische Treffer im Retro funktionieren</h2>
+<p>Dofus Retro (1.29) nutzt das alte System: deine kritische Trefferrate ist ein <strong>Bruch, geschrieben 1/X</strong>. Eine Waffe oder ein Zauber mit 1/30 trifft im Schnitt einmal in dreißig kritisch. Je kleiner das X, desto öfter kritierst du, und sowohl Ausrüstung als auch Eigenschaften können es senken.</p>
+
+<h2>Agilität ist dein Kritwert</h2>
+<p>Das ist der zentrale Retro-Unterschied: <strong>Agilität hebt deine kritische Trefferrate</strong>. In Agilität zu investieren senkt deinen Kritbruch, also kritiert ein Agilitäts-Build deutlich öfter. Das ist das Gegenteil vom modernen Dofus, wo Agilität nichts für Kritische tut. Im Retro gehört Agilität zum Plan, zusammen mit +Kritische Treffer aus der Ausrüstung, wenn du zuverlässige Kritische willst.</p>
+
+<h2>Die Deckelung, und der kritische Schaden</h2>
+<p>Deine Kritrate kann nicht besser als <strong>1/2</strong> werden (eine Chance von zwei), egal wie viel Agilität und Ausrüstung du stapelst. Darüber hinaus ist mehr Rate verschwendet. Der kritische Schadensbonus der Ausrüstung lässt deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen.</p>
+
+<h2>Wann du auf Kritische baust</h2>
+<p>Im Retro lohnen sich Kritische, wenn der zusätzliche kritische Schaden die Agilität und Ausrüstung wert ist, die du für eine gute Rate ausgibst. Manche Builds setzen voll auf Agilität für Ausweichen und Kritische; andere nehmen Kritische als Bonus auf einem Stärke- oder Glücks-Build mit. Gewichte in der Fashionista Kritische Treffer (und Agilität), wenn deine Waffe und Zauber den Kritischen belohnen, und lass sie sonst niedrig.</p>
+
+<p><em>Baust du auf Retro-Kritische? <a href="/setup/">Stell hier deine Gewichte ein.</a></em></p>
+''',
+                },
+            },
+        },
+    },
+
     # ------------------------------------------------------------------ #
     'vitality-and-hp': {
         'published': '2026-07-22',
@@ -2620,13 +2839,74 @@ def ordered_slugs():
     return ORDER + [slug for slug in GUIDES if slug not in ORDER]
 
 
-def list_guides(language_code):
-    """Return [{slug, title, desc}] in display order for a language."""
+# A few guides describe a mechanic that is a genuinely different SYSTEM per game
+# version (critical hits: Retro's 1/X + Agility vs the modern percentage). Those
+# guides carry 'i18n_by_group' instead of 'i18n': one full content per system,
+# selected from the version the reader is on. Versions that share a system share
+# one canonical page (so distinct systems each rank, without duplicate content).
+_DEFAULT_GUIDE_GROUP = 'modern'
+_GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'retro': 'retro'}
+
+
+def _guide_group(guide, game_version):
+    """The content group for a per-version guide, or None when the guide is the
+    same across every version."""
+    if 'i18n_by_group' not in guide:
+        return None
+    return (guide.get('version_groups') or {}).get(
+        game_version, _DEFAULT_GUIDE_GROUP)
+
+
+def _guide_i18n(guide, game_version):
+    group = _guide_group(guide, game_version)
+    return guide['i18n_by_group'][group] if group is not None else guide['i18n']
+
+
+def _guide_block(guide, lang, game_version):
+    by_lang = _guide_i18n(guide, game_version)
+    return by_lang.get(lang) or by_lang['en']
+
+
+def is_version_specific(slug):
+    """True when this guide's content depends on the game version."""
+    guide = GUIDES.get(slug)
+    return bool(guide and 'i18n_by_group' in guide)
+
+
+def guide_canonical_version(slug, game_version='dofus3'):
+    """The version whose URL is canonical for this guide at this version. A plain
+    guide is always canonical at the global (dofus3) /guides/ URL; a per-version
+    guide is canonical at its system's representative version, so each system is
+    one indexable page and versions sharing a system do not duplicate it."""
+    guide = GUIDES.get(slug)
+    group = _guide_group(guide, game_version) if guide else None
+    if group is None:
+        return 'dofus3'
+    return _GROUP_CANONICAL_VERSION.get(group, 'dofus3')
+
+
+def canonical_versions(slug):
+    """Every distinct version whose URL is a canonical guide page: always dofus3
+    (the global /guides/ URL), plus each other system's representative for a
+    per-version guide. The sitemap emits one entry per system so both pages get
+    discovered and indexed."""
+    guide = GUIDES.get(slug)
+    if not guide or 'i18n_by_group' not in guide:
+        return ['dofus3']
+    seen = []
+    for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+        canonical = guide_canonical_version(slug, version)
+        if canonical not in seen:
+            seen.append(canonical)
+    return seen
+
+
+def list_guides(language_code, game_version='dofus3'):
+    """Return [{slug, title, desc}] in display order for a language/version."""
     lang = _lang(language_code)
     out = []
     for slug in ordered_slugs():
-        guide = GUIDES[slug]
-        block = guide['i18n'].get(lang) or guide['i18n']['en']
+        block = _guide_block(GUIDES[slug], lang, game_version)
         out.append({
             'slug': slug,
             'title': block['title'],
@@ -2635,13 +2915,28 @@ def list_guides(language_code):
     return out
 
 
-def get_guide(slug, language_code):
+def get_guide(slug, language_code, game_version='dofus3'):
     """Return {slug, title, desc, lead, body} or None if slug unknown."""
     guide = GUIDES.get(slug)
     if not guide:
         return None
     lang = _lang(language_code)
-    block = guide['i18n'].get(lang) or guide['i18n']['en']
+    block = _guide_block(guide, lang, game_version)
     data = {'slug': slug, 'published': guide['published']}
     data.update(block)
     return data
+
+
+def iter_content_blocks():
+    """Yield (slug, variant, lang, block) for every localized content block,
+    covering plain guides (variant None) and per-version guides (variant = the
+    group name). Guards and audits iterate this so version-specific content is
+    never skipped."""
+    for slug, guide in GUIDES.items():
+        if 'i18n_by_group' in guide:
+            for group, by_lang in guide['i18n_by_group'].items():
+                for lang, block in by_lang.items():
+                    yield slug, group, lang, block
+        else:
+            for lang, block in guide['i18n'].items():
+                yield slug, None, lang, block

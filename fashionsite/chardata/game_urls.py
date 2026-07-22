@@ -7,7 +7,7 @@ from chardata import (
     compare_sets_view, item_exchange, util_views, shared_builds_view,
     encyclopedia_view, login_view, manage_account_view, contact_view,
     comment_view, coaching_view, workshop_view, profile_view,
-    tag_view, nl_build_view, forgemagie_view, inventory_view,
+    tag_view, nl_build_view, forgemagie_view, inventory_view, guides_view,
 )
 
 urlpatterns = [
@@ -141,6 +141,12 @@ urlpatterns = [
 
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),
+
+    # Guides are global by default (canonical /guides/...), but a few describe a
+    # per-version mechanic (critical hits) and are canonical at their own version
+    # here; the guide view picks content and canonical from request.game_version.
+    re_path(r'^guides/$', guides_view.guides, name='guides'),
+    re_path(r'^guides/(?P<slug>[a-z0-9-]+)/$', guides_view.guide, name='guide'),
 ]
 
 if settings.EXPERIMENTS.get('COMPARE_SETS'):

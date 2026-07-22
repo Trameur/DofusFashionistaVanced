@@ -456,10 +456,14 @@ def sitemap_view(request):
         for slug in guides_content.ordered_slugs():
             published = guides_content.GUIDES[slug].get('published')
             lastmod = ('\n    <lastmod>%s</lastmod>' % published) if published else ''
-            blocks.append('  <url>\n    <loc>%s/guides/%s/</loc>%s\n'
-                          '    <changefreq>monthly</changefreq>\n'
-                          '    <priority>0.7</priority>\n  </url>'
-                          % (base_url, slug, lastmod))
+            # A per-version guide (e.g. critical hits) is several distinct pages,
+            # one per game system; emit each so every version's page is indexed.
+            for version in guides_content.canonical_versions(slug):
+                prefix = '' if version == 'dofus3' else '/%s' % version
+                blocks.append('  <url>\n    <loc>%s%s/guides/%s/</loc>%s\n'
+                              '    <changefreq>monthly</changefreq>\n'
+                              '    <priority>0.7</priority>\n  </url>'
+                              % (base_url, prefix, slug, lastmod))
     except Exception:
         pass
 
