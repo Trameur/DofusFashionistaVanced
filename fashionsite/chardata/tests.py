@@ -3888,6 +3888,26 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         self.assertGreater(trophy, 0)
 
 
+class RetroDofusLevelTests(SimpleTestCase):
+    """Retro 1.29 lets a character equip the classic Dofus from level 6 (sourced:
+    dofux / dragoune.fr 1.29 references), while modern Dofus are level-gated
+    (Emerald 100, Vulbis 180...). This is a real per-version rule: the same Dofus
+    resolves to a different equip level per version, so a shared modern gate on a
+    Retro build would be wrong."""
+
+    def test_retro_dofus_equip_from_level_6_but_modern_gates_them(self):
+        from fashionistapulp.structure import get_structure
+        for name in ('Emerald Dofus', 'Vulbis Dofus', 'Crimson Dofus', 'Turquoise Dofus'):
+            retro = get_structure('retro').get_item_by_name(name)
+            modern = get_structure('dofus3').get_item_by_name(name)
+            self.assertIsNotNone(retro, 'missing %s in Retro' % name)
+            self.assertIsNotNone(modern, 'missing %s in dofus3' % name)
+            self.assertLessEqual(retro.level, 6,
+                                 '%s should be low-level (<=6) in Retro 1.29' % name)
+            self.assertGreater(modern.level, 6,
+                               '%s should be level-gated in modern Dofus' % name)
+
+
 class UnobtainableItemsTests(SimpleTestCase):
     """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
     are forbidden by default through the standard mechanism, so the solver never
