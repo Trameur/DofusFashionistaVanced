@@ -3703,6 +3703,36 @@ class DropMonsterLevelTests(TestCase):
         self.assertIn('38-50', html)
 
 
+class MonsterWeakestElementTests(TestCase):
+    """The monster stats table marks the weakest element (lowest resistance) per
+    grade so players know what to hit with. Crocodyl (261) resists fire the least
+    in dofus3."""
+
+    def test_weakest_elements_helper(self):
+        from chardata import encyclopedia_view
+        weakest = encyclopedia_view._weakest_elements
+        self.assertEqual(
+            weakest({'earth': 24, 'fire': 0, 'water': 89, 'air': 33, 'neutral': 39}),
+            {'fire'})
+        self.assertEqual(
+            weakest({'earth': 10, 'fire': 10, 'water': 20, 'air': 20, 'neutral': 20}),
+            {'earth', 'fire'})
+        self.assertEqual(
+            weakest({'earth': 5, 'fire': 5, 'water': 5, 'air': 5, 'neutral': 5}),
+            set())
+        self.assertEqual(
+            weakest({'earth': None, 'fire': None, 'water': None, 'air': None,
+                     'neutral': None}),
+            set())
+
+    def test_monster_page_marks_weakest_element(self):
+        from chardata import encyclopedia_view
+        url = encyclopedia_view.get_monster_link(261, 'Crocodyl', 'dofus3')
+        html = self.client.get(url).content.decode('utf-8')
+        self.assertIn('monster-weak', html)
+        self.assertIn('monster-weakest-hint', html)
+
+
 class UnobtainableItemsTests(SimpleTestCase):
     """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
     are forbidden by default through the standard mechanism, so the solver never

@@ -50,6 +50,10 @@
 .monster-grades th { font-weight: 700; text-align: right; }
 .monster-grades th:first-child, .monster-grades td:first-child { text-align: left; }
 .dark-theme-active .monster-grades th, .dark-theme-active .monster-grades td { border-bottom-color: #4a4a4a; }
+.monster-grades td.monster-weak { font-weight: 700; color: #0a7d0a; }
+.dark-theme-active .monster-grades td.monster-weak,
+html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
+.monster-weakest-hint { margin: 6px 0 0; font-size: 0.85em; opacity: 0.75; }
 .encyclopedia-drops-more { margin-top: 6px; }
 .encyclopedia-drops-more > summary { cursor: pointer; padding-left: 20px; font-size: 0.95em; opacity: 0.85; }
 .dark-theme-active .encyclopedia-monster-card { border-color: #5a5a5a; background: #1f1f1f; }
@@ -119,16 +123,17 @@
                         <td>{{ g.hp }}</td>
                         <td>{{ g.ap }}</td>
                         <td>{{ g.mp }}</td>
-                        <td>{{ g.earth }}%</td>
-                        <td>{{ g.fire }}%</td>
-                        <td>{{ g.water }}%</td>
-                        <td>{{ g.air }}%</td>
-                        <td>{{ g.neutral }}%</td>
+                        <td{% if 'earth' in g.weakest %} class="monster-weak"{% endif %}>{{ g.earth }}%</td>
+                        <td{% if 'fire' in g.weakest %} class="monster-weak"{% endif %}>{{ g.fire }}%</td>
+                        <td{% if 'water' in g.weakest %} class="monster-weak"{% endif %}>{{ g.water }}%</td>
+                        <td{% if 'air' in g.weakest %} class="monster-weak"{% endif %}>{{ g.air }}%</td>
+                        <td{% if 'neutral' in g.weakest %} class="monster-weak"{% endif %}>{{ g.neutral }}%</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             </div>
+            {% if has_weakness %}<p class="monster-weakest-hint">{{ mt.weakest_hint }}</p>{% endif %}
         </div>
         {% endif %}
 

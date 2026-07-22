@@ -1946,6 +1946,7 @@ MONSTER_UI = {
         'monsters_label': 'Monsters',
         'monster_kind_label': 'Monster',
         'stats_section_label': 'Stats per grade',
+        'weakest_hint': 'Green marks the weakest element (most damage).',
         'grade_label': 'Grade',
         'level_label': 'Level',
         'hp_label': 'HP',
@@ -1979,6 +1980,7 @@ MONSTER_UI = {
         'monsters_label': 'Monstres',
         'monster_kind_label': 'Monstre',
         'stats_section_label': 'Caractéristiques par grade',
+        'weakest_hint': "Le vert indique l'élément le plus faible (dégâts maximum).",
         'grade_label': 'Grade',
         'level_label': 'Niveau',
         'hp_label': 'PV',
@@ -2012,6 +2014,7 @@ MONSTER_UI = {
         'monsters_label': 'Monstruos',
         'monster_kind_label': 'Monstruo',
         'stats_section_label': 'Características por grado',
+        'weakest_hint': 'El verde marca el elemento más débil (más daño).',
         'grade_label': 'Grado',
         'level_label': 'Nivel',
         'hp_label': 'PdV',
@@ -2045,6 +2048,7 @@ MONSTER_UI = {
         'monsters_label': 'Monstros',
         'monster_kind_label': 'Monstro',
         'stats_section_label': 'Características por grau',
+        'weakest_hint': 'O verde marca o elemento mais fraco (mais dano).',
         'grade_label': 'Grau',
         'level_label': 'Nível',
         'hp_label': 'PV',
@@ -2078,6 +2082,7 @@ MONSTER_UI = {
         'monsters_label': 'Monster',
         'monster_kind_label': 'Monster',
         'stats_section_label': 'Werte pro Stufe',
+        'weakest_hint': 'Grün markiert das schwächste Element (höchster Schaden).',
         'grade_label': 'Grad',
         'level_label': 'Stufe',
         'hp_label': 'LP',
@@ -2636,6 +2641,23 @@ def _grade_level_span(grades):
     return '%d-%d' % (low, high) if high != low else '%d' % low
 
 
+_GRADE_ELEMENTS = ('earth', 'fire', 'water', 'air', 'neutral')
+
+
+def _weakest_elements(grade):
+    """Element keys with the lowest resistance in a grade (what the monster takes
+    the most damage from), so the stats table can point players at the right
+    element. Empty when resistances are missing or all equal (no real weakness)."""
+    present = {key: grade.get(key) for key in _GRADE_ELEMENTS
+               if grade.get(key) is not None}
+    if len(present) < 2:
+        return set()
+    low = min(present.values())
+    if low == max(present.values()):
+        return set()
+    return {key for key, value in present.items() if value == low}
+
+
 def encyclopedia_monster(request, monster_id, slug=None):
     language = get_supported_language()
     t = _ui_text()
@@ -2670,12 +2692,14 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     WHERE monster_ankama_id = ?
                     ORDER BY grade
                     """, (target_monster_id,)):
-                grades.append({
+                grade = {
                     'grade': row[0], 'level': row[1], 'hp': row[2],
                     'ap': row[3], 'mp': row[4], 'earth': row[5],
                     'fire': row[6], 'water': row[7], 'air': row[8],
                     'neutral': row[9],
-                })
+                }
+                grade['weakest'] = _weakest_elements(grade)
+                grades.append(grade)
         # Where the monster can be found, from the version's own source
         # (retro: the Solomonk bestiary subarea blocks). Localized names per
         # language with a French fallback; versions without the table simply
@@ -2796,6 +2820,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'resource_drops': resource_drops,
             'item_drops': item_drops,
             'grades': grades,
+            'has_weakness': any(g['weakest'] for g in grades),
             'level_span': _grade_level_span(grades),
             'subareas': subareas,
             'monster_version_links': monster_version_links,
