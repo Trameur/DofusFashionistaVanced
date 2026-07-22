@@ -650,6 +650,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/choosing-your-class/',
                      '/guides/how-it-works/', '/guides/stats-explained/',
                      '/guides/scrolls-and-characteristics/',
+                     '/guides/ap-mp-range-caps/',
                      '/guides/game-modes/', '/guides/reading-an-item/',
                      '/guides/understanding-your-solution/',
                      '/guides/tuning-your-weights/',

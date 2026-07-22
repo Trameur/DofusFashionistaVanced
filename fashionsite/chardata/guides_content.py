@@ -14,10 +14,132 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
 
 
 GUIDES = {
+    # ------------------------------------------------------------------ #
+    'ap-mp-range-caps': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'AP, MP and range: the caps that shape every build',
+                'desc': "Modern Dofus caps you at 12 AP, 6 MP and 9 range, but Retro doesn't. What the limits are, why exos count once, and how to build around them.",
+                'lead': "Modern Dofus hard-caps your AP, MP and range; Dofus Retro doesn't. Here's what the limits actually are, and how to build around them.",
+                'body': '''
+<h2>Why these three stats rule everything</h2>
+<p>AP (action points), MP (movement points) and range decide what your character can physically do on a turn. One more AP is often a whole extra spell; one more MP is the difference between reaching the enemy and eating a wasted turn; range lets you hit before you get hit. That's why every build fights over them, and why gear that gives them is expensive.</p>
+
+<h2>The modern caps: 12 AP, 6 MP, 9 range</h2>
+<p>In modern Dofus (Dofus 3, the beta, Dofus 2 and Touch) a character is hard-capped at <strong>12 AP, 6 MP and 9 range</strong>, no matter how much gear you pile on. Anything above that simply is not counted: the item still equips, the extra points just do nothing. Ankama added this "PA/PM/PO limitation" back in Dofus 2 to stop stat inflation, and every modern version inherited it. You start with 6 AP and 3 MP, so in practice you are shopping for +6 AP, +3 MP and up to +9 range from your equipment.</p>
+
+<h2>Exotic bonuses only count once</h2>
+<p>Overmaging an item with an "exotic" AP, MP or range bonus (one the item never had) is powerful, but the game counts only <strong>one</strong> exo AP, one exo MP and one exo range across your whole set. You can wear three +1 AP exo rings; only one of them counts. Plan around a single exo per stat, not a stack.</p>
+
+<h2>Retro plays by the old rules</h2>
+<p>Dofus Retro (1.29) never got the limitation, so there is <strong>no 12/6/9 ceiling</strong> there. Exotic AP and MP stack for real, which is exactly why iconic Retro builds reach 17 AP or 7 MP. If you are theorycrafting on Retro, do not assume the modern caps: the Fashionista lets you require more than 12 AP on a Retro build precisely because the game does.</p>
+
+<h2>Putting it to work in the tool</h2>
+<p>Because these stats are capped and scarce, you usually <strong>lock them to a target</strong> instead of weighting them: set a minimum of, say, 11 AP and 6 MP, then let the optimizer spend everything else on damage or resistance. Decide the breakpoints your spell combo needs, lock them, and you will never waste gear overshooting a number the game would ignore anyway.</p>
+
+<p><em>Know your caps? <a href="/setup/">Build around them here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': 'PA, PM et portée : les plafonds qui façonnent chaque build',
+                'desc': "Le Dofus moderne te plafonne à 12 PA, 6 PM et 9 de portée, pas le Rétro. Les limites réelles, pourquoi les exos comptent une fois, et comment faire avec.",
+                'lead': "Le Dofus moderne plafonne dur tes PA, PM et portée ; le Rétro non. Voilà ce que valent vraiment les limites, et comment construire autour.",
+                'body': '''
+<h2>Pourquoi ces trois stats commandent tout</h2>
+<p>Les PA (points d'action), les PM (points de mouvement) et la portée décident de ce que ton perso peut physiquement faire dans un tour. Un PA de plus, c'est souvent un sort entier en rab ; un PM de plus, c'est atteindre l'ennemi au lieu de perdre ton tour ; la portée te laisse taper avant de te faire taper. C'est pour ça que tous les builds se les arrachent, et que le stuff qui en donne coûte cher.</p>
+
+<h2>Les plafonds modernes : 12 PA, 6 PM, 9 de portée</h2>
+<p>Sur le Dofus moderne (Dofus 3, la bêta, Dofus 2 et Touch), un personnage est plafonné dur à <strong>12 PA, 6 PM et 9 de portée</strong>, peu importe la montagne de stuff que tu empiles. Tout ce qui dépasse n'est tout simplement pas compté : l'objet s'équipe quand même, les points en trop ne servent à rien. Ankama a ajouté cette "limitation PA/PM/PO" dès Dofus 2 pour stopper l'inflation des stats, et toutes les versions modernes en ont hérité. Tu démarres avec 6 PA et 3 PM, donc en vrai tu cherches +6 PA, +3 PM et jusqu'à +9 de portée sur ton équipement.</p>
+
+<h2>Les bonus exotiques ne comptent qu'une fois</h2>
+<p>Sur-forger un objet avec un bonus "exotique" de PA, PM ou portée (un bonus que l'objet n'avait pas à l'origine), c'est puissant, mais le jeu ne compte qu'<strong>un seul</strong> PA exo, un seul PM exo et une seule portée exo sur tout ton équipement. Tu peux porter trois anneaux exo +1 PA ; un seul comptera. Prévois un exo unique par stat, pas une pile.</p>
+
+<h2>Le Rétro joue avec les vieilles règles</h2>
+<p>Dofus Rétro (1.29) n'a jamais eu la limitation, donc là il n'y a <strong>aucun plafond 12/6/9</strong>. Les PA et PM exotiques s'empilent pour de vrai, et c'est exactement pour ça que les builds Rétro cultes montent à 17 PA ou 7 PM. Si tu theorycraftes sur Rétro, oublie les plafonds modernes : la Fashionista te laisse exiger plus de 12 PA sur un build Rétro, justement parce que le jeu le permet.</p>
+
+<h2>S'en servir dans l'outil</h2>
+<p>Comme ces stats sont plafonnées et rares, tu les <strong>verrouilles à un objectif</strong> plutôt que de les pondérer : mets un minimum de, disons, 11 PA et 6 PM, puis laisse l'optimiseur dépenser tout le reste en dégâts ou en résistance. Décide les paliers dont ton combo de sorts a besoin, verrouille-les, et tu ne gaspilleras jamais de stuff à dépasser un nombre que le jeu ignorerait de toute façon.</p>
+
+<p><em>Tu connais tes plafonds ? <a href="/setup/">Construis autour ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'PA, PM y alcance: los topes que moldean cada build',
+                'desc': "El Dofus moderno te limita a 12 PA, 6 PM y 9 de alcance, el Retro no. Qué valen los límites, por qué los exo cuentan una vez, y cómo construir con eso.",
+                'lead': "El Dofus moderno limita a fondo tus PA, PM y alcance; el Dofus Retro no. Esto es lo que valen de verdad los límites, y cómo construir con ellos.",
+                'body': '''
+<h2>Por qué estas tres estadísticas mandan sobre todo</h2>
+<p>Los PA (puntos de acción), los PM (puntos de movimiento) y el alcance deciden lo que tu personaje puede hacer físicamente en un turno. Un PA más suele ser un hechizo entero extra; un PM más es llegar al enemigo en vez de perder el turno; el alcance te deja pegar antes de que te peguen. Por eso todos los builds se pelean por ellos, y el equipo que los da cuesta caro.</p>
+
+<h2>Los topes modernos: 12 PA, 6 PM, 9 de alcance</h2>
+<p>En el Dofus moderno (Dofus 3, la beta, Dofus 2 y Touch) un personaje está limitado a <strong>12 PA, 6 PM y 9 de alcance</strong>, por mucho equipo que amontones. Todo lo que pase de ahí simplemente no se cuenta: el objeto se equipa igual, los puntos de más no hacen nada. Ankama añadió esta "limitación PA/PM/PO" ya en Dofus 2 para frenar la inflación de estadísticas, y todas las versiones modernas la heredaron. Empiezas con 6 PA y 3 PM, así que en realidad buscas +6 PA, +3 PM y hasta +9 de alcance en tu equipo.</p>
+
+<h2>Los bonus exóticos cuentan solo una vez</h2>
+<p>Sobreforjar un objeto con un bonus "exótico" de PA, PM o alcance (uno que el objeto no tenía de origen) es potente, pero el juego cuenta solo <strong>un</strong> PA exótico, un PM exótico y un alcance exótico en todo tu equipo. Puedes llevar tres anillos exo de +1 PA; solo contará uno. Planifica un único exo por estadística, no una pila.</p>
+
+<h2>El Retro juega con las reglas viejas</h2>
+<p>Dofus Retro (1.29) nunca tuvo la limitación, así que ahí no hay <strong>ningún tope 12/6/9</strong>. Los PA y PM exóticos se acumulan de verdad, y por eso los builds Retro míticos llegan a 17 PA o 7 PM. Si haces theorycraft en Retro, olvida los topes modernos: la Fashionista te deja exigir más de 12 PA en un build Retro, precisamente porque el juego lo permite.</p>
+
+<h2>Aprovecharlo en la herramienta</h2>
+<p>Como estas estadísticas están limitadas y son escasas, normalmente las <strong>bloqueas a un objetivo</strong> en vez de ponderarlas: pon un mínimo de, digamos, 11 PA y 6 PM, y deja que el optimizador gaste todo lo demás en daño o resistencia. Decide los umbrales que tu combo de hechizos necesita, bloquéalos, y nunca malgastarás equipo pasándote de un número que el juego ignoraría igualmente.</p>
+
+<p><em>¿Conoces tus topes? <a href="/setup/">Construye en torno a ellos aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'PA, PM e alcance: os limites que moldam cada build',
+                'desc': "O Dofus moderno te limita a 12 PA, 6 PM e 9 de alcance, mas o Retro não. O que valem os limites, por que os exo contam uma vez, e como construir com isso.",
+                'lead': "O Dofus moderno limita a fundo seus PA, PM e alcance; o Dofus Retro não. Aqui está o que os limites valem de verdade, e como construir em torno deles.",
+                'body': '''
+<h2>Por que essas três estatísticas mandam em tudo</h2>
+<p>Os PA (pontos de ação), os PM (pontos de movimento) e o alcance decidem o que seu personagem consegue fazer fisicamente num turno. Um PA a mais costuma ser um feitiço inteiro extra; um PM a mais é alcançar o inimigo em vez de perder o turno; o alcance deixa você bater antes de apanhar. É por isso que todo build briga por eles, e o equipamento que os dá custa caro.</p>
+
+<h2>Os limites modernos: 12 PA, 6 PM, 9 de alcance</h2>
+<p>No Dofus moderno (Dofus 3, o beta, Dofus 2 e Touch) um personagem é limitado a <strong>12 PA, 6 PM e 9 de alcance</strong>, não importa quanto equipamento você empilhe. Tudo acima disso simplesmente não é contado: o item ainda equipa, os pontos a mais não fazem nada. A Ankama adicionou essa "limitação PA/PM/PO" já no Dofus 2 para frear a inflação de estatísticas, e todas as versões modernas herdaram. Você começa com 6 PA e 3 PM, então na prática você procura +6 PA, +3 PM e até +9 de alcance no seu equipamento.</p>
+
+<h2>Os bônus exóticos contam só uma vez</h2>
+<p>Sobreforjar um item com um bônus "exótico" de PA, PM ou alcance (um que o item não tinha de origem) é forte, mas o jogo conta só <strong>um</strong> PA exótico, um PM exótico e um alcance exótico em todo o seu equipamento. Você pode usar três anéis exo de +1 PA; só um vai contar. Planeje um único exo por estatística, não uma pilha.</p>
+
+<h2>O Retro joga com as regras antigas</h2>
+<p>Dofus Retro (1.29) nunca teve a limitação, então ali não existe <strong>nenhum limite 12/6/9</strong>. Os PA e PM exóticos se acumulam de verdade, e é exatamente por isso que os builds Retro clássicos chegam a 17 PA ou 7 PM. Se você faz theorycraft no Retro, esqueça os limites modernos: a Fashionista deixa você exigir mais de 12 PA num build Retro, justamente porque o jogo permite.</p>
+
+<h2>Usando isso na ferramenta</h2>
+<p>Como essas estatísticas são limitadas e escassas, você normalmente as <strong>trava num objetivo</strong> em vez de ponderá-las: coloque um mínimo de, digamos, 11 PA e 6 PM, e deixe o otimizador gastar todo o resto em dano ou resistência. Decida os limiares que seu combo de feitiços precisa, trave-os, e você nunca vai desperdiçar equipamento passando de um número que o jogo ignoraria de qualquer forma.</p>
+
+<p><em>Conhece seus limites? <a href="/setup/">Construa em torno deles aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'AP, MP und Reichweite: die Grenzen, die jeden Build prägen',
+                'desc': "Das moderne Dofus deckelt dich bei 12 AP, 6 MP und 9 Reichweite, Retro nicht. Was die Grenzen bedeuten und wie du sinnvoll drumherum baust.",
+                'lead': "Das moderne Dofus deckelt deine AP, MP und Reichweite hart; Dofus Retro nicht. Hier steht, was die Grenzen wirklich bedeuten und wie du drumherum baust.",
+                'body': '''
+<h2>Warum diese drei Werte über alles bestimmen</h2>
+<p>AP (Aktionspunkte), MP (Bewegungspunkte) und Reichweite entscheiden, was deine Figur in einer Runde überhaupt tun kann. Ein AP mehr ist oft ein ganzer zusätzlicher Zauber; ein MP mehr heißt, den Gegner zu erreichen, statt die Runde zu verlieren; Reichweite lässt dich treffen, bevor du getroffen wirst. Deshalb kämpft jeder Build um sie, und Ausrüstung, die sie gibt, ist teuer.</p>
+
+<h2>Die modernen Grenzen: 12 AP, 6 MP, 9 Reichweite</h2>
+<p>Im modernen Dofus (Dofus 3, die Beta, Dofus 2 und Touch) ist eine Figur hart bei <strong>12 AP, 6 MP und 9 Reichweite</strong> gedeckelt, egal wie viel Ausrüstung du stapelst. Alles darüber wird schlicht nicht gezählt: der Gegenstand lässt sich trotzdem anlegen, die überschüssigen Punkte bringen nichts. Ankama hat diese "PA/PM/PO-Begrenzung" schon in Dofus 2 eingeführt, um die Werte-Inflation zu bremsen, und jede moderne Version hat sie geerbt. Du startest mit 6 AP und 3 MP, suchst also in Wahrheit +6 AP, +3 MP und bis zu +9 Reichweite auf deiner Ausrüstung.</p>
+
+<h2>Exotische Boni zählen nur einmal</h2>
+<p>Einen Gegenstand mit einem "exotischen" AP-, MP- oder Reichweiten-Bonus zu übermagen (einen, den der Gegenstand nie hatte), ist stark, aber das Spiel zählt über deine gesamte Ausrüstung nur <strong>einen</strong> Exo-AP, einen Exo-MP und eine Exo-Reichweite. Du kannst drei Exo-Ringe mit +1 AP tragen; nur einer zählt. Plane mit einem einzigen Exo pro Wert, nicht mit einem Stapel.</p>
+
+<h2>Retro spielt nach den alten Regeln</h2>
+<p>Dofus Retro (1.29) hat die Begrenzung nie bekommen, also gibt es dort <strong>keine 12/6/9-Decke</strong>. Exotische AP und MP stapeln sich wirklich, und genau deshalb erreichen legendäre Retro-Builds 17 AP oder 7 MP. Wenn du auf Retro theorycraftest, vergiss die modernen Grenzen: die Fashionista lässt dich auf einem Retro-Build mehr als 12 AP verlangen, gerade weil das Spiel es erlaubt.</p>
+
+<h2>So nutzt du das im Tool</h2>
+<p>Weil diese Werte gedeckelt und knapp sind, <strong>legst du sie meist auf ein Ziel fest</strong>, statt sie zu gewichten: setze ein Minimum von etwa 11 AP und 6 MP und lass den Optimierer alles Übrige in Schaden oder Resistenz stecken. Entscheide die Schwellen, die dein Zauber-Combo braucht, lege sie fest, und du verschwendest nie Ausrüstung dafür, eine Zahl zu überschreiten, die das Spiel ohnehin ignorieren würde.</p>
+
+<p><em>Kennst du deine Grenzen? <a href="/setup/">Bau hier darum herum.</a></em></p>
+''',
+            },
+        },
+    },
+
     # ------------------------------------------------------------------ #
     'getting-started': {
         'published': '2026-06-30',
