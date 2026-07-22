@@ -15,7 +15,7 @@
 .encyclopedia-crumbs a { text-decoration: none; }
 .encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-monsters-search { margin: 10px 0 14px; }
-.encyclopedia-monsters-search-grid { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(150px, 190px) minmax(150px, 190px) auto; gap: 8px; align-items: end; }
+.encyclopedia-monsters-search-grid { display: grid; grid-template-columns: minmax(200px, 1fr) repeat(3, minmax(140px, 180px)) auto; gap: 8px; align-items: end; }
 .encyclopedia-monsters-search-grid label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
 .encyclopedia-monsters-search-grid input,
 .encyclopedia-monsters-search-grid select { box-sizing: border-box; padding: 6px 10px; width: 100%; }
@@ -70,6 +70,16 @@
                     {% endfor %}
                 </select>
             </label>
+            {% if weakness_options %}
+            <label>
+                <span>{{ mt.weakness_label }}</span>
+                <select name="weak">
+                    {% for option in weakness_options %}
+                    <option value="{{ option.value }}"{% if option.selected %} selected{% endif %}>{{ option.label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            {% endif %}
             <label>
                 <span>{{ mt.sort_label }}</span>
                 <select name="sort">

@@ -5224,6 +5224,47 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.context['drop_kind'], 'all')
         self.assertEqual(resp.context['sort_key'], 'name')
 
+    def test_monsters_list_can_filter_by_weakness(self):
+        # Crocodyl (261) resists fire the least in every dofus3 grade, so it is
+        # findable under the Fire weakness filter and hidden under Water.
+        resp = self.client.get('/encyclopedia/monsters/?q=crocodyl&weak=fire',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['weakness_filter'], 'fire')
+        fire_ids = [m['id'] for m in resp.context['monsters_page'].object_list]
+        self.assertIn(261, fire_ids)
+        resp_water = self.client.get(
+            '/encyclopedia/monsters/?q=crocodyl&weak=water',
+            HTTP_ACCEPT_LANGUAGE='en')
+        water_ids = [m['id'] for m in resp_water.context['monsters_page'].object_list]
+        self.assertNotIn(261, water_ids)
+
+    def test_weakness_filter_offers_only_present_elements(self):
+        # dofus3 carries per-grade resistances, so the filter renders with the
+        # elements some monster is actually weakest to, "all" first.
+        resp = self.client.get('/encyclopedia/monsters/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('name="weak"', resp.content.decode('utf-8'))
+        values = [option['value'] for option in resp.context['weakness_options']]
+        self.assertEqual(values[0], 'all')
+        self.assertIn('fire', values)
+
+    def test_invalid_weakness_filter_falls_back_to_all(self):
+        resp = self.client.get('/encyclopedia/monsters/?weak=bogus',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['weakness_filter'], 'all')
+
+    def test_weakness_filter_hidden_without_grade_stats(self):
+        # dofus2 has no monster_grades source, so there is no weakness to filter
+        # on and the control is omitted rather than shown empty.
+        resp = self.client.get('/dofus2/encyclopedia/monsters/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['weakness_options'], [])
+        self.assertNotIn('name="weak"', resp.content.decode('utf-8'))
+
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')

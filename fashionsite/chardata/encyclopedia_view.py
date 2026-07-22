@@ -1948,6 +1948,7 @@ MONSTER_UI = {
         'stats_section_label': 'Stats per grade',
         'weakest_hint': 'Green marks the weakest element (most damage).',
         'weakness_label': 'Weakness',
+        'weakness_filter_all': 'Any weakness',
         'grade_label': 'Grade',
         'level_label': 'Level',
         'hp_label': 'HP',
@@ -1983,6 +1984,7 @@ MONSTER_UI = {
         'stats_section_label': 'Caractéristiques par grade',
         'weakest_hint': "Le vert indique l'élément le plus faible (dégâts maximum).",
         'weakness_label': 'Faiblesse',
+        'weakness_filter_all': 'Toutes faiblesses',
         'grade_label': 'Grade',
         'level_label': 'Niveau',
         'hp_label': 'PV',
@@ -2018,6 +2020,7 @@ MONSTER_UI = {
         'stats_section_label': 'Características por grado',
         'weakest_hint': 'El verde marca el elemento más débil (más daño).',
         'weakness_label': 'Debilidad',
+        'weakness_filter_all': 'Cualquier debilidad',
         'grade_label': 'Grado',
         'level_label': 'Nivel',
         'hp_label': 'PdV',
@@ -2053,6 +2056,7 @@ MONSTER_UI = {
         'stats_section_label': 'Características por grau',
         'weakest_hint': 'O verde marca o elemento mais fraco (mais dano).',
         'weakness_label': 'Fraqueza',
+        'weakness_filter_all': 'Qualquer fraqueza',
         'grade_label': 'Grau',
         'level_label': 'Nível',
         'hp_label': 'PV',
@@ -2088,6 +2092,7 @@ MONSTER_UI = {
         'stats_section_label': 'Werte pro Stufe',
         'weakest_hint': 'Grün markiert das schwächste Element (höchster Schaden).',
         'weakness_label': 'Schwäche',
+        'weakness_filter_all': 'Beliebige Schwäche',
         'grade_label': 'Grad',
         'level_label': 'Stufe',
         'hp_label': 'LP',
@@ -2377,6 +2382,29 @@ def _build_monster_core(game_version):
             for monster_id, level_min, level_max in cursor.fetchall():
                 level_spans[monster_id] = (level_min, level_max)
 
+        # The single element every grade is weakest to (the same rule the monster
+        # page uses for its "Weakness: Fire" line), so the hub can offer a "weak
+        # to X" filter for targeted farming. None when grades disagree or resists
+        # are flat, so the filter never claims a weakness that does not hold.
+        weakest_by_monster = {}
+        if _db_table_exists(cursor, 'monster_grades'):
+            grades_by_monster = defaultdict(list)
+            cursor.execute(
+                """
+                SELECT monster_ankama_id, earth_resistance, fire_resistance,
+                       water_resistance, air_resistance, neutral_resistance
+                FROM monster_grades
+                """)
+            for row in cursor.fetchall():
+                grades_by_monster[row[0]].append({
+                    'earth': row[1], 'fire': row[2], 'water': row[3],
+                    'air': row[4], 'neutral': row[5],
+                })
+            for monster_id, grades in grades_by_monster.items():
+                for grade in grades:
+                    grade['weakest'] = _weakest_elements(grade)
+                weakest_by_monster[monster_id] = _consistent_weakest(grades)
+
         dropped_monster_ids = sorted(set(resource_counts) | set(item_counts))
         for monster_id in dropped_monster_ids:
             pieces = set()
@@ -2396,6 +2424,7 @@ def _build_monster_core(game_version):
                 'total_drops': resource_count + item_count,
                 'level_min': level_min,
                 'level_max': level_max,
+                'weakest_element': weakest_by_monster.get(monster_id),
                 'search_blob': ' '.join(sorted(piece for piece in pieces if piece)),
             })
     except Exception:
@@ -2445,6 +2474,7 @@ def _get_monster_index(game_version, language):
             'total_drops': entry['total_drops'],
             'level_min': entry['level_min'],
             'level_max': entry['level_max'],
+            'weakest_element': entry.get('weakest_element'),
             'url': get_monster_link(entry['id'], name, game_version),
             'name_aliases': entry['name_aliases'],
             'search_blob': entry['search_blob'],
@@ -2513,6 +2543,9 @@ def encyclopedia_monsters(request):
     sort_key = request.GET.get('sort', 'name')
     if sort_key not in MONSTER_SORTS:
         sort_key = 'name'
+    weakness = request.GET.get('weak', 'all')
+    if weakness != 'all' and weakness not in _GRADE_ELEMENTS:
+        weakness = 'all'
 
     monsters = []
     for entry in _get_monster_index(game_version, language):
@@ -2521,6 +2554,8 @@ def encyclopedia_monsters(request):
         if drop_kind == 'items' and entry['item_count'] <= 0:
             continue
         if drop_kind == 'both' and (entry['resource_count'] <= 0 or entry['item_count'] <= 0):
+            continue
+        if weakness != 'all' and entry.get('weakest_element') != weakness:
             continue
         if needle and needle not in entry['search_blob']:
             continue
@@ -2595,6 +2630,27 @@ def encyclopedia_monsters(request):
         for value in MONSTER_SORTS
         if value != 'level' or has_levels
     ]
+    # Only offer weaknesses that some monster in this version actually has, so
+    # the filter has no dead options (dofus2 has no grade stats, so no filter).
+    present_weaknesses = {entry['weakest_element']
+                          for entry in _get_monster_index(game_version, language)
+                          if entry.get('weakest_element')}
+    weakness_options = []
+    if present_weaknesses:
+        weakness_options.append({
+            'value': 'all',
+            'label': mt['weakness_filter_all'],
+            'selected': weakness == 'all',
+        })
+        weakness_options.extend(
+            {
+                'value': element,
+                'label': mt['%s_label' % element],
+                'selected': weakness == element,
+            }
+            for element in _GRADE_ELEMENTS
+            if element in present_weaknesses
+        )
 
     return set_response(
         request,
@@ -2610,8 +2666,10 @@ def encyclopedia_monsters(request):
             'search_text': search_text,
             'drop_kind': drop_kind,
             'sort_key': sort_key,
+            'weakness_filter': weakness,
             'drop_filter_options': drop_filter_options,
             'sort_options': sort_options,
+            'weakness_options': weakness_options,
             'page_query_prefix': page_query_prefix,
         },
     )
