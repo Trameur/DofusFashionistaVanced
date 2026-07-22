@@ -952,7 +952,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         # Sets carry item levels, so the sort control renders and cards show one.
         self.assertIn('name="sort"', resp.content.decode('utf-8'))
-        self.assertTrue(any(entry['level_max'] for entry in resp.context['sets']))
+        self.assertTrue(any(entry['level_max']
+                            for entry in resp.context['sets_page'].object_list))
         self.assertEqual(resp.context['sort_key'], 'name')
 
     def test_encyclopedia_sets_sort_by_level_is_ascending(self):
@@ -960,8 +961,8 @@ class PublicRouteSmokeTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['sort_key'], 'level')
-        # Sets with a level come first, ordered by their top item level ascending.
-        leveled = [entry['level_max'] for entry in resp.context['sets']
+        # The first page is the lowest-level sets, ordered by top item level.
+        leveled = [entry['level_max'] for entry in resp.context['sets_page'].object_list
                    if entry['level_max'] is not None]
         self.assertTrue(leveled)
         self.assertEqual(leveled, sorted(leveled))
@@ -971,6 +972,21 @@ class PublicRouteSmokeTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['sort_key'], 'name')
+
+    def test_encyclopedia_sets_paginates_and_preserves_sort(self):
+        resp = self.client.get('/encyclopedia/sets/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        page = resp.context['sets_page']
+        self.assertLessEqual(len(page.object_list), 60)
+        if not page.has_other_pages():
+            self.skipTest('not enough sets to paginate in this version')
+        # Page links carry the active sort so it survives paging.
+        resp2 = self.client.get('/encyclopedia/sets/?sort=level&page=2',
+                                HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp2.status_code, 200)
+        self.assertEqual(resp2.context['sort_key'], 'level')
+        self.assertEqual(resp2.context['sets_page'].number, 2)
+        self.assertIn('sort=level', resp2.content.decode('utf-8'))
 
     def test_encyclopedia_set_detail_shows_items_and_bonuses(self):
         from chardata.official_site import get_set_link

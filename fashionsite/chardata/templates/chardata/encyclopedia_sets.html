@@ -24,12 +24,16 @@
 .encyclopedia-sets-name { font-weight: 600; }
 .encyclopedia-sets-meta { opacity: 0.85; font-size: 0.9em; }
 .encyclopedia-sets-items { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
+.encyclopedia-pagination { margin-top: 14px; display: flex; gap: 4px; flex-wrap: wrap; }
+.encyclopedia-page-link { display: inline-block; text-decoration: underline; }
+.encyclopedia-page-link-current { font-weight: 700; }
 .dark-theme-active .encyclopedia-sets-grid a { border-color: #5a5a5a; background: #1f1f1f; }
 .dark-theme-active .encyclopedia-sets,
 .dark-theme-active .encyclopedia-sets-grid a,
 .dark-theme-active .encyclopedia-sets-grid a div { color: #f3efe6; }
 .dark-theme-active .encyclopedia-sets-name { color: #fff1d6; }
 .dark-theme-active .encyclopedia-crumbs a { color: #ffd8a8; }
+.dark-theme-active .encyclopedia-page-link { color: #ffd8a8; }
 </style>
 {% endblock %}
 
@@ -56,10 +60,10 @@
         <button type="submit" class="button-generic">{% trans "Search" %}</button>
     </form>
 
-    {% if sets %}
+    {% if sets_page.object_list %}
     <div class="encyclopedia-sets-meta">{{ sets_count }} {% trans "sets" %}</div>
     <div class="encyclopedia-sets-grid">
-        {% for set_entry in sets %}
+        {% for set_entry in sets_page.object_list %}
         <a href="{{ set_entry.url }}">
             <div class="encyclopedia-sets-name">{{ set_entry.name }}</div>
             {% if set_entry.level_max %}<div class="encyclopedia-sets-meta">{{ t.item_level }} {{ set_entry.level_min }}{% if set_entry.level_max != set_entry.level_min %}-{{ set_entry.level_max }}{% endif %}</div>{% endif %}
@@ -70,6 +74,25 @@
         </a>
         {% endfor %}
     </div>
+
+    {% if sets_page.has_other_pages %}
+    <div class="encyclopedia-pagination">
+        {% if sets_page.has_previous %}
+        <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ sets_page.previous_page_number }}">&lt;</a>
+        {% endif %}
+        {% for page_num in sets_page.paginator.page_range %}
+            {% if page_num == sets_page.number %}
+                <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
+            {% elif page_num >= sets_page.number|add:"-3" and page_num <= sets_page.number|add:"3" %}
+                <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if sets_page.has_next %}
+        <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ sets_page.next_page_number }}">&gt;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
     {% else %}
     <div class="encyclopedia-sets-meta">{% trans "No set found." %}</div>
     {% endif %}

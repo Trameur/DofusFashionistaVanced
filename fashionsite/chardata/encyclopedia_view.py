@@ -1804,6 +1804,22 @@ def encyclopedia_sets(request):
         if value != 'level' or has_levels
     ]
 
+    paginator = Paginator(sets, 60)
+    page = request.GET.get('page', 1)
+    try:
+        sets_page = paginator.page(page)
+    except PageNotAnInteger:
+        sets_page = paginator.page(1)
+    except EmptyPage:
+        sets_page = paginator.page(paginator.num_pages)
+
+    query_without_page = request.GET.copy()
+    if 'page' in query_without_page:
+        del query_without_page['page']
+    page_query_prefix = query_without_page.urlencode()
+    if page_query_prefix:
+        page_query_prefix = '%s&' % page_query_prefix
+
     return set_response(
         request,
         'chardata/encyclopedia_sets.html',
@@ -1813,11 +1829,12 @@ def encyclopedia_sets(request):
             't': t,
             'canonical_url': _absolute_versioned_url(
                 '/encyclopedia/sets/', getattr(request, 'game_version', 'dofus3')),
-            'sets': sets,
+            'sets_page': sets_page,
             'search_text': search_text,
             'sets_count': len(sets),
             'sort_key': sort_key,
             'sort_options': sort_options,
+            'page_query_prefix': page_query_prefix,
         },
     )
 
