@@ -1127,18 +1127,51 @@ def _other_versions_with_resource(current_version, subtype, ankama_id, name):
     return links
 
 
+def _set_item_ankama_ids(structure, item_set):
+    """The Ankama ids of a set's items (the cross-version item identity)."""
+    ids = set()
+    for item_id in getattr(item_set, 'items', None) or ():
+        item = structure.get_item_by_id(item_id)
+        ankama_id = getattr(item, 'ankama_id', None)
+        if ankama_id:
+            ids.add(ankama_id)
+    return ids
+
+
 def _other_versions_with_set(current_version, set_id, language):
-    """Cross-version links for a set page: every OTHER version whose own data
-    carries the same set (set ids share the Ankama namespace across versions).
-    Each version gives a set distinct items and bonuses, so the link lets players
-    compare; the target version's own name builds the slug. Structures are warmed
-    at startup, so the per-version lookups are cheap dict hits."""
+    """Cross-version links for a set page: every OTHER version that carries the
+    same set. A set id is NOT a shared identity across the Retro/modern split
+    (id 11 is the Cawwot Set on dofus3 but the unrelated Wabbit Set on Retro,
+    ids 71/72 are the Piwi colours swapped), so the link is only kept when the
+    two sets really are the same set, confirmed by shared item identity (Ankama
+    item ids), not by id alone. Structures are warmed at startup, so the
+    per-version lookups are cheap dict hits."""
+    current_structure = get_structure(current_version)
+    current_set = current_structure.sets_dict.get(set_id)
+    if current_set is None or not getattr(current_set, 'items', None):
+        return []
+    current_ids = _set_item_ankama_ids(current_structure, current_set)
+    current_en = _normalized_text(
+        current_set.localized_names.get('en') or current_set.name or '')
     links = []
     for game_version, label in ACTIVE_GAME_VERSIONS:
         if game_version == current_version:
             continue
-        item_set = get_structure(game_version).sets_dict.get(set_id)
+        other_structure = get_structure(game_version)
+        item_set = other_structure.sets_dict.get(set_id)
         if item_set is None or not getattr(item_set, 'items', None):
+            continue
+        other_en = _normalized_text(
+            item_set.localized_names.get('en') or item_set.name or '')
+        other_ids = _set_item_ankama_ids(other_structure, item_set)
+        union = current_ids | other_ids
+        # It is the same set when the (accent-insensitive) name matches, or when
+        # the two rosters share at least half their items. The item overlap is
+        # sharply bimodal (same sets ~0.8+, id-reuse ~0.3), so together they keep
+        # renamed-but-same sets and reject reused ids (Cawwot vs Wabbit) alike.
+        same_name = bool(current_en) and current_en == other_en
+        enough_overlap = bool(union) and len(current_ids & other_ids) >= 0.5 * len(union)
+        if not (same_name or enough_overlap):
             continue
         name = (item_set.localized_names.get(language)
                 or item_set.localized_names.get('en') or item_set.name)

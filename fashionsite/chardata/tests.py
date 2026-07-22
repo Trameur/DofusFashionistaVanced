@@ -1040,6 +1040,15 @@ class PublicRouteSmokeTests(TestCase):
         self.assertFalse(any(url.startswith('/retro/') for url in urls),
                          'must not link back to the current (retro) version')
 
+    def test_encyclopedia_set_other_versions_skips_id_reused_for_a_different_set(self):
+        from chardata.encyclopedia_view import _other_versions_with_set
+        # Set ids are not a shared identity across the Retro/modern split: id 201
+        # is the Kalkaneus Set on dofus3 but the unrelated Bronze Intelligence
+        # Set on Retro (no shared items), so it must not be cross-linked.
+        urls = [entry['url'] for entry in _other_versions_with_set('dofus3', 201, 'en')]
+        self.assertFalse(any(url.startswith('/retro/') for url in urls),
+                         'id 201 is a different set on Retro; must not cross-link')
+
     def test_encyclopedia_item_has_valid_breadcrumb_jsonld(self):
         import json
         from fashionistapulp.structure import get_structure
