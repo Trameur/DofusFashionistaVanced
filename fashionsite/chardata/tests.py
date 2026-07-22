@@ -3784,6 +3784,26 @@ class DropMonsterLevelTests(TestCase):
         self.assertIn('drop-level', html)
         self.assertIn('38-50', html)
 
+    def test_item_drops_break_rate_ties_by_level(self):
+        # Croblade (ankama_id 2544) is dropped by many monsters all at the same
+        # rate, so the "Dropped by" list must fall back to the easiest (lowest
+        # level) source first instead of an arbitrary order.
+        from chardata import encyclopedia_view
+        url = encyclopedia_view.get_item_link('equipment', 2544, 'Croblade', 'dofus3')
+        resp = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        drops = list(resp.context['drops'])
+        self.assertGreater(len(drops), 1)
+
+        def order(drop):
+            return (-drop['rate'],
+                    drop['level_min'] if drop['level_min'] is not None else 10 ** 9)
+
+        self.assertEqual(drops, sorted(drops, key=order))
+        # These share one rate, so the levels themselves must be non-decreasing.
+        levels = [d['level_min'] for d in drops if d['level_min'] is not None]
+        self.assertEqual(levels, sorted(levels))
+
 
 class MonsterWeakestElementTests(TestCase):
     """The monster stats table marks the weakest element (lowest resistance) per

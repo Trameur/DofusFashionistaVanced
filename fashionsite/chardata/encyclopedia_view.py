@@ -1483,13 +1483,19 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
             level_label = _monster_ui_text()['level_label']
             for monster_id, rate, name_loc, name_en in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
+                span = level_spans.get(monster_id)
                 default_data['drops'].append({
                     'name': monster_name,
                     'rate': rate,
                     'url': get_monster_link(monster_id, monster_name, game_version),
-                    'level': _drop_level_text(
-                        level_spans.get(monster_id), level_label),
+                    'level': _drop_level_text(span, level_label),
+                    'level_min': span[0] if span else None,
                 })
+            # Best drop rate first, then the lowest-level (easiest) source, so
+            # among equally-likely droppers the cheapest to farm shows up top.
+            default_data['drops'].sort(
+                key=lambda d: (-d['rate'],
+                               d['level_min'] if d['level_min'] is not None else 10 ** 9))
 
     except Exception:
         return default_data
@@ -3137,13 +3143,17 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             level_label = _monster_ui_text()['level_label']
             for monster_id, rate, name_loc, name_en in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
+                span = level_spans.get(monster_id)
                 drops.append({
                     'name': monster_name,
                     'rate': rate,
                     'url': get_monster_link(monster_id, monster_name, game_version),
-                    'level': _drop_level_text(
-                        level_spans.get(monster_id), level_label),
+                    'level': _drop_level_text(span, level_label),
+                    'level_min': span[0] if span else None,
                 })
+            # Best drop rate first, then the lowest-level (easiest) source.
+            drops.sort(key=lambda d: (-d['rate'],
+                                      d['level_min'] if d['level_min'] is not None else 10 ** 9))
     except Exception:
         pass
     finally:
