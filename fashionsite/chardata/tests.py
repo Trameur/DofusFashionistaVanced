@@ -947,6 +947,31 @@ class PublicRouteSmokeTests(TestCase):
         self.assertRegex(resp.content.decode('utf-8', 'replace'),
                          r'/encyclopedia/set/%s-[^"]+/' % set_id)
 
+    def test_encyclopedia_sets_list_shows_level_and_offers_sort(self):
+        resp = self.client.get('/encyclopedia/sets/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        # Sets carry item levels, so the sort control renders and cards show one.
+        self.assertIn('name="sort"', resp.content.decode('utf-8'))
+        self.assertTrue(any(entry['level_max'] for entry in resp.context['sets']))
+        self.assertEqual(resp.context['sort_key'], 'name')
+
+    def test_encyclopedia_sets_sort_by_level_is_ascending(self):
+        resp = self.client.get('/encyclopedia/sets/?sort=level',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['sort_key'], 'level')
+        # Sets with a level come first, ordered by their top item level ascending.
+        leveled = [entry['level_max'] for entry in resp.context['sets']
+                   if entry['level_max'] is not None]
+        self.assertTrue(leveled)
+        self.assertEqual(leveled, sorted(leveled))
+
+    def test_encyclopedia_sets_invalid_sort_falls_back_to_name(self):
+        resp = self.client.get('/encyclopedia/sets/?sort=bogus',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.context['sort_key'], 'name')
+
     def test_encyclopedia_set_detail_shows_items_and_bonuses(self):
         from chardata.official_site import get_set_link
         from fashionistapulp.structure import get_structure

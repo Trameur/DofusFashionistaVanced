@@ -73,6 +73,9 @@ LOCALIZED_UI = {
         'ingredient_kind_label': 'Ingredient',
         'used_to_craft_label': 'Used to craft',
         'set_items_label': 'Items',
+        'sort_label': 'Sort by',
+        'sort_name': 'Name',
+        'sort_level': 'Level',
         'resource_not_found': 'Resource not found in the encyclopedia.',
         'missing_item_title': 'Item unavailable in this version',
         'missing_monster_title': 'Monster unavailable in this version',
@@ -132,6 +135,9 @@ LOCALIZED_UI = {
         'ingredient_kind_label': 'Ingrédient',
         'used_to_craft_label': 'Sert à fabriquer',
         'set_items_label': 'Objets',
+        'sort_label': 'Trier par',
+        'sort_name': 'Nom',
+        'sort_level': 'Niveau',
         'resource_not_found': "Ressource introuvable dans l'encyclopédie.",
         'missing_item_title': 'Objet indisponible dans cette version',
         'missing_monster_title': 'Monstre indisponible dans cette version',
@@ -191,6 +197,9 @@ LOCALIZED_UI = {
         'ingredient_kind_label': 'Ingrediente',
         'used_to_craft_label': 'Se usa para fabricar',
         'set_items_label': 'Objetos',
+        'sort_label': 'Ordenar por',
+        'sort_name': 'Nombre',
+        'sort_level': 'Nivel',
         'resource_not_found': 'Recurso no encontrado en la enciclopedia.',
         'missing_item_title': 'Objeto no disponible en esta versión',
         'missing_monster_title': 'Monstruo no disponible en esta versión',
@@ -250,6 +259,9 @@ LOCALIZED_UI = {
         'ingredient_kind_label': 'Ingrediente',
         'used_to_craft_label': 'Usado para fabricar',
         'set_items_label': 'Itens',
+        'sort_label': 'Ordenar por',
+        'sort_name': 'Nome',
+        'sort_level': 'Nível',
         'resource_not_found': 'Recurso não encontrado na enciclopédia.',
         'missing_item_title': 'Item indisponível nesta versão',
         'missing_monster_title': 'Monstro indisponível nesta versão',
@@ -309,6 +321,9 @@ LOCALIZED_UI = {
         'ingredient_kind_label': 'Zutat',
         'used_to_craft_label': 'Wird verwendet für',
         'set_items_label': 'Items',
+        'sort_label': 'Sortieren nach',
+        'sort_name': 'Name',
+        'sort_level': 'Stufe',
         'resource_not_found': 'Ressource nicht in der Enzyklopädie gefunden.',
         'missing_item_title': 'Gegenstand in dieser Version nicht verfügbar',
         'missing_monster_title': 'Monster in dieser Version nicht verfügbar',
@@ -1705,6 +1720,9 @@ def encyclopedia_set(request, set_id):
     )
 
 
+SET_SORTS = ('name', 'level')
+
+
 def encyclopedia_sets(request):
     structure = get_structure()
     language = get_supported_language()
@@ -1712,6 +1730,9 @@ def encyclopedia_sets(request):
 
     search_text = (request.GET.get('q') or '').strip()
     needle = _normalized_text(search_text) if search_text else ''
+    sort_key = request.GET.get('sort', 'name')
+    if sort_key not in SET_SORTS:
+        sort_key = 'name'
 
     sets = []
     for set_id, item_set in structure.sets_dict.items():
@@ -1723,6 +1744,7 @@ def encyclopedia_sets(request):
             continue
         searchable_parts = [name, item_set.name]
         item_names = []
+        levels = []
         seen_item_keys = set()
         for item_id in item_set.items:
             item = structure.get_item_by_id(item_id)
@@ -1732,6 +1754,8 @@ def encyclopedia_sets(request):
             if item_key in seen_item_keys:
                 continue
             seen_item_keys.add(item_key)
+            if item.level is not None:
+                levels.append(item.level)
             item_name = structure.get_item_name_in_language(item, language)
             if item_name:
                 item_names.append(item_name)
@@ -1749,12 +1773,36 @@ def encyclopedia_sets(request):
         sets.append({
             'name': name,
             'max_pieces': max_pieces,
+            'level_min': min(levels) if levels else None,
+            'level_max': max(levels) if levels else None,
             'sample_items': item_names[:4],
             'more_items_count': max(len(item_names) - 4, 0),
             'url': get_set_link(set_id, name,
                                 game_version=getattr(request, 'game_version', 'dofus3')),
         })
-    sets.sort(key=lambda entry: (entry['name'] or '').lower())
+
+    def set_sort_key(entry):
+        name_key = ((entry['name'] or '').lower(),)
+        if sort_key == 'level':
+            # By the set's top item level (its tier), lowest first, so players
+            # can scan to their level; sets with no level data sink to the end.
+            return (entry['level_max'] is None, entry['level_max'] or 0,
+                    entry['level_min'] or 0) + name_key
+        return name_key
+
+    sets.sort(key=set_sort_key)
+
+    # The level sort only makes sense when some set carries item levels.
+    has_levels = any(entry['level_max'] is not None for entry in sets)
+    sort_options = [
+        {
+            'value': value,
+            'label': t['sort_%s' % value],
+            'selected': value == sort_key,
+        }
+        for value in SET_SORTS
+        if value != 'level' or has_levels
+    ]
 
     return set_response(
         request,
@@ -1768,6 +1816,8 @@ def encyclopedia_sets(request):
             'sets': sets,
             'search_text': search_text,
             'sets_count': len(sets),
+            'sort_key': sort_key,
+            'sort_options': sort_options,
         },
     )
 

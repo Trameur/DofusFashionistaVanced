@@ -17,6 +17,8 @@
 .encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-sets-search { margin: 10px 0 14px; }
 .encyclopedia-sets-search input[type="text"] { padding: 6px 10px; min-width: 240px; }
+.encyclopedia-sets-sort { margin: 0 8px; font-weight: 600; }
+.encyclopedia-sets-sort select { padding: 6px 10px; margin-left: 4px; }
 .encyclopedia-sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
 .encyclopedia-sets-grid a { display: block; border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 6px; padding: 10px; text-decoration: none; }
 .encyclopedia-sets-name { font-weight: 600; }
@@ -42,6 +44,15 @@
 
     <form class="encyclopedia-sets-search" method="get" action="{% game_url 'encyclopedia_sets' %}">
         <input type="text" name="q" value="{{ search_text }}" placeholder="{% trans 'Search a set or item' %}">
+        {% if sort_options %}
+        <label class="encyclopedia-sets-sort">{{ t.sort_label }}
+            <select name="sort">
+                {% for option in sort_options %}
+                <option value="{{ option.value }}"{% if option.selected %} selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        {% endif %}
         <button type="submit" class="button-generic">{% trans "Search" %}</button>
     </form>
 
@@ -51,6 +62,7 @@
         {% for set_entry in sets %}
         <a href="{{ set_entry.url }}">
             <div class="encyclopedia-sets-name">{{ set_entry.name }}</div>
+            {% if set_entry.level_max %}<div class="encyclopedia-sets-meta">{{ t.item_level }} {{ set_entry.level_min }}{% if set_entry.level_max != set_entry.level_min %}-{{ set_entry.level_max }}{% endif %}</div>{% endif %}
             {% if set_entry.max_pieces %}<div class="encyclopedia-sets-meta">{% blocktrans with n=set_entry.max_pieces %}Up to {{ n }} pieces{% endblocktrans %}</div>{% endif %}
             {% if set_entry.sample_items %}
             <div class="encyclopedia-sets-items">{{ t.set_items_label }}: {{ set_entry.sample_items|join:", " }}{% if set_entry.more_items_count %} +{{ set_entry.more_items_count }}{% endif %}</div>
