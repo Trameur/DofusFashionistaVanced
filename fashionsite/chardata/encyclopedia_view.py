@@ -1127,6 +1127,30 @@ def _other_versions_with_resource(current_version, subtype, ankama_id, name):
     return links
 
 
+def _other_versions_with_set(current_version, set_id, language):
+    """Cross-version links for a set page: every OTHER version whose own data
+    carries the same set (set ids share the Ankama namespace across versions).
+    Each version gives a set distinct items and bonuses, so the link lets players
+    compare; the target version's own name builds the slug. Structures are warmed
+    at startup, so the per-version lookups are cheap dict hits."""
+    links = []
+    for game_version, label in ACTIVE_GAME_VERSIONS:
+        if game_version == current_version:
+            continue
+        item_set = get_structure(game_version).sets_dict.get(set_id)
+        if item_set is None or not getattr(item_set, 'items', None):
+            continue
+        name = (item_set.localized_names.get(language)
+                or item_set.localized_names.get('en') or item_set.name)
+        if not name:
+            continue
+        links.append({
+            'label': label,
+            'url': get_set_link(set_id, name, game_version=game_version),
+        })
+    return links
+
+
 def _search_resources(game_version, normalized_search, language, limit=48):
     """Recipe ingredients matching the encyclopedia search box, as links to
     their resource pages. Matches every language with the same accent-insensitive
@@ -1716,6 +1740,7 @@ def encyclopedia_set(request, set_id):
             'set_name': set_name,
             'set_items': _get_set_items(structure, item_set, language, game_version),
             'set_bonuses': _get_set_bonuses(structure, item_set, language),
+            'other_versions': _other_versions_with_set(game_version, set_id, language),
         },
     )
 

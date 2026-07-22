@@ -1013,6 +1013,33 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(legacy_resp.status_code, 200)
         self.assertContains(legacy_resp, 'https://dofusfashionista.gg%s' % set_url)
 
+    def test_encyclopedia_set_page_links_to_other_versions(self):
+        from chardata.encyclopedia_view import _other_versions_with_set
+        # The Gobball Set (id 1) exists in every version with distinct items and
+        # bonuses, so the set page should link to the other versions of it.
+        links = _other_versions_with_set('dofus3', 1, 'en')
+        self.assertTrue(links, 'expected cross-version links for a shared set')
+        # Every link points to another version (prefixed), never back to dofus3.
+        for entry in links:
+            self.assertRegex(entry['url'],
+                             r'^/(retro|touch|beta|dofus2)/encyclopedia/set/1-')
+        resp = self.client.get('/encyclopedia/set/1-gobball-set/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Also in', body)
+        self.assertIn('/retro/encyclopedia/set/1-', body)
+
+    def test_encyclopedia_set_other_versions_excludes_current_and_includes_default(self):
+        from chardata.encyclopedia_view import _other_versions_with_set
+        # From Retro, the Gobball Set (id 1) links to the other versions, which
+        # includes the default (dofus3, unprefixed) and never back to Retro.
+        urls = [entry['url'] for entry in _other_versions_with_set('retro', 1, 'en')]
+        self.assertTrue(any(url.startswith('/encyclopedia/set/1-') for url in urls),
+                        'expected an unprefixed dofus3 link from a retro set')
+        self.assertFalse(any(url.startswith('/retro/') for url in urls),
+                         'must not link back to the current (retro) version')
+
     def test_encyclopedia_item_has_valid_breadcrumb_jsonld(self):
         import json
         from fashionistapulp.structure import get_structure
