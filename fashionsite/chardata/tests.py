@@ -2158,6 +2158,27 @@ class GuidesContentTests(TestCase):
             with self.subTest(lang=lang):
                 self.assertIn(needle, html, msg='%s title missing' % lang)
 
+    def test_non_english_guides_use_native_accents(self):
+        # Guards against a recurring authoring mistake: writing fr/es/pt/de guide
+        # content in ASCII (resistance instead of resistance, Ueber instead of
+        # ueber). Real long-form text in these languages always carries plenty of
+        # accented letters; a transliterated block has none. The lowest legitimate
+        # count across the current guides is 14 (a short German guide), so a floor
+        # of 8 flags a stripped block without false-positiving.
+        from chardata import guides_content
+        accented = re.compile('[À-ɏ]')
+        for slug, guide in guides_content.GUIDES.items():
+            for lang in ('fr', 'es', 'pt', 'de'):
+                block = guide['i18n'].get(lang)
+                if not block:
+                    continue
+                text = block['title'] + block['desc'] + block['lead'] + block['body']
+                with self.subTest(slug=slug, lang=lang):
+                    self.assertGreaterEqual(
+                        len(accented.findall(text)), 8,
+                        '%s/%s reads as ASCII-transliterated (missing native accents)'
+                        % (slug, lang))
+
 
 class NlParserTests(SimpleTestCase):
     """The smart-build natural-language parser must understand all five UI
