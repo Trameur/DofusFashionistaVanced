@@ -224,10 +224,13 @@ STAT_ORDER = {
     'resperwea': 133,
 }
 
+# Vestigial: the solver reads the live per-version caps from
+# dofus_constants.get_stat_maximum, not this copy. Kept in sync (Range 9 per the
+# "Nouvelles restrictions PA/PM/PO" devblog) to avoid contradicting that source.
 STAT_MAXIMUM = {
     'AP': 12,
     'MP': 6,
-    'Range': 6,
+    'Range': 9,
     'Summon': 10,
     '% Neutral Resist': 53,
     '% Air Resist': 53,
