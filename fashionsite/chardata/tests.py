@@ -3855,6 +3855,39 @@ class MonsterWeakestElementTests(TestCase):
         self.assertIn('Weakness: Fire', head)
 
 
+class TrophyPrysmaraditeVersionTests(SimpleTestCase):
+    """Trophies and prysmaradites are post-1.29 slot fillers (trophies arrived in
+    Dofus 2.x, prysmaradites in Dofus 3), so each version's pool must carry only
+    the ones its game actually has, or the solver could hand a Retro build a
+    trophy that never existed there. Retro 1.29 has 6 Dofus slots (sourced:
+    dofux/dragoune 1.29 references) and neither trophies nor prysmaradites."""
+
+    @staticmethod
+    def _counts(version):
+        from fashionistapulp.structure import get_structure
+        items = get_structure(version).get_available_items_list()
+        prys = sum(1 for it in items
+                   if (getattr(it, 'weird_conditions', {}) or {}).get('prysmaradite'))
+        trophy = sum(1 for it in items
+                     if (getattr(it, 'weird_conditions', {}) or {}).get('light_set'))
+        return prys, trophy
+
+    def test_retro_has_neither_trophies_nor_prysmaradites(self):
+        # Both are post-1.29, so Retro must have zero of each.
+        self.assertEqual(self._counts('retro'), (0, 0))
+
+    def test_touch_has_trophies_but_no_prysmaradites(self):
+        # Touch carries trophies (Dofus 2.x) but not prysmaradites (Dofus 3).
+        prys, trophy = self._counts('touch')
+        self.assertEqual(prys, 0)
+        self.assertGreater(trophy, 0)
+
+    def test_dofus3_has_both_trophies_and_prysmaradites(self):
+        prys, trophy = self._counts('dofus3')
+        self.assertGreater(prys, 0)
+        self.assertGreater(trophy, 0)
+
+
 class UnobtainableItemsTests(SimpleTestCase):
     """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
     are forbidden by default through the standard mechanism, so the solver never
