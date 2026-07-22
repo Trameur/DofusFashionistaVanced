@@ -74,7 +74,7 @@
 
         {% if other_versions %}
         <div class="encyclopedia-item-meta encyclopedia-other-versions">{{ t.also_in_label }}:
-            {% for ver in other_versions %}<a href="{{ ver.url }}">{{ ver.label }}</a>{% if not forloop.last %} | {% endif %}{% endfor %}
+            {% for ver in other_versions %}<a href="{{ ver.url }}">{{ ver.label }} ({{ ver.item_count }})</a>{% if not forloop.last %} | {% endif %}{% endfor %}
         </div>
         {% endif %}
 

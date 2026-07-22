@@ -1019,16 +1019,20 @@ class PublicRouteSmokeTests(TestCase):
         # bonuses, so the set page should link to the other versions of it.
         links = _other_versions_with_set('dofus3', 1, 'en')
         self.assertTrue(links, 'expected cross-version links for a shared set')
-        # Every link points to another version (prefixed), never back to dofus3.
+        # Every link points to another version (prefixed), never back to dofus3,
+        # and carries that version's item count so a difference is visible.
         for entry in links:
             self.assertRegex(entry['url'],
                              r'^/(retro|touch|beta|dofus2)/encyclopedia/set/1-')
+            self.assertGreater(entry['item_count'], 0)
         resp = self.client.get('/encyclopedia/set/1-gobball-set/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('Also in', body)
         self.assertIn('/retro/encyclopedia/set/1-', body)
+        # Retro's Gobball has 7 items, so the link shows the count.
+        self.assertRegex(body, r'Retro \(\d+\)')
 
     def test_encyclopedia_set_other_versions_excludes_current_and_includes_default(self):
         from chardata.encyclopedia_view import _other_versions_with_set

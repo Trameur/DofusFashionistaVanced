@@ -1180,6 +1180,10 @@ def _other_versions_with_set(current_version, set_id, language):
         links.append({
             'label': label,
             'url': get_set_link(set_id, name, game_version=game_version),
+            # The item count differs by version (and a same-name link can carry a
+            # different roster), so it flags at a glance that the set is not the
+            # same everywhere.
+            'item_count': len(other_ids),
         })
     return links
 
