@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import pickle
+from fashionistapulp.dofus_constants import get_stat_maximum
 from fashionistapulp.structure import get_structure
 
 def get_min_stats(char):
@@ -51,18 +52,18 @@ def set_min_stats(char, minimum_values):
     if 'Range' in minimum_values:
         if minimum_values['Range'] == 0:
             del minimum_values['Range']
+    # AP/MP/Range minimums are clamped to the version's hard cap (12/6/6 on modern
+    # and Touch). Retro (1.29) has no such cap, so get_stat_maximum omits those
+    # keys there and the minimum is left as the player asked (17 AP is legal there).
+    caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'))
     for stat_name, stat_value in minimum_values.items():
         # A min that was never set comes back as None (or '') from the char's stored
-        # values; skip it so the AP/MP/Range caps below never do min(cap, None). A GET
-        # on this POST view (bots, crawlers) reaches here with those stored mins.
+        # values; skip it so the caps below never do min(cap, None). A GET on this
+        # POST view (bots, crawlers) reaches here with those stored mins.
         if not isinstance(stat_value, int):
             continue
-        if stat_name == 'AP':
-            minimum_values['AP'] = min(12, stat_value)
-        if stat_name == 'MP':
-            minimum_values['MP'] = min(6, stat_value)
-        if stat_name == 'Range':
-            minimum_values['Range'] = min(6, stat_value)
+        if stat_name in ('AP', 'MP', 'Range') and stat_name in caps:
+            minimum_values[stat_name] = min(caps[stat_name], stat_value)
         if stat_value and stat_name != 'adv_mins':
             assert type(stat_value) == int
     char.minimum_stats = pickle.dumps(minimum_values)
