@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
 
 
 GUIDES = {
@@ -1911,6 +1911,142 @@ GUIDES = {
 <p>Die pingeligen Regeln des Spiels werden schon für dich durchgesetzt: Item-Bedingungen werden geprüft, bevor ein Item überhaupt vorgeschlagen wird, Set-Boni werden richtig gezählt, und Versions-Obergrenzen wie Trophäen-Limits werden eingehalten. Dein Job ist Geschmack und Ehrlichkeit darüber, wie du spielst. Das Rechnen ist abgedeckt. Und wenn du trotzdem eine Item-Karte wie ein Profi lesen willst, fang mit <a href="/guides/reading-an-item/">ein Item lesen</a> an.</p>
 
 <p><em>Dich in einer dieser Fallen wiedererkannt? <a href="/quickstart/">Bau dein Build in zwei Minuten neu</a> und schau, was sich ändert.</em></p>
+''',
+            },
+        },
+    },
+    # ------------------------------------------------------------------ #
+    'scrolls-and-characteristics': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'Scrolls and characteristics: set your base stats right',
+                'desc': "Scrolls raise your base stats for good, and the optimizer assumes you are fully scrolled. How scrolling works, per Dofus version, and why it matters.",
+                'lead': "Scrolls quietly change every number the optimizer hands you, and a new project assumes you already have all of them. Getting your scroll setup right is a two-minute job that makes every suggestion fit your real character.",
+                'body': '''
+<h2>What a scroll actually does</h2>
+<p>A scroll (parchemin) permanently raises one base characteristic. Read a Strength scroll and you keep that Strength forever, with no points spent, once per character. Because it is free stat, most players eventually scroll their main characteristics all the way to the cap. That is exactly why the optimizer treats a fully scrolled character as the default starting point.</p>
+
+<h2>The optimizer assumes you are fully scrolled</h2>
+<p>A new project starts as if your characteristics are scrolled to the maximum. If yours are not, the tool is optimizing a slightly richer character than the one you actually play: your totals, the <a href="/guides/reading-an-item/">item conditions you meet</a>, and the best way to distribute your points all shift. Open your project's characteristics page and set your real scroll level for each stat. It takes ten seconds, and every suggestion after that fits your actual character.</p>
+
+<h2>The version twist: each Dofus version plays by its own rules</h2>
+<p>Scrolling is one of the places the five versions genuinely differ, so a habit from one can quietly mislead you in another.</p>
+<ul>
+<li><strong>Modern Dofus (Dofus 3, the beta and Dofus 2) and Dofus Touch:</strong> scrolled points are tracked separately from the points you invest, so your scrolls never make your invested points more expensive. Modern Dofus adopted this in October 2018; Touch uses the same rule.</li>
+<li><strong>Dofus Retro (1.29):</strong> the old rule still applies. Scrolls count as ordinary points on the cost curve, so a character scrolled to 100 in a characteristic already pays the expensive tier for its very first invested point. Scrolling there is a real strategic choice, not a free lunch.</li>
+<li><strong>How high you can scroll differs too:</strong> 100 in most versions, 101 in Retro, and up to 150 on Touch since the Dedale update.</li>
+</ul>
+<p>If you are not sure which rules your version follows, the <a href="/guides/versions-explained/">versions guide</a> lays out what makes each one its own game.</p>
+
+<h2>If you have not scrolled yet</h2>
+<p>You can still plan around it. Set your real scroll state, build, and the optimizer works with the character you have today rather than an idealized one. Later, when you scroll more, update the number and tailor again: you will often free up invested points and unlock items you could not wear before. Scrolling your main damage characteristic first is the usual advice, but weight it against the content you play, the same way you would <a href="/guides/stats-explained/">value any other stat</a>.</p>
+
+<p><em>Not sure where your character stands? <a href="/setup/">Open your project</a>, set your scrolls and tailor again to see your real build.</em></p>
+''',
+            },
+            'fr': {
+                'title': 'Parchemins et caractéristiques : bien régler tes stats de base',
+                'desc': "Les parchemins montent tes stats de base à vie, et l'optimiseur te suppose parchoté à fond. Comment ça marche selon la version de Dofus, et pourquoi ça compte.",
+                'lead': "Les parchemins changent en douce chaque chiffre que l'outil te donne, et un nouveau projet suppose que tu les as déjà tous. Régler ton parchotage, c'est deux minutes qui font coller chaque proposition à ton vrai perso.",
+                'body': '''
+<h2>Ce que fait vraiment un parchemin</h2>
+<p>Un parchemin monte définitivement une caractéristique de base. Tu lis un parchemin de Force et tu gardes cette Force à vie, sans dépenser de points, une fois par personnage. Comme c'est de la stat gratuite, la plupart des joueurs finissent par parchoter leurs caracs principales jusqu'au plafond. C'est exactement pour ça que l'optimiseur prend un perso parchoté à fond comme point de départ par défaut.</p>
+
+<h2>L'optimiseur te suppose parchoté à fond</h2>
+<p>Un nouveau projet démarre comme si tes caracs étaient parchotées au maximum. Si ce n'est pas le cas, l'outil optimise un perso un peu plus riche que celui que tu joues vraiment : tes totaux, les <a href="/guides/reading-an-item/">conditions d'items que tu remplis</a> et la meilleure répartition de tes points bougent tous. Ouvre la page caractéristiques de ton projet et mets ton vrai niveau de parchotage pour chaque stat. Ça prend dix secondes, et toutes les propositions suivantes collent à ton vrai perso.</p>
+
+<h2>Le piège des versions : chaque Dofus a ses propres règles</h2>
+<p>Le parchotage est un des endroits où les cinq versions diffèrent vraiment, donc une habitude prise sur l'une peut t'induire en erreur sur une autre sans que tu t'en rendes compte.</p>
+<ul>
+<li><strong>Dofus moderne (Dofus 3, la bêta et Dofus 2) et Dofus Touch :</strong> les points de parchotage sont comptés séparément des points que tu investis, donc tes parchemins ne rendent jamais tes points investis plus chers. Le Dofus moderne a adopté cette règle en octobre 2018 ; Touch applique la même.</li>
+<li><strong>Dofus Retro (1.29) :</strong> l'ancienne règle tient toujours. Les parchemins comptent comme des points normaux sur la courbe de coût, donc un perso parchoté à 100 dans une carac paie déjà le palier cher pour son tout premier point investi. Là-bas, parchoter est un vrai choix stratégique, pas un cadeau.</li>
+<li><strong>Le plafond de parchotage change aussi :</strong> 100 dans la plupart des versions, 101 en Retro, et jusqu'à 150 sur Touch depuis la mise à jour Dédale.</li>
+</ul>
+<p>Si tu ne sais pas quelles règles suit ta version, le <a href="/guides/versions-explained/">guide des versions</a> détaille ce qui fait de chacune un jeu à part.</p>
+
+<h2>Si tu n'as pas encore parchoté</h2>
+<p>Tu peux quand même t'organiser autour. Mets ton vrai parchotage, construis, et l'outil travaille avec le perso que tu as aujourd'hui plutôt qu'un perso idéalisé. Plus tard, quand tu parchotes plus, mets à jour le chiffre et retaille : tu vas souvent libérer des points investis et débloquer des items que tu ne pouvais pas porter. Parchoter d'abord ta carac de dégâts principale, c'est le conseil classique, mais pondère-le selon ton contenu, comme tu le ferais pour <a href="/guides/stats-explained/">n'importe quelle autre stat</a>.</p>
+
+<p><em>Pas sûr d'où en est ton perso ? <a href="/setup/">Ouvre ton projet</a>, mets tes parchemins et retaille pour voir ton vrai build.</em></p>
+''',
+            },
+            'es': {
+                'title': 'Pergaminos y características: ajusta bien tus stats de base',
+                'desc': "Los pergaminos suben tus stats de base para siempre, y el optimizador te supone pergamineado al máximo. Cómo funciona según la versión y por qué importa.",
+                'lead': "Los pergaminos cambian en silencio cada número que te da la herramienta, y un proyecto nuevo asume que ya los tienes todos. Ajustar tu pergamineo es cosa de dos minutos que hace que cada sugerencia encaje con tu personaje real.",
+                'body': '''
+<h2>Qué hace de verdad un pergamino</h2>
+<p>Un pergamino sube de forma permanente una característica de base. Lees un pergamino de Fuerza y conservas esa Fuerza para siempre, sin gastar puntos, una vez por personaje. Como es stat gratis, la mayoría de jugadores acaba pergamineando sus características principales hasta el tope. Por eso el optimizador toma un personaje pergamineado al máximo como punto de partida por defecto.</p>
+
+<h2>El optimizador te supone pergamineado al máximo</h2>
+<p>Un proyecto nuevo empieza como si tus características estuvieran pergamineadas al máximo. Si las tuyas no lo están, la herramienta optimiza un personaje algo más rico que el que juegas de verdad: tus totales, las <a href="/guides/reading-an-item/">condiciones de ítems que cumples</a> y la mejor forma de repartir tus puntos se mueven. Abre la página de características de tu proyecto y pon tu nivel real de pergamineo en cada stat. Tarda diez segundos, y todas las sugerencias siguientes encajan con tu personaje real.</p>
+
+<h2>El truco de las versiones: cada Dofus juega con sus propias reglas</h2>
+<p>El pergamineo es uno de los sitios donde las cinco versiones difieren de verdad, así que una costumbre de una puede engañarte en otra sin que te des cuenta.</p>
+<ul>
+<li><strong>Dofus moderno (Dofus 3, la beta y Dofus 2) y Dofus Touch:</strong> los puntos de pergamino se cuentan aparte de los que inviertes, así que tus pergaminos nunca encarecen tus puntos invertidos. El Dofus moderno adoptó esto en octubre de 2018; Touch usa la misma regla.</li>
+<li><strong>Dofus Retro (1.29):</strong> sigue valiendo la regla antigua. Los pergaminos cuentan como puntos normales en la curva de coste, así que un personaje pergamineado a 100 en una característica ya paga el tramo caro en su primerísimo punto invertido. Ahí, pergaminear es una decisión estratégica real, no un regalo.</li>
+<li><strong>El tope de pergamineo también cambia:</strong> 100 en la mayoría de versiones, 101 en Retro y hasta 150 en Touch desde la actualización Dédalo.</li>
+</ul>
+<p>Si no sabes qué reglas sigue tu versión, la <a href="/guides/versions-explained/">guía de versiones</a> explica qué hace de cada una un juego aparte.</p>
+
+<h2>Si aún no has pergamineado</h2>
+<p>Igual puedes planificar con ello en cuenta. Pon tu pergamineo real, construye, y la herramienta trabaja con el personaje que tienes hoy en vez de uno idealizado. Más adelante, cuando pergaminees más, actualiza el número y vuelve a optimizar: a menudo liberarás puntos invertidos y desbloquearás ítems que antes no podías llevar. Pergaminear primero tu característica de daño principal es el consejo habitual, pero pondéralo según el contenido que juegas, igual que <a href="/guides/stats-explained/">valorarías cualquier otra stat</a>.</p>
+
+<p><em>¿No sabes cómo está tu personaje? <a href="/setup/">Abre tu proyecto</a>, pon tus pergaminos y vuelve a optimizar para ver tu build real.</em></p>
+''',
+            },
+            'pt': {
+                'title': 'Pergaminhos e características: acerte suas stats de base',
+                'desc': "Pergaminhos sobem suas stats de base para sempre, e o otimizador assume você totalmente pergaminhado. Como funciona por versão de Dofus e por que importa.",
+                'lead': "Pergaminhos mudam em silêncio cada número que a ferramenta te dá, e um projeto novo assume que você já tem todos. Acertar seu pergaminho leva dois minutos e faz cada sugestão servir no seu personagem real.",
+                'body': '''
+<h2>O que um pergaminho faz de verdade</h2>
+<p>Um pergaminho sobe permanentemente uma característica de base. Você lê um pergaminho de Força e mantém aquela Força para sempre, sem gastar pontos, uma vez por personagem. Como é stat de graça, a maioria dos jogadores acaba pergaminhando suas características principais até o teto. É exatamente por isso que o otimizador toma um personagem totalmente pergaminhado como ponto de partida padrão.</p>
+
+<h2>O otimizador assume você totalmente pergaminhado</h2>
+<p>Um projeto novo começa como se suas características estivessem pergaminhadas ao máximo. Se as suas não estão, a ferramenta otimiza um personagem um pouco mais rico que o que você joga de fato: seus totais, as <a href="/guides/reading-an-item/">condições de itens que você cumpre</a> e a melhor forma de distribuir seus pontos mudam. Abra a página de características do seu projeto e coloque seu nível real de pergaminho em cada stat. Leva dez segundos, e todas as sugestões seguintes vão servir no seu personagem real.</p>
+
+<h2>A pegadinha das versões: cada Dofus joga com as próprias regras</h2>
+<p>O pergaminho é um dos pontos em que as cinco versões realmente diferem, então um hábito de uma pode te enganar em outra sem você perceber.</p>
+<ul>
+<li><strong>Dofus moderno (Dofus 3, o beta e Dofus 2) e Dofus Touch:</strong> os pontos de pergaminho são contados separadamente dos que você investe, então seus pergaminhos nunca encarecem seus pontos investidos. O Dofus moderno adotou isso em outubro de 2018; o Touch usa a mesma regra.</li>
+<li><strong>Dofus Retro (1.29):</strong> a regra antiga ainda vale. Pergaminhos contam como pontos normais na curva de custo, então um personagem pergaminhado a 100 numa característica já paga a faixa cara no primeiríssimo ponto investido. Ali, pergaminhar é uma decisão estratégica de verdade, não um presente.</li>
+<li><strong>O teto de pergaminho também muda:</strong> 100 na maioria das versões, 101 no Retro e até 150 no Touch desde a atualização Dédalo.</li>
+</ul>
+<p>Se você não sabe quais regras a sua versão segue, o <a href="/guides/versions-explained/">guia das versões</a> explica o que faz de cada uma um jogo à parte.</p>
+
+<h2>Se você ainda não pergaminhou</h2>
+<p>Dá para planejar com isso em mente mesmo assim. Coloque seu pergaminho real, monte, e a ferramenta trabalha com o personagem que você tem hoje em vez de um idealizado. Depois, quando pergaminhar mais, atualize o número e otimize de novo: você costuma liberar pontos investidos e desbloquear itens que não podia usar. Pergaminhar primeiro sua característica de dano principal é o conselho de sempre, mas pondere conforme o conteúdo que você joga, do mesmo jeito que <a href="/guides/stats-explained/">avaliaria qualquer outra stat</a>.</p>
+
+<p><em>Não sabe como está seu personagem? <a href="/setup/">Abra seu projeto</a>, coloque seus pergaminhos e otimize de novo para ver seu build real.</em></p>
+''',
+            },
+            'de': {
+                'title': 'Rollen und Charakteristiken: deine Grundwerte richtig setzen',
+                'desc': "Rollen heben deine Grundwerte dauerhaft, und der Optimierer nimmt dich als voll gerollt an. Wie das je nach Dofus-Version funktioniert und warum es zählt.",
+                'lead': "Rollen verändern leise jede Zahl, die dir das Werkzeug gibt, und ein neues Projekt nimmt an, dass du sie alle schon hast. Deinen Roll-Stand richtig zu setzen dauert zwei Minuten und lässt jeden Vorschlag zu deinem echten Charakter passen.",
+                'body': '''
+<h2>Was eine Rolle wirklich macht</h2>
+<p>Eine Rolle (Parchemin) hebt dauerhaft eine Grundcharakteristik. Du liest eine Stärke-Rolle und behältst diese Stärke für immer, ohne Punkte auszugeben, einmal pro Charakter. Weil es Gratis-Wert ist, rollen die meisten Spieler ihre Hauptcharakteristiken irgendwann bis zur Obergrenze. Genau deshalb nimmt der Optimierer einen voll gerollten Charakter als Standard-Ausgangspunkt.</p>
+
+<h2>Der Optimierer nimmt dich als voll gerollt an</h2>
+<p>Ein neues Projekt startet, als wären deine Charakteristiken auf das Maximum gerollt. Wenn deine das nicht sind, optimiert das Werkzeug einen etwas reicheren Charakter als den, den du wirklich spielst: deine Summen, die <a href="/guides/reading-an-item/">Item-Bedingungen, die du erfüllst</a>, und die beste Punkteverteilung verschieben sich alle. Öffne die Charakteristiken-Seite deines Projekts und trag deinen echten Roll-Stand für jeden Wert ein. Das dauert zehn Sekunden, und jeder Vorschlag danach passt zu deinem echten Charakter.</p>
+
+<h2>Der Versions-Haken: jede Dofus-Version hat eigene Regeln</h2>
+<p>Rollen ist einer der Punkte, an denen sich die fünf Versionen wirklich unterscheiden, also kann dich eine Gewohnheit aus der einen in der anderen leise in die Irre führen.</p>
+<ul>
+<li><strong>Modernes Dofus (Dofus 3, die Beta und Dofus 2) und Dofus Touch:</strong> gerollte Punkte werden getrennt von deinen investierten Punkten gezählt, also machen deine Rollen deine investierten Punkte nie teurer. Das moderne Dofus übernahm das im Oktober 2018; Touch nutzt dieselbe Regel.</li>
+<li><strong>Dofus Retro (1.29):</strong> die alte Regel gilt weiter. Rollen zählen als normale Punkte auf der Kostenkurve, also zahlt ein auf 100 in einer Charakteristik gerollter Charakter schon für seinen allerersten investierten Punkt die teure Stufe. Dort ist Rollen eine echte strategische Entscheidung, kein Geschenk.</li>
+<li><strong>Auch die Obergrenze unterscheidet sich:</strong> 100 in den meisten Versionen, 101 in Retro und bis zu 150 auf Touch seit dem Dädalus-Update.</li>
+</ul>
+<p>Wenn du nicht sicher bist, welchen Regeln deine Version folgt, erklärt der <a href="/guides/versions-explained/">Versionen-Guide</a>, was jede zu einem eigenen Spiel macht.</p>
+
+<h2>Wenn du noch nicht gerollt hast</h2>
+<p>Du kannst trotzdem darum herum planen. Trag deinen echten Roll-Stand ein, bau, und das Werkzeug arbeitet mit dem Charakter, den du heute hast, statt mit einem idealisierten. Später, wenn du mehr rollst, aktualisiere die Zahl und optimiere erneut: oft werden investierte Punkte frei und du schaltest Items frei, die du vorher nicht tragen konntest. Zuerst deine Haupt-Schadenscharakteristik zu rollen ist der übliche Rat, aber gewichte ihn nach dem Inhalt, den du spielst, genauso wie du <a href="/guides/stats-explained/">jeden anderen Wert bewerten</a> würdest.</p>
+
+<p><em>Nicht sicher, wo dein Charakter steht? <a href="/setup/">Öffne dein Projekt</a>, setz deine Rollen und optimiere erneut, um dein echtes Build zu sehen.</em></p>
 ''',
             },
         },
