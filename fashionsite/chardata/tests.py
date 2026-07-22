@@ -4923,6 +4923,27 @@ class VersionSpecificGuideTests(TestCase):
             self.assertIn(
                 'https://dofusfashionista.gg/guides/getting-started/', head)
 
+    def test_kolossium_appears_only_in_the_game_modes_guide(self):
+        # Kolossium/Kolizeum is a modern-only ranked mode. The game-modes guide
+        # keeps it (version-aware, modern group); every OTHER guide must use a
+        # version-neutral "competitive PvP" so a Retro reader is never told about
+        # a mode their game does not have.
+        import re
+        from chardata import guides_content
+        pattern = re.compile(r'koliz|koloss|kolise', re.IGNORECASE)
+        for slug in guides_content.GUIDES:
+            if slug == 'game-modes':
+                continue
+            for language in ('en', 'fr', 'es', 'pt', 'de'):
+                for version in ('dofus3', 'retro'):
+                    guide = guides_content.get_guide(slug, language, version)
+                    blob = '%s %s %s' % (guide.get('title') or '',
+                                         guide.get('desc') or '', guide.get('body') or '')
+                    self.assertNotRegex(
+                        blob, pattern,
+                        '%s/%s/%s names Kolossium; use version-neutral PvP'
+                        % (slug, language, version))
+
     def test_canonical_versions_helper(self):
         from chardata import guides_content
         self.assertEqual(guides_content.canonical_versions('getting-started'),

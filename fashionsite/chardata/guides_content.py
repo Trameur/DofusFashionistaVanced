@@ -697,7 +697,7 @@ GUIDES = {
 </ul>
 
 <h2>2. Tell it what you actually want</h2>
-<p>This is where most people overthink it. The wizard gives you sliders: AP, MP, range, the element you hit with, vitality, and so on. You're not entering numbers item by item, you're telling the tool how much each stat is <strong>worth to you</strong>. Want a glass cannon? Crank damage and element, leave vitality low. Doing Kolossium? Push resistance and lock your AP/MP. You can always come back and nudge a slider later.</p>
+<p>This is where most people overthink it. The wizard gives you sliders: AP, MP, range, the element you hit with, vitality, and so on. You're not entering numbers item by item, you're telling the tool how much each stat is <strong>worth to you</strong>. Want a glass cannon? Crank damage and element, leave vitality low. Playing competitive PvP? Push resistance and lock your AP/MP. You can always come back and nudge a slider later.</p>
 
 <h2>3. Read the suggestion (and push back on it)</h2>
 <p>The tool spits out a full set: weapon, armor, rings, cloak, dofus, the lot. It won't always be what you pictured, and that's fine. Three things you'll use constantly:</p>
@@ -726,7 +726,7 @@ GUIDES = {
 </ul>
 
 <h2>2. Dis-lui vraiment ce que tu veux</h2>
-<p>C'est là que la plupart des gens se prennent la tête pour rien. L'assistant te donne des curseurs : PA, PM, portée, l'élément avec lequel tu tapes, la vita, etc. Tu ne rentres pas les items un par un, tu dis à l'outil combien chaque carac <strong>vaut pour toi</strong>. Tu veux un build full dégâts ? Monte les dégâts et l'élément, laisse la vita en bas. Tu fais du Kolizéum ? Pousse la résistance et verrouille tes PA/PM. Tu pourras toujours revenir bouger un curseur après.</p>
+<p>C'est là que la plupart des gens se prennent la tête pour rien. L'assistant te donne des curseurs : PA, PM, portée, l'élément avec lequel tu tapes, la vita, etc. Tu ne rentres pas les items un par un, tu dis à l'outil combien chaque carac <strong>vaut pour toi</strong>. Tu veux un build full dégâts ? Monte les dégâts et l'élément, laisse la vita en bas. Tu fais du PvP compétitif ? Pousse la résistance et verrouille tes PA/PM. Tu pourras toujours revenir bouger un curseur après.</p>
 
 <h2>3. Lis la proposition (et conteste-la)</h2>
 <p>L'outil te sort un stuff complet : arme, panoplie, anneaux, cape, dofus, tout. Ça ne sera pas toujours ce que t'avais en tête, et c'est normal. Trois trucs que tu vas utiliser non-stop :</p>
@@ -755,7 +755,7 @@ GUIDES = {
 </ul>
 
 <h2>2. Dile lo que quieres de verdad</h2>
-<p>Aquí es donde la mayoría se complica sin necesidad. El asistente te da deslizadores: PA, PM, alcance, el elemento con el que pegas, vitalidad y demás. No metes los ítems uno a uno: le dices a la herramienta cuánto <strong>vale para ti</strong> cada característica. ¿Quieres un build de cristal? Sube daño y elemento, deja la vita baja. ¿Haces Koliseo? Sube la resistencia y bloquea tus PA/PM. Siempre puedes volver y mover un deslizador después.</p>
+<p>Aquí es donde la mayoría se complica sin necesidad. El asistente te da deslizadores: PA, PM, alcance, el elemento con el que pegas, vitalidad y demás. No metes los ítems uno a uno: le dices a la herramienta cuánto <strong>vale para ti</strong> cada característica. ¿Quieres un build de cristal? Sube daño y elemento, deja la vita baja. ¿Haces PvP competitivo? Sube la resistencia y bloquea tus PA/PM. Siempre puedes volver y mover un deslizador después.</p>
 
 <h2>3. Lee la sugerencia (y llévale la contraria)</h2>
 <p>La herramienta te saca un set completo: arma, panoplia, anillos, capa, dofus, todo. No siempre será lo que imaginabas, y no pasa nada. Tres cosas que vas a usar todo el rato:</p>
@@ -784,7 +784,7 @@ GUIDES = {
 </ul>
 
 <h2>2. Diga o que você realmente quer</h2>
-<p>É aqui que a maioria complica à toa. O assistente te dá controles deslizantes: PA, PM, alcance, o elemento com que você bate, vitalidade e por aí vai. Você não coloca os itens um por um, você diz pra ferramenta quanto cada atributo <strong>vale pra você</strong>. Quer um build de vidro? Aumenta dano e elemento, deixa a vita lá embaixo. Joga Koliseu? Sobe a resistência e trava seus PA/PM. Dá sempre pra voltar e mexer num controle depois.</p>
+<p>É aqui que a maioria complica à toa. O assistente te dá controles deslizantes: PA, PM, alcance, o elemento com que você bate, vitalidade e por aí vai. Você não coloca os itens um por um, você diz pra ferramenta quanto cada atributo <strong>vale pra você</strong>. Quer um build de vidro? Aumenta dano e elemento, deixa a vita lá embaixo. Joga PvP competitivo? Sobe a resistência e trava seus PA/PM. Dá sempre pra voltar e mexer num controle depois.</p>
 
 <h2>3. Leia a sugestão (e discorde dela)</h2>
 <p>A ferramenta solta um set completo: arma, conjunto, anéis, capa, dofus, tudo. Nem sempre vai ser o que você imaginou, e tudo bem. Três coisas que você vai usar o tempo todo:</p>
@@ -813,7 +813,7 @@ GUIDES = {
 </ul>
 
 <h2>2. Sag ihm, was du wirklich willst</h2>
-<p>Hier machen es sich die meisten unnötig kompliziert. Der Assistent gibt dir Regler: AP, BP, Reichweite, das Element, mit dem du haust, Vitalität und so weiter. Du trägst nicht Item für Item Zahlen ein, du sagst dem Tool, wie viel dir jeder Wert <strong>wert ist</strong>. Glaskanone? Schadens- und Element-Regler hoch, Vita niedrig lassen. Kolosseum? Resistenz hoch und AP/BP fixieren. Du kannst jederzeit zurück und einen Regler nachjustieren.</p>
+<p>Hier machen es sich die meisten unnötig kompliziert. Der Assistent gibt dir Regler: AP, BP, Reichweite, das Element, mit dem du haust, Vitalität und so weiter. Du trägst nicht Item für Item Zahlen ein, du sagst dem Tool, wie viel dir jeder Wert <strong>wert ist</strong>. Glaskanone? Schadens- und Element-Regler hoch, Vita niedrig lassen. Kompetitives PvP? Resistenz hoch und AP/BP fixieren. Du kannst jederzeit zurück und einen Regler nachjustieren.</p>
 
 <h2>3. Lies den Vorschlag (und widersprich ihm)</h2>
 <p>Das Tool wirft ein komplettes Set aus: Waffe, Rüstung, Ringe, Umhang, Dofus, alles. Es wird nicht immer das sein, was du dir vorgestellt hast, und das ist okay. Drei Sachen, die du ständig brauchst:</p>
@@ -985,7 +985,7 @@ GUIDES = {
 <p>Your damage comes from one (or more) of Strength, Intelligence, Agility and Chance, each powering the element that matches it. Pick the element your main spells scale with and lean into it: a focused mono-element build almost always out-damages a smeared multi-element one. Your damage element is the engine of any offensive build, so it deserves a high slider.</p>
 
 <h2>Staying alive</h2>
-<p>Vitality is raw HP and it's cheap to stack, but more isn't always better: 1000 extra HP you didn't need is a damage stat you threw away. Resistance (flat and %) is what actually keeps you up in PvP and tough fights. For Kolossium, weight resistance seriously; for mobbing PvM, you can often get away with less.</p>
+<p>Vitality is raw HP and it's cheap to stack, but more isn't always better: 1000 extra HP you didn't need is a damage stat you threw away. Resistance (flat and %) is what actually keeps you up in PvP and tough fights. For competitive PvP, weight resistance seriously; for mobbing PvM, you can often get away with less.</p>
 
 <h2>The multipliers: Power, Damage, Crit</h2>
 <p>Power boosts all your elemental damage at once and is almost always worth a high weight. Flat Damage (+dmg) is strongest on multi-hit, low-base spells; % damage scales with big hits. The percent-damage stats are a Dofus 2-era feature, so they show up on Dofus 3, the beta and Dofus 2 but not on Touch or Retro, where you lean on Power and flat damage instead. Critical hit rate is great <em>if</em> your crits actually add a meaningful bonus: check the spell before you chase it, and note that <a href="/guides/critical-hits/">how critical hits work depends on your version</a>.</p>
@@ -1011,7 +1011,7 @@ GUIDES = {
 <p>Tes dégâts viennent d'un (ou plusieurs) parmi Force, Intelligence, Agilité et Chance, chacune alimentant l'élément qui lui correspond. Choisis l'élément sur lequel scalent tes sorts principaux et fonce dessus : un build mono-élément concentré tape presque toujours plus fort qu'un build multi-élément dilué. Ton élément de dégâts est le moteur de tout build offensif, donc il mérite un gros curseur.</p>
 
 <h2>Rester en vie</h2>
-<p>La vitalité, c'est des PV bruts et ça s'empile pas cher, mais plus n'est pas toujours mieux : 1000 PV en trop dont t'avais pas besoin, c'est une stat de dégâts jetée à la poubelle. La résistance (fixe et %) c'est ce qui te garde debout en PvP et dans les combats velus. Pour le Kolizéum, pondère la résistance sérieusement ; en PvM de mob, tu peux souvent t'en passer un peu.</p>
+<p>La vitalité, c'est des PV bruts et ça s'empile pas cher, mais plus n'est pas toujours mieux : 1000 PV en trop dont t'avais pas besoin, c'est une stat de dégâts jetée à la poubelle. La résistance (fixe et %) c'est ce qui te garde debout en PvP et dans les combats velus. Pour le PvP compétitif, pondère la résistance sérieusement ; en PvM de mob, tu peux souvent t'en passer un peu.</p>
 
 <h2>Les multiplicateurs : Puissance, Dommages, Critique</h2>
 <p>La Puissance booste tous tes dégâts élémentaires d'un coup et mérite presque toujours un gros poids. Les Dommages fixes (+dom) sont rois sur les sorts multi-coups à faible base ; les dégâts en % scalent avec les gros coups. Les stats de dégâts en % sont une nouveauté Dofus 2 : on les trouve sur Dofus 3, la bêta et Dofus 2, mais pas sur Touch ni Rétro, où tu comptes plutôt sur la Puissance et les dégâts fixes. Le taux de critique est top <em>si</em> tes crits ajoutent vraiment un bonus qui compte : vérifie le sort avant de courir après, et sache que <a href="/guides/critical-hits/">le fonctionnement des coups critiques dépend de ta version</a>.</p>
@@ -1037,7 +1037,7 @@ GUIDES = {
 <p>Tu daño sale de uno (o varios) entre Fuerza, Inteligencia, Agilidad y Suerte, y cada una alimenta el elemento que le corresponde. Elige el elemento con el que escalan tus hechizos principales y ve a por él: un build monoelemento concentrado casi siempre pega más que uno multielemento diluido. Tu elemento de daño es el motor de cualquier build ofensivo, así que merece un deslizador alto.</p>
 
 <h2>Seguir vivo</h2>
-<p>La vitalidad son PV en bruto y apilarla es barato, pero más no siempre es mejor: 1000 PV de más que no necesitabas es una estadística de daño tirada a la basura. La resistencia (fija y %) es lo que de verdad te mantiene en pie en PvP y en peleas duras. Para el Koliseo, pondera la resistencia en serio; en PvM de mobeo, muchas veces puedes ir con menos.</p>
+<p>La vitalidad son PV en bruto y apilarla es barato, pero más no siempre es mejor: 1000 PV de más que no necesitabas es una estadística de daño tirada a la basura. La resistencia (fija y %) es lo que de verdad te mantiene en pie en PvP y en peleas duras. Para el PvP competitivo, pondera la resistencia en serio; en PvM de mobeo, muchas veces puedes ir con menos.</p>
 
 <h2>Los multiplicadores: Potencia, Daños, Crítico</h2>
 <p>La Potencia sube todo tu daño elemental de golpe y casi siempre merece un peso alto. Los Daños fijos (+daño) brillan en hechizos multigolpe de base baja; el daño en % escala con los golpazos. Las estadísticas de daño en % son una novedad de Dofus 2: aparecen en Dofus 3, la beta y Dofus 2, pero no en Touch ni Retro, donde te apoyas en la Potencia y el daño fijo. La tasa de crítico es genial <em>si</em> tus críticos suman un bonus que de verdad cuenta: mira el hechizo antes de ir a por ella, y ten en cuenta que <a href="/guides/critical-hits/">cómo funcionan los golpes críticos depende de tu versión</a>.</p>
@@ -1063,7 +1063,7 @@ GUIDES = {
 <p>Seu dano vem de um (ou mais) entre Força, Inteligência, Agilidade e Sorte, e cada uma alimenta o elemento que lhe corresponde. Escolha o elemento com que seus feitiços principais escalam e vá fundo nele: um build mono-elemento concentrado quase sempre bate mais que um multi-elemento diluído. Seu elemento de dano é o motor de qualquer build ofensivo, então merece um controle alto.</p>
 
 <h2>Continuar vivo</h2>
-<p>Vitalidade é PV cru e empilhar é barato, mas mais nem sempre é melhor: 1000 PV a mais de que você não precisava é um atributo de dano jogado fora. Resistência (fixa e %) é o que de fato te mantém em pé no PvP e em lutas pesadas. Pro Koliseu, pondere resistência a sério; em PvM de mob, muitas vezes dá pra ir com menos.</p>
+<p>Vitalidade é PV cru e empilhar é barato, mas mais nem sempre é melhor: 1000 PV a mais de que você não precisava é um atributo de dano jogado fora. Resistência (fixa e %) é o que de fato te mantém em pé no PvP e em lutas pesadas. Pro PvP competitivo, pondere resistência a sério; em PvM de mob, muitas vezes dá pra ir com menos.</p>
 
 <h2>Os multiplicadores: Potência, Danos, Crítico</h2>
 <p>A Potência aumenta todo o seu dano elemental de uma vez e quase sempre merece um peso alto. Danos fixos (+dano) brilham em feitiços multi-golpe de base baixa; dano em % escala com golpes grandes. As estatísticas de dano em % são uma novidade do Dofus 2: aparecem no Dofus 3, no beta e no Dofus 2, mas não no Touch nem no Retro, onde você conta com a Potência e o dano fixo. A taxa de crítico é ótima <em>se</em> seus críticos somam um bônus que conta de verdade: confira o feitiço antes de correr atrás, e saiba que <a href="/guides/critical-hits/">como os golpes críticos funcionam depende da sua versão</a>.</p>
@@ -1089,7 +1089,7 @@ GUIDES = {
 <p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Beweglichkeit und Glück, und jede treibt das Element an, das zu ihr passt. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch: ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Dein Schadenselement ist der Motor jedes Angriffs-Builds, also verdient es einen hohen Regler.</p>
 
 <h2>Am Leben bleiben</h2>
-<p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser: 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Fürs Kolosseum gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
+<p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser: 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Für kompetitives PvP gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
 
 <h2>Die Multiplikatoren: Stärke (Power), Schaden, Kritisch</h2>
 <p>Power hebt deinen gesamten Elementarschaden auf einmal und verdient fast immer ein hohes Gewicht. Fixer Schaden (+Schaden) ist am stärksten bei Multi-Treffer-Zaubern mit niedriger Basis; %-Schaden skaliert mit großen Treffern. Die Prozent-Schadenswerte sind eine Dofus-2-Neuerung: sie tauchen auf Dofus 3, der Beta und Dofus 2 auf, aber nicht auf Touch oder Retro, wo du stattdessen auf Power und festen Schaden setzt. Kritische Trefferrate ist super, <em>wenn</em> deine Kritischen wirklich einen spürbaren Bonus draufpacken: schau den Zauber an, bevor du ihr hinterherjagst, und beachte, dass <a href="/guides/critical-hits/">wie kritische Treffer funktionieren, von deiner Version abhängt</a>.</p>
@@ -1890,7 +1890,7 @@ GUIDES = {
 <p>Each build gets a column; with exactly two, you also get a <em>diff</em> column that spells out the gap on every stat. Items shared between sets line up, so you instantly see which pieces actually differ and which carry over. That's usually where the real decision lives, not in the totals, but in the two or three slots that aren't the same.</p>
 
 <h2>What to compare</h2>
-<p>The obvious use is "my current set vs. the optimizer's suggestion." But it's just as good for "PvM vs. Kolossium variant," "cheap vs. expensive version," or settling a guild argument by dropping two shared builds in together. Anytime you're torn between two directions, compare them instead of debating them.</p>
+<p>The obvious use is "my current set vs. the optimizer's suggestion." But it's just as good for "PvM vs. PvP variant," "cheap vs. expensive version," or settling a guild argument by dropping two shared builds in together. Anytime you're torn between two directions, compare them instead of debating them.</p>
 
 <p><em>Got two builds in mind? <a href="/choose_compare_sets/">Compare them now.</a></em></p>
 ''',
@@ -1910,7 +1910,7 @@ GUIDES = {
 <p>Chaque build a sa colonne ; avec exactement deux, t'as en plus une colonne <em>diff</em> qui détaille l'écart sur chaque stat. Les items communs aux deux sets s'alignent, donc tu vois direct quelles pièces diffèrent vraiment et lesquelles reviennent. C'est en général là que se joue la vraie décision, pas dans les totaux, mais dans les deux-trois emplacements qui ne sont pas les mêmes.</p>
 
 <h2>Quoi comparer</h2>
-<p>L'usage évident, c'est "mon set actuel vs la propo de l'optimiseur". Mais c'est aussi parfait pour "variante PvM vs Kolizéum", "version cheap vs chère", ou clore un débat de guilde en mettant deux builds partagés ensemble. Dès que t'hésites entre deux directions, compare-les au lieu d'en débattre.</p>
+<p>L'usage évident, c'est "mon set actuel vs la propo de l'optimiseur". Mais c'est aussi parfait pour "variante PvM vs PvP", "version cheap vs chère", ou clore un débat de guilde en mettant deux builds partagés ensemble. Dès que t'hésites entre deux directions, compare-les au lieu d'en débattre.</p>
 
 <p><em>Deux builds en tête ? <a href="/choose_compare_sets/">Compare-les maintenant.</a></em></p>
 ''',
@@ -1930,7 +1930,7 @@ GUIDES = {
 <p>Cada build tiene su columna; con exactamente dos, tienes además una columna <em>diff</em> que detalla la diferencia en cada estadística. Los ítems compartidos entre sets se alinean, así que ves al instante qué piezas difieren de verdad y cuáles se repiten. Ahí suele estar la decisión real, no en los totales, sino en las dos o tres ranuras que no son iguales.</p>
 
 <h2>Qué comparar</h2>
-<p>El uso obvio es "mi set actual vs. la sugerencia del optimizador". Pero va igual de bien para "variante PvM vs. Koliseo", "versión barata vs. cara", o zanjar una discusión de gremio metiendo dos builds compartidos juntos. Cuando dudes entre dos direcciones, compáralas en vez de debatirlas.</p>
+<p>El uso obvio es "mi set actual vs. la sugerencia del optimizador". Pero va igual de bien para "variante PvM vs. PvP", "versión barata vs. cara", o zanjar una discusión de gremio metiendo dos builds compartidos juntos. Cuando dudes entre dos direcciones, compáralas en vez de debatirlas.</p>
 
 <p><em>¿Dos builds en mente? <a href="/choose_compare_sets/">Compáralos ahora.</a></em></p>
 ''',
@@ -1950,7 +1950,7 @@ GUIDES = {
 <p>Cada build ganha uma coluna; com exatamente dois, você ainda ganha uma coluna <em>diff</em> que detalha a diferença em cada atributo. Os itens compartilhados entre os sets se alinham, então você vê na hora quais peças realmente diferem e quais se repetem. Geralmente é aí que mora a decisão de verdade, não nos totais, mas nos dois ou três slots que não são iguais.</p>
 
 <h2>O que comparar</h2>
-<p>O uso óbvio é "meu set atual vs. a sugestão do otimizador". Mas serve igual pra "variante PvM vs. Koliseu", "versão barata vs. cara", ou encerrar uma discussão de guilda colocando dois builds compartilhados juntos. Sempre que estiver dividido entre duas direções, compare em vez de debater.</p>
+<p>O uso óbvio é "meu set atual vs. a sugestão do otimizador". Mas serve igual pra "variante PvM vs. PvP", "versão barata vs. cara", ou encerrar uma discussão de guilda colocando dois builds compartilhados juntos. Sempre que estiver dividido entre duas direções, compare em vez de debater.</p>
 
 <p><em>Dois builds em mente? <a href="/choose_compare_sets/">Compare agora.</a></em></p>
 ''',
@@ -1970,7 +1970,7 @@ GUIDES = {
 <p>Jedes Build bekommt eine Spalte; bei genau zweien gibt es zusätzlich eine <em>Diff</em>-Spalte, die den Abstand bei jedem Wert aufschlüsselt. Items, die sich beide Sets teilen, stehen auf einer Linie, sodass du sofort siehst, welche Teile sich wirklich unterscheiden und welche gleich bleiben. Da liegt meist die echte Entscheidung, nicht in den Summen, sondern in den zwei, drei Plätzen, die nicht gleich sind.</p>
 
 <h2>Was du vergleichen kannst</h2>
-<p>Der naheliegende Einsatz ist "mein aktuelles Set vs. der Vorschlag des Optimierers". Aber es taugt genauso für "PvM- vs. Kolosseum-Variante", "günstige vs. teure Version" oder um einen Gildenstreit zu klären, indem du zwei geteilte Builds zusammenwirfst. Immer wenn du zwischen zwei Richtungen schwankst, vergleich sie, statt zu diskutieren.</p>
+<p>Der naheliegende Einsatz ist "mein aktuelles Set vs. der Vorschlag des Optimierers". Aber es taugt genauso für "PvM- vs. PvP-Variante", "günstige vs. teure Version" oder um einen Gildenstreit zu klären, indem du zwei geteilte Builds zusammenwirfst. Immer wenn du zwischen zwei Richtungen schwankst, vergleich sie, statt zu diskutieren.</p>
 
 <p><em>Zwei Builds im Kopf? <a href="/choose_compare_sets/">Vergleich sie jetzt.</a></em></p>
 ''',
@@ -2854,7 +2854,7 @@ GUIDES = {
 <p>Percent elemental resistance is <strong>hard-capped at 50%</strong> for players, and this is true in every version of the game: Dofus 3, the beta, Dofus 2, Dofus Touch and Dofus Retro (1.29) alike. Once an element sits at 50%, more percent resistance in that element does nothing against normal damage. So a set that reads +65% Fire resist is really only using 50 of it. The optimizer knows this and will not waste your build chasing percent resist past the useful ceiling, which is why it sometimes stops adding resist gear that looks like it should help.</p>
 
 <h2>When surplus still helps</h2>
-<p>There is one situation where stacking past 50% pays off: <strong>vulnerability</strong>. In PvP, and with some monster mechanics, your resistances get lowered by debuffs. A buffer above 50% keeps you sitting at the cap even after a -10% vulnerability, so Kolossium players deliberately overstack one or two elements. Fixed resistance, by contrast, has no cap at all, so every point of it is always doing something, especially against chip damage and multi-hit spells.</p>
+<p>There is one situation where stacking past 50% pays off: <strong>vulnerability</strong>. In PvP, and with some monster mechanics, your resistances get lowered by debuffs. A buffer above 50% keeps you sitting at the cap even after a -10% vulnerability, so competitive PvP players deliberately overstack one or two elements. Fixed resistance, by contrast, has no cap at all, so every point of it is always doing something, especially against chip damage and multi-hit spells.</p>
 
 <h2>How to weight it in the tool</h2>
 <p>For PvM, put weight on percent resist for the elements that actually threaten you and stop worrying once the build reaches the cap. For PvP, push it higher on purpose for the vulnerability buffer, and give fixed resist some weight too. You do not enter target numbers item by item: you tell the tool how much resistance is worth to you in the <a href="/guides/tuning-your-weights/">weights</a>, the same way you would <a href="/guides/stats-explained/">value any other stat</a>, and it finds the set that fits.</p>
@@ -2874,7 +2874,7 @@ GUIDES = {
 <p>La résistance élémentaire en pourcentage est <strong>plafonnée à 50 %</strong> pour les joueurs, et c'est vrai dans toutes les versions du jeu : Dofus 3, la bêta, Dofus 2, Dofus Touch et Dofus Retro (1.29) pareil. Une fois un élément à 50 %, ajouter du pourcentage dans cet élément ne fait plus rien contre les dégâts normaux. Donc un stuff affiché +65 % de résistance Feu n'en utilise réellement que 50. L'optimiseur le sait et ne gaspille pas ton build à courir après du pourcentage au-delà du plafond utile : c'est pour ça qu'il arrête parfois de mettre des items resist qui semblent utiles.</p>
 
 <h2>Quand le surplus sert encore</h2>
-<p>Il y a une situation où dépasser 50 % paie : la <strong>vulnérabilité</strong>. En PvP, et avec certaines mécaniques de monstres, tes résistances sont baissées par des debuffs. Un buffer au-dessus de 50 % te maintient au plafond même après une vulnérabilité de -10 %, donc les joueurs de Kolizéum sur-empilent volontairement un ou deux éléments. La résistance fixe, elle, n'a aucun plafond : chaque point sert toujours à quelque chose, surtout contre les dégâts qui grignotent et les sorts multi-coups.</p>
+<p>Il y a une situation où dépasser 50 % paie : la <strong>vulnérabilité</strong>. En PvP, et avec certaines mécaniques de monstres, tes résistances sont baissées par des debuffs. Un buffer au-dessus de 50 % te maintient au plafond même après une vulnérabilité de -10 %, donc les joueurs de PvP compétitif sur-empilent volontairement un ou deux éléments. La résistance fixe, elle, n'a aucun plafond : chaque point sert toujours à quelque chose, surtout contre les dégâts qui grignotent et les sorts multi-coups.</p>
 
 <h2>Comment la pondérer dans l'outil</h2>
 <p>En PvM, mets du poids sur le pourcentage de résistance des éléments qui te menacent vraiment et arrête de t'en soucier une fois le plafond atteint. En PvP, pousse-le plus haut exprès pour le buffer de vulnérabilité, et donne aussi du poids à la résistance fixe. Tu n'entres pas des cibles item par item : tu dis à l'outil combien la résistance vaut pour toi dans les <a href="/guides/tuning-your-weights/">poids</a>, comme tu le ferais pour <a href="/guides/stats-explained/">n'importe quelle autre stat</a>, et il trouve le set qui colle.</p>
@@ -2894,7 +2894,7 @@ GUIDES = {
 <p>La resistencia elemental en porcentaje tiene un <strong>tope del 50 %</strong> para los jugadores, y esto vale en todas las versiones del juego: Dofus 3, la beta, Dofus 2, Dofus Touch y Dofus Retro (1.29) igual. Una vez que un elemento está al 50 %, más porcentaje en ese elemento no hace nada contra el daño normal. Así que un equipo que pone +65 % de resistencia de Fuego solo usa 50 de verdad. El optimizador lo sabe y no desperdicia tu build persiguiendo porcentaje por encima del techo útil: por eso a veces deja de añadir equipo de resistencia que parece que debería ayudar.</p>
 
 <h2>Cuándo el excedente sí ayuda</h2>
-<p>Hay una situación en la que pasar del 50 % compensa: la <strong>vulnerabilidad</strong>. En PvP, y con algunas mecánicas de monstruos, tus resistencias bajan por debuffs. Un margen por encima del 50 % te mantiene en el tope incluso tras una vulnerabilidad de -10 %, así que en el Koliseo se sobreacumulan a propósito uno o dos elementos. La resistencia fija, en cambio, no tiene tope: cada punto siempre hace algo, sobre todo contra el daño que desgasta y los hechizos de varios golpes.</p>
+<p>Hay una situación en la que pasar del 50 % compensa: la <strong>vulnerabilidad</strong>. En PvP, y con algunas mecánicas de monstruos, tus resistencias bajan por debuffs. Un margen por encima del 50 % te mantiene en el tope incluso tras una vulnerabilidad de -10 %, así que en el PvP competitivo se sobreacumulan a propósito uno o dos elementos. La resistencia fija, en cambio, no tiene tope: cada punto siempre hace algo, sobre todo contra el daño que desgasta y los hechizos de varios golpes.</p>
 
 <h2>Cómo ponderarla en la herramienta</h2>
 <p>En PvM, da peso al porcentaje de resistencia de los elementos que de verdad te amenazan y deja de preocuparte una vez alcanzado el tope. En PvP, súbelo a propósito por el margen de vulnerabilidad, y da algo de peso también a la resistencia fija. No metes objetivos objeto a objeto: le dices a la herramienta cuánto vale la resistencia para ti en los <a href="/guides/tuning-your-weights/">pesos</a>, igual que <a href="/guides/stats-explained/">valorarías cualquier otra stat</a>, y ella encuentra el set que encaja.</p>
@@ -2914,7 +2914,7 @@ GUIDES = {
 <p>A resistência elemental em porcentagem tem <strong>teto de 50%</strong> para os jogadores, e isso vale em todas as versões do jogo: Dofus 3, o beta, Dofus 2, Dofus Touch e Dofus Retro (1.29) igual. Quando um elemento está em 50%, mais porcentagem nesse elemento não faz nada contra o dano normal. Então um equipamento que mostra +65% de resistência de Fogo só usa 50 de verdade. O otimizador sabe disso e não desperdiça seu build atrás de porcentagem além do teto útil: é por isso que às vezes ele para de adicionar equipamento de resistência que parece que deveria ajudar.</p>
 
 <h2>Quando o excedente ainda ajuda</h2>
-<p>Há uma situação em que passar de 50% compensa: a <strong>vulnerabilidade</strong>. No PvP, e com algumas mecânicas de monstros, suas resistências são reduzidas por debuffs. Uma margem acima de 50% te mantém no teto mesmo depois de uma vulnerabilidade de -10%, então no Kolosseu os jogadores sobrecarregam de propósito um ou dois elementos. A resistência fixa, por outro lado, não tem teto: cada ponto sempre faz algo, principalmente contra o dano que corrói e feitiços de vários golpes.</p>
+<p>Há uma situação em que passar de 50% compensa: a <strong>vulnerabilidade</strong>. No PvP, e com algumas mecânicas de monstros, suas resistências são reduzidas por debuffs. Uma margem acima de 50% te mantém no teto mesmo depois de uma vulnerabilidade de -10%, então no PvP competitivo os jogadores sobrecarregam de propósito um ou dois elementos. A resistência fixa, por outro lado, não tem teto: cada ponto sempre faz algo, principalmente contra o dano que corrói e feitiços de vários golpes.</p>
 
 <h2>Como ponderar na ferramenta</h2>
 <p>No PvM, dê peso à porcentagem de resistência dos elementos que de fato te ameaçam e pare de se preocupar quando o build atinge o teto. No PvP, aumente de propósito pela margem de vulnerabilidade, e dê algum peso também à resistência fixa. Você não insere alvos item a item: você diz à ferramenta quanto a resistência vale para você nos <a href="/guides/tuning-your-weights/">pesos</a>, do mesmo jeito que <a href="/guides/stats-explained/">avaliaria qualquer outra stat</a>, e ela encontra o set que encaixa.</p>
@@ -2934,7 +2934,7 @@ GUIDES = {
 <p>Prozentuale Elementarresistenz ist für Spieler <strong>hart bei 50% gedeckelt</strong>, und das gilt in jeder Version des Spiels: Dofus 3, der Beta, Dofus 2, Dofus Touch und Dofus Retro (1.29) gleichermaßen. Sobald ein Element bei 50% liegt, bringt mehr Prozent in diesem Element gegen normalen Schaden nichts. Eine Ausrüstung mit +65% Feuerresistenz nutzt also wirklich nur 50 davon. Der Optimierer weiß das und verschwendet dein Build nicht damit, Prozent-Resistenz über die nützliche Grenze zu jagen, weshalb er manchmal aufhört, Resistenz-Ausrüstung hinzuzufügen, die zu helfen scheint.</p>
 
 <h2>Wann Überschuss doch hilft</h2>
-<p>Es gibt eine Situation, in der ein Stapeln über 50% sich lohnt: <strong>Verwundbarkeit</strong>. Im PvP und bei manchen Monster-Mechaniken werden deine Resistenzen durch Debuffs gesenkt. Ein Puffer über 50% hält dich selbst nach einer -10%-Verwundbarkeit an der Grenze, deshalb stapeln Kolosseum-Spieler bewusst ein oder zwei Elemente über. Feste Resistenz dagegen hat gar keine Grenze, also tut jeder Punkt davon immer etwas, besonders gegen Dauerschaden und Mehrfachtreffer-Zauber.</p>
+<p>Es gibt eine Situation, in der ein Stapeln über 50% sich lohnt: <strong>Verwundbarkeit</strong>. Im PvP und bei manchen Monster-Mechaniken werden deine Resistenzen durch Debuffs gesenkt. Ein Puffer über 50% hält dich selbst nach einer -10%-Verwundbarkeit an der Grenze, deshalb stapeln kompetitive PvP-Spieler bewusst ein oder zwei Elemente über. Feste Resistenz dagegen hat gar keine Grenze, also tut jeder Punkt davon immer etwas, besonders gegen Dauerschaden und Mehrfachtreffer-Zauber.</p>
 
 <h2>Wie du sie im Werkzeug gewichtest</h2>
 <p>Für PvM leg Gewicht auf Prozent-Resistenz der Elemente, die dich wirklich bedrohen, und mach dir keine Sorgen mehr, sobald das Build die Grenze erreicht. Für PvP schieb sie bewusst höher für den Verwundbarkeits-Puffer, und gib auch fester Resistenz etwas Gewicht. Du gibst keine Zielwerte Item für Item ein: du sagst dem Werkzeug in den <a href="/guides/tuning-your-weights/">Gewichten</a>, wie viel dir Resistenz wert ist, genauso wie du <a href="/guides/stats-explained/">jeden anderen Wert bewerten</a> würdest, und es findet das passende Set.</p>
