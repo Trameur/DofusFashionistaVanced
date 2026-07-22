@@ -14,10 +14,117 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
 
 
 GUIDES = {
+    # ------------------------------------------------------------------ #
+    'vitality-and-hp': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'How much Vitality (HP) do you really need?',
+                'desc': "Vitality is the cheapest stat and pure HP, but more is not always better. How to think about HP, the tradeoff it hides, and when to stop stacking it.",
+                'lead': "Vitality is the cheapest stat in the game and turns straight into HP, but piling it on is a classic trap. Here is how much you actually need.",
+                'body': '''
+<h2>What Vitality actually gives you</h2>
+<p>Vitality is the simplest stat in Dofus: <strong>one point of Vitality is one hit point</strong>, in every version. It is also the cheapest characteristic to raise, so it is easy to pour points and scrolls into it and watch your HP bar balloon. That is exactly why it needs a second look: cheap and simple does not mean free.</p>
+
+<h2>The hidden tradeoff</h2>
+<p>Every point you spend on Vitality is a point you did not spend on damage, resistance or your element. A thousand extra HP you never needed is a thousand points of damage you gave up. HP keeps you alive, but it does not help you win faster, and a fight you drag out is a fight where you take more hits. The goal is enough HP to survive the content you run, not the biggest number possible.</p>
+
+<h2>HP is a buffer, resistance is a shield</h2>
+<p>Raw HP is a flat buffer: 3000 HP soaks the same damage whether the hit is big or small. Resistance is different: it cuts a percentage off every hit, so it scales with how hard you are being hit. In tough fights and PvP, a point of resistance often protects you more than a point of HP. A healthy build usually wants both, weighted toward resistance when the incoming damage is high, and toward HP when you just need a bigger cushion.</p>
+
+<h2>How much, and how to set it</h2>
+<p>For farming and easy PvM, a modest HP pool is plenty; spend the rest on killing speed. For hard dungeons and PvP, you want a real buffer, but paired with resistance, not instead of it. In the Fashionista, the clean way to handle it is a <strong>minimum</strong>: set the HP floor you want and let the optimizer meet it, then weight vitality low so it does not chase HP you never asked for. That way every extra point goes where it actually changes the fight.</p>
+
+<p><em>Not sure where your HP should land? <a href="/setup/">Set a vitality floor here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': 'De combien de Vitalité (PV) as-tu vraiment besoin ?',
+                'desc': "La Vitalité est la stat la moins chère et du PV pur, mais plus n'est pas toujours mieux. Comment penser tes PV et quand arrêter d'en empiler.",
+                'lead': "La Vitalité est la caractéristique la moins chère du jeu et se transforme directement en PV, mais en empiler à outrance est un piège classique. Voici ce qu'il te faut vraiment.",
+                'body': '''
+<h2>Ce que donne vraiment la Vitalité</h2>
+<p>La Vitalité est la stat la plus simple de Dofus : <strong>un point de Vitalité, c'est un point de vie</strong>, dans toutes les versions. C'est aussi la caractéristique la moins chère à monter, donc c'est facile d'y verser des points et des parchemins et de voir sa barre de PV gonfler. C'est justement pour ça qu'elle mérite un second regard : pas chère et simple ne veut pas dire gratuite.</p>
+
+<h2>Le compromis caché</h2>
+<p>Chaque point mis en Vitalité est un point que tu n'as pas mis en dégâts, en résistance ou dans ton élément. Mille PV en trop dont tu n'avais pas besoin, ce sont mille points de dégâts abandonnés. Les PV te gardent en vie, mais ils ne t'aident pas à gagner plus vite, et un combat qui traîne est un combat où tu prends plus de coups. Le but, c'est assez de PV pour survivre au contenu que tu fais, pas le plus gros chiffre possible.</p>
+
+<h2>Les PV sont un tampon, la résistance un bouclier</h2>
+<p>Les PV bruts sont un tampon fixe : 3000 PV encaissent la même chose que le coup soit gros ou petit. La résistance, c'est différent : elle retire un pourcentage à chaque coup, donc elle scale avec la force des coups que tu reçois. Dans les combats velus et en PvP, un point de résistance te protège souvent plus qu'un point de PV. Un build sain veut généralement les deux, penché vers la résistance quand les dégâts entrants sont élevés, et vers les PV quand tu as juste besoin d'un plus gros matelas.</p>
+
+<h2>Combien, et comment le régler</h2>
+<p>Pour le farm et le PvM tranquille, un réservoir de PV modeste suffit largement ; mets le reste dans la vitesse de kill. Pour les donjons durs et le PvP, tu veux un vrai matelas, mais couplé à de la résistance, pas à la place. Dans la Fashionista, la façon propre de gérer ça, c'est un <strong>minimum</strong> : fixe le plancher de PV que tu veux, laisse l'optimiseur l'atteindre, puis pondère la vitalité bas pour qu'elle ne coure pas après des PV que t'as pas demandés. Comme ça, chaque point en trop va là où il change vraiment le combat.</p>
+
+<p><em>Tu ne sais pas où placer tes PV ? <a href="/setup/">Fixe un plancher de vitalité ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': '¿Cuánta Vitalidad (PdV) necesitas de verdad?',
+                'desc': "La Vitalidad es la estadística más barata y PdV puro, pero más no siempre es mejor. Cómo pensar tus PdV, la trampa que esconden, y cuándo dejar de acumularla.",
+                'lead': "La Vitalidad es la característica más barata del juego y se convierte directamente en PdV, pero acumularla sin freno es una trampa clásica. Aquí está lo que de verdad necesitas.",
+                'body': '''
+<h2>Qué te da de verdad la Vitalidad</h2>
+<p>La Vitalidad es la estadística más simple de Dofus: <strong>un punto de Vitalidad es un punto de vida</strong>, en todas las versiones. También es la característica más barata de subir, así que es fácil verter puntos y pergaminos en ella y ver tu barra de PdV inflarse. Justo por eso merece una segunda mirada: barata y simple no significa gratis.</p>
+
+<h2>El sacrificio oculto</h2>
+<p>Cada punto que pones en Vitalidad es un punto que no pusiste en daño, resistencia o tu elemento. Mil PdV de más que no necesitabas son mil puntos de daño que dejaste ir. Los PdV te mantienen vivo, pero no te ayudan a ganar más rápido, y un combate que se alarga es un combate donde recibes más golpes. El objetivo son suficientes PdV para sobrevivir al contenido que haces, no el número más grande posible.</p>
+
+<h2>Los PdV son un colchón, la resistencia un escudo</h2>
+<p>Los PdV puros son un colchón fijo: 3000 PdV aguantan lo mismo sea el golpe grande o pequeño. La resistencia es distinta: quita un porcentaje a cada golpe, así que escala con la fuerza de lo que recibes. En combates duros y en PvP, un punto de resistencia suele protegerte más que un punto de PdV. Un build sano normalmente quiere ambos, inclinado hacia la resistencia cuando el daño entrante es alto, y hacia los PdV cuando solo necesitas un colchón más grande.</p>
+
+<h2>Cuánta, y cómo ajustarla</h2>
+<p>Para farmear y PvM tranquilo, una reserva de PdV modesta sobra; pon el resto en velocidad de kill. Para mazmorras duras y PvP, quieres un colchón real, pero junto a resistencia, no en su lugar. En la Fashionista, la forma limpia de manejarlo es un <strong>mínimo</strong>: fija el suelo de PdV que quieres, deja que el optimizador lo alcance, y luego pondera la vitalidad baja para que no persiga PdV que no pediste. Así, cada punto de más va donde de verdad cambia el combate.</p>
+
+<p><em>¿No sabes dónde dejar tus PdV? <a href="/setup/">Fija un suelo de vitalidad aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'De quanta Vitalidade (PV) você precisa de verdade?',
+                'desc': "A Vitalidade é o atributo mais barato e PV puro, mas mais nem sempre é melhor. Como pensar seus PV, a armadilha que eles escondem, e quando parar de acumular.",
+                'lead': "A Vitalidade é o atributo mais barato do jogo e vira PV diretamente, mas empilhá-la sem freio é uma armadilha clássica. Aqui está o que você realmente precisa.",
+                'body': '''
+<h2>O que a Vitalidade realmente dá</h2>
+<p>A Vitalidade é o atributo mais simples de Dofus: <strong>um ponto de Vitalidade é um ponto de vida</strong>, em todas as versões. Também é o atributo mais barato de subir, então é fácil despejar pontos e pergaminhos nela e ver sua barra de PV inflar. É justamente por isso que ela merece um segundo olhar: barata e simples não quer dizer de graça.</p>
+
+<h2>A troca escondida</h2>
+<p>Cada ponto que você põe em Vitalidade é um ponto que não pôs em dano, resistência ou no seu elemento. Mil PV a mais de que você não precisava são mil pontos de dano que você abriu mão. Os PV te mantêm vivo, mas não te ajudam a ganhar mais rápido, e um combate que se arrasta é um combate onde você toma mais golpes. O objetivo é PV suficiente para sobreviver ao conteúdo que você faz, não o maior número possível.</p>
+
+<h2>PV é um colchão, resistência é um escudo</h2>
+<p>PV puro é um colchão fixo: 3000 PV aguentam a mesma coisa seja o golpe grande ou pequeno. A resistência é diferente: tira uma porcentagem de cada golpe, então escala com a força do que você recebe. Em combates difíceis e no PvP, um ponto de resistência costuma te proteger mais que um ponto de PV. Um build saudável geralmente quer os dois, pendendo para a resistência quando o dano recebido é alto, e para os PV quando você só precisa de um colchão maior.</p>
+
+<h2>Quanta, e como ajustar</h2>
+<p>Para farm e PvM tranquilo, uma reserva de PV modesta já basta; ponha o resto na velocidade de kill. Para masmorras difíceis e PvP, você quer um colchão de verdade, mas junto com resistência, não no lugar dela. Na Fashionista, o jeito limpo de lidar com isso é um <strong>mínimo</strong>: fixe o piso de PV que você quer, deixe o otimizador alcançá-lo, e depois pondere a vitalidade baixa para que ela não persiga PV que você não pediu. Assim, cada ponto a mais vai onde de fato muda o combate.</p>
+
+<p><em>Não sabe onde deixar seus PV? <a href="/setup/">Fixe um piso de vitalidade aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Wie viel Vitalität (LP) brauchst du wirklich?',
+                'desc': "Vitalität ist der billigste Wert und pure LP, aber mehr ist nicht immer besser. Wie du über LP nachdenkst und wann du aufhörst zu stapeln.",
+                'lead': "Vitalität ist der billigste Wert im Spiel und wird direkt zu LP, aber sie hemmungslos zu stapeln ist eine klassische Falle. Hier steht, wie viel du wirklich brauchst.",
+                'body': '''
+<h2>Was Vitalität dir wirklich gibt</h2>
+<p>Vitalität ist der einfachste Wert in Dofus: <strong>ein Punkt Vitalität ist ein Lebenspunkt</strong>, in jeder Version. Sie ist auch die billigste Eigenschaft zum Steigern, also ist es leicht, Punkte und Schriftrollen hineinzukippen und die LP-Leiste anschwellen zu sehen. Genau deshalb lohnt ein zweiter Blick: billig und einfach heißt nicht kostenlos.</p>
+
+<h2>Die versteckte Abwägung</h2>
+<p>Jeder Punkt in Vitalität ist ein Punkt, den du nicht in Schaden, Resistenz oder dein Element gesteckt hast. Tausend überschüssige LP, die du nie gebraucht hast, sind tausend Schadenspunkte, die du aufgegeben hast. LP halten dich am Leben, aber sie helfen dir nicht, schneller zu gewinnen, und ein Kampf, der sich zieht, ist ein Kampf, in dem du mehr Treffer kassierst. Das Ziel sind genug LP, um den Content zu überstehen, den du spielst, nicht die größtmögliche Zahl.</p>
+
+<h2>LP sind ein Puffer, Resistenz ist ein Schild</h2>
+<p>Rohe LP sind ein fester Puffer: 3000 LP schlucken dasselbe, ob der Treffer groß oder klein ist. Resistenz ist anders: sie nimmt jedem Treffer einen Prozentsatz weg, also skaliert sie damit, wie hart du getroffen wirst. In harten Kämpfen und im PvP schützt dich ein Punkt Resistenz oft mehr als ein Punkt LP. Ein gesunder Build will meist beides, mit Neigung zur Resistenz, wenn der eingehende Schaden hoch ist, und zu LP, wenn du einfach ein größeres Polster brauchst.</p>
+
+<h2>Wie viel, und wie du es einstellst</h2>
+<p>Zum Farmen und für lockeres PvM reicht ein bescheidener LP-Vorrat locker; steck den Rest in Tötungsgeschwindigkeit. Für harte Dungeons und PvP willst du ein echtes Polster, aber gepaart mit Resistenz, nicht statt ihr. In der Fashionista ist der saubere Weg ein <strong>Minimum</strong>: leg den LP-Boden fest, den du willst, lass den Optimierer ihn erreichen, und gewichte Vitalität dann niedrig, damit sie keinen LP hinterherjagt, den du nie verlangt hast. So geht jeder zusätzliche Punkt dorthin, wo er den Kampf wirklich verändert.</p>
+
+<p><em>Unsicher, wo deine LP landen sollen? <a href="/setup/">Leg hier einen Vitalitäts-Boden fest.</a></em></p>
+''',
+            },
+        },
+    },
+
     # ------------------------------------------------------------------ #
     'prospecting-and-drops': {
         'published': '2026-07-22',
