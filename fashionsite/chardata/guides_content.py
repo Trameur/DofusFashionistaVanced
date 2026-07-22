@@ -988,7 +988,7 @@ GUIDES = {
 <p>Vitality is raw HP and it's cheap to stack, but more isn't always better: 1000 extra HP you didn't need is a damage stat you threw away. Resistance (flat and %) is what actually keeps you up in PvP and tough fights. For Kolossium, weight resistance seriously; for mobbing PvM, you can often get away with less.</p>
 
 <h2>The multipliers: Power, Damage, Crit</h2>
-<p>Power boosts all your elemental damage at once and is almost always worth a high weight. Flat Damage (+dmg) is strongest on multi-hit, low-base spells; % damage scales with big hits. Critical hit rate is great <em>if</em> your crits actually add a meaningful bonus: check the spell before you chase it.</p>
+<p>Power boosts all your elemental damage at once and is almost always worth a high weight. Flat Damage (+dmg) is strongest on multi-hit, low-base spells; % damage scales with big hits. Critical hit rate is great <em>if</em> your crits actually add a meaningful bonus: check the spell before you chase it, and note that <a href="/guides/critical-hits/">how critical hits work depends on your version</a>.</p>
 
 <h2>The quiet ones: Wisdom, Prospecting, Initiative, Pods</h2>
 <p>Not every build is about damage. Wisdom = XP and resistance to AP/MP loss; Prospecting = drop rate, gold for farmers; Initiative decides turn order; Pods are pure convenience. Give them a small weight when they matter to you and zero when they don't: the optimizer will only chase them if there's no real cost.</p>
@@ -1014,7 +1014,7 @@ GUIDES = {
 <p>La vitalité, c'est des PV bruts et ça s'empile pas cher, mais plus n'est pas toujours mieux : 1000 PV en trop dont t'avais pas besoin, c'est une stat de dégâts jetée à la poubelle. La résistance (fixe et %) c'est ce qui te garde debout en PvP et dans les combats velus. Pour le Kolizéum, pondère la résistance sérieusement ; en PvM de mob, tu peux souvent t'en passer un peu.</p>
 
 <h2>Les multiplicateurs : Puissance, Dommages, Critique</h2>
-<p>La Puissance booste tous tes dégâts élémentaires d'un coup et mérite presque toujours un gros poids. Les Dommages fixes (+dom) sont rois sur les sorts multi-coups à faible base ; les dégâts en % scalent avec les gros coups. Le taux de critique est top <em>si</em> tes crits ajoutent vraiment un bonus qui compte : vérifie le sort avant de courir après.</p>
+<p>La Puissance booste tous tes dégâts élémentaires d'un coup et mérite presque toujours un gros poids. Les Dommages fixes (+dom) sont rois sur les sorts multi-coups à faible base ; les dégâts en % scalent avec les gros coups. Le taux de critique est top <em>si</em> tes crits ajoutent vraiment un bonus qui compte : vérifie le sort avant de courir après, et sache que <a href="/guides/critical-hits/">le fonctionnement des coups critiques dépend de ta version</a>.</p>
 
 <h2>Les discrètes : Sagesse, Prospection, Initiative, Pods</h2>
 <p>Tous les builds ne tournent pas autour des dégâts. Sagesse = XP et résistance à la perte de PA/PM ; Prospection = taux de drop, kamas pour les farmeurs ; l'Initiative décide de l'ordre des tours ; les Pods, c'est du confort pur. Mets-leur un petit poids quand ça t'importe et zéro sinon : l'optimiseur ne les chassera que si ça ne coûte rien.</p>
@@ -1040,7 +1040,7 @@ GUIDES = {
 <p>La vitalidad son PV en bruto y apilarla es barato, pero más no siempre es mejor: 1000 PV de más que no necesitabas es una estadística de daño tirada a la basura. La resistencia (fija y %) es lo que de verdad te mantiene en pie en PvP y en peleas duras. Para el Koliseo, pondera la resistencia en serio; en PvM de mobeo, muchas veces puedes ir con menos.</p>
 
 <h2>Los multiplicadores: Potencia, Daños, Crítico</h2>
-<p>La Potencia sube todo tu daño elemental de golpe y casi siempre merece un peso alto. Los Daños fijos (+daño) brillan en hechizos multigolpe de base baja; el daño en % escala con los golpazos. La tasa de crítico es genial <em>si</em> tus críticos suman un bonus que de verdad cuenta: mira el hechizo antes de ir a por ella.</p>
+<p>La Potencia sube todo tu daño elemental de golpe y casi siempre merece un peso alto. Los Daños fijos (+daño) brillan en hechizos multigolpe de base baja; el daño en % escala con los golpazos. La tasa de crítico es genial <em>si</em> tus críticos suman un bonus que de verdad cuenta: mira el hechizo antes de ir a por ella, y ten en cuenta que <a href="/guides/critical-hits/">cómo funcionan los golpes críticos depende de tu versión</a>.</p>
 
 <h2>Las calladas: Sabiduría, Prospección, Iniciativa, Pods</h2>
 <p>No todos los builds van de daño. Sabiduría = XP y resistencia a la pérdida de PA/PM; Prospección = tasa de drop, kamas para farmers; la Iniciativa decide el orden de turnos; los Pods son comodidad pura. Dales un peso pequeño cuando te importan y cero cuando no: el optimizador solo irá a por ellos si no cuesta nada.</p>
@@ -1066,7 +1066,7 @@ GUIDES = {
 <p>Vitalidade é PV cru e empilhar é barato, mas mais nem sempre é melhor: 1000 PV a mais de que você não precisava é um atributo de dano jogado fora. Resistência (fixa e %) é o que de fato te mantém em pé no PvP e em lutas pesadas. Pro Koliseu, pondere resistência a sério; em PvM de mob, muitas vezes dá pra ir com menos.</p>
 
 <h2>Os multiplicadores: Potência, Danos, Crítico</h2>
-<p>A Potência aumenta todo o seu dano elemental de uma vez e quase sempre merece um peso alto. Danos fixos (+dano) brilham em feitiços multi-golpe de base baixa; dano em % escala com golpes grandes. A taxa de crítico é ótima <em>se</em> seus críticos somam um bônus que conta de verdade: confira o feitiço antes de correr atrás.</p>
+<p>A Potência aumenta todo o seu dano elemental de uma vez e quase sempre merece um peso alto. Danos fixos (+dano) brilham em feitiços multi-golpe de base baixa; dano em % escala com golpes grandes. A taxa de crítico é ótima <em>se</em> seus críticos somam um bônus que conta de verdade: confira o feitiço antes de correr atrás, e saiba que <a href="/guides/critical-hits/">como os golpes críticos funcionam depende da sua versão</a>.</p>
 
 <h2>Os quietos: Sabedoria, Prospecção, Iniciativa, Pods</h2>
 <p>Nem todo build é sobre dano. Sabedoria = XP e resistência à perda de PA/PM; Prospecção = taxa de drop, kamas pros farmers; a Iniciativa decide a ordem dos turnos; os Pods são puro conforto. Dê um peso pequeno quando importam e zero quando não: o otimizador só vai atrás deles se não custar nada.</p>
@@ -1092,7 +1092,7 @@ GUIDES = {
 <p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser: 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Fürs Kolosseum gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
 
 <h2>Die Multiplikatoren: Stärke (Power), Schaden, Kritisch</h2>
-<p>Power hebt deinen gesamten Elementarschaden auf einmal und verdient fast immer ein hohes Gewicht. Fixer Schaden (+Schaden) ist am stärksten bei Multi-Treffer-Zaubern mit niedriger Basis; %-Schaden skaliert mit großen Treffern. Kritische Trefferrate ist super, <em>wenn</em> deine Kritischen wirklich einen spürbaren Bonus draufpacken: schau den Zauber an, bevor du ihr hinterherjagst.</p>
+<p>Power hebt deinen gesamten Elementarschaden auf einmal und verdient fast immer ein hohes Gewicht. Fixer Schaden (+Schaden) ist am stärksten bei Multi-Treffer-Zaubern mit niedriger Basis; %-Schaden skaliert mit großen Treffern. Kritische Trefferrate ist super, <em>wenn</em> deine Kritischen wirklich einen spürbaren Bonus draufpacken: schau den Zauber an, bevor du ihr hinterherjagst, und beachte, dass <a href="/guides/critical-hits/">wie kritische Treffer funktionieren, von deiner Version abhängt</a>.</p>
 
 <h2>Die Leisen: Weisheit, Prospektion, Initiative, Trageleistung</h2>
 <p>Nicht jedes Build dreht sich um Schaden. Weisheit = EP und Widerstand gegen AP/BP-Verlust; Prospektion = Drop-Rate, Kamas für Farmer; Initiative entscheidet die Zugreihenfolge; Trageleistung ist purer Komfort. Gib ihnen ein kleines Gewicht, wenn sie dir wichtig sind, und null, wenn nicht: der Optimierer jagt ihnen nur nach, wenn es nichts kostet.</p>
@@ -2915,6 +2915,24 @@ def list_guides(language_code, game_version='dofus3'):
     return out
 
 
+def _version_specific_slugs():
+    return [slug for slug in GUIDES if 'i18n_by_group' in GUIDES[slug]]
+
+
+def _localize_body_links(body, game_version):
+    """A body link to a version-specific guide (e.g. critical hits) must keep the
+    reader on their version, or a Retro reader would be sent to the modern crit
+    page. Rewrite those links to the current version prefix; links to plain,
+    global guides are left on /guides/ (they read the same everywhere)."""
+    if game_version == 'dofus3':
+        return body
+    for slug in _version_specific_slugs():
+        body = body.replace(
+            'href="/guides/%s/"' % slug,
+            'href="/%s/guides/%s/"' % (game_version, slug))
+    return body
+
+
 def get_guide(slug, language_code, game_version='dofus3'):
     """Return {slug, title, desc, lead, body} or None if slug unknown."""
     guide = GUIDES.get(slug)
@@ -2924,6 +2942,7 @@ def get_guide(slug, language_code, game_version='dofus3'):
     block = _guide_block(guide, lang, game_version)
     data = {'slug': slug, 'published': guide['published']}
     data.update(block)
+    data['body'] = _localize_body_links(data['body'], game_version)
     return data
 
 

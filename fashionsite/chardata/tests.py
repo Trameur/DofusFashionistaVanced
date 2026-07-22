@@ -4816,6 +4816,14 @@ class VersionSpecificGuideTests(TestCase):
         self.assertEqual(sorted(guides_content.canonical_versions('critical-hits')),
                          ['dofus3', 'retro'])
 
+    def test_body_link_to_a_version_guide_follows_the_reader_version(self):
+        # The crit link inside stats-explained must keep a Retro reader on the
+        # Retro crit page; on the default it stays the global URL.
+        retro = self.client.get('/retro/guides/stats-explained/').content.decode('utf-8')
+        self.assertIn('href="/retro/guides/critical-hits/"', retro)
+        modern = self.client.get('/guides/stats-explained/').content.decode('utf-8')
+        self.assertIn('href="/guides/critical-hits/"', modern)
+
 
 class EncyclopediaCacheWarmupTests(SimpleTestCase):
     def test_warm_caches_covers_every_version(self):
