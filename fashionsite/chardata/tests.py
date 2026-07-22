@@ -652,6 +652,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/scrolls-and-characteristics/',
                      '/guides/ap-mp-range-caps/',
                      '/guides/game-modes/', '/guides/reading-an-item/',
+                     '/guides/set-bonuses/',
                      '/guides/understanding-your-solution/',
                      '/guides/tuning-your-weights/',
                      '/guides/forgemagie-planning/',

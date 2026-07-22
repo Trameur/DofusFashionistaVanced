@@ -14,10 +14,117 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
 
 
 GUIDES = {
+    # ------------------------------------------------------------------ #
+    'set-bonuses': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'Set bonuses: how panoplies power up your build',
+                'desc': "Wear several items from the same set and you unlock bonus stats that grow with each piece. How set bonuses work, and when to chase a full set.",
+                'lead': "Wear several items from the same set and you unlock bonus stats that grow with each piece. Here's how they work, and when a full set beats mixing.",
+                'body': '''
+<h2>What a set bonus actually is</h2>
+<p>A set (panoply) is a group of items designed to be worn together. Equip two or more pieces of the same set and the game hands you <strong>bonus stats on top of the items themselves</strong>. Those bonuses are free value: you get them just for wearing pieces that already occupy your slots. It is why sets are the backbone of most builds.</p>
+
+<h2>More pieces, bigger bonus, less freedom</h2>
+<p>Set bonuses scale with the number of pieces you wear: two items give a small bonus, and it grows at three, four, five and beyond, usually jumping hard on the last piece or two. The catch is the tradeoff. Every slot you commit to a set is a slot you cannot fill with a better standalone item. A full set can be amazing, or it can force weak pieces just to reach the top bonus. The sweet spot is often a <strong>partial set</strong>: enough pieces for a meaningful bonus, the rest of your slots free for best-in-slot gear.</p>
+
+<h2>Every version has its own sets</h2>
+<p>Sets and their bonuses are not the same across Dofus versions. Dofus 3, the beta, Dofus 2, Touch and Retro each have their own sets, their own piece counts and their own bonus values, because each is effectively its own game. The Fashionista loads the correct set data for the version you picked, so a Retro build is judged on Retro sets, not modern ones.</p>
+
+<h2>Let the tool do the set math</h2>
+<p>You almost never have to plan sets by hand. The optimizer already knows every set bonus and weighs it against mixing individual items: if wearing four pieces of a set beats four separate best-in-slot items for your goals, it picks the set; if not, it mixes. Set your stat priorities, run it, and check the result. Want to see the difference a set makes? Build one version, then use the <a href="/choose_compare_sets/">comparator</a> to put a set-heavy build next to a mixed one and see exactly what each stat costs.</p>
+
+<p><em>Curious what sets fit your goals? <a href="/setup/">Build it here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': 'Les bonus de panoplie : comment les sets boostent ton build',
+                'desc': "Porte plusieurs items d'une même panoplie et tu débloques des bonus qui grandissent à chaque pièce. Comment ça marche, et quand viser la panoplie complète.",
+                'lead': "Porte plusieurs items d'une même panoplie et tu débloques des bonus qui grandissent à chaque pièce. Comment ça marche, et quand la panoplie complète bat le mix.",
+                'body': '''
+<h2>Un bonus de panoplie, c'est quoi au juste</h2>
+<p>Une panoplie (set) est un groupe d'items pensés pour être portés ensemble. Équipe deux pièces ou plus d'une même panoplie et le jeu te file <strong>des stats bonus en plus des items eux-mêmes</strong>. Ces bonus sont de la valeur gratuite : tu les as juste en portant des pièces qui occupent déjà tes emplacements. C'est pour ça que les panoplies sont la colonne vertébrale de la plupart des builds.</p>
+
+<h2>Plus de pièces, plus de bonus, moins de liberté</h2>
+<p>Le bonus de panoplie grandit avec le nombre de pièces portées : deux items donnent un petit bonus, et il monte à trois, quatre, cinq et au-delà, avec souvent un gros saut sur la ou les dernières pièces. Le piège, c'est le compromis. Chaque emplacement que tu réserves à une panoplie est un emplacement que tu ne peux pas remplir avec un meilleur item isolé. Une panoplie complète peut être énorme, ou t'imposer des pièces faibles juste pour atteindre le dernier palier. Le bon équilibre est souvent une <strong>panoplie partielle</strong> : assez de pièces pour un bonus qui compte, le reste de tes emplacements libre pour du meilleur item par slot.</p>
+
+<h2>Chaque version a ses propres panoplies</h2>
+<p>Les panoplies et leurs bonus ne sont pas les mêmes d'une version de Dofus à l'autre. Dofus 3, la bêta, Dofus 2, Touch et Rétro ont chacun leurs panoplies, leurs nombres de pièces et leurs valeurs de bonus, parce que chacun est en pratique son propre jeu. La Fashionista charge les bonnes données de panoplie pour la version que tu as choisie, donc un build Rétro est jugé sur les panoplies Rétro, pas les modernes.</p>
+
+<h2>Laisse l'outil faire le calcul des panoplies</h2>
+<p>Tu n'as presque jamais à planifier les panoplies à la main. L'optimiseur connaît déjà chaque bonus de panoplie et l'arbitre contre le mix d'items isolés : si porter quatre pièces d'une panoplie bat quatre meilleurs items séparés pour tes objectifs, il prend la panoplie ; sinon, il mixe. Règle tes priorités de stats, lance, et regarde le résultat. Tu veux voir la différence qu'apporte une panoplie ? Construis une version, puis utilise le <a href="/choose_compare_sets/">comparateur</a> pour mettre un build à grosse panoplie à côté d'un build mixé et voir exactement ce que coûte chaque stat.</p>
+
+<p><em>Curieux de savoir quelles panoplies collent à tes objectifs ? <a href="/setup/">Construis-le ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'Los bonus de conjunto: cómo las panoplias potencian tu build',
+                'desc': "Lleva varios objetos de un mismo conjunto y desbloqueas bonus que crecen con cada pieza. Cómo funcionan, y cuándo vale la pena el conjunto completo.",
+                'lead': "Lleva varios objetos de un mismo conjunto y desbloqueas bonus que crecen con cada pieza. Cómo funcionan, y cuándo el conjunto completo gana al mix.",
+                'body': '''
+<h2>Qué es de verdad un bonus de conjunto</h2>
+<p>Un conjunto (panoplia) es un grupo de objetos pensados para llevarse juntos. Equipa dos piezas o más del mismo conjunto y el juego te da <strong>estadísticas extra además de los propios objetos</strong>. Esos bonus son valor gratis: los tienes solo por llevar piezas que ya ocupan tus espacios. Por eso los conjuntos son la columna vertebral de casi todos los builds.</p>
+
+<h2>Más piezas, más bonus, menos libertad</h2>
+<p>El bonus de conjunto crece con el número de piezas que llevas: dos objetos dan un bonus pequeño, y sube en tres, cuatro, cinco y más, normalmente con un gran salto en la última pieza o dos. La trampa es el compromiso. Cada espacio que reservas a un conjunto es un espacio que no puedes llenar con un mejor objeto suelto. Un conjunto completo puede ser brutal, o forzarte piezas flojas solo para llegar al último escalón. El punto justo suele ser un <strong>conjunto parcial</strong>: suficientes piezas para un bonus que importe, y el resto de tus espacios libres para lo mejor por casilla.</p>
+
+<h2>Cada versión tiene sus propios conjuntos</h2>
+<p>Los conjuntos y sus bonus no son iguales de una versión de Dofus a otra. Dofus 3, la beta, Dofus 2, Touch y Retro tienen cada uno sus conjuntos, sus números de piezas y sus valores de bonus, porque cada uno es en la práctica su propio juego. La Fashionista carga los datos de conjunto correctos para la versión que elegiste, así que un build Retro se juzga con conjuntos Retro, no modernos.</p>
+
+<h2>Deja que la herramienta haga las cuentas</h2>
+<p>Casi nunca tienes que planear los conjuntos a mano. El optimizador ya conoce cada bonus de conjunto y lo compara con mezclar objetos sueltos: si llevar cuatro piezas de un conjunto gana a cuatro mejores objetos por separado para tus objetivos, elige el conjunto; si no, mezcla. Ajusta tus prioridades de estadísticas, ejecútalo y mira el resultado. ¿Quieres ver la diferencia que hace un conjunto? Construye una versión y luego usa el <a href="/choose_compare_sets/">comparador</a> para poner un build con mucho conjunto al lado de uno mixto y ver exactamente lo que cuesta cada estadística.</p>
+
+<p><em>¿Con curiosidad por qué conjuntos encajan con tus objetivos? <a href="/setup/">Constrúyelo aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'Os bônus de conjunto: como as panóplias turbinam seu build',
+                'desc': "Use vários itens de um mesmo conjunto e você desbloqueia bônus que crescem a cada peça. Como funcionam, e quando vale a pena o conjunto completo.",
+                'lead': "Use vários itens de um mesmo conjunto e você desbloqueia bônus que crescem a cada peça. Como funcionam, e quando o conjunto completo ganha do mix.",
+                'body': '''
+<h2>O que é de verdade um bônus de conjunto</h2>
+<p>Um conjunto (panóplia) é um grupo de itens pensados para serem usados juntos. Equipe duas peças ou mais do mesmo conjunto e o jogo te dá <strong>atributos extras além dos próprios itens</strong>. Esses bônus são valor de graça: você os tem só por usar peças que já ocupam seus espaços. É por isso que os conjuntos são a espinha dorsal da maioria dos builds.</p>
+
+<h2>Mais peças, mais bônus, menos liberdade</h2>
+<p>O bônus de conjunto cresce com o número de peças que você usa: dois itens dão um bônus pequeno, e ele sobe em três, quatro, cinco e além, geralmente com um grande salto na última peça ou duas. A pegadinha é o compromisso. Cada espaço que você reserva para um conjunto é um espaço que não pode preencher com um item avulso melhor. Um conjunto completo pode ser incrível, ou te forçar peças fracas só para chegar ao último degrau. O ponto ideal costuma ser um <strong>conjunto parcial</strong>: peças suficientes para um bônus que importe, e o resto dos seus espaços livre para o melhor por casa.</p>
+
+<h2>Cada versão tem seus próprios conjuntos</h2>
+<p>Os conjuntos e seus bônus não são iguais de uma versão de Dofus para outra. Dofus 3, o beta, Dofus 2, Touch e Retro têm cada um seus conjuntos, seus números de peças e seus valores de bônus, porque cada um é na prática seu próprio jogo. A Fashionista carrega os dados de conjunto certos para a versão que você escolheu, então um build Retro é avaliado com conjuntos Retro, não modernos.</p>
+
+<h2>Deixe a ferramenta fazer a conta dos conjuntos</h2>
+<p>Você quase nunca precisa planejar os conjuntos na mão. O otimizador já conhece cada bônus de conjunto e o compara com misturar itens avulsos: se usar quatro peças de um conjunto ganha de quatro melhores itens separados para os seus objetivos, ele escolhe o conjunto; se não, mistura. Ajuste suas prioridades de atributos, rode e veja o resultado. Quer ver a diferença que um conjunto faz? Monte uma versão e use o <a href="/choose_compare_sets/">comparador</a> para colocar um build cheio de conjunto ao lado de um misto e ver exatamente o que cada atributo custa.</p>
+
+<p><em>Curioso sobre quais conjuntos combinam com seus objetivos? <a href="/setup/">Monte aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Set-Boni: wie Panoplien deinen Build stärker machen',
+                'desc': "Trage mehrere Items eines Sets und du schaltest Boni frei, die mit jedem Teil wachsen. Wie Set-Boni funktionieren und wann sich ein volles Set lohnt.",
+                'lead': "Trage mehrere Items eines Sets und du schaltest Boni frei, die mit jedem Teil wachsen. Wie sie funktionieren, und wann ein volles Set das Mischen schlägt.",
+                'body': '''
+<h2>Was ein Set-Bonus wirklich ist</h2>
+<p>Ein Set (Panoplie) ist eine Gruppe von Items, die zum gemeinsamen Tragen gedacht sind. Lege zwei oder mehr Teile desselben Sets an, und das Spiel gibt dir <strong>Bonuswerte zusätzlich zu den Items selbst</strong>. Diese Boni sind geschenkter Wert: du bekommst sie einfach dafür, dass du Teile trägst, die deine Plätze ohnehin belegen. Deshalb sind Sets das Rückgrat der meisten Builds.</p>
+
+<h2>Mehr Teile, größerer Bonus, weniger Freiheit</h2>
+<p>Der Set-Bonus wächst mit der Zahl der getragenen Teile: zwei Items geben einen kleinen Bonus, und er steigt bei drei, vier, fünf und mehr, oft mit einem großen Sprung beim letzten Teil oder den letzten beiden. Der Haken ist der Kompromiss. Jeder Platz, den du einem Set widmest, ist ein Platz, den du nicht mit einem besseren Einzelitem füllen kannst. Ein volles Set kann grandios sein oder dir schwache Teile aufzwingen, nur um die oberste Stufe zu erreichen. Der Sweet Spot ist oft ein <strong>Teil-Set</strong>: genug Teile für einen spürbaren Bonus, der Rest deiner Plätze frei für das beste Item pro Slot.</p>
+
+<h2>Jede Version hat ihre eigenen Sets</h2>
+<p>Sets und ihre Boni sind nicht über die Dofus-Versionen hinweg gleich. Dofus 3, die Beta, Dofus 2, Touch und Retro haben jeweils eigene Sets, eigene Teilezahlen und eigene Bonuswerte, weil jede praktisch ihr eigenes Spiel ist. Die Fashionista lädt die richtigen Set-Daten für die Version, die du gewählt hast, sodass ein Retro-Build an Retro-Sets gemessen wird, nicht an modernen.</p>
+
+<h2>Lass das Tool die Set-Rechnung machen</h2>
+<p>Du musst Sets fast nie von Hand planen. Der Optimierer kennt jeden Set-Bonus bereits und wägt ihn gegen das Mischen einzelner Items ab: wenn vier Teile eines Sets für deine Ziele vier separate Top-Items schlagen, wählt er das Set; wenn nicht, mischt er. Stelle deine Wert-Prioritäten ein, lass ihn laufen und schau dir das Ergebnis an. Willst du den Unterschied sehen, den ein Set macht? Bau eine Version und stelle mit dem <a href="/choose_compare_sets/">Vergleicher</a> einen Set-lastigen Build neben einen gemischten, um genau zu sehen, was jeder Wert kostet.</p>
+
+<p><em>Neugierig, welche Sets zu deinen Zielen passen? <a href="/setup/">Bau es hier.</a></em></p>
+''',
+            },
+        },
+    },
+
     # ------------------------------------------------------------------ #
     'ap-mp-range-caps': {
         'published': '2026-07-22',
