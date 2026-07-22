@@ -35,7 +35,6 @@ from fashionistapulp.translation import get_supported_language
 from chardata.themes import get_triangle_URL
 
 
-CRIT_TARGETS = [50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 STATS_WITH_CONFIG_MINS = ['AP', 'MP', 'Range']
 
 def wizard(request, char_id):

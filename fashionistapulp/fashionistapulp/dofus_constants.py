@@ -276,19 +276,6 @@ DEPRECATED_STATS = {
 #    'pvpairresper',
 }
 
-AGI_TARGETS = [
-    (0, 2),
-    (8, 3),
-    (42, 4),
-    (134, 5),
-    (384, 6),
-    (1060, 7),
-]
-
-MIN_AGI_FOR_BONUS = dict((e[1], e[0]) for e in AGI_TARGETS)
-
-CRIT_TARGETS = [50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
-
 BASE_STATS = ['vit', 'wis', 'str', 'int', 'cha', 'agi']
 MAIN_STATS = ['str', 'int', 'cha', 'agi']
 

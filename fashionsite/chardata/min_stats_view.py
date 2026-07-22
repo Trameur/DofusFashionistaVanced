@@ -19,8 +19,7 @@ import json
 from chardata.min_stats import get_min_stats, set_min_stats, convert_dict_index_name_to_key
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson
-from fashionistapulp.dofus_constants import AGI_TARGETS, CRIT_TARGETS,\
-    STAT_ORDER
+from fashionistapulp.dofus_constants import STAT_ORDER
 from fashionistapulp.structure import get_structure
 from django.utils.translation import gettext as _
 from static_s3.templatetags.static_s3 import static
@@ -123,9 +122,7 @@ def min_stats(request, char_id):
                          'stats_order': json.dumps(stats),
                          'stats_fixed': json.dumps(fixed_fields),
                          'stats_adv': json.dumps(adv_min_fields),
-                         'initial_data': json.dumps(initial_data),
-                         'crit_targets': CRIT_TARGETS,
-                         'agility_targets': AGI_TARGETS},
+                         'initial_data': json.dumps(initial_data)},
                         char)
 
 
