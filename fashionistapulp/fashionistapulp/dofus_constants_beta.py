@@ -225,12 +225,12 @@ STAT_ORDER = {
 }
 
 # Vestigial: the solver reads the live per-version caps from
-# dofus_constants.get_stat_maximum, not this copy. Kept in sync (Range 9 per the
-# "Nouvelles restrictions PA/PM/PO" devblog) to avoid contradicting that source.
+# dofus_constants.get_stat_maximum, not this copy. Kept in sync (Range 6, the
+# effective in-game equipment cap) to avoid contradicting the live values.
 STAT_MAXIMUM = {
     'AP': 12,
     'MP': 6,
-    'Range': 9,
+    'Range': 6,
     '% Neutral Resist': 53,
     '% Air Resist': 53,
     '% Fire Resist': 53,

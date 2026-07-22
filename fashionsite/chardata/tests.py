@@ -1440,12 +1440,12 @@ class ProjectActionRobustnessTests(TestCase):
         capped = _FakeChar()
         set_min_stats(capped, {'AP': 99, 'MP': 99, 'Range': 99})
         stored = pickle.loads(capped.minimum_stats)
-        self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 9))
+        self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
 
     def test_set_min_stats_does_not_cap_ap_mp_range_on_retro(self):
-        # Retro (1.29) has no 12/6/9 hard limit, so a Retro player must be able to
+        # Retro (1.29) has no 12/6/6 hard limit, so a Retro player must be able to
         # require more (17 AP / 7 MP exo items exist there). Modern/Touch stay
-        # clamped to 12/6/9.
+        # clamped to 12/6/6.
         import pickle
         from chardata.min_stats import set_min_stats
 
@@ -1463,7 +1463,7 @@ class ProjectActionRobustnessTests(TestCase):
         touch = _FakeChar('touch')
         set_min_stats(touch, {'AP': 17, 'MP': 7, 'Range': 11})
         stored = pickle.loads(touch.minimum_stats)
-        self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 9))
+        self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
 
     def test_compare_sets_skips_missing_builds(self):
         # Regression: a build removed after being added to the comparison cart
@@ -3649,7 +3649,7 @@ class TouchSoftCapsTests(SimpleTestCase):
 
 
 class StatMaximumPerVersionTests(SimpleTestCase):
-    """AP/MP/Range are hard-capped at 12/6/9 by the Dofus 2 "PA/PM/PO limitation"
+    """AP/MP/Range are hard-capped at 12/6/6 by the Dofus 2 "PA/PM/PO limitation"
     which Dofus 3, the beta, Dofus 2 and Touch keep, but Dofus Retro (1.29) never
     got it (17 AP / 7 MP exo items exist there). So the optimizer must not cap
     AP/MP/Range on Retro, while still capping them everywhere else."""
@@ -3660,7 +3660,7 @@ class StatMaximumPerVersionTests(SimpleTestCase):
             caps = get_stat_maximum(version)
             self.assertEqual(caps['AP'], 12, version)
             self.assertEqual(caps['MP'], 6, version)
-            self.assertEqual(caps['Range'], 9, version)
+            self.assertEqual(caps['Range'], 6, version)
 
     def test_retro_does_not_cap_ap_mp_range(self):
         from fashionistapulp.dofus_constants import get_stat_maximum
@@ -4253,7 +4253,7 @@ class TouchPetSolveTests(TestCase):
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
 class RetroUncappedApSolveTests(TestCase):
-    """Retro (1.29) has no 12/6/9 AP/MP/Range cap, so the optimizer leaves those
+    """Retro (1.29) has no 12/6/6 AP/MP/Range cap, so the optimizer leaves those
     stats uncapped there. A full retro solve must still complete (the LP stays
     bounded through gear) now that the caps are gone for that version."""
 

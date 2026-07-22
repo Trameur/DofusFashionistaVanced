@@ -227,11 +227,14 @@ STAT_ORDER = {
 # Hard upper bounds the optimizer enforces on a build's TOTAL for these stats:
 # model.py caps the LP variable (and set overages) at these values, PER VERSION.
 #
-# AP/MP/Range are hard-limited to 12 AP / 6 MP / 9 Range including exos by the
-# "PA/PM/PO limitation" Ankama introduced in Dofus 2 (devblog "Nouvelles
-# restrictions PA/PM/PO", patch 2.3.4); Dofus 3, the beta, Dofus 2 and Touch all
-# keep it. Dofus Retro (1.29) never got that limitation, so it has NO AP/MP/Range
-# cap and gear alone limits them there (17 AP / 7 MP exo items exist in Retro).
+# AP/MP/Range are hard-limited to 12 AP / 6 MP / 6 Range including exos by the
+# "PA/PM/PO limitation" Ankama introduced in Dofus 2. The 2011 devblog "Nouvelles
+# restrictions PA/PM/PO" (patch 2.3.4) first announced a 9 Range cap, but the
+# effective in-game cap on equipment Range is 6: gear Range above 6 is simply not
+# counted (only temporary spell boosts push Range higher in combat, and those are
+# not modelled here). Dofus 3, the beta, Dofus 2 and Touch all keep 12/6/6. Dofus
+# Retro (1.29) never got the limitation, so it has NO AP/MP/Range cap and gear
+# alone limits them there (17 AP / 7 MP exo items exist in Retro).
 #
 # The per-element "% X Resist" raw cap stays 53 in every version. In-game, percent
 # elemental resistance is effectively capped at 50% for damage; the extra few
@@ -240,8 +243,8 @@ STAT_ORDER = {
 # by the capped_resist variables in model.py. Summon has no in-game cap (limited
 # only by gear); the 10 here is just a loose LP bound. Both are version-neutral.
 #
-# Sources: official Dofus devblog "Nouvelles restrictions PA/PM/PO" (12/6/9) and
-# forums (Resist Cap; "Limitation PA/PM sur DOFUS Retro").
+# Sources: official Dofus forums ("Nombre maximum de Portee" = 6 PO equipment cap;
+# Resist Cap; "Limitation PA/PM sur DOFUS Retro").
 def get_stat_maximum(game_version):
     caps = {
         'Summon': 10,
@@ -254,7 +257,7 @@ def get_stat_maximum(game_version):
     if game_version != 'retro':
         caps['AP'] = 12
         caps['MP'] = 6
-        caps['Range'] = 9
+        caps['Range'] = 6
     return caps
 
 STAT_KEY_TO_NAME = {v: k for k, v in STAT_NAME_TO_KEY.items()}
