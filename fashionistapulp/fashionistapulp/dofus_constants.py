@@ -224,6 +224,16 @@ STAT_ORDER = {
     'resperwea': 133,
 }
 
+# Hard upper bounds the optimizer enforces on a build's TOTAL for these stats:
+# model.py caps the LP variable (and set overages) at these values. AP/MP/Range/
+# Summon are the game's stat caps. The "% X Resist" entries are NOT an arbitrary
+# limit: Dofus hard-caps percent elemental resistance, so any resistance gear
+# gives beyond the cap is wasted in-game and the optimizer must not chase it.
+# Items easily sum to far more than this (measured ceilings of 110-320% per
+# element across the versions), which is exactly why the cap has to be here.
+# Shared across versions for now; if a version's resistance cap is ever
+# confirmed different from a first-party source, split this per version like
+# get_soft_caps_for.
 STAT_MAXIMUM = {
     'AP': 12,
     'MP': 6,
