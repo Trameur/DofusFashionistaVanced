@@ -1,55 +1,10 @@
-/* Encyclopedia resource pages (extracted from the template's inline block so the
-   SEO-facing "crafted with" pages cache their styles). Theme-neutral base plus
-   dark-theme overrides; contrast-audited on both themes. Shares most classes with
-   encyclopedia_item.css by design (both are encyclopedia detail pages). */
+/* Resource-specific styles for the encyclopedia "crafted with" pages. The shared
+   card/list/crumbs layout (and its dark-theme overrides) lives in
+   encyclopedia_detail.css, linked before this sheet; only the resource icon, the
+   drop rate and the list spacing are page-specific. */
 
-.encyclopedia-item {
-    padding: 12px;
-}
-.encyclopedia-crumbs {
-    font-size: 0.85em;
-    opacity: 0.75;
-    margin-bottom: 10px;
-}
-.encyclopedia-crumbs a { text-decoration: none; }
-.encyclopedia-crumbs a:hover { text-decoration: underline; }
-.encyclopedia-item-card {
-    border: 1px solid rgba(61, 32, 13, 0.25);
-    border-radius: 8px;
-    padding: 12px;
-    box-sizing: border-box;
-}
-.encyclopedia-item-name {
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-.encyclopedia-item-meta {
-    opacity: 0.9;
-}
-.encyclopedia-section {
-    margin-top: 14px;
-}
-.encyclopedia-list {
-    margin: 4px 0 0;
-    padding-left: 20px;
-}
 .encyclopedia-list li {
     margin-bottom: 2px;
-}
-.encyclopedia-list .item-level {
-    opacity: 0.7;
-    font-size: 0.9em;
-}
-.encyclopedia-list li.craft-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.craft-icon {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    flex: 0 0 auto;
 }
 .resource-icon {
     width: 40px;
@@ -61,33 +16,4 @@
 .drop-rate {
     opacity: 0.7;
     font-size: 0.9em;
-}
-.encyclopedia-drops-more {
-    margin-top: 6px;
-}
-.encyclopedia-drops-more > summary {
-    cursor: pointer;
-    padding-left: 20px;
-    font-size: 0.95em;
-    opacity: 0.85;
-}
-.dark-theme-active .encyclopedia-item-card {
-    border-color: #5a5a5a;
-    background: #1f1f1f;
-}
-.dark-theme-active .encyclopedia-item,
-.dark-theme-active .encyclopedia-item-card,
-.dark-theme-active .encyclopedia-item-card div,
-.dark-theme-active .encyclopedia-item-card span,
-.dark-theme-active .encyclopedia-item-card li {
-    color: #f0f0f0;
-}
-.dark-theme-active .encyclopedia-section b {
-    color: #fff1d6;
-}
-.dark-theme-active .encyclopedia-item a {
-    color: #ffd8a8;
-}
-.dark-theme-active .encyclopedia-item a:hover {
-    color: #ffe4bf;
 }
