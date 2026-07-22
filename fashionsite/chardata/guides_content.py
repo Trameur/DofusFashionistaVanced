@@ -14,10 +14,117 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
 
 
 GUIDES = {
+    # ------------------------------------------------------------------ #
+    'prospecting-and-drops': {
+        'published': '2026-07-22',
+        'i18n': {
+            'en': {
+                'title': 'Prospecting and drop rates: how to actually get the loot',
+                'desc': "Every drop rate you see is at 100 prospecting. Here is how it scales your real odds, where to get it, and when it is worth building for.",
+                'lead': "Every drop rate in the encyclopedia is measured at 100 prospecting. Here is how it scales your real odds, where it comes from, and when to build for it.",
+                'body': '''
+<h2>What prospecting actually does</h2>
+<p>Prospecting (PP) is the stat that decides your chance to drop an item or resource from a monster. Every character starts at <strong>100 prospecting</strong>, and that is the baseline every drop rate is quoted at. When the <a href="/encyclopedia/">encyclopedia</a> says an item drops at 1%, that is the chance at 100 PP. Prospecting also raises the Kamas monsters drop, so it pays for itself while you farm.</p>
+
+<h2>How it scales your real odds</h2>
+<p>Drop chance scales linearly with prospecting: <strong>your chance = the base rate times your PP divided by 100</strong>. So 200 PP doubles every drop rate on the page, 300 PP triples it, and so on. A 1% item becomes 2% at 200 PP. That is why dedicated farmers stack prospecting: it multiplies every drop in the fight at once, not just one.</p>
+
+<h2>Where prospecting comes from</h2>
+<p>Every character has a base of 100, and the rest comes from gear: rings, cloaks, some sets and Dofus all carry prospecting, and a focused farming set can push well past 1000 PP. In the Fashionista, Prospecting is a stat you can weight like any other: crank it for a farming build, and leave it at zero when you are building to fight so the optimizer spends those slots on damage or survival instead.</p>
+
+<h2>The catches worth knowing</h2>
+<p>A few rules shape how much prospecting helps. On modern Dofus, if you and the monster are more than 50 levels apart, prospecting stops counting, so heavily over-leveling a zone throws your farming edge away. In a group, drops are split among the party, so it helps to bring at least one strong prospector along. Temporary boosts like the Almanax, challenges and seasonal events multiply your base rate on top of prospecting. Dofus Retro keeps the classic behavior, without the modern level-gap rule. Whatever the version, the encyclopedia rate is your starting point and your prospecting does the rest.</p>
+
+<p><em>Building a farmer? <a href="/setup/">Weight prospecting here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': 'Prospection et taux de drop : comment vraiment obtenir le butin',
+                'desc': "Chaque taux de drop affiché est donné à 100 de prospection. Voici comment elle change tes vraies chances, d'où elle vient, et quand la monter.",
+                'lead': "Chaque taux de drop de l'encyclopédie est mesuré à 100 de prospection. Voici comment elle change tes vraies chances, d'où elle vient, et quand la monter.",
+                'body': '''
+<h2>Ce que fait vraiment la prospection</h2>
+<p>La prospection (PP) est la stat qui décide de ta chance de dropper un objet ou une ressource sur un monstre. Chaque personnage démarre à <strong>100 de prospection</strong>, et c'est la base à laquelle tous les taux de drop sont donnés. Quand l'<a href="/encyclopedia/">encyclopédie</a> dit qu'un objet drop à 1%, c'est la chance à 100 PP. La prospection augmente aussi les Kamas lâchés par les monstres, donc elle se rentabilise pendant que tu farmes.</p>
+
+<h2>Comment elle change tes vraies chances</h2>
+<p>La chance de drop est linéaire avec la prospection : <strong>ta chance = le taux de base fois ta PP divisée par 100</strong>. Donc 200 PP double tous les taux de la page, 300 PP les triple, et ainsi de suite. Un objet à 1% passe à 2% avec 200 PP. C'est pour ça que les farmeurs dédiés empilent la prospection : elle multiplie tous les drops du combat d'un coup, pas juste un.</p>
+
+<h2>D'où vient la prospection</h2>
+<p>Chaque personnage a une base de 100, et le reste vient du stuff : anneaux, capes, certaines panoplies et Dofus portent tous de la prospection, et un set de farm concentré peut dépasser largement 1000 PP. Dans la Fashionista, la Prospection est une stat que tu pondères comme les autres : monte-la à fond pour un build de farm, et laisse-la à zéro quand tu construis pour taper, pour que l'optimiseur dépense ces emplacements en dégâts ou en survie.</p>
+
+<h2>Les pièges à connaître</h2>
+<p>Quelques règles encadrent l'effet de la prospection. Sur le Dofus moderne, si toi et le monstre avez plus de 50 niveaux d'écart, la prospection ne compte plus : sur-monter en niveau une zone jette ton avantage de farm à la poubelle. En groupe, les drops se répartissent sur l'équipe, donc ça aide d'emmener au moins un bon prospecteur. Les boosts temporaires comme l'Almanax, les challenges et les événements multiplient ton taux de base par-dessus la prospection. Dofus Rétro garde le comportement classique, sans la règle d'écart de niveau moderne. Peu importe la version, le taux de l'encyclopédie est ton point de départ, et ta prospection fait le reste.</p>
+
+<p><em>Tu montes un farmeur ? <a href="/setup/">Pondère la prospection ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'Prospección y tasas de drop: cómo conseguir el botín de verdad',
+                'desc': "Cada tasa de drop que ves es a 100 de prospección. Aquí tienes cómo cambia tus probabilidades reales, de dónde sale, y cuándo subirla.",
+                'lead': "Cada tasa de drop de la enciclopedia se mide a 100 de prospección. Aquí tienes cómo cambia tus probabilidades reales, de dónde sale, y cuándo subirla.",
+                'body': '''
+<h2>Qué hace de verdad la prospección</h2>
+<p>La prospección (PP) es la estadística que decide tu probabilidad de soltar un objeto o recurso de un monstruo. Cada personaje empieza con <strong>100 de prospección</strong>, y esa es la base a la que se dan todas las tasas de drop. Cuando la <a href="/encyclopedia/">enciclopedia</a> dice que un objeto cae al 1%, esa es la probabilidad a 100 PP. La prospección también sube los Kamas que sueltan los monstruos, así que se rentabiliza mientras farmeas.</p>
+
+<h2>Cómo cambia tus probabilidades reales</h2>
+<p>La probabilidad de drop es lineal con la prospección: <strong>tu probabilidad = la tasa base por tu PP dividida entre 100</strong>. Así que 200 PP duplica todas las tasas de la página, 300 PP las triplica, y así. Un objeto al 1% pasa al 2% con 200 PP. Por eso los farmeros dedicados acumulan prospección: multiplica todos los drops del combate a la vez, no solo uno.</p>
+
+<h2>De dónde sale la prospección</h2>
+<p>Cada personaje tiene una base de 100, y el resto viene del equipo: anillos, capas, algunos conjuntos y Dofus llevan prospección, y un set de farmeo concentrado puede pasar de largo los 1000 PP. En la Fashionista, la Prospección es una estadística que ponderas como las demás: súbela al máximo para un build de farmeo, y déjala a cero cuando construyes para pegar, para que el optimizador gaste esos huecos en daño o supervivencia.</p>
+
+<h2>Los detalles que conviene saber</h2>
+<p>Unas cuantas reglas moldean cuánto ayuda la prospección. En el Dofus moderno, si tú y el monstruo tenéis más de 50 niveles de diferencia, la prospección deja de contar, así que sobrepasar de nivel una zona tira tu ventaja de farmeo. En grupo, los drops se reparten por el equipo, así que ayuda llevar al menos un buen prospector. Los boosts temporales como el Almanax, los retos y los eventos multiplican tu tasa base por encima de la prospección. Dofus Retro mantiene el comportamiento clásico, sin la regla moderna de diferencia de nivel. Sea cual sea la versión, la tasa de la enciclopedia es tu punto de partida, y tu prospección hace el resto.</p>
+
+<p><em>¿Montas un farmero? <a href="/setup/">Pondera la prospección aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'Prospecção e taxas de drop: como conseguir o loot de verdade',
+                'desc': "Cada taxa de drop que você vê é a 100 de prospecção. Aqui está como ela muda suas chances reais, de onde vem, e quando subir.",
+                'lead': "Cada taxa de drop da enciclopédia é medida a 100 de prospecção. Aqui está como ela muda suas chances reais, de onde vem, e quando subir.",
+                'body': '''
+<h2>O que a prospecção faz de verdade</h2>
+<p>A prospecção (PP) é o atributo que decide sua chance de dropar um item ou recurso de um monstro. Cada personagem começa com <strong>100 de prospecção</strong>, e essa é a base em que todas as taxas de drop são dadas. Quando a <a href="/encyclopedia/">enciclopédia</a> diz que um item cai a 1%, essa é a chance a 100 PP. A prospecção também aumenta os Kamas que os monstros soltam, então ela se paga enquanto você farma.</p>
+
+<h2>Como ela muda suas chances reais</h2>
+<p>A chance de drop é linear com a prospecção: <strong>sua chance = a taxa base vezes sua PP dividida por 100</strong>. Então 200 PP dobra todas as taxas da página, 300 PP triplica, e assim por diante. Um item a 1% vira 2% com 200 PP. É por isso que os farmadores dedicados empilham prospecção: ela multiplica todos os drops do combate de uma vez, não só um.</p>
+
+<h2>De onde vem a prospecção</h2>
+<p>Cada personagem tem uma base de 100, e o resto vem do equipamento: anéis, capas, alguns conjuntos e Dofus carregam prospecção, e um set de farm concentrado pode passar bem dos 1000 PP. Na Fashionista, a Prospecção é um atributo que você pondera como os outros: bote no máximo para um build de farm, e deixe em zero quando você constrói para bater, para que o otimizador gaste esses espaços em dano ou sobrevivência.</p>
+
+<h2>As pegadinhas que vale saber</h2>
+<p>Algumas regras moldam o quanto a prospecção ajuda. No Dofus moderno, se você e o monstro têm mais de 50 níveis de diferença, a prospecção para de contar, então passar muito do nível de uma zona joga fora sua vantagem de farm. Em grupo, os drops se distribuem pela equipe, então ajuda levar pelo menos um bom prospector. Os boosts temporários como o Almanax, os desafios e os eventos multiplicam sua taxa base por cima da prospecção. O Dofus Retro mantém o comportamento clássico, sem a regra moderna de diferença de nível. Seja qual for a versão, a taxa da enciclopédia é seu ponto de partida, e sua prospecção faz o resto.</p>
+
+<p><em>Montando um farmador? <a href="/setup/">Pondere a prospecção aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Prospektion und Drop-Raten: wie du die Beute wirklich bekommst',
+                'desc': "Jede Drop-Rate, die du siehst, gilt bei 100 Prospektion. Hier steht, wie sie deine echten Chancen skaliert, woher sie kommt und wann sie sich lohnt.",
+                'lead': "Jede Drop-Rate in der Enzyklopädie gilt bei 100 Prospektion. Hier steht, wie sie deine echten Chancen skaliert, woher sie kommt und wann sie sich lohnt.",
+                'body': '''
+<h2>Was Prospektion wirklich macht</h2>
+<p>Prospektion (PP) ist der Wert, der deine Chance bestimmt, einen Gegenstand oder eine Ressource von einem Monster zu droppen. Jede Figur startet mit <strong>100 Prospektion</strong>, und das ist die Basis, auf die sich jede Drop-Rate bezieht. Wenn die <a href="/encyclopedia/">Enzyklopädie</a> sagt, ein Gegenstand droppt zu 1%, ist das die Chance bei 100 PP. Prospektion erhöht auch die Kamas, die Monster fallen lassen, also zahlt sie sich beim Farmen von selbst aus.</p>
+
+<h2>Wie sie deine echten Chancen skaliert</h2>
+<p>Die Drop-Chance skaliert linear mit der Prospektion: <strong>deine Chance = die Basisrate mal deine PP geteilt durch 100</strong>. Also verdoppelt 200 PP jede Rate auf der Seite, 300 PP verdreifacht sie, und so weiter. Ein Gegenstand mit 1% wird bei 200 PP zu 2%. Deshalb stapeln dedizierte Farmer Prospektion: sie vervielfacht alle Drops des Kampfes auf einmal, nicht nur einen.</p>
+
+<h2>Woher Prospektion kommt</h2>
+<p>Jede Figur hat eine Basis von 100, und der Rest kommt von der Ausrüstung: Ringe, Umhänge, manche Sets und Dofus tragen Prospektion, und ein gezieltes Farm-Set kann deutlich über 1000 PP kommen. In der Fashionista ist Prospektion ein Wert, den du wie jeden anderen gewichtest: dreh ihn hoch für einen Farm-Build, und lass ihn bei null, wenn du zum Kämpfen baust, damit der Optimierer diese Plätze in Schaden oder Überleben steckt.</p>
+
+<h2>Die Fallstricke, die du kennen solltest</h2>
+<p>Ein paar Regeln bestimmen, wie viel Prospektion bringt. Im modernen Dofus zählt Prospektion nicht mehr, wenn du und das Monster mehr als 50 Stufen auseinander liegt, also wirft starkes Überleveln einer Zone deinen Farm-Vorteil weg. In einer Gruppe verteilen sich die Drops auf das Team, also hilft es, mindestens einen starken Prospektor dabeizuhaben. Zeitweise Boni wie der Almanax, Herausforderungen und saisonale Events vervielfachen deine Basisrate zusätzlich zur Prospektion. Dofus Retro behält das klassische Verhalten, ohne die moderne Stufen-Abstands-Regel. Egal welche Version, die Rate der Enzyklopädie ist dein Startpunkt, und deine Prospektion macht den Rest.</p>
+
+<p><em>Baust du einen Farmer? <a href="/setup/">Gewichte hier die Prospektion.</a></em></p>
+''',
+            },
+        },
+    },
+
     # ------------------------------------------------------------------ #
     'set-bonuses': {
         'published': '2026-07-22',

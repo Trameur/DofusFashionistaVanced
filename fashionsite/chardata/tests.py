@@ -659,6 +659,7 @@ class PublicRouteSmokeTests(TestCase):
                      '/guides/mono-vs-multi-element/',
                      '/guides/resistance-explained/', '/guides/gearing-up/',
                      '/guides/crafting-and-professions/',
+                     '/guides/prospecting-and-drops/',
                      '/guides/comparing-builds/', '/guides/versions-explained/',
                      '/offline/', '/robots.txt', '/manifest.webmanifest',
                      '/sw.js', '/ads.txt']:
