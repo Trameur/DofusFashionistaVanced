@@ -474,8 +474,19 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,
+              # The history deltas always compare against the CURRENT build. When
+              # viewing a saved generation, build_score is that snapshot's score,
+              # not the current build's, so pass None there and let the helper
+              # score the current solution (otherwise the snapshot's own row read
+              # 0 and every other delta used the wrong baseline).
+              # The history deltas always compare against the CURRENT build. When
+              # viewing a saved generation, build_score is that snapshot's score,
+              # not the current build's, so pass None there and let the helper
+              # score the current solution (otherwise the snapshot's own row read
+              # 0 and every other delta used the wrong baseline).
               'generation_history': [] if is_guest else _build_generation_history(
-                  request, char, generation, build_score),
+                  request, char, generation,
+                  None if is_generation_snapshot else build_score),
               'is_generation_snapshot': is_generation_snapshot,
               'generation_created_time': generation.created_time if generation else None,
               'restore_generation_url': (

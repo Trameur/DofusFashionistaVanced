@@ -2833,6 +2833,55 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, expected_text)
         self.assertContains(resp, 'vs current')
 
+    def test_snapshot_view_scores_history_against_current_build(self):
+        # Regression: viewing a saved generation used that snapshot's score as the
+        # history baseline, so the snapshot's own row showed a 0 delta and every
+        # other delta was measured against the wrong build. The baseline must stay
+        # the current build even while viewing a snapshot.
+        import pickle as _pickle
+        from chardata.solution import get_solution
+        from chardata.solution_history import get_generation_solution, record_solution_generation
+        from chardata.solution_scores import calculate_project_build_score
+        from fashionistapulp.modelresult import ModelResultMinimal
+
+        owner, char, hats = self._build_char_with_items()
+
+        def minimal_for(hat):
+            return ModelResultMinimal({'hat': hat.id}, self._base_input(), {})
+
+        generation = None
+        current_score = snapshot_score = None
+        for current_hat in hats:
+            char.minimal_solution = _pickle.dumps(minimal_for(current_hat))
+            char.save()
+            cs = calculate_project_build_score(char, get_solution(char))
+            if cs is None:
+                continue
+            for saved_hat in hats:
+                if current_hat.id == saved_hat.id:
+                    continue
+                candidate = record_solution_generation(char, minimal_for(saved_hat))
+                ss = calculate_project_build_score(
+                    char, get_generation_solution(char, candidate))
+                if ss is not None and ss != cs:
+                    generation, current_score, snapshot_score = candidate, cs, ss
+                    break
+            if generation is not None:
+                break
+        if generation is None:
+            self.skipTest('no two test hats with different build scores')
+
+        self.client.force_login(owner)
+        resp = self.client.get('/solutiongeneration/%d/%d/' % (char.pk, generation.pk))
+        self.assertEqual(resp.status_code, 200)
+        history = resp.context['generation_history']
+        snap_row = next(r for r in history if r['id'] == generation.id)
+        self.assertTrue(snap_row['is_current_snapshot'])
+        # Baseline is the current build, so the snapshot's own delta is
+        # snapshot_score - current_score (non-zero), not 0 against itself.
+        self.assertEqual(snap_row['score_delta'], snapshot_score - current_score)
+        self.assertNotEqual(snap_row['score_delta'], 0)
+
     def test_generation_preview_uses_the_generation_game_version(self):
         import pickle as _pickle
         from django.contrib.auth.models import User
