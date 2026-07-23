@@ -259,6 +259,11 @@ def main() -> None:
             "--game-version", "dofus2",
         ], cwd=ITEMSCRAPER)
 
+    # Manual fixes last, so they survive whatever the stores rebuilt.
+    step("items/corrections", [
+        PY, "store_item_corrections.py", "--game-version", "dofus2",
+    ], cwd=ITEMSCRAPER)
+
     # Data changed: refresh the scanned list of runtime-translated
     # strings (item types, stats...) so makemessages keeps them.
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)

@@ -283,6 +283,11 @@ def main() -> None:
             "--game-version", "retro",
         ], cwd=ITEMSCRAPER)
 
+    # Manual fixes last, so they survive whatever the stores rebuilt.
+    step("items/corrections", [
+        PY, "store_item_corrections.py", "--game-version", "retro",
+    ], cwd=ITEMSCRAPER)
+
     step("spells/decode", [
         PY, "get_spells_retro.py",
         "--raw-dir", RETRO_RAW_DIR,

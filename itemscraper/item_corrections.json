@@ -1,0 +1,8 @@
+{
+  "_readme": "Manual fixes for upstream data errors that no scraper rule can catch. Applied by store_item_corrections.py at the end of every update_data pipeline, so they survive re-scrapes. One entry per ankama_id and per game version. Every entry MUST carry 'note' (what is wrong) and 'source' (proof of the correct value). 'stats' maps stat keys (see the stats table: vit, ap, mp, ch, str, agi, int, pow...) to values; null removes the stat. 'level' overrides the item level.",
+  "dofus3": {},
+  "beta": {},
+  "dofus2": {},
+  "touch": {},
+  "retro": {}
+}
