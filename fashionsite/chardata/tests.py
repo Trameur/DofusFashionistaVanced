@@ -4018,6 +4018,68 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         self.assertGreater(trophy, 0)
 
 
+class SharedBuildsGalleryPerfTests(TestCase):
+    """The gallery paginates on ids only (sorting full rows dragged every blob
+    through the MySQL sort buffer) and shows 24 builds per page. Vote counts
+    are bulk-fetched for the page whatever the ordering."""
+
+    def _make_builds(self, n):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        picker = ChooseCompareSetsPickerTests
+        owner = User.objects.create_user('galleryowner', 'g@test.local',
+                                         'pw-42-solid')
+        chars = []
+        for i in range(n):
+            char = Char.objects.create(
+                name='Build %02d' % i, char_name='hero%02d' % i,
+                char_class='Iop', char_build='Str', level=100 + i,
+                minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+                options=b'', inclusions=b'', exclusions=b'',
+                minimal_solution=picker._minimal_solution(),
+                owner=owner, link_shared=True, game_version='dofus3')
+            Char.objects.filter(pk=char.pk).update(view_count=i)
+            chars.append(char)
+        return chars
+
+    def test_page_size_and_order_survive_the_id_pagination(self):
+        self._make_builds(30)
+        resp = self.client.get('/sharedbuilds/?order_by=views',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        builds = resp.context['builds']
+        self.assertEqual(len(builds), 24)
+        views = [b['view_count'] for b in builds]
+        self.assertEqual(views, sorted(views, reverse=True))
+        resp2 = self.client.get('/sharedbuilds/?order_by=views&page=2',
+                                HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(len(resp2.context['builds']), 6)
+
+    def test_like_ordering_still_shows_counts(self):
+        from django.contrib.auth.models import User
+        from chardata.models import BuildVote
+        chars = self._make_builds(3)
+        liker = User.objects.create_user('galleryliker', 'l@test.local',
+                                         'pw-42-solid')
+        BuildVote.objects.create(user=liker, build=chars[1], vote_type='like')
+        resp = self.client.get('/sharedbuilds/?order_by=likes',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        builds = resp.context['builds']
+        self.assertEqual(builds[0]['char'].id, chars[1].id)
+        self.assertEqual(builds[0]['like_count'], 1)
+
+    def test_gallery_query_count_stays_bounded(self):
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        self._make_builds(30)
+        self.client.get('/sharedbuilds/')  # warm the meta cache
+        with CaptureQueriesContext(connection) as ctx:
+            resp = self.client.get('/sharedbuilds/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertLess(len(ctx), 20,
+                        'gallery page ran %d queries' % len(ctx))
+
+
 class SeoTitleTests(TestCase):
     """Shared build pages carry a keyword-shaped title (class + level +
     version), the private solution page keeps its generic one, and the home

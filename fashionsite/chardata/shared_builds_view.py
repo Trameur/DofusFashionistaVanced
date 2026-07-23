@@ -45,7 +45,13 @@ logger = logging.getLogger(__name__)
 
 # Create reverse mapping from short names to keys
 SHORT_NAME_TO_KEY = {v: k for k, v in ASPECT_TO_SHORT_NAME.items()}
-SHARED_BUILDS_PAGE_SIZE = 10
+SHARED_BUILDS_PAGE_SIZE = 24
+
+# Char columns not needed to render a gallery card; minimal_solution stays
+# because the meta computation reads it on cache misses.
+_HEAVY_CHAR_FIELDS = ('minimum_stats', 'minimum_crits', 'stats_weight',
+                      'options', 'inclusions', 'exclusions', 'aspects',
+                      'empty_slots', 'stat_overrides')
 SHARED_BUILD_META_CACHE_TIMEOUT = 6 * 60 * 60
 
 
@@ -399,12 +405,21 @@ def shared_builds(request):
     else:
         builds = builds.order_by('-view_count', '-modified_time')
 
+    # Sort and paginate on ids only: ordering full rows drags every blob
+    # column through the MySQL sort buffer, which made this page ~10x slower
+    # than the rest of the site. Full rows are fetched for the shown page only.
+    def _fetch_page_chars(page_ids):
+        chars_by_id = {
+            char.id: char
+            for char in Char.objects.filter(id__in=page_ids)
+            .defer(*_HEAVY_CHAR_FIELDS).select_related('owner')}
+        return [chars_by_id[i] for i in page_ids if i in chars_by_id]
+
     builds_data = []
     if hide_invalid:
         # Validity comes from the per-build meta cache; check it with a
-        # 2-column scan instead of loading 2000+ Char rows (solution blobs
-        # included). Full rows are fetched only for cache misses and for the
-        # page actually shown.
+        # 2-column scan. Full rows are fetched only for cache misses and for
+        # the page actually shown.
         id_rows = list(builds.values_list('id', 'modified_time', 'game_version'))
         metas = {}
         miss_ids = []
@@ -416,7 +431,7 @@ def shared_builds(request):
             else:
                 miss_ids.append(row_id)
         if miss_ids:
-            for char in builds.filter(id__in=miss_ids):
+            for char in Char.objects.filter(id__in=miss_ids).defer(*_HEAVY_CHAR_FIELDS):
                 metas[char.id] = _get_shared_build_meta(char)
 
         valid_ids = [row_id for row_id, _row_modified, _row_game_version in id_rows
@@ -431,11 +446,11 @@ def shared_builds(request):
             builds_page = paginator.page(paginator.num_pages)
 
         page_ids = list(builds_page.object_list)
-        chars_by_id = {char.id: char for char in builds.filter(id__in=page_ids)}
-        page_chars = [chars_by_id[i] for i in page_ids if i in chars_by_id]
+        page_chars = _fetch_page_chars(page_ids)
         meta_by_id = {i: metas[i] for i in page_ids if i in metas}
     else:
-        paginator = Paginator(builds, SHARED_BUILDS_PAGE_SIZE)
+        paginator = Paginator(builds.values_list('id', flat=True),
+                              SHARED_BUILDS_PAGE_SIZE)
         try:
             builds_page = paginator.page(page_number)
         except PageNotAnInteger:
@@ -443,26 +458,27 @@ def shared_builds(request):
         except EmptyPage:
             builds_page = paginator.page(paginator.num_pages)
 
-        page_chars = list(builds_page.object_list)
+        page_chars = _fetch_page_chars(list(builds_page.object_list))
         meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
 
-    # Bulk-fetch vote counts for just the page items (1-2 queries for N items)
+    # Bulk-fetch vote counts for just the page items (1-2 queries for N items).
+    # Always needed now: the page rows are re-fetched by id, so ordering
+    # annotations do not survive to them.
     if page_chars:
         page_char_ids = [char.id for char in page_chars]
-        if not needs_vote_annotation:
-            vote_rows = BuildVote.objects.filter(
-                build_id__in=page_char_ids
-            ).values('build_id', 'vote_type').annotate(cnt=Count('build_id'))
-            like_counts = {}
-            favorite_counts = {}
-            for row in vote_rows:
-                if row['vote_type'] == 'like':
-                    like_counts[row['build_id']] = row['cnt']
-                elif row['vote_type'] == 'favorite':
-                    favorite_counts[row['build_id']] = row['cnt']
-            for char in page_chars:
-                char.like_count = like_counts.get(char.id, 0)
-                char.favorite_count = favorite_counts.get(char.id, 0)
+        vote_rows = BuildVote.objects.filter(
+            build_id__in=page_char_ids
+        ).values('build_id', 'vote_type').annotate(cnt=Count('build_id'))
+        like_counts = {}
+        favorite_counts = {}
+        for row in vote_rows:
+            if row['vote_type'] == 'like':
+                like_counts[row['build_id']] = row['cnt']
+            elif row['vote_type'] == 'favorite':
+                favorite_counts[row['build_id']] = row['cnt']
+        for char in page_chars:
+            char.like_count = like_counts.get(char.id, 0)
+            char.favorite_count = favorite_counts.get(char.id, 0)
 
     owner_ids = [char.owner_id for char in page_chars if char.owner_id]
     alias_by_user_id = {
