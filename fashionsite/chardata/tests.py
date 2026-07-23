@@ -4964,6 +4964,22 @@ class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
             'damage via the element characteristic): %s' % offenders)
 
 
+class MonsterWeaknessGuideTests(SimpleTestCase):
+    """The monster-weaknesses guide is shared by every version, but the bestiary
+    features it describes (resistances, highlighted weakness, weakness filter) do
+    not exist on Dofus 2, which has no monster stats source. Every language must
+    keep the Dofus 2 caveat so Dofus 2 readers are not pointed at features their
+    version does not have."""
+
+    def test_every_language_keeps_the_dofus2_caveat(self):
+        from chardata import guides_content
+        blocks = guides_content.GUIDES['monster-weaknesses']['i18n']
+        self.assertEqual(sorted(blocks), ['de', 'en', 'es', 'fr', 'pt'])
+        for lang, block in blocks.items():
+            with self.subTest(lang=lang):
+                self.assertIn('Dofus 2', block['body'])
+
+
 class VersionSpecificGuideTests(TestCase):
     """Critical hits are a different SYSTEM per version, so the crit guide serves
     the modern content on modern versions (canonical at the global /guides/ URL)

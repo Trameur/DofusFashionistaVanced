@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
 
 
 GUIDES = {
@@ -2940,6 +2940,117 @@ GUIDES = {
 <p>Für PvM leg Gewicht auf Prozent-Resistenz der Elemente, die dich wirklich bedrohen, und mach dir keine Sorgen mehr, sobald das Build die Grenze erreicht. Für PvP schieb sie bewusst höher für den Verwundbarkeits-Puffer, und gib auch fester Resistenz etwas Gewicht. Du gibst keine Zielwerte Item für Item ein: du sagst dem Werkzeug in den <a href="/guides/tuning-your-weights/">Gewichten</a>, wie viel dir Resistenz wert ist, genauso wie du <a href="/guides/stats-explained/">jeden anderen Wert bewerten</a> würdest, und es findet das passende Set.</p>
 
 <p><em>Nicht sicher, ob deine Verteidigung sich lohnt? <a href="/quickstart/">Bau ein Set</a>, dreh die Resistenz-Gewichte hoch und schau, was der Optimierer behält.</em></p>
+''',
+            },
+        },
+    },
+
+    # ------------------------------------------------------------------ #
+    # Monsters carry per-element resistances in every version of the game
+    # (Dofus 3, beta, Dofus 2, Touch, Retro), so this guide stays version
+    # neutral: no numbers, no modern-only stats, just the universal loop of
+    # read the bestiary card, pick the element, weight it in the tool.
+    'monster-weaknesses': {
+        'published': '2026-07-23',
+        'i18n': {
+            'en': {
+                'title': "Monster weaknesses: hit the element that hurts",
+                'desc': "Every monster resists some elements and takes extra from another. How to find a weakness in the bestiary and turn it into a harder-hitting build.",
+                'lead': "Every monster resists some elements and folds to another. Here is how to find a weakness in the bestiary, and how to turn it into real damage.",
+                'body': '''
+<h2>Same spell, very different damage</h2>
+<p>Monsters do not take damage equally. Each one carries its own resistances to earth, fire, air and water (and neutral), so the same attack can lose half its punch against the wrong target and land full force against the right one. Before blaming your gear or your spells, check what you were hitting: picking targets by element is the cheapest damage boost in the game, in every version of Dofus.</p>
+
+<h2>Reading a monster's card</h2>
+<p>Open a monster in the <a href="/encyclopedia/monsters/">bestiary</a>: its card lists resistances element by element, and when one element clearly hurts it more than the rest, that weakness is highlighted. You can also filter the whole bestiary by weakness, which answers the practical question: which monsters should my earth build farm? Keep in mind that the same monster often resists more in its stronger versions, so a family that melts at low level can shrug off that element later on. (Dofus 2 is the exception here: we have no reliable monster stats for that version, so its bestiary does not show resistances.)</p>
+
+<h2>Turning a weakness into a build</h2>
+<p>If the monsters you farm share a weakness your class can hit, lean into it: weight that element and its characteristic (Strength for earth, Intelligence for fire, Agility for air, Chance for water) high in the optimizer and let it chase the gear that pushes that element. A <a href="/guides/mono-vs-multi-element/">focused build</a> multiplies what the weakness already gives you. That is how farming builds are born: not made for everything, made for the dungeon you run twenty times.</p>
+
+<h2>When you cannot match the weakness</h2>
+<p>You will not regear for every fight, and some classes are locked into their element. The good news: most of the win is simply avoiding the monster's strongest resistance. Hitting its second-best element is usually fine; feeding your damage into the element it was built to shrug off is what stings. In a team, hand the weak element to whoever already hits it, and remember the same logic in reverse: the elements monsters attack with decide which of <a href="/guides/resistance-explained/">your own resistances</a> matter.</p>
+
+<p><em>Pick a dungeon you grind, look up its monsters in the <a href="/encyclopedia/monsters/">bestiary</a>, then <a href="/quickstart/">build a set</a> that leans into their weakness.</em></p>
+''',
+            },
+            'fr': {
+                'title': "Faiblesses des monstres : tape l'élément qui fait mal",
+                'desc': "Chaque monstre résiste à certains éléments et prend très cher sur un autre. Comment repérer une faiblesse dans le bestiaire et en faire un build qui cogne.",
+                'lead': "Chaque monstre résiste à certains éléments et plie face à un autre. Voilà comment repérer une faiblesse dans le bestiaire, et comment la transformer en vrais dégâts.",
+                'body': '''
+<h2>Même sort, dégâts très différents</h2>
+<p>Les monstres n'encaissent pas tous pareil. Chacun a ses propres résistances en terre, feu, air et eau (et neutre), donc la même attaque peut perdre la moitié de sa force contre la mauvaise cible et taper plein pot contre la bonne. Avant d'accuser ton stuff ou tes sorts, regarde ce que tu frappais : choisir ses cibles par élément est le boost de dégâts le moins cher du jeu, dans toutes les versions de Dofus.</p>
+
+<h2>Lire la fiche d'un monstre</h2>
+<p>Ouvre un monstre dans le <a href="/encyclopedia/monsters/">bestiaire</a> : sa fiche liste les résistances élément par élément, et quand un élément lui fait clairement plus mal que les autres, cette faiblesse est mise en évidence. Tu peux aussi filtrer tout le bestiaire par faiblesse, ce qui répond à la vraie question : quels monstres mon build terre devrait-il farmer ? Garde en tête qu'un même monstre résiste souvent plus dans ses versions plus fortes : une famille qui fond à bas niveau peut encaisser cet élément plus tard. (Dofus 2 est l'exception ici : on n'a pas de stats de monstres fiables pour cette version, donc son bestiaire n'affiche pas les résistances.)</p>
+
+<h2>Transformer une faiblesse en build</h2>
+<p>Si les monstres que tu farmes partagent une faiblesse que ta classe peut exploiter, fonce : mets un gros poids sur cet élément et sa caractéristique (Force pour la terre, Intelligence pour le feu, Agilité pour l'air, Chance pour l'eau) dans l'optimiseur et laisse-le chercher le stuff qui booste cet élément. Un <a href="/guides/mono-vs-multi-element/">build mono-élément</a> multiplie ce que la faiblesse te donne déjà. C'est comme ça que naissent les builds de farm : pas faits pour tout, faits pour le donjon que tu refais vingt fois.</p>
+
+<h2>Quand tu ne peux pas viser la faiblesse</h2>
+<p>Tu ne vas pas te rééquiper pour chaque combat, et certaines classes sont bloquées sur leur élément. La bonne nouvelle : l'essentiel du gain, c'est simplement d'éviter la plus grosse résistance du monstre. Taper son deuxième meilleur élément passe en général très bien ; envoyer tes dégâts dans l'élément qu'il est fait pour encaisser, c'est ça qui pique. En équipe, laisse l'élément faible à celui qui le tape déjà, et pense à la logique inverse : les éléments avec lesquels les monstres attaquent déterminent lesquelles de <a href="/guides/resistance-explained/">tes résistances</a> comptent vraiment.</p>
+
+<p><em>Choisis un donjon que tu enchaînes, regarde ses monstres dans le <a href="/encyclopedia/monsters/">bestiaire</a>, puis <a href="/quickstart/">fais un stuff</a> qui tape dans leur faiblesse.</em></p>
+''',
+            },
+            'es': {
+                'title': "Debilidades de los monstruos: pega en el elemento que duele",
+                'desc': "Cada monstruo resiste unos elementos y sufre con otro. Cómo encontrar una debilidad en el bestiario y convertirla en un build que pega más fuerte.",
+                'lead': "Cada monstruo resiste unos elementos y se derrite con otro. Aquí tienes cómo encontrar una debilidad en el bestiario y convertirla en daño de verdad.",
+                'body': '''
+<h2>Mismo hechizo, daño muy distinto</h2>
+<p>Los monstruos no encajan el daño por igual. Cada uno tiene sus propias resistencias a tierra, fuego, aire y agua (y neutral), así que el mismo ataque puede perder la mitad de su fuerza contra el objetivo equivocado y entrar a tope contra el correcto. Antes de culpar a tu equipo o a tus hechizos, mira a qué le estabas pegando: elegir objetivos por elemento es la mejora de daño más barata del juego, en todas las versiones de Dofus.</p>
+
+<h2>Leer la ficha de un monstruo</h2>
+<p>Abre un monstruo en el <a href="/encyclopedia/monsters/">bestiario</a>: su ficha muestra las resistencias elemento a elemento, y cuando uno le duele claramente más que el resto, esa debilidad aparece resaltada. También puedes filtrar todo el bestiario por debilidad, lo que responde a la pregunta práctica: ¿qué monstruos debería farmear mi build de tierra? Ten en cuenta que un mismo monstruo a menudo resiste más en sus versiones más fuertes: una familia que se derrite a bajo nivel puede aguantar ese mismo elemento más adelante. (Dofus 2 es la excepción: no tenemos estadísticas fiables de monstruos para esa versión, así que su bestiario no muestra resistencias.)</p>
+
+<h2>Convertir una debilidad en un build</h2>
+<p>Si los monstruos que farmeas comparten una debilidad que tu clase puede explotar, apuesta por ella: dale un peso alto a ese elemento y a su característica (Fuerza para tierra, Inteligencia para fuego, Agilidad para aire, Suerte para agua) en el optimizador y deja que persiga el equipo que potencia ese elemento. Un <a href="/guides/mono-vs-multi-element/">build concentrado</a> multiplica lo que la debilidad ya te da. Así nacen los builds de farmeo: no hechos para todo, hechos para la mazmorra que repites veinte veces.</p>
+
+<h2>Cuando no puedes apuntar a la debilidad</h2>
+<p>No vas a reequiparte para cada combate, y algunas clases están ancladas a su elemento. La buena noticia: la mayor parte de la ganancia está en evitar la resistencia más alta del monstruo. Pegar en su segundo mejor elemento suele ir bien; meter tu daño en el elemento que está hecho para encajar es lo que sale caro. En equipo, déjale el elemento débil a quien ya lo pega, y recuerda la lógica inversa: los elementos con los que atacan los monstruos deciden cuáles de <a href="/guides/resistance-explained/">tus propias resistencias</a> importan.</p>
+
+<p><em>Elige una mazmorra que repitas, busca sus monstruos en el <a href="/encyclopedia/monsters/">bestiario</a> y <a href="/quickstart/">monta un set</a> que explote su debilidad.</em></p>
+''',
+            },
+            'pt': {
+                'title': "Fraquezas dos monstros: bata no elemento que dói",
+                'desc': "Cada monstro resiste a uns elementos e sofre com outro. Como achar uma fraqueza no bestiário e transformá-la num build que bate mais forte.",
+                'lead': "Cada monstro resiste a uns elementos e derrete com outro. Veja como achar uma fraqueza no bestiário e como transformá-la em dano de verdade.",
+                'body': '''
+<h2>Mesmo feitiço, dano bem diferente</h2>
+<p>Os monstros não tomam dano do mesmo jeito. Cada um tem suas próprias resistências a terra, fogo, ar e água (e neutro), então o mesmo ataque pode perder metade da força contra o alvo errado e entrar inteiro contra o certo. Antes de culpar seu equipamento ou seus feitiços, olhe no que você estava batendo: escolher alvos por elemento é o aumento de dano mais barato do jogo, em todas as versões de Dofus.</p>
+
+<h2>Ler a ficha de um monstro</h2>
+<p>Abra um monstro no <a href="/encyclopedia/monsters/">bestiário</a>: a ficha lista as resistências elemento por elemento, e quando um deles machuca claramente mais que os outros, essa fraqueza aparece destacada. Você também pode filtrar o bestiário inteiro por fraqueza, o que responde à pergunta prática: quais monstros meu build de terra deveria farmar? Lembre que um mesmo monstro muitas vezes resiste mais nas versões mais fortes: uma família que derrete em nível baixo pode aguentar esse mesmo elemento mais adiante. (Dofus 2 é a exceção: não temos estatísticas confiáveis dos monstros para essa versão, então o bestiário dela não mostra resistências.)</p>
+
+<h2>Transformar uma fraqueza em build</h2>
+<p>Se os monstros que você farma têm uma fraqueza em comum que sua classe consegue atingir, aposte nela: dê peso alto a esse elemento e à característica dele (Força para terra, Inteligência para fogo, Agilidade para ar, Sorte para água) no otimizador e deixe ele caçar o equipamento que impulsiona esse elemento. Um <a href="/guides/mono-vs-multi-element/">build concentrado</a> multiplica o que a fraqueza já te dá. É assim que nascem os builds de farm: não feitos para tudo, feitos para a masmorra que você repete vinte vezes.</p>
+
+<h2>Quando não dá para mirar na fraqueza</h2>
+<p>Você não vai se reequipar para cada luta, e algumas classes ficam presas ao próprio elemento. A boa notícia: a maior parte do ganho está em evitar a resistência mais alta do monstro. Bater no segundo melhor elemento costuma servir; jogar seu dano no elemento que ele foi feito para aguentar é o que custa caro. Em grupo, deixe o elemento fraco com quem já bate nele, e lembre da lógica inversa: os elementos com que os monstros atacam decidem quais das <a href="/guides/resistance-explained/">suas próprias resistências</a> importam.</p>
+
+<p><em>Escolha uma masmorra que você repete, veja os monstros dela no <a href="/encyclopedia/monsters/">bestiário</a> e <a href="/quickstart/">monte um set</a> que explore a fraqueza deles.</em></p>
+''',
+            },
+            'de': {
+                'title': "Monster-Schwächen: hau auf das Element, das wehtut",
+                'desc': "Jedes Monster steckt manche Elemente weg und leidet unter einem anderen. Wie du im Bestiarium Schwächen findest und daraus ein Build machst, das härter trifft.",
+                'lead': "Jedes Monster steckt manche Elemente weg und knickt bei einem anderen ein. Hier siehst du, wie du im Bestiarium Schwächen findest und daraus echten Schaden machst.",
+                'body': '''
+<h2>Gleicher Zauber, ganz anderer Schaden</h2>
+<p>Monster stecken Schaden nicht gleich weg. Jedes hat eigene Resistenzen gegen Erde, Feuer, Luft und Wasser (und Neutral), also kann derselbe Angriff gegen das falsche Ziel die halbe Wucht verlieren und beim richtigen voll einschlagen. Bevor du deiner Ausrüstung oder deinen Zaubern die Schuld gibst, schau, worauf du da gehauen hast: Ziele nach Element zu wählen ist der billigste Schadensboost im Spiel, in jeder Version von Dofus.</p>
+
+<h2>Den Steckbrief eines Monsters lesen</h2>
+<p>Öffne ein Monster im <a href="/encyclopedia/monsters/">Bestiarium</a>: sein Steckbrief listet die Resistenzen Element für Element, und wenn ihm ein Element deutlich mehr wehtut als der Rest, ist diese Schwäche hervorgehoben. Du kannst das ganze Bestiarium auch nach Schwäche filtern, was die praktische Frage beantwortet: welche Monster sollte mein Erd-Build farmen? Denk daran, dass dasselbe Monster in seinen stärkeren Varianten oft mehr aushält: eine Familie, die auf niedriger Stufe schmilzt, kann dasselbe Element später wegstecken. (Dofus 2 ist die Ausnahme: für diese Version haben wir keine verlässlichen Monsterwerte, deshalb zeigt ihr Bestiarium keine Resistenzen.)</p>
+
+<h2>Aus einer Schwäche ein Build machen</h2>
+<p>Wenn die Monster, die du farmst, eine Schwäche teilen, die deine Klasse treffen kann, zieh es durch: gewichte dieses Element und seinen Wert (Stärke für Erde, Intelligenz für Feuer, Beweglichkeit für Luft, Glück für Wasser) im Optimierer hoch und lass ihn die Ausrüstung suchen, die das Element pusht. Ein <a href="/guides/mono-vs-multi-element/">fokussiertes Build</a> multipliziert, was die Schwäche dir schon schenkt. So entstehen Farm-Builds: nicht für alles gemacht, sondern für den Dungeon, den du zwanzigmal läufst.</p>
+
+<h2>Wenn du die Schwäche nicht treffen kannst</h2>
+<p>Du rüstest nicht für jeden Kampf um, und manche Klassen sind auf ihr Element festgelegt. Die gute Nachricht: der größte Gewinn liegt schon darin, die stärkste Resistenz des Monsters zu meiden. Sein zweitbestes Element zu treffen ist meist völlig in Ordnung; deinen Schaden in das Element zu stecken, das es wegstecken soll, das kostet. Im Team überlass das schwache Element dem, der es ohnehin trifft, und denk an die umgekehrte Logik: die Elemente, mit denen Monster angreifen, entscheiden, welche <a href="/guides/resistance-explained/">deiner eigenen Resistenzen</a> zählen.</p>
+
+<p><em>Such dir einen Dungeon, den du ständig läufst, schau seine Monster im <a href="/encyclopedia/monsters/">Bestiarium</a> nach und <a href="/quickstart/">bau ein Set</a>, das ihre Schwäche voll ausnutzt.</em></p>
 ''',
             },
         },
