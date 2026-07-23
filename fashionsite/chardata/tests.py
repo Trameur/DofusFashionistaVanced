@@ -5098,6 +5098,7 @@ class PostLengthGuardTests(TestCase):
         user.refresh_from_db()
         self.assertEqual(user.email, 'keep@test.local')
 
+    @override_settings(DEBUG=True)
     def test_register_rejects_an_overlong_username_before_any_side_effect(self):
         # A 51-150 char username used to pass the auth_user insert (150) and
         # then crash on the UserAlias copy (50), AFTER the confirmation mail
@@ -5111,6 +5112,7 @@ class PostLengthGuardTests(TestCase):
         self.assertFalse(User.objects.filter(username__startswith='uuu').exists())
         self.assertEqual(len(mail.outbox), 0)
 
+    @override_settings(DEBUG=True)
     def test_register_rejects_an_overlong_email(self):
         from django.contrib.auth.models import User
         from django.core import mail
@@ -5130,6 +5132,65 @@ class PostLengthGuardTests(TestCase):
         limit = BuildTag._meta.get_field('name').max_length
         self.assertLessEqual(len(key), limit)
         self.assertEqual(len(display), 40)
+
+    @override_settings(DEBUG=True)
+    def test_register_creates_the_account_before_sending_the_mail(self):
+        from chardata.models import UserAlias
+        from django.contrib.auth.models import User
+        from django.core import mail
+        resp = self.client.post('/register/', {'username': 'freshuser',
+                                               'password': 'pw-42-solid',
+                                               'email': 'fresh@test.local'})
+        self.assertEqual(resp.status_code, 302)
+        user = User.objects.get(username='freshuser')
+        self.assertFalse(user.is_active)
+        self.assertEqual(UserAlias.objects.get(user=user).alias, 'freshuser')
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('fresh@test.local', mail.outbox[0].to)
+
+    @override_settings(DEBUG=True)
+    def test_register_rolls_back_the_account_when_the_mail_fails(self):
+        # Without the confirmation mail the account can never be activated, so
+        # a failed send must not burn the username with an orphaned row.
+        from smtplib import SMTPException
+        from unittest import mock
+        from django.contrib.auth.models import User
+        with mock.patch('chardata.login_view.send_mail',
+                        side_effect=SMTPException('boom')):
+            resp = self.client.post('/register/', {'username': 'ghostuser',
+                                                   'password': 'pw-42-solid',
+                                                   'email': 'ghost@test.local'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'chardata/recover_password.html')
+        self.assertFalse(User.objects.filter(username='ghostuser').exists())
+        # The name is reusable: a second attempt with a working mailer passes.
+        resp2 = self.client.post('/register/', {'username': 'ghostuser',
+                                                'password': 'pw-42-solid',
+                                                'email': 'ghost@test.local'})
+        self.assertEqual(resp2.status_code, 302)
+        self.assertTrue(User.objects.filter(username='ghostuser').exists())
+
+    @override_settings(DEBUG=True)
+    def test_register_rejects_a_malformed_email(self):
+        from django.contrib.auth.models import User
+        from django.core import mail
+        resp = self.client.post('/register/', {'username': 'badmailuser',
+                                               'password': 'pw-42-solid',
+                                               'email': 'not-an-email'})
+        self.assertEqual(resp.status_code, 403)
+        self.assertFalse(User.objects.filter(username='badmailuser').exists())
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_save_account_ignores_a_malformed_email(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('formatkeeper', 'good@test.local',
+                                        'pw-42-solid')
+        self.client.force_login(user)
+        resp = self.client.post('/saveaccount/', {'alias': 'ok',
+                                                  'email': 'junk-without-at'})
+        self.assertEqual(resp.status_code, 200)
+        user.refresh_from_db()
+        self.assertEqual(user.email, 'good@test.local')
 
     def test_client_ip_rejects_a_junk_forwarded_header(self):
         from chardata.solution_view import get_client_ip

@@ -18,6 +18,8 @@
 
 import json
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.http import JsonResponse
 
 from chardata.models import UserAlias
@@ -65,6 +67,13 @@ def save_account(request):
     if len(form_email) > email_limit:
         # Not a real email address; keep the stored one instead of crashing.
         form_email = ''
+    elif form_email:
+        try:
+            validate_email(form_email)
+        except ValidationError:
+            # Malformed address: keep the stored one (it feeds notification
+            # emails later, so junk must not replace a working address).
+            form_email = ''
     # HTML checkboxes only appear in POST when checked.
     form_notify_comments = 'notify_comments' in request.POST
 

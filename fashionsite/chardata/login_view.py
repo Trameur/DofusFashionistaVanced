@@ -19,8 +19,9 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.mail import send_mail, BadHeaderError
+from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
@@ -97,6 +98,10 @@ def register(request):
     if (not username or len(username) > max_username
             or not email or len(email) > max_email):
         raise PermissionDenied
+    try:
+        validate_email(email)
+    except ValidationError:
+        raise PermissionDenied
 
     # MySQL's username index is case-insensitive, so match that here too,
     # otherwise a case-only duplicate slips through and the insert fails.
@@ -113,6 +118,21 @@ def register(request):
     link = request.build_absolute_uri(
         reverse('confirm_email',
                 args=(username, _generate_token_for_user(username))))
+    # Create the account BEFORE sending the confirmation mail: the old order
+    # could mail a confirmation link for an account whose insert then failed.
+    try:
+        user = User.objects.create_user(username, email, password)
+    except IntegrityError:
+        # Username taken despite the check above (race, or a case-only
+        # variant the DB index rejects) -> treat as "already taken".
+        raise PermissionDenied
+    user.is_active = False
+    user.save()
+    alias = UserAlias()
+    alias.user = user
+    alias.alias = username
+    alias.save()
+
     try:
         send_mail(_('Welcome to The Dofus Fashionista!'),
                   _('Please click the link below to confirm your email and activate your '
@@ -121,25 +141,16 @@ def register(request):
                   [email])
     except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
         logger.exception('Registration email could not be sent to %s', email)
+        # Without the mail the account can never be confirmed: undo it so the
+        # username is not burned by an unconfirmable inactive row (the alias
+        # row follows through the FK cascade).
+        user.delete()
         return set_response(request,
                             'chardata/recover_password.html',
                             {'request': request,
                              'email': email,
                              'from_register': False,
                              'email_send_failed': True})
-        
-    try:
-        user = User.objects.create_user(username, email, password)
-    except IntegrityError:
-        # Username taken despite the check above (race during the email send, or a
-        # case-only variant the DB index rejects) -> treat as "already taken".
-        raise PermissionDenied
-    user.is_active = False
-    user.save()
-    alias = UserAlias()
-    alias.user = user
-    alias.alias = username
-    alias.save()
     
     ns = request.resolver_match.namespace
     target = f'{ns}:check_your_email' if ns else 'check_your_email'
