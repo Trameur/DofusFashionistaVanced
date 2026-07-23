@@ -34,7 +34,7 @@ import logging
 import requests as http_requests
 
 from chardata.models import UserAlias
-from chardata.util import set_response, HttpResponseText
+from chardata.util import set_response, HttpResponseText, recaptcha_ok
 from django.utils.translation import gettext as _
 
 logger = logging.getLogger(__name__)
@@ -69,20 +69,8 @@ def register(request):
         target = f'{ns}:login_page' if ns else 'login_page'
         return HttpResponseRedirect(reverse(target))
 
-    if not settings.DEBUG:
-        recaptcha_secret = settings.GEN_CONFIGS.get('url_captcha_secret')
-        g_recaptcha_response = request.POST.get('g-recaptcha-response', '')
-        try:
-            r = http_requests.post(
-                'https://www.google.com/recaptcha/api/siteverify',
-                data={'secret': recaptcha_secret, 'response': g_recaptcha_response},
-                timeout=10,
-            )
-            r.raise_for_status()
-            if not r.json().get('success'):
-                raise PermissionDenied
-        except (http_requests.RequestException, ValueError):
-            raise PermissionDenied
+    if not settings.DEBUG and not recaptcha_ok(request):
+        raise PermissionDenied
 
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)

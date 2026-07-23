@@ -19,11 +19,10 @@
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.urls import reverse
-import requests
 from chardata.models import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 from smtplib import SMTPException
-from chardata.util import set_response, version_reverse
+from chardata.util import set_response, version_reverse, recaptcha_ok
 import logging
 
 logger = logging.getLogger(__name__)
@@ -41,30 +40,9 @@ def send_email(request):
     message = request.POST.get('message', '')
     from_email = request.POST.get('email', '')
     name = request.POST.get('name', '')
-    g_recaptcha_response = request.POST.get('g-recaptcha-response', '')
 
-    recaptcha_secret = settings.GEN_CONFIGS.get('url_captcha_secret')
-    recaptcha_ok = False
-
-    # Allow testing environments (DEBUG=True) to submit without captcha.
-    if settings.DEBUG:
-        recaptcha_ok = True
-    else:
-        url = "https://www.google.com/recaptcha/api/siteverify"
-        data = {
-            'secret': recaptcha_secret,
-            'response': g_recaptcha_response
-        }
-        try:
-            response = requests.post(url, data=data, timeout=10)
-            response.raise_for_status()
-            recaptcha_result = response.json()
-            recaptcha_ok = bool(recaptcha_result.get('success'))
-        except (requests.RequestException, ValueError) as e:
-            logger.warning('Contact form captcha verification failed: %s', e)
-            recaptcha_ok = False
-
-    if not recaptcha_ok:
+    # DEBUG skips the captcha, like the register form.
+    if not settings.DEBUG and not recaptcha_ok(request):
         return HttpResponseRedirect(reverse('nomessage'))
 
     try:

@@ -23,7 +23,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, NoReverseMatch
 from django.utils.translation import get_language
 import json
+import logging
 import random
+import requests as http_requests
 
 
 def version_reverse(request, url_name, *args, **kwargs):
@@ -35,6 +37,21 @@ def version_reverse(request, url_name, *args, **kwargs):
         except NoReverseMatch:
             pass
     return reverse(url_name, args=args, kwargs=kwargs)
+
+def recaptcha_ok(request):
+    secret = settings.GEN_CONFIGS.get('url_captcha_secret')
+    answer = request.POST.get('g-recaptcha-response', '')
+    try:
+        r = http_requests.post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            data={'secret': secret, 'response': answer},
+            timeout=10,
+        )
+        r.raise_for_status()
+        return bool(r.json().get('success'))
+    except (http_requests.RequestException, ValueError) as e:
+        logging.getLogger(__name__).warning('captcha verification failed: %s', e)
+        return False
 
 from chardata.encoded_char_id import decode_char_id
 from chardata.model_wrappers import WrappedChar

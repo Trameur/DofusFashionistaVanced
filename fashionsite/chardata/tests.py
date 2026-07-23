@@ -1954,7 +1954,14 @@ class RegistrationFunnelTests(TestCase):
     following the emailed link activates the account. This is the growth
     funnel; it must never silently break."""
 
-    @override_settings(DEBUG=True)  # captcha bypassed in debug
+    def setUp(self):
+        # Registration checks recaptcha with a live Google call; pass it.
+        from unittest import mock
+        patcher = mock.patch('chardata.login_view.recaptcha_ok',
+                             return_value=True)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     def test_register_confirm_activates_account(self):
         from django.contrib.auth.models import User
         from django.core import mail
@@ -1971,7 +1978,6 @@ class RegistrationFunnelTests(TestCase):
         user.refresh_from_db()
         self.assertTrue(user.is_active, 'confirmation link must activate')
 
-    @override_settings(DEBUG=True)
     def test_bad_confirmation_token_rejected(self):
         from django.contrib.auth.models import User
         self.client.post('/register/', {
@@ -1981,7 +1987,6 @@ class RegistrationFunnelTests(TestCase):
         user = User.objects.get(username='otherplayer')
         self.assertFalse(user.is_active, 'bad token must not activate')
 
-    @override_settings(DEBUG=True)
     def test_welcome_email_follows_request_language(self):
         # A French visitor registering must get the welcome email in French.
         from django.core import mail
@@ -2002,9 +2007,11 @@ class ContactFormTests(TestCase):
     def test_contact_page_renders(self):
         self.assertEqual(self.client.get('/contact/').status_code, 200)
 
-    @override_settings(DEBUG=True)  # the captcha is bypassed in debug
     def test_send_email_delivers_and_redirects(self):
         from django.core import mail
+        from unittest import mock
+        self.enterContext(mock.patch('chardata.contact_view.recaptcha_ok',
+                                     return_value=True))
         resp = self.client.post('/send/', {
             'topic': 'Bug report', 'message': 'The optimizer ate my hat.',
             'email': 'player@test.local', 'name': 'A player'})
@@ -5198,6 +5205,14 @@ class PostLengthGuardTests(TestCase):
     """Every bounded column writable from user input has a length guard.
     SQLite stores over-long values instead of failing, so we check lengths."""
 
+    def setUp(self):
+        # Registration checks recaptcha with a live Google call; pass it.
+        from unittest import mock
+        patcher = mock.patch('chardata.login_view.recaptcha_ok',
+                             return_value=True)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     def test_save_account_clips_the_alias(self):
         from chardata.models import UserAlias
         from django.contrib.auth.models import User
@@ -5220,7 +5235,6 @@ class PostLengthGuardTests(TestCase):
         user.refresh_from_db()
         self.assertEqual(user.email, 'keep@test.local')
 
-    @override_settings(DEBUG=True)
     def test_register_rejects_an_overlong_username_before_any_side_effect(self):
         # The username also has to fit UserAlias.alias (50), not just auth_user (150).
         from django.contrib.auth.models import User
@@ -5232,7 +5246,6 @@ class PostLengthGuardTests(TestCase):
         self.assertFalse(User.objects.filter(username__startswith='uuu').exists())
         self.assertEqual(len(mail.outbox), 0)
 
-    @override_settings(DEBUG=True)
     def test_register_rejects_an_overlong_email(self):
         from django.contrib.auth.models import User
         from django.core import mail
@@ -5252,7 +5265,6 @@ class PostLengthGuardTests(TestCase):
         self.assertLessEqual(len(key), limit)
         self.assertEqual(len(display), 40)
 
-    @override_settings(DEBUG=True)
     def test_register_creates_the_account_before_sending_the_mail(self):
         from chardata.models import UserAlias
         from django.contrib.auth.models import User
@@ -5267,7 +5279,6 @@ class PostLengthGuardTests(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn('fresh@test.local', mail.outbox[0].to)
 
-    @override_settings(DEBUG=True)
     def test_register_rolls_back_the_account_when_the_mail_fails(self):
         # A failed send must not burn the username with an unconfirmable row.
         from smtplib import SMTPException
@@ -5288,7 +5299,6 @@ class PostLengthGuardTests(TestCase):
         self.assertEqual(resp2.status_code, 302)
         self.assertTrue(User.objects.filter(username='ghostuser').exists())
 
-    @override_settings(DEBUG=True)
     def test_register_rejects_a_malformed_email(self):
         from django.contrib.auth.models import User
         from django.core import mail
