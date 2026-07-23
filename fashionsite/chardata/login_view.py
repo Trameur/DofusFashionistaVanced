@@ -87,6 +87,17 @@ def register(request):
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
+    # Bound the lengths BEFORE any side effect (mail, User row): the username
+    # is copied into UserAlias.alias (50) and the email column holds 254, and
+    # MySQL strict mode turns an over-long value into DataError 1406. Failing
+    # later would 500 after the confirmation mail went out, or worse, after
+    # the User row was created (orphaned inactive account burning the name).
+    max_username = UserAlias._meta.get_field('alias').max_length
+    max_email = User._meta.get_field('email').max_length
+    if (not username or len(username) > max_username
+            or not email or len(email) > max_email):
+        raise PermissionDenied
+
     # MySQL's username index is case-insensitive, so match that here too,
     # otherwise a case-only duplicate slips through and the insert fails.
     users = User.objects.filter(username__iexact=username)

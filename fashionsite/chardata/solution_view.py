@@ -18,6 +18,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, F
 from django.core.cache import cache
+import ipaddress
 import json
 import logging
 import pickle
@@ -556,12 +557,23 @@ def hide_sharing_link(request, char_id):
     return HttpResponseText('hid')
 
 def get_client_ip(request):
-    """Get the client's IP address from the request"""
+    """Get the client's IP address from the request, or None.
+
+    X-Forwarded-For is client-controlled (nginx appends, so the first element
+    stays spoofable): a junk value would overflow BuildView.ip_address
+    (char 39) on every view of the page, silently breaking view tracking.
+    Only return something that actually parses as an IP."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
+        ip = x_forwarded_for.split(',')[0].strip()
     else:
         ip = request.META.get('REMOTE_ADDR')
+    if not ip:
+        return None
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        return None
     return ip
 
 def solution_linked(request, char_name, encoded_char_id):

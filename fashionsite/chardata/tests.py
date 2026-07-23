@@ -5023,6 +5023,79 @@ class CharNameLengthTests(TestCase):
         self.assertTrue(copy.name.endswith(' copy'))
 
 
+class PostLengthGuardTests(TestCase):
+    """Follow-up of the /createproject/ DataError 1406: a workflow audit of
+    every bounded column writable from user input found the same unguarded
+    shape on the account endpoints, the tag normalizer and the view tracker.
+    These tests pin each guard (MySQL strict would 500 in prod; SQLite in
+    tests just stores the over-long value, so the assertions check lengths)."""
+
+    def test_save_account_clips_the_alias(self):
+        from chardata.models import UserAlias
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('aliaser', 'a@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        resp = self.client.post('/saveaccount/', {'alias': 'A' * 300})
+        self.assertEqual(resp.status_code, 200)
+        limit = UserAlias._meta.get_field('alias').max_length
+        # Fresh query: force_login's language backfill already cached a stale
+        # user.useralias relation on this instance.
+        self.assertEqual(UserAlias.objects.get(user=user).alias, 'A' * limit)
+
+    def test_save_account_ignores_an_overlong_email(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('mailer', 'keep@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        resp = self.client.post('/saveaccount/', {'alias': 'ok',
+                                                  'email': 'x' * 300})
+        self.assertEqual(resp.status_code, 200)
+        user.refresh_from_db()
+        self.assertEqual(user.email, 'keep@test.local')
+
+    def test_register_rejects_an_overlong_username_before_any_side_effect(self):
+        # A 51-150 char username used to pass the auth_user insert (150) and
+        # then crash on the UserAlias copy (50), AFTER the confirmation mail
+        # was sent and the inactive User row committed (burning the name).
+        from django.contrib.auth.models import User
+        from django.core import mail
+        resp = self.client.post('/register/', {'username': 'u' * 60,
+                                               'password': 'pw-42-solid',
+                                               'email': 'new@test.local'})
+        self.assertEqual(resp.status_code, 403)
+        self.assertFalse(User.objects.filter(username__startswith='uuu').exists())
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_register_rejects_an_overlong_email(self):
+        from django.contrib.auth.models import User
+        from django.core import mail
+        resp = self.client.post('/register/', {'username': 'shortname',
+                                               'password': 'pw-42-solid',
+                                               'email': 'x' * 300})
+        self.assertEqual(resp.status_code, 403)
+        self.assertFalse(User.objects.filter(username='shortname').exists())
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_tag_key_stays_inside_the_column_after_nfkd_expansion(self):
+        # NFKD expands compatibility characters: 40 x the ffi ligature folds
+        # to a 120-char key while the display passes the 40-char check.
+        from chardata.models import BuildTag
+        from chardata.tag_view import _normalize_tag
+        key, display = _normalize_tag('ﬃ' * 40)
+        limit = BuildTag._meta.get_field('name').max_length
+        self.assertLessEqual(len(key), limit)
+        self.assertEqual(len(display), 40)
+
+    def test_client_ip_rejects_a_junk_forwarded_header(self):
+        from chardata.solution_view import get_client_ip
+        from django.test import RequestFactory
+        junk = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='A' * 100)
+        self.assertIsNone(get_client_ip(junk))
+        real = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='203.0.113.9, 10.0.0.1')
+        self.assertEqual(get_client_ip(real), '203.0.113.9')
+        v6 = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='2001:db8::1')
+        self.assertEqual(get_client_ip(v6), '2001:db8::1')
+
+
 class MonsterWeaknessGuideTests(SimpleTestCase):
     """The monster-weaknesses guide is shared by every version, but the bestiary
     features it describes (resistances, highlighted weakness, weakness filter) do
