@@ -515,7 +515,8 @@ def get_sharing_link(request, sets_params):
         char_id, was_encoded = get_char_id_possibly_encoded(char_str)
         char = get_object_or_404(Char, pk=char_id)
         if char.game_version != getattr(request, 'game_version', 'dofus3'):
-            return _get_text_error_response(_('Project %s is not in this game version.') % char_str)
+            return _get_text_error_response(
+                _('Project %s is not in this game version.') % escape(char_str[:120]))
         if char_belongs_to_user(request, char):
             # Share it, if still not shared.
             if not char.link_shared:
@@ -526,7 +527,8 @@ def get_sharing_link(request, sets_params):
             if not was_encoded:
                 raise PermissionDenied
             if not char.link_shared:
-                return _get_text_error_response(_('Project %s is not shared.') % char_str)
+                return _get_text_error_response(
+                    _('Project %s is not shared.') % escape(char_str[:120]))
         char_ids.append(char_id)
 
     return HttpResponseText(_generate_share_compare_link(
