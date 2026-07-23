@@ -1491,8 +1491,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'url': get_monster_link(monster_id, monster_name, game_version),
                     'level': _drop_level_text(span, level_label),
                     'level_min': span[0] if span else None,
-                    # MIN over '' (an unconditional row) and criterion strings:
-                    # empty means at least one path drops the item freely.
+                    # MIN over '' and criterion strings: empty means some path drops it freely.
                     'has_conditions': bool(conditions),
                 })
             # Best drop rate first, then the lowest-level (easiest) source, so

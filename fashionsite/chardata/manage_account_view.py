@@ -57,22 +57,19 @@ def manage_account(request):
 
 
 def save_account(request):
-    # Clip/bound to the column sizes: MySQL strict mode turns an over-long
-    # value into DataError 1406 (500), and the browser maxlength does not
-    # guard direct POSTs.
+    # Clip to the column sizes, the browser maxlength doesn't guard direct POSTs.
     form_alias = request.POST.get('alias', '')
     form_alias = form_alias[:UserAlias._meta.get_field('alias').max_length]
     form_email = request.POST.get('email', '')
     email_limit = User._meta.get_field('email').max_length
     if len(form_email) > email_limit:
-        # Not a real email address; keep the stored one instead of crashing.
+        # Not a real email, keep the stored one.
         form_email = ''
     elif form_email:
         try:
             validate_email(form_email)
         except ValidationError:
-            # Malformed address: keep the stored one (it feeds notification
-            # emails later, so junk must not replace a working address).
+            # Malformed address, keep the stored one.
             form_email = ''
     # HTML checkboxes only appear in POST when checked.
     form_notify_comments = 'notify_comments' in request.POST

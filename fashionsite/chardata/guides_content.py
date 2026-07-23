@@ -2946,10 +2946,8 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # Monsters carry per-element resistances in every version of the game
-    # (Dofus 3, beta, Dofus 2, Touch, Retro), so this guide stays version
-    # neutral: no numbers, no modern-only stats, just the universal loop of
-    # read the bestiary card, pick the element, weight it in the tool.
+    # Version neutral: every version has per-element monster resistances,
+    # so no numbers and no modern-only stats.
     'monster-weaknesses': {
         'published': '2026-07-23',
         'i18n': {

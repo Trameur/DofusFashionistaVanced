@@ -36,9 +36,7 @@ def _normalize_tag(raw):
     folded = unicodedata.normalize('NFKD', display)
     folded = ''.join(c for c in folded if not unicodedata.combining(c))
     key = folded.lower()
-    # NFKD expands compatibility characters (ligatures, fractions, ellipsis),
-    # so a display already at the limit can fold to a longer key than the
-    # column holds (MySQL strict would 500 with DataError 1406).
+    # NFKD expands ligatures and the like, so the folded key can end up longer than the display.
     if len(key) > MAX_TAG_LENGTH:
         key = key[:MAX_TAG_LENGTH]
     return key, display

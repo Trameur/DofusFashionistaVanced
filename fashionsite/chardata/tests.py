@@ -2288,8 +2288,7 @@ class NlParserTests(SimpleTestCase):
                 self.assertEqual(self._parse('%s 200' % word)['char_class'], expected)
 
     def test_german_elements(self):
-        # Flinkheit and Glueck are the official German stat names (client data);
-        # Beweglichkeit stays accepted for users typing the old site wording.
+        # Beweglichkeit stays accepted as a synonym.
         cases = {'Feuer': 'int', 'Erde': 'str', 'Wasser': 'cha', 'Luft': 'agi',
                  'Flinkheit': 'agi', 'Glück': 'cha', 'Beweglichkeit': 'agi'}
         for word, expected in cases.items():
@@ -3809,13 +3808,9 @@ class DropMonsterLevelTests(TestCase):
 
 
 class DropConditionsTests(TestCase):
-    """Many drops only happen under a criterion (player level range, quest
-    state, server type): dofus3/beta/dofus2/touch raws carry it per drop, and
-    the encyclopedia now stores it and shows a prudent "under conditions"
-    marker instead of presenting the drop as freely available. Retro's source
-    (Solomonk) has no conditions, so retro never shows the marker. Fixtures are
-    looked up dynamically: the conditioned set changes with every game data
-    update."""
+    """Drops with an Ankama criterion show the "under conditions" marker;
+    retro has no conditions so it never does. Fixtures are looked up in the
+    DB because the conditioned set changes with every data update."""
 
     def _cursor(self, version='dofus3'):
         import sqlite3
@@ -3974,13 +3969,9 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
 
 
 class RetroStealsWeaponTests(SimpleTestCase):
-    """Player report said Terps/Minotot lifesteal was wrong in Retro. Verified
-    2026-07-23 against the OFFICIAL 1.29 lang (retro_raw itemstats ISTA lines +
-    effects table): Terps Hammer steals ONLY its 2-6 neutral roll (effect 95,
-    'Vole 2 a 6 PDV (neutre)'), its 6-10 neutral and 6-10 fire rolls are plain
-    damage; Minotot Sceptre deals 13-27 neutral plain and steals ONLY the 3-5
-    water (91) and 3-5 fire (94) rolls. Our data matches the client exactly,
-    so these hits must not be 'fixed' to steal on every roll."""
+    """In the 1.29 lang, Terps Hammer only steals its 2-6 neutral roll and
+    Minotot Sceptre only its 3-5 water and fire rolls; the rest is plain
+    damage. Do not "fix" them to steal on every roll."""
 
     def _hits(self, structure, ankama_id):
         item = structure.get_item_by_ankama_id(ankama_id)
@@ -5050,13 +5041,9 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
 
 
 class GermanStatTerminologyTests(TestCase):
-    """The German Dofus client names the characteristics Staerke, Intelligenz,
-    Flinkheit, Glueck, Vitalitaet, Weisheit (first-party check 2026-07-23:
-    itemscraper/all_equipment_de.json, dofusdude client data at 3.6.7.7, shows
-    2044 'Flinkheit' and 874 'Glueck' effect lines and ZERO 'Agilitaet' or
-    'Beweglichkeit'). The site UI used to say 'Beweglichkeit' and 'Chance',
-    which no German player sees in game; keep every surface on the official
-    terms."""
+    """The German client says Staerke, Intelligenz, Flinkheit, Glueck,
+    Vitalitaet, Weisheit (see itemscraper/all_equipment_de.json). Keep every
+    surface on those names."""
 
     OFFICIAL = {
         'Strength': 'Stärke',
@@ -5123,12 +5110,8 @@ class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
 
 
 class CharNameLengthTests(TestCase):
-    """Production 500 (2026-07-23, real user): POSTing /createproject/ with a
-    project name longer than the column crashed with MySQL DataError 1406
-    ("Data too long for column 'name'"), because the browser maxlength is the
-    only guard and direct POSTs bypass it. Char.save() now clips its text
-    labels to the column size, and the duplicate flow keeps its ' copy' marker
-    inside the limit instead of overflowing past it."""
+    """Char.save() clips its text labels to the column size (MySQL strict mode
+    rejects over-long values), and duplicating keeps ' copy' inside the limit."""
 
     def test_char_save_clips_overlong_labels(self):
         from chardata.models import Char
@@ -5182,11 +5165,8 @@ class CharNameLengthTests(TestCase):
 
 
 class PostLengthGuardTests(TestCase):
-    """Follow-up of the /createproject/ DataError 1406: a workflow audit of
-    every bounded column writable from user input found the same unguarded
-    shape on the account endpoints, the tag normalizer and the view tracker.
-    These tests pin each guard (MySQL strict would 500 in prod; SQLite in
-    tests just stores the over-long value, so the assertions check lengths)."""
+    """Every bounded column writable from user input has a length guard.
+    SQLite stores over-long values instead of failing, so we check lengths."""
 
     def test_save_account_clips_the_alias(self):
         from chardata.models import UserAlias
@@ -5212,9 +5192,7 @@ class PostLengthGuardTests(TestCase):
 
     @override_settings(DEBUG=True)
     def test_register_rejects_an_overlong_username_before_any_side_effect(self):
-        # A 51-150 char username used to pass the auth_user insert (150) and
-        # then crash on the UserAlias copy (50), AFTER the confirmation mail
-        # was sent and the inactive User row committed (burning the name).
+        # The username also has to fit UserAlias.alias (50), not just auth_user (150).
         from django.contrib.auth.models import User
         from django.core import mail
         resp = self.client.post('/register/', {'username': 'u' * 60,
@@ -5236,8 +5214,7 @@ class PostLengthGuardTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_tag_key_stays_inside_the_column_after_nfkd_expansion(self):
-        # NFKD expands compatibility characters: 40 x the ffi ligature folds
-        # to a 120-char key while the display passes the 40-char check.
+        # 40 x the ffi ligature folds to a 120-char key while the display passes the check.
         from chardata.models import BuildTag
         from chardata.tag_view import _normalize_tag
         key, display = _normalize_tag('ﬃ' * 40)
@@ -5262,8 +5239,7 @@ class PostLengthGuardTests(TestCase):
 
     @override_settings(DEBUG=True)
     def test_register_rolls_back_the_account_when_the_mail_fails(self):
-        # Without the confirmation mail the account can never be activated, so
-        # a failed send must not burn the username with an orphaned row.
+        # A failed send must not burn the username with an unconfirmable row.
         from smtplib import SMTPException
         from unittest import mock
         from django.contrib.auth.models import User
@@ -5316,11 +5292,8 @@ class PostLengthGuardTests(TestCase):
 
 
 class MonsterWeaknessGuideTests(SimpleTestCase):
-    """The monster-weaknesses guide is shared by every version, but the bestiary
-    features it describes (resistances, highlighted weakness, weakness filter) do
-    not exist on Dofus 2, which has no monster stats source. Every language must
-    keep the Dofus 2 caveat so Dofus 2 readers are not pointed at features their
-    version does not have."""
+    """Dofus 2 has no monster stats, so every language of the guide must keep
+    the Dofus 2 caveat."""
 
     def test_every_language_keeps_the_dofus2_caveat(self):
         from chardata import guides_content
@@ -5938,9 +5911,7 @@ class EncyclopediaMonsterPageTests(TestCase):
                       resp.content.decode('utf-8'))
 
     def test_hub_hides_the_weakness_guide_note_on_dofus2(self):
-        # dofus2 has no resistance data: the guide the note advertises leans on
-        # features that version does not have, so the note is omitted along
-        # with the weakness filter.
+        # dofus2 has no resistance data, so no note either.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertNotIn('monster-weaknesses', resp.content.decode('utf-8'))

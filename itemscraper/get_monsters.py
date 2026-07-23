@@ -98,9 +98,8 @@ def build_drops_index(dataset_dir: Path,
             return  # a 0% entry is not a real drop
         per_item = index.setdefault(int(object_id), {})
         # a monster can list the same item more than once (different criterions
-        # or drops[] + globalDrops); keep the best rate. For conditions, one
-        # unconditional entry means the drop IS freely available, so only keep
-        # a condition when every entry for the pair carries one.
+        # or drops[] + globalDrops); keep the best rate. One unconditional entry
+        # means the drop is free, so only keep a condition when every entry has one.
         existing = per_item.get(int(monster_id))
         if existing is None:
             per_item[int(monster_id)] = {"names": names, "rates": rates,
@@ -125,7 +124,7 @@ def build_drops_index(dataset_dir: Path,
             conditions = conditions or None
             add(drop.get("objectId"), monster_id, names, rates, conditions)
         # globalDrops apply regardless of grade (a min/max rate range); use the max.
-        # (No conditions: receiverCriterion is empty across the whole dataset.)
+        # No conditions there, receiverCriterion is empty across the dataset.
         for gd in _unwrap_array(monster.get("globalDrops")):
             rate = gd.get("maxPercentDrop", gd.get("minPercentDrop", 0)) or 0
             add(gd.get("objectId"), monster_id, names, [rate])

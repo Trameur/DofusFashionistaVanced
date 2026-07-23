@@ -17,12 +17,8 @@ try:
 except ModuleNotFoundError:
     fashionista_config = importlib.import_module('fashionistapulp.fashionistapulp.fashionista_config')
 
-# Pipeline scripts must operate on the checkout that CONTAINS them. The global
-# config (%APPDATA%/fashionista/config or /etc/fashionista/config) points at one
-# fixed checkout, so running update_data*.py from a worktree or second clone
-# used to write the tables into the other checkout and silently lose them
-# (P2-PIPE1: that is how the 3.6 dump once shipped without recipes). The
-# _DB_FILES/_DUMP_FILES maps stay shared with fashionista_config.
+# Resolve against the repo that contains this script, not the global config
+# (which points at one fixed checkout and breaks worktrees).
 
 def get_items_db_path(game_version='dofus3'):
     db_file = fashionista_config._DB_FILES.get(game_version, 'items.db')

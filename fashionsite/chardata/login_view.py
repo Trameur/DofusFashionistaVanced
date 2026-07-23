@@ -88,11 +88,8 @@ def register(request):
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
-    # Bound the lengths BEFORE any side effect (mail, User row): the username
-    # is copied into UserAlias.alias (50) and the email column holds 254, and
-    # MySQL strict mode turns an over-long value into DataError 1406. Failing
-    # later would 500 after the confirmation mail went out, or worse, after
-    # the User row was created (orphaned inactive account burning the name).
+    # Check the lengths before any side effect. The username also has to fit
+    # UserAlias.alias (50), not just auth_user (150).
     max_username = UserAlias._meta.get_field('alias').max_length
     max_email = User._meta.get_field('email').max_length
     if (not username or len(username) > max_username
@@ -118,13 +115,11 @@ def register(request):
     link = request.build_absolute_uri(
         reverse('confirm_email',
                 args=(username, _generate_token_for_user(username))))
-    # Create the account BEFORE sending the confirmation mail: the old order
-    # could mail a confirmation link for an account whose insert then failed.
+    # Account first, so we never mail a link for an account that failed to insert.
     try:
         user = User.objects.create_user(username, email, password)
     except IntegrityError:
-        # Username taken despite the check above (race, or a case-only
-        # variant the DB index rejects) -> treat as "already taken".
+        # Race or a case-only variant the index rejects -> already taken.
         raise PermissionDenied
     user.is_active = False
     user.save()
@@ -141,9 +136,8 @@ def register(request):
                   [email])
     except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
         logger.exception('Registration email could not be sent to %s', email)
-        # Without the mail the account can never be confirmed: undo it so the
-        # username is not burned by an unconfirmable inactive row (the alias
-        # row follows through the FK cascade).
+        # No mail means the account can never be confirmed, so undo it
+        # (the alias follows by cascade).
         user.delete()
         return set_response(request,
                             'chardata/recover_password.html',

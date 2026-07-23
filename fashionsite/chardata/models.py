@@ -50,10 +50,7 @@ class Char(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        # MySQL runs in strict mode, so an over-long label would abort the whole
-        # request with DataError 1406 (real user 500 on /createproject/, and the
-        # duplicate flow appends ' copy' past the limit). These are labels: clip
-        # them to the column size instead of crashing.
+        # MySQL strict mode rejects over-long values, so clip the labels to the column size.
         for field_name in ('name', 'char_name', 'char_build'):
             value = getattr(self, field_name, None)
             if value:

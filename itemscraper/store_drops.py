@@ -71,9 +71,7 @@ def store_drops(drops_path, game_version="dofus3"):
         cursor.execute("DROP TABLE IF EXISTS item_drops")
         cursor.execute("DROP TABLE IF EXISTS resource_drops")
         cursor.execute("DROP TABLE IF EXISTS monster_names")
-        # conditions holds the raw Ankama criterion string ("PL>19&PL<61", quest
-        # flags...) when the drop only happens under conditions, NULL when it is
-        # freely available (retro's source has no conditions, so NULL there).
+        # conditions = raw Ankama criterion string ("PL>19&PL<61"), NULL when the drop is free.
         cursor.execute(
             "CREATE TABLE item_drops (item INTEGER, monster_ankama_id INTEGER, rate REAL, "
             "conditions TEXT)")

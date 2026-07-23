@@ -557,12 +557,8 @@ def hide_sharing_link(request, char_id):
     return HttpResponseText('hid')
 
 def get_client_ip(request):
-    """Get the client's IP address from the request, or None.
-
-    X-Forwarded-For is client-controlled (nginx appends, so the first element
-    stays spoofable): a junk value would overflow BuildView.ip_address
-    (char 39) on every view of the page, silently breaking view tracking.
-    Only return something that actually parses as an IP."""
+    """Client IP from the request, or None if it doesn't parse as an IP
+    (X-Forwarded-For is client-controlled)."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0].strip()
