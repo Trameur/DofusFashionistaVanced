@@ -29,6 +29,7 @@
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Build" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Class" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;">{% trans "Level" %}</th>
+                  <th class="load-project-header"></th>
                 </tr>
                 {% for wrapped_char in chars %}
                     <tr class="load-project-line">
@@ -39,6 +40,14 @@
                       <td class="load-project-cell"><div style="width: 170px" class='big-text'>{{wrapped_char.build_string}}</div></td>
                       <td class="load-project-cell"><div style="width: 80px" class='big-text'> {{wrapped_char.class_string}}</div></td>
                       <td class="load-project-cell level-cell" align="center"><div style="width: 20px;" class='big-text'>{{wrapped_char.char.level}}</div></td>
+                      <td class="load-project-cell">{% if wrapped_char.char.minimal_solution %}<button type="button" class="button-generic" style="font-size:0.82em; padding:3px 10px; white-space:nowrap;"
+                              data-compare-add
+                              data-build-id="{{ wrapped_char.char.id }}"
+                              data-build-name="{{ wrapped_char.char.char_name|default:wrapped_char.char.name }}"
+                              data-build-cls="{{ wrapped_char.char.char_class }}"
+                              data-build-level="{{ wrapped_char.char.level }}"
+                              data-build-avatar="{{ wrapped_char.class_avatar }}"
+                              data-build-base="{{ api_base }}">+ {% trans "Add to comparison" %}</button>{% endif %}</td>
                     </tr>
                 {% endfor %}
             </table> 

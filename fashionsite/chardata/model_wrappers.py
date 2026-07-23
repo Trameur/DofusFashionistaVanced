@@ -77,6 +77,10 @@ class WrappedChar(object):
 
     def class_string(self):
         return LOCALIZED_CHARACTER_CLASSES.get(self.char.char_class, '')
+
+    def class_avatar(self):
+        from chardata.solution_view import get_class_avatar
+        return get_class_avatar(self.char)
     
     def build_string(self):
         """Return translated build type name(s)"""
