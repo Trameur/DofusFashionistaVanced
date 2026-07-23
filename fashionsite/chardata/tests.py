@@ -1723,6 +1723,19 @@ class ChooseCompareSetsPickerTests(TestCase):
             minimal_solution=(self._minimal_solution() if has_solution else b''),
             owner=owner, link_shared=link_shared, game_version=game_version)
 
+    def test_load_projects_offers_the_compare_button_only_with_a_solution(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('trayuser', 'tray@test.local', 'pw-42-solid')
+        solved = self._make_char(user, 'Solved Build')
+        unsolved = self._make_char(user, 'Unsolved Build', has_solution=False)
+        self.client.force_login(user)
+        resp = self.client.get('/loadprojects/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('data-build-id="%d"' % solved.id, body)
+        self.assertNotIn('data-build-id="%d"' % unsolved.id, body)
+        self.assertIn('Add to comparison', body)
+
     def test_logged_in_picker_lists_owned_favorite_and_liked_builds_for_current_version(self):
         from django.contrib.auth.models import User
         from chardata.models import BuildVote
@@ -4003,6 +4016,90 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         prys, trophy = self._counts('dofus3')
         self.assertGreater(prys, 0)
         self.assertGreater(trophy, 0)
+
+
+class ItemCorrectionsTests(SimpleTestCase):
+    """item_corrections.json fixes upstream data errors at the end of every
+    update pipeline. Each entry needs note + source, stat keys must exist,
+    null removes a stat, and unknown ankama ids are skipped."""
+
+    @staticmethod
+    def _script():
+        import importlib.util
+        import os
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            '..', '..', 'itemscraper', 'store_item_corrections.py')
+        spec = importlib.util.spec_from_file_location('store_item_corrections', path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+
+    @staticmethod
+    def _db():
+        import sqlite3
+        conn = sqlite3.connect(':memory:')
+        conn.executescript('''
+            CREATE TABLE items (id INTEGER, name TEXT, level INTEGER, ankama_id INTEGER);
+            CREATE TABLE stats (id INTEGER, name TEXT, key TEXT);
+            CREATE TABLE stats_of_item (item INTEGER, stat INTEGER, value INTEGER);
+            INSERT INTO items VALUES (1, 'Gelano', 60, 2469);
+            INSERT INTO stats VALUES (10, 'Vitality', 'vit'), (11, 'AP', 'ap');
+            INSERT INTO stats_of_item VALUES (1, 10, 100);
+        ''')
+        return conn
+
+    def test_override_add_remove_and_level(self):
+        mod = self._script()
+        conn = self._db()
+        changes = mod.apply_corrections(conn, {
+            '2469': {'note': 'x', 'source': 'y', 'level': 65,
+                     'stats': {'vit': 150, 'ap': 1}},
+        })
+        self.assertEqual(changes, 3)
+        self.assertEqual(conn.execute('SELECT level FROM items WHERE id=1').fetchone()[0], 65)
+        rows = dict(conn.execute('SELECT stat, value FROM stats_of_item WHERE item=1').fetchall())
+        self.assertEqual(rows, {10: 150, 11: 1})
+        changes = mod.apply_corrections(conn, {
+            '2469': {'note': 'x', 'source': 'y', 'stats': {'ap': None}},
+        })
+        self.assertEqual(changes, 1)
+        rows = dict(conn.execute('SELECT stat, value FROM stats_of_item WHERE item=1').fetchall())
+        self.assertEqual(rows, {10: 150})
+
+    def test_reapplying_is_a_noop(self):
+        mod = self._script()
+        conn = self._db()
+        fix = {'2469': {'note': 'x', 'source': 'y', 'level': 65, 'stats': {'vit': 150}}}
+        mod.apply_corrections(conn, fix)
+        self.assertEqual(mod.apply_corrections(conn, fix), 0)
+
+    def test_entry_without_note_or_source_is_refused(self):
+        mod = self._script()
+        with self.assertRaises(ValueError):
+            mod.apply_corrections(self._db(), {'2469': {'stats': {'vit': 1}}})
+
+    def test_unknown_stat_key_is_refused(self):
+        mod = self._script()
+        with self.assertRaises(ValueError):
+            mod.apply_corrections(self._db(), {
+                '2469': {'note': 'x', 'source': 'y', 'stats': {'nope': 1}}})
+
+    def test_unknown_ankama_id_is_skipped(self):
+        mod = self._script()
+        conn = self._db()
+        changes = mod.apply_corrections(conn, {
+            '999999': {'note': 'x', 'source': 'y', 'stats': {'vit': 1}}})
+        self.assertEqual(changes, 0)
+
+    def test_corrections_file_parses_and_has_all_versions(self):
+        import io as io_mod
+        import json as json_mod
+        import os
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            '..', '..', 'itemscraper', 'item_corrections.json')
+        data = json_mod.load(io_mod.open(path, encoding='utf-8'))
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            self.assertIn(version, data)
 
 
 class RetroStealsWeaponTests(SimpleTestCase):
