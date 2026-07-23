@@ -1481,7 +1481,8 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
             drop_rows = cursor.fetchall()
             level_spans = _monster_level_spans(
                 cursor, [row[0] for row in drop_rows])
-            level_label = _monster_ui_text()['level_label']
+            drops_ui = _monster_ui_text()
+            level_label = drops_ui['level_label']
             for monster_id, rate, name_loc, name_en, conditions in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
                 span = level_spans.get(monster_id)
@@ -1493,6 +1494,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'level_min': span[0] if span else None,
                     # MIN over '' and criterion strings: empty means some path drops it freely.
                     'has_conditions': bool(conditions),
+                    'conditions_text': _drop_conditions_text(conditions, drops_ui),
                 })
             # Best drop rate first, then the lowest-level (easiest) source, so
             # among equally-likely droppers the cheapest to farm shows up top.
@@ -2092,6 +2094,7 @@ MONSTER_UI = {
         'weakness_guide_prompt': 'Not sure which element to hit?',
         'weakness_guide_link': 'Read the monster weaknesses guide',
         'drop_conditions_label': 'under conditions',
+        'drop_conditions_player_level': 'player level',
         'grade_label': 'Grade',
         'level_label': 'Level',
         'hp_label': 'HP',
@@ -2132,6 +2135,7 @@ MONSTER_UI = {
         'weakness_guide_prompt': "Pas sûr de l'élément à taper ?",
         'weakness_guide_link': 'Lis le guide des faiblesses des monstres',
         'drop_conditions_label': 'sous conditions',
+        'drop_conditions_player_level': 'niveau joueur',
         'grade_label': 'Grade',
         'level_label': 'Niveau',
         'hp_label': 'PV',
@@ -2172,6 +2176,7 @@ MONSTER_UI = {
         'weakness_guide_prompt': '¿No sabes en qué elemento pegar?',
         'weakness_guide_link': 'Lee la guía de debilidades de los monstruos',
         'drop_conditions_label': 'con condiciones',
+        'drop_conditions_player_level': 'nivel del jugador',
         'grade_label': 'Grado',
         'level_label': 'Nivel',
         'hp_label': 'PdV',
@@ -2212,6 +2217,7 @@ MONSTER_UI = {
         'weakness_guide_prompt': 'Não sabe em qual elemento bater?',
         'weakness_guide_link': 'Leia o guia de fraquezas dos monstros',
         'drop_conditions_label': 'com condições',
+        'drop_conditions_player_level': 'nível do jogador',
         'grade_label': 'Grau',
         'level_label': 'Nível',
         'hp_label': 'PV',
@@ -2252,6 +2258,7 @@ MONSTER_UI = {
         'weakness_guide_prompt': 'Nicht sicher, welches Element du treffen sollst?',
         'weakness_guide_link': 'Lies den Guide zu den Monster-Schwächen',
         'drop_conditions_label': 'mit Bedingungen',
+        'drop_conditions_player_level': 'Spielerstufe',
         'grade_label': 'Grad',
         'level_label': 'Stufe',
         'hp_label': 'LP',
@@ -2330,6 +2337,16 @@ def _drop_level_text(level_span, level_label):
     if level_max is None or level_max == level_min:
         return '%s %s' % (level_label, level_min)
     return '%s %s-%s' % (level_label, level_min, level_max)
+
+
+def _drop_conditions_text(conditions, ui):
+    """"player level > 19, < 61" when the criterion is only PL bounds,
+    None otherwise (the caller falls back to the generic label)."""
+    if not conditions or not re.fullmatch(r'PL[<>]\d+(&PL[<>]\d+)*', conditions):
+        return None
+    parts = ['%s %s' % (m.group(1), m.group(2))
+             for m in re.finditer(r'PL([<>])(\d+)', conditions)]
+    return '%s %s' % (ui['drop_conditions_player_level'], ', '.join(parts))
 
 
 def _get_monster_display_name(cursor, monster_id, language):
@@ -2985,6 +3002,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'rate': rate,
                     'url': get_resource_link('resources', resource_id, resource_name, game_version),
                     'has_conditions': bool(conditions),
+                    'conditions_text': _drop_conditions_text(conditions, mt),
                 })
 
         if _db_table_exists(cursor, 'item_drops'):
@@ -3018,6 +3036,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'image_url': static(get_image_url(
                         item_type_name, item_name, game_version)),
                     'has_conditions': bool(conditions),
+                    'conditions_text': _drop_conditions_text(conditions, mt),
                 })
     except Exception:
         return _monster_not_found_response(request, target_monster_id, slug, monster_name)
@@ -3164,7 +3183,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             drop_rows = cursor.fetchall()
             level_spans = _monster_level_spans(
                 cursor, [row[0] for row in drop_rows])
-            level_label = _monster_ui_text()['level_label']
+            drops_ui = _monster_ui_text()
+            level_label = drops_ui['level_label']
             for monster_id, rate, name_loc, name_en, conditions in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
                 span = level_spans.get(monster_id)
@@ -3175,6 +3195,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                     'level': _drop_level_text(span, level_label),
                     'level_min': span[0] if span else None,
                     'has_conditions': bool(conditions),
+                    'conditions_text': _drop_conditions_text(conditions, drops_ui),
                 })
             # Best drop rate first, then the lowest-level (easiest) source.
             drops.sort(key=lambda d: (-d['rate'],

@@ -168,7 +168,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
             <ul class="encyclopedia-list">
                 {% for drop in resource_drops|slice:":20" %}
                 <li>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
-                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{{ mt.drop_conditions_label }}</span>{% endif %}</li>
+                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{% firstof drop.conditions_text mt.drop_conditions_label %}</span>{% endif %}</li>
                 {% endfor %}
             </ul>
             {% if resource_drops|length > 20 %}
@@ -177,7 +177,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                 <ul class="encyclopedia-list">
                     {% for drop in resource_drops|slice:"20:" %}
                     <li>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
-                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{{ mt.drop_conditions_label }}</span>{% endif %}</li>
+                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{% firstof drop.conditions_text mt.drop_conditions_label %}</span>{% endif %}</li>
                     {% endfor %}
                 </ul>
             </details>
@@ -193,7 +193,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                 <li class="drop-item">
                     <img class="drop-icon" src="{{ drop.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                     <span>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
-                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{{ mt.drop_conditions_label }}</span>{% endif %}
+                    <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{% firstof drop.conditions_text mt.drop_conditions_label %}</span>{% endif %}
                     <span class="drop-meta">{{ drop.type_name }} | {{ t.item_level }} {{ drop.level }}</span></span>
                 </li>
                 {% endfor %}
@@ -206,7 +206,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                     <li class="drop-item">
                         <img class="drop-icon" src="{{ drop.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         <span>{% if drop.url %}<a href="{{ drop.url }}">{{ drop.name }}</a>{% else %}{{ drop.name }}{% endif %}
-                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{{ mt.drop_conditions_label }}</span>{% endif %}
+                        <span class="drop-rate">{% if drop.rate < 0.01 %}&lt; 0.01%{% else %}{{ drop.rate|floatformat:2 }}%{% endif %}</span>{% if drop.has_conditions %} <span class="drop-conditions">{% firstof drop.conditions_text mt.drop_conditions_label %}</span>{% endif %}
                         <span class="drop-meta">{{ drop.type_name }} | {{ t.item_level }} {{ drop.level }}</span></span>
                     </li>
                     {% endfor %}

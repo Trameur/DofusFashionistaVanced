@@ -3870,6 +3870,36 @@ class DropConditionsTests(TestCase):
                                follow=True).content.decode('utf-8')
         self.assertIn('under conditions', html)
 
+    def test_drop_conditions_text_helper(self):
+        from chardata.encyclopedia_view import _drop_conditions_text
+        ui = {'drop_conditions_player_level': 'player level'}
+        self.assertEqual(_drop_conditions_text('PL>19&PL<61', ui),
+                         'player level > 19, < 61')
+        self.assertEqual(_drop_conditions_text('PL>179', ui),
+                         'player level > 179')
+        # Anything beyond pure PL bounds falls back to the generic label.
+        self.assertIsNone(_drop_conditions_text('PL>19&PL<61&Sc!5814', ui))
+        self.assertIsNone(_drop_conditions_text('Sc=968', ui))
+        self.assertIsNone(_drop_conditions_text('PL=50', ui))
+        self.assertIsNone(_drop_conditions_text('', ui))
+        self.assertIsNone(_drop_conditions_text(None, ui))
+
+    def test_monster_page_details_a_pure_player_level_condition(self):
+        from chardata import encyclopedia_view
+        cur = self._cursor()
+        import re as re_mod
+        monster_id = next(
+            (mid for mid, cond in cur.execute(
+                "SELECT monster_ankama_id, conditions FROM item_drops "
+                "WHERE conditions IS NOT NULL")
+             if re_mod.fullmatch(r'PL[<>]\d+(&PL[<>]\d+)*', cond)),
+            None)
+        self.assertIsNotNone(monster_id, 'no pure-PL conditioned drop in dofus3 data')
+        url = encyclopedia_view.get_monster_link(monster_id, 'x', 'dofus3')
+        html = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                               follow=True).content.decode('utf-8')
+        self.assertIn('player level &gt;', html)
+
     def test_retro_never_flags_conditions(self):
         from chardata import encyclopedia_view
         cur = self._cursor('retro')
