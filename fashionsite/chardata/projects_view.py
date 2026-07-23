@@ -103,7 +103,11 @@ def _unchecked_duplicate_project(request, proj_id_to_copy):
     new_char = char_to_duplicate;
     new_char.owner = None if signed_out else request.user
     new_char.pk = None;
-    new_char.name = '%s copy' % char_to_duplicate.name
+    # Keep the ' copy' marker visible even when the source name fills the
+    # column: clip the base name, not the suffix.
+    suffix = ' copy'
+    name_limit = Char._meta.get_field('name').max_length
+    new_char.name = char_to_duplicate.name[:name_limit - len(suffix)] + suffix
     new_char.link_shared = False
     new_char.save()
     

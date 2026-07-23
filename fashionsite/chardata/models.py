@@ -49,6 +49,19 @@ class Char(models.Model):
         db_index=True,
     )
 
+    def save(self, *args, **kwargs):
+        # MySQL runs in strict mode, so an over-long label would abort the whole
+        # request with DataError 1406 (real user 500 on /createproject/, and the
+        # duplicate flow appends ' copy' past the limit). These are labels: clip
+        # them to the column size instead of crashing.
+        for field_name in ('name', 'char_name', 'char_build'):
+            value = getattr(self, field_name, None)
+            if value:
+                limit = self._meta.get_field(field_name).max_length
+                if len(value) > limit:
+                    setattr(self, field_name, value[:limit])
+        super().save(*args, **kwargs)
+
     def __unicode__(self):
         return self.name
 

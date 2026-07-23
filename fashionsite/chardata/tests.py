@@ -4964,6 +4964,65 @@ class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
             'damage via the element characteristic): %s' % offenders)
 
 
+class CharNameLengthTests(TestCase):
+    """Production 500 (2026-07-23, real user): POSTing /createproject/ with a
+    project name longer than the column crashed with MySQL DataError 1406
+    ("Data too long for column 'name'"), because the browser maxlength is the
+    only guard and direct POSTs bypass it. Char.save() now clips its text
+    labels to the column size, and the duplicate flow keeps its ' copy' marker
+    inside the limit instead of overflowing past it."""
+
+    def test_char_save_clips_overlong_labels(self):
+        from chardata.models import Char
+        char = Char(name='a' * 300, char_name='b' * 300, char_class='Iop',
+                    char_build='c' * 300, level=1, minimum_stats=b'',
+                    minimum_crits=b'', stats_weight=b'', options=b'',
+                    inclusions=b'', exclusions=b'', link_shared=False)
+        char.save()
+        char.refresh_from_db()
+        self.assertEqual(char.name, 'a' * 50)
+        self.assertEqual(char.char_name, 'b' * 50)
+        self.assertEqual(char.char_build, 'c' * 50)
+        self.assertEqual(char.char_class, 'Iop')
+
+    def test_create_project_with_overlong_names_redirects_and_clips(self):
+        from chardata.models import Char
+        resp = self.client.post('/createproject/', {
+            'project': 'P' * 300,
+            'charname': 'C' * 300,
+            'level': '200',
+            'class': 'Iop',
+            'byhand': 'byhand',
+        })
+        self.assertEqual(resp.status_code, 302)
+        char = Char.objects.latest('pk')
+        self.assertEqual(char.name, 'P' * 50)
+        self.assertEqual(char.char_name, 'C' * 50)
+
+    def test_duplicate_keeps_the_copy_marker_inside_the_limit(self):
+        import json as json_mod
+        from chardata.models import Char
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('dupper', 'dup@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        self.client.post('/createproject/', {
+            'project': 'N' * 50,
+            'charname': 'Hero',
+            'level': '100',
+            'class': 'Iop',
+            'byhand': 'byhand',
+        })
+        source = Char.objects.latest('pk')
+        resp = self.client.post('/duplicateproject/',
+                                {'project_id': json_mod.dumps(source.pk)})
+        self.assertEqual(resp.content.decode(), 'ok')
+        copy = Char.objects.latest('pk')
+        self.assertNotEqual(copy.pk, source.pk)
+        limit = Char._meta.get_field('name').max_length
+        self.assertLessEqual(len(copy.name), limit)
+        self.assertTrue(copy.name.endswith(' copy'))
+
+
 class MonsterWeaknessGuideTests(SimpleTestCase):
     """The monster-weaknesses guide is shared by every version, but the bestiary
     features it describes (resistances, highlighted weakness, weakness filter) do
