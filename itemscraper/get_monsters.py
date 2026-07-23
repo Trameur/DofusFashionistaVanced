@@ -90,25 +90,42 @@ def build_drops_index(dataset_dir: Path,
     monsters = _load_datacenter_table(dataset_dir / "monsters.json")
     translations = _load_translations(dataset_dir, languages)
 
-    # item_ankama_id -> {monster_ankama_id: {name, rates}}
+    # item_ankama_id -> {monster_ankama_id: {name, rates, conditions}}
     index: Dict[int, Dict[int, Dict[str, Any]]] = {}
 
-    def add(object_id, monster_id, names, rates):
+    def add(object_id, monster_id, names, rates, conditions=None):
         if object_id is None or max(rates) <= 0:
             return  # a 0% entry is not a real drop
         per_item = index.setdefault(int(object_id), {})
         # a monster can list the same item more than once (different criterions
-        # or drops[] + globalDrops); keep the best rate.
+        # or drops[] + globalDrops); keep the best rate. For conditions, one
+        # unconditional entry means the drop IS freely available, so only keep
+        # a condition when every entry for the pair carries one.
         existing = per_item.get(int(monster_id))
-        if existing is None or max(rates) > max(existing["rates"]):
-            per_item[int(monster_id)] = {"names": names, "rates": rates}
+        if existing is None:
+            per_item[int(monster_id)] = {"names": names, "rates": rates,
+                                         "conditions": conditions}
+            return
+        best_is_new = max(rates) > max(existing["rates"])
+        if best_is_new:
+            existing["rates"] = rates
+        if not conditions or not existing["conditions"]:
+            existing["conditions"] = None
+        elif best_is_new:
+            existing["conditions"] = conditions
 
     for monster_id, monster in monsters.items():
         names = _name(translations, monster.get("nameId"), languages)
         for drop in _unwrap_array(monster.get("drops")):
             rates = [drop.get("percentDropForGrade%d" % g, 0) for g in range(1, 6)]
-            add(drop.get("objectId"), monster_id, names, rates)
+            # dofus3/beta name the field criterions; Dofus 2 calls it criteria.
+            conditions = (drop.get("criterions") or drop.get("criteria") or "").strip()
+            if conditions.lower() == "null":  # some raws serialize "none" this way
+                conditions = ""
+            conditions = conditions or None
+            add(drop.get("objectId"), monster_id, names, rates, conditions)
         # globalDrops apply regardless of grade (a min/max rate range); use the max.
+        # (No conditions: receiverCriterion is empty across the whole dataset.)
         for gd in _unwrap_array(monster.get("globalDrops")):
             rate = gd.get("maxPercentDrop", gd.get("minPercentDrop", 0)) or 0
             add(gd.get("objectId"), monster_id, names, [rate])
@@ -117,7 +134,8 @@ def build_drops_index(dataset_dir: Path,
     out: Dict[str, Any] = {}
     for item_id in sorted(index):
         monsters_list = [
-            {"monster_ankama_id": mid, "names": info["names"], "rates": info["rates"]}
+            {"monster_ankama_id": mid, "names": info["names"], "rates": info["rates"],
+             "conditions": info["conditions"]}
             for mid, info in sorted(index[item_id].items(),
                                     key=lambda kv: max(kv[1]["rates"]), reverse=True)
         ]

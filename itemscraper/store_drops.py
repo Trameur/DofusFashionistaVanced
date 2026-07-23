@@ -71,10 +71,15 @@ def store_drops(drops_path, game_version="dofus3"):
         cursor.execute("DROP TABLE IF EXISTS item_drops")
         cursor.execute("DROP TABLE IF EXISTS resource_drops")
         cursor.execute("DROP TABLE IF EXISTS monster_names")
+        # conditions holds the raw Ankama criterion string ("PL>19&PL<61", quest
+        # flags...) when the drop only happens under conditions, NULL when it is
+        # freely available (retro's source has no conditions, so NULL there).
         cursor.execute(
-            "CREATE TABLE item_drops (item INTEGER, monster_ankama_id INTEGER, rate REAL)")
+            "CREATE TABLE item_drops (item INTEGER, monster_ankama_id INTEGER, rate REAL, "
+            "conditions TEXT)")
         cursor.execute(
-            "CREATE TABLE resource_drops (resource_ankama_id INTEGER, monster_ankama_id INTEGER, rate REAL)")
+            "CREATE TABLE resource_drops (resource_ankama_id INTEGER, monster_ankama_id INTEGER, "
+            "rate REAL, conditions TEXT)")
         cursor.execute(
             "CREATE TABLE monster_names (monster_ankama_id INTEGER, language TEXT, name TEXT)")
 
@@ -97,10 +102,11 @@ def store_drops(drops_path, game_version="dofus3"):
             for m in monsters:
                 mid = m["monster_ankama_id"]
                 rate = max(m.get("rates") or [0]) or 0
+                conditions = m.get("conditions") or None
                 if item_id is not None:
-                    drop_rows.append((item_id, mid, rate))
+                    drop_rows.append((item_id, mid, rate, conditions))
                 if is_resource:
-                    resource_drop_rows.append((object_id, mid, rate))
+                    resource_drop_rows.append((object_id, mid, rate, conditions))
                 if mid not in seen_monster:
                     seen_monster.add(mid)
                     names = m.get("names") or {}
@@ -109,10 +115,12 @@ def store_drops(drops_path, game_version="dofus3"):
                             name_rows.append((mid, lang, names[lang]))
 
         cursor.executemany(
-            "INSERT INTO item_drops (item, monster_ankama_id, rate) VALUES (?, ?, ?)",
+            "INSERT INTO item_drops (item, monster_ankama_id, rate, conditions) "
+            "VALUES (?, ?, ?, ?)",
             drop_rows)
         cursor.executemany(
-            "INSERT INTO resource_drops (resource_ankama_id, monster_ankama_id, rate) VALUES (?, ?, ?)",
+            "INSERT INTO resource_drops (resource_ankama_id, monster_ankama_id, rate, conditions) "
+            "VALUES (?, ?, ?, ?)",
             resource_drop_rows)
         cursor.executemany(
             "INSERT INTO monster_names (monster_ankama_id, language, name) VALUES (?, ?, ?)",

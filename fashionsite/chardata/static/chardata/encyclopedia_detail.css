@@ -41,6 +41,11 @@
     opacity: 0.7;
     font-size: 0.9em;
 }
+.drop-conditions {
+    opacity: 0.7;
+    font-size: 0.85em;
+    font-style: italic;
+}
 .encyclopedia-list li.craft-item {
     display: flex;
     align-items: center;

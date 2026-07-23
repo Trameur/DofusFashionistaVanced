@@ -37,25 +37,42 @@ def build_drops_index(raw_dir, languages=LANGUAGES):
 
     index = {}
 
-    def add(object_id, monster_id, names, rates):
+    def add(object_id, monster_id, names, rates, conditions=None):
         if object_id is None or max(rates) <= 0:
             return
         per = index.setdefault(int(object_id), {})
+        # Same merge rule as get_monsters.py: one unconditional entry for the
+        # pair means the drop is freely available.
         existing = per.get(int(monster_id))
-        if existing is None or max(rates) > max(existing["rates"]):
-            per[int(monster_id)] = {"names": names, "rates": rates}
+        if existing is None:
+            per[int(monster_id)] = {"names": names, "rates": rates,
+                                    "conditions": conditions}
+            return
+        best_is_new = max(rates) > max(existing["rates"])
+        if best_is_new:
+            existing["rates"] = rates
+        if not conditions or not existing["conditions"]:
+            existing["conditions"] = None
+        elif best_is_new:
+            existing["conditions"] = conditions
 
     for monster_id, monster in base.items():
         names = {lang: (per_lang[lang].get(monster_id) or {}).get("nameId")
                  for lang in languages}
         for drop in monster.get("drops") or []:
             rates = [drop.get("percentDropForGrade%d" % g, 0) for g in range(1, 6)]
-            add(drop.get("objectId"), monster_id, names, rates)
+            conditions = (drop.get("criteria") or "").strip()
+            # The Touch backend serializes "no criteria" as the string "null".
+            if conditions.lower() == "null":
+                conditions = ""
+            conditions = conditions or None
+            add(drop.get("objectId"), monster_id, names, rates, conditions)
 
     out = {}
     for item_id in sorted(index):
         out[str(item_id)] = [
-            {"monster_ankama_id": mid, "names": info["names"], "rates": info["rates"]}
+            {"monster_ankama_id": mid, "names": info["names"], "rates": info["rates"],
+             "conditions": info["conditions"]}
             for mid, info in sorted(index[item_id].items(),
                                     key=lambda kv: max(kv[1]["rates"]), reverse=True)
         ]

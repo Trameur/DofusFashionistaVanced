@@ -3808,6 +3808,88 @@ class DropMonsterLevelTests(TestCase):
         self.assertEqual(levels, sorted(levels))
 
 
+class DropConditionsTests(TestCase):
+    """Many drops only happen under a criterion (player level range, quest
+    state, server type): dofus3/beta/dofus2/touch raws carry it per drop, and
+    the encyclopedia now stores it and shows a prudent "under conditions"
+    marker instead of presenting the drop as freely available. Retro's source
+    (Solomonk) has no conditions, so retro never shows the marker. Fixtures are
+    looked up dynamically: the conditioned set changes with every game data
+    update."""
+
+    def _cursor(self, version='dofus3'):
+        import sqlite3
+        from fashionistapulp.structure import get_structure
+        db_paths = {'dofus3': 'items.db', 'retro': 'items_retro.db'}
+        import os
+        from fashionistapulp import structure as structure_module
+        base = os.path.dirname(os.path.abspath(structure_module.__file__))
+        return sqlite3.connect(os.path.join(base, db_paths[version])).cursor()
+
+    def test_item_page_flags_a_conditioned_drop(self):
+        from chardata import encyclopedia_view
+        cur = self._cursor()
+        row = cur.execute("""
+            SELECT i.ankama_id, i.ankama_type
+            FROM item_drops d JOIN items i ON i.id = d.item
+            WHERE i.ankama_id IS NOT NULL
+            GROUP BY d.item, d.monster_ankama_id
+            HAVING MIN(COALESCE(d.conditions, '')) != ''
+            LIMIT 1""").fetchone()
+        self.assertIsNotNone(row, 'no conditioned item drop in dofus3 data')
+        ankama_id, ankama_type = row
+        url = encyclopedia_view.get_item_link(
+            ankama_type or 'equipment', ankama_id, 'x', 'dofus3')
+        html = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                               follow=True).content.decode('utf-8')
+        self.assertIn('under conditions', html)
+
+    def test_free_drops_are_not_flagged(self):
+        from chardata import encyclopedia_view
+        cur = self._cursor()
+        # An item whose every drop line is unconditional must show no marker.
+        row = cur.execute("""
+            SELECT i.ankama_id, i.ankama_type
+            FROM item_drops d JOIN items i ON i.id = d.item
+            WHERE i.ankama_id IS NOT NULL
+            GROUP BY d.item
+            HAVING MAX(COALESCE(d.conditions, '')) = ''
+            LIMIT 1""").fetchone()
+        self.assertIsNotNone(row)
+        ankama_id, ankama_type = row
+        url = encyclopedia_view.get_item_link(
+            ankama_type or 'equipment', ankama_id, 'x', 'dofus3')
+        html = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                               follow=True).content.decode('utf-8')
+        self.assertNotIn('under conditions', html)
+
+    def test_monster_page_flags_conditioned_drops(self):
+        from chardata import encyclopedia_view
+        cur = self._cursor()
+        row = cur.execute("""
+            SELECT d.monster_ankama_id FROM item_drops d
+            WHERE d.conditions IS NOT NULL LIMIT 1""").fetchone()
+        self.assertIsNotNone(row)
+        url = encyclopedia_view.get_monster_link(row[0], 'x', 'dofus3')
+        html = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                               follow=True).content.decode('utf-8')
+        self.assertIn('under conditions', html)
+
+    def test_retro_never_flags_conditions(self):
+        from chardata import encyclopedia_view
+        cur = self._cursor('retro')
+        n = cur.execute("SELECT COUNT(*) FROM item_drops "
+                        "WHERE conditions IS NOT NULL").fetchone()[0]
+        self.assertEqual(n, 0, 'retro source has no conditions, none expected')
+        row = cur.execute("""
+            SELECT d.monster_ankama_id FROM item_drops d LIMIT 1""").fetchone()
+        self.assertIsNotNone(row)
+        url = encyclopedia_view.get_monster_link(row[0], 'x', 'retro')
+        html = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                               follow=True).content.decode('utf-8')
+        self.assertNotIn('under conditions', html)
+
+
 class MonsterWeakestElementTests(TestCase):
     """The monster stats table marks the weakest element (lowest resistance) per
     grade so players know what to hit with. Crocodyl (261) resists fire the least

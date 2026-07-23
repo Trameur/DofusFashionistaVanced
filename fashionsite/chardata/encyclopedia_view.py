@@ -1469,7 +1469,8 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                        (SELECT name FROM monster_names
                         WHERE monster_ankama_id = d.monster_ankama_id AND language = ?),
                        (SELECT name FROM monster_names
-                        WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en')
+                        WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en'),
+                       MIN(COALESCE(d.conditions, '')) AS conditions
                 FROM item_drops d
                 WHERE d.item IN (%s)
                 GROUP BY d.monster_ankama_id
@@ -1481,7 +1482,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
             level_spans = _monster_level_spans(
                 cursor, [row[0] for row in drop_rows])
             level_label = _monster_ui_text()['level_label']
-            for monster_id, rate, name_loc, name_en in drop_rows:
+            for monster_id, rate, name_loc, name_en, conditions in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
                 span = level_spans.get(monster_id)
                 default_data['drops'].append({
@@ -1490,6 +1491,9 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'url': get_monster_link(monster_id, monster_name, game_version),
                     'level': _drop_level_text(span, level_label),
                     'level_min': span[0] if span else None,
+                    # MIN over '' (an unconditional row) and criterion strings:
+                    # empty means at least one path drops the item freely.
+                    'has_conditions': bool(conditions),
                 })
             # Best drop rate first, then the lowest-level (easiest) source, so
             # among equally-likely droppers the cheapest to farm shows up top.
@@ -2038,6 +2042,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'request': request,
             'char_id': 0,
             't': t,
+            'drop_conditions_label': _monster_ui_text()['drop_conditions_label'],
             'canonical_url': canonical_url,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'item': {
@@ -2087,6 +2092,7 @@ MONSTER_UI = {
         'weakness_filter_link_title': 'Show monsters with this weakness',
         'weakness_guide_prompt': 'Not sure which element to hit?',
         'weakness_guide_link': 'Read the monster weaknesses guide',
+        'drop_conditions_label': 'under conditions',
         'grade_label': 'Grade',
         'level_label': 'Level',
         'hp_label': 'HP',
@@ -2126,6 +2132,7 @@ MONSTER_UI = {
         'weakness_filter_link_title': 'Voir les monstres avec cette faiblesse',
         'weakness_guide_prompt': "Pas sûr de l'élément à taper ?",
         'weakness_guide_link': 'Lis le guide des faiblesses des monstres',
+        'drop_conditions_label': 'sous conditions',
         'grade_label': 'Grade',
         'level_label': 'Niveau',
         'hp_label': 'PV',
@@ -2165,6 +2172,7 @@ MONSTER_UI = {
         'weakness_filter_link_title': 'Ver los monstruos con esta debilidad',
         'weakness_guide_prompt': '¿No sabes en qué elemento pegar?',
         'weakness_guide_link': 'Lee la guía de debilidades de los monstruos',
+        'drop_conditions_label': 'con condiciones',
         'grade_label': 'Grado',
         'level_label': 'Nivel',
         'hp_label': 'PdV',
@@ -2204,6 +2212,7 @@ MONSTER_UI = {
         'weakness_filter_link_title': 'Ver os monstros com esta fraqueza',
         'weakness_guide_prompt': 'Não sabe em qual elemento bater?',
         'weakness_guide_link': 'Leia o guia de fraquezas dos monstros',
+        'drop_conditions_label': 'com condições',
         'grade_label': 'Grau',
         'level_label': 'Nível',
         'hp_label': 'PV',
@@ -2243,6 +2252,7 @@ MONSTER_UI = {
         'weakness_filter_link_title': 'Monster mit dieser Schwäche anzeigen',
         'weakness_guide_prompt': 'Nicht sicher, welches Element du treffen sollst?',
         'weakness_guide_link': 'Lies den Guide zu den Monster-Schwächen',
+        'drop_conditions_label': 'mit Bedingungen',
         'grade_label': 'Grad',
         'level_label': 'Stufe',
         'hp_label': 'LP',
@@ -2961,19 +2971,21 @@ def encyclopedia_monster(request, monster_id, slug=None):
                        (SELECT name FROM item_recipe_ingredient_names
                         WHERE ingredient_ankama_id = d.resource_ankama_id
                           AND ingredient_subtype = 'resources'
-                          AND language = 'en' LIMIT 1)
+                          AND language = 'en' LIMIT 1),
+                       d.conditions
                 FROM resource_drops d
                 WHERE d.monster_ankama_id = ?
                 ORDER BY d.rate DESC
                 """,
                 (language, target_monster_id))
-            for resource_id, rate, name_loc, name_en in cursor.fetchall():
+            for resource_id, rate, name_loc, name_en, conditions in cursor.fetchall():
                 resource_name = name_loc or name_en or ('#%s' % resource_id)
                 resource_drops.append({
                     'id': resource_id,
                     'name': resource_name,
                     'rate': rate,
                     'url': get_resource_link('resources', resource_id, resource_name, game_version),
+                    'has_conditions': bool(conditions),
                 })
 
         if _db_table_exists(cursor, 'item_drops'):
@@ -2986,7 +2998,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
                            (SELECT item_names.name FROM item_names
                             WHERE item_names.item = i.id AND item_names.language = 'en' LIMIT 1),
                            i.name
-                       ) AS localized_name
+                       ) AS localized_name,
+                       d.conditions
                 FROM item_drops d
                 JOIN items i ON i.id = d.item
                 LEFT JOIN item_types it ON it.id = i.type
@@ -2995,7 +3008,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                 """,
                 (language, target_monster_id))
             for (_item_id, rate, item_ankama_id, item_ankama_type, item_name, item_level,
-                 item_type_name, localized_item_name) in cursor.fetchall():
+                 item_type_name, localized_item_name, conditions) in cursor.fetchall():
                 item_drops.append({
                     'name': localized_item_name,
                     'level': item_level,
@@ -3005,6 +3018,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                                          game_version=game_version),
                     'image_url': static(get_image_url(
                         item_type_name, item_name, game_version)),
+                    'has_conditions': bool(conditions),
                 })
     except Exception:
         return _monster_not_found_response(request, target_monster_id, slug, monster_name)
@@ -3141,7 +3155,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                        (SELECT name FROM monster_names
                         WHERE monster_ankama_id = d.monster_ankama_id AND language = ?),
                        (SELECT name FROM monster_names
-                        WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en')
+                        WHERE monster_ankama_id = d.monster_ankama_id AND language = 'en'),
+                       d.conditions
                 FROM resource_drops d
                 WHERE d.resource_ankama_id = ?
                 ORDER BY d.rate DESC
@@ -3151,7 +3166,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             level_spans = _monster_level_spans(
                 cursor, [row[0] for row in drop_rows])
             level_label = _monster_ui_text()['level_label']
-            for monster_id, rate, name_loc, name_en in drop_rows:
+            for monster_id, rate, name_loc, name_en, conditions in drop_rows:
                 monster_name = name_loc or name_en or ('#%s' % monster_id)
                 span = level_spans.get(monster_id)
                 drops.append({
@@ -3160,6 +3175,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                     'url': get_monster_link(monster_id, monster_name, game_version),
                     'level': _drop_level_text(span, level_label),
                     'level_min': span[0] if span else None,
+                    'has_conditions': bool(conditions),
                 })
             # Best drop rate first, then the lowest-level (easiest) source.
             drops.sort(key=lambda d: (-d['rate'],
@@ -3195,6 +3211,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             'request': request,
             'char_id': 0,
             't': t,
+            'drop_conditions_label': _monster_ui_text()['drop_conditions_label'],
             'canonical_url': canonical_url,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'resource': {
