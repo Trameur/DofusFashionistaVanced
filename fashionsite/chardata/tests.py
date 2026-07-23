@@ -4018,6 +4018,62 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         self.assertGreater(trophy, 0)
 
 
+class SeoTitleTests(TestCase):
+    """Shared build pages carry a keyword-shaped title (class + level +
+    version), the private solution page keeps its generic one, and the home
+    title suffix is translated."""
+
+    def _shared_char(self):
+        from chardata.models import Char
+        picker = ChooseCompareSetsPickerTests
+        return Char.objects.create(
+            name='Shared', char_name='hero', char_class='Iop',
+            char_build='Str', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=picker._minimal_solution(),
+            link_shared=True, game_version='dofus3')
+
+    def test_home_title_suffix_is_translated(self):
+        resp = self.client.get('/', HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertContains(resp, 'Optimiseur de stuff')
+        resp_en = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(resp_en, 'Equipment Set Optimizer')
+
+    def test_shared_solution_title_is_keyword_shaped(self):
+        from chardata.encoded_char_id import encode_char_id
+        char = self._shared_char()
+        resp = self.client.get('/s/hero/%s/' % encode_char_id(char.id),
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        title = re.search(r'<title>(.*?)</title>', body, re.S).group(1)
+        self.assertIn('Iop', title)
+        self.assertIn('200', title)
+        self.assertIn('Dofus', title)
+        self.assertNotIn('Outfit Suggestion', title)
+
+    def test_private_solution_title_is_unchanged(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        user = User.objects.create_user('seotitle', 's@test.local', 'pw-42-solid')
+        picker = ChooseCompareSetsPickerTests
+        char = Char.objects.create(
+            name='Private', char_name='mine', char_class='Iop',
+            char_build='Str', level=100,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=picker._minimal_solution(),
+            link_shared=False, owner=user, game_version='dofus3')
+        self.client.force_login(user)
+        resp = self.client.get('/solution/%d/' % char.id,
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        title = re.search(r'<title>(.*?)</title>',
+                          resp.content.decode('utf-8'), re.S).group(1)
+        self.assertIn('Outfit Suggestion', title)
+
+
 class ItemCorrectionsTests(SimpleTestCase):
     """item_corrections.json fixes upstream data errors at the end of every
     update pipeline. Each entry needs note + source, stat keys must exist,

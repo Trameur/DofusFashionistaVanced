@@ -6218,3 +6218,7 @@ msgstr "iconos de objetos y hechizos de Dofus Retro"
 #: chardata/templates/chardata/about.html:1
 msgid "part of the Dofus Retro pet bonuses"
 msgstr "una parte de los bonus de mascotas de Dofus Retro"
+
+#: .\chardata	emplates\chardata\home.html:4
+msgid "Equipment Set Optimizer"
+msgstr "Optimizador de equipamiento"

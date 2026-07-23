@@ -33,7 +33,9 @@ from chardata.lock_forbid import (set_excluded,
                                   get_all_exclusions_en_names,
                                   get_empty_slots, set_empty_slot)
 from chardata.comment_view import get_comments_for_build
+from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
+from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
 from chardata.solution_history import get_generation_preview_items, get_generation_solution
@@ -442,6 +444,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
 
     vote_data = _get_live_vote_data(request, char)
     class_avatar = get_class_avatar(char)
+    seo_class = str(LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class or ''))
+    seo_build = WrappedChar(char).build_string() if char.char_build else ''
 
     share_text = ''
     build_check = None
@@ -471,6 +475,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'owner_alias': get_alias(char.owner),
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
+              'seo_class': seo_class,
+              'seo_build': seo_build,
               'share_text': share_text,
               'build_check': build_check,
               'build_score': build_score,
