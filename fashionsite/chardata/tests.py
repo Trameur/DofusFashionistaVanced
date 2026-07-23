@@ -5624,6 +5624,35 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertNotIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness',
                          resp.content.decode('utf-8'))
 
+    def test_hub_links_the_weakness_guide(self):
+        # The hub advertises the monster-weaknesses guide under the search
+        # form, in the reader's language.
+        resp = self.client.get('/encyclopedia/monsters/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        body = resp.content.decode('utf-8')
+        self.assertIn('/guides/monster-weaknesses/', body)
+        self.assertIn('Read the monster weaknesses guide', body)
+        resp_fr = self.client.get('/encyclopedia/monsters/',
+                                  HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertIn('Lis le guide des faiblesses des monstres',
+                      resp_fr.content.decode('utf-8'))
+
+    def test_hub_weakness_guide_link_follows_the_version_prefix(self):
+        # From the retro hub the link stays inside /retro/ so the reader does
+        # not silently switch game versions.
+        resp = self.client.get('/retro/encyclopedia/monsters/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertIn('/retro/guides/monster-weaknesses/',
+                      resp.content.decode('utf-8'))
+
+    def test_hub_hides_the_weakness_guide_note_on_dofus2(self):
+        # dofus2 has no resistance data: the guide the note advertises leans on
+        # features that version does not have, so the note is omitted along
+        # with the weakness filter.
+        resp = self.client.get('/dofus2/encyclopedia/monsters/',
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertNotIn('monster-weaknesses', resp.content.decode('utf-8'))
+
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')

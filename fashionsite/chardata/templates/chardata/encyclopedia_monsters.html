@@ -32,6 +32,8 @@
 .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #0a7d0a; }
 .dark-theme-active .encyclopedia-monster-card a.encyclopedia-monsters-weakness,
 html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color: #74e074; }
+.encyclopedia-monsters-guide-note { margin: 0 0 12px; font-size: 0.9em; opacity: 0.85; }
+.encyclopedia-monsters-guide-note a { font-weight: 600; }
 .encyclopedia-monsters-preview { margin-top: 4px; font-size: 0.9em; overflow-wrap: anywhere; }
 .encyclopedia-monsters-thumb { width: 32px; height: 32px; object-fit: contain; vertical-align: middle; margin-right: 6px; }
 .drop-rate { opacity: 0.7; font-size: 0.9em; }
@@ -96,6 +98,13 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
             <button type="submit" class="button-generic">{{ t.search_label }}</button>
         </div>
     </form>
+
+    {% if weakness_options %}
+    <div class="encyclopedia-monsters-guide-note">
+        {{ mt.weakness_guide_prompt }}
+        <a href="{% game_url 'guide' 'monster-weaknesses' %}">{{ mt.weakness_guide_link }}</a>
+    </div>
+    {% endif %}
 
     {% if monsters_page.object_list %}
     <div class="encyclopedia-monsters-meta">{{ monsters_count }} {{ mt.monsters_label|lower }}</div>
