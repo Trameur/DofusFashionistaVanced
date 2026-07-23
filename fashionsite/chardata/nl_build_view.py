@@ -36,7 +36,7 @@ EXAMPLE_QUERIES_BY_LANG = {
            'Enutrof farm drop 100'],
     'pt': ['Iop 200 terra PvM', 'Cra agi pvp nível 150', 'Eniripsa fogo cura',
            'Enutrof farm drop 100'],
-    'de': ['Iop 200 Erde PvM', 'Crâ Beweglichkeit PvP Stufe 150', 'Eniripsa Feuer Heiler',
+    'de': ['Iop 200 Erde PvM', 'Crâ Flinkheit PvP Stufe 150', 'Eniripsa Feuer Heiler',
            'Enutrof farmen Stufe 100'],
 }
 

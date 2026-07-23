@@ -2288,7 +2288,10 @@ class NlParserTests(SimpleTestCase):
                 self.assertEqual(self._parse('%s 200' % word)['char_class'], expected)
 
     def test_german_elements(self):
-        cases = {'Feuer': 'int', 'Erde': 'str', 'Wasser': 'cha', 'Luft': 'agi'}
+        # Flinkheit and Glueck are the official German stat names (client data);
+        # Beweglichkeit stays accepted for users typing the old site wording.
+        cases = {'Feuer': 'int', 'Erde': 'str', 'Wasser': 'cha', 'Luft': 'agi',
+                 'Flinkheit': 'agi', 'Glück': 'cha', 'Beweglichkeit': 'agi'}
         for word, expected in cases.items():
             with self.subTest(word=word):
                 self.assertEqual(self._parse('Iop %s' % word)['element'], expected)
@@ -4932,6 +4935,49 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
             offenders, [],
             'guide desc over %d chars (Google truncates the snippet): %s'
             % (self.MAX_DESC, offenders))
+
+
+class GermanStatTerminologyTests(TestCase):
+    """The German Dofus client names the characteristics Staerke, Intelligenz,
+    Flinkheit, Glueck, Vitalitaet, Weisheit (first-party check 2026-07-23:
+    itemscraper/all_equipment_de.json, dofusdude client data at 3.6.7.7, shows
+    2044 'Flinkheit' and 874 'Glueck' effect lines and ZERO 'Agilitaet' or
+    'Beweglichkeit'). The site UI used to say 'Beweglichkeit' and 'Chance',
+    which no German player sees in game; keep every surface on the official
+    terms."""
+
+    OFFICIAL = {
+        'Strength': 'Stärke',
+        'Intelligence': 'Intelligenz',
+        'Agility': 'Flinkheit',
+        'Chance': 'Glück',
+        'Vitality': 'Vitalität',
+        'Wisdom': 'Weisheit',
+    }
+
+    def test_german_ui_uses_the_official_stat_names(self):
+        with translation.override('de'):
+            for english, german in self.OFFICIAL.items():
+                with self.subTest(stat=english):
+                    self.assertEqual(gettext(english), german)
+
+    def test_german_guides_avoid_the_unofficial_stat_names(self):
+        from chardata import guides_content
+        offenders = []
+        for slug, variant, language, fields in guides_content.iter_content_blocks():
+            if language != 'de':
+                continue
+            for field_name, value in fields.items():
+                if not isinstance(value, str):
+                    continue
+                for banned in ('Beweglichkeit', 'Agilität'):
+                    if banned in value:
+                        offenders.append('%s/%s/%s (%s)'
+                                         % (slug, variant, field_name, banned))
+        self.assertEqual(
+            offenders, [],
+            'unofficial German stat name in a guide (the client says Flinkheit): %s'
+            % offenders)
 
 
 class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):

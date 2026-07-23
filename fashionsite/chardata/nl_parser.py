@@ -34,9 +34,10 @@ _ELEMENT_WORDS = {
             'forca', 'starke'],
     'int': ['feu', 'fire', 'fuego', 'fogo', 'feuer', 'intelligence', 'inteligencia', 'int',
             'intelligenz'],
-    'cha': ['eau', 'water', 'agua', 'wasser', 'chance', 'luck', 'suerte', 'sorte', 'cha'],
+    'cha': ['eau', 'water', 'agua', 'wasser', 'chance', 'luck', 'suerte', 'sorte', 'cha',
+            'gluck'],
     'agi': ['air', 'aire', 'ar', 'luft', 'agilite', 'agility', 'agilidad', 'agilidade',
-            'agi', 'beweglichkeit'],
+            'agi', 'flinkheit', 'beweglichkeit'],
     'omni': ['omni', 'multi', 'multielement', 'multielemento', 'omnielement', 'polyvalent'],
 }
 

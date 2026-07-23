@@ -273,11 +273,11 @@ msgstr "Intelligenz"
 #: .\chardata\static\chardata\solution_popup.js:58
 #| msgid "Cancel"
 msgid "Chance"
-msgstr "Chance"
+msgstr "Glück"
 
 #: .\chardata\static\chardata\solution_popup.js:59
 msgid "Agility"
-msgstr "Beweglichkeit"
+msgstr "Flinkheit"
 
 #: .\chardata\static\chardata\solution_popup.js:131
 #: .\chardata\static\chardata\solution_popup.js:213

@@ -113,14 +113,14 @@ GUIDES = {
                 },
                 'de': {
                     'title': "Kritische Treffer im modernen Dofus: wie sie wirklich funktionieren",
-                    'desc': "Im modernen Dofus ist Kritisch ein Prozentwert: Zauber-Basis plus Ausrüstung, gedeckelt bei 50 %, und Agilität bringt nichts. So baust du auf Kritische.",
+                    'desc': "Im modernen Dofus ist Kritisch ein Prozentwert: Zauber-Basis plus Ausrüstung, gedeckelt bei 50 %, und Flinkheit bringt nichts. So baust du auf Kritische.",
                     'lead': "In Dofus 3, der Beta, Dofus 2 und Touch laufen kritische Treffer über Prozente. Hier steht, was deine Kritrate wirklich treibt, und wann du darauf baust.",
                     'body': '''
 <h2>Wie kritische Treffer heute funktionieren</h2>
 <p>Im modernen Dofus (Dofus 3, die Beta, Dofus 2 und Touch) ist deine kritische Trefferrate ein <strong>Prozentwert</strong>. Jeder Zauber und jede Waffe hat eine eigene Basis-Kritchance, meist zwischen 5 % und 25 %. Ausrüstung mit +Kritische Treffer addiert ihren Prozentsatz auf diese Basis, und die Summe ist deine Chance, mit diesem Angriff kritisch zu treffen.</p>
 
-<h2>Agilität berührt deine Kritrate nicht</h2>
-<p>Das ist der große Unterschied zum alten Spiel: im modernen Dofus hat <strong>Agilität keinerlei Wirkung auf kritische Treffer</strong>. Deine Rate kommt allein aus der Zauber-Basis und den +Kritische Treffer deiner Ausrüstung. Agilität für Kritische zu steigern ist eine Retro-Gewohnheit, die hier nichts bringt.</p>
+<h2>Flinkheit berührt deine Kritrate nicht</h2>
+<p>Das ist der große Unterschied zum alten Spiel: im modernen Dofus hat <strong>Flinkheit keinerlei Wirkung auf kritische Treffer</strong>. Deine Rate kommt allein aus der Zauber-Basis und den +Kritische Treffer deiner Ausrüstung. Flinkheit für Kritische zu steigern ist eine Retro-Gewohnheit, die hier nichts bringt.</p>
 
 <h2>Die Deckelung, und der kritische Schaden</h2>
 <p>Egal wie viel +Kritische Treffer du stapelst, deine Chance ist pro Angriff bei <strong>50 %</strong> gedeckelt. Ab da ist mehr Kritrate verschwendet. Davon getrennt lässt der Wert Kritischer Schaden (das „+X bei kritischem Treffer" auf Items) deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen. Chance und Schaden sind zwei verschiedene Werte.</p>
@@ -215,20 +215,20 @@ GUIDES = {
                 },
                 'de': {
                     'title': "Kritische Treffer in Dofus Retro: das 1/X-System",
-                    'desc': "Dofus Retro (1.29) behält das alte Kritsystem: ein Bruch 1/X, gedeckelt bei 1/2, und Agilität hebt deine Rate. So baust du auf kritische Treffer.",
+                    'desc': "Dofus Retro (1.29) behält das alte Kritsystem: ein Bruch 1/X, gedeckelt bei 1/2, und Flinkheit hebt deine Rate. So baust du auf kritische Treffer.",
                     'lead': "Dofus Retro (1.29) behält das klassische Kritsystem, und es funktioniert ganz anders als das moderne Dofus. So funktioniert deine Kritrate wirklich.",
                     'body': '''
 <h2>Wie kritische Treffer im Retro funktionieren</h2>
 <p>Dofus Retro (1.29) nutzt das alte System: deine kritische Trefferrate ist ein <strong>Bruch, geschrieben 1/X</strong>. Eine Waffe oder ein Zauber mit 1/30 trifft im Schnitt einmal in dreißig kritisch. Je kleiner das X, desto öfter kritierst du, und sowohl Ausrüstung als auch Eigenschaften können es senken.</p>
 
-<h2>Agilität ist dein Kritwert</h2>
-<p>Das ist der zentrale Retro-Unterschied: <strong>Agilität hebt deine kritische Trefferrate</strong>. In Agilität zu investieren senkt deinen Kritbruch, also kritiert ein Agilitäts-Build deutlich öfter. Das ist das Gegenteil vom modernen Dofus, wo Agilität nichts für Kritische tut. Im Retro gehört Agilität zum Plan, zusammen mit +Kritische Treffer aus der Ausrüstung, wenn du zuverlässige Kritische willst.</p>
+<h2>Flinkheit ist dein Kritwert</h2>
+<p>Das ist der zentrale Retro-Unterschied: <strong>Flinkheit hebt deine kritische Trefferrate</strong>. In Flinkheit zu investieren senkt deinen Kritbruch, also kritiert ein Flinkheits-Build deutlich öfter. Das ist das Gegenteil vom modernen Dofus, wo Flinkheit nichts für Kritische tut. Im Retro gehört Flinkheit zum Plan, zusammen mit +Kritische Treffer aus der Ausrüstung, wenn du zuverlässige Kritische willst.</p>
 
 <h2>Die Deckelung, und der kritische Schaden</h2>
-<p>Deine Kritrate kann nicht besser als <strong>1/2</strong> werden (eine Chance von zwei), egal wie viel Agilität und Ausrüstung du stapelst. Darüber hinaus ist mehr Rate verschwendet. Der kritische Schadensbonus der Ausrüstung lässt deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen.</p>
+<p>Deine Kritrate kann nicht besser als <strong>1/2</strong> werden (eine Chance von zwei), egal wie viel Flinkheit und Ausrüstung du stapelst. Darüber hinaus ist mehr Rate verschwendet. Der kritische Schadensbonus der Ausrüstung lässt deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen.</p>
 
 <h2>Wann du auf Kritische baust</h2>
-<p>Im Retro lohnen sich Kritische, wenn der zusätzliche kritische Schaden die Agilität und Ausrüstung wert ist, die du für eine gute Rate ausgibst. Manche Builds setzen voll auf Agilität für Ausweichen und Kritische; andere nehmen Kritische als Bonus auf einem Stärke- oder Glücks-Build mit. Gewichte in der Fashionista Kritische Treffer (und Agilität), wenn deine Waffe und Zauber den Kritischen belohnen, und lass sie sonst niedrig.</p>
+<p>Im Retro lohnen sich Kritische, wenn der zusätzliche kritische Schaden die Flinkheit und Ausrüstung wert ist, die du für eine gute Rate ausgibst. Manche Builds setzen voll auf Flinkheit für Ausweichen und Kritische; andere nehmen Kritische als Bonus auf einem Stärke- oder Glücks-Build mit. Gewichte in der Fashionista Kritische Treffer (und Flinkheit), wenn deine Waffe und Zauber den Kritischen belohnen, und lass sie sonst niedrig.</p>
 
 <p><em>Baust du auf Retro-Kritische? <a href="/setup/">Stell hier deine Gewichte ein.</a></em></p>
 ''',
@@ -1086,7 +1086,7 @@ GUIDES = {
 <p>Diese drei entscheiden, was deine Figur in einer Runde überhaupt tun kann. Ein AP mehr ist manchmal ein ganzer zusätzlicher Zauber; ein BP mehr ist Positionierung und Kiten; Reichweite macht oder bricht die Hälfte der Klassen im Spiel. Sie sind knapp, jedes Build kämpft darum, deshalb <strong>fixierst</strong> du sie im Tool meist auf ein Ziel, statt sie zu gewichten: "gib mir genau 11 AP und 6 BP, dann optimiere den Rest".</p>
 
 <h2>Dein Schadenselement</h2>
-<p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Beweglichkeit und Glück, und jede treibt das Element an, das zu ihr passt. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch: ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Dein Schadenselement ist der Motor jedes Angriffs-Builds, also verdient es einen hohen Regler.</p>
+<p>Dein Schaden kommt aus einem (oder mehreren) von Stärke, Intelligenz, Flinkheit und Glück, und jede treibt das Element an, das zu ihr passt. Wähl das Element, mit dem deine Hauptzauber skalieren, und zieh es durch: ein fokussiertes Mono-Element-Build macht fast immer mehr Schaden als ein verwässertes Multi-Element-Build. Dein Schadenselement ist der Motor jedes Angriffs-Builds, also verdient es einen hohen Regler.</p>
 
 <h2>Am Leben bleiben</h2>
 <p>Vitalität ist rohes LP und billig zu stapeln, aber mehr ist nicht immer besser: 1000 LP zu viel, die du nicht gebraucht hast, sind ein weggeworfener Schadenswert. Resistenz (fix und %) ist das, was dich in PvP und harten Kämpfen wirklich oben hält. Für kompetitives PvP gewichte Resistenz ernsthaft; beim Mob-PvM kommst du oft mit weniger aus.</p>
@@ -1726,7 +1726,7 @@ GUIDES = {
                 'lead': "Den Schaden auf zwei Elemente zu verteilen fühlt sich sicher an, haut aber meist weicher zu als sich auf eins festzulegen. Hier ist, warum Fokus sich lohnt, und wann nicht.",
                 'body': '''
 <h2>Warum ein Element meist gewinnt</h2>
-<p>Dein Schaden skaliert mit dem Element, auf das du dich festlegst: dem Wert dahinter (Stärke für Erde, Intelligenz für Feuer, Beweglichkeit für Luft, Glück für Wasser) und der Ausrüstung, die dieses Element pusht. Verteil deine Ausrüstung auf zwei Elemente, und jeder Punkt hilft nur der Hälfte deiner Treffer; steck alles in eins, und jeder Punkt zählt jedes Mal. Fokus summiert sich: Ein konzentriertes Mono-Element-Set macht fast immer mehr Schaden als ein verwässertes Zwei-Element-Set desselben Levels.</p>
+<p>Dein Schaden skaliert mit dem Element, auf das du dich festlegst: dem Wert dahinter (Stärke für Erde, Intelligenz für Feuer, Flinkheit für Luft, Glück für Wasser) und der Ausrüstung, die dieses Element pusht. Verteil deine Ausrüstung auf zwei Elemente, und jeder Punkt hilft nur der Hälfte deiner Treffer; steck alles in eins, und jeder Punkt zählt jedes Mal. Fokus summiert sich: Ein konzentriertes Mono-Element-Set macht fast immer mehr Schaden als ein verwässertes Zwei-Element-Set desselben Levels.</p>
 
 <h2>Es sind eigentlich nur deine Regler</h2>
 <p>Im Tool ist Mono-vs-Multi keine eigene Einstellung: es ist, wie du deine Elemente gewichtest. Dreh ein Element und seinen Wert hoch, lass die anderen niedrig, und der Optimierer baut dir einen fokussierten Schläger. Gewichte zwei Elemente gleich, und er verteilt deine Ausrüstung gern auf beide. Wenn dein Build also verstreut rauskam, obwohl du Fokus wolltest, schau bei deinen Gewichten.</p>
@@ -3045,7 +3045,7 @@ GUIDES = {
 <p>Öffne ein Monster im <a href="/encyclopedia/monsters/">Bestiarium</a>: sein Steckbrief listet die Resistenzen Element für Element, und wenn ihm ein Element deutlich mehr wehtut als der Rest, ist diese Schwäche hervorgehoben. Du kannst das ganze Bestiarium auch nach Schwäche filtern, was die praktische Frage beantwortet: welche Monster sollte mein Erd-Build farmen? Denk daran, dass dasselbe Monster in seinen stärkeren Varianten oft mehr aushält: eine Familie, die auf niedriger Stufe schmilzt, kann dasselbe Element später wegstecken. (Dofus 2 ist die Ausnahme: für diese Version haben wir keine verlässlichen Monsterwerte, deshalb zeigt ihr Bestiarium keine Resistenzen.)</p>
 
 <h2>Aus einer Schwäche ein Build machen</h2>
-<p>Wenn die Monster, die du farmst, eine Schwäche teilen, die deine Klasse treffen kann, zieh es durch: gewichte dieses Element und seinen Wert (Stärke für Erde, Intelligenz für Feuer, Beweglichkeit für Luft, Glück für Wasser) im Optimierer hoch und lass ihn die Ausrüstung suchen, die das Element pusht. Ein <a href="/guides/mono-vs-multi-element/">fokussiertes Build</a> multipliziert, was die Schwäche dir schon schenkt. So entstehen Farm-Builds: nicht für alles gemacht, sondern für den Dungeon, den du zwanzigmal läufst.</p>
+<p>Wenn die Monster, die du farmst, eine Schwäche teilen, die deine Klasse treffen kann, zieh es durch: gewichte dieses Element und seinen Wert (Stärke für Erde, Intelligenz für Feuer, Flinkheit für Luft, Glück für Wasser) im Optimierer hoch und lass ihn die Ausrüstung suchen, die das Element pusht. Ein <a href="/guides/mono-vs-multi-element/">fokussiertes Build</a> multipliziert, was die Schwäche dir schon schenkt. So entstehen Farm-Builds: nicht für alles gemacht, sondern für den Dungeon, den du zwanzigmal läufst.</p>
 
 <h2>Wenn du die Schwäche nicht treffen kannst</h2>
 <p>Du rüstest nicht für jeden Kampf um, und manche Klassen sind auf ihr Element festgelegt. Die gute Nachricht: der größte Gewinn liegt schon darin, die stärkste Resistenz des Monsters zu meiden. Sein zweitbestes Element zu treffen ist meist völlig in Ordnung; deinen Schaden in das Element zu stecken, das es wegstecken soll, das kostet. Im Team überlass das schwache Element dem, der es ohnehin trifft, und denk an die umgekehrte Logik: die Elemente, mit denen Monster angreifen, entscheiden, welche <a href="/guides/resistance-explained/">deiner eigenen Resistenzen</a> zählen.</p>

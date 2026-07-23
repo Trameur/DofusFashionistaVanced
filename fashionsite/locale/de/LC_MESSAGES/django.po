@@ -451,7 +451,7 @@ msgstr "Fügt einen temporären Zauber hinzu"
 #: .\chardata\templates\chardata\stats.html:29
 #: .\chardata\translation_util.py:67
 msgid "Agility"
-msgstr "Beweglichkeit"
+msgstr "Flinkheit"
 
 #: .\chardata\dynamic_translations.py:65 .\chardata\translation_util.py:48
 msgid "Air"
@@ -507,7 +507,7 @@ msgstr "Bogen"
 #: .\chardata\templates\chardata\stats.html:28
 #: .\chardata\translation_util.py:66
 msgid "Chance"
-msgstr "Chance"
+msgstr "Glück"
 
 #: .\chardata\dynamic_translations.py:75
 #| msgid "Change password"
@@ -1584,7 +1584,7 @@ msgid ""
 "and fiddling directly with the value the attributed to each stat."
 msgstr ""
 "Der Outfit-Vorschlag entspricht möglicherweise nicht Ihren Vorstellungen. "
-"Beispielsweise sind die HP trotz guter Agilität zu niedrig. Sie können "
+"Beispielsweise sind die HP trotz guter Flinkheit zu niedrig. Sie können "
 "Anpassungen vornehmen, indem Sie zum Assistenten zurückkehren und mit den "
 "Schiebereglern herumspielen, oder indem Sie direkt mit dem Wert "
 "experimentieren, der den einzelnen Statistiken zugewiesen wird."
