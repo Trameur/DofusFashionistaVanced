@@ -3973,6 +3973,36 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         self.assertGreater(trophy, 0)
 
 
+class RetroStealsWeaponTests(SimpleTestCase):
+    """Player report said Terps/Minotot lifesteal was wrong in Retro. Verified
+    2026-07-23 against the OFFICIAL 1.29 lang (retro_raw itemstats ISTA lines +
+    effects table): Terps Hammer steals ONLY its 2-6 neutral roll (effect 95,
+    'Vole 2 a 6 PDV (neutre)'), its 6-10 neutral and 6-10 fire rolls are plain
+    damage; Minotot Sceptre deals 13-27 neutral plain and steals ONLY the 3-5
+    water (91) and 3-5 fire (94) rolls. Our data matches the client exactly,
+    so these hits must not be 'fixed' to steal on every roll."""
+
+    def _hits(self, structure, ankama_id):
+        item = structure.get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item, 'missing retro weapon %s' % ankama_id)
+        weapon = structure.get_weapon_by_name(item.name)
+        self.assertIsNotNone(weapon, 'no weapon hits for %s' % item.name)
+        return sorted((h.min_dam, h.max_dam, h.element, bool(h.steals))
+                      for h in weapon.base_hit)
+
+    def test_terps_and_minotot_steals_match_the_129_lang(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('retro')
+        self.assertEqual(self._hits(structure, 6507),
+                         [(2, 6, 'neut', True),
+                          (6, 10, 'fire', False),
+                          (6, 10, 'neut', False)])
+        self.assertEqual(self._hits(structure, 8275),
+                         [(3, 5, 'fire', True),
+                          (3, 5, 'water', True),
+                          (13, 27, 'neut', False)])
+
+
 class DofusEquipLevelPerVersionTests(SimpleTestCase):
     """The same Dofus has a different equip level per version, each faithful to
     that version's own source, so no version should borrow another's gate:
