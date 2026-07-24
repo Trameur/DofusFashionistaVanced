@@ -49,12 +49,15 @@ def store_drops(drops_path, game_version="dofus3"):
     conn = sqlite3.connect(items_db_path)
     try:
         cursor = conn.cursor()
-        # ankama_id -> internal item id (only items we actually carry)
-        ankama_to_id = {
-            ankama_id: item_id
-            for item_id, ankama_id in cursor.execute(
-                "SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL")
-        }
+        # ankama_id -> internal item id (only items we actually carry).
+        # A few ankama_ids still have an old duplicate row (id = 100000000 +
+        # ankama_id); the canonical item is the low id, so keep that one or the
+        # drops end up on the copy and the real item shows none.
+        ankama_to_id = {}
+        for item_id, ankama_id in cursor.execute(
+                "SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL "
+                "ORDER BY id"):
+            ankama_to_id.setdefault(ankama_id, item_id)
         # Crafting-ingredient resources have their own encyclopedia page, so their
         # drops get their own table (keyed by ankama_id, they are not items we carry).
         resource_ankama_ids = set()

@@ -3827,6 +3827,37 @@ class DropMonsterLevelTests(TestCase):
         self.assertEqual(levels, sorted(levels))
 
 
+class DropsOnCanonicalItemTests(SimpleTestCase):
+    """A few ankama_ids still carry an old duplicate row (id = 100000000 +
+    ankama_id). Drops must be stored on the canonical low id, otherwise the
+    real item page shows no "Dropped by" at all while the copy holds them."""
+
+    DBS = {'dofus3': 'items.db', 'beta': 'items_beta.db',
+           'touch': 'items_touch.db', 'retro': 'items_retro.db'}
+
+    def test_no_drops_land_on_a_duplicate_row(self):
+        import os
+        import sqlite3
+        from fashionistapulp import structure as structure_module
+        base = os.path.dirname(os.path.abspath(structure_module.__file__))
+        for version, db_file in self.DBS.items():
+            path = os.path.join(base, db_file)
+            if not os.path.exists(path):
+                continue
+            cur = sqlite3.connect(path).cursor()
+            offenders = cur.execute("""
+                SELECT i.ankama_id, COUNT(*)
+                FROM item_drops d
+                JOIN items i ON i.id = d.item
+                WHERE i.id > i.ankama_id
+                  AND EXISTS (SELECT 1 FROM items c
+                              WHERE c.ankama_id = i.ankama_id AND c.id < i.id)
+                GROUP BY i.ankama_id""").fetchall()
+            with self.subTest(version=version):
+                self.assertEqual(offenders, [],
+                                 'drops attached to a duplicate row: %s' % offenders)
+
+
 class DropConditionsTests(TestCase):
     """Drops with an Ankama criterion show the "under conditions" marker;
     retro has no conditions so it never does. Fixtures are looked up in the
