@@ -4047,6 +4047,24 @@ class UnobtainableDefaultsTests(TestCase):
             with self.subTest(alive=ankama_id):
                 self.assertNotIn(item_id(ankama_id), excluded)
 
+    def test_new_touch_project_excludes_the_pc_only_leftovers(self):
+        from chardata.models import Char
+        resp = self.client.post('/touch/createproject/', {
+            'project': 'TouchPool', 'charname': 'TouchPool', 'level': '200',
+            'class': 'Iop', 'byhand': 'byhand'})
+        self.assertEqual(resp.status_code, 302)
+        char = Char.objects.latest('pk')
+        self.assertEqual(char.game_version, 'touch')
+        import pickle
+        excluded = set(pickle.loads(char.exclusions))
+        from fashionistapulp.structure import get_structure
+        s = get_structure('touch')
+        vampyre = s.get_item_by_ankama_id(10054)
+        if vampyre is not None:
+            self.assertIn(vampyre.id, excluded)
+        shield = s.get_item_by_ankama_id(10076)
+        self.assertIn(shield.id, excluded)
+
 
 class SharedBuildsGalleryPerfTests(TestCase):
     """The gallery paginates on ids only (sorting full rows dragged every blob

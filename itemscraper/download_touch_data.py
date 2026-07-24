@@ -23,6 +23,7 @@ get_equipments_touch.py turns these into the optimizer's item model.
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import sys
 from pathlib import Path
@@ -87,7 +88,8 @@ def main(argv=None):
     parser.add_argument('--classes', nargs='*', default=DEFAULT_CLASSES)
     parser.add_argument('--data-url', default=None,
                         help='Override the data proxy base (else resolved live)')
-    parser.add_argument('--dest', default='itemscraper/touch_raw')
+    default_dest = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'touch_raw')
+    parser.add_argument('--dest', default=default_dest)
     args = parser.parse_args(argv)
 
     dest_dir = Path(args.dest)

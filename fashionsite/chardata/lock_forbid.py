@@ -194,6 +194,58 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         19839,  # Small Tide Shelter (event shield, no Touch source)
         14993,  # Charlie's Agents Shield (PC event shield)
         21593,  # [!] Unshakeable test shield (internal test item)
+        # Ankama Lottery rewards, gone long before Touch forked
+        8941,    # Ecaflip Paw
+        8956,    # Ecaflip Paw
+        8957,    # Ecaflip Paw
+        8958,    # Ecaflip Paw
+        8959,    # Ecaflip Paw
+        8960,    # Ecaflip Paw
+        8961,    # Ecaflip Paw
+        8962,    # Ecaflip Paw
+        8963,    # Ecaflip Paw
+        8964,    # Ecaflip Paw
+        8965,    # Ecaflip Paw
+        8966,    # Perfect Ecaflip Paw
+        10054,   # Vampyre Ring
+        10055,   # Vampyre Amulet
+        10056,   # Vampyre Belt
+        10058,   # Vampyre Cape
+        10061,   # Vampyre Boots
+        10102,   # Vampyre Mask
+        11855,   # Stroud's Boots
+        12465,   # Brown Varnished Shoes
+        12466,   # Boracelet
+        # GM-only items
+        7913,    # Animagi (GM)
+        # PC-era one-off events and removed content, no Touch source
+        677,     # Pirate Cloak
+        1628,    # Fire Artefact
+        1629,    # Earth Artefact
+        1630,    # Air Artefact
+        1631,    # Water Artefact
+        1632,    # Light Artefact
+        1633,    # Life Artefact
+        6713,    # Lordsoth Daggers
+        6793,    # Tea Ring
+        6800,    # Basic Cloak
+        6886,    # Astrub Mercenary Cloak
+        8338,    # Kwismas Sword
+        8575,    # First Blood Staff
+        8627,    # Sarr Ys's Flute
+        11603,   # Tatty Bim Bonnet
+        11610,   # Badly-made Kanigloo Loincloth
+        11617,   # Worn-out Indigenous Boots
+        11733,   # Clogged-up Turbine Belt
+        11748,   # Thanos's Chewed-Up Staff
+        11811,   # Prespic Skin Boots
+        13063,   # Split Splinter Sprinter
+        # physical Dofus 2.0 Collector box codes (2009, PC only)
+        10687,   # Haks Or Ring
+        10688,   # Haks Or Belt
+        # rewards of PC tutorial quests that never existed on Touch
+        6773,    # Tude Amulet
+        12661,   # Handbag
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
