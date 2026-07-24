@@ -4128,6 +4128,29 @@ class SharedBuildsGalleryPerfTests(TestCase):
                         'gallery page ran %d queries' % len(ctx))
 
 
+class ChangelogLazyTests(TestCase):
+    """Changelog entries load from their own URL when the modal opens; pages
+    only carry the empty shell."""
+
+    def test_pages_do_not_embed_the_entries(self):
+        for url in ('/', '/setup/', '/faq/'):
+            with self.subTest(url=url):
+                body = self.client.get(url).content.decode('utf-8')
+                self.assertIn('changelog-body', body)
+                self.assertNotIn('cl-entry', body)
+
+    def test_changelog_content_serves_the_entries(self):
+        resp = self.client.get('/changelog-content/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('cl-entry', body)
+        self.assertIn('cl-date', body)
+
+    def test_changelog_content_is_translated(self):
+        resp = self.client.get('/changelog-content/', HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertContains(resp, 'Toutes les versions')
+
+
 class SetupMobileHooksTests(TestCase):
     """The setup Elements/Options/Focus table stacks into full-width rows on
     phones via CSS that orders the three group titles; keep the class hooks the

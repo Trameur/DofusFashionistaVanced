@@ -14,7 +14,16 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from django.shortcuts import render
+
 from chardata.util import set_response
+
+
+def changelog_content(request):
+    """Changelog entries, fetched when the modal is first opened. Kept out of
+    every page: it was ~23KB of markup on each one."""
+    return render(request, 'chardata/changelog_content.html')
+
 
 def error(request, error, error_link, char_id, char):
     return set_response(request, 

@@ -643,6 +643,8 @@ urlpatterns = [
 
     re_path(r'^infeasible/(?P<char_id>\d+)/', views.infeasible, name='infeasible'),
     re_path(r'^error/(?P<char_id>\d+)/', util_views.error, name='error'),
+    re_path(r'^changelog-content/$', util_views.changelog_content,
+            name='changelog_content'),
     re_path(r'^guides/$', guides_view.guides, name='guides'),
     re_path(r'^guides/(?P<slug>[a-z0-9-]+)/$', guides_view.guide, name='guide'),
     re_path(r'^about/', views.about, name='about'),
