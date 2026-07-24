@@ -749,13 +749,27 @@ class Structure:
             for item in self.get_unique_items_by_type_and_level(t, 200, True):
                 self._dt_unique_items_ids_with_type[item.id] = t
         
+    def _or_sibling_local_name(self, item, language):
+        """A branch added at runtime (the Gelano exo variant) has no row in
+        item_names, so borrow the name from a branch that has one."""
+        if item.or_name == item.name:
+            return None
+        group = (self.dt_or_items if item.dofus_touch else self.or_items)
+        for sibling in group.get(item.or_name) or []:
+            name = sibling.localized_names.get(language)
+            if name and not name.startswith('[!] '):
+                return self.get_or_item_name(name)
+        return None
+
     def post_process_item_names(self):
         for item in itertools.chain(self.items_list, self.dt_items_list):
             item.localized_names['en'] = item.or_name
             item.accentless_local_names['en'] = item.or_name
             for lang in NON_EN_LANGUAGES:
                 if lang not in item.localized_names:
-                    item.localized_names[lang] = '[!] %s' % item.or_name
+                    sibling_name = self._or_sibling_local_name(item, lang)
+                    item.localized_names[lang] = (sibling_name if sibling_name
+                                                  else '[!] %s' % item.or_name)
                 elif item.or_name != item.name:
                     # The "(#1)" tag only groups the branches of an OR item; drop
                     # it in every language, like the English name above.

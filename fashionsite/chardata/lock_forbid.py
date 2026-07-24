@@ -429,6 +429,14 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         14053,   # Flawed Cap
         14054,   # Flawed Ring
         14056,   # Flawed Boots
+        # Boufbowl match rings: handed out inside a match, never owned. The Touch
+        # backend still has them under their untranslated internal name, with no
+        # stat, drop or recipe.
+        19961,   # [!] Bague de Boufbowl (Attaquant Bleu)
+        19963,   # [!] Bague de Boufbowl (Attaquant Rouge)
+        19965,   # [!] Bague de Boufbowl (Defenseur Bleu)
+        19967,   # [!] Bague de Boufbowl (Defenseur Rouge)
+        19995,   # [!] Samy Bague de Boufbowl (test)
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus

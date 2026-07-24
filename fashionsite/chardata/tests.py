@@ -3892,6 +3892,25 @@ class OrItemGroupingTests(SimpleTestCase):
                     self.assertNotIn('(#', name)
                     self.assertFalse(name.startswith('[!]'), name)
 
+    def test_runtime_branch_borrows_its_localized_name(self):
+        # The Gelano MP-exo variant is built in memory, so it has no row in
+        # item_names and used to show up as "[!] Gelano" outside English.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            structure = get_structure(version)
+            branches = structure.get_or_items().get('Gelano')
+            self.assertTrue(branches, version)
+            for branch in branches:
+                for language in ('fr', 'es', 'pt', 'de'):
+                    name = branch.localized_names.get(language)
+                    with self.subTest(version=version, branch=branch.name,
+                                      language=language):
+                        self.assertFalse(name.startswith('[!]'), name)
+            # Both branches are the same ring, so they read the same everywhere.
+            for language in ('en', 'fr', 'es', 'pt', 'de'):
+                names = {branch.localized_names[language] for branch in branches}
+                self.assertEqual(len(names), 1, (version, language, names))
+
     def test_weapon_lookup_accepts_the_grouped_name(self):
         # get_weapon_by_name is called with both dofus_touch flags; the OR
         # branch used to read the touch dict while testing the regular one.
@@ -4630,6 +4649,35 @@ class VersionItemAvailabilityTests(SimpleTestCase):
                           '%s has no Touch obtention source but is proposable' % name)
             # Still in the pool: a player who owns one can un-forbid it.
             self.assertIn(item_id, pool, name)
+
+    def test_ankama_placeholder_names_are_forbidden_by_default(self):
+        # Ankama tags its own untranslated internal content with a "[!] " or
+        # "[wip]" name ("[!] WIP", "[!] Bouclier inebranlable de test", the
+        # Boufbowl match rings). Those are never obtainable equipment, so none
+        # of them may be proposable. Recomputed from the data on every run.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+
+        self.addCleanup(set_current_game_version, 'dofus3')
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                rows = [(item_id, name) for item_id, name
+                        in conn.execute('SELECT id, name FROM items')
+                        if name.startswith('[!] ') or name.lower().startswith('[wip')]
+            finally:
+                conn.close()
+            if not rows:
+                continue
+            set_current_game_version(version)
+            get_structure(version)
+            defaults = set(get_default_exclusions(char=None))
+            for item_id, name in rows:
+                with self.subTest(version=version, name=name):
+                    self.assertIn(item_id, defaults,
+                                  '%s is an Ankama placeholder but is proposable' % name)
 
     def test_ice_dofus_forbidden_by_default_on_retro_not_on_dofus3(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
