@@ -61,6 +61,113 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
 # scoped so the same Ankama id stays available where it is a real item (10076 is a
 # genuine Retro shield but does not exist in Dofus Touch).
 DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
+    # Items with no way left to get them: verified one by one against the
+    # live data (no drop, no recipe, no live quest/achievement) and the
+    # wikis. Forbidden by default but removable, like the touch list.
+    'dofus3': [
+        # GM-only items
+        7913,    # Animagi (GM)
+        9031,    # Gore Master's Ring (Gms Only)
+        # personal one-off gifts to a single player
+        2154,    # De Sendar's Ring
+        2155,    # Jiva Necklace
+        2156,    # Sword of Justice
+        # physical Dofus 2.0 Collector box codes (2009)
+        10685,   # Haks Or Mask
+        10686,   # Haks Or Cloak
+        10687,   # Haks Or Ring
+        10688,   # Haks Or Belt
+        # manga/convention promo prizes
+        16343,   # Paintbrush
+        # Ankama Lottery rewards; the lottery is long gone
+        8941,    # Ecaflip Paw
+        8956,    # Ecaflip Paw 2
+        8957,    # Ecaflip Paw 3
+        8958,    # Ecaflip Paw 4
+        8959,    # Ecaflip Paw 5
+        8960,    # Ecaflip Paw 6
+        8961,    # Ecaflip Paw 7
+        8962,    # Ecaflip Paw 8
+        8963,    # Ecaflip Paw 9
+        8964,    # Ecaflip Paw 10
+        8965,    # Ecaflip Paw 11
+        8966,    # Perfect Ecaflip Paw
+        10054,   # Vampyre Ring
+        10055,   # Vampyre Amulet
+        10056,   # Vampyre Belt
+        10058,   # Vampyre Cape
+        10061,   # Vampyre Boots
+        10102,   # Vampyre Mask
+        11855,   # Stroud's Boots
+        12465,   # Brown Varnished Shoes
+        12466,   # Boracelet
+        # rewards of removed tutorial/Incarnam quests
+        6773,    # Tude Amulet
+        10784,   # Intrepid Amulet
+        10785,   # Intrepid Ring
+        10794,   # Intrepid Boots
+        10799,   # Intrepid Belt
+        10800,   # Intrepid Cloak
+        10801,   # Intrepid Hat
+        12661,   # Handbag
+        # one-off Temporis VII server rewards
+        27267,   # Khardboard Dazzling Cloak
+        27268,   # Khardboard Goultard
+        27280,   # Khardboard Bowisse's Shield
+        27282,   # Khardboard Gobball Headgear
+        # one-off past contests and events
+        1505,    # Flute
+        8338,    # Kwismas Sword
+        8627,    # Sarr Ys's Flute
+        10158,   # Trophy Dark Vlad Shield
+        10159,   # Trophy Moon Shield
+        10160,   # Trophy Soft Oak Shield
+        10161,   # Trophy Dragon Pig Shield
+        10162,   # Trophy Minotoror Shield
+        10163,   # Trophy Kimbo Shield
+        10164,   # Trophy Wa Wabbit Shield
+        10165,   # Trophy Koolich Shield
+        10166,   # Trophy Sphincter Cell Shield
+        10167,   # Trophy Bworker Shield
+        11811,   # Prespic Skin Boots
+        17456,   # Piney Shoes
+        17457,   # Kwismas Ring
+        21506,   # Plushy-Ball: Drheller
+        21507,   # Plushy-Ball: Gobball
+        21508,   # Plushy-Ball: Tofu
+        21509,   # Plushy-Ball: Bow Meow
+        21510,   # Plushy-Ball: Minikron
+        # removed content leftovers (old quests, Frigost exchanges, migrations)
+        1628,    # Fire Artefact
+        1629,    # Earth Artefact
+        1630,    # Air Artefact
+        1631,    # Water Artefact
+        1632,    # Light Artefact
+        1633,    # Life Artefact
+        6661,    # Fishing Rod for Quaquack
+        6793,    # Tea Ring
+        6800,    # Basic Cloak
+        6840,    # Yanguru Sword
+        6863,    # Astrub Mercenary Helmet
+        6886,    # Astrub Mercenary Cloak
+        7097,    # Training Shield
+        11603,   # Tatty Bim Bonnet
+        11610,   # Badly-made Kanigloo Loincloth
+        11617,   # Worn-out Indigenous Boots
+        11733,   # Clogged-up Turbine Belt
+        11748,   # Thanos's Chewed-Up Staff
+        # no source left in the live data
+        677,     # Pirate Cloak
+        856,     # Little Frog
+        6713,    # Lordsoth Daggers
+        8575,    # First Blood Staff
+        8854,    # Crack Sparrow's Own Withered Hat
+        13063,   # Split Splinter Sprinter
+    ],
+    # Same data as dofus3.
+    'beta': [
+        7913, 9031, 2154, 2155, 2156, 10685, 10686, 10687, 10688, 16343, 8941, 8956, 8957, 8958, 8959, 8960, 8961, 8962, 8963, 8964, 8965, 8966, 10054, 10055, 10056, 10058, 10061, 10102, 11855, 12465, 12466, 6773, 10784, 10785, 10794, 10799, 10800, 10801, 12661, 27267, 27268, 27280, 27282, 1505, 8338, 8627, 10158, 10159, 10160, 10161, 10162, 10163, 10164, 10165, 10166, 10167, 11811, 17456, 17457, 21506, 21507, 21508, 21509, 21510, 1628, 1629, 1630, 1631, 1632, 1633, 6661, 6793, 6800, 6840, 6863, 6886, 7097, 11603, 11610, 11617, 11733, 11748, 677, 856, 6713, 8575, 8854, 13063
+    ],
     'touch': [
         # Shields that exist in the Touch client data (2.x heritage) but have
         # no obtention source there: no recipe and no drop in the official

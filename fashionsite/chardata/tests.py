@@ -4018,6 +4018,36 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         self.assertGreater(trophy, 0)
 
 
+class UnobtainableDefaultsTests(TestCase):
+    """New dofus3/beta projects exclude by default the items nobody can get
+    anymore (lottery, removed tutorials, one-off events...); quest rewards and
+    craftables stay in. Existing projects are never touched."""
+
+    def test_new_dofus3_project_excludes_the_dead_items_only(self):
+        from chardata.lock_forbid import get_default_exclusions
+        from chardata.models import Char
+        resp = self.client.post('/createproject/', {
+            'project': 'Pool', 'charname': 'Pool', 'level': '200',
+            'class': 'Iop', 'byhand': 'byhand'})
+        self.assertEqual(resp.status_code, 302)
+        char = Char.objects.latest('pk')
+        import pickle
+        excluded = set(pickle.loads(char.exclusions))
+        from fashionistapulp.structure import get_structure
+        s = get_structure('dofus3')
+
+        def item_id(ankama_id):
+            item = s.get_item_by_ankama_id(ankama_id)
+            return item.id if item else None
+
+        for ankama_id in (7913, 10054, 10785, 1628):  # GM, lottery, tutorial, artefact
+            with self.subTest(dead=ankama_id):
+                self.assertIn(item_id(ankama_id), excluded)
+        for ankama_id in (6780, 26366, 1501):  # class quest, Ochre quest, NPC shop
+            with self.subTest(alive=ankama_id):
+                self.assertNotIn(item_id(ankama_id), excluded)
+
+
 class SharedBuildsGalleryPerfTests(TestCase):
     """The gallery paginates on ids only (sorting full rows dragged every blob
     through the MySQL sort buffer) and shows 24 builds per page. Vote counts
