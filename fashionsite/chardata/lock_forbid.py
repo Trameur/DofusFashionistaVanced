@@ -409,6 +409,26 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         8726,    # Crusuede Shoes
         8727,    # Relief Boots
         8728,    # Veggie Boots
+        # spent revamp tokens: the item text itself says to trade them in, and
+        # the Touch backend has no drop, recipe, quest or achievement for them
+        12385,   # Hoodwink Headgear
+        12386,   # Arpone Mask
+        12387,   # Hanging Cloak
+        12388,   # Bangin' Cloak
+        12389,   # Doc Post-Martems
+        12390,   # Notts O'Clever Clogs
+        12391,   # Glisserin Belt
+        12392,   # Retchual Rope
+        12393,   # Enig Mittens
+        12394,   # Mithik Bracelet
+        13261,   # Diving Bell End
+        13262,   # Tanked Backpack
+        13263,   # Roboots
+        13264,   # Buoy's Belt
+        13265,   # Pressure Ring
+        14053,   # Flawed Cap
+        14054,   # Flawed Ring
+        14056,   # Flawed Boots
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
