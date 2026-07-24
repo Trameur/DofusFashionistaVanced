@@ -9,7 +9,7 @@ var itemTemplate =
     <table width="100%"><tr> \
     <td> \
         <div class="item-exchange-icon-container" style="display: inline-block"> \
-        <img src="%imageSource%" alt="%name%" class="item-exchange-icon"> \
+        <img src="%imageSource%" alt="%alt%" class="item-exchange-icon"> \
         </div> \
     </td> \
     <td style="width: 100%"> \
@@ -587,13 +587,20 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
             headerString += " <span title='" + gettext("In my inventory") + "'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M21 8l-9-5-9 5v8l9 5 9-5z'/><path d='M3 8l9 5 9-5'/><path d='M12 13v8'/></svg></span>";
         }
         headerString += '<br>' + gettext('Lvl.')+ ' ' + item.level;
+        if (item.localized_set_name) {
+            headerString += '<br><span class="item-set-name">' + gettext('Set') + ': '
+                + item.localized_set_name + '</span>';
+        }
         var violationsString = setItemViolations(item, violations, char_id);
         var violationsAreFatal = checkIfViolationsAreFatal(item, violations, char_id);
         var stats = setStats(item, weaponInfo);
         stats += setConditionLines(item);
         var comparison = createComparison(differences, item);
-        var data = {name: headerString, violations: violationsString, stats: stats,
-            imageSource: item.file, comparison: comparison, comparisontitle: gettext("Comparison"), 
+        // The header carries markup (line breaks, the owned icon, the set), so
+        // the icon gets the bare name instead: markup would close its alt early.
+        var data = {name: headerString, alt: item.localized_name,
+            violations: violationsString, stats: stats,
+            imageSource: item.file, comparison: comparison, comparisontitle: gettext("Comparison"),
             attributestitle: gettext("Attributes")};
         var resolved = resolveAndAppend(container, itemTemplate, data);
         

@@ -567,7 +567,16 @@ class ModelResultItem():
                 self.localized_name = item.localized_names[get_supported_language()]
             else:
                 self.localized_name = or_item[0].localized_names[get_supported_language()]
-            
+            # Several set pieces share a name (the four retro wedding rings, one
+            # per elemental set), so the picker needs the set to tell them apart.
+            self.localized_set_name = None
+            if item.set is not None:
+                item_set = structure.get_set_by_id(item.set)
+                if item_set is not None:
+                    self.localized_set_name = (
+                        item_set.localized_names.get(get_supported_language())
+                        or item_set.name)
+
             self.weird_conditions = item.weird_conditions
     
             self.stats = {}

@@ -669,3 +669,7 @@ msgstr "F"
 msgctxt "one letter Saturday"
 msgid "S"
 msgstr "S"
+
+#: .\chardata\static\chardata\solution_popup.js:590
+msgid "Set"
+msgstr "Set"

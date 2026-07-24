@@ -13,7 +13,7 @@ var itemTemplate =
         </div> \
     </td> \
     <td style="width: 100%"> \
-    <div class="compare-item-name"> <b> %name% </b><br> Lv. %level%</div> <br>\
+    <div class="compare-item-name"> <b> %name% </b><br> '+gettext("Lvl.")+' %level%</div> <br>\
     </td> \
     <td> \
     <input type="button" class="button-thin" id="compare-button-close" value="'+gettext("Close")+'" />\
@@ -132,8 +132,8 @@ function populatePopUp(data) {
                 stats += "<br>";
             });
         }
-        var dict = {name: data.or_name, stats: stats, imageSource: data.file,
-                    level: data.level};
+        var dict = {name: data.localized_name || data.or_name, stats: stats,
+                    imageSource: data.file, level: data.level};
         var container = $(".item-stats");
         container.empty();
         var resolved = resolveAndAppend(container, itemTemplate, dict);

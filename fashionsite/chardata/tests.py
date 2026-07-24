@@ -1849,6 +1849,48 @@ class WorkshopTests(TestCase):
         self.assertEqual(resp.status_code, 302)
 
 
+class ItemPickerSetNameTests(TestCase):
+    """Set pieces that share a name (the four retro wedding rings, one per
+    elemental set) are only tellable apart by their set, so the picker payload
+    has to carry it, localized."""
+
+    def test_payload_carries_the_localized_set_name(self):
+        from django.utils import translation as django_translation
+        from fashionistapulp.modelresult import ModelResultItem
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+
+        with django_translation.override('fr'):
+            set_current_game_version('dofus3')
+            structure = get_structure('dofus3')
+            hat = structure.get_item_by_name('Tynril Hat (#1)')
+            self.assertIsNotNone(hat)
+            self.assertEqual(ModelResultItem(hat).localized_set_name,
+                             'Panoplie du Tynril')
+
+            # Retro: four "Alliance en bronze", one per elemental Bronze set.
+            set_current_game_version('retro')
+            retro = get_structure('retro')
+            rings = [item for item in retro.get_concatenated_items_lists()
+                     if item.localized_names.get('fr') == 'Alliance en bronze']
+            self.assertGreater(len(rings), 1, 'expected several bronze wedding rings')
+            set_names = {ModelResultItem(ring).localized_set_name for ring in rings}
+            self.assertEqual(len(set_names), len(rings),
+                             'the rings must not share a set name: %s' % set_names)
+            self.assertNotIn(None, set_names)
+
+    def test_icon_alt_never_receives_the_header_markup(self):
+        # The header holds line breaks, the owned icon and now the set line, so
+        # feeding it to alt="" closed the attribute early and leaked markup.
+        import os
+        from django.conf import settings
+        path = os.path.join(settings.BASE_DIR, 'chardata', 'static', 'chardata',
+                            'solution_popup.js')
+        source = open(path, encoding='utf-8').read()
+        self.assertIn('alt="%alt%"', source)
+        self.assertNotIn('alt="%name%"', source)
+
+
 class GetItemStatsTests(TestCase):
     """/get_item_stats_compare/ powers the compare-page item tooltips. An id
     that isn't in the current structure (stale page, other game version) should
