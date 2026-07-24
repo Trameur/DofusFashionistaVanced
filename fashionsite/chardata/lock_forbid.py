@@ -315,6 +315,100 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         10172,   # Slugly Amulet
         10173,   # Slugly Boots
         10558,   # Lamechester United Glove
+        # Ankama Lottery / Dofus Mag token prizes, PC-only
+        2521,    # Megaboots
+        2523,    # Megabelt
+        8676,    # Wicked Sword
+        8701,    # Nicked Sword
+        9190,    # Cra's Burnt Headgear
+        9191,    # Pym's Blade
+        9402,    # Beezers
+        9408,    # Lousy Ring
+        9409,    # Lardine Belt
+        9412,    # Eastern Wood Belt
+        9413,    # Eastern Wood Boots
+        9416,    # Zest Ring
+        9452,    # Crystalline Ring
+        9453,    # Crystalline Belt
+        9454,    # Bobblamulet
+        9455,    # Bobblering
+        9662,    # Slait Ring
+        9667,    # Slait Boots
+        10559,   # Toot's Belt
+        10560,   # Monty's Belt
+        10561,   # Real Gobbly Boots
+        # GM / staff-only items
+        7753,    # Furnace Wand
+        7920,    # Tournament Wand (GM)
+        # Great Emporium ogrine-shop / Shushumi weapons, never on Touch
+        9192,    # Fasstroid Belt
+        9193,    # Tartamulet
+        9198,    # Beanie Ring
+        9199,    # Beanie Boots
+        9655,    # Alowa Sandals
+        9656,    # Slump Rollers
+        9658,    # Alowa Amulet
+        9659,    # Slump Necklace
+        9706,    # Sword Inary
+        9707,    # Nutyprofe Sword
+        9708,    # Ascen Sword
+        9709,    # Sword Onik
+        9710,    # Sword Idd
+        10562,   # Lamechester United Boots
+        # PC magazine/subscription promo items
+        9575,    # Black Wab Belt
+        9576,    # Black Wab Boots
+        # PC tournament ceremonial rewards
+        8067,    # Champion Boots
+        8070,    # Champion Belt
+        # deprecated pre-revamp set shells
+        7887,    # Worn Koolich Headgear
+        7888,    # Worn Koolich Bag
+        7889,    # Worn Koolich Boots
+        7890,    # Worn Koolich Staff
+        # deprecated trade-in placeholder shells (level 1, no stats)
+        8645,    # Cape Ytal
+        8646,    # Cape Anama
+        8647,    # Cape Wuera
+        8648,    # Cape Hulco
+        8649,    # Cape Adossia
+        8650,    # Cape Hernaum
+        8651,    # Bloody Belt
+        8652,    # Belt Sterous
+        8653,    # Clinkin Belt
+        8654,    # Sleepless Belt
+        8655,    # Blub Belt
+        8656,    # Belt Atio
+        8657,    # Strap Pado
+        8658,    # Diezzle Belt
+        8659,    # Sticky Strap
+        8660,    # Targ Belt
+        8661,    # Girdle Belt
+        8662,    # Belt Urgid
+        8663,    # Boot-a-Hoop
+        8664,    # Sleephairs
+        8665,    # Boots Hox
+        8666,    # Shal'Hal Boots
+        8667,    # Antibooties
+        8668,    # Boots Hanik
+        8669,    # Nailed Thongs
+        8670,    # Wawka Boots
+        8713,    # Geta Bernacle
+        8714,    # Honoh Ring
+        8715,    # Blaber Ring
+        8716,    # Lion Ring
+        8717,    # Ring Bellious
+        8718,    # Memo Ring
+        8719,    # Rememb Ring
+        8720,    # Chee Ring
+        8721,    # Ear Ring
+        8722,    # Elkebi Ring
+        8723,    # Subma Ring
+        8724,    # Hai Ring
+        8725,    # Ring Neinwonwon
+        8726,    # Crusuede Shoes
+        8727,    # Relief Boots
+        8728,    # Veggie Boots
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
