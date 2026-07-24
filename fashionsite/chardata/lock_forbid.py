@@ -246,6 +246,75 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         # rewards of PC tutorial quests that never existed on Touch
         6773,    # Tude Amulet
         12661,   # Handbag
+        # Ankama Lottery / PC promo set pieces, gone before Touch forked
+        9921,    # Slamdance Bracelet
+        9922,    # Slamdance Belt
+        9923,    # Slamdance Shoes
+        9928,    # Siks Wonn Ein Boots
+        9929,    # Siks Wonn Ein Belt
+        9943,    # Pair o'Shuplins
+        9944,    # The Chavate
+        10155,   # Amlugo
+        10156,   # Slugo
+        10157,   # Belugo
+        10168,   # Chisp Boots
+        10171,   # Chisp Fingerless Gloves
+        10180,   # The Esteban
+        10181,   # Solaris Ring
+        10189,   # Oxo Ring
+        10190,   # Oxo Boots
+        10191,   # Oxo Belt
+        10557,   # Real Gobbly Glove
+        # Magik Riktus incarnation weapons, never in the Touch shop rotation
+        10125,   # Bandit Archer Bow
+        10126,   # Swashbuckling Bandit Sword
+        10127,   # Wandering Bandit Staff
+        10133,   # Bandit Sorcerer's Wand
+        # PC magazine/collector promo items
+        9927,    # Bedazzling Boots
+        # PC-only content with no Touch source
+        9925,    # Bedazzling Fist
+        9942,    # Ring of Death
+        10186,   # Noke's Necklace
+        # ex-Shushumi / Great Emporium ogrine-shop weapons, never sold on Touch
+        9711,    # Dagg' Hers
+        9712,    # Dagg' Heirs
+        9713,    # Dagger Nica
+        9716,    # Dagger Khin
+        9717,    # Dagger Rilla
+        9724,    # Shovel Kroh
+        9725,    # Shovel Hem
+        9726,    # Shovel Vett
+        9727,    # Shovel Ington
+        9728,    # Shovel Conquistador
+        9729,    # Hammer Maid
+        9730,    # Hammer Rhor
+        9731,    # Hammer Rigoround
+        9735,    # Hammer Udeet
+        9736,    # Hammer Leen
+        9739,    # Bow Leeng
+        9741,    # Mam Bow
+        9742,    # Bow Ndjoor
+        9743,    # Bow Nuss
+        9744,    # Bow Gotta
+        9745,    # Wand Erboy
+        9746,    # Wand Enonly
+        9747,    # Wand Rogenus
+        9748,    # Wand Rohid
+        9749,    # Wand Herfool
+        9750,    # Tex Axe
+        9751,    # Axe Enroziz
+        9752,    # Axe Ident
+        9753,    # Axe Hellerate
+        9754,    # Axe Vegax
+        9755,    # Staff Renzi
+        9756,    # Staff Ro
+        9757,    # Staff Ternoon
+        9758,    # Staff Amished
+        9759,    # Staff Igraf
+        10172,   # Slugly Amulet
+        10173,   # Slugly Boots
+        10558,   # Lamechester United Glove
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
