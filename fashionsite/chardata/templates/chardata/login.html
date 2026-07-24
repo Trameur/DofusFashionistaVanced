@@ -77,7 +77,7 @@
         <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"><img src="{% static "chardata/google_login.png" %}" alt='{{_("Login with Google")|escapejs}}'></a>
         <br>
         <br>
-        <span class="big-text">{% blocktrans %}We will <b>never</b> post anything to either of your walls.<br> This step is just an authentication so you are able to save and share projects.{% endblocktrans %}</span>
+        <span class="big-text">{% blocktrans %}We only use your Google account to sign you in, so you can save and share your projects. Nothing is ever posted on your behalf.{% endblocktrans %}</span>
     </div>
     <br>
     <br>

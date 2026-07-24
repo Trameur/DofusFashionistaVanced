@@ -6235,6 +6235,64 @@ msgstr "Item- und Zaubersymbole für Dofus Retro"
 msgid "part of the Dofus Retro pet bonuses"
 msgstr "ein Teil der Vertrauten-Boni für Dofus Retro"
 
-#: .\chardata	emplates\chardata\home.html:4
+#: .\chardata emplates\chardata\home.html:4
 msgid "Equipment Set Optimizer"
 msgstr "Ausrüstungs-Optimierer"
+
+#: .\chardata	emplates\chardata\login.html:80
+msgid ""
+"We only use your Google account to sign you in, so you can save and share "
+"your projects. Nothing is ever posted on your behalf."
+msgstr ""
+"Wir nutzen dein Google-Konto nur zum Anmelden, damit du deine Projekte "
+"speichern und teilen kannst. In deinem Namen wird nie etwas gepostet."
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid "Is the Dofus Fashionista free?"
+msgstr "Ist Dofus Fashionista kostenlos?"
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid ""
+"Yes, it is completely free. There is no paid version, and you can build a "
+"set without an account."
+msgstr ""
+"Ja, völlig kostenlos. Es gibt keine Bezahlversion, und du kannst ohne Konto "
+"ein Set bauen."
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid "Do I need an account?"
+msgstr "Brauche ich ein Konto?"
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid ""
+"No. Building and optimizing sets works without signing in. An account only "
+"lets you save your projects and share them with a link."
+msgstr ""
+"Nein. Sets bauen und optimieren geht ohne Anmeldung. Ein Konto dient nur "
+"dazu, deine Projekte zu speichern und per Link zu teilen."
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid "Which Dofus version should I choose?"
+msgstr "Welche Dofus-Version soll ich wählen?"
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid ""
+"Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, "
+"Touch or Retro. Each is a different game with its own items and rules."
+msgstr ""
+"Wähl oben mit den Buttons die, die du spielst: Dofus 3, Beta, Dofus 2, Touch"
+" oder Retro. Jede ist ein eigenes Spiel mit eigenen Items und Regeln."
+
+#: .\chardata	emplates\chardataaq.html:23
+msgid "I am new here. Where do I start?"
+msgstr "Ich bin neu hier. Wo fange ich an?"
+
+#: .\chardata	emplates\chardataaq.html:30
+msgid ""
+"The <a href=\"%(qs_url)s\">Quick Start</a> builds a full set from three "
+"quick questions. For a step by step walkthrough, read the <a "
+"href=\"%(gs_url)s\">getting started guide</a>."
+msgstr ""
+"Der <a href=\"%(qs_url)s\">Schnellstart</a> baut dir aus drei Fragen ein "
+"komplettes Set. Für eine Schritt-für-Schritt-Anleitung lies den <a "
+"href=\"%(gs_url)s\">Einstiegsguide</a>."

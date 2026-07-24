@@ -4128,6 +4128,28 @@ class SharedBuildsGalleryPerfTests(TestCase):
                         'gallery page ran %d queries' % len(ctx))
 
 
+class FaqNewcomerTests(TestCase):
+    """The FAQ opens with beginner questions (free, account, version, where to
+    start) before the expert slider mechanics, and the start answer links the
+    Quick Start and the getting-started guide."""
+
+    def test_faq_shows_newcomer_questions_and_links(self):
+        resp = self.client.get('/faq/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('Is the Dofus Fashionista free?', body)
+        self.assertIn('Do I need an account?', body)
+        self.assertIn('/quickstart/', body)
+        self.assertIn('/guides/getting-started/', body)
+        # Beginner block comes before the expert slider question.
+        self.assertLess(body.index('Is the Dofus Fashionista free?'),
+                        body.index('numbers by the sliders'))
+
+    def test_faq_newcomer_questions_are_translated(self):
+        resp = self.client.get('/faq/', HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertContains(resp, 'Ai-je besoin')
+
+
 class SeoTitleTests(TestCase):
     """Shared build pages carry a keyword-shaped title (class + level +
     version), the private solution page keeps its generic one, and the home
