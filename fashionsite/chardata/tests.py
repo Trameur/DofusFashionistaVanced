@@ -4128,6 +4128,20 @@ class SharedBuildsGalleryPerfTests(TestCase):
                         'gallery page ran %d queries' % len(ctx))
 
 
+class SetupMobileHooksTests(TestCase):
+    """The setup Elements/Options/Focus table stacks into full-width rows on
+    phones via CSS that orders the three group titles; keep the class hooks the
+    stacking depends on."""
+
+    def test_setup_keeps_the_group_title_hooks(self):
+        resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('build-boxes-title-elements', body)
+        self.assertIn('build-boxes-title-options', body)
+        self.assertIn('build-boxes-title-focus', body)
+
+
 class FaqNewcomerTests(TestCase):
     """The FAQ opens with beginner questions (free, account, version, where to
     start) before the expert slider mechanics, and the start answer links the

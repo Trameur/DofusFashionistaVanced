@@ -253,6 +253,24 @@
 @media (max-width: 480px) {
   h1, h1:first-letter { font-size: 22pt; }
   .home-pic-holder, .home-pic { width: 40px !important; height: 40px !important; }
+
+  /* Setup Elements/Options/Focus is the main input on phones. Stack the three
+     groups as full-width rows with 40px tap targets instead of a 3-column
+     table squeezed to ~13px checkboxes. */
+  #table-checkboxes { display: flex; flex-direction: column; }
+  #table-checkboxes tbody, #table-checkboxes tr { display: contents; }
+  #table-checkboxes td { display: block; width: 100% !important; box-sizing: border-box; }
+  .build-boxes-title-elements { order: 1; }
+  #table-checkboxes-column-0 { order: 2; }
+  .build-boxes-title-options { order: 3; }
+  #table-checkboxes-column-1 { order: 4; }
+  .build-boxes-title-focus { order: 5; }
+  #table-checkboxes-column-2 { order: 6; }
+  #table-checkboxes-column-3 { order: 7; margin-bottom: 6px; }
+  #table-checkboxes .build-boxes-title { font-size: 13px !important; font-weight: 700; padding: 10px 6px 4px !important; }
+  #table-checkboxes-column-2, #table-checkboxes-column-3 { padding-top: 0 !important; }
+  #table-checkboxes label { display: flex; align-items: center; gap: 8px; min-height: 40px; margin: 0; padding: 4px 6px; border-top: 1px solid rgba(128, 128, 128, 0.3); font-size: 13px !important; line-height: 1.2; }
+  #table-checkboxes label input[type="checkbox"] { width: 20px; height: 20px; flex: 0 0 auto; }
 }
 
 /* Desktop (>900px) unchanged: the level moved into the name div for mobile, so
