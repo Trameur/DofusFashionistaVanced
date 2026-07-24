@@ -355,11 +355,12 @@ for item in equipment_data['en']['items']:
         if len(flattened_or_conditions) > 1:
             for i, conditions in enumerate(flattened_or_conditions):
                 copy_item = deepcopy(transformed_item)
-                # Add the numbering to localized names
+                # "(#1)" and not " 1": structure.py groups the branches of one
+                # item on that exact tag and shows the plain name to the player.
                 for lang in LANGUAGES:
                     lang_name_key = f"name_{lang}"
                     if lang_name_key in copy_item:
-                        copy_item[lang_name_key] += f" {i + 1}"
+                        copy_item[lang_name_key] += f" (#{i + 1})"
                 copy_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in conditions]
                 new_data.append(copy_item)
         else:

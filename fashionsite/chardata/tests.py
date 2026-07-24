@@ -3827,6 +3827,105 @@ class DropMonsterLevelTests(TestCase):
         self.assertEqual(levels, sorted(levels))
 
 
+class OrItemNamingTests(SimpleTestCase):
+    """An item with OR equip conditions is split into one row per branch. The
+    branches must carry the "(#N)" tag, which is what structure.py groups them
+    on: named " 1" / " 2" they stay ungrouped and the player sees the same item
+    twice, in the pool and in the encyclopedia."""
+
+    DBS = {'dofus3': 'items.db', 'beta': 'items_beta.db', 'dofus2': 'items_dofus2.db',
+           'touch': 'items_touch.db', 'retro': 'items_retro.db'}
+
+    def _rows_sharing_an_ankama_id(self, path):
+        import collections
+        import sqlite3
+        cur = sqlite3.connect(path).cursor()
+        by_ankama = collections.defaultdict(list)
+        for name, ankama_id in cur.execute(
+                'SELECT name, ankama_id FROM items WHERE ankama_id IS NOT NULL'):
+            by_ankama[ankama_id].append(name)
+        return {a: names for a, names in by_ankama.items() if len(names) > 1}
+
+    def test_branches_are_tagged_and_never_numbered(self):
+        import os
+        import re
+        from fashionistapulp import structure as structure_module
+        base = os.path.dirname(os.path.abspath(structure_module.__file__))
+        numbered = re.compile(r' \d+$')
+        for version, db_file in self.DBS.items():
+            path = os.path.join(base, db_file)
+            if not os.path.exists(path):
+                continue
+            offenders = []
+            for ankama_id, names in self._rows_sharing_an_ankama_id(path).items():
+                if all(numbered.search(n) for n in names):
+                    offenders.append((ankama_id, names))
+            with self.subTest(version=version):
+                self.assertEqual(offenders, [],
+                                 'OR branches still numbered instead of tagged: %s'
+                                 % offenders[:3])
+
+
+class OrItemGroupingTests(SimpleTestCase):
+    """The tagged branches must collapse back into a single pool entry showing
+    the plain item name, in every language."""
+
+    def test_pool_shows_one_entry_per_or_item(self):
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta'):
+            structure = get_structure(version)
+            or_items = structure.get_or_items()
+            self.assertIn('Tynril Hat', or_items)
+            # The solver forbids a whole group at once from this list, so both
+            # branches must be in it: forbidding one used to leave the other in.
+            self.assertEqual(
+                sorted(item.id for item in
+                       structure.get_available_or_items()['Tynril Hat']),
+                [8699, 100008699])
+            with self.subTest(version=version):
+                hats = [item for item
+                        in structure.get_unique_items_by_type_and_level('Hat', 200, False)
+                        if item.name.startswith('Tynril Hat')]
+                self.assertEqual([item.name for item in hats], ['Tynril Hat'])
+                for language in ('en', 'fr', 'es', 'pt', 'de'):
+                    name = structure.get_item_name_in_language(hats[0], language)
+                    self.assertNotIn('(#', name)
+                    self.assertFalse(name.startswith('[!]'), name)
+
+    def test_weapon_lookup_accepts_the_grouped_name(self):
+        # get_weapon_by_name is called with both dofus_touch flags; the OR
+        # branch used to read the touch dict while testing the regular one.
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        for dofus_touch in (False, True):
+            self.assertIsNone(structure.get_weapon_by_name('Tynril Hat', dofus_touch))
+        weapon = structure.get_weapon_by_name('Ice Daggers')
+        self.assertIsNotNone(weapon)
+
+
+class OrItemPageTests(TestCase):
+    """Every OR item keeps a working encyclopedia page on both versions that
+    have them."""
+
+    def test_or_item_pages_render(self):
+        import os
+        import sqlite3
+        from fashionistapulp import structure as structure_module
+        base = os.path.dirname(os.path.abspath(structure_module.__file__))
+        for version, prefix in (('items.db', ''), ('items_beta.db', '/beta')):
+            cur = sqlite3.connect(os.path.join(base, version)).cursor()
+            ankama_ids = [row[0] for row in cur.execute(
+                "SELECT DISTINCT ankama_id FROM items WHERE name LIKE '%(#%' "
+                "AND ankama_id IS NOT NULL")]
+            self.assertTrue(ankama_ids)
+            for ankama_id in ankama_ids:
+                resp = self.client.get(
+                    '%s/encyclopedia/item/equipment/%d-x/' % (prefix, ankama_id))
+                with self.subTest(version=version, ankama_id=ankama_id):
+                    self.assertEqual(resp.status_code, 200)
+                    self.assertNotContains(resp, '(#1)')
+
+
 class DropsOnCanonicalItemTests(SimpleTestCase):
     """A few ankama_ids still carry an old duplicate row (id = 100000000 +
     ankama_id). Drops must be stored on the canonical low id, otherwise the

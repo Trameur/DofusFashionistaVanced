@@ -756,8 +756,13 @@ class Structure:
             for lang in NON_EN_LANGUAGES:
                 if lang not in item.localized_names:
                     item.localized_names[lang] = '[!] %s' % item.or_name
-        
-        
+                elif item.or_name != item.name:
+                    # The "(#1)" tag only groups the branches of an OR item; drop
+                    # it in every language, like the English name above.
+                    item.localized_names[lang] = self.get_or_item_name(
+                        item.localized_names[lang])
+
+
         for item in itertools.chain(self.items_list, self.dt_items_list):
             for lang in NON_EN_LANGUAGES:
                 item.accentless_local_names[lang] = strip_accents(item.localized_names[lang])
@@ -1019,18 +1024,13 @@ class Structure:
             return self._available_or_items
 
     def get_weapon_by_name(self, name, dofus_touch=False):
-        #print self.dt_weapons_dict_by_name.get(name)
-        #print self.weapons_dict_by_name.get(name)
-        if name in self.or_items:
-            if dofus_touch:
-                return self.dt_weapons_dict_by_name.get(self.dt_or_items[name][0].name)
-            else:
-                return self.weapons_dict_by_name.get(self.or_items[name][0].name)
-        if dofus_touch:
-            return self.dt_weapons_dict_by_name.get(name)
-        else:
-            return self.weapons_dict_by_name.get(name)
-        return None
+        or_items = self.dt_or_items if dofus_touch else self.or_items
+        weapons = (self.dt_weapons_dict_by_name if dofus_touch
+                   else self.weapons_dict_by_name)
+        if name in or_items:
+            # An OR item is only stored under its branches ("Ice Daggers (#1)").
+            name = or_items[name][0].name
+        return weapons.get(name)
         
     def item_exists(self, name, dofus_touch=False):
         if dofus_touch:
