@@ -56,7 +56,7 @@ msgstr "Choose"
 
 #: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
-msgstr "Remove"
+msgstr "Entfernen"
 
 #: .\admin\js\SelectFilter2.js:75
 #, javascript-format
@@ -74,7 +74,7 @@ msgstr ""
 
 #: .\admin\js\SelectFilter2.js:80
 msgid "Remove all"
-msgstr "Remove all"
+msgstr "Alle entfernen"
 
 #: .\admin\js\SelectFilter2.js:80
 #, javascript-format
@@ -190,51 +190,51 @@ msgstr "Schließen"
 #: .\chardata\static\chardata\inclusions.js:15
 #: .\chardata\static\chardata\solution_popup.js:589
 msgid "Lvl."
-msgstr "Lvl."
+msgstr "Stufe"
 
 #: .\chardata\static\chardata\login.js:13
 msgid "The username and password entered do not match."
-msgstr "The username and password entered do not match."
+msgstr "Benutzername und Passwort stimmen nicht überein."
 
 #: .\chardata\static\chardata\login.js:15
 msgid "Confirm your email to log in."
-msgstr "Confirm your email to log in."
+msgstr "Bestätige deine E-Mail-Adresse, um dich anzumelden."
 
 #: .\chardata\static\chardata\login.js:17
 msgid "Error while logging in."
-msgstr "Error while logging in."
+msgstr "Fehler bei der Anmeldung."
 
 #: .\chardata\static\chardata\login.js:29
 msgid "Your password has been changed."
-msgstr "Your password has been changed."
+msgstr "Dein Passwort wurde geändert."
 
 #: .\chardata\static\chardata\login.js:35
 msgid "Your password did not match our records."
-msgstr "Your password did not match our records."
+msgstr "Dein Passwort ist nicht korrekt."
 
 #: .\chardata\static\chardata\login.js:47
 msgid "This username is already in use."
-msgstr "This username is already in use."
+msgstr "Dieser Benutzername ist bereits vergeben."
 
 #: .\chardata\static\chardata\login.js:63
 msgid "The passwords don't match. Please try again."
-msgstr "The passwords don't match. Please try again."
+msgstr "Die Passwörter stimmen nicht überein. Bitte versuche es erneut."
 
 #: .\chardata\static\chardata\login.js:81
 msgid "You need to enter a valid username."
-msgstr "You need to enter a valid username."
+msgstr "Gib einen gültigen Benutzernamen ein."
 
 #: .\chardata\static\chardata\login.js:87
 msgid "You need to enter a password."
-msgstr "You need to enter a password."
+msgstr "Gib ein Passwort ein."
 
 #: .\chardata\static\chardata\login.js:93
 msgid "You need to enter a valid email."
-msgstr "You need to enter a valid email."
+msgstr "Gib eine gültige E-Mail-Adresse ein."
 
 #: .\chardata\static\chardata\options.js:139
 msgid "You need to be a higher level to equip this Dofus"
-msgstr "You need to be a higher level to equip this Dofus"
+msgstr "Du musst eine höhere Stufe haben, um diesen Dofus auszurüsten"
 
 #: .\chardata\static\chardata\solution_popup.js:50
 msgid "AP"
@@ -282,16 +282,16 @@ msgstr "Flinkheit"
 #: .\chardata\static\chardata\solution_popup.js:131
 #: .\chardata\static\chardata\solution_popup.js:213
 msgid "Removing "
-msgstr "Removing "
+msgstr "Entferne "
 
 #: .\chardata\static\chardata\solution_popup.js:133
 #: .\chardata\static\chardata\solution_popup.js:215
 msgid "Adding Item"
-msgstr "Adding Item"
+msgstr "Gegenstand hinzufügen"
 
 #: .\chardata\static\chardata\solution_popup.js:140
 msgid "Loading"
-msgstr "Loading"
+msgstr "Wird geladen"
 
 #: .\chardata\static\chardata\solution_popup.js:155
 msgid "Any stat"
@@ -303,31 +303,31 @@ msgstr "Minimum"
 
 #: .\chardata\static\chardata\solution_popup.js:218
 msgid "Search"
-msgstr "Search"
+msgstr "Suchen"
 
 #: .\chardata\static\chardata\solution_popup.js:219
 msgid "Reset"
-msgstr "Reset"
+msgstr "Zurücksetzen"
 
 #: .\chardata\static\chardata\solution_popup.js:220
 msgid "Add filter"
-msgstr "Filter hinzufuegen"
+msgstr "Filter hinzufügen"
 
 #: .\chardata\static\chardata\solution_popup.js:231
 msgid "Only my items"
-msgstr "Nur meine Gegenstaende"
+msgstr "Nur meine Gegenstände"
 
 #: .\chardata\static\chardata\solution_popup.js:281
 msgid "Order by stats"
-msgstr "Order by stats"
+msgstr "Nach Werten sortieren"
 
 #: .\chardata\static\chardata\solution_popup.js:282
 msgid "Order by hits"
-msgstr "Order by hits"
+msgstr "Nach Schaden sortieren"
 
 #: .\chardata\static\chardata\solution_popup.js:410
 msgid "This item no longer exists"
-msgstr "This item no longer exists"
+msgstr "Diesen Gegenstand gibt es nicht mehr"
 
 #: .\chardata\static\chardata\solution_popup.js:414
 #: .\chardata\static\chardata\solution_popup.js:423
@@ -337,15 +337,15 @@ msgstr "This item no longer exists"
 #: .\chardata\static\chardata\solution_popup.js:467
 #: .\chardata\static\chardata\solution_popup.js:476
 msgid "Violates %(item)s's condition:"
-msgstr "Violates %(item)s's condition:"
+msgstr "Verstößt gegen die Bedingung von %(item)s:"
 
 #: .\chardata\static\chardata\solution_popup.js:450
 msgid "%(item)s is already equipped"
-msgstr "%(item)s is already equipped"
+msgstr "%(item)s ist bereits ausgerüstet"
 
 #: .\chardata\static\chardata\solution_popup.js:491
 msgid "You cannot equip this item."
-msgstr "You cannot equip this item."
+msgstr "Du kannst diesen Gegenstand nicht ausrüsten."
 
 #: .\chardata\static\chardata\solution_popup.js:493
 #, javascript-format
@@ -353,14 +353,15 @@ msgid ""
 " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
 "and tailor a new set."
 msgstr ""
-" To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
-"and tailor a new set."
+" Um ein Set damit zu finden, sperre ihn <a href=\"/inclusions/%s/\">hier</a>"
+" und erstelle ein neues Set."
 
 #: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
 "You can equip this item, but some project minimums will not be respected."
 msgstr ""
-"You can equip this item, but some project minimums will not be respected."
+"Du kannst diesen Gegenstand ausrüsten, aber einige Mindestwerte des Projekts"
+" werden dann nicht eingehalten."
 
 #: .\chardata\static\chardata\solution_popup.js:503
 #, javascript-format
@@ -368,16 +369,16 @@ msgid ""
 " To find a set including it that fulfills these conditions, lock it <a "
 "href=\"/inclusions/%s/\">here</a> and tailor a new set."
 msgstr ""
-" To find a set including it that fulfills these conditions, lock it <a "
-"href=\"/inclusions/%s/\">here</a> and tailor a new set."
+" Um ein Set damit zu finden, das diese Bedingungen erfüllt, sperre ihn <a "
+"href=\"/inclusions/%s/\">hier</a> und erstelle ein neues Set."
 
 #: .\chardata\static\chardata\solution_popup.js:569
 msgid "There are no differences."
-msgstr "There are no differences."
+msgstr "Es gibt keine Unterschiede."
 
 #: .\chardata\static\chardata\solution_popup.js:580
 msgid "No items found containing"
-msgstr "No items found containing"
+msgstr "Keine Gegenstände gefunden mit"
 
 #: .\chardata\static\chardata\solution_popup.js:587
 msgid "In my inventory"
@@ -385,33 +386,36 @@ msgstr "In meinem Inventar"
 
 #: .\chardata\static\chardata\solution_popup.js:596
 msgid "Comparison"
-msgstr "Comparison"
+msgstr "Vergleich"
 
 #: .\chardata\static\chardata\solution_popup.js:597
 msgid "Attributes"
-msgstr "Attributes"
+msgstr "Werte"
 
 #: .\chardata\static\chardata\solution_popup.js:603
 msgid "Select"
-msgstr "Select"
+msgstr "Auswählen"
 
 #: .\chardata\static\chardata\solution_popup.js:646
 msgid "The average damage/AP of this weapon while %(element)s maged would be"
-msgstr "The average damage/AP of this weapon while %(element)s maged would be"
+msgstr ""
+"Der durchschnittliche Schaden pro AP dieser Waffe mit "
+"%(element)s-Schmiedemagie wäre"
 
 #: .\chardata\static\chardata\solution_popup.js:652
 msgid "The average damage/AP of this weapon would be"
-msgstr "The average damage/AP of this weapon would be"
+msgstr "Der durchschnittliche Schaden pro AP dieser Waffe wäre"
 
 #: .\chardata\static\chardata\solution_popup.js:661
 msgid "With the current set this weapon would hit "
-msgstr "With the current set this weapon would hit "
+msgstr "Mit dem aktuellen Set würde diese Waffe treffen "
 
 #: .\chardata\static\chardata\solution_popup.js:663
 msgid ""
 "With the current set this weapon would <font color=\"#CC0000\">heal</font> "
 msgstr ""
-"With the current set this weapon would <font color=\"#CC0000\">heal</font> "
+"Mit dem aktuellen Set würde diese Waffe <font "
+"color=\"#CC0000\">heilen</font> "
 
 #: .\chardata\static\chardata\solution_popup.js:684
 msgid ""
@@ -419,27 +423,30 @@ msgid ""
 "and from <b> %(minCritDam)s </b> to <b> %(maxCritDam)s </b> on a critical "
 "hit."
 msgstr ""
-"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit, "
-"and from <b> %(minCritDam)s </b> to <b> %(maxCritDam)s </b> on a critical "
-"hit."
+"von <b> %(minNonCrit)s </b> bis <b> %(maxNoncritDam)s </b> bei einem "
+"normalen Treffer und von <b> %(minCritDam)s </b> bis <b> %(maxCritDam)s </b>"
+" bei einem kritischen Treffer."
 
 #: .\chardata\static\chardata\solution_popup.js:694
 msgid ""
 "from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
 msgstr ""
-"from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
+"von <b> %(minNonCrit)s </b> bis <b> %(maxNoncritDam)s </b> bei einem "
+"normalen Treffer."
 
 #: .\chardata\static\chardata\stateengine.js:5
 msgid "Save"
-msgstr "Save"
+msgstr "Speichern"
 
 #: .\chardata\static\chardata\stateengine.js:5
 msgid "Saved"
-msgstr "Saved"
+msgstr "Gespeichert"
 
 #: .\chardata\static\chardata\stateengine.js:72
 msgid "You have unsaved changes. They will be discarded if you leave."
-msgstr "You have unsaved changes. They will be discarded if you leave."
+msgstr ""
+"Du hast ungespeicherte Änderungen. Sie gehen verloren, wenn du die Seite "
+"verlässt."
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Stat filters"

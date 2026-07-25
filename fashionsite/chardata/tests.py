@@ -7206,6 +7206,72 @@ class NoMojibakeInTranslationsTests(SimpleTestCase):
             'rewrite the .po in UTF-8): %s' % offenders)
 
 
+class NoLanguageLeftInEnglishTests(SimpleTestCase):
+    """A string translated in French but left as the English source in another
+    language is an untranslated string, not a choice. German shipped 42 of them
+    (Search, Select, Loading, every password error, every weapon damage line)
+    until 2026-07-25, and nothing caught it: msgfmt is happy with an msgstr that
+    repeats the msgid.
+
+    Words that really are identical in the target language are allowlisted per
+    language, so adding one is a deliberate act."""
+
+    LANGS = ('es', 'pt', 'de')
+    CATALOGS = ('django.po', 'djangojs.po')
+    # Words that really do read the same in the target language: Dofus keeps
+    # Set / AP / MP, and several German words (month names, Name, Neutral,
+    # Hammer, Ring, optional) are spelled like the English ones.
+    IDENTICAL_IN_LANGUAGE = {
+        'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No'},
+        'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote'},
+        'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
+               'Hammer', 'Ring', 'optional', 'E', 'W',
+               'April', 'August', 'September', 'November',
+               'April 2023', 'April 2026', 'November 2025',
+               'April - September 2025',
+               ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d'},
+    }
+    # Proper nouns waiting on the official name of each language. The item DB
+    # already holds them (Sylvan Dofus = Wald-Dofus, Dotrich = Domelspatz), so
+    # the fix is to label the Dofus grid from the game data instead of the
+    # catalog; class names need a sourced list. Until then they stay in English
+    # rather than being guessed. See NAME-FROM-GAME-DATA in the loop TODO.
+    PENDING_OFFICIAL_NAME = {
+        'Black Spotted', 'Cocoa', 'Ebony', 'Nightmare', 'Silver',
+        'Sparkling Silver', 'Sylvan', 'Dotrich', 'Grofus', 'Rhineetles',
+        'Xelor', 'Cra', 'Sacrier',
+    }
+
+    def _catalog(self, lang, catalog):
+        import polib
+        path = os.path.join(os.path.dirname(__file__), '..', 'locale', lang,
+                            'LC_MESSAGES', catalog)
+        if not os.path.exists(path):
+            return {}
+        return {entry.msgid: entry.msgstr for entry in polib.pofile(path)
+                if not entry.obsolete}
+
+    def test_no_string_falls_back_to_english(self):
+        try:
+            import polib  # noqa: F401
+        except ImportError:
+            self.skipTest('polib not installed')
+        for catalog in self.CATALOGS:
+            french = self._catalog('fr', catalog)
+            for lang in self.LANGS:
+                allowed = (self.IDENTICAL_IN_LANGUAGE.get(lang, set())
+                           | self.PENDING_OFFICIAL_NAME)
+                offenders = [
+                    msgid for msgid, msgstr in self._catalog(lang, catalog).items()
+                    # Only where French proves the string is translatable.
+                    if msgstr and msgstr == msgid and msgid not in allowed
+                    and french.get(msgid) and french[msgid] != msgid]
+                with self.subTest(lang=lang, catalog=catalog):
+                    self.assertEqual(offenders, [],
+                                     '%s/%s still in English: %s'
+                                     % (lang, catalog, offenders[:8]))
+
+
 class NoEmDashInCodeTests(SimpleTestCase):
     """Em/en dashes read machine-generated, so the whole site avoids them (copy,
     comments, CSS, JS). The 2026-07 sweep brought every first-party source to zero;

@@ -1233,7 +1233,7 @@ msgstr "Resistência"
 
 #: .\chardata\smart_build.py:82
 msgid "Omni-Elemental"
-msgstr "Omni-Elemental"
+msgstr "Multi-elementos"
 
 #: .\chardata\smart_build.py:83
 msgid "Leeching"
@@ -1469,7 +1469,7 @@ msgstr "403 - Proibido"
 #: .\chardata\templates\chardata\403.html:16
 #: .\chardata\templates\chardata\404.html:16
 msgid "Oops..."
-msgstr "Oops..."
+msgstr "Ops..."
 
 #: .\chardata\templates\chardata\403.html:18
 msgid ""
@@ -1794,7 +1794,7 @@ msgstr "Enciclopédia"
 #: .\chardata\templates\chardata\wizard.html:7
 #: .\chardata\templates\chardata\wizard.html:17
 msgid "Wizard"
-msgstr "Wizard"
+msgstr "Assistente"
 
 #: .\chardata\templates\chardata\base.html:235
 #: .\chardata\templates\chardata\chardata.html:7
@@ -3024,7 +3024,7 @@ msgstr ""
 #: .\chardata\templates\chardata\compare_sets.html:235
 #, python-format
 msgid "Set %(n)s"
-msgstr "Set %(n)s"
+msgstr "Equipamento %(n)s"
 
 #: .\chardata\templates\chardata\compare_sets.html:58
 msgid "Change Sets"
@@ -3034,7 +3034,7 @@ msgstr "Trocar os Sets"
 #: .\chardata\templates\chardata\solution.html:543
 #: .\chardata\templates\chardata\solution.html:934
 msgid "Equip"
-msgstr "Equip"
+msgstr "Equip."
 
 #: .\chardata\templates\chardata\compare_sets.html:119
 #: .\chardata\templates\chardata\compare_sets.html:233
@@ -3076,7 +3076,7 @@ msgstr "opcional"
 #: .\chardata\templates\chardata\login.html:119
 #: .\chardata\templates\chardata\manage_account.html:36
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: .\chardata\templates\chardata\contacts.html:73
 msgid "Subject"
@@ -3315,7 +3315,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\faq.html:31
 msgid "Item A"
-msgstr "Item A"
+msgstr "Equipamento A"
 
 #: .\chardata\templates\chardata\faq.html:32
 #: .\chardata\templates\chardata\faq.html:39
@@ -3329,7 +3329,7 @@ msgstr "iniciativa"
 
 #: .\chardata\templates\chardata\faq.html:38
 msgid "Item B"
-msgstr "Item B"
+msgstr "Equipamento B"
 
 #: .\chardata\templates\chardata\faq.html:46
 msgid ""
@@ -3902,7 +3902,7 @@ msgstr "Personagem"
 #: .\chardata\templates\chardata\main-header.html:10
 #: .\chardata\templates\chardata\shared_builds.html:605
 msgid "Build"
-msgstr "Build"
+msgstr "Elemento"
 
 #: .\chardata\templates\chardata\load_projects.html:36
 msgid "A set suggestion has been generated for this project."
@@ -6213,7 +6213,7 @@ msgstr "parte dos bônus de mascotes do Dofus Retro"
 msgid "Equipment Set Optimizer"
 msgstr "Otimizador de equipamento"
 
-#: .\chardata	emplates\chardata\login.html:80
+#: .\chardata emplates\chardata\login.html:80
 msgid ""
 "We only use your Google account to sign you in, so you can save and share "
 "your projects. Nothing is ever posted on your behalf."
@@ -6221,11 +6221,11 @@ msgstr ""
 "Usamos sua conta Google apenas para identificar você, para que possa salvar "
 "e compartilhar seus projetos. Nada é publicado em seu nome."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "Is the Dofus Fashionista free?"
 msgstr "O Dofus Fashionista é gratuito?"
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid ""
 "Yes, it is completely free. There is no paid version, and you can build a "
 "set without an account."
@@ -6233,11 +6233,11 @@ msgstr ""
 "Sim, é totalmente gratuito. Não há versão paga, e você pode montar um set "
 "sem conta."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "Do I need an account?"
 msgstr "Preciso de uma conta?"
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid ""
 "No. Building and optimizing sets works without signing in. An account only "
 "lets you save your projects and share them with a link."
@@ -6245,11 +6245,11 @@ msgstr ""
 "Não. Montar e otimizar sets funciona sem fazer login. Uma conta serve só "
 "para salvar seus projetos e compartilhá-los com um link."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "Which Dofus version should I choose?"
 msgstr "Qual versão de Dofus devo escolher?"
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid ""
 "Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, "
 "Touch or Retro. Each is a different game with its own items and rules."
@@ -6257,11 +6257,11 @@ msgstr ""
 "Escolha a que você joga nos botões do topo: Dofus 3, Beta, Dofus 2, Touch ou"
 " Retro. Cada uma é um jogo diferente com seus próprios itens e regras."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "I am new here. Where do I start?"
 msgstr "Sou novo aqui. Por onde começo?"
 
-#: .\chardata	emplates\chardataaq.html:30
+#: .\chardata emplates\chardata aq.html:30
 msgid ""
 "The <a href=\"%(qs_url)s\">Quick Start</a> builds a full set from three "
 "quick questions. For a step by step walkthrough, read the <a "
