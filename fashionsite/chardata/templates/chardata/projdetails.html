@@ -100,7 +100,13 @@
         <p>
             {% game_url 'login_page' as login_link %}
             {% game_url 'load_projects' as load_proj_link %}
-            {% blocktrans %} You need to <a href="{{login_link}}">login</a> before you can create another project. Your current project can be found <a href="{{load_proj_link}}">here</a>. {% endblocktrans %}<br>
+            {% blocktrans with version=current_game_version_label %} You already have a project on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several projects per version. {% endblocktrans %}<br>
+            {% if free_versions %}
+            <span class="free-versions">
+                {% blocktrans %}You can still start one on another version:{% endblocktrans %}
+                {% for version in free_versions %}<a href="{{ version.url }}">{{ version.label }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+            </span>
+            {% endif %}
         </p>
         {% else %}
             {% if too_many_projects_problem %}

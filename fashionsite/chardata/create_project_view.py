@@ -25,6 +25,7 @@ import json
 from chardata.aspect_parser import parse_aspects
 from chardata.lock_forbid import (remove_invalid_inclusions, get_default_exclusions,
     set_exclusions_list_and_check_inclusions)
+from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
                                     get_anon_char_ids, remember_anon_char)
 from chardata.models import Char, CharBaseStats
@@ -80,6 +81,7 @@ def setup(request, char_id=0):
     return set_response(request,
                         'chardata/projdetails.html',
                         {'classes': sorted(classes),
+                         'free_versions': _free_versions_for_anon(request),
                          'class_to_name': _get_class_to_name(),
                          'can_create': can_create,
                          'login_problem': login_problem,
@@ -91,6 +93,22 @@ def setup(request, char_id=0):
                          'questionmark': json.dumps(get_questionmark_URL(request)),
                          'is_new_char': is_new_char},
                         char)
+
+
+def _free_versions_for_anon(request):
+    """The versions a signed-out visitor can still start a project on. Being told
+    to log in without being told Retro is still free was the confusing part."""
+    if request.user is None or not request.user.is_anonymous:
+        return []
+    taken = set(get_anon_char_ids(request))
+    free = []
+    for slug, label in ACTIVE_GAME_VERSIONS:
+        if slug in taken:
+            continue
+        free.append({'label': label,
+                     'url': '/setup/' if slug == 'dofus3' else '/%s/setup/' % slug})
+    return free
+
 
 def is_anon_cant_create(request):
     # One project per version: the five versions are different games.

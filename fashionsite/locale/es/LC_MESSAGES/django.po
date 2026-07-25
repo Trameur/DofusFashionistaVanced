@@ -6317,3 +6317,17 @@ msgid "%(count)s piece by drop only"
 msgid_plural "%(count)s pieces by drop only"
 msgstr[0] "%(count)s pieza solo por drop"
 msgstr[1] "%(count)s piezas solo por drop"
+
+#: .\chardata\templates\chardata\projdetails.html:103
+msgid ""
+" You already have a project on %(version)s, and you can find it <a "
+"href=\"%(load_proj_link)s\">here</a>. <a href=\"%(login_link)s\">Log in</a> "
+"to keep several projects per version. "
+msgstr ""
+"Ya tienes un proyecto en %(version)s, lo encuentras <a "
+"href=\"%(load_proj_link)s\">aquí</a>. <a href=\"%(login_link)s\">Inicia "
+"sesión</a> para tener varios por versión."
+
+#: .\chardata\templates\chardata\projdetails.html:103
+msgid "You can still start one on another version:"
+msgstr "Aún puedes crear uno en otra versión:"

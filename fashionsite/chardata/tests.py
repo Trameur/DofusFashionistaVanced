@@ -6094,6 +6094,41 @@ class AnonymousProjectPerVersionTests(TestCase):
         self.assertTrue(owns_anon_char(request, char.pk))
         self.assertNotContains(self.client.get('/retro/setup/'), 'name="charname"')
 
+    def test_the_block_message_points_at_the_versions_still_free(self):
+        # Telling a visitor to log in without saying Retro is still open was the
+        # confusing half of the old behaviour.
+        self._create('', 'anon-dofus3')
+        resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(resp, 'You already have a project on Dofus 3')
+        self.assertContains(resp, 'You can still start one on another version')
+        # Look inside the block itself: the header version selector links every
+        # version, so searching the whole page would prove nothing.
+        body = resp.content.decode('utf-8')
+        block = body.split('class="free-versions"')[1].split('</span>')[0]
+        for url in ('/retro/setup/', '/touch/setup/', '/beta/setup/',
+                    '/dofus2/setup/'):
+            with self.subTest(url=url):
+                self.assertIn(url, block)
+        # The version already taken is not offered again.
+        self.assertNotIn('href="/setup/"', block)
+
+    def test_the_free_version_list_shrinks_as_versions_are_taken(self):
+        from chardata.create_project_view import _free_versions_for_anon
+        self._create('', 'anon-dofus3')
+        self._create('/retro', 'anon-retro')
+        request = self.client.get('/').wsgi_request
+        free = [entry['label'] for entry in _free_versions_for_anon(request)]
+        self.assertEqual(free, ['Beta', 'Dofus 2', 'Touch'])
+
+    def test_a_signed_in_user_gets_no_free_version_list(self):
+        from django.contrib.auth.models import User
+        from chardata.create_project_view import _free_versions_for_anon
+        user = User.objects.create_user('lister', 'list@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        request = self.client.get('/').wsgi_request
+        request.user = user
+        self.assertEqual(_free_versions_for_anon(request), [])
+
     def test_duplicating_counts_per_version_too(self):
         from django.contrib.auth.models import User
         from chardata.models import Char
