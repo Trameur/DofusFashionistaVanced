@@ -6297,6 +6297,12 @@ msgid_plural "%(count)s pieces with no known source"
 msgstr[0] "%(count)s peça sem origem conhecida"
 msgstr[1] "%(count)s peças sem origem conhecida"
 
-#: .\chardata	emplates\chardata\solution.html:274
+#: .\chardata emplates\chardata\solution.html:274
 msgid "Getting this set: %(summary)s"
 msgstr "Conseguir este set: %(summary)s"
+
+#: .\chardata\item_sources.py:130
+msgid "%(count)s piece by drop only"
+msgid_plural "%(count)s pieces by drop only"
+msgstr[0] "%(count)s peça só por drop"
+msgstr[1] "%(count)s peças só por drop"

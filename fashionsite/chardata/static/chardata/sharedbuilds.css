@@ -132,6 +132,13 @@
     margin: 10px 0 0;
 }
 
+/* what the build costs to assemble, under the stat chips */
+.build-acquisition {
+    margin: 8px 0 0;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
 .build-compact-stat {
     display: inline-flex;
     align-items: center;

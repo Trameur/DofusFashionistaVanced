@@ -30,6 +30,8 @@ from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
 from chardata.image_store import get_image_url
+from chardata.item_sources import (format_acquisition_counts,
+                                   summarize_by_ankama_id)
 from chardata.solution import get_solution
 from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
@@ -141,6 +143,7 @@ def _get_shared_build_meta(char):
         'public_score': 0,
         'preview_items': [],
         'compact_stats': [],
+        'acquisition_summary': '',
     }
 
     if not char.minimal_solution:
@@ -164,6 +167,7 @@ def _get_shared_build_meta(char):
         item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
         meta['preview_items'] = _get_preview_items(
             minimal_solution, structure, game_version)
+        acquisition_entries = []
         for slot, item_id in item_per_slot.items():
             if item_id is None:
                 continue
@@ -177,6 +181,13 @@ def _get_shared_build_meta(char):
             item_type_name = structure.get_type_name_by_id(item.type)
             if slot not in _get_valid_slots_for_type(item_type_name):
                 meta['has_outdated_slots'] = True
+            acquisition_entries.append((item.ankama_id, item_type_name))
+
+        # What the build costs to assemble. Counts only: the rarest drop rate
+        # would need a query per build, and the build's own page says it.
+        counts = summarize_by_ankama_id(acquisition_entries, game_version)
+        meta['acquisition_summary'] = format_acquisition_counts(
+            counts['craftable'], counts['drop_only'], counts['unknown'])
 
         try:
             solution = get_solution(char)
@@ -531,6 +542,7 @@ def shared_builds(request):
             'public_score': build_meta.get('public_score', 0),
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],
+            'acquisition_summary': build_meta.get('acquisition_summary', ''),
             'view_count': char.view_count,
             'build_name_translated': build_name_translated,
             'creator_name': creator_name,

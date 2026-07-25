@@ -77,11 +77,19 @@ def get_acquisition_by_ankama_id(ankama_ids, game_version=None):
     return result
 
 
+_source_ids_cache = {}
+
+
 def get_source_ankama_ids(game_version=None):
     """{'craftable': set, 'droppable': set} for the whole version. Cheaper than
-    an IN clause when the caller has to filter a full item type at once."""
+    an IN clause when the caller has to filter a full item type at once, or has
+    to answer for many builds in a row. Cached per version: the item DB does not
+    change while the process runs."""
     if game_version is None:
         game_version = get_current_game_version()
+    cached = _source_ids_cache.get(game_version)
+    if cached is not None:
+        return cached
     sources = {'craftable': set(), 'droppable': set()}
     conn = sqlite3.connect(get_items_db_path(game_version))
     try:
@@ -96,6 +104,7 @@ def get_source_ankama_ids(game_version=None):
             sources[key] = {row[0] for row in cursor.fetchall()}
     finally:
         conn.close()
+    _source_ids_cache[game_version] = sources
     return sources
 
 
@@ -114,14 +123,59 @@ def acquisition_text(craftable, best_drop_rate):
     return ' · '.join(parts)
 
 
+def format_acquisition_counts(craftable, drop_only, unknown, rarest_rate=None):
+    """The set-level sentence. rarest_rate is optional: the gallery cards only
+    have the counts (working out the rarest rate would mean a query per build),
+    the solution page has it and says it."""
+    from django.template.defaultfilters import floatformat
+    from django.utils.translation import ngettext
+    parts = []
+    if craftable:
+        parts.append(ngettext('%(count)s craftable piece',
+                              '%(count)s craftable pieces',
+                              craftable) % {'count': craftable})
+    if drop_only:
+        if rarest_rate:
+            rate = ('< 0.01%' if rarest_rate < 0.01
+                    else '%s%%' % floatformat(rarest_rate, 2))
+            parts.append(
+                ngettext('%(count)s piece by drop only, the rarest at %(rate)s',
+                         '%(count)s pieces by drop only, the rarest at %(rate)s',
+                         drop_only) % {'count': drop_only, 'rate': rate})
+        else:
+            parts.append(ngettext('%(count)s piece by drop only',
+                                  '%(count)s pieces by drop only',
+                                  drop_only) % {'count': drop_only})
+    if unknown:
+        parts.append(ngettext('%(count)s piece with no known source',
+                              '%(count)s pieces with no known source',
+                              unknown) % {'count': unknown})
+    return ' · '.join(parts)
+
+
+def summarize_by_ankama_id(entries, game_version=None):
+    """Counts for a build we only know by (ankama_id, type name) pairs, which is
+    all a gallery card has. Two set lookups, no per-build query."""
+    sources = get_source_ankama_ids(game_version)
+    craftable = drop_only = unknown = 0
+    for ankama_id, type_name in entries:
+        if ankama_id in sources['craftable']:
+            craftable += 1
+        elif ankama_id in sources['droppable']:
+            drop_only += 1
+        elif type_name in ('Dofus', 'Pet'):
+            continue
+        else:
+            unknown += 1
+    return {'craftable': craftable, 'drop_only': drop_only, 'unknown': unknown}
+
+
 def acquisition_summary(result_items):
     """One line for the whole set: how many pieces you can craft, how many you
     can only farm, and the rarest of those rates, which is what really sets the
     farming time. Deliberately no score and no time estimate: we have no data
     for either. Items we know no source for are counted as unknown, never as
     unobtainable."""
-    from django.template.defaultfilters import floatformat
-    from django.utils.translation import ngettext
     craftable = 0
     drop_only_rates = []
     unknown = 0
@@ -141,23 +195,9 @@ def acquisition_summary(result_items):
         else:
             unknown += 1
 
-    parts = []
-    if craftable:
-        parts.append(ngettext('%(count)s craftable piece',
-                              '%(count)s craftable pieces',
-                              craftable) % {'count': craftable})
-    if drop_only_rates:
-        rarest = min(drop_only_rates)
-        rate = ('< 0.01%' if rarest < 0.01 else '%s%%' % floatformat(rarest, 2))
-        parts.append(ngettext('%(count)s piece by drop only, the rarest at %(rate)s',
-                              '%(count)s pieces by drop only, the rarest at %(rate)s',
-                              len(drop_only_rates))
-                     % {'count': len(drop_only_rates), 'rate': rate})
-    if unknown:
-        parts.append(ngettext('%(count)s piece with no known source',
-                              '%(count)s pieces with no known source',
-                              unknown) % {'count': unknown})
-    return ' · '.join(parts)
+    return format_acquisition_counts(
+        craftable, len(drop_only_rates), unknown,
+        min(drop_only_rates) if drop_only_rates else None)
 
 
 def attach_acquisition(result_items, game_version=None):

@@ -1960,6 +1960,46 @@ class ItemPickerSetNameTests(TestCase):
             self.assertIn('1 craftable piece',
                           acquisition_summary([Piece(craftable=True, type='Dofus')]))
 
+    def test_gallery_cards_summarize_without_a_query_per_build(self):
+        # A card only knows (ankama_id, type), and the gallery renders 24 of
+        # them: the counts must come from the version-wide sets, not from a
+        # lookup per build (that page already had a TTFB problem).
+        from django.utils import translation
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.item_sources import (format_acquisition_counts,
+                                           get_source_ankama_ids,
+                                           summarize_by_ankama_id)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+
+        sources = get_source_ankama_ids('dofus3')
+        # Memoized: the item DB is static while the process runs.
+        self.assertIs(get_source_ankama_ids('dofus3'), sources)
+
+        craftable_id = next(iter(sources['craftable'] - sources['droppable']))
+        drop_only_id = next(iter(sources['droppable'] - sources['craftable']))
+        counts = summarize_by_ankama_id([
+            (craftable_id, 'Hat'),
+            (drop_only_id, 'Cloak'),
+            (999999999, 'Belt'),
+            (999999998, 'Dofus'),
+        ], 'dofus3')
+        self.assertEqual(counts, {'craftable': 1, 'drop_only': 1, 'unknown': 1})
+
+        with translation.override('en'):
+            # No rate on a card, so the sentence must not promise one.
+            text = format_acquisition_counts(1, 1, 1)
+            self.assertIn('1 piece by drop only', text)
+            self.assertNotIn('rarest', text)
+
+    def test_the_gallery_card_carries_the_summary(self):
+        import os
+        from django.conf import settings
+        page = os.path.join(settings.BASE_DIR, 'chardata', 'templates', 'chardata',
+                            'shared_builds.html')
+        self.assertIn('build.acquisition_summary',
+                      open(page, encoding='utf-8').read())
+
     def test_the_solution_page_renders_the_acquisition_line(self):
         import os
         from django.conf import settings

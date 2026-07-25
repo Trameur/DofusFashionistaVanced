@@ -229,6 +229,10 @@
                     </div>
                     {% endif %}
 
+                    {% if build.acquisition_summary %}
+                    <div class="build-acquisition">{{ build.acquisition_summary }}</div>
+                    {% endif %}
+
                     {% if build.has_outdated_slots or build.has_condition_issues %}
                     <div class="build-alerts">
                         {% if build.has_outdated_slots %}
