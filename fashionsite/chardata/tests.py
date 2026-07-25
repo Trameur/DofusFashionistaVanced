@@ -7206,6 +7206,68 @@ class NoMojibakeInTranslationsTests(SimpleTestCase):
             'rewrite the .po in UTF-8): %s' % offenders)
 
 
+class DofusGridLabelTests(SimpleTestCase):
+    """The dofus grid labels were hand-kept in the catalogs, so es/pt/de showed
+    English words for a third of them. When the catalog has nothing, the label
+    now comes from the game data, which already holds the official name of every
+    language and updates itself when a dofus is added."""
+
+    def setUp(self):
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+
+    def _labels(self, language):
+        from django.utils import translation
+        from chardata.options import get_available_options
+        with translation.override(language):
+            return {entry['key']: str(entry['label'])
+                    for entry in get_available_options()['dofuses']}
+
+    def test_source_languages_keep_their_short_labels(self):
+        # English is the source and French is fully translated: the fallback must
+        # not touch either, long names would only wrap in a 70px box.
+        self.assertEqual(self._labels('en')['sylvan'], 'Sylvan')
+        self.assertEqual(self._labels('en')['ochre'], 'Ochre')
+        french = self._labels('fr')
+        self.assertEqual(french['sylvan'], 'Sylvestre')
+        # A word French spells like English keeps the short form: the game name
+        # contains it, so there is nothing to fall back to.
+        self.assertEqual(french['vulbis'], 'Vulbis')
+        self.assertEqual(french['turquoise'], 'Turquoise')
+
+    def test_untranslated_labels_use_the_official_game_name(self):
+        expected = {
+            'es': {'sylvan': 'Dofus silvestre', 'cocoa': 'Dofus cacao'},
+            'pt': {'sylvan': 'Dofus Silvestre', 'nightmare': 'Dofus do Pesadelo'},
+            'de': {'sylvan': 'Wald-Dofus', 'dotrich': 'Domelspatz',
+                   'grofus': 'Schockerqual'},
+        }
+        for language, wanted in expected.items():
+            labels = self._labels(language)
+            for key, name in wanted.items():
+                with self.subTest(language=language, key=key):
+                    self.assertEqual(labels[key], name)
+
+    def test_no_label_leaks_an_internal_disambiguation_number(self):
+        # DOFUS_OPTIONS points at 'Cocoa Dofus 2' and 'Sylvan Dofus 2', names our
+        # own pipeline numbered; a player must never see that number.
+        for language in ('en', 'fr', 'es', 'pt', 'de'):
+            for key, label in self._labels(language).items():
+                with self.subTest(language=language, key=key):
+                    self.assertFalse(label.rstrip()[-1:].isdigit(), label)
+
+    def test_every_option_still_points_at_a_real_item(self):
+        # The fallback reads the item by its English name, so a rename in the
+        # data would silently send every language back to English.
+        from fashionistapulp.structure import get_structure
+        from chardata.options import DOFUS_OPTIONS
+        structure = get_structure('dofus3')
+        missing = [name for name in DOFUS_OPTIONS.values()
+                   if structure.get_item_by_name(name) is None]
+        self.assertEqual(missing, [])
+
+
 class NoLanguageLeftInEnglishTests(SimpleTestCase):
     """A string translated in French but left as the English source in another
     language is an untranslated string, not a choice. German shipped 42 of them
@@ -7231,16 +7293,17 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d'},
     }
-    # Proper nouns waiting on the official name of each language. The item DB
-    # already holds them (Sylvan Dofus = Wald-Dofus, Dotrich = Domelspatz), so
-    # the fix is to label the Dofus grid from the game data instead of the
-    # catalog; class names need a sourced list. Until then they stay in English
-    # rather than being guessed. See NAME-FROM-GAME-DATA in the loop TODO.
-    PENDING_OFFICIAL_NAME = {
+    # Dofus grid labels: the catalog entry stays in English on purpose, the page
+    # falls back to the item's official name in the player's language (see
+    # options._dofus_label and DofusGridLabelTests). Translating them here would
+    # only duplicate what the game data already says.
+    LABELLED_FROM_GAME_DATA = {
         'Black Spotted', 'Cocoa', 'Ebony', 'Nightmare', 'Silver',
-        'Sparkling Silver', 'Sylvan', 'Dotrich', 'Grofus', 'Rhineetles',
-        'Xelor', 'Cra', 'Sacrier',
+        'Sparkling Silver', 'Sylvan', 'Dotrich', 'Grofus', 'Kaliptus',
     }
+    # Proper nouns still waiting on a sourced official name per language. They
+    # stay in English rather than being guessed.
+    PENDING_OFFICIAL_NAME = {'Rhineetles', 'Xelor', 'Cra', 'Sacrier'}
 
     def _catalog(self, lang, catalog):
         import polib
@@ -7260,6 +7323,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
             french = self._catalog('fr', catalog)
             for lang in self.LANGS:
                 allowed = (self.IDENTICAL_IN_LANGUAGE.get(lang, set())
+                           | self.LABELLED_FROM_GAME_DATA
                            | self.PENDING_OFFICIAL_NAME)
                 offenders = [
                     msgid for msgid, msgstr in self._catalog(lang, catalog).items()
