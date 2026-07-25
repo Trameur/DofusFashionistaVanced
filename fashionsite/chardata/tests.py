@@ -4919,7 +4919,7 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         conn = sqlite3.connect(get_items_db_path('touch'))
         try:
             rows = conn.execute("""
-                SELECT i.id, i.name FROM items i
+                SELECT i.id, i.name, i.ankama_id FROM items i
                 JOIN item_types it ON it.id = i.type
                 WHERE it.name = 'Shield'
                   AND NOT EXISTS (SELECT 1 FROM item_recipes r WHERE r.item = i.id)
@@ -4928,6 +4928,12 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         finally:
             conn.close()
         self.assertTrue(rows, 'expected sourceless shields in the touch data')
+        # A quest, the shop or an event leaves no recipe and no drop either, so
+        # "sourceless" is a suspicion, not a verdict. These four were hidden by
+        # this very rule and it was wrong: they are the shield of the Albuera
+        # introduction quest set, one per element, that any beginner earns.
+        rows = [(item_id, name) for item_id, name, ankama_id in rows
+                if ankama_id not in self.TOUCH_VERIFIED_OBTAINABLE_ANKAMA_IDS]
 
         set_current_game_version('touch')
         self.addCleanup(set_current_game_version, 'dofus3')
@@ -5005,6 +5011,42 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         12036, 12037, 12038, 12039, 12040, 12041, 12042, 12043, 12044, 12045,
         18844, 18846, 18848,
     )
+
+    # Second wave, same method. The Albueran honorary pieces are the reward of
+    # the Albuera introduction quest, one variant per element, which is why each
+    # piece exists four times; four of its shields had been hidden as "honor
+    # reward, no Touch source" and that was wrong, a beginner earns them. The
+    # beauty amulets are the prizes of the Miss & Mister contest, still run on
+    # Touch (official news, 2024 edition, names them one by one). The Cog of
+    # Infinity comes from a Frigost quest. Gobbowl Ring 11083 is a level 41 item
+    # with real stats, unlike the level 1 match rings.
+    TOUCH_VERIFIED_OBTAINABLE_ANKAMA_IDS = (
+        # Albueran Honorary Set, the four elemental variants
+        18850, 18852, 18854, 18856, 18858, 18860, 18862, 18864, 18866, 18868,
+        18870, 18872, 18874, 18876, 18878, 18880, 18882, 18884, 18886, 18888,
+        18890, 18892, 18894, 18896, 18898, 18900, 18902, 18904, 18906, 18908,
+        18910, 18912,
+        # Miss & Mister contest amulets
+        12528, 12529, 12530, 12531, 13271, 13272,
+        16522,   # Cog of Infinity, Frigost quest
+        11083,   # Gobbowl Ring, level 41, real stats
+    )
+
+    def test_touch_verified_obtainable_items_stay_available(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('touch')
+        structure = get_structure('touch')
+        defaults = set(get_default_exclusions(char=None))
+        blocked = []
+        for ankama_id in self.TOUCH_VERIFIED_OBTAINABLE_ANKAMA_IDS:
+            item = structure.get_item_by_ankama_id(ankama_id)
+            if item is not None and item.id in defaults:
+                blocked.append((ankama_id, item.name))
+        self.assertEqual(blocked, [],
+                         'verified obtainable on Touch, hiding them removes a real '
+                         'item from the pool: %s' % blocked[:5])
 
     def test_touch_shop_incarnations_stay_available(self):
         from fashionistapulp.structure import get_structure, set_current_game_version

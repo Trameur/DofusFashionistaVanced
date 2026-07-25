@@ -183,10 +183,6 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         9566,   # Raydi Shield (PC event shield)
         10906,  # Scale Shield (PC event shield)
         13158,  # Thousand Shield (PC event shield)
-        18864,  # Albueran Honorific Targe (honor reward, no Touch source)
-        18902,  # Albueran Honorific Targe (honor reward, no Touch source)
-        18904,  # Albueran Honorific Targe (honor reward, no Touch source)
-        18906,  # Albueran Honorific Targe (honor reward, no Touch source)
         12660,  # Incarnam Shield (2.x quest reward, no Touch source)
         19837,  # Small Inferno Shelter (event shield, no Touch source)
         19841,  # Small Rock Shelter (event shield, no Touch source)
@@ -437,6 +433,19 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         19965,   # [!] Bague de Boufbowl (Defenseur Bleu)
         19967,   # [!] Bague de Boufbowl (Defenseur Rouge)
         19995,   # [!] Samy Bague de Boufbowl (test)
+        # Boufbowl match rings again: level 1, no real stats, their only effect
+        # casts a team-identity spell during a match.
+        18815,   # Gobbowl Ring
+        19957,   # Gobbowl Ring (Blue Captain)
+        19959,   # Gobbowl Ring (Red Captain)
+        # Hispanic set: a Goultarminator prize for the Spanish community on PC,
+        # absent from the Dofus Touch encyclopedia altogether.
+        12616,   # Caschoygan
+        12617,   # Cuarzomyr Masinko
+        # Kwismas hats carrying a past year of the Dofus calendar. Kwismas comes
+        # back every year, but with that year's number; 648 and 649 are gone.
+        15823,   # Kwismas 648 Treetop
+        16888,   # Kwismas 649 Treetop
         # [FM] is Ankama's own smithmagic-workbench marker. These three exist in
         # no other version and have no recipe and no drop on Touch either.
         18555,   # [FM] Capistil
