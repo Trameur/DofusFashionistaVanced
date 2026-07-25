@@ -681,3 +681,15 @@ msgstr "Herstellbar"
 #: .\chardata\static\chardata\solution_popup.js:578
 msgid "Drop rate: %(rate)s"
 msgstr "Droprate: %(rate)s"
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "How to get it"
+msgstr "Herkunft"
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "Any source"
+msgstr "Alle"
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "Droppable"
+msgstr "Beute"

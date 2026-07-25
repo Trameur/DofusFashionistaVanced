@@ -28,6 +28,9 @@ import sqlite3
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.structure import get_current_game_version
 
+__all__ = ['get_acquisition_by_ankama_id', 'get_source_ankama_ids',
+           'attach_acquisition']
+
 
 def _table_exists(cursor, name):
     cursor.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?",
@@ -72,6 +75,28 @@ def get_acquisition_by_ankama_id(ankama_ids, game_version=None):
         sources.setdefault('craftable', False)
         sources.setdefault('best_drop_rate', None)
     return result
+
+
+def get_source_ankama_ids(game_version=None):
+    """{'craftable': set, 'droppable': set} for the whole version. Cheaper than
+    an IN clause when the caller has to filter a full item type at once."""
+    if game_version is None:
+        game_version = get_current_game_version()
+    sources = {'craftable': set(), 'droppable': set()}
+    conn = sqlite3.connect(get_items_db_path(game_version))
+    try:
+        cursor = conn.cursor()
+        for key, table in (('craftable', 'item_recipes'), ('droppable', 'item_drops')):
+            if not _table_exists(cursor, table):
+                continue
+            cursor.execute(
+                'SELECT DISTINCT i.ankama_id FROM %s t '
+                'JOIN items i ON i.id = t.item '
+                'WHERE i.ankama_id IS NOT NULL' % table)
+            sources[key] = {row[0] for row in cursor.fetchall()}
+    finally:
+        conn.close()
+    return sources
 
 
 def attach_acquisition(result_items, game_version=None):

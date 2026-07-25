@@ -31,7 +31,7 @@ from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
 from chardata.image_store import get_image_url
-from chardata.item_sources import attach_acquisition
+from chardata.item_sources import attach_acquisition, get_source_ankama_ids
 from chardata.solution_result import evolve_result_item, AttributeLine
 from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
@@ -111,6 +111,34 @@ def _order_items(item_type, char, search_term, stat_filters=None):
     weights = pickle.loads(char.stats_weight)
     sorted_items = sorted(items, key=lambda item: _rate(structure, item, weights), reverse=True)
     return sorted_items
+
+SOURCE_FILTERS = ('craftable', 'droppable')
+
+
+def _source_filter(request):
+    wanted = request.POST.get('source_filter', None)
+    return wanted if wanted in SOURCE_FILTERS else None
+
+
+def _apply_source_filter(items, wanted):
+    """Keep the items we know are craftable or droppable. An item with no known
+    source is dropped from the list, not labelled unobtainable: a quest or an
+    achievement may still give it."""
+    if not wanted:
+        return items
+    structure = get_structure()
+    allowed = get_source_ankama_ids()[wanted]
+    kept = []
+    for item in items:
+        # The pool entry of an OR item is a stand-in without an ankama_id, so
+        # ask the branch that carries the real data.
+        source_item = item
+        if item.name in structure.or_items:
+            source_item = structure.get_or_item_by_name(item.name)[0]
+        if getattr(source_item, 'ankama_id', None) in allowed:
+            kept.append(item)
+    return kept
+
 
 def _hide_removed_item(item):
     s = get_structure()
@@ -214,6 +242,7 @@ def get_items_of_type(request, char_id):
                       and owned_ids is not None)
     if inventory_only:
         items = [i for i in items if _is_owned(structure, i, owned_ids)]
+    items = _apply_source_filter(items, _source_filter(request))
 
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
@@ -292,6 +321,7 @@ def get_items_to_exchange(request, char_id):
     if inventory_only:
         items_to_exchange = [i for i in items_to_exchange
                              if _is_owned(structure, i, owned_ids)]
+    items_to_exchange = _apply_source_filter(items_to_exchange, _source_filter(request))
 
     max_page = math.ceil(len(items_to_exchange) / 10.0)
 

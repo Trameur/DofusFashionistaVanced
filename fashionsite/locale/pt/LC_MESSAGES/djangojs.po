@@ -687,3 +687,15 @@ msgstr "Fabricável"
 #: .\chardata\static\chardata\solution_popup.js:578
 msgid "Drop rate: %(rate)s"
 msgstr "Taxa de drop: %(rate)s"
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "How to get it"
+msgstr "Obtenção"
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "Any source"
+msgstr "Todas"
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "Droppable"
+msgstr "Dropável"

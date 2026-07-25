@@ -35,6 +35,7 @@ var itemTemplate =
 var loadUrl = "";
 var popupStatFilters = [];
 var popupInventoryOnly = false;
+var popupSourceFilter = '';
 
 function popupInventoryAvailable() {
     // Only for the logged-in project owner (the inventory is theirs); the
@@ -226,6 +227,19 @@ function populateSwitchDivInitial(key, page, itemNames, char_id, thisItemName, c
         <button id='button-add-stat-filter' class='button-generic' style='margin-left: 6px;'>" + addFilterString + "</button>\
     </div>\
     <div class='stat-filters-div' style='margin-top: 8px;'></div>"));
+    var sourceLabel = $("<label style='display:block;margin-top:6px;text-align:left;'>"
+        + gettext("How to get it") + " <select id='popup-source-filter'>\
+        <option value=''>" + gettext("Any source") + "</option>\
+        <option value='craftable'>" + gettext("Craftable") + "</option>\
+        <option value='droppable'>" + gettext("Droppable") + "</option>\
+        </select></label>");
+    sourceLabel.find('select').val(popupSourceFilter).on('change', function() {
+        popupSourceFilter = $(this).val();
+        populateSwitchDiv(key, 1, itemNames, char_id,
+                          $('#input-search-term').val() || null,
+                          callBack, showComparison, orderByStat);
+    });
+    $(".search-div").append(sourceLabel);
     if (popupInventoryAvailable()) {
         var inventoryLabel = $("<label style='display:block;margin-top:6px;text-align:left;cursor:pointer;'>\
             <input type='checkbox' id='popup-inventory-only'> " + gettext("Only my items") + "</label>");
@@ -347,7 +361,7 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
     var statFiltersPayload = JSON.stringify(getStatFiltersPayload());
     if (itemNames) {
         $.post(apiBase + "/itemexchange/" + char_id + "/",
-               {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload, inventory_only: popupInventoryOnly},
+               {slot: key.toString(), equip: itemNames[key], page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload, inventory_only: popupInventoryOnly, source_filter: popupSourceFilter},
                function(data) {
                    var response = data;
                    populateItems(response.items, response.violations, char_id, searchTerm, key.toString(), response.differences, callBack, showComparison, response.weapon_info);
@@ -364,7 +378,7 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
                });
     } else {
         $.post(apiBase + "/itemadd/" + char_id + "/",
-               {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload, inventory_only: popupInventoryOnly},
+               {slot: key.toString(), page: page, search_term: searchTerm, order_by_stat: orderByStat, stat_filters_json: statFiltersPayload, inventory_only: popupInventoryOnly, source_filter: popupSourceFilter},
                function(data) {
                    var response = data;
                    populateItems(response.items, response.violations, char_id, searchTerm, key.toString(), response.differences, callBack, showComparison, 0);

@@ -1928,6 +1928,42 @@ class ItemPickerSetNameTests(TestCase):
                 self.assertEqual(sorted(sources), sorted(ankama_ids))
                 self.assertTrue(all(s['craftable'] for s in sources.values()))
 
+    def test_source_filter_keeps_only_what_the_data_backs(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.item_exchange import _apply_source_filter
+        from chardata.item_sources import get_source_ankama_ids
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        hats = structure.get_unique_items_by_type_and_level('Hat', 200, False)
+        self.assertTrue(hats)
+
+        sources = get_source_ankama_ids('dofus3')
+        self.assertEqual(_apply_source_filter(hats, None), hats)
+        for wanted in ('craftable', 'droppable'):
+            kept = _apply_source_filter(hats, wanted)
+            with self.subTest(wanted=wanted):
+                self.assertTrue(kept)
+                self.assertLess(len(kept), len(hats))
+                for item in kept:
+                    source_item = item
+                    if item.name in structure.or_items:
+                        source_item = structure.get_or_item_by_name(item.name)[0]
+                    self.assertIn(source_item.ankama_id, sources[wanted], item.name)
+
+    def test_source_filter_keeps_or_items_it_should(self):
+        # The pool entry of an OR item has no ankama_id of its own, so a naive
+        # filter would drop every one of them.
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.item_exchange import _apply_source_filter
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        hats = structure.get_unique_items_by_type_and_level('Hat', 200, False)
+        tynril = [item for item in hats if item.name == 'Tynril Hat']
+        self.assertEqual(len(tynril), 1, 'Tynril Hat missing from the pool')
+        self.assertIn(tynril[0], _apply_source_filter(hats, 'craftable'))
+
     def test_icon_alt_never_receives_the_header_markup(self):
         # The header holds line breaks, the owned icon and now the set line, so
         # feeding it to alt="" closed the attribute early and leaked markup.
