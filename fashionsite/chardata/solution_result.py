@@ -23,7 +23,7 @@ import json
 logger = logging.getLogger(__name__)
 
 from chardata.image_store import get_image_url
-from chardata.item_sources import attach_acquisition
+from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
@@ -129,6 +129,7 @@ class SolutionResult:
         params = {'item_sections': item_sections,
                   'sets': r.sets,
                   'all_items': all_items,
+                  'acquisition_summary': acquisition_summary(all_items),
                   'stats_base_json': json.dumps(r.get_stats_base()),
                   'stats_gear_json': json.dumps(r.get_stats_gear()),
                   'stats_total_json': json.dumps(r.get_stats_total()),

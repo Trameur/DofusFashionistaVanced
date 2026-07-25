@@ -114,6 +114,52 @@ def acquisition_text(craftable, best_drop_rate):
     return ' · '.join(parts)
 
 
+def acquisition_summary(result_items):
+    """One line for the whole set: how many pieces you can craft, how many you
+    can only farm, and the rarest of those rates, which is what really sets the
+    farming time. Deliberately no score and no time estimate: we have no data
+    for either. Items we know no source for are counted as unknown, never as
+    unobtainable."""
+    from django.template.defaultfilters import floatformat
+    from django.utils.translation import ngettext
+    craftable = 0
+    drop_only_rates = []
+    unknown = 0
+    for item in result_items:
+        if not getattr(item, 'item_added', False):
+            continue
+        if getattr(item, 'craftable', False):
+            craftable += 1
+        elif getattr(item, 'best_drop_rate', None):
+            drop_only_rates.append(item.best_drop_rate)
+        elif getattr(item, 'type', None) in ('Dofus', 'Pet'):
+            # A dofus comes from a quest or a dungeon boss and a mount from
+            # breeding, so having neither recipe nor drop is normal for them,
+            # not a gap. Trophies and prysmaradites sit in the same section but
+            # do have recipes, and those still count above.
+            continue
+        else:
+            unknown += 1
+
+    parts = []
+    if craftable:
+        parts.append(ngettext('%(count)s craftable piece',
+                              '%(count)s craftable pieces',
+                              craftable) % {'count': craftable})
+    if drop_only_rates:
+        rarest = min(drop_only_rates)
+        rate = ('< 0.01%' if rarest < 0.01 else '%s%%' % floatformat(rarest, 2))
+        parts.append(ngettext('%(count)s piece by drop only, the rarest at %(rate)s',
+                              '%(count)s pieces by drop only, the rarest at %(rate)s',
+                              len(drop_only_rates))
+                     % {'count': len(drop_only_rates), 'rate': rate})
+    if unknown:
+        parts.append(ngettext('%(count)s piece with no known source',
+                              '%(count)s pieces with no known source',
+                              unknown) % {'count': unknown})
+    return ' · '.join(parts)
+
+
 def attach_acquisition(result_items, game_version=None):
     """Set craftable / best_drop_rate / acquisition_text on result items, in one
     pass over the database."""

@@ -41,6 +41,13 @@
     white-space: nowrap;
 }
 
+/* what the whole set costs to assemble, above the item cards */
+.solution-acquisition-summary {
+    font-size: 13px;
+    opacity: 0.85;
+    margin: 8px 0 4px;
+}
+
 .solution-item-button {
     width: 18px;
     height: 18px;

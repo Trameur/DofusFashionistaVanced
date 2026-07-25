@@ -272,6 +272,10 @@
     <button id="expand_button" class="solution-item-summary-expand-all button-generic">{% trans "Expand All" %}</button>
     <button id="collapse_button" class="solution-item-summary-collapse-all button-generic">{% trans "Collapse All" %}</button>
 
+    {% if acquisition_summary %}
+    <div class="solution-acquisition-summary">{% blocktrans with summary=acquisition_summary %}Getting this set: {{ summary }}{% endblocktrans %}</div>
+    {% endif %}
+
     {% for section in item_sections %}
     <div class="solution-item-section">
         {% for item_list_ordered in section %}

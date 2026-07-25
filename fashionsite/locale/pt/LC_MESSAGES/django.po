@@ -6278,3 +6278,25 @@ msgstr "Fabricável"
 #: .\chardata\item_sources.py:95
 msgid "Drop rate: %(rate)s"
 msgstr "Taxa de drop: %(rate)s"
+
+#: .\chardata\item_sources.py:105
+msgid "%(count)s craftable piece"
+msgid_plural "%(count)s craftable pieces"
+msgstr[0] "%(count)s peça fabricável"
+msgstr[1] "%(count)s peças fabricáveis"
+
+#: .\chardata\item_sources.py:105
+msgid "%(count)s piece by drop only, the rarest at %(rate)s"
+msgid_plural "%(count)s pieces by drop only, the rarest at %(rate)s"
+msgstr[0] "%(count)s peça só por drop, a mais rara a %(rate)s"
+msgstr[1] "%(count)s peças só por drop, a mais rara a %(rate)s"
+
+#: .\chardata\item_sources.py:105
+msgid "%(count)s piece with no known source"
+msgid_plural "%(count)s pieces with no known source"
+msgstr[0] "%(count)s peça sem origem conhecida"
+msgstr[1] "%(count)s peças sem origem conhecida"
+
+#: .\chardata	emplates\chardata\solution.html:274
+msgid "Getting this set: %(summary)s"
+msgstr "Conseguir este set: %(summary)s"

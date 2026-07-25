@@ -1916,6 +1916,50 @@ class ItemPickerSetNameTests(TestCase):
         with translation.override('de'):
             self.assertEqual(acquisition_text(True, None), 'Herstellbar')
 
+    def test_set_summary_counts_and_names_the_rarest_farm(self):
+        from django.utils import translation
+        from chardata.item_sources import acquisition_summary
+
+        class Piece:
+            def __init__(self, craftable=False, rate=None, type='Hat', added=True):
+                self.craftable = craftable
+                self.best_drop_rate = rate
+                self.type = type
+                self.item_added = added
+
+        pieces = [Piece(craftable=True),
+                  Piece(craftable=True, rate=5.0),   # craftable wins: not a farm
+                  Piece(rate=0.05),
+                  Piece(rate=2.5),
+                  Piece()]
+        with translation.override('en'):
+            summary = acquisition_summary(pieces)
+            self.assertIn('2 craftable pieces', summary)
+            # The rarest of the drop-only pieces, not of every drop.
+            self.assertIn('2 pieces by drop only, the rarest at 0.05%', summary)
+            self.assertIn('1 piece with no known source', summary)
+            # An empty slot counts for nothing.
+            self.assertEqual(acquisition_summary([Piece(added=False)]), '')
+
+    def test_set_summary_does_not_call_a_dofus_sourceless(self):
+        from django.utils import translation
+        from chardata.item_sources import acquisition_summary
+
+        class Piece:
+            def __init__(self, craftable=False, rate=None, type='Hat'):
+                self.craftable = craftable
+                self.best_drop_rate = rate
+                self.type = type
+                self.item_added = True
+
+        with translation.override('en'):
+            # A dofus and a mount have neither recipe nor drop by nature.
+            self.assertEqual(
+                acquisition_summary([Piece(type='Dofus'), Piece(type='Pet')]), '')
+            # But a craftable piece in the same section still counts.
+            self.assertIn('1 craftable piece',
+                          acquisition_summary([Piece(craftable=True, type='Dofus')]))
+
     def test_the_solution_page_renders_the_acquisition_line(self):
         import os
         from django.conf import settings
@@ -1924,6 +1968,9 @@ class ItemPickerSetNameTests(TestCase):
         template = open(path, encoding='utf-8').read()
         self.assertIn('item.acquisition_text', template)
         self.assertIn('solution-item-source', template)
+        page = os.path.join(settings.BASE_DIR, 'chardata', 'templates', 'chardata',
+                            'solution.html')
+        self.assertIn('acquisition_summary', open(page, encoding='utf-8').read())
 
     def test_sourceless_item_gets_no_acquisition_claim(self):
         # We only state what the data says: no recipe and no drop means no line,
