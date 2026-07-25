@@ -6031,6 +6031,96 @@ class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
             'damage via the element characteristic): %s' % offenders)
 
 
+class AnonymousProjectPerVersionTests(TestCase):
+    """A signed-out visitor gets one project per game version. Being stopped from
+    trying Retro because you already built something on Dofus 3 read like a bug:
+    the five versions are different games."""
+
+    def _create(self, prefix, name):
+        return self.client.post('%s/createproject/' % prefix, {
+            'project': name, 'charname': name, 'level': '150',
+            'class': 'Iop', 'byhand': 'byhand'})
+
+    def test_one_project_per_version_and_not_two_on_the_same_one(self):
+        from chardata.models import Char
+        for prefix, version in (('', 'dofus3'), ('/retro', 'retro'),
+                                ('/touch', 'touch')):
+            resp = self._create(prefix, 'anon-%s' % version)
+            with self.subTest(version=version):
+                self.assertEqual(resp.status_code, 302)
+                self.assertEqual(
+                    Char.objects.filter(game_version=version, owner=None,
+                                        deleted=False).count(), 1)
+        # The setup page stops offering the form once that version is taken.
+        self.assertNotContains(self.client.get('/retro/setup/'), 'name="charname"')
+        self.assertContains(self.client.get('/dofus2/setup/'), 'name="charname"')
+
+    def test_the_visitor_still_owns_every_one_of_them(self):
+        from chardata.models import Char
+        from chardata.util import char_belongs_to_user
+        self._create('', 'anon-dofus3')
+        self._create('/retro', 'anon-retro')
+        request = self.client.get('/').wsgi_request
+        for char in Char.objects.filter(owner=None, deleted=False):
+            with self.subTest(version=char.game_version):
+                self.assertTrue(char_belongs_to_user(request, char))
+
+    def test_signing_in_claims_every_version(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        self._create('', 'anon-dofus3')
+        self._create('/retro', 'anon-retro')
+        self._create('/touch', 'anon-touch')
+        user = User.objects.create_user('claimer', 'claim@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        self.client.post('/saveprojecttouser/')
+        owned = Char.objects.filter(owner=user, deleted=False)
+        self.assertEqual(sorted(c.game_version for c in owned),
+                         ['dofus3', 'retro', 'touch'])
+
+    def test_a_session_from_before_the_change_keeps_its_project(self):
+        # Sessions in flight hold the old single 'char_id' key; it must still be
+        # honoured, and the version it belongs to must count as taken.
+        from chardata.anon_projects import get_anon_char_id, owns_anon_char
+        from chardata.models import Char
+        self._create('/retro', 'anon-retro')
+        char = Char.objects.get(game_version='retro', owner=None)
+        session = self.client.session
+        del session['char_ids']
+        session['char_id'] = char.pk
+        session.save()
+        request = self.client.get('/retro/').wsgi_request
+        self.assertEqual(get_anon_char_id(request, 'retro'), char.pk)
+        self.assertTrue(owns_anon_char(request, char.pk))
+        self.assertNotContains(self.client.get('/retro/setup/'), 'name="charname"')
+
+    def test_duplicating_counts_per_version_too(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        import chardata.projects_view as projects_view
+        user = User.objects.create_user('dupper2', 'dup2@test.local', 'pw-42-solid')
+        self.client.force_login(user)
+        self._create('/retro', 'retro-original')
+        retro = Char.objects.get(game_version='retro', owner=user)
+        original_limit = projects_view.MAXIMUM_NUMBER_OF_PROJECTS
+        projects_view.MAXIMUM_NUMBER_OF_PROJECTS = 1
+        self.addCleanup(setattr, projects_view, 'MAXIMUM_NUMBER_OF_PROJECTS',
+                        original_limit)
+        try:
+            # Dofus 3 is full, Retro has room: the Retro copy must go through.
+            for index in range(2):
+                Char.objects.create(
+                    name='d3-%d' % index, char_name='x', char_class='Iop',
+                    char_build='', level=150, minimum_stats=b'', minimum_crits=b'',
+                    stats_weight=b'', options=b'', inclusions=b'', exclusions=b'',
+                    owner=user, link_shared=False, game_version='dofus3')
+            request = self.client.get('/retro/').wsgi_request
+            request.user = user
+            self.assertFalse(projects_view._unchecked_duplicate_project(request, retro.pk))
+        finally:
+            projects_view.MAXIMUM_NUMBER_OF_PROJECTS = original_limit
+
+
 class CharNameLengthTests(TestCase):
     """Char.save() clips its text labels to the column size (MySQL strict mode
     rejects over-long values), and duplicating keeps ' copy' inside the limit."""

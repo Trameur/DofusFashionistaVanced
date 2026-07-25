@@ -22,6 +22,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 import json
 
+from chardata.anon_projects import forget_anon_char, remember_anon_char
 from chardata.create_project_view import MAXIMUM_NUMBER_OF_PROJECTS
 from chardata.encoded_char_id import decode_char_id
 from chardata.models import CharBaseStats, Char
@@ -41,8 +42,7 @@ def delete_projects(request):
         char = get_char_or_raise(request, proj_id) 
         char.deleted = True
         char.save()
-        if 'char_id' in request.session:
-            del request.session['char_id']
+        forget_anon_char(request, char.pk)
     return HttpResponseText('ok')
         
 @require_POST
@@ -93,12 +93,18 @@ def duplicate_someones_project(request, encoded_char_id):
 def _unchecked_duplicate_project(request, proj_id_to_copy):
     signed_out = (request.user is None or request.user.is_anonymous)
     
+    char_to_copy = get_object_or_404(Char, pk=proj_id_to_copy)
     if not signed_out:
-        chars = Char.objects.filter(owner=request.user)
+        # Counted per version, like creating one: a full Dofus 3 list must not
+        # stop you from duplicating a Retro build.
+        chars = Char.objects.filter(owner=request.user,
+                                    game_version=char_to_copy.game_version)
         chars = chars.exclude(deleted=True)
         if len(chars) >= MAXIMUM_NUMBER_OF_PROJECTS and request.user.email not in TESTER_USERS:
             return False
     
+    # Fetched again on purpose: the copy is made by clearing the pk of a model
+    # instance, so it must not be the one the version check above is holding.
     char_to_duplicate = get_object_or_404(Char, pk=proj_id_to_copy)
     new_char = char_to_duplicate;
     new_char.owner = None if signed_out else request.user
@@ -119,6 +125,6 @@ def _unchecked_duplicate_project(request, proj_id_to_copy):
             new_stat.save()
     
     if signed_out:
-        request.session['char_id'] = new_char.pk
+        remember_anon_char(request, new_char)
     
     return True

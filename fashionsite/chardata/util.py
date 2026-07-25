@@ -182,7 +182,8 @@ def request_by_super_user(request):
 
 def char_belongs_to_user(request, char):
     if request.user.is_anonymous:
-        if 'char_id' in request.session and int(char.pk) == request.session['char_id']:
+        from chardata.anon_projects import owns_anon_char
+        if owns_anon_char(request, char.pk):
             return True
     if (not request_by_super_user(request) and
         (char.owner != request.user or char.deleted)):

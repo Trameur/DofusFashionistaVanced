@@ -22,6 +22,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
 
 from chardata.model_wrappers import WrappedChar
+from chardata.anon_projects import get_anon_char_id
 from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.util import set_response, version_reverse
@@ -40,11 +41,12 @@ def load_projects_error(request, error):
     has_projects = False
     if len(chars) > 0:
         has_projects = True
-    if request.user.is_anonymous and 'char_id' in request.session:
-        char = get_object_or_404(Char, pk=request.session['char_id'])
-        if char.game_version == game_version:
-            chars.append(char)
-            has_projects = True
+    anon_char_id = (get_anon_char_id(request, game_version)
+                    if request.user.is_anonymous else None)
+    if anon_char_id is not None:
+        char = get_object_or_404(Char, pk=anon_char_id)
+        chars.append(char)
+        has_projects = True
 
     return set_response(request, 
                         'chardata/load_projects.html',
@@ -64,9 +66,8 @@ def user_has_projects(request):
     has_projects = False
     if len(chars) > 0:
         has_projects = True
-    if request.user.is_anonymous and 'char_id' in request.session:
-        char = get_object_or_404(Char, pk=request.session['char_id'])
-        if char.game_version == game_version:
+    if request.user.is_anonymous:
+        if get_anon_char_id(request, game_version) is not None:
             has_projects = True
     return has_projects
 

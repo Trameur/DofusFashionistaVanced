@@ -25,6 +25,8 @@ import json
 from chardata.aspect_parser import parse_aspects
 from chardata.lock_forbid import (remove_invalid_inclusions, get_default_exclusions,
     set_exclusions_list_and_check_inclusions)
+from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
+                                    get_anon_char_ids, remember_anon_char)
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
@@ -91,7 +93,11 @@ def setup(request, char_id=0):
                         char)
 
 def is_anon_cant_create(request):
-    return request.user.is_anonymous and 'char_id' in request.session
+    # One project per version: the five versions are different games.
+    if not request.user.is_anonymous:
+        return False
+    game_version = getattr(request, 'game_version', 'dofus3')
+    return get_anon_char_id(request, game_version) is not None
 
 def has_too_many_projects(request):
     too_many_projects_problem = False
@@ -176,7 +182,7 @@ def create_project(request):
         basestats.save()
     
     if request.user.is_anonymous:
-        request.session['char_id'] = char.pk
+        remember_anon_char(request, char)
     
     if state['where_to_go'] == 'wizard':
         return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
@@ -231,16 +237,19 @@ def understand_build_post(request):
     return JsonResponse(_get_aspect_checklist(aspects))
 
 def save_project_to_user(request, char_id=None):
-    char_id = char_id or request.session.get('char_id')
-    if char_id and not request.user.is_anonymous:
-        char = get_object_or_404(Char, pk=char_id)
-        if request.user is not None and not request.user.is_anonymous:
-            chars = Char.objects.filter(owner=request.user)
-            chars = chars.exclude(deleted=True)
-            if len(chars) < MAXIMUM_NUMBER_OF_PROJECTS or request.user.email in TESTER_USERS:
-                char.owner = request.user
-                logger.debug('saving char %s to user %s', char_id, request.user)
-                char.save()
-        if 'char_id' in request.session:
-            del request.session['char_id']
+    if request.user is None or request.user.is_anonymous:
+        return HttpResponseText('ok')
+    # A signed-out visitor can now have one project per version, so signing in
+    # has to claim all of them, not just the last one they touched.
+    char_ids = [char_id] if char_id else list(get_anon_char_ids(request).values())
+    for pk in char_ids:
+        char = get_object_or_404(Char, pk=pk)
+        chars = Char.objects.filter(owner=request.user,
+                                    game_version=char.game_version)
+        chars = chars.exclude(deleted=True)
+        if len(chars) < MAXIMUM_NUMBER_OF_PROJECTS or request.user.email in TESTER_USERS:
+            char.owner = request.user
+            logger.debug('saving char %s to user %s', pk, request.user)
+            char.save()
+    forget_anon_char(request)
     return HttpResponseText('ok')
