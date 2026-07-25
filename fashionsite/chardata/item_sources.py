@@ -99,11 +99,28 @@ def get_source_ankama_ids(game_version=None):
     return sources
 
 
+def acquisition_text(craftable, best_drop_rate):
+    """"Craftable", "Drop rate: 2.50%", or both. Empty when we know of no source:
+    we never claim an item is unobtainable, a quest may still give it."""
+    from django.template.defaultfilters import floatformat
+    from django.utils.translation import gettext as _
+    parts = []
+    if craftable:
+        parts.append(_('Craftable'))
+    if best_drop_rate:
+        rate = ('< 0.01%' if best_drop_rate < 0.01
+                else '%s%%' % floatformat(best_drop_rate, 2))
+        parts.append(_('Drop rate: %(rate)s') % {'rate': rate})
+    return ' · '.join(parts)
+
+
 def attach_acquisition(result_items, game_version=None):
-    """Set craftable / best_drop_rate on picker result items, in one pass."""
+    """Set craftable / best_drop_rate / acquisition_text on result items, in one
+    pass over the database."""
     acquisition = get_acquisition_by_ankama_id(
         [getattr(item, 'ankama_id', None) for item in result_items], game_version)
     for item in result_items:
         sources = acquisition.get(getattr(item, 'ankama_id', None)) or {}
         item.craftable = sources.get('craftable', False)
         item.best_drop_rate = sources.get('best_drop_rate')
+        item.acquisition_text = acquisition_text(item.craftable, item.best_drop_rate)

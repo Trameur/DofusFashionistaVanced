@@ -23,6 +23,7 @@ import json
 logger = logging.getLogger(__name__)
 
 from chardata.image_store import get_image_url
+from chardata.item_sources import attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
@@ -73,6 +74,9 @@ class SolutionResult:
         item_ids = {}
         for result_item in all_items:
             evolve_result_item(result_item, r)
+        # "Can I actually get this set?" answered on the page itself, one pass
+        # over the DB for the whole solution.
+        attach_acquisition(all_items)
 
         for result_item in all_items:
             item_per_slot[result_item.slot] = result_item

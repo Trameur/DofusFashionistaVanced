@@ -6281,3 +6281,11 @@ msgstr ""
 "El <a href=\"%(qs_url)s\">Inicio rápido</a> te monta un set completo en tres"
 " preguntas. Para una guía paso a paso, lee la <a href=\"%(gs_url)s\">guía de"
 " inicio</a>."
+
+#: .\chardata\item_sources.py:95
+msgid "Craftable"
+msgstr "Fabricable"
+
+#: .\chardata\item_sources.py:95
+msgid "Drop rate: %(rate)s"
+msgstr "Tasa de drop: %(rate)s"

@@ -6260,7 +6260,7 @@ msgstr "une partie des bonus de familiers de Dofus Retro"
 msgid "Equipment Set Optimizer"
 msgstr "Optimiseur de stuff"
 
-#: .\chardata	emplates\chardata\login.html:80
+#: .\chardata emplates\chardata\login.html:80
 msgid ""
 "We only use your Google account to sign you in, so you can save and share "
 "your projects. Nothing is ever posted on your behalf."
@@ -6269,11 +6269,11 @@ msgstr ""
 "puisses sauvegarder et partager tes projets. Rien n'est jamais publié en ton"
 " nom."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "Is the Dofus Fashionista free?"
 msgstr "Est-ce que Dofus Fashionista est gratuit ?"
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid ""
 "Yes, it is completely free. There is no paid version, and you can build a "
 "set without an account."
@@ -6281,11 +6281,11 @@ msgstr ""
 "Oui, c'est entièrement gratuit. Il n'y a pas de version payante, et tu peux "
 "faire un stuff sans compte."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "Do I need an account?"
 msgstr "Ai-je besoin d'un compte ?"
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid ""
 "No. Building and optimizing sets works without signing in. An account only "
 "lets you save your projects and share them with a link."
@@ -6293,11 +6293,11 @@ msgstr ""
 "Non. Faire et optimiser des stuffs marche sans se connecter. Un compte sert "
 "seulement à sauvegarder tes projets et à les partager avec un lien."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "Which Dofus version should I choose?"
 msgstr "Quelle version de Dofus choisir ?"
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid ""
 "Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, "
 "Touch or Retro. Each is a different game with its own items and rules."
@@ -6306,11 +6306,11 @@ msgstr ""
 "Dofus 2, Touch ou Retro. Chacune est un jeu différent avec ses propres items"
 " et règles."
 
-#: .\chardata	emplates\chardataaq.html:23
+#: .\chardata emplates\chardata aq.html:23
 msgid "I am new here. Where do I start?"
 msgstr "Je débute ici. Par où commencer ?"
 
-#: .\chardata	emplates\chardataaq.html:30
+#: .\chardata emplates\chardata aq.html:30
 msgid ""
 "The <a href=\"%(qs_url)s\">Quick Start</a> builds a full set from three "
 "quick questions. For a step by step walkthrough, read the <a "
@@ -6319,3 +6319,11 @@ msgstr ""
 "Le <a href=\"%(qs_url)s\">Démarrage rapide</a> te construit un stuff complet"
 " en trois questions. Pour un guide pas à pas, lis le <a "
 "href=\"%(gs_url)s\">guide de démarrage</a>."
+
+#: .\chardata\item_sources.py:95
+msgid "Craftable"
+msgstr "Craftable"
+
+#: .\chardata\item_sources.py:95
+msgid "Drop rate: %(rate)s"
+msgstr "Taux de drop : %(rate)s"

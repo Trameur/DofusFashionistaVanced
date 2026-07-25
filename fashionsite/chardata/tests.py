@@ -1900,6 +1900,31 @@ class ItemPickerSetNameTests(TestCase):
                 self.assertTrue(branch.craftable)
                 self.assertGreater(branch.best_drop_rate, 0)
 
+    def test_acquisition_text_reads_naturally_in_each_language(self):
+        from django.utils import translation
+        from chardata.item_sources import acquisition_text
+        self.assertEqual(acquisition_text(False, None), '')
+        with translation.override('en'):
+            self.assertEqual(acquisition_text(True, None), 'Craftable')
+            self.assertEqual(acquisition_text(True, 2.5),
+                             'Craftable · Drop rate: 2.50%')
+            # Rates below a hundredth would round to 0.00%, which reads as "never".
+            self.assertEqual(acquisition_text(False, 0.005), 'Drop rate: < 0.01%')
+        with translation.override('fr'):
+            self.assertEqual(acquisition_text(True, None), 'Craftable')
+            self.assertIn('Taux de drop', acquisition_text(False, 2.5))
+        with translation.override('de'):
+            self.assertEqual(acquisition_text(True, None), 'Herstellbar')
+
+    def test_the_solution_page_renders_the_acquisition_line(self):
+        import os
+        from django.conf import settings
+        path = os.path.join(settings.BASE_DIR, 'chardata', 'templates', 'chardata',
+                            'solution_item.html')
+        template = open(path, encoding='utf-8').read()
+        self.assertIn('item.acquisition_text', template)
+        self.assertIn('solution-item-source', template)
+
     def test_sourceless_item_gets_no_acquisition_claim(self):
         # We only state what the data says: no recipe and no drop means no line,
         # never "unobtainable" (a quest or an achievement may still give it).
