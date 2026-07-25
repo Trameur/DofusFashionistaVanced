@@ -77,9 +77,20 @@ html.fm-modern .banner{
 html.fm-modern .banner br{ display:none; }
 html.fm-modern .banner::after{ content:""; position:absolute; inset:0; background:var(--fm-banner-grad); pointer-events:none; }
 html.fm-modern .banner img{ width:100% !important; max-width:100% !important; height:auto !important; max-height:190px; object-fit:cover; object-position:center 38%; display:block; }
-/* The banner already carries rich character art; the extra class-avatar overlay
-   reads as clutter/overlap on top of it, so hide it in the modern skin. */
-html.fm-modern .char-overlay{ display:none !important; }
+/* The random character greeting the visitor is part of the site's character, so
+   the modern skin keeps it. The classic pull-up (top:-230px) is tuned for the
+   taller classic banner and clips the head here, so anchor it to the banner card
+   instead and size it to stay inside at every desktop width. Decorative only:
+   pointer-events off so it can never swallow a click on the controls below. */
+html.fm-modern .char-overlay{
+  display:block !important; position:absolute !important;
+  /* the classic offsets live in a style attribute on the div, so override them */
+  left:0 !important; top:0 !important; height:auto !important;
+  z-index:3; pointer-events:none;
+}
+html.fm-modern .char-overlay img.char{
+  display:block; height:182px; width:auto; margin-top:8px;
+}
 
 /* ---------- Top control bar ---------- */
 html.fm-modern .space.header-controls{

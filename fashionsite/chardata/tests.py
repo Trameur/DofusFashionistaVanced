@@ -4441,6 +4441,45 @@ class SetupMobileHooksTests(TestCase):
         self.assertIn('build-boxes-title-focus', body)
 
 
+class BannerCharacterTests(TestCase):
+    """A random character out of the 75 illustrations greets the visitor over the
+    banner. The modern skin used to hide it with display:none while the browser
+    still downloaded it, so the page paid for the image and lost the charm."""
+
+    def _modern_css(self):
+        from django.conf import settings
+        path = os.path.join(settings.BASE_DIR, 'chardata', 'static', 'chardata',
+                            'modern.css')
+        return open(path, encoding='utf-8').read()
+
+    def test_the_page_still_serves_a_character(self):
+        resp = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('char-overlay', body)
+        self.assertRegex(body, r'chardata/designs/\d+\.png')
+
+    def test_the_modern_skin_shows_it_on_desktop_and_hides_it_on_phones(self):
+        css = self._modern_css()
+        shown = 'html.fm-modern .char-overlay{\n  display:block !important;'
+        self.assertIn(shown, css)
+        # The rule that turns it off again must sit inside the phone block: no
+        # room there, and the classic skin hides it below that width too.
+        hidden_at = css.find(
+            'html.fm-modern .char-overlay{ display:none !important; }')
+        self.assertNotEqual(hidden_at, -1, 'the phone rule disappeared')
+        phone_block_at = css.rfind('@media (max-width: 900px)', 0, hidden_at)
+        self.assertNotEqual(phone_block_at, -1,
+                            'the character is hidden outside the phone block')
+
+    def test_the_modern_character_cannot_swallow_a_click(self):
+        # It sits over the header controls at narrow desktop widths, so it has to
+        # stay decorative.
+        css = self._modern_css()
+        block = css.split('html.fm-modern .char-overlay{')[1].split('}')[0]
+        self.assertIn('pointer-events:none', block)
+
+
 class FaqNewcomerTests(TestCase):
     """The FAQ opens with beginner questions (free, account, version, where to
     start) before the expert slider mechanics, and the start answer links the
