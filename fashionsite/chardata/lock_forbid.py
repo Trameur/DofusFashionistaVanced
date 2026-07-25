@@ -437,6 +437,11 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         19965,   # [!] Bague de Boufbowl (Defenseur Bleu)
         19967,   # [!] Bague de Boufbowl (Defenseur Rouge)
         19995,   # [!] Samy Bague de Boufbowl (test)
+        # [FM] is Ankama's own smithmagic-workbench marker. These three exist in
+        # no other version and have no recipe and no drop on Touch either.
+        18555,   # [FM] Capistil
+        18557,   # [FM] Plantamulet
+        18559,   # [FM] Cuttings
     ],
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus

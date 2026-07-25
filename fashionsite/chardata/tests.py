@@ -4940,23 +4940,33 @@ class VersionItemAvailabilityTests(SimpleTestCase):
             # Still in the pool: a player who owns one can un-forbid it.
             self.assertIn(item_id, pool, name)
 
-    def test_ankama_placeholder_names_are_forbidden_by_default(self):
-        # Ankama tags its own untranslated internal content with a "[!] " or
-        # "[wip]" name ("[!] WIP", "[!] Bouclier inebranlable de test", the
-        # Boufbowl match rings). Those are never obtainable equipment, so none
-        # of them may be proposable. Recomputed from the data on every run.
+    # Ankama leaves its own working markers on items that never reach a player:
+    # "[!] " and "[wip]" for untranslated internal content, "[FM]" for the
+    # smithmagic workbench, "(GM)" for game-master gear. Any name carrying one
+    # is internal by definition, whatever the version.
+    INTERNAL_MARKERS = (
+        lambda name: name.startswith('[!] '),
+        lambda name: name.lower().startswith('[wip'),
+        lambda name: name.startswith('[FM]'),
+        lambda name: name.rstrip().endswith('(GM)'),
+    )
+
+    def test_ankama_internal_markers_are_forbidden_by_default(self):
+        # Recomputed from the data on every run, so a marker arriving with a
+        # future update fails here instead of reaching the item pool.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
 
         self.addCleanup(set_current_game_version, 'dofus3')
+        checked = 0
         for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
             conn = sqlite3.connect(get_items_db_path(version))
             try:
                 rows = [(item_id, name) for item_id, name
                         in conn.execute('SELECT id, name FROM items')
-                        if name.startswith('[!] ') or name.lower().startswith('[wip')]
+                        if any(marker(name) for marker in self.INTERNAL_MARKERS)]
             finally:
                 conn.close()
             if not rows:
@@ -4965,9 +4975,14 @@ class VersionItemAvailabilityTests(SimpleTestCase):
             get_structure(version)
             defaults = set(get_default_exclusions(char=None))
             for item_id, name in rows:
+                checked += 1
                 with self.subTest(version=version, name=name):
                     self.assertIn(item_id, defaults,
-                                  '%s is an Ankama placeholder but is proposable' % name)
+                                  '%s carries an Ankama internal marker but is '
+                                  'proposable' % name)
+        # Every version carries the (GM) trio, so an empty run means the sweep
+        # itself broke rather than the data being clean.
+        self.assertGreater(checked, 10, 'the marker sweep found almost nothing')
 
     def test_ice_dofus_forbidden_by_default_on_retro_not_on_dofus3(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
