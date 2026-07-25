@@ -82,6 +82,11 @@
                             </div>
                         {% endfor %}
                         {% endwith %}
+                        {% with summary=acquisition_by_char|get_item:char_id %}
+                        {% if summary %}
+                        <div class="compare-acquisition">{{ summary }}</div>
+                        {% endif %}
+                        {% endwith %}
                         </td>
                     {% endfor %}
                     </tr>

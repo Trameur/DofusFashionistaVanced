@@ -7,6 +7,20 @@
     padding: 8px;
 }
 
+.compare-item-meta {
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+/* what each compared build costs to assemble, under its item column */
+.compare-acquisition {
+    margin: 8px auto 0;
+    max-width: 220px;
+    font-size: 12px;
+    opacity: 0.8;
+    text-align: center;
+}
+
 .compare-item-stats {
     border-radius: 0px 0px 10px 10px;
     padding: 8px;

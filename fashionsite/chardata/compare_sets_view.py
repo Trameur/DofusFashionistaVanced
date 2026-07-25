@@ -26,6 +26,7 @@ import jsonpickle
 from urllib.parse import urlencode, urlparse
 
 from chardata.encoded_char_id import decode_char_id, encode_char_id
+from chardata.item_sources import acquisition_summary, attach_acquisition
 from chardata.models import BuildVote, Char, SolutionGeneration
 from chardata.solution import get_solution
 from chardata.solution_history import get_generation_solution
@@ -170,6 +171,7 @@ def compare_sets(request, sets_params):
               'char_ids_cols': char_ids_cols,
               'solutions': solutions,
               'items_sorted': _sort_items(solutions),
+              'acquisition_by_char': _acquisition_by_char(solutions, game_version),
               'char_is_guest': is_guest,
               'links': links,
               'compare_link_shared': compare_link_shared,
@@ -298,6 +300,19 @@ def _is_direct_damage_effect(effect):
     return (not getattr(effect, 'heals', False)
             and 'buff' not in effect.element
             and effect.element not in NON_DAMAGE_PREVIEW_ELEMENTS)
+
+
+def _acquisition_by_char(solutions, game_version):
+    """What each compared build costs to assemble. Only a handful of builds are
+    ever compared, so this can afford the exact rarest drop rate, unlike the
+    gallery cards."""
+    summaries = {}
+    for char_id, solution in solutions.items():
+        items = [item for item in solution['item_per_slot'].values()
+                 if item is not None]
+        attach_acquisition(items, game_version)
+        summaries[char_id] = acquisition_summary(items)
+    return summaries
 
 
 def _sort_items(solutions):
@@ -567,7 +582,8 @@ def get_item_stats(request):
         return HttpResponseJson(None)
     result_item = ModelResultItem(item)
     evolve_result_item(result_item)
-    
+    attach_acquisition([result_item], getattr(request, 'game_version', None))
+
     json_response = jsonpickle.encode(result_item, unpicklable=False)
     
     return HttpResponseJson(json_response)

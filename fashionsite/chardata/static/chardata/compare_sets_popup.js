@@ -13,7 +13,7 @@ var itemTemplate =
         </div> \
     </td> \
     <td style="width: 100%"> \
-    <div class="compare-item-name"> <b> %name% </b><br> '+gettext("Lvl.")+' %level%</div> <br>\
+    <div class="compare-item-name"> <b> %name% </b><br> '+gettext("Lvl.")+' %level%%extra%</div> <br>\
     </td> \
     <td> \
     <input type="button" class="button-thin" id="compare-button-close" value="'+gettext("Close")+'" />\
@@ -132,8 +132,19 @@ function populatePopUp(data) {
                 stats += "<br>";
             });
         }
+        // Same secondary lines as the switch popup: the set tells same-named
+        // pieces apart, the source says whether you can craft or must farm it.
+        var extra = '';
+        if (data.localized_set_name) {
+            extra += '<br><span class="compare-item-meta">' + gettext('Set') + ': '
+                + data.localized_set_name + '</span>';
+        }
+        if (data.acquisition_text) {
+            extra += '<br><span class="compare-item-meta">' + data.acquisition_text
+                + '</span>';
+        }
         var dict = {name: data.localized_name || data.or_name, stats: stats,
-                    imageSource: data.file, level: data.level};
+                    imageSource: data.file, level: data.level, extra: extra};
         var container = $(".item-stats");
         container.empty();
         var resolved = resolveAndAppend(container, itemTemplate, dict);

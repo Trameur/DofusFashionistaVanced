@@ -2100,6 +2100,18 @@ class GetItemStatsTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn('stats_lines', resp.content.decode('utf-8'))
 
+    def test_payload_tells_how_to_get_the_item(self):
+        # The compare popup shows the same secondary lines as the switch popup;
+        # without these two fields it silently fell back to name and stats only.
+        import json as json_mod
+        from fashionistapulp.structure import get_structure
+        item = get_structure('dofus3').get_item_by_name('Tynril Hat (#1)')
+        self.assertIsNotNone(item)
+        resp = self.client.post('/get_item_stats_compare/', {'itemId': item.id})
+        payload = json_mod.loads(resp.content.decode('utf-8'))
+        self.assertEqual(payload['localized_set_name'], 'Tynril Set')
+        self.assertIn('Craftable', payload['acquisition_text'])
+
     def test_unknown_or_malformed_id_answers_null_not_500(self):
         for bad in ('99999999', 'abc', ''):
             resp = self.client.post('/get_item_stats_compare/', {'itemId': bad})
