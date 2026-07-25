@@ -31,6 +31,7 @@ from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.solution import get_solution, set_solution
 from chardata.image_store import get_image_url
+from chardata.item_sources import attach_acquisition
 from chardata.solution_result import evolve_result_item, AttributeLine
 from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
@@ -240,7 +241,8 @@ def get_items_of_type(request, char_id):
             result_item.owned = (owned_ids is not None
                                  and _is_owned(structure, item, owned_ids))
             itemResults.append(result_item)
-        
+    attach_acquisition(itemResults)
+
     response = {'items': itemResults,
                 'violations': None,
                 'page': page,
@@ -346,6 +348,7 @@ def get_items_to_exchange(request, char_id):
     # (like the solution page), otherwise the popup shows broken/placeholder images.
     for ri in itemResults:
         ri.file = static(get_image_url(ri.type, ri.name))
+    attach_acquisition(itemResults)
 
     response = {'items': itemResults,
                 'violations': violations,

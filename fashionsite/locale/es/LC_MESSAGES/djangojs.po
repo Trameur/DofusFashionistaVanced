@@ -678,3 +678,11 @@ msgstr "S"
 #: .\chardata\static\chardata\solution_popup.js:590
 msgid "Set"
 msgstr "Set"
+
+#: .\chardata\static\chardata\solution_popup.js:578
+msgid "Craftable"
+msgstr "Fabricable"
+
+#: .\chardata\static\chardata\solution_popup.js:578
+msgid "Drop rate: %(rate)s"
+msgstr "Tasa de drop: %(rate)s"

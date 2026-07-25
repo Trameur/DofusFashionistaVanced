@@ -1879,6 +1879,55 @@ class ItemPickerSetNameTests(TestCase):
                              'the rings must not share a set name: %s' % set_names)
             self.assertNotIn(None, set_names)
 
+    def test_acquisition_answers_for_both_branches_of_an_or_item(self):
+        # Only the first branch carries the recipe and the drops, so keying the
+        # lookup on the internal id would leave "(#2)" looking sourceless.
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.item_sources import attach_acquisition, get_acquisition_by_ankama_id
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+
+        sources = get_acquisition_by_ankama_id([8699], 'dofus3')
+        self.assertTrue(sources[8699]['craftable'])
+        self.assertGreater(sources[8699]['best_drop_rate'], 0)
+
+        branches = [structure.get_item_by_name('Tynril Hat (#%d)' % n) for n in (1, 2)]
+        self.assertNotIn(None, branches)
+        attach_acquisition(branches, 'dofus3')
+        for branch in branches:
+            with self.subTest(branch=branch.name):
+                self.assertTrue(branch.craftable)
+                self.assertGreater(branch.best_drop_rate, 0)
+
+    def test_sourceless_item_gets_no_acquisition_claim(self):
+        # We only state what the data says: no recipe and no drop means no line,
+        # never "unobtainable" (a quest or an achievement may still give it).
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.item_sources import get_acquisition_by_ankama_id
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        self.assertEqual(get_acquisition_by_ankama_id([], 'dofus3'), {})
+        self.assertEqual(get_acquisition_by_ankama_id([987654321], 'dofus3'), {})
+
+    def test_every_version_answers_the_acquisition_lookup(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from chardata.item_sources import get_acquisition_by_ankama_id
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                ankama_ids = [row[0] for row in conn.execute(
+                    'SELECT DISTINCT i.ankama_id FROM item_recipes r '
+                    'JOIN items i ON i.id = r.item LIMIT 20')]
+            finally:
+                conn.close()
+            with self.subTest(version=version):
+                self.assertTrue(ankama_ids, 'no recipes at all in %s' % version)
+                sources = get_acquisition_by_ankama_id(ankama_ids, version)
+                self.assertEqual(sorted(sources), sorted(ankama_ids))
+                self.assertTrue(all(s['craftable'] for s in sources.values()))
+
     def test_icon_alt_never_receives_the_header_markup(self):
         # The header holds line breaks, the owned icon and now the set line, so
         # feeding it to alt="" closed the attribute early and leaked markup.

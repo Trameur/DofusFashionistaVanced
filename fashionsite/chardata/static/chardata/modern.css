@@ -694,7 +694,8 @@ html.fm-modern .item-exchange-container{
 }
 html.fm-modern .item-exchange-name{ color:var(--fm-head) !important; font-weight:700; }
 /* the set is what tells same-named pieces apart, but it stays secondary */
-html.fm-modern .item-exchange-name .item-set-name{ color:var(--fm-muted) !important; font-weight:400; }
+html.fm-modern .item-exchange-name .item-set-name,
+html.fm-modern .item-exchange-name .item-source-line{ color:var(--fm-muted) !important; font-weight:400; }
 html.fm-modern .item-exchange-icon{ border-radius:var(--fm-radius-xs); }
 /* header tint (switch-popup card header AND expand-stats accordion header) */
 html.fm-modern .item-exchange-header,

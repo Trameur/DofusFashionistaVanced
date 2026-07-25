@@ -572,6 +572,23 @@ function createComparison(differences, item){
     return comparison;
 }
 
+// "Can I actually get this one?", straight from the scraped data: a recipe, a
+// drop rate, or nothing at all when we know of no source.
+function describeItemSource(item) {
+    var parts = [];
+    if (item.craftable) {
+        parts.push(gettext('Craftable'));
+    }
+    if (item.best_drop_rate) {
+        var rate = item.best_drop_rate < 0.01
+            ? '< 0.01%'
+            : Number(item.best_drop_rate).toLocaleString(undefined,
+                  {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%';
+        parts.push(interpolate(gettext('Drop rate: %(rate)s'), {rate: rate}, true));
+    }
+    return parts.join(' · ');
+}
+
 function populateItems(items, violations, char_id, searchTerm, slot, differences, callBack, showComparison, weaponInfo) {
     var container = $(".items-to-add");
     container.empty();
@@ -590,6 +607,10 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
         if (item.localized_set_name) {
             headerString += '<br><span class="item-set-name">' + gettext('Set') + ': '
                 + item.localized_set_name + '</span>';
+        }
+        var sourceLine = describeItemSource(item);
+        if (sourceLine) {
+            headerString += '<br><span class="item-source-line">' + sourceLine + '</span>';
         }
         var violationsString = setItemViolations(item, violations, char_id);
         var violationsAreFatal = checkIfViolationsAreFatal(item, violations, char_id);
