@@ -4984,6 +4984,44 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         # itself broke rather than the data being clean.
         self.assertGreater(checked, 10, 'the marker sweep found almost nothing')
 
+    # The Touch incarnation sets have no recipe and no drop, which makes them
+    # look unobtainable to the audit. They are not: Ankama sells them through
+    # the in-game shop rotation ("les incarnations integreront les rotations",
+    # official Touch forum 04/02/2019), with named shop announcements for
+    # Hulkrap (13/08/2019), Rapiat (12/11/2019), Ektope, Klume, Kalkaneus,
+    # Hichete, Karotz, Kubitus and Plunder, plus a moderator answer for Fyred
+    # Ampe ("pas craftable, mais tu dois pouvoir l'obtenir dans le shop"). The
+    # Albueran Recruit set is the tutorial quest reward. Blocking any of them
+    # would take a real item out of a player's pool, so this test guards the
+    # research: see e5_touch/touch_verified_obtainable.json in the loop folder.
+    TOUCH_SHOP_INCARNATION_ANKAMA_IDS = (
+        10638, 10639, 10640, 10641, 10642, 10643, 10644, 10645, 10847, 10848,
+        10849, 10850, 10851, 10852, 10853, 10854, 10855, 10856, 10857, 10858,
+        10962, 10963, 10964, 10965, 10975, 10976, 10977, 10978, 10979, 10980,
+        10981, 10982, 11343, 11344, 11345, 11346, 11347, 11348, 11349, 11350,
+        11351, 11352, 11353, 11354, 11355, 11356, 11357, 11358, 11359, 11360,
+        11361, 11362, 11363, 11364, 11365, 11366, 12022, 12023, 12024, 12025,
+        12026, 12027, 12028, 12029, 12030, 12031, 12032, 12033, 12034, 12035,
+        12036, 12037, 12038, 12039, 12040, 12041, 12042, 12043, 12044, 12045,
+        18844, 18846, 18848,
+    )
+
+    def test_touch_shop_incarnations_stay_available(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_default_exclusions
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('touch')
+        structure = get_structure('touch')
+        defaults = set(get_default_exclusions(char=None))
+        blocked = []
+        for ankama_id in self.TOUCH_SHOP_INCARNATION_ANKAMA_IDS:
+            item = structure.get_item_by_ankama_id(ankama_id)
+            if item is not None and item.id in defaults:
+                blocked.append((ankama_id, item.name))
+        self.assertEqual(blocked, [],
+                         'these are sold in the Touch shop rotation, hiding them '
+                         'removes a real item from the pool: %s' % blocked[:5])
+
     def test_ice_dofus_forbidden_by_default_on_retro_not_on_dofus3(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
