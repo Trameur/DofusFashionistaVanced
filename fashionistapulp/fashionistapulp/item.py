@@ -29,6 +29,10 @@ class Item:
         self.ankama_type = None
         self.is_one_handed = False
         self.stats = []
+        # stat id -> (lowest roll, highest roll), only for stats that vary. The
+        # solver keeps reading self.stats (the best roll); this is what the
+        # encyclopedia shows so a player knows what an average one looks like.
+        self.stat_ranges = {}
         self.min_stats_to_equip = []
         self.max_stats_to_equip = []
         self.localized_extras = {}

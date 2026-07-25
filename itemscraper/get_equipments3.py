@@ -254,8 +254,13 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         f.write(f"INSERT INTO items VALUES({item_id},'{escape_single_quotes(item['name_en'])}',{item['level']},{list(TYPE_NAME_TO_SLOT.values()).index(item['w_type'].lower()) + 1},{set_id_or_null},{item['ankama_id']},'{item['ankama_type']}',NULL,NULL);\n")
 
     # Write CREATE TABLE for stats_of_items
+    # value stays what the solver reads (the best roll). min_value/max_value keep
+    # the two ends of the range so the encyclopedia can show "7 to 10 Strength"
+    # instead of pretending every item rolls perfect. NULL when the item has a
+    # single fixed value.
     f.write("""CREATE TABLE stats_of_item
             (item INTEGER, stat INTEGER, value INTEGER,
+            min_value INTEGER, max_value INTEGER,
             FOREIGN KEY(item) REFERENCES items(id),
             FOREIGN KEY(stat) REFERENCES stats(id));\n""")
 
@@ -273,7 +278,11 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                 continue
             stat_value = stat[1] if stat[1] is not None else stat[0]
             stat_value = stat[0] if stat[0] < 0 else stat_value
-            f.write(f"INSERT INTO stats_of_item VALUES({item_id},{list(STAT_NAME_TO_KEY_LOCAL).index(stat[2]) + 1},{stat_value});\n")
+            if stat[0] is not None and stat[1] is not None and stat[0] != stat[1]:
+                low, high = min(stat[0], stat[1]), max(stat[0], stat[1])
+            else:
+                low = high = 'NULL'
+            f.write(f"INSERT INTO stats_of_item VALUES({item_id},{list(STAT_NAME_TO_KEY_LOCAL).index(stat[2]) + 1},{stat_value},{low},{high});\n")
 
     # Write CREATE TABLE for set_bonus
     f.write("""CREATE TABLE set_bonus

@@ -64,7 +64,7 @@
                         {% if stat.icon_url %}
                         <img class="encyclopedia-list-stat-icon" src="{{ stat.icon_url }}" alt="">
                         {% endif %}
-                        <span>{{ stat.value }} {{ stat.name }}</span>
+                        <span>{% firstof stat.amount_text stat.value %} {{ stat.name }}</span>
                     </div>
                 </li>
                 {% empty %}

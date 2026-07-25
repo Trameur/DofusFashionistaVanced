@@ -52,6 +52,7 @@ LOCALIZED_UI = {
         'open_item': 'Open item details',
         'details_title': 'Item details',
         'set_label': 'Set',
+        'stat_range': '%(low)s to %(high)s',
         'stats_label': 'Stats',
         'conditions_label': 'Conditions',
         'or_label': 'OR',
@@ -114,6 +115,7 @@ LOCALIZED_UI = {
         'open_item': 'Ouvrir les détails',
         'details_title': "Détails de l'objet",
         'set_label': 'Panoplie',
+        'stat_range': '%(low)s à %(high)s',
         'stats_label': 'Caractéristiques',
         'conditions_label': 'Conditions',
         'or_label': 'OU',
@@ -176,6 +178,7 @@ LOCALIZED_UI = {
         'open_item': 'Abrir detalles del objeto',
         'details_title': 'Detalles del objeto',
         'set_label': 'Set',
+        'stat_range': '%(low)s a %(high)s',
         'stats_label': 'Estadísticas',
         'conditions_label': 'Condiciones',
         'or_label': 'O',
@@ -238,6 +241,7 @@ LOCALIZED_UI = {
         'open_item': 'Abrir detalhes do item',
         'details_title': 'Detalhes do item',
         'set_label': 'Conjunto',
+        'stat_range': '%(low)s a %(high)s',
         'stats_label': 'Atributos',
         'conditions_label': 'Condições',
         'or_label': 'OU',
@@ -300,6 +304,7 @@ LOCALIZED_UI = {
         'open_item': 'Gegenstandsdetails öffnen',
         'details_title': 'Gegenstandsdetails',
         'set_label': 'Set',
+        'stat_range': '%(low)s bis %(high)s',
         'stats_label': 'Werte',
         'conditions_label': 'Bedingungen',
         'or_label': 'ODER',
@@ -592,6 +597,15 @@ def _absolute_versioned_url(path, game_version='dofus3'):
     return 'https://dofusfashionista.gg%s' % path
 
 
+def _stat_amount_text(item, stat_id, best_value):
+    """"7 to 10" when the roll varies, plain "10" when it is fixed. The number
+    shown alone stays the best roll, which is what the optimiser assumes."""
+    low, high = (getattr(item, 'stat_ranges', {}) or {}).get(stat_id, (None, None))
+    if low is None or high is None or low == high:
+        return '%d' % best_value
+    return _ui_text()['stat_range'] % {'low': low, 'high': high}
+
+
 def _get_stat_lines(structure, item, language):
     stat_lines = []
     for stat_id, stat_value in sorted(
@@ -604,8 +618,8 @@ def _get_stat_lines(structure, item, language):
         # Round stat value to nearest integer to avoid floating-point precision issues
         rounded_value = int(round(stat_value))
         stat_lines.append({
-            'text': '%d%s%s' % (
-                rounded_value,
+            'text': '%s%s%s' % (
+                _stat_amount_text(item, stat_id, rounded_value),
                 '' if stat.name.startswith('%') else ' ',
                 _localized_label(stat.name, language),
             ),
@@ -1999,6 +2013,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         stat_lines.append({
             'name': _localized_label(stat.name, language),
             'value': stat_value,
+            'amount_text': _stat_amount_text(representative_item, stat_id,
+                                             int(round(stat_value))),
             'icon_url': _get_stat_icon_url(stat.key),
         })
 

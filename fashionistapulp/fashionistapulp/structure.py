@@ -265,12 +265,19 @@ class Structure:
 
     def read_stats_of_item_table(self):
         c = self.conn.cursor()
-        for entry in c.execute('SELECT item, stat, value FROM stats_of_item'):
+        # Only the versions built by get_equipments3 carry the roll range.
+        has_range = any(row[1] == 'min_value'
+                        for row in c.execute('PRAGMA table_info(stats_of_item)'))
+        columns = ('item, stat, value, min_value, max_value' if has_range
+                   else 'item, stat, value')
+        for entry in c.execute('SELECT %s FROM stats_of_item' % columns):
             item_id = entry[0]
             stat_id = entry[1]
             value = entry[2]
             item = self.get_item_by_id(item_id)
             item.stats.append((stat_id, value))
+            if has_range and entry[3] is not None and entry[4] is not None:
+                item.stat_ranges[stat_id] = (entry[3], entry[4])
             
     def insert_turquoises(self):
         for value in range(11, 20 + 1):

@@ -7464,6 +7464,48 @@ class NoMojibakeInTranslationsTests(SimpleTestCase):
             'rewrite the .po in UTF-8): %s' % offenders)
 
 
+class StatRangeTests(TestCase):
+    """The encyclopedia used to print only the best roll, which reads as if every
+    item came out perfect. The scraped data has both ends of the roll, the dump
+    was throwing the low one away."""
+
+    def test_the_range_is_stored_but_the_solver_still_reads_the_best_roll(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        item = structure.get_item_by_name('Tynril Hat (#1)')
+        self.assertIsNotNone(item)
+        vitality = structure.get_stat_by_key('vit').id
+        self.assertEqual(item.stat_ranges[vitality], (201, 250))
+        # What the model optimises on is untouched: still the best roll.
+        self.assertIn((vitality, 250), item.stats)
+        # A fixed stat carries no range at all.
+        action_points = structure.get_stat_by_key('ap').id
+        self.assertNotIn(action_points, item.stat_ranges)
+
+    def test_the_item_page_shows_the_range_in_each_language(self):
+        expected = {'en': '201 to 250', 'fr': '201 à 250', 'es': '201 a 250',
+                    'pt': '201 a 250', 'de': '201 bis 250'}
+        for language, text in expected.items():
+            resp = self.client.get('/encyclopedia/item/equipment/8699-x/',
+                                   HTTP_ACCEPT_LANGUAGE=language)
+            self.assertEqual(resp.status_code, 200)
+            with self.subTest(language=language):
+                self.assertContains(resp, text)
+
+    def test_versions_without_range_data_still_render(self):
+        # Retro, Touch and Dofus 2 come from other scrapers and have no range
+        # columns; the page must fall back to the single value, not break.
+        from fashionistapulp.structure import get_structure
+        for version, prefix in (('retro', '/retro'), ('touch', '/touch')):
+            structure = get_structure(version)
+            item = next(iter(structure.get_concatenated_items_lists()))
+            self.assertEqual(getattr(item, 'stat_ranges', {}), {})
+            resp = self.client.get('%s/encyclopedia/item/equipment/%d-x/'
+                                   % (prefix, item.ankama_id))
+            with self.subTest(version=version):
+                self.assertIn(resp.status_code, (200, 404))
+
+
 class DofusGridLabelTests(SimpleTestCase):
     """The dofus grid labels were hand-kept in the catalogs, so es/pt/de showed
     English words for a third of them. When the catalog has nothing, the label
