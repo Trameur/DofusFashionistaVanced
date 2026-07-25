@@ -7492,18 +7492,40 @@ class StatRangeTests(TestCase):
             with self.subTest(language=language):
                 self.assertContains(resp, text)
 
-    def test_versions_without_range_data_still_render(self):
-        # Retro, Touch and Dofus 2 come from other scrapers and have no range
-        # columns; the page must fall back to the single value, not break.
+    def test_every_version_with_range_data_shows_it(self):
         from fashionistapulp.structure import get_structure
-        for version, prefix in (('retro', '/retro'), ('touch', '/touch')):
-            structure = get_structure(version)
-            item = next(iter(structure.get_concatenated_items_lists()))
-            self.assertEqual(getattr(item, 'stat_ranges', {}), {})
-            resp = self.client.get('%s/encyclopedia/item/equipment/%d-x/'
-                                   % (prefix, item.ankama_id))
+        # Same sword, four games: the roll differs per version and Touch has its
+        # own numbers, so each one is read from its own database.
+        expected = {'dofus3': ('44', '7 à 10'), 'beta': ('44', '7 à 10'),
+                    'dofus2': ('44', '7 à 10'), 'touch': ('47', '11 à 15')}
+        prefixes = {'dofus3': '', 'beta': '/beta', 'dofus2': '/dofus2',
+                    'touch': '/touch'}
+        for version, (ankama_id, text) in expected.items():
+            resp = self.client.get('%s/encyclopedia/item/equipment/%s-x/'
+                                   % (prefixes[version], ankama_id),
+                                   HTTP_ACCEPT_LANGUAGE='fr')
             with self.subTest(version=version):
-                self.assertIn(resp.status_code, (200, 404))
+                self.assertEqual(resp.status_code, 200)
+                self.assertContains(resp, text)
+
+    def test_retro_has_no_stat_range_because_the_game_has_none(self):
+        # In Dofus Retro 1.29 equipment stats are fixed. Every ranged line in the
+        # Retro source is a weapon damage line, which is not an item stat, so an
+        # empty result here is the game being faithful, not a data gap.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            ranged = conn.execute(
+                'SELECT COUNT(*) FROM stats_of_item '
+                'WHERE min_value IS NOT NULL').fetchone()[0]
+        finally:
+            conn.close()
+        self.assertEqual(ranged, 0)
+        resp = self.client.get('/retro/encyclopedia/item/equipment/44-x/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Force')
 
 
 class DofusGridLabelTests(SimpleTestCase):

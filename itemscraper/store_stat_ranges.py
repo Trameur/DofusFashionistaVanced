@@ -80,13 +80,30 @@ def store(game_version, input_dir):
                 'SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL'):
             by_item.setdefault(ankama_id, []).append(item_id)
 
-        updates = []
+        # Retro synthesises pet variants that share one ankama_id but roll
+        # different stats ("Bow Meow (+80 Vitality)"), so a range only goes on a
+        # row whose stored value actually sits inside it.
+        stored = {}
+        for item_id, stat_id, value in cursor.execute(
+                'SELECT item, stat, value FROM stats_of_item'):
+            stored[(item_id, stat_id)] = value
+
+        updates = skipped = 0
+        rows = []
         for (ankama_id, stat_id), (low, high) in ranges.items():
             for item_id in by_item.get(ankama_id, ()):
-                updates.append((low, high, item_id, stat_id))
+                value = stored.get((item_id, stat_id))
+                if value is None or not (low <= value <= high):
+                    skipped += 1
+                    continue
+                rows.append((low, high, item_id, stat_id))
+                updates += 1
         cursor.executemany(
             'UPDATE stats_of_item SET min_value = ?, max_value = ? '
-            'WHERE item = ? AND stat = ?', updates)
+            'WHERE item = ? AND stat = ?', rows)
+        if skipped:
+            print('[%s] %d rows skipped: their value falls outside the source '
+                  'range (variant rows sharing an ankama_id)' % (game_version, skipped))
         conn.commit()
         filled = cursor.execute(
             'SELECT COUNT(*) FROM stats_of_item WHERE min_value IS NOT NULL').fetchone()[0]
