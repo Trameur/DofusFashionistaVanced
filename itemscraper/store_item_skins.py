@@ -26,6 +26,11 @@ from store_item_obtainment import (  # noqa: E402
 
 VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
 
+# How big a lead over the runner up a match needs before it is trusted, checked
+# by eye on samples. Capes are told apart by colour and hold up lower down;
+# weapons share silhouettes and turn into coin flips as soon as the lead thins.
+MIN_MARGIN = {'Cloak': 0.05, 'Hat': 0.10, 'Shield': 0.10, 'Weapon': 0.10}
+
 
 def add_column(conn):
     columns = [row[1] for row in conn.execute('PRAGMA table_info(items)')]
@@ -37,7 +42,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3')
     parser.add_argument('--input', required=True)
-    parser.add_argument('--min-margin', type=float, default=0.05)
+    parser.add_argument('--min-margin', type=float,
+                        help='one floor for every type; default is per type')
     args = parser.parse_args()
 
     matches = json.load(open(args.input, encoding='utf-8'))
@@ -48,16 +54,20 @@ def main():
     conn = sqlite3.connect(db_path)
     try:
         add_column(conn)
-        known = {row[0]: row[1] for row in conn.execute("""
-            SELECT i.ankama_id, i.id FROM items i JOIN item_types t ON t.id = i.type
+        known = {row[0]: (row[1], row[2]) for row in conn.execute("""
+            SELECT i.ankama_id, i.id, t.name FROM items i JOIN item_types t ON t.id = i.type
             WHERE t.name IN (%s)""" % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES)}
         written = thin = absent = 0
         for ankama_id, match in matches.items():
-            item_id = known.get(int(ankama_id))
-            if item_id is None:
+            entry = known.get(int(ankama_id))
+            if entry is None:
                 absent += 1
                 continue
-            if match['score'] - match['runner_up'] < args.min_margin:
+            item_id, item_type = entry
+            floor = args.min_margin
+            if floor is None:
+                floor = MIN_MARGIN.get(item_type, 0.10)
+            if match['score'] - match['runner_up'] < floor:
                 thin += 1
                 continue
             conn.execute('UPDATE items SET skin = ? WHERE id = ?', (match['skin'], item_id))
