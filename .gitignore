@@ -55,3 +55,6 @@ fashionsite/staticfiles/
 # Stray get_equipments3 artifact when run from an unexpected cwd (the real
 # dumps live in fashionistapulp/fashionistapulp/)
 itemscraper/item_db_dumped.dump
+
+character_bundles/
+character_cache/

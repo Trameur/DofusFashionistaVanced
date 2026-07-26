@@ -11,6 +11,7 @@ import os
 import re
 import struct
 import threading
+import warnings
 
 from django.conf import settings
 from django.http import FileResponse, Http404, JsonResponse
@@ -26,10 +27,17 @@ _unity_ready = False
 
 
 def _unity():
+    """Ankama strips the Unity version from the bundle header, so the fallback
+    is the normal case here, not something to warn about on every read."""
     global _unity_ready
     import UnityPy
     if not _unity_ready:
         UnityPy.config.FALLBACK_UNITY_VERSION = '2022.3.0f1'
+        try:
+            from UnityPy.exceptions import UnityVersionFallbackWarning
+            warnings.simplefilter('ignore', UnityVersionFallbackWarning)
+        except ImportError:
+            warnings.filterwarnings('ignore', message='No valid Unity version found')
         _unity_ready = True
     return UnityPy
 

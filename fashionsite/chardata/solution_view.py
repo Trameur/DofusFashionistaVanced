@@ -446,7 +446,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     vote_data = _get_live_vote_data(request, char)
     class_avatar = get_class_avatar(char)
     character_look = get_character_look(
-        char, solution_result, getattr(request, 'game_version', 'dofus3'))
+        char, snapshot_solution if snapshot_solution is not None else get_solution(char),
+        getattr(request, 'game_version', 'dofus3'))
     seo_class = str(LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class or ''))
     seo_build = WrappedChar(char).build_string() if char.char_build else ''
 

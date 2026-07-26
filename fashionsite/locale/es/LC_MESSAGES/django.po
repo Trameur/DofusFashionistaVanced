@@ -6331,3 +6331,16 @@ msgstr ""
 #: .\chardata\templates\chardata\projdetails.html:103
 msgid "You can still start one on another version:"
 msgstr "Aún puedes crear uno en otra versión:"
+
+#: .\chardata emplates\chardata\solution.html:38
+msgid "Drag to turn your character"
+msgstr "Arrastra para girar tu personaje"
+
+#: .\chardata	emplates\chardatabout.html:44
+msgid ""
+"The character preview is drawn with the game's own artwork, downloaded from "
+"Ankama's official content CDN. All of it belongs to Ankama."
+msgstr ""
+"La vista previa del personaje se dibuja con los gráficos del propio juego, "
+"descargados del CDN de contenido oficial de Ankama. Todo ello pertenece a "
+"Ankama."

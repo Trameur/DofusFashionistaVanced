@@ -23,6 +23,7 @@ import os
 import re
 import sqlite3
 import sys
+import warnings
 
 import numpy as np
 import UnityPy
@@ -31,6 +32,11 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 UnityPy.config.FALLBACK_UNITY_VERSION = '2022.3.0f1'
+try:
+    from UnityPy.exceptions import UnityVersionFallbackWarning
+    warnings.simplefilter('ignore', UnityVersionFallbackWarning)
+except ImportError:
+    warnings.filterwarnings('ignore', message='No valid Unity version found')
 
 FAMILY_TO_TYPE = {
     'Chapeau': 'Hat',

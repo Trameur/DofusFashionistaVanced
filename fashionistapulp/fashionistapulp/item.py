@@ -33,6 +33,9 @@ class Item:
         # solver keeps reading self.stats (the best roll); this is what the
         # encyclopedia shows so a player knows what an average one looks like.
         self.stat_ranges = {}
+        # Character skin for the pieces that show on the character. None on the
+        # rest, and on any version whose data has no match for it.
+        self.skin = None
         self.min_stats_to_equip = []
         self.max_stats_to_equip = []
         self.localized_extras = {}

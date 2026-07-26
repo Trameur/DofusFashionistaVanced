@@ -18,12 +18,18 @@ import json
 import os
 import re
 import struct
+import warnings
 
 import numpy as np
 import UnityPy
 from PIL import Image
 
 UnityPy.config.FALLBACK_UNITY_VERSION = '2022.3.0f1'
+try:
+    from UnityPy.exceptions import UnityVersionFallbackWarning
+    warnings.simplefilter('ignore', UnityVersionFallbackWarning)
+except ImportError:
+    warnings.filterwarnings('ignore', message='No valid Unity version found')
 
 RECORD = 36
 DELTA = 28

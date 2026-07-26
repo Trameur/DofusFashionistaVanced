@@ -7706,6 +7706,60 @@ class StatRangeInThePickerTests(TestCase):
                       solution_result.format_stat_range)
 
 
+class CharacterLookTests(TestCase):
+    """The preview needs a body and a head per class, and the skin of every
+    piece that shows on the character."""
+
+    def _char(self, char_class):
+        from chardata.models import Char
+        return Char.objects.create(
+            name='look', char_name='hero', char_class=char_class, char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'', link_shared=False,
+            game_version='dofus3')
+
+    def test_every_class_the_site_offers_has_a_look(self):
+        from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+        from chardata.character_look import CLASS_TO_BREED, _breed_looks
+        looks = _breed_looks()
+        for char_class in CHARACTER_CLASSES:
+            with self.subTest(char_class=char_class):
+                breed = CLASS_TO_BREED.get(char_class)
+                self.assertIsNotNone(breed, char_class)
+                entry = looks.get('%d-0' % breed)
+                self.assertIsNotNone(entry, char_class)
+                self.assertTrue(entry['body'])
+                self.assertTrue(entry['head'])
+
+    def test_a_look_without_a_solution_is_the_bare_character(self):
+        from chardata.character_look import get_character_look
+        look = get_character_look(self._char('Iop'), None)
+        self.assertEqual(look['gear'], {})
+        self.assertTrue(look['body'])
+        self.assertGreater(look['scale'], 0)
+
+    def test_an_unknown_class_has_no_preview(self):
+        from chardata.character_look import get_character_look
+        self.assertIsNone(get_character_look(self._char('Nosuchclass'), None))
+
+    def test_only_the_versions_running_this_client_get_a_preview(self):
+        from chardata.character_look import get_character_look
+        char = self._char('Iop')
+        for version in ('dofus3', 'beta'):
+            self.assertIsNotNone(get_character_look(char, None, version), version)
+        for version in ('dofus2', 'touch', 'retro'):
+            self.assertIsNone(get_character_look(char, None, version), version)
+
+    def test_the_page_falls_back_when_there_is_no_art(self):
+        import tempfile
+        from django.test import override_settings
+        from chardata import character_assets
+        with tempfile.TemporaryDirectory() as empty:
+            with override_settings(CHARACTER_BUNDLE_DIR=None, CHARACTER_CACHE_DIR=empty):
+                self.assertIsNone(character_assets.ensure_skin(10))
+                self.assertIsNone(character_assets.ensure_pose(2))
+
+
 class DofusGridLabelTests(SimpleTestCase):
     """The dofus grid labels were hand-kept in the catalogs, so es/pt/de showed
     English words for a third of them. When the catalog has nothing, the label

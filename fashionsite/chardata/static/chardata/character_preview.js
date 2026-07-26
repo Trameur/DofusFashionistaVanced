@@ -43,12 +43,20 @@
                 }
                 self.poses = data;
             })];
+        // One missing piece must not cost the whole character, so a part that
+        // fails to load is simply not drawn.
         this.skins.forEach(function (id) {
             jobs.push(fetch(self.base + '/parts/' + id + '/parts.json')
-                .then(function (r) { return r.json(); })
-                .then(function (data) { self.manifests[id] = data; }));
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (data) { if (data) { self.manifests[id] = data; } })
+                .catch(function () {}));
         });
-        return Promise.all(jobs).then(function () { return self; });
+        return Promise.all(jobs).then(function () {
+            if (!self.poses || !self.manifests[self.look.body]) {
+                throw new Error('no character art');
+            }
+            return self;
+        });
     };
 
     CharacterPreview.prototype.image = function (skinId, part) {
@@ -160,6 +168,7 @@
             self.draw();
             self.raf = requestAnimationFrame(tick);
         }
+        this.draw();
         this.raf = requestAnimationFrame(tick);
         this.bindDrag();
         return this;

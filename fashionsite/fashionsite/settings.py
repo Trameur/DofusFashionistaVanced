@@ -102,9 +102,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Raw skin and bone bundles from Ankama's CDN, and where the preview bakes them
 # the first time a page asks. Unset means no character preview.
-CHARACTER_BUNDLE_DIR = os.environ.get('CHARACTER_BUNDLE_DIR')
+CHARACTER_BUNDLE_DIR = os.environ.get(
+    'CHARACTER_BUNDLE_DIR',
+    os.path.join(os.path.dirname(BASE_DIR), 'character_bundles'))
 CHARACTER_CACHE_DIR = os.environ.get(
-    'CHARACTER_CACHE_DIR', os.path.join(BASE_DIR, 'character_cache'))
+    'CHARACTER_CACHE_DIR', os.path.join(os.path.dirname(BASE_DIR), 'character_cache'))
 
 # Application definition
 

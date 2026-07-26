@@ -119,8 +119,11 @@ class Structure:
         self.dt_items_dict_name = {}
         self.items_dict_ankama = {}
         self.dt_items_dict_ankama = {}
-        for entry in c.execute('SELECT id, name, level, type, item_set, ankama_id, ankama_type, removed, dofustouch '
-                               'FROM items'):
+        has_skin = any(row[1] == 'skin'
+                       for row in c.execute('PRAGMA table_info(items)'))
+        columns = ('id, name, level, type, item_set, ankama_id, ankama_type, removed, '
+                   'dofustouch' + (', skin' if has_skin else ''))
+        for entry in c.execute('SELECT %s FROM items' % columns):
             item_id = entry[0]
             item_name = entry[1]
             item_level = entry[2]
@@ -143,7 +146,9 @@ class Structure:
             item.ankama_type = ankama_type
             item.removed = bool(item_removed)
             item.dofus_touch = bool(dofus_touch)
-            
+            if has_skin:
+                item.skin = entry[9]
+
             if not dofus_touch:
                 self.items_dict[item_id] = item
                 #assert item.name not in self.items_dict_name, "%s DUPLICATED" % item.name

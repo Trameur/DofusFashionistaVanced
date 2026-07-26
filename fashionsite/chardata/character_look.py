@@ -31,6 +31,10 @@ SLOT_TO_NODE = {
 
 REFERENCE_SCALE = 53.0
 
+# The art is the Dofus 3 client's. Beta runs the same client; Retro, Touch and
+# Dofus 2 have their own and must not borrow this one.
+VERSIONS_WITH_ART = ('dofus3', 'beta')
+
 _looks = None
 
 
@@ -46,6 +50,8 @@ def _breed_looks():
 
 def get_character_look(char, solution, game_version='dofus3'):
     """None when the version has no character art or the class is unknown."""
+    if game_version not in VERSIONS_WITH_ART:
+        return None
     breed = CLASS_TO_BREED.get(char.char_class)
     if breed is None:
         return None
