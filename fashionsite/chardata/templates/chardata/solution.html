@@ -36,7 +36,12 @@
 
     {% if class_avatar %}
     <div class="char-banner">
-        <img src="{{ class_avatar }}" alt="{{ char.char_class }}" class="char-banner-avatar">
+        {% if character_look %}
+        <canvas id="character-preview" class="char-banner-preview" width="150" height="210"
+                title="{% trans 'Drag to turn your character' %}"></canvas>
+        {% endif %}
+        <img src="{{ class_avatar }}" alt="{{ char.char_class }}" class="char-banner-avatar"
+             {% if character_look %}style="display:none;"{% endif %}>
         <div class="char-banner-info">
             <div class="char-banner-name">{{ char.char_name|default:char.name }}</div>
             <div class="char-banner-meta">
@@ -617,6 +622,27 @@
         var apiBase = '{{ api_base }}';
     </script>
     <script src="{% static 'chardata/solution_popup.js' %}"></script>
+    {% if character_look %}
+    <script src="{% static 'chardata/character_preview.js' %}"></script>
+    <script>
+        (function () {
+            var canvas = document.getElementById('character-preview');
+            if (!canvas || !window.CharacterPreview) { return; }
+            var preview = new CharacterPreview(canvas, {
+                assetBase: '/character',
+                look: {{ character_look|safe }},
+                colors: {1: [196, 154, 122], 2: [74, 92, 132], 3: [214, 196, 160],
+                         4: [96, 80, 70], 5: [150, 140, 130]},
+                scale: 0.62
+            });
+            preview.load().then(function () { preview.start(); }).catch(function () {
+                canvas.style.display = 'none';
+                var fallback = document.querySelector('.char-banner-avatar');
+                if (fallback) { fallback.style.display = ''; }
+            });
+        }());
+    </script>
+    {% endif %}
     <script>
         $.ajaxSetup({
           data: {csrfmiddlewaretoken: '{{ csrf_token }}' },

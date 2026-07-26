@@ -26,6 +26,16 @@
     object-fit: contain;
     flex-shrink: 0;
 }
+.char-banner-preview {
+    width: 75px;
+    height: 105px;
+    flex-shrink: 0;
+    cursor: grab;
+    touch-action: none;
+}
+.char-banner-preview:active {
+    cursor: grabbing;
+}
 .char-banner-info {
     min-width: 0;
     flex: 1;

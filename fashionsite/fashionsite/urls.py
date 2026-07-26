@@ -28,7 +28,7 @@ from chardata import home_view, login_view, views, projects_view, base_stats_vie
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
   compare_sets_view, item_exchange, util_views, shared_builds_view, encyclopedia_view, comment_view, \
     coaching_view, workshop_view, profile_view, tag_view, api_view, nl_build_view, forgemagie_view, \
-    inventory_view, guides_view, admin_tools_view
+    inventory_view, guides_view, admin_tools_view, character_assets
 from chardata.models import Char
 from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
@@ -538,6 +538,15 @@ urlpatterns = [
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
     re_path(r'^offline/$', offline_view, name='offline'),
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
+
+    # Character preview art, baked on first request. Not version-prefixed: the
+    # skins come from one asset set.
+    re_path(r'^character/poses/(?P<bone_id>\d+)\.json$',
+            character_assets.pose_view, name='character_pose'),
+    re_path(r'^character/parts/(?P<skin_id>\d+)/parts\.json$',
+            character_assets.parts_manifest_view, name='character_parts'),
+    re_path(r'^character/parts/(?P<skin_id>\d+)/(?P<part>[\w.\-]+)\.png$',
+            character_assets.part_image_view, name='character_part'),
     re_path(r'^$', home_view.home, name='home'),
     re_path(r'^random/$', home_view.random_build, name='random_build'),
 
