@@ -169,19 +169,14 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         7913, 9031, 2154, 2155, 2156, 10685, 10686, 10687, 10688, 16343, 8941, 8956, 8957, 8958, 8959, 8960, 8961, 8962, 8963, 8964, 8965, 8966, 10054, 10055, 10056, 10058, 10061, 10102, 11855, 12465, 12466, 6773, 10784, 10785, 10794, 10799, 10800, 10801, 12661, 27267, 27268, 27280, 27282, 1505, 8338, 8627, 10158, 10159, 10160, 10161, 10162, 10163, 10164, 10165, 10166, 10167, 11811, 17456, 17457, 21506, 21507, 21508, 21509, 21510, 1628, 1629, 1630, 1631, 1632, 1633, 6661, 6793, 6800, 6840, 6863, 6886, 7097, 11603, 11610, 11617, 11733, 11748, 677, 856, 6713, 8575, 8854, 13063
     ],
     'touch': [
-        # Shields kept out by default. An empty recipe and an empty drop list
-        # prove nothing on their own: a quest, the in-game shop and a seasonal
-        # event all leave the same empty tables, which is how the Albuera and
-        # the Novice shields ended up wrongly hidden here. Every id below is
-        # kept for a reason of its own, checked against the Touch sources.
-        10076,  # Unique Hispanian Shield (absent from the Touch encyclopedia)
-        12615,  # Escudo Epico (Spanish community event, PC only)
-        21593,  # [!] Unshakeable test shield (internal test item)
-        # PC-only one-off promos: no Touch distribution found for any of them,
-        # and none belongs to a set whose other pieces live in Touch.
-        17304,  # Beakler
-        9566,   # Raydi Shield / Bouclier Pararayon (PC "Legendes anciennes" pack)
-        13158,  # Thousand Shield (one-off Italian contest prize, PC)
+        # No recipe and no drop proves nothing here: a quest, the shop and an
+        # event all leave those tables empty. Each id has its own reason.
+        10076,  # Unique Hispanian Shield, absent from the Touch encyclopedia
+        12615,  # Escudo Epico, Spanish community event, PC only
+        21593,  # [!] Unshakeable test shield
+        17304,  # Beakler, no Touch distribution found
+        9566,   # Raydi Shield, PC "Legendes anciennes" pack
+        13158,  # Thousand Shield, one-off Italian contest prize, PC
         # Ankama Lottery rewards, gone long before Touch forked
         8941,    # Ecaflip Paw
         8956,    # Ecaflip Paw

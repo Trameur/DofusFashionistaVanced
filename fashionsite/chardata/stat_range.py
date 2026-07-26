@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The roll range of a stat, worded the same way everywhere it is shown.
-
-The number the site displays is always the best roll, because that is what the
-solver optimises on. The range is what a looted one can really be, which is the
-whole difference between "40 Wisdom" and "a 40 Wisdom that usually drops at 26".
-Retro carries no range at all: in 1.29 equipment stats are fixed values.
-"""
+"""Roll range of a stat, worded the same way in the encyclopedia and the picker."""
 from fashionistapulp.translation import get_supported_language
 
 RANGE_PATTERNS = {
@@ -18,8 +12,7 @@ RANGE_PATTERNS = {
 
 
 def get_stat_range(item, stat_id):
-    """(low, high) when that stat really varies, None when it is a fixed value
-    or when the version has no range data."""
+    """(low, high), or None on a fixed stat or a version without range data."""
     low, high = (getattr(item, 'stat_ranges', {}) or {}).get(stat_id, (None, None))
     if low is None or high is None or low == high:
         return None

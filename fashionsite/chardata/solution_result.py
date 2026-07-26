@@ -313,8 +313,6 @@ class AttributeLine:
                      % (rounded_value,
                         '' if stat_name.startswith('%') else ' ',
                         _(stat_name)))
-        # Shown next to the value where the player picks an item, so a 250 that
-        # can drop at 201 is not read as a guarantee. None on a fixed stat.
         self.range_text = format_stat_range(*stat_range) if stat_range else None
         self.formatting = '#r' if stat_value < 0 else ''
         icon_path = get_stat_icon_path(stat_key)

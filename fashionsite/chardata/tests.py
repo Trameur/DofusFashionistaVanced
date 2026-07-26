@@ -4907,12 +4907,8 @@ class VersionItemAvailabilityTests(SimpleTestCase):
                          get_default_exclusions(char=None))
 
     def test_no_lone_hidden_piece_in_an_available_set(self):
-        # An empty recipe and an empty drop list prove nothing: a quest, the
-        # in-game shop and a seasonal event leave exactly the same empty
-        # tables. Applying that rule to Touch shields hid fourteen real items,
-        # each recognisable by the same shape: the shield was the only hidden
-        # piece of a set whose other pieces stayed proposable. A set is earned
-        # as a whole, so that shape is the signature of a wrong default.
+        # A set is earned as a whole, so one hidden piece among available ones
+        # is a wrong default. That shape is what caught the Touch shields.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure, set_current_game_version
@@ -5034,17 +5030,13 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         12528, 12529, 12530, 12531, 13271, 13272,
         16522,   # Cog of Infinity, Frigost quest
         11083,   # Gobbowl Ring, level 41, real stats
-        # Third wave: the ten shields hidden by the "no recipe and no drop"
-        # rule that Albuera already proved wrong. Each one was the only hidden
-        # piece of a set still proposable, or its own description names a place
-        # that exists on Touch.
-        19835, 19837, 19839, 19841,  # the four elemental Small Shelters
-        10798,   # Novice Shield, the starter set every character wears
+        19835, 19837, 19839, 19841,  # Small Shelters, shop packs
+        10798,   # Novice Shield, starter set
         12660,   # Incarnam Shield, reward for leaving Incarnam
         14201,   # Koolich Aid, Koulosse dungeon
-        14306,   # Rat Shield, the rat dungeons
-        10906,   # Scale Shield, made of a Grozilla scale
-        14993,   # Charlie's Agents Shield, the Vulkania summer event
+        14306,   # Rat Shield, rat dungeons
+        10906,   # Scale Shield, Grozilla scale
+        14993,   # Charlie's Agents Shield, Vulkania event
     )
 
     def test_touch_verified_obtainable_items_stay_available(self):
@@ -7669,9 +7661,7 @@ class StatRangeTests(TestCase):
 
 
 class StatRangeInThePickerTests(TestCase):
-    """Knowing a 250 Vitality can drop at 201 changes which piece you pick, and
-    the picker is where you choose. Same wording as the encyclopedia, from the
-    same formatter, so the site says it one way only."""
+    """Roll range in the item picker, same wording as the encyclopedia."""
 
     def _stat_lines(self, item_name, version='dofus3'):
         from chardata.solution_result import evolve_result_item
@@ -7689,7 +7679,6 @@ class StatRangeInThePickerTests(TestCase):
     def test_a_varying_stat_carries_its_range_and_a_fixed_one_does_not(self):
         lines = self._stat_lines('Tynril Hat (#1)')
         self.assertEqual(lines['250 Vitality'].range_text, '201 to 250')
-        # The value itself stays the best roll: that is what the solver counts.
         self.assertEqual(lines['1 AP'].range_text, None)
 
     def test_the_range_is_worded_in_the_reader_language(self):
@@ -7711,7 +7700,6 @@ class StatRangeInThePickerTests(TestCase):
                           if line.range_text], [])
 
     def test_the_encyclopedia_and_the_picker_use_the_same_formatter(self):
-        # Two wordings for one sentence is how they drift apart.
         from chardata import encyclopedia_view
         from chardata import solution_result
         self.assertIs(encyclopedia_view.format_stat_range,

@@ -1,27 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Pull single files straight from Ankama's official game CDN (cytrus).
+"""Download single files from Ankama's game CDN (cytrus), no auth needed.
 
-First-hand game data is the top of our sourcing rule, and this is as first-hand
-as it gets: the same CDN the Ankama launcher installs the game from, public and
-without any authentication. It already backs our Retro lang data; this makes the
-rest of it reachable too.
-
-Ankama ships the game content addressed. A manifest lists every file with the
-chunks it is made of, each chunk lives inside a bundle, and the CDN answers HTTP
-range requests. So one file comes down for its own weight rather than the game's:
-a single character skin is about 47 KB out of a 51 MB manifest.
-
-    python itemscraper/cytrus_cdn.py --list Characters/Skins | head
+    python itemscraper/cytrus_cdn.py --list Characters/Skins
     python itemscraper/cytrus_cdn.py --fetch Dofus_Data/StreamingAssets/Content/Data/data_assets_itemsdataroot.asset.bundle
 
-Releases are separate games and must never be mixed: dofus3 and beta are the
-Unity client, main is Dofus 2, and Dofus Retro lives under its own game name
-with a 1.29 channel.
-
-The manifest is a flatbuffer. Its schema is four small tables (taken from
-dofusdude/ankabuffer, GPL-3.0), so it is read here directly rather than adding a
-flatbuffers dependency to the pipeline:
+Files are content addressed: the manifest lists chunks, chunks live in bundles,
+and the CDN answers range requests, so a file costs its own size and not the
+game's. Manifest schema comes from dofusdude/ankabuffer (GPL-3.0):
 
     Chunk    { hash:[ubyte], size:long, offset:long, done:bool }
     File     { name:string, size:long, hash:[ubyte], chunks:[Chunk], ... }
@@ -42,10 +28,7 @@ import urllib.request
 CDN = 'https://cytrus.cdn.ankama.com'
 VERSIONS_URL = '%s/cytrus.json' % CDN
 
-# Every one of these is a different game with its own assets, like everywhere
-# else in this project. (game, release) as named by Ankama. Retro is its own
-# game rather than a release of Dofus, and the channel serving it is "main":
-# the "1.29" name only appears on the meta side, not on the platforms.
+# (game, release) as Ankama names them. Retro is its own game, served on main.
 RELEASES = {
     'dofus3': ('dofus', 'dofus3'),
     'beta': ('dofus', 'beta'),
@@ -55,7 +38,6 @@ RELEASES = {
 
 
 class _Table:
-    """One flatbuffer table. Fields are read by their index in the schema."""
 
     def __init__(self, buf, pos):
         self.buf = buf
@@ -69,37 +51,32 @@ class _Table:
             return 0
         return struct.unpack_from('<H', self.buf, slot)[0]
 
-    def string(self, field):
+    def _vector(self, field):
         off = self._offset(field)
         if not off:
-            return ''
+            return None, 0
         pos = self.pos + off
         start = pos + struct.unpack_from('<I', self.buf, pos)[0]
-        length = struct.unpack_from('<I', self.buf, start)[0]
-        return self.buf[start + 4:start + 4 + length].decode('utf-8')
+        return start + 4, struct.unpack_from('<I', self.buf, start)[0]
+
+    def string(self, field):
+        start, length = self._vector(field)
+        return self.buf[start:start + length].decode('utf-8') if start else ''
+
+    def hash(self, field):
+        start, length = self._vector(field)
+        return self.buf[start:start + length].hex() if start else ''
 
     def int64(self, field):
         off = self._offset(field)
         return struct.unpack_from('<q', self.buf, self.pos + off)[0] if off else 0
 
-    def hash(self, field):
-        off = self._offset(field)
-        if not off:
-            return ''
-        pos = self.pos + off
-        start = pos + struct.unpack_from('<I', self.buf, pos)[0]
-        length = struct.unpack_from('<I', self.buf, start)[0]
-        return self.buf[start + 4:start + 4 + length].hex()
-
     def tables(self, field):
-        off = self._offset(field)
-        if not off:
+        start, count = self._vector(field)
+        if not start:
             return
-        pos = self.pos + off
-        start = pos + struct.unpack_from('<I', self.buf, pos)[0]
-        count = struct.unpack_from('<I', self.buf, start)[0]
         for i in range(count):
-            element = start + 4 + 4 * i
+            element = start + 4 * i
             yield _Table(self.buf,
                          element + struct.unpack_from('<I', self.buf, element)[0])
 
@@ -109,8 +86,11 @@ def _chunks_of(table, field):
         yield {'hash': chunk.hash(0), 'size': chunk.int64(1), 'offset': chunk.int64(2)}
 
 
+def _root(manifest):
+    return _Table(manifest, struct.unpack_from('<I', manifest, 0)[0])
+
+
 def get_version(game_version, platform='windows'):
-    """The version Ankama currently serves for one of our game versions."""
     game, release = RELEASES[game_version]
     with urllib.request.urlopen(VERSIONS_URL, timeout=60) as resp:
         catalog = json.load(resp)
@@ -126,25 +106,14 @@ def download_manifest(game_version, version=None, platform='windows'):
 
 
 def iter_files(manifest):
-    """Yield (fragment name, file name) for the whole manifest.
-
-    Reading names only, so it stays cheap on a 51 MB manifest.
-    """
-    root = _Table(manifest, struct.unpack_from('<I', manifest, 0)[0])
-    for fragment in root.tables(0):
+    for fragment in _root(manifest).tables(0):
         fragment_name = fragment.string(0)
         for entry in fragment.tables(1):
             yield fragment_name, entry.string(0)
 
 
 def find_file(manifest, wanted_name):
-    """The file entry plus the bundle each of its chunks sits in.
-
-    A file small enough to be shipped whole has no chunk of its own and is
-    placed under its own hash, which is the case for most single skins.
-    """
-    root = _Table(manifest, struct.unpack_from('<I', manifest, 0)[0])
-    for fragment in root.tables(0):
+    for fragment in _root(manifest).tables(0):
         found = None
         for entry in fragment.tables(1):
             if entry.string(0) == wanted_name:
@@ -154,7 +123,7 @@ def find_file(manifest, wanted_name):
                 break
         if found is None:
             continue
-        # Only now walk the bundles, and only the ones of this fragment.
+        # A file small enough to ship whole has no chunks and sits under its own hash.
         needed = {c['hash'] for c in found['chunks']} or {found['hash']}
         placement = {}
         for bundle in fragment.tables(2):
@@ -164,14 +133,13 @@ def find_file(manifest, wanted_name):
                     placement[chunk['hash']] = (bundle_hash, chunk['offset'], chunk['size'])
         missing = needed - set(placement)
         if missing:
-            raise LookupError('%s: %d chunk(s) placed in no bundle' % (wanted_name, len(missing)))
+            raise LookupError('%s: %d chunk(s) in no bundle' % (wanted_name, len(missing)))
         found['placement'] = placement
         return found
     return None
 
 
 def fetch_file(entry, timeout=180):
-    """Rebuild one game file from the CDN, checking every hash on the way."""
     pieces = entry['chunks'] or [{'hash': entry['hash'], 'offset': 0, 'size': entry['size']}]
     out = bytearray(entry['size'])
     for chunk in pieces:
@@ -194,10 +162,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3', choices=sorted(RELEASES))
     parser.add_argument('--manifest', help='reuse a manifest already on disk')
-    parser.add_argument('--list', metavar='PATTERN',
-                        help='print the file names matching this regular expression')
-    parser.add_argument('--fetch', metavar='NAME', help='download one file by its exact name')
-    parser.add_argument('--dest', default='.', help='where --fetch writes')
+    parser.add_argument('--list', metavar='PATTERN', help='file names matching this regex')
+    parser.add_argument('--fetch', metavar='NAME', help='download one file by exact name')
+    parser.add_argument('--dest', default='.')
     args = parser.parse_args()
 
     if args.manifest and os.path.exists(args.manifest):

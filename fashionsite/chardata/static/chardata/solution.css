@@ -85,8 +85,7 @@
     padding: 8px;
 }
 
-/* Roll range next to a stat: secondary information, so it must not compete
-   with the value the solver actually counts. Colour comes from the theme. */
+/* Colour is inherited so the three looks stay right. */
 .solution-stat-range {
     font-size: 0.85em;
     opacity: 0.75;

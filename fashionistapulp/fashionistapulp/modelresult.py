@@ -584,10 +584,7 @@ class ModelResultItem():
             # An item can list the same characteristic more than once (Ankama does
             # this on a few items, e.g. the retro Minotot Sceptre = 6% + 6% Water
             # Resist). In game these stack, so sum repeats here rather than letting
-            # the later line overwrite the earlier one. The lowest and highest
-            # rolls are summed the same way, so they stay consistent with the
-            # value; a version without range data (retro stats are fixed) simply
-            # ends up with nothing here.
+            # the later line overwrite the earlier one.
             self.stat_ranges = {}
             item_ranges = getattr(item, 'stat_ranges', {}) or {}
             for stat_id, stat_value in item.stats:
