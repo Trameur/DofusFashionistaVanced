@@ -29,6 +29,7 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.stat_icons import get_stat_icon_path
+from chardata.stat_range import format_stat_range
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_item_link, get_set_link
@@ -170,9 +171,12 @@ def evolve_result_item(result_item, r=None):
                                     key=lambda x: STAT_ORDER[x[0]])
 
     result_item.stats_lines = []
+    # Absent from solutions pickled before the ranges existed.
+    stat_ranges = getattr(result_item, 'stat_ranges', None) or {}
     for stat_key, stat_value in stats_from_result_item:
         stat_name = get_structure().get_stat_by_key(stat_key).name
-        line = AttributeLine(stat_key, stat_value, stat_name)
+        line = AttributeLine(stat_key, stat_value, stat_name,
+                             stat_ranges.get(stat_key))
         if base_stats is not None and line.formatting == '':
             base_val = base_stats.get(stat_key)
             if base_val is None:
@@ -302,13 +306,16 @@ def evolve_result_item(result_item, r=None):
 
 class AttributeLine:
     
-    def __init__(self, stat_key, stat_value, stat_name):
+    def __init__(self, stat_key, stat_value, stat_name, stat_range=None):
         # Round stat value to nearest integer to avoid floating-point precision issues
         rounded_value = int(round(stat_value))
         self.text = ('%d%s%s'
                      % (rounded_value,
                         '' if stat_name.startswith('%') else ' ',
                         _(stat_name)))
+        # Shown next to the value where the player picks an item, so a 250 that
+        # can drop at 201 is not read as a guarantee. None on a fixed stat.
+        self.range_text = format_stat_range(*stat_range) if stat_range else None
         self.formatting = '#r' if stat_value < 0 else ''
         icon_path = get_stat_icon_path(stat_key)
         self.icon_url = static(icon_path) if icon_path else None

@@ -123,6 +123,10 @@ function populatePopUp(data) {
             } else {
                 stats += statLine.text;
             }
+            if (statLine.range_text) {
+                stats += ' <span class="solution-stat-range">('
+                    + statLine.range_text + ')</span>';
+            }
             stats += "<br>";
         });
         if (data.condition_lines && data.condition_lines.length > 0) {

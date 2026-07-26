@@ -19,6 +19,7 @@ from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
+from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
@@ -52,7 +53,6 @@ LOCALIZED_UI = {
         'open_item': 'Open item details',
         'details_title': 'Item details',
         'set_label': 'Set',
-        'stat_range': '%(low)s to %(high)s',
         'stats_label': 'Stats',
         'conditions_label': 'Conditions',
         'or_label': 'OR',
@@ -115,7 +115,6 @@ LOCALIZED_UI = {
         'open_item': 'Ouvrir les détails',
         'details_title': "Détails de l'objet",
         'set_label': 'Panoplie',
-        'stat_range': '%(low)s à %(high)s',
         'stats_label': 'Caractéristiques',
         'conditions_label': 'Conditions',
         'or_label': 'OU',
@@ -178,7 +177,6 @@ LOCALIZED_UI = {
         'open_item': 'Abrir detalles del objeto',
         'details_title': 'Detalles del objeto',
         'set_label': 'Set',
-        'stat_range': '%(low)s a %(high)s',
         'stats_label': 'Estadísticas',
         'conditions_label': 'Condiciones',
         'or_label': 'O',
@@ -241,7 +239,6 @@ LOCALIZED_UI = {
         'open_item': 'Abrir detalhes do item',
         'details_title': 'Detalhes do item',
         'set_label': 'Conjunto',
-        'stat_range': '%(low)s a %(high)s',
         'stats_label': 'Atributos',
         'conditions_label': 'Condições',
         'or_label': 'OU',
@@ -304,7 +301,6 @@ LOCALIZED_UI = {
         'open_item': 'Gegenstandsdetails öffnen',
         'details_title': 'Gegenstandsdetails',
         'set_label': 'Set',
-        'stat_range': '%(low)s bis %(high)s',
         'stats_label': 'Werte',
         'conditions_label': 'Bedingungen',
         'or_label': 'ODER',
@@ -600,10 +596,10 @@ def _absolute_versioned_url(path, game_version='dofus3'):
 def _stat_amount_text(item, stat_id, best_value):
     """"7 to 10" when the roll varies, plain "10" when it is fixed. The number
     shown alone stays the best roll, which is what the optimiser assumes."""
-    low, high = (getattr(item, 'stat_ranges', {}) or {}).get(stat_id, (None, None))
-    if low is None or high is None or low == high:
+    stat_range = get_stat_range(item, stat_id)
+    if stat_range is None:
         return '%d' % best_value
-    return _ui_text()['stat_range'] % {'low': low, 'high': high}
+    return format_stat_range(*stat_range)
 
 
 def _get_stat_lines(structure, item, language):

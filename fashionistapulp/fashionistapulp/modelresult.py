@@ -584,11 +584,22 @@ class ModelResultItem():
             # An item can list the same characteristic more than once (Ankama does
             # this on a few items, e.g. the retro Minotot Sceptre = 6% + 6% Water
             # Resist). In game these stack, so sum repeats here rather than letting
-            # the later line overwrite the earlier one.
+            # the later line overwrite the earlier one. The lowest and highest
+            # rolls are summed the same way, so they stay consistent with the
+            # value; a version without range data (retro stats are fixed) simply
+            # ends up with nothing here.
+            self.stat_ranges = {}
+            item_ranges = getattr(item, 'stat_ranges', {}) or {}
             for stat_id, stat_value in item.stats:
                 stat = structure.get_stat_by_id(stat_id)
                 self.stats[stat.key] = self.stats.get(stat.key, 0) + stat_value
                 self.base_stats[stat.key] = self.base_stats.get(stat.key, 0) + stat_value
+                low, high = item_ranges.get(stat_id, (stat_value, stat_value))
+                previous_low, previous_high = self.stat_ranges.get(stat.key, (0, 0))
+                self.stat_ranges[stat.key] = (previous_low + low, previous_high + high)
+            self.stat_ranges = {key: bounds
+                                for key, bounds in self.stat_ranges.items()
+                                if bounds[0] != bounds[1]}
 
             _EXO_KEYS = {'ap', 'mp', 'range'}
             self.exo_overrides = {}

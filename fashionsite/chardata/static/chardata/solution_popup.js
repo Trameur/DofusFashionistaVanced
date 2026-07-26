@@ -543,9 +543,19 @@ function setStats(item, weaponInfo) {
         } else {
             stats += statText;
         }
+        stats += statRangeText(statLine);
         stats += "<br>";
     });
     return stats;
+}
+
+// The number above is the best roll. This says what the item can drop at, which
+// is what decides between two pieces that look identical in the list.
+function statRangeText(statLine) {
+    if (!statLine.range_text) {
+        return "";
+    }
+    return ' <span class="solution-stat-range">(' + statLine.range_text + ')</span>';
 }
 
 function normalizeStatLineText(text) {

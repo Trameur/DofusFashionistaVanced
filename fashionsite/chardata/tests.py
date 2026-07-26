@@ -7668,6 +7668,56 @@ class StatRangeTests(TestCase):
         self.assertContains(resp, 'Force')
 
 
+class StatRangeInThePickerTests(TestCase):
+    """Knowing a 250 Vitality can drop at 201 changes which piece you pick, and
+    the picker is where you choose. Same wording as the encyclopedia, from the
+    same formatter, so the site says it one way only."""
+
+    def _stat_lines(self, item_name, version='dofus3'):
+        from chardata.solution_result import evolve_result_item
+        from fashionistapulp.modelresult import ModelResultItem
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version(version)
+        structure = get_structure(version)
+        item = structure.get_item_by_name(item_name)
+        self.assertIsNotNone(item, item_name)
+        result_item = ModelResultItem(item)
+        evolve_result_item(result_item)
+        return {line.text: line for line in result_item.stats_lines}
+
+    def test_a_varying_stat_carries_its_range_and_a_fixed_one_does_not(self):
+        lines = self._stat_lines('Tynril Hat (#1)')
+        self.assertEqual(lines['250 Vitality'].range_text, '201 to 250')
+        # The value itself stays the best roll: that is what the solver counts.
+        self.assertEqual(lines['1 AP'].range_text, None)
+
+    def test_the_range_is_worded_in_the_reader_language(self):
+        from django.utils import translation
+        expected = {'en': '201 to 250', 'fr': '201 à 250', 'es': '201 a 250',
+                    'pt': '201 a 250', 'de': '201 bis 250'}
+        for language, text in expected.items():
+            with self.subTest(language=language):
+                with translation.override(language):
+                    lines = self._stat_lines('Tynril Hat (#1)')
+                    ranges = [line.range_text for line in lines.values()
+                              if line.range_text]
+                    self.assertIn(text, ranges)
+
+    def test_retro_items_carry_no_range_because_the_game_has_none(self):
+        lines = self._stat_lines('Adventurer Hat', version='retro')
+        self.assertTrue(lines)
+        self.assertEqual([line.range_text for line in lines.values()
+                          if line.range_text], [])
+
+    def test_the_encyclopedia_and_the_picker_use_the_same_formatter(self):
+        # Two wordings for one sentence is how they drift apart.
+        from chardata import encyclopedia_view
+        from chardata import solution_result
+        self.assertIs(encyclopedia_view.format_stat_range,
+                      solution_result.format_stat_range)
+
+
 class DofusGridLabelTests(SimpleTestCase):
     """The dofus grid labels were hand-kept in the catalogs, so es/pt/de showed
     English words for a third of them. When the catalog has nothing, the label
