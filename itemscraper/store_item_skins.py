@@ -27,9 +27,9 @@ from store_item_obtainment import (  # noqa: E402
 VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
 
 # How big a lead over the runner up a match needs before it is trusted, checked
-# by eye on samples. Capes are told apart by colour and hold up lower down;
-# weapons share silhouettes and turn into coin flips as soon as the lead thins.
-MIN_MARGIN = {'Cloak': 0.05, 'Hat': 0.10, 'Shield': 0.10, 'Weapon': 0.10}
+# by eye on samples of each type. Capes are the weakest: most of them are the
+# same shape in a different colour, so a thin lead there is a coin flip.
+MIN_MARGIN = {'Cloak': 0.10, 'Hat': 0.10, 'Shield': 0.10, 'Weapon': 0.10}
 
 
 def add_column(conn):
