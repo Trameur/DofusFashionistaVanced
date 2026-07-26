@@ -4906,45 +4906,49 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         self.assertNotIn(retro.get_item_by_ankama_id(10076).id,
                          get_default_exclusions(char=None))
 
-    def test_sourceless_touch_shields_are_forbidden_by_default(self):
-        # Shields in the Touch client data with no obtention source there
-        # (no recipe, no drop) are 2.x PC leftovers never distributed on
-        # Touch: every one of them must be in the touch defaults. The list
-        # is recomputed from the data so a future re-scrape keeps it honest.
+    def test_no_lone_hidden_piece_in_an_available_set(self):
+        # An empty recipe and an empty drop list prove nothing: a quest, the
+        # in-game shop and a seasonal event leave exactly the same empty
+        # tables. Applying that rule to Touch shields hid fourteen real items,
+        # each recognisable by the same shape: the shield was the only hidden
+        # piece of a set whose other pieces stayed proposable. A set is earned
+        # as a whole, so that shape is the signature of a wrong default.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
 
-        conn = sqlite3.connect(get_items_db_path('touch'))
-        try:
-            rows = conn.execute("""
-                SELECT i.id, i.name, i.ankama_id FROM items i
-                JOIN item_types it ON it.id = i.type
-                WHERE it.name = 'Shield'
-                  AND NOT EXISTS (SELECT 1 FROM item_recipes r WHERE r.item = i.id)
-                  AND NOT EXISTS (SELECT 1 FROM item_drops d WHERE d.item = i.id)
-                """).fetchall()
-        finally:
-            conn.close()
-        self.assertTrue(rows, 'expected sourceless shields in the touch data')
-        # A quest, the shop or an event leaves no recipe and no drop either, so
-        # "sourceless" is a suspicion, not a verdict. These four were hidden by
-        # this very rule and it was wrong: they are the shield of the Albuera
-        # introduction quest set, one per element, that any beginner earns.
-        rows = [(item_id, name) for item_id, name, ankama_id in rows
-                if ankama_id not in self.TOUCH_VERIFIED_OBTAINABLE_ANKAMA_IDS]
-
-        set_current_game_version('touch')
         self.addCleanup(set_current_game_version, 'dofus3')
-        structure = get_structure('touch')
-        defaults = set(get_default_exclusions(char=None))
-        pool = {it.id for it in structure.get_available_items_list()}
-        for item_id, name in rows:
-            self.assertIn(item_id, defaults,
-                          '%s has no Touch obtention source but is proposable' % name)
-            # Still in the pool: a player who owns one can un-forbid it.
-            self.assertIn(item_id, pool, name)
+        checked = 0
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            set_current_game_version(version)
+            get_structure(version)
+            hidden = set(get_default_exclusions(char=None))
+            if not hidden:
+                continue
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                rows = conn.execute("""
+                    SELECT s.name, i.id, i.name FROM items i
+                    JOIN sets s ON s.id = i.item_set
+                    """).fetchall()
+            finally:
+                conn.close()
+            pieces = {}
+            for set_name, item_id, item_name in rows:
+                pieces.setdefault(set_name, []).append((item_id, item_name))
+            for set_name, members in pieces.items():
+                if len(members) < 4:
+                    continue
+                out = [name for item_id, name in members if item_id in hidden]
+                if len(out) != 1:
+                    continue
+                checked += 1
+                self.fail('%s: %s is the only hidden piece of %s (%d pieces), '
+                          'which means the set itself is obtainable'
+                          % (version, out[0], set_name, len(members)))
+            checked += 1
+        self.assertTrue(checked, 'no version exposed default exclusions')
 
     # Ankama leaves its own working markers on items that never reach a player:
     # "[!] " and "[wip]" for untranslated internal content, "[FM]" for the
@@ -5030,6 +5034,17 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         12528, 12529, 12530, 12531, 13271, 13272,
         16522,   # Cog of Infinity, Frigost quest
         11083,   # Gobbowl Ring, level 41, real stats
+        # Third wave: the ten shields hidden by the "no recipe and no drop"
+        # rule that Albuera already proved wrong. Each one was the only hidden
+        # piece of a set still proposable, or its own description names a place
+        # that exists on Touch.
+        19835, 19837, 19839, 19841,  # the four elemental Small Shelters
+        10798,   # Novice Shield, the starter set every character wears
+        12660,   # Incarnam Shield, reward for leaving Incarnam
+        14201,   # Koolich Aid, Koulosse dungeon
+        14306,   # Rat Shield, the rat dungeons
+        10906,   # Scale Shield, made of a Grozilla scale
+        14993,   # Charlie's Agents Shield, the Vulkania summer event
     )
 
     def test_touch_verified_obtainable_items_stay_available(self):
