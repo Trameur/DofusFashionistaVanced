@@ -4565,6 +4565,58 @@ class SetupMobileHooksTests(TestCase):
         self.assertIn('build-boxes-title-focus', body)
 
 
+class LoadProjectsTableTests(TestCase):
+    """The project list keeps the classic dark brown table in both skins, so the
+    modern heading colour must not land on it, and the fixed pixel widths in the
+    cells must not push the table out of the content box."""
+
+    def _css(self, name):
+        from django.conf import settings
+        path = os.path.join(settings.BASE_DIR, 'chardata', 'static', 'chardata', name)
+        return re.sub(r'/\*.*?\*/', '', open(path, encoding='utf-8').read(), flags=re.S)
+
+    def _selectors_setting(self, css, declaration):
+        return [rule.split('{')[0].strip() for rule in css.split('}')
+                if declaration in rule and '{' in rule]
+
+    def test_the_modern_heading_colour_stays_off_the_dark_tables(self):
+        modern = self._css('modern.css')
+        for selector in self._selectors_setting(modern, 'color:var(--fm-head)'):
+            self.assertNotIn('load-project-header', selector)
+            self.assertNotIn('stat-title', selector)
+        self.assertTrue(self._selectors_setting(modern, 'color:var(--fm-head)'),
+                        'the build boxes lost their modern heading colour')
+
+    def test_the_theme_gives_the_header_and_its_links_a_readable_colour(self):
+        for name in ('forms_lighttheme.css', 'forms_darktheme.css'):
+            css = self._css(name)
+            self.assertIn('.load-project-header', css, name)
+            # A bare class loses to a:link and to the modern skin link colour.
+            self.assertIn('.all-proj:link', css, name)
+            self.assertIn('.no-proj:link', css, name)
+
+    def test_every_rule_in_the_theme_sheets_is_closed(self):
+        for name in ('forms_lighttheme.css', 'forms_darktheme.css'):
+            css = self._css(name)
+            self.assertEqual(css.count('{'), css.count('}'), name)
+
+    def test_the_cells_no_longer_force_their_pixel_widths(self):
+        forms = self._css('forms.css')
+        relaxed = self._selectors_setting(forms, 'width: auto !important')
+        self.assertTrue(any('load-project' in s for s in relaxed),
+                        'the inline widths are forced again')
+        self.assertTrue(self._selectors_setting(forms, 'white-space: normal !important'),
+                        'the compare button cannot wrap')
+
+    def test_the_narrow_desktop_band_is_covered(self):
+        css = self._css('responsive.css')
+        block_at = css.find('@media (max-width: 1100px)')
+        self.assertNotEqual(block_at, -1, 'the narrow desktop block disappeared')
+        block = css[block_at:].split('\n}')[0]
+        self.assertIn('.load-project-cell', block)
+        self.assertIn('overflow-wrap: anywhere', block)
+
+
 class BannerCharacterTests(TestCase):
     """A random character out of the 75 illustrations greets the visitor over the
     banner. The modern skin used to hide it with display:none while the browser

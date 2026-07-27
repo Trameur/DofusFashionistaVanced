@@ -125,11 +125,15 @@ select, .pretty-input {
     background: #151515;
 }
 
-.load-project-header, .all-proj, .no-proj {
-    color:#DDD; 
+/* The pseudo classes are needed: a bare class loses to the page wide a:link and to
+   the modern skin link colour, both of which are unreadable on the dark table. */
+.load-project-header,
+.all-proj, .all-proj:link, .all-proj:visited,
+.no-proj, .no-proj:link, .no-proj:visited {
+    color:#DDD;
  }
  
  .compare-link-div {
     color:#DDD;
- {
+ }
 

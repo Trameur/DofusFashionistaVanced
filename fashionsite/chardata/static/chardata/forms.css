@@ -157,12 +157,24 @@ select, .pretty-input {
 .load-project-table {
     border: 1px solid;
     border-spacing: 0px;
-    border-radius: 4px; 
+    border-radius: 4px;
+    max-width: 100%;
 }
 .load-project-cell, .load-project-header {
     padding: 0px 10px;
     overflow: hidden;
-} 
+}
+
+/* Each cell wraps a div with an inline pixel width, 644px in all, which the table
+   cannot shrink below. Unfix them and let the compare button wrap. */
+.load-project-table td > div, .load-project-cell > div {
+    width: auto !important;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+.load-project-cell button[data-compare-add] {
+    white-space: normal !important;
+}
 
 
 .all-proj, .no-proj {
