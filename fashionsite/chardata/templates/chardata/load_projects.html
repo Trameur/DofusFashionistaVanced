@@ -176,19 +176,13 @@ function setNeedleImage(){
     $('.needle-img').attr("src",image);
 }
 
-function updateTableTemplate() {
-    $(".checkbox-cell").last().css("border-radius", "0px 0px 0px 4px");
-    $(".level-cell").last().css("border-radius", "0px 0px 4px 0px");
-}
-
 $(document).ready(function() {
     $("#all").click(all);
     $("#none").click(none);
     
     $(".project-checkbox").change(updateButtonStates);
     updateButtonStates();
-    updateTableTemplate();
-        
+
     $("#button-duplicate-project").click(duplicateProj);
     $("#button-delete-project").click(confirmDelete);
     

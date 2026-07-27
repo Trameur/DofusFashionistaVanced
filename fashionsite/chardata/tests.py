@@ -4616,6 +4616,17 @@ class LoadProjectsTableTests(TestCase):
         self.assertIn('.load-project-cell', block)
         self.assertIn('overflow-wrap: anywhere', block)
 
+    def test_the_bottom_corners_follow_the_last_column(self):
+        forms = self._css('forms.css')
+        rounded = self._selectors_setting(forms, 'border-bottom-right-radius')
+        self.assertTrue(rounded, 'the last row lost its rounded corner')
+        for selector in rounded:
+            self.assertIn(':last-child', selector)
+            # The script used to pin it to the level cell, which is no longer last.
+            self.assertNotIn('level-cell', selector)
+        page = self.client.get('/loadprojects/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertNotIn('updateTableTemplate', page.content.decode('utf-8'))
+
 
 class BannerCharacterTests(TestCase):
     """A random character out of the 75 illustrations greets the visitor over the

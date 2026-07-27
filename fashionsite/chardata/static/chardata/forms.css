@@ -176,6 +176,14 @@ select, .pretty-input {
     white-space: normal !important;
 }
 
+/* The cell backgrounds would square off the rounded table corners. */
+.load-project-line:last-child td:first-child {
+    border-bottom-left-radius: 4px;
+}
+.load-project-line:last-child td:last-child {
+    border-bottom-right-radius: 4px;
+}
+
 
 .all-proj, .no-proj {
     font-size:11px; 
