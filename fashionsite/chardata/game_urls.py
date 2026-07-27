@@ -95,6 +95,7 @@ urlpatterns = [
     re_path(r'^getsharinglink/(?P<char_id>\d+)/', solution_view.get_sharing_link, name='get_sharing_link'),
     re_path(r'^hidesharinglink/(?P<char_id>\d+)/', solution_view.hide_sharing_link, name='hide_sharing_link'),
     re_path(r'^s/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', solution_view.solution_linked, name='solution_linked'),
+    re_path(r'^setchargender/(?P<char_id>\d+)/', solution_view.set_char_gender, name='set_char_gender'),
     re_path(r'^setitemlocked/(?P<char_id>\d+)/', solution_view.set_item_locked, name='set_item_locked'),
     re_path(r'^setitemforbidden/(?P<char_id>\d+)/', solution_view.set_item_forbidden, name='set_item_forbidden'),
     re_path(r'^setslotlockempty/(?P<char_id>\d+)/', solution_view.set_slot_lock_empty, name='set_slot_lock_empty'),

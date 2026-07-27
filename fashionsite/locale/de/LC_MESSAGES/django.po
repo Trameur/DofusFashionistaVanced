@@ -6351,10 +6351,18 @@ msgstr "Du kannst trotzdem eins in einer anderen Version anfangen:"
 msgid "Drag to turn your character"
 msgstr "Zieh, um deine Figur zu drehen"
 
-#: .\chardata	emplates\chardatabout.html:44
+#: .\chardata emplates\chardatabout.html:44
 msgid ""
 "The character preview is drawn with the game's own artwork, downloaded from "
 "Ankama's official content CDN. All of it belongs to Ankama."
 msgstr ""
 "Die Figurenvorschau wird mit den Grafiken des Spiels selbst gezeichnet, "
 "geladen vom offiziellen Inhalts-CDN von Ankama. Alles davon gehört Ankama."
+
+#: .\chardata	emplates\chardata\solution.html:43
+msgid "Male or female"
+msgstr "Männlich oder weiblich"
+
+#: .\chardata	emplates\chardata\solution.html:43
+msgid "Sex"
+msgstr "Geschlecht"

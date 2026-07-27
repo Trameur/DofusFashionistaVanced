@@ -37,8 +37,15 @@
     {% if class_avatar %}
     <div class="char-banner">
         {% if character_look %}
-        <canvas id="character-preview" class="char-banner-preview" width="150" height="210"
-                title="{% trans 'Drag to turn your character' %}"></canvas>
+        <div class="char-banner-preview-box">
+            <canvas id="character-preview" class="char-banner-preview" width="150" height="210"
+                    title="{% trans 'Drag to turn your character' %}"></canvas>
+            {% if not is_guest %}
+            <button type="button" id="character-gender" class="char-banner-gender"
+                    data-gender="{{ char.gender }}"
+                    title="{% trans 'Male or female' %}">{% trans "Sex" %}</button>
+            {% endif %}
+        </div>
         {% endif %}
         <img src="{{ class_avatar }}" alt="{{ char.char_class }}" class="char-banner-avatar"
              {% if character_look %}style="display:none;"{% endif %}>
@@ -640,6 +647,24 @@
                 var fallback = document.querySelector('.char-banner-avatar');
                 if (fallback) { fallback.style.display = ''; }
             });
+
+            var toggle = document.getElementById('character-gender');
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    var next = toggle.dataset.gender === '1' ? '0' : '1';
+                    toggle.disabled = true;
+                    $.post(apiBase + '/setchargender/{{char.id}}/', {gender: next},
+                           function (look) {
+                               toggle.dataset.gender = next;
+                               preview.stop();
+                               preview = new CharacterPreview(canvas, {
+                                   assetBase: '/character', look: look,
+                                   colors: preview.colors, scale: 0.62
+                               });
+                               preview.load().then(function () { preview.start(); });
+                           }).always(function () { toggle.disabled = false; });
+                });
+            }
         }());
     </script>
     {% endif %}

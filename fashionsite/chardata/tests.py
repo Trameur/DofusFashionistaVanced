@@ -7742,6 +7742,30 @@ class CharacterLookTests(TestCase):
         from chardata.character_look import get_character_look
         self.assertIsNone(get_character_look(self._char('Nosuchclass'), None))
 
+    def test_the_female_body_and_head_differ_from_the_male_ones(self):
+        from chardata.character_look import get_character_look
+        char = self._char('Iop')
+        male = get_character_look(char, None)
+        char.gender = 1
+        female = get_character_look(char, None)
+        self.assertNotEqual(male['body'], female['body'])
+        self.assertNotEqual(male['head'], female['head'])
+
+    def test_switching_sex_only_touches_the_preview(self):
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('sexy', 's@test.local', 'pw-42-solid')
+        char = self._char('Cra')
+        char.owner = owner
+        char.save()
+        before = (char.char_class, char.level, char.game_version)
+        self.client.force_login(owner)
+        resp = self.client.post('/setchargender/%d/' % char.id, {'gender': '1'})
+        self.assertEqual(resp.status_code, 200)
+        char.refresh_from_db()
+        self.assertEqual(char.gender, 1)
+        self.assertEqual((char.char_class, char.level, char.game_version), before)
+        self.assertTrue(resp.json()['body'])
+
     def test_only_the_versions_running_this_client_get_a_preview(self):
         from chardata.character_look import get_character_look
         char = self._char('Iop')

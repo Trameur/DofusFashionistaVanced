@@ -43,6 +43,8 @@ class Char(models.Model):
     stat_overrides = models.BinaryField(default=b'')
     deleted = models.BooleanField(default=False)
     allow_points_distribution = models.BooleanField(default=True)
+    # 0 male, 1 female, only used to pick the body and head of the preview.
+    gender = models.IntegerField(default=0)
     game_version = models.CharField(
         max_length=20,
         default='dofus3',

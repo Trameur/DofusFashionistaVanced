@@ -47,7 +47,7 @@ from django.utils.translation import gettext as _
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
-    HttpResponseText, get_base_stats_by_attr, version_reverse
+    HttpResponseText, HttpResponseJson, get_base_stats_by_attr, version_reverse
 from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, TYPE_NAME_TO_SLOT
 
 from static_s3.templatetags.static_s3 import static
@@ -650,6 +650,16 @@ def set_item_locked(request, char_id):
         set_item_included(char, item_id, slot, False)
     
     return HttpResponseText('ok')
+
+def set_char_gender(request, char_id):
+    """Only the preview reads this, so nothing about the build changes."""
+    char = get_char_or_raise(request, char_id)
+    char.gender = 1 if request.POST.get('gender') == '1' else 0
+    char.save(update_fields=['gender'])
+    look = get_character_look(char, get_solution(char),
+                              getattr(request, 'game_version', 'dofus3'))
+    return HttpResponseJson(json.dumps(look or {}))
+
 
 def set_item_forbidden(request, char_id):
     char = get_char_or_raise(request, char_id)
