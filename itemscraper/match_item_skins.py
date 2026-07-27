@@ -49,6 +49,7 @@ FAMILY_TO_TYPE = {
 }
 MASK_SIZE = 48
 BINS = 6
+TOPK = 30
 
 # Colour does most of the work. More silhouette weight made every type worse
 # when measured; weapons keep a bit because their icon is drawn at an angle.
@@ -160,6 +161,7 @@ def main():
     parser.add_argument('--db', default='fashionistapulp/fashionistapulp/items.db')
     parser.add_argument('--renderer', default='skinmesh')
     parser.add_argument('--cache', help='where the rendered features are kept')
+    parser.add_argument('--candidates', help='also write the top %d per item' % TOPK)
     parser.add_argument('--out', required=True)
     args = parser.parse_args()
 
@@ -180,7 +182,7 @@ def main():
     icons = read_icons(args.icons)
     icon_of = {int(k): v for k, v in json.load(open(args.icon_map)).items()}
 
-    result, unmatched = {}, 0
+    result, top_lists, unmatched = {}, {}, 0
     items = visible_items(args.db)
     for done, (ankama_id, name, item_type) in enumerate(items, 1):
         image = icons.get(icon_of.get(ankama_id))
@@ -198,10 +200,14 @@ def main():
         result[ankama_id] = {'skin': scored[0][1], 'score': round(scored[0][0], 4),
                              'runner_up': round(runner_up, 4), 'name': name,
                              'type': item_type}
+        top_lists[ankama_id] = {'name': name, 'type': item_type,
+                                'top': [[s, round(v, 5)] for v, s in scored[:TOPK]]}
         if done % 200 == 0:
             print('%d/%d items matched' % (done, len(items)), flush=True)
 
     json.dump(result, open(args.out, 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
+    if args.candidates:
+        json.dump(top_lists, open(args.candidates, 'w', encoding='utf-8'))
     print('matched %d items, %d without an icon or candidate' % (len(result), unmatched))
 
 

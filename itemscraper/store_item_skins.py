@@ -21,20 +21,25 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from item_skin_margins import MIN_MARGIN  # noqa: E402
 from store_item_obtainment import (  # noqa: E402
     _load_db_from_dump, _save_db_to_dump, get_items_db_path)
 
 VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
-
-# Minimum lead over the runner up. Checked on 32 hand-labelled pairs: hats go
-# wrong below 0.10, weapons are a coin flip at any lead so their floor is high.
-MIN_MARGIN = {'Cloak': 0.02, 'Hat': 0.10, 'Shield': 0.05, 'Weapon': 0.20}
 
 
 def add_column(conn):
     columns = [row[1] for row in conn.execute('PRAGMA table_info(items)')]
     if 'skin' not in columns:
         conn.execute('ALTER TABLE items ADD COLUMN skin INTEGER')
+
+
+def clear_skins(conn):
+    """Without this a match dropped by a later run keeps the old run's skin."""
+    conn.execute("""
+        UPDATE items SET skin = NULL WHERE type IN (
+            SELECT id FROM item_types WHERE name IN (%s))"""
+                 % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES)
 
 
 def main():
@@ -53,6 +58,7 @@ def main():
     conn = sqlite3.connect(db_path)
     try:
         add_column(conn)
+        clear_skins(conn)
         known = {row[0]: (row[1], row[2]) for row in conn.execute("""
             SELECT i.ankama_id, i.id, t.name FROM items i JOIN item_types t ON t.id = i.type
             WHERE t.name IN (%s)""" % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES)}
@@ -66,7 +72,7 @@ def main():
             floor = args.min_margin
             if floor is None:
                 floor = MIN_MARGIN.get(item_type, 0.10)
-            if match['score'] - match['runner_up'] < floor:
+            if not match.get('backed') and match['score'] - match['runner_up'] < floor:
                 thin += 1
                 continue
             conn.execute('UPDATE items SET skin = ? WHERE id = ?', (match['skin'], item_id))

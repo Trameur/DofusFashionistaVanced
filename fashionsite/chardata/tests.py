@@ -7774,6 +7774,15 @@ class CharacterLookTests(TestCase):
         for version in ('dofus2', 'touch', 'retro'):
             self.assertIsNone(get_character_look(char, None, version), version)
 
+    def test_every_version_with_a_preview_knows_its_item_skins(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.character_look import SLOT_TO_NODE, VERSIONS_WITH_ART
+        for version in VERSIONS_WITH_ART:
+            with self.subTest(version=version):
+                types = {item.type for item in get_structure(version).get_items_list()
+                         if getattr(item, 'skin', None)}
+                self.assertEqual(len(types), len(SLOT_TO_NODE), version)
+
     def test_the_page_falls_back_when_there_is_no_art(self):
         import tempfile
         from django.test import override_settings
