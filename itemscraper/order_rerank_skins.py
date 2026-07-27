@@ -29,10 +29,10 @@ from item_skin_margins import MIN_MARGIN  # noqa: E402
 
 WINDOW = 20
 
-# How close to the curve a pick has to land. Cloaks are left out: their curve
-# scatters four times wider than the others and half of what it let through
-# was wrong.
-BAND = {'Hat': 0.02, 'Shield': 0.02, 'Weapon': 0.02}
+# How close to the curve a pick has to land, judged on sheets of icon against
+# render. Weapons hold up to 0.04 and fall off after it. Cloaks are left out
+# whatever the width: their curve scatters four times wider than the others.
+BAND = {'Hat': 0.02, 'Shield': 0.02, 'Weapon': 0.04}
 
 
 def _rank(values, value):
