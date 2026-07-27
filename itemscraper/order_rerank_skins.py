@@ -30,9 +30,14 @@ from item_skin_margins import MIN_MARGIN  # noqa: E402
 WINDOW = 20
 
 # How close to the curve a pick has to land, judged on sheets of icon against
-# render. Weapons hold up to 0.04 and fall off after it. Cloaks are left out
-# whatever the width: their curve scatters four times wider than the others.
+# render. Cloaks are left out whatever the width: their curve scatters four
+# times wider than the others.
 BAND = {'Hat': 0.02, 'Shield': 0.02, 'Weapon': 0.04}
+
+# Twice as wide, but only for a pick no better scoring item wants. On the
+# labelled pairs that half of the wider band is 7 right and 0 wrong, against
+# 4 and 4 for the other half.
+WIDE_BAND = {'Hat': 0.08, 'Shield': 0.08, 'Weapon': 0.08}
 
 
 def _rank(values, value):
@@ -59,19 +64,38 @@ def expected_rank(anchor_ids, anchor_ranks, ankama_id):
     return statistics.median(window) if len(window) >= 8 else None
 
 
+def mutual_best(candidates):
+    """Ankama ids whose top skin no better scoring item of the same type claims.
+
+    An item can wear one skin and a skin almost always dresses one item, so a
+    pick another item wants more is the weaker of the two."""
+    owner = {}
+    for ankama_id, row in candidates.items():
+        for skin, score in row['top']:
+            key = (row['type'], skin)
+            if key not in owner or score > owner[key][1]:
+                owner[key] = (ankama_id, score)
+    return {ankama_id for ankama_id, row in candidates.items()
+            if owner[(row['type'], row['top'][0][0])][0] == ankama_id}
+
+
 def backed_by_order(candidates):
     """Ankama ids whose top pick is unsure but sits on the curve."""
     pool = sorted({skin for row in candidates.values() for skin, _score in row['top']})
     pairs = anchors(candidates)
     anchor_ids = [a for a, _s in pairs]
     anchor_ranks = [_rank(pool, s) for _a, s in pairs]
-    print('%d sure matches trace the curve over %d skins' % (len(pairs), len(pool)))
+    unclaimed = mutual_best(candidates)
+    print('%d sure matches trace the curve over %d skins, %d picks are unclaimed'
+          % (len(pairs), len(pool), len(unclaimed)))
 
     out = {}
     for ankama_id, row in candidates.items():
         band = BAND.get(row['type'])
         if band is None or _margin(row['top']) >= MIN_MARGIN.get(row['type'], 1):
             continue
+        if ankama_id in unclaimed:
+            band = WIDE_BAND.get(row['type'], band)
         want = expected_rank(anchor_ids, anchor_ranks, int(ankama_id))
         if want is None:
             continue

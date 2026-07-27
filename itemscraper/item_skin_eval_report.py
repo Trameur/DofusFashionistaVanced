@@ -19,7 +19,8 @@ from collections import defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from item_skin_margins import MIN_MARGIN  # noqa: E402
-from order_rerank_skins import BAND, backed_by_order  # noqa: E402
+from order_rerank_skins import (BAND, WIDE_BAND, backed_by_order,  # noqa: E402
+                                mutual_best)
 
 EVAL = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'item_skin_eval.json')
 
@@ -35,6 +36,7 @@ def main():
         labelled = json.load(fh)
 
     backed = backed_by_order(candidates)
+    unclaimed = mutual_best(candidates)
     counts = defaultdict(lambda: defaultdict(int))
     for row in labelled:
         entry = candidates.get(str(row['ankama_id']))
@@ -50,9 +52,12 @@ def main():
         else:
             kept = 'dropped'
         counts[row['type']]['%s %s' % (kept, row['label'])] += 1
+        side = 'unclaimed' if str(row['ankama_id']) in unclaimed else 'claimed'
+        counts[row['type']]['%s %s' % (side, row['label'])] += 1
 
     print()
     print('%-8s %s' % ('', 'bands ' + str(BAND)))
+    print('%-8s %s' % ('', 'wide bands, unclaimed picks only ' + str(WIDE_BAND)))
     for item_type in sorted(counts):
         line = counts[item_type]
         right = line['margin R'] + line['order R']
@@ -67,6 +72,12 @@ def main():
             print('         %d of the dropped ones were right' % line['dropped R'])
         if line['stale']:
             print('         %d labels no longer name the top pick' % line['stale'])
+        for side in ('unclaimed', 'claimed'):
+            decided = line['%s R' % side] + line['%s W' % side]
+            if decided:
+                print('         %-9s %2dR %2dW (%d%% right)'
+                      % (side, line['%s R' % side], line['%s W' % side],
+                         round(100.0 * line['%s R' % side] / decided)))
 
 
 if __name__ == '__main__':

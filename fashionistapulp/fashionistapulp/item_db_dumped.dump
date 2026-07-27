@@ -76447,10 +76447,10 @@ CREATE TABLE "items" (
         FOREIGN KEY(`type`) REFERENCES item_types (id),
         FOREIGN KEY(`item_set`) REFERENCES sets (id)
     );
-INSERT INTO "items" VALUES(44,'Twiggy Sword',7,1,NULL,44,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(49,'Smithy Sword',15,1,NULL,49,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(44,'Twiggy Sword',7,1,NULL,44,'equipment',NULL,NULL,484);
+INSERT INTO "items" VALUES(49,'Smithy Sword',15,1,NULL,49,'equipment',NULL,NULL,473);
 INSERT INTO "items" VALUES(55,'Fwell Sword',26,1,NULL,55,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(58,'The Sad Blade',21,1,NULL,58,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(58,'The Sad Blade',21,1,NULL,58,'equipment',NULL,NULL,474);
 INSERT INTO "items" VALUES(62,'Ha Sword',17,1,NULL,62,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(65,'Goultard',40,1,NULL,65,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(66,'Badoul''s Mane',33,1,NULL,66,'equipment',NULL,NULL,NULL);
@@ -76459,7 +76459,7 @@ INSERT INTO "items" VALUES(70,'Owl Amulet',8,5,NULL,70,'equipment',NULL,NULL,NUL
 INSERT INTO "items" VALUES(77,'Bear Amulet',8,5,NULL,77,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(84,'Boowolf Amulet',8,5,NULL,84,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(91,'Twiggy Bow',7,1,NULL,91,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(97,'Twiggy Daggers',7,1,NULL,97,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(97,'Twiggy Daggers',7,1,NULL,97,'equipment',NULL,NULL,490);
 INSERT INTO "items" VALUES(103,'Wisdom Ring',9,6,NULL,103,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(112,'Chance Ring',9,6,NULL,112,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(121,'Agility Ring',9,6,NULL,121,'equipment',NULL,NULL,NULL);
@@ -76521,7 +76521,7 @@ INSERT INTO "items" VALUES(323,'Kam Assutra Amulet',43,5,NULL,323,'equipment',NU
 INSERT INTO "items" VALUES(324,'Krokette Amulet',9,5,NULL,324,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(325,'Sram Amulet',7,5,NULL,325,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(326,'Deulegarnoulle Amulet',33,5,NULL,326,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(327,'Gob-Trotter Blade',16,1,NULL,327,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(327,'Gob-Trotter Blade',16,1,NULL,327,'equipment',NULL,NULL,477);
 INSERT INTO "items" VALUES(328,'Slash',18,1,NULL,328,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(329,'The Arc de Triomphe',27,1,NULL,329,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(331,'Rain Bow',22,1,NULL,331,'equipment',NULL,NULL,NULL);
@@ -76560,7 +76560,7 @@ INSERT INTO "items" VALUES(610,'Crab Amulet',24,5,NULL,610,'equipment',NULL,NULL
 INSERT INTO "items" VALUES(616,'Fisherman Amulet',22,5,NULL,616,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(617,'Pirate Amulet',41,5,NULL,617,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(619,'Gobball Master Staff',85,1,NULL,619,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(620,'Kralove Cutting Sword',61,1,NULL,620,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(620,'Kralove Cutting Sword',61,1,NULL,620,'equipment',NULL,NULL,485);
 INSERT INTO "items" VALUES(629,'Pointed Hat',21,3,NULL,629,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(638,'Somoon Fisherman Amulet',35,5,NULL,638,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(639,'Amulet of the Depths',47,5,NULL,639,'equipment',NULL,NULL,NULL);
@@ -76588,7 +76588,7 @@ INSERT INTO "items" VALUES(707,'Minot''Horn',110,3,54,707,'equipment',NULL,NULL,
 INSERT INTO "items" VALUES(708,'Pilbocks Hat',30,3,NULL,708,'equipment',NULL,NULL,433);
 INSERT INTO "items" VALUES(709,'Lorko Kasko',37,3,NULL,709,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(710,'Korko Klako',17,3,NULL,710,'equipment',NULL,NULL,435);
-INSERT INTO "items" VALUES(711,'Jouik Krampe',26,3,NULL,711,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(711,'Jouik Krampe',26,3,NULL,711,'equipment',NULL,NULL,436);
 INSERT INTO "items" VALUES(712,'Gulliver',32,3,NULL,712,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(732,'Silimelle''s Wedding Ring',26,6,NULL,732,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(733,'Ragalde''s Boots',49,8,NULL,733,'equipment',NULL,NULL,NULL);
@@ -76910,7 +76910,7 @@ INSERT INTO "items" VALUES(2411,'Gobball Headgear',20,3,1,2411,'equipment',NULL,
 INSERT INTO "items" VALUES(2412,'Fire Kwape',41,4,2,2412,'equipment',NULL,NULL,117);
 INSERT INTO "items" VALUES(2413,'Treecapa',45,4,3,2413,'equipment',NULL,NULL,118);
 INSERT INTO "items" VALUES(2414,'Gobball Cape',20,4,1,2414,'equipment',NULL,NULL,4142);
-INSERT INTO "items" VALUES(2415,'Fire Kwakblade',41,1,2,2415,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(2415,'Fire Kwakblade',41,1,2,2415,'equipment',NULL,NULL,508);
 INSERT INTO "items" VALUES(2416,'Gobball Hammer',20,1,1,2416,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2417,'Treestaff',45,1,3,2417,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2418,'Fire Kwakring',42,6,2,2418,'equipment',NULL,NULL,NULL);
@@ -76927,7 +76927,7 @@ INSERT INTO "items" VALUES(2428,'Gobball Belt',20,7,1,2428,'equipment',NULL,NULL
 INSERT INTO "items" VALUES(2429,'Treebelt',45,7,3,2429,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2435,'Eni Kere Miracle Boots',44,8,NULL,2435,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2438,'Royal Gobball Headgear',32,3,4,2438,'equipment',NULL,NULL,240);
-INSERT INTO "items" VALUES(2440,'Royal Gobball''s Sword',30,1,4,2440,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(2440,'Royal Gobball''s Sword',30,1,4,2440,'equipment',NULL,NULL,470);
 INSERT INTO "items" VALUES(2441,'Royal Gobball''s Ring',31,6,4,2441,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2442,'Royal Gobboots',30,8,4,2442,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2443,'Royal Gobball''s Amulet',28,5,4,2443,'equipment',NULL,NULL,NULL);
@@ -76958,7 +76958,7 @@ INSERT INTO "items" VALUES(2532,'Caracape',60,4,9,2532,'equipment',NULL,NULL,127
 INSERT INTO "items" VALUES(2534,'Ice Kwape',41,4,13,2534,'equipment',NULL,NULL,128);
 INSERT INTO "items" VALUES(2535,'Ice Kwak Headdress',41,3,13,2535,'equipment',NULL,NULL,245);
 INSERT INTO "items" VALUES(2537,'Ice Kwakelt',41,7,13,2537,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(2544,'Croblade',110,1,8,2544,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(2544,'Croblade',110,1,8,2544,'equipment',NULL,NULL,472);
 INSERT INTO "items" VALUES(2545,'Croboots',104,8,8,2545,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2546,'Crobak Helmet',106,3,8,2546,'equipment',NULL,NULL,246);
 INSERT INTO "items" VALUES(2547,'Mastralis Croak',127,4,NULL,2547,'equipment',NULL,NULL,129);
@@ -76980,9 +76980,9 @@ INSERT INTO "items" VALUES(2614,'Dame Zel Axe',89,1,NULL,2614,'equipment',NULL,N
 INSERT INTO "items" VALUES(2615,'Lookabeer Axe',96,1,NULL,2615,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2616,'Bards'' Hall',99,1,NULL,2616,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2629,'Caracape Minotoris',121,4,NULL,2629,'equipment',NULL,NULL,130);
-INSERT INTO "items" VALUES(2637,'The Claw',35,1,NULL,2637,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(2637,'The Claw',35,1,NULL,2637,'equipment',NULL,NULL,496);
 INSERT INTO "items" VALUES(2638,'The Sharp Claw',68,1,NULL,2638,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(2639,'Fake Claw of Ceangal',95,1,NULL,2639,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(2639,'Fake Claw of Ceangal',95,1,NULL,2639,'equipment',NULL,NULL,498);
 INSERT INTO "items" VALUES(2640,'Carnivorous Staff',30,1,7,2640,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(2641,'Toady',30,3,7,2641,'equipment',NULL,NULL,247);
 INSERT INTO "items" VALUES(2655,'Crowish Belt',120,7,NULL,2655,'equipment',NULL,NULL,NULL);
@@ -77015,7 +77015,7 @@ INSERT INTO "items" VALUES(3649,'Daguiero''s Daggers',91,1,NULL,3649,'equipment'
 INSERT INTO "items" VALUES(3650,'Regah Daggers',119,1,NULL,3650,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(3651,'Lutination Daggers',90,1,NULL,3651,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(3652,'Marie Aigue''s Staff',109,1,NULL,3652,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(4241,'Pink Claw',100,1,NULL,4241,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(4241,'Pink Claw',100,1,NULL,4241,'equipment',NULL,NULL,499);
 INSERT INTO "items" VALUES(4242,'Slicing Fan',75,1,NULL,4242,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(4381,'Kaa Amulet',82,5,NULL,4381,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(4382,'Tyse Pick',85,1,NULL,4382,'equipment',NULL,NULL,NULL);
@@ -77126,9 +77126,9 @@ INSERT INTO "items" VALUES(6746,'Earth Kwakamulet',42,5,14,6746,'equipment',NULL
 INSERT INTO "items" VALUES(6747,'Wind Kwakamulet',42,5,15,6747,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6748,'Earth Kwakring',42,6,14,6748,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6749,'Wind Kwakring',42,6,15,6749,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(6750,'Ice Kwakblade',41,1,13,6750,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(6751,'Earth Kwakblade',41,1,14,6751,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(6752,'Wind Kwakblade',41,1,15,6752,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(6750,'Ice Kwakblade',41,1,13,6750,'equipment',NULL,NULL,507);
+INSERT INTO "items" VALUES(6751,'Earth Kwakblade',41,1,14,6751,'equipment',NULL,NULL,531);
+INSERT INTO "items" VALUES(6752,'Wind Kwakblade',41,1,15,6752,'equipment',NULL,NULL,509);
 INSERT INTO "items" VALUES(6753,'Ice Kwakoboots',40,8,13,6753,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6754,'Earth Kwakoboots',40,8,14,6754,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6755,'Wind Kwakoboots',40,8,15,6755,'equipment',NULL,NULL,NULL);
@@ -77164,7 +77164,7 @@ INSERT INTO "items" VALUES(6794,'Wild Boots',14,8,18,6794,'equipment',NULL,NULL,
 INSERT INTO "items" VALUES(6795,'Purple Cloak',13,4,18,6795,'equipment',NULL,NULL,137);
 INSERT INTO "items" VALUES(6796,'Flowery Belt',13,7,18,6796,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6797,'Florheadgear',14,3,18,6797,'equipment',NULL,NULL,256);
-INSERT INTO "items" VALUES(6799,'Bwork Chief Blade',100,1,19,6799,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(6799,'Bwork Chief Blade',100,1,19,6799,'equipment',NULL,NULL,505);
 INSERT INTO "items" VALUES(6800,'Basic Cloak',1,4,NULL,6800,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6804,'Bwork Chief Amulet',100,5,19,6804,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6805,'Bwork Chief Bracelet',100,6,19,6805,'equipment',NULL,NULL,NULL);
@@ -77234,7 +77234,7 @@ INSERT INTO "items" VALUES(6953,'Boowolf Boots',61,8,32,6953,'equipment',NULL,NU
 INSERT INTO "items" VALUES(6954,'Boowolf Cloak',64,4,32,6954,'equipment',NULL,NULL,163);
 INSERT INTO "items" VALUES(6955,'Boowolf Thong',49,7,32,6955,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6956,'Boowolf Ring',51,6,32,6956,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(6957,'Crackler Blade',64,1,26,6957,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(6957,'Crackler Blade',64,1,26,6957,'equipment',NULL,NULL,532);
 INSERT INTO "items" VALUES(6961,'Gangster Ring',17,6,25,6961,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6978,'Peki',20,10,NULL,6978,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(6980,'Vulbis Dofus',180,9,NULL,6980,'equipment',NULL,NULL,NULL);
@@ -77270,7 +77270,7 @@ INSERT INTO "items" VALUES(7039,'Frank Lee Bruce''s Black Belt',47,7,NULL,7039,'
 INSERT INTO "items" VALUES(7040,'Kuri''s Bow',55,1,NULL,7040,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7043,'Ice Dofus',180,9,NULL,7043,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7056,'Kracker Cap',149,3,NULL,7056,'equipment',NULL,NULL,1098);
-INSERT INTO "items" VALUES(7058,'Octovius',77,3,NULL,7058,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7058,'Octovius',77,3,NULL,7058,'equipment',NULL,NULL,438);
 INSERT INTO "items" VALUES(7097,'Training Shield',1,2,NULL,7097,'equipment',NULL,NULL,5631);
 INSERT INTO "items" VALUES(7102,'Ice Knight Sword',20,1,NULL,7102,'equipment',NULL,NULL,507);
 INSERT INTO "items" VALUES(7103,'The Xyothine',145,1,NULL,7103,'equipment',NULL,NULL,NULL);
@@ -77314,7 +77314,7 @@ INSERT INTO "items" VALUES(7154,'Toy Hammer',107,1,NULL,7154,'equipment',NULL,NU
 INSERT INTO "items" VALUES(7155,'Hammer Ingthaiphoons',113,1,NULL,7155,'equipment',NULL,NULL,614);
 INSERT INTO "items" VALUES(7156,'Hammer Ican',104,1,NULL,7156,'equipment',NULL,NULL,574);
 INSERT INTO "items" VALUES(7157,'Toll Hammer',124,1,NULL,7157,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(7158,'Trikidiki Hammer',141,1,NULL,7158,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7158,'Trikidiki Hammer',141,1,NULL,7158,'equipment',NULL,NULL,612);
 INSERT INTO "items" VALUES(7159,'Cogito Hammer',135,1,NULL,7159,'equipment',NULL,NULL,563);
 INSERT INTO "items" VALUES(7160,'Doozi Bow',120,1,NULL,7160,'equipment',NULL,NULL,794);
 INSERT INTO "items" VALUES(7161,'Young Wild Bow',100,1,NULL,7161,'equipment',NULL,NULL,NULL);
@@ -77336,27 +77336,27 @@ INSERT INTO "items" VALUES(7178,'Froot Root',86,1,NULL,7178,'equipment',NULL,NUL
 INSERT INTO "items" VALUES(7181,'Red Root Chileepaperz',106,1,NULL,7181,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7182,'Black Mel Root',103,1,NULL,7182,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7183,'Lady Root',88,1,NULL,7183,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(7184,'Disast Root',86,1,NULL,7184,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7184,'Disast Root',86,1,NULL,7184,'equipment',NULL,NULL,710);
 INSERT INTO "items" VALUES(7185,'Root Een',101,1,NULL,7185,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7187,'Dubya Bow',124,1,NULL,7187,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7188,'Citrus Daggers',113,1,NULL,7188,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(7189,'Thrusty Staff',176,1,NULL,7189,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7189,'Thrusty Staff',176,1,NULL,7189,'equipment',NULL,NULL,699);
 INSERT INTO "items" VALUES(7190,'Maydhyn China Daggers',100,1,NULL,7190,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7191,'Ramougre''s Setter',127,1,NULL,7191,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7192,'Grizmine Claw',111,1,NULL,7192,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7193,'Dark Vlad Sword',126,1,NULL,7193,'equipment',NULL,NULL,529);
 INSERT INTO "items" VALUES(7194,'Arkanum Bow',96,1,NULL,7194,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7195,'Furritung',158,1,NULL,7195,'equipment',NULL,NULL,530);
-INSERT INTO "items" VALUES(7197,'Hammer Sheys',148,1,NULL,7197,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7197,'Hammer Sheys',148,1,NULL,7197,'equipment',NULL,NULL,618);
 INSERT INTO "items" VALUES(7198,'Evening Razor',105,1,NULL,7198,'equipment',NULL,NULL,542);
 INSERT INTO "items" VALUES(7199,'Abatz Sword',130,1,NULL,7199,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7200,'Shodanwa Sabre',40,1,NULL,7200,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7201,'Nidanwa Sabre',66,1,NULL,7201,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7202,'Sandanwa Sabre',83,1,NULL,7202,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7203,'Yondanwa Sabre',92,1,NULL,7203,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(7204,'Shodanwa Staff',46,1,NULL,7204,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7204,'Shodanwa Staff',46,1,NULL,7204,'equipment',NULL,NULL,697);
 INSERT INTO "items" VALUES(7205,'Nidanwa Staff',62,1,NULL,7205,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(7206,'Sandanwa Staff',77,1,NULL,7206,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7206,'Sandanwa Staff',77,1,NULL,7206,'equipment',NULL,NULL,707);
 INSERT INTO "items" VALUES(7207,'Yondanwa Staff',93,1,NULL,7207,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7208,'Shodanwa Axe',36,1,NULL,7208,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7209,'Nidanwa Axe',59,1,NULL,7209,'equipment',NULL,NULL,NULL);
@@ -77398,7 +77398,7 @@ INSERT INTO "items" VALUES(7253,'Aerdala Amulet',62,5,35,7253,'equipment',NULL,N
 INSERT INTO "items" VALUES(7254,'Akwadala Staff',43,1,34,7254,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(7255,'Terrdala Axe',83,1,36,7255,'equipment',NULL,NULL,1004);
 INSERT INTO "items" VALUES(7256,'Aerdala Daggers',62,1,35,7256,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(7257,'Feudala Sabre',76,1,37,7257,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(7257,'Feudala Sabre',76,1,37,7257,'equipment',NULL,NULL,526);
 INSERT INTO "items" VALUES(7339,'Kitsou Cap',61,3,41,7339,'equipment',NULL,NULL,268);
 INSERT INTO "items" VALUES(7340,'Kitsou Wrap',62,4,41,7340,'equipment',NULL,NULL,3707);
 INSERT INTO "items" VALUES(7341,'Kitsou Ring',55,6,41,7341,'equipment',NULL,NULL,NULL);
@@ -77468,7 +77468,7 @@ INSERT INTO "items" VALUES(8091,'Palm Cane',133,1,NULL,8091,'equipment',NULL,NUL
 INSERT INTO "items" VALUES(8092,'Ostwogoth Daggers',134,1,NULL,8092,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8094,'Killarity Sword',169,1,NULL,8094,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8095,'Andy War Sword',143,1,NULL,8095,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8096,'Dunb Hammer',140,1,NULL,8096,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8096,'Dunb Hammer',140,1,NULL,8096,'equipment',NULL,NULL,578);
 INSERT INTO "items" VALUES(8097,'Hammer O''In',129,1,NULL,8097,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8098,'Blade O''Ven',200,1,NULL,8098,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8099,'Axe of Lies',116,1,NULL,8099,'equipment',NULL,NULL,NULL);
@@ -77609,7 +77609,7 @@ INSERT INTO "items" VALUES(8330,'Dragandrop Headgear',109,3,NULL,8330,'equipment
 INSERT INTO "items" VALUES(8331,'Dragostess Hat',109,3,NULL,8331,'equipment',NULL,NULL,417);
 INSERT INTO "items" VALUES(8333,'Father Kwismas Cape',19,4,214,8333,'equipment',NULL,NULL,182);
 INSERT INTO "items" VALUES(8334,'Father Kwismas Hat',22,3,214,8334,'equipment',NULL,NULL,452);
-INSERT INTO "items" VALUES(8338,'Kwismas Sword',1,1,NULL,8338,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8338,'Kwismas Sword',1,1,NULL,8338,'equipment',NULL,NULL,482);
 INSERT INTO "items" VALUES(8341,'Pineapi Boots',1,8,NULL,8341,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8366,'Little Red Waddling Cape',171,4,NULL,8366,'equipment',NULL,NULL,184);
 INSERT INTO "items" VALUES(8411,'Mumminotor Pendant',111,5,59,8411,'equipment',NULL,NULL,NULL);
@@ -77630,7 +77630,7 @@ INSERT INTO "items" VALUES(8445,'Black Rat Necklace',103,5,68,8445,'equipment',N
 INSERT INTO "items" VALUES(8446,'Black Rat Boots',101,8,68,8446,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8447,'Black Rat Belt',101,7,68,8447,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8448,'Black Rat Glove',98,6,68,8448,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8450,'White Rat Rapier',109,1,67,8450,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8450,'White Rat Rapier',109,1,67,8450,'equipment',NULL,NULL,481);
 INSERT INTO "items" VALUES(8451,'White Rat Hat',105,3,67,8451,'equipment',NULL,NULL,297);
 INSERT INTO "items" VALUES(8452,'White Rat Cape',102,4,67,8452,'equipment',NULL,NULL,186);
 INSERT INTO "items" VALUES(8453,'White Rat Necklace',102,5,67,8453,'equipment',NULL,NULL,NULL);
@@ -77671,8 +77671,8 @@ INSERT INTO "items" VALUES(8575,'First Blood Staff',200,1,NULL,8575,'equipment',
 INSERT INTO "items" VALUES(8596,'Crimson Claw',145,1,NULL,8596,'equipment',NULL,NULL,515);
 INSERT INTO "items" VALUES(8598,'Emment Daggers',67,1,NULL,8598,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8599,'Clawettes',69,1,NULL,8599,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8604,'Stalk Sword',97,1,NULL,8604,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8605,'Rubber Sword',73,1,NULL,8605,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8604,'Stalk Sword',97,1,NULL,8604,'equipment',NULL,NULL,516);
+INSERT INTO "items" VALUES(8605,'Rubber Sword',73,1,NULL,8605,'equipment',NULL,NULL,517);
 INSERT INTO "items" VALUES(8607,'Studded Staff',107,1,NULL,8607,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8608,'Scrap Staff',85,1,NULL,8608,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8609,'Bushi''Bow',81,1,NULL,8609,'equipment',NULL,NULL,NULL);
@@ -77732,10 +77732,10 @@ INSERT INTO "items" VALUES(8669,'Nailed Thongs',100,8,87,8669,'equipment',NULL,N
 INSERT INTO "items" VALUES(8670,'Wawka Boots',100,8,84,8670,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8677,'Ross',20,10,NULL,8677,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8693,'Feanor',20,10,NULL,8693,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8695,'Sword Hikk',177,1,NULL,8695,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8695,'Sword Hikk',177,1,NULL,8695,'equipment',NULL,NULL,518);
 INSERT INTO "items" VALUES(8698,'Cloudy Dofus',180,9,NULL,8698,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8699,'Tynril Hat (#1)',164,3,962,8699,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8701,'Nicked Sword',95,1,NULL,8701,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8701,'Nicked Sword',95,1,NULL,8701,'equipment',NULL,NULL,520);
 INSERT INTO "items" VALUES(8704,'Jester Hat',159,3,NULL,8704,'equipment',NULL,NULL,424);
 INSERT INTO "items" VALUES(8713,'Geta Bernacle',100,8,92,8713,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8714,'Honoh Ring',150,6,82,8714,'equipment',NULL,NULL,NULL);
@@ -77778,9 +77778,9 @@ INSERT INTO "items" VALUES(8842,'Archer Voodoo Mask',158,3,NULL,8842,'equipment'
 INSERT INTO "items" VALUES(8843,'Crocodyl Dandy''s Hat',180,3,NULL,8843,'equipment',NULL,NULL,420);
 INSERT INTO "items" VALUES(8844,'Mopy King Sovereign Hood',168,3,78,8844,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8845,'Ouassingual Hood',104,3,77,8845,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8846,'Zoth Girl Hat',128,3,93,8846,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8846,'Zoth Girl Hat',128,3,93,8846,'equipment',NULL,NULL,310);
 INSERT INTO "items" VALUES(8847,'Zoth Warrior Helmet',134,3,95,8847,'equipment',NULL,NULL,311);
-INSERT INTO "items" VALUES(8848,'Zoth Master Hat',156,3,94,8848,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8848,'Zoth Master Hat',156,3,94,8848,'equipment',NULL,NULL,312);
 INSERT INTO "items" VALUES(8849,'Barkritter Root',136,1,NULL,8849,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8850,'Floramor Root',144,1,NULL,8850,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8854,'Crack Sparrow''s Own Withered Hat',1,3,NULL,8854,'equipment',NULL,NULL,224);
@@ -77804,7 +77804,7 @@ INSERT INTO "items" VALUES(8873,'Krabelt',39,7,NULL,8873,'equipment',NULL,NULL,N
 INSERT INTO "items" VALUES(8874,'Ouassulet',105,5,77,8874,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8876,'Inky Veil',191,4,NULL,8876,'equipment',NULL,NULL,213);
 INSERT INTO "items" VALUES(8877,'Kringlove',199,6,97,8877,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(8878,'Kidommer',77,1,999,8878,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(8878,'Kidommer',77,1,999,8878,'equipment',NULL,NULL,585);
 INSERT INTO "items" VALUES(8879,'Polished Ring',66,6,999,8879,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8880,'Amufafah',83,5,999,8880,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8881,'Solo''s Ring',31,6,NULL,8881,'equipment',NULL,NULL,NULL);
@@ -77841,7 +77841,7 @@ INSERT INTO "items" VALUES(8991,'Head Band',189,6,97,8991,'equipment',NULL,NULL,
 INSERT INTO "items" VALUES(8992,'Blord Warrior''s Cursed Scythe',200,1,NULL,8992,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(8993,'Blord Warrior''s Cursed Sword',200,1,NULL,8993,'equipment',NULL,NULL,486);
 INSERT INTO "items" VALUES(9031,'Gore Master''s Ring (Gms Only)',1,6,NULL,9031,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(9117,'Ougaammer',180,1,118,9117,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(9117,'Ougaammer',180,1,118,9117,'equipment',NULL,NULL,600);
 INSERT INTO "items" VALUES(9122,'Morello Cherry Blop Ring',50,6,98,9122,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(9123,'Pippin Blop Ring',50,6,99,9123,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(9124,'Coco Blop Ring',50,6,100,9124,'equipment',NULL,NULL,NULL);
@@ -78020,7 +78020,7 @@ INSERT INTO "items" VALUES(10643,'Fyred Ampe''s Ring',43,6,149,10643,'equipment'
 INSERT INTO "items" VALUES(10644,'Fyred Ampe''s Boots',41,8,149,10644,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(10645,'Fyred Ampe''s Belt',43,7,149,10645,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(10657,'Ogrine Seeker',20,10,NULL,10657,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(10685,'Haks Or Mask',52,3,151,10685,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(10685,'Haks Or Mask',52,3,151,10685,'equipment',NULL,NULL,1234);
 INSERT INTO "items" VALUES(10686,'Haks Or Cloak',54,4,151,10686,'equipment',NULL,NULL,1240);
 INSERT INTO "items" VALUES(10687,'Haks Or Ring',51,6,151,10687,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(10688,'Haks Or Belt',53,7,151,10688,'equipment',NULL,NULL,NULL);
@@ -79278,7 +79278,7 @@ INSERT INTO "items" VALUES(18423,'Ourobubble Cape',78,4,420,18423,'equipment',NU
 INSERT INTO "items" VALUES(18424,'Ourobubble Ring',80,6,420,18424,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(18425,'Ourobubble Boots',83,8,420,18425,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(18426,'Desert Cape',79,4,421,18426,'equipment',NULL,NULL,4114);
-INSERT INTO "items" VALUES(18427,'Fennexeadgear',82,3,421,18427,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(18427,'Fennexeadgear',82,3,421,18427,'equipment',NULL,NULL,3458);
 INSERT INTO "items" VALUES(18428,'Leopena G-String',80,7,421,18428,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(18429,'Mantiscore Axe',80,1,NULL,18429,'equipment',NULL,NULL,3464);
 INSERT INTO "items" VALUES(18430,'Spykbal Mace',80,1,NULL,18430,'equipment',NULL,NULL,3465);
@@ -79565,7 +79565,7 @@ INSERT INTO "items" VALUES(22186,'Misery''s Greed',200,6,474,22186,'equipment',N
 INSERT INTO "items" VALUES(22187,'Misery''s Treads',200,8,474,22187,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(22188,'Misery''s Girdle',200,7,474,22188,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(22189,'War''s Treads',200,8,475,22189,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(22190,'War''s Helm',200,3,475,22190,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(22190,'War''s Helm',200,3,475,22190,'equipment',NULL,NULL,3957);
 INSERT INTO "items" VALUES(22191,'War''s Fortress',200,2,475,22191,'equipment',NULL,NULL,3956);
 INSERT INTO "items" VALUES(22192,'War''s Gauntlet',200,6,475,22192,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(22200,'Servitude''s Scarf',200,5,476,22200,'equipment',NULL,NULL,NULL);
@@ -79649,7 +79649,7 @@ INSERT INTO "items" VALUES(25216,'Possessed Belt',200,7,495,25216,'equipment',NU
 INSERT INTO "items" VALUES(25217,'Pandamonium Amulet',200,5,496,25217,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(25218,'Pandamonium Wedding Ring',200,6,496,25218,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(25219,'Pandamonium Wand',200,1,496,25219,'equipment',NULL,NULL,4228);
-INSERT INTO "items" VALUES(25220,'Possessed Shield',200,2,495,25220,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(25220,'Possessed Shield',200,2,495,25220,'equipment',NULL,NULL,4224);
 INSERT INTO "items" VALUES(25221,'Wings of Chaos (#1)',200,4,NULL,25221,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(25222,'Possessed Hammer',200,1,NULL,25222,'equipment',NULL,NULL,4227);
 INSERT INTO "items" VALUES(25235,'Danaba''s Blade',180,1,NULL,25235,'equipment',NULL,NULL,4119);
@@ -79660,8 +79660,8 @@ INSERT INTO "items" VALUES(25753,'Bontarian Rat Ring',110,6,NULL,25753,'equipmen
 INSERT INTO "items" VALUES(25952,'Gobbowl Ball',1,1,NULL,25952,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26006,'Destroyer Torc',200,5,498,26006,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26007,'Destroyer Cestus',200,6,498,26007,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(26008,'Destroyer Cleaver',200,1,498,26008,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(26009,'Seraphic Scythe',200,1,NULL,26009,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(26008,'Destroyer Cleaver',200,1,498,26008,'equipment',NULL,NULL,4352);
+INSERT INTO "items" VALUES(26009,'Seraphic Scythe',200,1,NULL,26009,'equipment',NULL,NULL,4354);
 INSERT INTO "items" VALUES(26010,'Imp Sword',200,1,NULL,26010,'equipment',NULL,NULL,4356);
 INSERT INTO "items" VALUES(26011,'Chaotic Scythe',200,1,NULL,26011,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26018,'Final Dawn',200,6,499,26018,'equipment',NULL,NULL,NULL);
@@ -79672,7 +79672,7 @@ INSERT INTO "items" VALUES(26022,'Skies of Black Lightning',200,8,499,26022,'equ
 INSERT INTO "items" VALUES(26023,'Liche''s Wood',200,7,499,26023,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26058,'Totem of Balance',180,1,NULL,26058,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26066,'Nightmare Dofus',180,9,NULL,26066,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(26085,'Demonic Nightmare Catcher',180,1,NULL,26085,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(26085,'Demonic Nightmare Catcher',180,1,NULL,26085,'equipment',NULL,NULL,4345);
 INSERT INTO "items" VALUES(26099,'Ayuto''s Authentic Rolling Pin',180,1,NULL,26099,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26131,'Cynan''s Cross',180,1,NULL,26131,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26198,'Single-Use Pick',10,1,NULL,26198,'equipment',NULL,NULL,NULL);
@@ -79682,7 +79682,7 @@ INSERT INTO "items" VALUES(26310,'Rooted Malter Scythe',150,1,500,26310,'equipme
 INSERT INTO "items" VALUES(26311,'Hell Mina''s Wedding Ring',146,6,501,26311,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26313,'Hell Mina''s Cape',148,4,501,26313,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26314,'Hell Mina''s Partisan',150,1,501,26314,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(26336,'Director Grunob''s Hat',40,3,502,26336,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(26336,'Director Grunob''s Hat',40,3,502,26336,'equipment',NULL,NULL,4455);
 INSERT INTO "items" VALUES(26337,'Director Grunob''s Boots',42,8,502,26337,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26343,'Director Grunob''s Belt',36,7,502,26343,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(26344,'Director Grunob''s Scythe',38,1,502,26344,'equipment',NULL,NULL,4009);
@@ -79730,7 +79730,7 @@ INSERT INTO "items" VALUES(27546,'Pillar of Ephedrya',200,1,514,27546,'equipment
 INSERT INTO "items" VALUES(27547,'Belladonna''s Cruelty',200,6,514,27547,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(27548,'Belladonna''s Bitterness',200,6,514,27548,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(27549,'Belladonna''s Tenderness',200,6,514,27549,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(27551,'Helm of the Heroes',40,3,515,27551,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(27551,'Helm of the Heroes',40,3,515,27551,'equipment',NULL,NULL,4304);
 INSERT INTO "items" VALUES(27552,'Cape of the Courageous',80,4,515,27552,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(27553,'Sash of the Saviour',130,7,515,27553,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(27554,'Leggings of the Legend',100,8,515,27554,'equipment',NULL,NULL,NULL);
@@ -79739,7 +79739,7 @@ INSERT INTO "items" VALUES(27644,'Yaulbow',200,1,NULL,27644,'equipment',NULL,NUL
 INSERT INTO "items" VALUES(27645,'Basic Broom',1,1,NULL,27645,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(27803,'Pine Done',180,9,NULL,27803,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(29024,'Moskito Swatter',180,1,NULL,29024,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(29110,'Menologium',180,2,NULL,29110,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(29110,'Menologium',180,2,NULL,29110,'equipment',NULL,NULL,5024);
 INSERT INTO "items" VALUES(29133,'Blessed Menologium',180,2,NULL,29133,'equipment',NULL,NULL,5025);
 INSERT INTO "items" VALUES(29134,'Sylvan Dofus',180,9,NULL,29134,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(29135,'Verdant Dofus',180,9,NULL,29135,'equipment',NULL,NULL,NULL);
@@ -79754,10 +79754,10 @@ INSERT INTO "items" VALUES(30454,'Pugilist',150,9,NULL,30454,'equipment',NULL,NU
 INSERT INTO "items" VALUES(30455,'Arcanist',150,9,NULL,30455,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(30456,'Barbaric',150,9,NULL,30456,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(30681,'Spiky Prespic Shield',35,2,31,30681,'equipment',NULL,NULL,5166);
-INSERT INTO "items" VALUES(30682,'Ponym Shield',200,2,489,30682,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(30682,'Ponym Shield',200,2,489,30682,'equipment',NULL,NULL,4144);
 INSERT INTO "items" VALUES(30683,'Onance Carapace',200,2,488,30683,'equipment',NULL,NULL,5270);
 INSERT INTO "items" VALUES(30684,'Royal Mastogob Ram',135,2,NULL,30684,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(30685,'Bontarian Gobbowler Shield',135,2,NULL,30685,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(30685,'Bontarian Gobbowler Shield',135,2,NULL,30685,'equipment',NULL,NULL,4346);
 INSERT INTO "items" VALUES(30686,'Brakmarian Gobbowler Shield',135,2,NULL,30686,'equipment',NULL,NULL,4347);
 INSERT INTO "items" VALUES(30687,'Royal Gobball Cuirass',30,2,4,30687,'equipment',NULL,NULL,3916);
 INSERT INTO "items" VALUES(30688,'Crispy Targe',80,2,NULL,30688,'equipment',NULL,NULL,NULL);
@@ -80300,7 +80300,7 @@ INSERT INTO "items" VALUES(100018000,'Koutoulou Mask (#2)',200,3,NULL,18000,'equ
 INSERT INTO "items" VALUES(100018002,'Merdiodon Cloak (#2)',200,4,NULL,18002,'equipment',NULL,NULL,3381);
 INSERT INTO "items" VALUES(100018006,'Ockloth (#2)',200,7,NULL,18006,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(100018009,'Menobelt (#2)',200,7,NULL,18009,'equipment',NULL,NULL,NULL);
-INSERT INTO "items" VALUES(100018439,'The Dorado (#2)',200,3,NULL,18439,'equipment',NULL,NULL,NULL);
+INSERT INTO "items" VALUES(100018439,'The Dorado (#2)',200,3,NULL,18439,'equipment',NULL,NULL,3467);
 INSERT INTO "items" VALUES(100019595,'Scapu Helm (#2)',200,3,953,19595,'equipment',NULL,NULL,3638);
 INSERT INTO "items" VALUES(100019596,'Suspender Belt (#2)',200,7,952,19596,'equipment',NULL,NULL,NULL);
 INSERT INTO "items" VALUES(100019607,'Absoluti Cape (#2)',200,4,950,19607,'equipment',NULL,NULL,3643);

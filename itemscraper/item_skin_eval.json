@@ -519,7 +519,7 @@
   "skin": 517,
   "margin": 0.042,
   "name": "Rubber Sword",
-  "label": "U"
+  "label": "R"
  },
  {
   "n": 59,
@@ -682,5 +682,77 @@
   "margin": 0.025,
   "name": "Albueran Trapper Lance",
   "label": "U"
+ },
+ {
+  "n": 77,
+  "ankama_id": 6752,
+  "type": "Weapon",
+  "skin": 509,
+  "margin": 0.002,
+  "name": "Wind Kwakblade",
+  "label": "R"
+ },
+ {
+  "n": 78,
+  "ankama_id": 711,
+  "type": "Hat",
+  "skin": 436,
+  "margin": 0.039,
+  "name": "Jouik Krampe",
+  "label": "R"
+ },
+ {
+  "n": 79,
+  "ankama_id": 27551,
+  "type": "Hat",
+  "skin": 4304,
+  "margin": 0.039,
+  "name": "Helm of the Heroes",
+  "label": "U"
+ },
+ {
+  "n": 80,
+  "ankama_id": 7257,
+  "type": "Weapon",
+  "skin": 526,
+  "margin": 0.065,
+  "name": "Feudala Sabre",
+  "label": "R"
+ },
+ {
+  "n": 81,
+  "ankama_id": 620,
+  "type": "Weapon",
+  "skin": 485,
+  "margin": 0.075,
+  "name": "Kralove Cutting Sword",
+  "label": "R"
+ },
+ {
+  "n": 82,
+  "ankama_id": 327,
+  "type": "Weapon",
+  "skin": 477,
+  "margin": 0.035,
+  "name": "Gob-Trotter Blade",
+  "label": "R"
+ },
+ {
+  "n": 83,
+  "ankama_id": 49,
+  "type": "Weapon",
+  "skin": 473,
+  "margin": 0.04,
+  "name": "Smithy Sword",
+  "label": "R"
+ },
+ {
+  "n": 84,
+  "ankama_id": 26336,
+  "type": "Hat",
+  "skin": 4455,
+  "margin": 0.009,
+  "name": "Director Grunob's Hat",
+  "label": "R"
  }
 ]
