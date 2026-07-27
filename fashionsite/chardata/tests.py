@@ -39,6 +39,7 @@ coupling to exact page copy.
 """
 
 from django.test import SimpleTestCase, TestCase, override_settings
+import datetime
 import glob
 import os
 import re
@@ -7803,7 +7804,9 @@ class AdminDashboardTests(TestCase):
                                 minimum_crits=b'', stats_weight=b'', options=b'',
                                 inclusions=b'', exclusions=b'', link_shared=True,
                                 game_version='dofus3')
-        row = next(r for r in admin_stats.versions()['rows'] if r['slug'] == 'dofus3')
+        period = admin_stats.resolve_period()
+        row = next(r for r in admin_stats.versions(period, None)['rows']
+                   if r['slug'] == 'dofus3')
         self.assertEqual(row['total'], 3)
         self.assertIsNone(row['share_rate'])
 
@@ -7824,6 +7827,150 @@ class AdminDashboardTests(TestCase):
         self.assertEqual(hit.count, 2)
         self.assertEqual([f.name for f in PageHit._meta.get_fields()],
                          ['id', 'day', 'path', 'game_version', 'count'])
+
+
+class AdminDashboardFilterTests(TestCase):
+    """The toolbar picks the range and the version, and both have to reach the
+    figures instead of only the labels."""
+
+    def _admin(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('chief', 'chief@test.local', 'pw-42-solid')
+        user.is_superuser = True
+        user.save()
+        return user
+
+    def _build(self, version, name='b'):
+        from chardata.models import Char
+        return Char.objects.create(name=name, char_name='h', char_class='Iop',
+                                   char_build='build', level=200, minimum_stats=b'',
+                                   minimum_crits=b'', stats_weight=b'', options=b'',
+                                   inclusions=b'', exclusions=b'', link_shared=True,
+                                   game_version=version)
+
+    def test_a_preset_sets_the_range_and_a_bad_one_falls_back(self):
+        from chardata import admin_stats
+        month = admin_stats.resolve_period('30d')
+        self.assertEqual(month.days, 30)
+        self.assertEqual(month.key, '30d')
+        fallback = admin_stats.resolve_period('nonsense')
+        self.assertEqual(fallback.key, admin_stats.DEFAULT_PERIOD)
+        # The window before it must not overlap the window itself.
+        self.assertEqual(month.previous_end, month.start - datetime.timedelta(days=1))
+        self.assertEqual((month.previous_end - month.previous_start).days + 1, month.days)
+
+    def test_a_custom_range_wins_and_survives_being_the_wrong_way_round(self):
+        from chardata import admin_stats
+        period = admin_stats.resolve_period('12m', start='2026-03-10', end='2026-03-01')
+        self.assertTrue(period.custom)
+        self.assertEqual(period.start, datetime.date(2026, 3, 1))
+        self.assertEqual(period.end, datetime.date(2026, 3, 10))
+        self.assertEqual(admin_stats.resolve_period('30d', start='not a date').key, '30d')
+
+    def test_an_absurd_date_cannot_crash_the_page_or_reach_the_future(self):
+        from django.utils import timezone
+        from chardata import admin_stats
+        today = timezone.localdate()
+        self.client.force_login(self._admin())
+        for query in ({'from': '0001-01-01'}, {'from': '9999-12-31'},
+                      {'from': '1013-01-01'}, {'to': '0001-01-02'},
+                      {'from': '2226-01-01'}, {'from': '2030-01-01'}):
+            with self.subTest(query=query):
+                resp = self.client.get('/admin-tools/', query)
+                self.assertEqual(resp.status_code, 200)
+        # A date past today never becomes the end of the window.
+        for query in ({'start': '2030-01-01'}, {'end': '2030-01-01'},
+                      {'start': '2030-01-01', 'end': '2031-01-01'}):
+            period = admin_stats.resolve_period(**query)
+            self.assertLessEqual(period.end, today, query)
+            self.assertGreaterEqual(period.start, admin_stats.EARLIEST, query)
+            self.assertLessEqual(len(period.buckets), 400, query)
+
+    def test_a_preset_starts_on_a_whole_bucket_so_the_first_bar_is_not_a_stub(self):
+        from chardata import admin_stats
+        for key in ('90d', '6m', '12m'):
+            period = admin_stats.resolve_period(key)
+            with self.subTest(key=key):
+                self.assertEqual(period.start, period.bucket_of(period.start))
+        # A custom range keeps the days that were asked for.
+        custom = admin_stats.resolve_period(start='2026-03-05', end='2026-03-20')
+        self.assertEqual(custom.start, datetime.date(2026, 3, 5))
+
+    def test_a_custom_range_is_not_cached_so_it_cannot_evict_the_site_cache(self):
+        from django.core.cache import cache
+        from chardata import admin_stats
+        cache.clear()
+        self.addCleanup(cache.clear)
+        canary = 'admin-dashboard-canary'
+        cache.set(canary, 'keep me', 300)
+        for day in range(1, 15):
+            admin_stats.dashboard(start='2026-03-%02d' % day, end='2026-03-28')
+        self.assertEqual(cache.get(canary), 'keep me')
+        # Presets stay cached, one key per preset and version.
+        admin_stats.dashboard(period_key='30d')
+        self.assertIsNotNone(cache.get('%s:30d:all' % admin_stats.CACHE_KEY))
+
+    def test_the_bucket_follows_how_long_the_range_is(self):
+        from chardata import admin_stats
+        self.assertEqual(admin_stats.resolve_period('7d').unit, 'day')
+        self.assertEqual(admin_stats.resolve_period('90d').unit, 'week')
+        self.assertEqual(admin_stats.resolve_period('12m').unit, 'month')
+        # One bar per bucket, and the range never draws an empty chart.
+        week = admin_stats.resolve_period('7d')
+        self.assertEqual(len(week.buckets), 7)
+        self.assertEqual(len(week.series({})), 7)
+
+    def test_the_version_filter_reaches_the_figures(self):
+        from chardata import admin_stats
+        self._build('dofus3', 'one')
+        self._build('dofus3', 'two')
+        self._build('retro', 'three')
+        period = admin_stats.resolve_period('all')
+        everything = admin_stats.community(period, None)
+        only_retro = admin_stats.community(period, 'retro')
+        self.assertEqual(len(everything['top_builds']), 3)
+        self.assertEqual(len(only_retro['top_builds']), 1)
+        self.assertEqual(only_retro['top_builds'][0]['name'], 'three')
+        # The version table stays whole: that panel is the comparison.
+        rows = admin_stats.versions(period, 'retro')['rows']
+        self.assertEqual(len(rows), len(admin_stats.VERSIONS))
+        self.assertTrue(next(r for r in rows if r['slug'] == 'retro')['selected'])
+        self.assertEqual(list(admin_stats.versions(period, 'retro')['levels']), ['retro'])
+
+    def test_counting_comments_and_votes_together_does_not_multiply_them(self):
+        from django.contrib.auth.models import User
+        from chardata import admin_stats
+        from chardata.models import BuildComment, BuildVote
+        build = self._build('dofus3', 'busy')
+        author = User.objects.create_user('fan', 'fan@test.local', 'pw-42-solid')
+        for i in range(3):
+            BuildComment.objects.create(build=build, user=author, content='c%d' % i)
+        BuildComment.objects.create(build=build, user=author, content='gone', deleted=True)
+        for i in range(2):
+            voter = User.objects.create_user('v%d' % i, 'v%d@test.local' % i, 'pw-42-solid')
+            BuildVote.objects.create(build=build, user=voter, vote_type='like')
+        row = admin_stats.community(admin_stats.resolve_period('all'), None)['top_builds'][0]
+        self.assertEqual(row['comments'], 3)
+        self.assertEqual(row['votes'], 2)
+
+    def test_two_filters_do_not_share_a_cached_answer(self):
+        from django.core.cache import cache
+        from chardata import admin_stats
+        cache.clear()
+        self._build('dofus3', 'only dofus3')
+        wide = admin_stats.dashboard(period_key='all')
+        narrow = admin_stats.dashboard(period_key='all', version='retro')
+        self.assertEqual(len(wide['community']['top_builds']), 1)
+        self.assertEqual(len(narrow['community']['top_builds']), 0)
+
+    def test_the_page_carries_the_filters_into_its_own_links(self):
+        self.client.force_login(self._admin())
+        resp = self.client.get('/admin-tools/', {'period': '30d', 'version': 'retro'})
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('?period=30d&amp;version=retro&amp;refresh=1', body)
+        self.assertIn('?period=7d&amp;version=retro', body)
+        self.assertIn('data-more=', body)
 
 
 class DofusGridLabelTests(SimpleTestCase):
