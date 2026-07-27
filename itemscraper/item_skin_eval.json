@@ -1,0 +1,290 @@
+[
+ {
+  "n": 1,
+  "ankama_id": 33581,
+  "type": "Weapon",
+  "skin": 5812,
+  "margin": 0.23,
+  "name": "The Rok Gnorok",
+  "label": "R"
+ },
+ {
+  "n": 2,
+  "ankama_id": 6485,
+  "type": "Weapon",
+  "skin": 1030,
+  "margin": 0.119,
+  "name": "Chafer Archer Bow",
+  "label": "W"
+ },
+ {
+  "n": 3,
+  "ankama_id": 30832,
+  "type": "Weapon",
+  "skin": 1051,
+  "margin": 0.118,
+  "name": "Frank B. Nhin Hunting Knife",
+  "label": "R"
+ },
+ {
+  "n": 4,
+  "ankama_id": 14132,
+  "type": "Weapon",
+  "skin": 2547,
+  "margin": 0.117,
+  "name": "Flinty Daggers (#3)",
+  "label": "U"
+ },
+ {
+  "n": 5,
+  "ankama_id": 11748,
+  "type": "Weapon",
+  "skin": 1345,
+  "margin": 0.038,
+  "name": "Thanos's Chewed-Up Staff",
+  "label": "R"
+ },
+ {
+  "n": 6,
+  "ankama_id": 340,
+  "type": "Weapon",
+  "skin": 687,
+  "margin": 0.044,
+  "name": "Leurnettes",
+  "label": "U"
+ },
+ {
+  "n": 7,
+  "ankama_id": 32235,
+  "type": "Weapon",
+  "skin": 5751,
+  "margin": 0.032,
+  "name": "Erotegg Bow",
+  "label": "W"
+ },
+ {
+  "n": 8,
+  "ankama_id": 13649,
+  "type": "Weapon",
+  "skin": 618,
+  "margin": 0.045,
+  "name": "Aermyne's Rolling Pin",
+  "label": "R"
+ },
+ {
+  "n": 9,
+  "ankama_id": 6811,
+  "type": "Cloak",
+  "skin": 132,
+  "margin": 0.15,
+  "name": "Bwork Chief Cloak",
+  "label": "R"
+ },
+ {
+  "n": 10,
+  "ankama_id": 14168,
+  "type": "Cloak",
+  "skin": 2537,
+  "margin": 0.116,
+  "name": "Cloak of a Thousand Excuses",
+  "label": "R"
+ },
+ {
+  "n": 11,
+  "ankama_id": 6941,
+  "type": "Cloak",
+  "skin": 141,
+  "margin": 0.182,
+  "name": "Blue Scaracape",
+  "label": "R"
+ },
+ {
+  "n": 12,
+  "ankama_id": 19641,
+  "type": "Cloak",
+  "skin": 3325,
+  "margin": 0.29,
+  "name": "Nackle Tabard",
+  "label": "R"
+ },
+ {
+  "n": 13,
+  "ankama_id": 7137,
+  "type": "Cloak",
+  "skin": 2962,
+  "margin": 0.063,
+  "name": "Cape Huccino",
+  "label": "R"
+ },
+ {
+  "n": 14,
+  "ankama_id": 10846,
+  "type": "Cloak",
+  "skin": 1248,
+  "margin": 0.0,
+  "name": "Phero-Cape",
+  "label": "R"
+ },
+ {
+  "n": 15,
+  "ankama_id": 15697,
+  "type": "Cloak",
+  "skin": 1163,
+  "margin": 0.03,
+  "name": "Kapmeba",
+  "label": "R"
+ },
+ {
+  "n": 16,
+  "ankama_id": 18591,
+  "type": "Cloak",
+  "skin": 1158,
+  "margin": 0.009,
+  "name": "Tal Kasha Head of Hair",
+  "label": "R"
+ },
+ {
+  "n": 17,
+  "ankama_id": 7143,
+  "type": "Hat",
+  "skin": 448,
+  "margin": 0.105,
+  "name": "Solomonk",
+  "label": "R"
+ },
+ {
+  "n": 18,
+  "ankama_id": 8285,
+  "type": "Hat",
+  "skin": 293,
+  "margin": 0.38,
+  "name": "Dragon Pig Headgear",
+  "label": "R"
+ },
+ {
+  "n": 19,
+  "ankama_id": 9461,
+  "type": "Hat",
+  "skin": 1113,
+  "margin": 0.106,
+  "name": "The Kim",
+  "label": "R"
+ },
+ {
+  "n": 20,
+  "ankama_id": 2474,
+  "type": "Hat",
+  "skin": 242,
+  "margin": 0.142,
+  "name": "Adventurer Hat",
+  "label": "U"
+ },
+ {
+  "n": 21,
+  "ankama_id": 10102,
+  "type": "Hat",
+  "skin": 3156,
+  "margin": 0.007,
+  "name": "Vampyre Mask",
+  "label": "W"
+ },
+ {
+  "n": 22,
+  "ankama_id": 8634,
+  "type": "Hat",
+  "skin": 3413,
+  "margin": 0.028,
+  "name": "Cool Hood",
+  "label": "W"
+ },
+ {
+  "n": 23,
+  "ankama_id": 8441,
+  "type": "Hat",
+  "skin": 3278,
+  "margin": 0.004,
+  "name": "Billalo",
+  "label": "W"
+ },
+ {
+  "n": 24,
+  "ankama_id": 6500,
+  "type": "Hat",
+  "skin": 5492,
+  "margin": 0.016,
+  "name": "Wabbit Ears",
+  "label": "W"
+ },
+ {
+  "n": 25,
+  "ankama_id": 19260,
+  "type": "Shield",
+  "skin": 3614,
+  "margin": 0.214,
+  "name": "Brakmarian Shield",
+  "label": "R"
+ },
+ {
+  "n": 26,
+  "ankama_id": 30060,
+  "type": "Shield",
+  "skin": 5170,
+  "margin": 0.155,
+  "name": "Allister's Aegis",
+  "label": "R"
+ },
+ {
+  "n": 27,
+  "ankama_id": 18711,
+  "type": "Shield",
+  "skin": 3555,
+  "margin": 0.234,
+  "name": "Cubist Shield",
+  "label": "R"
+ },
+ {
+  "n": 28,
+  "ankama_id": 18679,
+  "type": "Shield",
+  "skin": 75,
+  "margin": 0.152,
+  "name": "Air Dial",
+  "label": "R"
+ },
+ {
+  "n": 29,
+  "ankama_id": 30701,
+  "type": "Shield",
+  "skin": 5259,
+  "margin": 0.089,
+  "name": "Halt Efkat",
+  "label": "R"
+ },
+ {
+  "n": 30,
+  "ankama_id": 20358,
+  "type": "Shield",
+  "skin": 3748,
+  "margin": 0.015,
+  "name": "Death-Defying",
+  "label": "W"
+ },
+ {
+  "n": 31,
+  "ankama_id": 18702,
+  "type": "Shield",
+  "skin": 3550,
+  "margin": 0.075,
+  "name": "Upcykld",
+  "label": "R"
+ },
+ {
+  "n": 32,
+  "ankama_id": 30682,
+  "type": "Shield",
+  "skin": 4144,
+  "margin": 0.024,
+  "name": "Ponym Shield",
+  "label": "R"
+ }
+]
