@@ -7,8 +7,162 @@
 
 {% block main %}
 <div class="admin-tools text">
-    <h1 class="admin-title">Admin tools</h1>
+    <h1 class="admin-title">Admin tools
+        <span class="admin-generated">data {{ dash.generated }} &middot;
+            <a href="?refresh=1">refresh</a></span>
+    </h1>
 
+    <div class="admin-tabs" id="admin-tabs">
+        <button class="admin-tab admin-tab-on" data-tab="overview">Overview</button>
+        <button class="admin-tab" data-tab="versions">Game versions</button>
+        <button class="admin-tab" data-tab="community">Community</button>
+        <button class="admin-tab" data-tab="pages">Pages</button>
+        <button class="admin-tab" data-tab="solver">Solver</button>
+        <button class="admin-tab" data-tab="moderation">Moderation</button>
+    </div>
+
+    <section class="admin-panel" data-panel="overview">
+        <div class="admin-stats">
+            {% for label, tile in dash.overview.tiles %}
+            <div class="admin-stat">
+                <span class="admin-stat-num">{{ tile.recent }}</span>
+                <span class="admin-stat-label">{{ label }} (30d)</span>
+                {% if tile.change != None %}
+                <span class="admin-delta {% if tile.change < 0 %}admin-delta-down{% endif %}">{% if tile.change >= 0 %}+{% endif %}{{ tile.change }}% vs previous 30d</span>
+                {% else %}
+                <span class="admin-delta admin-delta-flat">no baseline</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="admin-section-title">New accounts per week</h2>
+        {{ charts.accounts|safe }}
+
+        <h2 class="admin-section-title">Builds created per week, by version</h2>
+        {{ charts.builds|safe }}
+
+        <div class="admin-two">
+            <div>
+                <h2 class="admin-section-title">Signup method</h2>
+                <table class="admin-table">
+                    {% for name, n in dash.overview.signup_methods %}
+                    <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% empty %}<tr><td class="admin-empty">nothing yet</td></tr>{% endfor %}
+                </table>
+            </div>
+            <div>
+                <h2 class="admin-section-title">Account language</h2>
+                <table class="admin-table">
+                    {% for name, n in dash.overview.languages %}
+                    <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% empty %}<tr><td class="admin-empty">nothing yet</td></tr>{% endfor %}
+                </table>
+                <p class="admin-note">Only filled in for accounts that logged in since the language signal was added, so older accounts are under-counted.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="versions">
+        <h2 class="admin-section-title">One line per game. They are different games, so nothing is summed.</h2>
+        <table class="admin-table admin-table-wide">
+            <tr><th>Version</th><th>Builds</th><th>New (30d)</th><th>Shared</th><th>Share rate</th><th>Comments (30d)</th></tr>
+            {% for row in dash.versions.rows %}
+            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.total }}</td>
+                <td class="admin-num">{{ row.new_30d }}</td>
+                <td class="admin-num">{{ row.shared }}</td>
+                <td class="admin-num">{% if row.share_rate != None %}{{ row.share_rate }}%{% else %}<span class="admin-empty">too few</span>{% endif %}</td>
+                <td class="admin-num">{{ row.comments_30d }}</td></tr>
+            {% endfor %}
+        </table>
+
+        <h2 class="admin-section-title">Levels, per version</h2>
+        <div class="admin-grid">
+            {% for label, svg in charts.levels.items %}
+            <div class="admin-mini"><h3>{{ label }}</h3>{{ svg|safe }}</div>
+            {% endfor %}
+        </div>
+
+        <h2 class="admin-section-title">Classes, per version</h2>
+        <div class="admin-grid">
+            {% for slug, rows in dash.versions.classes.items %}
+            <div class="admin-mini">
+                <h3>{{ slug }}</h3>
+                <table class="admin-table">
+                    {% for name, n, pct in rows %}
+                    <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td><td class="admin-num">{{ pct }}%</td></tr>
+                    {% empty %}<tr><td class="admin-empty">no build</td></tr>{% endfor %}
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="community">
+        <h2 class="admin-section-title">Comments per week</h2>
+        {{ charts.comments|safe }}
+        <h2 class="admin-section-title">Votes per week</h2>
+        {{ charts.votes|safe }}
+
+        <h2 class="admin-section-title">How engagement spreads over shared builds</h2>
+        {{ charts.engagement|safe }}
+        <p class="admin-note">Comments plus votes per shared build. A mean would hide that a few builds can carry everything.</p>
+
+        <h2 class="admin-section-title">Most viewed shared builds</h2>
+        <table class="admin-table admin-table-wide">
+            <tr><th>Build</th><th>Version</th><th>Views</th><th>Comments</th><th>Votes</th></tr>
+            {% for row in dash.community.top_builds %}
+            <tr><td><a href="{{ row.url }}" target="_blank" rel="noopener">{{ row.name }}</a></td>
+                <td>{{ row.version }}</td><td class="admin-num">{{ row.views }}</td>
+                <td class="admin-num">{{ row.comments }}</td>
+                <td class="admin-num">{{ row.votes }}</td></tr>
+            {% empty %}<tr><td class="admin-empty">no shared build yet</td></tr>{% endfor %}
+        </table>
+        <p class="admin-note">Views are a running total since the build was created, not a trend.</p>
+    </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="pages">
+        {% if dash.pages.collecting_since %}
+        <p class="admin-note">Counting since {{ dash.pages.collecting_since }}. Ids in a path are folded into a placeholder, and nothing about the visitor is stored.</p>
+        <h2 class="admin-section-title">Page reads per week</h2>
+        {{ charts.pages_per_week|safe }}
+        <div class="admin-two">
+            <div>
+                <h2 class="admin-section-title">Most read pages (30d)</h2>
+                <table class="admin-table">
+                    {% for path, n in dash.pages.top %}
+                    <tr><td>{{ path }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div>
+                <h2 class="admin-section-title">By version (30d)</h2>
+                <table class="admin-table">
+                    {% for label, n in dash.pages.by_version %}
+                    <tr><td>{{ label }}</td><td class="admin-num">{{ n }}</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <p class="admin-empty-panel">Nothing counted yet. Page reads start being recorded once this is deployed, and the figures are never backfilled.</p>
+        {% endif %}
+    </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="solver">
+        <h2 class="admin-section-title">Solver cache, per week</h2>
+        {{ charts.solver_hits|safe }}
+        <p class="admin-note">Hit rate since the counter exists: {% if dash.solver.hit_rate != None %}{{ dash.solver.hit_rate }}%{% else %}no data{% endif %}</p>
+        <h2 class="admin-section-title">Builds with no saved solution</h2>
+        <table class="admin-table">
+            {% for label, n in dash.solver.no_solution %}
+            <tr><td>{{ label }}</td><td class="admin-num">{{ n }}</td></tr>
+            {% endfor %}
+        </table>
+        <p class="admin-note">A build with no solution was set up and left before solving.</p>
+    </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="moderation">
     <div class="admin-stats">
         <div class="admin-stat"><span class="admin-stat-num">{{ stats.reports_pending }}</span><span class="admin-stat-label">reports pending</span></div>
         <div class="admin-stat"><span class="admin-stat-num">{{ stats.comments_visible }}</span><span class="admin-stat-label">comments visible</span></div>
@@ -70,9 +224,58 @@
         </div>
         {% endfor %}
     </div>
+    </section>
 </div>
 
+<script>
+(function () {
+    var tabs = document.getElementById('admin-tabs');
+    if (!tabs) { return; }
+    tabs.addEventListener('click', function (e) {
+        var button = e.target.closest('.admin-tab');
+        if (!button) { return; }
+        var wanted = button.dataset.tab;
+        tabs.querySelectorAll('.admin-tab').forEach(function (b) {
+            b.classList.toggle('admin-tab-on', b === button);
+        });
+        document.querySelectorAll('.admin-panel').forEach(function (p) {
+            p.classList.toggle('admin-panel-off', p.dataset.panel !== wanted);
+        });
+        location.hash = wanted;
+    });
+    var start = location.hash.replace('#', '');
+    if (start) {
+        var button = tabs.querySelector('.admin-tab[data-tab="' + start + '"]');
+        if (button) { button.click(); }
+    }
+}());
+</script>
+
 <style>
+.admin-generated { font-size: 0.5em; font-weight: normal; opacity: 0.7; margin-left: 10px; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 18px;
+    border-bottom: 1px solid rgba(128,128,128,0.3); }
+.admin-tab { background: transparent; border: 0; border-bottom: 2px solid transparent;
+    padding: 8px 14px; font-size: 0.95em; cursor: pointer; color: inherit; opacity: 0.65; }
+.admin-tab:hover { opacity: 1; }
+.admin-tab-on { opacity: 1; font-weight: 700;
+    border-bottom-color: var(--fm-accent, #c8a05a); }
+.admin-panel-off { display: none; }
+.admin-chart { width: 100%; height: auto; margin: 4px 0 10px; overflow: visible; }
+.admin-chart-label { font-size: 9px; fill: currentColor; opacity: 0.6; text-anchor: middle; }
+.admin-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.admin-mini h3 { font-size: 0.9em; margin: 0 0 4px; opacity: 0.85; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+.admin-table td, .admin-table th { padding: 3px 6px; border-bottom: 1px solid rgba(128,128,128,0.2); }
+.admin-table th { text-align: left; font-size: 0.85em; opacity: 0.7; }
+.admin-num { text-align: right; font-variant-numeric: tabular-nums; }
+.admin-note { font-size: 0.8em; opacity: 0.7; margin: 4px 0 0; }
+.admin-empty, .admin-empty-panel { opacity: 0.55; font-style: italic; }
+.admin-empty-panel { display: block; padding: 30px 0; text-align: center; }
+.admin-delta { display: block; font-size: 0.72em; margin-top: 3px; color: #4f8a4f; }
+.admin-delta-down { color: #b1553d; }
+.admin-delta-flat { opacity: 0.5; color: inherit; }
 .admin-tools { max-width: 900px; margin: 0 auto; padding: 8px 16px 40px; }
 .admin-title { font-size: 1.7em; margin: 0 0 16px; }
 .admin-section-title { font-size: 1.2em; margin: 28px 0 12px; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 16px; }

@@ -7769,6 +7769,63 @@ class StatRangeInThePickerTests(TestCase):
                       solution_result.format_stat_range)
 
 
+class AdminDashboardTests(TestCase):
+    """The dashboard is staff only, must survive an empty database, and must
+    never turn a handful of builds into a percentage."""
+
+    def _admin(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('boss', 'boss@test.local', 'pw-42-solid')
+        user.is_superuser = True
+        user.save()
+        return user
+
+    def test_a_visitor_does_not_even_learn_the_page_exists(self):
+        self.assertEqual(self.client.get('/admin-tools/').status_code, 404)
+        from django.contrib.auth.models import User
+        plain = User.objects.create_user('plain', 'p@test.local', 'pw-42-solid')
+        self.client.force_login(plain)
+        self.assertEqual(self.client.get('/admin-tools/').status_code, 404)
+
+    def test_it_renders_on_an_empty_database(self):
+        self.client.force_login(self._admin())
+        resp = self.client.get('/admin-tools/')
+        self.assertEqual(resp.status_code, 200)
+        for panel in ('overview', 'versions', 'community', 'pages', 'solver', 'moderation'):
+            self.assertContains(resp, 'data-panel="%s"' % panel)
+
+    def test_a_rate_on_too_few_builds_is_withheld(self):
+        from chardata import admin_stats
+        from chardata.models import Char
+        for i in range(3):
+            Char.objects.create(name='b%d' % i, char_name='h', char_class='Iop',
+                                char_build='build', level=200, minimum_stats=b'',
+                                minimum_crits=b'', stats_weight=b'', options=b'',
+                                inclusions=b'', exclusions=b'', link_shared=True,
+                                game_version='dofus3')
+        row = next(r for r in admin_stats.versions()['rows'] if r['slug'] == 'dofus3')
+        self.assertEqual(row['total'], 3)
+        self.assertIsNone(row['share_rate'])
+
+    def test_paths_keep_their_route_and_lose_their_ids(self):
+        from chardata.middleware import normalise_path
+        self.assertEqual(normalise_path('/solution/12/', 'dofus3'), '/solution/<id>/')
+        self.assertEqual(normalise_path('/s/hero/MY44uW4_/', 'dofus3'), '/s/<build>/')
+        self.assertEqual(normalise_path('/guides/crit-hits/', 'dofus3'), '/guides/crit-hits/')
+        # The version lives in its own column, so it is not repeated in the path.
+        self.assertEqual(normalise_path('/retro/setup/', 'retro'), '/setup/')
+
+    def test_reading_a_page_is_counted_without_anything_about_the_reader(self):
+        from chardata.models import PageHit
+        self.client.get('/about/')
+        self.client.get('/about/')
+        hit = PageHit.objects.filter(path='/about/').first()
+        self.assertIsNotNone(hit)
+        self.assertEqual(hit.count, 2)
+        self.assertEqual([f.name for f in PageHit._meta.get_fields()],
+                         ['id', 'day', 'path', 'game_version', 'count'])
+
+
 class DofusGridLabelTests(SimpleTestCase):
     """The dofus grid labels were hand-kept in the catalogs, so es/pt/de showed
     English words for a third of them. When the catalog has nothing, the label
