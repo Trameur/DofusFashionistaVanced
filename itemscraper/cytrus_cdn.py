@@ -28,7 +28,7 @@ import urllib.request
 CDN = 'https://cytrus.cdn.ankama.com'
 VERSIONS_URL = '%s/cytrus.json' % CDN
 
-# (game, release) as Ankama names them. Retro is its own game, served on main.
+# (game, release) as Ankama names them. Retro is a game of its own, on main.
 RELEASES = {
     'dofus3': ('dofus', 'dofus3'),
     'beta': ('dofus', 'beta'),
@@ -123,7 +123,7 @@ def find_file(manifest, wanted_name):
                 break
         if found is None:
             continue
-        # A file small enough to ship whole has no chunks and sits under its own hash.
+        # Small files have no chunks and sit under their own hash.
         needed = {c['hash'] for c in found['chunks']} or {found['hash']}
         placement = {}
         for bundle in fragment.tables(2):

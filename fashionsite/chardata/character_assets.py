@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Serve the character preview assets, baking them the first time they are asked for.
+"""Serve character preview art, baking a skin the first time it is asked for.
 
-Raw skin and bone bundles from Ankama's CDN sit in CHARACTER_BUNDLE_DIR. A skin
-is turned into one flat PNG per part the first time a page needs it, and the
-result is kept in CHARACTER_CACHE_DIR, so only what players actually wear ever
-gets baked.
+Bundles live in CHARACTER_BUNDLE_DIR, baked PNGs in CHARACTER_CACHE_DIR.
 """
 import json
 import os
@@ -27,8 +24,7 @@ _unity_ready = False
 
 
 def _unity():
-    """Ankama strips the Unity version from the bundle header, so the fallback
-    is the normal case here, not something to warn about on every read."""
+    """Ankama blanks the Unity version in the header, so set it ourselves."""
     global _unity_ready
     import UnityPy
     if not _unity_ready:
@@ -216,7 +212,7 @@ def _skin_cache(skin_id):
 
 
 def ensure_skin(skin_id):
-    """Bake a skin into the cache once. Returns its manifest, or None."""
+    """Bake once, then read from the cache. None if the bundle is missing."""
     target = _skin_cache(skin_id)
     manifest_path = os.path.join(target, 'parts.json')
     if os.path.exists(manifest_path):

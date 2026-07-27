@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Numbers behind the staff dashboard, plus the small SVG charts that draw them.
-
-Charts are built here rather than in the browser so the page needs no charting
-library, which keeps the no-external-dependency rule. Every series is a plain
-list of (label, value), so an empty table draws an empty frame instead of
-dividing by a zero maximum.
-"""
+"""Stats for the admin dashboard, and the SVG charts that draw them."""
 import datetime
 from collections import Counter, OrderedDict
 
@@ -33,8 +27,7 @@ def _week_starts(count=WEEKS):
 
 
 def _by_week(queryset, field):
-    """{week start: count}, counted in Python so it behaves the same on sqlite
-    and mysql without date_trunc differences."""
+    """{week start: count}. Grouped in Python: sqlite and mysql truncate dates differently."""
     weeks = Counter()
     for value in queryset.values_list(field, flat=True):
         if value is None:
@@ -122,7 +115,6 @@ def versions():
             'total': total,
             'new_30d': alive.filter(created_time__gte=month).count(),
             'shared': shared,
-            # A rate on a handful of builds is noise, so it is withheld.
             'share_rate': round(shared * 100.0 / total) if total >= 20 else None,
             'comments_30d': BuildComment.objects.filter(
                 deleted=False, created_time__gte=month, build__game_version=slug).count(),
@@ -186,8 +178,7 @@ ENGAGEMENT_BANDS = (('0', 0, 0), ('1-2', 1, 2), ('3-5', 3, 5), ('6-10', 6, 10), 
 
 
 def _engagement():
-    """How engagement spreads over shared builds. A mean would hide that a
-    handful of builds can carry everything."""
+    """Shared builds bucketed by how many comments and votes they got."""
     shared = list(Char.objects.filter(link_shared=True, deleted=False).values_list('id', flat=True))
     if not shared:
         return []
@@ -261,7 +252,7 @@ def dashboard(refresh=False):
 # --- charts ---------------------------------------------------------------
 
 def bar_chart(series, width=560, height=150, colour='var(--fm-accent, #c8a05a)'):
-    """Series is [(label, value)]. Returns SVG markup, safe to inject."""
+    """series is [(label, value)]."""
     if not series:
         return ''
     top = max(v for _l, v in series) or 1
@@ -284,7 +275,7 @@ def bar_chart(series, width=560, height=150, colour='var(--fm-accent, #c8a05a)')
 
 
 def stacked_chart(series_by_key, colours, width=560, height=150):
-    """series_by_key is {key: [(label, value)]}, all with the same labels."""
+    """{key: [(label, value)]}, every series with the same labels in the same order."""
     keys = [k for k in series_by_key if series_by_key[k]]
     if not keys:
         return ''

@@ -50,9 +50,8 @@ FAMILY_TO_TYPE = {
 MASK_SIZE = 48
 BINS = 6
 
-# Colour carries most of the signal. A high silhouette weight makes every type
-# worse, measured against known pairs; weapons alone gain from a bit of shape
-# because their icon is drawn at an angle no skin uses.
+# Colour does most of the work. More silhouette weight made every type worse
+# when measured; weapons keep a bit because their icon is drawn at an angle.
 SILHOUETTE_WEIGHT = {'Hat': 0.15, 'Shield': 0.15, 'Cloak': 0.15, 'Weapon': 0.35}
 ROTATIONS = {'Weapon': (0, -30, -45, -60, 30, 45, 60)}
 
@@ -71,7 +70,7 @@ def silhouette(crop, angle=0):
 
 
 def features(image, angles=(0,)):
-    """(silhouettes, colour histogram), or (None, None) on a blank image."""
+    """(silhouettes, colour histogram). (None, None) if the image is blank."""
     arr = np.asarray(image.convert('RGBA')).astype(np.int16)
     solid = arr[..., 3] > 40
     if not solid.any():

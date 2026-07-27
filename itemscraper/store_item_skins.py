@@ -26,11 +26,8 @@ from store_item_obtainment import (  # noqa: E402
 
 VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
 
-# How big a lead over the runner up a match needs before it is trusted. Set
-# from 32 pairs labelled by eye, half above the old floor and half below:
-# capes and shields stay right well below it, hats fall off a cliff exactly at
-# it, and weapons are about half right whatever the lead is, so their floor is
-# high enough that almost nothing gets through until the matching improves.
+# Minimum lead over the runner up. Checked on 32 hand-labelled pairs: hats go
+# wrong below 0.10, weapons are a coin flip at any lead so their floor is high.
 MIN_MARGIN = {'Cloak': 0.02, 'Hat': 0.10, 'Shield': 0.05, 'Weapon': 0.20}
 
 

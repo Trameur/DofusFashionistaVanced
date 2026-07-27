@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""What the character preview needs to draw: the body, the head, and the skin
-of every piece that actually shows on the character."""
+"""Body, head and gear skins the preview needs to draw a build."""
 import json
 import os
 
@@ -17,11 +16,10 @@ CLASS_TO_BREED = {
     'Forgelance': 20,
 }
 
-# The look string says bones 1 for every class; the bundle that holds the
-# player skeleton is 2.
+# The look string says 1 but there is no bone_1 bundle, the player one is 2.
 PLAYER_BONES = 2
 
-# Slot -> the node family the skeleton exposes for it.
+# Slot -> skeleton node.
 SLOT_TO_NODE = {
     'hat': 'Chapeau',
     'cloak': 'Cape',
@@ -31,8 +29,7 @@ SLOT_TO_NODE = {
 
 REFERENCE_SCALE = 53.0
 
-# The art is the Dofus 3 client's. Beta runs the same client; Retro, Touch and
-# Dofus 2 have their own and must not borrow this one.
+# Dofus 3 art. Beta shares the client; the others have their own.
 VERSIONS_WITH_ART = ('dofus3', 'beta')
 
 _looks = None
@@ -49,7 +46,7 @@ def _breed_looks():
 
 
 def get_character_look(char, solution, game_version='dofus3'):
-    """None when the version has no character art or the class is unknown."""
+    """None if the version has no art or the class is unknown."""
     if game_version not in VERSIONS_WITH_ART:
         return None
     breed = CLASS_TO_BREED.get(char.char_class)

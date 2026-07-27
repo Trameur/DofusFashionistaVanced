@@ -8,13 +8,12 @@ from fashionistapulp.structure import set_current_game_version
 
 GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch', 'dofus2'}
 
-# Paths that say nothing about what people read.
+# Not pages anyone reads.
 HIT_SKIP = re.compile(r'^/(static|media|api|admin|admin-tools|admin-comment-action|'
                       r'jsi18n|sw\.js|ads\.txt|manifest|favicon|character/)')
-# A shared build carries its owner's build name, so the whole tail is folded.
+# /s/<name>/<id>/ : the name varies per build, so drop the whole tail.
 HIT_SHARED = re.compile(r'^/s/.*$')
-# Elsewhere only segments that look like an identifier are folded: a digit, or
-# mixed case as in an encoded id. Route words stay readable.
+# An id has a digit or mixed case. Route words are plain lowercase, keep them.
 HIT_IDENT = re.compile(r'^(?=.*\d)|^(?=.*[a-z])(?=.*[A-Z])')
 
 
@@ -45,12 +44,7 @@ def normalise_path(path, version):
 
 
 class PageHitMiddleware:
-    """Count page reads, one row per page and per day.
-
-    Nothing about the visitor is written down, so this answers "which pages do
-    people read" and nothing else. It never fails a request: a counter is not
-    worth a 500.
-    """
+    """One counter per page per day. Never breaks the request it counts."""
 
     def __init__(self, get_response):
         self.get_response = get_response

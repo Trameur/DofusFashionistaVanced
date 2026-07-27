@@ -154,7 +154,7 @@ class Bone:
         return raw, offsets[index], (offsets[index + 1] if index + 1 < frames else len(raw))
 
     def key_frame(self, animation):
-        """First frame: full records naming their node, keyed by draw order."""
+        """Frame 0 holds full records, each naming its node."""
         raw, start, end = self._bounds(animation, 0)
         out, pos = [], start
         while pos + RECORD <= end:
@@ -174,8 +174,7 @@ class Bone:
         key = self.key_frame(animation)
         if index == 0:
             return key
-        # Later frames carry 28 byte records that only move a node already
-        # named by the first frame, addressed by its draw order.
+        # Later frames are 28 byte deltas, keyed by the draw order of frame 0.
         node_of = {r['order']: r['node'] for r in key}
         raw, start, end = self._bounds(animation, index)
         moved, pos = {}, start + 4
