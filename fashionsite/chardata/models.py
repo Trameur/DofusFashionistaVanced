@@ -280,6 +280,19 @@ class SolutionMemoryHits(models.Model):
     count_miss = models.BigIntegerField(default=0)
     day = models.DateField(unique=True)
 
+
+class PageHit(models.Model):
+    """One row per page and per day. Ids in the path are folded into a
+    placeholder, so this counts pages and not visits, and it stores nothing
+    about who asked."""
+    day = models.DateField(db_index=True)
+    path = models.CharField(max_length=200)
+    game_version = models.CharField(max_length=20, default='dofus3')
+    count = models.BigIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('day', 'path', 'game_version')
+
 # Signal wiring (models.py is the one chardata module Django always imports).
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver

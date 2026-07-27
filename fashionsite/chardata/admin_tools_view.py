@@ -21,6 +21,7 @@ from django.views.decorators.http import require_POST
 
 from django.contrib.auth.models import User
 
+from chardata import admin_stats
 from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildComment, Char, CommentReport
 from chardata.util import set_response, request_by_super_user
@@ -110,6 +111,8 @@ def admin_tools(request, char_id=0):
         'reports_pending': len(pending_comment_ids),
     }
 
+    data = admin_stats.dashboard(refresh=request.GET.get('refresh') == '1')
+
     return set_response(request, 'chardata/admin_tools.html', {
         'request': request,
         'user': request.user,
@@ -118,7 +121,36 @@ def admin_tools(request, char_id=0):
         'stats': stats,
         'reported_comments': reported,
         'recent_comments': recent_comments,
+        'dash': data,
+        'charts': _charts(data),
     })
+
+
+VERSION_COLOURS = {'dofus3': '#c8a05a', 'beta': '#7aa6c2', 'dofus2': '#8fae7a',
+                   'touch': '#b98a9e', 'retro': '#9c8ab9'}
+
+
+def _charts(data):
+    """SVG built server side: the page pulls in no charting library."""
+    versions = {admin_stats.VERSION_LABELS.get(slug, slug): series
+                for slug, series in data['overview']['builds_by_version'].items()}
+    colours = {admin_stats.VERSION_LABELS.get(slug, slug): colour
+               for slug, colour in VERSION_COLOURS.items()}
+    charts = {
+        'accounts': admin_stats.bar_chart(data['overview']['accounts']),
+        'builds': admin_stats.stacked_chart(versions, colours),
+        'comments': admin_stats.bar_chart(data['community']['comments']),
+        'votes': admin_stats.bar_chart(data['community']['votes'], colour='#7aa6c2'),
+        'engagement': admin_stats.bar_chart(data['community']['engagement']),
+        'pages_per_week': admin_stats.bar_chart(data['pages']['per_week']),
+        'solver_hits': admin_stats.stacked_chart(
+            {'cache hit': data['solver']['hits'], 'cache miss': data['solver']['misses']},
+            {'cache hit': '#8fae7a', 'cache miss': '#c0764a'}),
+    }
+    charts['levels'] = {
+        admin_stats.VERSION_LABELS.get(slug, slug): admin_stats.bar_chart(bands, height=90)
+        for slug, bands in data['versions']['levels'].items()}
+    return charts
 
 
 def _display_name(user):
