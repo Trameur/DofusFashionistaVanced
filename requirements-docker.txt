@@ -45,7 +45,7 @@ lockfile==0.12.2
 MarkupSafe==3.0.3
 #mod-wsgi==4.9.4
 mysql-connector-python==9.7.0
-oauthlib==3.2.2
+oauthlib==3.3.1
 packaging==26.2
 Pillow==12.3.0
 ply==3.11
