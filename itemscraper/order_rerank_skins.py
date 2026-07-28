@@ -34,10 +34,10 @@ WINDOW = 20
 # times wider than the others.
 BAND = {'Hat': 0.02, 'Shield': 0.02, 'Weapon': 0.04}
 
-# Twice as wide, but only for a pick no better scoring item wants. On the
-# labelled pairs that half of the wider band is 7 right and 0 wrong, against
-# 4 and 4 for the other half.
-WIDE_BAND = {'Hat': 0.08, 'Shield': 0.08, 'Weapon': 0.08}
+# Much wider, but only for a pick no better scoring item wants. Judged on two
+# sheets: 7 right and 0 wrong up to 0.08, then 8 right and 1 wrong up to 0.12,
+# against 4 and 4 for the picks another item claims.
+WIDE_BAND = {'Hat': 0.12, 'Shield': 0.12, 'Weapon': 0.12}
 
 
 def _rank(values, value):

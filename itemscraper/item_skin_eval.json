@@ -754,5 +754,113 @@
   "margin": 0.009,
   "name": "Director Grunob's Hat",
   "label": "R"
+ },
+ {
+  "n": 85,
+  "ankama_id": 6511,
+  "type": "Weapon",
+  "skin": 598,
+  "margin": 0.016,
+  "name": "Blarney Hammer",
+  "label": "W"
+ },
+ {
+  "n": 86,
+  "ankama_id": 1404,
+  "type": "Weapon",
+  "skin": 566,
+  "margin": 0.034,
+  "name": "Toh'Lo Hammer",
+  "label": "R"
+ },
+ {
+  "n": 87,
+  "ankama_id": 18601,
+  "type": "Weapon",
+  "skin": 3489,
+  "margin": 0.05,
+  "name": "Pyraring",
+  "label": "R"
+ },
+ {
+  "n": 88,
+  "ankama_id": 7190,
+  "type": "Weapon",
+  "skin": 880,
+  "margin": 0.057,
+  "name": "Maydhyn China Daggers",
+  "label": "U"
+ },
+ {
+  "n": 89,
+  "ankama_id": 27546,
+  "type": "Weapon",
+  "skin": 4009,
+  "margin": 0.045,
+  "name": "Pillar of Ephedrya",
+  "label": "R"
+ },
+ {
+  "n": 90,
+  "ankama_id": 1651,
+  "type": "Weapon",
+  "skin": 553,
+  "margin": 0.016,
+  "name": "Craft Knife",
+  "label": "U"
+ },
+ {
+  "n": 91,
+  "ankama_id": 236,
+  "type": "Weapon",
+  "skin": 586,
+  "margin": 0.016,
+  "name": "Barabas",
+  "label": "R"
+ },
+ {
+  "n": 92,
+  "ankama_id": 3357,
+  "type": "Weapon",
+  "skin": 621,
+  "margin": 0.089,
+  "name": "Knuckle Rapping Hammer",
+  "label": "R"
+ },
+ {
+  "n": 93,
+  "ankama_id": 65,
+  "type": "Weapon",
+  "skin": 546,
+  "margin": 0.105,
+  "name": "Goultard",
+  "label": "R"
+ },
+ {
+  "n": 94,
+  "ankama_id": 2640,
+  "type": "Weapon",
+  "skin": 639,
+  "margin": 0.076,
+  "name": "Carnivorous Staff",
+  "label": "U"
+ },
+ {
+  "n": 95,
+  "ankama_id": 30688,
+  "type": "Shield",
+  "skin": 4416,
+  "margin": 0.019,
+  "name": "Crispy Targe",
+  "label": "R"
+ },
+ {
+  "n": 96,
+  "ankama_id": 30684,
+  "type": "Shield",
+  "skin": 4155,
+  "margin": 0.037,
+  "name": "Royal Mastogob Ram",
+  "label": "R"
  }
 ]
