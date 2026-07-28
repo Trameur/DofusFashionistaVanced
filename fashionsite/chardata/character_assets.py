@@ -270,11 +270,22 @@ def ensure_pose(bone_id):
         return path
 
 
+# A part is named by its skin and its own name, and Ankama ships a new skin id
+# rather than changing one, so what is here never changes. A body is 539 files;
+# without this every page view fetches them again.
+FOREVER = 'public, max-age=31536000, immutable'
+
+
+def _forever(response):
+    response['Cache-Control'] = FOREVER
+    return response
+
+
 def parts_manifest_view(request, skin_id):
     manifest = ensure_skin(int(skin_id))
     if manifest is None:
         raise Http404
-    return JsonResponse(manifest)
+    return _forever(JsonResponse(manifest))
 
 
 def part_image_view(request, skin_id, part):
@@ -286,11 +297,11 @@ def part_image_view(request, skin_id, part):
     path = os.path.join(_skin_cache(int(skin_id)), '%s.png' % part)
     if not os.path.exists(path):
         raise Http404
-    return FileResponse(open(path, 'rb'), content_type='image/png')
+    return _forever(FileResponse(open(path, 'rb'), content_type='image/png'))
 
 
 def pose_view(request, bone_id):
     path = ensure_pose(int(bone_id))
     if path is None:
         raise Http404
-    return FileResponse(open(path, 'rb'), content_type='application/json')
+    return _forever(FileResponse(open(path, 'rb'), content_type='application/json'))

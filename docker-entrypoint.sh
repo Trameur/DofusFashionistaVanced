@@ -56,6 +56,11 @@ python manage.py migrate --noinput
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
+# A body is 539 parts and takes 22 s to bake, a head 10 s. Baked on demand that
+# lands on the first visitor of each class. Skipped when the bundles are absent.
+echo "Baking character bodies and heads..."
+python manage.py prebake_characters || echo "no character bundles, preview off"
+
 echo "Starting Gunicorn server..."
 # On small instances, 2 workers is usually more stable than 3.
 GUNICORN_WORKERS="${GUNICORN_WORKERS:-2}"

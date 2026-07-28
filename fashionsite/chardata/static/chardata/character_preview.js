@@ -120,6 +120,30 @@
         return c;
     };
 
+    // Ankama's own order paints the hat just under the head, so any hat that
+    // overlaps the skull loses the part that sits on it. Same for the collar.
+    var WORN_AFTER = { chapeau: 'tete', cole: 'tete' };
+
+    function bareName(entry) {
+        return entry.node.replace(/_\d+$/, '').toLowerCase();
+    }
+
+    CharacterPreview.prototype.ordered = function (nodes) {
+        var out = nodes;
+        for (var worn in WORN_AFTER) {
+            var moved = out.filter(function (n) { return bareName(n) === worn; });
+            if (!moved.length) { continue; }
+            var rest = out.filter(function (n) { return bareName(n) !== worn; });
+            var anchor = WORN_AFTER[worn], at = -1;
+            for (var i = 0; i < rest.length; i++) {
+                if (bareName(rest[i]) === anchor) { at = i; }
+            }
+            out = at === -1 ? rest.concat(moved)
+                            : rest.slice(0, at + 1).concat(moved, rest.slice(at + 1));
+        }
+        return out;
+    };
+
     CharacterPreview.prototype.draw = function () {
         var ctx = this.ctx;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -127,7 +151,7 @@
         if (!this.poses) { return; }
         var frames = this.poses.orientations[this.orientation];
         if (!frames || !frames.length) { return; }
-        var nodes = frames[this.frame % frames.length];
+        var nodes = this.ordered(frames[this.frame % frames.length]);
         for (var i = 0; i < nodes.length; i++) {
             var node = nodes[i];
             var list = node.node.indexOf('Tete') === 0
