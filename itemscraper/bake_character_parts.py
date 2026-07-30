@@ -36,6 +36,14 @@ DELTA = 28
 ORIENTATIONS = ('0', '1', '2', '5', '6')
 PIXELS_PER_UNIT = 4.0
 
+# A keyframe record is a flag word, then a matrix. The flag is a bitfield over
+# 0x30: bit 0 says a symbol id follows, bit 2 adds a four byte colour before
+# the matrix, which is why records are not all the same length.
+FLAG_BASE = 0x30
+FLAG_SYMBOL = 0x01
+FLAG_COLOUR = 0x04
+HEADER = 12
+
 
 class Skin:
 
@@ -153,9 +161,26 @@ class Bone:
         index = min(index, frames - 1)
         return raw, offsets[index], (offsets[index + 1] if index + 1 < frames else len(raw))
 
-    def key_frame(self, animation):
-        """Frame 0 holds full records, each naming its node."""
-        raw, start, end = self._bounds(animation, 0)
+    def _walk(self, raw, start, end):
+        """Read the block record by record. None if it does not add up."""
+        out, pos = [], start
+        while pos + HEADER <= end:
+            order, flag, _symbol, node = struct.unpack_from('<4H', raw, pos)
+            if flag & ~(FLAG_SYMBOL | FLAG_COLOUR) != FLAG_BASE:
+                return None
+            if node >= len(self.node_names):
+                return None
+            head = HEADER + (4 if flag & FLAG_COLOUR else 0)
+            if pos + head + 24 > end:
+                return None
+            matrix = struct.unpack_from('<6f', raw, pos + head)
+            out.append({'order': order, 'node': self.node_names[node],
+                        'm': [round(x, 4) for x in matrix]})
+            pos += head + 24
+        return out if pos == end else None
+
+    def _scan(self, raw, start, end):
+        """Fallback for a block the walk cannot read: hunt for what fits."""
         out, pos = [], start
         while pos + RECORD <= end:
             order, flag, _symbol, node = struct.unpack_from('<4H', raw, pos)
@@ -167,8 +192,16 @@ class Bone:
                     pos += RECORD
                     continue
             pos += 2
-        out.sort(key=lambda r: r['order'])
         return out
+
+    def key_frame(self, animation):
+        """Frame 0 holds full records, each naming its node, in paint order.
+
+        The `order` field is not the paint order: it swaps around every record
+        without a symbol, which is what put hats under heads.
+        """
+        raw, start, end = self._bounds(animation, 0)
+        return self._walk(raw, start, end) or self._scan(raw, start, end)
 
     def frame(self, animation, index=0):
         key = self.key_frame(animation)

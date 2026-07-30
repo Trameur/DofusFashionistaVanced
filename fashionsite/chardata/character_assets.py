@@ -19,6 +19,14 @@ ORIENTATIONS = ('0', '1', '2', '5', '6')
 PIXELS_PER_UNIT = 4.0
 PAD = 2
 
+# A keyframe record is a flag word, then a matrix. The flag is a bitfield over
+# 0x30: bit 0 says a symbol id follows, bit 2 adds a four byte colour before
+# the matrix, which is why records are not all the same length.
+FLAG_BASE = 0x30
+FLAG_SYMBOL = 0x01
+FLAG_COLOUR = 0x04
+HEADER = 12
+
 _lock = threading.Lock()
 _unity_ready = False
 
@@ -166,8 +174,26 @@ class Bone(object):
         index = min(index, frames - 1)
         return raw, offsets[index], (offsets[index + 1] if index + 1 < frames else len(raw))
 
-    def key_frame(self, animation):
-        raw, start, end = self._bounds(animation, 0)
+    def _walk(self, raw, start, end):
+        """Read the block record by record. None if it does not add up."""
+        out, pos = [], start
+        while pos + HEADER <= end:
+            order, flag, _symbol, node = struct.unpack_from('<4H', raw, pos)
+            if flag & ~(FLAG_SYMBOL | FLAG_COLOUR) != FLAG_BASE:
+                return None
+            if node >= len(self.node_names):
+                return None
+            head = HEADER + (4 if flag & FLAG_COLOUR else 0)
+            if pos + head + 24 > end:
+                return None
+            matrix = struct.unpack_from('<6f', raw, pos + head)
+            out.append({'order': order, 'node': self.node_names[node],
+                        'm': [round(x, 4) for x in matrix]})
+            pos += head + 24
+        return out if pos == end else None
+
+    def _scan(self, raw, start, end):
+        """Fallback for a block the walk cannot read: hunt for what fits."""
         out, pos = [], start
         while pos + RECORD <= end:
             order, flag, _symbol, node = struct.unpack_from('<4H', raw, pos)
@@ -179,8 +205,14 @@ class Bone(object):
                     pos += RECORD
                     continue
             pos += 2
-        out.sort(key=lambda r: r['order'])
         return out
+
+    def key_frame(self, animation):
+        # Records are painted in the order they are stored. The `order` field
+        # is not that order: it swaps around every record without a symbol,
+        # which is what put hats under heads.
+        raw, start, end = self._bounds(animation, 0)
+        return self._walk(raw, start, end) or self._scan(raw, start, end)
 
     def frame(self, animation, index=0):
         key = self.key_frame(animation)
@@ -242,9 +274,14 @@ def ensure_skin(skin_id):
         return manifest
 
 
+# Bumped whenever the decoder changes, so a cached pose from an older read is
+# not served for the life of the volume.
+POSE_FORMAT = 3
+
+
 def ensure_pose(bone_id):
     target = os.path.join(cache_dir(), 'poses')
-    path = os.path.join(target, '%d.json' % bone_id)
+    path = os.path.join(target, '%d-v%d.json' % (bone_id, POSE_FORMAT))
     if os.path.exists(path):
         return path
     source = bundle_dir()

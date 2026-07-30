@@ -7793,6 +7793,66 @@ class CharacterLookTests(TestCase):
                 self.assertIsNone(character_assets.ensure_pose(2))
 
 
+class CharacterPoseDecodingTests(TestCase):
+    """The keyframe block mixes record lengths and its stored order is the
+    paint order. Reading it any other way loses limbs or stacks them wrong."""
+
+    NODES = ['Tete_2', 'Chapeau_2', 'JambeG_2', 'Torse_2']
+
+    def _record(self, order, flag, node, matrix):
+        import struct
+        head = struct.pack('<4H', order, flag, 0 if flag & 0x01 else 0xFFFF, node)
+        head += b'\x00\x00\x00\x00'
+        if flag & 0x04:
+            head += b'\x61\x61\x61\x7f'
+        return head + struct.pack('<6f', *matrix)
+
+    def _bone(self, records):
+        import struct
+        from chardata.character_assets import Bone
+        block = b''.join(records)
+        raw = struct.pack('<4H', 0, 0, 0, 1) + struct.pack('<I', 12) + block
+        bone = Bone.__new__(Bone)
+        bone.node_names = self.NODES
+        bone.frame_rate = 12
+        bone.animations = {'AnimStatique_2': raw}
+        return bone
+
+    def _identity(self, ty):
+        return (3.0, 0.0, 0.0, 0.0, 3.0, ty)
+
+    def test_a_hat_stays_on_top_of_the_head(self):
+        # Ankama stores the head first and gives it the higher `order`, so
+        # sorting on that field buries the hat under the skull.
+        bone = self._bone([
+            self._record(2, 0x30, 0, self._identity(50.0)),
+            self._record(1, 0x31, 1, self._identity(51.0)),
+        ])
+        frame = bone.key_frame('AnimStatique_2')
+        self.assertEqual([r['node'] for r in frame], ['Tete_2', 'Chapeau_2'])
+
+    def test_a_coloured_record_is_four_bytes_longer_and_keeps_its_neighbours(self):
+        # The leg records of the front pose carry a colour. Assuming one record
+        # length dropped them and everything the resync then walked past.
+        bone = self._bone([
+            self._record(0, 0x31, 3, self._identity(46.0)),
+            self._record(1, 0x35, 2, self._identity(20.0)),
+            self._record(2, 0x31, 0, self._identity(50.0)),
+        ])
+        frame = bone.key_frame('AnimStatique_2')
+        self.assertEqual([r['node'] for r in frame],
+                         ['Torse_2', 'JambeG_2', 'Tete_2'])
+        self.assertEqual(frame[1]['m'][5], 20.0)
+
+    def test_a_block_that_does_not_add_up_still_yields_what_it_can(self):
+        bone = self._bone([
+            b'\x00\x11\x22\x33',
+            self._record(0, 0x31, 3, self._identity(46.0)),
+        ])
+        frame = bone.key_frame('AnimStatique_2')
+        self.assertEqual([r['node'] for r in frame], ['Torse_2'])
+
+
 class AdminDashboardTests(TestCase):
     """The dashboard is staff only, must survive an empty database, and must
     never turn a handful of builds into a percentage."""
