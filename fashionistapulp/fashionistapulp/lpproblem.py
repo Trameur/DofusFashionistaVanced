@@ -64,7 +64,7 @@ if platform.system() == 'Windows':
         except Exception as e:
             logger.warning('Error setting up solver: %s', e)
             # Last resort - use default solver with no specific configuration
-            SOLVER = pulp.CBC()
+            SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
             logger.warning('Using minimal CBC solver')
 
 elif platform.system() == 'Linux' and ('arm' in platform.machine() or 'aarch64' in platform.machine()):

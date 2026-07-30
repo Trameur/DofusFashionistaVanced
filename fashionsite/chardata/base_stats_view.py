@@ -26,6 +26,13 @@ from fashionistapulp.dofus_constants import (get_soft_caps_for, STATS_NAMES,
 import json
 from chardata.themes import get_theme
 
+MAX_TOTAL_VALUE = 3000
+
+
+def _bounded(value, ceiling):
+    """Clamp to 0..ceiling. The field is free text, it posts what is typed."""
+    return max(0, min(value, ceiling))
+
 
 
 
@@ -92,7 +99,8 @@ def _page(request, char_id, is_new_char):
 
 def _post(request, char_id):
     char = get_char_or_raise(request, char_id)
-    
+    max_scroll = max_scroll_for_version(char.game_version)
+
     for element_name, abr in STATS_NAMES:
         basestats_list = CharBaseStats.objects.filter(char=char, stat=element_name)
         if len(basestats_list) == 0:
@@ -101,12 +109,12 @@ def _post(request, char_id):
             basestats = basestats_list[0]
         basestats.char = char
         basestats.stat = element_name
-        basestats.total_value = (safe_int(request.POST.get('points_%s' % abr, 0), 0) + 
-                                 safe_int(request.POST.get('scrolled_%s' % abr, 0), 0))
-        basestats.scrolled_value = safe_int(request.POST.get('scrolled_%s' % abr, 0), 0)
-        assert 0 <= basestats.total_value and basestats.total_value <= 3000
-        assert 0 <= basestats.scrolled_value and \
-            basestats.scrolled_value <= max_scroll_for_version(char.game_version)
+        scrolled = _bounded(safe_int(request.POST.get('scrolled_%s' % abr, 0), 0),
+                            max_scroll)
+        points = _bounded(safe_int(request.POST.get('points_%s' % abr, 0), 0),
+                          MAX_TOTAL_VALUE)
+        basestats.total_value = _bounded(points + scrolled, MAX_TOTAL_VALUE)
+        basestats.scrolled_value = scrolled
         basestats.save()
         
     # HTML checkboxes post their value attribute when checked (this form

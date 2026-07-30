@@ -155,3 +155,61 @@ class ChooseStatsCheckboxTests(TestCase):
                          self._save_payload(with_checkbox=True))
         char.refresh_from_db()
         self.assertTrue(char.allow_points_distribution)
+
+
+class BaseStatsBoundsTests(TestCase):
+    """A stat typed out of range is saved clamped, and the save still goes
+    through."""
+
+    def _char(self, owner):
+        from chardata.coaching_view import create_build
+        req = RequestFactory().post('/')
+        req.user = owner
+        return create_build(req, 'Iop', 100, {'str'}, 'dofus3')
+
+    def _payload(self, **overrides):
+        payload = {}
+        for abr in ('vit', 'wis', 'str', 'int', 'cha', 'agi'):
+            payload['scrolled_%s' % abr] = '0'
+            payload['points_%s' % abr] = '0'
+        payload.update(overrides)
+        return payload
+
+    def _saved(self, char, stat):
+        from chardata.models import CharBaseStats
+        return CharBaseStats.objects.get(char=char, stat=stat)
+
+    def test_a_stat_far_above_the_ceiling_is_saved_clamped(self):
+        from chardata.base_stats_view import MAX_TOTAL_VALUE
+        owner = User.objects.create_user('bnd', 'bnd@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        char = self._char(owner)
+
+        resp = self.client.post('/save_char/%d/' % char.pk,
+                                self._payload(points_cha='04000', scrolled_cha='100'))
+        self.assertEqual(resp.status_code, 200)
+        chance = self._saved(char, 'Chance')
+        self.assertEqual(chance.total_value, MAX_TOTAL_VALUE)
+        self.assertEqual(chance.scrolled_value, 100)
+
+    def test_a_negative_stat_is_saved_at_zero(self):
+        owner = User.objects.create_user('bnd2', 'bnd2@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        char = self._char(owner)
+
+        resp = self.client.post('/save_char/%d/' % char.pk,
+                                self._payload(points_str='-500'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(self._saved(char, 'Strength').total_value, 0)
+
+    def test_scrolls_above_the_version_cap_come_back_to_it(self):
+        from fashionistapulp.dofus_constants import max_scroll_for_version
+        owner = User.objects.create_user('bnd3', 'bnd3@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        char = self._char(owner)
+
+        resp = self.client.post('/save_char/%d/' % char.pk,
+                                self._payload(scrolled_agi='9999'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(self._saved(char, 'Agility').scrolled_value,
+                         max_scroll_for_version('dofus3'))
