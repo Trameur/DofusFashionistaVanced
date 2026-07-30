@@ -191,13 +191,13 @@ def main() -> None:
         # Retro recipes come from a different source (Ankama "crafts" lang SWF):
         #   python itemscraper/store_retro_recipes.py
         step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
+        step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
+        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)  # --game-version defaults to dofus3
         step("resource-icons", [PY, "download_resource_icons.py"], cwd=ITEMSCRAPER)
         step("monster-images", [PY, "download_monster_images.py"], cwd=ITEMSCRAPER)
-        step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
-        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
 
     if do_data:
         step("spells/download", [

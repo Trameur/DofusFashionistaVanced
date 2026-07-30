@@ -200,6 +200,10 @@ def main() -> None:
             "--game-version", "beta",
             str(ITEMSCRAPER / "beta"),
         ], cwd=ITEMSCRAPER)
+        step("monster-grades", [PY, "store_dofusdb_monster_grades.py",
+                                "--game-version", "beta"], cwd=ITEMSCRAPER)
+        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
+                                     "--game-version", "beta"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [
@@ -209,10 +213,6 @@ def main() -> None:
         ], cwd=ITEMSCRAPER)
         step("resource-icons", [PY, "download_resource_icons.py"], cwd=ITEMSCRAPER)
         step("monster-images", [PY, "download_monster_images.py"], cwd=ITEMSCRAPER)
-        step("monster-grades", [PY, "store_dofusdb_monster_grades.py",
-                                "--game-version", "beta"], cwd=ITEMSCRAPER)
-        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
-                                     "--game-version", "beta"], cwd=ITEMSCRAPER)
 
     if do_data:
         step("spells/download", [
