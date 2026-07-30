@@ -16,8 +16,15 @@ CLASS_TO_BREED = {
     'Forgelance': 20,
 }
 
-# The look string says 1 but there is no bone_1 bundle, the player one is 2.
-PLAYER_BONES = 2
+# The look string says 1, and the player skeletons are the named bundles
+# bone_1-<breed>-static. The numbered bones (2 and up) are monsters and mounts:
+# bone_2 draws the character sitting astride, which is how it looks when the
+# mount it belongs to is not there.
+BONES_FOR_BREED = '1-%d-static'
+
+
+def player_bones(breed):
+    return BONES_FOR_BREED % breed
 
 # Slot -> skeleton node.
 SLOT_TO_NODE = {
@@ -57,7 +64,8 @@ def get_character_look(char, solution, game_version='dofus3'):
     if entry is None:
         return None
 
-    look = {'bones': PLAYER_BONES, 'body': entry['body'], 'head': entry['head'],
+    look = {'bones': player_bones(breed), 'body': entry['body'],
+            'head': entry['head'],
             'scale': round(int(entry['scale']) / REFERENCE_SCALE, 3), 'gear': {}}
     model_result = getattr(solution, 'model_result', solution)
     items = getattr(model_result, 'item_list', None)

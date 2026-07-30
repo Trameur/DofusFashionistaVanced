@@ -541,7 +541,7 @@ urlpatterns = [
 
     # Character preview art, baked on first request. Not version-prefixed: the
     # skins come from one asset set.
-    re_path(r'^character/poses/(?P<bone_id>\d+)\.json$',
+    re_path(r'^character/poses/(?P<bone_id>[\w-]+)\.json$',
             character_assets.pose_view, name='character_pose'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/parts\.json$',
             character_assets.parts_manifest_view, name='character_parts'),

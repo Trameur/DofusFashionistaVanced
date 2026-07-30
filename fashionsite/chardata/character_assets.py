@@ -19,11 +19,20 @@ ORIENTATIONS = ('0', '1', '2', '5', '6')
 PIXELS_PER_UNIT = 4.0
 PAD = 2
 
-# Flag bitfield over 0x30: bit 0 = a symbol id follows, bit 2 = four bytes of
-# colour before the matrix. So a record is 36 or 40 bytes.
-FLAG_BASE = 0x30
+# The standing idle. Its name carries the breed number, so it is matched rather
+# than spelled out. The same skeletons also carry AnimStatiqueExploRetro (the
+# older stance) and AnimStatiqueCombat (fists up, and only two orientations).
+ANIMATION = re.compile(r'^AnimStatiqueExploNewAge\d*_(\d)$')
+
+# Flag bitfield. Bit 4 marks a record, bit 5 says its node index is real, bit 0
+# that a symbol id follows, bit 2 that four bytes of colour sit before the
+# matrix. So a record is 36 or 40 bytes, and the ones without bit 5 are nested
+# symbols with nothing of ours to draw.
+FLAG_RECORD = 0x10
+FLAG_NODE = 0x20
 FLAG_SYMBOL = 0x01
 FLAG_COLOUR = 0x04
+FLAG_BITS = 0x3F
 HEADER = 12
 
 _lock = threading.Lock()
@@ -178,16 +187,15 @@ class Bone(object):
         out, pos = [], start
         while pos + HEADER <= end:
             order, flag, _symbol, node = struct.unpack_from('<4H', raw, pos)
-            if flag & ~(FLAG_SYMBOL | FLAG_COLOUR) != FLAG_BASE:
-                return None
-            if node >= len(self.node_names):
+            if not flag & FLAG_RECORD or flag & ~FLAG_BITS:
                 return None
             head = HEADER + (4 if flag & FLAG_COLOUR else 0)
             if pos + head + 24 > end:
                 return None
-            matrix = struct.unpack_from('<6f', raw, pos + head)
-            out.append({'order': order, 'node': self.node_names[node],
-                        'm': [round(x, 4) for x in matrix]})
+            if flag & FLAG_NODE and node < len(self.node_names):
+                matrix = struct.unpack_from('<6f', raw, pos + head)
+                out.append({'order': order, 'node': self.node_names[node],
+                            'm': [round(x, 4) for x in matrix]})
             pos += head + 24
         return out if pos == end else None
 
@@ -274,18 +282,23 @@ def ensure_skin(skin_id):
 
 # In the cache file name. Nothing ever expires it, so a decoder change needs a
 # new name.
-POSE_FORMAT = 3
+POSE_FORMAT = 4
+
+BONE_NAME = re.compile(r'^[\w-]+$')
 
 
 def ensure_pose(bone_id):
+    bone_id = str(bone_id)
+    if not BONE_NAME.match(bone_id):
+        return None
     target = os.path.join(cache_dir(), 'poses')
-    path = os.path.join(target, '%d-v%d.json' % (bone_id, POSE_FORMAT))
+    path = os.path.join(target, '%s-v%d.json' % (bone_id, POSE_FORMAT))
     if os.path.exists(path):
         return path
     source = bundle_dir()
     if not source:
         return None
-    bundle = os.path.join(source, 'bones_assets_bone_%d.bundle' % bone_id)
+    bundle = os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id)
     if not os.path.exists(bundle):
         return None
     with _lock:
@@ -294,11 +307,11 @@ def ensure_pose(bone_id):
         os.makedirs(target, exist_ok=True)
         bone = Bone(bundle)
         poses = {'frameRate': bone.frame_rate, 'orientations': {}}
-        for orientation in ORIENTATIONS:
-            animation = 'AnimStatique_%s' % orientation
-            if animation not in bone.animations:
+        for animation in sorted(bone.animations):
+            match = ANIMATION.match(animation)
+            if not match or match.group(1) not in ORIENTATIONS:
                 continue
-            poses['orientations'][orientation] = [
+            poses['orientations'][match.group(1)] = [
                 bone.frame(animation, i) for i in range(bone.frame_count(animation))]
         with open(path, 'w', encoding='utf-8') as fh:
             json.dump(poses, fh)
@@ -336,7 +349,7 @@ def part_image_view(request, skin_id, part):
 
 
 def pose_view(request, bone_id):
-    path = ensure_pose(int(bone_id))
+    path = ensure_pose(bone_id)
     if path is None:
         raise Http404
     return _forever(FileResponse(open(path, 'rb'), content_type='application/json'))

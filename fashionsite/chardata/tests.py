@@ -7876,10 +7876,27 @@ class CharacterLookTests(TestCase):
         import tempfile
         from django.test import override_settings
         from chardata import character_assets
+        from chardata.character_look import player_bones
         with tempfile.TemporaryDirectory() as empty:
             with override_settings(CHARACTER_BUNDLE_DIR=None, CHARACTER_CACHE_DIR=empty):
                 self.assertIsNone(character_assets.ensure_skin(10))
-                self.assertIsNone(character_assets.ensure_pose(2))
+                self.assertIsNone(character_assets.ensure_pose(player_bones(8)))
+
+    def test_every_class_asks_for_its_own_standing_skeleton(self):
+        # The numbered bones are monsters and mounts; bone_2 sits the character
+        # astride an animal that is not there.
+        from chardata.character_look import CLASS_TO_BREED, get_character_look
+        seen = set()
+        for char_class, breed in CLASS_TO_BREED.items():
+            look = get_character_look(self._char(char_class), None)
+            self.assertEqual(look['bones'], '1-%d-static' % breed, char_class)
+            seen.add(look['bones'])
+        self.assertEqual(len(seen), len(CLASS_TO_BREED))
+
+    def test_a_bone_name_cannot_walk_out_of_the_cache(self):
+        from chardata import character_assets
+        for bad in ('../secret', '1-8-static/../..', 'a b'):
+            self.assertIsNone(character_assets.ensure_pose(bad), bad)
 
 
 class CharacterPoseDecodingTests(TestCase):

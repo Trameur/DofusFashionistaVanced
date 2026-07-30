@@ -17,7 +17,8 @@ import time
 from django.core.management.base import BaseCommand
 
 from chardata import character_assets
-from chardata.character_look import PLAYER_BONES, VERSIONS_WITH_ART, _breed_looks
+from chardata.character_look import (CLASS_TO_BREED, VERSIONS_WITH_ART,
+                                     _breed_looks, player_bones)
 
 
 class Command(BaseCommand):
@@ -33,8 +34,10 @@ class Command(BaseCommand):
             return
 
         started = time.time()
-        if character_assets.ensure_pose(PLAYER_BONES) is None:
-            self.stderr.write('no bone bundle for %d' % PLAYER_BONES)
+        for breed in sorted(set(CLASS_TO_BREED.values())):
+            bones = player_bones(breed)
+            if character_assets.ensure_pose(bones) is None:
+                self.stderr.write('no bone bundle for %s' % bones)
 
         skins = set()
         for entry in _breed_looks().values():
