@@ -5728,6 +5728,31 @@ class RobotsTxtTests(TestCase):
         self.assertIn('Sitemap: https://dofusfashionista.gg/sitemap.xml', body)
 
 
+class SolutionSlotGuardTests(TestCase):
+    """A slot the game does not have is a bad request, not a server error."""
+
+    def _char(self):
+        from django.contrib.auth.models import User
+        from django.test import RequestFactory
+        from chardata.coaching_view import create_build
+        owner = User.objects.create_user('slot', 'slot@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        req = RequestFactory().post('/')
+        req.user = owner
+        return create_build(req, 'Iop', 100, {'str'}, 'dofus3')
+
+    def test_locking_an_unknown_slot_is_refused(self):
+        char = self._char()
+        resp = self.client.post('/setitemlocked/%d/' % char.pk,
+                                {'slot': 'Cape', 'equip': 'Gelano', 'locked': 'true'})
+        self.assertEqual(resp.status_code, 400)
+
+    def test_emptying_an_unknown_slot_is_refused(self):
+        char = self._char()
+        resp = self.client.post('/setslotlockempty/%d/' % char.pk,
+                                {'slot': 'Cape', 'locked': 'true'})
+        self.assertEqual(resp.status_code, 400)
+
 
 class AdminToolsTests(TestCase):
     """The staff dashboard must be invisible (404) to everyone but admins, and

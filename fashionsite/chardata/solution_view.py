@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, F
 from django.core.cache import cache
@@ -628,10 +628,10 @@ def set_item_locked(request, char_id):
     slot = request.POST.get('slot', None)
     item_name = request.POST.get('equip', None)
     locked = request.POST.get('locked', None)
-    
-    
-    assert slot in SLOTS
-    
+
+    if slot not in SLOTS:
+        return HttpResponseBadRequest('unknown slot')
+
     structure = get_structure()
     item = structure.get_item_by_name(item_name)
     if item is None:
@@ -674,7 +674,8 @@ def set_slot_lock_empty(request, char_id):
     slot = request.POST.get('slot', None)
     locked = request.POST.get('locked', None)
 
-    assert slot in SLOTS
+    if slot not in SLOTS:
+        return HttpResponseBadRequest('unknown slot')
 
     set_empty_slot(char, slot, locked == 'true')
 
