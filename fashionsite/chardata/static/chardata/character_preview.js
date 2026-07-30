@@ -3,8 +3,18 @@
 (function (global) {
     'use strict';
 
-    var ORDER = ['0', '1', '2', '5', '6'];
+    var TURN = ['0', '1', '2', '3', '4', '5', '6', '7'];
+    // The client only ships five orientations. mirror(d) = (4 - d) mod 8, so 2
+    // and 6 face their own mirror and the other three are a horizontal flip.
+    var MIRROR_OF = { '3': '1', '4': '0', '7': '5' };
     var PAD = 2;
+
+    function mirrored(frame) {
+        return frame.map(function (r) {
+            return { order: r.order, node: r.node,
+                     m: [-r.m[0], -r.m[1], -r.m[2], r.m[3], r.m[4], r.m[5]] };
+        });
+    }
 
     function CharacterPreview(canvas, options) {
         this.canvas = canvas;
@@ -15,6 +25,7 @@
         this.origin = options.origin || [canvas.width / 2, canvas.height * 0.82];
         this.scale = (options.scale || 1) * (this.look.scale || 1);
         this.orientation = options.orientation || '1';
+        this.order = TURN;
         this.frame = 0;
         this.images = {};
         this.manifests = {};
@@ -41,7 +52,14 @@
                     var kept = data.orientations[o].filter(function (f) { return f.length; });
                     data.orientations[o] = kept.length ? kept : data.orientations[o].slice(0, 1);
                 }
+                for (var target in MIRROR_OF) {
+                    var from = data.orientations[MIRROR_OF[target]];
+                    if (from && !data.orientations[target]) {
+                        data.orientations[target] = from.map(mirrored);
+                    }
+                }
                 self.poses = data;
+                self.order = TURN.filter(function (d) { return data.orientations[d]; });
             })];
         // One missing piece must not cost the whole character, so a part that
         // fails to load is simply not drawn.
@@ -93,7 +111,7 @@
 
     CharacterPreview.prototype.headEntries = function () {
         var manifest = this.manifests[this.look.head] || {};
-        var suffix = '_' + this.orientation;
+        var suffix = '_' + (MIRROR_OF[this.orientation] || this.orientation);
         var out = [];
         for (var part in manifest) {
             if (part.indexOf(suffix, part.length - suffix.length) === -1) { continue; }
@@ -120,30 +138,6 @@
         return c;
     };
 
-    // Ankama's own order paints the hat just under the head, so any hat that
-    // overlaps the skull loses the part that sits on it. Same for the collar.
-    var WORN_AFTER = { chapeau: 'tete', cole: 'tete' };
-
-    function bareName(entry) {
-        return entry.node.replace(/_\d+$/, '').toLowerCase();
-    }
-
-    CharacterPreview.prototype.ordered = function (nodes) {
-        var out = nodes;
-        for (var worn in WORN_AFTER) {
-            var moved = out.filter(function (n) { return bareName(n) === worn; });
-            if (!moved.length) { continue; }
-            var rest = out.filter(function (n) { return bareName(n) !== worn; });
-            var anchor = WORN_AFTER[worn], at = -1;
-            for (var i = 0; i < rest.length; i++) {
-                if (bareName(rest[i]) === anchor) { at = i; }
-            }
-            out = at === -1 ? rest.concat(moved)
-                            : rest.slice(0, at + 1).concat(moved, rest.slice(at + 1));
-        }
-        return out;
-    };
-
     CharacterPreview.prototype.draw = function () {
         var ctx = this.ctx;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -151,7 +145,7 @@
         if (!this.poses) { return; }
         var frames = this.poses.orientations[this.orientation];
         if (!frames || !frames.length) { return; }
-        var nodes = this.ordered(frames[this.frame % frames.length]);
+        var nodes = frames[this.frame % frames.length];
         for (var i = 0; i < nodes.length; i++) {
             var node = nodes[i];
             var list = node.node.indexOf('Tete') === 0
@@ -202,9 +196,13 @@
         if (this.raf) { cancelAnimationFrame(this.raf); }
     };
 
+    CharacterPreview.prototype.at = function (index) {
+        var n = this.order.length;
+        return this.order[((index % n) + n) % n];
+    };
+
     CharacterPreview.prototype.turn = function (step) {
-        var i = ORDER.indexOf(this.orientation) + step;
-        this.orientation = ORDER[Math.max(0, Math.min(ORDER.length - 1, i))];
+        this.orientation = this.at(this.order.indexOf(this.orientation) + step);
         this.frame = 0;
     };
 
@@ -213,15 +211,14 @@
         this.canvas.addEventListener('pointerdown', function (e) {
             dragging = true;
             startX = e.clientX;
-            startIndex = ORDER.indexOf(self.orientation);
+            startIndex = self.order.indexOf(self.orientation);
             self.canvas.setPointerCapture(e.pointerId);
         });
         this.canvas.addEventListener('pointermove', function (e) {
             if (!dragging) { return; }
-            var step = Math.round((e.clientX - startX) / 40);
-            var i = Math.max(0, Math.min(ORDER.length - 1, startIndex + step));
-            if (ORDER[i] !== self.orientation) {
-                self.orientation = ORDER[i];
+            var next = self.at(startIndex + Math.round((e.clientX - startX) / 40));
+            if (next !== self.orientation) {
+                self.orientation = next;
                 self.frame = 0;
             }
         });
