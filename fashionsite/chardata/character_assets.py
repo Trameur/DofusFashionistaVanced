@@ -19,9 +19,8 @@ ORIENTATIONS = ('0', '1', '2', '5', '6')
 PIXELS_PER_UNIT = 4.0
 PAD = 2
 
-# A keyframe record is a flag word, then a matrix. The flag is a bitfield over
-# 0x30: bit 0 says a symbol id follows, bit 2 adds a four byte colour before
-# the matrix, which is why records are not all the same length.
+# Flag bitfield over 0x30: bit 0 = a symbol id follows, bit 2 = four bytes of
+# colour before the matrix. So a record is 36 or 40 bytes.
 FLAG_BASE = 0x30
 FLAG_SYMBOL = 0x01
 FLAG_COLOUR = 0x04
@@ -208,9 +207,8 @@ class Bone(object):
         return out
 
     def key_frame(self, animation):
-        # Records are painted in the order they are stored. The `order` field
-        # is not that order: it swaps around every record without a symbol,
-        # which is what put hats under heads.
+        # Painted in the order they are stored. The `order` field is not that
+        # order: it swaps around every record without a symbol.
         raw, start, end = self._bounds(animation, 0)
         return self._walk(raw, start, end) or self._scan(raw, start, end)
 
@@ -274,8 +272,8 @@ def ensure_skin(skin_id):
         return manifest
 
 
-# Bumped whenever the decoder changes, so a cached pose from an older read is
-# not served for the life of the volume.
+# In the cache file name. Nothing ever expires it, so a decoder change needs a
+# new name.
 POSE_FORMAT = 3
 
 

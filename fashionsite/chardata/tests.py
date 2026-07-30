@@ -7794,8 +7794,8 @@ class CharacterLookTests(TestCase):
 
 
 class CharacterPoseDecodingTests(TestCase):
-    """The keyframe block mixes record lengths and its stored order is the
-    paint order. Reading it any other way loses limbs or stacks them wrong."""
+    """A keyframe block mixes 36 and 40 byte records, and the order they are
+    stored in is the paint order."""
 
     NODES = ['Tete_2', 'Chapeau_2', 'JambeG_2', 'Torse_2']
 
@@ -7822,8 +7822,6 @@ class CharacterPoseDecodingTests(TestCase):
         return (3.0, 0.0, 0.0, 0.0, 3.0, ty)
 
     def test_a_hat_stays_on_top_of_the_head(self):
-        # Ankama stores the head first and gives it the higher `order`, so
-        # sorting on that field buries the hat under the skull.
         bone = self._bone([
             self._record(2, 0x30, 0, self._identity(50.0)),
             self._record(1, 0x31, 1, self._identity(51.0)),
@@ -7832,8 +7830,6 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual([r['node'] for r in frame], ['Tete_2', 'Chapeau_2'])
 
     def test_a_coloured_record_is_four_bytes_longer_and_keeps_its_neighbours(self):
-        # The leg records of the front pose carry a colour. Assuming one record
-        # length dropped them and everything the resync then walked past.
         bone = self._bone([
             self._record(0, 0x31, 3, self._identity(46.0)),
             self._record(1, 0x35, 2, self._identity(20.0)),

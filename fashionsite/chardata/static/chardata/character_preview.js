@@ -4,8 +4,8 @@
     'use strict';
 
     var TURN = ['0', '1', '2', '3', '4', '5', '6', '7'];
-    // The client only ships five orientations. mirror(d) = (4 - d) mod 8, so 2
-    // and 6 face their own mirror and the other three are a horizontal flip.
+    // The client ships five orientations. mirror(d) = (4 - d) mod 8, so 2 and 6
+    // are their own mirror.
     var MIRROR_OF = { '3': '1', '4': '0', '7': '5' };
     var PAD = 2;
 

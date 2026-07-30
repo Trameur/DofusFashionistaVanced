@@ -36,9 +36,8 @@ DELTA = 28
 ORIENTATIONS = ('0', '1', '2', '5', '6')
 PIXELS_PER_UNIT = 4.0
 
-# A keyframe record is a flag word, then a matrix. The flag is a bitfield over
-# 0x30: bit 0 says a symbol id follows, bit 2 adds a four byte colour before
-# the matrix, which is why records are not all the same length.
+# Flag bitfield over 0x30: bit 0 = a symbol id follows, bit 2 = four bytes of
+# colour before the matrix. So a record is 36 or 40 bytes.
 FLAG_BASE = 0x30
 FLAG_SYMBOL = 0x01
 FLAG_COLOUR = 0x04
@@ -195,11 +194,8 @@ class Bone:
         return out
 
     def key_frame(self, animation):
-        """Frame 0 holds full records, each naming its node, in paint order.
-
-        The `order` field is not the paint order: it swaps around every record
-        without a symbol, which is what put hats under heads.
-        """
+        """Frame 0, in paint order. The `order` field is not that order: it
+        swaps around every record without a symbol."""
         raw, start, end = self._bounds(animation, 0)
         return self._walk(raw, start, end) or self._scan(raw, start, end)
 
