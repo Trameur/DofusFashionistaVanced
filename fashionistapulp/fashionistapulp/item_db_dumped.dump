@@ -169665,7 +169665,8 @@ INSERT INTO "stats" VALUES(62,'% Ranged Resist','resperran');
 INSERT INTO "stats" VALUES(63,'HP','hp');
 INSERT INTO "stats" VALUES(64,'% Weapon Resist','resperwea');
 CREATE TABLE stats_of_item
-            (item INTEGER, stat INTEGER, value INTEGER, min_value INTEGER, max_value INTEGER,
+            (item INTEGER, stat INTEGER, value INTEGER,
+            min_value INTEGER, max_value INTEGER,
             FOREIGN KEY(item) REFERENCES items(id),
             FOREIGN KEY(stat) REFERENCES stats(id));
 INSERT INTO "stats_of_item" VALUES(44,8,10,7,10);
@@ -197590,11 +197591,11 @@ INSERT INTO "weapontype" VALUES(8,'Wand','wand');
 INSERT INTO "weapontype" VALUES(9,'Pickaxe','pickaxe');
 INSERT INTO "weapontype" VALUES(10,'Scythe','scythe');
 INSERT INTO "weapontype" VALUES(11,'Lance','lance');
-CREATE INDEX idx_item_craft_jobs_item ON item_craft_jobs (item);
-CREATE INDEX idx_job_names_id ON job_names (job_ankama_id);
 CREATE INDEX idx_item_drops_item ON item_drops (item);
 CREATE INDEX idx_resource_drops_res ON resource_drops (resource_ankama_id);
 CREATE INDEX idx_monster_names_id ON monster_names (monster_ankama_id);
+CREATE INDEX idx_item_craft_jobs_item ON item_craft_jobs (item);
+CREATE INDEX idx_job_names_id ON job_names (job_ankama_id);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('item_types',10);
 INSERT INTO "sqlite_sequence" VALUES('stats',64);

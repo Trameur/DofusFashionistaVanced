@@ -9,8 +9,30 @@
 <div class="admin-tools text">
     <h1 class="admin-title">Admin tools
         <span class="admin-generated">data {{ dash.generated }} &middot;
-            <a href="?refresh=1">refresh</a></span>
+            <a href="{{ dash.filters.refresh_url }}">refresh</a></span>
     </h1>
+
+    <div class="admin-filters" id="admin-filters">
+        <div class="admin-filter-row">
+            <span class="admin-filter-label">Period</span>
+            {% for p in dash.filters.periods %}
+            <a class="admin-chip {% if p.on %}admin-chip-on{% endif %}" href="{{ p.url }}">{{ p.label }}</a>
+            {% endfor %}
+            <form class="admin-range" method="get">
+                <input type="date" name="from" value="{{ dash.filters.start }}" max="{{ dash.filters.today }}">
+                <input type="date" name="to" value="{{ dash.filters.end }}" max="{{ dash.filters.today }}">
+                {% if dash.filters.version %}<input type="hidden" name="version" value="{{ dash.filters.version }}">{% endif %}
+                <button type="submit" class="admin-chip {% if dash.filters.custom %}admin-chip-on{% endif %}">Apply</button>
+            </form>
+        </div>
+        <div class="admin-filter-row">
+            <span class="admin-filter-label">Version</span>
+            {% for v in dash.filters.versions %}
+            <a class="admin-chip {% if v.on %}admin-chip-on{% endif %}" href="{{ v.url }}">{{ v.label }}</a>
+            {% endfor %}
+        </div>
+        <p class="admin-note">Showing {{ dash.filters.period_label }}, {{ dash.filters.version_label|lower }}, bucketed {{ dash.filters.unit_word }}. Accounts and signup methods are site wide, they have no version.</p>
+    </div>
 
     <div class="admin-tabs" id="admin-tabs">
         <button class="admin-tab admin-tab-on" data-tab="overview">Overview</button>
@@ -26,9 +48,9 @@
             {% for label, tile in dash.overview.tiles %}
             <div class="admin-stat">
                 <span class="admin-stat-num">{{ tile.recent }}</span>
-                <span class="admin-stat-label">{{ label }} (30d)</span>
+                <span class="admin-stat-label">{{ label }} ({{ dash.filters.period_label }})</span>
                 {% if tile.change != None %}
-                <span class="admin-delta {% if tile.change < 0 %}admin-delta-down{% endif %}">{% if tile.change >= 0 %}+{% endif %}{{ tile.change }}% vs previous 30d</span>
+                <span class="admin-delta {% if tile.change < 0 %}admin-delta-down{% endif %}" title="Compared with {{ dash.filters.previous_label }}">{% if tile.change >= 0 %}+{% endif %}{{ tile.change }}% vs {{ dash.filters.previous_label }}</span>
                 {% else %}
                 <span class="admin-delta admin-delta-flat">no baseline</span>
                 {% endif %}
@@ -36,16 +58,16 @@
             {% endfor %}
         </div>
 
-        <h2 class="admin-section-title">New accounts per week</h2>
+        <h2 class="admin-section-title">New accounts {{ dash.filters.unit_word }}</h2>
         {{ charts.accounts|safe }}
 
-        <h2 class="admin-section-title">Builds created per week, by version</h2>
+        <h2 class="admin-section-title">Builds created {{ dash.filters.unit_word }}, by version</h2>
         {{ charts.builds|safe }}
 
         <div class="admin-two">
             <div>
                 <h2 class="admin-section-title">Signup method</h2>
-                <table class="admin-table">
+                <table class="admin-table" data-more="6">
                     {% for name, n in dash.overview.signup_methods %}
                     <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td></tr>
                     {% empty %}<tr><td class="admin-empty">nothing yet</td></tr>{% endfor %}
@@ -53,12 +75,13 @@
             </div>
             <div>
                 <h2 class="admin-section-title">Account language</h2>
-                <table class="admin-table">
+                <table class="admin-table" data-more="6">
                     {% for name, n in dash.overview.languages %}
                     <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td></tr>
                     {% empty %}<tr><td class="admin-empty">nothing yet</td></tr>{% endfor %}
                 </table>
                 <p class="admin-note">Only filled in for accounts that logged in since the language signal was added, so older accounts are under-counted.</p>
+                <p class="admin-note">Both tables above are all-time totals for every account, not the period or the version.</p>
             </div>
         </div>
     </section>
@@ -66,15 +89,16 @@
     <section class="admin-panel admin-panel-off" data-panel="versions">
         <h2 class="admin-section-title">One line per game. They are different games, so nothing is summed.</h2>
         <table class="admin-table admin-table-wide">
-            <tr><th>Version</th><th>Builds</th><th>New (30d)</th><th>Shared</th><th>Share rate</th><th>Comments (30d)</th></tr>
+            <tr><th>Version</th><th>Builds</th><th>New</th><th>Shared</th><th>Share rate</th><th>Comments</th></tr>
             {% for row in dash.versions.rows %}
-            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.total }}</td>
-                <td class="admin-num">{{ row.new_30d }}</td>
+            <tr{% if row.selected %} class="admin-row-on"{% endif %}><td>{{ row.label }}</td><td class="admin-num">{{ row.total }}</td>
+                <td class="admin-num">{{ row.new_in_period }}</td>
                 <td class="admin-num">{{ row.shared }}</td>
                 <td class="admin-num">{% if row.share_rate != None %}{{ row.share_rate }}%{% else %}<span class="admin-empty">too few</span>{% endif %}</td>
-                <td class="admin-num">{{ row.comments_30d }}</td></tr>
+                <td class="admin-num">{{ row.comments_in_period }}</td></tr>
             {% endfor %}
         </table>
+        <p class="admin-note">New and Comments cover {{ dash.filters.period_label|lower }}. Builds and Shared are running totals.{% if dash.filters.version %} This table always lists every version, whatever the filter says; the selected one is highlighted.{% endif %}</p>
 
         <h2 class="admin-section-title">Levels, per version</h2>
         <div class="admin-grid">
@@ -88,7 +112,7 @@
             {% for slug, rows in dash.versions.classes.items %}
             <div class="admin-mini">
                 <h3>{{ slug }}</h3>
-                <table class="admin-table">
+                <table class="admin-table" data-more="8">
                     {% for name, n, pct in rows %}
                     <tr><td>{{ name }}</td><td class="admin-num">{{ n }}</td><td class="admin-num">{{ pct }}%</td></tr>
                     {% empty %}<tr><td class="admin-empty">no build</td></tr>{% endfor %}
@@ -99,9 +123,9 @@
     </section>
 
     <section class="admin-panel admin-panel-off" data-panel="community">
-        <h2 class="admin-section-title">Comments per week</h2>
+        <h2 class="admin-section-title">Comments {{ dash.filters.unit_word }}</h2>
         {{ charts.comments|safe }}
-        <h2 class="admin-section-title">Votes per week</h2>
+        <h2 class="admin-section-title">Votes {{ dash.filters.unit_word }}</h2>
         {{ charts.votes|safe }}
 
         <h2 class="admin-section-title">How engagement spreads over shared builds</h2>
@@ -109,7 +133,7 @@
         <p class="admin-note">Comments plus votes per shared build. A mean would hide that a few builds can carry everything.</p>
 
         <h2 class="admin-section-title">Most viewed shared builds</h2>
-        <table class="admin-table admin-table-wide">
+        <table class="admin-table admin-table-wide" data-more="12">
             <tr><th>Build</th><th>Version</th><th>Views</th><th>Comments</th><th>Votes</th></tr>
             {% for row in dash.community.top_builds %}
             <tr><td><a href="{{ row.url }}" target="_blank" rel="noopener">{{ row.name }}</a></td>
@@ -124,23 +148,24 @@
     <section class="admin-panel admin-panel-off" data-panel="pages">
         {% if dash.pages.collecting_since %}
         <p class="admin-note">Counting since {{ dash.pages.collecting_since }}. Ids in a path are folded into a placeholder, and nothing about the visitor is stored.</p>
-        <h2 class="admin-section-title">Page reads per week</h2>
+        <h2 class="admin-section-title">Page reads {{ dash.filters.unit_word }}</h2>
         {{ charts.pages_per_week|safe }}
         <div class="admin-two">
             <div>
-                <h2 class="admin-section-title">Most read pages (30d)</h2>
-                <table class="admin-table">
+                <h2 class="admin-section-title">Most read pages</h2>
+                <table class="admin-table" data-more="12">
                     {% for path, n in dash.pages.top %}
                     <tr><td>{{ path }}</td><td class="admin-num">{{ n }}</td></tr>
-                    {% endfor %}
+                    {% empty %}<tr><td class="admin-empty">nothing counted for this filter</td></tr>{% endfor %}
                 </table>
             </div>
             <div>
-                <h2 class="admin-section-title">By version (30d)</h2>
+                <h2 class="admin-section-title">By version</h2>
+                {% if dash.filters.version %}<p class="admin-note">Every version, so the filtered column above can be compared.</p>{% endif %}
                 <table class="admin-table">
                     {% for label, n in dash.pages.by_version %}
                     <tr><td>{{ label }}</td><td class="admin-num">{{ n }}</td></tr>
-                    {% endfor %}
+                    {% empty %}<tr><td class="admin-empty">nothing counted in this range</td></tr>{% endfor %}
                 </table>
             </div>
         </div>
@@ -150,9 +175,10 @@
     </section>
 
     <section class="admin-panel admin-panel-off" data-panel="solver">
-        <h2 class="admin-section-title">Solver cache, per week</h2>
+        <h2 class="admin-section-title">Solver cache, {{ dash.filters.unit_word }}</h2>
         {{ charts.solver_hits|safe }}
-        <p class="admin-note">Hit rate since the counter exists: {% if dash.solver.hit_rate != None %}{{ dash.solver.hit_rate }}%{% else %}no data{% endif %}</p>
+        <p class="admin-note">Hit rate over {{ dash.filters.period_label|lower }}: {% if dash.solver.hit_rate != None %}{{ dash.solver.hit_rate }}%{% else %}no data{% endif %}</p>
+        {% if dash.filters.version %}<p class="admin-note">The cache counter has no version column, so the chart and the hit rate are site wide. Only the table below is filtered.</p>{% endif %}
         <h2 class="admin-section-title">Builds with no saved solution</h2>
         <table class="admin-table">
             {% for label, n in dash.solver.no_solution %}
@@ -242,17 +268,60 @@
             p.classList.toggle('admin-panel-off', p.dataset.panel !== wanted);
         });
         location.hash = wanted;
+        // Filtering reloads the page; remember the tab rather than patch every link.
+        try { sessionStorage.setItem('adminTab', wanted); } catch (e) {}
     });
     var start = location.hash.replace('#', '');
+    if (!start) {
+        try { start = sessionStorage.getItem('adminTab') || ''; } catch (e) {}
+    }
     if (start) {
         var button = tabs.querySelector('.admin-tab[data-tab="' + start + '"]');
         if (button) { button.click(); }
     }
 }());
+
+(function () {
+    document.querySelectorAll('.admin-table[data-more]').forEach(function (table) {
+        var keep = parseInt(table.dataset.more, 10);
+        var rows = Array.prototype.slice.call(table.rows).filter(function (r) {
+            return !r.querySelector('th');
+        });
+        if (rows.length <= keep) { return; }
+        var hidden = rows.slice(keep);
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'admin-more';
+        function draw(open) {
+            hidden.forEach(function (r) { r.hidden = !open; });
+            button.textContent = open ? 'show less' : 'show ' + hidden.length + ' more';
+        }
+        button.addEventListener('click', function () { draw(hidden[0].hidden); });
+        draw(false);
+        table.parentNode.insertBefore(button, table.nextSibling);
+    });
+}());
 </script>
 
 <style>
 .admin-generated { font-size: 0.5em; font-weight: normal; opacity: 0.7; margin-left: 10px; }
+.admin-filters { margin-bottom: 14px; }
+.admin-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
+.admin-filter-label { font-size: 0.8em; opacity: 0.6; min-width: 56px; }
+.admin-chip { display: inline-block; padding: 4px 10px; font-size: 0.82em; line-height: 1.4;
+    border: 1px solid rgba(128,128,128,0.35); border-radius: 999px; cursor: pointer;
+    background: transparent; color: inherit; text-decoration: none; }
+.admin-chip:hover { border-color: var(--fm-accent, #c8a05a); }
+.admin-chip-on { border-color: var(--fm-accent, #c8a05a); font-weight: 700;
+    background: rgba(200,160,90,0.16); }
+.admin-range { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.admin-range input { font-size: 0.82em; padding: 3px 6px; border-radius: 6px;
+    border: 1px solid rgba(128,128,128,0.35); background: transparent; color: inherit; }
+.admin-row-on { background: rgba(200,160,90,0.14); font-weight: 700; }
+.admin-more { display: block; margin: 6px 0 0; padding: 3px 10px; font-size: 0.78em;
+    border: 1px solid rgba(128,128,128,0.35); border-radius: 999px; cursor: pointer;
+    background: transparent; color: inherit; opacity: 0.8; }
+.admin-more:hover { opacity: 1; border-color: var(--fm-accent, #c8a05a); }
 .admin-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 18px;
     border-bottom: 1px solid rgba(128,128,128,0.3); }
 .admin-tab { background: transparent; border: 0; border-bottom: 2px solid transparent;

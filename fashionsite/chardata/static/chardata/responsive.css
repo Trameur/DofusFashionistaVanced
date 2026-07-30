@@ -278,3 +278,11 @@
 @media (min-width: 901px) {
   .solution-item-name-div .solution-item-level { display: block; margin-left: 0; opacity: 1; font-size: 14px; }
 }
+
+/* Load a project: the modern skin leaves the content box around 543px at 901px wide,
+   which is narrower than the seven columns need. Tighten and let long words break.
+   The bound overlaps the 900px block on purpose so no width falls between the two. */
+@media (max-width: 1100px) {
+  .load-project-cell, .load-project-header { padding: 3px 4px !important; }
+  .load-project-table td > div, .load-project-cell > div { overflow-wrap: anywhere !important; }
+}

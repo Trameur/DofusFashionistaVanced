@@ -111,7 +111,11 @@ def admin_tools(request, char_id=0):
         'reports_pending': len(pending_comment_ids),
     }
 
-    data = admin_stats.dashboard(refresh=request.GET.get('refresh') == '1')
+    data = admin_stats.dashboard(refresh=request.GET.get('refresh') == '1',
+                                 period_key=request.GET.get('period'),
+                                 version=request.GET.get('version'),
+                                 start=request.GET.get('from'),
+                                 end=request.GET.get('to'))
 
     return set_response(request, 'chardata/admin_tools.html', {
         'request': request,

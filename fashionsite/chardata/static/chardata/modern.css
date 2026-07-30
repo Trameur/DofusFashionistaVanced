@@ -292,9 +292,12 @@ html.fm-modern.fm-light .build-link:hover, html.fm-modern.fm-light .filter-butto
 /* ---------- Tables (stats, weights, encyclopedia, compare) ---------- */
 html.fm-modern .maincontent table.register-table,
 html.fm-modern .maincontent .styled-table{ border-collapse:separate; border-spacing:0; }
-html.fm-modern .stat-title, html.fm-modern .build-boxes-title, html.fm-modern .load-project-header{
+/* Only the build boxes get a modern surface behind them. The project list and the
+   base stats keep the classic #3D200D table, so their titles stay on the theme colour. */
+html.fm-modern .build-boxes-title{
   color:var(--fm-head) !important; font-weight:700;
 }
+html.fm-modern .stat-title, html.fm-modern .load-project-header{ font-weight:700; }
 
 /* ---------- Footer ---------- */
 html.fm-modern .footer{ margin-top:22px; padding:22px 18px; color:var(--fm-muted); font-size:13px; border-top:1px solid var(--fm-border); text-align:center; }
