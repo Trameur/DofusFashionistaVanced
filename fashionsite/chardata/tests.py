@@ -8179,6 +8179,41 @@ class MountLookTests(TestCase):
         self.assertEqual(parse_hidden('mount'), ['mount'])
         self.assertEqual(parse_hidden('mount,hat'), ['hat', 'mount'])
 
+    def test_the_page_hands_the_mount_to_the_drawing_it_belongs_to(self):
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.character_assets import has_bone
+        from chardata.character_look import RIDER_BONES
+        from fashionistapulp.modelresult import ModelResultMinimal
+        item, bone = self._rows('dofus3')[0][:2]
+        if not has_bone(bone) or not has_bone(RIDER_BONES):
+            self.skipTest('no mount art on this machine')
+        owner = User.objects.create_user('rider', 'rider@test.local', 'pw-42-solid')
+        solution = ModelResultMinimal({'pet': item}, {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated', 'char_level': 200,
+            'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
+                                   'Intelligence': 0, 'Chance': 0, 'Agility': 0},
+            'locked_equips': {}}, {})
+        char = Char.objects.create(
+            name='Rider', char_name='rider', char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=pickle.dumps({'vit': 1, 'str': 1, 'int': 1, 'cha': 1,
+                                       'agi': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=pickle.dumps(solution),
+            owner=owner, link_shared=True, game_version='dofus3')
+        self.client.force_login(owner)
+
+        resp = self.client.get('/solution/%d/' % char.pk)
+
+        self.assertEqual(resp.status_code, 200)
+        page = resp.content.decode('utf-8')
+        self.assertIn('"mount": {"bone": %d' % bone, page)
+        self.assertIn('"bones": "%s"' % RIDER_BONES, page)
+        self.assertIn('data-slot="mount"', page)
+
     def test_the_mount_box_only_shows_up_for_a_build_that_has_one(self):
         from types import SimpleNamespace
         from chardata.solution_view import _preview_pieces
