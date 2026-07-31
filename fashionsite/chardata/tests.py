@@ -8756,6 +8756,58 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                                      % (lang, catalog, offenders[:8]))
 
 
+class SpellCastingCostTests(SimpleTestCase):
+    """What a cast costs and how often it is allowed. Read straight from the
+    client data; a combo is only worth computing on exact numbers."""
+
+    # The versions whose spells come from the Unity dumps. dofus2 ships no
+    # spell level data at all (its pipeline says so and skips the step), and
+    # retro/touch are decoded separately.
+    VERSIONS = ('dofus3', 'beta')
+
+    def _spells(self, version):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        return [spell for spells in get_damage_spells_for_version(version).values()
+                for spell in spells]
+
+    def test_every_real_spell_knows_what_it_costs(self):
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                missing = [spell.name for spell in self._spells(version)
+                           if spell.spell_id and not spell.casting]
+                self.assertEqual(missing, [], version)
+
+    def test_a_cost_is_given_per_spell_level_and_is_never_free(self):
+        for version in self.VERSIONS:
+            for spell in self._spells(version):
+                if not spell.casting:
+                    continue
+                with self.subTest(version=version, spell=spell.name):
+                    for key, values in spell.casting.items():
+                        self.assertEqual(len(values), len(spell.level_req), key)
+                    self.assertTrue(all(cost > 0 for cost in spell.casting['ap']))
+                    self.assertEqual(spell.ap_cost(), spell.casting['ap'][-1])
+
+    def test_the_costs_are_the_ones_the_game_charges(self):
+        # Anchored so a shifted column in the generator cannot pass unnoticed.
+        # Pressure allows more casts per turn than per target, and the top
+        # grade of Concentration allows one more of each than the first.
+        spells = {spell.name: spell for spell in self._spells('dofus3')}
+        self.assertEqual(spells['Pressure'].casting,
+                         {'ap': [3, 3, 3], 'per_turn': [4, 4, 4],
+                          'per_target': [2, 2, 2]})
+        self.assertEqual(spells['Concentration'].casting,
+                         {'ap': [2, 2, 2], 'per_turn': [3, 3, 4],
+                          'per_target': [2, 2, 3]})
+
+    def test_a_spell_the_client_never_described_says_so(self):
+        # The hand-written stand-ins (a pie, a weapon skill, a Dofus) are not
+        # castable spells; None is the honest answer, not a made-up cost.
+        spells = {spell.name: spell for spell in self._spells('dofus3')}
+        self.assertIsNone(spells['Weapon Skill'].casting)
+        self.assertIsNone(spells['Weapon Skill'].ap_cost())
+
+
 class GameVersionWatchTests(SimpleTestCase):
     """Every version is checked against its own source each session, so the two
     strings the check pulls apart are worth freezing."""

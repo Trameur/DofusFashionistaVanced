@@ -316,7 +316,7 @@ WEIRD_CONDITIONS = list(WEIRD_CONDITION_TO_ID.keys())
 class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
-                 spell_id=None):
+                 spell_id=None, casting=None):
         # Ankama spell id, injected from the 2.73.3.9 archive (see the
         # DAMAGE_SPELLS header note); None where the name is ambiguous
         # in the archive or the spec is hand-written.
@@ -330,6 +330,18 @@ class Spell:
         self.is_linked = is_linked
         self.special = special
         self.buff_scaling = buff_scaling
+        # What a cast costs and how often it is allowed, one value per spell
+        # level: {'ap': [...], 'per_turn': [...], 'per_target': [...],
+        # 'cooldown': [...]}. A limit that is 0 everywhere is left out, and the
+        # whole thing is None when the client data did not line up.
+        self.casting = casting
+
+    def ap_cost(self, level_index=-1):
+        """AP a cast costs at that spell level, or None if it is not known."""
+        if not self.casting:
+            return None
+        costs = self.casting['ap']
+        return costs[level_index] if -len(costs) <= level_index < len(costs) else None
 
     def get_effects_digest(self):
         if self.digest is None:

@@ -101,6 +101,7 @@ class SpellEntry:
     heals: Optional[List[bool]] = None
     aggregates: Optional[List[Tuple[str, List[int]]]] = None
     buff_scaling: Optional[Dict[str, Any]] = None
+    casting: Optional[Dict[str, List[int]]] = None
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -1032,6 +1033,29 @@ def _build_best_element_aggregates(
     return aggregates
 
 
+def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, List[int]]]:
+    """What a cast costs and how often it is allowed, per spell level.
+
+    None rather than a guess when the level lists do not line up: a combo is
+    only worth computing on exact costs. A limit of 0 means no limit, so the
+    keys that are 0 everywhere are left out.
+    """
+    levels = spell.get("levels") or []
+    if len(levels) != level_count:
+        return None
+    ap_costs = [level.get("ap_cost") for level in levels]
+    if any(cost is None for cost in ap_costs):
+        return None
+    casting: Dict[str, List[int]] = {"ap": [int(cost) for cost in ap_costs]}
+    for key, field in (("per_turn", "max_cast_per_turn"),
+                       ("per_target", "max_cast_per_target"),
+                       ("cooldown", "min_cast_interval")):
+        values = [int(level.get(field) or 0) for level in levels]
+        if any(values):
+            casting[key] = values
+    return casting
+
+
 def convert_spell(
     spell: Mapping[str, Any],
     *,
@@ -1151,6 +1175,7 @@ def convert_spell(
         aggregates=aggregates,
         order=order,
         ankama_id=ankama_id,
+        casting=_casting(spell, len(level_requirements)),
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -1354,6 +1379,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
     if entry.buff_scaling:
         scaling_literal = pprint.pformat(entry.buff_scaling)
         extra_args.append(f"buff_scaling={scaling_literal}")
+    if entry.casting:
+        extra_args.append(f"casting={entry.casting!r}")
     if entry.ankama_id:
         # Lets the audits match DofusDB by id instead of by (homonymous)
         # name; the hand-written defaults have no id and stay name-based.
