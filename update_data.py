@@ -193,6 +193,7 @@ def main() -> None:
         step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
         step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
+        step("mount-looks", [PY, "store_dofusdb_mount_looks.py"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)  # --game-version defaults to dofus3

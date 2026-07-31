@@ -8072,6 +8072,69 @@ class CharacterLookTests(TestCase):
         self.assertEqual(char.colors, '')
 
 
+class MountLookTests(TestCase):
+    """A mount's skeleton, colours and scale come from the look string the
+    client is sent. Only a handful of skeletons cover every mount."""
+
+    VERSIONS = ('dofus3', 'beta')
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        import sys
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        scraper = os.path.join(get_fashionista_path(), 'itemscraper')
+        if scraper not in sys.path:
+            sys.path.insert(0, scraper)
+
+    def _rows(self, version):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path(version))
+        try:
+            return conn.execute("""
+                SELECT m.item, m.bone, m.colors, m.scale, i.ankama_type
+                FROM mount_looks m JOIN items i ON i.id = m.item""").fetchall()
+        finally:
+            conn.close()
+
+    def test_the_look_string_is_read_the_way_the_client_writes_it(self):
+        from store_dofusdb_mount_looks import parse_look
+        # Four colours, the Dragoturkey shape.
+        self.assertEqual(
+            parse_look('{639||1=16772045,2=16772045,3=16301825,4=7758915|120}'),
+            (639, ['ffebcd', 'ffebcd', 'f8bf01', '766443'], 120))
+        # Three colours, and the indexes decide the order, not the file order.
+        self.assertEqual(
+            parse_look('{5023||2=13173535,1=14877997,3=14575892|85}'),
+            (5023, ['e3052d', 'c9031f', 'de6914'], 85))
+
+    def test_a_look_that_is_not_one_is_refused_rather_than_guessed(self):
+        from store_dofusdb_mount_looks import parse_look
+        for bad in ('', None, 'nope', '{}', '{|||}', '{abc||1=1|100}',
+                    '{639||1=1}'):
+            self.assertIsNone(parse_look(bad), repr(bad))
+
+    def test_every_stored_mount_is_a_mount_with_a_usable_look(self):
+        for version in self.VERSIONS:
+            rows = self._rows(version)
+            with self.subTest(version=version):
+                self.assertGreater(len(rows), 200, version)
+                for item, bone, colors, scale, ankama_type in rows:
+                    self.assertEqual(ankama_type, 'mounts', item)
+                    self.assertGreater(bone, 0, item)
+                    self.assertGreater(scale, 0, item)
+                    for value in colors.split(','):
+                        self.assertRegex(value, r'^[0-9a-f]{6}$')
+
+    def test_the_whole_stable_rides_on_a_handful_of_skeletons(self):
+        # Colour variants share a skeleton, so the art to ship is small.
+        for version in self.VERSIONS:
+            bones = {row[1] for row in self._rows(version)}
+            with self.subTest(version=version):
+                self.assertLessEqual(len(bones), 6, sorted(bones))
+
+
 class CharacterPoseDecodingTests(TestCase):
     """A keyframe block mixes 36 and 40 byte records, and the order they are
     stored in is the paint order."""

@@ -204,6 +204,8 @@ def main() -> None:
                                 "--game-version", "beta"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
                                      "--game-version", "beta"], cwd=ITEMSCRAPER)
+        step("mount-looks", [PY, "store_dofusdb_mount_looks.py",
+                             "--game-version", "beta"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [
