@@ -7935,6 +7935,68 @@ class CharacterLookTests(TestCase):
                          before)
         self.assertEqual(resp.json()['colors']['1'], [255, 0, 0])
 
+    def test_only_real_slots_can_be_hidden(self):
+        from chardata.character_look import parse_hidden
+        self.assertEqual(parse_hidden('cloak,hat'), ['cloak', 'hat'])
+        self.assertEqual(parse_hidden('HAT , weapon'), ['hat', 'weapon'])
+        self.assertEqual(parse_hidden('ring,boots,amulet'), [])
+        self.assertEqual(parse_hidden(''), [])
+        self.assertEqual(parse_hidden(None), [])
+
+    def test_a_hidden_piece_leaves_the_preview_but_stays_in_the_build(self):
+        from django.contrib.auth.models import User
+        from chardata.character_look import get_character_look
+        owner = User.objects.create_user('hide', 'hide@test.local', 'pw-42-solid')
+        char = self._char('Feca')
+        char.owner = owner
+        char.save()
+        self.client.force_login(owner)
+
+        resp = self.client.post('/setcharhidden/%d/' % char.id, {'hidden': 'hat,cloak'})
+        self.assertEqual(resp.status_code, 200)
+        char.refresh_from_db()
+        self.assertEqual(char.hidden_parts, 'cloak,hat')
+        self.assertEqual(sorted(resp.json()['hidden']), ['cloak', 'hat'])
+        # Nothing about the solution changed, only what the preview draws.
+        self.assertEqual(get_character_look(char, None)['hidden'], ['cloak', 'hat'])
+
+    def test_a_hidden_slot_is_dropped_from_the_gear_the_preview_draws(self):
+        from types import SimpleNamespace
+        from fashionistapulp.structure import get_structure
+        from chardata.character_look import get_character_look
+        structure = get_structure('dofus3')
+        wearing = {}
+        for item in structure.get_items_list():
+            skin = getattr(item, 'skin', None)
+            type_name = structure.get_type_name_by_id(item.type)
+            if skin and type_name in ('Hat', 'Cloak') and type_name not in wearing:
+                wearing[type_name] = item
+        self.assertEqual(sorted(wearing), ['Cloak', 'Hat'])
+
+        solution = SimpleNamespace(item_list=[
+            SimpleNamespace(slot='hat', id=wearing['Hat'].id, item_added=True),
+            SimpleNamespace(slot='cloak', id=wearing['Cloak'].id, item_added=True),
+        ])
+        char = self._char('Cra')
+        self.assertEqual(sorted(get_character_look(char, solution)['gear']),
+                         ['Cape', 'Chapeau'])
+
+        char.hidden_parts = 'hat'
+        self.assertEqual(list(get_character_look(char, solution)['gear']), ['Cape'])
+
+    def test_unchecking_every_piece_shows_them_all_again(self):
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('hide2', 'hide2@test.local', 'pw-42-solid')
+        char = self._char('Sadida')
+        char.owner = owner
+        char.hidden_parts = 'hat'
+        char.save()
+        self.client.force_login(owner)
+
+        self.client.post('/setcharhidden/%d/' % char.id, {'hidden': ''})
+        char.refresh_from_db()
+        self.assertEqual(char.hidden_parts, '')
+
     def test_resetting_the_colours_empties_the_field(self):
         from django.contrib.auth.models import User
         from chardata.character_look import DEFAULT_COLORS

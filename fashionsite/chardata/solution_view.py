@@ -25,8 +25,9 @@ import pickle
 
 logger = logging.getLogger(__name__)
 
-from chardata.character_look import (DEFAULT_COLORS, get_character_look,
-                                     parse_colors)
+from chardata.character_look import (DEFAULT_COLORS, SLOT_TO_NODE,
+                                     get_character_look, parse_colors,
+                                     parse_hidden)
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
@@ -45,6 +46,7 @@ from chardata.solution_scores import calculate_project_build_score
 from chardata.spell_buffs import compute_full_buff_stats
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
@@ -102,6 +104,17 @@ def _weighted_rate(structure, item, weights):
         if stat is not None and stat.key in weights:
             rating += value * weights[stat.key]
     return rating
+
+
+# Lazy: this dict is built at import, the language is only known per request.
+_PIECE_LABELS = {'hat': gettext_lazy('Hat'), 'cloak': gettext_lazy('Cloak'),
+                 'shield': gettext_lazy('Shield'), 'weapon': gettext_lazy('Weapon')}
+
+
+def _preview_pieces(char):
+    hidden = parse_hidden(char.hidden_parts)
+    return [{'slot': slot, 'label': _PIECE_LABELS[slot], 'hidden': slot in hidden}
+            for slot in sorted(SLOT_TO_NODE)]
 
 
 def _build_check(char, solution):
@@ -482,6 +495,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'class_avatar': class_avatar,
               'character_look': json.dumps(character_look) if character_look else '',
               'character_colors': parse_colors(char.colors) if character_look else [],
+              'character_pieces': _preview_pieces(char) if character_look else [],
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,
@@ -669,6 +683,16 @@ def set_char_colors(request, char_id):
     wanted = parse_colors(request.POST.get('colors'))
     char.colors = '' if wanted == DEFAULT_COLORS else ','.join(wanted)
     char.save(update_fields=['colors'])
+    look = get_character_look(char, get_solution(char),
+                              getattr(request, 'game_version', 'dofus3'))
+    return HttpResponseJson(json.dumps(look or {}))
+
+
+def set_char_hidden(request, char_id):
+    """Which pieces the preview leaves off. The solution keeps them all."""
+    char = get_char_or_raise(request, char_id)
+    char.hidden_parts = ','.join(parse_hidden(request.POST.get('hidden')))
+    char.save(update_fields=['hidden_parts'])
     look = get_character_look(char, get_solution(char),
                               getattr(request, 'game_version', 'dofus3'))
     return HttpResponseJson(json.dumps(look or {}))

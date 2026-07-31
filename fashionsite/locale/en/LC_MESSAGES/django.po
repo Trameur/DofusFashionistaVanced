@@ -5440,3 +5440,15 @@ msgstr "Pick your character colours"
 #: chardata/templates/chardata/solution.html:0
 msgid "Back to the default colours"
 msgstr "Back to the default colours"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Visible pieces"
+msgstr "Visible pieces"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Choose which pieces show"
+msgstr "Choose which pieces show"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Hide this piece on the preview"
+msgstr "Hide this piece on the preview"

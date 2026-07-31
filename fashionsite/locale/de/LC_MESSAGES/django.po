@@ -6386,3 +6386,15 @@ msgstr "Wähl die Farben deiner Figur"
 #: chardata/templates/chardata/solution.html:0
 msgid "Back to the default colours"
 msgstr "Zurück zu den Standardfarben"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Visible pieces"
+msgstr "Sichtbare Teile"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Choose which pieces show"
+msgstr "Wähl aus, welche Teile zu sehen sind"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Hide this piece on the preview"
+msgstr "Dieses Teil in der Vorschau ausblenden"

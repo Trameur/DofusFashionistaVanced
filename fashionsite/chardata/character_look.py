@@ -58,6 +58,13 @@ def colors_as_rgb(raw):
     return {index + 1: [int(value[i:i + 2], 16) for i in (0, 2, 4)]
             for index, value in enumerate(parse_colors(raw))}
 
+
+def parse_hidden(raw):
+    """The slots a build leaves off the preview, in a stable order."""
+    wanted = {p.strip().lower() for p in (raw or '').split(',')}
+    return [slot for slot in sorted(SLOT_TO_NODE) if slot in wanted]
+
+
 _looks = None
 
 
@@ -83,10 +90,12 @@ def get_character_look(char, solution, game_version='dofus3'):
     if entry is None:
         return None
 
+    hidden = parse_hidden(getattr(char, 'hidden_parts', ''))
     look = {'bones': player_bones(breed), 'body': entry['body'],
             'head': entry['head'],
             'scale': round(int(entry['scale']) / REFERENCE_SCALE, 3),
-            'colors': colors_as_rgb(getattr(char, 'colors', '')), 'gear': {}}
+            'colors': colors_as_rgb(getattr(char, 'colors', '')),
+            'hidden': hidden, 'gear': {}}
     model_result = getattr(solution, 'model_result', solution)
     items = getattr(model_result, 'item_list', None)
     if not items:
@@ -95,7 +104,9 @@ def get_character_look(char, solution, game_version='dofus3'):
     structure = get_structure(game_version)
     for result_item in items:
         node = SLOT_TO_NODE.get(result_item.slot)
-        if node is None or not getattr(result_item, 'item_added', False):
+        if node is None or result_item.slot in hidden:
+            continue
+        if not getattr(result_item, 'item_added', False):
             continue
         item = structure.get_item_by_id(result_item.id)
         skin = getattr(item, 'skin', None) if item else None

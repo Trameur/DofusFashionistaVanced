@@ -47,6 +47,8 @@
                         title="{% trans 'Male or female' %}">{% trans "Sex" %}</button>
                 <button type="button" id="character-colors-toggle" class="char-banner-gender"
                         title="{% trans 'Pick your character colours' %}">{% trans "Colours" %}</button>
+                <button type="button" id="character-pieces-toggle" class="char-banner-gender"
+                        title="{% trans 'Choose which pieces show' %}">{% trans "Visible pieces" %}</button>
             </div>
             <div id="character-colors" class="char-banner-colors" hidden>
                 {% for color in character_colors %}
@@ -56,6 +58,14 @@
                 {% endfor %}
                 <button type="button" id="character-colors-reset" class="char-banner-gender"
                         title="{% trans 'Back to the default colours' %}">{% trans "Reset" %}</button>
+            </div>
+            <div id="character-pieces" class="char-banner-pieces" hidden>
+                {% for piece in character_pieces %}
+                <label class="char-banner-piece" title="{% trans 'Hide this piece on the preview' %}">
+                    <input type="checkbox" class="char-banner-piece-box" data-slot="{{ piece.slot }}"
+                           {% if piece.hidden %}checked{% endif %}>{{ piece.label }}
+                </label>
+                {% endfor %}
             </div>
             {% endif %}
         </div>
@@ -719,6 +729,24 @@
             var reset = document.getElementById('character-colors-reset');
             if (reset) {
                 reset.addEventListener('click', function () { sendColors([]); });
+            }
+
+            var boxes = document.querySelectorAll('.char-banner-piece-box');
+            var piecesBox = document.getElementById('character-pieces');
+            var piecesToggle = document.getElementById('character-pieces-toggle');
+            if (piecesToggle && piecesBox) {
+                piecesToggle.addEventListener('click', function () {
+                    piecesBox.hidden = !piecesBox.hidden;
+                });
+            }
+            for (var j = 0; j < boxes.length; j++) {
+                boxes[j].addEventListener('change', function () {
+                    var hidden = Array.prototype.filter.call(boxes, function (box) {
+                        return box.checked;
+                    }).map(function (box) { return box.dataset.slot; });
+                    $.post(apiBase + '/setcharhidden/{{char.id}}/', {hidden: hidden.join(',')},
+                           function (nextLook) { build(nextLook); });
+                });
             }
         }());
     </script>
