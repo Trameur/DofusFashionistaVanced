@@ -299,12 +299,25 @@ class Mount(Bone):
         self.animations = {a['name']: bytes(bytearray(a['dataBytes']))
                            for a in tree['animations']}
         self.graphics = tree.get('graphics') or []
+        self._by_name = {}
+        for position, entry in enumerate(self.graphics):
+            self._by_name.setdefault(str(entry['part']['name']), position)
+        # A named node draws too: maskableNodes says which graphic it wears.
+        # The harness slots point at graphics a bare mount does not carry, so
+        # they resolve to nothing, which is right.
+        self._masks = {mask['name']: str(mask['graphicSymbolId'])
+                       for mask in (tree.get('maskableNodes') or [])}
         self._holders = {path_id: _Geometry(mesh, textures)
                          for path_id, mesh in meshes.items()}
 
+    def _index_for_node(self, node):
+        if node >= len(self.node_names):
+            return None
+        return self._by_name.get(self._masks.get(self.node_names[node]))
+
     def part(self, index):
-        """The geometry holder and part name behind a symbol, or None."""
-        if not 0 <= index < len(self.graphics):
+        """The geometry holder and part name behind a graphics index, or None."""
+        if index is None or not 0 <= index < len(self.graphics):
             return None
         entry = self.graphics[index]
         holder = self._holders.get(entry['asset']['m_PathID'])
@@ -315,20 +328,32 @@ class Mount(Bone):
         return holder, part['name']
 
     def key_frame(self, animation):
-        """Symbol-addressed records only: the mount's own pieces."""
+        """The mount's own pieces, addressed two ways in one list.
+
+        Without the node bit the symbol is the graphics index. With it, the
+        node name resolves through maskableNodes. A `carried` node is where the
+        rider goes, and carries nothing of the mount's own.
+        """
         raw, start, end = self._bounds(animation, 0)
         out, pos = [], start
         while pos + HEADER <= end:
-            _order, flag, symbol, _node = struct.unpack_from('<4H', raw, pos)
+            _order, flag, symbol, node = struct.unpack_from('<4H', raw, pos)
             if not flag & FLAG_RECORD or flag & ~FLAG_BITS:
                 return out
             head = HEADER + (4 if flag & FLAG_COLOUR else 0)
             if pos + head + 24 > end:
                 return out
-            if not flag & FLAG_NODE:
-                matrix = struct.unpack_from('<6f', raw, pos + head)
-                out.append({'part': symbol,
-                            'm': [round(x, 4) for x in matrix]})
+            if flag & FLAG_NODE:
+                index = self._index_for_node(node)
+                rider = self.node_names[node] if node < len(self.node_names) else ''
+            else:
+                index = symbol if 0 <= symbol < len(self.graphics) else None
+                rider = ''
+            matrix = [round(x, 4) for x in struct.unpack_from('<6f', raw, pos + head)]
+            if index is not None:
+                out.append({'part': index, 'm': matrix})
+            elif rider.startswith('carried_'):
+                out.append({'rider': rider, 'm': matrix})
             pos += head + 24
         return out
 
@@ -367,8 +392,8 @@ def ensure_mount(bone_id):
             frame = mount.key_frame(animation)
             manifest['orientations'][orientation] = frame
             for row in frame:
-                index = row['part']
-                if str(index) in manifest['parts']:
+                index = row.get('part')
+                if index is None or str(index) in manifest['parts']:
                     continue
                 resolved = mount.part(index)
                 if resolved is None:
@@ -381,7 +406,7 @@ def ensure_mount(bone_id):
                 manifest['parts'][str(index)] = bounds
         manifest['orientations'] = {
             orientation: [row for row in frame
-                          if str(row['part']) in manifest['parts']]
+                          if 'rider' in row or str(row['part']) in manifest['parts']]
             for orientation, frame in manifest['orientations'].items()}
         with open(manifest_path, 'w', encoding='utf-8') as fh:
             json.dump(manifest, fh)

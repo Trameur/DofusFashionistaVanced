@@ -8185,25 +8185,47 @@ class CharacterPoseDecodingTests(TestCase):
                          ['Torse_2', 'JambeG_2', 'Tete_2'])
         self.assertEqual(frame[1]['m'][5], 20.0)
 
-    def test_a_mount_keeps_only_the_records_addressed_by_symbol(self):
-        # A mount's own pieces carry no node: the symbol indexes the bone's
-        # graphics table. The node-addressed records belong to the rider.
+    def _mount(self, records, nodes=None, masks=None, graphics=2):
         import struct
         from chardata.character_assets import Mount
-        records = [
-            self._record(0, 0x31, 3, self._identity(10.0)),   # node addressed
-            self._record(1, 0x11, 0, self._identity(20.0)),   # symbol addressed
-            self._record(2, 0x15, 0, self._identity(30.0)),   # symbol and colour
-        ]
-        # The symbol sits in the third field; _record writes 0 there for 0x11.
         block = b''.join(records)
         raw = struct.pack('<4H', 1, len(records), 0, 1) + struct.pack('<I', 12) + block
         mount = Mount.__new__(Mount)
-        mount.node_names = self.NODES
+        mount.node_names = nodes or self.NODES
         mount.animations = {'AnimStatique_2': raw}
+        mount.graphics = [{'part': {'name': str(i)}} for i in range(graphics)]
+        mount._by_name = {str(i): i for i in range(graphics)}
+        mount._masks = masks or {}
+        return mount
+
+    def test_a_mount_draws_both_ways_of_addressing_a_piece(self):
+        # Without the node bit the symbol is the graphics index. With it, the
+        # node name goes through maskableNodes to reach the same table.
+        mount = self._mount(
+            [self._record(0, 0x11, 0, self._identity(20.0), symbol=1),
+             self._record(1, 0x31, 0, self._identity(30.0), symbol=0xFFFF)],
+            nodes=['Corps_2'], masks={'Corps_2': '0'})
         frame = mount.key_frame('AnimStatique_2')
-        self.assertEqual(len(frame), 2)
+        self.assertEqual([row['part'] for row in frame], [1, 0])
         self.assertEqual([row['m'][5] for row in frame], [20.0, 30.0])
+
+    def test_a_harness_slot_a_bare_mount_does_not_wear_draws_nothing(self):
+        mount = self._mount(
+            [self._record(0, 0x31, 0, self._identity(10.0), symbol=0xFFFF)],
+            nodes=['Harn_Sangle_2'], masks={'Harn_Sangle_2': '404'})
+        self.assertEqual(mount.key_frame('AnimStatique_2'), [])
+
+    def test_the_rider_slots_keep_their_place_in_the_mount_list(self):
+        # The character is drawn INTO these, so their position in the list is
+        # what puts the near leg in front of the mount and the far one behind.
+        mount = self._mount(
+            [self._record(0, 0x31, 0, self._identity(10.0), symbol=0xFFFF),
+             self._record(1, 0x11, 0, self._identity(20.0), symbol=0),
+             self._record(2, 0x31, 1, self._identity(30.0), symbol=0xFFFF)],
+            nodes=['carried_1_0', 'carried_6_0'])
+        frame = mount.key_frame('AnimStatique_2')
+        self.assertEqual([row.get('rider') or row.get('part') for row in frame],
+                         ['carried_1_0', 0, 'carried_6_0'])
 
     def test_a_mount_bone_id_cannot_walk_out_of_the_cache(self):
         from chardata import character_assets
