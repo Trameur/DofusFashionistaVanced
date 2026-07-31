@@ -8707,6 +8707,47 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                                      % (lang, catalog, offenders[:8]))
 
 
+class GameVersionWatchTests(SimpleTestCase):
+    """Every version is checked against its own source each session, so the two
+    strings the check pulls apart are worth freezing."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        import sys
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        scraper = os.path.join(get_fashionista_path(), 'itemscraper')
+        if scraper not in sys.path:
+            sys.path.insert(0, scraper)
+
+    def test_the_client_generation_is_not_part_of_the_build(self):
+        import check_game_versions
+        cytrus = check_game_versions.cytrus_cdn
+        original = cytrus.get_version
+        try:
+            cytrus.get_version = lambda _v: '6.0_3.6.8.8'
+            self.assertEqual(check_game_versions.cytrus_version('dofus3'), '3.6.8.8')
+            cytrus.get_version = lambda _v: '1.48.20.5560.432-aa78a86'
+            self.assertEqual(check_game_versions.cytrus_version('retro'),
+                             '1.48.20.5560.432-aa78a86')
+        finally:
+            cytrus.get_version = original
+
+    def test_touch_is_watched_by_the_bundle_its_client_asks_for(self):
+        # Touch publishes no version anywhere we can read, and its site answers
+        # 403. This string moves on every release, which is the signal.
+        import check_game_versions
+        original = check_game_versions._json
+        try:
+            check_game_versions._json = lambda _url: {
+                'assetsUrl': 'https://dofustouch.cdn.ankama.com/assets/3.2.4_abc'}
+            self.assertEqual(check_game_versions.touch_assets(), '3.2.4_abc')
+            check_game_versions._json = lambda _url: {}
+            self.assertEqual(check_game_versions.touch_assets(), '')
+        finally:
+            check_game_versions._json = original
+
+
 class NoEmDashInCodeTests(SimpleTestCase):
     """Em/en dashes read machine-generated, so the whole site avoids them (copy,
     comments, CSS, JS). The 2026-07 sweep brought every first-party source to zero;
