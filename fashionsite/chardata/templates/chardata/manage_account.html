@@ -63,6 +63,17 @@
                 </select>
                 </td>
                 </tr>
+                <tr>
+                <td align="right" class='input-stat-name' width="35%"> {% trans "Character preview size" %}:
+                </td>
+                <td align="left">
+                <select name="preview_size" class="pretty-input change-modifies-state" id="preview_size">
+                    <option value="75">{% trans "Small" %}</option>
+                    <option value="100">{% trans "Normal" %}</option>
+                    <option value="150">{% trans "Large" %}</option>
+                </select>
+                </td>
+                </tr>
                 </table>
             <br>
             <div align="center">
@@ -129,6 +140,7 @@ var name = {{user_social_name | safe}};
 var email = "{{user.email}}";
 var notify_comments = {{notify_comments_json | safe}};
 var email_language = {{email_language_json | safe}};
+var preview_size = {{preview_size_json | safe}};
 
 function manageInit(state) {
     $("#email").val(state.email);
@@ -141,6 +153,7 @@ function manageInit(state) {
     }
     $('#notify_comments').prop('checked', state.notify_comments !== false);
     $('#email_language').val(state.email_language || '');
+    $('#preview_size').val(state.preview_size || 100);
 }
 
 function setLoggedUserAlias(newState) {
@@ -149,7 +162,7 @@ function setLoggedUserAlias(newState) {
 
 $(document).ready(function() {
     var state = {alias: alias, name: name, email: email, notify_comments: notify_comments,
-                 email_language: email_language};
+                 email_language: email_language, preview_size: preview_size};
 
     $("#password-confirm").change(function() {
         validate_password();

@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 from chardata.character_look import (DEFAULT_COLORS, SLOT_TO_NODE,
                                      get_character_look, parse_colors,
-                                     parse_hidden)
+                                     parse_hidden, preview_box)
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
@@ -115,6 +115,14 @@ def _preview_pieces(char):
     hidden = parse_hidden(char.hidden_parts)
     return [{'slot': slot, 'label': _PIECE_LABELS[slot], 'hidden': slot in hidden}
             for slot in sorted(SLOT_TO_NODE)]
+
+
+def _preview_box_for(user):
+    """The reader's own size setting, not the build owner's."""
+    percent = 100
+    if user is not None and not user.is_anonymous:
+        percent = getattr(getattr(user, 'useralias', None), 'preview_size', 100)
+    return preview_box(percent)
 
 
 def _build_check(char, solution):
@@ -496,6 +504,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_look': json.dumps(character_look) if character_look else '',
               'character_colors': parse_colors(char.colors) if character_look else [],
               'character_pieces': _preview_pieces(char) if character_look else [],
+              'preview_box': _preview_box_for(request.user) if character_look else None,
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,

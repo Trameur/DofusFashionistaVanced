@@ -22,6 +22,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.http import JsonResponse
 
+from chardata.character_look import PREVIEW_SIZES
 from chardata.models import UserAlias
 from chardata.util import set_response
 
@@ -41,11 +42,13 @@ def manage_account(request):
     notify_comments = True
     email_language = ''
     full_name = ''
+    preview_size = 100
     if request.user is not None and not request.user.is_anonymous:
         full_name = request.user.get_full_name() or ''
         try:
             notify_comments = bool(request.user.useralias.notify_comments)
             email_language = request.user.useralias.language or ''
+            preview_size = request.user.useralias.preview_size
         except UserAlias.DoesNotExist:
             notify_comments = True
 
@@ -53,7 +56,8 @@ def manage_account(request):
                         'chardata/manage_account.html',
                         {'user_social_name': json.dumps(full_name),
                          'notify_comments_json': json.dumps(notify_comments),
-                         'email_language_json': json.dumps(email_language)})
+                         'email_language_json': json.dumps(email_language),
+                         'preview_size_json': json.dumps(preview_size)})
 
 
 def save_account(request):
@@ -89,6 +93,12 @@ def save_account(request):
         elif form_email_language == '':
             # "Automatic": clear the choice, the login backfill takes over.
             alias.language = None
+    if 'preview_size' in request.POST:
+        try:
+            wanted = int(request.POST['preview_size'])
+        except (TypeError, ValueError):
+            wanted = 100
+        alias.preview_size = wanted if wanted in PREVIEW_SIZES else 100
     alias.save()
 
     if form_email:
@@ -100,4 +110,5 @@ def save_account(request):
         'email': request.user.email,
         'notify_comments': alias.notify_comments,
         'email_language': alias.language or '',
+        'preview_size': alias.preview_size,
     })

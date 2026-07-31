@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load l10n %}
 {% load static_s3 %}
 {% load version_url %}
 
@@ -38,7 +39,9 @@
     <div class="char-banner">
         {% if character_look %}
         <div class="char-banner-preview-box">
-            <canvas id="character-preview" class="char-banner-preview" width="150" height="210"
+            <canvas id="character-preview" class="char-banner-preview"
+                    width="{{ preview_box.canvas_width }}" height="{{ preview_box.canvas_height }}"
+                    style="width: {{ preview_box.css_width }}px; height: {{ preview_box.css_height }}px;"
                     title="{% trans 'Drag to turn your character' %}"></canvas>
             {% if not is_guest %}
             <div class="char-banner-buttons">
@@ -666,7 +669,7 @@
                 look = nextLook;
                 preview = new CharacterPreview(canvas, {
                     assetBase: '/character', look: look,
-                    colors: look.colors, scale: 0.62
+                    colors: look.colors, scale: {{ preview_box.scale|unlocalize }}
                 });
                 return preview.load().then(function () { preview.start(); });
             }

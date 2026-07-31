@@ -6384,3 +6384,19 @@ msgstr "Elige las piezas que se ven"
 #: chardata/templates/chardata/solution.html:0
 msgid "Hide this piece on the preview"
 msgstr "Ocultar esta pieza en la vista previa"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Character preview size"
+msgstr "Tamaño de la vista previa del personaje"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Small"
+msgstr "Pequeño"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Normal"
+msgstr "Normal"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Large"
+msgstr "Grande"

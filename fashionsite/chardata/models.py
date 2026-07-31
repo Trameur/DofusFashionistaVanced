@@ -81,6 +81,8 @@ class UserAlias(models.Model):
     notify_comments = models.BooleanField(default=True)
     # Last language the user explicitly picked; notification emails use it.
     language = models.CharField(max_length=10, null=True, blank=True)
+    # How big the character preview is drawn, in percent of the normal size.
+    preview_size = models.IntegerField(default=100)
 
 class BuildVote(models.Model):
     """Track user votes (likes/favorites) for shared builds"""

@@ -7935,6 +7935,61 @@ class CharacterLookTests(TestCase):
                          before)
         self.assertEqual(resp.json()['colors']['1'], [255, 0, 0])
 
+    def test_the_preview_size_scales_the_canvas_and_the_drawing_together(self):
+        from chardata.character_look import PREVIEW_SIZES, preview_box
+        normal = preview_box(100)
+        self.assertEqual((normal['canvas_width'], normal['canvas_height']), (150, 210))
+        self.assertEqual((normal['css_width'], normal['css_height']), (75, 105))
+        for percent in PREVIEW_SIZES:
+            box = preview_box(percent)
+            with self.subTest(percent=percent):
+                # A bigger canvas with the same draw scale would only add margin.
+                self.assertAlmostEqual(box['canvas_width'] / normal['canvas_width'],
+                                       box['scale'] / normal['scale'], places=2)
+                self.assertAlmostEqual(box['canvas_width'] / box['canvas_height'],
+                                       normal['canvas_width'] / normal['canvas_height'],
+                                       places=2)
+
+    def test_the_draw_scale_reaches_the_page_as_a_number_in_every_language(self):
+        # French formats 0.909 as "0,909", which turns the object literal it
+        # sits in into broken JavaScript and kills the whole preview.
+        from django.template import Context, Template
+        from django.utils import translation
+        from chardata.character_look import PREVIEW_SIZES, preview_box
+        template = Template('{% load l10n %}scale: {{ box.scale|unlocalize }}')
+        for language in ('en', 'fr', 'es', 'pt', 'de'):
+            for percent in PREVIEW_SIZES:
+                with translation.override(language):
+                    rendered = template.render(
+                        Context({'box': preview_box(percent)}))
+                with self.subTest(language=language, percent=percent):
+                    self.assertNotIn(',', rendered, rendered)
+                    self.assertEqual(float(rendered.split(':')[1]),
+                                     preview_box(percent)['scale'])
+
+    def test_an_unknown_preview_size_falls_back_to_normal(self):
+        from chardata.character_look import preview_box
+        for bad in (0, -50, 42, 1000, None, 'big'):
+            self.assertEqual(preview_box(bad)['percent'], 100, repr(bad))
+
+    def test_the_account_page_stores_only_the_sizes_it_offers(self):
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        owner = User.objects.create_user('sizer', 'sizer@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+
+        self.client.post('/saveaccount/', {'alias': 'sizer', 'preview_size': '150'})
+        alias = UserAlias.objects.get(user=owner)
+        self.assertEqual(alias.preview_size, 150)
+
+        self.client.post('/saveaccount/', {'alias': 'sizer', 'preview_size': '999'})
+        alias.refresh_from_db()
+        self.assertEqual(alias.preview_size, 100)
+
+        self.client.post('/saveaccount/', {'alias': 'sizer', 'preview_size': 'huge'})
+        alias.refresh_from_db()
+        self.assertEqual(alias.preview_size, 100)
+
     def test_only_real_slots_can_be_hidden(self):
         from chardata.character_look import parse_hidden
         self.assertEqual(parse_hidden('cloak,hat'), ['cloak', 'hat'])

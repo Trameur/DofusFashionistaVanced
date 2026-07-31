@@ -65,6 +65,30 @@ def parse_hidden(raw):
     return [slot for slot in sorted(SLOT_TO_NODE) if slot in wanted]
 
 
+# Spelled out rather than scaled from one base: the canvas has to stay exactly
+# twice the css size and keep the 5:7 shape, and rounding a percentage breaks
+# both. The percent is only the label the account page stores.
+PREVIEW_BOXES = {
+    75: {'canvas': (110, 154), 'css': (55, 77), 'scale': 0.455},
+    100: {'canvas': (150, 210), 'css': (75, 105), 'scale': 0.62},
+    150: {'canvas': (220, 308), 'css': (110, 154), 'scale': 0.909},
+}
+PREVIEW_SIZES = tuple(sorted(PREVIEW_BOXES))
+
+
+def preview_box(percent):
+    """Canvas, css size and draw scale for a preview size in percent."""
+    if percent not in PREVIEW_BOXES:
+        percent = 100
+    box = PREVIEW_BOXES[percent]
+    return {'percent': percent,
+            'canvas_width': box['canvas'][0],
+            'canvas_height': box['canvas'][1],
+            'css_width': box['css'][0],
+            'css_height': box['css'][1],
+            'scale': box['scale']}
+
+
 _looks = None
 
 

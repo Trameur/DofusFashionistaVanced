@@ -5452,3 +5452,19 @@ msgstr "Choose which pieces show"
 #: chardata/templates/chardata/solution.html:0
 msgid "Hide this piece on the preview"
 msgstr "Hide this piece on the preview"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Character preview size"
+msgstr "Character preview size"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Small"
+msgstr "Small"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Normal"
+msgstr "Normal"
+
+#: chardata/templates/chardata/manage_account.html:0
+msgid "Large"
+msgstr "Large"
