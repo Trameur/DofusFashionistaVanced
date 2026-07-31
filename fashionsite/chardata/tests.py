@@ -8153,7 +8153,8 @@ class CharacterPoseDecodingTests(TestCase):
         import struct
         from chardata.character_assets import Bone
         block = b''.join(records)
-        raw = struct.pack('<4H', 0, 0, 0, 1) + struct.pack('<I', 12) + block
+        # Header: offset table size, records, unused, frames.
+        raw = struct.pack('<4H', 1, len(records), 0, 1) + struct.pack('<I', 12) + block
         bone = Bone.__new__(Bone)
         bone.node_names = self.NODES
         bone.frame_rate = 12
@@ -8181,6 +8182,37 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual([r['node'] for r in frame],
                          ['Torse_2', 'JambeG_2', 'Tete_2'])
         self.assertEqual(frame[1]['m'][5], 20.0)
+
+    def test_the_offset_table_is_sized_by_its_own_header_field(self):
+        # The header counts the table first and the frames last, and the two
+        # differ per skeleton. Sizing the table by the frame count reads past
+        # it into the first block.
+        import struct
+        from chardata.character_assets import Bone
+        block = self._record(0, 0x31, 3, self._identity(46.0))
+        raw = (struct.pack('<4H', 1, 1, 0, 9)   # one offset, but nine frames
+               + struct.pack('<I', 12) + block)
+        bone = Bone.__new__(Bone)
+        bone.node_names = self.NODES
+        bone.frame_rate = 12
+        bone.animations = {'AnimStatique_2': raw}
+        self.assertEqual(bone.frame_count('AnimStatique_2'), 1)
+        self.assertEqual([r['node'] for r in bone.key_frame('AnimStatique_2')],
+                         ['Torse_2'])
+
+    def test_an_offset_that_runs_off_the_end_is_dropped(self):
+        import struct
+        from chardata.character_assets import Bone
+        block = self._record(0, 0x31, 3, self._identity(46.0))
+        raw = (struct.pack('<4H', 2, 1, 0, 2)
+               + struct.pack('<2I', 16, 999999) + block)
+        bone = Bone.__new__(Bone)
+        bone.node_names = self.NODES
+        bone.frame_rate = 12
+        bone.animations = {'AnimStatique_2': raw}
+        self.assertEqual(bone.frame_count('AnimStatique_2'), 1)
+        self.assertEqual([r['node'] for r in bone.key_frame('AnimStatique_2')],
+                         ['Torse_2'])
 
     def test_a_block_that_does_not_add_up_still_yields_what_it_can(self):
         bone = self._bone([

@@ -153,12 +153,24 @@ class Bone:
             return
         raise ValueError('%s is not a bone' % path)
 
-    def _bounds(self, animation, index):
+    def _offsets(self, animation):
+        """The block offsets. The header counts the TABLE first, the frames
+        last, and the two differ: reading `frames` entries walks past the
+        table into the first block."""
         raw = self.animations[animation]
-        _, _, _, frames = struct.unpack_from('<4H', raw, 0)
-        offsets = list(struct.unpack_from('<%dI' % frames, raw, 8))
-        index = min(index, frames - 1)
-        return raw, offsets[index], (offsets[index + 1] if index + 1 < frames else len(raw))
+        table, _records, _unused, frames = struct.unpack_from('<4H', raw, 0)
+        table = min(table, max(0, (len(raw) - 8) // 4))
+        offsets = list(struct.unpack_from('<%dI' % table, raw, 8)) if table else []
+        offsets = [o for o in offsets if o <= len(raw)]
+        return raw, offsets, min(frames, len(offsets))
+
+    def _bounds(self, animation, index):
+        raw, offsets, usable = self._offsets(animation)
+        if not usable:
+            return raw, len(raw), len(raw)
+        index = min(index, usable - 1)
+        end = offsets[index + 1] if index + 1 < usable else len(raw)
+        return raw, offsets[index], end
 
     def _walk(self, raw, start, end):
         """Read the block record by record. None if it does not add up."""
@@ -222,7 +234,7 @@ class Bone:
                  'm': moved.get(r['order'], r['m'])} for r in key]
 
     def frame_count(self, animation):
-        return struct.unpack_from('<4H', self.animations[animation], 0)[3]
+        return self._offsets(animation)[2]
 
 
 def main():
