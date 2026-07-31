@@ -21,12 +21,26 @@ BONE_DIR = 'Dofus_Data/StreamingAssets/Content/Characters/Bones'
 BREEDS = list(range(1, 19)) + [20]
 
 
+def mount_bones(game_version):
+    """The skeletons the stored mounts ride on. A handful covers all of them."""
+    import sqlite3
+    from store_item_obtainment import get_items_db_path
+    conn = sqlite3.connect(get_items_db_path(game_version))
+    try:
+        return [row[0] for row in conn.execute(
+            'SELECT DISTINCT bone FROM mount_looks ORDER BY bone')]
+    finally:
+        conn.close()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3', choices=sorted(cytrus_cdn.RELEASES))
     parser.add_argument('--manifest', required=True)
     parser.add_argument('--dest', required=True)
     parser.add_argument('--pose', default='static', choices=('static', 'combat'))
+    parser.add_argument('--mounts', action='store_true',
+                        help='the numbered skeletons the mounts ride on instead')
     args = parser.parse_args()
 
     if os.path.exists(args.manifest):
@@ -36,9 +50,10 @@ def main():
         open(args.manifest, 'wb').write(manifest)
 
     os.makedirs(args.dest, exist_ok=True)
+    stems = ([str(bone) for bone in mount_bones(args.game_version)] if args.mounts
+             else ['1-%d-%s' % (breed, args.pose) for breed in BREEDS])
     done = skipped = 0
-    for breed in BREEDS:
-        stem = '1-%d-%s' % (breed, args.pose)
+    for stem in stems:
         path = os.path.join(args.dest, 'bones_assets_bone_%s.bundle' % stem)
         if os.path.exists(path) and os.path.getsize(path):
             skipped += 1

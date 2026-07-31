@@ -8141,9 +8141,11 @@ class CharacterPoseDecodingTests(TestCase):
 
     NODES = ['Tete_2', 'Chapeau_2', 'JambeG_2', 'Torse_2']
 
-    def _record(self, order, flag, node, matrix):
+    def _record(self, order, flag, node, matrix, symbol=None):
         import struct
-        head = struct.pack('<4H', order, flag, 0 if flag & 0x01 else 0xFFFF, node)
+        if symbol is None:
+            symbol = 0 if flag & 0x01 else 0xFFFF
+        head = struct.pack('<4H', order, flag, symbol, node)
         head += b'\x00\x00\x00\x00'
         if flag & 0x04:
             head += b'\x61\x61\x61\x7f'
@@ -8182,6 +8184,31 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual([r['node'] for r in frame],
                          ['Torse_2', 'JambeG_2', 'Tete_2'])
         self.assertEqual(frame[1]['m'][5], 20.0)
+
+    def test_a_mount_keeps_only_the_records_addressed_by_symbol(self):
+        # A mount's own pieces carry no node: the symbol indexes the bone's
+        # graphics table. The node-addressed records belong to the rider.
+        import struct
+        from chardata.character_assets import Mount
+        records = [
+            self._record(0, 0x31, 3, self._identity(10.0)),   # node addressed
+            self._record(1, 0x11, 0, self._identity(20.0)),   # symbol addressed
+            self._record(2, 0x15, 0, self._identity(30.0)),   # symbol and colour
+        ]
+        # The symbol sits in the third field; _record writes 0 there for 0x11.
+        block = b''.join(records)
+        raw = struct.pack('<4H', 1, len(records), 0, 1) + struct.pack('<I', 12) + block
+        mount = Mount.__new__(Mount)
+        mount.node_names = self.NODES
+        mount.animations = {'AnimStatique_2': raw}
+        frame = mount.key_frame('AnimStatique_2')
+        self.assertEqual(len(frame), 2)
+        self.assertEqual([row['m'][5] for row in frame], [20.0, 30.0])
+
+    def test_a_mount_bone_id_cannot_walk_out_of_the_cache(self):
+        from chardata import character_assets
+        for bad in ('../secret', '639/../..', '', 'a b', '1-8-static'):
+            self.assertIsNone(character_assets.ensure_mount(bad), bad)
 
     def test_the_offset_table_is_sized_by_its_own_header_field(self):
         # The header counts the table first and the frames last, and the two

@@ -22,7 +22,10 @@ PAD = 2
 # The standing idle. Its name carries the breed number, so it is matched rather
 # than spelled out. The same skeletons also carry AnimStatiqueExploRetro (the
 # older stance) and AnimStatiqueCombat (fists up, and only two orientations).
-ANIMATION = re.compile(r'^AnimStatiqueExploNewAge\d*_(\d)$')
+# The rider skeleton, and the mounts, name it plainly instead, so both spellings
+# are tried in order.
+ANIMATIONS = (re.compile(r'^AnimStatiqueExploNewAge\d*_(\d)$'),
+              re.compile(r'^AnimStatique_(\d)$'))
 
 # Flag bitfield. Bit 4 marks a record, bit 5 says its node index is real, bit 0
 # that a symbol id follows, bit 2 that four bytes of colour sit before the
@@ -158,6 +161,18 @@ def bake_part(skin, name):
     return Image.fromarray(out, 'RGBA'), bounds
 
 
+class _Geometry(object):
+    """One mesh of a bundle, in the shape bake_part reads."""
+
+    def __init__(self, tree, textures):
+        self.parts = {}
+        self.triangles = tree['triangles']
+        self.vertices = tree['vertices']
+        self.textures = textures
+
+    geometry = Skin.geometry
+
+
 class Bone(object):
 
     def __init__(self, path):
@@ -257,6 +272,122 @@ class Bone(object):
         return self._offsets(animation)[2]
 
 
+class Mount(Bone):
+    """A mount keeps its own art in its bone bundle.
+
+    The character pairs a skin to a skeleton by node name. A mount does not:
+    its records carry no node, and the symbol is the index into the bundle's
+    `graphics` table, which also names the mesh the geometry indexes into.
+    """
+
+    def __init__(self, path):
+        env = _unity().load(path)
+        textures, meshes, tree = [], {}, None
+        for obj in env.objects:
+            if obj.type.name == 'Texture2D':
+                textures.append(obj.read().image.convert('RGBA'))
+            elif obj.type.name == 'MonoBehaviour':
+                candidate = obj.read_typetree()
+                if 'exposedNodeNames' in candidate:
+                    tree = candidate
+                elif candidate.get('vertices'):
+                    meshes[obj.path_id] = candidate
+        if tree is None:
+            raise ValueError('%s is not a bone' % path)
+        self.node_names = tree['exposedNodeNames']
+        self.frame_rate = tree['defaultFrameRate']
+        self.animations = {a['name']: bytes(bytearray(a['dataBytes']))
+                           for a in tree['animations']}
+        self.graphics = tree.get('graphics') or []
+        self._holders = {path_id: _Geometry(mesh, textures)
+                         for path_id, mesh in meshes.items()}
+
+    def part(self, index):
+        """The geometry holder and part name behind a symbol, or None."""
+        if not 0 <= index < len(self.graphics):
+            return None
+        entry = self.graphics[index]
+        holder = self._holders.get(entry['asset']['m_PathID'])
+        if holder is None:
+            return None
+        part = entry['part']
+        holder.parts[part['name']] = part
+        return holder, part['name']
+
+    def key_frame(self, animation):
+        """Symbol-addressed records only: the mount's own pieces."""
+        raw, start, end = self._bounds(animation, 0)
+        out, pos = [], start
+        while pos + HEADER <= end:
+            _order, flag, symbol, _node = struct.unpack_from('<4H', raw, pos)
+            if not flag & FLAG_RECORD or flag & ~FLAG_BITS:
+                return out
+            head = HEADER + (4 if flag & FLAG_COLOUR else 0)
+            if pos + head + 24 > end:
+                return out
+            if not flag & FLAG_NODE:
+                matrix = struct.unpack_from('<6f', raw, pos + head)
+                out.append({'part': symbol,
+                            'm': [round(x, 4) for x in matrix]})
+            pos += head + 24
+        return out
+
+
+def _mount_cache(bone_id):
+    return os.path.join(cache_dir(), 'mounts', str(bone_id))
+
+
+def ensure_mount(bone_id):
+    """Bake a mount's pieces and its standing pose. None if there is no bundle."""
+    bone_id = str(bone_id)
+    if not bone_id.isdigit():
+        return None
+    target = _mount_cache(bone_id)
+    manifest_path = os.path.join(target, 'mount-v%d.json' % POSE_FORMAT)
+    if os.path.exists(manifest_path):
+        with open(manifest_path, encoding='utf-8') as fh:
+            return json.load(fh)
+    source = bundle_dir()
+    if not source:
+        return None
+    bundle = os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id)
+    if not os.path.exists(bundle):
+        return None
+    with _lock:
+        if os.path.exists(manifest_path):
+            with open(manifest_path, encoding='utf-8') as fh:
+                return json.load(fh)
+        os.makedirs(target, exist_ok=True)
+        mount = Mount(bundle)
+        manifest = {'parts': {}, 'orientations': {}}
+        for orientation in ORIENTATIONS:
+            animation = 'AnimStatique_%s' % orientation
+            if animation not in mount.animations:
+                continue
+            frame = mount.key_frame(animation)
+            manifest['orientations'][orientation] = frame
+            for row in frame:
+                index = row['part']
+                if str(index) in manifest['parts']:
+                    continue
+                resolved = mount.part(index)
+                if resolved is None:
+                    continue
+                holder, name = resolved
+                image, bounds = bake_part(holder, name)
+                if image is None or not image.getbbox():
+                    continue
+                image.save(os.path.join(target, '%d.png' % index))
+                manifest['parts'][str(index)] = bounds
+        manifest['orientations'] = {
+            orientation: [row for row in frame
+                          if str(row['part']) in manifest['parts']]
+            for orientation, frame in manifest['orientations'].items()}
+        with open(manifest_path, 'w', encoding='utf-8') as fh:
+            json.dump(manifest, fh)
+        return manifest
+
+
 def _skin_cache(skin_id):
     return os.path.join(cache_dir(), 'parts', str(skin_id))
 
@@ -319,12 +450,16 @@ def ensure_pose(bone_id):
         os.makedirs(target, exist_ok=True)
         bone = Bone(bundle)
         poses = {'frameRate': bone.frame_rate, 'orientations': {}}
-        for animation in sorted(bone.animations):
-            match = ANIMATION.match(animation)
-            if not match or match.group(1) not in ORIENTATIONS:
-                continue
-            poses['orientations'][match.group(1)] = [
-                bone.frame(animation, i) for i in range(bone.frame_count(animation))]
+        for pattern in ANIMATIONS:
+            for animation in sorted(bone.animations):
+                match = pattern.match(animation)
+                if not match or match.group(1) not in ORIENTATIONS:
+                    continue
+                poses['orientations'][match.group(1)] = [
+                    bone.frame(animation, i)
+                    for i in range(bone.frame_count(animation))]
+            if poses['orientations']:
+                break
         with open(path, 'w', encoding='utf-8') as fh:
             json.dump(poses, fh)
         return path
