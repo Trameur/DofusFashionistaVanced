@@ -7,6 +7,8 @@ from django.conf import settings
 
 from fashionistapulp.structure import get_structure
 
+from chardata.character_assets import has_bone
+
 # Ankama breed ids. 19 is unused, Forgelance is 20.
 CLASS_TO_BREED = {
     'Feca': 1, 'Osamodas': 2, 'Enutrof': 3, 'Sram': 4, 'Xelor': 5,
@@ -17,10 +19,14 @@ CLASS_TO_BREED = {
 }
 
 # The look string says 1, and the player skeletons are the named bundles
-# bone_1-<breed>-static. The numbered bones (2 and up) are monsters and mounts:
-# bone_2 draws the character sitting astride, which is how it looks when the
-# mount it belongs to is not there.
+# bone_1-<breed>-static. The numbered bones (2 and up) are monsters and mounts.
 BONES_FOR_BREED = '1-%d-static'
+
+# On a mount the character is a seated upper body with no legs, drawn from its
+# own skeleton. The slot is the attachment every mount offers, and where it sits
+# in the mount's paint list is what puts the near leg in front of the rider.
+RIDER_BONES = '9582'
+RIDER_SLOT = 'carried_2_0'
 
 
 def player_bones(breed):
@@ -33,6 +39,9 @@ SLOT_TO_NODE = {
     'shield': 'Bouclier',
     'weapon': 'Arme',
 }
+
+# The preview leaves it off like any other piece.
+MOUNT_SLOT = 'mount'
 
 REFERENCE_SCALE = 53.0
 
@@ -62,7 +71,8 @@ def colors_as_rgb(raw):
 def parse_hidden(raw):
     """The slots a build leaves off the preview, in a stable order."""
     wanted = {p.strip().lower() for p in (raw or '').split(',')}
-    return [slot for slot in sorted(SLOT_TO_NODE) if slot in wanted]
+    known = sorted(SLOT_TO_NODE) + [MOUNT_SLOT]
+    return [slot for slot in known if slot in wanted]
 
 
 # Spelled out rather than scaled from one base: the canvas has to stay exactly
@@ -90,6 +100,34 @@ def preview_box(percent):
 
 
 _looks = None
+_mount_looks = {}
+
+
+def mount_look(item_id, game_version='dofus3'):
+    """Skeleton, colours and scale of a mount item, or None if it has none.
+
+    DofusDB does not list every colour variant we carry, so a mount with no row
+    simply is not drawn.
+    """
+    looks = _mount_looks.get(game_version)
+    if looks is None:
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        looks = {}
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        try:
+            for row in conn.execute(
+                    'SELECT item, bone, colors, scale FROM mount_looks'):
+                looks[row[0]] = {'bone': row[1],
+                                 'colors': [c for c in row[2].split(',') if c],
+                                 'scale': row[3],
+                                 'slot': RIDER_SLOT}
+        except sqlite3.OperationalError:
+            looks = {}
+        finally:
+            conn.close()
+        _mount_looks[game_version] = looks
+    return looks.get(item_id)
 
 
 def _breed_looks():
@@ -119,11 +157,23 @@ def get_character_look(char, solution, game_version='dofus3'):
             'head': entry['head'],
             'scale': round(int(entry['scale']) / REFERENCE_SCALE, 3),
             'colors': colors_as_rgb(getattr(char, 'colors', '')),
-            'hidden': hidden, 'gear': {}}
+            'hidden': hidden, 'gear': {}, 'mount': None}
     model_result = getattr(solution, 'model_result', solution)
     items = getattr(model_result, 'item_list', None)
     if not items:
         return look
+
+    if MOUNT_SLOT not in hidden:
+        for result_item in items:
+            if result_item.slot != 'pet' or not getattr(result_item, 'item_added', False):
+                continue
+            mount = mount_look(result_item.id, game_version)
+            # The rider skeleton has no legs, so it is only ever worth using
+            # when the mount it sits on can actually be drawn.
+            if mount and has_bone(mount['bone']) and has_bone(RIDER_BONES):
+                look['mount'] = mount
+                look['bones'] = RIDER_BONES
+            break
 
     structure = get_structure(game_version)
     for result_item in items:

@@ -543,6 +543,10 @@ urlpatterns = [
     # skins come from one asset set.
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)\.json$',
             character_assets.pose_view, name='character_pose'),
+    re_path(r'^character/mount/(?P<bone_id>\d+)/parts\.json$',
+            character_assets.mount_manifest_view, name='character_mount'),
+    re_path(r'^character/mount/(?P<bone_id>\d+)/(?P<part>\d+)\.png$',
+            character_assets.mount_part_view, name='character_mount_part'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/parts\.json$',
             character_assets.parts_manifest_view, name='character_parts'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/(?P<part>[\w.\-]+)\.png$',

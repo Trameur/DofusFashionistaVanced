@@ -38,6 +38,9 @@ FLAG_COLOUR = 0x04
 FLAG_BITS = 0x3F
 HEADER = 12
 
+# A mount piece says which of its look colours it wears in its node name.
+COLOUR_SLOT = re.compile(r'^ColorGray_(\d+)_')
+
 _lock = threading.Lock()
 _unity_ready = False
 
@@ -299,21 +302,8 @@ class Mount(Bone):
         self.animations = {a['name']: bytes(bytearray(a['dataBytes']))
                            for a in tree['animations']}
         self.graphics = tree.get('graphics') or []
-        self._by_name = {}
-        for position, entry in enumerate(self.graphics):
-            self._by_name.setdefault(str(entry['part']['name']), position)
-        # A named node draws too: maskableNodes says which graphic it wears.
-        # The harness slots point at graphics a bare mount does not carry, so
-        # they resolve to nothing, which is right.
-        self._masks = {mask['name']: str(mask['graphicSymbolId'])
-                       for mask in (tree.get('maskableNodes') or [])}
         self._holders = {path_id: _Geometry(mesh, textures)
                          for path_id, mesh in meshes.items()}
-
-    def _index_for_node(self, node):
-        if node >= len(self.node_names):
-            return None
-        return self._by_name.get(self._masks.get(self.node_names[node]))
 
     def part(self, index):
         """The geometry holder and part name behind a graphics index, or None."""
@@ -328,14 +318,16 @@ class Mount(Bone):
         return holder, part['name']
 
     def key_frame(self, animation):
-        """The mount's own pieces, addressed two ways in one list.
+        """The mount's own pieces, in paint order.
 
-        Without the node bit the symbol is the graphics index. With it, the
-        node name resolves through maskableNodes. A `carried` node is where the
-        rider goes, and carries nothing of the mount's own.
+        Only a record with the symbol bit carries art; the symbol is the
+        graphics index. A record with a node and no symbol names the pieces that
+        follow it, which is how a piece learns which look colour it wears, and
+        one name can cover several pieces. A `carried` node is where the rider
+        goes and carries nothing itself.
         """
         raw, start, end = self._bounds(animation, 0)
-        out, pos = [], start
+        out, pos, named = [], start, ''
         while pos + HEADER <= end:
             _order, flag, symbol, node = struct.unpack_from('<4H', raw, pos)
             if not flag & FLAG_RECORD or flag & ~FLAG_BITS:
@@ -343,17 +335,19 @@ class Mount(Bone):
             head = HEADER + (4 if flag & FLAG_COLOUR else 0)
             if pos + head + 24 > end:
                 return out
-            if flag & FLAG_NODE:
-                index = self._index_for_node(node)
-                rider = self.node_names[node] if node < len(self.node_names) else ''
-            else:
-                index = symbol if 0 <= symbol < len(self.graphics) else None
-                rider = ''
+            name = (self.node_names[node]
+                    if flag & FLAG_NODE and node < len(self.node_names) else '')
             matrix = [round(x, 4) for x in struct.unpack_from('<6f', raw, pos + head)]
-            if index is not None:
-                out.append({'part': index, 'm': matrix})
-            elif rider.startswith('carried_'):
-                out.append({'rider': rider, 'm': matrix})
+            if name.startswith('carried_'):
+                out.append({'rider': name, 'm': matrix})
+            elif not flag & FLAG_SYMBOL:
+                named = name
+            elif 0 <= symbol < len(self.graphics):
+                row = {'part': symbol, 'm': matrix}
+                tint = COLOUR_SLOT.match(name or named)
+                if tint:
+                    row['slot'] = int(tint.group(1))
+                out.append(row)
             pos += head + 24
         return out
 
@@ -362,13 +356,20 @@ def _mount_cache(bone_id):
     return os.path.join(cache_dir(), 'mounts', str(bone_id))
 
 
+def has_bone(bone_id):
+    """Whether a skeleton can be drawn, without paying to bake it."""
+    source = bundle_dir()
+    return bool(source) and os.path.exists(
+        os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id))
+
+
 def ensure_mount(bone_id):
     """Bake a mount's pieces and its standing pose. None if there is no bundle."""
     bone_id = str(bone_id)
     if not bone_id.isdigit():
         return None
     target = _mount_cache(bone_id)
-    manifest_path = os.path.join(target, 'mount-v%d.json' % POSE_FORMAT)
+    manifest_path = os.path.join(target, 'mount-v%d.json' % MOUNT_FORMAT)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding='utf-8') as fh:
             return json.load(fh)
@@ -451,6 +452,7 @@ def ensure_skin(skin_id):
 # In the cache file name. Nothing ever expires it, so a decoder change needs a
 # new name.
 POSE_FORMAT = 4
+MOUNT_FORMAT = 5
 
 BONE_NAME = re.compile(r'^[\w-]+$')
 
@@ -515,6 +517,23 @@ def part_image_view(request, skin_id, part):
     if manifest is None or part not in manifest:
         raise Http404
     path = os.path.join(_skin_cache(int(skin_id)), '%s.png' % part)
+    if not os.path.exists(path):
+        raise Http404
+    return _forever(FileResponse(open(path, 'rb'), content_type='image/png'))
+
+
+def mount_manifest_view(request, bone_id):
+    manifest = ensure_mount(bone_id)
+    if manifest is None:
+        raise Http404
+    return _forever(JsonResponse(manifest))
+
+
+def mount_part_view(request, bone_id, part):
+    manifest = ensure_mount(bone_id)
+    if manifest is None or part not in manifest['parts']:
+        raise Http404
+    path = os.path.join(_mount_cache(bone_id), '%s.png' % part)
     if not os.path.exists(path):
         raise Http404
     return _forever(FileResponse(open(path, 'rb'), content_type='image/png'))

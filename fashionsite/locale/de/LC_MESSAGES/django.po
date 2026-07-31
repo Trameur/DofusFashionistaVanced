@@ -6391,6 +6391,10 @@ msgstr "Zurück zu den Standardfarben"
 msgid "Visible pieces"
 msgstr "Sichtbare Teile"
 
+#: chardata/solution_view.py:0
+msgid "Mount"
+msgstr "Reittier"
+
 #: chardata/templates/chardata/solution.html:0
 msgid "Choose which pieces show"
 msgstr "Wähl aus, welche Teile zu sehen sind"

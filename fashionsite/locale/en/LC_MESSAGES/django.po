@@ -5445,6 +5445,10 @@ msgstr "Back to the default colours"
 msgid "Visible pieces"
 msgstr "Visible pieces"
 
+#: chardata/solution_view.py:0
+msgid "Mount"
+msgstr "Mount"
+
 #: chardata/templates/chardata/solution.html:0
 msgid "Choose which pieces show"
 msgstr "Choose which pieces show"

@@ -8134,6 +8134,64 @@ class MountLookTests(TestCase):
             with self.subTest(version=version):
                 self.assertLessEqual(len(bones), 6, sorted(bones))
 
+    def _mounted(self, hidden=''):
+        from types import SimpleNamespace
+        from chardata.character_look import get_character_look
+        item = self._rows('dofus3')[0]
+        char = SimpleNamespace(char_class='Iop', gender=0, colors='',
+                               hidden_parts=hidden)
+        solution = SimpleNamespace(item_list=[
+            SimpleNamespace(slot='pet', id=item[0], item_added=True)])
+        return get_character_look(char, solution), item
+
+    def test_a_mount_seats_the_character_on_the_rider_skeleton(self):
+        from chardata.character_look import RIDER_BONES, player_bones
+        from chardata.character_assets import has_bone
+        look, item = self._mounted()
+        if not has_bone(item[1]) or not has_bone(RIDER_BONES):
+            self.skipTest('no mount art on this machine')
+        self.assertEqual(look['bones'], RIDER_BONES)
+        self.assertNotEqual(look['bones'], player_bones(8))
+        self.assertEqual(look['mount']['bone'], item[1])
+        self.assertEqual(look['mount']['colors'], item[2].split(','))
+        self.assertEqual(look['mount']['scale'], item[3])
+
+    def test_hiding_the_mount_puts_the_character_back_on_its_feet(self):
+        from chardata.character_look import player_bones
+        look, _item = self._mounted(hidden='mount')
+        # A rider has no legs, so the standing skeleton has to come back with it.
+        self.assertIsNone(look['mount'])
+        self.assertEqual(look['bones'], player_bones(8))
+
+    def test_a_pet_that_is_not_a_mount_leaves_the_character_standing(self):
+        from types import SimpleNamespace
+        from chardata.character_look import get_character_look, player_bones
+        char = SimpleNamespace(char_class='Iop', gender=0, colors='',
+                               hidden_parts='')
+        solution = SimpleNamespace(item_list=[
+            SimpleNamespace(slot='pet', id=-1, item_added=True)])
+        look = get_character_look(char, solution)
+        self.assertIsNone(look['mount'])
+        self.assertEqual(look['bones'], player_bones(8))
+
+    def test_the_mount_can_be_switched_off_like_any_other_piece(self):
+        from chardata.character_look import parse_hidden
+        self.assertEqual(parse_hidden('mount'), ['mount'])
+        self.assertEqual(parse_hidden('mount,hat'), ['hat', 'mount'])
+
+    def test_the_mount_box_only_shows_up_for_a_build_that_has_one(self):
+        from types import SimpleNamespace
+        from chardata.solution_view import _preview_pieces
+        char = SimpleNamespace(hidden_parts='')
+        self.assertNotIn('mount', [p['slot'] for p in _preview_pieces(char, None)])
+        self.assertIn('mount', [p['slot'] for p in
+                                _preview_pieces(char, {'mount': {'bone': 639}})])
+        # Hiding it empties the look, and the box has to survive that.
+        char = SimpleNamespace(hidden_parts='mount')
+        boxes = _preview_pieces(char, {'mount': None})
+        self.assertIn('mount', [p['slot'] for p in boxes])
+        self.assertTrue([p for p in boxes if p['slot'] == 'mount'][0]['hidden'])
+
 
 class CharacterPoseDecodingTests(TestCase):
     """A keyframe block mixes 36 and 40 byte records, and the order they are
@@ -8185,7 +8243,7 @@ class CharacterPoseDecodingTests(TestCase):
                          ['Torse_2', 'JambeG_2', 'Tete_2'])
         self.assertEqual(frame[1]['m'][5], 20.0)
 
-    def _mount(self, records, nodes=None, masks=None, graphics=2):
+    def _mount(self, records, nodes=None, graphics=2):
         import struct
         from chardata.character_assets import Mount
         block = b''.join(records)
@@ -8194,25 +8252,34 @@ class CharacterPoseDecodingTests(TestCase):
         mount.node_names = nodes or self.NODES
         mount.animations = {'AnimStatique_2': raw}
         mount.graphics = [{'part': {'name': str(i)}} for i in range(graphics)]
-        mount._by_name = {str(i): i for i in range(graphics)}
-        mount._masks = masks or {}
         return mount
 
-    def test_a_mount_draws_both_ways_of_addressing_a_piece(self):
-        # Without the node bit the symbol is the graphics index. With it, the
-        # node name goes through maskableNodes to reach the same table.
+    def test_only_a_record_holding_a_symbol_draws_anything(self):
+        # A named record with no symbol is not a piece, it introduces the ones
+        # that follow. Drawing both paints the mount twice, uncoloured on top.
         mount = self._mount(
-            [self._record(0, 0x11, 0, self._identity(20.0), symbol=1),
-             self._record(1, 0x31, 0, self._identity(30.0), symbol=0xFFFF)],
-            nodes=['Corps_2'], masks={'Corps_2': '0'})
+            [self._record(1, 0x30, 0, self._identity(20.0)),
+             self._record(0, 0x11, 0, self._identity(20.0), symbol=1)],
+            nodes=['Corps_2'])
         frame = mount.key_frame('AnimStatique_2')
-        self.assertEqual([row['part'] for row in frame], [1, 0])
-        self.assertEqual([row['m'][5] for row in frame], [20.0, 30.0])
+        self.assertEqual(frame, [{'part': 1, 'm': [3.0, 0.0, 0.0, 0.0, 3.0, 20.0]}])
+
+    def test_a_name_says_which_look_colour_the_pieces_under_it_wear(self):
+        # One name can cover several pieces, and it holds until the next one.
+        mount = self._mount(
+            [self._record(3, 0x30, 0, self._identity(10.0)),
+             self._record(0, 0x11, 0, self._identity(11.0), symbol=0),
+             self._record(1, 0x11, 0, self._identity(12.0), symbol=1),
+             self._record(4, 0x30, 1, self._identity(13.0)),
+             self._record(2, 0x11, 0, self._identity(13.0), symbol=1)],
+            nodes=['ColorGray_2_Corps_2', 'Harn_Selle_2'])
+        frame = mount.key_frame('AnimStatique_2')
+        self.assertEqual([row.get('slot') for row in frame], [2, 2, None])
 
     def test_a_harness_slot_a_bare_mount_does_not_wear_draws_nothing(self):
         mount = self._mount(
             [self._record(0, 0x31, 0, self._identity(10.0), symbol=0xFFFF)],
-            nodes=['Harn_Sangle_2'], masks={'Harn_Sangle_2': '404'})
+            nodes=['Harn_Sangle_2'])
         self.assertEqual(mount.key_frame('AnimStatique_2'), [])
 
     def test_the_rider_slots_keep_their_place_in_the_mount_list(self):

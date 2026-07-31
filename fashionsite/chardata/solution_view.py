@@ -25,7 +25,7 @@ import pickle
 
 logger = logging.getLogger(__name__)
 
-from chardata.character_look import (DEFAULT_COLORS, SLOT_TO_NODE,
+from chardata.character_look import (DEFAULT_COLORS, MOUNT_SLOT, SLOT_TO_NODE,
                                      get_character_look, parse_colors,
                                      parse_hidden, preview_box)
 from chardata.encoded_char_id import encode_char_id
@@ -108,13 +108,19 @@ def _weighted_rate(structure, item, weights):
 
 # Lazy: this dict is built at import, the language is only known per request.
 _PIECE_LABELS = {'hat': gettext_lazy('Hat'), 'cloak': gettext_lazy('Cloak'),
-                 'shield': gettext_lazy('Shield'), 'weapon': gettext_lazy('Weapon')}
+                 'shield': gettext_lazy('Shield'), 'weapon': gettext_lazy('Weapon'),
+                 'mount': gettext_lazy('Mount')}
 
 
-def _preview_pieces(char):
+def _preview_pieces(char, look=None):
     hidden = parse_hidden(char.hidden_parts)
+    slots = sorted(SLOT_TO_NODE)
+    # Hiding the mount takes it out of the look, so the box has to stay while
+    # it is off or there is no way back.
+    if (look and look.get('mount')) or MOUNT_SLOT in hidden:
+        slots.append(MOUNT_SLOT)
     return [{'slot': slot, 'label': _PIECE_LABELS[slot], 'hidden': slot in hidden}
-            for slot in sorted(SLOT_TO_NODE)]
+            for slot in slots]
 
 
 def _preview_box_for(user):
@@ -503,7 +509,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'class_avatar': class_avatar,
               'character_look': json.dumps(character_look) if character_look else '',
               'character_colors': parse_colors(char.colors) if character_look else [],
-              'character_pieces': _preview_pieces(char) if character_look else [],
+              'character_pieces': _preview_pieces(char, character_look) if character_look else [],
               'preview_box': _preview_box_for(request.user) if character_look else None,
               'seo_class': seo_class,
               'seo_build': seo_build,

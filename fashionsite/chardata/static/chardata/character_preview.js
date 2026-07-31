@@ -11,9 +11,45 @@
 
     function mirrored(frame) {
         return frame.map(function (r) {
-            return { order: r.order, node: r.node,
-                     m: [-r.m[0], -r.m[1], -r.m[2], r.m[3], r.m[4], r.m[5]] };
+            var out = {};
+            for (var key in r) { out[key] = r[key]; }
+            out.m = [-r.m[0], -r.m[1], -r.m[2], r.m[3], r.m[4], r.m[5]];
+            return out;
         });
+    }
+
+    function fillMirrors(orientations, mirror) {
+        for (var target in MIRROR_OF) {
+            var from = orientations[MIRROR_OF[target]];
+            if (from && !orientations[target]) {
+                orientations[target] = mirror(from);
+            }
+        }
+    }
+
+    // a then b, both [rx, ux, tx, ry, uy, ty].
+    function compose(a, b) {
+        return [a[0] * b[0] + a[1] * b[3],
+                a[0] * b[1] + a[1] * b[4],
+                a[0] * b[2] + a[1] * b[5] + a[2],
+                a[3] * b[0] + a[4] * b[3],
+                a[3] * b[1] + a[4] * b[4],
+                a[3] * b[2] + a[4] * b[5] + a[5]];
+    }
+
+    function scaledBy(k, m) {
+        return [k * m[0], k * m[1], k * m[2], k * m[3], k * m[4], k * m[5]];
+    }
+
+    function mountColors(mount) {
+        var out = {};
+        var list = (mount && mount.colors) || [];
+        for (var i = 0; i < list.length; i++) {
+            out[i + 1] = [parseInt(list[i].substr(0, 2), 16),
+                          parseInt(list[i].substr(2, 2), 16),
+                          parseInt(list[i].substr(4, 2), 16)];
+        }
+        return out;
     }
 
     function CharacterPreview(canvas, options) {
@@ -23,13 +59,16 @@
         this.look = options.look;
         this.colors = options.colors || {};
         this.origin = options.origin || [canvas.width / 2, canvas.height * 0.82];
-        this.scale = (options.scale || 1) * (this.look.scale || 1);
+        this.baseScale = options.scale || 1;
+        this.scale = this.baseScale * (this.look.scale || 1);
         this.orientation = options.orientation || '1';
         this.order = TURN;
         this.frame = 0;
         this.images = {};
         this.manifests = {};
         this.poses = null;
+        this.mount = null;
+        this.mountColors = mountColors(this.look.mount);
         this.tintCanvas = document.createElement('canvas');
         this.tintCtx = this.tintCanvas.getContext('2d');
         this.skins = this.skinList();
@@ -52,15 +91,22 @@
                     var kept = data.orientations[o].filter(function (f) { return f.length; });
                     data.orientations[o] = kept.length ? kept : data.orientations[o].slice(0, 1);
                 }
-                for (var target in MIRROR_OF) {
-                    var from = data.orientations[MIRROR_OF[target]];
-                    if (from && !data.orientations[target]) {
-                        data.orientations[target] = from.map(mirrored);
-                    }
-                }
+                fillMirrors(data.orientations, function (frames) {
+                    return frames.map(mirrored);
+                });
                 self.poses = data;
                 self.order = TURN.filter(function (d) { return data.orientations[d]; });
             })];
+        if (this.look.mount) {
+            jobs.push(fetch(this.base + '/mount/' + this.look.mount.bone + '/parts.json')
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (data) {
+                    if (!data) { return; }
+                    fillMirrors(data.orientations, mirrored);
+                    self.mount = data;
+                })
+                .catch(function () {}));
+        }
         // One missing piece must not cost the whole character, so a part that
         // fails to load is simply not drawn.
         this.skins.forEach(function (id) {
@@ -72,6 +118,11 @@
         return Promise.all(jobs).then(function () {
             if (!self.poses || !self.manifests[self.look.body]) {
                 throw new Error('no character art');
+            }
+            // A rider without its mount is a torso with no legs, so the page is
+            // better off with its old avatar.
+            if (self.look.mount && !self.mount) {
+                throw new Error('no mount art');
             }
             return self;
         });
@@ -138,6 +189,17 @@
         return c;
     };
 
+    CharacterPreview.prototype.mountImage = function (part) {
+        var bone = this.look.mount.bone;
+        var key = 'mount/' + bone + '/' + part;
+        if (!this.images[key]) {
+            var img = new Image();
+            img.src = this.base + '/mount/' + bone + '/' + part + '.png';
+            this.images[key] = img;
+        }
+        return this.images[key];
+    };
+
     CharacterPreview.prototype.draw = function () {
         var ctx = this.ctx;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -146,32 +208,65 @@
         var frames = this.poses.orientations[this.orientation];
         if (!frames || !frames.length) { return; }
         var nodes = frames[this.frame % frames.length];
-        for (var i = 0; i < nodes.length; i++) {
-            var node = nodes[i];
-            var list = node.node.indexOf('Tete') === 0
-                ? this.headEntries() : this.entriesFor(node.node);
-            for (var j = 0; j < list.length; j++) {
-                this.drawPart(node, list[j]);
-            }
+        var rows = this.mount && this.mount.orientations[this.orientation];
+        if (rows) {
+            this.drawMounted(nodes, rows);
+        } else {
+            this.drawCharacter(nodes, null, this.scale, 1);
         }
         ctx.setTransform(1, 0, 0, 1, 0, 0);
     };
 
-    CharacterPreview.prototype.drawPart = function (node, entry) {
-        var bounds = this.manifests[entry.skin][entry.part];
-        var img = this.image(entry.skin, entry.part);
+    // The rider is drawn in place of the slot the mount reserved for it, so the
+    // near leg lands in front of the character on its own.
+    CharacterPreview.prototype.drawMounted = function (nodes, rows) {
+        var size = (this.look.mount.scale || 100) / 100;
+        var scale = this.baseScale * size;
+        var seated = false;
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            if (row.rider !== undefined) {
+                if (row.rider === this.look.mount.slot && !seated) {
+                    seated = true;
+                    // The seat moves with the mount, the rider does not grow
+                    // with it, so the character keeps its own size.
+                    this.drawCharacter(nodes, row.m, scale, (this.look.scale || 1) / size);
+                }
+                continue;
+            }
+            this.paint(row.m, this.mount.parts[row.part], this.mountImage(row.part),
+                       row.slot ? this.mountColors[row.slot] : null, scale);
+        }
+        if (!seated) { this.drawCharacter(nodes, null, this.scale, 1); }
+    };
+
+    CharacterPreview.prototype.drawCharacter = function (nodes, seat, scale, breed) {
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            var list = node.node.indexOf('Tete') === 0
+                ? this.headEntries() : this.entriesFor(node.node);
+            var m = seat ? compose(seat, scaledBy(breed, node.m)) : node.m;
+            for (var j = 0; j < list.length; j++) {
+                var entry = list[j];
+                this.paint(m, this.manifests[entry.skin][entry.part],
+                           this.image(entry.skin, entry.part),
+                           entry.slot ? this.colors[entry.slot] : null, scale);
+            }
+        }
+    };
+
+    CharacterPreview.prototype.paint = function (m, bounds, img, rgb, scale) {
         if (!bounds || !img.complete || !img.naturalWidth) { return; }
-        var rx = node.m[0], ux = node.m[1], tx = node.m[2];
-        var ry = node.m[3], uy = node.m[4], ty = node.m[5];
+        var rx = m[0], ux = m[1], tx = m[2];
+        var ry = m[3], uy = m[4], ty = m[5];
         var ppu = bounds.ppu;
         var ox = bounds.x - PAD / ppu;
         var oy = bounds.y + PAD / ppu;
-        var s = this.scale;
+        var s = scale;
         this.ctx.setTransform(
             s * rx / ppu, -s * ry / ppu, -s * ux / ppu, s * uy / ppu,
             s * (rx * ox + ux * oy + tx) + this.origin[0],
             -s * (ry * ox + uy * oy + ty) + this.origin[1]);
-        var rgb = entry.slot ? this.colors[entry.slot] : null;
         this.ctx.drawImage(rgb ? this.tinted(img, rgb) : img, 0, 0);
     };
 

@@ -19,6 +19,10 @@ import cytrus_cdn
 BONE_DIR = 'Dofus_Data/StreamingAssets/Content/Characters/Bones'
 # Ankama breed ids. 19 is unused, Forgelance is 20.
 BREEDS = list(range(1, 19)) + [20]
+# The seated upper body a mounted character wears. riderbonesdataroot lists four
+# candidates; this is the only one declaring every carried slot the mounts use,
+# so it is the only one that fits all of them.
+RIDER_BONE = 9582
 
 
 def mount_bones(game_version):
@@ -50,8 +54,11 @@ def main():
         open(args.manifest, 'wb').write(manifest)
 
     os.makedirs(args.dest, exist_ok=True)
-    stems = ([str(bone) for bone in mount_bones(args.game_version)] if args.mounts
-             else ['1-%d-%s' % (breed, args.pose) for breed in BREEDS])
+    if args.mounts:
+        stems = [str(bone) for bone in mount_bones(args.game_version)]
+        stems.append(str(RIDER_BONE))
+    else:
+        stems = ['1-%d-%s' % (breed, args.pose) for breed in BREEDS]
     done = skipped = 0
     for stem in stems:
         path = os.path.join(args.dest, 'bones_assets_bone_%s.bundle' % stem)

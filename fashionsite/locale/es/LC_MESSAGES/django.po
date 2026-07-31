@@ -6377,6 +6377,10 @@ msgstr "Volver a los colores por defecto"
 msgid "Visible pieces"
 msgstr "Piezas visibles"
 
+#: chardata/solution_view.py:0
+msgid "Mount"
+msgstr "Montura"
+
 #: chardata/templates/chardata/solution.html:0
 msgid "Choose which pieces show"
 msgstr "Elige las piezas que se ven"
