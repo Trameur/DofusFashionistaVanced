@@ -25,7 +25,8 @@ import pickle
 
 logger = logging.getLogger(__name__)
 
-from chardata.character_look import get_character_look
+from chardata.character_look import (DEFAULT_COLORS, get_character_look,
+                                     parse_colors)
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
@@ -480,6 +481,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
               'character_look': json.dumps(character_look) if character_look else '',
+              'character_colors': parse_colors(char.colors) if character_look else [],
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,
@@ -656,6 +658,17 @@ def set_char_gender(request, char_id):
     char = get_char_or_raise(request, char_id)
     char.gender = 1 if request.POST.get('gender') == '1' else 0
     char.save(update_fields=['gender'])
+    look = get_character_look(char, get_solution(char),
+                              getattr(request, 'game_version', 'dofus3'))
+    return HttpResponseJson(json.dumps(look or {}))
+
+
+def set_char_colors(request, char_id):
+    """Same as the sex switch: the preview only, never the build."""
+    char = get_char_or_raise(request, char_id)
+    wanted = parse_colors(request.POST.get('colors'))
+    char.colors = '' if wanted == DEFAULT_COLORS else ','.join(wanted)
+    char.save(update_fields=['colors'])
     look = get_character_look(char, get_solution(char),
                               getattr(request, 'game_version', 'dofus3'))
     return HttpResponseJson(json.dumps(look or {}))

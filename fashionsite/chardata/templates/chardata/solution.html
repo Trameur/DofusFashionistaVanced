@@ -41,9 +41,22 @@
             <canvas id="character-preview" class="char-banner-preview" width="150" height="210"
                     title="{% trans 'Drag to turn your character' %}"></canvas>
             {% if not is_guest %}
-            <button type="button" id="character-gender" class="char-banner-gender"
-                    data-gender="{{ char.gender }}"
-                    title="{% trans 'Male or female' %}">{% trans "Sex" %}</button>
+            <div class="char-banner-buttons">
+                <button type="button" id="character-gender" class="char-banner-gender"
+                        data-gender="{{ char.gender }}"
+                        title="{% trans 'Male or female' %}">{% trans "Sex" %}</button>
+                <button type="button" id="character-colors-toggle" class="char-banner-gender"
+                        title="{% trans 'Pick your character colours' %}">{% trans "Colours" %}</button>
+            </div>
+            <div id="character-colors" class="char-banner-colors" hidden>
+                {% for color in character_colors %}
+                <input type="color" class="char-banner-swatch" value="#{{ color }}"
+                       data-slot="{{ forloop.counter }}"
+                       title="{% trans 'Colour' %} {{ forloop.counter }}">
+                {% endfor %}
+                <button type="button" id="character-colors-reset" class="char-banner-gender"
+                        title="{% trans 'Back to the default colours' %}">{% trans "Reset" %}</button>
+            </div>
             {% endif %}
         </div>
         {% endif %}
@@ -635,14 +648,20 @@
         (function () {
             var canvas = document.getElementById('character-preview');
             if (!canvas || !window.CharacterPreview) { return; }
-            var preview = new CharacterPreview(canvas, {
-                assetBase: '/character',
-                look: {{ character_look|safe }},
-                colors: {1: [196, 154, 122], 2: [74, 92, 132], 3: [214, 196, 160],
-                         4: [96, 80, 70], 5: [150, 140, 130]},
-                scale: 0.62
-            });
-            preview.load().then(function () { preview.start(); }).catch(function () {
+            var look = {{ character_look|safe }};
+            var preview = null;
+
+            function build(nextLook) {
+                if (preview) { preview.stop(); }
+                look = nextLook;
+                preview = new CharacterPreview(canvas, {
+                    assetBase: '/character', look: look,
+                    colors: look.colors, scale: 0.62
+                });
+                return preview.load().then(function () { preview.start(); });
+            }
+
+            build(look).catch(function () {
                 canvas.style.display = 'none';
                 var fallback = document.querySelector('.char-banner-avatar');
                 if (fallback) { fallback.style.display = ''; }
@@ -654,16 +673,52 @@
                     var next = toggle.dataset.gender === '1' ? '0' : '1';
                     toggle.disabled = true;
                     $.post(apiBase + '/setchargender/{{char.id}}/', {gender: next},
-                           function (look) {
+                           function (nextLook) {
                                toggle.dataset.gender = next;
-                               preview.stop();
-                               preview = new CharacterPreview(canvas, {
-                                   assetBase: '/character', look: look,
-                                   colors: preview.colors, scale: 0.62
-                               });
-                               preview.load().then(function () { preview.start(); });
+                               build(nextLook);
                            }).always(function () { toggle.disabled = false; });
                 });
+            }
+
+            var swatches = document.querySelectorAll('.char-banner-swatch');
+            var colorsBox = document.getElementById('character-colors');
+            var colorsToggle = document.getElementById('character-colors-toggle');
+            if (colorsToggle && colorsBox) {
+                colorsToggle.addEventListener('click', function () {
+                    colorsBox.hidden = !colorsBox.hidden;
+                });
+            }
+
+            function sendColors(values) {
+                $.post(apiBase + '/setcharcolors/{{char.id}}/', {colors: values.join(',')},
+                       function (nextLook) {
+                           build(nextLook);
+                           for (var i = 0; i < swatches.length; i++) {
+                               var rgb = nextLook.colors[swatches[i].dataset.slot];
+                               if (rgb) {
+                                   swatches[i].value = '#' + rgb.map(function (n) {
+                                       return ('0' + n.toString(16)).slice(-2);
+                                   }).join('');
+                               }
+                           }
+                       });
+            }
+
+            function currentColors() {
+                return Array.prototype.map.call(swatches, function (input) {
+                    return input.value.replace('#', '');
+                });
+            }
+
+            for (var i = 0; i < swatches.length; i++) {
+                swatches[i].addEventListener('change', function () {
+                    sendColors(currentColors());
+                });
+            }
+
+            var reset = document.getElementById('character-colors-reset');
+            if (reset) {
+                reset.addEventListener('click', function () { sendColors([]); });
             }
         }());
     </script>

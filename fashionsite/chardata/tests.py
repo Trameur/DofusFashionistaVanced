@@ -7898,6 +7898,62 @@ class CharacterLookTests(TestCase):
         for bad in ('../secret', '1-8-static/../..', 'a b'):
             self.assertIsNone(character_assets.ensure_pose(bad), bad)
 
+    def test_a_build_that_never_picked_colours_draws_the_default_palette(self):
+        from chardata.character_look import (COLOR_SLOTS, DEFAULT_COLORS,
+                                             get_character_look)
+        look = get_character_look(self._char('Cra'), None)
+        self.assertEqual(len(look['colors']), COLOR_SLOTS)
+        self.assertEqual(look['colors'][1],
+                         [int(DEFAULT_COLORS[0][i:i + 2], 16) for i in (0, 2, 4)])
+
+    def test_anything_that_is_not_five_triplets_falls_back(self):
+        from chardata.character_look import DEFAULT_COLORS, parse_colors
+        for bad in ('', None, 'nope', 'ff0000', 'ff0000,00ff00',
+                    'ff0000,00ff00,0000ff,ffffff,zzzzzz'):
+            self.assertEqual(parse_colors(bad), DEFAULT_COLORS, repr(bad))
+
+    def test_hashes_and_capitals_are_accepted(self):
+        from chardata.character_look import parse_colors
+        self.assertEqual(parse_colors('#FF0000, #00ff00,#0000FF,#fff000,#000fff'),
+                         ['ff0000', '00ff00', '0000ff', 'fff000', '000fff'])
+
+    def test_picking_colours_only_touches_the_preview(self):
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('paint', 'paint@test.local', 'pw-42-solid')
+        char = self._char('Iop')
+        char.owner = owner
+        char.save()
+        before = (char.char_class, char.level, char.gender, char.game_version)
+        self.client.force_login(owner)
+
+        resp = self.client.post('/setcharcolors/%d/' % char.id,
+                                {'colors': 'ff0000,00ff00,0000ff,ffffff,000000'})
+        self.assertEqual(resp.status_code, 200)
+        char.refresh_from_db()
+        self.assertEqual(char.colors, 'ff0000,00ff00,0000ff,ffffff,000000')
+        self.assertEqual((char.char_class, char.level, char.gender, char.game_version),
+                         before)
+        self.assertEqual(resp.json()['colors']['1'], [255, 0, 0])
+
+    def test_resetting_the_colours_empties_the_field(self):
+        from django.contrib.auth.models import User
+        from chardata.character_look import DEFAULT_COLORS
+        owner = User.objects.create_user('paint2', 'paint2@test.local', 'pw-42-solid')
+        char = self._char('Sram')
+        char.owner = owner
+        char.colors = 'ff0000,00ff00,0000ff,ffffff,000000'
+        char.save()
+        self.client.force_login(owner)
+
+        self.client.post('/setcharcolors/%d/' % char.id, {'colors': ''})
+        char.refresh_from_db()
+        self.assertEqual(char.colors, '')
+
+        self.client.post('/setcharcolors/%d/' % char.id,
+                         {'colors': ','.join(DEFAULT_COLORS)})
+        char.refresh_from_db()
+        self.assertEqual(char.colors, '')
+
 
 class CharacterPoseDecodingTests(TestCase):
     """A keyframe block mixes 36 and 40 byte records, and the order they are

@@ -39,6 +39,25 @@ REFERENCE_SCALE = 53.0
 # Dofus 3 art. Beta shares the client; the others have their own.
 VERSIONS_WITH_ART = ('dofus3', 'beta')
 
+# The ColorGray slots the art exposes: skin, eyes, top, trousers, boots.
+COLOR_SLOTS = 5
+DEFAULT_COLORS = ['c49a7a', '4a5c84', 'd6c4a0', '605046', '968c82']
+
+
+def parse_colors(raw):
+    """The five hex triplets a build stores, or the default palette."""
+    parts = [p.strip().lstrip('#').lower() for p in (raw or '').split(',')]
+    parts = [p for p in parts if len(p) == 6 and all(c in '0123456789abcdef' for c in p)]
+    if len(parts) != COLOR_SLOTS:
+        return list(DEFAULT_COLORS)
+    return parts
+
+
+def colors_as_rgb(raw):
+    """Slot number -> [r, g, b], the shape the preview draws with."""
+    return {index + 1: [int(value[i:i + 2], 16) for i in (0, 2, 4)]
+            for index, value in enumerate(parse_colors(raw))}
+
 _looks = None
 
 
@@ -66,7 +85,8 @@ def get_character_look(char, solution, game_version='dofus3'):
 
     look = {'bones': player_bones(breed), 'body': entry['body'],
             'head': entry['head'],
-            'scale': round(int(entry['scale']) / REFERENCE_SCALE, 3), 'gear': {}}
+            'scale': round(int(entry['scale']) / REFERENCE_SCALE, 3),
+            'colors': colors_as_rgb(getattr(char, 'colors', '')), 'gear': {}}
     model_result = getattr(solution, 'model_result', solution)
     items = getattr(model_result, 'item_list', None)
     if not items:

@@ -6382,10 +6382,30 @@ msgstr ""
 "L'aperçu du personnage est dessiné avec les graphismes du jeu, téléchargés "
 "depuis le CDN de contenu officiel d'Ankama. Tout cela appartient à Ankama."
 
-#: .\chardata	emplates\chardata\solution.html:43
+#: .\chardata emplates\chardata\solution.html:43
 msgid "Male or female"
 msgstr "Masculin ou féminin"
 
-#: .\chardata	emplates\chardata\solution.html:43
+#: .\chardata emplates\chardata\solution.html:43
 msgid "Sex"
 msgstr "Sexe"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Colours"
+msgstr "Couleurs"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Colour"
+msgstr "Couleur"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Pick your character colours"
+msgstr "Choisis les couleurs de ton personnage"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Back to the default colours"
+msgstr "Revenir aux couleurs par défaut"

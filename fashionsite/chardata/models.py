@@ -45,6 +45,9 @@ class Char(models.Model):
     allow_points_distribution = models.BooleanField(default=True)
     # 0 male, 1 female, only used to pick the body and head of the preview.
     gender = models.IntegerField(default=0)
+    # Five hex triplets for the preview, comma separated. Empty means the
+    # default palette, which is what every build drew before.
+    colors = models.CharField(max_length=40, blank=True, default='')
     game_version = models.CharField(
         max_length=20,
         default='dofus3',

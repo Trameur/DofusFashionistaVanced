@@ -6345,10 +6345,30 @@ msgstr ""
 "descargados del CDN de contenido oficial de Ankama. Todo ello pertenece a "
 "Ankama."
 
-#: .\chardata	emplates\chardata\solution.html:43
+#: .\chardata emplates\chardata\solution.html:43
 msgid "Male or female"
 msgstr "Masculino o femenino"
 
-#: .\chardata	emplates\chardata\solution.html:43
+#: .\chardata emplates\chardata\solution.html:43
 msgid "Sex"
 msgstr "Sexo"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Colours"
+msgstr "Colores"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Colour"
+msgstr "Color"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Reset"
+msgstr "Restablecer"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Pick your character colours"
+msgstr "Elige los colores de tu personaje"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Back to the default colours"
+msgstr "Volver a los colores por defecto"

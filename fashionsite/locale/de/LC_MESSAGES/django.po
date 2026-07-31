@@ -6359,10 +6359,30 @@ msgstr ""
 "Die Figurenvorschau wird mit den Grafiken des Spiels selbst gezeichnet, "
 "geladen vom offiziellen Inhalts-CDN von Ankama. Alles davon gehört Ankama."
 
-#: .\chardata	emplates\chardata\solution.html:43
+#: .\chardata emplates\chardata\solution.html:43
 msgid "Male or female"
 msgstr "Männlich oder weiblich"
 
-#: .\chardata	emplates\chardata\solution.html:43
+#: .\chardata emplates\chardata\solution.html:43
 msgid "Sex"
 msgstr "Geschlecht"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Colours"
+msgstr "Farben"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Colour"
+msgstr "Farbe"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Pick your character colours"
+msgstr "Wähl die Farben deiner Figur"
+
+#: chardata/templates/chardata/solution.html:0
+msgid "Back to the default colours"
+msgstr "Zurück zu den Standardfarben"
