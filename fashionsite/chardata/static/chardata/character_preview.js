@@ -56,6 +56,10 @@
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.base = options.assetBase.replace(/\/$/, '');
+        // Every piece is addressed by id and cached for a year, so the only
+        // thing that can tell a browser a rebake happened is the url.
+        this.stamp = options.assetVersion
+            ? '?v=' + encodeURIComponent(options.assetVersion) : '';
         this.look = options.look;
         this.colors = options.colors || {};
         this.origin = options.origin || [canvas.width / 2, canvas.height * 0.82];
@@ -84,7 +88,7 @@
 
     CharacterPreview.prototype.load = function () {
         var self = this;
-        var jobs = [fetch(this.base + '/poses/' + this.look.bones + '.json')
+        var jobs = [fetch(this.base + '/poses/' + this.look.bones + '.json' + this.stamp)
             .then(function (r) { return r.json(); })
             .then(function (data) {
                 for (var o in data.orientations) {
@@ -98,7 +102,7 @@
                 self.order = TURN.filter(function (d) { return data.orientations[d]; });
             })];
         if (this.look.mount) {
-            jobs.push(fetch(this.base + '/mount/' + this.look.mount.bone + '/parts.json')
+            jobs.push(fetch(this.base + '/mount/' + this.look.mount.bone + '/parts.json' + this.stamp)
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (data) {
                     if (!data) { return; }
@@ -110,7 +114,7 @@
         // One missing piece must not cost the whole character, so a part that
         // fails to load is simply not drawn.
         this.skins.forEach(function (id) {
-            jobs.push(fetch(self.base + '/parts/' + id + '/parts.json')
+            jobs.push(fetch(self.base + '/parts/' + id + '/parts.json' + self.stamp)
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (data) { if (data) { self.manifests[id] = data; } })
                 .catch(function () {}));
@@ -132,7 +136,8 @@
         var key = skinId + '/' + part;
         if (!this.images[key]) {
             var img = new Image();
-            img.src = this.base + '/parts/' + skinId + '/' + encodeURIComponent(part) + '.png';
+            img.src = this.base + '/parts/' + skinId + '/' + encodeURIComponent(part)
+                + '.png' + this.stamp;
             this.images[key] = img;
         }
         return this.images[key];
@@ -194,7 +199,7 @@
         var key = 'mount/' + bone + '/' + part;
         if (!this.images[key]) {
             var img = new Image();
-            img.src = this.base + '/mount/' + bone + '/' + part + '.png';
+            img.src = this.base + '/mount/' + bone + '/' + part + '.png' + this.stamp;
             this.images[key] = img;
         }
         return this.images[key];

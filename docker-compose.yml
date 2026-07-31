@@ -51,6 +51,9 @@ services:
       - ${FASHIONISTA_GEN_CONFIG_PATH:-./docker/gen_config.json}:/etc/fashionista/gen_config.json
       - ${FASHIONISTA_DEBUG_MODE_PATH:-./docker/debug_mode}:/etc/fashionista/debug_mode
       - static_files:/app/fashionsite/staticfiles
+      # The baked character preview. Not in the image (it is gitignored and
+      # 150 MB), so it is filled by copying a local bake into the volume.
+      - character_cache:/app/character_cache
     ports:
       - "8000:8000"
     entrypoint: ["/bin/sh", "/app/docker-entrypoint.sh"]
@@ -84,6 +87,7 @@ services:
       - ./docker/maintenance.html:/etc/nginx/html/maintenance.html:ro
       - ./docker/ads.txt:/etc/nginx/html/ads.txt:ro
       - static_files:/app/staticfiles
+      - character_cache:/app/character_cache:ro
     networks:
       - fashionista_network
     profiles:
@@ -93,6 +97,8 @@ volumes:
   mysql_data:
     driver: local
   static_files:
+    driver: local
+  character_cache:
     driver: local
 
 networks:

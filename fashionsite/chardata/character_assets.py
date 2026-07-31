@@ -509,6 +509,17 @@ def ensure_pose(bone_id):
 FOREVER = 'public, max-age=31536000, immutable'
 
 
+def asset_token():
+    """Changes whenever a rebake could change what these URLs hold.
+
+    The pieces are addressed by id, so the same URL can hold different art after
+    a game update or a decoder change. Browsers are told to keep them for a
+    year, so without this they would never find out.
+    """
+    from fashionista_version import FASHIONISTA_VERSION
+    return '%s-%d-%d' % (FASHIONISTA_VERSION, POSE_FORMAT, MOUNT_FORMAT)
+
+
 def _forever(response):
     response['Cache-Control'] = FOREVER
     return response

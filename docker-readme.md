@@ -77,6 +77,18 @@ L'application utilise trois conteneurs Docker :
 
 Les données de la base de données sont stockées dans un volume Docker nommé `fashionista_db_data` pour garantir la persistance entre les redémarrages.
 
+## Aperçu du personnage
+
+L'aperçu dessine des morceaux cuits à l'avance à partir des bundles Ankama. Les bundles (861 Mo) ne servent qu'à la cuisson et n'ont rien à faire en production ; seul le cache cuit (150 Mo) est nécessaire, dans le volume `character_cache`. Sans lui la page retombe sur l'ancien avatar, donc rien ne casse, l'aperçu est simplement absent.
+
+Pour remplir le volume depuis une cuisson locale :
+
+```bash
+docker cp character_cache/. fashionista_web:/app/character_cache/
+```
+
+nginx sert directement les morceaux déjà présents et ne laisse passer vers Django que ceux qui restent à cuire, ce qui n'arrive qu'une fois par morceau. Après toute modification de `docker/nginx.conf`, vérifier avec `docker compose exec nginx nginx -t` avant de recharger.
+
 ## Configuration personnalisée
 
 Pour personnaliser la configuration, vous pouvez modifier les fichiers suivants :

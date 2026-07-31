@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 from chardata.character_look import (DEFAULT_COLORS, MOUNT_SLOT, SLOT_TO_NODE,
                                      get_character_look, parse_colors,
                                      parse_hidden, preview_box)
+from chardata.character_assets import asset_token
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
 from chardata.lock_forbid import (set_excluded,
@@ -510,6 +511,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_look': json.dumps(character_look) if character_look else '',
               'character_colors': parse_colors(char.colors) if character_look else [],
               'character_pieces': _preview_pieces(char, character_look) if character_look else [],
+              'character_asset_version': asset_token() if character_look else '',
               'preview_box': _preview_box_for(request.user) if character_look else None,
               'seo_class': seo_class,
               'seo_build': seo_build,

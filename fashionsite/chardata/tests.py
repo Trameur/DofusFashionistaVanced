@@ -8797,6 +8797,40 @@ class GameVersionWatchTests(SimpleTestCase):
             check_game_versions._json = original
 
 
+class PreviewIsServedFromDiskTests(SimpleTestCase):
+    """A build nobody has looked at is about a hundred baked pieces. nginx
+    serves them, but only Django can bake the ones that are missing."""
+
+    def _nginx(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'docker', 'nginx.conf')
+        with open(path, encoding='utf-8') as fh:
+            return fh.read()
+
+    def test_a_piece_that_is_not_baked_yet_still_reaches_django(self):
+        config = self._nginx()
+        self.assertIn('location @app {', config)
+        directives = [line.strip() for line in config.splitlines()
+                      if not line.strip().startswith('#')]
+        for line in directives:
+            if line.startswith('try_files'):
+                self.assertTrue(line.endswith('@app;'), line)
+
+    def test_nginx_looks_for_the_pieces_where_the_baking_puts_them(self):
+        import tempfile
+        from django.test import override_settings
+        from chardata import character_assets
+        config = self._nginx()
+        with tempfile.TemporaryDirectory() as cache:
+            with override_settings(CHARACTER_CACHE_DIR=cache):
+                mounts = os.path.relpath(character_assets._mount_cache('639'), cache)
+                parts = os.path.relpath(character_assets._skin_cache('80'), cache)
+        self.assertEqual(mounts.replace(os.sep, '/'), 'mounts/639')
+        self.assertEqual(parts.replace(os.sep, '/'), 'parts/80')
+        self.assertIn('try_files /parts/$skin/$piece @app;', config)
+        self.assertIn('try_files /mounts/$bone/$piece @app;', config)
+
+
 class NoEmDashInCodeTests(SimpleTestCase):
     """Em/en dashes read machine-generated, so the whole site avoids them (copy,
     comments, CSS, JS). The 2026-07 sweep brought every first-party source to zero;
