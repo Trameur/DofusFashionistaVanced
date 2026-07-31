@@ -8808,6 +8808,96 @@ class SpellCastingCostTests(SimpleTestCase):
         self.assertIsNone(spells['Weapon Skill'].ap_cost())
 
 
+class SpellComboTests(SimpleTestCase):
+    """The best order of casts in a turn. A buff cast first changes what every
+    later cast is worth, so the order is the answer, not a detail of it."""
+
+    def _stats(self, **overrides):
+        from fashionistapulp.structure import get_structure
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'ap': 8, 'str': 300, 'int': 300, 'cha': 300, 'agi': 300,
+                      'pow': 0, 'dam': 0, 'cridam': 0, 'perspedam': 0,
+                      'perweadam': 0, 'heals': 0})
+        stats.update(overrides)
+        return stats
+
+    def _spells(self, char_class='Iop', level=200):
+        from chardata.spell_combo import castable_spells
+        return castable_spells(char_class, level, 'dofus3')
+
+    def _cost(self, spells, order):
+        by_name = {spell.name: spell for spell in spells}
+        return sum(by_name[name].cost for name, _damage in order)
+
+    def test_a_turn_never_spends_more_ap_than_it_has(self):
+        from chardata.spell_combo import best_turn
+        spells = self._spells()
+        for ap in (2, 5, 8, 11):
+            with self.subTest(ap=ap):
+                _total, order = best_turn(self._stats(), spells, ap)
+                self.assertLessEqual(self._cost(spells, order), ap)
+
+    def test_more_ap_is_never_worth_less(self):
+        from chardata.spell_combo import best_turn
+        spells = self._spells()
+        stats = self._stats()
+        best = 0
+        for ap in range(2, 12):
+            total, _order = best_turn(stats, spells, ap)
+            self.assertGreaterEqual(total, best, ap)
+            best = total
+
+    def test_a_spell_is_not_cast_more_often_than_the_game_allows(self):
+        from chardata.spell_combo import best_turn
+        spells = self._spells()
+        by_name = {spell.name: spell for spell in spells}
+        _total, order = best_turn(self._stats(), spells, 11)
+        counts = {}
+        for name, _damage in order:
+            counts[name] = counts.get(name, 0) + 1
+        for name, count in counts.items():
+            limit = by_name[name].limit
+            if limit:
+                self.assertLessEqual(count, limit, name)
+
+    def test_the_buff_goes_before_the_hit_it_pays_for(self):
+        # The whole point of searching instead of sorting by damage per AP.
+        from chardata.spell_combo import best_turn
+        spells = self._spells()
+        by_name = {spell.name: spell for spell in spells}
+        _total, order = best_turn(self._stats(), spells, 8)
+        names = [name for name, _damage in order]
+        self.assertTrue(any(by_name[name].buffs for name in names), names)
+        first_hit = next(index for index, name in enumerate(names)
+                         if by_name[name].hits)
+        first_buff = next(index for index, name in enumerate(names)
+                          if by_name[name].buffs)
+        self.assertLessEqual(first_buff, first_hit, names)
+
+    def test_ordering_beats_taking_the_best_ratio_first(self):
+        from chardata.spell_combo import best_turn
+        spells = self._spells()
+        stats = self._stats()
+        total, order = best_turn(stats, spells, 8)
+        greedy_stats = dict(stats)
+        best_single = max(
+            (best_turn(greedy_stats, [spell], 8)[0] for spell in spells))
+        self.assertGreater(total, best_single)
+        self.assertGreater(len(order), 1)
+
+    def test_a_turn_with_no_ap_casts_nothing(self):
+        from chardata.spell_combo import best_turn
+        total, order = best_turn(self._stats(), self._spells(), 0)
+        self.assertEqual((total, order), (0.0, []))
+
+    def test_the_shared_bucket_is_not_castable(self):
+        # It holds weapons, pies and Dofus effects, not spells a turn casts.
+        names = {spell.name for spell in self._spells()}
+        for outsider in ('Burnt Pie', 'Weapon Skill', 'Perfidious Boomerang',
+                         'Pestilential Fog'):
+            self.assertNotIn(outsider, names)
+
+
 class GameVersionWatchTests(SimpleTestCase):
     """Every version is checked against its own source each session, so the two
     strings the check pulls apart are worth freezing."""
