@@ -7872,6 +7872,32 @@ class CharacterLookTests(TestCase):
                          if getattr(item, 'skin', None)}
                 self.assertEqual(len(types), len(SLOT_TO_NODE), version)
 
+    def test_the_stored_skins_match_the_ones_kept_in_the_repo(self):
+        # The matching takes hours and its output lives only in the database,
+        # so a rebuild would lose it. item_skins.json is that output, and this
+        # fails the day the two drift apart.
+        import json
+        import sqlite3
+        from fashionistapulp.fashionista_config import (get_fashionista_path,
+                                                        get_items_db_path)
+        from chardata.character_look import VERSIONS_WITH_ART
+        path = os.path.join(get_fashionista_path(), 'itemscraper', 'item_skins.json')
+        with open(path, encoding='utf-8') as fh:
+            kept = {int(key): value for key, value in json.load(fh).items()}
+        self.assertGreater(len(kept), 800)
+        for version in VERSIONS_WITH_ART:
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                stored = {row[0]: row[1] for row in conn.execute("""
+                    SELECT i.ankama_id, i.skin FROM items i
+                    JOIN item_types t ON t.id = i.type
+                    WHERE i.skin IS NOT NULL AND t.name IN
+                        ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
+            finally:
+                conn.close()
+            with self.subTest(version=version):
+                self.assertEqual(stored, kept, version)
+
     def test_the_page_falls_back_when_there_is_no_art(self):
         import tempfile
         from django.test import override_settings
@@ -8328,6 +8354,29 @@ class CharacterPoseDecodingTests(TestCase):
         frame = mount.key_frame('AnimStatique_2')
         self.assertEqual([row.get('rider') or row.get('part') for row in frame],
                          ['carried_1_0', 0, 'carried_6_0'])
+
+    def test_a_baked_skeleton_needs_no_bundle_behind_it(self):
+        # Production ships the cache and not the 861 MB of bundles, so asking
+        # for the bundle would switch the mount off on the only box that counts.
+        import tempfile
+        from django.test import override_settings
+        from chardata import character_assets
+        with tempfile.TemporaryDirectory() as cache:
+            with override_settings(CHARACTER_BUNDLE_DIR=None,
+                                   CHARACTER_CACHE_DIR=cache):
+                self.assertFalse(character_assets.has_bone('9582'))
+                poses = os.path.join(cache, 'poses')
+                os.makedirs(poses)
+                open(os.path.join(poses, '9582-v%d.json'
+                                  % character_assets.POSE_FORMAT), 'w').close()
+                self.assertTrue(character_assets.has_bone('9582'))
+
+                self.assertFalse(character_assets.has_bone('639'))
+                mount = os.path.join(cache, 'mounts', '639')
+                os.makedirs(mount)
+                open(os.path.join(mount, 'mount-v%d.json'
+                                  % character_assets.MOUNT_FORMAT), 'w').close()
+                self.assertTrue(character_assets.has_bone('639'))
 
     def test_a_mount_bone_id_cannot_walk_out_of_the_cache(self):
         from chardata import character_assets

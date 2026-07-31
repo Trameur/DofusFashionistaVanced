@@ -10,6 +10,12 @@ writes the result into the version database and back into the dump.
 Only Hat, Cloak, Shield and Weapon carry a skin: nothing else shows on the
 character. A match whose margin over the runner up is thin is skipped unless
 --min-margin says otherwise, because a wrong skin is worse than none.
+
+The matching takes hours, so the decisions it reached are kept in the repo as
+`item_skins.json` and replayed with --input like any other run. Rebuilding a
+database no longer means matching again.
+
+    python itemscraper/store_item_skins.py --game-version dofus3 --export itemscraper/item_skins.json
 """
 from __future__ import annotations
 
@@ -42,13 +48,40 @@ def clear_skins(conn):
                  % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES)
 
 
+def export(conn, path):
+    """The decisions as they stand, ready to be replayed into a fresh database."""
+    rows = conn.execute("""
+        SELECT i.ankama_id, i.skin FROM items i JOIN item_types t ON t.id = i.type
+        WHERE i.skin IS NOT NULL AND t.name IN (%s)
+        ORDER BY i.ankama_id""" % ','.join('?' * len(VISIBLE_TYPES)),
+                        VISIBLE_TYPES).fetchall()
+    with open(path, 'w', encoding='utf-8') as fh:
+        json.dump({str(ankama_id): skin for ankama_id, skin in rows}, fh,
+                  indent=1, sort_keys=True)
+        fh.write('\n')
+    return len(rows)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3')
-    parser.add_argument('--input', required=True)
+    parser.add_argument('--input')
+    parser.add_argument('--export', help='write the stored skins out and stop')
     parser.add_argument('--min-margin', type=float,
                         help='one floor for every type; default is per type')
     args = parser.parse_args()
+
+    if bool(args.input) == bool(args.export):
+        parser.error('give either --input or --export')
+
+    if args.export:
+        conn = sqlite3.connect(get_items_db_path(args.game_version))
+        try:
+            print('%s: %d skins written to %s'
+                  % (args.game_version, export(conn, args.export), args.export))
+        finally:
+            conn.close()
+        return
 
     matches = json.load(open(args.input, encoding='utf-8'))
     db_path = get_items_db_path(args.game_version)
@@ -69,6 +102,12 @@ def main():
                 absent += 1
                 continue
             item_id, item_type = entry
+            # A bare number is a decision already taken, with nothing left to
+            # weigh; the matcher's own output carries the scores behind it.
+            if isinstance(match, int):
+                conn.execute('UPDATE items SET skin = ? WHERE id = ?', (match, item_id))
+                written += 1
+                continue
             floor = args.min_margin
             if floor is None:
                 floor = MIN_MARGIN.get(item_type, 0.10)

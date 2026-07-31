@@ -194,6 +194,10 @@ def main() -> None:
         step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
         step("mount-looks", [PY, "store_dofusdb_mount_looks.py"], cwd=ITEMSCRAPER)
+        # Replayed, not matched: working the skins out from the art takes hours,
+        # so the decisions it reached are kept in the repo.
+        step("item-skins", [PY, "store_item_skins.py", "--game-version", "dofus3",
+                            "--input", "item_skins.json"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [PY, "get_equipments4.py"], cwd=ITEMSCRAPER)  # --game-version defaults to dofus3

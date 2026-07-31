@@ -357,7 +357,18 @@ def _mount_cache(bone_id):
 
 
 def has_bone(bone_id):
-    """Whether a skeleton can be drawn, without paying to bake it."""
+    """Whether a skeleton can be drawn, without paying to bake it.
+
+    Already baked counts. A server carrying the cache and no bundles is the
+    normal setup: the bundles are 861 MB and are only ever needed to bake.
+    """
+    bone_id = str(bone_id)
+    if os.path.exists(os.path.join(cache_dir(), 'poses',
+                                   '%s-v%d.json' % (bone_id, POSE_FORMAT))):
+        return True
+    if os.path.exists(os.path.join(_mount_cache(bone_id),
+                                   'mount-v%d.json' % MOUNT_FORMAT)):
+        return True
     source = bundle_dir()
     return bool(source) and os.path.exists(
         os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id))
