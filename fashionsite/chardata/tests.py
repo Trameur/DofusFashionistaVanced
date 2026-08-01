@@ -9758,6 +9758,26 @@ class CombatApTests(SimpleTestCase):
         from chardata.spell_combo import combat_ap
         self.assertEqual(15, combat_ap(9, 'retro'))
 
+    def test_every_class_gets_a_turn_it_can_play(self):
+        # The panel returned None for months and nothing said so. A class that
+        # stops producing a cast is the same silence.
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn, castable_spells, combat_ap
+        from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 300, 'int': 300, 'cha': 300, 'agi': 300, 'dam': 40})
+        ap = combat_ap(0, 'dofus3')
+        for char_class in sorted(LOCALIZED_CHARACTER_CLASSES):
+            with self.subTest(char_class=char_class):
+                spells = castable_spells(char_class, 200, 'dofus3')
+                self.assertGreater(len(spells), 5, char_class)
+                total, order = best_turn(stats, spells, ap)
+                self.assertGreater(len(order), 0, char_class)
+                self.assertGreater(total, 0, char_class)
+                self.assertLessEqual(
+                    sum(spell.cost for spell in spells
+                        if spell.name in {name for name, _ in order[:1]}), ap)
+
     def test_the_panel_now_has_something_to_spend(self):
         from chardata.spell_combo import best_turn, castable_spells, combat_ap
         spells = castable_spells('Iop', 200, 'dofus3')
