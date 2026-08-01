@@ -9679,6 +9679,17 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         with open(path, encoding='utf-8') as fh:
             return fh.read()
 
+    def test_www_is_redirected_to_the_apex(self):
+        # www served the whole site a second time. The canonical tag named the
+        # apex, but both copies stayed crawlable.
+        config = self._nginx()
+        self.assertIn('server_name www.dofusfashionista.gg;', config)
+        self.assertIn('return 301 https://dofusfashionista.gg$request_uri;',
+                      config)
+        app = config.split('server_name dofusfashionista.gg;', 1)[1]
+        self.assertIn('location @app {', app,
+                      'the apex block must still serve the site')
+
     def test_a_piece_that_is_not_baked_yet_still_reaches_django(self):
         config = self._nginx()
         self.assertIn('location @app {', config)
