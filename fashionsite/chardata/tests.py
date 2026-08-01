@@ -9936,6 +9936,40 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
                            'the colour slots stopped matching the art')
         self.assertEqual(set(range(1, character_look.COLOR_SLOTS + 1)), slots)
 
+    def test_a_mount_keeps_the_colour_slots_its_art_carries(self):
+        # The slot comes from the naming record that precedes the art record.
+        # Pairing them wrongly once cost every mount its colours, silently:
+        # a gold dragoturkey and a green one drew the same. Bone 1824 really
+        # does have one tinted piece in Ankama's own art, so it is excluded.
+        import json
+        from chardata import character_assets
+        root = os.path.join(character_assets.cache_dir(), 'mounts')
+        if not os.path.isdir(root):
+            self.skipTest('no mount baked on this machine')
+        checked = 0
+        for bone in sorted(os.listdir(root)):
+            if bone == '1824':
+                continue
+            path = os.path.join(root, bone, 'mount-v%d.json'
+                                % character_assets.MOUNT_FORMAT)
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding='utf-8') as handle:
+                manifest = json.load(handle)
+            drawn = tinted = 0
+            for rows in (manifest.get('orientations') or {}).values():
+                for row in rows:
+                    if isinstance(row, dict) and 'part' in row:
+                        drawn += 1
+                        if row.get('slot'):
+                            tinted += 1
+            if not drawn:
+                continue
+            checked += 1
+            self.assertGreater(tinted * 100.0 / drawn, 60,
+                               'mount %s lost its colour slots' % bone)
+        self.assertGreater(checked, 0)
+
     def test_the_tint_does_not_return_a_third_of_the_chosen_colour(self):
         # The greyscale art has a median luminance of 87/255, so a plain
         # multiply gave back about a third of the colour: the Iop's own skin
