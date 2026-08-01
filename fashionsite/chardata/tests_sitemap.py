@@ -58,9 +58,17 @@ def _monster_by_drop_count(version, minimum=None, maximum=None):
 
 class SitemapQualityThresholdTests(TestCase):
     def _sitemap(self):
-        resp = self.client.get('/sitemap.xml')
-        self.assertEqual(resp.status_code, 200)
-        return resp.content.decode('utf-8')
+        """Every section behind the index, as one string."""
+        import re
+        index = self.client.get('/sitemap.xml')
+        self.assertEqual(index.status_code, 200)
+        parts = []
+        for child in re.findall(r'<loc>([^<]+)</loc>',
+                                index.content.decode('utf-8')):
+            resp = self.client.get(child.split('dofusfashionista.gg', 1)[1])
+            self.assertEqual(resp.status_code, 200, child)
+            parts.append(resp.content.decode('utf-8'))
+        return '\n'.join(parts)
 
     def test_single_drop_monsters_are_not_submitted(self):
         thin = _monster_by_drop_count('retro', maximum=1)

@@ -20,7 +20,7 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.views.generic import TemplateView
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.views.static import serve
 import os
 from chardata import home_view, login_view, views, projects_view, base_stats_view, create_project_view, \
@@ -419,15 +419,9 @@ def _sitemap_encyclopedia_monsters(base_url):
     return xml
 
 
-def sitemap_view(request):
-    """Comprehensive sitemap.xml for AdSense and SEO.
-
-    Lists static pages, every public feature page (encyclopedia, smithmagic,
-    workshop, quick start, smart build, compare, shared builds), the per-version
-    entry points (beta, dofus2, retro, touch), a sample of recently shared
-    builds, and (best-effort, cached) encyclopedia item pages.
-    """
-    base_url = 'https://dofusfashionista.gg'
+def _sitemap_pages(base_url):
+    """Static pages, feature pages, guides, per-version entry points and a
+    sample of recently shared builds."""
     blocks = []
 
     static_paths = [
@@ -506,26 +500,41 @@ def sitemap_view(request):
     except Exception:
         pass
 
-    items_xml = _sitemap_encyclopedia_items(base_url)
-    if items_xml:
-        blocks.append(items_xml)
+    return '\n'.join(blocks)
 
-    sets_xml = _sitemap_encyclopedia_sets(base_url)
-    if sets_xml:
-        blocks.append(sets_xml)
 
-    resources_xml = _sitemap_encyclopedia_resources(base_url)
-    if resources_xml:
-        blocks.append(resources_xml)
+# One file per section. Google refuses a sitemap over 50000 urls outright and
+# the single file was already at 41208; the biggest section here is half that.
+SITEMAP_SECTIONS = (
+    ('pages', _sitemap_pages),
+    ('items', _sitemap_encyclopedia_items),
+    ('sets', _sitemap_encyclopedia_sets),
+    ('resources', _sitemap_encyclopedia_resources),
+    ('monsters', _sitemap_encyclopedia_monsters),
+)
+SITEMAP_BASE = 'https://dofusfashionista.gg'
 
-    monsters_xml = _sitemap_encyclopedia_monsters(base_url)
-    if monsters_xml:
-        blocks.append(monsters_xml)
 
-    sitemap_content = ('<?xml version="1.0" encoding="UTF-8"?>\n'
-                       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-                       + '\n'.join(blocks) + '\n</urlset>')
-    return HttpResponse(sitemap_content, content_type='application/xml')
+def sitemap_view(request):
+    entries = ['  <sitemap><loc>%s/sitemap-%s.xml</loc></sitemap>' % (SITEMAP_BASE, name)
+               for name, _builder in SITEMAP_SECTIONS]
+    return HttpResponse(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + '\n'.join(entries) + '\n</sitemapindex>',
+        content_type='application/xml')
+
+
+def sitemap_section_view(request, section):
+    builder = dict(SITEMAP_SECTIONS).get(section)
+    if builder is None:
+        raise Http404
+    body = builder(SITEMAP_BASE) or ''
+    return HttpResponse(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + body + '\n</urlset>',
+        content_type='application/xml')
 
 
 js_info_dict = {
@@ -536,6 +545,8 @@ urlpatterns = [
     re_path(r'^ads\.txt$', ads_txt_view, name='ads_txt'),
     re_path(r'^\.well-known/appspecific/com\.chrome\.devtools\.json$', chrome_devtools_view),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
+    re_path(r'^sitemap-(?P<section>[a-z]+)\.xml$', sitemap_section_view,
+            name='sitemap_section'),
     # Staff-only dashboard (moderation + site tools). Gated in the view; 404 for
     # everyone else. Not version-prefixed.
     re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),

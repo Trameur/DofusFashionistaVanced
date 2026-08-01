@@ -1157,17 +1157,25 @@ class PublicRouteSmokeTests(TestCase):
         body = resp.content.decode('utf-8', 'replace')
         self.assertIn('panoplies, monstres et drops de cette version', body)
 
+    def _sitemap_body(self):
+        """Every section behind the index, as one string."""
+        import re
+        index = self.client.get('/sitemap.xml')
+        self.assertEqual(index.status_code, 200)
+        parts = [index.content.decode('utf-8')]
+        for child in re.findall(r'<loc>([^<]+)</loc>', parts[0]):
+            resp = self.client.get(child.split('dofusfashionista.gg', 1)[1])
+            self.assertEqual(resp.status_code, 200, child)
+            parts.append(resp.content.decode('utf-8', 'replace'))
+        return '\n'.join(parts)
+
     def test_sitemap_has_no_redirecting_urls(self):
         # /random/ always 302s to a random shared build; redirect targets do
         # not belong in a sitemap.
-        resp = self.client.get('/sitemap.xml')
-        self.assertEqual(resp.status_code, 200)
-        self.assertNotIn('/random/', resp.content.decode('utf-8'))
+        self.assertNotIn('/random/', self._sitemap_body())
 
     def test_sitemap_is_well_formed_xml(self):
-        resp = self.client.get('/sitemap.xml')
-        self.assertEqual(resp.status_code, 200)
-        body = resp.content.decode('utf-8', 'replace')
+        body = self._sitemap_body()
         self.assertIn('<?xml', body)
         self.assertIn('<urlset', body)
         self.assertIn('/privacy/', body)
@@ -1182,13 +1190,13 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('/guides/getting-started/', body)
 
     def test_sitemap_lists_monster_encyclopedia_urls(self):
-        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        body = self._sitemap_body()
         self.assertIn('https://dofusfashionista.gg/encyclopedia/monsters/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/monsters/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/monster/101-', body)
 
     def test_sitemap_lists_versioned_resource_urls(self):
-        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        body = self._sitemap_body()
         self.assertIn('https://dofusfashionista.gg/encyclopedia/resource/resources/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/resource/resources/384-', body)
 
@@ -1228,11 +1236,11 @@ class PublicRouteSmokeTests(TestCase):
         page_resp = self.client.get(link)
         self.assertEqual(page_resp.status_code, 200)
 
-        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        body = self._sitemap_body()
         self.assertIn('https://dofusfashionista.gg%s' % link, body)
 
     def test_sitemap_lists_versioned_item_urls(self):
-        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        body = self._sitemap_body()
         self.assertIn('https://dofusfashionista.gg/encyclopedia/item/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/item/equipment/2416-', body)
 
@@ -1253,7 +1261,7 @@ class PublicRouteSmokeTests(TestCase):
             self.skipTest('no retro set in this build')
 
         retro_set_url = get_set_link(set_id, set_name, 'retro')
-        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        body = self._sitemap_body()
         self.assertIn('https://dofusfashionista.gg/encyclopedia/set/', body)
         self.assertIn('https://dofusfashionista.gg%s' % retro_set_url, body)
 
@@ -1279,7 +1287,7 @@ class PublicRouteSmokeTests(TestCase):
             level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
             options=b'', inclusions=b'', exclusions=b'',
             owner=owner, link_shared=True, game_version='dofus3')
-        body = self.client.get('/sitemap.xml').content.decode('utf-8')
+        body = self._sitemap_body()
         self.assertIn(encode_char_id(with_sol.id), body)
         self.assertNotIn(encode_char_id(without_sol.id), body)
 
@@ -8961,6 +8969,41 @@ class AdsTests(TestCase):
     def test_the_publisher_id_is_derived_not_typed_twice(self):
         values = self._ads('/', client='ca-pub-42')
         self.assertEqual(values['ad_publisher'], 'pub-42')
+
+
+class SitemapIndexTests(TestCase):
+    """Google refuses a sitemap over 50000 urls outright, and the single file
+    was at 41208. One file per section keeps every one of them far from it."""
+
+    LIMIT = 50000
+
+    def _locs(self, path):
+        import re
+        resp = self.client.get(path)
+        self.assertEqual(resp.status_code, 200, path)
+        return re.findall(r'<loc>([^<]+)</loc>', resp.content.decode('utf-8'))
+
+    def test_the_index_points_at_every_section(self):
+        from fashionsite.urls import SITEMAP_SECTIONS
+        children = self._locs('/sitemap.xml')
+        self.assertEqual(len(children), len(SITEMAP_SECTIONS))
+        for name, _builder in SITEMAP_SECTIONS:
+            self.assertTrue(any(child.endswith('/sitemap-%s.xml' % name)
+                                for child in children), name)
+
+    def test_no_section_comes_near_the_limit(self):
+        for child in self._locs('/sitemap.xml'):
+            path = child.split('dofusfashionista.gg', 1)[1]
+            with self.subTest(section=path):
+                self.assertLess(len(self._locs(path)), self.LIMIT)
+
+    def test_the_sections_together_still_cover_everything(self):
+        total = sum(len(self._locs(child.split('dofusfashionista.gg', 1)[1]))
+                    for child in self._locs('/sitemap.xml'))
+        self.assertGreater(total, 30000)
+
+    def test_a_section_nobody_publishes_is_not_served(self):
+        self.assertEqual(self.client.get('/sitemap-nope.xml').status_code, 404)
 
 
 class EncyclopediaPaginationTests(TestCase):
