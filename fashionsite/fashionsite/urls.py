@@ -490,9 +490,7 @@ def _sitemap_pages(base_url):
                         .order_by('-view_count', '-modified_time')[:5000])
         for char in shared_chars:
             try:
-                encoded_id = encode_char_id(int(char.id))
-                char_name_safe = quote((char.char_name or 'shared').encode('utf-8'), safe='')
-                loc = '%s/s/%s/%s/' % (base_url, char_name_safe, encoded_id)
+                loc = base_url + solution_view.shared_build_path(char)
                 lastmod = ''
                 if char.modified_time:
                     lastmod = '\n    <lastmod>%s</lastmod>' % char.modified_time.date().isoformat()

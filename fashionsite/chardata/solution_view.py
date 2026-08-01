@@ -523,6 +523,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_asset_version': asset_token() if character_look else '',
               'character_asset_formats': json.dumps(asset_formats()),
               'character_preloads': preload_links(character_look),
+              'canonical_path': shared_build_path(char) if char.link_shared else '',
               'preview_box': _preview_box_for(request.user) if character_look else None,
               'seo_class': seo_class,
               'seo_build': seo_build,
@@ -664,6 +665,18 @@ def solution_linked(request, char_name, encoded_char_id):
         logger.warning('View tracking error: %s', e)
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
+
+def shared_build_path(char):
+    """The one url a shared build lives at. The name in the path is decorative
+    (the view reads only the id), so every spelling of it serves the same page
+    and would claim to be canonical on its own."""
+    from urllib.parse import quote
+    prefix = '' if char.game_version in (None, '', 'dofus3') else '/' + char.game_version
+    return '%s/s/%s/%s/' % (prefix,
+                            quote((char.char_name or 'shared').encode('utf-8'),
+                                  safe=''),
+                            encode_char_id(int(char.id)))
+
 
 def generate_link(request, char):
     encoded_id = encode_char_id(int(char.id))

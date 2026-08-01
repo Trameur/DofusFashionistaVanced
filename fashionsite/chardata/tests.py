@@ -8977,6 +8977,65 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
 
+class SharedBuildCanonicalTests(TestCase):
+    """The name in /s/<name>/<id>/ is decorative: the view reads only the id,
+    so every spelling serves the same build. Each one used to name itself as
+    the canonical url, which is as many duplicates as anyone cares to type."""
+
+    def _shared(self, name='hero', version='dofus3'):
+        from chardata.models import Char
+        return Char.objects.create(
+            name='Shared build', char_name=name, char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=b'x', link_shared=True, game_version=version)
+
+    def test_the_path_carries_the_name_and_the_id(self):
+        from chardata.encoded_char_id import encode_char_id
+        from chardata.solution_view import shared_build_path
+        char = self._shared(name='Mon Cra')
+        self.assertEqual('/s/Mon%20Cra/' + encode_char_id(int(char.id)) + '/',
+                         shared_build_path(char))
+
+    def test_a_build_with_no_name_still_has_one_url(self):
+        from chardata.solution_view import shared_build_path
+        self.assertIn('/s/shared/', shared_build_path(self._shared(name='')))
+
+    def test_a_versioned_build_keeps_its_version_in_the_url(self):
+        # /s/... resolves to dofus3, and the view 404s when the build belongs
+        # to another version, so the prefix is not decoration.
+        from chardata.solution_view import shared_build_path
+        self.assertTrue(shared_build_path(self._shared(version='beta'))
+                        .startswith('/beta/s/'))
+        self.assertTrue(shared_build_path(self._shared(version='retro'))
+                        .startswith('/retro/s/'))
+        self.assertTrue(shared_build_path(self._shared()).startswith('/s/'))
+
+    def test_the_sitemap_submits_that_exact_url(self):
+        # Two builders of the same url drift apart; one function feeds both.
+        from fashionsite import urls
+        from chardata.solution_view import shared_build_path
+        char = self._shared(name='Sitemap Build')
+        beta = self._shared(name='Beta Build', version='beta')
+        xml = urls._sitemap_pages('https://dofusfashionista.gg')
+        for build in (char, beta):
+            self.assertIn(
+                'https://dofusfashionista.gg' + shared_build_path(build), xml)
+        # Submitted without its prefix, a beta build lands on the dofus3 route
+        # and the view 404s it.
+        self.assertNotIn('https://dofusfashionista.gg/s/Beta%20Build/', xml)
+
+    def test_the_page_names_the_build_url_not_the_one_asked_for(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata', 'solution.html')
+        with open(path, encoding='utf-8') as handle:
+            markup = handle.read()
+        block = markup.split('{% block canonical %}', 1)[1].split('{% endblock %}', 1)[0]
+        self.assertIn('canonical_path', block)
+
+
 class BannerWeightTests(SimpleTestCase):
     """The banner is on every page, so it is the first thing a visitor from
     search downloads. It was a 1.27 MB PNG of a photographic scene."""
