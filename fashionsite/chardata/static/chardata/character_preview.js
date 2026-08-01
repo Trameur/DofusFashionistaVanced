@@ -113,7 +113,11 @@
         this.skins.forEach(function (id) {
             jobs.push(fetch(self.base + '/parts/' + id + '/parts.json' + self.stamp)
                 .then(function (r) { return r.ok ? r.json() : null; })
-                .then(function (data) { if (data) { self.manifests[id] = data; } })
+                .then(function (data) {
+                    if (!data) { return; }
+                    self.manifests[id] = data;
+                    return self.decoded(id);
+                })
                 .catch(function () {}));
         });
         return Promise.all(jobs).then(function () {
@@ -128,15 +132,13 @@
         });
     };
 
-    CharacterPreview.prototype.image = function (skinId, part) {
-        var key = skinId + '/' + part;
-        if (!this.images[key]) {
+    CharacterPreview.prototype.image = function (skinId) {
+        if (!this.images[skinId]) {
             var img = new Image();
-            img.src = this.base + '/parts/' + skinId + '/' + encodeURIComponent(part)
-                + '.png' + this.stamp;
-            this.images[key] = img;
+            img.src = this.base + '/parts/' + skinId + '/atlas.webp' + this.stamp;
+            this.images[skinId] = img;
         }
-        return this.images[key];
+        return this.images[skinId];
     };
 
     CharacterPreview.prototype.entriesFor = function (node) {
@@ -174,19 +176,30 @@
         return out;
     };
 
-    CharacterPreview.prototype.tinted = function (img, rgb) {
+    CharacterPreview.prototype.tinted = function (img, rgb, sx, sy, w, h) {
         var c = this.tintCanvas, ctx = this.tintCtx;
-        c.width = img.naturalWidth;
-        c.height = img.naturalHeight;
-        ctx.clearRect(0, 0, c.width, c.height);
-        ctx.drawImage(img, 0, 0);
+        c.width = w;
+        c.height = h;
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(img, sx, sy, w, h, 0, 0, w, h);
         ctx.globalCompositeOperation = 'multiply';
         ctx.fillStyle = 'rgb(' + rgb.join(',') + ')';
-        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.fillRect(0, 0, w, h);
         ctx.globalCompositeOperation = 'destination-in';
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, sx, sy, w, h, 0, 0, w, h);
         ctx.globalCompositeOperation = 'source-over';
         return c;
+    };
+
+    // The first draw waits for the whole sheet, so the character appears at
+    // once instead of a piece at a time.
+    CharacterPreview.prototype.decoded = function (skinId) {
+        var img = this.image(skinId);
+        if (img.complete && img.naturalWidth) { return null; }
+        return img.decode ? img.decode().catch(function () {})
+            : new Promise(function (done) {
+                img.onload = img.onerror = function () { done(); };
+            });
     };
 
     CharacterPreview.prototype.mountImage = function (part) {
@@ -247,7 +260,7 @@
             for (var j = 0; j < list.length; j++) {
                 var entry = list[j];
                 this.paint(m, this.manifests[entry.skin][entry.part],
-                           this.image(entry.skin, entry.part),
+                           this.image(entry.skin),
                            entry.slot ? this.colors[entry.slot] : null, scale);
             }
         }
@@ -265,7 +278,17 @@
             s * rx / ppu, -s * ry / ppu, -s * ux / ppu, s * uy / ppu,
             s * (rx * ox + ux * oy + tx) + this.origin[0],
             -s * (ry * ox + uy * oy + ty) + this.origin[1]);
-        this.ctx.drawImage(rgb ? this.tinted(img, rgb) : img, 0, 0);
+        // Skins come from one sheet and carry their spot on it; a mount piece
+        // is still its own file and has none.
+        var sx = bounds.sx || 0, sy = bounds.sy || 0;
+        if (rgb) {
+            this.ctx.drawImage(this.tinted(img, rgb, sx, sy, bounds.w, bounds.h), 0, 0);
+        } else if (bounds.sx === undefined) {
+            this.ctx.drawImage(img, 0, 0);
+        } else {
+            this.ctx.drawImage(img, sx, sy, bounds.w, bounds.h,
+                               0, 0, bounds.w, bounds.h);
+        }
     };
 
     CharacterPreview.prototype.start = function () {

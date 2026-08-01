@@ -549,8 +549,8 @@ urlpatterns = [
             character_assets.mount_part_view, name='character_mount_part'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/parts\.json$',
             character_assets.parts_manifest_view, name='character_parts'),
-    re_path(r'^character/parts/(?P<skin_id>\d+)/(?P<part>[\w.\-]+)\.png$',
-            character_assets.part_image_view, name='character_part'),
+    re_path(r'^character/parts/(?P<skin_id>\d+)/atlas\.webp$',
+            character_assets.atlas_view, name='character_atlas'),
     re_path(r'^$', home_view.home, name='home'),
     re_path(r'^random/$', home_view.random_build, name='random_build'),
 

@@ -8355,6 +8355,31 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual([row.get('rider') or row.get('part') for row in frame],
                          ['carried_1_0', 0, 'carried_6_0'])
 
+    def test_a_skin_is_one_sheet_not_thirty_files(self):
+        # A character used to cost 85 requests. The sheet holds every part of
+        # every orientation, so turning it costs none at all.
+        from chardata import character_assets
+        images = {}
+        try:
+            from PIL import Image
+        except ImportError:
+            self.skipTest('no PIL')
+        for name, size in (('a', (10, 20)), ('b', (30, 8)), ('c', (5, 5))):
+            images[name] = Image.new('RGBA', size, (255, 0, 0, 255))
+        atlas, places = character_assets.pack_atlas(images)
+        self.assertEqual(len(places), 3)
+        for name, (x, y) in places.items():
+            self.assertLessEqual(x + images[name].width, atlas.width)
+            self.assertLessEqual(y + images[name].height, atlas.height)
+        spots = sorted(places.values())
+        self.assertEqual(len(set(spots)), len(spots))
+
+    def test_the_sheet_version_reaches_the_cache_buster(self):
+        # Without it the browser keeps a year-old sheet in the old format.
+        from chardata import character_assets
+        self.assertIn(str(character_assets.SKIN_FORMAT),
+                      character_assets.asset_token().split('-'))
+
     def test_a_baked_skeleton_needs_no_bundle_behind_it(self):
         # Production ships the cache and not the 861 MB of bundles, so asking
         # for the bundle would switch the mount off on the only box that counts.

@@ -4,6 +4,7 @@
 Bundles live in CHARACTER_BUNDLE_DIR, baked PNGs in CHARACTER_CACHE_DIR.
 """
 import json
+import math
 import os
 import re
 import struct
@@ -421,10 +422,37 @@ def _skin_cache(skin_id):
     return os.path.join(cache_dir(), 'parts', str(skin_id))
 
 
+def pack_atlas(pieces, gap=1):
+    """Lay the baked pieces out in rows, tallest first, on one square-ish sheet.
+
+    Returns (atlas image, {name: (x, y)}). One sheet is one request instead of
+    the thirty a character used to cost.
+    """
+    from PIL import Image
+    order = sorted(pieces, key=lambda name: -pieces[name].height)
+    total = sum(pieces[name].width * pieces[name].height for name in order)
+    width = max(int(math.sqrt(total) * 1.3), max(
+        (pieces[name].width for name in order), default=1)) + gap
+    places = {}
+    x = y = row_height = 0
+    for name in order:
+        piece = pieces[name]
+        if x and x + piece.width > width:
+            x, y, row_height = 0, y + row_height + gap, 0
+        places[name] = (x, y)
+        x += piece.width + gap
+        row_height = max(row_height, piece.height)
+    height = y + row_height
+    atlas = Image.new('RGBA', (max(width, 1), max(height, 1)), (0, 0, 0, 0))
+    for name, spot in places.items():
+        atlas.paste(pieces[name], spot)
+    return atlas, places
+
+
 def ensure_skin(skin_id):
     """Bake once, then read from the cache. None if the bundle is missing."""
     target = _skin_cache(skin_id)
-    manifest_path = os.path.join(target, 'parts.json')
+    manifest_path = os.path.join(target, 'parts-v%d.json' % SKIN_FORMAT)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding='utf-8') as fh:
             return json.load(fh)
@@ -440,13 +468,18 @@ def ensure_skin(skin_id):
                 return json.load(fh)
         os.makedirs(target, exist_ok=True)
         skin = Skin(bundle)
-        manifest = {}
+        images, manifest = {}, {}
         for part in skin.parts:
             image, bounds = bake_part(skin, part)
             if image is None or not image.getbbox():
                 continue
-            image.save(os.path.join(target, '%s.png' % part))
+            images[part] = image
             manifest[part] = bounds
+        atlas, places = pack_atlas(images)
+        atlas.save(os.path.join(target, ATLAS_NAME), lossless=True, method=4)
+        for part, (x, y) in places.items():
+            manifest[part]['sx'] = x
+            manifest[part]['sy'] = y
         with open(manifest_path, 'w', encoding='utf-8') as fh:
             json.dump(manifest, fh)
         return manifest
@@ -456,6 +489,8 @@ def ensure_skin(skin_id):
 # new name.
 POSE_FORMAT = 4
 MOUNT_FORMAT = 5
+SKIN_FORMAT = 6
+ATLAS_NAME = 'atlas.webp'
 
 BONE_NAME = re.compile(r'^[\w-]+$')
 
@@ -504,7 +539,8 @@ FOREVER = 'public, max-age=31536000, immutable'
 def asset_token():
     """Cache buster: the pieces are id-addressed and kept for a year."""
     from fashionista_version import FASHIONISTA_VERSION
-    return '%s-%d-%d' % (FASHIONISTA_VERSION, POSE_FORMAT, MOUNT_FORMAT)
+    return '%s-%d-%d-%d' % (FASHIONISTA_VERSION, POSE_FORMAT, MOUNT_FORMAT,
+                            SKIN_FORMAT)
 
 
 def _forever(response):
@@ -519,16 +555,13 @@ def parts_manifest_view(request, skin_id):
     return _forever(JsonResponse(manifest))
 
 
-def part_image_view(request, skin_id, part):
-    if not re.match(r'^[\w.\-]+$', part):
+def atlas_view(request, skin_id):
+    if ensure_skin(int(skin_id)) is None:
         raise Http404
-    manifest = ensure_skin(int(skin_id))
-    if manifest is None or part not in manifest:
-        raise Http404
-    path = os.path.join(_skin_cache(int(skin_id)), '%s.png' % part)
+    path = os.path.join(_skin_cache(int(skin_id)), ATLAS_NAME)
     if not os.path.exists(path):
         raise Http404
-    return _forever(FileResponse(open(path, 'rb'), content_type='image/png'))
+    return _forever(FileResponse(open(path, 'rb'), content_type='image/webp'))
 
 
 def mount_manifest_view(request, bone_id):
