@@ -138,9 +138,9 @@ def _spell_image_url(spell_name, game_version):
 
 def _best_combo(char, solution, game_version):
     """Best cast order for one turn, or None when there is nothing to say."""
-    from chardata.spell_combo import best_turn, castable_spells
+    from chardata.spell_combo import best_turn, castable_spells, combat_ap
     stats = solution.get_stats_total()
-    ap = stats.get('ap') or 0
+    ap = combat_ap(stats.get('ap'), game_version)
     spells = castable_spells(char.char_class, char.level, game_version)
     if not ap or not spells:
         return None

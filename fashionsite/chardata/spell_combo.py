@@ -20,12 +20,25 @@
 
 import copy
 
-from fashionistapulp.dofus_constants import calculate_damage
+from fashionistapulp.dofus_constants import calculate_damage, get_stat_maximum
 
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
 
 MAX_CASTS = 8
+
+# What a character starts a fight with, before any gear. The stats the site
+# carries are gear bonuses only, so a build with no AP item reads as 0 and had
+# nothing to spend.
+BASE_AP = 6
+
+
+def combat_ap(gear_ap, game_version):
+    """The AP a turn actually has. Retro never got the PA/PM/PO limitation, so
+    only the other versions take the cap."""
+    total = BASE_AP + (gear_ap or 0)
+    cap = get_stat_maximum(game_version).get('AP')
+    return min(total, cap) if cap else total
 
 
 class Castable(object):

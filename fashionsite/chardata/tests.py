@@ -9736,6 +9736,40 @@ class MonsterSpellTests(TestCase):
             self.assertIn(spell, page)
 
 
+class CombatApTests(SimpleTestCase):
+    """The stats the site carries are gear bonuses, so a build with no AP item
+    read as 0 AP and the combo panel never appeared at all."""
+
+    def test_a_build_with_no_ap_item_still_has_a_turn(self):
+        from chardata.spell_combo import BASE_AP, combat_ap
+        self.assertEqual(BASE_AP, combat_ap(0, 'dofus3'))
+        self.assertEqual(BASE_AP, combat_ap(None, 'dofus3'))
+
+    def test_the_modern_versions_stop_at_twelve(self):
+        from chardata.spell_combo import combat_ap
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            with self.subTest(version=version):
+                self.assertEqual(10, combat_ap(4, version))
+                self.assertEqual(12, combat_ap(6, version))
+                self.assertEqual(12, combat_ap(9, version))
+
+    def test_retro_never_got_the_limitation(self):
+        # 17 AP builds exist there, so the cap must not apply.
+        from chardata.spell_combo import combat_ap
+        self.assertEqual(15, combat_ap(9, 'retro'))
+
+    def test_the_panel_now_has_something_to_spend(self):
+        from chardata.spell_combo import best_turn, castable_spells, combat_ap
+        spells = castable_spells('Iop', 200, 'dofus3')
+        self.assertGreater(len(spells), 10)
+        from fashionistapulp.structure import get_structure
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 500, 'dam': 50, 'pow': 100})
+        total, order = best_turn(stats, spells, combat_ap(0, 'dofus3'))
+        self.assertGreater(total, 0, 'no cast fits in a bare turn')
+        self.assertGreater(len(order), 0)
+
+
 class SpellComboTests(SimpleTestCase):
     """The best order of casts in a turn. A buff cast first changes what every
     later cast is worth, so the order is the answer, not a detail of it."""
