@@ -9905,6 +9905,37 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         self.assertEqual([], report['missing'],
                          'a skin with no baked art draws nothing')
 
+    def test_half_the_art_is_named_for_a_colour_slot(self):
+        # Measured, not assumed: 51.6% of the baked pieces carry a
+        # ColorGray_N_ name and all six slots are used. The rest keeps the
+        # colours Ankama drew, which is why a character is never fully tinted.
+        # Two earlier attempts at a cleverer mapping dropped this figure.
+        import json
+        import re
+        from chardata import character_assets, character_look
+        root = os.path.join(character_assets.cache_dir(), 'parts')
+        if not os.path.isdir(root):
+            self.skipTest('nothing baked on this machine')
+        colour = re.compile(r'^ColorGray_(\d+)_')
+        total = tinted = 0
+        slots = set()
+        for skin in sorted(os.listdir(root))[:80]:
+            path = os.path.join(root, skin, 'parts-v%d.json'
+                                % character_assets.SKIN_FORMAT)
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding='utf-8') as handle:
+                for name in json.load(handle):
+                    total += 1
+                    found = colour.match(name)
+                    if found:
+                        tinted += 1
+                        slots.add(int(found.group(1)))
+        self.assertGreater(total, 1000)
+        self.assertGreater(tinted * 100.0 / total, 45,
+                           'the colour slots stopped matching the art')
+        self.assertEqual(set(range(1, character_look.COLOR_SLOTS + 1)), slots)
+
     def test_a_stale_format_is_not_answered_with_the_current_art(self):
         from django.http import Http404
         from chardata import character_assets
