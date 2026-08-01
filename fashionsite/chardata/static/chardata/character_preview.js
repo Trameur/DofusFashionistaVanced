@@ -196,6 +196,11 @@
         ctx.globalCompositeOperation = 'multiply';
         ctx.fillStyle = 'rgb(' + rgb.join(',') + ')';
         ctx.fillRect(0, 0, w, h);
+        // The greyscale art sits at a median luminance of 87/255, so a plain
+        // multiply returned about a third of the chosen colour. Mid grey is
+        // the neutral point the art is drawn around, not white.
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.drawImage(c, 0, 0);
         ctx.globalCompositeOperation = 'destination-in';
         ctx.drawImage(img, sx, sy, w, h, 0, 0, w, h);
         ctx.globalCompositeOperation = 'source-over';

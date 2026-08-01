@@ -9936,6 +9936,20 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
                            'the colour slots stopped matching the art')
         self.assertEqual(set(range(1, character_look.COLOR_SLOTS + 1)), slots)
 
+    def test_the_tint_does_not_return_a_third_of_the_chosen_colour(self):
+        # The greyscale art has a median luminance of 87/255, so a plain
+        # multiply gave back about a third of the colour: the Iop's own skin
+        # tone efa06c came out dark brown. Mid grey is the neutral point.
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', 'character_preview.js')
+        with open(path, encoding='utf-8') as handle:
+            source = handle.read()
+        body = source.split('prototype.tinted', 1)[1].split('return c;', 1)[0]
+        self.assertIn("'multiply'", body)
+        self.assertIn("'lighter'", body,
+                      'the tint fell back to a plain multiply')
+
     def test_a_stale_format_is_not_answered_with_the_current_art(self):
         from django.http import Http404
         from chardata import character_assets
