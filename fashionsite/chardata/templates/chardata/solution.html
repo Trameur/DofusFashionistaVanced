@@ -9,6 +9,10 @@
 
 {% block meta_description %}{% if link_shared %}{{ seo_class }}{% if seo_build %} {{ seo_build }}{% endif %} {% trans "level" %} {{ char.level }} {% trans "build optimized on Dofus Fashionista" %}.{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}
 
+{% block preload %}{% for asset in character_preloads %}
+<link rel="preload" href="{{ asset.url }}" as="{{ asset.kind }}"{% if asset.kind == 'fetch' %} crossorigin{% endif %}>{% endfor %}
+{% endblock %}
+
 {% block og_meta %}
 {% if link_shared %}
     <meta property="og:title" content="{{ char.char_name|default:char.name }} · {{ char.char_class }} {% trans 'lvl' %} {{ char.level }}">

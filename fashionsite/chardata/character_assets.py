@@ -558,6 +558,33 @@ def asset_formats():
     return {'pose': POSE_FORMAT, 'mount': MOUNT_FORMAT, 'skin': SKIN_FORMAT}
 
 
+def preload_links(look):
+    """The urls the preview will ask for, so the browser can start during the
+    html parse rather than after the script runs. Same names as the client
+    builds, or the browser fetches everything twice."""
+    if not look:
+        return []
+    stamp = '?v=%s' % asset_token()
+    out = [{'url': '/character/poses/%s-v%d.json%s'
+                   % (look['bones'], POSE_FORMAT, stamp), 'kind': 'fetch'}]
+    mount = look.get('mount')
+    if mount:
+        out.append({'url': '/character/mount/%s/parts-v%d.json%s'
+                           % (mount['bone'], MOUNT_FORMAT, stamp),
+                    'kind': 'fetch'})
+    seen = []
+    for skin in [look.get('body'), look.get('head')] + list(
+            (look.get('gear') or {}).values()):
+        if skin and skin not in seen:
+            seen.append(skin)
+    for skin in seen:
+        out.append({'url': '/character/parts/%s/parts-v%d.json%s'
+                           % (skin, SKIN_FORMAT, stamp), 'kind': 'fetch'})
+        out.append({'url': '/character/parts/%s/%s%s'
+                           % (skin, ATLAS_NAME, stamp), 'kind': 'image'})
+    return out
+
+
 def _forever(response):
     response['Cache-Control'] = FOREVER
     return response

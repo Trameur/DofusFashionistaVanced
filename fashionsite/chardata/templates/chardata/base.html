@@ -28,6 +28,7 @@
     <meta name="twitter:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
     {% endblock %}
     {% block structured_data %}{% endblock %}
+    {% block preload %}{% endblock %}
     <title>{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}</title>
 
     {% load i18n %}

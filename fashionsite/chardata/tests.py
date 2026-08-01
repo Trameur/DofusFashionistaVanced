@@ -9533,6 +9533,27 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         self.assertIn('try_files /poses/$pose @app;', config)
         self.assertIn('try_files /mounts/$bone/$piece @app;', config)
 
+    def test_the_preloaded_urls_are_the_ones_the_client_asks_for(self):
+        # A preload the fetch does not match is not free, it downloads
+        # everything twice.
+        from chardata import character_assets
+        look = {'bones': '1-8-static', 'body': 80, 'head': 81,
+                'gear': {'cape': 242, 'hat': 242}, 'mount': None}
+        urls = [row['url'] for row in character_assets.preload_links(look)]
+        stamp = '?v=%s' % character_assets.asset_token()
+        formats = character_assets.asset_formats()
+        self.assertIn('/character/poses/1-8-static-v%d.json%s'
+                      % (formats['pose'], stamp), urls)
+        self.assertIn('/character/parts/80/parts-v%d.json%s'
+                      % (formats['skin'], stamp), urls)
+        self.assertIn('/character/parts/242/atlas.webp%s' % stamp, urls)
+        self.assertEqual(len(urls), len(set(urls)), 'a skin was listed twice')
+        self.assertEqual(7, len(urls))
+
+    def test_nothing_is_preloaded_without_a_look(self):
+        from chardata import character_assets
+        self.assertEqual([], character_assets.preload_links(None))
+
     def test_a_stale_format_is_not_answered_with_the_current_art(self):
         from django.http import Http404
         from chardata import character_assets
