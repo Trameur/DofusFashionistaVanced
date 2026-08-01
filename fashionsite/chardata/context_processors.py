@@ -158,6 +158,9 @@ def ads(request):
     return {
         'ads_allowed': allowed,
         'ads_enabled': allowed and bool(slots),
+        # data-ad-client on the script tag is what turns on AdSense's own
+        # automatic placement, which lands on top of the units below.
+        'ad_auto': config.get('auto', True),
         'ad_client': client,
         'ad_publisher': client.replace('ca-', '', 1),
         'ad_slots': slots,

@@ -272,6 +272,13 @@
         </label>
         <p class="admin-note">Off hides every unit and stops loading the
             AdSense script. The layout does not shift: the slots collapse.</p>
+        <label class="admin-ads-toggle">
+            <input type="checkbox" name="auto" value="1"
+                   {% if ad_config.auto %}checked{% endif %}>
+            <span>Let AdSense place ads on its own (Auto ads)</span>
+        </label>
+        <p class="admin-note">On top of the units below, wherever Google
+            decides. Off leaves only the slots you set here.</p>
         <div class="admin-ads-slots">
             {% for slot in ad_config.slots %}
             <label class="admin-ads-slot">

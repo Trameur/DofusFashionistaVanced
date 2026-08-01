@@ -9100,6 +9100,27 @@ class AdminAdSettingsTests(TestCase):
         self.assertFalse(values['ads_allowed'])
         self.assertEqual({}, values['ad_slots'])
 
+    def _script_tag(self):
+        import re
+        body = self.client.get('/about/').content.decode('utf-8')
+        found = re.search(r'<script[^>]*adsbygoogle\.js[^>]*>', body)
+        self.assertIsNotNone(found, 'the adsense script is gone')
+        return found.group(0), body
+
+    def test_auto_ads_can_be_turned_off_without_losing_the_units(self):
+        # data-ad-client on the script tag is what lets Google place ads by
+        # itself. Left on next to our own units, a page carries both. The
+        # units keep their own data-ad-client, so only the tag can be read.
+        self._post(enabled='1', auto='1', slot_footer='6811885155')
+        tag, body = self._script_tag()
+        self.assertIn('data-ad-client', tag)
+        self.assertIn('6811885155', body)
+
+        self._post(enabled='1', slot_footer='6811885155')
+        tag, body = self._script_tag()
+        self.assertNotIn('data-ad-client', tag)
+        self.assertIn('6811885155', body)
+
     def test_a_slot_id_that_is_not_a_number_is_refused(self):
         resp = self._post(enabled='1', slot_home_top='<script>')
         self.assertEqual(400, resp.status_code)

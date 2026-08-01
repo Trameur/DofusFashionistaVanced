@@ -66,7 +66,7 @@
     {% if ads_allowed %}
     <meta name="google-adsense-account" content="{{ ad_client }}">
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
-    <script data-ad-client="{{ ad_client }}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script {% if ad_auto %}data-ad-client="{{ ad_client }}" {% endif %}async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script src="https://fundingchoicesmessages.google.com/i/{{ ad_publisher }}?ers=1"></script>
     {% endif %}
 

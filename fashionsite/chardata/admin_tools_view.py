@@ -147,6 +147,7 @@ def _ad_form():
     config = ad_config()
     slots = config.get('slots') or {}
     return {'enabled': config.get('enabled', True),
+            'auto': config.get('auto', True),
             'slots': [{'name': name, 'value': slots.get(name, '')}
                       for name in AD_SLOTS]}
 
@@ -209,7 +210,8 @@ def admin_ads_action(request):
                 {'error': 'Slot ids are digits only: %s' % name}, status=400)
         if value:
             slots[name] = value
-    stored = {'enabled': request.POST.get('enabled') == '1', 'slots': slots}
+    stored = {'enabled': request.POST.get('enabled') == '1',
+              'auto': request.POST.get('auto') == '1', 'slots': slots}
     SiteSetting.objects.update_or_create(
         key=AD_SETTING_KEY, defaults={'value': json.dumps(stored)})
     cache.delete(AD_SETTING_KEY)
