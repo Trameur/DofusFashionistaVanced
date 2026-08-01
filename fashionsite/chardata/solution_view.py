@@ -124,7 +124,11 @@ def _default_colors(char):
 
 def _preview_pieces(char, look=None):
     hidden = parse_hidden(char.hidden_parts)
-    slots = sorted(SLOT_TO_NODE)
+    gear = (look or {}).get('gear') or {}
+    # Only two thirds of cloaks and under a third of weapons have art, so a box
+    # for a slot the preview cannot draw does nothing when ticked.
+    slots = [slot for slot in sorted(SLOT_TO_NODE)
+             if SLOT_TO_NODE[slot] in gear or slot in hidden]
     # Hiding the mount takes it out of the look, so the box has to stay while
     # it is off or there is no way back.
     if (look and look.get('mount')) or MOUNT_SLOT in hidden:

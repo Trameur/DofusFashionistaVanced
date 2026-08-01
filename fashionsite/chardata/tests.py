@@ -9101,6 +9101,34 @@ class RecipeLookupTests(SimpleTestCase):
             conn.close()
 
 
+class PreviewPieceBoxesTests(SimpleTestCase):
+    """A tickbox for a slot the preview cannot draw does nothing, and the
+    matcher only found art for 64% of cloaks and 29% of weapons."""
+
+    def _pieces(self, hidden, gear, mount=None):
+        from chardata.solution_view import _preview_pieces
+
+        class Char(object):
+            hidden_parts = hidden
+
+        return [row['slot'] for row in
+                _preview_pieces(Char(), {'gear': gear, 'mount': mount})]
+
+    def test_a_slot_with_no_art_gets_no_box(self):
+        from chardata.character_look import SLOT_TO_NODE
+        hat = SLOT_TO_NODE['hat']
+        self.assertEqual(['hat'], self._pieces('', {hat: 242}))
+
+    def test_a_hidden_slot_keeps_its_box_so_it_can_come_back(self):
+        # Hiding takes the slot out of the gear, so the box has to survive.
+        self.assertIn('cloak', self._pieces('cloak', {}))
+
+    def test_the_mount_box_still_follows_its_own_rule(self):
+        self.assertIn('mount', self._pieces('', {}, mount={'bone': '639'}))
+        self.assertIn('mount', self._pieces('mount', {}))
+        self.assertNotIn('mount', self._pieces('', {}))
+
+
 class SharedBuildCanonicalTests(TestCase):
     """The name in /s/<name>/<id>/ is decorative: the view reads only the id,
     so every spelling serves the same build. Each one used to name itself as
