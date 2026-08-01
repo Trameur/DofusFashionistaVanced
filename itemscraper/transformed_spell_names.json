@@ -6054,6 +6054,13 @@
     "fr": "Flèche de Barrage",
     "pt": "Flecha de Barricada"
   },
+  "Barricade Shot": {
+    "de": "Sperrfeuer",
+    "en": "Barricade Shot",
+    "es": "Tiro Peleón",
+    "fr": "Tir de Barrage",
+    "pt": "Tiro de Barricada"
+  },
   "Barrier": {
     "de": "Barriere",
     "en": "Barrier",
@@ -14776,6 +14783,13 @@
     "fr": "Concentration",
     "pt": "Concentração"
   },
+  "Concentration Arrow": {
+    "de": "Pfeil der Konzentration",
+    "en": "Concentration Arrow",
+    "es": "Flecha de Concentración",
+    "fr": "Flèche de Concentration",
+    "pt": "Flecha de Concentração"
+  },
   "Conclave": {
     "de": "Konklave",
     "en": "Conclave",
@@ -15678,6 +15692,13 @@
     "es": "Revestimiento",
     "fr": "Revêtement",
     "pt": "Revestimento"
+  },
+  "Covering Fire": {
+    "de": "Deckungsfeuer",
+    "en": "Covering Fire",
+    "es": "Fuego de Cobertura",
+    "fr": "Tir de Couverture",
+    "pt": "Tiro de Cobertura"
   },
   "Coward Mask": {
     "de": "Hänselmaske",
@@ -16770,6 +16791,13 @@
     "es": "Apisonamiento",
     "fr": "Ecrasement",
     "pt": "Esmagamento"
+  },
+  "Crushing Arrow": {
+    "de": "Zermalmungspfeil",
+    "en": "Crushing Arrow",
+    "es": "Flecha Aplastante",
+    "fr": "Flèche Écrasante",
+    "pt": "Flecha Esmagadora"
   },
   "Crushing Blow": {
     "de": "Schmetterschlag",
@@ -25206,6 +25234,13 @@
     "fr": "Glyphe éroffensif",
     "pt": "Glifo Erofensivo"
   },
+  "Erosive Arrows": {
+    "de": "Erosionspfeile",
+    "en": "Erosive Arrows",
+    "es": "Flechas Erosivas",
+    "fr": "Flèches Érosives",
+    "pt": "Flechas Erosivas"
+  },
   "Erosive Slobber": {
     "de": "Erosiver Sabber",
     "en": "Erosive Slobber",
@@ -30945,6 +30980,13 @@
     "es": "La Sacrificada de Gink",
     "fr": "La Sacrifiée de Gink",
     "pt": "A Sacrificada de Gink"
+  },
+  "Gives all spells infinite range": {
+    "de": "Verleiht allen Zaubern unbegrenzte Reichweite.",
+    "en": "Gives all spells infinite range",
+    "es": "Vuelve infinito el alcance de todos los hechizos.",
+    "fr": "Rend la portée de tous les sorts infinie",
+    "pt": "Torna infinito o alcance de todos os feitiços."
   },
   "Glacial Crushing": {
     "de": "Eiskalte Zermalmung",
@@ -40900,6 +40942,13 @@
     "fr": "Grande Fée d'Artifice Jaune",
     "pt": "Grande Fada de Artifício Amarela"
   },
+  "Lark Mirror": {
+    "de": "Lerchenspiegel",
+    "en": "Lark Mirror",
+    "es": "Señuelo para Alondras",
+    "fr": "Miroir aux Alouettes",
+    "pt": "Ar-dil"
+  },
   "Larvage": {
     "de": "Larv-o-mat",
     "en": "Larvage",
@@ -49223,6 +49272,13 @@
     "fr": "Acclamation optique",
     "pt": "Aclamação Óptica"
   },
+  "Optical Arrow": {
+    "de": "Optischer Pfeil",
+    "en": "Optical Arrow",
+    "es": "Flecha Óptica",
+    "fr": "Flèche Optique",
+    "pt": "Flecha Óptica"
+  },
   "Optical Vision": {
     "de": "Optische Sicht",
     "en": "Optical Vision",
@@ -51554,6 +51610,13 @@
     "fr": "Tir Perçant",
     "pt": "Tiro Perfurante"
   },
+  "Piercing Shots": {
+    "de": "Durchbohrende Schüsse",
+    "en": "Piercing Shots",
+    "es": "Tiros Perforantes",
+    "fr": "Tirs Perçants",
+    "pt": "Tiros Perfurantes"
+  },
   "Piercing Wind": {
     "de": "Durchbohrender Wind",
     "en": "Piercing Wind",
@@ -52554,6 +52617,13 @@
     "es": "Emboscada Envenenada",
     "fr": "Embuscade Empoisonnée",
     "pt": "Emboscada Envenenada"
+  },
+  "Poisoned Arrow": {
+    "de": "Giftpfeil",
+    "en": "Poisoned Arrow",
+    "es": "Flecha Envenenada",
+    "fr": "Flèche Empoisonnée",
+    "pt": "Flecha Envenenada"
   },
   "Poisoned Art": {
     "de": "Giftchen",
@@ -56160,6 +56230,13 @@
     "fr": "Réfracterre",
     "pt": "Refraterra"
   },
+  "Recall Beacon": {
+    "de": "Leitmarkierung des Rückrufs",
+    "en": "Recall Beacon",
+    "es": "Baliza de Recuerdo",
+    "fr": "Balise de Rappel",
+    "pt": "Baliza de Recuo"
+  },
   "Recall of the Lance": {
     "de": "Rückruf des Wurfspeers",
     "en": "Recall of the Lance",
@@ -57230,6 +57307,13 @@
     "es": "Saeta de Retroceso",
     "fr": "Trait de Recul",
     "pt": "Traço de Recuo"
+  },
+  "Retreating Shot": {
+    "de": "Rückstoßschuss",
+    "en": "Retreating Shot",
+    "es": "Disparo de Retroceso",
+    "fr": "Tir de Recul",
+    "pt": "Tiro de Recuo"
   },
   "Retribution": {
     "de": "Strafe",
@@ -63173,6 +63257,13 @@
     "es": "Ralentización",
     "fr": "Ralentissement",
     "pt": "Desaceleração"
+  },
+  "Slow Down Arrow": {
+    "de": "Verlangsamungspfeil",
+    "en": "Slow Down Arrow",
+    "es": "Flecha Ralentizante",
+    "fr": "Flèche Ralentissante",
+    "pt": "Flecha Desaceleradora"
   },
   "Slow Down Speetwateir": {
     "de": "Lahmmachender Wasserschwall",
@@ -71686,6 +71777,13 @@
     "fr": "Plongeon Tourmenté",
     "pt": "Mergulho Atormentado"
   },
+  "Tormenting Arrow": {
+    "de": "Peinigender Pfeil",
+    "en": "Tormenting Arrow",
+    "es": "Flecha de Tormento",
+    "fr": "Flèche de Tourment",
+    "pt": "Flecha de Tormento"
+  },
   "Tormenting Projectile": {
     "de": "Zielsuchendes Geschoss",
     "en": "Tormenting Projectile",
@@ -77531,6 +77629,13 @@
     "fr": "Malédiction de la Sorcière",
     "pt": "Maldição da Feiticeira"
   },
+  "Withdrawal Arrows": {
+    "de": "Rückzugspfeile",
+    "en": "Withdrawal Arrows",
+    "es": "Flechas de Repliegue",
+    "fr": "Flèches de Repli",
+    "pt": "Flechas de Retirada"
+  },
   "Withdrawal Fist": {
     "de": "Rückzugsfaust",
     "en": "Withdrawal Fist",
@@ -80512,6 +80617,13 @@
     "es": "[!] Flou expérimental",
     "fr": "Flou expérimental",
     "pt": "[!] Flou expérimental"
+  },
+  "[!] Flèche Assaillante": {
+    "de": "[!] Flèche Assaillante",
+    "en": "[!] Flèche Assaillante",
+    "es": "[!] Flèche Assaillante",
+    "fr": "Flèche Assaillante",
+    "pt": "[!] Flèche Assaillante"
   },
   "[!] Flèche Destructrice Trahison": {
     "de": "[!] Flèche Destructrice Trahison",
@@ -84054,6 +84166,13 @@
     "es": "[!] Étreinte Sylvestre",
     "fr": "Étreinte Sylvestre",
     "pt": "[!] Étreinte Sylvestre"
+  },
+  "[!] Évasion de l'Exil": {
+    "de": "Flucht aus dem Exil",
+    "en": "[!] Évasion de l'Exil",
+    "es": "[!] Évasion de l'Exil",
+    "fr": "Évasion de l'Exil",
+    "pt": "[!] Évasion de l'Exil"
   },
   "[!] Évolution magmatique": {
     "de": "[!] Évolution magmatique",

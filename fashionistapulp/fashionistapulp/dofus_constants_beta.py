@@ -647,7 +647,7 @@ DAMAGE_SPELLS = {
             [['31-35'], ['31-35']],
             [AIR, AIR],
             steals=[False, True],
-        ), is_linked=(2, 'Piercing Arrow'), casting={'ap': [3], 'per_turn': [2], 'per_target': [1]}, spell_id=32432),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Piercing Arrow'), casting={'ap': [3], 'per_turn': [2], 'per_target': [1]}, spell_id=32432),
         Spell('Persecuting Arrow', [130, 197], Effects(
             [['30-34', '30-34'], ['30-34', '30-34'], ['0-0', '34-38'], ['0-0', '34-38']],
             [['36-41', '36-41'], ['36-41', '36-41'], ['0-0', '41-46'], ['0-0', '41-46']],
@@ -718,7 +718,7 @@ DAMAGE_SPELLS = {
             [['9-11', '11-14', '14-17'], ['9-11', '11-14', '14-17']],
             [['12-14', '15-18', '18-21'], ['12-14', '15-18', '18-21']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Slow-Down Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=32444),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Slow-Down Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=32444),
         Spell('Explosive Arrow', [45, 112, 179], Effects(
             [['19-21', '25-28', '30-34']],
             [['23-26', '30-34', '36-41']],
@@ -751,7 +751,14 @@ DAMAGE_SPELLS = {
              ['68-72', '84-89']],
             [FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE],
             steals=[True, True, True, True, True, False, False, False, False, False, False, False],
-        ), stacks=3, is_linked=(1, 'Fulminating Arrow'), casting={'ap': [3, 3], 'per_turn': [2, 2]}, spell_id=32446),
+        ), aggregates=[('', [0]),
+ ('', [1, 5]),
+ ('', [2, 7]),
+ ('', [3, 9]),
+ ('', [4, 10]),
+ ('', [6]),
+ ('', [8]),
+ ('', [11])], stacks=3, is_linked=(1, 'Fulminating Arrow'), casting={'ap': [3, 3], 'per_turn': [2, 2]}, spell_id=32446),
         Spell('Burning Arrows', [150], Effects(
             [['34-38']],
             [['41-46']],
@@ -906,7 +913,7 @@ DAMAGE_SPELLS = {
              ['0-0', '22-0', '25-0']],
             [FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE],
             heals=[False, True, False, True, True, False, False, True],
-        ), is_linked=(1, 'Playful Claw'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=12846),
+        ), aggregates=[('', [0, 2, 5, 6]), ('', [1, 3, 4, 7])], is_linked=(1, 'Playful Claw'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=12846),
         Spell('Heads or Tails', [1, 69, 136], Effects(
             [['10-0', '14-0', '18-0']],
             [['14-0', '18-0', '22-0']],
@@ -1065,7 +1072,7 @@ DAMAGE_SPELLS = {
             [['32-0', '40-0'], ['32-0', '40-0']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(2, 'Yahtzee'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=12855),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Yahtzee'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=12855),
         Spell('Playful Claw', [105, 172], Effects(
             [['25-28', '31-35']],
             [['34-0', '42-0']],
@@ -1621,7 +1628,7 @@ DAMAGE_SPELLS = {
             [['15-17', '20-23', '26-29'], ['15-17', '20-23', '26-29']],
             [['19-21', '24-27', '31-35'], ['19-21', '24-27', '31-35']],
             [WATER, WATER],
-        ), is_linked=(1, 'Tribulation'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14593),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Tribulation'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14593),
         Spell('Shock', [1, 68, 134], Effects(
             [['14-16', '18-20', '23-26']],
             [['17-19', '21-24', '28-31']],
@@ -1632,7 +1639,7 @@ DAMAGE_SPELLS = {
             [['18-20', '25-27', '31-34'], ['18-20', '25-27', '31-34']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(1, 'Lazybeam'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=14579),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Lazybeam'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=14579),
         Spell('Portal', [5, 72, 139], Effects(
             [['2', '2', '2'], ['2', '2', '2']],
             None,
@@ -1652,7 +1659,7 @@ DAMAGE_SPELLS = {
             [['16-18', '20-23', '25-28'], ['16-18', '20-23', '25-28']],
             [['19-21', '24-27', '30-34'], ['19-21', '24-27', '30-34']],
             [WATER, WATER],
-        ), is_linked=(1, 'Snub'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14637),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Snub'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14637),
         Spell('Cabal', [40, 107, 174], Effects(
             [['100', '150', '200']],
             None,
@@ -1669,7 +1676,7 @@ DAMAGE_SPELLS = {
             [EARTH, EARTH],
             steals=[True, False],
             heals=[False, True],
-        ), is_linked=(1, 'Lightning Fist'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14581),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Lightning Fist'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14581),
         Spell('Affliction', [65, 131, 198], Effects(
             [['14-16', '18-21', '23-26'],
              ['14-16', '18-21', '23-26'],
@@ -1682,7 +1689,7 @@ DAMAGE_SPELLS = {
             [WATER, WATER, WATER, WATER],
             steals=[True, False, False, False],
             heals=[False, False, True, True],
-        ), is_linked=(1, 'Offence'), casting={'ap': [4, 4, 4], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14584),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Offence'), casting={'ap': [4, 4, 4], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=14584),
         Spell('Ridicule', [75, 142], Effects(
             [['26-29', '32-36']],
             [['31-35', '38-43']],
@@ -1692,7 +1699,7 @@ DAMAGE_SPELLS = {
             [['26-28', '32-35'], ['26-28', '32-35']],
             [['31-34', '38-42'], ['31-34', '38-42']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Sermon'), casting={'ap': [5, 5], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=14594),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Sermon'), casting={'ap': [5, 5], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=14594),
         Spell('Contempt', [95, 162], Effects(
             [['19-22', '24-27']],
             [['23-26', '29-32']],
@@ -1713,7 +1720,7 @@ DAMAGE_SPELLS = {
             [['22-25', '28-31'], ['22-25', '28-31']],
             [FIRE, FIRE],
             steals=[False, True],
-        ), is_linked=(2, 'Wakfu Ray'), casting={'ap': [3, 3], 'per_turn': [2, 2]}, spell_id=14606),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Wakfu Ray'), casting={'ap': [3, 3], 'per_turn': [2, 2]}, spell_id=14606),
         Spell('Wandering', [115, 182], Effects(
             [['2', '2'], ['2', '2']],
             None,
@@ -1725,7 +1732,7 @@ DAMAGE_SPELLS = {
             [AIR, AIR],
             steals=[True, False],
             heals=[False, True],
-        ), stacks=2, is_linked=(2, 'Persiflage'), casting={'ap': [2, 2], 'per_turn': [2, 2]}, spell_id=14610),
+        ), aggregates=[('', [0]), ('', [1])], stacks=2, is_linked=(2, 'Persiflage'), casting={'ap': [2, 2], 'per_turn': [2, 2]}, spell_id=14610),
         Spell('Composure', [135], Effects(
             [['32-36']],
             [['39-43']],
@@ -1778,7 +1785,7 @@ DAMAGE_SPELLS = {
             [['15-17', '20-23', '27-30'], ['15-17', '20-23', '27-30']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(1, 'Deafening Cry'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=25858),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Deafening Cry'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=25858),
         Spell('Vampiric Word', [1, 68, 134], Effects(
             [['16-18', '21-23', '27-30']],
             [['19-21', '25-28', '32-36']],
@@ -1829,19 +1836,19 @@ DAMAGE_SPELLS = {
             [['27-31', '35-39', '43-49'], ['27-31', '35-39', '43-49']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(1, 'Furious Word'), casting={'ap': [4, 4, 4], 'per_turn': [1, 1, 1]}, spell_id=25860),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Furious Word'), casting={'ap': [4, 4, 4], 'per_turn': [1, 1, 1]}, spell_id=25860),
         Spell("Prankster's Word", [35, 102, 169], Effects(
             [['15-17', '18-20', '22-24'], ['15-17', '18-20', '22-24']],
             [['17-19', '21-23', '26-28'], ['17-19', '21-23', '26-28']],
             [AIR, AIR],
             heals=[False, True],
-        ), is_linked=(1, 'Defensive Word'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=25879),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Defensive Word'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=25879),
         Spell('Warpaint', [40, 107, 174], Effects(
             [['6-7', '7-9', '9-11'], ['6-7', '7-9', '9-11'], ['6-7', '7-9', '9-11']],
             [['6-7', '7-9', '9-11'], ['8-9', '10-12', '12-14'], ['8-9', '10-12', '12-14']],
             [EARTH, EARTH, EARTH],
             heals=[True, False, True],
-        ), is_linked=(1, 'Secret Word'), casting={'ap': [2, 2, 2], 'per_turn': [2, 2, 2], 'per_target': [1, 1, 1]}, spell_id=25868),
+        ), aggregates=[('', [0, 2]), ('', [1])], is_linked=(1, 'Secret Word'), casting={'ap': [2, 2, 2], 'per_turn': [2, 2, 2], 'per_target': [1, 1, 1]}, spell_id=25868),
         Spell('War Cry', [50, 117, 184], Effects(
             [['23-26', '31-35', '37-41']],
             [['28-31', '38-42', '44-49']],
@@ -1852,7 +1859,7 @@ DAMAGE_SPELLS = {
             [['36-39', '48-52', '55-60'], ['36-39', '48-52', '55-60']],
             [WATER, WATER],
             heals=[False, True],
-        ), is_linked=(1, 'Bloodless Word'), casting={'ap': [5, 5, 5], 'per_turn': [1, 1, 1]}, spell_id=25873),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Bloodless Word'), casting={'ap': [5, 5, 5], 'per_turn': [1, 1, 1]}, spell_id=25873),
         Spell('Pilfering', [65, 131, 198], Effects(
             [['15-17', '18-20', '20-22']],
             [['18-20', '21-23', '23-26']],
@@ -1864,7 +1871,7 @@ DAMAGE_SPELLS = {
             [['31-35', '40-44'], ['31-35', '40-44']],
             [AIR, AIR],
             heals=[False, True],
-        ), is_linked=(1, 'Enchanted Thicket'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=25880),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Enchanted Thicket'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=25880),
         Spell('Tribal Paintbrush', [80, 147], Effects(
             [['15-18', '19-22'],
              ['15-18', '19-22'],
@@ -1945,7 +1952,7 @@ DAMAGE_SPELLS = {
             [['14-16', '17-19'], ['14-16', '17-19'], ['14-16', '17-19']],
             [WATER, WATER, WATER],
             heals=[False, True, False],
-        ), is_linked=(1, 'Murmur'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=25875),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Murmur'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=25875),
         Spell('Malicious Word', [95, 162], Effects(
             [['24-27', '30-34']],
             [['29-33', '36-41']],
@@ -1966,7 +1973,7 @@ DAMAGE_SPELLS = {
             [['34-37', '40-44'], ['34-37', '40-44']],
             [EARTH, EARTH],
             heals=[False, True],
-        ), is_linked=(2, 'Profanity'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=25869),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Profanity'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=25869),
         Spell('Alchemical Word', [115, 182], Effects(
             [['10-0', '20-0'],
              ['10-0', '20-0'],
@@ -1983,7 +1990,12 @@ DAMAGE_SPELLS = {
             None,
             [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, 'buff_str', 'buff_int', 'buff_cha', 'buff_agi'],
             heals=[True, True, True, True, False, False, False, False, False, False, False, False],
-        ), is_linked=(2, 'Friendship Word'), casting={'ap': [2, 2], 'per_turn': [2, 2]}, spell_id=25802),
+        ), aggregates=[('', [0, 1, 2, 3]),
+ ('', [4, 5, 6, 7]),
+ ('', [8]),
+ ('', [9]),
+ ('', [10]),
+ ('', [11])], is_linked=(2, 'Friendship Word'), casting={'ap': [2, 2], 'per_turn': [2, 2]}, spell_id=25802),
         Spell('Scalpel', [125, 192], Effects(
             [['35-38', '40-44'],
              ['35-38', '40-44'],
@@ -2026,7 +2038,7 @@ DAMAGE_SPELLS = {
              ['25', '25']],
             [FIRE, FIRE, FIRE, FIRE, FIRE, 'buff_final'],
             heals=[True, True, False, True, False, False],
-        ), is_linked=(2, 'Lamentations'), casting={'ap': [3, 3], 'per_turn': [2, 2]}, spell_id=25856),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3]), ('', [4]), ('', [5])], is_linked=(2, 'Lamentations'), casting={'ap': [3, 3], 'per_turn': [2, 2]}, spell_id=25856),
         Spell('Furious Word', [135], Effects(
             [['30-34']],
             [['36-41']],
@@ -2083,25 +2095,25 @@ DAMAGE_SPELLS = {
             [['34-38'], ['34-38']],
             [EARTH, EARTH],
             heals=[False, True],
-        ), is_linked=(2, 'War Cry'), casting={'ap': [3], 'cooldown': [2]}, spell_id=25864),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'War Cry'), casting={'ap': [3], 'cooldown': [2]}, spell_id=25864),
         Spell('Bloodless Word', [165], Effects(
             [['37-40'], ['37-40']],
             [['41-45'], ['41-45']],
             [WATER, WATER],
             heals=[False, True],
-        ), is_linked=(2, 'Forbidden Word'), casting={'ap': [4], 'per_turn': [2]}, spell_id=13217),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Forbidden Word'), casting={'ap': [4], 'per_turn': [2]}, spell_id=13217),
         Spell('Distracting Word', [175], Effects(
             [['30-34'], ['30-34']],
             [['37-41'], ['37-41']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(2, 'Pilfering'), casting={'ap': [4], 'per_turn': [1]}, spell_id=25862),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Pilfering'), casting={'ap': [4], 'per_turn': [1]}, spell_id=25862),
         Spell('Enchanted Thicket', [180], Effects(
             [['34-38'], ['34-38']],
             [['40-45'], ['40-45']],
             [AIR, AIR],
             heals=[True, False],
-        ), is_linked=(2, 'Flowery Word'), casting={'ap': [4], 'per_turn': [1]}, spell_id=25881),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Flowery Word'), casting={'ap': [4], 'per_turn': [1]}, spell_id=25881),
         Spell('Shrill Choir', [190], Effects(
             [['40-44'],
              ['40-44'],
@@ -2134,7 +2146,7 @@ DAMAGE_SPELLS = {
             [['19-22'], ['19-22']],
             [AIR, AIR],
             heals=[False, True],
-        ), is_linked=(2, 'Cryotherapy'), casting={'ap': [2], 'per_turn': [2]}, spell_id=25883),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Cryotherapy'), casting={'ap': [2], 'per_turn': [2]}, spell_id=25883),
     ],
     'Enutrof': [
         Spell('Coin Throwing', [1, 66, 132], Effects(
@@ -2206,7 +2218,7 @@ DAMAGE_SPELLS = {
             [['33-35', '41-44'], ['33-35', '41-44']],
             [['39-42', '49-53'], ['39-42', '49-53']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Sieving'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13333),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Sieving'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13333),
         Spell('Hard Cash', [95, 162], Effects(
             [['24-27', '29-33'], ['8-10', '11-13']],
             [['28-32', '35-39'], ['11-13', '14-16']],
@@ -2302,7 +2314,7 @@ DAMAGE_SPELLS = {
             [['35-38'], ['35-38']],
             [FIRE, FIRE],
             heals=[False, True],
-        ), is_linked=(2, 'Shovel of the Ancients'), casting={'ap': [3], 'per_turn': [1]}, spell_id=14273),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Shovel of the Ancients'), casting={'ap': [3], 'per_turn': [1]}, spell_id=14273),
         Spell('Sieving', [185], Effects(
             [['25-29']],
             [['30-35']],
@@ -2579,7 +2591,7 @@ DAMAGE_SPELLS = {
             [['10-12', '13-15'], ['10-12', '13-15']],
             [['13-15', '16-18'], ['13-15', '16-18']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Mooring'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [2, 2]}, spell_id=13867),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Mooring'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [2, 2]}, spell_id=13867),
         Spell('Rudder', [105, 172], Effects(
             [['26-29', '31-34']],
             [['32-35', '37-41']],
@@ -2800,7 +2812,7 @@ DAMAGE_SPELLS = {
             [['24-28'], ['24-28']],
             [['29-34'], ['29-34']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'No Myr Javelin'), casting={'ap': [3], 'per_turn': [1]}, spell_id=23755),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'No Myr Javelin'), casting={'ap': [3], 'per_turn': [1]}, spell_id=23755),
         Spell('Windmill', [150], Effects(
             [['29-33']],
             [['35-40']],
@@ -3217,7 +3229,7 @@ DAMAGE_SPELLS = {
              ['20-23', '26-29', '32-35'],
              ['29-33', '38-42', '46-50']],
             [FIRE, FIRE, FIRE],
-        ), stacks=2, is_linked=(1, 'Pounding'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13121),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], stacks=2, is_linked=(1, 'Pounding'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13121),
         Spell('Endurance', [50, 117, 184], Effects(
             [['22-25', '27-30', '30-34']],
             [['27-30', '32-36', '36-41']],
@@ -3481,7 +3493,7 @@ DAMAGE_SPELLS = {
             [['25-0'], ['25-0'], ['25-0'], ['25-0']],
             None,
             [NEUTRAL, NEUTRAL, NEUTRAL, NEUTRAL],
-        ), casting={'ap': [3], 'cooldown': [3]}, spell_id=13404),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [3], 'cooldown': [3]}, spell_id=13404),
         Spell('Neurosis', [190], Effects(
             [['250']],
             None,
@@ -3500,28 +3512,28 @@ DAMAGE_SPELLS = {
             [AIR, AIR],
             steals=[True, False],
             heals=[False, True],
-        ), is_linked=(1, 'Fangs of Boowolf'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=31110),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Fangs of Boowolf'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=31110),
         Spell('Prespic Peaks', [1, 67, 133], Effects(
             [['8-10', '11-13', '14-17'], ['8-10', '11-13', '14-17']],
             [['11-13', '14-17', '19-22'], ['11-13', '14-17', '19-22']],
             [FIRE, FIRE],
             steals=[True, False],
             heals=[False, True],
-        ), is_linked=(1, 'Plucking'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=31111),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Plucking'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=31111),
         Spell('Piranya Teeth', [1, 68, 134], Effects(
             [['11-13', '15-17', '19-22'], ['11-13', '15-17', '19-22']],
             [['11-13', '18-21', '24-28'], ['11-13', '18-21', '24-28']],
             [WATER, WATER],
             steals=[False, True],
             heals=[True, False],
-        ), is_linked=(1, 'Wild Heart'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=31135),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Wild Heart'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=31135),
         Spell('Bear Cry', [1, 69, 136], Effects(
             [['14-16', '18-20', '23-26'], ['14-16', '18-20', '23-26'], ['30', '75', '150']],
             [['17-19', '21-24', '28-31'], ['17-19', '21-24', '28-31'], ['30', '75', '150']],
             [EARTH, EARTH, 'buff_pow'],
             steals=[False, True, False],
             heals=[True, False, False],
-        ), is_linked=(1, 'Toad Slobber'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=31132),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Toad Slobber'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=31132),
         Spell('Whip', [5, 72, 139], Effects(
             [['8-10', '11-13', '15-17'],
              ['8-10', '11-13', '15-17'],
@@ -3633,7 +3645,7 @@ DAMAGE_SPELLS = {
             [['36-41'], ['36-41']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(2, 'Bestial Charge'), casting={'ap': [4], 'per_turn': [1]}, spell_id=31145),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Bestial Charge'), casting={'ap': [4], 'per_turn': [1]}, spell_id=31145),
         Spell('Whirlwind', [165], Effects(
             [['31-35']],
             [['37-42']],
@@ -3897,7 +3909,7 @@ DAMAGE_SPELLS = {
              ['21-24', '27-31', '34-38']],
             [EARTH, EARTH, EARTH, EARTH],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Alcoshu'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12811),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Alcoshu'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12811),
         Spell('Pandilongation', [25, 92, 159], Effects(
             [['18-20', '23-25', '28-31'],
              ['18-20', '23-25', '28-31'],
@@ -3909,7 +3921,7 @@ DAMAGE_SPELLS = {
              ['21-23', '27-30', '34-37']],
             [FIRE, FIRE, FIRE, FIRE],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Liqueur'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12793),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Liqueur'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12793),
         Spell('Inebriation', [30, 97, 164], Effects(
             [['4-6', '6-8', '8-10'],
              ['4-6', '6-8', '8-10'],
@@ -3930,7 +3942,7 @@ DAMAGE_SPELLS = {
              ['25-28', '32-36', '40-44']],
             [AIR, AIR, AIR, AIR],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Absinthe'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12788),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Absinthe'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12788),
         Spell('Brandy', [45, 112, 179], Effects(
             [['16-18', '22-24', '26-29'],
              ['16-18', '22-24', '26-29'],
@@ -3942,7 +3954,7 @@ DAMAGE_SPELLS = {
              ['20-22', '26-28', '31-35']],
             [WATER, WATER, WATER, WATER],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Filthipint'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12808),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Filthipint'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12808),
         Spell('Eviction', [60, 127, 194], Effects(
             [['11-13', '13-15', '15-17'], ['11-13', '13-15', '15-17']],
             [['14-16', '16-18', '19-21'], ['14-16', '16-18', '19-21']],
@@ -4049,7 +4061,7 @@ DAMAGE_SPELLS = {
             [['29-34'], ['29-34'], ['29-34'], ['29-34'], ['29-34'], ['29-34']],
             [WATER, WATER, WATER, WATER, WATER, WATER],
             heals=[True, False, True, False, True, False],
-        ), is_linked=(2, 'Nausea'), casting={'ap': [2], 'per_turn': [1]}, spell_id=12823),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3]), ('', [4]), ('', [5])], is_linked=(2, 'Nausea'), casting={'ap': [2], 'per_turn': [1]}, spell_id=12823),
         Spell('Pandjiu', [190], Effects(
             [['28-32']],
             [['34-38']],
@@ -4126,7 +4138,7 @@ DAMAGE_SPELLS = {
             [['27-30', '33-37'], ['27-30', '33-37'], ['27-30', '33-37']],
             [['32-36', '40-44'], ['32-36', '40-44'], ['32-36', '40-44']],
             [WATER, WATER, WATER],
-        ), is_linked=(1, 'Arquebus'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=13443),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Arquebus'), casting={'ap': [4, 4], 'per_turn': [2, 2]}, spell_id=13443),
         Spell('Shrapnel', [120, 187], Effects(
             [['14-16', '17-19']],
             [['17-19', '20-23']],
@@ -4399,23 +4411,23 @@ DAMAGE_SPELLS = {
             [['14-16', '19-21', '24-27'], ['14-16', '19-21', '24-27']],
             [['17-19', '22-25', '29-32'], ['17-19', '22-25', '29-32']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Insolent Bramble'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13516),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Insolent Bramble'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13516),
         Spell("Sadida's Tear", [1, 67, 133], Effects(
             [['15-17', '20-22', '25-28'], ['15-17', '20-22', '25-28']],
             [['18-20', '23-26', '30-34'], ['18-20', '23-26', '30-34']],
             [WATER, WATER],
             heals=[True, False],
-        ), is_linked=(1, 'Rise of Sap'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13528),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Rise of Sap'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13528),
         Spell('Burning Bush', [1, 68, 134], Effects(
             [['15-17', '20-22', '25-28'], ['15-17', '20-22', '25-28']],
             [['18-20', '23-26', '30-34'], ['18-20', '23-26', '30-34']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Bush Fire'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13574),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Bush Fire'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13574),
         Spell('Hemlock', [1, 69, 136], Effects(
             [['15-17', '21-23', '26-29'], ['15-17', '21-23', '26-29']],
             [['19-21', '25-28', '31-35'], ['19-21', '25-28', '31-35']],
             [AIR, AIR],
-        ), is_linked=(1, 'Poisoned Wind'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13577),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Poisoned Wind'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13577),
         Spell('Paralysing Sap', [15, 82, 149], Effects(
             [['9-11', '12-14', '15-18']],
             None,
@@ -4445,7 +4457,7 @@ DAMAGE_SPELLS = {
             [['20-22', '25-28', '31-35'], ['20-22', '25-28', '31-35']],
             [WATER, WATER],
             steals=[True, True],
-        ), is_linked=(1, 'Haunted Forest'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13571),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Haunted Forest'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13571),
         Spell('Wild Grass', [55, 122, 189], Effects(
             [['20-23', '27-31', '31-35']],
             [['24-27', '32-37', '37-42']],
@@ -4466,7 +4478,7 @@ DAMAGE_SPELLS = {
              ['31-36', '38-43', '43-49']],
             [WATER, WATER, WATER, WATER, WATER, WATER],
             heals=[False, False, False, True, False, False],
-        ), is_linked=(1, 'Ardent Thistles'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [1, 1, 1]}, spell_id=13531),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3]), ('', [4]), ('', [5])], is_linked=(1, 'Ardent Thistles'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [1, 1, 1]}, spell_id=13531),
         Spell('Earthquake', [75, 142], Effects(
             [['23-27', '29-33']],
             [['28-32', '35-40']],
@@ -4526,7 +4538,7 @@ DAMAGE_SPELLS = {
             [['34-38', '38-43'], ['34-38', '38-43']],
             [WATER, WATER],
             heals=[True, False],
-        ), is_linked=(2, 'Contagion'), casting={'ap': [4, 4], 'per_turn': [1, 1]}, spell_id=14396),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Contagion'), casting={'ap': [4, 4], 'per_turn': [1, 1]}, spell_id=14396),
         Spell('Charred Charms', [145], Effects(
             [['28-31']],
             [['34-37']],
@@ -4743,7 +4755,7 @@ DAMAGE_SPELLS = {
             [['32-36', '36-40'], ['32-36', '36-40']],
             None,
             [AIR, AIR],
-        ), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=12943),
+        ), aggregates=[('', [0]), ('', [1])], casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=12943),
         Spell('Break-In', [135], Effects(
             [['15-17']],
             [['19-21']],
@@ -4873,7 +4885,7 @@ DAMAGE_SPELLS = {
             [['10-12', '13-15', '16-18'], ['10-12', '13-15', '16-18']],
             [['13-15', '16-18', '19-22'], ['13-15', '16-18', '19-22']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Regulator'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13286),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Regulator'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=13286),
         Spell('Petrification', [70, 137], Effects(
             [['21-23', '27-30']],
             [['25-28', '32-36']],
@@ -4905,12 +4917,12 @@ DAMAGE_SPELLS = {
             [['27-29', '33-36'], ['27-29', '33-36']],
             [['32-35', '40-43'], ['32-35', '40-43']],
             [AIR, AIR],
-        ), is_linked=(2, "Xelor's Punch"), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13294),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, "Xelor's Punch"), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13294),
         Spell('Hand', [125, 192], Effects(
             [['6-8', '9-12'], ['6-8', '9-12']],
             [['9-11', '13-16'], ['9-11', '13-16']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Shrivelling'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1]}, spell_id=13244),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Shrivelling'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1]}, spell_id=13244),
         Spell('Dropper', [130, 197], Effects(
             [['16-19', '18-21']],
             [['20-23', '22-25']],
