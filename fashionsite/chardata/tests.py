@@ -9101,6 +9101,58 @@ class RecipeLookupTests(SimpleTestCase):
             conn.close()
 
 
+class SkinMatchMarginTests(SimpleTestCase):
+    """The floors decide how much gear the preview can draw. They were set
+    once from 32 labelled pairs and kept while the sample grew to 96, which
+    left the weapon floor rejecting 43 of 44 labelled weapons."""
+
+    def _labelled(self):
+        import json
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'itemscraper',
+                            'item_skin_eval.json')
+        with open(path, encoding='utf-8') as handle:
+            rows = json.load(handle)
+        by_type = {}
+        for row in rows:
+            if row.get('label') in ('R', 'W') and row.get('margin') is not None:
+                by_type.setdefault(row['type'], []).append(
+                    (row['margin'], row['label']))
+        return by_type
+
+    def _floors(self):
+        import importlib
+        import sys as _sys
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        scraper = os.path.join(get_fashionista_path(), 'itemscraper')
+        if scraper not in _sys.path:
+            _sys.path.insert(0, scraper)
+        return importlib.import_module('item_skin_margins').MIN_MARGIN
+
+    def test_each_floor_is_the_one_the_labels_support(self):
+        # A floor is only worth its cost when it buys precision. Below 60% the
+        # preview would draw the wrong sword often enough to be noticed.
+        for slot, data in self._labelled().items():
+            floor = self._floors()[slot]
+            kept = [label for margin, label in data if margin >= floor]
+            if len(kept) < 8:
+                continue
+            right = kept.count('R') * 100.0 / len(kept)
+            self.assertGreater(right, 60, '%s keeps %d matches at %.0f%%'
+                                          % (slot, len(kept), right))
+
+    def test_a_floor_does_not_throw_away_a_sample_it_was_measured_on(self):
+        for slot, data in self._labelled().items():
+            if len(data) < 20:
+                continue
+            floor = self._floors()[slot]
+            kept = [1 for margin, _ in data if margin >= floor]
+            self.assertGreater(
+                len(kept) * 100.0 / len(data), 25,
+                '%s drops %d of its %d labelled matches'
+                % (slot, len(data) - len(kept), len(data)))
+
+
 class PreviewPieceBoxesTests(SimpleTestCase):
     """A tickbox for a slot the preview cannot draw does nothing, and the
     matcher only found art for 64% of cloaks and 29% of weapons."""
