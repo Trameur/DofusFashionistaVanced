@@ -41,6 +41,7 @@
         <button class="admin-tab" data-tab="pages">Pages</button>
         <button class="admin-tab" data-tab="solver">Solver</button>
         <button class="admin-tab" data-tab="moderation">Moderation</button>
+        <button class="admin-tab" data-tab="ads">Ads</button>
     </div>
 
     <section class="admin-panel" data-panel="overview">
@@ -251,6 +252,35 @@
         {% endfor %}
     </div>
     </section>
+
+    <section class="admin-panel admin-panel-off" data-panel="ads">
+    <h2 class="admin-section-title">AdSense</h2>
+    <form id="admin-ads-form" class="admin-ads">
+        <label class="admin-ads-toggle">
+            <input type="checkbox" name="enabled" value="1"
+                   {% if ad_config.enabled %}checked{% endif %}>
+            <span>Show ads on the site</span>
+        </label>
+        <p class="admin-note">Off hides every unit and stops loading the
+            AdSense script. The layout does not shift: the slots collapse.</p>
+        <div class="admin-ads-slots">
+            {% for slot in ad_config.slots %}
+            <label class="admin-ads-slot">
+                <span>{{ slot.name }}</span>
+                <input type="text" name="slot_{{ slot.name }}"
+                       value="{{ slot.value }}" inputmode="numeric"
+                       placeholder="slot id">
+            </label>
+            {% endfor %}
+        </div>
+        <p class="admin-note">Ids come from AdSense, Ads by site, per unit.
+            An empty box means that unit is not shown.</p>
+        <div class="admin-ads-actions">
+            <button type="submit" class="admin-btn">Save</button>
+            <span class="admin-ads-status" id="admin-ads-status"></span>
+        </div>
+    </form>
+    </section>
 </div>
 
 <script>
@@ -366,6 +396,15 @@
 .admin-btn-restore:hover { background: #27ae60; color: #fff; border-color: #27ae60; }
 .admin-btn-dismiss:hover { background: #7f8c8d; color: #fff; border-color: #7f8c8d; }
 .admin-empty { opacity: 0.7; font-style: italic; }
+.admin-ads { max-width: 620px; }
+.admin-ads-toggle { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.admin-ads-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px; margin: 14px 0; }
+.admin-ads-slot { display: flex; flex-direction: column; gap: 4px; font-size: 0.85em; }
+.admin-ads-slot input { padding: 6px 8px; border-radius: 6px; font-size: 1em;
+    border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
+.admin-ads-actions { display: flex; align-items: center; gap: 10px; }
+.admin-ads-status { font-size: 0.85em; opacity: 0.75; }
 </style>
 
 <script>
@@ -404,6 +443,27 @@
             });
         });
     });
+
+    var form = document.getElementById('admin-ads-form');
+    var status = document.getElementById('admin-ads-status');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var body = new URLSearchParams(new FormData(form));
+            body.append('csrfmiddlewaretoken', csrftoken);
+            status.textContent = 'saving';
+            fetch('{% url "admin_ads_action" %}', {
+                method: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                body: body,
+                credentials: 'same-origin'
+            }).then(function (r) { return r.json(); }).then(function (data) {
+                status.textContent = (data && data.success)
+                    ? 'saved, live within 30 seconds'
+                    : ((data && data.error) || 'save failed');
+            }).catch(function () { status.textContent = 'save failed'; });
+        });
+    }
 })();
 </script>
 {% endblock %}

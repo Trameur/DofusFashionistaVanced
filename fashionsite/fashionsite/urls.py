@@ -553,6 +553,7 @@ urlpatterns = [
     # everyone else. Not version-prefixed.
     re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),
     re_path(r'^admin-comment-action/$', admin_tools_view.admin_comment_action, name='admin_comment_action'),
+    re_path(r'^admin-ads-action/$', admin_tools_view.admin_ads_action, name='admin_ads_action'),
     re_path(r'^manifest\.webmanifest$', manifest_view, name='manifest'),
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
     re_path(r'^offline/$', offline_view, name='offline'),

@@ -23,7 +23,7 @@ from django.contrib.auth.models import User
 
 from chardata import admin_stats
 from chardata.encoded_char_id import encode_char_id
-from chardata.models import BuildComment, Char, CommentReport
+from chardata.models import BuildComment, Char, CommentReport, SiteSetting
 from chardata.util import set_response, request_by_super_user
 
 
@@ -127,7 +127,17 @@ def admin_tools(request, char_id=0):
         'recent_comments': recent_comments,
         'dash': data,
         'charts': _charts(data),
+        'ad_config': _ad_form(),
     })
+
+
+def _ad_form():
+    from chardata.context_processors import ad_config
+    config = ad_config()
+    slots = config.get('slots') or {}
+    return {'enabled': config.get('enabled', True),
+            'slots': [{'name': name, 'value': slots.get(name, '')}
+                      for name in AD_SLOTS]}
 
 
 VERSION_COLOURS = {'dofus3': '#c8a05a', 'beta': '#7aa6c2', 'dofus2': '#8fae7a',
@@ -166,6 +176,34 @@ def _display_name(user):
     except Exception:
         pass
     return user.username
+
+
+AD_SLOTS = ('home_top', 'footer', 'encyclopedia_inline', 'guide_inline',
+            'shared_inline', 'solution')
+
+
+@require_POST
+def admin_ads_action(request):
+    """Turn the ads on or off and set the slot ids, without a deploy."""
+    _require_admin(request)
+    import json
+    from django.core.cache import cache
+    from chardata.context_processors import AD_SETTING_KEY
+
+    slots = {}
+    for name in AD_SLOTS:
+        value = (request.POST.get('slot_' + name) or '').strip()
+        if value and not value.isdigit():
+            return JsonResponse(
+                {'error': 'Slot ids are digits only: %s' % name}, status=400)
+        if value:
+            slots[name] = value
+    stored = {'enabled': request.POST.get('enabled') == '1', 'slots': slots}
+    SiteSetting.objects.update_or_create(
+        key=AD_SETTING_KEY, defaults={'value': json.dumps(stored)})
+    cache.delete(AD_SETTING_KEY)
+    return JsonResponse({'success': True, 'enabled': stored['enabled'],
+                         'slots': slots})
 
 
 @require_POST

@@ -300,6 +300,14 @@ class PageHit(models.Model):
     class Meta:
         unique_together = ('day', 'path', 'game_version')
 
+
+class SiteSetting(models.Model):
+    """Settings the owner changes from the admin page. gen_config.json is on
+    the server and only read at boot, so anything that has to move without a
+    deploy lives here instead."""
+    key = models.CharField(max_length=60, unique=True)
+    value = models.TextField(blank=True)
+
 # Signal wiring (models.py is the one chardata module Django always imports).
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver

@@ -8889,6 +8889,12 @@ class AdsTests(TestCase):
     READING = ('/', '/encyclopedia/', '/sharedbuilds/', '/about/')
     TOOL = ('/setup/', '/solution/1/', '/spells/1/', '/user/', '/contact/')
 
+    def setUp(self):
+        # The ad config is cached in process memory, which no test rollback
+        # reaches.
+        from django.core.cache import cache
+        cache.clear()
+
     def _ads(self, path, **config):
         from django.conf import settings
         from django.test import RequestFactory, override_settings
@@ -8969,6 +8975,59 @@ class AdsTests(TestCase):
     def test_the_publisher_id_is_derived_not_typed_twice(self):
         values = self._ads('/', client='ca-pub-42')
         self.assertEqual(values['ad_publisher'], 'pub-42')
+
+
+class AdminAdSettingsTests(TestCase):
+    """gen_config.json sits on the server and is only read at boot, so the
+    admin page writes the ad settings to the database instead."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from django.core.cache import cache
+        cache.clear()
+        self.admin = User.objects.create_superuser(
+            'adboss', 'adboss@example.com', 'pw')
+        self.client.force_login(self.admin)
+
+    def _post(self, **data):
+        return self.client.post('/admin-ads-action/', data)
+
+    def test_a_visitor_cannot_reach_the_form_or_the_action(self):
+        self.client.logout()
+        self.assertEqual(404, self.client.get('/admin-tools/').status_code)
+        self.assertEqual(404, self._post(enabled='1').status_code)
+
+    def test_saved_slot_ids_come_back_out_of_the_processor(self):
+        from django.test import RequestFactory
+        from chardata.context_processors import ads
+        self.assertEqual(200, self._post(enabled='1',
+                                         slot_home_top='2586036395').status_code)
+        request = RequestFactory().get('/')
+        request.game_version = 'dofus3'
+        values = ads(request)
+        self.assertTrue(values['ads_enabled'])
+        self.assertEqual('2586036395', values['ad_slots']['home_top'])
+
+    def test_the_switch_takes_effect_without_a_restart(self):
+        from django.test import RequestFactory
+        from chardata.context_processors import ads
+        self._post(enabled='1', slot_home_top='2586036395')
+        self._post(slot_home_top='2586036395')
+        request = RequestFactory().get('/')
+        request.game_version = 'dofus3'
+        values = ads(request)
+        self.assertFalse(values['ads_allowed'])
+        self.assertEqual({}, values['ad_slots'])
+
+    def test_a_slot_id_that_is_not_a_number_is_refused(self):
+        resp = self._post(enabled='1', slot_home_top='<script>')
+        self.assertEqual(400, resp.status_code)
+
+    def test_the_form_shows_what_is_stored(self):
+        self._post(enabled='1', slot_footer='6811885155')
+        body = self.client.get('/admin-tools/').content.decode('utf-8')
+        self.assertIn('6811885155', body)
+        self.assertIn('admin-ads-form', body)
 
 
 class SitemapIndexTests(TestCase):

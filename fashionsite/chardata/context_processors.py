@@ -1,3 +1,4 @@
+import json
 import re
 
 from django.core.cache import cache
@@ -116,9 +117,34 @@ def _without_version(path, game_version):
     return path
 
 
-def ads(request):
+AD_SETTING_KEY = 'adsense'
+AD_SETTING_TTL = 30
+
+
+def ad_config():
+    """gen_config.json for the defaults, the admin page on top. Cached because
+    this runs on every request; the cache is local to the worker, so a change
+    takes up to AD_SETTING_TTL seconds to reach all of them."""
     from django.conf import settings
-    config = getattr(settings, 'GEN_CONFIGS', {}).get('adsense') or {}
+    config = dict(getattr(settings, 'GEN_CONFIGS', {}).get('adsense') or {})
+    stored = cache.get(AD_SETTING_KEY, False)
+    if stored is False:
+        from chardata.models import SiteSetting
+        try:
+            row = SiteSetting.objects.filter(key=AD_SETTING_KEY).first()
+            stored = json.loads(row.value) if row and row.value else {}
+        except Exception:
+            stored = {}
+        cache.set(AD_SETTING_KEY, stored, AD_SETTING_TTL)
+    slots = dict(config.get('slots') or {})
+    slots.update({k: v for k, v in (stored.get('slots') or {}).items() if v})
+    config.update(stored)
+    config['slots'] = slots
+    return config
+
+
+def ads(request):
+    config = ad_config()
     if not config.get('enabled', True):
         return {'ads_allowed': False, 'ads_enabled': False, 'ad_slots': {}}
     client = config.get('client', DEFAULT_AD_CLIENT)
