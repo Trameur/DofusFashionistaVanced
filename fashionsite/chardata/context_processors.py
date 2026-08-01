@@ -105,6 +105,10 @@ DEFAULT_AD_CLIENT = 'ca-pub-3961330018791408'
 AD_PATH_PREFIXES = ('/encyclopedia/', '/guides/', '/sharedbuilds/', '/s/',
                     '/about/', '/faq/', '/support/', '/license/', '/privacy/')
 
+# Tool pages that only get ads if their slot id is configured, so the dashboard
+# is the switch.
+OPTIONAL_AD_PATHS = {'/solution/': 'solution', '/spells/': 'solution'}
+
 
 def _without_version(path, game_version):
     if game_version != 'dofus3' and path.startswith('/' + game_version):
@@ -118,9 +122,11 @@ def ads(request):
     client = config.get('client', DEFAULT_AD_CLIENT)
     path = _without_version(request.path_info,
                             getattr(request, 'game_version', 'dofus3'))
-    allowed = bool(client) and (path == '/'
-                                or path.startswith(AD_PATH_PREFIXES))
     slots = config.get('slots') or {}
+    opted_in = any(path.startswith(prefix) and slots.get(key)
+                   for prefix, key in OPTIONAL_AD_PATHS.items())
+    allowed = bool(client) and (path == '/' or opted_in
+                                or path.startswith(AD_PATH_PREFIXES))
     return {
         'ads_allowed': allowed,
         'ads_enabled': allowed and bool(slots),

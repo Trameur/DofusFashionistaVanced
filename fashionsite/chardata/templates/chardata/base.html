@@ -308,6 +308,7 @@
         {% endif %}
         
         {% include "chardata/loading.html" with char=char language=language %}
+            {% include "chardata/ad_slot.html" with ad_slot=ad_slots.footer extra_class="fm-ad-inline" %}
             <div align="center" class="footer">
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>

@@ -238,6 +238,8 @@
     {% endif %}
     {% endif %}
 
+    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.solution extra_class="fm-ad-inline" %}
+
     {% if is_generation_snapshot %}
     <div class="solution-history-notice">
         <div>

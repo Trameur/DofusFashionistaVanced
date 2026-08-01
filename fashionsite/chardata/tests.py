@@ -8861,6 +8861,15 @@ class AdsTests(TestCase):
         self.assertNotIn('adsbygoogle.js', tool)
         self.assertNotIn('fundingchoicesmessages', tool)
 
+    def test_the_solution_page_waits_for_its_slot_id(self):
+        # The dashboard is the switch: no id, no ads on the tool.
+        self.assertFalse(self._ads('/solution/1/', client='ca-pub-x',
+                                   slots={'home_top': '1'})['ads_allowed'])
+        opted = self._ads('/solution/1/', client='ca-pub-x',
+                          slots={'solution': '5675234165'})
+        self.assertTrue(opted['ads_allowed'])
+        self.assertTrue(opted['ads_enabled'])
+
     def test_the_publisher_id_is_derived_not_typed_twice(self):
         values = self._ads('/', client='ca-pub-42')
         self.assertEqual(values['ad_publisher'], 'pub-42')
