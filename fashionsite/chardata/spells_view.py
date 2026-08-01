@@ -67,6 +67,7 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'char_id': char_id,
                          'char_level': char.level,
                          'char_stats_json': stats_json,
+                         'best_combo': _best_combo(char, solution, game_version),
                          'no_class_spells': len(class_spells) == 0},
                         char)
 
@@ -127,6 +128,46 @@ def _localized_spell_name(name, language, game_version):
     return get_localized_spell_name(name, language)
 
 
+def _spell_image_url(spell_name, game_version):
+    if game_version in ('beta', 'retro', 'touch'):
+        spell_dir = 'chardata/spells/%s/' % game_version
+    else:
+        spell_dir = 'chardata/spells/'
+    return static(spell_dir + spell_name + '.png')
+
+
+def _best_combo(char, solution, game_version):
+    """The order of casts that gets the most out of one turn.
+
+    None when there is nothing to say: no AP, no class spells, or a class whose
+    spells carry no cast cost (retro and touch are decoded separately).
+    """
+    from chardata.spell_combo import best_turn, castable_spells
+    stats = solution.get_stats_total()
+    ap = stats.get('ap') or 0
+    spells = castable_spells(char.char_class, char.level, game_version)
+    if not ap or not spells:
+        return None
+    total, order = best_turn(stats, spells, ap)
+    if not order:
+        return None
+    language = get_supported_language()
+    by_name = {spell.name: spell for spell in spells}
+    casts = []
+    running = 0
+    for name, damage in order:
+        running += damage
+        casts.append({'name': _localized_spell_name(name, language, game_version),
+                      'image_url': _spell_image_url(name, game_version),
+                      'ap': by_name[name].cost,
+                      'damage': int(round(damage)),
+                      'running': int(round(running))})
+    return {'casts': casts,
+            'total': int(round(total)),
+            'ap_used': sum(cast['ap'] for cast in casts),
+            'ap_available': ap}
+
+
 def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest = {}
     digest = spell.get_effects_digest()
@@ -135,15 +176,7 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest['name'] = _localized_spell_name(spell.name, current_language, game_version)
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
-    if game_version == 'beta':
-        spell_dir = 'chardata/spells/beta/'
-    elif game_version == 'retro':
-        spell_dir = 'chardata/spells/retro/'
-    elif game_version == 'touch':
-        spell_dir = 'chardata/spells/touch/'
-    else:
-        spell_dir = 'chardata/spells/'
-    web_digest['image_url'] = static(spell_dir + spell.name + '.png')
+    web_digest['image_url'] = _spell_image_url(spell.name, game_version)
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)

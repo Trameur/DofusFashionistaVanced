@@ -8711,7 +8711,8 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                'April', 'August', 'September', 'November',
                'April 2023', 'April 2026', 'November 2025',
                'April - September 2025',
-               ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d'},
+               ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
+               '%(ap)s AP'},
     }
     # Dofus grid labels: the catalog entry stays in English on purpose, the page
     # falls back to the item's official name in the player's language (see
@@ -8896,6 +8897,55 @@ class SpellComboTests(SimpleTestCase):
         for outsider in ('Burnt Pie', 'Weapon Skill', 'Perfidious Boomerang',
                          'Pestilential Fog'):
             self.assertNotIn(outsider, names)
+
+
+class SpellComboPageTests(TestCase):
+    """The combo the engine finds has to reach the spells page."""
+
+    def test_the_page_shows_the_combo_it_computed(self):
+        from django.contrib.auth.models import User
+        from django.test import Client
+        from chardata.models import Char
+        from chardata.spells_view import _best_combo
+        import pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        from chardata.solution import get_solution
+
+        structure = get_structure('dofus3')
+        hat = next(item for item in
+                   structure.get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed and item.ankama_id)
+        owner = User.objects.create_user('comboer', 'combo@test.local', 'pw-42-solid')
+        solution = ModelResultMinimal({'hat': hat.id}, {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated', 'char_level': 200,
+            # AP is a base stat of the character, not something gear alone
+            # gives; without it the turn has nothing to spend.
+            'base_stats_by_attr': {'AP': 7, 'MP': 3, 'Vitality': 0, 'Wisdom': 0,
+                                   'Strength': 300, 'Intelligence': 0,
+                                   'Chance': 0, 'Agility': 0},
+            'locked_equips': {}}, {})
+        char = Char.objects.create(
+            name='Combo', char_name='combo', char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=pickle.dumps({'vit': 1, 'str': 1, 'int': 1, 'cha': 1,
+                                       'agi': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=pickle.dumps(solution),
+            owner=owner, link_shared=True, game_version='dofus3')
+
+        combo = _best_combo(char, get_solution(char), 'dofus3')
+        self.assertTrue(combo['casts'])
+        self.assertLessEqual(combo['ap_used'], combo['ap_available'])
+        self.assertEqual(combo['casts'][-1]['running'], combo['total'])
+
+        client = Client()
+        client.force_login(owner)
+        page = client.get('/spells/%d/' % char.pk).content.decode('utf-8')
+        self.assertIn('id="best-combo"', page)
+        self.assertIn(combo['casts'][0]['name'], page)
+        self.assertIn(str(combo['total']), page)
 
 
 class GameVersionWatchTests(SimpleTestCase):

@@ -5445,6 +5445,26 @@ msgstr "Back to the default colours"
 msgid "Visible pieces"
 msgstr "Visible pieces"
 
+#: chardata/templates/chardata/spells.html:0
+msgid "Best combo this turn"
+msgstr "Best combo this turn"
+
+#: chardata/templates/chardata/spells.html:0
+msgid "damage"
+msgstr "damage"
+
+#: chardata/templates/chardata/spells.html:0
+msgid "%(ap)s AP"
+msgstr "%(ap)s AP"
+
+#: chardata/templates/chardata/spells.html:0
+msgid "%(used)s of %(available)s AP used."
+msgstr "%(used)s of %(available)s AP used."
+
+#: chardata/templates/chardata/spells.html:0
+msgid "One turn on a single target, self buffs included."
+msgstr "One turn on a single target, self buffs included."
+
 #: chardata/solution_view.py:0
 msgid "Mount"
 msgstr "Mount"

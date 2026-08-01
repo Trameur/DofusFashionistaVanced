@@ -59,3 +59,10 @@
 .level-number-default-color {
     color: #3D200D;
 }
+#best-combo {
+    background-color: #E4E6BC;
+    color: #3D200D;
+}
+.best-combo-casts li + li {
+    border-top: 1px solid #CACCA7;
+}

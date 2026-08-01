@@ -70,3 +70,10 @@
 .level-number-default-color {
     color: #DDD;
 }
+#best-combo {
+    background-color: #212121;
+    color: #DDD;
+}
+.best-combo-casts li + li {
+    border-top: 1px solid #333333;
+}

@@ -25,6 +25,30 @@
     <p align="center" class="text" style="opacity:.85;font-style:italic;">{% trans "Class spells aren't available for this class yet." %}</p>
     {% endif %}
 
+    {% if best_combo %}
+    <div id="best-combo">
+        <div class="best-combo-head">
+            <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
+            <span class="best-combo-total">{{ best_combo.total }} {% trans "damage" %}</span>
+        </div>
+        <ol class="best-combo-casts">
+            {% for cast in best_combo.casts %}
+            <li>
+                <img class="best-combo-icon" src="{{ cast.image_url }}" alt="{{ cast.name }}">
+                <span class="best-combo-name">{{ cast.name }}</span>
+                <span class="best-combo-ap">{% blocktrans with ap=cast.ap %}{{ ap }} AP{% endblocktrans %}</span>
+                <span class="best-combo-damage">{{ cast.damage }}</span>
+                <span class="best-combo-running">{{ cast.running }}</span>
+            </li>
+            {% endfor %}
+        </ol>
+        <p class="best-combo-note">
+            {% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}
+            {% trans "One turn on a single target, self buffs included." %}
+        </p>
+    </div>
+    {% endif %}
+
     <div id="spell-buttons">
         <table width="100%">
             <tr>

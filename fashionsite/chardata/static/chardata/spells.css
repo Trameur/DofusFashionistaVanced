@@ -150,3 +150,94 @@
     margin: 0px;
 }
 
+
+#best-combo {
+    max-width: 560px;
+    margin: 0 auto 18px auto;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.best-combo-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.best-combo-title {
+    font-weight: bold;
+}
+
+.best-combo-total {
+    font-weight: bold;
+}
+
+.best-combo-casts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.best-combo-casts li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+}
+
+.best-combo-icon {
+    width: 26px;
+    height: 26px;
+    flex: none;
+}
+
+.best-combo-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.best-combo-ap,
+.best-combo-damage,
+.best-combo-running {
+    flex: none;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.best-combo-ap {
+    width: 4em;
+    opacity: .75;
+}
+
+.best-combo-damage {
+    width: 5em;
+}
+
+.best-combo-running {
+    width: 6em;
+    opacity: .75;
+}
+
+.best-combo-note {
+    margin: 8px 0 0 0;
+    font-size: .85em;
+    opacity: .75;
+}
+
+/* Narrow screens: the running total is the first thing to go, the header
+   already carries the turn's total and the spell name must stay readable. */
+@media (max-width: 480px) {
+    .best-combo-running {
+        display: none;
+    }
+    .best-combo-ap {
+        width: 3.5em;
+    }
+    .best-combo-damage {
+        width: 4.5em;
+    }
+}
