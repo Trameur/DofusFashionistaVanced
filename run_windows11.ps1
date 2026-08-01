@@ -751,7 +751,9 @@ function Ensure-LocalMysql {
 
     $grant = "CREATE USER IF NOT EXISTS 'fashionista'@'%' IDENTIFIED WITH mysql_native_password BY 'fashionista';" +
              "ALTER USER 'fashionista'@'%' IDENTIFIED WITH mysql_native_password BY 'fashionista';" +
-             "GRANT ALL PRIVILEGES ON fashionista.* TO 'fashionista'@'%'; FLUSH PRIVILEGES;"
+             "GRANT ALL PRIVILEGES ON fashionista.* TO 'fashionista'@'%';" +
+             # manage.py test builds test_fashionista from scratch every run.
+             "GRANT ALL PRIVILEGES ON ``test_fashionista``.* TO 'fashionista'@'%'; FLUSH PRIVILEGES;"
     & $mysql --host=127.0.0.1 --port=3306 -u root -e $grant 2>$null
 
     return $true
