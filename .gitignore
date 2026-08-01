@@ -64,3 +64,5 @@ character_cache/
 item_assets_2x.bundle
 data_assets_itemsdataroot.asset.bundle
 itemscraper/skin_features.pkl
+itemscraper/item_skins_topk.json
+itemscraper/item_skins_new.json

@@ -7883,16 +7883,31 @@ class CharacterLookTests(TestCase):
     def test_the_stored_skins_match_the_ones_kept_in_the_repo(self):
         # The matching takes hours and its output lives only in the database,
         # so a rebuild would lose it. item_skins.json is that output, and this
-        # fails the day the two drift apart.
+        # fails the day the two drift apart. The file keeps every candidate
+        # with its margin, the database only those that clear the floor, so a
+        # floor can move without matching again.
         import json
         import sqlite3
         from fashionistapulp.fashionista_config import (get_fashionista_path,
                                                         get_items_db_path)
         from chardata.character_look import VERSIONS_WITH_ART
-        path = os.path.join(get_fashionista_path(), 'itemscraper', 'item_skins.json')
-        with open(path, encoding='utf-8') as fh:
+        from itemscraper.item_skin_margins import MIN_MARGIN
+        scraper = os.path.join(get_fashionista_path(), 'itemscraper')
+        with open(os.path.join(scraper, 'item_skins.json'), encoding='utf-8') as fh:
             kept = {int(key): value for key, value in json.load(fh).items()}
         self.assertGreater(len(kept), 800)
+
+        def decided(entry):
+            """The skin the floors keep, or None when the lead is too thin."""
+            if isinstance(entry, int):
+                return entry
+            if entry.get('backed'):
+                return entry['skin']
+            floor = MIN_MARGIN.get(entry['type'], 0.10)
+            if entry['score'] - entry['runner_up'] < floor:
+                return None
+            return entry['skin']
+
         for version in VERSIONS_WITH_ART:
             conn = sqlite3.connect(get_items_db_path(version))
             try:
@@ -7901,10 +7916,17 @@ class CharacterLookTests(TestCase):
                     JOIN item_types t ON t.id = i.type
                     WHERE i.skin IS NOT NULL AND t.name IN
                         ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
+                here = {row[0] for row in conn.execute("""
+                    SELECT i.ankama_id FROM items i
+                    JOIN item_types t ON t.id = i.type
+                    WHERE t.name IN ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
             finally:
                 conn.close()
+            wanted = {ankama_id: decided(entry)
+                      for ankama_id, entry in kept.items() if ankama_id in here}
+            wanted = {k: v for k, v in wanted.items() if v is not None}
             with self.subTest(version=version):
-                self.assertEqual(stored, kept, version)
+                self.assertEqual(stored, wanted, version)
 
     def test_the_page_falls_back_when_there_is_no_art(self):
         import tempfile
@@ -9121,13 +9143,8 @@ class SkinMatchMarginTests(SimpleTestCase):
         return by_type
 
     def _floors(self):
-        import importlib
-        import sys as _sys
-        from fashionistapulp.fashionista_config import get_fashionista_path
-        scraper = os.path.join(get_fashionista_path(), 'itemscraper')
-        if scraper not in _sys.path:
-            _sys.path.insert(0, scraper)
-        return importlib.import_module('item_skin_margins').MIN_MARGIN
+        from itemscraper.item_skin_margins import MIN_MARGIN
+        return MIN_MARGIN
 
     def test_each_floor_is_the_one_the_labels_support(self):
         # A floor is only worth its cost when it buys precision. Below 60% the
