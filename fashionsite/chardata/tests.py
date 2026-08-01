@@ -8999,6 +8999,28 @@ class BannerWeightTests(SimpleTestCase):
                             '%s is %d Ko, every first page view pays it'
                             % (name, size / 1024))
 
+    def test_the_stat_icons_are_not_shipped_at_source_resolution(self):
+        # They show at 15 to 30px. The source art went up to 500x500, which
+        # cost about a megabyte on any page listing stats.
+        from PIL import Image
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        from chardata.stat_icons import STAT_ICON_FILENAME_BY_KEY
+        root = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', 'originals')
+        total = 0
+        for name in sorted(set(STAT_ICON_FILENAME_BY_KEY.values())):
+            path = os.path.join(root, os.path.splitext(name)[0] + '.webp')
+            self.assertTrue(os.path.exists(path), name)
+            total += os.path.getsize(path)
+            with Image.open(path) as icon:
+                self.assertLessEqual(max(icon.size), 120, name)
+        self.assertLess(total, 300 * 1024,
+                        'the stat icons total %d Ko' % (total / 1024))
+
+    def test_the_icon_path_points_at_the_webp(self):
+        from chardata.stat_icons import get_stat_icon_path
+        self.assertTrue(get_stat_icon_path('vit').endswith('.webp'))
+
     def test_the_page_points_at_the_light_banner(self):
         from fashionistapulp.fashionista_config import get_fashionista_path
         path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',

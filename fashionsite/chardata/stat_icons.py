@@ -76,4 +76,6 @@ def get_stat_icon_path(stat_key):
     icon_filename = get_stat_icon_filename(stat_key)
     if icon_filename is None:
         return None
-    return 'chardata/originals/%s' % icon_filename
+    # Shipped as webp at 120px: these show at 15 to 30px, and the source art
+    # was up to 500x500.
+    return 'chardata/originals/%s.webp' % icon_filename.rsplit('.', 1)[0]
