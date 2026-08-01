@@ -49,10 +49,19 @@ class Castable(object):
         digest = spell.get_effects_digest()
         rows = digest.crit_dams if crit else digest.non_crit_dams
         self.effects = rows[level_index] if level_index < len(rows) else []
-        self.hits = [effect for effect in self.effects
-                     if not effect.element.startswith('buff')]
         self.buffs = [effect for effect in self.effects
                       if effect.element.startswith('buff')]
+        hits = [(index, effect) for index, effect in enumerate(self.effects)
+                if not effect.element.startswith('buff')]
+        # With aggregates the rows are ALTERNATIVES, one line per stack or per
+        # element, and a cast only ever lands one of them. The spells page
+        # prints them as "Stack 0:", "Stack 1:"; adding them up multiplied Fit
+        # of Rage by five. The first group is the one with nothing built up.
+        if digest.aggregates:
+            wanted = set(digest.aggregates[0][1])
+            hits = [pair for pair in hits if pair[0] in wanted]
+        self.hits = [effect for _index, effect in hits]
+        self.stacked = bool(digest.aggregates)
         casting = spell.casting or {}
         limits = [casting.get(key, [None] * (level_index + 1))[level_index]
                   for key in ('per_turn', 'per_target')]

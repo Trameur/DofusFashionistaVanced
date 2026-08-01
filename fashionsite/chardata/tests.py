@@ -8891,6 +8891,24 @@ class SpellComboTests(SimpleTestCase):
         total, order = best_turn(self._stats(), self._spells(), 0)
         self.assertEqual((total, order), (0.0, []))
 
+    def test_alternative_damage_lines_are_not_added_up(self):
+        # The spells page prints a stacking spell as "Stack 0:" ... "Stack 4:",
+        # five lines of which a cast lands exactly one. Adding them made Fit of
+        # Rage five times its own damage, and it won every turn it was in.
+        spells = {spell.name: spell for spell in self._spells()}
+        rage = spells['Fit of Rage']
+        self.assertTrue(rage.stacked)
+        self.assertEqual(len(rage.hits), 1)
+        self.assertEqual(len(rage.spell.get_effects_digest().non_crit_dams[-1]), 5)
+
+    def test_several_hits_in_one_cast_are_added_up(self):
+        # The other shape: no aggregates, so the rows are real hits landing
+        # together and the cast is worth their sum.
+        spells = {spell.name: spell for spell in self._spells()}
+        concentration = spells['Concentration']
+        self.assertFalse(concentration.stacked)
+        self.assertEqual(len(concentration.hits), 2)
+
     def test_the_shared_bucket_is_not_castable(self):
         # It holds weapons, pies and Dofus effects, not spells a turn casts.
         names = {spell.name for spell in self._spells()}
