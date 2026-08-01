@@ -2946,17 +2946,31 @@ def _monster_spells(cursor, monster_ankama_id, language):
         WHERE ms.monster_ankama_id = ?
         ORDER BY ms.position
         """, (language, monster_ankama_id)).fetchall()
-    spells = []
+    wanted = {}
     for spell_id, mapping, name in rows:
         if not name:
             continue
         grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
-        detail = cursor.execute(
-            """
-            SELECT ap_cost, range_min, range_max FROM monster_spell_levels
-            WHERE spell_ankama_id = ? AND grade = ?
-            """, (spell_id, grades[0] if grades else 1)).fetchone()
-        ap_cost, range_min, range_max = detail or (None, None, None)
+        wanted[spell_id] = grades[0] if grades else 1
+
+    # One query, not one per spell: the fullest monster carries forty.
+    details = {}
+    if wanted:
+        placeholders = ','.join('?' * len(wanted))
+        for row in cursor.execute(
+                """
+                SELECT spell_ankama_id, grade, ap_cost, range_min, range_max
+                FROM monster_spell_levels
+                WHERE spell_ankama_id IN (%s)
+                """ % placeholders, list(wanted)):
+            if wanted.get(row[0]) == row[1]:
+                details[row[0]] = row[2:]
+
+    spells = []
+    for spell_id, mapping, name in rows:
+        if not name:
+            continue
+        ap_cost, range_min, range_max = details.get(spell_id, (None, None, None))
         spells.append({
             'id': spell_id,
             'name': name,

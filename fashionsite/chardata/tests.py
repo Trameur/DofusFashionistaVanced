@@ -8977,6 +8977,72 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
 
+class MonsterSpellQueryTests(SimpleTestCase):
+    """The spell block used to run one query per spell, and the fullest
+    monster carries forty of them."""
+
+    def _conn(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        return sqlite3.connect(get_items_db_path('dofus3'))
+
+    def _busiest(self, conn):
+        return conn.execute(
+            """SELECT monster_ankama_id, COUNT(*) n FROM monster_spells
+               GROUP BY 1 ORDER BY n DESC LIMIT 1""").fetchone()
+
+    def test_the_spell_block_costs_one_query_whatever_the_count(self):
+        from chardata.encyclopedia_view import _monster_spells
+        conn = self._conn()
+        try:
+            monster, count = self._busiest(conn)
+            self.assertGreater(count, 10)
+            calls = []
+
+            class Counting(object):
+                def __init__(self, inner):
+                    self._inner = inner
+
+                def execute(self, sql, *args):
+                    calls.append(sql)
+                    return self._inner.execute(sql, *args)
+
+            spells = _monster_spells(Counting(conn.cursor()), monster, 'en')
+            self.assertGreater(len(spells), 10)
+            self.assertLessEqual(len(calls), 2, 'still one query per spell')
+        finally:
+            conn.close()
+
+    def test_each_spell_keeps_the_cost_of_its_own_grade(self):
+        # The grade comes from the monster's mapping, not the first row.
+        from chardata.encyclopedia_view import _monster_spells
+        conn = self._conn()
+        try:
+            monster, _ = self._busiest(conn)
+            spells = _monster_spells(conn.cursor(), monster, 'en')
+            checked = 0
+            for spell in spells:
+                if spell['ap_cost'] is None:
+                    continue
+                mapping = conn.execute(
+                    """SELECT grade_mapping FROM monster_spells
+                       WHERE monster_ankama_id = ? AND spell_ankama_id = ?""",
+                    (monster, spell['id'])).fetchone()[0]
+                grades = [int(g) for g in (mapping or '').split(',') if g.isdigit()]
+                expected = conn.execute(
+                    """SELECT ap_cost, range_min, range_max
+                       FROM monster_spell_levels
+                       WHERE spell_ankama_id = ? AND grade = ?""",
+                    (spell['id'], grades[0] if grades else 1)).fetchone()
+                self.assertEqual(
+                    tuple(expected),
+                    (spell['ap_cost'], spell['range_min'], spell['range_max']))
+                checked += 1
+            self.assertGreater(checked, 5)
+        finally:
+            conn.close()
+
+
 class SharedBuildCanonicalTests(TestCase):
     """The name in /s/<name>/<id>/ is decorative: the view reads only the id,
     so every spelling serves the same build. Each one used to name itself as
