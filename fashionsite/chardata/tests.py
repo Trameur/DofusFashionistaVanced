@@ -8963,6 +8963,82 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
 
+class MonsterSitemapTests(SimpleTestCase):
+    """Which monster pages are pushed for indexing. Two drops used to be all a
+    page had; it now carries the grade stats and the spells too."""
+
+    def _submitted(self, game_version='dofus3'):
+        import re
+        from fashionsite import urls
+        xml = urls._sitemap_encyclopedia_monsters('https://dofusfashionista.gg')
+        prefix = '' if game_version == 'dofus3' else '/' + game_version
+        out = set()
+        for loc in re.findall(r'<loc>([^<]+)</loc>', xml):
+            tail = loc.split('dofusfashionista.gg', 1)[1]
+            head = tail.split('/')[1]
+            known = head in ('beta', 'retro', 'touch', 'dofus2')
+            if (('/' + head) if known else '') != prefix:
+                continue
+            found = re.search(r'/monster/(\d+)-', tail)
+            if found:
+                out.add(int(found.group(1)))
+        return out
+
+    def _counts(self, game_version='dofus3'):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        try:
+            return {row[0]: row[1] for row in conn.execute("""
+                SELECT monster_ankama_id, COUNT(*) FROM (
+                    SELECT monster_ankama_id FROM item_drops
+                    UNION ALL SELECT monster_ankama_id FROM resource_drops)
+                GROUP BY 1""")}
+        finally:
+            conn.close()
+
+    def test_a_page_with_one_drop_but_stats_and_spells_is_worth_indexing(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        submitted = self._submitted()
+        drops = self._counts()
+        thin = [m for m, n in drops.items() if n < 2]
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            rich = {row[0] for row in conn.execute("""
+                SELECT DISTINCT s.monster_ankama_id FROM monster_spells s
+                JOIN monster_grades g ON g.monster_ankama_id = s.monster_ankama_id""")}
+        finally:
+            conn.close()
+        with_content = [m for m in thin if m in rich]
+        self.assertGreater(len(with_content), 1000)
+        missing = [m for m in with_content if m not in submitted]
+        self.assertEqual(missing, [], 'thin-but-rich pages left out')
+
+    def test_a_page_with_nothing_on_it_stays_out(self):
+        submitted = self._submitted()
+        drops = self._counts()
+        for monster, count in drops.items():
+            if count >= 2:
+                continue
+            if monster in submitted:
+                continue
+            # Left out, which is what a page with one drop and nothing else
+            # deserves. Just make sure the rule dropped some.
+            break
+        else:
+            self.fail('nothing was left out at all')
+
+    def test_the_versions_without_spell_data_keep_the_old_rule(self):
+        # Retro and Touch pages really are drops and stats only.
+        for version in ('retro', 'touch'):
+            with self.subTest(version=version):
+                submitted = self._submitted(version)
+                drops = self._counts(version)
+                for monster in submitted:
+                    self.assertGreaterEqual(drops.get(monster, 0), 2, monster)
+
+
 class MonsterSpellTests(TestCase):
     """The spells a monster casts, on its encyclopedia page. Straight from the
     datacenter dump: which spells, at which grade, for what cost and reach."""

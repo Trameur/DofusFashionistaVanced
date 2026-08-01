@@ -372,31 +372,37 @@ def _sitemap_encyclopedia_monsters(base_url):
                 if not drop_sources:
                     continue
 
-                # Only submit monster pages with at least 2 drops: the
-                # single-drop pages (3500+ on dofus3 alone) are one-line
-                # thin pages, prime "low value content" signal for crawlers
-                # and ad reviews. They stay served and internally linked,
-                # they are just not pushed for indexing.
+                # Two drops used to be the only thing a monster page had, so
+                # one drop meant a one-line page. It now also carries the
+                # grade stats and the spells it casts, which is a page worth
+                # indexing; the ones with neither stay out.
+                cursor.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'monster_spells'")
+                substantial = ('OR (EXISTS (SELECT 1 FROM monster_spells s '
+                               'WHERE s.monster_ankama_id = n.monster_ankama_id) '
+                               'AND EXISTS (SELECT 1 FROM monster_grades g '
+                               'WHERE g.monster_ankama_id = n.monster_ankama_id))'
+                               if cursor.fetchone() is not None else '')
                 cursor.execute(
                     """
                     WITH dropped_monsters AS (
-                        SELECT monster_ankama_id FROM (%s)
+                        SELECT monster_ankama_id, COUNT(*) AS drops FROM (%s)
                         GROUP BY monster_ankama_id
-                        HAVING COUNT(*) >= 2
                     )
-                    SELECT dm.monster_ankama_id,
+                    SELECT n.monster_ankama_id,
                            COALESCE(
                                (SELECT name FROM monster_names
-                                WHERE monster_ankama_id = dm.monster_ankama_id
+                                WHERE monster_ankama_id = n.monster_ankama_id
                                   AND language = 'en'
                                 LIMIT 1),
                                (SELECT name FROM monster_names
-                                WHERE monster_ankama_id = dm.monster_ankama_id
+                                WHERE monster_ankama_id = n.monster_ankama_id
                                 LIMIT 1)
                            )
-                    FROM dropped_monsters dm
-                    ORDER BY dm.monster_ankama_id
-                    """ % ' UNION ALL '.join(drop_sources))
+                    FROM dropped_monsters n
+                    WHERE n.drops >= 2 %s
+                    ORDER BY n.monster_ankama_id
+                    """ % (' UNION ALL '.join(drop_sources), substantial))
                 for monster_id, name in cursor.fetchall():
                     link = get_monster_link(monster_id, name or '', game_version=game_version)
                     if not link or link in seen:
