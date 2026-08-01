@@ -2,8 +2,8 @@
 """Bake the class bodies and heads ahead of time.
 
 A body is around 540 parts and takes some twenty seconds, which is too long to
-do while someone waits for a page. Equipment is a handful of parts and stays
-lazy.
+do while someone waits for a page. Mounts and the rider skeleton are baked here
+too, for the same reason. Equipment is a handful of parts and stays lazy.
 
     python manage.py prebake_characters
     python manage.py prebake_characters --gear
@@ -17,8 +17,9 @@ import time
 from django.core.management.base import BaseCommand
 
 from chardata import character_assets
-from chardata.character_look import (CLASS_TO_BREED, VERSIONS_WITH_ART,
-                                     _breed_looks, player_bones)
+from chardata.character_look import (CLASS_TO_BREED, RIDER_BONES,
+                                     VERSIONS_WITH_ART, _breed_looks,
+                                     player_bones)
 
 
 class Command(BaseCommand):
@@ -38,6 +39,12 @@ class Command(BaseCommand):
             bones = player_bones(breed)
             if character_assets.ensure_pose(bones) is None:
                 self.stderr.write('no bone bundle for %s' % bones)
+        if character_assets.ensure_pose(RIDER_BONES) is None:
+            self.stderr.write('no bone bundle for the rider %s' % RIDER_BONES)
+
+        for bone in self._mount_bones():
+            if character_assets.ensure_mount(bone) is None:
+                self.stderr.write('no bundle for mount bone %s' % bone)
 
         skins = set()
         for entry in _breed_looks().values():
@@ -56,6 +63,21 @@ class Command(BaseCommand):
             self.stdout.write('%d/%d skins' % (done, len(skins)), ending='\r')
         self.stdout.write('\n%d skins baked, %d missing, %.0f s'
                           % (done, missing, time.time() - started))
+
+    def _mount_bones(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        out = set()
+        for version in VERSIONS_WITH_ART:
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                out.update(row[0] for row in conn.execute(
+                    'SELECT DISTINCT bone FROM mount_looks'))
+            except sqlite3.OperationalError:
+                pass
+            finally:
+                conn.close()
+        return sorted(out)
 
     def _gear_skins(self):
         from fashionistapulp.structure import get_structure

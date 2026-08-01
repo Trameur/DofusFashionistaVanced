@@ -8375,6 +8375,27 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual([row.get('rider') or row.get('part') for row in frame],
                          ['carried_1_0', 0, 'carried_6_0'])
 
+    def test_the_prebake_covers_the_mounts_and_the_rider(self):
+        # Baking a mount takes as long as baking a body, so it must not happen
+        # while someone waits for a page.
+        import unittest.mock
+        from django.core.management import call_command
+        from chardata import character_assets
+        from chardata.character_look import RIDER_BONES
+        poses, mounts = [], []
+        with unittest.mock.patch.object(character_assets, 'bundle_dir',
+                                        return_value='somewhere'), \
+                unittest.mock.patch.object(character_assets, 'ensure_pose',
+                                           side_effect=lambda b: poses.append(b)), \
+                unittest.mock.patch.object(character_assets, 'ensure_mount',
+                                           side_effect=lambda b: mounts.append(b)), \
+                unittest.mock.patch.object(character_assets, 'ensure_skin',
+                                           return_value={}):
+            call_command('prebake_characters')
+        self.assertIn(RIDER_BONES, poses)
+        self.assertTrue(mounts, 'no mount was baked')
+        self.assertIn(639, mounts)
+
     def test_a_skin_is_one_sheet_not_thirty_files(self):
         # A character used to cost 85 requests. The sheet holds every part of
         # every orientation, so turning it costs none at all.
