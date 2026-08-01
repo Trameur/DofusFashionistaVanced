@@ -39,9 +39,13 @@ SLOT_TO_NODE = {
     'weapon': 'Arme',
 }
 
-# A weapon has art and a node name in the skeleton, but not one of the 23
-# baked poses places an Arme node, so nothing ever draws it. Measured, not
-# assumed: hiding the weapon on a build that has one moves zero pixels.
+# A weapon never draws, and the placement is not in the shipped data. Of 27
+# skeletons, 22 expose an Arme node and none of them positions it in any of
+# their animations, combat ones included; a shield is positioned in every
+# single one. The weapon skin carries only geometry, under those same node
+# names, with an identity transform. So the client works the placement out at
+# runtime from something we do not download, and drawing one would mean
+# guessing an attachment point on every build.
 UNDRAWN_SLOTS = ('weapon',)
 
 MOUNT_SLOT = 'mount'

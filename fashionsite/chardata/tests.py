@@ -9194,9 +9194,10 @@ class PreviewPieceBoxesTests(SimpleTestCase):
         self.assertEqual([], self._pieces('', {arme: 5662}))
 
     def test_the_poses_still_have_nowhere_to_put_a_weapon(self):
-        # The reason the box is gone. The skeleton names Arme_1 and Arme_5 and
-        # the skins provide them, but no baked pose places the node, so the
-        # weapon draws nothing. Delete UNDRAWN_SLOTS the day this fails.
+        # The reason the box is gone. 22 of the 27 skeletons expose an Arme
+        # node and none positions it, in any animation; the skin holds only
+        # geometry with an identity transform. Delete UNDRAWN_SLOTS the day
+        # this fails, because then the data finally says where it goes.
         import json
         from chardata import character_assets
         root = os.path.join(character_assets.cache_dir(), 'poses')
