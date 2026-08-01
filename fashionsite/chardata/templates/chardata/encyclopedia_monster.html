@@ -5,13 +5,13 @@
 
 {% block title %}{{ monster.name }} - {% if level_span %}{{ mt.level_label }} {{ level_span }} - {% endif %}{{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% if weakness_element_name %}{{ mt.weakness_label }}: {{ weakness_element_name }}. {% endif %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% if weakness_element_name %}{{ mt.weakness_label }}: {{ weakness_element_name }}. {% endif %}{% if spells %}{% blocktrans with monster_name=monster.name %}Dofus monster page for {{ monster_name }}: the spells it casts, the resources and items it drops, and their drop rates for this game version.{% endblocktrans %}{% else %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endif %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
 {% block og_meta %}
     <meta property="og:title" content="{{ monster.name }} - {{ mt.monster_kind_label }}">
-    <meta property="og:description" content="{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}">
+    <meta property="og:description" content="{% if spells %}{% blocktrans with monster_name=monster.name %}Dofus monster page for {{ monster_name }}: the spells it casts, the resources and items it drops, and their drop rates for this game version.{% endblocktrans %}{% else %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endif %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical_url }}">
     {% if monster.image_url %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ monster.image_url }}">{% endif %}

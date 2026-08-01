@@ -6365,6 +6365,11 @@ msgstr "Voltar às cores predefinidas"
 msgid "Visible pieces"
 msgstr "Peças visíveis"
 
+#: chardata/templates/chardata/encyclopedia_monster.html:0
+#, python-format
+msgid "Dofus monster page for %(monster_name)s: the spells it casts, the resources and items it drops, and their drop rates for this game version."
+msgstr "Ficha do monstro %(monster_name)s no Dofus: os feitiços que lança, os recursos e itens que dropa, e as taxas de drop para esta versão do jogo."
+
 #: chardata/templates/chardata/spells.html:0
 msgid "Best combo this turn"
 msgstr "Melhor combo neste turno"

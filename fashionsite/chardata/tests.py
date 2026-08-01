@@ -8871,6 +8871,35 @@ class MonsterSpellTests(TestCase):
         self.assertEqual(parse_grade_mapping(None), [])
         self.assertTrue(callable(_monster_spells))
 
+    def test_the_description_only_promises_spells_where_there_are_some(self):
+        # 5051 pages worth of search snippet: it must not offer spells to a
+        # version whose page has none.
+        import re
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            retro_id = conn.execute(
+                "SELECT monster_ankama_id FROM monster_names "
+                "WHERE language = 'en' LIMIT 1").fetchone()[0]
+        finally:
+            conn.close()
+
+        # Django reorders the attributes, so read the description by name
+        # rather than by the shape of the tag.
+        described = re.compile(
+            r'<meta content="([^"]*)" name="description"\s*/?>')
+
+        with_spells = self.client.get(
+            '/encyclopedia/monster/%d-x/' % self.JELLY).content.decode('utf-8')
+        self.assertIn('id="monster-spells"', with_spells)
+        self.assertIn('spells it casts', described.search(with_spells).group(1))
+
+        without = self.client.get(
+            '/retro/encyclopedia/monster/%d-x/' % retro_id).content.decode('utf-8')
+        self.assertNotIn('id="monster-spells"', without)
+        self.assertNotIn('spell', described.search(without).group(1))
+
     def test_the_page_lists_them(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
