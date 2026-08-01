@@ -1021,6 +1021,41 @@ def _build_state_aggregates(
     return aggregates
 
 
+def _build_situation_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """The mask and the zone say which case a row lands in. When two cases carry
+    the very same damage the row was written once per case, not once per hit:
+    Bramble hits the target then the infected around it, Epidemic hits the cell
+    then the spread. Summing them doubled the spell. Identical rows in the same
+    case stay summed, since nothing in the data tells a repeat from a copy."""
+    groups: Dict[Any, List[int]] = {}
+    for idx, row in enumerate(rows):
+        situation = row.get("situation")
+        if situation is None:
+            return None
+        groups.setdefault(situation, []).append(idx)
+    if len(groups) < 2:
+        return None
+    seen: Dict[Any, Any] = {}
+    for situation, indexes in groups.items():
+        for idx in indexes:
+            key = (rows[idx].get("element"), tuple(rows[idx].get("ranges") or ()))
+            if seen.setdefault(key, situation) != situation:
+                break
+        else:
+            continue
+        break
+    else:
+        return None
+    aggregates = [("", sorted(indexes)) for _situation, indexes in
+                  sorted(groups.items(), key=lambda pair: min(pair[1]))]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
 def _build_best_element_aggregates(
     group_map: Mapping[Any, Sequence[int]],
     base_row_count: int,
@@ -1174,6 +1209,8 @@ def convert_spell(
     # Last resort, so a spell that stacks keeps the labels the page prints.
     if not aggregates:
         aggregates = _build_state_aggregates(normal_rows, len(non_crit))
+    if not aggregates:
+        aggregates = _build_situation_aggregates(normal_rows, len(non_crit))
     if not non_crit:
         return None
     stacks = stack_limit

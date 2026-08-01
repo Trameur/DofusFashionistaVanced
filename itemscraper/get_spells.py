@@ -44,10 +44,18 @@ BEST_ELEMENT_TOKENS = ("EARTH", "FIRE", "WATER", "AIR")
 # letter followed by digits, which is what tells it from a target letter.
 STATE_IN_TARGET_MASK = re.compile(r"\b\*?[eE]\d+\b")
 
+ZONE_SIGNATURE_KEYS = ("shape", "param1", "param2")
+
 STACK_CONTROLLER_EFFECT_IDS = {792, 1160}
 SUMMON_STACK_PATTERN = re.compile(r"each of the caster's .*summon", re.IGNORECASE)
 SUMMON_STACK_CAP = 10
 STACKABLE_TIMES_PATTERN = re.compile(r"stackable\s*(?:up to\s*)?(\d+)", re.IGNORECASE)
+
+
+def _zone_signature(zone: Optional[Mapping[str, Any]]) -> str:
+    if not zone:
+        return ""
+    return ",".join(str(zone.get(key)) for key in ZONE_SIGNATURE_KEYS)
 
 
 def _unwrap_array(value: Any) -> List[Any]:
@@ -376,6 +384,16 @@ class SpellTransformer:
                     str(effect.get("target_mask") or ""))
                 state_group = ",".join(sorted(state)) if state else None
 
+                # The mask and the zone together say which case a row belongs
+                # to. Ankama writes one row per case with the same damage in
+                # each: Bramble hits the target, then the infected around it;
+                # Epidemic hits the cell, then the spread; Bear Cry hits
+                # through a glyph or directly. A cast lands one of them.
+                situation = "%s|%s" % (
+                    effect.get("target_mask") or "",
+                    _zone_signature(effect.get("zone")),
+                )
+
                 def _register_row(token: str, *, best_group: Optional[str] = None) -> None:
                     key = (effect.get("order"), token, steals, heals_flag)
                     idx = key_to_idx.get(key)
@@ -392,6 +410,7 @@ class SpellTransformer:
                             row["best_element_group"] = best_group
                         if state_group is not None:
                             row["state_group"] = state_group
+                        row["situation"] = situation
                         rows.append(row)
                     else:
                         row = rows[idx]
@@ -624,8 +643,20 @@ class SpellTransformer:
             if localized:
                 names.setdefault(name_en, localized)
 
-        output_path.write_text(json.dumps(names, indent=2, ensure_ascii=False, sort_keys=True), encoding="utf-8")
-        print(f"Wrote {len(names)} spell names -> {output_path}")
+        # Dofus 3 and the beta share this map but ship different spell lists, so
+        # a run adds to what the other wrote instead of dropping its spells.
+        merged: Dict[str, Dict[str, str]] = {}
+        if output_path.exists():
+            try:
+                existing = json.loads(output_path.read_text(encoding="utf-8"))
+            except ValueError:
+                existing = None
+            if isinstance(existing, dict):
+                merged.update(existing)
+        merged.update(names)
+
+        output_path.write_text(json.dumps(merged, indent=2, ensure_ascii=False, sort_keys=True), encoding="utf-8")
+        print(f"Wrote {len(merged)} spell names -> {output_path}")
 
     def _ensure_breeds(self) -> None:
         if self._breeds is not None:
