@@ -8841,6 +8841,18 @@ class MonsterSpellTests(TestCase):
                     [(321, 'Gelpikes'), (29839, 'Tasty Spread'),
                      (29844, 'Jellifier'), (267, 'Strawberry Bone')])
 
+    def test_every_stored_spell_has_a_name_to_show(self):
+        # Monsters point at ids the spell table does not describe, -1 among
+        # them. A row the page can only drop has no business being stored.
+        for version in self.VERSIONS:
+            nameless = self._rows(version, """
+                SELECT COUNT(*) FROM monster_spells ms
+                LEFT JOIN monster_spell_names n
+                  ON n.spell_ankama_id = ms.spell_ankama_id AND n.language = 'en'
+                WHERE n.name IS NULL""")[0][0]
+            with self.subTest(version=version):
+                self.assertEqual(nameless, 0)
+
     def test_a_spell_knows_what_it_costs_and_how_far_it_reaches(self):
         rows = self._rows('dofus3', """
             SELECT grade, ap_cost, range_min, range_max

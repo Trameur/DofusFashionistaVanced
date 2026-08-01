@@ -141,12 +141,18 @@ def main():
 
     used = set()
     linked = 0
+    unknown = set()
     for monster_id, monster in monsters.items():
         if monster_id not in known:
             continue
         spell_ids = (monster.get('spells') or {}).get('Array') or []
         mappings = (monster.get('spellGrades') or {}).get('Array') or []
         for position, spell_id in enumerate(spell_ids):
+            # Monsters point at ids the spell table does not describe, -1 among
+            # them. Storing those would only put rows the page has to drop.
+            if spell_id not in spells:
+                unknown.add(spell_id)
+                continue
             mapping = mappings[position] if position < len(mappings) else ''
             grades = parse_grade_mapping(mapping)
             cursor.execute(
@@ -187,6 +193,9 @@ def main():
     _save_db_to_dump(db_path, args.game_version)
     print('stored %d monster spells, %d names, %d grades'
           % (linked, named, priced))
+    if unknown:
+        print('skipped %d spell ids the dump does not describe: %s'
+              % (len(unknown), ', '.join(str(i) for i in sorted(unknown)[:10])))
     return 0
 
 
