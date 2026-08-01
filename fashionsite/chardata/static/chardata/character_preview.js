@@ -4,8 +4,7 @@
     'use strict';
 
     var TURN = ['0', '1', '2', '3', '4', '5', '6', '7'];
-    // The client ships five orientations. mirror(d) = (4 - d) mod 8, so 2 and 6
-    // are their own mirror.
+    // mirror(d) = (4 - d) mod 8; the client ships five orientations.
     var MIRROR_OF = { '3': '1', '4': '0', '7': '5' };
     var PAD = 2;
 
@@ -56,8 +55,7 @@
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.base = options.assetBase.replace(/\/$/, '');
-        // Every piece is addressed by id and cached for a year, so the only
-        // thing that can tell a browser a rebake happened is the url.
+        // Pieces are id-addressed and cached a year; only the url can bust it.
         this.stamp = options.assetVersion
             ? '?v=' + encodeURIComponent(options.assetVersion) : '';
         this.look = options.look;
@@ -111,8 +109,7 @@
                 })
                 .catch(function () {}));
         }
-        // One missing piece must not cost the whole character, so a part that
-        // fails to load is simply not drawn.
+        // A part that fails to load is skipped, not fatal.
         this.skins.forEach(function (id) {
             jobs.push(fetch(self.base + '/parts/' + id + '/parts.json' + self.stamp)
                 .then(function (r) { return r.ok ? r.json() : null; })
@@ -123,8 +120,7 @@
             if (!self.poses || !self.manifests[self.look.body]) {
                 throw new Error('no character art');
             }
-            // A rider without its mount is a torso with no legs, so the page is
-            // better off with its old avatar.
+            // A rider without its mount is a legless torso.
             if (self.look.mount && !self.mount) {
                 throw new Error('no mount art');
             }
@@ -161,8 +157,7 @@
         return out;
     };
 
-    // A head ships every expression and a dozen spare skull shapes; drawing
-    // them all at once turns the face into mush.
+    // Heads ship every expression; drawing them all turns the face to mush.
     var EXPRESSION = /^visage_(?!neutre|base)|_visage_(?!neutre)|^tete\d+$/;
 
     CharacterPreview.prototype.headEntries = function () {
@@ -222,8 +217,7 @@
         ctx.setTransform(1, 0, 0, 1, 0, 0);
     };
 
-    // The rider is drawn in place of the slot the mount reserved for it, so the
-    // near leg lands in front of the character on its own.
+    // Drawn in place of the slot, which puts the near leg in front.
     CharacterPreview.prototype.drawMounted = function (nodes, rows) {
         var size = (this.look.mount.scale || 100) / 100;
         var scale = this.baseScale * size;
@@ -233,8 +227,7 @@
             if (row.rider !== undefined) {
                 if (row.rider === this.look.mount.slot && !seated) {
                     seated = true;
-                    // The seat moves with the mount, the rider does not grow
-                    // with it, so the character keeps its own size.
+                    // The seat scales with the mount, the rider does not.
                     this.drawCharacter(nodes, row.m, scale, (this.look.scale || 1) / size);
                 }
                 continue;

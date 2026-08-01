@@ -137,11 +137,7 @@ def _spell_image_url(spell_name, game_version):
 
 
 def _best_combo(char, solution, game_version):
-    """The order of casts that gets the most out of one turn.
-
-    None when there is nothing to say: no AP, no class spells, or a class whose
-    spells carry no cast cost (retro and touch are decoded separately).
-    """
+    """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import best_turn, castable_spells
     stats = solution.get_stats_total()
     ap = stats.get('ap') or 0

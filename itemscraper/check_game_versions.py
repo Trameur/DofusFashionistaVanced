@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Report what each Dofus version is running right now, from its own source.
+"""What each Dofus version is running, from its own source. Exits 1 if one moved.
 
     python itemscraper/check_game_versions.py
 
-Prints one line per version: what the source says, what we ship, and whether the
-two agree. Exits 1 when at least one has moved, so it can gate a re-scrape.
-
-Touch has no version endpoint and its site answers 403, so it is watched by the
-asset bundle its own client config points at. That string changes on every Touch
-release, which is the signal we need; it is not a version number and is not
-presented as one.
+Touch publishes no version, so it is watched by the asset bundle its client
+config points at. That string is not a version number.
 """
 from __future__ import annotations
 
@@ -36,7 +31,7 @@ def _json(url):
 
 
 def cytrus_version(game_version):
-    """Cytrus prefixes the client generation, which is not part of the build."""
+    """Strips the client generation prefix."""
     raw = cytrus_cdn.get_version(game_version)
     return raw.split('_', 1)[-1] if '_' in raw else raw
 
@@ -57,8 +52,7 @@ def main():
     ]
     moved = False
     for name, mine, live in checks:
-        # Retro and Touch ship a longer build string than the update we track.
-        same = live.startswith(mine)
+        same = live.startswith(mine)  # retro ships a longer build string
         moved = moved or not same
         print('%-8s ours %-12s live %-28s %s'
               % (name, mine, live, 'ok' if same else 'MOVED'))

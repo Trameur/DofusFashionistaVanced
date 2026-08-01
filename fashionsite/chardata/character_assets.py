@@ -38,7 +38,6 @@ FLAG_COLOUR = 0x04
 FLAG_BITS = 0x3F
 HEADER = 12
 
-# A mount piece says which of its look colours it wears in its node name.
 COLOUR_SLOT = re.compile(r'^ColorGray_(\d+)_')
 
 _lock = threading.Lock()
@@ -318,13 +317,10 @@ class Mount(Bone):
         return holder, part['name']
 
     def key_frame(self, animation):
-        """The mount's own pieces, in paint order.
+        """The mount's pieces in paint order.
 
-        Only a record with the symbol bit carries art; the symbol is the
-        graphics index. A record with a node and no symbol names the pieces that
-        follow it, which is how a piece learns which look colour it wears, and
-        one name can cover several pieces. A `carried` node is where the rider
-        goes and carries nothing itself.
+        Only the symbol bit carries art. A node without one names the pieces
+        that follow, which is where their look colour comes from.
         """
         raw, start, end = self._bounds(animation, 0)
         out, pos, named = [], start, ''
@@ -357,11 +353,7 @@ def _mount_cache(bone_id):
 
 
 def has_bone(bone_id):
-    """Whether a skeleton can be drawn, without paying to bake it.
-
-    Already baked counts. A server carrying the cache and no bundles is the
-    normal setup: the bundles are 861 MB and are only ever needed to bake.
-    """
+    """Drawable: already baked, or a bundle to bake from."""
     bone_id = str(bone_id)
     if os.path.exists(os.path.join(cache_dir(), 'poses',
                                    '%s-v%d.json' % (bone_id, POSE_FORMAT))):
@@ -510,12 +502,7 @@ FOREVER = 'public, max-age=31536000, immutable'
 
 
 def asset_token():
-    """Changes whenever a rebake could change what these URLs hold.
-
-    The pieces are addressed by id, so the same URL can hold different art after
-    a game update or a decoder change. Browsers are told to keep them for a
-    year, so without this they would never find out.
-    """
+    """Cache buster: the pieces are id-addressed and kept for a year."""
     from fashionista_version import FASHIONISTA_VERSION
     return '%s-%d-%d' % (FASHIONISTA_VERSION, POSE_FORMAT, MOUNT_FORMAT)
 

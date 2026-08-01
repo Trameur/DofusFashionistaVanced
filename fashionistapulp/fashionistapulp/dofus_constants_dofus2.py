@@ -330,10 +330,7 @@ class Spell:
         self.is_linked = is_linked
         self.special = special
         self.buff_scaling = buff_scaling
-        # What a cast costs and how often it is allowed, one value per spell
-        # level: {'ap': [...], 'per_turn': [...], 'per_target': [...],
-        # 'cooldown': [...]}. A limit that is 0 everywhere is left out, and the
-        # whole thing is None when the client data did not line up.
+        # {'ap': [...], 'per_turn': [...], ...}, one value per spell level.
         self.casting = casting
 
     def ap_cost(self, level_index=-1):

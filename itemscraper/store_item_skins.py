@@ -102,9 +102,7 @@ def main():
                 absent += 1
                 continue
             item_id, item_type = entry
-            # A bare number is a decision already taken, with nothing left to
-            # weigh; the matcher's own output carries the scores behind it.
-            if isinstance(match, int):
+            if isinstance(match, int):  # already decided, no margin to weigh
                 conn.execute('UPDATE items SET skin = ? WHERE id = ?', (match, item_id))
                 written += 1
                 continue

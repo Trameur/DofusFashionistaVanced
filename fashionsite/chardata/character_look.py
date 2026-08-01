@@ -22,9 +22,8 @@ CLASS_TO_BREED = {
 # bone_1-<breed>-static. The numbered bones (2 and up) are monsters and mounts.
 BONES_FOR_BREED = '1-%d-static'
 
-# On a mount the character is a seated upper body with no legs, drawn from its
-# own skeleton. The slot is the attachment every mount offers, and where it sits
-# in the mount's paint list is what puts the near leg in front of the rider.
+# Seated upper body, no legs. The slot's depth in the mount's paint list is
+# what puts the near leg in front of the rider.
 RIDER_BONES = '9582'
 RIDER_SLOT = 'carried_2_0'
 
@@ -40,7 +39,6 @@ SLOT_TO_NODE = {
     'weapon': 'Arme',
 }
 
-# The preview leaves it off like any other piece.
 MOUNT_SLOT = 'mount'
 
 REFERENCE_SCALE = 53.0
@@ -104,11 +102,7 @@ _mount_looks = {}
 
 
 def mount_look(item_id, game_version='dofus3'):
-    """Skeleton, colours and scale of a mount item, or None if it has none.
-
-    DofusDB does not list every colour variant we carry, so a mount with no row
-    simply is not drawn.
-    """
+    """Skeleton, colours and scale, or None: not every variant is listed."""
     looks = _mount_looks.get(game_version)
     if looks is None:
         import sqlite3
@@ -168,8 +162,7 @@ def get_character_look(char, solution, game_version='dofus3'):
             if result_item.slot != 'pet' or not getattr(result_item, 'item_added', False):
                 continue
             mount = mount_look(result_item.id, game_version)
-            # The rider skeleton has no legs, so it is only ever worth using
-            # when the mount it sits on can actually be drawn.
+            # No legs on the rider, so only switch when the mount can be drawn.
             if mount and has_bone(mount['bone']) and has_bone(RIDER_BONES):
                 look['mount'] = mount
                 look['bones'] = RIDER_BONES

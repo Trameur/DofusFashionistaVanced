@@ -1034,12 +1034,8 @@ def _build_best_element_aggregates(
 
 
 def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, List[int]]]:
-    """What a cast costs and how often it is allowed, per spell level.
-
-    None rather than a guess when the level lists do not line up: a combo is
-    only worth computing on exact costs. A limit of 0 means no limit, so the
-    keys that are 0 everywhere are left out.
-    """
+    """Cost and cast limits per level. None if the lists do not line up; a
+    limit of 0 means no limit, so all-zero keys are dropped."""
     levels = spell.get("levels") or []
     if len(levels) != level_count:
         return None

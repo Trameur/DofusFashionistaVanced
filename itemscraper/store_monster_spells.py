@@ -14,18 +14,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Store the spells each monster casts, for the encyclopedia page.
+"""Store the spells each monster casts, from the datacenter dump.
 
-Everything comes from the datacenter dump we already download
-(itemscraper/raw/<tag>/): monsters.json says which spells a monster has and
-which grade of the spell each of its grades casts, spells.json names them and
-spell_levels.json prices them. First-party data, no fan site involved.
-
-A monster's `spellGrades` reads "1,54;1,56;1,58;1,60;1,62": one entry per
-monster grade, each "<spell grade>,<spell level id>". Only the spell grade is
-worth keeping, the level id is an internal handle.
-
-Usage (from itemscraper/):
     python store_monster_spells.py [--game-version dofus3|beta] [--tag 3.6.8.8]
 """
 
@@ -48,7 +38,7 @@ LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 
 
 def _table(path):
-    """A datacenter table as {id: record}, resolving the reference indirection."""
+    """A datacenter table as {id: record}."""
     with io.open(path, encoding='utf-8') as handle:
         data = json.load(handle)
     refs = {ref['rid']: ref['data'] for ref in data['references']['RefIds']}
@@ -68,10 +58,7 @@ def _labels(dump_dir):
 
 
 def parse_grade_mapping(raw):
-    """Spell grade cast by each monster grade, from "1,54;1,56;...".
-
-    The list is per monster grade, so its position is the monster grade.
-    """
+    """Spell grade per monster grade, from "1,54;1,56;..." (the id is a handle)."""
     grades = []
     for chunk in (raw or '').split(';'):
         head = chunk.split(',')[0].strip()
@@ -148,9 +135,7 @@ def main():
         spell_ids = (monster.get('spells') or {}).get('Array') or []
         mappings = (monster.get('spellGrades') or {}).get('Array') or []
         for position, spell_id in enumerate(spell_ids):
-            # Monsters point at ids the spell table does not describe, -1 among
-            # them. Storing those would only put rows the page has to drop.
-            if spell_id not in spells:
+            if spell_id not in spells:  # -1 and friends, undescribed
                 unknown.add(spell_id)
                 continue
             mapping = mappings[position] if position < len(mappings) else ''

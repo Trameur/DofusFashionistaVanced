@@ -16,16 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Best order of casts in one turn, for the build the page is showing.
-
-Everything this needs already existed apart from the AP cost: what a spell hits
-for, how often it may be cast, and what a self-buff grants per stack. It is a
-search rather than a sort by damage per AP, because a buff cast first changes
-what every later cast is worth, so the order IS the answer.
-
-One turn, one target, no positioning: what it reports is the damage ceiling of
-the stuff, not a fight plan.
-"""
+"""Best order of casts in one turn: one target, no positioning."""
 
 import copy
 
@@ -34,13 +25,10 @@ from fashionistapulp.dofus_constants import calculate_damage
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
 
-# A turn is a handful of casts, but a build with cheap spells and a big AP pool
-# can still open a wide tree. Kept low enough to answer while the page loads.
 MAX_CASTS = 8
 
 
 class Castable(object):
-    """A spell reduced to what a turn needs from it."""
 
     def __init__(self, spell, level_index, crit):
         self.spell = spell
@@ -53,10 +41,8 @@ class Castable(object):
                       if effect.element.startswith('buff')]
         hits = [(index, effect) for index, effect in enumerate(self.effects)
                 if not effect.element.startswith('buff')]
-        # With aggregates the rows are ALTERNATIVES, one line per stack or per
-        # element, and a cast only ever lands one of them. The spells page
-        # prints them as "Stack 0:", "Stack 1:"; adding them up multiplied Fit
-        # of Rage by five. The first group is the one with nothing built up.
+        # Aggregate rows are alternatives, one per stack or element; a cast
+        # lands one. First group = nothing built up.
         if digest.aggregates:
             wanted = set(digest.aggregates[0][1])
             hits = [pair for pair in hits if pair[0] in wanted]
@@ -70,14 +56,11 @@ class Castable(object):
         self.stacks = spell.stacks or 1
 
     def buff_deltas(self, count):
-        """Stat bonus this spell grants after being cast that many times."""
         deltas = {}
         capped = min(count, self.stacks)
         for effect in self.buffs:
             parts = effect.element.split('_')
-            if len(parts) > 2:
-                # Category-restricted power (weapon only, glyphs only, ...).
-                # Applying it to every hit would overstate the turn.
+            if len(parts) > 2:  # weapon-only, glyph-only... not every hit
                 continue
             stat = parts[1]
             value = _buff_value(self.spell.buff_scaling, stat, capped,
@@ -99,11 +82,7 @@ def _average(damages):
 
 
 def castable_spells(char_class, char_level, game_version, crit=False):
-    """The class spells a character of that level can actually cast.
-
-    The class bucket only. The shared one holds weapons, pies and Dofus
-    effects, which a turn does not get to cast at will.
-    """
+    """Class bucket only: the shared one is weapons, pies and Dofus effects."""
     by_class = get_damage_spells_for_version(game_version)
     spells = by_class.get(char_class, [])
     out = []
@@ -119,10 +98,7 @@ def castable_spells(char_class, char_level, game_version, crit=False):
 
 
 def best_turn(stats, spells, ap, crit=False):
-    """Highest-damage cast order that fits the AP, and what it adds up to.
-
-    Returns (total, [(spell name, damage of that cast), ...]).
-    """
+    """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
     stats = dict(stats)
     spells = [spell for spell in spells if spell.cost and spell.cost <= ap]
     if not spells:
@@ -138,8 +114,7 @@ def best_turn(stats, spells, ap, crit=False):
             for stat, value in other.buff_deltas(counts[index]).items():
                 if stat in buffed:
                     buffed[stat] = buffed[stat] + value
-        # Copied: calculate_damage resolves "best element" by writing it back
-        # into the row, which would stick to the shared spell for good.
+        # calculate_damage writes "best element" back into the row.
         rows = [copy.copy(effect) for effect in spell.hits]
         return _average(calculate_damage(rows, buffed, crit, True))
 

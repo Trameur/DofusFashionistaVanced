@@ -2933,7 +2933,7 @@ def _consistent_weakest(grades):
 
 
 def _monster_spells(cursor, monster_ankama_id, language):
-    """The monster's spells in the order it carries them, named and priced."""
+    """Its spells in order, named and priced."""
     rows = cursor.execute(
         """
         SELECT ms.spell_ankama_id, ms.grade_mapping,
@@ -3031,9 +3031,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     """, (target_monster_id,)).fetchall()
             subareas = [row[0] for row in rows]
 
-        # The spells it casts, named in the player's language with an English
-        # fallback. The cost and reach shown are the ones of the spell grade
-        # this monster's first grade casts, which is what a player meets first.
+        # Cost and reach of the grade the monster's first grade casts.
         spells = []
         if _db_table_exists(cursor, 'monster_spells'):
             spells = _monster_spells(cursor, target_monster_id, language)

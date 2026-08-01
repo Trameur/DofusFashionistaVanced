@@ -343,10 +343,7 @@ class Spell:
         # Ankama/dofusdude spell id (audits match DofusDB by id, names have
         # homonyms); None for the hand-written shared specs.
         self.spell_id = spell_id
-        # What a cast costs and how often it is allowed, one value per spell
-        # level: {'ap': [...], 'per_turn': [...], 'per_target': [...],
-        # 'cooldown': [...]}. A limit that is 0 everywhere is left out, and the
-        # whole thing is None when the client data did not line up.
+        # {'ap': [...], 'per_turn': [...], ...}, one value per spell level.
         self.casting = casting
 
     def ap_cost(self, level_index=-1):
