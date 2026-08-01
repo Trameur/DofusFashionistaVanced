@@ -9765,7 +9765,10 @@ class CombatApTests(SimpleTestCase):
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
-        wanted = {'Pandawa': ('Schnaps', 1), 'Ecaflip': ('Trickery', 2)}
+        # Abolition Arrow reads a lowercase *e, meaning the state is absent,
+        # and its six rows are one case each.
+        wanted = {'Pandawa': ('Schnaps', 1), 'Ecaflip': ('Trickery', 2),
+                  'Cra': ('Abolition Arrow', 2)}
         for char_class, (name, keep) in wanted.items():
             spells = get_damage_spells_for_version('dofus3').get(char_class, [])
             spell = next((s for s in spells if s.name == name), None)

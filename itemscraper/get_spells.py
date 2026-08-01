@@ -37,8 +37,10 @@ ELEMENT_ID_TO_TOKEN = {
 BEST_ELEMENT_DESCRIPTION_TOKENS = ("best-element", "best element")
 BEST_ELEMENT_TOKENS = ("EARTH", "FIRE", "WATER", "AIR")
 
-# "A,*E3531" means the row only lands while the caster carries state 3531.
-STATE_IN_TARGET_MASK = re.compile(r"\*E(\d+)")
+# "A,*E3531" means the row only lands while the caster carries state 3531, and
+# "*e3531" while it does not, so the two spellings are different conditions and
+# the whole set of them names the case a row belongs to.
+STATE_IN_TARGET_MASK = re.compile(r"\*[eE]\d+")
 
 STACK_CONTROLLER_EFFECT_IDS = {792, 1160}
 SUMMON_STACK_PATTERN = re.compile(r"each of the caster's .*summon", re.IGNORECASE)
@@ -370,7 +372,7 @@ class SpellTransformer:
                 # summed. Rows sharing a state land together.
                 state = STATE_IN_TARGET_MASK.findall(
                     str(effect.get("target_mask") or ""))
-                state_group = state[0] if state else None
+                state_group = ",".join(sorted(state)) if state else None
 
                 def _register_row(token: str, *, best_group: Optional[str] = None) -> None:
                     key = (effect.get("order"), token, steals, heals_flag)

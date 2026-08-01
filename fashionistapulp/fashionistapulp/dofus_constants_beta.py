@@ -792,7 +792,7 @@ DAMAGE_SPELLS = {
              ['15-18', '19-23', '23-27']],
             [EARTH, EARTH, EARTH, EARTH, EARTH, EARTH],
             steals=[True, True, True, True, True, True],
-        ), stacks=2, is_linked=(1, 'Persecuting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3]}, spell_id=32453),
+        ), aggregates=[('', [0, 3]), ('', [1, 4]), ('', [2, 5])], stacks=2, is_linked=(1, 'Persecuting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3]}, spell_id=32453),
         Spell('Eye for Eye', [55, 122, 189], Effects(
             [['18-20', '24-26', '27-30'],
              ['22-24', '29-31', '33-36'],
@@ -3779,7 +3779,7 @@ DAMAGE_SPELLS = {
              ['13-14', '15-16'],
              ['13-14', '15-16']],
             [EARTH, EARTH, EARTH, EARTH, EARTH, EARTH, EARTH],
-        ), is_linked=(2, 'Amarok'), casting={'ap': [4, 4], 'per_turn': [1, 1]}, spell_id=13758),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2, 3]), ('', [4, 5, 6])], is_linked=(2, 'Amarok'), casting={'ap': [4, 4], 'per_turn': [1, 1]}, spell_id=13758),
         Spell('Calcaneus', [135], Effects(
             [['19-21']],
             [['23-25']],
@@ -3836,7 +3836,7 @@ DAMAGE_SPELLS = {
              ['21-23', '28-31', '39-42'],
              ['21-23', '28-31', '39-42']],
             [EARTH, EARTH, EARTH],
-        ), is_linked=(1, 'Fiery Breath'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=12803),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Fiery Breath'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2]}, spell_id=12803),
         Spell('Explosive Palm', [1, 67, 133], Effects(
             [['12-14', '15-17', '20-22'],
              ['12-14', '15-17', '20-22'],

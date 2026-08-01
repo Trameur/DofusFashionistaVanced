@@ -1165,13 +1165,15 @@ def convert_spell(
         base_row_count,
         len(non_crit),
     )
-    state_aggregates = _build_state_aggregates(normal_rows, len(non_crit))
-    aggregates = best_element_aggregates or state_aggregates or stack_aggregates
+    aggregates = best_element_aggregates or stack_aggregates
     aggregates_from_best = aggregates is best_element_aggregates and aggregates is not None
     if not aggregates and stack_labels and stack_row_block:
         aggregates = _build_stack_row_aggregates(stack_row_block, base_row_count, stack_labels)
     if aggregates_from_best and aggregates and stack_labels and stack_row_block:
         aggregates = _prefix_stack_labels(aggregates, stack_row_block, stack_labels)
+    # Last resort, so a spell that stacks keeps the labels the page prints.
+    if not aggregates:
+        aggregates = _build_state_aggregates(normal_rows, len(non_crit))
     if not non_crit:
         return None
     stacks = stack_limit
