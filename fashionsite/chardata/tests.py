@@ -9188,6 +9188,37 @@ class PreviewPieceBoxesTests(SimpleTestCase):
         hat = SLOT_TO_NODE['hat']
         self.assertEqual(['hat'], self._pieces('', {hat: 242}))
 
+    def test_no_box_for_a_weapon_while_no_pose_can_place_one(self):
+        from chardata.character_look import SLOT_TO_NODE
+        arme = SLOT_TO_NODE['weapon']
+        self.assertEqual([], self._pieces('', {arme: 5662}))
+
+    def test_the_poses_still_have_nowhere_to_put_a_weapon(self):
+        # The reason the box is gone. The skeleton names Arme_1 and Arme_5 and
+        # the skins provide them, but no baked pose places the node, so the
+        # weapon draws nothing. Delete UNDRAWN_SLOTS the day this fails.
+        import json
+        from chardata import character_assets
+        root = os.path.join(character_assets.cache_dir(), 'poses')
+        if not os.path.isdir(root):
+            self.skipTest('no pose baked on this machine')
+        placed = 0
+        looked = 0
+        for name in sorted(os.listdir(root)):
+            if not name.endswith('.json'):
+                continue
+            looked += 1
+            with open(os.path.join(root, name), encoding='utf-8') as handle:
+                pose = json.load(handle)
+            for rows in (pose.get('orientations') or {}).values():
+                for frame in rows:
+                    for row in frame:
+                        if isinstance(row, dict) and str(
+                                row.get('node') or '').startswith('Arme'):
+                            placed += 1
+        self.assertGreater(looked, 10)
+        self.assertEqual(0, placed, 'a pose places a weapon now')
+
     def test_a_hidden_slot_keeps_its_box_so_it_can_come_back(self):
         # Hiding takes the slot out of the gear, so the box has to survive.
         self.assertIn('cloak', self._pieces('cloak', {}))

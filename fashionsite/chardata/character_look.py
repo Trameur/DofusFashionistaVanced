@@ -39,6 +39,11 @@ SLOT_TO_NODE = {
     'weapon': 'Arme',
 }
 
+# A weapon has art and a node name in the skeleton, but not one of the 23
+# baked poses places an Arme node, so nothing ever draws it. Measured, not
+# assumed: hiding the weapon on a build that has one moves zero pixels.
+UNDRAWN_SLOTS = ('weapon',)
+
 MOUNT_SLOT = 'mount'
 
 REFERENCE_SCALE = 53.0

@@ -26,9 +26,9 @@ import pickle
 logger = logging.getLogger(__name__)
 
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
-                                     MOUNT_SLOT, SLOT_TO_NODE, breed_colors,
-                                     get_character_look, parse_colors,
-                                     parse_hidden, preview_box)
+                                     MOUNT_SLOT, SLOT_TO_NODE, UNDRAWN_SLOTS,
+                                     breed_colors, get_character_look,
+                                     parse_colors, parse_hidden, preview_box)
 from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
@@ -128,7 +128,8 @@ def _preview_pieces(char, look=None):
     # Only two thirds of cloaks and under a third of weapons have art, so a box
     # for a slot the preview cannot draw does nothing when ticked.
     slots = [slot for slot in sorted(SLOT_TO_NODE)
-             if SLOT_TO_NODE[slot] in gear or slot in hidden]
+             if slot not in UNDRAWN_SLOTS
+             and (SLOT_TO_NODE[slot] in gear or slot in hidden)]
     # Hiding the mount takes it out of the look, so the box has to stay while
     # it is off or there is no way back.
     if (look and look.get('mount')) or MOUNT_SLOT in hidden:
