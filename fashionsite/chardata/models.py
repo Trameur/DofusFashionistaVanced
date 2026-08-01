@@ -47,7 +47,8 @@ class Char(models.Model):
     gender = models.IntegerField(default=0)
     # Five hex triplets for the preview, comma separated. Empty means the
     # default palette, which is what every build drew before.
-    colors = models.CharField(max_length=40, blank=True, default='')
+    # Six hex triplets and five commas is 41, so 40 rejected every full set.
+    colors = models.CharField(max_length=48, blank=True, default='')
     # Slots the preview leaves off, comma separated, e.g. "hat,cloak".
     hidden_parts = models.CharField(max_length=60, blank=True, default='')
     game_version = models.CharField(
