@@ -9779,6 +9779,28 @@ class CombatApTests(SimpleTestCase):
                 self.assertTrue(spell.get_effects_digest().aggregates, name)
                 self.assertEqual(keep, len(castable.hits), name)
 
+    def test_the_same_damage_written_once_per_case_counts_once(self):
+        # Bramble hits the target, then the infected around it; Epidemic hits
+        # the cell, then the spread; Bear Cry hits through a glyph or directly.
+        # Ankama writes one row per case with the same damage in each and the
+        # page was adding them up, so Bramble read 48-54 instead of 24-27.
+        from chardata.spell_buffs import (_decide_spell_level,
+                                          get_damage_spells_for_version)
+        from chardata.spell_combo import Castable
+        wanted = {'Sadida': (13516, 24, 27), 'Sram': (12943, 36, 40),
+                  'Osamodas': (31132, 23, 26), 'Xelor': (13286, 16, 18),
+                  'Eliotrope': (14593, 26, 29)}
+        for char_class, (spell_id, low, high) in wanted.items():
+            spells = get_damage_spells_for_version('dofus3').get(char_class, [])
+            spell = next((s for s in spells if s.spell_id == spell_id), None)
+            self.assertIsNotNone(spell, spell_id)
+            castable = Castable(spell, _decide_spell_level(spell.level_req, 200),
+                                False)
+            with self.subTest(spell=spell.name):
+                self.assertEqual(1, len(castable.hits), spell.name)
+                self.assertEqual((low, high), (castable.hits[0].min_dam,
+                                               castable.hits[0].max_dam))
+
     def test_every_class_gets_a_turn_it_can_play(self):
         # The panel returned None for months and nothing said so. A class that
         # stops producing a cast is the same silence.
@@ -9865,10 +9887,11 @@ class SpellComboTests(SimpleTestCase):
 
     def test_the_buff_goes_before_the_hit_it_pays_for(self):
         # The whole point of searching instead of sorting by damage per AP.
+        # 7 AP buys Power and still leaves room for the hits it pays for.
         from chardata.spell_combo import best_turn
         spells = self._spells()
         by_name = {spell.name: spell for spell in spells}
-        _total, order = best_turn(self._stats(), spells, 8)
+        _total, order = best_turn(self._stats(), spells, 7)
         names = [name for name, _damage in order]
         self.assertTrue(any(by_name[name].buffs for name in names), names)
         first_hit = next(index for index, name in enumerate(names)
