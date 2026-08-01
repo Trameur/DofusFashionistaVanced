@@ -962,6 +962,48 @@ def _ingredient_icon_ids(game_version):
     return cached
 
 
+RECIPE_LOCAL_TYPES = ('equipment', 'mount', 'pet')
+
+
+def _recipe_lookups(cursor, recipe_rows, language, has_recipe_names_table):
+    """Ingredient names and the items they point at, in two queries. A recipe
+    runs to eight ingredients and each used to cost up to three."""
+    pairs = [(row[1], row[2]) for row in recipe_rows]
+    names = {}
+    if pairs and has_recipe_names_table:
+        holes = ','.join('(?,?)' * 1 for _ in pairs)
+        flat = [value for pair in pairs for value in pair]
+        rows = cursor.execute(
+            """
+            SELECT ingredient_ankama_id, ingredient_subtype, language, name
+            FROM item_recipe_ingredient_names
+            WHERE language IN (?, 'en')
+              AND (ingredient_ankama_id, ingredient_subtype) IN (VALUES %s)
+            """ % holes, [language] + flat).fetchall()
+        english = {}
+        for ankama_id, subtype, lang, name in rows:
+            target = names if lang == language else english
+            target.setdefault((ankama_id, subtype), name)
+        for key, name in english.items():
+            names.setdefault(key, name)
+
+    local = {}
+    wanted = {(row[1], (row[2] or '').lower()) for row in recipe_rows}
+    ids = sorted({ankama_id for ankama_id, subtype in wanted})
+    if ids:
+        holes = ','.join('?' * len(ids))
+        types = ','.join('?' * len(RECIPE_LOCAL_TYPES))
+        rows = cursor.execute(
+            """
+            SELECT ankama_id, ankama_type, id, name, dofustouch FROM items
+            WHERE ankama_id IN (%s) AND ankama_type IN (%s)
+            ORDER BY dofustouch ASC
+            """ % (holes, types), ids + list(RECIPE_LOCAL_TYPES)).fetchall()
+        for row in rows:
+            local.setdefault((row[0], row[1]), row)
+    return names, local
+
+
 def _ingredient_icon_url(game_version, ankama_id):
     if ankama_id in _ingredient_icon_ids(game_version):
         subdir = _INGREDIENT_ICON_DIRS[game_version]
@@ -1329,35 +1371,12 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                 (representative_item.id,),
             )
             recipe_rows = cursor.fetchall()
+            ingredient_names, local_items = _recipe_lookups(
+                cursor, recipe_rows, language, has_recipe_names_table)
 
             for _, ingredient_ankama_id, ingredient_subtype, quantity in recipe_rows:
-                ingredient_name = None
-                if has_recipe_names_table:
-                    cursor.execute(
-                        """
-                        SELECT name
-                        FROM item_recipe_ingredient_names
-                        WHERE ingredient_ankama_id = ?
-                          AND ingredient_subtype = ?
-                          AND language = ?
-                        """,
-                        (ingredient_ankama_id, ingredient_subtype, language),
-                    )
-                    name_row = cursor.fetchone()
-                    if name_row is None and language != 'en':
-                        cursor.execute(
-                            """
-                            SELECT name
-                            FROM item_recipe_ingredient_names
-                            WHERE ingredient_ankama_id = ?
-                              AND ingredient_subtype = ?
-                              AND language = 'en'
-                            """,
-                            (ingredient_ankama_id, ingredient_subtype),
-                        )
-                        name_row = cursor.fetchone()
-                    if name_row is not None:
-                        ingredient_name = name_row[0]
+                ingredient_name = ingredient_names.get(
+                    (ingredient_ankama_id, ingredient_subtype))
 
                 resolved_ingredient = ingredient_name is not None
                 if not ingredient_name:
@@ -1373,11 +1392,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                 }
                 local_type = local_item_types.get((ingredient_subtype or '').lower())
                 if local_type:
-                    cursor.execute(
-                        "SELECT ankama_id, ankama_type, id, name, dofustouch FROM items WHERE ankama_id = ? AND ankama_type = ? ORDER BY dofustouch ASC LIMIT 1",
-                        (ingredient_ankama_id, local_type),
-                    )
-                    local_item = cursor.fetchone()
+                    local_item = local_items.get((ingredient_ankama_id, local_type))
                     if local_item is not None:
                         local_name = local_item[3]
                         local_item_url = get_item_link(local_item[1], local_item[0], local_name, game_version)

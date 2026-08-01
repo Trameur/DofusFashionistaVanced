@@ -9043,6 +9043,64 @@ class MonsterSpellQueryTests(SimpleTestCase):
             conn.close()
 
 
+class RecipeLookupTests(SimpleTestCase):
+    """Each ingredient used to cost up to three queries, and a recipe runs to
+    eight of them, on the biggest page family of the site."""
+
+    def _conn(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        return sqlite3.connect(get_items_db_path('dofus3'))
+
+    def _fullest_recipe(self, conn):
+        item = conn.execute(
+            """SELECT item FROM item_recipes GROUP BY item
+               ORDER BY COUNT(*) DESC LIMIT 1""").fetchone()[0]
+        return conn.execute(
+            """SELECT position, ingredient_ankama_id, ingredient_subtype, quantity
+               FROM item_recipes WHERE item = ? ORDER BY position""",
+            (item,)).fetchall()
+
+    def test_the_whole_recipe_costs_two_queries(self):
+        from chardata.encyclopedia_view import _recipe_lookups
+        conn = self._conn()
+        try:
+            rows = self._fullest_recipe(conn)
+            self.assertGreaterEqual(len(rows), 6)
+            calls = []
+
+            class Counting(object):
+                def __init__(self, inner):
+                    self._inner = inner
+
+                def execute(self, sql, *args):
+                    calls.append(sql)
+                    return self._inner.execute(sql, *args)
+
+            names, _ = _recipe_lookups(Counting(conn.cursor()), rows, 'fr', True)
+            self.assertLessEqual(len(calls), 2, 'still one query per ingredient')
+            self.assertEqual(len(names), len(rows))
+        finally:
+            conn.close()
+
+    def test_a_missing_translation_falls_back_to_english(self):
+        from chardata.encyclopedia_view import _recipe_lookups
+        conn = self._conn()
+        try:
+            rows = self._fullest_recipe(conn)
+            cursor = conn.cursor()
+            names, _ = _recipe_lookups(cursor, rows, 'zz', True)
+            for _, ankama_id, subtype, _q in rows:
+                english = cursor.execute(
+                    """SELECT name FROM item_recipe_ingredient_names
+                       WHERE ingredient_ankama_id = ? AND ingredient_subtype = ?
+                         AND language = 'en'""", (ankama_id, subtype)).fetchone()
+                if english:
+                    self.assertEqual(english[0], names.get((ankama_id, subtype)))
+        finally:
+            conn.close()
+
+
 class SharedBuildCanonicalTests(TestCase):
     """The name in /s/<name>/<id>/ is decorative: the view reads only the id,
     so every spelling serves the same build. Each one used to name itself as
