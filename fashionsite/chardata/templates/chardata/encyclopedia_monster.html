@@ -148,6 +148,21 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
         </div>
         {% endif %}
 
+        {% if spells %}
+        <div class="encyclopedia-section" id="monster-spells">
+            <b>{{ mt.spells_label }}</b>
+            <ul class="monster-spells-list">
+                {% for spell in spells %}
+                <li>
+                    <span class="monster-spell-name">{{ spell.name }}</span>
+                    {% if spell.ap_cost %}<span class="monster-spell-ap">{{ spell.ap_cost }} {{ mt.ap_label }}</span>{% endif %}
+                    {% if spell.has_range %}<span class="monster-spell-range">{{ mt.range_label }} {{ spell.range_min }}-{{ spell.range_max }}</span>{% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         {% if monster_version_links %}
         <div class="encyclopedia-section">
             <b>{{ mt.other_versions_label }}</b>

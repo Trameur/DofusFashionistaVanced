@@ -2131,6 +2131,8 @@ MONSTER_UI = {
         'sort_name': 'Name',
         'sort_level': 'Level',
         'subareas_label': 'Found in',
+        'spells_label': 'Spells',
+        'range_label': 'range',
         'sort_total_drops': 'Most drops',
         'sort_resource_drops': 'Most resources',
         'sort_item_drops': 'Most items',
@@ -2172,6 +2174,8 @@ MONSTER_UI = {
         'sort_name': 'Nom',
         'sort_level': 'Niveau',
         'subareas_label': 'Où le trouver',
+        'spells_label': 'Sorts',
+        'range_label': 'portée',
         'sort_total_drops': 'Plus de drops',
         'sort_resource_drops': 'Plus de ressources',
         'sort_item_drops': 'Plus d\'objets',
@@ -2213,6 +2217,8 @@ MONSTER_UI = {
         'sort_name': 'Nombre',
         'sort_level': 'Nivel',
         'subareas_label': 'Dónde encontrarlo',
+        'spells_label': 'Hechizos',
+        'range_label': 'alcance',
         'sort_total_drops': 'Más drops',
         'sort_resource_drops': 'Más recursos',
         'sort_item_drops': 'Más objetos',
@@ -2254,6 +2260,8 @@ MONSTER_UI = {
         'sort_name': 'Nome',
         'sort_level': 'Nível',
         'subareas_label': 'Onde encontrá-lo',
+        'spells_label': 'Feitiços',
+        'range_label': 'alcance',
         'sort_total_drops': 'Mais drops',
         'sort_resource_drops': 'Mais recursos',
         'sort_item_drops': 'Mais itens',
@@ -2295,6 +2303,8 @@ MONSTER_UI = {
         'sort_name': 'Name',
         'sort_level': 'Stufe',
         'subareas_label': 'Fundorte',
+        'spells_label': 'Zauber',
+        'range_label': 'Reichweite',
         'sort_total_drops': 'Meiste Drops',
         'sort_resource_drops': 'Meiste Ressourcen',
         'sort_item_drops': 'Meiste Items',
@@ -2922,6 +2932,42 @@ def _consistent_weakest(grades):
     return next(iter(elements)) if len(elements) == 1 else None
 
 
+def _monster_spells(cursor, monster_ankama_id, language):
+    """The monster's spells in the order it carries them, named and priced."""
+    rows = cursor.execute(
+        """
+        SELECT ms.spell_ankama_id, ms.grade_mapping,
+               COALESCE(mine.name, fallback.name)
+        FROM monster_spells ms
+        LEFT JOIN monster_spell_names mine
+          ON mine.spell_ankama_id = ms.spell_ankama_id AND mine.language = ?
+        LEFT JOIN monster_spell_names fallback
+          ON fallback.spell_ankama_id = ms.spell_ankama_id AND fallback.language = 'en'
+        WHERE ms.monster_ankama_id = ?
+        ORDER BY ms.position
+        """, (language, monster_ankama_id)).fetchall()
+    spells = []
+    for spell_id, mapping, name in rows:
+        if not name:
+            continue
+        grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
+        detail = cursor.execute(
+            """
+            SELECT ap_cost, range_min, range_max FROM monster_spell_levels
+            WHERE spell_ankama_id = ? AND grade = ?
+            """, (spell_id, grades[0] if grades else 1)).fetchone()
+        ap_cost, range_min, range_max = detail or (None, None, None)
+        spells.append({
+            'id': spell_id,
+            'name': name,
+            'ap_cost': ap_cost,
+            'range_min': range_min,
+            'range_max': range_max,
+            'has_range': range_max is not None,
+        })
+    return spells
+
+
 def encyclopedia_monster(request, monster_id, slug=None):
     language = get_supported_language()
     t = _ui_text()
@@ -2984,6 +3030,13 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     ORDER BY position
                     """, (target_monster_id,)).fetchall()
             subareas = [row[0] for row in rows]
+
+        # The spells it casts, named in the player's language with an English
+        # fallback. The cost and reach shown are the ones of the spell grade
+        # this monster's first grade casts, which is what a player meets first.
+        spells = []
+        if _db_table_exists(cursor, 'monster_spells'):
+            spells = _monster_spells(cursor, target_monster_id, language)
 
         if monster_name.startswith('#'):
             return _monster_not_found_response(request, target_monster_id, slug)
@@ -3097,6 +3150,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             'weakness_element_name': weakness_element_name,
             'level_span': _grade_level_span(grades),
             'subareas': subareas,
+            'spells': spells,
             'monster_version_links': monster_version_links,
         })
 

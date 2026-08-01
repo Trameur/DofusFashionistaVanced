@@ -93,3 +93,24 @@
 .dark-theme-active .encyclopedia-item a:hover {
     color: #ffe4bf;
 }
+
+.monster-spells-list {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+}
+.monster-spells-list li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 2px 0;
+}
+.monster-spell-name {
+    flex: 1 1 auto;
+    min-width: 8em;
+}
+.monster-spell-ap,
+.monster-spell-range {
+    opacity: .75;
+    font-variant-numeric: tabular-nums;
+}

@@ -193,6 +193,7 @@ def main() -> None:
         step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
         step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
+        step("monster-spells", [PY, "store_monster_spells.py"], cwd=ITEMSCRAPER)
         step("mount-looks", [PY, "store_dofusdb_mount_looks.py"], cwd=ITEMSCRAPER)
         # Replayed, not matched: working the skins out from the art takes hours,
         # so the decisions it reached are kept in the repo.

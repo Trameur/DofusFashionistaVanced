@@ -8809,6 +8809,75 @@ class SpellCastingCostTests(SimpleTestCase):
         self.assertIsNone(spells['Weapon Skill'].ap_cost())
 
 
+class MonsterSpellTests(TestCase):
+    """The spells a monster casts, on its encyclopedia page. Straight from the
+    datacenter dump: which spells, at which grade, for what cost and reach."""
+
+    VERSIONS = ('dofus3', 'beta')
+    # The Strawberry Jelly, whose four spells are stable enough to anchor on.
+    JELLY = 57
+
+    def _rows(self, version, sql, args=()):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path(version))
+        try:
+            return conn.execute(sql, args).fetchall()
+        finally:
+            conn.close()
+
+    def test_a_monster_carries_the_spells_the_dump_gives_it(self):
+        for version in self.VERSIONS:
+            rows = self._rows(version, """
+                SELECT ms.position, ms.spell_ankama_id, n.name
+                FROM monster_spells ms
+                JOIN monster_spell_names n
+                  ON n.spell_ankama_id = ms.spell_ankama_id AND n.language = 'en'
+                WHERE ms.monster_ankama_id = ?
+                ORDER BY ms.position""", (self.JELLY,))
+            with self.subTest(version=version):
+                self.assertEqual(
+                    [(row[1], row[2]) for row in rows],
+                    [(321, 'Gelpikes'), (29839, 'Tasty Spread'),
+                     (29844, 'Jellifier'), (267, 'Strawberry Bone')])
+
+    def test_a_spell_knows_what_it_costs_and_how_far_it_reaches(self):
+        rows = self._rows('dofus3', """
+            SELECT grade, ap_cost, range_min, range_max
+            FROM monster_spell_levels WHERE spell_ankama_id = 29844""")
+        self.assertIn((1, 3, 0, 4), rows)
+
+    def test_the_grade_mapping_keeps_the_spell_grade_not_the_level_id(self):
+        # The dump writes "1,54;1,56;1,58;1,60;1,62": one entry per monster
+        # grade, each "<spell grade>,<level id>". Only the grade is meaningful.
+        from chardata.encyclopedia_view import _monster_spells
+        from itemscraper.store_monster_spells import parse_grade_mapping
+        self.assertEqual(parse_grade_mapping('1,54;1,56;1,58;1,60;1,62'),
+                         [1, 1, 1, 1, 1])
+        self.assertEqual(parse_grade_mapping('3,54;4,56'), [3, 4])
+        self.assertEqual(parse_grade_mapping(''), [])
+        self.assertEqual(parse_grade_mapping(None), [])
+        self.assertTrue(callable(_monster_spells))
+
+    def test_the_page_lists_them(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            name = conn.execute(
+                "SELECT name FROM monster_names WHERE monster_ankama_id = ? "
+                "AND language = 'en'", (self.JELLY,)).fetchone()[0]
+        finally:
+            conn.close()
+        resp = self.client.get('/encyclopedia/monster/%d-x/' % self.JELLY)
+        self.assertEqual(resp.status_code, 200)
+        page = resp.content.decode('utf-8')
+        self.assertIn(name, page)
+        self.assertIn('id="monster-spells"', page)
+        for spell in ('Gelpikes', 'Tasty Spread', 'Jellifier', 'Strawberry Bone'):
+            self.assertIn(spell, page)
+
+
 class SpellComboTests(SimpleTestCase):
     """The best order of casts in a turn. A buff cast first changes what every
     later cast is worth, so the order is the answer, not a detail of it."""
