@@ -157,7 +157,7 @@
             ({% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }})
         </div>
         
-        {% include "chardata/ad_slot.html" with ad_slot=ad_slot_shared_inline extra_class="fm-ad-inline" %}
+        {% include "chardata/ad_slot.html" with ad_slot=ad_slots.shared_inline extra_class="fm-ad-inline" %}
         <div class="builds-grid">
             {% for build in builds %}
                 <div class="build-card">

@@ -62,10 +62,12 @@
         }
     </script>
 
-    <meta name="google-adsense-account" content="ca-pub-3961330018791408">
+    {% if ads_allowed %}
+    <meta name="google-adsense-account" content="{{ ad_client }}">
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
-    <script data-ad-client="ca-pub-3961330018791408" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script src="https://fundingchoicesmessages.google.com/i/pub-3961330018791408?ers=1"></script>
+    <script data-ad-client="{{ ad_client }}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="https://fundingchoicesmessages.google.com/i/{{ ad_publisher }}?ers=1"></script>
+    {% endif %}
 
     {% if google_analytics_id %}
     <!-- Google tag (gtag.js) - Google Analytics 4 -->

@@ -1,18 +1,13 @@
-{% comment %}
-Reusable AdSense slot. Renders the ad unit ONLY when:
-  - context flag `ads_enabled` is true (inject via a context processor when you
-    are ready to turn manual ad units on), AND
-  - an `ad_slot` id (from your AdSense dashboard) is passed in.
-Styled by `.fm-ad` (modern skin); `.fm-ad:empty` keeps the box hidden until an
-ad is actually served. Safe to include anywhere: with ads disabled it renders
-nothing, so the classic design stays pixel-identical.
-Usage: {% include "chardata/ad_slot.html" with ad_slot="1234567890" extra_class="fm-ad-top" %}
+{% load i18n %}{% comment %}
+Renders a unit only when the page is allowed ads AND a slot id is set.
+Slot ids come from GEN_CONFIGS['adsense']['slots'] through the ads processor.
+Usage: {% include "chardata/ad_slot.html" with ad_slot=ad_slots.home_top extra_class="fm-ad-top" %}
 {% endcomment %}
 {% if ads_enabled and ad_slot %}
-<div class="fm-ad {{ extra_class }}">
+<div class="fm-ad {{ extra_class }}" data-label="{% trans 'Advertisement' %}">
   <ins class="adsbygoogle"
        style="display:block"
-       data-ad-client="ca-pub-3961330018791408"
+       data-ad-client="{{ ad_client }}"
        data-ad-slot="{{ ad_slot }}"
        data-ad-format="{{ ad_format|default:'auto' }}"
        data-full-width-responsive="true"></ins>

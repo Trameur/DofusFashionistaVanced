@@ -8809,6 +8809,63 @@ class SpellCastingCostTests(SimpleTestCase):
         self.assertIsNone(spells['Weapon Skill'].ap_cost())
 
 
+class AdsTests(TestCase):
+    """Ads belong on the pages people come to read, and nowhere else."""
+
+    READING = ('/', '/encyclopedia/', '/sharedbuilds/', '/about/')
+    TOOL = ('/setup/', '/solution/1/', '/spells/1/', '/user/', '/contact/')
+
+    def _ads(self, path, **config):
+        from django.conf import settings
+        from django.test import RequestFactory, override_settings
+        from chardata.context_processors import ads
+        request = RequestFactory().get(path)
+        request.game_version = 'dofus3'
+        gen = dict(getattr(settings, 'GEN_CONFIGS', {}))
+        if config:
+            gen['adsense'] = config
+        with override_settings(GEN_CONFIGS=gen):
+            return ads(request)
+
+    def test_the_reading_pages_may_carry_ads(self):
+        for path in self.READING:
+            with self.subTest(path=path):
+                self.assertTrue(self._ads(path)['ads_allowed'], path)
+
+    def test_the_tool_pages_never_do(self):
+        for path in self.TOOL:
+            with self.subTest(path=path):
+                self.assertFalse(self._ads(path)['ads_allowed'], path)
+
+    def test_the_version_prefix_does_not_change_the_answer(self):
+        from django.test import RequestFactory, override_settings
+        from chardata.context_processors import ads
+        request = RequestFactory().get('/beta/encyclopedia/')
+        request.game_version = 'beta'
+        self.assertTrue(ads(request)['ads_allowed'])
+        request = RequestFactory().get('/beta/solution/1/')
+        request.game_version = 'beta'
+        self.assertFalse(ads(request)['ads_allowed'])
+
+    def test_a_unit_needs_a_slot_id_before_it_renders(self):
+        self.assertFalse(self._ads('/', client='ca-pub-x')['ads_enabled'])
+        with_slot = self._ads('/', client='ca-pub-x', slots={'home_top': '1'})
+        self.assertTrue(with_slot['ads_enabled'])
+        self.assertEqual(with_slot['ad_slots']['home_top'], '1')
+
+    def test_the_consent_and_ad_scripts_follow_the_same_rule(self):
+        reading = self.client.get('/about/').content.decode('utf-8')
+        self.assertIn('adsbygoogle.js', reading)
+        self.assertIn('fundingchoicesmessages', reading)
+        tool = self.client.get('/setup/').content.decode('utf-8')
+        self.assertNotIn('adsbygoogle.js', tool)
+        self.assertNotIn('fundingchoicesmessages', tool)
+
+    def test_the_publisher_id_is_derived_not_typed_twice(self):
+        values = self._ads('/', client='ca-pub-42')
+        self.assertEqual(values['ad_publisher'], 'pub-42')
+
+
 class MonsterSpellTests(TestCase):
     """The spells a monster casts, on its encyclopedia page. Straight from the
     datacenter dump: which spells, at which grade, for what cost and reach."""

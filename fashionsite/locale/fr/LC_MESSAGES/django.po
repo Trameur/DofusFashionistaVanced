@@ -6414,6 +6414,10 @@ msgstr "Revenir aux couleurs par défaut"
 msgid "Visible pieces"
 msgstr "Pièces visibles"
 
+#: chardata/templates/chardata/ad_slot.html:0
+msgid "Advertisement"
+msgstr "Publicité"
+
 #: chardata/templates/chardata/encyclopedia_monster.html:0
 #, python-format
 msgid "Dofus monster page for %(monster_name)s: the spells it casts, the resources and items it drops, and their drop rates for this game version."

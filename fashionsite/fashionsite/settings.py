@@ -149,6 +149,7 @@ TEMPLATES = [
                 'fashionsite.context_processors.site_version',
                 'chardata.context_processors.game_version',
                 'chardata.context_processors.site_stats',
+                'chardata.context_processors.ads',
             ],
         },
     },

@@ -96,3 +96,35 @@ def game_version(request):
         'version_switch_base_path': base_path,
         'api_base': api_base,
     }
+
+
+DEFAULT_AD_CLIENT = 'ca-pub-3961330018791408'
+
+# Pages people come to read. The solver and the account screens stay clean:
+# ads there would cost third-party scripts on the heaviest pages of the site.
+AD_PATH_PREFIXES = ('/encyclopedia/', '/guides/', '/sharedbuilds/', '/s/',
+                    '/about/', '/faq/', '/support/', '/license/', '/privacy/')
+
+
+def _without_version(path, game_version):
+    if game_version != 'dofus3' and path.startswith('/' + game_version):
+        return path[len(game_version) + 1:] or '/'
+    return path
+
+
+def ads(request):
+    from django.conf import settings
+    config = getattr(settings, 'GEN_CONFIGS', {}).get('adsense') or {}
+    client = config.get('client', DEFAULT_AD_CLIENT)
+    path = _without_version(request.path_info,
+                            getattr(request, 'game_version', 'dofus3'))
+    allowed = bool(client) and (path == '/'
+                                or path.startswith(AD_PATH_PREFIXES))
+    slots = config.get('slots') or {}
+    return {
+        'ads_allowed': allowed,
+        'ads_enabled': allowed and bool(slots),
+        'ad_client': client,
+        'ad_publisher': client.replace('ca-', '', 1),
+        'ad_slots': slots,
+    }
