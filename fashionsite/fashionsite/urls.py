@@ -374,14 +374,16 @@ def _sitemap_encyclopedia_monsters(base_url):
 
                 # Two drops used to be the only thing a monster page had, so
                 # one drop meant a one-line page. It now also carries the
-                # grade stats and the spells it casts, which is a page worth
-                # indexing; the ones with neither stay out.
+                # grade stats and the spells it casts. A single spell next to
+                # a single grade is still one line, so a rescued page needs
+                # two of each to count as content.
                 cursor.execute(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'monster_spells'")
-                substantial = ('OR (EXISTS (SELECT 1 FROM monster_spells s '
-                               'WHERE s.monster_ankama_id = n.monster_ankama_id) '
-                               'AND EXISTS (SELECT 1 FROM monster_grades g '
-                               'WHERE g.monster_ankama_id = n.monster_ankama_id))'
+                substantial = ('OR ((SELECT COUNT(DISTINCT spell_ankama_id) '
+                               'FROM monster_spells s '
+                               'WHERE s.monster_ankama_id = n.monster_ankama_id) >= 2 '
+                               'AND (SELECT COUNT(*) FROM monster_grades g '
+                               'WHERE g.monster_ankama_id = n.monster_ankama_id) >= 2)'
                                if cursor.fetchone() is not None else '')
                 cursor.execute(
                     """

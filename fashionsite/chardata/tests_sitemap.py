@@ -79,6 +79,36 @@ class SitemapQualityThresholdTests(TestCase):
         self.assertNotIn('/retro/encyclopedia/monster/%d-' % thin, xml)
         self.assertIn('/retro/encyclopedia/monster/%d-' % rich, xml)
 
+    def test_one_drop_monsters_need_two_spells_and_two_grades(self):
+        # A single drop is rescued by the stat table and the spell list, but
+        # one of each is still a one-line page.
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            rows = conn.execute(
+                """
+                WITH d AS (
+                    SELECT monster_ankama_id AS m, COUNT(*) AS n FROM (
+                        SELECT monster_ankama_id FROM resource_drops
+                        UNION ALL
+                        SELECT monster_ankama_id FROM item_drops) GROUP BY 1
+                )
+                SELECT d.m,
+                       (SELECT COUNT(DISTINCT spell_ankama_id) FROM monster_spells s
+                        WHERE s.monster_ankama_id = d.m),
+                       (SELECT COUNT(*) FROM monster_grades g
+                        WHERE g.monster_ankama_id = d.m)
+                FROM d WHERE d.n < 2
+                """).fetchall()
+        finally:
+            conn.close()
+        thin = next((m for m, sp, gr in rows if 0 < sp < 2 or 0 < gr < 2), None)
+        rich = next((m for m, sp, gr in rows if sp >= 2 and gr >= 2), None)
+        self.assertIsNotNone(thin)
+        self.assertIsNotNone(rich)
+        xml = self._sitemap()
+        self.assertNotIn('/encyclopedia/monster/%d-' % thin, xml)
+        self.assertIn('/encyclopedia/monster/%d-' % rich, xml)
+
     def test_thin_resources_are_not_submitted(self):
         # A resource with a single recipe usage and no drops is a one-line
         # page; one with several usages or a drop section carries content.
