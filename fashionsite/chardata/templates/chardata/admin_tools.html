@@ -45,6 +45,15 @@
     </div>
 
     <section class="admin-panel" data-panel="overview">
+        {% if preview_cache and not preview_cache.ok %}
+        <p class="admin-cache admin-cache-bad">
+            Character preview: {{ preview_cache.baked }} of {{ preview_cache.expected }}
+            skins baked, {{ preview_cache.missing_total }} missing
+            ({{ preview_cache.missing|join:", " }}).
+            {% if not preview_cache.can_bake %}This machine has no bundles, so nothing
+            can be baked here: a missing skin draws nothing and reports no error.{% endif %}
+        </p>
+        {% endif %}
         <div class="admin-stats">
             {% for label, tile in dash.overview.tiles %}
             <div class="admin-stat">
@@ -405,6 +414,10 @@
     border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
 .admin-ads-actions { display: flex; align-items: center; gap: 10px; }
 .admin-ads-status { font-size: 0.85em; opacity: 0.75; }
+.admin-cache { font-size: 0.9em; padding: 8px 12px; border-radius: 6px;
+    border-left: 3px solid; max-width: 620px; }
+.admin-cache-ok { border-color: #8fae7a; }
+.admin-cache-bad { border-color: #c0764a; }
 </style>
 
 <script>

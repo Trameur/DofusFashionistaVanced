@@ -8977,6 +8977,31 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
 
+class AdminPreviewCacheTests(TestCase):
+    """The preview fails silently when its cache is missing: no exception, no
+    log line, just a blank character. The dashboard is where that shows."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.client.force_login(
+            User.objects.create_superuser('cacheboss', 'c@example.com', 'pw'))
+
+    def test_a_missing_cache_is_called_out(self):
+        import tempfile
+        from django.test import override_settings
+        with tempfile.TemporaryDirectory() as empty:
+            with override_settings(CHARACTER_CACHE_DIR=empty,
+                                   CHARACTER_BUNDLE_DIR=None):
+                body = self.client.get('/admin-tools/').content.decode('utf-8')
+        self.assertIn('skins baked', body)
+        self.assertIn('missing', body)
+        self.assertIn('no bundles', body)
+
+    def test_a_full_cache_says_nothing(self):
+        body = self.client.get('/admin-tools/').content.decode('utf-8')
+        self.assertNotIn('skins baked', body)
+
+
 class AdminAdSettingsTests(TestCase):
     """gen_config.json sits on the server and is only read at boot, so the
     admin page writes the ad settings to the database instead."""
@@ -9553,6 +9578,27 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
     def test_nothing_is_preloaded_without_a_look(self):
         from chardata import character_assets
         self.assertEqual([], character_assets.preload_links(None))
+
+    def test_an_empty_cache_is_reported_as_missing_everything(self):
+        # Production cannot bake, so an empty cache means the preview draws
+        # nothing and says nothing. The dashboard has to show it.
+        import tempfile
+        from django.test import override_settings
+        from chardata import character_assets
+        with tempfile.TemporaryDirectory() as empty:
+            with override_settings(CHARACTER_CACHE_DIR=empty,
+                                   CHARACTER_BUNDLE_DIR=None):
+                report = character_assets.cache_report()
+        self.assertEqual(0, report['baked'])
+        self.assertGreater(report['expected'], 800)
+        self.assertEqual(report['expected'], report['missing_total'])
+        self.assertFalse(report['can_bake'])
+
+    def test_the_real_cache_covers_every_skin_the_site_can_ask_for(self):
+        from chardata import character_assets
+        report = character_assets.cache_report()
+        self.assertEqual([], report['missing'],
+                         'a skin with no baked art draws nothing')
 
     def test_a_stale_format_is_not_answered_with_the_current_art(self):
         from django.http import Http404

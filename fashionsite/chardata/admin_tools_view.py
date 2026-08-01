@@ -128,7 +128,18 @@ def admin_tools(request, char_id=0):
         'dash': data,
         'charts': _charts(data),
         'ad_config': _ad_form(),
+        'preview_cache': _preview_cache(),
     })
+
+
+def _preview_cache():
+    from chardata.character_assets import cache_report
+    try:
+        report = cache_report()
+    except Exception:
+        return None
+    report['ok'] = not report.get('missing_total')
+    return report
 
 
 def _ad_form():

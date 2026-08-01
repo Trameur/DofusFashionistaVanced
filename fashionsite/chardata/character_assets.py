@@ -558,6 +558,45 @@ def asset_formats():
     return {'pose': POSE_FORMAT, 'mount': MOUNT_FORMAT, 'skin': SKIN_FORMAT}
 
 
+def expected_skins():
+    """Every skin the site can ask for: the class bodies and heads, plus the
+    skin of every item in the versions that have art."""
+    from chardata.character_look import VERSIONS_WITH_ART, _breed_looks
+    from fashionistapulp.structure import get_structure
+    wanted = set()
+    for entry in _breed_looks().values():
+        wanted.update(str(entry[part]) for part in ('body', 'head')
+                      if entry.get(part))
+    for version in VERSIONS_WITH_ART:
+        for item in get_structure(version).get_items_list():
+            skin = getattr(item, 'skin', None)
+            if skin:
+                wanted.add(str(skin))
+    return wanted
+
+
+def cache_report():
+    """What the preview would find on this machine. Nothing bakes in
+    production (the bundles are not shipped), so a missing cache means the
+    preview draws nothing at all, with no error anywhere."""
+    root = os.path.join(cache_dir(), 'parts')
+    baked = set()
+    if os.path.isdir(root):
+        for name in os.listdir(root):
+            if os.path.exists(os.path.join(root, name,
+                                           'parts-v%d.json' % SKIN_FORMAT)):
+                baked.add(name)
+    try:
+        wanted = expected_skins()
+    except Exception:
+        return {'baked': len(baked), 'expected': None, 'missing': [],
+                'can_bake': bool(bundle_dir() and os.path.isdir(bundle_dir()))}
+    missing = sorted(wanted - baked, key=lambda s: int(s) if s.isdigit() else 0)
+    return {'baked': len(baked), 'expected': len(wanted),
+            'missing': missing[:12], 'missing_total': len(missing),
+            'can_bake': bool(bundle_dir() and os.path.isdir(bundle_dir()))}
+
+
 def preload_links(look):
     """The urls the preview will ask for, so the browser can start during the
     html parse rather than after the script runs. Same names as the client
