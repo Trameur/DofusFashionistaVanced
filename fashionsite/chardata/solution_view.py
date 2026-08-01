@@ -25,7 +25,8 @@ import pickle
 
 logger = logging.getLogger(__name__)
 
-from chardata.character_look import (DEFAULT_COLORS, MOUNT_SLOT, SLOT_TO_NODE,
+from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
+                                     MOUNT_SLOT, SLOT_TO_NODE, breed_colors,
                                      get_character_look, parse_colors,
                                      parse_hidden, preview_box)
 from chardata.character_assets import asset_token
@@ -111,6 +112,14 @@ def _weighted_rate(structure, item, weights):
 _PIECE_LABELS = {'hat': gettext_lazy('Hat'), 'cloak': gettext_lazy('Cloak'),
                  'shield': gettext_lazy('Shield'), 'weapon': gettext_lazy('Weapon'),
                  'mount': gettext_lazy('Mount')}
+
+
+def _default_colors(char):
+    """What the game itself gives that class and gender."""
+    breed = CLASS_TO_BREED.get(char.char_class)
+    if breed is None:
+        return list(DEFAULT_COLORS)
+    return breed_colors(breed, getattr(char, 'gender', 0) or 0)
 
 
 def _preview_pieces(char, look=None):
@@ -509,7 +518,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
               'character_look': json.dumps(character_look) if character_look else '',
-              'character_colors': parse_colors(char.colors) if character_look else [],
+              'character_colors': parse_colors(char.colors, _default_colors(char)) if character_look else [],
               'character_pieces': _preview_pieces(char, character_look) if character_look else [],
               'character_asset_version': asset_token() if character_look else '',
               'preview_box': _preview_box_for(request.user) if character_look else None,
@@ -697,8 +706,9 @@ def set_char_gender(request, char_id):
 def set_char_colors(request, char_id):
     """Same as the sex switch: the preview only, never the build."""
     char = get_char_or_raise(request, char_id)
-    wanted = parse_colors(request.POST.get('colors'))
-    char.colors = '' if wanted == DEFAULT_COLORS else ','.join(wanted)
+    defaults = _default_colors(char)
+    wanted = parse_colors(request.POST.get('colors'), defaults)
+    char.colors = '' if wanted == defaults else ','.join(wanted)
     char.save(update_fields=['colors'])
     look = get_character_look(char, get_solution(char),
                               getattr(request, 'game_version', 'dofus3'))

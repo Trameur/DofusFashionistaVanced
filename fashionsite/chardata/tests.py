@@ -7924,24 +7924,42 @@ class CharacterLookTests(TestCase):
         for bad in ('../secret', '1-8-static/../..', 'a b'):
             self.assertIsNone(character_assets.ensure_pose(bad), bad)
 
-    def test_a_build_that_never_picked_colours_draws_the_default_palette(self):
-        from chardata.character_look import (COLOR_SLOTS, DEFAULT_COLORS,
-                                             get_character_look)
+    def test_a_build_that_never_picked_colours_wears_the_game_ones(self):
+        from chardata.character_look import (COLOR_SLOTS, CLASS_TO_BREED,
+                                             breed_colors, get_character_look)
         look = get_character_look(self._char('Cra'), None)
         self.assertEqual(len(look['colors']), COLOR_SLOTS)
+        expected = breed_colors(CLASS_TO_BREED['Cra'], 0)
         self.assertEqual(look['colors'][1],
-                         [int(DEFAULT_COLORS[0][i:i + 2], 16) for i in (0, 2, 4)])
+                         [int(expected[0][i:i + 2], 16) for i in (0, 2, 4)])
 
-    def test_anything_that_is_not_five_triplets_falls_back(self):
+    def test_every_class_has_the_colours_the_client_ships(self):
+        # Slot 6 was the one nobody defined, so every piece wearing it stayed
+        # grey. The client gives six, per class and per gender.
+        from chardata.character_look import (COLOR_SLOTS, CLASS_TO_BREED,
+                                             DEFAULT_COLORS, breed_colors)
+        self.assertEqual(len(DEFAULT_COLORS), COLOR_SLOTS)
+        for name, breed in CLASS_TO_BREED.items():
+            for gender in (0, 1):
+                with self.subTest(char_class=name, gender=gender):
+                    colors = breed_colors(breed, gender)
+                    self.assertEqual(len(colors), COLOR_SLOTS)
+                    self.assertNotEqual(colors, DEFAULT_COLORS)
+                    for value in colors:
+                        self.assertRegex(value, r'^[0-9a-f]{6}$')
+
+    def test_anything_that_is_not_six_triplets_falls_back(self):
         from chardata.character_look import DEFAULT_COLORS, parse_colors
         for bad in ('', None, 'nope', 'ff0000', 'ff0000,00ff00',
                     'ff0000,00ff00,0000ff,ffffff,zzzzzz'):
             self.assertEqual(parse_colors(bad), DEFAULT_COLORS, repr(bad))
+        self.assertEqual(parse_colors(None, ['a' * 6] * 6), ['a' * 6] * 6)
 
     def test_hashes_and_capitals_are_accepted(self):
         from chardata.character_look import parse_colors
-        self.assertEqual(parse_colors('#FF0000, #00ff00,#0000FF,#fff000,#000fff'),
-                         ['ff0000', '00ff00', '0000ff', 'fff000', '000fff'])
+        self.assertEqual(
+            parse_colors('#FF0000, #00ff00,#0000FF,#fff000,#000fff,#abcdef'),
+            ['ff0000', '00ff00', '0000ff', 'fff000', '000fff', 'abcdef'])
 
     def test_picking_colours_only_touches_the_preview(self):
         from django.contrib.auth.models import User
@@ -7952,11 +7970,12 @@ class CharacterLookTests(TestCase):
         before = (char.char_class, char.level, char.gender, char.game_version)
         self.client.force_login(owner)
 
+        picked = 'ff0000,00ff00,0000ff,ffffff,000000,abcdef'
         resp = self.client.post('/setcharcolors/%d/' % char.id,
-                                {'colors': 'ff0000,00ff00,0000ff,ffffff,000000'})
+                                {'colors': picked})
         self.assertEqual(resp.status_code, 200)
         char.refresh_from_db()
-        self.assertEqual(char.colors, 'ff0000,00ff00,0000ff,ffffff,000000')
+        self.assertEqual(char.colors, picked)
         self.assertEqual((char.char_class, char.level, char.gender, char.game_version),
                          before)
         self.assertEqual(resp.json()['colors']['1'], [255, 0, 0])
@@ -8080,11 +8099,11 @@ class CharacterLookTests(TestCase):
 
     def test_resetting_the_colours_empties_the_field(self):
         from django.contrib.auth.models import User
-        from chardata.character_look import DEFAULT_COLORS
+        from chardata.character_look import CLASS_TO_BREED, breed_colors
         owner = User.objects.create_user('paint2', 'paint2@test.local', 'pw-42-solid')
         char = self._char('Sram')
         char.owner = owner
-        char.colors = 'ff0000,00ff00,0000ff,ffffff,000000'
+        char.colors = 'ff0000,00ff00,0000ff,ffffff,000000,abcdef'
         char.save()
         self.client.force_login(owner)
 
@@ -8093,7 +8112,8 @@ class CharacterLookTests(TestCase):
         self.assertEqual(char.colors, '')
 
         self.client.post('/setcharcolors/%d/' % char.id,
-                         {'colors': ','.join(DEFAULT_COLORS)})
+                         {'colors': ','.join(
+                             breed_colors(CLASS_TO_BREED['Sram'], 0))})
         char.refresh_from_db()
         self.assertEqual(char.colors, '')
 
