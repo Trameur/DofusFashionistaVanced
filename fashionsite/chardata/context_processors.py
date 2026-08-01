@@ -119,6 +119,8 @@ def _without_version(path, game_version):
 def ads(request):
     from django.conf import settings
     config = getattr(settings, 'GEN_CONFIGS', {}).get('adsense') or {}
+    if not config.get('enabled', True):
+        return {'ads_allowed': False, 'ads_enabled': False, 'ad_slots': {}}
     client = config.get('client', DEFAULT_AD_CLIENT)
     path = _without_version(request.path_info,
                             getattr(request, 'game_version', 'dofus3'))

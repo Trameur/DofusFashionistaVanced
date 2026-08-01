@@ -305,10 +305,14 @@ html.fm-modern .footer a{ color:var(--fm-accent-text); text-decoration:none; }
 html.fm-modern .footer a:hover{ text-decoration:underline; }
 
 /* ---------- Ad slots ---------- */
-html.fm-modern .fm-ad{ display:block; margin:18px 0; padding:8px; background:var(--fm-surface-2); border:1px solid var(--fm-border);
-  border-radius:var(--fm-radius-sm); text-align:center; min-height:90px; overflow:hidden; }
-html.fm-modern .fm-ad::before{ content:attr(data-label); display:block; font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
-  color:var(--fm-muted); opacity:.55; margin-bottom:4px; }
+/* No frame until an ad actually fills: a blocked or unsold slot leaves nothing
+   behind instead of an empty labelled box. */
+html.fm-modern .fm-ad{ display:block; margin:18px 0; text-align:center; overflow:hidden; }
+html.fm-modern .fm-ad:has(ins[data-ad-status="filled"]){ padding:8px; background:var(--fm-surface-2);
+  border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); min-height:90px; }
+html.fm-modern .fm-ad:has(ins[data-ad-status="filled"])::before{ content:attr(data-label); display:block;
+  font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fm-muted); opacity:.55; margin-bottom:4px; }
+html.fm-modern .fm-ad:has(ins[data-ad-status="unfilled"]){ display:none; }
 html.fm-modern .fm-ad:empty{ display:none; }
 html.fm-modern .fm-ad ins{ display:block; }
 html.fm-modern .fm-ad-top{ margin:14px 0 4px; }

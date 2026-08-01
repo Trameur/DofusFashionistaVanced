@@ -8861,6 +8861,28 @@ class AdsTests(TestCase):
         self.assertNotIn('adsbygoogle.js', tool)
         self.assertNotIn('fundingchoicesmessages', tool)
 
+    def test_one_line_switches_everything_off(self):
+        off = self._ads('/', enabled=False, client='ca-pub-x',
+                        slots={'home_top': '1'})
+        self.assertFalse(off['ads_allowed'])
+        self.assertFalse(off['ads_enabled'])
+        self.assertEqual(off['ad_slots'], {})
+
+    def test_the_frame_is_only_drawn_once_an_ad_filled(self):
+        # A blocked or unsold slot must leave nothing behind, not an empty
+        # labelled box, which is what most visitors with a blocker would see.
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', 'modern.css')
+        with open(path, encoding='utf-8') as handle:
+            css = handle.read()
+        self.assertIn('.fm-ad:has(ins[data-ad-status="filled"])', css)
+        self.assertIn('.fm-ad:has(ins[data-ad-status="unfilled"]){ display:none; }',
+                      css)
+        frame = css.split('html.fm-modern .fm-ad{', 1)[1].split('}', 1)[0]
+        for chrome in ('border:', 'background:', 'min-height:'):
+            self.assertNotIn(chrome, frame)
+
     def test_the_solution_page_waits_for_its_slot_id(self):
         # The dashboard is the switch: no id, no ads on the tool.
         self.assertFalse(self._ads('/solution/1/', client='ca-pub-x',
