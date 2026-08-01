@@ -559,13 +559,23 @@ urlpatterns = [
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
 
     # Character preview art, baked on first request. Not version-prefixed: the
-    # skins come from one asset set.
+    # skins come from one asset set. The -v<n> names match the cache file
+    # names so nginx serves them off disk; the bare ones stay for pages that
+    # were rendered before.
+    re_path(r'^character/poses/(?P<bone_id>[\w-]+)-v(?P<fmt>\d+)\.json$',
+            character_assets.pose_view, name='character_pose_versioned'),
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)\.json$',
             character_assets.pose_view, name='character_pose'),
+    re_path(r'^character/mount/(?P<bone_id>\d+)/parts-v(?P<fmt>\d+)\.json$',
+            character_assets.mount_manifest_view,
+            name='character_mount_versioned'),
     re_path(r'^character/mount/(?P<bone_id>\d+)/parts\.json$',
             character_assets.mount_manifest_view, name='character_mount'),
     re_path(r'^character/mount/(?P<bone_id>\d+)/(?P<part>\d+)\.png$',
             character_assets.mount_part_view, name='character_mount_part'),
+    re_path(r'^character/parts/(?P<skin_id>\d+)/parts-v(?P<fmt>\d+)\.json$',
+            character_assets.parts_manifest_view,
+            name='character_parts_versioned'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/parts\.json$',
             character_assets.parts_manifest_view, name='character_parts'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/atlas\.webp$',

@@ -672,6 +672,7 @@
                 preview = new CharacterPreview(canvas, {
                     assetBase: '/character', look: look,
                     assetVersion: '{{ character_asset_version }}',
+                    assetFormats: {{ character_asset_formats|default:"{}"|safe }},
                     colors: look.colors, scale: {{ preview_box.scale|unlocalize }}
                 });
                 return preview.load().then(function () { preview.start(); });

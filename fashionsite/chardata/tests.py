@@ -9041,7 +9041,8 @@ class EncyclopediaPaginationTests(TestCase):
 
 class MonsterSitemapTests(SimpleTestCase):
     """Which monster pages are pushed for indexing. Two drops used to be all a
-    page had; it now carries the grade stats and the spells too."""
+    page had; it now carries the grade stats and the spells too, but one of
+    each is still a one-line page."""
 
     def _submitted(self, game_version='dofus3'):
         import re
@@ -9082,8 +9083,11 @@ class MonsterSitemapTests(SimpleTestCase):
         conn = sqlite3.connect(get_items_db_path('dofus3'))
         try:
             rich = {row[0] for row in conn.execute("""
-                SELECT DISTINCT s.monster_ankama_id FROM monster_spells s
-                JOIN monster_grades g ON g.monster_ankama_id = s.monster_ankama_id""")}
+                SELECT s.monster_ankama_id FROM monster_spells s
+                WHERE (SELECT COUNT(*) FROM monster_grades g
+                       WHERE g.monster_ankama_id = s.monster_ankama_id) >= 2
+                GROUP BY s.monster_ankama_id
+                HAVING COUNT(DISTINCT s.spell_ankama_id) >= 2""")}
         finally:
             conn.close()
         with_content = [m for m in thin if m in rich]
@@ -9454,7 +9458,28 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         self.assertEqual(mounts.replace(os.sep, '/'), 'mounts/639')
         self.assertEqual(parts.replace(os.sep, '/'), 'parts/80')
         self.assertIn('try_files /parts/$skin/$piece @app;', config)
+
+    def test_the_manifest_url_is_the_name_of_the_file_on_disk(self):
+        # nginx matches on the path alone. A url that does not name the cache
+        # file falls through to @app and wakes a worker for every skin.
+        from chardata import character_assets
+        formats = character_assets.asset_formats()
+        self.assertEqual(
+            'parts-v%d.json' % formats['skin'],
+            os.path.basename(character_assets._manifest_path('80')))
+        self.assertEqual(
+            '1-1-static-v%d.json' % formats['pose'],
+            os.path.basename(character_assets._pose_path('1-1-static')))
+        config = self._nginx()
+        self.assertIn('try_files /poses/$pose @app;', config)
         self.assertIn('try_files /mounts/$bone/$piece @app;', config)
+
+    def test_a_stale_format_is_not_answered_with_the_current_art(self):
+        from django.http import Http404
+        from chardata import character_assets
+        skin = character_assets.asset_formats()['skin']
+        with self.assertRaises(Http404):
+            character_assets.parts_manifest_view(None, '80', fmt=skin - 1)
 
 
 class NoEmDashInCodeTests(SimpleTestCase):

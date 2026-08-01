@@ -58,6 +58,9 @@
         // Pieces are id-addressed and cached a year; only the url can bust it.
         this.stamp = options.assetVersion
             ? '?v=' + encodeURIComponent(options.assetVersion) : '';
+        // The cache file names carry the format version. Asking for that name
+        // is what lets the front end answer from disk without a worker.
+        this.formats = options.assetFormats || {};
         this.look = options.look;
         this.colors = options.colors || {};
         this.origin = options.origin || [canvas.width / 2, canvas.height * 0.82];
@@ -76,6 +79,11 @@
         this.skins = this.skinList();
     }
 
+    CharacterPreview.prototype.suffix = function (kind) {
+        var n = this.formats[kind];
+        return n ? '-v' + n : '';
+    };
+
     CharacterPreview.prototype.skinList = function () {
         var ids = [this.look.body, this.look.head];
         for (var node in this.look.gear) {
@@ -86,7 +94,8 @@
 
     CharacterPreview.prototype.load = function () {
         var self = this;
-        var jobs = [fetch(this.base + '/poses/' + this.look.bones + '.json' + this.stamp)
+        var jobs = [fetch(this.base + '/poses/' + this.look.bones
+                + this.suffix('pose') + '.json' + this.stamp)
             .then(function (r) { return r.json(); })
             .then(function (data) {
                 for (var o in data.orientations) {
@@ -100,7 +109,8 @@
                 self.order = TURN.filter(function (d) { return data.orientations[d]; });
             })];
         if (this.look.mount) {
-            jobs.push(fetch(this.base + '/mount/' + this.look.mount.bone + '/parts.json' + this.stamp)
+            jobs.push(fetch(this.base + '/mount/' + this.look.mount.bone
+                    + '/parts' + this.suffix('mount') + '.json' + this.stamp)
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (data) {
                     if (!data) { return; }
@@ -111,7 +121,8 @@
         }
         // A part that fails to load is skipped, not fatal.
         this.skins.forEach(function (id) {
-            jobs.push(fetch(self.base + '/parts/' + id + '/parts.json' + self.stamp)
+            jobs.push(fetch(self.base + '/parts/' + id + '/parts'
+                    + self.suffix('skin') + '.json' + self.stamp)
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (data) {
                     if (!data) { return; }

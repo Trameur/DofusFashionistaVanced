@@ -449,10 +449,14 @@ def pack_atlas(pieces, gap=1):
     return atlas, places
 
 
+def _manifest_path(skin_id):
+    return os.path.join(_skin_cache(skin_id), 'parts-v%d.json' % SKIN_FORMAT)
+
+
 def ensure_skin(skin_id):
     """Bake once, then read from the cache. None if the bundle is missing."""
     target = _skin_cache(skin_id)
-    manifest_path = os.path.join(target, 'parts-v%d.json' % SKIN_FORMAT)
+    manifest_path = _manifest_path(skin_id)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding='utf-8') as fh:
             return json.load(fh)
@@ -495,12 +499,17 @@ ATLAS_NAME = 'atlas.webp'
 BONE_NAME = re.compile(r'^[\w-]+$')
 
 
+def _pose_path(bone_id):
+    return os.path.join(cache_dir(), 'poses',
+                        '%s-v%d.json' % (bone_id, POSE_FORMAT))
+
+
 def ensure_pose(bone_id):
     bone_id = str(bone_id)
     if not BONE_NAME.match(bone_id):
         return None
     target = os.path.join(cache_dir(), 'poses')
-    path = os.path.join(target, '%s-v%d.json' % (bone_id, POSE_FORMAT))
+    path = _pose_path(bone_id)
     if os.path.exists(path):
         return path
     source = bundle_dir()
@@ -543,12 +552,26 @@ def asset_token():
                             SKIN_FORMAT)
 
 
+def asset_formats():
+    """The cache file names carry these. The client asks for the file by its
+    real name so nginx can answer from disk instead of waking a worker."""
+    return {'pose': POSE_FORMAT, 'mount': MOUNT_FORMAT, 'skin': SKIN_FORMAT}
+
+
 def _forever(response):
     response['Cache-Control'] = FOREVER
     return response
 
 
-def parts_manifest_view(request, skin_id):
+def _same_format(fmt, current):
+    """The version in the url is what names the file on disk; another one
+    would be a stale client asking for art this build cannot produce."""
+    return fmt is None or int(fmt) == current
+
+
+def parts_manifest_view(request, skin_id, fmt=None):
+    if not _same_format(fmt, SKIN_FORMAT):
+        raise Http404
     manifest = ensure_skin(int(skin_id))
     if manifest is None:
         raise Http404
@@ -564,7 +587,9 @@ def atlas_view(request, skin_id):
     return _forever(FileResponse(open(path, 'rb'), content_type='image/webp'))
 
 
-def mount_manifest_view(request, bone_id):
+def mount_manifest_view(request, bone_id, fmt=None):
+    if not _same_format(fmt, MOUNT_FORMAT):
+        raise Http404
     manifest = ensure_mount(bone_id)
     if manifest is None:
         raise Http404
@@ -581,7 +606,9 @@ def mount_part_view(request, bone_id, part):
     return _forever(FileResponse(open(path, 'rb'), content_type='image/png'))
 
 
-def pose_view(request, bone_id):
+def pose_view(request, bone_id, fmt=None):
+    if not _same_format(fmt, POSE_FORMAT):
+        raise Http404
     path = ensure_pose(bone_id)
     if path is None:
         raise Http404
