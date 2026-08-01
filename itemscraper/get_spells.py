@@ -39,8 +39,10 @@ BEST_ELEMENT_TOKENS = ("EARTH", "FIRE", "WATER", "AIR")
 
 # "A,*E3531" means the row only lands while the caster carries state 3531, and
 # "*e3531" while it does not, so the two spellings are different conditions and
-# the whole set of them names the case a row belongs to.
-STATE_IN_TARGET_MASK = re.compile(r"\*[eE]\d+")
+# the whole set of them names the case a row belongs to. The star is optional:
+# Devouring Arrow writes its stack states as plain "E573". A state token is a
+# letter followed by digits, which is what tells it from a target letter.
+STATE_IN_TARGET_MASK = re.compile(r"\b\*?[eE]\d+\b")
 
 STACK_CONTROLLER_EFFECT_IDS = {792, 1160}
 SUMMON_STACK_PATTERN = re.compile(r"each of the caster's .*summon", re.IGNORECASE)
