@@ -9758,6 +9758,24 @@ class CombatApTests(SimpleTestCase):
         from chardata.spell_combo import combat_ap
         self.assertEqual(15, combat_ap(9, 'retro'))
 
+    def test_a_state_gated_spell_counts_one_state_not_all(self):
+        # Schnaps deals its Air damage sober or drunk, never both, and the two
+        # rows were summed. Trickery picks one element at random out of four,
+        # each behind its own state, and all sixteen were added together.
+        from chardata.spell_buffs import (_decide_spell_level,
+                                          get_damage_spells_for_version)
+        from chardata.spell_combo import Castable
+        wanted = {'Pandawa': ('Schnaps', 1), 'Ecaflip': ('Trickery', 2)}
+        for char_class, (name, keep) in wanted.items():
+            spells = get_damage_spells_for_version('dofus3').get(char_class, [])
+            spell = next((s for s in spells if s.name == name), None)
+            self.assertIsNotNone(spell, name)
+            level = _decide_spell_level(spell.level_req, 200)
+            castable = Castable(spell, level, False)
+            with self.subTest(spell=name):
+                self.assertTrue(spell.get_effects_digest().aggregates, name)
+                self.assertEqual(keep, len(castable.hits), name)
+
     def test_every_class_gets_a_turn_it_can_play(self):
         # The panel returned None for months and nothing said so. A class that
         # stops producing a cast is the same silence.

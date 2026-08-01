@@ -999,6 +999,28 @@ def _extract_best_element_groups(rows: Sequence[Mapping[str, Any]]) -> Dict[Any,
     return {key: sorted(indexes) for key, indexes in groups.items()}
 
 
+def _build_state_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """A state in the target mask decides whether a row lands, so rows under
+    different states are alternatives: Schnaps hits sober or drunk, Trickery
+    picks one element. Rows sharing a state land together."""
+    groups: Dict[Any, List[int]] = {}
+    for idx, row in enumerate(rows):
+        state = row.get("state_group")
+        if state is None:
+            return None
+        groups.setdefault(state, []).append(idx)
+    if len(groups) < 2:
+        return None
+    aggregates = [("", sorted(indexes)) for _state, indexes in
+                  sorted(groups.items(), key=lambda pair: min(pair[1]))]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
 def _build_best_element_aggregates(
     group_map: Mapping[Any, Sequence[int]],
     base_row_count: int,
@@ -1143,7 +1165,8 @@ def convert_spell(
         base_row_count,
         len(non_crit),
     )
-    aggregates = best_element_aggregates or stack_aggregates
+    state_aggregates = _build_state_aggregates(normal_rows, len(non_crit))
+    aggregates = best_element_aggregates or state_aggregates or stack_aggregates
     aggregates_from_best = aggregates is best_element_aggregates and aggregates is not None
     if not aggregates and stack_labels and stack_row_block:
         aggregates = _build_stack_row_aggregates(stack_row_block, base_row_count, stack_labels)

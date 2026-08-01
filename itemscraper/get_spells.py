@@ -37,6 +37,9 @@ ELEMENT_ID_TO_TOKEN = {
 BEST_ELEMENT_DESCRIPTION_TOKENS = ("best-element", "best element")
 BEST_ELEMENT_TOKENS = ("EARTH", "FIRE", "WATER", "AIR")
 
+# "A,*E3531" means the row only lands while the caster carries state 3531.
+STATE_IN_TARGET_MASK = re.compile(r"\*E(\d+)")
+
 STACK_CONTROLLER_EFFECT_IDS = {792, 1160}
 SUMMON_STACK_PATTERN = re.compile(r"each of the caster's .*summon", re.IGNORECASE)
 SUMMON_STACK_CAP = 10
@@ -362,6 +365,13 @@ class SpellTransformer:
                 heals_flag = "heal" in desc_lower
                 element_token = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
 
+                # A state in the target mask gates the row: Schnaps deals its
+                # Air damage sober or drunk, never both, and the two rows were
+                # summed. Rows sharing a state land together.
+                state = STATE_IN_TARGET_MASK.findall(
+                    str(effect.get("target_mask") or ""))
+                state_group = state[0] if state else None
+
                 def _register_row(token: str, *, best_group: Optional[str] = None) -> None:
                     key = (effect.get("order"), token, steals, heals_flag)
                     idx = key_to_idx.get(key)
@@ -376,11 +386,15 @@ class SpellTransformer:
                         }
                         if best_group is not None:
                             row["best_element_group"] = best_group
+                        if state_group is not None:
+                            row["state_group"] = state_group
                         rows.append(row)
                     else:
                         row = rows[idx]
                         if best_group is not None and "best_element_group" not in row:
                             row["best_element_group"] = best_group
+                        if state_group is not None and "state_group" not in row:
+                            row["state_group"] = state_group
                     rows[idx]["ranges"][level_idx] = dice
 
                 is_best_element = False
