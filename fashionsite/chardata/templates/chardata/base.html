@@ -124,11 +124,11 @@
         <div class='banner' ALIGN=CENTER "position:relative; z-index:1">
           <br>   
           {% if current_game_version == 'beta' %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.png" %}" alt="Dofus Fashionista" width="2560" height="500"></img></a>
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
           {% elif current_game_version == 'dofus2' or current_game_version == 'retro' %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner.jpg" %}" alt="Dofus Fashionista" width="1024" height="200"></img></a>
           {% else %}
-          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.png" %}" alt="Dofus Fashionista" width="2560" height="500"></img></a>
+          <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
           {% endif %}
         </div>
         <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">

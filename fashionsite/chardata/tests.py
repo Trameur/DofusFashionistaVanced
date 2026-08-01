@@ -8977,6 +8977,40 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
 
+class BannerWeightTests(SimpleTestCase):
+    """The banner is on every page, so it is the first thing a visitor from
+    search downloads. It was a 1.27 MB PNG of a photographic scene."""
+
+    LIMIT = 250 * 1024
+
+    def _static(self, name):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        return os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', name)
+
+    def test_the_banners_stay_light(self):
+        for name in ('fashionista_banner_fading.webp',
+                     'fashionista_banner_fading_beta.webp',
+                     'fashionista_banner.jpg'):
+            path = self._static(name)
+            self.assertTrue(os.path.exists(path), name)
+            size = os.path.getsize(path)
+            self.assertLess(size, self.LIMIT,
+                            '%s is %d Ko, every first page view pays it'
+                            % (name, size / 1024))
+
+    def test_the_page_points_at_the_light_banner(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata', 'base.html')
+        with open(path, encoding='utf-8') as handle:
+            markup = handle.read()
+        self.assertIn('fashionista_banner_fading.webp', markup)
+        self.assertIn('fashionista_banner_fading_beta.webp', markup)
+        self.assertNotIn('fashionista_banner_fading.png', markup)
+        self.assertNotIn('fashionista_banner_fading_beta.png', markup)
+
+
 class SharedBuildsIndexTests(TestCase):
     """The browse filters on game_version, link_shared and deleted and orders
     by date. Measured on 200000 rows shaped like the real table: 1.0 s without
