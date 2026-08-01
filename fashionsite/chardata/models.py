@@ -56,6 +56,17 @@ class Char(models.Model):
         db_index=True,
     )
 
+    class Meta:
+        # The shared-builds page filters on these three and orders by date.
+        # game_version alone does not narrow anything (nearly every row is
+        # dofus3), so without this the browse scans the whole table, blobs
+        # included, to find the couple of dozen shared builds.
+        indexes = [
+            models.Index(fields=['game_version', 'link_shared', 'deleted',
+                                 '-created_time'],
+                         name='char_shared_browse'),
+        ]
+
     def save(self, *args, **kwargs):
         # MySQL strict mode rejects over-long values, so clip the labels to the column size.
         for field_name in ('name', 'char_name', 'char_build'):
