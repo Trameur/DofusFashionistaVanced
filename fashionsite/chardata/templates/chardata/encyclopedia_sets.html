@@ -27,6 +27,7 @@
 .encyclopedia-pagination { margin-top: 14px; display: flex; gap: 4px; flex-wrap: wrap; }
 .encyclopedia-page-link { display: inline-block; text-decoration: underline; }
 .encyclopedia-page-link-current { font-weight: 700; }
+.encyclopedia-page-gap { display: inline-block; opacity: 0.6; }
 .dark-theme-active .encyclopedia-sets-grid a { border-color: #5a5a5a; background: #1f1f1f; }
 .dark-theme-active .encyclopedia-sets,
 .dark-theme-active .encyclopedia-sets-grid a,
@@ -83,8 +84,10 @@
         {% for page_num in sets_page.paginator.page_range %}
             {% if page_num == sets_page.number %}
                 <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
-            {% elif page_num >= sets_page.number|add:"-3" and page_num <= sets_page.number|add:"3" %}
+            {% elif page_num == 1 or page_num == sets_page.paginator.num_pages or page_num >= sets_page.number|add:"-3" and page_num <= sets_page.number|add:"3" %}
                 <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
+            {% elif page_num == 2 or page_num == sets_page.paginator.num_pages|add:"-1" %}
+                <span class="encyclopedia-page-gap">…</span>
             {% endif %}
         {% endfor %}
         {% if sets_page.has_next %}

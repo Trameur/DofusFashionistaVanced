@@ -219,6 +219,10 @@
 .encyclopedia-page-link-current {
     font-weight: 700;
 }
+.encyclopedia-page-gap {
+    display: inline-block;
+    opacity: 0.6;
+}
 @media (max-width: 980px) {
     .encyclopedia-filter-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));

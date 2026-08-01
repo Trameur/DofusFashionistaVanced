@@ -8963,6 +8963,39 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
 
+class EncyclopediaPaginationTests(TestCase):
+    """The hubs run to 85 and 100 pages. A window of three around the current
+    one left the last page that many clicks away, for a reader and a crawler."""
+
+    HUBS = ('/encyclopedia/', '/encyclopedia/monsters/', '/encyclopedia/sets/')
+
+    def _links(self, path):
+        import re
+        html = self.client.get(path).content.decode('utf-8')
+        block = re.search(r'<div class="encyclopedia-pagination">(.*?)</div>',
+                          html, re.S)
+        self.assertIsNotNone(block, path)
+        return re.findall(r'page=(\d+)"', block.group(1))
+
+    def test_the_first_and_last_pages_are_always_one_click_away(self):
+        for hub in self.HUBS:
+            with self.subTest(hub=hub):
+                first = self._links(hub)
+                self.assertTrue(first, hub)
+                last = max(int(n) for n in first)
+                if last < 8:
+                    continue
+                self.assertIn(str(last), first)
+                middle = self._links('%s?page=%d' % (hub, last // 2))
+                self.assertIn('1', middle, hub)
+                self.assertIn(str(last), middle, hub)
+
+    def test_the_window_around_the_current_page_is_still_there(self):
+        links = self._links('/encyclopedia/monsters/?page=40')
+        for near in ('37', '38', '39', '41', '42', '43'):
+            self.assertIn(near, links)
+
+
 class MonsterSitemapTests(SimpleTestCase):
     """Which monster pages are pushed for indexing. Two drops used to be all a
     page had; it now carries the grade stats and the spells too."""

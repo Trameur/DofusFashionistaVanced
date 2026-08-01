@@ -419,8 +419,10 @@
         {% for page_num in items_page.paginator.page_range %}
             {% if page_num == items_page.number %}
                 <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
-            {% elif page_num >= items_page.number|add:"-3" and page_num <= items_page.number|add:"3" %}
+            {% elif page_num == 1 or page_num == items_page.paginator.num_pages or page_num >= items_page.number|add:"-3" and page_num <= items_page.number|add:"3" %}
                 <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
+            {% elif page_num == 2 or page_num == items_page.paginator.num_pages|add:"-1" %}
+                <span class="encyclopedia-page-gap">…</span>
             {% endif %}
         {% endfor %}
         {% if items_page.has_next %}
