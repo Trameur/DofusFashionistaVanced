@@ -9,5 +9,12 @@ weapon in 44, which is why under a third of them had art.
 
 The other three keep their floors: nine labelled hats and ten shields are too
 few to move a number on.
+
+A floor on the score itself was measured and turned down. It does separate
+(right matches sit at 0.711, wrong ones at 0.653) and a 0.65 floor lifts
+precision from 86% to 91%, but it drops 302 of the 1127 items, mostly weapons,
+and it rests on ten labelled failures. That is the same thin evidence that set
+the 0.20 weapon floor in the first place. A wrong match draws a different
+weapon the reader can hide; a rejected one draws nothing at all.
 """
 MIN_MARGIN = {'Cloak': 0.02, 'Hat': 0.10, 'Shield': 0.05, 'Weapon': 0.02}
