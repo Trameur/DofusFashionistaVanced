@@ -58,3 +58,9 @@ itemscraper/item_db_dumped.dump
 
 character_bundles/
 character_cache/
+
+# Matcher inputs, pulled from the CDN when the skin mapping is rebuilt. The
+# icon bundle alone is 85 Mo and both are reproducible with cytrus_cdn.py.
+item_assets_2x.bundle
+data_assets_itemsdataroot.asset.bundle
+itemscraper/skin_features.pkl
