@@ -8998,9 +8998,21 @@ class SharedBuildCanonicalTests(TestCase):
         self.assertEqual('/s/Mon%20Cra/' + encode_char_id(int(char.id)) + '/',
                          shared_build_path(char))
 
-    def test_a_build_with_no_name_still_has_one_url(self):
+    def test_a_build_with_no_name_is_filed_under_what_it_is(self):
+        # 622 builds sat under the literal word "shared", which says nothing
+        # to a reader or to a search engine.
         from chardata.solution_view import shared_build_path
-        self.assertIn('/s/shared/', shared_build_path(self._shared(name='')))
+        self.assertIn('/s/iop-200/', shared_build_path(self._shared(name='')))
+
+    def test_a_build_with_neither_name_nor_class_still_has_a_url(self):
+        from chardata.models import Char
+        from chardata.solution_view import shared_build_path
+        char = Char.objects.create(
+            name='x', char_name='', char_class='', char_build='', level=0,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=b'x', link_shared=True, game_version='dofus3')
+        self.assertIn('/s/shared/', shared_build_path(char))
 
     def test_a_versioned_build_keeps_its_version_in_the_url(self):
         # /s/... resolves to dofus3, and the view 404s when the build belongs

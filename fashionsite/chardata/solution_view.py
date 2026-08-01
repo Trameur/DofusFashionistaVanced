@@ -666,6 +666,17 @@ def solution_linked(request, char_name, encoded_char_id):
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
+def _shared_build_slug(char):
+    """A build nobody named used to be filed under the word "shared", which
+    told a reader and a search engine nothing. The class and level are what
+    the page is about, and the title already says exactly that."""
+    if char.char_name:
+        return char.char_name
+    parts = [str(char.char_class or '').strip(), str(char.level or '').strip()]
+    slug = '-'.join(p for p in parts if p).lower().replace(' ', '-')
+    return slug or 'shared'
+
+
 def shared_build_path(char):
     """The one url a shared build lives at. The name in the path is decorative
     (the view reads only the id), so every spelling of it serves the same page
@@ -673,7 +684,7 @@ def shared_build_path(char):
     from urllib.parse import quote
     prefix = '' if char.game_version in (None, '', 'dofus3') else '/' + char.game_version
     return '%s/s/%s/%s/' % (prefix,
-                            quote((char.char_name or 'shared').encode('utf-8'),
+                            quote(_shared_build_slug(char).encode('utf-8'),
                                   safe=''),
                             encode_char_id(int(char.id)))
 
