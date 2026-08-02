@@ -92,7 +92,7 @@
                 <button type="button" id="copy_text_btn" class="button-generic" style="font-size: 0.85em; padding: 2px 10px;"
                         onclick="copyBuildText();">{% trans "Copy as text" %}</button>
                 <span id="copy_text_feedback" style="font-size: 0.8em; opacity: 0.8; margin-left: 6px;"></span>
-                <textarea id="build_share_text" style="position:absolute; left:-9999px; top:-9999px;" readonly>{{ share_text }}</textarea>
+                <textarea id="build_share_text" style="position:absolute; left:-9999px; top:-9999px;" readonly tabindex="-1" aria-hidden="true">{{ share_text }}</textarea>
             </div>
             {% endif %}
             <div class="char-banner-tags" id="char_tags_box">
