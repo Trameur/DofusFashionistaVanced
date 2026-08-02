@@ -10357,6 +10357,21 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     "SELECT COUNT(*) FROM items WHERE name IS NULL OR name=''")
                 self.assertEqual(0, rows[0][0])
 
+    def test_a_set_holds_as_many_pieces_as_its_bonuses_ask_for(self):
+        # How the retro gap showed up: the bonus table offered a seven-piece
+        # tier for the Wabbit set while only six pieces were imported, because
+        # backpacks were unmapped and the French lang file is the thinnest of
+        # the five. A tier nobody can reach is a piece nobody can wear.
+        for version in self.VERSIONS:
+            rows = self._rows(version,
+                'SELECT s.name, MAX(b.num_pieces_used),'
+                ' (SELECT COUNT(*) FROM items i WHERE i.item_set = s.id)'
+                ' FROM sets s JOIN set_bonus b ON b.item_set = s.id GROUP BY s.id')
+            for name, top_tier, pieces in rows:
+                with self.subTest(version=version, set=name):
+                    self.assertTrue(pieces, name)
+                    self.assertLessEqual(top_tier, pieces, name)
+
     def test_an_item_ankama_calls_unequippable_is_never_proposed(self):
         # Two beta amulets carry an AP bonus and the line "This object cannot
         # be equipped, it exists merely to be broken". The solver would have
