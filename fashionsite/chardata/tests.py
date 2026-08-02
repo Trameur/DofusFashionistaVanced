@@ -10378,8 +10378,9 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
     def test_a_dev_item_never_reaches_the_solver(self):
         # Ankama left "Anneau de Ghaston" in the 3.6.7.7 beta: 99 AP, 99 MP,
         # 32767 Vitality. The solver would have worn it in every ring slot.
-        # No real item gives 6 AP or 6 MP, so anything that does is a test
-        # item and belongs in the default exclusions.
+        # Outside the exclusions the ceiling is 2 AP and 2 MP on every version,
+        # so 3 is already off the map; a real item reaching it is a game event
+        # worth reading this test's failure for.
         from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
                                           DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
         for version in self.VERSIONS:
@@ -10390,7 +10391,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 ' JOIN stats_of_item s ON s.item = i.id'
                 ' JOIN stats st ON st.id = s.stat'
                 " WHERE COALESCE(i.removed, 0) = 0 AND st.name IN ('AP', 'MP')"
-                ' AND s.value >= 6 GROUP BY i.ankama_id, i.name')
+                ' AND s.value >= 3 GROUP BY i.ankama_id, i.name')
             for ankama_id, name, value in rows:
                 with self.subTest(version=version, item=name):
                     self.assertIn(ankama_id, allowed,
