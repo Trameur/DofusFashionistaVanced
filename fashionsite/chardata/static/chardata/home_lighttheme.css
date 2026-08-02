@@ -163,6 +163,8 @@ h2 {
     color: #ffffff;
 }
 .version-link:hover:not(.active) {
-    background: #a8885e;
+    /* #a8885e left white text at 3.31; this sits between the resting and the
+       active brown and reads 4.88. */
+    background: #866d4b;
     color: #ffffff;
 }
