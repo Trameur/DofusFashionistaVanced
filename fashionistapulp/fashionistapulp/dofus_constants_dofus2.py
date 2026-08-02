@@ -506,6 +506,12 @@ REBOUND_LABELS = [
 # ranges stay as originally shipped (Dofus 3 at launch was the Unity
 # port of this exact 2.73 content).
 # Do not edit the entries manually except to fix data with a source.
+#
+# The aggregates are the one part that does have a source. The dofus3
+# 3.5.17.26 archive ships spell_levels.json and 266 of the 318 spells here
+# match its ranges exactly, which is the port the note above describes. The
+# aggregates were copied from it for the entries whose element order and every
+# range match it to the number; the rest were left alone.
 DAMAGE_SPELLS = {
     'default': [
         Spell('Burnt Pie', [30, 97, 164], Effects(
@@ -664,7 +670,7 @@ DAMAGE_SPELLS = {
              ['14-16', '17-20', '24-28']],
             [FIRE, FIRE, FIRE],
             steals=[True, True, False],
-        ), is_linked=(1, 'Tormenting Arrow'), spell_id=13085),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Tormenting Arrow'), spell_id=13085),
         Spell('Poisoned Arrow', [35, 102, 169], Effects(
             [['10-12', '13-15', '17-18']],
             [['12-14', '16-18', '20-21']],
@@ -732,7 +738,7 @@ DAMAGE_SPELLS = {
             [['24-27', '30-34'], ['24-27', '30-34']],
             [['29-33', '36-41'], ['29-33', '36-41']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Fulminating Arrow'), spell_id=13065),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Fulminating Arrow'), spell_id=13065),
         Spell('Persecuting Arrow', [85, 152], Effects(
             [['10-12', '13-15'], ['10-12', '13-15']],
             [['13-15', '13-15'], ['13-15', '13-15'], ['0-0', '16-18'], ['0-0', '16-18']],
@@ -857,7 +863,7 @@ DAMAGE_SPELLS = {
              ['0-0', '22-0', '25-0']],
             [FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE, FIRE],
             heals=[False, True, False, True, True, False, False, True],
-        ), is_linked=(1, 'Playful Claw'), spell_id=12846),
+        ), aggregates=[('', [0, 2, 5, 6]), ('', [1, 3, 4, 7])], is_linked=(1, 'Playful Claw'), spell_id=12846),
         Spell('Heads or Tails', [1, 69, 136], Effects(
             [['10-0', '14-0', '18-0']],
             [['14-0', '18-0', '22-0']],
@@ -1557,7 +1563,7 @@ DAMAGE_SPELLS = {
             [['15-17', '20-23', '26-29'], ['15-17', '20-23', '26-29']],
             [['19-21', '24-27', '31-35'], ['19-21', '24-27', '31-35']],
             [WATER, WATER],
-        ), is_linked=(1, 'Tribulation'), spell_id=14593),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Tribulation'), spell_id=14593),
         Spell('Shock', [1, 68, 134], Effects(
             [['14-16', '18-20', '23-26']],
             [['17-19', '21-24', '28-31']],
@@ -1568,7 +1574,7 @@ DAMAGE_SPELLS = {
             [['18-20', '25-27', '31-34'], ['18-20', '25-27', '31-34']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(1, 'Lazybeam'), spell_id=14579),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Lazybeam'), spell_id=14579),
         Spell('Portal', [5, 72, 139], Effects(
             [['2', '2', '2'], ['2', '2', '2']],
             None,
@@ -1605,7 +1611,7 @@ DAMAGE_SPELLS = {
             [EARTH, EARTH],
             steals=[True, False],
             heals=[False, True],
-        ), is_linked=(1, 'Lightning Fist'), spell_id=14581),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Lightning Fist'), spell_id=14581),
         Spell('Affliction', [65, 131, 198], Effects(
             [['14-16', '18-21', '23-26'],
              ['14-16', '18-21', '23-26'],
@@ -1618,7 +1624,7 @@ DAMAGE_SPELLS = {
             [WATER, WATER, WATER, WATER],
             steals=[True, False, False, False],
             heals=[False, False, True, True],
-        ), is_linked=(1, 'Offence'), spell_id=14584),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Offence'), spell_id=14584),
         Spell('Ridicule', [75, 142], Effects(
             [['26-29', '32-36']],
             [['31-35', '38-43']],
@@ -1649,7 +1655,7 @@ DAMAGE_SPELLS = {
             [['22-25', '28-31'], ['22-25', '28-31']],
             [FIRE, FIRE],
             steals=[False, True],
-        ), is_linked=(2, 'Wakfu Ray'), spell_id=14606),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Wakfu Ray'), spell_id=14606),
         Spell('Wandering', [115, 182], Effects(
             [['2', '2'], ['2', '2']],
             None,
@@ -1661,7 +1667,7 @@ DAMAGE_SPELLS = {
             [AIR, AIR],
             steals=[True, False],
             heals=[False, True],
-        ), stacks=2, is_linked=(2, 'Persiflage'), spell_id=14610),
+        ), aggregates=[('', [0]), ('', [1])], stacks=2, is_linked=(2, 'Persiflage'), spell_id=14610),
         Spell('Composure', [135], Effects(
             [['32-36']],
             [['39-43']],
@@ -1714,7 +1720,7 @@ DAMAGE_SPELLS = {
             [['15-17', '20-23', '27-30'], ['15-17', '20-23', '27-30']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(1, 'Deafening Cry'), spell_id=25858),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Deafening Cry'), spell_id=25858),
         Spell('Vampiric Word', [1, 68, 134], Effects(
             [['16-18', '21-23', '27-30']],
             [['19-21', '25-28', '32-36']],
@@ -1765,19 +1771,19 @@ DAMAGE_SPELLS = {
             [['27-31', '35-39', '43-49'], ['27-31', '35-39', '43-49']],
             [FIRE, FIRE],
             heals=[True, False],
-        ), is_linked=(1, 'Furious Word'), spell_id=25860),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Furious Word'), spell_id=25860),
         Spell("Prankster's Word", [35, 102, 169], Effects(
             [['15-17', '18-20', '22-24'], ['15-17', '18-20', '22-24']],
             [['17-19', '21-23', '26-28'], ['17-19', '21-23', '26-28']],
             [AIR, AIR],
             heals=[False, True],
-        ), is_linked=(1, 'Defensive Word'), spell_id=25879),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Defensive Word'), spell_id=25879),
         Spell('Warpaint', [40, 107, 174], Effects(
             [['6-7', '7-9', '9-11'], ['6-7', '7-9', '9-11'], ['6-7', '7-9', '9-11']],
             [['6-7', '7-9', '9-11'], ['8-9', '10-12', '12-14'], ['8-9', '10-12', '12-14']],
             [EARTH, EARTH, EARTH],
             heals=[True, False, True],
-        ), is_linked=(1, 'Secret Word'), spell_id=25868),
+        ), aggregates=[('', [0, 2]), ('', [1])], is_linked=(1, 'Secret Word'), spell_id=25868),
         Spell('War Cry', [50, 117, 184], Effects(
             [['23-26', '31-35', '37-41']],
             [['28-31', '38-42', '44-49']],
@@ -1788,7 +1794,7 @@ DAMAGE_SPELLS = {
             [['36-39', '48-52', '55-60'], ['36-39', '48-52', '55-60']],
             [WATER, WATER],
             heals=[False, True],
-        ), is_linked=(1, 'Bloodless Word'), spell_id=25873),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Bloodless Word'), spell_id=25873),
         Spell('Pilfering', [65, 131, 198], Effects(
             [['15-17', '18-20', '20-22']],
             [['18-20', '21-23', '23-26']],
@@ -1800,7 +1806,7 @@ DAMAGE_SPELLS = {
             [['31-35', '40-44'], ['31-35', '40-44']],
             [AIR, AIR],
             heals=[False, True],
-        ), is_linked=(1, 'Enchanted Thicket'), spell_id=25880),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Enchanted Thicket'), spell_id=25880),
         Spell('Tribal Paintbrush', [80, 147], Effects(
             [['15-18', '19-22'],
              ['15-18', '19-22'],
@@ -1881,7 +1887,7 @@ DAMAGE_SPELLS = {
             [['14-16', '17-19'], ['14-16', '17-19'], ['14-16', '17-19']],
             [WATER, WATER, WATER],
             heals=[False, True, False],
-        ), is_linked=(1, 'Murmur'), spell_id=25875),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Murmur'), spell_id=25875),
         Spell('Malicious Word', [95, 162], Effects(
             [['24-27', '30-34']],
             [['29-33', '36-41']],
@@ -1902,7 +1908,7 @@ DAMAGE_SPELLS = {
             [['34-37', '40-44'], ['34-37', '40-44']],
             [EARTH, EARTH],
             heals=[False, True],
-        ), is_linked=(2, 'Profanity'), spell_id=25869),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Profanity'), spell_id=25869),
         Spell('Alchemical Word', [115, 182], Effects(
             [['10-0', '20-0'],
              ['10-0', '20-0'],
@@ -2025,7 +2031,7 @@ DAMAGE_SPELLS = {
             [['41-45'], ['41-45']],
             [WATER, WATER],
             heals=[False, True],
-        ), is_linked=(2, 'Forbidden Word'), spell_id=13217),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Forbidden Word'), spell_id=13217),
         Spell('Distracting Word', [175], Effects(
             [['30-34'], ['30-34']],
             [['37-41'], ['37-41']],
@@ -2142,7 +2148,7 @@ DAMAGE_SPELLS = {
             [['33-35', '41-44'], ['33-35', '41-44']],
             [['39-42', '49-53'], ['39-42', '49-53']],
             [FIRE, FIRE],
-        ), is_linked=(1, 'Sieving'), spell_id=13333),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Sieving'), spell_id=13333),
         Spell('Hard Cash', [95, 162], Effects(
             [['24-27', '29-33'], ['8-10', '11-13']],
             [['28-32', '35-39'], ['11-13', '14-16']],
@@ -2238,7 +2244,7 @@ DAMAGE_SPELLS = {
             [['35-38'], ['35-38']],
             [FIRE, FIRE],
             heals=[False, True],
-        ), is_linked=(2, 'Shovel of the Ancients'), spell_id=14273),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Shovel of the Ancients'), spell_id=14273),
         Spell('Sieving', [185], Effects(
             [['25-29']],
             [['30-35']],
@@ -2940,7 +2946,7 @@ DAMAGE_SPELLS = {
              ['20-23', '26-29', '32-35'],
              ['29-33', '38-42', '46-50']],
             [FIRE, FIRE, FIRE],
-        ), stacks=2, is_linked=(1, 'Pounding'), spell_id=13121),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], stacks=2, is_linked=(1, 'Pounding'), spell_id=13121),
         Spell('Endurance', [50, 117, 184], Effects(
             [['22-25', '27-30', '30-34']],
             [['27-30', '32-36', '36-41']],
@@ -3566,7 +3572,7 @@ DAMAGE_SPELLS = {
              ['21-23', '28-31', '39-42'],
              ['21-23', '28-31', '39-42']],
             [EARTH, EARTH, EARTH],
-        ), is_linked=(1, 'Fiery Breath'), spell_id=12803),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Fiery Breath'), spell_id=12803),
         Spell('Explosive Palm', [1, 67, 133], Effects(
             [['12-14', '15-17', '20-22'],
              ['12-14', '15-17', '20-22'],
@@ -3603,12 +3609,12 @@ DAMAGE_SPELLS = {
             [['12-14', '17-19', '21-24'], ['12-14', '17-19', '21-24']],
             [['15-17', '20-23', '25-29'], ['15-17', '20-23', '25-29']],
             [AIR, AIR],
-        ), stacks=2, is_linked=(1, 'Debauchery'), spell_id=12782),
+        ), aggregates=[('', [0]), ('', [1])], stacks=2, is_linked=(1, 'Debauchery'), spell_id=12782),
         Spell('Tipple', [1, 69, 136], Effects(
             [['15-17', '20-23', '25-28'], ['15-17', '20-23', '25-28']],
             [['18-20', '24-27', '30-34'], ['18-20', '24-27', '30-34']],
             [WATER, WATER],
-        ), is_linked=(1, 'Numbness'), spell_id=12791),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Numbness'), spell_id=12791),
         Spell('Stretcher', [20, 87, 154], Effects(
             [['18-20', '23-26', '28-32'],
              ['18-20', '23-26', '28-32'],
@@ -3620,7 +3626,7 @@ DAMAGE_SPELLS = {
              ['21-24', '27-31', '34-38']],
             [EARTH, EARTH, EARTH, EARTH],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Alcoshu'), spell_id=12811),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Alcoshu'), spell_id=12811),
         Spell('Pandilongation', [25, 92, 159], Effects(
             [['18-20', '23-25', '28-31'],
              ['18-20', '23-25', '28-31'],
@@ -3632,7 +3638,7 @@ DAMAGE_SPELLS = {
              ['21-23', '27-30', '34-37']],
             [FIRE, FIRE, FIRE, FIRE],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Liqueur'), spell_id=12793),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Liqueur'), spell_id=12793),
         Spell('Inebriation', [30, 97, 164], Effects(
             [['4-6', '6-8', '8-10'],
              ['4-6', '6-8', '8-10'],
@@ -3653,7 +3659,7 @@ DAMAGE_SPELLS = {
              ['25-28', '32-36', '40-44']],
             [AIR, AIR, AIR, AIR],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Absinthe'), spell_id=12788),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Absinthe'), spell_id=12788),
         Spell('Brandy', [45, 112, 179], Effects(
             [['16-18', '22-24', '26-29'],
              ['16-18', '22-24', '26-29'],
@@ -3665,12 +3671,12 @@ DAMAGE_SPELLS = {
              ['20-22', '26-28', '31-35']],
             [WATER, WATER, WATER, WATER],
             heals=[True, True, False, False],
-        ), is_linked=(1, 'Filthipint'), spell_id=12808),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Filthipint'), spell_id=12808),
         Spell('Eviction', [60, 127, 194], Effects(
             [['11-13', '13-15', '15-17'], ['11-13', '13-15', '15-17']],
             [['14-16', '16-18', '19-21'], ['14-16', '16-18', '19-21']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Alcoholic Breath'), spell_id=12790),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Alcoholic Breath'), spell_id=12790),
         Spell('Explosive Flask', [65, 131, 198], Effects(
             [['13-15', '16-18', '18-20'], ['16-19', '20-22', '22-25']],
             [['16-18', '19-21', '22-24'], ['20-22', '24-27', '26-30']],
@@ -3680,7 +3686,7 @@ DAMAGE_SPELLS = {
             [['12-14', '15-17'], ['12-14', '15-17']],
             [['15-17', '18-20'], ['15-17', '18-20']],
             [AIR, AIR],
-        ), is_linked=(1, 'Waterfall'), spell_id=12814),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Waterfall'), spell_id=12814),
         Spell('Melancholy', [80, 147], Effects(
             [['29-32', '36-40'], ['35-38', '44-48']],
             [['35-39', '43-48'], ['41-45', '51-56']],
@@ -3727,7 +3733,7 @@ DAMAGE_SPELLS = {
             [['17-19', '20-22'], ['17-19', '20-22']],
             [['20-22', '24-26'], ['20-22', '24-26']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Schnaps'), spell_id=12786),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Schnaps'), spell_id=12786),
         Spell('Numbness', [110, 177], Effects(
             [['31-34', '36-40'], ['31-34', '36-40']],
             [['37-41', '43-48'], ['37-41', '43-48']],
@@ -3849,7 +3855,7 @@ DAMAGE_SPELLS = {
             [['27-30', '33-37'], ['27-30', '33-37'], ['27-30', '33-37']],
             [['32-36', '40-44'], ['32-36', '40-44'], ['32-36', '40-44']],
             [WATER, WATER, WATER],
-        ), is_linked=(1, 'Arquebus'), spell_id=13443),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2])], is_linked=(1, 'Arquebus'), spell_id=13443),
         Spell('Shrapnel', [120, 187], Effects(
             [['14-16', '17-19']],
             [['17-19', '20-23']],
@@ -4122,7 +4128,7 @@ DAMAGE_SPELLS = {
             [['14-16', '19-21', '24-27'], ['14-16', '19-21', '24-27']],
             [['17-19', '22-25', '29-32'], ['17-19', '22-25', '29-32']],
             [EARTH, EARTH],
-        ), is_linked=(1, 'Insolent Bramble'), spell_id=13516),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(1, 'Insolent Bramble'), spell_id=13516),
         Spell("Sadida's Tear", [1, 67, 133], Effects(
             [['15-17', '20-22', '25-28'], ['15-17', '20-22', '25-28']],
             [['18-20', '23-26', '30-34'], ['18-20', '23-26', '30-34']],
@@ -4189,7 +4195,7 @@ DAMAGE_SPELLS = {
              ['31-36', '38-43', '43-49']],
             [WATER, WATER, WATER, WATER, WATER, WATER],
             heals=[False, False, False, True, False, False],
-        ), is_linked=(1, 'Ardent Thistles'), spell_id=13531),
+        ), aggregates=[('', [0]), ('', [1]), ('', [2]), ('', [3]), ('', [4]), ('', [5])], is_linked=(1, 'Ardent Thistles'), spell_id=13531),
         Spell('Earthquake', [75, 142], Effects(
             [['23-27', '29-33']],
             [['28-32', '35-40']],
@@ -4249,7 +4255,7 @@ DAMAGE_SPELLS = {
             [['34-38', '38-43'], ['34-38', '38-43']],
             [WATER, WATER],
             heals=[True, False],
-        ), is_linked=(2, 'Contagion'), spell_id=14396),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Contagion'), spell_id=14396),
         Spell('Charred Charms', [145], Effects(
             [['28-31']],
             [['34-37']],
@@ -4633,7 +4639,7 @@ DAMAGE_SPELLS = {
             [['6-8', '9-12'], ['6-8', '9-12']],
             [['9-11', '13-16'], ['9-11', '13-16']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Shrivelling'), spell_id=13244),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Shrivelling'), spell_id=13244),
         Spell('Dropper', [130, 197], Effects(
             [['16-19', '18-21']],
             [['20-23', '22-25']],
