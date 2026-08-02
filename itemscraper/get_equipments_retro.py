@@ -41,6 +41,11 @@ TYPE_MAP = {
     # Dragodinde mounts (English names contain "Dragoturkey"); like Dofus 3 they
     # share the Pet slot, and the "Dragoturkeys" mount toggle gates them.
     '97': ('Pet', None),
+    # Two weapon categories Retro has and Dofus 3 dropped, named here as the
+    # game names them in I['t']. 102 holds a single GM crossbow, forbidden by
+    # default like the other GM gear; 114 is the five level-30 Tormentators.
+    '102': ('Weapon', 'Crossbow'),
+    '114': ('Weapon', 'Magic Weapon'),
 }
 
 # Retro effect id -> (English stat name as used by get_equipments3, sign).

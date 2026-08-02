@@ -34,6 +34,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     6895,   # Small Combat Bow Meow (GM)
     7913,   # Animagi (GM)
     7920,   # Tournament Wand (GM)
+    8511,   # Overpowered Uberleet Dark Crossbow of the Shadows (GM)
     2155,   # Jiva Necklace
     18853,  # Fiery Tongue Sword
     8575,   # First Blood Staff

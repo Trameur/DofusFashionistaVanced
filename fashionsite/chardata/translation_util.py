@@ -121,6 +121,8 @@ LOCALIZED_WEAPON_TYPES = {
     'Pickaxe': gettext_lazy('Pickaxe'),
     'Scythe': gettext_lazy('Scythe'),
     'Lance': gettext_lazy('Lance'),
+    'Crossbow': gettext_lazy('Crossbow'),
+    'Magic Weapon': gettext_lazy('Magic Weapon'),
 }
 """
 OTHER_STRINGS = {

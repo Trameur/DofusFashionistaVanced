@@ -10419,6 +10419,44 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     self.assertTrue(pieces, name)
                     self.assertLessEqual(top_tier, pieces, name)
 
+    def test_every_weapon_points_at_a_type_that_exists(self):
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(*) FROM weapon_weapontype'
+                    ' WHERE weapontype NOT IN (SELECT id FROM weapontype)')
+                self.assertEqual(0, rows[0][0])
+
+    def test_retro_keeps_the_two_weapon_families_dofus3_dropped(self):
+        # Lang types 102 and 114. The five Tormentators and Crocobur are real
+        # level 30-40 gear that no build could reach while the types were
+        # unmapped; the lone crossbow is GM-only, so it is forbidden by default
+        # rather than dropped, like the rest of the GM gear.
+        from chardata.lock_forbid import DEFAULT_EXCLUSION_ANKAMA_IDS
+        rows = self._rows('retro',
+            'SELECT t.name, COUNT(*) FROM items i'
+            ' JOIN weapon_weapontype w ON w.item = i.id'
+            ' JOIN weapontype t ON t.id = w.weapontype'
+            " WHERE t.name IN ('Crossbow', 'Magic Weapon') GROUP BY t.name")
+        self.assertEqual({'Crossbow': 1, 'Magic Weapon': 6}, dict(rows))
+        self.assertIn(8511, DEFAULT_EXCLUSION_ANKAMA_IDS)
+
+    def test_the_two_weapon_families_are_named_as_the_game_names_them(self):
+        from django.utils import translation
+        from chardata.translation_util import LOCALIZED_WEAPON_TYPES
+        expected = {
+            'fr': {'Crossbow': 'Arbalète', 'Magic Weapon': 'Arme magique'},
+            'es': {'Crossbow': 'Ballesta', 'Magic Weapon': 'Arma mágica'},
+            'pt': {'Crossbow': 'Besta', 'Magic Weapon': 'Arma Mágica'},
+            'de': {'Crossbow': 'Armbrust', 'Magic Weapon': 'Magische Waffe'},
+        }
+        for language, wanted in expected.items():
+            with translation.override(language):
+                for name, localized in wanted.items():
+                    with self.subTest(language=language, weapon_type=name):
+                        self.assertEqual(str(LOCALIZED_WEAPON_TYPES[name]),
+                                         localized)
+
     def test_an_item_ankama_calls_unequippable_is_never_proposed(self):
         # Two beta amulets carry an AP bonus and the line "This object cannot
         # be equipped, it exists merely to be broken". The solver would have

@@ -84,6 +84,10 @@ WEAPON_TYPES = {
     'Pickaxe': 'pickaxe',
     'Scythe': 'scythe',
     'Lance': 'lance',
+    # Retro-only categories. Appended so the ids above never move: the dumps
+    # store weapon_weapontype by id, and only retro fills these two.
+    'Crossbow': 'crossbow',
+    'Magic Weapon': 'magic_weapon',
 }
 
 STAT_NAME_TO_KEY_LOCAL = {
