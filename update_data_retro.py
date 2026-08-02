@@ -18,6 +18,7 @@ Pipeline steps:
     items/load-db        load_item_db.py           -> items_retro.db
     drops/transform      get_monsters_retro.py     -> itemscraper/transformed_drops_retro.json (Solomonk.fr 1.48)
     drops/store          store_drops.py            -> item_drops / monster_names in items_retro.db
+    descriptions/store   store_retro_descriptions.py -> item_descriptions in items_retro.db
     item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (rendered from the official client via Cytrus)
     spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
     spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (old official web CDN mirror + client compose for the missing ones)
@@ -269,6 +270,9 @@ def main() -> None:
         "--jobs", "transformed_craft_jobs_retro.json",
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
+
+    # Item descriptions -> item_descriptions (the encyclopedia's page text).
+    step("descriptions/store", [PY, "store_retro_descriptions.py"], cwd=ITEMSCRAPER)
 
     # Data changed: refresh the scanned list of runtime-translated
     # strings (item types, stats...) so makemessages keeps them.
