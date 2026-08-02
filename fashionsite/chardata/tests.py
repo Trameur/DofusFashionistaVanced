@@ -5680,6 +5680,52 @@ class WeaponTypeDisplayTests(TestCase):
         head = self._damage_head(sword_name)
         self.assertIn('(Sword)', head)
 
+class WeaponCriticalRateTests(SimpleTestCase):
+    """Retro states a weapon's critical rate the way the game does, one hit in
+    X; Dofus 2 turned the same field into a percentage. The Kaiser hammer is
+    1/200 in game and the page used to read "CH: 200%"."""
+
+    def _line(self, version, weapon_type='Hammer', ap=4, crit_chance=200,
+              crit_bonus=5):
+        from chardata.weapon_header import format_weapon_header
+        return format_weapon_header(version, weapon_type, ap, crit_chance,
+                                    crit_bonus)
+
+    def test_retro_states_the_rate_as_a_fraction(self):
+        line = self._line('retro')
+        self.assertIn('1/200', line)
+        self.assertNotIn('200%', line)
+
+    def test_the_versions_that_use_a_percentage_keep_it(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            with self.subTest(version=version):
+                line = self._line(version, crit_chance=30)
+                self.assertIn('30%', line)
+                self.assertNotIn('1/30', line)
+
+    def test_a_retro_weapon_that_cannot_crit_shows_no_rate(self):
+        # The game writes -1 there, and four retro weapons carry it.
+        line = self._line('retro', crit_chance=-1)
+        self.assertNotIn('CH', line)
+        self.assertIn('AP: 4', line)
+
+    def test_the_retro_encyclopedia_prints_the_fraction(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.encyclopedia_view import _get_weapon_detail_lines
+        structure = get_structure('retro')
+        item = structure.get_item_by_name('Kaiser')
+        self.assertIsNotNone(item)
+        lines = _get_weapon_detail_lines(structure, [item], 'en')
+        self.assertTrue(lines)
+        self.assertIn('1/200', lines[0])
+
+    def test_the_encyclopedia_and_the_picker_use_the_same_header(self):
+        from chardata import encyclopedia_view
+        from chardata import solution_result
+        self.assertIs(encyclopedia_view.format_weapon_header,
+                      solution_result.format_weapon_header)
+
+
 class ExclusionsForbidTests(TestCase):
     """Forbidding an item adds an id that's actually in the forbiddable set,
     grouped variants like Gelano included."""

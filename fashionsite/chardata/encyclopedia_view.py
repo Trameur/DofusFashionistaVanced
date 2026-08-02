@@ -20,6 +20,7 @@ from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 from chardata.stat_range import format_stat_range, get_stat_range
+from chardata.weapon_header import format_weapon_header
 from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
@@ -446,24 +447,13 @@ def _get_weapon_detail_lines(structure, variant_items, language):
     with translation.override(language):
         weapon_type_obj = structure.get_weapon_type_by_id(weapon.weapon_type)
         weapon_type_name = weapon_type_obj.name if weapon_type_obj is not None else ''
-        localized_weapon_type = LOCALIZED_WEAPON_TYPES.get(weapon_type_name, weapon_type_name)
+        localized_weapon_type = (
+            LOCALIZED_WEAPON_TYPES.get(weapon_type_name, weapon_type_name)
+            if weapon_type_name else None)
 
-        lines = []
-        if weapon.crit_chance is not None and weapon.crit_bonus is not None:
-            lines.append(
-                _('(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)')
-                % {
-                    'weapon_type': localized_weapon_type,
-                    'AP': weapon.ap,
-                    'crit_chance': weapon.crit_chance,
-                    'crit_bonus': weapon.crit_bonus,
-                }
-            )
-        else:
-            lines.append(
-                _('(%(weapon_type)s) AP: %(AP)d')
-                % {'weapon_type': localized_weapon_type, 'AP': weapon.ap}
-            )
+        lines = [format_weapon_header(
+            structure.game_version, localized_weapon_type, weapon.ap,
+            weapon.crit_chance, weapon.crit_bonus)]
 
         for hit in weapon.base_hit:
             if hit.steals:

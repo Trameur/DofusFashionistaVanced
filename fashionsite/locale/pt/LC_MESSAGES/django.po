@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 16:34+0200\n"
+"POT-Creation-Date: 2026-08-02 16:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -956,27 +956,17 @@ msgstr "O que tem dentro?"
 msgid "Wisdom"
 msgstr "Sabedoria"
 
-#: .\chardata\encyclopedia_view.py:454 .\chardata\solution_result.py:231
-#, python-format
-msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
-msgstr "(%(weapon_type)s) PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
-
-#: .\chardata\encyclopedia_view.py:464 .\chardata\solution_result.py:243
-#, python-format
-msgid "(%(weapon_type)s) AP: %(AP)d"
-msgstr "(%(weapon_type)s) PA: %(AP)d"
-
-#: .\chardata\encyclopedia_view.py:470 .\chardata\solution_result.py:250
+#: .\chardata\encyclopedia_view.py:460 .\chardata\solution_result.py:235
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s steal)"
 msgstr "%(min)d a %(max)d (roubo %(element)s)"
 
-#: .\chardata\encyclopedia_view.py:476 .\chardata\solution_result.py:255
+#: .\chardata\encyclopedia_view.py:466 .\chardata\solution_result.py:240
 #, python-format
 msgid "%(min)d to %(max)d %(element)s heals"
 msgstr "%(min)d a %(max)d curas %(element)s"
 
-#: .\chardata\encyclopedia_view.py:482 .\chardata\solution_result.py:294
+#: .\chardata\encyclopedia_view.py:472 .\chardata\solution_result.py:279
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
 msgstr "%(min)d a %(max)d (%(element)s)"
@@ -1314,94 +1304,84 @@ msgstr "Balanceado"
 msgid "Glass-Cannon"
 msgstr "Glass Cannon"
 
-#: .\chardata\solution_result.py:237
-#, python-format
-msgid "AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
-msgstr "PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
-
-#: .\chardata\solution_result.py:247
-#, python-format
-msgid "AP: %(AP)d"
-msgstr "PA: %(AP)d"
-
-#: .\chardata\solution_result.py:261
+#: .\chardata\solution_result.py:246
 #, python-format
 msgid "%(min)d to %(max)d (HP restored)"
 msgstr "%(min)d a %(max)d (PV restaurados)"
 
-#: .\chardata\solution_result.py:265
+#: .\chardata\solution_result.py:250
 #, python-format
 msgid "Pushes %(cells)d cells"
 msgstr "Empurra por %(cells)d células"
 
-#: .\chardata\solution_result.py:267
+#: .\chardata\solution_result.py:252
 #, python-format
 msgid "Pushes %(min)d to %(max)d cells"
 msgstr "Empurra por %(min)d a %(max)d células"
 
-#: .\chardata\solution_result.py:270
+#: .\chardata\solution_result.py:255
 #, python-format
 msgid "Attracts %(cells)d cells"
 msgstr "Atrai por %(cells)d células"
 
-#: .\chardata\solution_result.py:272
+#: .\chardata\solution_result.py:257
 #, python-format
 msgid "Attracts %(min)d to %(max)d cells"
 msgstr "Atrai por %(min)d a %(max)d células"
 
-#: .\chardata\solution_result.py:275
+#: .\chardata\solution_result.py:260
 #, python-format
 msgid "Steals %(kamas)d kamas"
 msgstr "Rouba %(kamas)d kamas"
 
-#: .\chardata\solution_result.py:277
+#: .\chardata\solution_result.py:262
 #, python-format
 msgid "Steals %(min)d to %(max)d kamas"
 msgstr "Rouba de %(min)d a %(max)d kamas"
 
-#: .\chardata\solution_result.py:280 .\chardata\tests.py:222
+#: .\chardata\solution_result.py:265 .\chardata\tests.py:222
 #, python-format
 msgid "Steals %(mp)d MP"
 msgstr "Rouba %(mp)d PM"
 
-#: .\chardata\solution_result.py:282
+#: .\chardata\solution_result.py:267
 #, python-format
 msgid "Steals %(min)d to %(max)d MP"
 msgstr "Rouba de %(min)d a %(max)d PM"
 
-#: .\chardata\solution_result.py:285 .\chardata\tests.py:231
+#: .\chardata\solution_result.py:270 .\chardata\tests.py:231
 #, python-format
 msgid "Removes %(ap)d AP"
 msgstr "Remove %(ap)d PA"
 
-#: .\chardata\solution_result.py:287
+#: .\chardata\solution_result.py:272
 #, python-format
 msgid "Removes %(min)d to %(max)d AP"
 msgstr "Remove de %(min)d a %(max)d PA"
 
-#: .\chardata\solution_result.py:290
+#: .\chardata\solution_result.py:275
 #, python-format
 msgid "Advances %(cells)d cells"
 msgstr "Avança %(cells)d células"
 
-#: .\chardata\solution_result.py:292
+#: .\chardata\solution_result.py:277
 #, python-format
 msgid "Advances %(min)d to %(max)d cells"
 msgstr "Avança de %(min)d a %(max)d células"
 
-#: .\chardata\solution_result.py:364
+#: .\chardata\solution_result.py:349
 msgid "Set bonus < 2"
 msgstr "Bônus de conjuntos < 2"
 
-#: .\chardata\solution_result.py:364
+#: .\chardata\solution_result.py:349
 msgid "Set bonus < 3"
 msgstr "Bônus de conjuntos < 3"
 
-#: .\chardata\solution_result.py:373
+#: .\chardata\solution_result.py:358
 msgid "Prysmaradite < 1"
 msgstr "Prysmaradite < 1"
 
-#: .\chardata\solution_result.py:383
+#: .\chardata\solution_result.py:368
 #, python-format
 msgid "Max. %(stat)s %(value)d"
 msgstr "Máx. %(stat)s %(value)d"
@@ -6351,6 +6331,30 @@ msgstr "Soma de todas as resistências fixas"
 #: .\chardata\translation_util.py:57
 msgid "Sum of all Linear Resists except neutral"
 msgstr "Soma de todas as resistências fixas, exceto a neutra"
+
+#: .\chardata\weapon_header.py:21
+#, python-format
+msgid "AP: %(AP)d"
+msgstr "PA: %(AP)d"
+
+#: .\chardata\weapon_header.py:22
+#, python-format
+msgid "(%(weapon_type)s) AP: %(AP)d"
+msgstr "(%(weapon_type)s) PA: %(AP)d"
+
+#: .\chardata\weapon_header.py:25
+msgid "(%(weapon_type)s) AP: %(AP)d / CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
+msgstr "(%(weapon_type)s) PA: %(AP)d / GC: 1/%(crit_chance)d (+%(crit_bonus)d)"
+
+#: .\chardata\weapon_header.py:27
+#, python-format
+msgid "AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
+
+#: .\chardata\weapon_header.py:28
+#, python-format
+msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "(%(weapon_type)s) PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 
 #: .\chardata\wizard_sliders.py:36
 msgctxt "Slider section"

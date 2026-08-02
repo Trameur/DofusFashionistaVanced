@@ -30,6 +30,7 @@ from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
+from chardata.weapon_header import format_weapon_header
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_item_link, get_set_link
@@ -226,25 +227,9 @@ def evolve_result_item(result_item, r=None):
         # the "(type)" prefix for them.
         localized_weapon_type = LOCALIZED_WEAPON_TYPES.get(weapon_type_key)
 
-        if result_item.crit_chance is not None and result_item.crit_bonus is not None:
-            if localized_weapon_type is not None:
-                damage_lines.append(_('(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)')
-                                      % {'weapon_type': localized_weapon_type,
-                                         'AP': result_item.ap,
-                                         'crit_chance': result_item.crit_chance,
-                                         'crit_bonus': result_item.crit_bonus})
-            else:
-                damage_lines.append(_('AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)')
-                                      % {'AP': result_item.ap,
-                                         'crit_chance': result_item.crit_chance,
-                                         'crit_bonus': result_item.crit_bonus})
-        else:
-            if localized_weapon_type is not None:
-                damage_lines.append(_('(%(weapon_type)s) AP: %(AP)d')
-                                      % {'weapon_type': localized_weapon_type,
-                                         'AP': result_item.ap})
-            else:
-                damage_lines.append(_('AP: %(AP)d') % {'AP': result_item.ap})
+        damage_lines.append(format_weapon_header(
+            get_current_game_version(), localized_weapon_type, result_item.ap,
+            result_item.crit_chance, result_item.crit_bonus))
         for hit in result_item.non_crit_hits[NEUTRAL]:
             if hit.steals:
                 line = _('%(min)d to %(max)d (%(element)s steal)' ) % {'min': hit.min_dam, 
