@@ -56,6 +56,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     31812,  # Anneau de Ghaston (beta dev item: 99 AP/MP, 32767 Vitality)
     16340,  # Abuselet (Ankama: "cannot be equipped, it exists merely to be broken")
     16341,  # Bendant (same, forgemagie fodder carrying an AP bonus)
+    11745,  # Epee Clipse (retro GM sword: 5 AP/MP, 500 in every characteristic)
 ]
 
 # Per-version defaults: items that are in the game data but shouldn't be proposed
