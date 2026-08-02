@@ -9801,6 +9801,27 @@ class CombatApTests(SimpleTestCase):
                 self.assertEqual((low, high), (castable.hits[0].min_dam,
                                                castable.hits[0].max_dam))
 
+    def test_a_row_a_patch_copied_is_not_a_second_hit(self):
+        # The four Huppermage elemental basics went from one damage row to two
+        # identical ones in 3.6.2.1 while keeping their 3 AP and their value,
+        # and they are the only spells in 4360 that did. Ankama did not double
+        # four basic spells for free; the row was copied.
+        from chardata.spell_buffs import (_decide_spell_level,
+                                          get_damage_spells_for_version)
+        from chardata.spell_combo import Castable
+        wanted = {13712: (13, 15), 13711: (14, 16), 13709: (11, 13),
+                  13708: (12, 14)}
+        spells = get_damage_spells_for_version('dofus3').get('Huppermage', [])
+        for spell_id, (low, high) in wanted.items():
+            spell = next((s for s in spells if s.spell_id == spell_id), None)
+            self.assertIsNotNone(spell, spell_id)
+            castable = Castable(spell, _decide_spell_level(spell.level_req, 200),
+                                False)
+            with self.subTest(spell=spell.name):
+                self.assertEqual(1, len(castable.hits), spell.name)
+                self.assertEqual((low, high), (castable.hits[0].min_dam,
+                                               castable.hits[0].max_dam))
+
     def test_dofus2_counts_the_same_damage_once_too(self):
         # Its archives ship no spell level data, so the block is hand-carried
         # and never got the rule. The aggregates came from the 3.5.17.26
