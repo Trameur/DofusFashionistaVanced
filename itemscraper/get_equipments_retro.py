@@ -421,6 +421,28 @@ def main(argv=None):
         if isinstance(it, dict) and iid in ista:
             it['istats'] = ista[iid]
 
+    # No lang file is complete, and French is the thinnest of the five: it is
+    # missing 127 items the English one has, 24 of them equippable, which left
+    # four sets without a single member. Take those from whichever language does
+    # carry them, with that language's stats.
+    for lang in ('en', 'es', 'pt', 'de'):
+        if lang == args.lang:
+            continue
+        items_path = raw / f'items_{lang}.json'
+        stats_path = raw / f'itemstats_{lang}.json'
+        if not items_path.exists():
+            continue
+        other = json.loads(items_path.read_text(encoding='utf-8'))['I']['u']
+        other_stats = (json.loads(stats_path.read_text(encoding='utf-8'))['ISTA']
+                       if stats_path.exists() else {})
+        for iid, it in other.items():
+            if iid in items_root['u'] or not isinstance(it, dict):
+                continue
+            it = dict(it)
+            if iid in other_stats:
+                it['istats'] = other_stats[iid]
+            items_root['u'][iid] = it
+
     # Localized item names from the per-language lang files (downloaded if present).
     # The site's real audience is heavily ES/PT (~40%), so pull every language we can.
     names_by_lang = {}
