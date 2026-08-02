@@ -9801,6 +9801,29 @@ class CombatApTests(SimpleTestCase):
                 self.assertEqual((low, high), (castable.hits[0].min_dam,
                                                castable.hits[0].max_dam))
 
+    def test_groups_that_print_the_same_line_are_one_line(self):
+        # The page draws a row per group, so splitting a spell written once per
+        # target case traded a wrong total for the right one printed twice.
+        # A label is what makes two rows worth showing.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            for char_class, spells in get_damage_spells_for_version(version).items():
+                for spell in spells:
+                    digest = spell.get_effects_digest()
+                    groups = digest.aggregates
+                    if not groups or len(groups) < 2 or groups[0][0] or groups[1][0]:
+                        continue
+                    rows = digest.non_crit_dams[-1] if digest.non_crit_dams else []
+
+                    def shape(group):
+                        return tuple((rows[i].element, rows[i].min_dam, rows[i].max_dam)
+                                     for i in group[1] if i < len(rows))
+
+                    with self.subTest(version=version, spell=spell.name):
+                        self.assertTrue(not shape(groups[0])
+                                        or shape(groups[0]) != shape(groups[1]),
+                                        spell.name)
+
     def test_a_row_a_patch_copied_is_not_a_second_hit(self):
         # The four Huppermage elemental basics went from one damage row to two
         # identical ones in 3.6.2.1 while keeping their 3 AP and their value,
