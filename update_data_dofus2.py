@@ -15,6 +15,7 @@ Pipeline steps:
     items/dump          get_equipments3.py    -> item_db_dumped_dofus2.dump
     items/load-db       load_item_db.py       -> items_dofus2.db
     item-images         get_equipments4.py    -> static item images (shared with dofus3)
+    monsters/grades     store_dofus2_monster_grades.py -> monster_grades in items_dofus2.db
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_dofus2.json
     spells/constants    generate_damage_spells.py -> dofus_constants_dofus2.py
@@ -236,7 +237,13 @@ def main() -> None:
             "--drops", "transformed_drops_dofus2.json",
             "--game-version", "dofus2",
         ], cwd=ITEMSCRAPER)
-        # Craft professions -> item_craft_jobs / job_names ("Crafted by ...").
+        # Monster stats per grade -> monster_grades (the level range the
+        # encyclopedia prints; dofus2 was the only version without it).
+        step("monsters/grades", [
+            PY, "store_dofus2_monster_grades.py",
+            "--raw-dir", f"raw/{version}",
+        ], cwd=ITEMSCRAPER)
+        # Craft professions -> item_craft_jobs / job_names ("Crafted by ").
         # The dofus2 release ships no jobs.json: job ids are stable since the
         # 2.44 profession merge, so borrow the dofus3 id->nameId table (the
         # names still resolve in the dofus2 language files).
