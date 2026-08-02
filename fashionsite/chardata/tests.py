@@ -9801,6 +9801,22 @@ class CombatApTests(SimpleTestCase):
                 self.assertEqual((low, high), (castable.hits[0].min_dam,
                                                castable.hits[0].max_dam))
 
+    def test_a_fixed_damage_is_not_a_range_ending_at_zero(self):
+        # Ankama writes a fixed hit as min with no max and its own line drops
+        # the "to" part. Kept as 16-0, the page boosted both ends and printed
+        # "86 to 25". A zero maximum only means a row absent at that level.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            for char_class, spells in get_damage_spells_for_version(version).items():
+                for spell in spells:
+                    for level in (spell.get_effects_digest().non_crit_dams or []):
+                        for row in level:
+                            if row.element.startswith('buff'):
+                                continue
+                            with self.subTest(version=version, spell=spell.name):
+                                self.assertFalse(row.max_dam == 0 and row.min_dam > 0,
+                                                 spell.name)
+
     def test_groups_that_print_the_same_line_are_one_line(self):
         # The page draws a row per group, so splitting a spell written once per
         # target case traded a wrong total for the right one printed twice.
