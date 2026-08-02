@@ -1021,6 +1021,41 @@ def _build_state_aggregates(
     return aggregates
 
 
+DUPLICATED_ROWS_PATH = Path("itemscraper/duplicated_damage_rows.json")
+_duplicated_rows: Optional[Dict[str, Any]] = None
+
+
+def _duplicated_row_spells() -> Dict[str, Any]:
+    global _duplicated_rows
+    if _duplicated_rows is None:
+        try:
+            _duplicated_rows = json.loads(
+                DUPLICATED_ROWS_PATH.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            _duplicated_rows = {}
+    return _duplicated_rows
+
+
+def _build_duplicated_row_aggregates(
+    ankama_id: Any,
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """A patch copied the row instead of adding a hit, which only two archives
+    can tell apart; find_duplicated_damage_rows.py names the spells it happened
+    to and how many rows came first."""
+    entry = _duplicated_row_spells().get(str(ankama_id))
+    if not entry:
+        return None
+    kept = int(entry.get("kept") or 0)
+    if not kept or len(rows) != 2 * kept:
+        return None
+    aggregates = [("", list(range(kept))), ("", list(range(kept, len(rows))))]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
 def _build_situation_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
@@ -1211,6 +1246,9 @@ def convert_spell(
         aggregates = _build_state_aggregates(normal_rows, len(non_crit))
     if not aggregates:
         aggregates = _build_situation_aggregates(normal_rows, len(non_crit))
+    if not aggregates:
+        aggregates = _build_duplicated_row_aggregates(
+            spell.get("ankama_id"), normal_rows, len(non_crit))
     if not non_crit:
         return None
     stacks = stack_limit
