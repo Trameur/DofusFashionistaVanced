@@ -9801,6 +9801,25 @@ class CombatApTests(SimpleTestCase):
                 self.assertEqual((low, high), (castable.hits[0].min_dam,
                                                castable.hits[0].max_dam))
 
+    def test_dofus2_counts_the_same_damage_once_too(self):
+        # Its archives ship no spell level data, so the block is hand-carried
+        # and never got the rule. The aggregates came from the 3.5.17.26
+        # archive, whose ranges these entries match to the number.
+        from chardata.spell_buffs import (_decide_spell_level,
+                                          get_damage_spells_for_version)
+        from chardata.spell_combo import Castable
+        wanted = {'Cra': (13085, 14, 17), 'Eliotrope': (14593, 26, 29)}
+        for char_class, (spell_id, low, high) in wanted.items():
+            spells = get_damage_spells_for_version('dofus2').get(char_class, [])
+            spell = next((s for s in spells if s.spell_id == spell_id), None)
+            self.assertIsNotNone(spell, spell_id)
+            castable = Castable(spell, _decide_spell_level(spell.level_req, 200),
+                                False)
+            with self.subTest(spell=spell.name):
+                self.assertEqual(1, len(castable.hits), spell.name)
+                self.assertEqual((low, high), (castable.hits[0].min_dam,
+                                               castable.hits[0].max_dam))
+
     def test_every_class_gets_a_turn_it_can_play(self):
         # The panel returned None for months and nothing said so. A class that
         # stops producing a cast is the same silence.
