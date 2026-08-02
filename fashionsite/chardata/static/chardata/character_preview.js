@@ -63,8 +63,17 @@
         this.formats = options.assetFormats || {};
         this.look = options.look;
         this.colors = options.colors || {};
+        // The template ships a backing store twice the css size, which a phone
+        // at 3x then upscales. Follow the screen instead, never below the two
+        // it already had, and carry the ratio in the draw scale since paint()
+        // replaces the transform.
+        var cssWidth = canvas.clientWidth || canvas.width / 2;
+        var cssHeight = canvas.clientHeight || canvas.height / 2;
+        var ratio = Math.min(Math.max(window.devicePixelRatio || 1, 2), 3);
+        canvas.width = Math.round(cssWidth * ratio);
+        canvas.height = Math.round(cssHeight * ratio);
         this.origin = options.origin || [canvas.width / 2, canvas.height * 0.82];
-        this.baseScale = options.scale || 1;
+        this.baseScale = (options.scale || 1) * ratio / 2;
         this.scale = this.baseScale * (this.look.scale || 1);
         this.orientation = options.orientation || '1';
         this.order = TURN;
