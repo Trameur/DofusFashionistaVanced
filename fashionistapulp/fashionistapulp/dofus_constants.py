@@ -3004,22 +3004,22 @@ DAMAGE_SPELLS = {
             [['11-13', '14-16'], ['11-13', '14-16']],
             [['14-16', '17-19'], ['14-16', '17-19']],
             [WATER, WATER],
-        ), is_linked=(2, 'Ether'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13711),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Ether'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13711),
         Spell('Celestial Wave', [110, 177], Effects(
             [['9-11', '12-14'], ['9-11', '12-14']],
             [['12-14', '15-17'], ['12-14', '15-17']],
             [AIR, AIR],
-        ), is_linked=(2, 'Stalagmite'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13708),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Stalagmite'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13708),
         Spell('Telluric Lances', [105, 172], Effects(
             [['9-11', '11-13'], ['9-11', '11-13']],
             [['12-14', '14-16'], ['12-14', '14-16']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Flamethrower'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13709),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Flamethrower'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13709),
         Spell('Ember', [100, 167], Effects(
             [['10-12', '13-15'], ['10-12', '13-15']],
             [['13-15', '16-18'], ['13-15', '16-18']],
             [FIRE, FIRE],
-        ), is_linked=(2, 'Seismic Shockwave'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13712),
+        ), aggregates=[('', [0]), ('', [1])], is_linked=(2, 'Seismic Shockwave'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=13712),
         Spell('Manifestation', [115, 182], Effects(
             [['12-0', '15-0'],
              ['12-0', '15-0'],
