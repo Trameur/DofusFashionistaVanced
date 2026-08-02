@@ -132,7 +132,7 @@
           {% endif %}
         </div>
         <div class="char-overlay" style="position:relative; left:0px; top:-230px; z-index:2; height: 0px" bgcolor="#E4E6BC">
-          <a href="{% game_url 'home' %}"><img  class='char' src="{% static pic %}" alt=""></img></a>
+          <a href="{% game_url 'home' %}" aria-label="{% trans 'Home' %}"><img class='char' src="{% static pic %}" alt=""></a>
         </div>
         
         
@@ -153,8 +153,9 @@
                 {% if useralias %}
                     {% blocktrans with useralias as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %} 
                 {% else %}
-                    {% blocktrans with user.get_full_name as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %} 
-                {% endif %}</a>
+                    {# Neither set is the common case, and it read "Welcome, !" #}
+                    {% blocktrans with user.get_full_name|default:user.username as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %}
+                {% endif %}
             {% else %}
             <b><span style="color: red">[SUPER USER] </span></b>{{ user.get_full_name }}
             {% endif %}
