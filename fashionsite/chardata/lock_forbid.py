@@ -53,6 +53,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     13063,  # Split Splinter Sprinter
     8422,   # [wip] (Touch work-in-progress placeholder)
     12596,  # [!] WIP (Touch work-in-progress placeholder)
+    31812,  # Anneau de Ghaston (beta dev item: 99 AP/MP, 32767 Vitality)
 ]
 
 # Per-version defaults: items that are in the game data but shouldn't be proposed
