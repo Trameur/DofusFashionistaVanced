@@ -355,6 +355,11 @@ class SpellTransformer:
             return None
         if min_val == max_val:
             return str(min_val)
+        # A zero maximum is no maximum: Ankama's own line reads
+        # "#1{{~1~2 to }}#2 Fire damage" and drops the "to #2" part. Kept as
+        # "16-0" the page printed a range that boosted to 86 to 25.
+        if max_val == 0:
+            return str(min_val)
         return f"{min_val}-{max_val}"
 
     def _collect_damage_rows(self, levels: Sequence[Mapping[str, Any]], critical: bool) -> List[Dict[str, Any]]:
