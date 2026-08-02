@@ -10357,6 +10357,24 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     "SELECT COUNT(*) FROM items WHERE name IS NULL OR name=''")
                 self.assertEqual(0, rows[0][0])
 
+    def test_an_item_ankama_calls_unequippable_is_never_proposed(self):
+        # Two beta amulets carry an AP bonus and the line "This object cannot
+        # be equipped, it exists merely to be broken". The solver would have
+        # worn what the game says cannot be worn.
+        from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
+                                          DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
+        for version in self.VERSIONS:
+            allowed = set(DEFAULT_EXCLUSION_ANKAMA_IDS) | set(
+                DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION.get(version, []))
+            rows = self._rows(version,
+                'SELECT i.ankama_id, i.name FROM items i'
+                ' JOIN item_descriptions d ON d.item = i.id'
+                " WHERE d.language = 'en' AND COALESCE(i.removed, 0) = 0"
+                " AND d.description LIKE '%cannot be equipped%'")
+            for ankama_id, name in rows:
+                with self.subTest(version=version, item=name):
+                    self.assertIn(ankama_id, allowed, name)
+
     def test_a_dev_item_never_reaches_the_solver(self):
         # Ankama left "Anneau de Ghaston" in the 3.6.7.7 beta: 99 AP, 99 MP,
         # 32767 Vitality. The solver would have worn it in every ring slot.
