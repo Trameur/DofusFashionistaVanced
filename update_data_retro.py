@@ -161,13 +161,15 @@ def main() -> None:
 
     if not args.skip_translations:
         # Pull item names for the other supported languages (ES/PT ~= 40% of users).
+        # itemstats too: no lang file is complete, and an item taken from another
+        # language for its own sake arrives with no stats without it.
         for lang in ("en", "es", "pt", "de"):
             if lang == args.lang:
                 continue
             step(f"lang/download-{lang}", [
                 PY, "download_retro_langs.py",
                 "--lang", lang,
-                "--categories", "items", "spells", "jobs",
+                "--categories", "items", "itemstats", "spells", "jobs",
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
