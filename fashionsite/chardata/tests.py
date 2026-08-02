@@ -10357,6 +10357,27 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     "SELECT COUNT(*) FROM items WHERE name IS NULL OR name=''")
                 self.assertEqual(0, rows[0][0])
 
+    def test_a_dev_item_never_reaches_the_solver(self):
+        # Ankama left "Anneau de Ghaston" in the 3.6.7.7 beta: 99 AP, 99 MP,
+        # 32767 Vitality. The solver would have worn it in every ring slot.
+        # No real item gives 6 AP or 6 MP, so anything that does is a test
+        # item and belongs in the default exclusions.
+        from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
+                                          DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
+        for version in self.VERSIONS:
+            allowed = set(DEFAULT_EXCLUSION_ANKAMA_IDS) | set(
+                DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION.get(version, []))
+            rows = self._rows(version,
+                'SELECT i.ankama_id, i.name, MAX(s.value) FROM items i'
+                ' JOIN stats_of_item s ON s.item = i.id'
+                ' JOIN stats st ON st.id = s.stat'
+                " WHERE COALESCE(i.removed, 0) = 0 AND st.name IN ('AP', 'MP')"
+                ' AND s.value >= 6 GROUP BY i.ankama_id, i.name')
+            for ankama_id, name, value in rows:
+                with self.subTest(version=version, item=name):
+                    self.assertIn(ankama_id, allowed,
+                                  '%s gives %s AP or MP' % (name, value))
+
 
 class NoEmDashInCodeTests(SimpleTestCase):
     """Em/en dashes read machine-generated, so the whole site avoids them (copy,
