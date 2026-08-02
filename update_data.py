@@ -18,6 +18,7 @@ Pipeline steps:
     item-images         get_equipments4.py    -> static item images
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells.json
+    spells/duplicates   find_duplicated_damage_rows.py -> itemscraper/duplicated_damage_rows.json
     spells/constants    generate_damage_spells.py -> dofus_constants.py
     spell-images        download_spell_images.py  -> static spell icons
     resize              resize_images.py      -> 60x60 thumbnails
@@ -227,6 +228,9 @@ def main() -> None:
             "--output", "itemscraper/transformed_spells.json",
             "--class-output", "itemscraper/transformed_class_spells.json",
         ])
+        # Needs the archive the patch replaced, so it runs on whatever is under
+        # raw/ and is a no-op with a single one.
+        step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
         step("spells/constants", [
             PY, "-m", "itemscraper.generate_damage_spells",
             "--class-json", "itemscraper/transformed_class_spells.json",
