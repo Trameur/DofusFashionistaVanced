@@ -14,7 +14,10 @@ html.fm-modern{
   --fm-gap:16px; --fm-maxw:1200px;
   --fm-font:"Segoe UI",Roboto,"Helvetica Neue",Arial,system-ui,sans-serif;
   --fm-shadow:0 10px 30px rgba(0,0,0,.18); --fm-shadow-sm:0 3px 12px rgba(0,0,0,.12);
-  --fm-ring:0 0 0 3px var(--fm-accent-soft);
+  /* The soft accent could not carry a focus ring: even opaque it reaches 1.50
+     against the cream surface, where a focus indicator needs 3. accent-text is
+     theme-aware and lands at 4.48 on light, 9.69 on dark. */
+  --fm-ring:0 0 0 2px var(--fm-accent-text), 0 0 0 5px var(--fm-accent-soft);
   --fm-trans:.16s cubic-bezier(.22,.61,.36,1);
 }
 html.fm-modern.fm-light{
