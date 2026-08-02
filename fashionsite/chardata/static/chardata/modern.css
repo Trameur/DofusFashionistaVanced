@@ -27,7 +27,7 @@ html.fm-modern.fm-light{
   --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
   --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
   --fm-banner-grad:linear-gradient(180deg,rgba(20,12,4,0) 42%,rgba(20,12,4,.30) 100%);
-  --fm-accent-text:#856713;
+  --fm-accent-text:#715810;
 }
 html.fm-modern.fm-dark{
   --fm-bg:#120e08; --fm-bg-2:#181209;
@@ -43,7 +43,7 @@ html.fm-modern:not(.fm-light):not(.fm-dark){
   --fm-surface-3:#ded3bc; --fm-text:#2c2417; --fm-head:#3a2c16; --fm-muted:#6a5f47;
   --fm-border:rgba(60,46,20,.16); --fm-border-strong:rgba(176,144,42,.42);
   --fm-glow:radial-gradient(1100px 460px at 50% -120px,rgba(227,191,77,.12),transparent 70%);
-  --fm-accent-text:#856713;
+  --fm-accent-text:#715810;
 }
 
 /* ---------- Base ---------- */
@@ -314,7 +314,9 @@ html.fm-modern .fm-ad{ display:block; margin:18px 0; text-align:center; overflow
 html.fm-modern .fm-ad:has(ins[data-ad-status="filled"]){ padding:8px; background:var(--fm-surface-2);
   border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); min-height:90px; }
 html.fm-modern .fm-ad:has(ins[data-ad-status="filled"])::before{ content:attr(data-label); display:block;
-  font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fm-muted); opacity:.55; margin-bottom:4px; }
+  /* No opacity here: it took the disclosure label to 2.13 against the panel,
+     and a label saying "advertisement" is the last thing to make unreadable. */
+  font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fm-muted); margin-bottom:4px; }
 html.fm-modern .fm-ad:has(ins[data-ad-status="unfilled"]){ display:none; }
 html.fm-modern .fm-ad:empty{ display:none; }
 html.fm-modern .fm-ad ins{ display:block; }
