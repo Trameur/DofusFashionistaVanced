@@ -16,5 +16,14 @@ precision from 86% to 91%, but it drops 302 of the 1127 items, mostly weapons,
 and it rests on ten labelled failures. That is the same thin evidence that set
 the 0.20 weapon floor in the first place. A wrong match draws a different
 weapon the reader can hide; a rejected one draws nothing at all.
+
+What the rejections look like, measured 2026-08-02 over the 1591 candidates:
+hats reject 124 at a median lead of 0.027 against their 0.10 floor, capes 84 at
+0.008 against 0.02, weapons 245 at 0.009 against 0.02, shields 10 at 0.030
+against 0.05. So a rejected match is rarely a near miss; the two best
+candidates sit within a percent or two of each other and the matcher simply
+cannot tell them apart. Lowering a floor would trade no art for probably wrong
+art. The coverage left on the table (hats 65%, capes 71%, weapons 67%, shields
+92%) needs better features, not a different threshold.
 """
 MIN_MARGIN = {'Cloak': 0.02, 'Hat': 0.10, 'Shield': 0.05, 'Weapon': 0.02}
