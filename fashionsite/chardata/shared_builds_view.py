@@ -419,11 +419,14 @@ def shared_builds(request):
     # Sort and paginate on ids only: ordering full rows drags every blob
     # column through the MySQL sort buffer, which made this page ~10x slower
     # than the rest of the site. Full rows are fetched for the shown page only.
-    def _fetch_page_chars(page_ids):
-        chars_by_id = {
-            char.id: char
-            for char in Char.objects.filter(id__in=page_ids)
-            .defer(*_HEAVY_CHAR_FIELDS).select_related('owner')}
+    def _fetch_page_chars(page_ids, for_meta=False):
+        rows = Char.objects.filter(id__in=page_ids).select_related('owner')
+        # Deferring is only right for the cards. Building the meta reads the
+        # solution and the minimums, which brought the deferred columns back
+        # one query each per build.
+        if not for_meta:
+            rows = rows.defer(*_HEAVY_CHAR_FIELDS)
+        chars_by_id = {char.id: char for char in rows}
         return [chars_by_id[i] for i in page_ids if i in chars_by_id]
 
     builds_data = []
@@ -442,7 +445,10 @@ def shared_builds(request):
             else:
                 miss_ids.append(row_id)
         if miss_ids:
-            for char in Char.objects.filter(id__in=miss_ids).defer(*_HEAVY_CHAR_FIELDS):
+            # No defer here: building the meta reads the solution and the
+            # minimums, so the deferred columns came back one query each per
+            # build. Deferring is only right for the cards, which read none.
+            for char in Char.objects.filter(id__in=miss_ids):
                 metas[char.id] = _get_shared_build_meta(char)
 
         valid_ids = [row_id for row_id, _row_modified, _row_game_version in id_rows
@@ -469,7 +475,7 @@ def shared_builds(request):
         except EmptyPage:
             builds_page = paginator.page(paginator.num_pages)
 
-        page_chars = _fetch_page_chars(list(builds_page.object_list))
+        page_chars = _fetch_page_chars(list(builds_page.object_list), for_meta=True)
         meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
 
     # Bulk-fetch vote counts for just the page items (1-2 queries for N items).
