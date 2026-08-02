@@ -32,6 +32,11 @@ TYPE_MAP = {
     '17': ('Cloak', None), '18': ('Pet', None), '19': ('Weapon', 'Axe'),
     '21': ('Weapon', 'Pickaxe'), '22': ('Weapon', 'Scythe'), '23': ('Dofus', None),
     '82': ('Shield', None),  # Retro 1.48 added shields
+    # Backpacks share the cape slot on Retro. They carry no effect of their own,
+    # but seven sets count one as a piece: the Wabbit set has seven members and
+    # the Cawwot-Bag is the only one in that slot, so leaving them out kept the
+    # top tier of those set bonuses out of reach.
+    '81': ('Cloak', None),
     # Dragodinde mounts (English names contain "Dragoturkey"); like Dofus 3 they
     # share the Pet slot, and the "Dragoturkeys" mount toggle gates them.
     '97': ('Pet', None),
