@@ -10259,6 +10259,66 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
             character_assets.parts_manifest_view(None, '80', fmt=skin - 1)
 
 
+class ItemDatabaseIntegrityTests(SimpleTestCase):
+    """A broken scrape shows up as a build the solver cannot explain, weeks after
+    the run that caused it. These are the invariants every version's database
+    held on 2026-08-02, so the next run that breaks one says so."""
+
+    VERSIONS = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
+
+    def _rows(self, version, query):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path(version)
+        if not os.path.exists(path):
+            self.skipTest('no database for %s' % version)
+        connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            return connection.execute(query).fetchall()
+        finally:
+            connection.close()
+
+    def test_every_stat_points_at_a_stat_that_exists(self):
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(*) FROM stats_of_item'
+                    ' WHERE stat NOT IN (SELECT id FROM stats)')
+                self.assertEqual(0, rows[0][0])
+
+    def test_no_stat_belongs_to_an_item_that_is_gone(self):
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(DISTINCT item) FROM stats_of_item'
+                    ' WHERE item NOT IN (SELECT id FROM items)')
+                self.assertEqual(0, rows[0][0])
+
+    def test_no_item_belongs_to_a_set_that_is_gone(self):
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(*) FROM items WHERE item_set IS NOT NULL'
+                    ' AND item_set NOT IN (SELECT id FROM sets)')
+                self.assertEqual(0, rows[0][0])
+
+    def test_a_weapon_that_deals_damage_costs_AP(self):
+        # The other way round is fine: a flute has a cost and no damage.
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(DISTINCT item) FROM weapon_hits'
+                    ' WHERE item NOT IN (SELECT item FROM weapon_ap)')
+                self.assertEqual(0, rows[0][0])
+
+    def test_every_item_has_a_name(self):
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    "SELECT COUNT(*) FROM items WHERE name IS NULL OR name=''")
+                self.assertEqual(0, rows[0][0])
+
+
 class NoEmDashInCodeTests(SimpleTestCase):
     """Em/en dashes read machine-generated, so the whole site avoids them (copy,
     comments, CSS, JS). The 2026-07 sweep brought every first-party source to zero;
