@@ -1021,6 +1021,35 @@ def _build_state_aggregates(
     return aggregates
 
 
+def _collapse_identical_aggregates(
+    aggregates: Optional[Sequence[Tuple[str, Sequence[int]]]],
+    elements: Sequence[str],
+    non_crit: Sequence[Sequence[str]],
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """Groups that print the same line are one line. The page draws a row per
+    group, so a spell written once per target case showed 24-27 twice. Only for
+    unlabelled groups: a stack label is what tells them apart."""
+    if not aggregates or len(aggregates) < 2:
+        return aggregates
+
+    def shape(indexes):
+        return tuple((elements[idx], tuple(non_crit[idx])) for idx in indexes
+                     if idx < len(non_crit))
+
+    first = shape(aggregates[0][1])
+    if not first:
+        return aggregates
+    run = 0
+    for label, indexes in aggregates:
+        if label or shape(indexes) != first:
+            break
+        run += 1
+    if run < 2:
+        return aggregates
+    return [(label, list(indexes)) for label, indexes in
+            [aggregates[0]] + list(aggregates[run:])]
+
+
 DUPLICATED_ROWS_PATH = Path("itemscraper/duplicated_damage_rows.json")
 _duplicated_rows: Optional[Dict[str, Any]] = None
 
@@ -1249,6 +1278,7 @@ def convert_spell(
     if not aggregates:
         aggregates = _build_duplicated_row_aggregates(
             spell.get("ankama_id"), normal_rows, len(non_crit))
+    aggregates = _collapse_identical_aggregates(aggregates, elements, non_crit)
     if not non_crit:
         return None
     stacks = stack_limit
