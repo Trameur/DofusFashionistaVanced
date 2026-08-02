@@ -469,6 +469,23 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.context['resource_results'], [])
         self.assertEqual(resp.context['monster_results'], [])
 
+    def test_item_pages_print_the_description_the_game_ships(self):
+        # Retro held zero description rows until 2026-08-02 while dofus3 held
+        # 19130; the text was on disk the whole time. This covers the whole
+        # chain, store to page, and the placeholder filter: retro weapons carry
+        # the literal "#1" rather than prose and must print nothing instead.
+        import html as html_module
+        for version, prefix, ankama_id in (('dofus3', '', 44), ('retro', '/retro', 39)):
+            resp = self.client.get('%s/encyclopedia/item/equipment/%d-x/'
+                                   % (prefix, ankama_id))
+            with self.subTest(version=version):
+                self.assertEqual(resp.status_code, 200)
+                body = html_module.unescape(resp.content.decode('utf-8'))
+                description = resp.context.get('description')
+                self.assertTrue(description, 'no description for %d' % ankama_id)
+                self.assertNotRegex(description, r'^[\s#\d.\-]*$')
+                self.assertIn(description[:30], body)
+
     def test_item_page_links_other_versions(self):
         # Twiggy Sword (44) exists on dofus3, dofus2 and retro but not touch:
         # the "Also in" block cross-links only the versions that carry the
