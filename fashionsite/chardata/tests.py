@@ -7018,14 +7018,14 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['weakness_filter'], 'all')
 
-    def test_weakness_filter_hidden_without_grade_stats(self):
-        # dofus2 has no monster_grades source, so there is no weakness to filter
-        # on and the control is omitted rather than shown empty.
+    def test_weakness_filter_offered_on_every_version(self):
+        # The control appears wherever grade stats exist. dofus2 was the last
+        # version without them until its 2.73 archive was read on 2026-08-02.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.context['weakness_options'], [])
-        self.assertNotIn('name="weak"', resp.content.decode('utf-8'))
+        self.assertTrue(resp.context['weakness_options'])
+        self.assertIn('name="weak"', resp.content.decode('utf-8'))
 
     def test_hub_card_shows_weakness_tag(self):
         # Crocodyl (261) is weakest to fire in dofus3, so its hub card surfaces
@@ -7052,13 +7052,14 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertTrue(all(m['weakest_element'] == 'fire'
                             for m in resp.context['monsters_page'].object_list))
 
-    def test_hub_card_has_no_weakness_tag_without_grade_stats(self):
-        # dofus2 monsters have no resistance data, so no card claims a weakness.
+    def test_hub_card_shows_the_weakness_tag_on_dofus2(self):
+        # Its resistances agree with dofus3 on 198 of 200 monsters, so the
+        # cards surface a weakness there like everywhere else.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
-        self.assertNotIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness',
-                         resp.content.decode('utf-8'))
+        self.assertIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness',
+                      resp.content.decode('utf-8'))
 
     def test_hub_links_the_weakness_guide(self):
         # The hub advertises the monster-weaknesses guide under the search
@@ -7081,11 +7082,11 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('/retro/guides/monster-weaknesses/',
                       resp.content.decode('utf-8'))
 
-    def test_hub_hides_the_weakness_guide_note_on_dofus2(self):
-        # dofus2 has no resistance data, so no note either.
+    def test_hub_links_the_weakness_guide_on_dofus2(self):
+        # The note follows the data, and dofus2 now has resistances.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
-        self.assertNotIn('monster-weaknesses', resp.content.decode('utf-8'))
+        self.assertIn('monster-weaknesses', resp.content.decode('utf-8'))
 
     def test_retro_monster_page_lists_resource_and_item_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
@@ -7198,13 +7199,21 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('id="monster-stats"', body)
         self.assertIn('<td>%d</td>' % retro_rows[0][1], body)
 
-        # Versions without their own source show no stats section at all.
-        for prefix in ('/dofus2',):
-            resp = self.client.get(
-                '%s/encyclopedia/monster/101-bouftou/' % prefix)
-            self.assertEqual(resp.status_code, 200, prefix)
-            self.assertNotIn('id="monster-stats"',
-                             resp.content.decode('utf-8'), prefix)
+        # dofus2 joined them on 2026-08-02: its grades come from the 2.73
+        # archive it already downloads, and they are its own numbers.
+        conn = sqlite3.connect(get_items_db_path('dofus2'))
+        try:
+            d2_rows = conn.execute(
+                """SELECT grade, level, life_points FROM monster_grades
+                   WHERE monster_ankama_id = 101 ORDER BY grade""").fetchall()
+        finally:
+            conn.close()
+        self.assertTrue(d2_rows, 'no dofus2 grades stored for the Gobball')
+        resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn('id="monster-stats"', body)
+        self.assertIn('<td>%d</td>' % d2_rows[0][1], body)
 
     def test_monster_hub_shows_level_ranges_per_version(self):
         # The hub cards show the level span across grades, read from each
@@ -7213,7 +7222,8 @@ class EncyclopediaMonsterPageTests(TestCase):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 
-        for prefix, version in (('/touch', 'touch'), ('/retro', 'retro'), ('', 'dofus3')):
+        for prefix, version in (('/touch', 'touch'), ('/retro', 'retro'),
+                                ('/dofus2', 'dofus2'), ('', 'dofus3')):
             conn = sqlite3.connect(get_items_db_path(version))
             try:
                 level_min, level_max = conn.execute(
@@ -7230,14 +7240,6 @@ class EncyclopediaMonsterPageTests(TestCase):
                         if level_max != level_min else 'Niveau %d' % level_min)
             self.assertIn(expected, re.sub(r'\s+', ' ', body), version)
 
-        # dofus2 has no grade source: no level line and no level sort option.
-        resp = self.client.get('/dofus2/encyclopedia/monsters/?q=bouftou',
-                               HTTP_ACCEPT_LANGUAGE='fr')
-        self.assertEqual(resp.status_code, 200)
-        body = resp.content.decode('utf-8')
-        self.assertNotIn('encyclopedia-monsters-level', body)
-        self.assertNotIn('value="level"', body)
-
         # Sorting by level orders the touch hub by ascending level span.
         resp = self.client.get('/touch/encyclopedia/monsters/?sort=level',
                                HTTP_ACCEPT_LANGUAGE='fr')
@@ -7250,8 +7252,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(mins, sorted(mins))
 
     def test_monster_page_title_carries_the_level_span(self):
-        # The title/meta use the version's own grade levels; dofus2 has no
-        # grades so its title stays untouched.
+        # The title/meta use the version's own grade levels.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 
@@ -7275,11 +7276,21 @@ class EncyclopediaMonsterPageTests(TestCase):
         # description opens with the level span (a weakness line may follow).
         self.assertIn('content="Niveau %s. ' % span, body)
 
+        # dofus2 carries its own span since its grades landed.
+        conn = sqlite3.connect(get_items_db_path('dofus2'))
+        try:
+            d2_min, d2_max = conn.execute(
+                """SELECT MIN(level), MAX(level) FROM monster_grades
+                   WHERE monster_ankama_id = 101 AND level IS NOT NULL""").fetchone()
+        finally:
+            conn.close()
+        self.assertIsNotNone(d2_min)
+        d2_span = ('%d-%d' % (d2_min, d2_max)
+                   if d2_max != d2_min else '%d' % d2_min)
         resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/',
                                HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 200)
-        body = resp.content.decode('utf-8')
-        self.assertNotIn('Niveau', body.split('</title>')[0])
+        self.assertIn('Niveau %s - Monstre' % d2_span, resp.content.decode('utf-8'))
 
     def test_retro_monster_page_lists_its_subareas(self):
         # "Where to find it" comes from the version's own source (retro:
