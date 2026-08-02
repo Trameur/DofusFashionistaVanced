@@ -57,7 +57,7 @@
                         <label>{{ t.stat_label }}</label>
                         <div class="encyclopedia-stat-select">
                             <img class="encyclopedia-stat-select-icon {% if not stat_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if stat_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
-                            <select class="pretty-input" name="stat_key">
+                            <select class="pretty-input" name="stat_key" aria-label="{{ t.stat_label }}">
                             <option value="" data-icon-url="">-</option>
                             {% for option in stat_options %}
                                 <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}" {% if stat_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
@@ -67,7 +67,7 @@
                     </div>
                     <div>
                         <label>{{ t.min_value_label }}</label>
-                        <input class="pretty-input" type="number" min="1" name="stat_min" value="{{ stat_row.min }}">
+                        <input class="pretty-input" type="number" min="1" name="stat_min" aria-label="{{ t.min_value_label }}" value="{{ stat_row.min }}">
                     </div>
                     <div class="encyclopedia-stat-row-actions">
                         <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{{ t.remove_stat_filter }}</button>
@@ -89,7 +89,7 @@
                         <label>{{ t.stat_label }}</label>
                         <div class="encyclopedia-stat-select">
                             <img class="encyclopedia-stat-select-icon {% if not order_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if order_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
-                            <select class="pretty-input" name="order_key">
+                            <select class="pretty-input" name="order_key" aria-label="{{ t.stat_label }}">
                             <option value="" data-icon-url="">-</option>
                             {% for option in stat_options %}
                                 <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}" {% if order_row.key == option.key %}selected{% endif %}>{{ option.name }}</option>
@@ -99,7 +99,7 @@
                     </div>
                     <div>
                         <label>{{ t.order_direction_label }}</label>
-                        <select class="pretty-input" name="order_dir">
+                        <select class="pretty-input" name="order_dir" aria-label="{{ t.order_direction_label }}">
                             <option value="desc" {% if order_row.dir == 'desc' %}selected{% endif %}>{{ t.direction_desc }}</option>
                             <option value="asc" {% if order_row.dir == 'asc' %}selected{% endif %}>{{ t.direction_asc }}</option>
                         </select>
@@ -127,7 +127,7 @@
                 <label>{{ t.stat_label }}</label>
                 <div class="encyclopedia-stat-select">
                     <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
-                    <select class="pretty-input" name="stat_key">
+                    <select class="pretty-input" name="stat_key" aria-label="{{ t.stat_label }}">
                     <option value="" data-icon-url="">-</option>
                     {% for option in stat_options %}
                         <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}">{{ option.name }}</option>
@@ -137,7 +137,7 @@
             </div>
             <div>
                 <label>{{ t.min_value_label }}</label>
-                <input class="pretty-input" type="number" min="1" name="stat_min" value="">
+                <input class="pretty-input" type="number" min="1" name="stat_min" aria-label="{{ t.min_value_label }}" value="">
             </div>
             <div class="encyclopedia-stat-row-actions">
                 <button type="button" class="button-thin encyclopedia-small-btn encyclopedia-small-btn-danger remove-stat-filter">{{ t.remove_stat_filter }}</button>
@@ -151,7 +151,7 @@
                 <label>{{ t.stat_label }}</label>
                 <div class="encyclopedia-stat-select">
                     <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
-                    <select class="pretty-input" name="order_key">
+                    <select class="pretty-input" name="order_key" aria-label="{{ t.stat_label }}">
                     <option value="" data-icon-url="">-</option>
                     {% for option in stat_options %}
                         <option value="{{ option.key }}" data-icon-url="{{ option.icon_url }}">{{ option.name }}</option>
@@ -161,7 +161,7 @@
             </div>
             <div>
                 <label>{{ t.order_direction_label }}</label>
-                <select class="pretty-input" name="order_dir">
+                <select class="pretty-input" name="order_dir" aria-label="{{ t.order_direction_label }}">
                     <option value="desc">{{ t.direction_desc }}</option>
                     <option value="asc">{{ t.direction_asc }}</option>
                 </select>
