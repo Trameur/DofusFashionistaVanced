@@ -10357,6 +10357,25 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     "SELECT COUNT(*) FROM items WHERE name IS NULL OR name=''")
                 self.assertEqual(0, rows[0][0])
 
+    def test_the_preview_keeps_the_art_it_matched(self):
+        # What the preview draws. The 2026-07 rematch took weapons from 29 to
+        # 67 percent; a scrape that quietly breaks the matcher shows up as bare
+        # heads, not as an error. Floors sit a few points under the measured
+        # 2026-08-02 coverage so honest drift does not fail the suite.
+        floors = {'Cloak': 65, 'Hat': 60, 'Shield': 85, 'Weapon': 62}
+        for version in ('dofus3', 'beta'):
+            rows = self._rows(version,
+                'SELECT t.name, COUNT(*),'
+                ' SUM(CASE WHEN i.skin IS NOT NULL AND i.skin <> 0 THEN 1 ELSE 0 END)'
+                ' FROM items i JOIN item_types t ON t.id = i.type'
+                ' WHERE COALESCE(i.removed, 0) = 0 GROUP BY t.name')
+            for name, total, matched in rows:
+                if name not in floors or not total:
+                    continue
+                with self.subTest(version=version, type=name):
+                    self.assertGreaterEqual(100 * (matched or 0) // total,
+                                            floors[name], name)
+
     def test_a_set_holds_as_many_pieces_as_its_bonuses_ask_for(self):
         # How the retro gap showed up: the bonus table offered a seven-piece
         # tier for the Wabbit set while only six pieces were imported, because
