@@ -50,7 +50,7 @@
                 
                 <div class="filter-group">
                     <label class="filter-label">{% trans "Class" %}</label>
-                    <select name="char_class" class="filter-input pretty-input">
+                    <select name="char_class" class="filter-input pretty-input" aria-label="{% trans "Class" %}">
                         <option value="">{% trans "All Classes" %}</option>
                         {% for class_name in all_classes %}
                             <option value="{{ class_name }}" {% if filters.char_class == class_name %}selected{% endif %}>
@@ -96,7 +96,7 @@
                 
                 <div class="filter-group">
                     <label class="filter-label">{% trans "Order By" %}</label>
-                    <select name="order_by" class="filter-input pretty-input">
+                    <select name="order_by" class="filter-input pretty-input" aria-label="{% trans "Order By" %}">
                         <option value="created" {% if filters.order_by == 'created' or not filters.order_by %}selected{% endif %}>
                             {% trans "Recently Created" %}
                         </option>
