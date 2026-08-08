@@ -28,6 +28,10 @@ import sys
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
+if CURRENT_DIR not in sys.path:
+    sys.path.append(CURRENT_DIR)
+
+from version_tags import latest_tag as _latest_tag  # noqa: E402  (sys.path set above)
 
 RAW_ROOT = os.path.join(CURRENT_DIR, 'raw')
 DB_FILES = {
@@ -68,11 +72,7 @@ def parse_grade_mapping(raw):
 
 
 def latest_tag():
-    tags = [name for name in os.listdir(RAW_ROOT)
-            if os.path.isdir(os.path.join(RAW_ROOT, name))]
-    if not tags:
-        raise SystemExit('no datacenter dump under %s' % RAW_ROOT)
-    return sorted(tags)[-1]
+    return _latest_tag(RAW_ROOT)
 
 
 def main():

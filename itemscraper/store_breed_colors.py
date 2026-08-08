@@ -14,9 +14,15 @@ import argparse
 import io
 import json
 import os
+import sys
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
+if CURRENT_DIR not in sys.path:
+    sys.path.append(CURRENT_DIR)
+
+from version_tags import latest_tag as _latest_tag  # noqa: E402  (sys.path set above)
+
 RAW_ROOT = os.path.join(CURRENT_DIR, 'raw')
 LOOKS = os.path.join(ROOT, 'fashionsite', 'chardata', 'data', 'breed_looks.json')
 
@@ -40,9 +46,7 @@ def hex_colours(raw):
 
 
 def latest_tag():
-    tags = [name for name in os.listdir(RAW_ROOT)
-            if os.path.isdir(os.path.join(RAW_ROOT, name))]
-    return sorted(tags)[-1]
+    return _latest_tag(RAW_ROOT)
 
 
 def main():

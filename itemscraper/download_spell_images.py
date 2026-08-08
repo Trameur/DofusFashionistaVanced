@@ -21,6 +21,11 @@ except ModuleNotFoundError:
         sys.path.insert(0, str(repo_root))
     from fashionista_version import FASHIONISTA_VERSION
 
+try:
+    from itemscraper.version_tags import version_key
+except ModuleNotFoundError:
+    from version_tags import version_key
+
 
 DEFAULT_RAW_ROOT = Path("itemscraper/raw")
 DEFAULT_OUTPUT = Path("itemscraper/spell_images")
@@ -136,10 +141,10 @@ def resolve_raw_dir(raw_root: Path, version: str | None) -> Path:
             raise FileNotFoundError(f"Raw directory '{candidate}' does not exist")
         return candidate
 
-    candidates = sorted(p for p in raw_root.iterdir() if p.is_dir())
+    candidates = [p for p in raw_root.iterdir() if p.is_dir()]
     if not candidates:
         raise FileNotFoundError(f"No raw directories found under {raw_root}")
-    return candidates[-1]
+    return max(candidates, key=lambda p: version_key(p.name))
 
 
 def iter_spell_members(tar: tarfile.TarFile) -> Iterable[Tuple[tarfile.TarInfo, str]]:
