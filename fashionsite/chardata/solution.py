@@ -21,17 +21,22 @@ from chardata.util import get_stats, get_scrolled_stats
 from chardata.inventory_solver import get_effective_stat_overrides
 
 
-def get_solution_from_minimal(char, minimal_solution):
+def get_solution_from_minimal(char, minimal_solution, refresh_base_stats=True):
     if minimal_solution:
-        minimal_solution.update_base_stats(get_stats(char), get_scrolled_stats(char))
+        # A saved generation keeps the base characteristics it was solved with:
+        # refreshing them would show an old build meeting minimums it never met,
+        # or missing the ones it did.
+        if refresh_base_stats or not getattr(minimal_solution, 'stats', None):
+            minimal_solution.update_base_stats(get_stats(char), get_scrolled_stats(char))
         stat_overrides = get_effective_stat_overrides(char) or None
         return model_result_from_minimal(minimal_solution, stat_overrides)
     return None
 
 
-def get_solution_from_blob(char, minimal_solution_blob):
+def get_solution_from_blob(char, minimal_solution_blob, refresh_base_stats=True):
     if minimal_solution_blob:
-        return get_solution_from_minimal(char, pickle.loads(minimal_solution_blob))
+        return get_solution_from_minimal(char, pickle.loads(minimal_solution_blob),
+                                         refresh_base_stats)
     return None
 
 

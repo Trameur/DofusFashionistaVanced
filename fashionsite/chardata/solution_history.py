@@ -46,7 +46,8 @@ def record_solution_generation(char, minimal_solution):
 def get_generation_solution(char, generation):
     if generation.char_id != char.id or generation.game_version != char.game_version:
         return None
-    return get_solution_from_blob(char, generation.minimal_solution)
+    return get_solution_from_blob(char, generation.minimal_solution,
+                                  refresh_base_stats=False)
 
 
 def get_generation_preview_items(generation, limit=12):

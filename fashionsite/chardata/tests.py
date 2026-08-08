@@ -3235,6 +3235,32 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, 'g%d' % generation.pk)
         self.assertContains(resp, 'Compare with current')
 
+    def test_a_saved_generation_keeps_the_base_stats_it_was_solved_with(self):
+        # A player solving for a lock minimum has the auto assignment move
+        # agility to reach it. Regenerating with new minimums moved the old
+        # generation's characteristics too, so the comparison showed a build
+        # that never met the threshold it was actually solved for.
+        import pickle as _pickle
+        from chardata.solution import get_solution
+        from chardata.solution_history import (get_generation_solution,
+                                               record_solution_generation)
+        from fashionistapulp.modelresult import ModelResultMinimal
+
+        owner, char, hats = self._build_char_with_items()
+        solved_with = {'agi': 300, 'str': 0, 'int': 0, 'cha': 0, 'vit': 0, 'wis': 0}
+        generation = record_solution_generation(
+            char, ModelResultMinimal({'hat': hats[1].id}, self._base_input(),
+                                     dict(solved_with)))
+
+        char.minimal_solution = _pickle.dumps(ModelResultMinimal(
+            {'hat': hats[0].id}, self._base_input(),
+            {'agi': 0, 'str': 300, 'int': 0, 'cha': 0, 'vit': 0, 'wis': 0}))
+        char.save()
+
+        saved = get_generation_solution(char, generation)
+        self.assertEqual(saved.get_stats()['agi'], 300)
+        self.assertEqual((get_solution(char).get_stats() or {}).get('agi', 0), 0)
+
     def test_solution_history_shows_score_delta_against_current_build(self):
         import pickle as _pickle
         from chardata.solution import get_solution
@@ -7937,12 +7963,16 @@ class CharacterLookTests(TestCase):
         self.assertEqual((char.char_class, char.level, char.game_version), before)
         self.assertTrue(resp.json()['body'])
 
-    def test_only_the_versions_running_this_client_get_a_preview(self):
+    def test_only_the_versions_sharing_this_art_get_a_preview(self):
+        # Dofus 2 kept the same equipment designs, so the skins matched once
+        # from the Dofus 3 art fit it by ankama id. Touch shares the ids but not
+        # always the item, and once the impostors are dropped it has no shield
+        # art left at all. Retro is 1.29 art and shares nothing.
         from chardata.character_look import get_character_look
         char = self._char('Iop')
-        for version in ('dofus3', 'beta'):
+        for version in ('dofus3', 'beta', 'dofus2'):
             self.assertIsNotNone(get_character_look(char, None, version), version)
-        for version in ('dofus2', 'touch', 'retro'):
+        for version in ('touch', 'retro'):
             self.assertIsNone(get_character_look(char, None, version), version)
 
     def test_every_version_with_a_preview_knows_its_item_skins(self):
@@ -7966,6 +7996,7 @@ class CharacterLookTests(TestCase):
                                                         get_items_db_path)
         from chardata.character_look import VERSIONS_WITH_ART
         from itemscraper.item_skin_margins import MIN_MARGIN
+        from itemscraper.store_item_skins import same_item
         scraper = os.path.join(get_fashionista_path(), 'itemscraper')
         with open(os.path.join(scraper, 'item_skins.json'), encoding='utf-8') as fh:
             kept = {int(key): value for key, value in json.load(fh).items()}
@@ -7990,14 +8021,17 @@ class CharacterLookTests(TestCase):
                     JOIN item_types t ON t.id = i.type
                     WHERE i.skin IS NOT NULL AND t.name IN
                         ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
-                here = {row[0] for row in conn.execute("""
-                    SELECT i.ankama_id FROM items i
+                here = {row[0]: row[1] for row in conn.execute("""
+                    SELECT i.ankama_id, i.name FROM items i
                     JOIN item_types t ON t.id = i.type
                     WHERE t.name IN ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
             finally:
                 conn.close()
             wanted = {ankama_id: decided(entry)
-                      for ankama_id, entry in kept.items() if ankama_id in here}
+                      for ankama_id, entry in kept.items()
+                      if ankama_id in here
+                      and (isinstance(entry, int)
+                           or same_item(here[ankama_id], entry.get('name')))}
             wanted = {k: v for k, v in wanted.items() if v is not None}
             with self.subTest(version=version):
                 self.assertEqual(stored, wanted, version)
@@ -10464,6 +10498,21 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 with self.subTest(version=version, set=name):
                     self.assertTrue(pieces, name)
                     self.assertLessEqual(top_tier, pieces, name)
+
+    def test_the_monster_tables_survive_a_rebuild(self):
+        # A rebuild has dropped these twice now: the stores write them onto the
+        # freshly loaded database and re-dump it, so a step that reloads an
+        # older dump takes them with it. The page tests catch it only through a
+        # rendering mismatch, which reads like a template bug.
+        expected = {'dofus3': ('monster_grades', 'monster_subareas'),
+                    'dofus2': ('monster_grades',),
+                    'touch': ('monster_grades', 'monster_subareas'),
+                    'retro': ('monster_grades',)}
+        for version, tables in expected.items():
+            for table in tables:
+                with self.subTest(version=version, table=table):
+                    rows = self._rows(version, 'SELECT COUNT(*) FROM %s' % table)
+                    self.assertGreater(rows[0][0], 0)
 
     def test_every_weapon_points_at_a_type_that_exists(self):
         for version in self.VERSIONS:
