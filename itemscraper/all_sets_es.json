@@ -96594,7 +96594,7 @@
         {
             "ankama_id": 580,
             "name": "Set cosmético de sram",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96605,7 +96605,8 @@
                 21475,
                 21476,
                 21477,
-                23003
+                23003,
+                34533
             ]
         },
         {
@@ -96737,7 +96738,7 @@
         {
             "ankama_id": 588,
             "name": "Set cosmético de sadida",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96748,7 +96749,8 @@
                 23046,
                 23047,
                 23048,
-                23644
+                23644,
+                34532
             ]
         },
         {
@@ -96808,7 +96810,7 @@
         {
             "ankama_id": 592,
             "name": "Set cosmético uginak",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96819,7 +96821,8 @@
                 24944,
                 24945,
                 24946,
-                25993
+                25993,
+                34534
             ]
         },
         {
@@ -96880,7 +96883,7 @@
         {
             "ankama_id": 596,
             "name": "Set cosmético selotrop",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96891,7 +96894,8 @@
                 26002,
                 26003,
                 26004,
-                26005
+                26005,
+                34535
             ]
         },
         {
@@ -114899,13 +114903,14 @@
         {
             "ankama_id": 1028,
             "name": "Set cosmético de Zi",
-            "items": 2,
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30536,
-                32107
+                32107,
+                34590
             ]
         },
         {
@@ -122241,6 +122246,20 @@
                 34527,
                 34528,
                 34536
+            ]
+        },
+        {
+            "ankama_id": 1104,
+            "name": "[!] Panoplie d'apparat de la loterie Ivoire",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34558,
+                34559,
+                34560,
+                34561
             ]
         }
     ]

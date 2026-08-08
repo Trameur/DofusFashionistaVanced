@@ -99145,14 +99145,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 },
                 {
                     "int_minimum": 0,
@@ -99188,14 +99188,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 },
                 {
                     "int_minimum": 0,
@@ -99231,14 +99231,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 },
                 {
                     "int_minimum": 0,
@@ -99287,14 +99287,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -101376,14 +101376,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -101419,14 +101419,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -101462,14 +101462,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -101505,14 +101505,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -104101,14 +104101,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -104144,14 +104144,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -104187,14 +104187,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -104230,14 +104230,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Vinculado ao personagem",
-                        "id": 81,
+                        "name": "Trocável:",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Vinculado ao personagem"
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -104526,6 +104526,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34487,
+            "name": "Tofookie",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18946-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18946-128.png"
+            },
+            "description": "Não dá vontade de morder?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
                 }
             ],
             "pods": 1
@@ -105700,6 +105743,126 @@
             "pods": 1
         },
         {
+            "ankama_id": 34532,
+            "name": "[!] Ceinture Sadida",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164317-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164317-128.png"
+            },
+            "description": "[!] Cette ceinture à base de racines d'abraknyde et de feuilles de branche soignante est une version revisitée et stylisée de l'illustre ceinture luthe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34533,
+            "name": "[!] Ailes osseuses Sram",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164319-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164319-128.png"
+            },
+            "description": "[!] Ces ailes ne vous seront pas utiles pour voler, mais vous pourrez prendre à la volée un de ses os pour vous armer et mieux piller.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34534,
+            "name": "[!] Attributs Ouginak",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164318-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164318-128.png"
+            },
+            "description": "[!] Avec ce costume, vous excellerez dans l'art de donner la patte.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34535,
+            "name": "[!] Ailes Eliotrope",
+            "type": {
+                "name": "Asas",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164320-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164320-128.png"
+            },
+            "description": "[!] On dit que la taille des ailes d'un Eliotrope reflète son niveau de maîtrise du Wakfu.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34536,
             "name": "[!] Krozti",
             "type": {
@@ -105712,6 +105875,221 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18947-128.png"
             },
             "description": "[!] Krozti, et le dragon sera en vous.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34558,
+            "name": "[!] Dardikil",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18951-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18951-128.png"
+            },
+            "description": "[!] Ce petit dragon va devenir votre phare au milieu de la nuit, votre lumière au bout du tunnel ! Un guide précieux empli de sagesse... qu'il ne faut pas non plus suivre tête baissée ! En effet, Dardikil est du genre blagueur, puisqu'il ne prend rien, mais alors rien au sérieux...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34559,
+            "name": "[!] Égide de Sagesse",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82604-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82604-128.png"
+            },
+            "description": "[!] Vous n'êtes pas du genre à prendre des vessies pour des lanternes, mais vous croyez fermement que ce bouclier rutilant peut vous aider à décrocher la lune. Devenez le phare de votre guilde : à votre tour, éclairez la lanterne de vos coéquipiers !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34560,
+            "name": "[!] Manteau de Lumière",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17707-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17707-128.png"
+            },
+            "description": "[!] L'aura brumeuse de cette cape semble faire de vous un être tout-puissant qui, réchappé des limbes, reviendrait avec toutes les connaissances du Krosmoz en héritage... Ou alors vous sortez simplement d'un frigo ou d'une chambre froide. Sans trembler. Ce qui est un peu impressionnant aussi.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34561,
+            "name": "[!] Heaume de l'Aube",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16925-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16925-128.png"
+            },
+            "description": "[!] Si ce n'était pas le cas jusque-là, cette coiffe vous permettra d'avoir la lumière à tous les étages et de devenir plus clairvoyant. Vos décisions seront plus sages. Votre regard sur le monde, plus distancé. Vous serez le/la premier(e) à profiter de vos lumières !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34590,
+            "name": "Escudo de Zi",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82606-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82606-128.png"
+            },
+            "description": "O som distante de um megafone tira você do seu estado de torpor. Passou apenas um instante, mas pareceu durar dez longos anos. Uma melancolia suave toma conta de você, um estado próximo da euforia... aquele que surge quando algo realmente importante chega ao fim. Como se tudo o que você tivesse entregado lhe fosse devolvido multiplicado por cem. Então é esse o poder de Zi...",
             "effects": [
                 {
                     "int_minimum": 0,

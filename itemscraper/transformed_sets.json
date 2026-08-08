@@ -46115,7 +46115,7 @@
         "name_es": "Set cosmético de sram",
         "name_pt": "Conjunto de Aparência Sram",
         "name_de": "Sram-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             21472,
             21473,
@@ -46123,7 +46123,8 @@
             21475,
             21476,
             21477,
-            23003
+            23003,
+            34533
         ]
     },
     {
@@ -46266,7 +46267,7 @@
         "name_es": "Set cosmético de sadida",
         "name_pt": "Conjunto de Aparência Sadida",
         "name_de": "Sadida-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             23040,
             23041,
@@ -46274,7 +46275,8 @@
             23046,
             23047,
             23048,
-            23644
+            23644,
+            34532
         ]
     },
     {
@@ -46341,7 +46343,7 @@
         "name_es": "Set cosmético uginak",
         "name_pt": "Conjunto de Aparência Kilorf",
         "name_de": "Ouginak-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             24941,
             24942,
@@ -46349,7 +46351,8 @@
             24944,
             24945,
             24946,
-            25993
+            25993,
+            34534
         ]
     },
     {
@@ -46417,7 +46420,7 @@
         "name_es": "Set cosmético selotrop",
         "name_pt": "Conjunto de Aparência Eliotrope",
         "name_de": "Eliotrop-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             25995,
             25998,
@@ -46425,7 +46428,8 @@
             26002,
             26003,
             26004,
-            26005
+            26005,
+            34535
         ]
     },
     {
@@ -58001,10 +58005,11 @@
         "name_es": "Set cosmético de Zi",
         "name_pt": "Conjunto de Aparência de Zi",
         "name_de": "Zi-Prunkset",
-        "items": 2,
+        "items": 3,
         "equipment_ids": [
             30536,
-            32107
+            32107,
+            34590
         ]
     },
     {
@@ -61872,6 +61877,21 @@
             34527,
             34528,
             34536
+        ]
+    },
+    {
+        "ankama_id": 1104,
+        "name_en": "[!] Panoplie d'apparat de la loterie Ivoire",
+        "name_fr": "Panoplie d'apparat de la loterie Ivoire",
+        "name_es": "[!] Panoplie d'apparat de la loterie Ivoire",
+        "name_pt": "[!] Panoplie d'apparat de la loterie Ivoire",
+        "name_de": "[!] Panoplie d'apparat de la loterie Ivoire",
+        "items": 4,
+        "equipment_ids": [
+            34558,
+            34559,
+            34560,
+            34561
         ]
     }
 ]

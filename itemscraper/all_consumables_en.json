@@ -56736,8 +56736,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73030-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73030-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25283-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25283-128.png"
             },
             "description": "Use this scroll to learn the god Sadida's Fatal Blow.",
             "effects": [
@@ -56865,8 +56865,8 @@
             },
             "level": 1,
             "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/73033-64.png",
-                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/73033-128.png"
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/25284-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25284-128.png"
             },
             "description": "Use this scroll to learn the god Sram's Fatal Blow.",
             "effects": [
