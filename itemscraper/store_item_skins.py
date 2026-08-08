@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sqlite3
 import sys
 
@@ -32,6 +33,23 @@ from store_item_obtainment import (  # noqa: E402
     _load_db_from_dump, _save_db_to_dump, get_items_db_path)
 
 VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
+
+# Our own numbering of same-named items, which is not part of the game name.
+DISAMBIGUATION = re.compile(r'\s*\(#\d+\)\s*$')
+
+
+def same_item(name, other):
+    """Ankama ids are only shared where the versions share an item.
+
+    Dofus 2 does share them: 974 of its 1029 matches carry the exact Dofus 3
+    name and the rest differ only by our numbering. Touch does not: 55 of its
+    667 are a different item under the same id, Karne Rider Blade against
+    Gob-Trotter Blade, so the name is what decides.
+    """
+    if not name or not other:
+        return False
+    return (DISAMBIGUATION.sub('', name).casefold()
+            == DISAMBIGUATION.sub('', other).casefold())
 
 
 def add_column(conn):
@@ -92,19 +110,23 @@ def main():
     try:
         add_column(conn)
         clear_skins(conn)
-        known = {row[0]: (row[1], row[2]) for row in conn.execute("""
-            SELECT i.ankama_id, i.id, t.name FROM items i JOIN item_types t ON t.id = i.type
+        known = {row[0]: (row[1], row[2], row[3]) for row in conn.execute("""
+            SELECT i.ankama_id, i.id, t.name, i.name FROM items i
+            JOIN item_types t ON t.id = i.type
             WHERE t.name IN (%s)""" % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES)}
-        written = thin = absent = 0
+        written = thin = absent = other = 0
         for ankama_id, match in matches.items():
             entry = known.get(int(ankama_id))
             if entry is None:
                 absent += 1
                 continue
-            item_id, item_type = entry
+            item_id, item_type, item_name = entry
             if isinstance(match, int):  # already decided, no margin to weigh
                 conn.execute('UPDATE items SET skin = ? WHERE id = ?', (match, item_id))
                 written += 1
+                continue
+            if not same_item(item_name, match.get('name')):
+                other += 1
                 continue
             floor = args.min_margin
             if floor is None:
@@ -118,10 +140,10 @@ def main():
     finally:
         conn.close()
 
-    if args.game_version == 'dofus3':
-        _save_db_to_dump(db_path, args.game_version)
-    print('%s: %d skins written, %d too close to call, %d not in this version'
-          % (args.game_version, written, thin, absent))
+    _save_db_to_dump(db_path, args.game_version)
+    print('%s: %d skins written, %d too close to call, %d another item under the'
+          ' same id, %d not in this version'
+          % (args.game_version, written, thin, other, absent))
 
 
 if __name__ == '__main__':

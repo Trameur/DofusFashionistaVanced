@@ -187,6 +187,11 @@ def main() -> None:
         "--game-version", "touch",
     ], cwd=ITEMSCRAPER)
 
+    # Replayed, not matched: Touch is a fork of the Dofus 2 client and keeps the
+    # same equipment designs, so the Dofus 3 skins fit here by ankama id.
+    step("item-skins", [PY, "store_item_skins.py", "--game-version", "touch",
+                        "--input", "item_skins.json"], cwd=ITEMSCRAPER)
+
     # Manual fixes last, so they survive whatever the stores rebuilt.
     step("items/corrections", [
         PY, "store_item_corrections.py", "--game-version", "touch",

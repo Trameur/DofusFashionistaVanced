@@ -266,6 +266,11 @@ def main() -> None:
             "--game-version", "dofus2",
         ], cwd=ITEMSCRAPER)
 
+        # Replayed, not matched: Dofus 2 keeps the same equipment designs, so
+        # the skins worked out from the Dofus 3 art fit here by ankama id.
+        step("item-skins", [PY, "store_item_skins.py", "--game-version", "dofus2",
+                            "--input", "item_skins.json"], cwd=ITEMSCRAPER)
+
     # Manual fixes last, so they survive whatever the stores rebuilt.
     step("items/corrections", [
         PY, "store_item_corrections.py", "--game-version", "dofus2",
