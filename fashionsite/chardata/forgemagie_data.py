@@ -18,7 +18,10 @@
 
 The numbers come from community references, cross-checked against several
 sources (Ankama tutorials, JeuxOnLine, Dofus pour les Noobs, dofastuces,
-Dofuzion's 1.29 table, Touch-specific rune lists). Three rulesets cover the
+Dofuzion's 1.29 table, Touch-specific rune lists), plus the corrections a
+player who mages daily sent in 2026-06: the Ra tier of the five elemental
+resists, of Ré Cri, Ré Pou and Do Pou, the Pa tier of Do Ren, and the density
+of Ré Per Mé and Ré Per Di, which is 10 and not 15. Three rulesets cover the
 five game versions served by the site:
 
 - 'modern': Dofus 3, beta and Dofus 2. Current rune roster and densities
@@ -79,7 +82,7 @@ _MODERN_STATS = {
     'dam': _stat(20, 'Do', [('', 1)]),
     'heals': _stat(10, 'So', [('', 1), ('Pa', 3)]),
     'ch': _stat(10, 'Cri', [('', 1)]),
-    'ref': _stat(10, 'Do Ren', [('', 1)]),
+    'ref': _stat(10, 'Do Ren', [('', 1), ('Pa', 3)]),
     'apred': _stat(7, 'Ret PA', [('', 1), ('Pa', 3)]),
     'mpred': _stat(7, 'Ret PME', [('', 1), ('Pa', 3)]),
     'apres': _stat(7, 'Ré PA', [('', 1), ('Pa', 3)]),
@@ -95,24 +98,24 @@ _MODERN_STATS = {
     'waterdam': _stat(5, 'Do Eau', [('', 1), ('Pa', 3)]),
     'airdam': _stat(5, 'Do Air', [('', 1), ('Pa', 3)]),
     'cridam': _stat(5, 'Do Cri', [('', 1), ('Pa', 3)]),
-    'pshdam': _stat(5, 'Do Pou', [('', 1), ('Pa', 3)]),
+    'pshdam': _stat(5, 'Do Pou', _STANDARD_TIERS),
     'trapdam': _stat(5, 'Do Pi', [('', 1), ('Pa', 3)]),
     'trapdamper': _stat(2, 'Pi Per', _STANDARD_TIERS),
-    'neutres': _stat(2, 'Ré Neutre', [('', 1), ('Pa', 3)]),
-    'earthres': _stat(2, 'Ré Terre', [('', 1), ('Pa', 3)]),
-    'fireres': _stat(2, 'Ré Feu', [('', 1), ('Pa', 3)]),
-    'waterres': _stat(2, 'Ré Eau', [('', 1), ('Pa', 3)]),
-    'airres': _stat(2, 'Ré Air', [('', 1), ('Pa', 3)]),
-    'crires': _stat(2, 'Ré Cri', [('', 1), ('Pa', 3)]),
-    'pshres': _stat(2, 'Ré Pou', [('', 1), ('Pa', 3)]),
+    'neutres': _stat(2, 'Ré Neutre', _STANDARD_TIERS),
+    'earthres': _stat(2, 'Ré Terre', _STANDARD_TIERS),
+    'fireres': _stat(2, 'Ré Feu', _STANDARD_TIERS),
+    'waterres': _stat(2, 'Ré Eau', _STANDARD_TIERS),
+    'airres': _stat(2, 'Ré Air', _STANDARD_TIERS),
+    'crires': _stat(2, 'Ré Cri', _STANDARD_TIERS),
+    'pshres': _stat(2, 'Ré Pou', _STANDARD_TIERS),
     'lock': _stat(4, 'Tac', [('', 1), ('Pa', 3)]),
     'dodge': _stat(4, 'Fui', [('', 1), ('Pa', 3)]),
     'permedam': _stat(15, 'Do Per Mé', [('', 1)]),
     'perrandam': _stat(15, 'Do Per Di', [('', 1)]),
     'perweadam': _stat(15, 'Do Per Ar', [('', 1)]),
     'perspedam': _stat(15, 'Do Per So', [('', 1)]),
-    'respermee': _stat(15, 'Ré Per Mé', [('', 1)]),
-    'resperran': _stat(15, 'Ré Per Di', [('', 1)]),
+    'respermee': _stat(10, 'Ré Per Mé', [('', 1)]),
+    'resperran': _stat(10, 'Ré Per Di', [('', 1)]),
     # No "Ré Per Ar" rune exists in game: % weapon resist cannot be maged.
     # The stat itself is kept (used by builds and item display) but rune-less.
     'resperwea': _stat(15, '', [], approx=True),
@@ -128,6 +131,17 @@ _TOUCH_STATS.update({
     'vit': _stat(0.25, 'Vi', [('', 3), ('Pa', 10), ('Ra', 30)]),
     'ch': _stat(30, 'Cri', [('', 1)]),
     'heals': _stat(20, 'So', [('', 1)]),
+    # The Ra resist runes and the Pa Do Ren are confirmed for the modern game
+    # only, so Touch keeps the roster it forked with.
+    'neutres': _stat(2, 'Ré Neutre', [('', 1), ('Pa', 3)]),
+    'earthres': _stat(2, 'Ré Terre', [('', 1), ('Pa', 3)]),
+    'fireres': _stat(2, 'Ré Feu', [('', 1), ('Pa', 3)]),
+    'waterres': _stat(2, 'Ré Eau', [('', 1), ('Pa', 3)]),
+    'airres': _stat(2, 'Ré Air', [('', 1), ('Pa', 3)]),
+    'crires': _stat(2, 'Ré Cri', [('', 1), ('Pa', 3)]),
+    'pshres': _stat(2, 'Ré Pou', [('', 1), ('Pa', 3)]),
+    'pshdam': _stat(5, 'Do Pou', [('', 1), ('Pa', 3)]),
+    'ref': _stat(10, 'Do Ren', [('', 1)]),
 })
 
 # 1.29: no Power/Lock/AP-MP reduction or dodge runes existed; resists and a

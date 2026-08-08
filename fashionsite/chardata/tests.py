@@ -5706,6 +5706,39 @@ class WeaponTypeDisplayTests(TestCase):
         head = self._damage_head(sword_name)
         self.assertIn('(Sword)', head)
 
+class ForgemagieRuneRosterTests(SimpleTestCase):
+    """A player who mages daily listed the runes the simulator was missing.
+    Every correction is for the modern game; Touch forked before them."""
+
+    def _stat(self, version, key):
+        from chardata.forgemagie_data import get_fm_stat
+        return get_fm_stat(version, key)
+
+    def test_the_modern_game_has_a_ra_tier_on_the_resists(self):
+        for key in ('neutres', 'earthres', 'fireres', 'waterres', 'airres',
+                    'crires', 'pshres', 'pshdam'):
+            with self.subTest(stat=key):
+                tiers = dict(self._stat('dofus3', key)['tiers'])
+                self.assertEqual(tiers.get('Ra'), 10)
+
+    def test_reflects_can_take_a_pa_rune(self):
+        self.assertEqual(dict(self._stat('dofus3', 'ref')['tiers']).get('Pa'), 3)
+
+    def test_the_percent_melee_and_ranged_resists_weigh_ten(self):
+        for key in ('respermee', 'resperran'):
+            with self.subTest(stat=key):
+                self.assertEqual(self._stat('dofus3', key)['density'], 10)
+
+    def test_percent_weapon_resist_has_no_rune_because_the_game_has_none(self):
+        self.assertEqual(self._stat('dofus3', 'resperwea')['tiers'], [])
+
+    def test_touch_keeps_the_roster_it_forked_with(self):
+        for key in ('fireres', 'crires', 'pshres', 'pshdam'):
+            with self.subTest(stat=key):
+                self.assertNotIn('Ra', dict(self._stat('touch', key)['tiers']))
+        self.assertEqual(self._stat('touch', 'ref')['tiers'], [('', 1)])
+
+
 class WeaponCriticalRateTests(SimpleTestCase):
     """Retro states a weapon's critical rate the way the game does, one hit in
     X; Dofus 2 turned the same field into a percentage. The Kaiser hammer is
