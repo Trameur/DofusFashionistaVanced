@@ -353,23 +353,60 @@
         }
 
         function runePlan(info, delta) {
-            // Greedy largest-first plan; the smallest tier absorbs the remainder.
+            // Fewest throws first, then the smallest overshoot. An exact fit
+            // built from small runes reads cheap and throws badly: three Pa Vi
+            // at 38% lose to one Ra Vi at 42%, which is why the simulator picks
+            // the big rune. The two used to disagree on the same line.
             var tiers = info.tiers.slice().sort(function(a, b) { return b.bonus - a.bonus; });
-            var plan = [];
-            var remaining = delta;
-            for (var i = 0; i < tiers.length; i++) {
-                var tier = tiers[i];
-                var isLast = (i === tiers.length - 1);
-                var count = isLast ? Math.ceil(remaining / tier.bonus)
-                                   : Math.floor(remaining / tier.bonus);
-                if (count > 0) {
-                    plan.push({tier: tier, count: count});
-                    remaining -= count * tier.bonus;
+            if (!tiers.length || delta <= 0) {
+                return [];
+            }
+            var best = null;
+            var counts = new Array(tiers.length);
+
+            function walk(index, left) {
+                if (index === tiers.length - 1) {
+                    counts[index] = Math.max(0, Math.ceil(left / tiers[index].bonus));
+                } else if (left <= 0) {
+                    counts[index] = 0;
                 }
-                if (remaining <= 0) {
-                    break;
+                if (index === tiers.length - 1 || left <= 0) {
+                    var total = 0;
+                    var covered = 0;
+                    for (var i = 0; i < tiers.length; i++) {
+                        var count = i > index ? 0 : (counts[i] || 0);
+                        total += count;
+                        covered += count * tiers[i].bonus;
+                    }
+                    var overshoot = covered - delta;
+                    // Overshooting by more than the gap itself is not a plan,
+                    // it is a different objective: one Ra for four missing
+                    // points buys nothing a Pa and a unit rune do not.
+                    var candidate = {total: total, overshoot: overshoot,
+                                     wasteful: overshoot > delta,
+                                     counts: counts.slice(0, index + 1)};
+                    if (!best || (candidate.wasteful === best.wasteful
+                                  ? (total < best.total ||
+                                     (total === best.total && overshoot < best.overshoot))
+                                  : !candidate.wasteful)) {
+                        best = candidate;
+                    }
+                    return;
+                }
+                var maximum = Math.ceil(left / tiers[index].bonus);
+                for (var count = 0; count <= maximum; count++) {
+                    counts[index] = count;
+                    walk(index + 1, left - count * tiers[index].bonus);
                 }
             }
+
+            walk(0, delta);
+            var plan = [];
+            (best ? best.counts : []).forEach(function(count, index) {
+                if (count > 0) {
+                    plan.push({tier: tiers[index], count: count});
+                }
+            });
             return plan;
         }
 
