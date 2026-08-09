@@ -1582,6 +1582,16 @@ class ProjectActionRobustnessTests(TestCase):
         resp = self.client.get('/compare_sets/99999999/88888888/')
         self.assertEqual(resp.status_code, 404)
 
+    def test_compare_sets_survives_a_crawler_probing_files_under_it(self):
+        # Prod error 2026-08-09: GET /compare_sets/235493/robots.txt was a 500,
+        # because the ".+" route hands "robots.txt" to the ORM as a pk and
+        # ValueError fires before get_object_or_404 can turn it into a 404.
+        for url in ('/compare_sets/235493/robots.txt',
+                    '/compare_sets/robots.txt',
+                    '/compare_sets/235493/wp-login.php'):
+            with self.subTest(url=url):
+                self.assertIn(self.client.get(url).status_code, (200, 404))
+
 
 class SolutionSetTemplateTests(SimpleTestCase):
 

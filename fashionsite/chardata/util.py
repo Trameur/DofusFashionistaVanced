@@ -197,6 +197,13 @@ def get_or_none(model, **kwargs):
         return None
 
 def get_char_or_raise(request, char_id):
+    # The compare_sets route matches ".+", so crawlers hand this things like
+    # "robots.txt"; the ORM raises ValueError on a non-numeric pk before
+    # get_object_or_404 can turn it into a 404.
+    try:
+        char_id = int(char_id)
+    except (TypeError, ValueError):
+        raise Http404
     char = get_object_or_404(Char, pk=char_id)
     current_version = getattr(request, 'game_version', 'dofus3')
     if char.game_version != current_version:

@@ -527,7 +527,12 @@ def get_sharing_link(request, sets_params):
     for char_str in char_strs:
         if char_str.startswith('g'):
             return _get_text_error_response(_('Saved generations cannot be shared directly.'))
-        char_id, was_encoded = get_char_id_possibly_encoded(char_str)
+        try:
+            char_id, was_encoded = get_char_id_possibly_encoded(char_str)
+        except ValueError:
+            raise Http404
+        if char_id is None:
+            raise Http404
         char = get_object_or_404(Char, pk=char_id)
         if char.game_version != getattr(request, 'game_version', 'dofus3'):
             return _get_text_error_response(
