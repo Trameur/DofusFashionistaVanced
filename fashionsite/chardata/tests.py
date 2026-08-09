@@ -10774,6 +10774,35 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     'SELECT COUNT(*) FROM weapon_ap WHERE value < 0')
                 self.assertEqual(0, rows[0][0])
 
+    def test_a_mount_never_shadows_equipment_of_the_same_ankama_id(self):
+        # Mounts have their own Ankama id space and reuse equipment ids: on
+        # Touch every one of the 121 mounts collides, and the dict used to
+        # answer with the mount, so 121 real items were unreachable by id.
+        # lock_forbid resolves through that dict.
+        from fashionistapulp.structure import get_structure
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version in self.VERSIONS:
+            path = get_items_db_path(version)
+            if not os.path.exists(path):
+                continue
+            connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+            try:
+                shared = [row[0] for row in connection.execute(
+                    "SELECT ankama_id FROM items WHERE ankama_id IS NOT NULL"
+                    " GROUP BY ankama_id"
+                    " HAVING COUNT(*) > 1 AND SUM(ankama_type = 'mounts') > 0")]
+            finally:
+                connection.close()
+            if not shared:
+                continue
+            structure = get_structure(version)
+            with self.subTest(version=version):
+                mounts = [ankama_id for ankama_id in shared
+                          if getattr(structure.get_item_by_ankama_id(ankama_id),
+                                     'ankama_type', None) == 'mounts']
+                self.assertEqual(mounts, [])
+
     def test_every_weapon_points_at_a_type_that_exists(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):

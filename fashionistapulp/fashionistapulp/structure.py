@@ -153,14 +153,20 @@ class Structure:
                 self.items_dict[item_id] = item
                 #assert item.name not in self.items_dict_name, "%s DUPLICATED" % item.name
                 self.items_dict_name[item.name] = item
-                if ankama_id is not None:
-                    self.items_dict_ankama[ankama_id] = item
+                by_ankama = self.items_dict_ankama
             else:
                 self.dt_items_dict[item_id] = item
                 #assert item.name not in self.dt_items_dict_name, "%s DUPLICATED" % item.name
                 self.dt_items_dict_name[item.name] = item
-                if ankama_id is not None:
-                    self.dt_items_dict_ankama[ankama_id] = item
+                by_ankama = self.dt_items_dict_ankama
+            if ankama_id is not None:
+                # Mounts live in their own Ankama id space and reuse equipment
+                # ids: on Touch, 42 is both the Twiggy Sword and a Dragoturkey.
+                # Their db id is already offset; a mount must not shadow the
+                # equipment here either, since this is what lock_forbid resolves
+                # through.
+                if ankama_type != 'mounts' or ankama_id not in by_ankama:
+                    by_ankama[ankama_id] = item
             if item_set is not None:
                 if item_set in self.sets_dict:
                     this_item_set = self.sets_dict[item_set]
