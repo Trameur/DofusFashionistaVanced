@@ -14,6 +14,7 @@ itemscraper/spell_icons_test
 itemscraper/spell_images
 itemscraper/skins_dofus3
 itemscraper/skins_touch
+itemscraper/icons_touch
 fashionsite/chardata/static/chardata/spells/Con.png
 docker/gen_config*.json
 docker/certs/
