@@ -283,7 +283,9 @@ def decode_weapon_e(e):
     out = {}
     if isinstance(e, list) and len(e) >= 8:
         ap, crit, cbonus = e[6], e[2], e[7]
-        if isinstance(ap, (int, float)) and ap:
+        # -1 is the game saying it has no weapon data for the item, not a cost.
+        # Four items carry it and the page was printing "AP: -1".
+        if isinstance(ap, (int, float)) and ap > 0:
             out['ap'] = int(ap)
         if isinstance(crit, (int, float)):
             out['crit_chance'] = int(crit)

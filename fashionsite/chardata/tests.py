@@ -10729,6 +10729,16 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         # The handful left are level-1 cosmetic shields that really have none.
         self.assertLessEqual(total - with_stats, 8)
 
+    def test_no_weapon_costs_a_negative_number_of_ap(self):
+        # Retro writes -1 where it has no weapon data; the scraper stored it and
+        # four item pages read "AP: -1". A zero cost is left alone, the Gobbowl
+        # Ball really is free to use.
+        for version in self.VERSIONS:
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(*) FROM weapon_ap WHERE value < 0')
+                self.assertEqual(0, rows[0][0])
+
     def test_every_weapon_points_at_a_type_that_exists(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):
