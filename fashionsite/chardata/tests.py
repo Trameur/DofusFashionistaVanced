@@ -5808,6 +5808,35 @@ class TranscendenceCatalogueTests(SimpleTestCase):
         self.assertEqual(get_transcendence_runes('retro'), [])
 
 
+class ForgemagiePayloadTests(TestCase):
+    """The workbench needs the natural minimum roll: under it the game gives
+    the line away, and a model that cannot see the minimum prices every throw
+    as if the item were already perfect."""
+
+    def _ring(self):
+        from fashionistapulp.structure import get_structure
+        return get_structure('dofus3').get_item_by_name('Rhineetle Ring')
+
+    def test_the_payload_carries_the_minimum_roll(self):
+        from chardata.forgemagie_view import _item_payload
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        stats = {entry['key']: entry
+                 for entry in _item_payload(structure, self._ring(), 'en')['stats']}
+        self.assertEqual((stats['vit']['min'], stats['vit']['value']), (201, 250))
+        self.assertEqual((stats['ch']['min'], stats['ch']['value']), (4, 5))
+
+    def test_the_item_search_uses_the_same_payload(self):
+        # It used to build its own copy of the dict, so a field added to
+        # _item_payload reached the inventory and never the search.
+        resp = self.client.get('/forgemagie/items/', {'q': 'Rhineetle Ring'})
+        self.assertEqual(resp.status_code, 200)
+        items = resp.json()['items']
+        self.assertTrue(items)
+        stats = {entry['key']: entry for entry in items[0]['stats']}
+        self.assertEqual(stats['vit']['min'], 201)
+
+
 class TranscendenceAdviceTests(SimpleTestCase):
     """One rune per item of a generated build: a transcendence rune locks the
     item, so only the one the build gains most from is worth naming."""

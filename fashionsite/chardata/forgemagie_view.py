@@ -899,15 +899,20 @@ def _item_payload(structure, item, language, display_name=None):
     """The JSON shape the workbench expects for a selectable item."""
     type_name = structure.get_type_name_by_id(item.type)
     stats = []
+    stat_ranges = getattr(item, 'stat_ranges', {}) or {}
     for stat_id, stat_value in item.stats:
         stat = structure.get_stat_by_id(stat_id)
         if stat is None:
             continue
+        low = stat_ranges.get(stat_id, (None, None))[0]
         stats.append({
             'key': stat.key,
             'name': _localized_label(stat.name, language),
             'icon': _get_stat_icon_url(stat.key),
             'value': int(round(stat_value)),
+            # The natural minimum roll: under it the game is generous, which is
+            # what makes smithmagic worth doing at all.
+            'min': int(round(low)) if low is not None else None,
         })
     stats.sort(key=lambda entry: STAT_ORDER.get(entry['key'], 9999))
     return {
@@ -1016,26 +1021,11 @@ def forgemagie_items(request):
                 variants = with_stats
 
         for variant in variants:
-            stats = []
-            for stat_id, stat_value in variant.stats:
-                stat = structure.get_stat_by_id(stat_id)
-                if stat is None:
-                    continue
-                stats.append({
-                    'key': stat.key,
-                    'name': _localized_label(stat.name, language),
-                    'icon': _get_stat_icon_url(stat.key),
-                    'value': int(round(stat_value)),
-                })
-            stats.sort(key=lambda entry: STAT_ORDER.get(entry['key'], 9999))
-            items.append({
-                'id': variant.id,
-                'name': (localized_name if variant is item
-                         else structure.get_item_name_in_language(variant, language)),
-                'level': variant.level,
-                'type_name': _localized_label(type_name, language),
-                'image_url': static(get_image_url(type_name, item.name)),
-                'stats': stats,
-            })
+            payload = _item_payload(
+                structure, variant, language,
+                localized_name if variant is item else None)
+            # Variants share the parent's icon, they are the same object.
+            payload['image_url'] = static(get_image_url(type_name, item.name))
+            items.append(payload)
 
     return JsonResponse({'items': items})
