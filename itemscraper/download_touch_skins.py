@@ -14,6 +14,13 @@ There is no index, so the roster is found by probing. Measured on assets 3.2.11
 Dofus 3 ships about 5500 bundles for 780 MB, so matching Touch is the cheaper
 job of the two.
 
+"skins/" holds every sprite the game draws, not just equipment, and the id
+space is grouped by kind. Sampled first frames: 10-50 are scenery (leaves,
+grass, stones), 1000-1012 axes, 2005-2016 cloaks, hats and hair, 3001-3012
+helmets, shields and wings, 4140-4148 more gear. So a matcher must not assume
+every file is a wearable piece; the low band is decor and will never match an
+item icon.
+
   python itemscraper/download_touch_skins.py --dest itemscraper/skins_touch
 
 Resumable: files already on disk are skipped unless --force.
