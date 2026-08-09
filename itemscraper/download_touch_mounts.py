@@ -28,8 +28,8 @@ from pathlib import Path
 import requests
 
 LANGS = ['en', 'fr', 'es', 'pt', 'de']
-CONFIG_URL = "https://earlyproxy.touch.dofus.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-early.ankama-games.com"
+CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
+FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 ENCY_URL = "https://www.dofus-touch.com/en/mmorpg/encyclopedia/mounts/%s"
 BACKEND_UA = "Dofus/2 CFNetwork"
 WEB_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "

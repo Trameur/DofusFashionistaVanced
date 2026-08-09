@@ -60,7 +60,7 @@ RAW_DIRS = [CURRENT_DIR, os.path.join(CURRENT_DIR, 'beta')]
 RAW_KINDS = ('resources', 'consumables', 'quest_items', 'equipment', 'cosmetics')
 
 TOUCH_DB_PATH = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_touch.db')
-TOUCH_CONFIG_URL = 'https://earlyproxy.touch.dofus.com/config.json'
+TOUCH_CONFIG_URL = 'https://dt-proxy-production-login.ankama-games.com/config.json'
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 

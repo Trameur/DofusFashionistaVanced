@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import cytrus_cdn
 
-TOUCH_CONFIG = 'https://earlyproxy.touch.dofus.com/config.json?lang=fr'
+TOUCH_CONFIG = 'https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr'
 TAGS = 'https://api.github.com/repos/dofusdude/%s/tags'
 USER_AGENT = 'Dofus Fashionista version watch'
 

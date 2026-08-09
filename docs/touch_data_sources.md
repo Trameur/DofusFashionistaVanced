@@ -14,9 +14,14 @@ having in one place.
 The Touch client is a JavaScript app. The community "no-emu" client
 [Lindo](https://github.com/prixe/lindo) just wraps the real client in Electron and
 points it at Ankama's servers — its `packages/main/constants/index.ts` lists the
-hosts (`proxyconnection.touch.dofus.com`, `earlyproxy.touch.dofus.com`). The
-production host no longer resolves; the early-access one still does, and serves
-the same client.
+hosts (`proxyconnection.touch.dofus.com`, `earlyproxy.touch.dofus.com`). Neither
+is the one to use: the first is NXDOMAIN and the second is the **test** channel.
+Production lives at `dt-proxy-production-login.ankama-games.com`, which is what
+we read. A player reported the difference in August 2026 and the measurement
+confirmed it: on 2026-08-08 the early channel served assets 3.2.4 against
+production's 3.2.11, and 27 items nobody can own, among them
+"Frozenfoux [WIP]", "Elixir d'Ascension du testeur" and "[FM] Capistil".
+Nothing exists only in production, so reading it loses nothing.
 
 Downloading that client bundle (`build/script.js`) and reading how it loads data
 gives the whole picture: it fetches a config file, reads a data host and an asset
@@ -28,9 +33,9 @@ from the asset host.
 The client bootstraps from `config.json`, which returns the live hosts:
 
 ```
-GET https://earlyproxy.touch.dofus.com/config.json?lang=fr
-→ { "dataUrl":  "https://dt-proxy-production-early.ankama-games.com",
-    "assetsUrl":"https://dofustouch.cdn.ankama.com/assets/3.2.1_<hash>", ... }
+GET https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr
+→ { "dataUrl":  "https://dt-proxy-production-login.ankama-games.com",
+    "assetsUrl":"https://dofustouch.cdn.ankama.com/assets/3.2.11_<hash>", ... }
 ```
 
 Game tables are then a **POST** (every plain GET 404s — the route only answers

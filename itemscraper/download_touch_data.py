@@ -8,11 +8,11 @@ host (dataUrl), then each table is a POST to /data/map with the class name. The
 response is the whole table, keyed by id, with names already localised to the
 requested language. Plain GETs 404, the route only answers POST.
 
-  config : GET  https://earlyproxy.touch.dofus.com/config.json?lang=<lang>
+  config : GET  https://dt-proxy-production-login.ankama-games.com/config.json?lang=<lang>
   table  : POST <dataUrl>/data/map   {"class": "Items", "lang": "<lang>"}
 
-(The current dataUrl is https://dt-proxy-production-early.ankama-games.com, but we
-read it from config.json so it keeps working when Ankama rotates the host.)
+(config.json hands back the dataUrl, so this keeps working when Ankama rotates
+the host.)
 
 Records are Ankama's raw d2o objects, since Touch is a Dofus 2 fork: items carry
 possibleEffects (effectId + diceNum/diceSide range), criteria, itemSetId,
@@ -30,11 +30,13 @@ from pathlib import Path
 
 import requests
 
-# The "early" channel is the only Touch content host still resolving (the old
-# production proxyconnection.touch.dofus.com is NXDOMAIN). Its config.json hands
-# back the live dataUrl, so we resolve dynamically rather than hard-coding it.
-CONFIG_URL = "https://earlyproxy.touch.dofus.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-early.ankama-games.com"
+# The live channel. proxyconnection.touch.dofus.com is NXDOMAIN and the "early"
+# channel that replaced it is the test server: on 2026-08-08 it served assets
+# 3.2.4 against production's 3.2.11, and 27 items nobody can own, among them
+# "Frozenfoux [WIP]", "Elixir d'Ascension du testeur" and "[FM] Capistil".
+# Nothing is only in production, so reading it here loses nothing.
+CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
+FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 
 # A mobile-ish UA; the data API doesn't gate on it, but be polite/identifiable.
 USER_AGENT = "Dofus/2 CFNetwork"

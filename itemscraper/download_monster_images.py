@@ -62,7 +62,7 @@ TOUCH_DB_PATHS = [
 # img/monsters/12.png): the id -> img mapping must come from the monsters API.
 DOFUSDB_MONSTERS_URL = 'https://api.dofusdb.fr/monsters?%%24limit=%d&%%24skip=%d'
 PAGE_SIZE = 50
-TOUCH_CONFIG_URL = 'https://earlyproxy.touch.dofus.com/config.json'
+TOUCH_CONFIG_URL = 'https://dt-proxy-production-login.ankama-games.com/config.json'
 TOUCH_FALLBACK_ASSETS_URL = ('https://dofustouch.cdn.ankama.com/assets/'
                              '3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5')
 SIZE = 96

@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 from get_equipments_touch import TYPE_MAP
 
-CONFIG_URL = "https://earlyproxy.touch.dofus.com/config.json"
+CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
                        "3.2.4_sF,kf0I9t9aOjYb3X_EPiZJZYCo.brI5")
 USER_AGENT = "Dofus/2 CFNetwork"

@@ -31,8 +31,8 @@ from store_item_obtainment import (  # noqa: E402
 GAME_VERSION = 'touch'
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 RAW_DIR = os.path.join(CURRENT_DIRECTORY, 'touch_raw')
-CONFIG_URL = "https://earlyproxy.touch.dofus.com/config.json"
-FALLBACK_DATA_URL = "https://dt-proxy-production-early.ankama-games.com"
+CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
+FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 UA = "Dofus/2 CFNetwork"
 
 # effect id -> (field holding the cast spell id, placeholder in the description).
