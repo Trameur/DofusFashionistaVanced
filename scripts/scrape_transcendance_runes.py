@@ -82,6 +82,7 @@ def fetch_runes():
                 "lang": "fr",
                 "$select[0]": "id", "$select[1]": "name", "$select[2]": "iconId",
                 "$select[3]": "level", "$select[4]": "effects",
+                "$select[5]": "possibleEffects",
             })
             total = page.get("total", 0)
             for it in page.get("data", []):
@@ -96,11 +97,22 @@ def fetch_runes():
                     continue
                 stat_key, stat_label = EID2STAT[bonus_eff["effectId"]]
                 icon = it.get("iconId")
+                # effect 2826 is the rune's own smithmagic weight: what the
+                # 101 rule adds to the targeted stat's current weight. The
+                # display serialization zeroes category-4 effects, so it is
+                # read from the raw possibleEffects, where it sits in 'value'.
+                weight_eff = next((e for e in it.get("possibleEffects", [])
+                                   if e.get("effectId") == 2826), None)
+                if weight_eff is None or not weight_eff.get("value"):
+                    unmapped.add((it.get("id"), name + " [no weight]"))
+                    continue
                 runes.append({
                     "id": it["id"], "name_fr": name,
                     "rank": RANK[prefix], "rank_label": prefix,
                     "stat_key": stat_key, "stat_label": stat_label,
-                    "bonus": bonus_eff.get("from", 0), "level": it.get("level"),
+                    "bonus": bonus_eff.get("from", 0),
+                    "weight": weight_eff["value"],
+                    "level": it.get("level"),
                     "icon_id": icon, "img": "%s/img/items/%d.png" % (API, icon),
                 })
             skip += 50
@@ -130,8 +142,10 @@ def main():
     runes = fetch_runes()
     out = {
         "source": "DofusDB API typeId=%s (Rune de transcendance)" % RUNE_TYPE_IDS,
-        "mechanic": ("100% à la pose ; verrouille la FM (Empêche les futures "
-                     "forgemagies) ; pose seulement si l'objet ne dépasse pas son jet max"),
+        "mechanic": ("100% à la pose (effet 2827) ; verrouille la FM (effet 2825, "
+                     "Empêche les futures forgemagies) ; pose légale seulement si "
+                     "l'objet n'a ni over ni ligne exotique ET si poids de la rune "
+                     "(effet 2826) + poids actuel de la stat visée <= 101"),
         "count": len(runes), "runes": runes,
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:

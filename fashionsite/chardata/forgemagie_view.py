@@ -744,49 +744,82 @@ TRANSCENDENCE_UI = {
     'en': {
         'title': 'Transcendence runes (lock smithmagic)',
         'intro': 'Applied at 100% - they add a powerful bonus but permanently '
-                 'lock the item (no further smithmagic). Only possible if no '
-                 'line exceeds its max roll.',
+                 'lock the item (no further smithmagic). Only possible if the '
+                 'item has no over and no exotic line, and if the rune\u2019s '
+                 'weight plus the target stat\u2019s current weight stays '
+                 'within 101.',
         'locked': 'Item transcended by %s - smithmagic locked.',
         'over_block': 'Impossible: the item exceeds its max roll on a line. '
                       'Remove the over before transcending.',
+        'exo_block': 'Impossible: the item carries an exotic line. '
+                     'A transcendence rune only lands on an unmodified item.',
+        'weight_block': 'Impossible: the rune\u2019s weight plus this stat\u2019s '
+                        'current weight exceeds 101.',
+        'weight_word': 'weight %s',
     },
     'fr': {
         'title': 'Runes de transcendance (verrouillent la FM)',
         'intro': 'Pos\u00e9es \u00e0 100 % - elles ajoutent un bonus puissant mais '
                  'verrouillent d\u00e9finitivement l\u2019objet (plus aucune '
-                 'forgemagie). Possible seulement si aucune ligne ne d\u00e9passe '
-                 'son jet max.',
+                 'forgemagie). Possible seulement si l\u2019objet n\u2019a ni over '
+                 'ni ligne exotique, et si le poids de la rune plus le poids '
+                 'actuel de la stat vis\u00e9e reste dans les 101.',
         'locked': 'Objet transcend\u00e9 par %s - forgemagie bloqu\u00e9e.',
         'over_block': 'Impossible : l\u2019objet d\u00e9passe son jet max sur une '
                       'ligne. Retirez l\u2019over avant de transcender.',
+        'exo_block': 'Impossible : l\u2019objet porte une ligne exotique. Une rune '
+                     'de transcendance ne se pose que sur un objet non modifi\u00e9.',
+        'weight_block': 'Impossible : le poids de la rune plus le poids actuel '
+                        'de cette stat d\u00e9passe 101.',
+        'weight_word': 'poids %s',
     },
     'es': {
         'title': 'Runas de trascendencia (bloquean la forja)',
         'intro': 'Se aplican al 100 % - añaden un bono potente pero bloquean el '
-                 'objeto para siempre (no más forja). Solo si ninguna línea '
-                 'supera su tirada máxima.',
+                 'objeto para siempre (no más forja). Solo si el objeto no '
+                 'tiene over ni línea exótica, y si el peso de la runa más el '
+                 'peso actual de la característica elegida no pasa de 101.',
         'locked': 'Objeto trascendido con %s - forja bloqueada.',
         'over_block': 'Imposible: el objeto supera su tirada máxima en una '
                       'línea. Quita el over antes de trascender.',
+        'exo_block': 'Imposible: el objeto lleva una línea exótica. Una runa '
+                     'de trascendencia solo entra en un objeto sin modificar.',
+        'weight_block': 'Imposible: el peso de la runa más el peso actual de '
+                        'esta característica supera 101.',
+        'weight_word': 'peso %s',
     },
     'pt': {
         'title': 'Runas de transcendência (bloqueiam a FM)',
         'intro': 'Aplicadas a 100% - adicionam um bônus poderoso mas bloqueiam '
-                 'o item para sempre (sem mais forjamagia). Só se nenhuma linha '
-                 'ultrapassar sua rolagem máxima.',
+                 'o item para sempre (sem mais forjamagia). Só se o item não '
+                 'tiver over nem linha exótica, e se o peso da runa mais o '
+                 'peso atual do atributo visado não passar de 101.',
         'locked': 'Item transcendido por %s - forjamagia bloqueada.',
         'over_block': 'Impossível: o item ultrapassa sua rolagem máxima em uma '
                       'linha. Remova o over antes de transcender.',
+        'exo_block': 'Impossível: o item carrega uma linha exótica. Uma runa '
+                     'de transcendência só entra em um item sem modificações.',
+        'weight_block': 'Impossível: o peso da runa mais o peso atual deste '
+                        'atributo ultrapassa 101.',
+        'weight_word': 'peso %s',
     },
     'de': {
         'title': 'Transzendenz-Runen (sperren die Schmiedemagie)',
         'intro': 'Mit 100% gesetzt - sie geben einen starken Bonus, sperren den '
                  'Gegenstand aber dauerhaft (keine Schmiedemagie mehr). Nur '
-                 'möglich, wenn keine Linie ihren Maximalwurf überschreitet.',
+                 'möglich, wenn der Gegenstand weder Over noch exotische Linie '
+                 'trägt und das Gewicht der Rune plus das aktuelle Gewicht des '
+                 'Zielwerts 101 nicht übersteigt.',
         'locked': 'Gegenstand durch %s transzendiert - Schmiedemagie gesperrt.',
         'over_block': 'Unmöglich: Der Gegenstand überschreitet auf einer Linie '
                       'seinen Maximalwurf. Entferne den Over vor dem '
                       'Transzendieren.',
+        'exo_block': 'Unmöglich: Der Gegenstand trägt eine exotische Linie. '
+                     'Eine Transzendenz-Rune passt nur auf einen unveränderten '
+                     'Gegenstand.',
+        'weight_block': 'Unmöglich: Das Gewicht der Rune plus das aktuelle '
+                        'Gewicht dieses Werts übersteigt 101.',
+        'weight_word': 'Gewicht %s',
     },
 }
 

@@ -1,7 +1,6 @@
 {
- "source": "DofusDB API typeId=211 (Rune de transcendance)",
- "fetched": "2026-06-23",
- "mechanic": "100% à la pose; verrouille la FM (Empêche les futures forgemagies); pose possible seulement si l'objet ne dépasse pas son jet max",
+ "source": "DofusDB API typeId=[211] (Rune de transcendance)",
+ "mechanic": "100% à la pose (effet 2827) ; verrouille la FM (effet 2825, Empêche les futures forgemagies) ; pose légale seulement si l'objet n'a ni over ni ligne exotique ET si poids de la rune (effet 2826) + poids actuel de la stat visée <= 101",
  "count": 81,
  "runes": [
   {
@@ -12,6 +11,7 @@
    "stat_key": "int",
    "stat_label": "Intelligence",
    "bonus": 10,
+   "weight": 40,
    "level": 104,
    "icon_id": 78179,
    "img": "https://api.dofusdb.fr/img/items/78179.png"
@@ -24,6 +24,7 @@
    "stat_key": "int",
    "stat_label": "Intelligence",
    "bonus": 15,
+   "weight": 60,
    "level": 126,
    "icon_id": 78180,
    "img": "https://api.dofusdb.fr/img/items/78180.png"
@@ -36,6 +37,7 @@
    "stat_key": "int",
    "stat_label": "Intelligence",
    "bonus": 20,
+   "weight": 80,
    "level": 148,
    "icon_id": 78181,
    "img": "https://api.dofusdb.fr/img/items/78181.png"
@@ -48,6 +50,7 @@
    "stat_key": "str",
    "stat_label": "Force",
    "bonus": 10,
+   "weight": 40,
    "level": 104,
    "icon_id": 78182,
    "img": "https://api.dofusdb.fr/img/items/78182.png"
@@ -60,6 +63,7 @@
    "stat_key": "str",
    "stat_label": "Force",
    "bonus": 15,
+   "weight": 60,
    "level": 126,
    "icon_id": 78183,
    "img": "https://api.dofusdb.fr/img/items/78183.png"
@@ -72,6 +76,7 @@
    "stat_key": "str",
    "stat_label": "Force",
    "bonus": 20,
+   "weight": 80,
    "level": 148,
    "icon_id": 78184,
    "img": "https://api.dofusdb.fr/img/items/78184.png"
@@ -84,6 +89,7 @@
    "stat_key": "agi",
    "stat_label": "Agilité",
    "bonus": 10,
+   "weight": 40,
    "level": 104,
    "icon_id": 78185,
    "img": "https://api.dofusdb.fr/img/items/78185.png"
@@ -96,6 +102,7 @@
    "stat_key": "agi",
    "stat_label": "Agilité",
    "bonus": 15,
+   "weight": 60,
    "level": 126,
    "icon_id": 78186,
    "img": "https://api.dofusdb.fr/img/items/78186.png"
@@ -108,6 +115,7 @@
    "stat_key": "agi",
    "stat_label": "Agilité",
    "bonus": 20,
+   "weight": 80,
    "level": 148,
    "icon_id": 78187,
    "img": "https://api.dofusdb.fr/img/items/78187.png"
@@ -120,6 +128,7 @@
    "stat_key": "cha",
    "stat_label": "Chance",
    "bonus": 10,
+   "weight": 40,
    "level": 104,
    "icon_id": 78188,
    "img": "https://api.dofusdb.fr/img/items/78188.png"
@@ -132,6 +141,7 @@
    "stat_key": "cha",
    "stat_label": "Chance",
    "bonus": 15,
+   "weight": 60,
    "level": 126,
    "icon_id": 78189,
    "img": "https://api.dofusdb.fr/img/items/78189.png"
@@ -144,6 +154,7 @@
    "stat_key": "cha",
    "stat_label": "Chance",
    "bonus": 20,
+   "weight": 80,
    "level": 148,
    "icon_id": 78190,
    "img": "https://api.dofusdb.fr/img/items/78190.png"
@@ -156,6 +167,7 @@
    "stat_key": "vit",
    "stat_label": "Vitalité",
    "bonus": 50,
+   "weight": 40,
    "level": 124,
    "icon_id": 78251,
    "img": "https://api.dofusdb.fr/img/items/78251.png"
@@ -168,6 +180,7 @@
    "stat_key": "vit",
    "stat_label": "Vitalité",
    "bonus": 75,
+   "weight": 60,
    "level": 146,
    "icon_id": 78252,
    "img": "https://api.dofusdb.fr/img/items/78252.png"
@@ -180,6 +193,7 @@
    "stat_key": "vit",
    "stat_label": "Vitalité",
    "bonus": 100,
+   "weight": 80,
    "level": 168,
    "icon_id": 78253,
    "img": "https://api.dofusdb.fr/img/items/78253.png"
@@ -192,6 +206,7 @@
    "stat_key": "init",
    "stat_label": "Initiative",
    "bonus": 100,
+   "weight": 40,
    "level": 104,
    "icon_id": 78254,
    "img": "https://api.dofusdb.fr/img/items/78254.png"
@@ -204,6 +219,7 @@
    "stat_key": "init",
    "stat_label": "Initiative",
    "bonus": 150,
+   "weight": 60,
    "level": 126,
    "icon_id": 78255,
    "img": "https://api.dofusdb.fr/img/items/78255.png"
@@ -216,6 +232,7 @@
    "stat_key": "init",
    "stat_label": "Initiative",
    "bonus": 200,
+   "weight": 80,
    "level": 148,
    "icon_id": 78256,
    "img": "https://api.dofusdb.fr/img/items/78256.png"
@@ -228,6 +245,7 @@
    "stat_key": "pod",
    "stat_label": "Pods",
    "bonus": 100,
+   "weight": 40,
    "level": 104,
    "icon_id": 78257,
    "img": "https://api.dofusdb.fr/img/items/78257.png"
@@ -240,6 +258,7 @@
    "stat_key": "pod",
    "stat_label": "Pods",
    "bonus": 200,
+   "weight": 60,
    "level": 126,
    "icon_id": 78258,
    "img": "https://api.dofusdb.fr/img/items/78258.png"
@@ -252,6 +271,7 @@
    "stat_key": "pod",
    "stat_label": "Pods",
    "bonus": 400,
+   "weight": 80,
    "level": 148,
    "icon_id": 78259,
    "img": "https://api.dofusdb.fr/img/items/78259.png"
@@ -264,6 +284,7 @@
    "stat_key": "pow",
    "stat_label": "Puissance",
    "bonus": 6,
+   "weight": 40,
    "level": 124,
    "icon_id": 78191,
    "img": "https://api.dofusdb.fr/img/items/78191.png"
@@ -276,6 +297,7 @@
    "stat_key": "pow",
    "stat_label": "Puissance",
    "bonus": 9,
+   "weight": 60,
    "level": 146,
    "icon_id": 78192,
    "img": "https://api.dofusdb.fr/img/items/78192.png"
@@ -288,6 +310,7 @@
    "stat_key": "pow",
    "stat_label": "Puissance",
    "bonus": 12,
+   "weight": 80,
    "level": 168,
    "icon_id": 78193,
    "img": "https://api.dofusdb.fr/img/items/78193.png"
@@ -300,6 +323,7 @@
    "stat_key": "pshres",
    "stat_label": "Résistance Poussée",
    "bonus": 9,
+   "weight": 60,
    "level": 166,
    "icon_id": 78194,
    "img": "https://api.dofusdb.fr/img/items/78194.png"
@@ -312,6 +336,7 @@
    "stat_key": "pshres",
    "stat_label": "Résistance Poussée",
    "bonus": 12,
+   "weight": 80,
    "level": 188,
    "icon_id": 78195,
    "img": "https://api.dofusdb.fr/img/items/78195.png"
@@ -324,6 +349,7 @@
    "stat_key": "crires",
    "stat_label": "Résistance Critique",
    "bonus": 9,
+   "weight": 60,
    "level": 166,
    "icon_id": 78196,
    "img": "https://api.dofusdb.fr/img/items/78196.png"
@@ -336,6 +362,7 @@
    "stat_key": "crires",
    "stat_label": "Résistance Critique",
    "bonus": 12,
+   "weight": 80,
    "level": 188,
    "icon_id": 78197,
    "img": "https://api.dofusdb.fr/img/items/78197.png"
@@ -348,6 +375,7 @@
    "stat_key": "pshdam",
    "stat_label": "Dommages Poussée",
    "bonus": 6,
+   "weight": 60,
    "level": 166,
    "icon_id": 78198,
    "img": "https://api.dofusdb.fr/img/items/78198.png"
@@ -360,6 +388,7 @@
    "stat_key": "pshdam",
    "stat_label": "Dommages Poussée",
    "bonus": 8,
+   "weight": 80,
    "level": 188,
    "icon_id": 78199,
    "img": "https://api.dofusdb.fr/img/items/78199.png"
@@ -372,6 +401,7 @@
    "stat_key": "cridam",
    "stat_label": "Dommages Critique",
    "bonus": 6,
+   "weight": 60,
    "level": 166,
    "icon_id": 78200,
    "img": "https://api.dofusdb.fr/img/items/78200.png"
@@ -384,6 +414,7 @@
    "stat_key": "cridam",
    "stat_label": "Dommages Critique",
    "bonus": 8,
+   "weight": 80,
    "level": 188,
    "icon_id": 78201,
    "img": "https://api.dofusdb.fr/img/items/78201.png"
@@ -396,6 +427,7 @@
    "stat_key": "earthdam",
    "stat_label": "Dommages Terre",
    "bonus": 2,
+   "weight": 40,
    "level": 144,
    "icon_id": 78202,
    "img": "https://api.dofusdb.fr/img/items/78202.png"
@@ -408,6 +440,7 @@
    "stat_key": "earthdam",
    "stat_label": "Dommages Terre",
    "bonus": 4,
+   "weight": 60,
    "level": 166,
    "icon_id": 78203,
    "img": "https://api.dofusdb.fr/img/items/78203.png"
@@ -420,6 +453,7 @@
    "stat_key": "earthdam",
    "stat_label": "Dommages Terre",
    "bonus": 6,
+   "weight": 80,
    "level": 188,
    "icon_id": 78204,
    "img": "https://api.dofusdb.fr/img/items/78204.png"
@@ -432,6 +466,7 @@
    "stat_key": "firedam",
    "stat_label": "Dommages Feu",
    "bonus": 2,
+   "weight": 40,
    "level": 144,
    "icon_id": 78205,
    "img": "https://api.dofusdb.fr/img/items/78205.png"
@@ -444,6 +479,7 @@
    "stat_key": "firedam",
    "stat_label": "Dommages Feu",
    "bonus": 4,
+   "weight": 60,
    "level": 166,
    "icon_id": 78206,
    "img": "https://api.dofusdb.fr/img/items/78206.png"
@@ -456,6 +492,7 @@
    "stat_key": "firedam",
    "stat_label": "Dommages Feu",
    "bonus": 6,
+   "weight": 80,
    "level": 188,
    "icon_id": 78207,
    "img": "https://api.dofusdb.fr/img/items/78207.png"
@@ -468,6 +505,7 @@
    "stat_key": "waterdam",
    "stat_label": "Dommages Eau",
    "bonus": 2,
+   "weight": 40,
    "level": 144,
    "icon_id": 78208,
    "img": "https://api.dofusdb.fr/img/items/78208.png"
@@ -480,6 +518,7 @@
    "stat_key": "waterdam",
    "stat_label": "Dommages Eau",
    "bonus": 4,
+   "weight": 60,
    "level": 166,
    "icon_id": 78209,
    "img": "https://api.dofusdb.fr/img/items/78209.png"
@@ -492,6 +531,7 @@
    "stat_key": "waterdam",
    "stat_label": "Dommages Eau",
    "bonus": 6,
+   "weight": 80,
    "level": 188,
    "icon_id": 78210,
    "img": "https://api.dofusdb.fr/img/items/78210.png"
@@ -504,6 +544,7 @@
    "stat_key": "airdam",
    "stat_label": "Dommages Air",
    "bonus": 2,
+   "weight": 40,
    "level": 144,
    "icon_id": 78211,
    "img": "https://api.dofusdb.fr/img/items/78211.png"
@@ -516,6 +557,7 @@
    "stat_key": "airdam",
    "stat_label": "Dommages Air",
    "bonus": 4,
+   "weight": 60,
    "level": 166,
    "icon_id": 78212,
    "img": "https://api.dofusdb.fr/img/items/78212.png"
@@ -528,6 +570,7 @@
    "stat_key": "airdam",
    "stat_label": "Dommages Air",
    "bonus": 6,
+   "weight": 80,
    "level": 188,
    "icon_id": 78213,
    "img": "https://api.dofusdb.fr/img/items/78213.png"
@@ -540,6 +583,7 @@
    "stat_key": "neutdam",
    "stat_label": "Dommages Neutre",
    "bonus": 2,
+   "weight": 40,
    "level": 144,
    "icon_id": 78214,
    "img": "https://api.dofusdb.fr/img/items/78214.png"
@@ -552,6 +596,7 @@
    "stat_key": "neutdam",
    "stat_label": "Dommages Neutre",
    "bonus": 4,
+   "weight": 60,
    "level": 166,
    "icon_id": 78215,
    "img": "https://api.dofusdb.fr/img/items/78215.png"
@@ -564,6 +609,7 @@
    "stat_key": "neutdam",
    "stat_label": "Dommages Neutre",
    "bonus": 6,
+   "weight": 80,
    "level": 188,
    "icon_id": 78216,
    "img": "https://api.dofusdb.fr/img/items/78216.png"
@@ -576,6 +622,7 @@
    "stat_key": "resperran",
    "stat_label": "Résistance % Distance",
    "bonus": 1,
+   "weight": 60,
    "level": 200,
    "icon_id": 78217,
    "img": "https://api.dofusdb.fr/img/items/78217.png"
@@ -588,6 +635,7 @@
    "stat_key": "respermee",
    "stat_label": "Résistance % Mêlée",
    "bonus": 1,
+   "weight": 60,
    "level": 200,
    "icon_id": 78218,
    "img": "https://api.dofusdb.fr/img/items/78218.png"
@@ -600,6 +648,7 @@
    "stat_key": "perspedam",
    "stat_label": "Dommages % Sort",
    "bonus": 1,
+   "weight": 60,
    "level": 200,
    "icon_id": 78219,
    "img": "https://api.dofusdb.fr/img/items/78219.png"
@@ -612,6 +661,7 @@
    "stat_key": "perweadam",
    "stat_label": "Dommages % Arme",
    "bonus": 1,
+   "weight": 60,
    "level": 200,
    "icon_id": 78220,
    "img": "https://api.dofusdb.fr/img/items/78220.png"
@@ -624,6 +674,7 @@
    "stat_key": "perrandam",
    "stat_label": "Dommages % Distance",
    "bonus": 1,
+   "weight": 60,
    "level": 200,
    "icon_id": 78221,
    "img": "https://api.dofusdb.fr/img/items/78221.png"
@@ -636,6 +687,7 @@
    "stat_key": "permedam",
    "stat_label": "Dommages % Mêlée",
    "bonus": 1,
+   "weight": 60,
    "level": 200,
    "icon_id": 78222,
    "img": "https://api.dofusdb.fr/img/items/78222.png"
@@ -648,6 +700,7 @@
    "stat_key": "dodge",
    "stat_label": "Fuite",
    "bonus": 4,
+   "weight": 40,
    "level": 104,
    "icon_id": 78223,
    "img": "https://api.dofusdb.fr/img/items/78223.png"
@@ -660,6 +713,7 @@
    "stat_key": "dodge",
    "stat_label": "Fuite",
    "bonus": 6,
+   "weight": 60,
    "level": 126,
    "icon_id": 78224,
    "img": "https://api.dofusdb.fr/img/items/78224.png"
@@ -672,6 +726,7 @@
    "stat_key": "dodge",
    "stat_label": "Fuite",
    "bonus": 8,
+   "weight": 80,
    "level": 148,
    "icon_id": 78225,
    "img": "https://api.dofusdb.fr/img/items/78225.png"
@@ -684,6 +739,7 @@
    "stat_key": "lock",
    "stat_label": "Tacle",
    "bonus": 4,
+   "weight": 40,
    "level": 104,
    "icon_id": 78226,
    "img": "https://api.dofusdb.fr/img/items/78226.png"
@@ -696,6 +752,7 @@
    "stat_key": "lock",
    "stat_label": "Tacle",
    "bonus": 6,
+   "weight": 60,
    "level": 126,
    "icon_id": 78227,
    "img": "https://api.dofusdb.fr/img/items/78227.png"
@@ -708,6 +765,7 @@
    "stat_key": "lock",
    "stat_label": "Tacle",
    "bonus": 8,
+   "weight": 80,
    "level": 148,
    "icon_id": 78228,
    "img": "https://api.dofusdb.fr/img/items/78228.png"
@@ -720,6 +778,7 @@
    "stat_key": "apres",
    "stat_label": "Résistance PA",
    "bonus": 2,
+   "weight": 40,
    "level": 104,
    "icon_id": 78229,
    "img": "https://api.dofusdb.fr/img/items/78229.png"
@@ -732,6 +791,7 @@
    "stat_key": "apres",
    "stat_label": "Résistance PA",
    "bonus": 4,
+   "weight": 60,
    "level": 126,
    "icon_id": 78230,
    "img": "https://api.dofusdb.fr/img/items/78230.png"
@@ -744,6 +804,7 @@
    "stat_key": "apres",
    "stat_label": "Résistance PA",
    "bonus": 6,
+   "weight": 80,
    "level": 148,
    "icon_id": 78231,
    "img": "https://api.dofusdb.fr/img/items/78231.png"
@@ -756,6 +817,7 @@
    "stat_key": "mpres",
    "stat_label": "Résistance PM",
    "bonus": 2,
+   "weight": 40,
    "level": 104,
    "icon_id": 78232,
    "img": "https://api.dofusdb.fr/img/items/78232.png"
@@ -768,6 +830,7 @@
    "stat_key": "mpres",
    "stat_label": "Résistance PM",
    "bonus": 4,
+   "weight": 60,
    "level": 126,
    "icon_id": 78233,
    "img": "https://api.dofusdb.fr/img/items/78233.png"
@@ -780,6 +843,7 @@
    "stat_key": "mpres",
    "stat_label": "Résistance PM",
    "bonus": 6,
+   "weight": 80,
    "level": 148,
    "icon_id": 78234,
    "img": "https://api.dofusdb.fr/img/items/78234.png"
@@ -792,6 +856,7 @@
    "stat_key": "apred",
    "stat_label": "Retrait PA",
    "bonus": 2,
+   "weight": 40,
    "level": 104,
    "icon_id": 78235,
    "img": "https://api.dofusdb.fr/img/items/78235.png"
@@ -804,6 +869,7 @@
    "stat_key": "apred",
    "stat_label": "Retrait PA",
    "bonus": 3,
+   "weight": 60,
    "level": 126,
    "icon_id": 78236,
    "img": "https://api.dofusdb.fr/img/items/78236.png"
@@ -816,6 +882,7 @@
    "stat_key": "apred",
    "stat_label": "Retrait PA",
    "bonus": 4,
+   "weight": 80,
    "level": 148,
    "icon_id": 78237,
    "img": "https://api.dofusdb.fr/img/items/78237.png"
@@ -828,6 +895,7 @@
    "stat_key": "mpred",
    "stat_label": "Retrait PM",
    "bonus": 2,
+   "weight": 40,
    "level": 104,
    "icon_id": 78238,
    "img": "https://api.dofusdb.fr/img/items/78238.png"
@@ -840,6 +908,7 @@
    "stat_key": "mpred",
    "stat_label": "Retrait PM",
    "bonus": 3,
+   "weight": 60,
    "level": 126,
    "icon_id": 78239,
    "img": "https://api.dofusdb.fr/img/items/78239.png"
@@ -852,6 +921,7 @@
    "stat_key": "mpred",
    "stat_label": "Retrait PM",
    "bonus": 4,
+   "weight": 80,
    "level": 148,
    "icon_id": 78240,
    "img": "https://api.dofusdb.fr/img/items/78240.png"
@@ -864,6 +934,7 @@
    "stat_key": "earthresper",
    "stat_label": "Résistance % Terre",
    "bonus": 2,
+   "weight": 80,
    "level": 188,
    "icon_id": 78241,
    "img": "https://api.dofusdb.fr/img/items/78241.png"
@@ -876,6 +947,7 @@
    "stat_key": "fireresper",
    "stat_label": "Résistance % Feu",
    "bonus": 2,
+   "weight": 80,
    "level": 188,
    "icon_id": 78242,
    "img": "https://api.dofusdb.fr/img/items/78242.png"
@@ -888,6 +960,7 @@
    "stat_key": "waterresper",
    "stat_label": "Résistance % Eau",
    "bonus": 2,
+   "weight": 80,
    "level": 188,
    "icon_id": 78243,
    "img": "https://api.dofusdb.fr/img/items/78243.png"
@@ -900,6 +973,7 @@
    "stat_key": "airresper",
    "stat_label": "Résistance % Air",
    "bonus": 2,
+   "weight": 80,
    "level": 188,
    "icon_id": 78244,
    "img": "https://api.dofusdb.fr/img/items/78244.png"
@@ -912,6 +986,7 @@
    "stat_key": "neutresper",
    "stat_label": "Résistance % Neutre",
    "bonus": 2,
+   "weight": 80,
    "level": 188,
    "icon_id": 78245,
    "img": "https://api.dofusdb.fr/img/items/78245.png"
@@ -924,6 +999,7 @@
    "stat_key": "ch",
    "stat_label": "Coups Critiques",
    "bonus": 1,
+   "weight": 40,
    "level": 164,
    "icon_id": 78246,
    "img": "https://api.dofusdb.fr/img/items/78246.png"
@@ -936,6 +1012,7 @@
    "stat_key": "ch",
    "stat_label": "Coups Critiques",
    "bonus": 2,
+   "weight": 80,
    "level": 188,
    "icon_id": 78247,
    "img": "https://api.dofusdb.fr/img/items/78247.png"
@@ -948,6 +1025,7 @@
    "stat_key": "heals",
    "stat_label": "Soins",
    "bonus": 4,
+   "weight": 40,
    "level": 124,
    "icon_id": 78248,
    "img": "https://api.dofusdb.fr/img/items/78248.png"
@@ -960,6 +1038,7 @@
    "stat_key": "heals",
    "stat_label": "Soins",
    "bonus": 7,
+   "weight": 60,
    "level": 146,
    "icon_id": 78249,
    "img": "https://api.dofusdb.fr/img/items/78249.png"
@@ -972,6 +1051,7 @@
    "stat_key": "heals",
    "stat_label": "Soins",
    "bonus": 10,
+   "weight": 80,
    "level": 168,
    "icon_id": 78250,
    "img": "https://api.dofusdb.fr/img/items/78250.png"

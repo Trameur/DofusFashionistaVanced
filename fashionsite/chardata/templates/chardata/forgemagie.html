@@ -1490,35 +1490,68 @@
                     img.alt = '';
                     opt.appendChild(img);
                 }
+                var tt = config.transT || {};
+                var weightWord = (tt.weight_word || '%s').replace('%s', r.weight);
                 var label = document.createElement('span');
-                label.textContent = r.name_fr + ' (+' + r.bonus + ' ' + entry.label + ')';
+                label.textContent = r.name_fr + ' (+' + r.bonus + ' ' + entry.label +
+                    ' · ' + weightWord + ')';
                 opt.appendChild(label);
-                if (session && !session.locked) {
+                var blocked = session && !session.locked ? transcendenceBlock(r) : null;
+                if (session && !session.locked && blocked === null) {
                     opt.onclick = function() { applyTranscendence(r, entry.label); };
                 } else {
                     opt.style.opacity = '0.5';
                     opt.style.cursor = 'default';
+                    if (blocked) {
+                        opt.title = blocked;
+                    }
                 }
                 box.appendChild(opt);
             });
+        }
+
+        function transcendenceBlock(rune) {
+            // The game's own gates: no over, no exotic line, and the rune's
+            // weight plus the target stat's current weight within the cap.
+            var tt = config.transT || {};
+            var hasOver = session.rows.some(function(row) {
+                return !row.exo && row.value > row.max;
+            });
+            if (hasOver) {
+                return tt.over_block || '';
+            }
+            var hasExo = session.rows.some(function(row) {
+                return row.exo && row.value > 0;
+            });
+            if (hasExo) {
+                return tt.exo_block || '';
+            }
+            var info = statInfo(rune.stat_key);
+            var current = 0;
+            session.rows.forEach(function(row) {
+                if (row.key === rune.stat_key) {
+                    current = row.value;
+                }
+            });
+            var statWeight = info ? current * info.density : 0;
+            if (rune.weight + statWeight > config.overCap) {
+                return tt.weight_block || '';
+            }
+            return null;
         }
 
         function applyTranscendence(rune, statLabel) {
             if (!session || session.locked) {
                 return;
             }
-            var tt = config.transT || {};
             var msg = document.getElementById('fm-trans-msg');
             if (msg) {
                 msg.textContent = '';
             }
-            // Transcendence can only be applied while no line is over its max.
-            var hasOver = session.rows.some(function(row) {
-                return !row.exo && row.value > row.max;
-            });
-            if (hasOver) {
+            var blocked = transcendenceBlock(rune);
+            if (blocked !== null) {
                 if (msg) {
-                    msg.textContent = tt.over_block || '';
+                    msg.textContent = blocked;
                 }
                 return;
             }

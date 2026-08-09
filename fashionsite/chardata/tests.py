@@ -5767,6 +5767,47 @@ class ForgemagieRuneRosterTests(SimpleTestCase):
                 self.assertIsNotNone(self._stat('dofus3', key))
 
 
+class TranscendenceCatalogueTests(SimpleTestCase):
+    """The 81 transcendence runes, their weights re-verified against the live
+    client data on 2026-08-09. The weight is what the 101 rule adds to the
+    targeted stat's current weight."""
+
+    @classmethod
+    def _runes(cls):
+        import json
+        import chardata
+        path = os.path.join(os.path.dirname(chardata.__file__),
+                            'forgemagie_transcendance.json')
+        with open(path, encoding='utf-8') as fh:
+            return json.load(fh)['runes']
+
+    def test_every_rune_carries_a_weight(self):
+        runes = self._runes()
+        self.assertEqual(len(runes), 81)
+        self.assertEqual([r['name_fr'] for r in runes if not r.get('weight')], [])
+
+    def test_the_ladder_and_its_exceptions(self):
+        by_name = {r['name_fr']: r for r in self._runes()}
+        expected = {
+            'Rune Ta Vi': (50, 40), 'Rune Pata Vi': (75, 60),
+            'Rune Rata Vi': (100, 80),
+            # Cri has no 60 tier, and the percent runes are single-rank.
+            'Rune Ta Cri': (1, 40), 'Rune Pata Cri': (2, 80),
+            'Rune Ta Ré Per Terre': (2, 80),
+        }
+        for name, (bonus, weight) in expected.items():
+            with self.subTest(rune=name):
+                rune = by_name[name]
+                self.assertEqual((rune['bonus'], rune['weight']),
+                                 (bonus, weight))
+
+    def test_transcendence_stays_out_of_touch_and_retro(self):
+        from chardata.forgemagie_transcendance import get_transcendence_runes
+        self.assertTrue(get_transcendence_runes('dofus3'))
+        self.assertEqual(get_transcendence_runes('touch'), [])
+        self.assertEqual(get_transcendence_runes('retro'), [])
+
+
 class WeaponCriticalRateTests(SimpleTestCase):
     """Retro states a weapon's critical rate the way the game does, one hit in
     X; Dofus 2 turned the same field into a percentage. The Kaiser hammer is
