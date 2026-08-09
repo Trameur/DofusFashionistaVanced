@@ -22,7 +22,9 @@ from fashionistapulp.dofus_constants import STAT_KEY_TO_NAME, DEPRECATED_STATS
 from fashionistapulp.structure import get_structure
 
 
-def get_stats_weights(char):
+def get_stats_weights(char, persist=True):
+    """persist=False for read-only callers: filling the defaults in normally
+    re-saves the char, and merely viewing a shared build must not touch it."""
     weights = {}
     
     if char.stats_weight:
@@ -56,7 +58,7 @@ def get_stats_weights(char):
             assert stat_key in STAT_KEY_TO_NAME, '%s is not a stat' % stat_key
 
     # Save if anything was changed
-    if changed:
+    if changed and persist:
         set_stats_weights(char, weights)
 
     return weights
