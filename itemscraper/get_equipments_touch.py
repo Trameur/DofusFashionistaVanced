@@ -108,11 +108,12 @@ CONDITION_MAP = {
     'CV': 'Vitality', 'CC': 'Chance', 'CW': 'Wisdom',
 }
 
-# CP and CM gate Action and Movement Points: every carrier grants the very stat
-# it gates ("CP<12" sits on the +1 AP pieces), so the game must be checking the
-# total BEFORE the item is equipped. The model compares post-equip totals, so
-# the threshold shifts by the item's own bonus.
-BEFORE_EQUIP_CONDITION_MAP = {'CP': 'AP', 'CM': 'MP'}
+# CP and CM gate Action and Movement Points, on the total WITH the item's own
+# bonus counted: the 2.9 devblog says the "AP < 12" pieces "become unequippable
+# if the players who use them try to reach 12 AP while wearing them", naming
+# Cushtycloak, Awmigawd Band and the other carriers. That is their design: the
+# +1 AP is cheap because it can never take the character to the cap.
+AP_MP_CONDITION_MAP = {'CP': 'AP', 'CM': 'MP'}
 
 LANGS = ['en', 'fr', 'es', 'pt', 'de']
 
@@ -196,10 +197,13 @@ def _top_level_parts(criteria: str):
     return parts
 
 
-def decode_conditions(criteria: str, own_bonus=None):
+def decode_conditions(criteria: str):
     """'CS>20&CV>6' -> ['Strength > 20', 'Vitality > 6'] (AND, stat gates). Also maps
     the set-bonus gate 'Pk<N' -> 'Set bonus < N' so trophies that limit panoply bonuses
     get the 'light_set' weird condition downstream (get_equipments3.py).
+
+    Every gate reads the post-equip total, the item's own bonus included, which
+    is what the model compares too, so the thresholds pass through unchanged.
 
     A part holding a '|' is dropped whole: the min/max tables can only AND, and
     turning "CM<6|CP<12" (the Professor Xa pieces) into two AND gates would
@@ -208,19 +212,13 @@ def decode_conditions(criteria: str, own_bonus=None):
     out = []
     if not criteria or criteria == 'null':
         return out
-    own_bonus = own_bonus or {}
     for part in _top_level_parts(str(criteria)):
         if '|' in part:
             continue
         for code, op, val in re.findall(r'(C[A-Z])\s*([<>])\s*(\d+)', part):
-            stat = CONDITION_MAP.get(code)
+            stat = CONDITION_MAP.get(code) or AP_MP_CONDITION_MAP.get(code)
             if stat:
                 out.append('%s %s %s' % (stat, op, val))
-                continue
-            stat = BEFORE_EQUIP_CONDITION_MAP.get(code)
-            if stat:
-                out.append('%s %s %d' % (stat, op,
-                                         int(val) + own_bonus.get(stat, 0)))
     for val in re.findall(r'Pk\s*<\s*(\d+)', str(criteria)):
         out.append('Set bonus < %s' % val)
     return out
@@ -252,11 +250,6 @@ def build_equipment(items_by_lang, effects):
         level = max(1, min(int(level), 200))
         is_weapon = it.get('_type') == 'Weapon'
         stats, hits = decode_effects(it.get('possibleEffects'), effects, is_weapon)
-        own_bonus = {}
-        for entry in stats:
-            if entry[2] in ('AP', 'MP'):
-                own_bonus[entry[2]] = (own_bonus.get(entry[2], 0)
-                                       + max(entry[0], entry[1]))
 
         rec = {
             'ankama_id': ankama_id,
@@ -269,7 +262,7 @@ def build_equipment(items_by_lang, effects):
             'level': level,
             'w_type': w_type,
             'stats': stats + hits,
-            'conditions': decode_conditions(it.get('criteria') or '', own_bonus),
+            'conditions': decode_conditions(it.get('criteria') or ''),
         }
         if weapon_type:
             rec['weapon_type'] = weapon_type

@@ -10586,15 +10586,16 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                          localized)
 
     def test_touch_ap_and_mp_gates_reach_the_condition_tables(self):
-        # The lang criteria CP and CM gate Action and Movement Points, checked
-        # BEFORE the item is equipped; the model checks post-equip totals, so
-        # the stored threshold carries the item's own bonus. A part holding a
-        # '|' is dropped whole: the Xa pieces say "CM<6|CP<12" and two AND
-        # gates would forbid what the game allows.
+        # The lang criteria CP and CM gate Action and Movement Points on the
+        # total WITH the item's own bonus counted: the 2.9 devblog says these
+        # pieces "become unequippable if the players who use them try to reach
+        # 12 AP while wearing them". A part holding a '|' is dropped whole:
+        # the Xa pieces say "CM<6|CP<12" and two AND gates would forbid what
+        # the game allows.
         cases = {
-            11738: ('AP', 'max', 11),   # Anneau Aimgeroks: CP<11, grants +1 AP
-            16354: ('AP', 'max', 12),   # Protozash: CP<12, grants +1 AP
-            16186: ('AP', 'max', 12),   # Micrab Slippers: CP<12, grants +1 AP
+            11738: ('AP', 'max', 10),   # Awmigawd Band: CP<11
+            16354: ('AP', 'max', 11),   # Protozash: CP<12
+            16186: ('AP', 'max', 11),   # Micrab Slippers: CP<12
         }
         for ankama_id, (stat, kind, value) in cases.items():
             with self.subTest(ankama_id=ankama_id):
