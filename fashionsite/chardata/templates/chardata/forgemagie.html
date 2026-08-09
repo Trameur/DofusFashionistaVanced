@@ -509,6 +509,7 @@
                     name: stat.name,
                     icon: stat.icon,
                     max: stat.value,
+                    min: stat.min === undefined ? null : stat.min,
                     current: stat.value,
                     target: stat.value,
                     editable: editable,
@@ -882,6 +883,7 @@
                         name: row.name,
                         icon: row.icon,
                         max: row.exo ? 0 : row.max,
+                        min: row.exo ? 0 : (row.min || 0),
                         start: row.current || 0,
                         value: row.current || 0,
                         target: row.target,
@@ -1019,6 +1021,7 @@
         var FM_ODDS = {
             base: 0.98,        // best case: tiny rune, low stat, light item
             scShare: 0.25,     // share of successes that are critical (no loss)
+            scShareBelowMin: 0.75, // under the natural min roll, losses are rare
             floor: 0.02,       // never show a flat 0% (except the 1% exos)
             weightScale: 2600, // total item weight feeding the global penalty
             weightFloor: 0.55  // strongest global-weight multiplier
@@ -1050,12 +1053,18 @@
             return Math.max(0.0, 0.5 * (1.0 - (rr - 1.0) / 0.6));
         }
 
-        // 1.0 while comfortably under the max roll, 0.6 at the max, down to 0.1
-        // when overmaging; exo / no-natural-roll lines are inherently hard.
+        // Below the natural minimum roll the game gives the line away: that is
+        // the whole point of smithmagic, and a model that ignores it lands the
+        // player back at a crafted roll. Then 1.0 while comfortably under the
+        // max, 0.6 at the max, down to 0.1 when overmaging; exo lines and lines
+        // with no natural roll are inherently hard.
         function passFactorFill(row, tier) {
             var maxRoll = row.exo ? 0 : row.max;
             if (maxRoll <= 0) {
                 return 0.30;
+            }
+            if (belowNaturalMin(row, tier)) {
+                return 1.0;
             }
             var fr = (row.value + tier.bonus) / maxRoll;
             if (fr <= 0.8) {
@@ -1065,6 +1074,11 @@
                 return 1.0 - 0.4 * ((fr - 0.8) / 0.2);
             }
             return Math.max(0.1, 0.6 - 0.5 * (fr - 1.0));
+        }
+
+        function belowNaturalMin(row, tier) {
+            var minRoll = row.exo ? 0 : (row.min || 0);
+            return minRoll > 0 && row.value + tier.bonus <= minRoll;
         }
 
         function passFactorWeight() {
@@ -1081,15 +1095,23 @@
                      * passFactorFill(row, tier)
                      * passFactorWeight();
             pass = Math.max(FM_ODDS.floor, Math.min(0.98, pass));
-            return {sc: pass * FM_ODDS.scShare,
-                    sn: pass * (1 - FM_ODDS.scShare),
+            // Rebuilding a line the item has not even rolled naturally costs
+            // nothing: those successes are mostly critical, so nothing is lost
+            // elsewhere on the way up.
+            var scShare = belowNaturalMin(row, tier)
+                ? FM_ODDS.scShareBelowMin : FM_ODDS.scShare;
+            return {sc: pass * scShare,
+                    sn: pass * (1 - scShare),
                     ec: 1 - pass};
         }
 
         // Losses drain the sink first, then stat lines: exo lines are the
-        // most fragile, then over-maged lines, then normal rolls. A heavy
-        // line eaten by a small loss banks the surplus as sink.
-        function applyLoss(weight, excludeIndex, lost) {
+        // most fragile, then over-maged lines, then normal rolls. Within a
+        // group the lines lighter per point than the rune go first, which is
+        // why an AP survives a standard rune and a Ra rune threatens it. A
+        // heavy line eaten by a small loss banks the surplus as sink, and the
+        // sink itself cannot pass the cap.
+        function applyLoss(weight, excludeIndex, lost, runeWeight) {
             var fromSink = Math.min(session.sink, weight);
             session.sink = round2(session.sink - fromSink);
             weight = round2(weight - fromSink);
@@ -1119,6 +1141,7 @@
                 if (!pool.length) {
                     break;
                 }
+                pool = lightestFirst(pool, runeWeight);
                 var index = pool[Math.floor(Math.random() * pool.length)];
                 var row = session.rows[index];
                 var density = statInfo(row.key).density;
@@ -1127,12 +1150,26 @@
                 lost.push({name: row.name, points: points});
                 var removed = points * density;
                 if (removed >= weight) {
-                    session.sink = round2(session.sink + (removed - weight));
+                    session.sink = round2(Math.min(config.overCap,
+                                                   session.sink + (removed - weight)));
                     weight = 0;
                 } else {
                     weight = round2(weight - removed);
                 }
             }
+        }
+
+        // The lines a rune of this weight can actually reach, or the whole pool
+        // when it outweighs every one of them.
+        function lightestFirst(pool, runeWeight) {
+            if (!runeWeight) {
+                return pool;
+            }
+            var reachable = pool.filter(function(index) {
+                var info = statInfo(session.rows[index].key);
+                return info && info.density <= runeWeight;
+            });
+            return reachable.length ? reachable : pool;
         }
 
         function throwRune(key, tier, forcedOutcome) {
@@ -1171,11 +1208,11 @@
             } else if (outcome === 'sn') {
                 row.value += tier.bonus;
                 if (!realMode) {
-                    applyLoss(tier.weight, rowIndex, lost);
+                    applyLoss(tier.weight, rowIndex, lost, tier.weight);
                 }
             } else {
                 if (!realMode) {
-                    applyLoss(tier.weight, -1, lost);
+                    applyLoss(tier.weight, -1, lost, tier.weight);
                 }
             }
             session.throws += 1;
@@ -1426,7 +1463,17 @@
             simChanceSpan.className = 'small-explain';
             var chances = chancesFor(row, selected.tier);
             var passPercent = Math.round((chances.sc + chances.sn) * 100);
-            simChanceSpan.textContent = t.sim_chance + ': ~' + passPercent + '%';
+            // A 60% success made of 55 neutral and 5 critical is a different
+            // throw from one made of 10 and 50, so the split is spelled out.
+            // The outcome labels read "SC - critical success"; the code alone
+            // is what fits inline, and it is what magers say anyway.
+            function code(label) {
+                return (label || '').split(' - ')[0];
+            }
+            simChanceSpan.textContent = t.sim_chance + ': ~' + passPercent + '%'
+                + ' (' + code(t.sim_sc) + ' ' + Math.round(chances.sc * 100) + '%'
+                + ' · ' + code(t.sim_sn) + ' ' + Math.round(chances.sn * 100) + '%'
+                + ' · ' + code(t.sim_ec) + ' ' + Math.round(chances.ec * 100) + '%)';
         }
 
         function formatKamas(value) {
