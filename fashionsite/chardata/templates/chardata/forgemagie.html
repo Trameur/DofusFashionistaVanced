@@ -1307,46 +1307,37 @@
                 var c = chancesFor(row, tier);
                 return c.sc + c.sn;
             }
-            var inTarget = legal.filter(function(tier) {
-                return tier.bonus <= remaining + 0.001;
-            });
-            function pickEfficient(list) {
-                return list.slice().sort(function(a, b) {
-                    var pa = passOf(a), pb = passOf(b);
-                    if (Math.abs(pb - pa) > 0.02) {
-                        return pb - pa;
-                    }
-                    return b.bonus - a.bonus;
-                })[0];
+            // What matters is the chance of finishing the line, not of landing
+            // one rune: three Pa Vi at 38% is 5%, one Ra Vi at 42% is 42%, even
+            // though the big rune overshoots. Every throw after the first is
+            // harder than this assumes, which only argues further for the rune
+            // that finishes in one.
+            function reach(tier) {
+                var throws = Math.max(1, Math.ceil((remaining - 0.001) / tier.bonus));
+                return Math.pow(passOf(tier), throws);
             }
-            var chosen = inTarget.length ? pickEfficient(inTarget) : null;
-            var chosenPass = chosen ? passOf(chosen) : 0;
-            if (chosenPass < 0.45) {
-                var over = legal.filter(function(tier) {
-                    return tier.bonus > remaining + 0.001;
-                });
-                var absorbable = over.filter(function(tier) {
-                    var landsOver = row.value + tier.bonus > maxRoll;
-                    return !landsOver || tier.weight <= session.sink + 0.001;
-                });
-                var pool = absorbable.length ? absorbable : over;
-                var bestOver = pool.slice().sort(function(a, b) {
-                    var pa = passOf(a), pb = passOf(b);
-                    if (Math.abs(pb - pa) > 0.02) {
-                        return pb - pa;
-                    }
-                    return a.weight - b.weight;
-                })[0];
-                if (bestOver && passOf(bestOver) > chosenPass + 0.05) {
-                    chosen = bestOver;
-                    chosenPass = passOf(bestOver);
+            function wastesSink(tier) {
+                return row.value + tier.bonus > maxRoll
+                       && tier.weight > session.sink + 0.001;
+            }
+            var chosen = legal.slice().sort(function(a, b) {
+                var ra = reach(a), rb = reach(b);
+                if (Math.abs(rb - ra) > 0.02) {
+                    return rb - ra;
                 }
-            }
+                // Same odds of finishing: take the surplus the sink can absorb,
+                // then the lighter rune, which breaks less on a failure.
+                var wa = wastesSink(a), wb = wastesSink(b);
+                if (wa !== wb) {
+                    return wa ? 1 : -1;
+                }
+                return a.weight - b.weight;
+            })[0];
             if (!chosen) {
                 return null;
             }
             return {key: row.key, name: info.name, tier: chosen,
-                    pass: chosenPass, weight: chosen.weight,
+                    pass: passOf(chosen), weight: chosen.weight,
                     density: info.density, heavy: info.density >= 51};
         }
 
