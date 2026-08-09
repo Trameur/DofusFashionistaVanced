@@ -1532,10 +1532,7 @@
                 "(Neutral damage)"
             ]
         ],
-        "conditions": [
-            "Agility > 60",
-            "Chance > 60"
-        ],
+        "conditions": [],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -23328,10 +23325,7 @@
                 "(Neutral damage)"
             ]
         ],
-        "conditions": [
-            "Strength > 90",
-            "Agility > 90"
-        ],
+        "conditions": [],
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -52365,7 +52359,9 @@
                 "(Neutral damage)"
             ]
         ],
-        "conditions": [],
+        "conditions": [
+            "MP > 6"
+        ],
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
@@ -73663,7 +73659,8 @@
         ],
         "conditions": [
             "Strength > 350",
-            "Agility > 200"
+            "Agility > 200",
+            "MP < 6"
         ],
         "weapon_type": "Dagger",
         "ap": 3,
@@ -77108,7 +77105,9 @@
                 "Water Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 11739,
@@ -78652,7 +78651,8 @@
             ]
         ],
         "conditions": [
-            "Strength > 90"
+            "Strength > 90",
+            "AP < 12"
         ],
         "weapon_type": "Bow",
         "ap": 5,
@@ -95404,7 +95404,9 @@
                 "Critical Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 13658,
@@ -95478,7 +95480,9 @@
                 "MP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 13659,
@@ -95557,7 +95561,9 @@
                 "Range"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 13661,
@@ -97575,7 +97581,9 @@
                 "MP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "MP < 5"
+        ]
     },
     {
         "ankama_id": 13830,
@@ -100107,7 +100115,9 @@
                 "Critical Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 14064,
@@ -102834,7 +102844,9 @@
                 "Critical Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 14131,
@@ -103024,10 +103036,7 @@
                 "(Fire damage)"
             ]
         ],
-        "conditions": [
-            "Strength > 450",
-            "Agility > 450"
-        ],
+        "conditions": [],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 5,
@@ -103697,7 +103706,9 @@
                 "Critical Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 14163,
@@ -104157,7 +104168,9 @@
                 "Critical Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 14169,
@@ -104409,7 +104422,9 @@
                 "Neutral Damage"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 14201,
@@ -106487,7 +106502,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 14601,
@@ -108636,7 +108653,9 @@
                 "Heals"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 11"
+        ]
     },
     {
         "ankama_id": 15112,
@@ -108685,7 +108704,9 @@
                 "Range"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 11"
+        ]
     },
     {
         "ankama_id": 15113,
@@ -108749,7 +108770,9 @@
                 "Critical Hits"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 11"
+        ]
     },
     {
         "ankama_id": 15116,
@@ -111829,7 +111852,8 @@
         ],
         "conditions": [
             "Strength > 400",
-            "Agility > 400"
+            "Agility > 400",
+            "MP > 6"
         ],
         "weapon_type": "Sword",
         "ap": 4,
@@ -113743,10 +113767,7 @@
                 "(Air steal)"
             ]
         ],
-        "conditions": [
-            "Strength > 450",
-            "Agility > 450"
-        ],
+        "conditions": [],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
@@ -115818,7 +115839,9 @@
                 "% Fire Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16039,
@@ -116053,7 +116076,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16067,
@@ -118076,7 +118101,9 @@
                 "MP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 16185,
@@ -118163,7 +118190,9 @@
                 "MP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16187,
@@ -118332,7 +118361,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16191,
@@ -120227,7 +120258,9 @@
                 "Wisdom"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 16354,
@@ -120291,7 +120324,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16356,
@@ -120365,7 +120400,9 @@
                 "Dodge"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16362,
@@ -120592,7 +120629,9 @@
                 "MP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16374,
@@ -120671,7 +120710,9 @@
                 "MP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 12"
+        ]
     },
     {
         "ankama_id": 16376,
@@ -120819,7 +120860,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16382,
@@ -120967,7 +121010,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16386,
@@ -124000,7 +124045,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 16540,
@@ -131287,7 +131334,9 @@
                 "Wisdom"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 19245,
@@ -132947,7 +132996,9 @@
                 "AP"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "AP < 13"
+        ]
     },
     {
         "ankama_id": 19614,

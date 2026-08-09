@@ -10585,6 +10585,35 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                         self.assertEqual(str(LOCALIZED_WEAPON_TYPES[name]),
                                          localized)
 
+    def test_touch_ap_and_mp_gates_reach_the_condition_tables(self):
+        # The lang criteria CP and CM gate Action and Movement Points, checked
+        # BEFORE the item is equipped; the model checks post-equip totals, so
+        # the stored threshold carries the item's own bonus. A part holding a
+        # '|' is dropped whole: the Xa pieces say "CM<6|CP<12" and two AND
+        # gates would forbid what the game allows.
+        cases = {
+            11738: ('AP', 'max', 11),   # Anneau Aimgeroks: CP<11, grants +1 AP
+            16354: ('AP', 'max', 12),   # Protozash: CP<12, grants +1 AP
+            16186: ('AP', 'max', 12),   # Micrab Slippers: CP<12, grants +1 AP
+        }
+        for ankama_id, (stat, kind, value) in cases.items():
+            with self.subTest(ankama_id=ankama_id):
+                table = 'max_stat_to_equip' if kind == 'max' else 'min_stat_to_equip'
+                rows = self._rows('touch',
+                    """SELECT c.value FROM %s c
+                       JOIN items i ON i.id = c.item
+                       JOIN stats s ON s.id = c.stat
+                       WHERE i.ankama_id = %d AND s.name = '%s'"""
+                    % (table, ankama_id, stat))
+                self.assertEqual([(value,)], rows)
+        # The disjunction is skipped, not split into AND.
+        rows = self._rows('touch',
+            """SELECT COUNT(*) FROM max_stat_to_equip c
+               JOIN items i ON i.id = c.item
+               JOIN stats s ON s.id = c.stat
+               WHERE i.ankama_id = 12108 AND s.name IN ('AP', 'MP')""")
+        self.assertEqual(0, rows[0][0])
+
     def test_an_item_ankama_calls_unequippable_is_never_proposed(self):
         # Two beta amulets carry an AP bonus and the line "This object cannot
         # be equipped, it exists merely to be broken". The solver would have
