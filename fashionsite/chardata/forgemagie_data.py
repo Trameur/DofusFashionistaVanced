@@ -27,9 +27,11 @@ five game versions served by the site:
 - 'modern': Dofus 3, beta and Dofus 2. Current rune roster and densities
   (post-2.29: Vi runes give 5/15/50 at 0.2 weight per vitality, Cri weighs
   10, So weighs 10).
-- 'touch': Dofus Touch, forked from Dofus 2.14, keeps the older values
-  (Vi runes give 3/10/30 at 0.25 per vitality, Cri weighs 30, So weighs 20)
-  and has no %-damage-per-attack-type stats.
+- 'touch': Dofus Touch, forked from Dofus 2.14. Its 1.54/1.57/1.59 updates
+  brought the weights to the PC values (Vi 5/15/50 at 0.2, Cri 10, So 10)
+  and removed trap damage, trap power and reflect from items entirely;
+  Wisdom still weighs 1 per point against the PC's 3, and there are no
+  %-damage-per-attack-type stats.
 - 'retro': Dofus 1.29. Smaller stat roster, old densities (fixed resists
   weigh 5, % resists 4, reflects 30, trap damage 15).
 
@@ -121,18 +123,23 @@ _MODERN_STATS = {
     'resperwea': _stat(15, '', [], approx=True),
 }
 
-# Touch froze the pre-2.29 values and never received the per-attack-type
-# percentage stats.
+# Touch never received the per-attack-type percentage stats, and update 1.57
+# "Albuera" (2022-11-29) removed trap damage, trap power and reflect from items
+# and runes altogether. Its weights caught up with the PC game in 1.54/1.59
+# (So 20 -> 10, Vi to 5/15/50 at 0.2, Cri to 10) with one divergence left:
+# Wisdom weighs 1 per point against the PC's 3. All values read from the
+# official Touch encyclopedia's "Poids de Forgemagie" field on 2026-08-09;
+# no Ra tier exists on Touch for the resists, So or the elemental damages.
 _TOUCH_STATS = dict(_MODERN_STATS)
 for _key in ('permedam', 'perrandam', 'perweadam', 'perspedam',
-             'respermee', 'resperran', 'resperwea'):
+             'respermee', 'resperran', 'resperwea',
+             'ref', 'trapdam', 'trapdamper'):
     del _TOUCH_STATS[_key]
 _TOUCH_STATS.update({
-    'vit': _stat(0.25, 'Vi', [('', 3), ('Pa', 10), ('Ra', 30)]),
-    'ch': _stat(30, 'Cri', [('', 1)]),
-    'heals': _stat(20, 'So', [('', 1)]),
-    # The Ra resist runes and the Pa Do Ren are confirmed for the modern game
-    # only, so Touch keeps the roster it forked with.
+    'vit': _stat(0.2, 'Vi', [('', 5), ('Pa', 15), ('Ra', 50)]),
+    'wis': _stat(1, 'Sa', _STANDARD_TIERS),
+    'ch': _stat(10, 'Cri', [('', 1)]),
+    'heals': _stat(10, 'So', [('', 1), ('Pa', 3)]),
     'neutres': _stat(2, 'Ré Neutre', [('', 1), ('Pa', 3)]),
     'earthres': _stat(2, 'Ré Terre', [('', 1), ('Pa', 3)]),
     'fireres': _stat(2, 'Ré Feu', [('', 1), ('Pa', 3)]),
@@ -141,7 +148,12 @@ _TOUCH_STATS.update({
     'crires': _stat(2, 'Ré Cri', [('', 1), ('Pa', 3)]),
     'pshres': _stat(2, 'Ré Pou', [('', 1), ('Pa', 3)]),
     'pshdam': _stat(5, 'Do Pou', [('', 1), ('Pa', 3)]),
-    'ref': _stat(10, 'Do Ren', [('', 1)]),
+    'neutdam': _stat(5, 'Do Neutre', [('', 1), ('Pa', 3)]),
+    'earthdam': _stat(5, 'Do Terre', [('', 1), ('Pa', 3)]),
+    'firedam': _stat(5, 'Do Feu', [('', 1), ('Pa', 3)]),
+    'waterdam': _stat(5, 'Do Eau', [('', 1), ('Pa', 3)]),
+    'airdam': _stat(5, 'Do Air', [('', 1), ('Pa', 3)]),
+    'cridam': _stat(5, 'Do Cri', [('', 1), ('Pa', 3)]),
 })
 
 # 1.29: no Power/Lock/AP-MP reduction or dodge runes existed; resists and a

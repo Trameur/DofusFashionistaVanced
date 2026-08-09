@@ -5732,11 +5732,29 @@ class ForgemagieRuneRosterTests(SimpleTestCase):
     def test_percent_weapon_resist_has_no_rune_because_the_game_has_none(self):
         self.assertEqual(self._stat('dofus3', 'resperwea')['tiers'], [])
 
-    def test_touch_keeps_the_roster_it_forked_with(self):
-        for key in ('fireres', 'crires', 'pshres', 'pshdam'):
+    def test_touch_weights_match_its_own_encyclopedia(self):
+        # Read from the official Touch encyclopedia's "Poids de Forgemagie"
+        # field on 2026-08-09, per-rune, against production data 3.2.11.
+        for key in ('fireres', 'crires', 'pshres', 'pshdam', 'firedam'):
             with self.subTest(stat=key):
                 self.assertNotIn('Ra', dict(self._stat('touch', key)['tiers']))
-        self.assertEqual(self._stat('touch', 'ref')['tiers'], [('', 1)])
+        vit = self._stat('touch', 'vit')
+        self.assertEqual((vit['density'], vit['tiers']),
+                         (0.2, [('', 5), ('Pa', 15), ('Ra', 50)]))
+        self.assertEqual(self._stat('touch', 'wis')['density'], 1)
+        self.assertEqual(self._stat('touch', 'ch')['density'], 10)
+        heals = self._stat('touch', 'heals')
+        self.assertEqual((heals['density'], heals['tiers']),
+                         (10, [('', 1), ('Pa', 3)]))
+
+    def test_touch_dropped_traps_and_reflect_in_1_57(self):
+        for key in ('ref', 'trapdam', 'trapdamper'):
+            with self.subTest(stat=key):
+                self.assertIsNone(self._stat('touch', key))
+        # The PC game keeps all three.
+        for key in ('ref', 'trapdam', 'trapdamper'):
+            with self.subTest(stat=key):
+                self.assertIsNotNone(self._stat('dofus3', key))
 
 
 class WeaponCriticalRateTests(SimpleTestCase):
