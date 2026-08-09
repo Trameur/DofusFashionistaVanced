@@ -122,7 +122,8 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                     <tr>
                         <td>{{ g.grade }}</td>
                         <td>{{ g.level }}</td>
-                        <td>{{ g.hp }}</td>
+                        {# No creature has zero health: 0 means the game has no value. #}
+                        <td>{% if g.hp %}{{ g.hp }}{% else %}-{% endif %}</td>
                         <td>{{ g.ap }}</td>
                         <td>{{ g.mp }}</td>
                         <td{% if 'earth' in g.weakest %} class="monster-weak"{% endif %}>{{ g.earth }}%</td>

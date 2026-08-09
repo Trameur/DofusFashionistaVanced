@@ -4426,6 +4426,24 @@ class MonsterWeakestElementTests(TestCase):
         self.assertIn('monster-weak', html)
         self.assertIn('monster-weakest-hint', html)
 
+    def test_a_monster_the_game_gives_no_health_shows_a_dash(self):
+        # 112 dofus3 monsters carry 0 life points in the game's own data, the
+        # Arakne among them, and the page printed a flat 0. Real values are
+        # untouched, and the template must not leak a Django comment either:
+        # {# #} is single-line only.
+        from chardata import encyclopedia_view
+        blank = self.client.get(
+            encyclopedia_view.get_monster_link(246, 'Arakne', 'dofus3')
+        ).content.decode('utf-8')
+        self.assertRegex(blank, r'<td>\s*-\s*</td>')
+        self.assertNotRegex(blank, r'<td>\s*0\s*</td>')
+        self.assertNotIn('{#', blank)
+        real = self.client.get(
+            encyclopedia_view.get_monster_link(31, 'Tofu', 'dofus3')
+        ).content.decode('utf-8')
+        self.assertNotIn('{#', real)
+        self.assertRegex(real, r'<td>\s*90\s*</td>')
+
     def test_consistent_weakest_helper(self):
         from chardata import encyclopedia_view
         pick = encyclopedia_view._consistent_weakest
