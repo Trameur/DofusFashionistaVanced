@@ -10844,6 +10844,37 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                      'ankama_type', None) == 'mounts']
                 self.assertEqual(mounts, [])
 
+    def test_every_item_icon_the_pages_ask_for_is_on_disk(self):
+        # Icons are keyed by item name, so a rename in the game data breaks
+        # them without touching a single row. Nothing in the database can see
+        # that; only the file can. About 21k files, two seconds.
+        import sqlite3
+        from chardata.image_store import get_image_url
+        from fashionistapulp.fashionista_config import (get_fashionista_path,
+                                                        get_items_db_path)
+        static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                              'static')
+        for version in self.VERSIONS:
+            path = get_items_db_path(version)
+            if not os.path.exists(path):
+                continue
+            connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+            try:
+                rows = connection.execute(
+                    'SELECT t.name, i.name FROM items i'
+                    ' JOIN item_types t ON t.id = i.type'
+                    ' WHERE COALESCE(i.removed, 0) = 0').fetchall()
+            finally:
+                connection.close()
+            missing = [
+                (type_name, item_name)
+                for type_name, item_name in rows
+                if not os.path.exists(os.path.join(
+                    static,
+                    get_image_url(type_name, item_name, version).replace('/', os.sep)))]
+            with self.subTest(version=version):
+                self.assertEqual(missing[:5], [])
+
     def test_every_weapon_points_at_a_type_that_exists(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):
