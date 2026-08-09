@@ -765,6 +765,29 @@ class PublicRouteSmokeTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn('Fermer', body)
 
+    def test_a_page_that_needs_a_login_lands_on_the_login_page(self):
+        # The dev settings had no LOGIN_URL, so @login_required sent anonymous
+        # visitors to Django's default /accounts/login/, which is a 404 here.
+        # Both settings files must point at the route that exists.
+        from django.conf import settings
+        resp = self.client.get('/workshop/')
+        self.assertEqual(resp.status_code, 302)
+        self.assertTrue(resp['Location'].startswith(settings.LOGIN_URL),
+                        resp['Location'])
+        self.assertEqual(self.client.get(settings.LOGIN_URL).status_code, 200)
+
+    def test_the_dev_settings_agree_with_production_on_the_login_url(self):
+        import re
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        found = {}
+        for name in ('settings.py', 'settings_dev.py'):
+            path = os.path.join(get_fashionista_path(), 'fashionsite',
+                                'fashionsite', name)
+            with open(path, encoding='utf-8') as fh:
+                match = re.search(r'^LOGIN_URL\s*=\s*(.+)$', fh.read(), re.M)
+            found[name] = match and match.group(1).strip()
+        self.assertEqual(found['settings.py'], found['settings_dev.py'], found)
+
     def test_security_headers_sent(self):
         # SecurityMiddleware has to be installed for nosniff and referrer-policy
         # to actually go out.
