@@ -5808,6 +5808,75 @@ class TranscendenceCatalogueTests(SimpleTestCase):
         self.assertEqual(get_transcendence_runes('retro'), [])
 
 
+class TranscendenceAdviceTests(SimpleTestCase):
+    """One rune per item of a generated build: a transcendence rune locks the
+    item, so only the one the build gains most from is worth naming."""
+
+    # A perfect Volkorne ring: 250 vitality is 50 of weight, 100 chance is 100.
+    RING = {'vit': 250, 'cha': 100, 'ch': 5, 'waterdam': 20, 'waterresper': 10}
+
+    def _best(self, weights, version='dofus3', stats=None):
+        from chardata.transcendence_advice import best_transcendence
+        return best_transcendence(version, self.RING if stats is None else stats,
+                                  weights)
+
+    def test_it_names_the_rune_the_build_values(self):
+        rune = self._best({'vit': 1})
+        self.assertEqual((rune['name_fr'], rune['bonus']), ('Rune Ta Vi', 50))
+
+    def test_a_maxed_line_leaves_no_room_for_its_rune(self):
+        # 100 chance weighs 100, and the lightest Ta rune weighs 40.
+        self.assertIsNone(self._best({'cha': 1}))
+
+    def test_the_cap_picks_the_tier_that_still_fits(self):
+        # 5 critical hits weigh 50, so Ta Cri (40) fits and Pata Cri (80) does not.
+        self.assertEqual(self._best({'ch': 1})['name_fr'], 'Rune Ta Cri')
+
+    def test_an_empty_line_takes_the_biggest_rune(self):
+        # Nothing on the line, so the whole ladder is legal and the top wins.
+        self.assertEqual(self._best({'str': 1})['name_fr'], 'Rune Rata Fo')
+
+    def test_a_stat_the_build_ignores_is_never_suggested(self):
+        self.assertIsNone(self._best({'vit': 0, 'cha': 0}))
+        self.assertIsNone(self._best({}))
+
+    def test_the_versions_without_transcendence_get_nothing(self):
+        for version in ('retro', 'touch'):
+            with self.subTest(version=version):
+                self.assertIsNone(self._best({'vit': 1}, version=version))
+
+
+class ReadOnlyStatsWeightsTests(TestCase):
+    """Reading the weights to advise on a build must not write the build back:
+    filling the defaults in normally re-saves the char, and the shared page is
+    read-only."""
+
+    def _char(self):
+        from chardata.models import Char
+        return Char.objects.create(
+            name='Weights', char_name='w', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'', link_shared=False,
+            game_version='dofus3')
+
+    def test_reading_without_persist_leaves_the_char_alone(self):
+        from chardata.models import Char
+        from chardata.stats_weights import get_stats_weights
+        char = self._char()
+        before = Char.objects.get(pk=char.pk).modified_time
+        weights = get_stats_weights(char, persist=False)
+        self.assertTrue(weights)
+        self.assertEqual(Char.objects.get(pk=char.pk).modified_time, before)
+        self.assertEqual(Char.objects.get(pk=char.pk).stats_weight, b'')
+
+    def test_the_default_still_writes_the_filled_defaults(self):
+        from chardata.models import Char
+        from chardata.stats_weights import get_stats_weights
+        char = self._char()
+        get_stats_weights(char)
+        self.assertTrue(Char.objects.get(pk=char.pk).stats_weight)
+
+
 class WeaponCriticalRateTests(SimpleTestCase):
     """Retro states a weapon's critical rate the way the game does, one hit in
     X; Dofus 2 turned the same field into a percentage. The Kaiser hammer is

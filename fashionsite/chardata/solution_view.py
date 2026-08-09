@@ -43,6 +43,7 @@ from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
+from chardata.stats_weights import get_stats_weights
 from chardata.solution_history import get_generation_preview_items, get_generation_solution
 from chardata.solution_scores import calculate_project_build_score
 from chardata.spell_buffs import compute_full_buff_stats
@@ -324,7 +325,8 @@ def _get_shared_solution_params(char):
     solution = get_solution(char)
     solution_result = SolutionResult(solution,
                                      inclusions,
-                                     exclusions)
+                                     exclusions,
+                                     weights=get_stats_weights(char, persist=False))
     cached_params = solution_result.get_params()
     cache.set(cache_key, cached_params, SHARED_SOLUTION_CACHE_TIMEOUT)
     return cached_params
@@ -483,7 +485,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         solution_result = SolutionResult(solution,
                                          inclusions,
                                          exclusions,
-                                         empty_slots)
+                                         empty_slots,
+                                         weights=get_stats_weights(char, persist=False))
         solution_params = solution_result.get_params()
 
     vote_data = _get_live_vote_data(request, char)

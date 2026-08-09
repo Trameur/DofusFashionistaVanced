@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 16:52+0200\n"
+"POT-Creation-Date: 2026-08-09 14:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgid "Saved generation"
 msgstr "Generación guardada"
 
 #: .\chardata\compare_sets_view.py:250 .\chardata\dynamic_translations.py:150
-#: .\chardata\exclusions_view.py:29 .\chardata\solution_view.py:113
+#: .\chardata\exclusions_view.py:29 .\chardata\solution_view.py:114
 msgid "Weapon"
 msgstr "Arma"
 
@@ -153,12 +153,12 @@ msgstr "%s no ha sido compartido por su creador."
 msgid "Saved generations cannot be shared directly."
 msgstr "Las generaciones guardadas no se pueden compartir directamente."
 
-#: .\chardata\compare_sets_view.py:534
+#: .\chardata\compare_sets_view.py:539
 #, python-format
 msgid "Project %s is not in this game version."
 msgstr "El proyecto %s no está en esta versión del juego."
 
-#: .\chardata\compare_sets_view.py:546
+#: .\chardata\compare_sets_view.py:551
 #, python-format
 msgid "Project %s is not shared."
 msgstr "El proyecto %s no ha sido compartido."
@@ -498,7 +498,7 @@ msgid "Changes speech"
 msgstr "Cambia el habla"
 
 #: .\chardata\dynamic_translations.py:77 .\chardata\exclusions_view.py:32
-#: .\chardata\solution_view.py:112
+#: .\chardata\solution_view.py:113
 msgid "Cloak"
 msgstr "Capa"
 
@@ -643,7 +643,7 @@ msgid "Hammer"
 msgstr "Martillo"
 
 #: .\chardata\dynamic_translations.py:103 .\chardata\exclusions_view.py:31
-#: .\chardata\solution_view.py:112
+#: .\chardata\solution_view.py:113
 msgid "Hat"
 msgstr "Sombrero"
 
@@ -846,7 +846,7 @@ msgid "Scythe"
 msgstr "Guadaña"
 
 #: .\chardata\dynamic_translations.py:133 .\chardata\exclusions_view.py:30
-#: .\chardata\solution_view.py:113
+#: .\chardata\solution_view.py:114
 msgid "Shield"
 msgstr "Escudo"
 
@@ -956,17 +956,17 @@ msgstr "¿Qué hay dentro?"
 msgid "Wisdom"
 msgstr "Sabiduría"
 
-#: .\chardata\encyclopedia_view.py:460 .\chardata\solution_result.py:235
+#: .\chardata\encyclopedia_view.py:460 .\chardata\solution_result.py:239
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s steal)"
 msgstr "%(min)d a %(max)d (roba %(element)s)"
 
-#: .\chardata\encyclopedia_view.py:466 .\chardata\solution_result.py:240
+#: .\chardata\encyclopedia_view.py:466 .\chardata\solution_result.py:244
 #, python-format
 msgid "%(min)d to %(max)d %(element)s heals"
 msgstr "%(min)d a %(max)d curas %(element)s"
 
-#: .\chardata\encyclopedia_view.py:472 .\chardata\solution_result.py:279
+#: .\chardata\encyclopedia_view.py:472 .\chardata\solution_result.py:283
 #, python-format
 msgid "%(min)d to %(max)d (%(element)s)"
 msgstr "%(min)d a %(max)d (%(element)s)"
@@ -1306,89 +1306,89 @@ msgstr "Balanceado"
 msgid "Glass-Cannon"
 msgstr "Cañón de cristal"
 
-#: .\chardata\solution_result.py:246
+#: .\chardata\solution_result.py:250
 #, python-format
 msgid "%(min)d to %(max)d (HP restored)"
 msgstr "%(min)d a %(max)d (PdV recuperados)"
 
-#: .\chardata\solution_result.py:250
+#: .\chardata\solution_result.py:254
 #, python-format
 msgid "Pushes %(cells)d cells"
 msgstr "Empuja %(cells)d casillas"
 
-#: .\chardata\solution_result.py:252
+#: .\chardata\solution_result.py:256
 #, python-format
 msgid "Pushes %(min)d to %(max)d cells"
 msgstr "Empuja de %(min)d a %(max)d casillas"
 
-#: .\chardata\solution_result.py:255
+#: .\chardata\solution_result.py:259
 #, python-format
 msgid "Attracts %(cells)d cells"
 msgstr "Atrae %(cells)d casillas"
 
-#: .\chardata\solution_result.py:257
+#: .\chardata\solution_result.py:261
 #, python-format
 msgid "Attracts %(min)d to %(max)d cells"
 msgstr "Atrae de %(min)d a %(max)d casillas"
 
-#: .\chardata\solution_result.py:260
+#: .\chardata\solution_result.py:264
 #, python-format
 msgid "Steals %(kamas)d kamas"
 msgstr "Roba %(kamas)d kamas"
 
-#: .\chardata\solution_result.py:262
+#: .\chardata\solution_result.py:266
 #, python-format
 msgid "Steals %(min)d to %(max)d kamas"
 msgstr "Roba de %(min)d a %(max)d kamas"
 
-#: .\chardata\solution_result.py:265 .\chardata\tests.py:222
+#: .\chardata\solution_result.py:269 .\chardata\tests.py:222
 #, python-format
 msgid "Steals %(mp)d MP"
 msgstr "Roba %(mp)d PM"
 
-#: .\chardata\solution_result.py:267
+#: .\chardata\solution_result.py:271
 #, python-format
 msgid "Steals %(min)d to %(max)d MP"
 msgstr "Roba de %(min)d a %(max)d PM"
 
-#: .\chardata\solution_result.py:270 .\chardata\tests.py:231
+#: .\chardata\solution_result.py:274 .\chardata\tests.py:231
 #, python-format
 msgid "Removes %(ap)d AP"
 msgstr "Quita %(ap)d PA"
 
-#: .\chardata\solution_result.py:272
+#: .\chardata\solution_result.py:276
 #, python-format
 msgid "Removes %(min)d to %(max)d AP"
 msgstr "Quita de %(min)d a %(max)d PA"
 
-#: .\chardata\solution_result.py:275
+#: .\chardata\solution_result.py:279
 #, python-format
 msgid "Advances %(cells)d cells"
 msgstr "Avanza %(cells)d casillas"
 
-#: .\chardata\solution_result.py:277
+#: .\chardata\solution_result.py:281
 #, python-format
 msgid "Advances %(min)d to %(max)d cells"
 msgstr "Avanza de %(min)d a %(max)d casillas"
 
-#: .\chardata\solution_result.py:349
+#: .\chardata\solution_result.py:367
 msgid "Set bonus < 2"
 msgstr "Bonus de set < 2"
 
-#: .\chardata\solution_result.py:349
+#: .\chardata\solution_result.py:367
 msgid "Set bonus < 3"
 msgstr "Bonus de set < 3"
 
-#: .\chardata\solution_result.py:358
+#: .\chardata\solution_result.py:376
 msgid "Prysmaradite < 1"
 msgstr "Prysmaradite < 1"
 
-#: .\chardata\solution_result.py:368
+#: .\chardata\solution_result.py:386
 #, python-format
 msgid "Max. %(stat)s %(value)d"
 msgstr "Máx. %(stat)s %(value)d"
 
-#: .\chardata\solution_view.py:114
+#: .\chardata\solution_view.py:115
 msgid "Mount"
 msgstr "Montura"
 
@@ -3869,7 +3869,7 @@ msgstr "Elegir"
 
 #: .\chardata\templates\chardata\inclusions_row.html:18
 #: .\chardata\templates\chardata\solution.html:1523
-#: .\chardata\templates\chardata\solution_item.html:72
+#: .\chardata\templates\chardata\solution_item.html:79
 msgid "Customize stats"
 msgstr "Personalizar características"
 
@@ -5769,6 +5769,11 @@ msgstr "Añadir"
 msgid "Lock empty"
 msgstr "Bloquear vacío"
 
+#: .\chardata\templates\chardata\solution_item.html:59
+msgid ""
+"This rune always lands, and locks the item against any further smithmagic."
+msgstr "Esta runa entra siempre y bloquea el objeto contra cualquier forja posterior."
+
 #: .\chardata\templates\chardata\solution_set.html:10
 #: .\chardata\templates\chardata\solution_set.html:12
 msgid "View this set"
@@ -6360,6 +6365,7 @@ msgid "(%(weapon_type)s) AP: %(AP)d"
 msgstr "(%(weapon_type)s) PA: %(AP)d"
 
 #: .\chardata\weapon_header.py:25
+#, python-format
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
 msgstr "(%(weapon_type)s) PA: %(AP)d / GC: 1/%(crit_chance)d (+%(crit_bonus)d)"
 
