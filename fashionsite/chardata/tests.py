@@ -10419,6 +10419,41 @@ class GameVersionWatchTests(SimpleTestCase):
             check_game_versions._json = original
 
 
+    def _run_check(self, retro_live, touch_live):
+        import check_game_versions as check
+        import fashionista_version as ours
+        saved = (check.cytrus_cdn.get_version, check._json,
+                 ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS)
+        live = {'dofus3': ours.FASHIONISTA_VERSION,
+                'beta': ours.FASHIONISTA_BETA_VERSION,
+                'dofus2': ours.FASHIONISTA_DOFUS2_VERSION,
+                'retro': retro_live}
+        try:
+            check.cytrus_cdn.get_version = lambda version: live[version]
+            check._json = lambda url: (
+                [{'name': 'tag'}] if 'tags' in url
+                else {'assetsUrl': 'https://cdn/assets/' + touch_live})
+            return check.main()
+        finally:
+            (check.cytrus_cdn.get_version, check._json,
+             ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS) = saved
+
+    def test_a_retro_content_patch_is_not_silent(self):
+        # Retro and Touch never move their public number, so comparing that
+        # number said "ok" through 1.48.20 -> 1.48.21 and through every Touch
+        # asset bundle. Both are watched on their real build now.
+        import fashionista_version as ours
+        self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
+                                         ours.WATCHED_TOUCH_ASSETS), 0)
+        self.assertEqual(self._run_check('1.48.99.9999.999-newer',
+                                         ours.WATCHED_TOUCH_ASSETS), 1)
+
+    def test_a_touch_asset_bundle_change_is_not_silent(self):
+        import fashionista_version as ours
+        self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
+                                         '9.9.9_newbundle'), 1)
+
+
 class PreviewIsServedFromDiskTests(SimpleTestCase):
     """A build nobody has looked at is about a hundred baked pieces. nginx
     serves them, but only Django can bake the ones that are missing."""
