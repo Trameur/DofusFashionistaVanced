@@ -182,6 +182,29 @@ def decode_effects(possible_effects, effects, is_weapon):
     return stats, hits
 
 
+# A Touch shield carries no stat of its own: it is fed forgemagie runes and
+# gains bonusRatio per level, up to level 100. So its final line is ratio * 100,
+# and the data agrees: every one of the ~250 ratios shipped is an exact
+# hundredth. Without this a player sees 67 shields with no stats at all.
+SHIELD_MAX_LEVEL = 100
+
+
+def decode_shield_bonuses(shield_bonuses, effects):
+    stats = []
+    for bonus in (shield_bonuses or []):
+        if not isinstance(bonus, dict) or 'effectId' not in bonus:
+            continue
+        resolved = stat_for_effect(bonus['effectId'], effects)
+        if resolved is None:
+            continue
+        name, sign = resolved
+        value = int(round((bonus.get('bonusRatio') or 0) * SHIELD_MAX_LEVEL))
+        if not value:
+            continue
+        stats.append([sign * value, sign * value, name])
+    return stats
+
+
 def _top_level_parts(criteria: str):
     """Split on the '&' that sit outside parentheses."""
     parts, depth, start = [], 0, 0
@@ -250,6 +273,7 @@ def build_equipment(items_by_lang, effects):
         level = max(1, min(int(level), 200))
         is_weapon = it.get('_type') == 'Weapon'
         stats, hits = decode_effects(it.get('possibleEffects'), effects, is_weapon)
+        stats.extend(decode_shield_bonuses(it.get('shieldBonuses'), effects))
 
         rec = {
             'ankama_id': ankama_id,

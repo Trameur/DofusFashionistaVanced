@@ -57971,7 +57971,28 @@
         "name_de": "Shushkebab-Schild",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                400,
+                400,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ],
+            [
+                5,
+                5,
+                "AP Reduction"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117002,7 +117023,23 @@
         "name_de": "Schild der Taverne",
         "level": 75,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                70,
+                70,
+                "Vitality"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117069,7 +117106,18 @@
         "name_de": "Küstenschild",
         "level": 55,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                40,
+                40,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117126,7 +117174,23 @@
         "name_de": "Klappschild",
         "level": 55,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117193,7 +117257,18 @@
         "name_de": "O Ftalmo!",
         "level": 55,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                7,
+                7,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117270,7 +117345,18 @@
         "name_de": "Schild des Krachlers",
         "level": 55,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                70,
+                70,
+                "Vitality"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117337,7 +117423,23 @@
         "name_de": "Experimenteller Schild",
         "level": 75,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Initiative"
+            ],
+            [
+                6,
+                6,
+                "Dodge"
+            ],
+            [
+                6,
+                6,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117350,7 +117452,23 @@
         "name_de": "Bestialischer Schild",
         "level": 110,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                110,
+                110,
+                "Vitality"
+            ],
+            [
+                6,
+                6,
+                "Lock"
+            ],
+            [
+                6,
+                6,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117363,7 +117481,23 @@
         "name_de": "Schild des Bawbawen",
         "level": 75,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                70,
+                70,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117376,7 +117510,23 @@
         "name_de": "Bewaldeter Schild",
         "level": 110,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117389,7 +117539,23 @@
         "name_de": "Schild des Pandawa",
         "level": 75,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                90,
+                90,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Heals"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117402,7 +117568,23 @@
         "name_de": "Schild des Rablings",
         "level": 110,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                10,
+                10,
+                "Heals"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117415,7 +117597,23 @@
         "name_de": "Bowissen-Schild",
         "level": 90,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117428,7 +117626,23 @@
         "name_de": "Schwarzer Todesschild",
         "level": 120,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                6,
+                6,
+                "Dodge"
+            ],
+            [
+                6,
+                6,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117441,7 +117655,28 @@
         "name_de": "Schild des Astaknyden",
         "level": 90,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Initiative"
+            ],
+            [
+                7,
+                7,
+                "Heals"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117454,7 +117689,28 @@
         "name_de": "Federschild",
         "level": 120,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                130,
+                130,
+                "Vitality"
+            ],
+            [
+                200,
+                200,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117467,7 +117723,28 @@
         "name_de": "Kloom",
         "level": 110,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117480,7 +117757,23 @@
         "name_de": "Blühender Schild",
         "level": 135,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                5,
+                5,
+                "Heals"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117493,7 +117786,28 @@
         "name_de": "Aerdala-Schild",
         "level": 120,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                4,
+                4,
+                "Dodge"
+            ],
+            [
+                4,
+                4,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117506,7 +117820,23 @@
         "name_de": "Flauschiger Schild",
         "level": 150,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                6,
+                6,
+                "Dodge"
+            ],
+            [
+                6,
+                6,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117519,7 +117849,23 @@
         "name_de": "Teradala-Schild",
         "level": 120,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117532,7 +117878,28 @@
         "name_de": "Schild des Blätterdachs",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                10,
+                10,
+                "Heals"
+            ],
+            [
+                6,
+                6,
+                "Dodge"
+            ],
+            [
+                6,
+                6,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117545,7 +117912,23 @@
         "name_de": "Herz-Quartschen",
         "level": 135,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                170,
+                170,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117558,7 +117941,28 @@
         "name_de": "Brennend heißer Schild",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "MP Reduction"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117571,7 +117975,28 @@
         "name_de": "S'Teuer-Schild",
         "level": 135,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                150,
+                150,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117584,7 +118009,28 @@
         "name_de": "Eisfux-Schild",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                8,
+                8,
+                "Lock"
+            ],
+            [
+                6,
+                6,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117597,7 +118043,23 @@
         "name_de": "Feudala-Schild",
         "level": 135,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117610,7 +118072,38 @@
         "name_de": "Funghi-Schild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                200,
+                200,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Air Resist"
+            ],
+            [
+                5,
+                5,
+                "Neutral Resist"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "AP Reduction"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117623,7 +118116,23 @@
         "name_de": "Schild des Holzfällers",
         "level": 150,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                250,
+                250,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117636,7 +118145,33 @@
         "name_de": "Gefrierschild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                400,
+                400,
+                "Initiative"
+            ],
+            [
+                10,
+                10,
+                "Earth Resist"
+            ],
+            [
+                10,
+                10,
+                "Fire Resist"
+            ],
+            [
+                8,
+                8,
+                "Lock"
+            ],
+            [
+                8,
+                8,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117649,7 +118184,28 @@
         "name_de": "Derma Tho",
         "level": 150,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                150,
+                150,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117662,7 +118218,33 @@
         "name_de": "Hellseherischer Schild",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                10,
+                10,
+                "Heals"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                10,
+                10,
+                "MP Loss Resist"
+            ],
+            [
+                15,
+                15,
+                "Pushback Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117675,7 +118257,28 @@
         "name_de": "Schild des Kapitäns",
         "level": 150,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                50,
+                50,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                4,
+                4,
+                "Dodge"
+            ],
+            [
+                4,
+                4,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117688,7 +118291,33 @@
         "name_de": "Schild des Spediteurs",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                6,
+                6,
+                "Lock"
+            ],
+            [
+                6,
+                6,
+                "MP Loss Resist"
+            ],
+            [
+                10,
+                10,
+                "Pushback Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117701,7 +118330,23 @@
         "name_de": "Schild des O'Stinkus Mons",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                8,
+                8,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117714,7 +118359,33 @@
         "name_de": "Feurige Scheibe",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                10,
+                10,
+                "Heals"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117727,7 +118398,28 @@
         "name_de": "Wäßrige Scheibe",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                80,
+                80,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117740,7 +118432,28 @@
         "name_de": "Dragokart-Pokal",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                300,
+                300,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Water Resist"
+            ],
+            [
+                5,
+                5,
+                "Air Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117832,7 +118545,38 @@
         "name_de": "Fliegenschild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                200,
+                200,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Earth Resist"
+            ],
+            [
+                5,
+                5,
+                "Fire Resist"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -117934,7 +118678,28 @@
         "name_de": "Irdene Scheibe",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Neutral Resist"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ],
+            [
+                10,
+                10,
+                "Pushback Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -118031,7 +118796,33 @@
         "name_de": "Luftige Scheibe",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                200,
+                200,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Water Resist"
+            ],
+            [
+                5,
+                5,
+                "Fire Resist"
+            ],
+            [
+                5,
+                5,
+                "MP Reduction"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -118115,7 +118906,28 @@
         "name_de": "Schild des Trool-Jägers",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                5,
+                5,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -118204,7 +119016,33 @@
         "name_de": "Eingeweidenschild",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                500,
+                500,
+                "Initiative"
+            ],
+            [
+                20,
+                20,
+                "Heals"
+            ],
+            [
+                10,
+                10,
+                "Water Resist"
+            ],
+            [
+                10,
+                10,
+                "Fire Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -118291,7 +119129,33 @@
         "name_de": "Schild von Captain Amakna",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                500,
+                500,
+                "Initiative"
+            ],
+            [
+                15,
+                15,
+                "Earth Resist"
+            ],
+            [
+                15,
+                15,
+                "Water Resist"
+            ],
+            [
+                15,
+                15,
+                "Air Resist"
+            ],
+            [
+                15,
+                15,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -118375,7 +119239,33 @@
         "name_de": "Schild von Sidimot",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                10,
+                10,
+                "Earth Resist"
+            ],
+            [
+                10,
+                10,
+                "Fire Resist"
+            ],
+            [
+                10,
+                10,
+                "Dodge"
+            ],
+            [
+                10,
+                10,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -118471,7 +119361,33 @@
         "name_de": "Schildfächer",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                180,
+                180,
+                "Vitality"
+            ],
+            [
+                300,
+                300,
+                "Initiative"
+            ],
+            [
+                20,
+                20,
+                "Air Resist"
+            ],
+            [
+                20,
+                20,
+                "Fire Resist"
+            ],
+            [
+                5,
+                5,
+                "AP Reduction"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -119316,7 +120232,23 @@
         "name_de": "Schokomantenschild",
         "level": 90,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                8,
+                8,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -119329,7 +120261,18 @@
         "name_de": "Schüssild",
         "level": 90,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                150,
+                150,
+                "Initiative"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -119342,7 +120285,33 @@
         "name_de": "Kolossaler Schild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                5,
+                5,
+                "Earth Resist"
+            ],
+            [
+                5,
+                5,
+                "Water Resist"
+            ],
+            [
+                5,
+                5,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -119355,7 +120324,33 @@
         "name_de": "Schild der Gerberei",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                10,
+                10,
+                "Water Resist"
+            ],
+            [
+                10,
+                10,
+                "Air Resist"
+            ],
+            [
+                10,
+                10,
+                "Lock"
+            ],
+            [
+                10,
+                10,
+                "MP Reduction"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -119368,7 +120363,38 @@
         "name_de": "Schneewehenschild",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                200,
+                200,
+                "Initiative"
+            ],
+            [
+                10,
+                10,
+                "Fire Resist"
+            ],
+            [
+                15,
+                15,
+                "Neutral Resist"
+            ],
+            [
+                10,
+                10,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -119381,7 +120407,23 @@
         "name_de": "Schuppischild",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                8,
+                8,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -124419,7 +125461,33 @@
         "name_de": "Affiger Schild",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                20,
+                20,
+                "Earth Resist"
+            ],
+            [
+                20,
+                20,
+                "Water Resist"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ],
+            [
+                10,
+                10,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -124564,7 +125632,33 @@
         "name_de": "Tentakelschild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                120,
+                120,
+                "Vitality"
+            ],
+            [
+                10,
+                10,
+                "Air Resist"
+            ],
+            [
+                10,
+                10,
+                "Neutral Resist"
+            ],
+            [
+                10,
+                10,
+                "Lock"
+            ],
+            [
+                5,
+                5,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -124577,7 +125671,28 @@
         "name_de": "Meerespanzer",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Heals"
+            ],
+            [
+                5,
+                5,
+                "Earth Resist"
+            ],
+            [
+                10,
+                10,
+                "Dodge"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -124590,7 +125705,28 @@
         "name_de": "Katzenhafter Schild",
         "level": 150,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                5,
+                5,
+                "Fire Resist"
+            ],
+            [
+                5,
+                5,
+                "Neutral Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -124603,7 +125739,23 @@
         "name_de": "Schild des Wächters",
         "level": 135,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                350,
+                350,
+                "Initiative"
+            ],
+            [
+                6,
+                6,
+                "Dodge"
+            ],
+            [
+                6,
+                6,
+                "AP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -124900,7 +126052,33 @@
         "name_de": "Knollenschild",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                500,
+                500,
+                "Initiative"
+            ],
+            [
+                15,
+                15,
+                "Earth Resist"
+            ],
+            [
+                10,
+                10,
+                "Air Resist"
+            ],
+            [
+                20,
+                20,
+                "Pushback Resist"
+            ],
+            [
+                15,
+                15,
+                "Critical Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -128289,7 +129467,33 @@
         "name_de": "Brombimsmauer",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                12,
+                12,
+                "Earth Resist"
+            ],
+            [
+                12,
+                12,
+                "Water Resist"
+            ],
+            [
+                10,
+                10,
+                "Lock"
+            ],
+            [
+                10,
+                10,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135094,7 +136298,33 @@
         "name_de": "Maduras Pupille",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                200,
+                200,
+                "Vitality"
+            ],
+            [
+                15,
+                15,
+                "Earth Resist"
+            ],
+            [
+                15,
+                15,
+                "Water Resist"
+            ],
+            [
+                20,
+                20,
+                "Pushback Resist"
+            ],
+            [
+                10,
+                10,
+                "Critical Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135425,7 +136655,33 @@
         "name_de": "Gleichnam-Schild",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                300,
+                300,
+                "Initiative"
+            ],
+            [
+                6,
+                6,
+                "MP Loss Resist"
+            ],
+            [
+                15,
+                15,
+                "Pushback Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135438,7 +136694,33 @@
         "name_de": "Gleichklang-Panzer",
         "level": 200,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                20,
+                20,
+                "Earth Resist"
+            ],
+            [
+                20,
+                20,
+                "Water Resist"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                10,
+                10,
+                "MP Loss Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135451,7 +136733,33 @@
         "name_de": "Danathors Wappenschild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                120,
+                120,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                8,
+                8,
+                "Water Resist"
+            ],
+            [
+                8,
+                8,
+                "Air Resist"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135464,7 +136772,28 @@
         "name_de": "Croschild",
         "level": 180,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Fire Resist"
+            ],
+            [
+                10,
+                10,
+                "AP Loss Resist"
+            ],
+            [
+                10,
+                10,
+                "Critical Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135477,7 +136806,28 @@
         "name_de": "Albueranischer Seemannsschild",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                150,
+                150,
+                "Vitality"
+            ],
+            [
+                5,
+                5,
+                "Air Resist"
+            ],
+            [
+                5,
+                5,
+                "Dodge"
+            ],
+            [
+                10,
+                10,
+                "Pushback Resist"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135490,7 +136840,28 @@
         "name_de": "Hellfeender Wappenschild",
         "level": 165,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                100,
+                100,
+                "Vitality"
+            ],
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                100,
+                100,
+                "Initiative"
+            ],
+            [
+                5,
+                5,
+                "Lock"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -135503,7 +136874,28 @@
         "name_de": "Primitiver Schild",
         "level": 150,
         "w_type": "Shield",
-        "stats": [],
+        "stats": [
+            [
+                1,
+                1,
+                "Summon"
+            ],
+            [
+                8,
+                8,
+                "Earth Resist"
+            ],
+            [
+                8,
+                8,
+                "Fire Resist"
+            ],
+            [
+                10,
+                10,
+                "Critical Resist"
+            ]
+        ],
         "conditions": []
     },
     {

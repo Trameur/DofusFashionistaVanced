@@ -10714,6 +10714,21 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     rows = self._rows(version, 'SELECT COUNT(*) FROM %s' % table)
                     self.assertGreater(rows[0][0], 0)
 
+    def test_touch_shields_carry_the_stats_they_reach_when_fed(self):
+        # A Touch shield has no stat of its own: it is fed runes and gains
+        # bonusRatio per level up to 100, so its line is ratio * 100. A player
+        # reported 67 of the 89 showing nothing at all, and the values were in
+        # the client data the whole time, under shieldBonuses.
+        rows = self._rows('touch',
+            "SELECT COUNT(*), SUM(CASE WHEN EXISTS ("
+            "  SELECT 1 FROM stats_of_item s WHERE s.item = i.id) THEN 1 ELSE 0 END)"
+            " FROM items i JOIN item_types t ON t.id = i.type"
+            " WHERE t.name = 'Shield'")
+        total, with_stats = rows[0]
+        self.assertGreaterEqual(total, 80)
+        # The handful left are level-1 cosmetic shields that really have none.
+        self.assertLessEqual(total - with_stats, 8)
+
     def test_every_weapon_points_at_a_type_that_exists(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):
