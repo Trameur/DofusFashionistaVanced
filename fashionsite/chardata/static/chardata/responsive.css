@@ -72,6 +72,13 @@
   .maincolumn { margin: 0 !important; }
   .maincontent, .loading { padding: 12px !important; border-radius: 0 !important; font-size: 15px; }
   .proj_info { margin-left: -12px !important; margin-right: -12px !important; margin-top: -12px !important; }
+  /* The copy link sat in a table cell of its own, 81px wide, so a German label
+     wrapped one word per line and still spilled off screen. */
+  .proj_info > div { display: block !important; width: auto !important; }
+  .proj_info .copy-action-link { margin-top: 8px; }
+  .maincontent .button-generic, .maincontent .submit-button {
+    white-space: normal !important; max-width: 100%; box-sizing: border-box;
+  }
 
   /* ---- Home page: CTA buttons first, decorative grid faded at the bottom ---- */
   .main-div { display: flex; flex-direction: column; position: static !important; }
@@ -133,6 +140,26 @@
   /* bigger, visible stat icons */
   .solution-stat-summary-icon { width: 17px !important; height: 17px !important; }
   .solution-stat-summary-icon-cell { padding: 1px !important; }
+  /* That cell is 144px at 375, and the panel wanted 174: the 7px cell padding
+     and the letter-spaced value headers were eating it. Selectors carry the
+     panel class because modern.css comes after this file and repeats the
+     padding with !important. Numbers never wrap; a name may, since a German
+     compound has no other way to fit. */
+  .solution-stat-summary .solution-stat-table td,
+  .solution-stat-summary .solution-stat-table th,
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-line td {
+    padding-left: 3px !important; padding-right: 3px !important;
+  }
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-value-cell {
+    white-space: nowrap;
+  }
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-base-value-header,
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-value-header {
+    font-size: 9px !important; letter-spacing: 0 !important;
+  }
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-line td:nth-child(2) {
+    overflow-wrap: anywhere; hyphens: auto;
+  }
 
   .solution-item-section { display: block; }
   .solution-item-section-column { display: block; width: 100% !important; }
