@@ -5068,7 +5068,30 @@ class ItemCorrectionsTests(SimpleTestCase):
             self.assertIn(version, data)
 
 
-class RetroStealsWeaponTests(SimpleTestCase):
+class RepeatedWeaponHitTests(SimpleTestCase):
+    """A weapon that strikes twice writes its roll twice, and the solver is right
+    to add them up. Do not "deduplicate" this. Kukri Kura says so in two sources
+    that share no code: the 1.29 lang gives it 64#a#15#1d12+9 twice over, and the
+    Dofus 3 dump reads "10 to 21 Neutral damage" twice. Thirty weapons per version
+    are in that case, the same ones in all five."""
+
+    def _rolls(self, version, name):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure(version)
+        weapon = structure.get_weapon_by_name(name)
+        self.assertIsNotNone(weapon, 'missing %s weapon %s' % (version, name))
+        return [(h.min_dam, h.max_dam, h.element) for h in weapon.base_hit]
+
+    def test_a_weapon_that_strikes_twice_keeps_both_rolls(self):
+        # Dofus 3 and the beta gate the same dagger behind two alternative
+        # conditions, and the pipeline flattens that into a numbered pair.
+        names = {'dofus3': 'Kukri Kura (#1)', 'beta': 'Kukri Kura (#1)',
+                 'dofus2': 'Kukri Kura', 'retro': 'Kukri Kura',
+                 'touch': 'Kukri Kura'}
+        for version, name in names.items():
+            with self.subTest(version=version):
+                self.assertEqual([(10, 21, 'neut'), (10, 21, 'neut')],
+                                 self._rolls(version, name))
     """In the 1.29 lang, Terps Hammer only steals its 2-6 neutral roll and
     Minotot Sceptre only its 3-5 water and fire rolls; the rest is plain
     damage. Do not "fix" them to steal on every roll."""
@@ -11179,6 +11202,26 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     'SELECT COUNT(*) FROM items'
                     ' WHERE skin IS NOT NULL AND skin <> 0')
                 self.assertGreaterEqual(rows[0][0], floor)
+
+    def test_both_halves_of_a_split_item_wear_the_same_art(self):
+        # An item gated behind alternative conditions becomes one row per
+        # condition, "(#1)" and "(#2)", under one ankama id. The skin store keyed
+        # them by that id alone, so the second row overwrote the first and the
+        # art ended up on the copy while the canonical piece drew bare: fifteen
+        # of them, Cushtycloak and Ice Daggers among others.
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT i.ankama_id, COUNT(*), COUNT(DISTINCT i.skin),'
+                    ' SUM(CASE WHEN i.skin IS NULL THEN 1 ELSE 0 END)'
+                    ' FROM items i JOIN item_types t ON t.id = i.type'
+                    " WHERE t.name IN ('Hat','Cloak','Shield','Weapon')"
+                    ' GROUP BY i.ankama_id HAVING COUNT(*) > 1')
+                self.assertTrue(rows, 'no split piece to check')
+                for ankama_id, total, distinct_skins, bare in rows:
+                    if distinct_skins:
+                        self.assertEqual(0, bare, 'ankama %s' % ankama_id)
+                        self.assertEqual(1, distinct_skins, 'ankama %s' % ankama_id)
 
     def test_touch_shields_carry_the_stats_they_reach_when_fed(self):
         # A Touch shield has no stat of its own: it is fed runes and gains

@@ -149,10 +149,18 @@ def main():
     try:
         add_column(conn)
         clear_skins(conn)
-        known = {row[0]: (row[1], row[2], row[3]) for row in conn.execute("""
+        # An item gated behind alternative conditions is flattened into one row
+        # per condition, "(#1)" and "(#2)", sharing its ankama id. They are the
+        # same piece and wear the same art, so every row gets it. Keyed by ankama
+        # id alone, the last row won and the art landed on the copy while the
+        # canonical low id stayed bare, on fifteen pieces.
+        known = {}
+        for ankama_id, item_id, type_name, item_name in conn.execute("""
             SELECT i.ankama_id, i.id, t.name, i.name FROM items i
             JOIN item_types t ON t.id = i.type
-            WHERE t.name IN (%s)""" % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES)}
+            WHERE t.name IN (%s)
+            ORDER BY i.id""" % ','.join('?' * len(VISIBLE_TYPES)), VISIBLE_TYPES):
+            known.setdefault(ankama_id, []).append((item_id, type_name, item_name))
         def decided(match, item_type, item_name):
             """The skin this mapping stands behind for the item, or None."""
             if match is None:
@@ -168,8 +176,10 @@ def main():
                 return None             # the lead is too thin to trust
             return match['skin']
 
-        from_id = from_name = 0
-        for ankama_id, (item_id, item_type, item_name) in known.items():
+        from_id = from_name = written = 0
+        rows_total = sum(len(rows) for rows in known.values())
+        for ankama_id, rows in known.items():
+            item_id, item_type, item_name = rows[0]
             skin = decided(matches.get(str(ankama_id)), item_type, item_name)
             if skin is not None:
                 from_id += 1
@@ -178,15 +188,19 @@ def main():
                 if skin is None:
                     continue
                 from_name += 1
-            conn.execute('UPDATE items SET skin = ? WHERE id = ?', (skin, item_id))
+            for row_id, _, _ in rows:
+                conn.execute('UPDATE items SET skin = ? WHERE id = ?',
+                             (skin, row_id))
+                written += 1
         conn.commit()
     finally:
         conn.close()
 
     _save_db_to_dump(db_path, args.game_version)
-    print('%s: %d skins written (%d by ankama id, %d by name), %d items left bare'
-          % (args.game_version, from_id + from_name, from_id, from_name,
-             len(known) - from_id - from_name))
+    print('%s: %d skins written on %d rows (%d by ankama id, %d by name), '
+          '%d rows left bare'
+          % (args.game_version, from_id + from_name, written, from_id, from_name,
+             rows_total - written))
 
 
 if __name__ == '__main__':
