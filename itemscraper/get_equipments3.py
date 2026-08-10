@@ -469,6 +469,14 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     normalized_description = normalized_description[1:-1].strip()
 
                 parts = normalized_description.lower().split()
+                # Retro and Touch write the weapon heal with no element at all,
+                # where modern Dofus types it "Fire heals". Intelligence scales it
+                # in every version, so it is stored under the Intelligence element
+                # and only the printed label differs.
+                if is_parenthesized_hit and parts == ['heals']:
+                    f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},0,1,'fire');\n")
+                    i += 1
+                    continue
                 # "Best Element" arrives as two words; the element set uses "best-element".
                 if len(parts) >= 2 and parts[0] == 'best' and parts[1] == 'element':
                     parts = ['best-element'] + parts[2:]

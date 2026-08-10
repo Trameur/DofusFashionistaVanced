@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""AP cost and critical rate of a weapon, worded the same way in the
+"""AP cost, critical rate and heal line of a weapon, worded the same way in the
 encyclopedia and the picker.
 
 Retro states the rate the way the game does, one hit in X: its data holds 30,
@@ -7,6 +7,13 @@ Retro states the rate the way the game does, one hit in X: its data holds 30,
 field into a percentage and every later version kept that.
 """
 from django.utils.translation import gettext as _
+
+# Modern Dofus types the weapon heal by element and says so: the Hidsad Bow reads
+# "12 to 42 Fire heals". Retro and Touch call the same line "PDV rendus", and
+# their effect carries no element field at all. The stored element is what scales
+# the roll, Intelligence in every version, so it must not be printed where the
+# game keeps quiet about it.
+_ELEMENTLESS_HEAL_VERSIONS = {'retro', 'touch'}
 
 
 def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus):
@@ -26,3 +33,11 @@ def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus)
     if weapon_type is None:
         return _('AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)') % values
     return _('(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)') % values
+
+
+def format_heal_hit(game_version, min_dam, max_dam, element, localized_elements):
+    values = {'min': min_dam, 'max': max_dam}
+    if game_version in _ELEMENTLESS_HEAL_VERSIONS or element not in localized_elements:
+        return _('%(min)d to %(max)d (HP restored)') % values
+    values['element'] = localized_elements[element]
+    return _('%(min)d to %(max)d %(element)s heals') % values

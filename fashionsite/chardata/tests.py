@@ -5084,6 +5084,58 @@ class RetroStealsWeaponTests(SimpleTestCase):
                           (13, 27, 'neut', False)])
 
 
+class WeaponHealHitPerVersionTests(SimpleTestCase):
+    """A healing weapon must show its heal, and show it the way its own game
+    writes it. Retro's effects file files the heal under EHEL and gives it no
+    element; Touch describes it "(PV rendus)", also elementless; modern Dofus
+    types the same line "Fire heals". Retro and Touch dropped the roll entirely,
+    so fourteen Retro weapons and fifteen Touch ones lost it; four of the Retro
+    ones heal and nothing else, and had no hit line at all."""
+
+    HEALERS = {'retro': 14, 'touch': 15}
+
+    def _heal_hits(self, version, ankama_id):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure(version)
+        item = structure.get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item, 'missing %s weapon %s' % (version, ankama_id))
+        weapon = structure.get_weapon_by_name(item.name)
+        self.assertIsNotNone(weapon, 'no weapon hits for %s' % item.name)
+        return sorted((h.min_dam, h.max_dam) for h in weapon.base_hit if h.heals)
+
+    def test_the_hidsad_bow_heals_in_every_version_that_ships_it(self):
+        for version in ('dofus3', 'retro', 'touch'):
+            with self.subTest(version=version):
+                self.assertEqual([(12, 42)], self._heal_hits(version, 1355))
+
+    def test_every_weapon_the_source_heals_with_reaches_the_solver(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version, expected in self.HEALERS.items():
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                found = connection.execute(
+                    'SELECT COUNT(DISTINCT item) FROM weapon_hits'
+                    ' WHERE heals = 1').fetchone()[0]
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertEqual(expected, found)
+
+    def test_the_line_names_an_element_only_where_the_game_does(self):
+        from chardata.translation_util import LOCALIZED_ELEMENTS
+        from chardata.weapon_header import format_heal_hit
+        self.assertEqual(
+            '12 to 42 Fire heals',
+            format_heal_hit('dofus3', 12, 42, 'fire', LOCALIZED_ELEMENTS))
+        for version in ('retro', 'touch'):
+            with self.subTest(version=version):
+                self.assertEqual(
+                    '12 to 42 (HP restored)',
+                    format_heal_hit(version, 12, 42, 'fire', LOCALIZED_ELEMENTS))
+
+
 class DofusEquipLevelPerVersionTests(SimpleTestCase):
     """The same Dofus has a different equip level per version, each faithful to
     that version's own source, so no version should borrow another's gate:
@@ -10990,6 +11042,19 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 with self.subTest(version=version, table=table):
                     rows = self._rows(version, 'SELECT COUNT(*) FROM %s' % table)
                     self.assertGreater(rows[0][0], 0)
+
+    def test_every_version_that_matches_art_still_has_the_column(self):
+        # store_item_skins is what creates items.skin, so a step that dies takes
+        # the whole column with it and the pipeline is the only place that says
+        # so. It died on Touch on 2026-08-10, on an import the subprocess had no
+        # path for, and the rebuilt database came out with no art at all.
+        for version, floor in (('dofus3', 1000), ('beta', 1000),
+                               ('dofus2', 900), ('touch', 600)):
+            with self.subTest(version=version):
+                rows = self._rows(version,
+                    'SELECT COUNT(*) FROM items'
+                    ' WHERE skin IS NOT NULL AND skin <> 0')
+                self.assertGreaterEqual(rows[0][0], floor)
 
     def test_touch_shields_carry_the_stats_they_reach_when_fed(self):
         # A Touch shield has no stat of its own: it is fed runes and gains

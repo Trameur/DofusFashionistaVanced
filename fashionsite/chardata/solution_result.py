@@ -30,7 +30,7 @@ from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
-from chardata.weapon_header import format_weapon_header
+from chardata.weapon_header import format_heal_hit, format_weapon_header
 from chardata.transcendence_advice import best_transcendence
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
@@ -240,15 +240,9 @@ def evolve_result_item(result_item, r=None):
                             'max': hit.max_dam,
                             'element': LOCALIZED_ELEMENTS[hit.element]}
             elif hit.heals:
-                if hasattr(hit, 'element') and hit.element in LOCALIZED_ELEMENTS:
-                    line = _('%(min)d to %(max)d %(element)s heals' ) % {
-                        'min': hit.min_dam,
-                        'max': hit.max_dam,
-                        'element': LOCALIZED_ELEMENTS[hit.element]
-                    }
-                else:
-                    line = _('%(min)d to %(max)d (HP restored)' ) % {'min': hit.min_dam,
-                                'max': hit.max_dam}
+                line = format_heal_hit(get_current_game_version(), hit.min_dam,
+                                       hit.max_dam, getattr(hit, 'element', None),
+                                       LOCALIZED_ELEMENTS)
             elif hasattr(hit, 'element') and hit.element == 'pushes':
                 if hit.min_dam == hit.max_dam:
                     line = _('Pushes %(cells)d cells') % {'cells': hit.min_dam}

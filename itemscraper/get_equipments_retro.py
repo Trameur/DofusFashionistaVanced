@@ -114,6 +114,14 @@ STEAL_BY_EFFECT = {
     91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: 'Neutral',
 }
 
+# Weapon heal, "PDV rendus". The game's own effects file lists the heal ids in
+# EHEL = {0: 108, 1: 81}, and neither entry carries the 'e' element field that
+# every damage and steal effect has: in 1.29 a heal has no element. Intelligence
+# still scales it (base * (100 + Intelligence) / 100 + Soins), so the dump files
+# it under the model's Intelligence element. Without this the fifteen weapons that
+# heal (Arc Hidsad, Pelle Gicque, Baguette Rhon...) show only their damage line.
+HEAL_BY_EFFECT = {108, 81}
+
 # Set bonuses are NOT in the Ankama lang CDN (1.29 set bonuses are server-side),
 # so they're sourced from a vendored community snapshot (retro-craft/scrapstuff,
 # scraped from barbok.eratz.fr). Those use French stat labels; map them here.
@@ -267,12 +275,17 @@ def decode_stats(ista_string, is_weapon=False):
         if hit_element is None and eid in STEAL_BY_EFFECT:
             hit_element = STEAL_BY_EFFECT[eid]
             hit_kind = 'steal'
-        if is_weapon and hit_element is not None and _is_die_roll(dice):
+        if hit_element is not None:
+            hit_label = '(%s %s)' % (hit_element, hit_kind)
+        elif eid in HEAL_BY_EFFECT:
+            hit_label = '(heals)'
+        else:
+            hit_label = None
+        if is_weapon and hit_label is not None and _is_die_roll(dice):
             lo = jmin if jmin is not None else jmax
             hi = jmax if jmax is not None else jmin
             if hi is not None:
-                hits.append([lo if lo is not None else 0, hi,
-                             '(%s %s)' % (hit_element, hit_kind)])
+                hits.append([lo if lo is not None else 0, hi, hit_label])
             continue
         if eid not in EFFECT_MAP:
             continue

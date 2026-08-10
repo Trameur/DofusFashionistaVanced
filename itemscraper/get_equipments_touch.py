@@ -101,6 +101,14 @@ WEAPON_STEAL_BY_EFFECT = {91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: '
 # "(removes ap)" so get_equipments3 stores it as a weapon_hit (like life/MP steal).
 WEAPON_AP_REMOVAL_BY_EFFECT = {101}
 
+# Weapon heal: effect 108, described by the game as "#1{~1~2 à }#2 (PV rendus)".
+# Like Retro and unlike modern Dofus, which types the same line "soins Feu", the
+# Touch effect names no element. Intelligence still scales it, so the dump files
+# it under the model's Intelligence element and the page drops the label. Fifteen
+# weapons carry it (Arc Hidsad, Pelle Gicque, Le Thanos...) and showed only their
+# damage. 81 shares the description and is unused by any current item.
+WEAPON_HEAL_BY_EFFECT = {108, 81}
+
 # Equip-condition codes -> internal stat (the 6 primaries, like Retro;
 # alignment Ps/Pa and quest/flag codes are skipped to avoid mis-gating).
 CONDITION_MAP = {
@@ -171,6 +179,9 @@ def decode_effects(possible_effects, effects, is_weapon):
             continue
         if is_weapon and eid in WEAPON_AP_REMOVAL_BY_EFFECT:
             hits.append([lo, hi, '(removes ap)'])
+            continue
+        if is_weapon and eid in WEAPON_HEAL_BY_EFFECT:
+            hits.append([lo, hi, '(heals)'])
             continue
         resolved = stat_for_effect(eid, effects)
         if resolved is None:
