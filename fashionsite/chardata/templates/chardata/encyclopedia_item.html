@@ -38,7 +38,7 @@
     <div class="encyclopedia-item-card brown-box">
         <div class="encyclopedia-item-head">
             {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
-            <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}" width="60" height="60" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             <div>
                 <div class="encyclopedia-item-name">{{ item.name }}</div>
                 <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
@@ -62,7 +62,7 @@
                 <li>
                     <div class="encyclopedia-list-stat">
                         {% if stat.icon_url %}
-                        <img class="encyclopedia-list-stat-icon" src="{{ stat.icon_url }}" alt="">
+                        <img class="encyclopedia-list-stat-icon" src="{{ stat.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">
                         {% endif %}
                         <span>{% firstof stat.amount_text stat.value %} {{ stat.name }}</span>
                     </div>
@@ -85,7 +85,7 @@
                     <li>
                         <div class="encyclopedia-list-stat">
                             {% if line.icon_url %}
-                            <img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="">
+                            <img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">
                             {% endif %}
                             <span>{{ line.value }} {{ line.name }}</span>
                         </div>
@@ -105,7 +105,7 @@
                 <li>
                     <div class="encyclopedia-list-stat">
                         {% if bonus.icon_url %}
-                        <img class="encyclopedia-list-stat-icon" src="{{ bonus.icon_url }}" alt="">
+                        <img class="encyclopedia-list-stat-icon" src="{{ bonus.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">
                         {% endif %}
                         <span>{{ bonus.text }}</span>
                     </div>
@@ -182,7 +182,7 @@
             <ul class="encyclopedia-list">
                 {% for ingredient in recipe %}
                 <li{% if ingredient.image_url %} class="craft-item"{% endif %}>
-                    {% if ingredient.image_url %}<img class="craft-icon" src="{{ ingredient.image_url }}" alt="" onerror="this.style.display='none'">{% endif %}
+                    {% if ingredient.image_url %}<img class="craft-icon" src="{{ ingredient.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.style.display='none'">{% endif %}
                     <span>
                     {% if ingredient.local_item_url %}
                     <a href="{{ ingredient.local_item_url }}">{{ ingredient.name }}</a>
@@ -209,7 +209,7 @@
             <ul class="encyclopedia-list">
                 {% for used_item in used_in|slice:":20" %}
                 <li class="craft-item">
-                    <img class="craft-icon" src="{{ used_item.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <img class="craft-icon" src="{{ used_item.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                     <span>{% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
                     <span class="item-level">{{ used_item.type_name }} | {{ t.item_level }} {{ used_item.level }}</span></span>
                 </li>
@@ -221,7 +221,7 @@
                 <ul class="encyclopedia-list">
                     {% for used_item in used_in|slice:"20:" %}
                     <li class="craft-item">
-                        <img class="craft-icon" src="{{ used_item.image_url }}" alt="" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                        <img class="craft-icon" src="{{ used_item.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         <span>{% if used_item.url %}<a href="{{ used_item.url }}">{{ used_item.name }}</a>{% else %}{{ used_item.name }}{% endif %}
                         <span class="item-level">{{ used_item.type_name }} | {{ t.item_level }} {{ used_item.level }}</span></span>
                     </li>

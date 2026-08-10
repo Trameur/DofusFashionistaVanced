@@ -5121,6 +5121,47 @@ class RetroSpellHatTests(SimpleTestCase):
         self.assertEqual(items * 5, rows)
 
 
+class ImageWeightTests(TestCase):
+    """An image with no width and height moves the page under the reader as it
+    loads, which is one of the three numbers Google grades a page on. The list
+    pages were already written that way; the item page and the home page were
+    not, and shipped 64 and 179 unsized images."""
+
+    def _images(self, url):
+        import re
+        html = self.client.get(url, follow=True).content.decode('utf-8', 'replace')
+        return re.findall(r'<img[^>]*>', html)
+
+    def test_the_item_page_sizes_and_defers_its_icons(self):
+        images = self._images('/encyclopedia/item/equipment/233-kaiser/')
+        self.assertGreaterEqual(len(images), 20)
+        unsized = [i for i in images
+                   if 'width=' not in i or 'height=' not in i]
+        # The theme and layout pictures are styled, not laid out by attribute.
+        self.assertLessEqual(len(unsized), 8, unsized[:3])
+        icons = [i for i in images if 'encyclopedia-list-stat-icon' in i]
+        self.assertTrue(icons)
+        for icon in icons:
+            self.assertIn('loading="lazy"', icon)
+
+    def test_the_item_picture_itself_is_never_deferred(self):
+        # It is what the reader sees first; deferring it delays the very thing
+        # the page is about.
+        images = self._images('/encyclopedia/item/equipment/233-kaiser/')
+        hero = [i for i in images if 'alt="Kaiser"' in i]
+        self.assertTrue(hero)
+        for image in hero:
+            self.assertNotIn('loading="lazy"', image)
+            self.assertIn('width="60"', image)
+
+    def test_the_home_page_reserves_room_for_its_icons(self):
+        images = [i for i in self._images('/') if 'home-pic' in i]
+        self.assertGreaterEqual(len(images), 20)
+        for image in images:
+            self.assertIn('width="60"', image)
+            self.assertIn('height="60"', image)
+
+
 class ItemFlagTests(SimpleTestCase):
     """What the game says about an item beyond its stats. Only Hunting Weapon was
     ever printed; Fertile, Linked to the character and Cooperative crafting

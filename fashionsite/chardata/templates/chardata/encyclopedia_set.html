@@ -108,7 +108,7 @@
                     {% for line in group.lines %}
                     <li>
                         <div class="encyclopedia-list-stat">
-                            {% if line.icon_url %}<img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="">{% endif %}
+                            {% if line.icon_url %}<img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">{% endif %}
                             <span>{{ line.value }} {{ line.name }}</span>
                         </div>
                     </li>
