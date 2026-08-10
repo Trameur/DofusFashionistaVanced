@@ -1,8 +1,7 @@
 {% load i18n %}
 {% load static_s3 %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'chardata/home.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static css_files.home %}" class="home-css css-file">
+{% comment %}base.html already links home.css and its themed twin, higher up.{% endcomment %}
 <script src="{% static 'chardata/loading.js' %}"></script>
 <div class="loading">
     {% include "chardata/main-header.html" with char=char %}

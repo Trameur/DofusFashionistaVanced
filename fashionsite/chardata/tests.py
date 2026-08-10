@@ -688,6 +688,17 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertEqual(resp.status_code, 200,
                                  msg='%s -> %s' % (path, resp.status_code))
 
+    def test_the_solver_loading_screen_stays_off_the_reading_pages(self):
+        # It carries loading.js, 23kB of tailoring quips, plus a marquee that
+        # runs on a 60th of a second interval. Only a project can start a solve,
+        # so only a project needs any of it.
+        for path in ('/', '/encyclopedia/', '/guides/', '/sharedbuilds/',
+                     '/about/', '/faq/'):
+            with self.subTest(path=path):
+                body = self.client.get(path).content.decode('utf-8')
+                self.assertNotIn('loading.js', body)
+                self.assertNotIn('class="loading"', body)
+
     def test_brand_name_localized_in_title(self):
         # Branding: "The Dofus Fashionista" in English, "Dofus Fashionista"
         # (no "The") in the other languages.
@@ -3251,6 +3262,15 @@ class SolutionGenerationHistoryTests(TestCase):
                         .values_list('id', flat=True))
         self.assertEqual(len(kept_ids), 10)
         self.assertEqual(kept_ids, created_ids[-10:])
+
+    def test_a_project_page_still_carries_the_loading_screen(self):
+        # The reading pages dropped it; the pages that can start a solve must
+        # keep it, or the tailor button hides the content and shows nothing.
+        owner, char, _ = self._build_char_with_items()
+        self.client.force_login(owner)
+        resp = self.client.get('/solution/%d/' % char.pk)
+        self.assertContains(resp, 'loading.js')
+        self.assertContains(resp, 'class="loading"')
 
     def test_solution_page_lists_saved_generations(self):
         from chardata.solution_history import record_solution_generation
