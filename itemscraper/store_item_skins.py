@@ -34,6 +34,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from fashionistapulp.fashion_util import is_same_item_name  # noqa: E402
 from item_skin_margins import MIN_MARGIN  # noqa: E402
 from store_item_obtainment import (  # noqa: E402
     _load_db_from_dump, _save_db_to_dump, get_items_db_path)
@@ -43,19 +44,8 @@ VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
 # Our own numbering of same-named items, which is not part of the game name.
 DISAMBIGUATION = re.compile(r'\s*\(#\d+\)\s*$')
 
-
-def same_item(name, other):
-    """Ankama ids are only shared where the versions share an item.
-
-    Dofus 2 does share them: 974 of its 1029 matches carry the exact Dofus 3
-    name and the rest differ only by our numbering. Touch does not: 55 of its
-    667 are a different item under the same id, Karne Rider Blade against
-    Gob-Trotter Blade, so the name is what decides.
-    """
-    if not name or not other:
-        return False
-    return (DISAMBIGUATION.sub('', name).casefold()
-            == DISAMBIGUATION.sub('', other).casefold())
+# The encyclopedia's cross-version links weigh the same question.
+same_item = is_same_item_name
 
 
 def flat_name(name):

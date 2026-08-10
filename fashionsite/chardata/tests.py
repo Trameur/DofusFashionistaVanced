@@ -486,27 +486,42 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertNotRegex(description, r'^[\s#\d.\-]*$')
                 self.assertIn(description[:30], body)
 
+    def _other_versions_block(self, path):
+        resp = self.client.get(path)
+        self.assertEqual(resp.status_code, 200)
+        m = re.search(r'encyclopedia-other-versions.*?</div>',
+                      resp.content.decode('utf-8'), re.S)
+        self.assertIsNotNone(m, 'Also in block missing on %s' % path)
+        return m.group(0)
+
     def test_item_page_links_other_versions(self):
-        # Twiggy Sword (44) exists on dofus3, dofus2 and retro but not touch:
-        # the "Also in" block cross-links only the versions that carry the
-        # item (unlike the global version switcher, which links blindly).
-        resp = self.client.get('/encyclopedia/item/equipment/44-x/')
-        self.assertEqual(resp.status_code, 200)
-        body = resp.content.decode('utf-8')
-        m = re.search(
-            r'encyclopedia-other-versions.*?</div>', body, re.S)
-        self.assertIsNotNone(m, 'Also in block missing')
-        block = m.group(0)
-        self.assertIn('/retro/encyclopedia/item/equipment/44-', block)
+        # Twiggy Sword (44) is on dofus3, the beta and dofus2, and not on touch:
+        # the "Also in" block cross-links only the versions that carry the item
+        # (unlike the global version switcher, which links blindly).
+        block = self._other_versions_block('/encyclopedia/item/equipment/44-x/')
         self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
+        self.assertIn('/beta/encyclopedia/item/equipment/44-', block)
         self.assertNotIn('/touch/', block)
-        # And the retro page links back to dofus3 (unprefixed URL).
-        resp = self.client.get('/retro/encyclopedia/item/equipment/44-x/')
+        # Retro also has a 44 and it is NOT this sword but the Powerful Twiggy
+        # Sword, one of 406 ids it reuses for something else. Only Dofus 3 and
+        # the beta share an id space, so an id alone never proves identity.
+        self.assertNotIn('/retro/', block)
+        block = self._other_versions_block('/dofus2/encyclopedia/item/equipment/44-x/')
+        self.assertIn('"/encyclopedia/item/equipment/44-', block)
+
+    def test_a_cross_version_link_survives_a_translated_page(self):
+        # The page passes the name in the reader's language while both pools
+        # store the english one. Comparing those two would drop every link as
+        # soon as the reader is not english, which is most of the audience.
+        block = self._other_versions_block('/encyclopedia/item/equipment/44-x/')
+        self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
+        resp = self.client.get('/encyclopedia/item/equipment/44-x/',
+                               headers={'accept-language': 'fr'})
         self.assertEqual(resp.status_code, 200)
-        body = resp.content.decode('utf-8')
-        m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
-        self.assertIsNotNone(m)
-        self.assertIn('"/encyclopedia/item/equipment/44-', m.group(0))
+        m = re.search(r'encyclopedia-other-versions.*?</div>',
+                      resp.content.decode('utf-8'), re.S)
+        self.assertIsNotNone(m, 'Also in block missing in French')
+        self.assertIn('/dofus2/encyclopedia/item/equipment/44-', m.group(0))
 
     def test_resource_page_links_other_versions(self):
         # Sesame Seed (resources/287) is a craft ingredient in every version:

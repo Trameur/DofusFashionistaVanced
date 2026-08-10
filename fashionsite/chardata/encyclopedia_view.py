@@ -16,7 +16,7 @@ from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
-from fashionistapulp.fashion_util import strip_accents
+from fashionistapulp.fashion_util import is_same_item_name, strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 from chardata.stat_range import format_stat_range, get_stat_range
@@ -1083,20 +1083,20 @@ _version_item_keys_cache = {}
 
 
 def _version_item_keys(game_version):
-    """Set of (ankama_type, ankama_id) available in a version's pool."""
+    """(ankama_type, ankama_id) -> name for everything in a version's pool."""
     cached = _version_item_keys_cache.get(game_version)
     if cached is not None:
         return cached
-    keys = set()
+    keys = {}
     conn = None
     try:
         conn = sqlite3.connect(get_items_db_path(game_version))
-        for ankama_type, ankama_id in conn.execute(
-                "SELECT ankama_type, ankama_id FROM items "
+        for ankama_type, ankama_id, name in conn.execute(
+                "SELECT ankama_type, ankama_id, name FROM items "
                 "WHERE ankama_id IS NOT NULL AND ankama_type IS NOT NULL"):
-            keys.add((ankama_type, ankama_id))
+            keys[(ankama_type, ankama_id)] = name
     except sqlite3.Error:
-        keys = set()
+        keys = {}
     finally:
         if conn is not None:
             conn.close()
@@ -1105,15 +1105,24 @@ def _version_item_keys(game_version):
 
 
 def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
-    """Cross-version links for an item page: every OTHER version whose own
-    pool carries the same item (same ankama id namespace across versions)."""
+    """Cross-version links for an item page, for the versions that really have it.
+
+    Only Dofus 3 and the Beta share an id space outright. Following the id alone
+    sent 406 Retro pages and 225 Touch ones to an unrelated item, so the other
+    version has to name the same thing, and it labels its own link with its own
+    name.
+    """
     if not ankama_type or not ankama_id:
         return []
     links = []
+    # The page hands us the name in the reader's language; identity is decided
+    # on the english one both pools store, or nothing would ever match in French.
+    here = _version_item_keys(current_version).get((ankama_type, ankama_id))
     for game_version, label in ACTIVE_GAME_VERSIONS:
         if game_version == current_version:
             continue
-        if (ankama_type, ankama_id) in _version_item_keys(game_version):
+        there = _version_item_keys(game_version).get((ankama_type, ankama_id))
+        if is_same_item_name(here, there):
             links.append({
                 'label': label,
                 'url': get_item_link(ankama_type, ankama_id, name,
@@ -1126,27 +1135,29 @@ _version_resource_keys_cache = {}
 
 
 def _version_resource_keys(game_version):
-    """Set of (subtype, ankama_id) with a working resource page in a version:
-    named ingredients used by at least one recipe of that version."""
+    """(subtype, ankama_id) -> english name for every ingredient with a working
+    resource page in a version: those used by at least one of its recipes."""
     cached = _version_resource_keys_cache.get(game_version)
     if cached is not None:
         return cached
-    keys = set()
+    keys = {}
     conn = None
     try:
         conn = sqlite3.connect(get_items_db_path(game_version))
         cursor = conn.cursor()
         if (_db_table_exists(cursor, 'item_recipes')
                 and _db_table_exists(cursor, 'item_recipe_ingredient_names')):
-            for subtype, ankama_id in cursor.execute(
-                    """SELECT DISTINCT r.ingredient_subtype, r.ingredient_ankama_id
+            for subtype, ankama_id, name in cursor.execute(
+                    """SELECT DISTINCT r.ingredient_subtype, r.ingredient_ankama_id,
+                              n.name
                        FROM item_recipes r
                        JOIN item_recipe_ingredient_names n
                          ON n.ingredient_ankama_id = r.ingredient_ankama_id
-                        AND n.ingredient_subtype = r.ingredient_subtype"""):
-                keys.add((subtype, ankama_id))
+                        AND n.ingredient_subtype = r.ingredient_subtype
+                      WHERE n.language = 'en'"""):
+                keys[(subtype, ankama_id)] = name
     except sqlite3.Error:
-        keys = set()
+        keys = {}
     finally:
         if conn is not None:
             conn.close()
@@ -1155,13 +1166,17 @@ def _version_resource_keys(game_version):
 
 
 def _other_versions_with_resource(current_version, subtype, ankama_id, name):
-    """Cross-version links for a resource page: every OTHER version where the
-    same ingredient has its own working resource page."""
+    """Cross-version links for a resource page, for the versions that really
+    have it. Ingredient ids collide across the Retro/modern split even harder
+    than item ids: 270 of the 676 Retro pages the id alone matched named
+    something else."""
     links = []
+    here = _version_resource_keys(current_version).get((subtype, ankama_id))
     for game_version, label in ACTIVE_GAME_VERSIONS:
         if game_version == current_version:
             continue
-        if (subtype, ankama_id) in _version_resource_keys(game_version):
+        there = _version_resource_keys(game_version).get((subtype, ankama_id))
+        if is_same_item_name(here, there):
             links.append({
                 'label': label,
                 'url': get_resource_link(subtype, ankama_id, name, game_version),
@@ -2710,8 +2725,14 @@ def _get_monster_version_links(monster_id, current_game_version, language):
     """Cross-version links for a monster page, served from the cached monster
     core (the core only carries monsters that drop something, which is exactly
     the condition for the target page to be worth linking). The old version
-    opened every other version's db and ran drop counts on each page view."""
+    opened every other version's db and ran drop counts on each page view.
+
+    A monster id is no more a shared identity than an item id: 195 of the 940
+    the id alone matched between Dofus 3 and Touch are a different monster, and
+    102 of 662 between Dofus 3 and Retro. The english names have to agree."""
     links = []
+    here = _get_monster_core_by_id(current_game_version).get(monster_id) or {}
+    here_en = (here.get('names') or {}).get('en')
     for game_version, version_label in ACTIVE_GAME_VERSIONS:
         if game_version == current_game_version:
             continue
@@ -2719,6 +2740,8 @@ def _get_monster_version_links(monster_id, current_game_version, language):
         if entry is None:
             continue
         names = entry['names']
+        if not is_same_item_name(here_en, names.get('en')):
+            continue
         monster_name = names.get(language) or names.get('en')
         if not monster_name:
             continue

@@ -14,7 +14,26 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import re
+
 import unidecode
+
+# Our own numbering of same-named items, which is not part of the game name.
+_DISAMBIGUATION = re.compile(r'\s*\(#\d+\)\s*$')
+
+
+def is_same_item_name(name, other):
+    """Whether two versions naming an ankama id mean the same item.
+
+    Only Dofus 3 and the Beta share an id space outright. Dofus 2 reuses 62 of
+    its ids for something else, Touch 225 and Retro 406, so an id alone is not
+    an identity: the name is what decides.
+    """
+    if not name or not other:
+        return False
+    return (_DISAMBIGUATION.sub('', name).casefold()
+            == _DISAMBIGUATION.sub('', other).casefold())
+
 
 def normalize_name(s):
     if '(' in s and s.endswith(')'):
