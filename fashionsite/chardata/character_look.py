@@ -53,9 +53,10 @@ MOUNT_SLOT = 'mount'
 REFERENCE_SCALE = 53.0
 
 # Dofus 3 art. Beta shares the client, and Dofus 2 keeps the same equipment
-# designs, so the skins matched once serve all three by ankama id. Touch has its
-# skins stored too but not a single shield among them, so it waits for art of
-# its own; Retro is 1.29 art and shares nothing.
+# designs, so the skins matched once serve all three by ankama id. Touch has a
+# mapping against its own art, but the baked cache is one Dofus 3 id space, so
+# a Touch skin id there would draw another piece: it waits for the cache to
+# carry Touch parts. Retro is 1.29 art and shares nothing.
 VERSIONS_WITH_ART = ('dofus3', 'beta', 'dofus2')
 
 # The ColorGray slots the art exposes. Six, not five: slot 6 was left out and

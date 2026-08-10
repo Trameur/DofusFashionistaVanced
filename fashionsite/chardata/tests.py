@@ -8206,9 +8206,9 @@ class CharacterLookTests(TestCase):
 
     def test_only_the_versions_sharing_this_art_get_a_preview(self):
         # Dofus 2 kept the same equipment designs, so the skins matched once
-        # from the Dofus 3 art fit it by ankama id. Touch shares the ids but not
-        # always the item, and once the impostors are dropped it has no shield
-        # art left at all. Retro is 1.29 art and shares nothing.
+        # from the Dofus 3 art fit it by ankama id. Touch has a mapping against
+        # its own art, but the baked cache is a single Dofus 3 id space, so a
+        # Touch skin id there would draw another piece. Retro is 1.29 art.
         from chardata.character_look import get_character_look
         char = self._char('Iop')
         for version in ('dofus3', 'beta', 'dofus2'):
@@ -8230,17 +8230,23 @@ class CharacterLookTests(TestCase):
         # so a rebuild would lose it. item_skins.json is that output, and this
         # fails the day the two drift apart. The file keeps every candidate
         # with its margin, the database only those that clear the floor, so a
-        # floor can move without matching again.
+        # floor can move without matching again. Every version storing skins is
+        # checked here, preview or not, since the dump is what a rebuild reads.
         import json
         import sqlite3
         from fashionistapulp.fashionista_config import (get_fashionista_path,
                                                         get_items_db_path)
-        from chardata.character_look import VERSIONS_WITH_ART
         from itemscraper.item_skin_margins import MIN_MARGIN
-        from itemscraper.store_item_skins import same_item
+        from itemscraper.store_item_skins import (flat_name, names_index,
+                                                  same_item)
         scraper = os.path.join(get_fashionista_path(), 'itemscraper')
-        with open(os.path.join(scraper, 'item_skins.json'), encoding='utf-8') as fh:
-            kept = {int(key): value for key, value in json.load(fh).items()}
+
+        def load(name):
+            with open(os.path.join(scraper, name), encoding='utf-8') as fh:
+                return json.load(fh)
+
+        kept = {int(key): value for key, value in load('item_skins.json').items()}
+        by_name = load('item_skins_by_name.json')
         self.assertGreater(len(kept), 800)
 
         def decided(entry):
@@ -8254,7 +8260,15 @@ class CharacterLookTests(TestCase):
                 return None
             return entry['skin']
 
-        for version in VERSIONS_WITH_ART:
+        # The other versions renumbered part of their catalogue, so they also
+        # replay the same decisions under type and name.
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            self.assertEqual(by_name, names_index(conn))
+        finally:
+            conn.close()
+
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
             conn = sqlite3.connect(get_items_db_path(version))
             try:
                 stored = {row[0]: row[1] for row in conn.execute("""
@@ -8262,18 +8276,23 @@ class CharacterLookTests(TestCase):
                     JOIN item_types t ON t.id = i.type
                     WHERE i.skin IS NOT NULL AND t.name IN
                         ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
-                here = {row[0]: row[1] for row in conn.execute("""
-                    SELECT i.ankama_id, i.name FROM items i
+                here = {row[0]: (row[1], row[2]) for row in conn.execute("""
+                    SELECT i.ankama_id, i.name, t.name FROM items i
                     JOIN item_types t ON t.id = i.type
                     WHERE t.name IN ('Hat', 'Cloak', 'Shield', 'Weapon')""")}
             finally:
                 conn.close()
-            wanted = {ankama_id: decided(entry)
-                      for ankama_id, entry in kept.items()
-                      if ankama_id in here
-                      and (isinstance(entry, int)
-                           or same_item(here[ankama_id], entry.get('name')))}
-            wanted = {k: v for k, v in wanted.items() if v is not None}
+            wanted = {}
+            for ankama_id, (item_name, item_type) in here.items():
+                entry = kept.get(ankama_id)
+                skin = None
+                if entry is not None and (isinstance(entry, int)
+                                          or same_item(item_name, entry.get('name'))):
+                    skin = decided(entry)
+                if skin is None and version != 'dofus3':
+                    skin = by_name.get(item_type, {}).get(flat_name(item_name))
+                if skin is not None:
+                    wanted[ankama_id] = skin
             with self.subTest(version=version):
                 self.assertEqual(stored, wanted, version)
 

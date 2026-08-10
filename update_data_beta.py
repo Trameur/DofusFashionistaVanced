@@ -210,9 +210,11 @@ def main() -> None:
         step("mount-looks", [PY, "store_dofusdb_mount_looks.py",
                              "--game-version", "beta"], cwd=ITEMSCRAPER)
         # Replayed, not matched: working the skins out from the art takes hours,
-        # so the decisions it reached are kept in the repo.
+        # so the decisions it reached are kept in the repo. Beta renumbered a few
+        # items, and --names catches those by type and name.
         step("item-skins", [PY, "store_item_skins.py", "--game-version", "beta",
-                            "--input", "item_skins.json"], cwd=ITEMSCRAPER)
+                            "--input", "item_skins.json",
+                            "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [

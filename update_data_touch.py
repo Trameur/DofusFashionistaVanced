@@ -188,9 +188,13 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     # Replayed, not matched: Touch is a fork of the Dofus 2 client and keeps the
-    # same equipment designs, so the Dofus 3 skins fit here by ankama id.
+    # same equipment designs, so the Dofus 3 skins fit here by ankama id, and by
+    # type and name for the third of the catalogue Touch renumbered. Its own
+    # mapping (item_skins_touch.json) is not used: the baked preview cache is a
+    # single Dofus 3 id space and a Touch skin id there would draw another piece.
     step("item-skins", [PY, "store_item_skins.py", "--game-version", "touch",
-                        "--input", "item_skins.json"], cwd=ITEMSCRAPER)
+                        "--input", "item_skins.json",
+                        "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER)
 
     # Manual fixes last, so they survive whatever the stores rebuilt.
     step("items/corrections", [
