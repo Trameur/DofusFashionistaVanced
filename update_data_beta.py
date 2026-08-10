@@ -201,12 +201,6 @@ def main() -> None:
             "--game-version", "beta",
             str(ITEMSCRAPER / "beta"),
         ], cwd=ITEMSCRAPER)
-        step("monster-grades", [PY, "store_dofusdb_monster_grades.py",
-                                "--game-version", "beta"], cwd=ITEMSCRAPER)
-        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
-                                     "--game-version", "beta"], cwd=ITEMSCRAPER)
-        step("monster-spells", [PY, "store_monster_spells.py",
-                                "--game-version", "beta"], cwd=ITEMSCRAPER)
         step("mount-looks", [PY, "store_dofusdb_mount_looks.py",
                              "--game-version", "beta"], cwd=ITEMSCRAPER)
         # Replayed, not matched: working the skins out from the art takes hours,
@@ -266,6 +260,17 @@ def main() -> None:
             "--drops", "transformed_drops_beta.json",
             "--game-version", "beta",
         ], cwd=ITEMSCRAPER)
+        # After drops/store, which is what creates monster_names: all three read
+        # it to know which monsters the database has. items/load-db rebuilds the
+        # file from the item dump, so on a run from scratch these three used to
+        # find no such table and die, and the rebuilt database came out with no
+        # monster grade, subarea or spell at all.
+        step("monster-grades", [PY, "store_dofusdb_monster_grades.py",
+                                "--game-version", "beta"], cwd=ITEMSCRAPER)
+        step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
+                                     "--game-version", "beta"], cwd=ITEMSCRAPER)
+        step("monster-spells", [PY, "store_monster_spells.py",
+                                "--game-version", "beta"], cwd=ITEMSCRAPER)
         # Craft professions -> item_craft_jobs / job_names ("Crafted by ...").
         step("craftjobs/transform", [
             PY, "get_craft_jobs.py",
