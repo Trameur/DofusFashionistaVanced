@@ -155,6 +155,8 @@ STAT_TRANSLATE = {
     'Action Points (AP)': 'AP',
     'Movement Points (MP)': 'MP',
     '(Attracts by cell)': '(Attracts by cell)',
+    '(removes ap)': '(removes ap)',
+    '(removes mp)': '(removes mp)',
     '(best-element steal)' : '(best-element steal)',
     '(Advances by cell)' : '(Advances by cell)',
     '(Fire heals)' : 'Fire heals',
@@ -162,6 +164,35 @@ STAT_TRANSLATE = {
 }
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
+
+
+# An in-fight effect that takes AP or MP off the target. Its type name is the
+# bare characteristic, exactly like the wielder bonus, so the name alone cannot
+# tell them apart; is_active can, and the game sets it. The old code keyed on
+# dofusdude's effect number instead, and that number is minted per dump: the
+# attract line is 255 in Dofus 3 and 253 in the beta, so blocking 253 silently
+# cost the beta its five attract weapons while Dofus 3 kept theirs, and the MP a
+# weapon removes is 238 here and 192 in Dofus 2, so Dofus 2 needed a hand-written
+# list of six item names to patch over the miss.
+IN_FIGHT_REMOVAL_HITS = {'AP': '(removes ap)', 'MP': '(removes mp)'}
+
+
+def effect_row(eff):
+    """One stats row, [min, max, description], as get_equipments3 reads them."""
+    lo = eff["int_minimum"] if not eff["ignore_int_min"] else None
+    hi = eff["int_maximum"] if not eff["ignore_int_max"] else None
+    name = eff['type']['name']
+    if not eff['type']['is_active']:
+        return [lo, hi, name]
+    hit = IN_FIGHT_REMOVAL_HITS.get(name)
+    if hit is None:
+        return [lo, hi, f"({name})"]
+    # The source writes the removal as a negative bonus, "-1 AP" or "-3 to -2 AP".
+    # The hit already says it is taken off the target, so store how much is taken,
+    # 2 to 3, the way the Touch client reports the same line. Left signed, the page
+    # read "Removes -1 AP".
+    taken = sorted(abs(v) for v in (lo, hi) if v is not None)
+    return [taken[0], taken[-1], hit] if taken else [lo, hi, hit]
 
 
 def clean_display_name(name):
@@ -320,14 +351,7 @@ for item in equipment_data['en']['items']:
     if "critical_hit_bonus" in item:
         transformed_item["crit_bonus"] = item["critical_hit_bonus"]
     if "effects" in item:
-        transformed_item["stats"] = [
-            [
-                eff["int_minimum"] if not eff["ignore_int_min"] else None,
-                eff["int_maximum"] if not eff["ignore_int_max"] else None,
-                f"({eff['type']['name']})" if eff["type"]["is_active"] else eff["type"]["name"]
-            ] for eff in item["effects"]
-            if not ((eff["type"]["name"] == 'MP' and item["name"] in ["War's Halbaxe", "Wulan's Bow", "Roasty Breadstick", "Pillar of Ephedrya", "Imp Sword", "Phonemenal Scythe"]) or (eff["type"]["id"] == 179) or (eff["type"]["id"] == 238) or (eff["type"]["id"] == 253) or (eff["type"]["id"] == 254))
-        ]
+        transformed_item["stats"] = [effect_row(eff) for eff in item["effects"]]
         for eff in item["effects"]:
             if eff["type"]["name"] == '-special spell-':
                 special_spell_effects = [eff for eff in item.get('effects', []) if eff['type']['name'] == '-special spell-']

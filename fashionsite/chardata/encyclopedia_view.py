@@ -20,7 +20,7 @@ from fashionistapulp.fashion_util import is_same_item_name, strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 from chardata.stat_range import format_stat_range, get_stat_range
-from chardata.weapon_header import format_heal_hit, format_weapon_header
+from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
@@ -456,22 +456,8 @@ def _get_weapon_detail_lines(structure, variant_items, language):
             weapon.crit_chance, weapon.crit_bonus)]
 
         for hit in weapon.base_hit:
-            if hit.steals:
-                line = _('%(min)d to %(max)d (%(element)s steal)') % {
-                    'min': hit.min_dam,
-                    'max': hit.max_dam,
-                    'element': LOCALIZED_ELEMENTS.get(hit.element, hit.element),
-                }
-            elif hit.heals:
-                line = format_heal_hit(structure.game_version, hit.min_dam,
-                                       hit.max_dam, hit.element, LOCALIZED_ELEMENTS)
-            else:
-                line = _('%(min)d to %(max)d (%(element)s)') % {
-                    'min': hit.min_dam,
-                    'max': hit.max_dam,
-                    'element': LOCALIZED_ELEMENTS.get(hit.element, hit.element),
-                }
-            lines.append(line)
+            lines.append(format_weapon_hit(structure.game_version, hit,
+                                           LOCALIZED_ELEMENTS))
 
     return lines
 

@@ -1965,6 +1965,11 @@
                 9,
                 11,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7010-128.png",
@@ -18934,6 +18939,11 @@
                 "(Neutral damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Initiative"
@@ -24728,6 +24738,11 @@
                 15,
                 29,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -33862,6 +33877,11 @@
                 "(Water damage)"
             ],
             [
+                1,
+                1,
+                "(removes mp)"
+            ],
+            [
                 7,
                 10,
                 "Power"
@@ -33967,11 +33987,11 @@
     {
         "ankama_id": 6981,
         "ankama_type": "equipment",
-        "name_en": "Ice Daggers 1",
-        "name_fr": "Dagues Lassay 1",
-        "name_es": "Dagas Heladas 1",
-        "name_pt": "Adagas de Gelo 1",
-        "name_de": "Eisige Klingen 1",
+        "name_en": "Ice Daggers (#1)",
+        "name_fr": "Dagues Lassay (#1)",
+        "name_es": "Dagas Heladas (#1)",
+        "name_pt": "Adagas de Gelo (#1)",
+        "name_de": "Eisige Klingen (#1)",
         "w_type": "Dagger",
         "level": 150,
         "ap": 3,
@@ -34044,11 +34064,11 @@
     {
         "ankama_id": 6981,
         "ankama_type": "equipment",
-        "name_en": "Ice Daggers 2",
-        "name_fr": "Dagues Lassay 2",
-        "name_es": "Dagas Heladas 2",
-        "name_pt": "Adagas de Gelo 2",
-        "name_de": "Eisige Klingen 2",
+        "name_en": "Ice Daggers (#2)",
+        "name_fr": "Dagues Lassay (#2)",
+        "name_es": "Dagas Heladas (#2)",
+        "name_pt": "Adagas de Gelo (#2)",
+        "name_de": "Eisige Klingen (#2)",
         "w_type": "Dagger",
         "level": 150,
         "ap": 3,
@@ -36005,6 +36025,11 @@
         "crit_bonus": 5,
         "stats": [
             [
+                1,
+                2,
+                "(removes ap)"
+            ],
+            [
                 8,
                 12,
                 "Fire heals"
@@ -37412,6 +37437,11 @@
                 "(Fire damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Vitality"
@@ -37464,6 +37494,11 @@
                 3,
                 4,
                 "Fire Steal"
+            ],
+            [
+                1,
+                2,
+                "(removes ap)"
             ],
             [
                 151,
@@ -37759,6 +37794,11 @@
                 2,
                 3,
                 "Fire Steal"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 6,
@@ -38601,6 +38641,11 @@
                 "Power"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 11,
                 15,
                 "Prospecting"
@@ -39020,6 +39065,11 @@
                 "(Water steal)"
             ],
             [
+                2,
+                3,
+                "(removes ap)"
+            ],
+            [
                 16,
                 20,
                 "Power"
@@ -39275,6 +39325,11 @@
                 5,
                 6,
                 "(Air steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 31,
@@ -39600,6 +39655,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 18,
                 36,
                 "(Neutral damage)"
@@ -39726,6 +39786,11 @@
                 31,
                 50,
                 "Agility"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 300,
@@ -42021,6 +42086,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 56,
                 75,
                 "Vitality"
@@ -42222,6 +42292,11 @@
                 15,
                 24,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -44095,6 +44170,11 @@
         "crit_bonus": 10,
         "stats": [
             [
+                1,
+                2,
+                "(removes ap)"
+            ],
+            [
                 4,
                 8,
                 "(Air steal)"
@@ -45016,6 +45096,11 @@
                 16,
                 30,
                 "Agility"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 6,
@@ -51921,6 +52006,16 @@
         "crit_bonus": 5,
         "stats": [
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
+            ],
+            [
                 27,
                 31,
                 "(Neutral damage)"
@@ -51983,11 +52078,11 @@
     {
         "ankama_id": 8414,
         "ankama_type": "equipment",
-        "name_en": "Dreggon Daggers 1",
-        "name_fr": "Dagues du Dragoeuf 1",
-        "name_es": "Dagas de dragohuevo 1",
-        "name_pt": "Adagas do Dragoeuf 1",
-        "name_de": "Drachei-Dolche 1",
+        "name_en": "Dreggon Daggers (#1)",
+        "name_fr": "Dagues du Dragoeuf (#1)",
+        "name_es": "Dagas de dragohuevo (#1)",
+        "name_pt": "Adagas do Dragoeuf (#1)",
+        "name_de": "Drachei-Dolche (#1)",
         "w_type": "Dagger",
         "level": 128,
         "ap": 3,
@@ -52078,11 +52173,11 @@
     {
         "ankama_id": 8414,
         "ankama_type": "equipment",
-        "name_en": "Dreggon Daggers 2",
-        "name_fr": "Dagues du Dragoeuf 2",
-        "name_es": "Dagas de dragohuevo 2",
-        "name_pt": "Adagas do Dragoeuf 2",
-        "name_de": "Drachei-Dolche 2",
+        "name_en": "Dreggon Daggers (#2)",
+        "name_fr": "Dagues du Dragoeuf (#2)",
+        "name_es": "Dagas de dragohuevo (#2)",
+        "name_pt": "Adagas do Dragoeuf (#2)",
+        "name_de": "Drachei-Dolche (#2)",
         "w_type": "Dagger",
         "level": 128,
         "ap": 3,
@@ -53159,6 +53254,11 @@
                 16,
                 28,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 101,
@@ -55365,6 +55465,11 @@
                 3,
                 4,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 41,
@@ -59030,11 +59135,11 @@
     {
         "ankama_id": 8699,
         "ankama_type": "equipment",
-        "name_en": "Tynril Hat 1",
-        "name_fr": "Coiffe du Tynril 1",
-        "name_es": "Tocado de Tynril 1",
-        "name_pt": "Chapéu do Tynril 1",
-        "name_de": "Tynril-Hut 1",
+        "name_en": "Tynril Hat (#1)",
+        "name_fr": "Coiffe du Tynril (#1)",
+        "name_es": "Tocado de Tynril (#1)",
+        "name_pt": "Chapéu do Tynril (#1)",
+        "name_de": "Tynril-Hut (#1)",
         "w_type": "Hat",
         "level": 164,
         "stats": [
@@ -59094,11 +59199,11 @@
     {
         "ankama_id": 8699,
         "ankama_type": "equipment",
-        "name_en": "Tynril Hat 2",
-        "name_fr": "Coiffe du Tynril 2",
-        "name_es": "Tocado de Tynril 2",
-        "name_pt": "Chapéu do Tynril 2",
-        "name_de": "Tynril-Hut 2",
+        "name_en": "Tynril Hat (#2)",
+        "name_fr": "Coiffe du Tynril (#2)",
+        "name_es": "Tocado de Tynril (#2)",
+        "name_pt": "Chapéu do Tynril (#2)",
+        "name_de": "Tynril-Hut (#2)",
         "w_type": "Hat",
         "level": 164,
         "stats": [
@@ -60804,11 +60909,11 @@
     {
         "ankama_id": 8827,
         "ankama_type": "equipment",
-        "name_en": "Zoth Warrior Axe 1",
-        "name_fr": "Hache du Guerrier Zoth 1",
-        "name_es": "Hacha de guerrero zoth 1",
-        "name_pt": "Machado do Guerreiro Zoth 1",
-        "name_de": "Axt des Zoth-Kriegers 1",
+        "name_en": "Zoth Warrior Axe (#1)",
+        "name_fr": "Hache du Guerrier Zoth (#1)",
+        "name_es": "Hacha de guerrero zoth (#1)",
+        "name_pt": "Machado do Guerreiro Zoth (#1)",
+        "name_de": "Axt des Zoth-Kriegers (#1)",
         "w_type": "Axe",
         "level": 139,
         "ap": 5,
@@ -60877,11 +60982,11 @@
     {
         "ankama_id": 8827,
         "ankama_type": "equipment",
-        "name_en": "Zoth Warrior Axe 2",
-        "name_fr": "Hache du Guerrier Zoth 2",
-        "name_es": "Hacha de guerrero zoth 2",
-        "name_pt": "Machado do Guerreiro Zoth 2",
-        "name_de": "Axt des Zoth-Kriegers 2",
+        "name_en": "Zoth Warrior Axe (#2)",
+        "name_fr": "Hache du Guerrier Zoth (#2)",
+        "name_es": "Hacha de guerrero zoth (#2)",
+        "name_pt": "Machado do Guerreiro Zoth (#2)",
+        "name_de": "Axt des Zoth-Kriegers (#2)",
         "w_type": "Axe",
         "level": 139,
         "ap": 5,
@@ -61349,6 +61454,11 @@
         "crit_chance": 15,
         "crit_bonus": 15,
         "stats": [
+            [
+                1,
+                1,
+                "(removes ap)"
+            ],
             [
                 21,
                 40,
@@ -62937,11 +63047,11 @@
     {
         "ankama_id": 8866,
         "ankama_type": "equipment",
-        "name_en": "Powerful Dazzling Cloak 1",
-        "name_fr": "Puissante Cape Fulgurante 1",
-        "name_es": "Poderosa capa fulgurante 1",
-        "name_pt": "Poderosa capa fulgurante 1",
-        "name_de": "Mächtiger schillernder Umhang 1",
+        "name_en": "Powerful Dazzling Cloak (#1)",
+        "name_fr": "Puissante Cape Fulgurante (#1)",
+        "name_es": "Poderosa capa fulgurante (#1)",
+        "name_pt": "Poderosa capa fulgurante (#1)",
+        "name_de": "Mächtiger schillernder Umhang (#1)",
         "w_type": "Cloak",
         "level": 110,
         "stats": [
@@ -62976,11 +63086,11 @@
     {
         "ankama_id": 8866,
         "ankama_type": "equipment",
-        "name_en": "Powerful Dazzling Cloak 2",
-        "name_fr": "Puissante Cape Fulgurante 2",
-        "name_es": "Poderosa capa fulgurante 2",
-        "name_pt": "Poderosa capa fulgurante 2",
-        "name_de": "Mächtiger schillernder Umhang 2",
+        "name_en": "Powerful Dazzling Cloak (#2)",
+        "name_fr": "Puissante Cape Fulgurante (#2)",
+        "name_es": "Poderosa capa fulgurante (#2)",
+        "name_pt": "Poderosa capa fulgurante (#2)",
+        "name_de": "Mächtiger schillernder Umhang (#2)",
         "w_type": "Cloak",
         "level": 110,
         "stats": [
@@ -64496,6 +64606,11 @@
                 "(Water steal)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 31,
                 50,
                 "Chance"
@@ -64553,11 +64668,11 @@
     {
         "ankama_id": 8932,
         "ankama_type": "equipment",
-        "name_en": "Kukri Kura 1",
-        "name_fr": "Kukri Kura 1",
-        "name_es": "Kukri Kura 1",
-        "name_pt": "Kukri Kura 1",
-        "name_de": "Schwert des Teilens 1",
+        "name_en": "Kukri Kura (#1)",
+        "name_fr": "Kukri Kura (#1)",
+        "name_es": "Kukri Kura (#1)",
+        "name_pt": "Kukri Kura (#1)",
+        "name_de": "Schwert des Teilens (#1)",
         "w_type": "Sword",
         "level": 179,
         "ap": 3,
@@ -64640,11 +64755,11 @@
     {
         "ankama_id": 8932,
         "ankama_type": "equipment",
-        "name_en": "Kukri Kura 2",
-        "name_fr": "Kukri Kura 2",
-        "name_es": "Kukri Kura 2",
-        "name_pt": "Kukri Kura 2",
-        "name_de": "Schwert des Teilens 2",
+        "name_en": "Kukri Kura (#2)",
+        "name_fr": "Kukri Kura (#2)",
+        "name_es": "Kukri Kura (#2)",
+        "name_pt": "Kukri Kura (#2)",
+        "name_de": "Schwert des Teilens (#2)",
         "w_type": "Sword",
         "level": 179,
         "ap": 3,
@@ -66899,6 +67014,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 31,
                 50,
                 "Intelligence"
@@ -67063,6 +67183,11 @@
                 8,
                 14,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 31,
@@ -77775,6 +77900,11 @@
                 "(Water damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -80809,6 +80939,11 @@
                 "(Neutral damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Vitality"
@@ -80906,6 +81041,11 @@
                 12,
                 20,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -82615,6 +82755,11 @@
                 8,
                 14,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 201,
@@ -84783,11 +84928,11 @@
     {
         "ankama_id": 11738,
         "ankama_type": "equipment",
-        "name_en": "Awmigawd Band 1",
-        "name_fr": "Anneau Aimgéroks 1",
-        "name_es": "Anillo Chanicomo 1",
-        "name_pt": "Anel AiMewDews 1",
-        "name_de": "Owigail-Ring 1",
+        "name_en": "Awmigawd Band (#1)",
+        "name_fr": "Anneau Aimgéroks (#1)",
+        "name_es": "Anillo Chanicomo (#1)",
+        "name_pt": "Anel AiMewDews (#1)",
+        "name_de": "Owigail-Ring (#1)",
         "w_type": "Ring",
         "level": 194,
         "stats": [
@@ -84852,11 +84997,11 @@
     {
         "ankama_id": 11738,
         "ankama_type": "equipment",
-        "name_en": "Awmigawd Band 2",
-        "name_fr": "Anneau Aimgéroks 2",
-        "name_es": "Anillo Chanicomo 2",
-        "name_pt": "Anel AiMewDews 2",
-        "name_de": "Owigail-Ring 2",
+        "name_en": "Awmigawd Band (#2)",
+        "name_fr": "Anneau Aimgéroks (#2)",
+        "name_es": "Anillo Chanicomo (#2)",
+        "name_pt": "Anel AiMewDews (#2)",
+        "name_de": "Owigail-Ring (#2)",
         "w_type": "Ring",
         "level": 194,
         "stats": [
@@ -86123,6 +86268,11 @@
                 "(Water steal)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 201,
                 250,
                 "Vitality"
@@ -86318,6 +86468,11 @@
                 8,
                 15,
                 "(Water damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -88669,6 +88824,11 @@
                 16,
                 25,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 7,
@@ -91161,6 +91321,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Vitality"
@@ -91794,11 +91959,11 @@
     {
         "ankama_id": 12108,
         "ankama_type": "equipment",
-        "name_en": "Professor Xa's Cloak 1",
-        "name_fr": "Cape du Professeur Xa 1",
-        "name_es": "Capa del profesor Xa 1",
-        "name_pt": "Capa do Professor Xa 1",
-        "name_de": "Professor Xas Umhang 1",
+        "name_en": "Professor Xa's Cloak (#1)",
+        "name_fr": "Cape du Professeur Xa (#1)",
+        "name_es": "Capa del profesor Xa (#1)",
+        "name_pt": "Capa do Professor Xa (#1)",
+        "name_de": "Professor Xas Umhang (#1)",
         "w_type": "Cloak",
         "level": 194,
         "stats": [
@@ -91893,11 +92058,11 @@
     {
         "ankama_id": 12108,
         "ankama_type": "equipment",
-        "name_en": "Professor Xa's Cloak 2",
-        "name_fr": "Cape du Professeur Xa 2",
-        "name_es": "Capa del profesor Xa 2",
-        "name_pt": "Capa do Professor Xa 2",
-        "name_de": "Professor Xas Umhang 2",
+        "name_en": "Professor Xa's Cloak (#2)",
+        "name_fr": "Cape du Professeur Xa (#2)",
+        "name_es": "Capa del profesor Xa (#2)",
+        "name_pt": "Capa do Professor Xa (#2)",
+        "name_de": "Professor Xas Umhang (#2)",
         "w_type": "Cloak",
         "level": 194,
         "stats": [
@@ -92280,11 +92445,11 @@
     {
         "ankama_id": 12112,
         "ankama_type": "equipment",
-        "name_en": "Professor Xa's Shovel 1",
-        "name_fr": "Pelle du Professeur Xa 1",
-        "name_es": "Pala del profesor Xa 1",
-        "name_pt": "Pá do Professor Xa 1",
-        "name_de": "Professor Xas Schaufel 1",
+        "name_en": "Professor Xa's Shovel (#1)",
+        "name_fr": "Pelle du Professeur Xa (#1)",
+        "name_es": "Pala del profesor Xa (#1)",
+        "name_pt": "Pá do Professor Xa (#1)",
+        "name_de": "Professor Xas Schaufel (#1)",
         "w_type": "Shovel",
         "level": 191,
         "ap": 3,
@@ -92305,6 +92470,11 @@
                 5,
                 7,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -92387,11 +92557,11 @@
     {
         "ankama_id": 12112,
         "ankama_type": "equipment",
-        "name_en": "Professor Xa's Shovel 2",
-        "name_fr": "Pelle du Professeur Xa 2",
-        "name_es": "Pala del profesor Xa 2",
-        "name_pt": "Pá do Professor Xa 2",
-        "name_de": "Professor Xas Schaufel 2",
+        "name_en": "Professor Xa's Shovel (#2)",
+        "name_fr": "Pelle du Professeur Xa (#2)",
+        "name_es": "Pala del profesor Xa (#2)",
+        "name_pt": "Pá do Professor Xa (#2)",
+        "name_de": "Professor Xas Schaufel (#2)",
         "w_type": "Shovel",
         "level": 191,
         "ap": 3,
@@ -92412,6 +92582,11 @@
                 5,
                 7,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -101037,11 +101212,11 @@
     {
         "ankama_id": 13194,
         "ankama_type": "equipment",
-        "name_en": "Mad Chatter 1",
-        "name_fr": "Chapeau Potin 1",
-        "name_es": "Casco Tilleo 1",
-        "name_pt": "Chapéu Fedor 1",
-        "name_de": "Tratschut 1",
+        "name_en": "Mad Chatter (#1)",
+        "name_fr": "Chapeau Potin (#1)",
+        "name_es": "Casco Tilleo (#1)",
+        "name_pt": "Chapéu Fedor (#1)",
+        "name_de": "Tratschut (#1)",
         "w_type": "Hat",
         "level": 199,
         "stats": [
@@ -101116,11 +101291,11 @@
     {
         "ankama_id": 13194,
         "ankama_type": "equipment",
-        "name_en": "Mad Chatter 2",
-        "name_fr": "Chapeau Potin 2",
-        "name_es": "Casco Tilleo 2",
-        "name_pt": "Chapéu Fedor 2",
-        "name_de": "Tratschut 2",
+        "name_en": "Mad Chatter (#2)",
+        "name_fr": "Chapeau Potin (#2)",
+        "name_es": "Casco Tilleo (#2)",
+        "name_pt": "Chapéu Fedor (#2)",
+        "name_de": "Tratschut (#2)",
         "w_type": "Hat",
         "level": 199,
         "stats": [
@@ -104844,6 +105019,11 @@
                 "(Neutral damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -104931,11 +105111,11 @@
     {
         "ankama_id": 13657,
         "ankama_type": "equipment",
-        "name_en": "Cushtycloak 1",
-        "name_fr": "Cape Matelassée 1",
-        "name_es": "Capa Colchonada 1",
-        "name_pt": "Capa acolchoada 1",
-        "name_de": "Mas Ratz-Umhang 1",
+        "name_en": "Cushtycloak (#1)",
+        "name_fr": "Cape Matelassée (#1)",
+        "name_es": "Capa Colchonada (#1)",
+        "name_pt": "Capa acolchoada (#1)",
+        "name_de": "Mas Ratz-Umhang (#1)",
         "w_type": "Cloak",
         "level": 196,
         "stats": [
@@ -105025,11 +105205,11 @@
     {
         "ankama_id": 13657,
         "ankama_type": "equipment",
-        "name_en": "Cushtycloak 2",
-        "name_fr": "Cape Matelassée 2",
-        "name_es": "Capa Colchonada 2",
-        "name_pt": "Capa acolchoada 2",
-        "name_de": "Mas Ratz-Umhang 2",
+        "name_en": "Cushtycloak (#2)",
+        "name_fr": "Cape Matelassée (#2)",
+        "name_es": "Capa Colchonada (#2)",
+        "name_pt": "Capa acolchoada (#2)",
+        "name_de": "Mas Ratz-Umhang (#2)",
         "w_type": "Cloak",
         "level": 196,
         "stats": [
@@ -105119,11 +105299,11 @@
     {
         "ankama_id": 13658,
         "ankama_type": "equipment",
-        "name_en": "Slothful Slippers 1",
-        "name_fr": "Pantoufles Émar 1",
-        "name_es": "Pantuflas Raganas 1",
-        "name_pt": "Chinelos Preguicite 1",
-        "name_de": "Nicks Schuh A 1",
+        "name_en": "Slothful Slippers (#1)",
+        "name_fr": "Pantoufles Émar (#1)",
+        "name_es": "Pantuflas Raganas (#1)",
+        "name_pt": "Chinelos Preguicite (#1)",
+        "name_de": "Nicks Schuh A (#1)",
         "w_type": "Boots",
         "level": 196,
         "stats": [
@@ -105198,11 +105378,11 @@
     {
         "ankama_id": 13658,
         "ankama_type": "equipment",
-        "name_en": "Slothful Slippers 2",
-        "name_fr": "Pantoufles Émar 2",
-        "name_es": "Pantuflas Raganas 2",
-        "name_pt": "Chinelos Preguicite 2",
-        "name_de": "Nicks Schuh A 2",
+        "name_en": "Slothful Slippers (#2)",
+        "name_fr": "Pantoufles Émar (#2)",
+        "name_es": "Pantuflas Raganas (#2)",
+        "name_pt": "Chinelos Preguicite (#2)",
+        "name_de": "Nicks Schuh A (#2)",
         "w_type": "Boots",
         "level": 196,
         "stats": [
@@ -105277,11 +105457,11 @@
     {
         "ankama_id": 13659,
         "ankama_type": "equipment",
-        "name_en": "Shabby Shoes 1",
-        "name_fr": "Sabots Minables 1",
-        "name_es": "Zuecos Traz 1",
-        "name_pt": "Tamancos Miseráveis 1",
-        "name_de": "Uner-Treter 'Lich' 1",
+        "name_en": "Shabby Shoes (#1)",
+        "name_fr": "Sabots Minables (#1)",
+        "name_es": "Zuecos Traz (#1)",
+        "name_pt": "Tamancos Miseráveis (#1)",
+        "name_de": "Uner-Treter 'Lich' (#1)",
         "w_type": "Boots",
         "level": 196,
         "stats": [
@@ -105361,11 +105541,11 @@
     {
         "ankama_id": 13659,
         "ankama_type": "equipment",
-        "name_en": "Shabby Shoes 2",
-        "name_fr": "Sabots Minables 2",
-        "name_es": "Zuecos Traz 2",
-        "name_pt": "Tamancos Miseráveis 2",
-        "name_de": "Uner-Treter 'Lich' 2",
+        "name_en": "Shabby Shoes (#2)",
+        "name_fr": "Sabots Minables (#2)",
+        "name_es": "Zuecos Traz (#2)",
+        "name_pt": "Tamancos Miseráveis (#2)",
+        "name_de": "Uner-Treter 'Lich' (#2)",
         "w_type": "Boots",
         "level": 196,
         "stats": [
@@ -110217,11 +110397,11 @@
     {
         "ankama_id": 14063,
         "ankama_type": "equipment",
-        "name_en": "Creaking Tree Hat 1",
-        "name_fr": "Coiffe Ranshi 1",
-        "name_es": "Sombrero Soifam 1",
-        "name_pt": "Chapéu Carad Pal 1",
-        "name_de": "Pizzolino 1",
+        "name_en": "Creaking Tree Hat (#1)",
+        "name_fr": "Coiffe Ranshi (#1)",
+        "name_es": "Sombrero Soifam (#1)",
+        "name_pt": "Chapéu Carad Pal (#1)",
+        "name_de": "Pizzolino (#1)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -110286,11 +110466,11 @@
     {
         "ankama_id": 14063,
         "ankama_type": "equipment",
-        "name_en": "Creaking Tree Hat 2",
-        "name_fr": "Coiffe Ranshi 2",
-        "name_es": "Sombrero Soifam 2",
-        "name_pt": "Chapéu Carad Pal 2",
-        "name_de": "Pizzolino 2",
+        "name_en": "Creaking Tree Hat (#2)",
+        "name_fr": "Coiffe Ranshi (#2)",
+        "name_es": "Sombrero Soifam (#2)",
+        "name_pt": "Chapéu Carad Pal (#2)",
+        "name_de": "Pizzolino (#2)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -113074,11 +113254,11 @@
     {
         "ankama_id": 14130,
         "ankama_type": "equipment",
-        "name_en": "Jolly Good Belt 1",
-        "name_fr": "Sangle Aise 1",
-        "name_es": "Fajín Glés 1",
-        "name_pt": "Correia Inglesa 1",
-        "name_de": "Gürtel Bisch 1",
+        "name_en": "Jolly Good Belt (#1)",
+        "name_fr": "Sangle Aise (#1)",
+        "name_es": "Fajín Glés (#1)",
+        "name_pt": "Correia Inglesa (#1)",
+        "name_de": "Gürtel Bisch (#1)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -113153,11 +113333,11 @@
     {
         "ankama_id": 14130,
         "ankama_type": "equipment",
-        "name_en": "Jolly Good Belt 2",
-        "name_fr": "Sangle Aise 2",
-        "name_es": "Fajín Glés 2",
-        "name_pt": "Correia Inglesa 2",
-        "name_de": "Gürtel Bisch 2",
+        "name_en": "Jolly Good Belt (#2)",
+        "name_fr": "Sangle Aise (#2)",
+        "name_es": "Fajín Glés (#2)",
+        "name_pt": "Correia Inglesa (#2)",
+        "name_de": "Gürtel Bisch (#2)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -113339,11 +113519,11 @@
     {
         "ankama_id": 14132,
         "ankama_type": "equipment",
-        "name_en": "Flinty Daggers 1",
-        "name_fr": "Dagues Érhy 1",
-        "name_es": "Dagas Guerridas 1",
-        "name_pt": "Adaga Guerrida 1",
-        "name_de": "Dolche des Veteranen 1",
+        "name_en": "Flinty Daggers (#1)",
+        "name_fr": "Dagues Érhy (#1)",
+        "name_es": "Dagas Guerridas (#1)",
+        "name_pt": "Adaga Guerrida (#1)",
+        "name_de": "Dolche des Veteranen (#1)",
         "w_type": "Dagger",
         "level": 200,
         "ap": 3,
@@ -113441,11 +113621,11 @@
     {
         "ankama_id": 14132,
         "ankama_type": "equipment",
-        "name_en": "Flinty Daggers 2",
-        "name_fr": "Dagues Érhy 2",
-        "name_es": "Dagas Guerridas 2",
-        "name_pt": "Adaga Guerrida 2",
-        "name_de": "Dolche des Veteranen 2",
+        "name_en": "Flinty Daggers (#2)",
+        "name_fr": "Dagues Érhy (#2)",
+        "name_es": "Dagas Guerridas (#2)",
+        "name_pt": "Adaga Guerrida (#2)",
+        "name_de": "Dolche des Veteranen (#2)",
         "w_type": "Dagger",
         "level": 200,
         "ap": 3,
@@ -113543,11 +113723,11 @@
     {
         "ankama_id": 14132,
         "ankama_type": "equipment",
-        "name_en": "Flinty Daggers 3",
-        "name_fr": "Dagues Érhy 3",
-        "name_es": "Dagas Guerridas 3",
-        "name_pt": "Adaga Guerrida 3",
-        "name_de": "Dolche des Veteranen 3",
+        "name_en": "Flinty Daggers (#3)",
+        "name_fr": "Dagues Érhy (#3)",
+        "name_es": "Dagas Guerridas (#3)",
+        "name_pt": "Adaga Guerrida (#3)",
+        "name_de": "Dolche des Veteranen (#3)",
         "w_type": "Dagger",
         "level": 200,
         "ap": 3,
@@ -114412,11 +114592,11 @@
     {
         "ankama_id": 14164,
         "ankama_type": "equipment",
-        "name_en": "Archon's Bow 1",
-        "name_fr": "Arc Honte 1",
-        "name_es": "Arco Honte 1",
-        "name_pt": "Arco Honte 1",
-        "name_de": "Bogen des Archonten 1",
+        "name_en": "Archon's Bow (#1)",
+        "name_fr": "Arc Honte (#1)",
+        "name_es": "Arco Honte (#1)",
+        "name_pt": "Arco Honte (#1)",
+        "name_de": "Bogen des Archonten (#1)",
         "w_type": "Bow",
         "level": 200,
         "ap": 4,
@@ -114529,11 +114709,11 @@
     {
         "ankama_id": 14164,
         "ankama_type": "equipment",
-        "name_en": "Archon's Bow 2",
-        "name_fr": "Arc Honte 2",
-        "name_es": "Arco Honte 2",
-        "name_pt": "Arco Honte 2",
-        "name_de": "Bogen des Archonten 2",
+        "name_en": "Archon's Bow (#2)",
+        "name_fr": "Arc Honte (#2)",
+        "name_es": "Arco Honte (#2)",
+        "name_pt": "Arco Honte (#2)",
+        "name_de": "Bogen des Archonten (#2)",
         "w_type": "Bow",
         "level": 200,
         "ap": 4,
@@ -114646,11 +114826,11 @@
     {
         "ankama_id": 14164,
         "ankama_type": "equipment",
-        "name_en": "Archon's Bow 3",
-        "name_fr": "Arc Honte 3",
-        "name_es": "Arco Honte 3",
-        "name_pt": "Arco Honte 3",
-        "name_de": "Bogen des Archonten 3",
+        "name_en": "Archon's Bow (#3)",
+        "name_fr": "Arc Honte (#3)",
+        "name_es": "Arco Honte (#3)",
+        "name_pt": "Arco Honte (#3)",
+        "name_de": "Bogen des Archonten (#3)",
         "w_type": "Bow",
         "level": 200,
         "ap": 4,
@@ -114763,11 +114943,11 @@
     {
         "ankama_id": 14166,
         "ankama_type": "equipment",
-        "name_en": "Sepulchral Sceptre 1",
-        "name_fr": "Bâton Beau 1",
-        "name_es": "Bastón Ba 1",
-        "name_pt": "Bastumba 1",
-        "name_de": "Grabstock 1",
+        "name_en": "Sepulchral Sceptre (#1)",
+        "name_fr": "Bâton Beau (#1)",
+        "name_es": "Bastón Ba (#1)",
+        "name_pt": "Bastumba (#1)",
+        "name_de": "Grabstock (#1)",
         "w_type": "Staff",
         "level": 197,
         "ap": 4,
@@ -114856,11 +115036,11 @@
     {
         "ankama_id": 14166,
         "ankama_type": "equipment",
-        "name_en": "Sepulchral Sceptre 2",
-        "name_fr": "Bâton Beau 2",
-        "name_es": "Bastón Ba 2",
-        "name_pt": "Bastumba 2",
-        "name_de": "Grabstock 2",
+        "name_en": "Sepulchral Sceptre (#2)",
+        "name_fr": "Bâton Beau (#2)",
+        "name_es": "Bastón Ba (#2)",
+        "name_pt": "Bastumba (#2)",
+        "name_de": "Grabstock (#2)",
         "w_type": "Staff",
         "level": 197,
         "ap": 4,
@@ -114949,11 +115129,11 @@
     {
         "ankama_id": 14166,
         "ankama_type": "equipment",
-        "name_en": "Sepulchral Sceptre 3",
-        "name_fr": "Bâton Beau 3",
-        "name_es": "Bastón Ba 3",
-        "name_pt": "Bastumba 3",
-        "name_de": "Grabstock 3",
+        "name_en": "Sepulchral Sceptre (#3)",
+        "name_fr": "Bâton Beau (#3)",
+        "name_es": "Bastón Ba (#3)",
+        "name_pt": "Bastumba (#3)",
+        "name_de": "Grabstock (#3)",
         "w_type": "Staff",
         "level": 197,
         "ap": 4,
@@ -120292,11 +120472,11 @@
     {
         "ankama_id": 14937,
         "ankama_type": "equipment",
-        "name_en": "Vigilante Cape 1",
-        "name_fr": "Cape des Justiciers 1",
-        "name_es": "Capa de los justicieros 1",
-        "name_pt": "Capa dos Justiceiros 1",
-        "name_de": "Umhang der Ritter der Gerechtigkeit 1",
+        "name_en": "Vigilante Cape (#1)",
+        "name_fr": "Cape des Justiciers (#1)",
+        "name_es": "Capa de los justicieros (#1)",
+        "name_pt": "Capa dos Justiceiros (#1)",
+        "name_de": "Umhang der Ritter der Gerechtigkeit (#1)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -120381,11 +120561,11 @@
     {
         "ankama_id": 14937,
         "ankama_type": "equipment",
-        "name_en": "Vigilante Cape 2",
-        "name_fr": "Cape des Justiciers 2",
-        "name_es": "Capa de los justicieros 2",
-        "name_pt": "Capa dos Justiceiros 2",
-        "name_de": "Umhang der Ritter der Gerechtigkeit 2",
+        "name_en": "Vigilante Cape (#2)",
+        "name_fr": "Cape des Justiciers (#2)",
+        "name_es": "Capa de los justicieros (#2)",
+        "name_pt": "Capa dos Justiceiros (#2)",
+        "name_de": "Umhang der Ritter der Gerechtigkeit (#2)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -127159,11 +127339,11 @@
     {
         "ankama_id": 15692,
         "ankama_type": "equipment",
-        "name_en": "Baleenaboots 1",
-        "name_fr": "Baleinabottes 1",
-        "name_es": "Ballenotas 1",
-        "name_pt": "Botaleias 1",
-        "name_de": "Walstiefel 1",
+        "name_en": "Baleenaboots (#1)",
+        "name_fr": "Baleinabottes (#1)",
+        "name_es": "Ballenotas (#1)",
+        "name_pt": "Botaleias (#1)",
+        "name_de": "Walstiefel (#1)",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -127248,11 +127428,11 @@
     {
         "ankama_id": 15692,
         "ankama_type": "equipment",
-        "name_en": "Baleenaboots 2",
-        "name_fr": "Baleinabottes 2",
-        "name_es": "Ballenotas 2",
-        "name_pt": "Botaleias 2",
-        "name_de": "Walstiefel 2",
+        "name_en": "Baleenaboots (#2)",
+        "name_fr": "Baleinabottes (#2)",
+        "name_es": "Ballenotas (#2)",
+        "name_pt": "Botaleias (#2)",
+        "name_de": "Walstiefel (#2)",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -127337,11 +127517,11 @@
     {
         "ankama_id": 15693,
         "ankama_type": "equipment",
-        "name_en": "Pathogastrics 1",
-        "name_fr": "Pataugastrique 1",
-        "name_es": "Patogas 1",
-        "name_pt": "Patoconga 1",
-        "name_de": "Pathogewürgastiefel 1",
+        "name_en": "Pathogastrics (#1)",
+        "name_fr": "Pataugastrique (#1)",
+        "name_es": "Patogas (#1)",
+        "name_pt": "Patoconga (#1)",
+        "name_de": "Pathogewürgastiefel (#1)",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -127421,11 +127601,11 @@
     {
         "ankama_id": 15693,
         "ankama_type": "equipment",
-        "name_en": "Pathogastrics 2",
-        "name_fr": "Pataugastrique 2",
-        "name_es": "Patogas 2",
-        "name_pt": "Patoconga 2",
-        "name_de": "Pathogewürgastiefel 2",
+        "name_en": "Pathogastrics (#2)",
+        "name_fr": "Pataugastrique (#2)",
+        "name_es": "Patogas (#2)",
+        "name_pt": "Patoconga (#2)",
+        "name_de": "Pathogewürgastiefel (#2)",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -127505,11 +127685,11 @@
     {
         "ankama_id": 15694,
         "ankama_type": "equipment",
-        "name_en": "Kideebonnet 1",
-        "name_fr": "Kidibonnet 1",
-        "name_es": "Kidiboina 1",
-        "name_pt": "Kidiboina 1",
-        "name_de": "Kidibommelmütze 1",
+        "name_en": "Kideebonnet (#1)",
+        "name_fr": "Kidibonnet (#1)",
+        "name_es": "Kidiboina (#1)",
+        "name_pt": "Kidiboina (#1)",
+        "name_de": "Kidibommelmütze (#1)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -127584,11 +127764,11 @@
     {
         "ankama_id": 15694,
         "ankama_type": "equipment",
-        "name_en": "Kideebonnet 2",
-        "name_fr": "Kidibonnet 2",
-        "name_es": "Kidiboina 2",
-        "name_pt": "Kidiboina 2",
-        "name_de": "Kidibommelmütze 2",
+        "name_en": "Kideebonnet (#2)",
+        "name_fr": "Kidibonnet (#2)",
+        "name_es": "Kidiboina (#2)",
+        "name_pt": "Kidiboina (#2)",
+        "name_de": "Kidibommelmütze (#2)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -127957,11 +128137,11 @@
     {
         "ankama_id": 15699,
         "ankama_type": "equipment",
-        "name_en": "Belteen 1",
-        "name_fr": "Ceintacé 1",
-        "name_es": "Cintáceo 1",
-        "name_pt": "Cintáceo 1",
-        "name_de": "Orcürtel 1",
+        "name_en": "Belteen (#1)",
+        "name_fr": "Ceintacé (#1)",
+        "name_es": "Cintáceo (#1)",
+        "name_pt": "Cintáceo (#1)",
+        "name_de": "Orcürtel (#1)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -128036,11 +128216,11 @@
     {
         "ankama_id": 15699,
         "ankama_type": "equipment",
-        "name_en": "Belteen 2",
-        "name_fr": "Ceintacé 2",
-        "name_es": "Cintáceo 2",
-        "name_pt": "Cintáceo 2",
-        "name_de": "Orcürtel 2",
+        "name_en": "Belteen (#2)",
+        "name_fr": "Ceintacé (#2)",
+        "name_es": "Cintáceo (#2)",
+        "name_pt": "Cintáceo (#2)",
+        "name_de": "Orcürtel (#2)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -139294,6 +139474,11 @@
                 "(Air damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -141021,11 +141206,11 @@
     {
         "ankama_id": 18000,
         "ankama_type": "equipment",
-        "name_en": "Koutoulou Mask 1",
-        "name_fr": "Masque de Koutoulou 1",
-        "name_es": "Máscara de Kutulú 1",
-        "name_pt": "Máscara de Katulu 1",
-        "name_de": "Kutuluhmaske 1",
+        "name_en": "Koutoulou Mask (#1)",
+        "name_fr": "Masque de Koutoulou (#1)",
+        "name_es": "Máscara de Kutulú (#1)",
+        "name_pt": "Máscara de Katulu (#1)",
+        "name_de": "Kutuluhmaske (#1)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -141090,11 +141275,11 @@
     {
         "ankama_id": 18000,
         "ankama_type": "equipment",
-        "name_en": "Koutoulou Mask 2",
-        "name_fr": "Masque de Koutoulou 2",
-        "name_es": "Máscara de Kutulú 2",
-        "name_pt": "Máscara de Katulu 2",
-        "name_de": "Kutuluhmaske 2",
+        "name_en": "Koutoulou Mask (#2)",
+        "name_fr": "Masque de Koutoulou (#2)",
+        "name_es": "Máscara de Kutulú (#2)",
+        "name_pt": "Máscara de Katulu (#2)",
+        "name_de": "Kutuluhmaske (#2)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -141220,11 +141405,11 @@
     {
         "ankama_id": 18002,
         "ankama_type": "equipment",
-        "name_en": "Merdiodon Cloak 1",
-        "name_fr": "Cape de Diondin 1",
-        "name_es": "Capa de diondino 1",
-        "name_pt": "Capa de Diondina 1",
-        "name_de": "Igelnixumhang 1",
+        "name_en": "Merdiodon Cloak (#1)",
+        "name_fr": "Cape de Diondin (#1)",
+        "name_es": "Capa de diondino (#1)",
+        "name_pt": "Capa de Diondina (#1)",
+        "name_de": "Igelnixumhang (#1)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -141289,11 +141474,11 @@
     {
         "ankama_id": 18002,
         "ankama_type": "equipment",
-        "name_en": "Merdiodon Cloak 2",
-        "name_fr": "Cape de Diondin 2",
-        "name_es": "Capa de diondino 2",
-        "name_pt": "Capa de Diondina 2",
-        "name_de": "Igelnixumhang 2",
+        "name_en": "Merdiodon Cloak (#2)",
+        "name_fr": "Cape de Diondin (#2)",
+        "name_es": "Capa de diondino (#2)",
+        "name_pt": "Capa de Diondina (#2)",
+        "name_de": "Igelnixumhang (#2)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -141541,11 +141726,11 @@
     {
         "ankama_id": 18006,
         "ankama_type": "equipment",
-        "name_en": "Ockloth 1",
-        "name_fr": "Poulpagne 1",
-        "name_es": "Calpulpillos 1",
-        "name_pt": "Tangáculo 1",
-        "name_de": "Kraklschurz 1",
+        "name_en": "Ockloth (#1)",
+        "name_fr": "Poulpagne (#1)",
+        "name_es": "Calpulpillos (#1)",
+        "name_pt": "Tangáculo (#1)",
+        "name_de": "Kraklschurz (#1)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -141610,11 +141795,11 @@
     {
         "ankama_id": 18006,
         "ankama_type": "equipment",
-        "name_en": "Ockloth 2",
-        "name_fr": "Poulpagne 2",
-        "name_es": "Calpulpillos 2",
-        "name_pt": "Tangáculo 2",
-        "name_de": "Kraklschurz 2",
+        "name_en": "Ockloth (#2)",
+        "name_fr": "Poulpagne (#2)",
+        "name_es": "Calpulpillos (#2)",
+        "name_pt": "Tangáculo (#2)",
+        "name_de": "Kraklschurz (#2)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -141796,11 +141981,11 @@
     {
         "ankama_id": 18009,
         "ankama_type": "equipment",
-        "name_en": "Menobelt 1",
-        "name_fr": "Menoture 1",
-        "name_es": "Menoturón 1",
-        "name_pt": "Menocinto 1",
-        "name_de": "Menogürtel 1",
+        "name_en": "Menobelt (#1)",
+        "name_fr": "Menoture (#1)",
+        "name_es": "Menoturón (#1)",
+        "name_pt": "Menocinto (#1)",
+        "name_de": "Menogürtel (#1)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -141860,11 +142045,11 @@
     {
         "ankama_id": 18009,
         "ankama_type": "equipment",
-        "name_en": "Menobelt 2",
-        "name_fr": "Menoture 2",
-        "name_es": "Menoturón 2",
-        "name_pt": "Menocinto 2",
-        "name_de": "Menogürtel 2",
+        "name_en": "Menobelt (#2)",
+        "name_fr": "Menoture (#2)",
+        "name_es": "Menoturón (#2)",
+        "name_pt": "Menocinto (#2)",
+        "name_de": "Menogürtel (#2)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -142258,6 +142443,11 @@
                 21,
                 25,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 301,
@@ -145453,11 +145643,11 @@
     {
         "ankama_id": 18439,
         "ankama_type": "equipment",
-        "name_en": "The Dorado 1",
-        "name_fr": "Le Dorado 1",
-        "name_es": "El Dorado 1",
-        "name_pt": "O Dorado 1",
-        "name_de": "El Dorado 1",
+        "name_en": "The Dorado (#1)",
+        "name_fr": "Le Dorado (#1)",
+        "name_es": "El Dorado (#1)",
+        "name_pt": "O Dorado (#1)",
+        "name_de": "El Dorado (#1)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -145547,11 +145737,11 @@
     {
         "ankama_id": 18439,
         "ankama_type": "equipment",
-        "name_en": "The Dorado 2",
-        "name_fr": "Le Dorado 2",
-        "name_es": "El Dorado 2",
-        "name_pt": "O Dorado 2",
-        "name_de": "El Dorado 2",
+        "name_en": "The Dorado (#2)",
+        "name_fr": "Le Dorado (#2)",
+        "name_es": "El Dorado (#2)",
+        "name_pt": "O Dorado (#2)",
+        "name_de": "El Dorado (#2)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -154637,6 +154827,11 @@
                 "(Fire damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -155447,6 +155642,11 @@
                 1,
                 null,
                 "Summon"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/19079-128.png",
@@ -155535,11 +155735,11 @@
     {
         "ankama_id": 19595,
         "ankama_type": "equipment",
-        "name_en": "Scapu Helm 1",
-        "name_fr": "Heaume Oplate 1",
-        "name_es": "Yelmo Moplato 1",
-        "name_pt": "Elmo Plata 1",
-        "name_de": "Breitschulterhelm 1",
+        "name_en": "Scapu Helm (#1)",
+        "name_fr": "Heaume Oplate (#1)",
+        "name_es": "Yelmo Moplato (#1)",
+        "name_pt": "Elmo Plata (#1)",
+        "name_de": "Breitschulterhelm (#1)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -155614,11 +155814,11 @@
     {
         "ankama_id": 19595,
         "ankama_type": "equipment",
-        "name_en": "Scapu Helm 2",
-        "name_fr": "Heaume Oplate 2",
-        "name_es": "Yelmo Moplato 2",
-        "name_pt": "Elmo Plata 2",
-        "name_de": "Breitschulterhelm 2",
+        "name_en": "Scapu Helm (#2)",
+        "name_fr": "Heaume Oplate (#2)",
+        "name_es": "Yelmo Moplato (#2)",
+        "name_pt": "Elmo Plata (#2)",
+        "name_de": "Breitschulterhelm (#2)",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -155693,11 +155893,11 @@
     {
         "ankama_id": 19596,
         "ankama_type": "equipment",
-        "name_en": "Suspender Belt 1",
-        "name_fr": "Ceinture Gence 1",
-        "name_es": "Talabarte Urge 1",
-        "name_pt": "Cinturgência 1",
-        "name_de": "Dringlichkeitsgurt 1",
+        "name_en": "Suspender Belt (#1)",
+        "name_fr": "Ceinture Gence (#1)",
+        "name_es": "Talabarte Urge (#1)",
+        "name_pt": "Cinturgência (#1)",
+        "name_de": "Dringlichkeitsgurt (#1)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -155772,11 +155972,11 @@
     {
         "ankama_id": 19596,
         "ankama_type": "equipment",
-        "name_en": "Suspender Belt 2",
-        "name_fr": "Ceinture Gence 2",
-        "name_es": "Talabarte Urge 2",
-        "name_pt": "Cinturgência 2",
-        "name_de": "Dringlichkeitsgurt 2",
+        "name_en": "Suspender Belt (#2)",
+        "name_fr": "Ceinture Gence (#2)",
+        "name_es": "Talabarte Urge (#2)",
+        "name_pt": "Cinturgência (#2)",
+        "name_de": "Dringlichkeitsgurt (#2)",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -156577,11 +156777,11 @@
     {
         "ankama_id": 19607,
         "ankama_type": "equipment",
-        "name_en": "Absoluti Cape 1",
-        "name_fr": "Cape Solution 1",
-        "name_es": "Capilla absolutoria 1",
-        "name_pt": "Capa Herdão 1",
-        "name_de": "Umhang der Vergebung 1",
+        "name_en": "Absoluti Cape (#1)",
+        "name_fr": "Cape Solution (#1)",
+        "name_es": "Capilla absolutoria (#1)",
+        "name_pt": "Capa Herdão (#1)",
+        "name_de": "Umhang der Vergebung (#1)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -156651,11 +156851,11 @@
     {
         "ankama_id": 19607,
         "ankama_type": "equipment",
-        "name_en": "Absoluti Cape 2",
-        "name_fr": "Cape Solution 2",
-        "name_es": "Capilla absolutoria 2",
-        "name_pt": "Capa Herdão 2",
-        "name_de": "Umhang der Vergebung 2",
+        "name_en": "Absoluti Cape (#2)",
+        "name_fr": "Cape Solution (#2)",
+        "name_es": "Capilla absolutoria (#2)",
+        "name_pt": "Capa Herdão (#2)",
+        "name_de": "Umhang der Vergebung (#2)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -156832,11 +157032,11 @@
     {
         "ankama_id": 19610,
         "ankama_type": "equipment",
-        "name_en": "Boot Boots 1",
-        "name_fr": "Bottes Honyme 1",
-        "name_es": "Zapautonimias 1",
-        "name_pt": "Bota Utonímica 1",
-        "name_de": "Selbsterklärende Stiefel 1",
+        "name_en": "Boot Boots (#1)",
+        "name_fr": "Bottes Honyme (#1)",
+        "name_es": "Zapautonimias (#1)",
+        "name_pt": "Bota Utonímica (#1)",
+        "name_de": "Selbsterklärende Stiefel (#1)",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -156926,11 +157126,11 @@
     {
         "ankama_id": 19610,
         "ankama_type": "equipment",
-        "name_en": "Boot Boots 2",
-        "name_fr": "Bottes Honyme 2",
-        "name_es": "Zapautonimias 2",
-        "name_pt": "Bota Utonímica 2",
-        "name_de": "Selbsterklärende Stiefel 2",
+        "name_en": "Boot Boots (#2)",
+        "name_fr": "Bottes Honyme (#2)",
+        "name_es": "Zapautonimias (#2)",
+        "name_pt": "Bota Utonímica (#2)",
+        "name_de": "Selbsterklärende Stiefel (#2)",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -158320,6 +158520,11 @@
                 41,
                 50,
                 "Wisdom"
+            ],
+            [
+                2,
+                2,
+                "(removes ap)"
             ],
             [
                 16,
@@ -160483,11 +160688,11 @@
     {
         "ankama_id": 21223,
         "ankama_type": "equipment",
-        "name_en": "Crocoring 1",
-        "name_fr": "Crocanneau 1",
-        "name_es": "Coconillo 1",
-        "name_pt": "Crocanel 1",
-        "name_de": "Crocoring 1",
+        "name_en": "Crocoring (#1)",
+        "name_fr": "Crocanneau (#1)",
+        "name_es": "Coconillo (#1)",
+        "name_pt": "Crocanel (#1)",
+        "name_de": "Crocoring (#1)",
         "w_type": "Ring",
         "level": 200,
         "stats": [
@@ -160537,11 +160742,11 @@
     {
         "ankama_id": 21223,
         "ankama_type": "equipment",
-        "name_en": "Crocoring 2",
-        "name_fr": "Crocanneau 2",
-        "name_es": "Coconillo 2",
-        "name_pt": "Crocanel 2",
-        "name_de": "Crocoring 2",
+        "name_en": "Crocoring (#2)",
+        "name_fr": "Crocanneau (#2)",
+        "name_es": "Coconillo (#2)",
+        "name_pt": "Crocanel (#2)",
+        "name_de": "Crocoring (#2)",
         "w_type": "Ring",
         "level": 200,
         "stats": [
@@ -163574,6 +163779,11 @@
                 "Range"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 28,
                 32,
                 "(Water damage)"
@@ -163596,11 +163806,11 @@
     {
         "ankama_id": 22214,
         "ankama_type": "equipment",
-        "name_en": "Slobberpuss' Collar 1",
-        "name_fr": "Collier de Bavdur 1",
-        "name_es": "Collar de Bábaro 1",
-        "name_pt": "Colar de Babdur 1",
-        "name_de": "Schlabbradors Halsband 1",
+        "name_en": "Slobberpuss' Collar (#1)",
+        "name_fr": "Collier de Bavdur (#1)",
+        "name_es": "Collar de Bábaro (#1)",
+        "name_pt": "Colar de Babdur (#1)",
+        "name_de": "Schlabbradors Halsband (#1)",
         "w_type": "Amulet",
         "level": 200,
         "stats": [
@@ -163675,11 +163885,11 @@
     {
         "ankama_id": 22214,
         "ankama_type": "equipment",
-        "name_en": "Slobberpuss' Collar 2",
-        "name_fr": "Collier de Bavdur 2",
-        "name_es": "Collar de Bábaro 2",
-        "name_pt": "Colar de Babdur 2",
-        "name_de": "Schlabbradors Halsband 2",
+        "name_en": "Slobberpuss' Collar (#2)",
+        "name_fr": "Collier de Bavdur (#2)",
+        "name_es": "Collar de Bábaro (#2)",
+        "name_pt": "Colar de Babdur (#2)",
+        "name_de": "Schlabbradors Halsband (#2)",
         "w_type": "Amulet",
         "level": 200,
         "stats": [
@@ -165377,6 +165587,11 @@
                 2,
                 3,
                 "Critical Hits"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 14,
@@ -167179,11 +167394,11 @@
     {
         "ankama_id": 23626,
         "ankama_type": "equipment",
-        "name_en": "Slayspirit Headband 1",
-        "name_fr": "Bandeau de Spiritueur 1",
-        "name_es": "Bandana de espiritasesino 1",
-        "name_pt": "Faixa de Assassispírito 1",
-        "name_de": "Geistreichen-Augenbinde 1",
+        "name_en": "Slayspirit Headband (#1)",
+        "name_fr": "Bandeau de Spiritueur (#1)",
+        "name_es": "Bandana de espiritasesino (#1)",
+        "name_pt": "Faixa de Assassispírito (#1)",
+        "name_de": "Geistreichen-Augenbinde (#1)",
         "w_type": "Hat",
         "level": 155,
         "stats": [
@@ -167278,11 +167493,11 @@
     {
         "ankama_id": 23626,
         "ankama_type": "equipment",
-        "name_en": "Slayspirit Headband 2",
-        "name_fr": "Bandeau de Spiritueur 2",
-        "name_es": "Bandana de espiritasesino 2",
-        "name_pt": "Faixa de Assassispírito 2",
-        "name_de": "Geistreichen-Augenbinde 2",
+        "name_en": "Slayspirit Headband (#2)",
+        "name_fr": "Bandeau de Spiritueur (#2)",
+        "name_es": "Bandana de espiritasesino (#2)",
+        "name_pt": "Faixa de Assassispírito (#2)",
+        "name_de": "Geistreichen-Augenbinde (#2)",
         "w_type": "Hat",
         "level": 155,
         "stats": [
@@ -168193,6 +168408,11 @@
                 25,
                 28,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/22007-128.png",
@@ -168404,6 +168624,11 @@
                 17,
                 22,
                 "(Water damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 301,
@@ -169535,11 +169760,11 @@
     {
         "ankama_id": 25221,
         "ankama_type": "equipment",
-        "name_en": "Wings of Chaos 1",
-        "name_fr": "Ailes du Chaos 1",
-        "name_es": "Alas del Caos 1",
-        "name_pt": "Asas do Caos 1",
-        "name_de": "Schwingen des Chaos 1",
+        "name_en": "Wings of Chaos (#1)",
+        "name_fr": "Ailes du Chaos (#1)",
+        "name_es": "Alas del Caos (#1)",
+        "name_pt": "Asas do Caos (#1)",
+        "name_de": "Schwingen des Chaos (#1)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -169614,11 +169839,11 @@
     {
         "ankama_id": 25221,
         "ankama_type": "equipment",
-        "name_en": "Wings of Chaos 2",
-        "name_fr": "Ailes du Chaos 2",
-        "name_es": "Alas del Caos 2",
-        "name_pt": "Asas do Caos 2",
-        "name_de": "Schwingen des Chaos 2",
+        "name_en": "Wings of Chaos (#2)",
+        "name_fr": "Ailes du Chaos (#2)",
+        "name_es": "Alas del Caos (#2)",
+        "name_pt": "Asas do Caos (#2)",
+        "name_de": "Schwingen des Chaos (#2)",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -170511,6 +170736,11 @@
                 8,
                 10,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/22008-128.png",
@@ -170610,6 +170840,11 @@
                 8,
                 10,
                 "Fire Steal"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6753-128.png",
@@ -174690,6 +174925,11 @@
                 "% Air Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 68,
                 75,
                 "(Neutral damage)"
@@ -174777,6 +175017,11 @@
                 5,
                 7,
                 "% Fire Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 58,
@@ -179223,6 +179468,11 @@
                 19,
                 22,
                 "(Neutral damage)"
+            ],
+            [
+                2,
+                null,
+                "(Attracts by cell)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/3093-128.png",
@@ -179959,11 +180209,11 @@
     {
         "ankama_id": 31774,
         "ankama_type": "equipment",
-        "name_en": "Oktapodas Helm 1",
-        "name_fr": "Heaume Tapodas 1",
-        "name_es": "Yelmo Tapodas 1",
-        "name_pt": "Elmo Tapodas 1",
-        "name_de": "Tapodas-Helm 1",
+        "name_en": "Oktapodas Helm (#1)",
+        "name_fr": "Heaume Tapodas (#1)",
+        "name_es": "Yelmo Tapodas (#1)",
+        "name_pt": "Elmo Tapodas (#1)",
+        "name_de": "Tapodas-Helm (#1)",
         "w_type": "Hat",
         "level": 198,
         "stats": [
@@ -180048,11 +180298,11 @@
     {
         "ankama_id": 31774,
         "ankama_type": "equipment",
-        "name_en": "Oktapodas Helm 2",
-        "name_fr": "Heaume Tapodas 2",
-        "name_es": "Yelmo Tapodas 2",
-        "name_pt": "Elmo Tapodas 2",
-        "name_de": "Tapodas-Helm 2",
+        "name_en": "Oktapodas Helm (#2)",
+        "name_fr": "Heaume Tapodas (#2)",
+        "name_es": "Yelmo Tapodas (#2)",
+        "name_pt": "Elmo Tapodas (#2)",
+        "name_de": "Tapodas-Helm (#2)",
         "w_type": "Hat",
         "level": 198,
         "stats": [
@@ -180353,6 +180603,11 @@
                 "(best-element damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 2,
                 null,
                 "(Pushes back cell)"
@@ -180480,6 +180735,11 @@
                 "(best-element damage)"
             ],
             [
+                2,
+                2,
+                "(removes mp)"
+            ],
+            [
                 null,
                 null,
                 "Hunting Weapon"
@@ -180503,6 +180763,11 @@
                 16,
                 20,
                 "Air Damage"
+            ],
+            [
+                1,
+                null,
+                "(Attracts by cell)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/7091-128.png",
@@ -181777,6 +182042,11 @@
                 "(Water damage)"
             ],
             [
+                1,
+                null,
+                "(Attracts by cell)"
+            ],
+            [
                 21,
                 30,
                 "Prospecting"
@@ -182203,6 +182473,11 @@
                 8,
                 null,
                 "(best-element steal)"
+            ],
+            [
+                2,
+                null,
+                "(Attracts by cell)"
             ]
         ],
         "special_spell_en": "Thanatena's Judgement:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons.",
@@ -182565,6 +182840,11 @@
                 44,
                 50,
                 "(best-element damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "special_spell_en": "Fervour of the White City:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times).",
@@ -184192,6 +184472,11 @@
                 "% Water Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 18,
                 24,
                 "Fire Steal"
@@ -184281,6 +184566,11 @@
         "crit_chance": 15,
         "crit_bonus": 8,
         "stats": [
+            [
+                1,
+                1,
+                "(removes ap)"
+            ],
             [
                 43,
                 49,
@@ -185085,6 +185375,11 @@
                 5,
                 8,
                 "% Fire Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 38,
@@ -185896,6 +186191,11 @@
                 "Lock"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 39,
                 45,
                 "(Neutral damage)"
@@ -186064,6 +186364,11 @@
                 1,
                 null,
                 "Range"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 45,
@@ -198361,6 +198666,16 @@
                 "% Air Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
+            ],
+            [
                 4,
                 6,
                 "(Earth damage)"
@@ -198646,6 +198961,11 @@
                 3,
                 5,
                 "% Earth Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 21,
@@ -200966,6 +201286,11 @@
                 27,
                 33,
                 "(Water steal)"
+            ],
+            [
+                1,
+                null,
+                "(Attracts by cell)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/183018-128.png",

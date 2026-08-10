@@ -42,6 +42,8 @@ DYNAMIC_DATA_STRINGS = [
     gettext_noop('(Water steal)'),
     gettext_noop('(best-element damage)'),
     gettext_noop('(best-element steal)'),
+    gettext_noop('(removes ap)'),
+    gettext_noop('(removes mp)'),
     gettext_noop('-special spell-'),
     gettext_noop('/'),
     gettext_noop(': + Damage'),

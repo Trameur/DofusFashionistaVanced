@@ -1349,6 +1349,16 @@ msgstr ""
 msgid "Removes %(min)d to %(max)d AP"
 msgstr ""
 
+#: .\chardata\weapon_header.py:0
+#, python-format
+msgid "Removes %(mp)d MP"
+msgstr ""
+
+#: .\chardata\weapon_header.py:0
+#, python-format
+msgid "Removes %(min)d to %(max)d MP"
+msgstr ""
+
 #: .\chardata\solution_result.py:279
 #, python-format
 msgid "Advances %(cells)d cells"

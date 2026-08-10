@@ -30,7 +30,7 @@ from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
-from chardata.weapon_header import format_heal_hit, format_weapon_header
+from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.transcendence_advice import best_transcendence
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
@@ -235,49 +235,8 @@ def evolve_result_item(result_item, r=None):
             get_current_game_version(), localized_weapon_type, result_item.ap,
             result_item.crit_chance, result_item.crit_bonus))
         for hit in result_item.non_crit_hits[NEUTRAL]:
-            if hit.steals:
-                line = _('%(min)d to %(max)d (%(element)s steal)' ) % {'min': hit.min_dam, 
-                            'max': hit.max_dam,
-                            'element': LOCALIZED_ELEMENTS[hit.element]}
-            elif hit.heals:
-                line = format_heal_hit(get_current_game_version(), hit.min_dam,
-                                       hit.max_dam, getattr(hit, 'element', None),
-                                       LOCALIZED_ELEMENTS)
-            elif hasattr(hit, 'element') and hit.element == 'pushes':
-                if hit.min_dam == hit.max_dam:
-                    line = _('Pushes %(cells)d cells') % {'cells': hit.min_dam}
-                else:
-                    line = _('Pushes %(min)d to %(max)d cells') % {'min': hit.min_dam, 'max': hit.max_dam}
-            elif hasattr(hit, 'element') and hit.element == 'attracts':
-                if hit.min_dam == hit.max_dam:
-                    line = _('Attracts %(cells)d cells') % {'cells': hit.min_dam}
-                else:
-                    line = _('Attracts %(min)d to %(max)d cells') % {'min': hit.min_dam, 'max': hit.max_dam}
-            elif hasattr(hit, 'element') and hit.element == 'steals' and not hit.steals:
-                if hit.min_dam == hit.max_dam:
-                    line = _('Steals %(kamas)d kamas') % {'kamas': hit.min_dam}
-                else:
-                    line = _('Steals %(min)d to %(max)d kamas') % {'min': hit.min_dam, 'max': hit.max_dam}
-            elif hasattr(hit, 'element') and hit.element == 'steals_mp':
-                if hit.min_dam == hit.max_dam:
-                    line = _('Steals %(mp)d MP') % {'mp': hit.min_dam}
-                else:
-                    line = _('Steals %(min)d to %(max)d MP') % {'min': hit.min_dam, 'max': hit.max_dam}
-            elif hasattr(hit, 'element') and hit.element == 'removes_ap':
-                if hit.min_dam == hit.max_dam:
-                    line = _('Removes %(ap)d AP') % {'ap': hit.min_dam}
-                else:
-                    line = _('Removes %(min)d to %(max)d AP') % {'min': hit.min_dam, 'max': hit.max_dam}
-            elif hasattr(hit, 'element') and hit.element == 'advances':
-                if hit.min_dam == hit.max_dam:
-                    line = _('Advances %(cells)d cells') % {'cells': hit.min_dam}
-                else:
-                    line = _('Advances %(min)d to %(max)d cells') % {'min': hit.min_dam, 'max': hit.max_dam}
-            else:
-                line = _('%(min)d to %(max)d (%(element)s)' ) % {'min': hit.min_dam, 
-                            'max': hit.max_dam,
-                            'element': LOCALIZED_ELEMENTS.get(getattr(hit, 'element', None), 'DefaultElement')}
-            damage_lines.append(line)
+            damage_lines.append(format_weapon_hit(get_current_game_version(),
+                                                  hit, LOCALIZED_ELEMENTS))
         result_item.damage_text = '<br>'.join(damage_lines)
 
     result_item.file = static(get_image_url(result_item.type, result_item.name))

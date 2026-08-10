@@ -1965,6 +1965,11 @@
                 9,
                 11,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/7010-128.png",
@@ -18934,6 +18939,11 @@
                 "(Neutral damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Initiative"
@@ -24728,6 +24738,11 @@
                 15,
                 29,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -33862,6 +33877,11 @@
                 "(Water damage)"
             ],
             [
+                1,
+                1,
+                "(removes mp)"
+            ],
+            [
                 7,
                 10,
                 "Power"
@@ -36005,6 +36025,11 @@
         "crit_bonus": 5,
         "stats": [
             [
+                1,
+                2,
+                "(removes ap)"
+            ],
+            [
                 8,
                 12,
                 "Fire heals"
@@ -37412,6 +37437,11 @@
                 "(Fire damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Vitality"
@@ -37464,6 +37494,11 @@
                 3,
                 4,
                 "Fire Steal"
+            ],
+            [
+                1,
+                2,
+                "(removes ap)"
             ],
             [
                 151,
@@ -37759,6 +37794,11 @@
                 2,
                 3,
                 "Fire Steal"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 6,
@@ -38601,6 +38641,11 @@
                 "Power"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 11,
                 15,
                 "Prospecting"
@@ -39020,6 +39065,11 @@
                 "(Water steal)"
             ],
             [
+                2,
+                3,
+                "(removes ap)"
+            ],
+            [
                 16,
                 20,
                 "Power"
@@ -39275,6 +39325,11 @@
                 5,
                 6,
                 "(Air steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 31,
@@ -39600,6 +39655,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 18,
                 36,
                 "(Neutral damage)"
@@ -39726,6 +39786,11 @@
                 31,
                 50,
                 "Agility"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 300,
@@ -42021,6 +42086,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 56,
                 75,
                 "Vitality"
@@ -42222,6 +42292,11 @@
                 15,
                 24,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -44095,6 +44170,11 @@
         "crit_bonus": 10,
         "stats": [
             [
+                1,
+                2,
+                "(removes ap)"
+            ],
+            [
                 4,
                 8,
                 "(Air steal)"
@@ -45016,6 +45096,11 @@
                 16,
                 30,
                 "Agility"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 6,
@@ -51921,6 +52006,16 @@
         "crit_bonus": 5,
         "stats": [
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
+            ],
+            [
                 27,
                 31,
                 "(Neutral damage)"
@@ -53159,6 +53254,11 @@
                 16,
                 28,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 101,
@@ -55365,6 +55465,11 @@
                 3,
                 4,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 41,
@@ -61350,6 +61455,11 @@
         "crit_bonus": 15,
         "stats": [
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 21,
                 40,
                 "(Neutral damage)"
@@ -64496,6 +64606,11 @@
                 "(Water steal)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 31,
                 50,
                 "Chance"
@@ -66899,6 +67014,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 31,
                 50,
                 "Intelligence"
@@ -67063,6 +67183,11 @@
                 8,
                 14,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 31,
@@ -77775,6 +77900,11 @@
                 "(Water damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -80809,6 +80939,11 @@
                 "(Neutral damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Vitality"
@@ -80906,6 +81041,11 @@
                 12,
                 20,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -82615,6 +82755,11 @@
                 8,
                 14,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 201,
@@ -86123,6 +86268,11 @@
                 "(Water steal)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 201,
                 250,
                 "Vitality"
@@ -86318,6 +86468,11 @@
                 8,
                 15,
                 "(Water damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -88669,6 +88824,11 @@
                 16,
                 25,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 7,
@@ -91161,6 +91321,11 @@
                 "Fire Steal"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Vitality"
@@ -92307,6 +92472,11 @@
                 "(Neutral steal)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Vitality"
@@ -92412,6 +92582,11 @@
                 5,
                 7,
                 "(Neutral steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -104842,6 +105017,11 @@
                 9,
                 14,
                 "(Neutral damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 301,
@@ -139247,6 +139427,11 @@
                 "(Air damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -142211,6 +142396,11 @@
                 21,
                 25,
                 "(Fire damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 301,
@@ -154590,6 +154780,11 @@
                 "(Fire damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -155400,6 +155595,11 @@
                 1,
                 null,
                 "Summon"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/19079-128.png",
@@ -158273,6 +158473,11 @@
                 41,
                 50,
                 "Wisdom"
+            ],
+            [
+                2,
+                2,
+                "(removes ap)"
             ],
             [
                 16,
@@ -163527,6 +163732,11 @@
                 "Range"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 28,
                 32,
                 "(Water damage)"
@@ -165330,6 +165540,11 @@
                 2,
                 3,
                 "Critical Hits"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 14,
@@ -168146,6 +168361,11 @@
                 25,
                 28,
                 "(Air damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/22007-128.png",
@@ -168357,6 +168577,11 @@
                 17,
                 22,
                 "(Water damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 301,
@@ -170464,6 +170689,11 @@
                 8,
                 10,
                 "(Water steal)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/22008-128.png",
@@ -170563,6 +170793,11 @@
                 8,
                 10,
                 "Fire Steal"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6753-128.png",
@@ -174575,6 +174810,11 @@
                 "% Air Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 68,
                 75,
                 "(Neutral damage)"
@@ -174662,6 +174902,11 @@
                 5,
                 7,
                 "% Fire Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 58,
@@ -180228,6 +180473,11 @@
                 "(best-element damage)"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 2,
                 null,
                 "(Pushes back cell)"
@@ -180353,6 +180603,11 @@
                 68,
                 80,
                 "(best-element damage)"
+            ],
+            [
+                2,
+                2,
+                "(removes mp)"
             ],
             [
                 null,
@@ -182309,6 +182564,11 @@
                 44,
                 50,
                 "(best-element damage)"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "special_spell_en": "Fervour of the White City:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times).",
@@ -183936,6 +184196,11 @@
                 "% Water Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 18,
                 24,
                 "Fire Steal"
@@ -184025,6 +184290,11 @@
         "crit_chance": 15,
         "crit_bonus": 8,
         "stats": [
+            [
+                1,
+                1,
+                "(removes ap)"
+            ],
             [
                 43,
                 49,
@@ -184829,6 +185099,11 @@
                 5,
                 8,
                 "% Fire Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 38,
@@ -185640,6 +185915,11 @@
                 "Lock"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 39,
                 45,
                 "(Neutral damage)"
@@ -185808,6 +186088,11 @@
                 1,
                 null,
                 "Range"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 45,
@@ -187222,6 +187507,16 @@
                 "% Air Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
+            ],
+            [
                 4,
                 6,
                 "(Earth damage)"
@@ -187507,6 +187802,11 @@
                 3,
                 5,
                 "% Earth Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 21,

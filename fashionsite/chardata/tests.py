@@ -6205,6 +6205,97 @@ class WeaponCriticalRateTests(SimpleTestCase):
                       solution_result.format_weapon_header)
 
 
+class NonElementalWeaponHitTests(SimpleTestCase):
+    """A weapon line that is not damage: it pushes, attracts, steals MP, takes AP
+    off. The solution page has worded these for years and the item page printed
+    the internal token instead, so a Treestaff read "1 to 1 (removes_ap)" on its
+    own page and "Removes 1 AP" inside a build. Both read the same code now."""
+
+    def _lines(self, version, name):
+        from fashionistapulp.structure import get_structure
+        from chardata.encyclopedia_view import _get_weapon_detail_lines
+        structure = get_structure(version)
+        item = structure.get_item_by_name(name)
+        self.assertIsNotNone(item, 'missing %s weapon %s' % (version, name))
+        return _get_weapon_detail_lines(structure, [item], 'en')
+
+    def test_the_item_page_words_them_instead_of_printing_the_token(self):
+        cases = [('dofus3', 'Oddnicall', 'Attracts 2 cells'),
+                 ('dofus3', 'Croblade', 'Pushes 1 cells'),
+                 ("dofus3", "Blade O'Ven", 'Steals 1 MP'),
+                 ('dofus3', 'Treestaff', 'Removes 1 AP'),
+                 ('dofus3', 'Crackler Blade', 'Removes 1 MP'),
+                 ('touch', 'Treestaff', 'Removes 1 AP')]
+        for version, name, expected in cases:
+            with self.subTest(version=version, weapon=name):
+                lines = self._lines(version, name)
+                self.assertIn(expected, lines)
+                for line in lines:
+                    self.assertNotIn('_', line)
+
+    def test_the_encyclopedia_and_the_picker_word_a_hit_the_same_way(self):
+        from chardata import encyclopedia_view
+        from chardata import solution_result
+        self.assertIs(encyclopedia_view.format_weapon_hit,
+                      solution_result.format_weapon_hit)
+
+
+class InFightAPAndMPRemovalTests(SimpleTestCase):
+    """dofusdude numbers its effects per dump, so the id that named the attract
+    line was 255 in Dofus 3 and 253 in the beta. The source dropped effects by
+    that number, which cost the beta its five attract weapons while Dofus 3 kept
+    theirs, and threw away every AP and MP a weapon takes off its target. What
+    tells a wielder's +1 AP from a weapon's -1 AP is is_active, which the game
+    sets, so that is what the transform reads now."""
+
+    def _hits(self, version, element):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        connection = sqlite3.connect(
+            'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+        try:
+            return connection.execute(
+                'SELECT COUNT(*) FROM weapon_hits WHERE element = ?',
+                (element,)).fetchone()[0]
+        finally:
+            connection.close()
+
+    def test_the_removal_lines_reach_the_solver(self):
+        # Dofus 2 is not here yet: its pipeline cannot be re-run without losing
+        # unrelated tables, so its database still predates the transform fix.
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertGreaterEqual(self._hits(version, 'removes_ap'), 40)
+                self.assertGreaterEqual(self._hits(version, 'removes_mp'), 5)
+        # Touch decodes its own client and already had the AP one.
+        self.assertGreaterEqual(self._hits('touch', 'removes_ap'), 20)
+
+    def test_the_attract_line_survives_in_every_version_that_has_it(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertEqual(5, self._hits(version, 'attracts'))
+
+    def test_an_in_fight_effect_never_becomes_a_wielder_bonus(self):
+        # The Treestaff removes 1 AP and grants no AP at all; its real AP
+        # Reduction and AP Parry lines must survive the same rule.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version in ('dofus3', 'beta', 'dofus2'):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                stats = dict(connection.execute(
+                    'SELECT st.name, s.value FROM stats_of_item s'
+                    ' JOIN stats st ON st.id = s.stat'
+                    ' JOIN items i ON i.id = s.item'
+                    " WHERE i.name = 'Treestaff'"))
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertNotIn('AP', stats)
+                self.assertIn('AP Reduction', stats)
+
+
 class ExclusionsForbidTests(TestCase):
     """Forbidding an item adds an id that's actually in the forbiddable set,
     grouped variants like Gelano included."""
@@ -11274,7 +11365,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         by_version = {'dofus3': modern, 'beta': beta, 'dofus2': dofus2}
         for version, constants in by_version.items():
             structure = get_structure(version)
-            for name in ("War's Halbaxe", "Blade O'Ven"):
+            for name in ("War's Halbaxe", "Blade O'Ven", "Treestaff",
+                         "Crackler Blade", "Oddnicall"):
                 weapon = structure.get_weapon_by_name(name)
                 if weapon is None:
                     continue

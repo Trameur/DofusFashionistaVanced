@@ -1362,6 +1362,16 @@ msgstr "Entzieht %(ap)d AP"
 msgid "Removes %(min)d to %(max)d AP"
 msgstr "Entzieht %(min)d bis %(max)d AP"
 
+#: .\chardata\weapon_header.py:0
+#, python-format
+msgid "Removes %(mp)d MP"
+msgstr "Entzieht %(mp)d BP"
+
+#: .\chardata\weapon_header.py:0
+#, python-format
+msgid "Removes %(min)d to %(max)d MP"
+msgstr "Entzieht %(min)d bis %(max)d BP"
+
 #: .\chardata\solution_result.py:279
 #, python-format
 msgid "Advances %(cells)d cells"

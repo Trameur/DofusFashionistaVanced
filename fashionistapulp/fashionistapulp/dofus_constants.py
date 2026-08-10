@@ -5257,7 +5257,7 @@ def get_equiped_weapon(char_stats):
 def calculate_damage(base_damage, char_stats, critical_hit, is_spell):
     damage_instances = []
     for dam in base_damage:
-        if dam.element in ('pushes', 'steals', 'attracts', 'advances', 'steals_mp', 'removes_ap'): #non-elemental hit types
+        if dam.element in ('pushes', 'steals', 'attracts', 'advances', 'steals_mp', 'removes_ap', 'removes_mp'): #non-elemental hit types
             continue
         if dam.element == 'best' or dam.element == 'damage' or dam.element == 'best-element': #best/damage/best-element = damage in best element
             dam.element = get_best_element(char_stats)

@@ -41,3 +41,47 @@ def format_heal_hit(game_version, min_dam, max_dam, element, localized_elements)
         return _('%(min)d to %(max)d (HP restored)') % values
     values['element'] = localized_elements[element]
     return _('%(min)d to %(max)d %(element)s heals') % values
+
+
+def format_weapon_hit(game_version, hit, localized_elements):
+    """One line of a weapon's damage block.
+
+    The solution page has worded these for years; the encyclopedia had only the
+    elemental cases and printed the internal token for the rest, so a Treestaff
+    read "1 to 1 (removes_ap)" on its own page and "Removes 1 AP" in a build.
+    """
+    element = getattr(hit, 'element', None)
+    lo, hi = hit.min_dam, hit.max_dam
+    span = {'min': lo, 'max': hi}
+    flat = lo == hi
+
+    if hit.steals:
+        return _('%(min)d to %(max)d (%(element)s steal)') % {
+            'min': lo, 'max': hi,
+            'element': localized_elements.get(element, element)}
+    if hit.heals:
+        return format_heal_hit(game_version, lo, hi, element, localized_elements)
+    if element == 'pushes':
+        return (_('Pushes %(cells)d cells') % {'cells': lo} if flat
+                else _('Pushes %(min)d to %(max)d cells') % span)
+    if element == 'attracts':
+        return (_('Attracts %(cells)d cells') % {'cells': lo} if flat
+                else _('Attracts %(min)d to %(max)d cells') % span)
+    if element == 'advances':
+        return (_('Advances %(cells)d cells') % {'cells': lo} if flat
+                else _('Advances %(min)d to %(max)d cells') % span)
+    if element == 'steals':
+        return (_('Steals %(kamas)d kamas') % {'kamas': lo} if flat
+                else _('Steals %(min)d to %(max)d kamas') % span)
+    if element == 'steals_mp':
+        return (_('Steals %(mp)d MP') % {'mp': lo} if flat
+                else _('Steals %(min)d to %(max)d MP') % span)
+    if element == 'removes_ap':
+        return (_('Removes %(ap)d AP') % {'ap': lo} if flat
+                else _('Removes %(min)d to %(max)d AP') % span)
+    if element == 'removes_mp':
+        return (_('Removes %(mp)d MP') % {'mp': lo} if flat
+                else _('Removes %(min)d to %(max)d MP') % span)
+    return _('%(min)d to %(max)d (%(element)s)') % {
+        'min': lo, 'max': hi,
+        'element': localized_elements.get(element, element)}

@@ -1364,6 +1364,16 @@ msgstr "Retire %(ap)d PA"
 msgid "Removes %(min)d to %(max)d AP"
 msgstr "Retire %(min)d à %(max)d PA"
 
+#: .\chardata\weapon_header.py:0
+#, python-format
+msgid "Removes %(mp)d MP"
+msgstr "Retire %(mp)d PM"
+
+#: .\chardata\weapon_header.py:0
+#, python-format
+msgid "Removes %(min)d to %(max)d MP"
+msgstr "Retire %(min)d à %(max)d PM"
+
 #: .\chardata\solution_result.py:279
 #, python-format
 msgid "Advances %(cells)d cells"
