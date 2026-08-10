@@ -34,8 +34,16 @@ from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
 
 def ads_txt_view(request):
-    """Serve the ads.txt file"""
-    content = "google.com, pub-3961330018791408, DIRECT, f08c47fec0942fa0"
+    """The sellers allowed to sell this inventory.
+
+    In production nginx answers this itself, from docker/ads.txt, so the file
+    survives a deploy or an outage; this is the fallback. Either way the
+    publisher comes from the ad config, never a second copy: a file naming
+    another publisher than the ad code stops the ads from being bought at all.
+    """
+    from chardata.context_processors import DEFAULT_AD_CLIENT, ad_config
+    client = ad_config().get('client') or DEFAULT_AD_CLIENT
+    content = 'google.com, %s, DIRECT, f08c47fec0942fa0' % client.replace('ca-', '', 1)
     return HttpResponse(content, content_type='text/plain')
 
 def chrome_devtools_view(request):

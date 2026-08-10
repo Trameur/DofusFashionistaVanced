@@ -9366,6 +9366,28 @@ class AdsTests(TestCase):
         values = self._ads('/', client='ca-pub-42')
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
+    def test_ads_txt_names_the_publisher_the_ad_code_uses(self):
+        # A file naming another publisher than the ad code stops the inventory
+        # from being bought, silently, so the two read the same config.
+        from django.conf import settings
+        from django.test import override_settings
+        gen = dict(getattr(settings, 'GEN_CONFIGS', {}))
+        gen['adsense'] = {'client': 'ca-pub-42'}
+        with override_settings(GEN_CONFIGS=gen):
+            body = self.client.get('/ads.txt').content.decode('utf-8')
+        self.assertEqual(body, 'google.com, pub-42, DIRECT, f08c47fec0942fa0')
+
+    def test_the_file_nginx_serves_names_the_same_publisher(self):
+        # nginx answers /ads.txt from docker/ads.txt so it survives a deploy or
+        # an outage, which means that copy, not the view, is what AdSense reads.
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        from chardata.context_processors import DEFAULT_AD_CLIENT
+        path = os.path.join(get_fashionista_path(), 'docker', 'ads.txt')
+        with open(path, encoding='utf-8') as handle:
+            served = handle.read().strip()
+        self.assertEqual(served, 'google.com, %s, DIRECT, f08c47fec0942fa0'
+                         % DEFAULT_AD_CLIENT.replace('ca-', '', 1))
+
 
 class MonsterSpellQueryTests(SimpleTestCase):
     """The spell block used to run one query per spell, and the fullest
