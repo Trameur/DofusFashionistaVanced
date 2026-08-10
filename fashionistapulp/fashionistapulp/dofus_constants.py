@@ -5205,9 +5205,24 @@ def tier_widths_after_scroll(caps_for_stat, scrolled):
 
 
 def max_scroll_for_version(game_version):
-    """Highest a characteristic can be scrolled, per version. Touch's Dedale
-    (update 1.73, live June 2026) added scrolls that push the six main stats to
-    150; Retro allows 101; every other version caps at 100."""
+    """Highest a characteristic can be scrolled, per version.
+
+    Both odd numbers are read straight out of the game files, from the
+    condition each consumable carries (verified 2026-08-10):
+
+    Touch stops at 150. Its Dedale update (1.73, live June 2026) extends the
+    ladder past the Puissant scroll (cs>74&cs<100) with three more tiers, all
+    gated on PL>199: Superbe cs>99&cs<120, Grandiose cs>119&cs<140, Magnifique
+    cs>139&cs<150. Reading only the first of them says 120, which is wrong.
+
+    Retro stops at 101, one point above its scrolls. The Puissant parchemin is
+    gated Cs<100, so parchemins alone reach 100; six foods then carry the same
+    permanent +1 under Cs<101, one per characteristic (Bifsteque de
+    Dragoviande, Requin aux epices, Entrecote d'Ange, Viande de Fantome
+    Cuisinee, Perche sautee, Plat de Filtounga).
+
+    Every other version caps at 100.
+    """
     if game_version == 'touch':
         return 150
     if game_version == 'retro':
