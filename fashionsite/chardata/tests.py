@@ -11194,6 +11194,30 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                WHERE i.ankama_id = 12108 AND s.name IN ('AP', 'MP')""")
         self.assertEqual(0, rows[0][0])
 
+    def test_every_version_skips_the_same_non_elemental_hit_types(self):
+        # calculate_damage looks the hit's element up in DAMAGE_TYPE_TO_MAIN_STAT,
+        # which only holds the five real ones, so a hit type missing from the skip
+        # list raises. Beta's list had drifted and its five steals_mp weapons blew
+        # up: War's Halbaxe, Blade O'Ven, Captain Chafer's Daggers, The Ripper's
+        # Claws, Scalarcin Daggeribones.
+        import collections
+        import fashionistapulp.dofus_constants as modern
+        import fashionistapulp.dofus_constants_beta as beta
+        import fashionistapulp.dofus_constants_dofus2 as dofus2
+        from fashionistapulp.dofus_constants import NEUTRAL
+        from fashionistapulp.structure import get_structure
+        by_version = {'dofus3': modern, 'beta': beta, 'dofus2': dofus2}
+        for version, constants in by_version.items():
+            structure = get_structure(version)
+            for name in ("War's Halbaxe", "Blade O'Ven"):
+                weapon = structure.get_weapon_by_name(name)
+                if weapon is None:
+                    continue
+                with self.subTest(version=version, weapon=name):
+                    constants.calculate_damage(
+                        list(weapon.non_crit_hits[NEUTRAL]),
+                        collections.defaultdict(int), False, False)
+
     def test_retro_keeps_the_bad_half_of_an_elemental_trade(self):
         # 1.29 sells a resist in one element against a weakness in another, on
         # 33 items. The decoder mapped the five resists and not the five
