@@ -10916,6 +10916,27 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
             with self.subTest(version=version):
                 self.assertEqual(missing[:5], [])
 
+    def test_the_retro_placeholder_covers_no_more_items_than_it_has_to(self):
+        # Retro shows a question mark when the 1.29 client carries no clip for
+        # the item, and that file always exists, so the guard above cannot see
+        # a retro icon go missing. These 25 are the ones whose gfx the client
+        # really does not have; any more than that is a regression.
+        import sqlite3
+        from chardata.image_store import get_image_url, RETRO_PLACEHOLDER
+        from fashionistapulp.fashionista_config import get_items_db_path
+        connection = sqlite3.connect(
+            'file:%s?mode=ro' % get_items_db_path('retro'), uri=True)
+        try:
+            rows = connection.execute(
+                'SELECT t.name, i.name FROM items i'
+                ' JOIN item_types t ON t.id = i.type'
+                ' WHERE COALESCE(i.removed, 0) = 0').fetchall()
+        finally:
+            connection.close()
+        bare = sorted(name for type_name, name in rows
+                      if get_image_url(type_name, name, 'retro') == RETRO_PLACEHOLDER)
+        self.assertLessEqual(len(bare), 25, bare[:8])
+
     def test_every_weapon_points_at_a_type_that_exists(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):

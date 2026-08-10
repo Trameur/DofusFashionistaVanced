@@ -158,6 +158,20 @@ def main(argv=None):
 
     raw = Path(args.raw_dir)
     items = json.loads((raw / f'items_{args.lang}.json').read_text(encoding='utf-8'))['I']['u']
+    # No lang file is complete and French is the thinnest, so get_equipments_retro
+    # fills the gaps from the other four, in this order. Read only the French one
+    # here and 52 items the database does carry were never offered to the
+    # renderer at all: they showed the placeholder.
+    for lang in ('en', 'es', 'pt', 'de'):
+        if lang == args.lang:
+            continue
+        path = raw / f'items_{lang}.json'
+        if not path.exists():
+            continue
+        other = json.loads(path.read_text(encoding='utf-8'))['I']['u']
+        for iid, it in other.items():
+            if iid not in items and isinstance(it, dict):
+                items[iid] = it
     en_path = raw / 'items_en.json'
     names_en = {}
     if en_path.exists():
