@@ -32,7 +32,11 @@ import re
 import sqlite3
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+_HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _HERE)
+# The pipelines run this as a bare subprocess with no PYTHONPATH, so the package
+# that holds the shared name matching has to be found from here.
+sys.path.insert(0, os.path.join(os.path.dirname(_HERE), 'fashionistapulp'))
 
 from fashionistapulp.fashion_util import is_same_item_name  # noqa: E402
 from item_skin_margins import MIN_MARGIN  # noqa: E402
