@@ -430,6 +430,13 @@ def _find_weapon_for_variants(structure, variant_items):
         if flag not in flags_to_try:
             flags_to_try.append(flag)
 
+    # The item first: Retro and Touch let several weapons share a name, and by
+    # name alone they all answered with the last one read.
+    for item in variant_items:
+        weapon = structure.get_weapon_for_item(item)
+        if weapon is not None and getattr(weapon, 'base_hit', None):
+            return weapon
+
     for name in ordered_names:
         for dofus_touch in flags_to_try:
             weapon = structure.get_weapon_by_name(name, dofus_touch)

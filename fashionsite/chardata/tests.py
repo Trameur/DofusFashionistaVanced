@@ -5068,6 +5068,46 @@ class ItemCorrectionsTests(SimpleTestCase):
             self.assertIn(version, data)
 
 
+class WeaponsSharingANameTests(SimpleTestCase):
+    """Retro and Touch let genuinely different weapons carry one name, where the
+    Dofus 3 transform numbers its duplicates. Weapons were indexed by name, so
+    the eleven Ecaflip Paws collapsed into one and every level was shown rolling
+    22 to 41, and the four Bronze Swords all came out air. The branches of a
+    single item, "(#1)" and "(#2)", must keep sharing their weapon."""
+
+    def _hits(self, version, ankama_id):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure(version)
+        item = structure.get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item, 'missing %s item %s' % (version, ankama_id))
+        weapon = structure.get_weapon_for_item(item)
+        self.assertIsNotNone(weapon, 'no weapon for %s' % ankama_id)
+        return [(h.min_dam, h.max_dam, h.element) for h in weapon.base_hit]
+
+    def test_each_ecaflip_paw_keeps_its_own_roll(self):
+        for version in ('retro', 'touch'):
+            with self.subTest(version=version):
+                self.assertEqual([(2, 21, 'neut')], self._hits(version, 8941))
+                self.assertEqual([(22, 41, 'neut')], self._hits(version, 8965))
+
+    def test_the_four_bronze_swords_keep_their_four_elements(self):
+        elements = [self._hits('retro', a)[0][2]
+                    for a in (12650, 12655, 12660, 12665)]
+        self.assertEqual(['earth', 'fire', 'water', 'air'], elements)
+
+    def test_the_branches_of_one_item_still_share_a_weapon(self):
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                first = structure.get_item_by_name('Kukri Kura (#1)')
+                second = structure.get_item_by_name('Kukri Kura (#2)')
+                self.assertIsNotNone(first)
+                self.assertIsNotNone(second)
+                self.assertIs(structure.get_weapon_for_item(first),
+                              structure.get_weapon_for_item(second))
+
+
 class RepeatedWeaponHitTests(SimpleTestCase):
     """A weapon that strikes twice writes its roll twice, and the solver is right
     to add them up. Do not "deduplicate" this. Kukri Kura says so in two sources

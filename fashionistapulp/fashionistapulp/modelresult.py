@@ -637,7 +637,10 @@ class ModelResultItem():
             self.extras = translated_flags + [(line, None) for line in localized_extras]
     
             if self.type == 'Weapon':
-                weapon = structure.get_weapon_by_name(self.name)
+                # By item, not by name: Retro and Touch let several weapons share
+                # one, and the damage block showed the last one read.
+                weapon = (structure.get_weapon_for_item(item)
+                          or structure.get_weapon_by_name(self.name))
                 if weapon is not None:
                     self.is_mageable = weapon.is_mageable
                     self.non_crit_hits = weapon.non_crit_hits

@@ -466,19 +466,52 @@ class Structure:
 #             item_id = entry[0]
 #             item = self.items_dict[item_id]
 #             item.is_one_handed = True
+    def _weapon_key(self, item_id, is_dofus_touch, item_name):
+        """What makes two rows the same weapon.
+
+        The branches of one item, "(#1)" and "(#2)", share an ankama id and must
+        share their damage. Two items that merely share a name must not: Retro
+        lists eleven Ecaflip Paws rolling 2-21 up to 22-41 and four Bronze Swords
+        of four different elements, and keyed by name they collapsed into one,
+        so every one of them showed the last one read.
+        """
+        items = self.dt_items_dict if is_dofus_touch else self.items_dict
+        item = items.get(item_id)
+        ankama_id = getattr(item, 'ankama_id', None) if item is not None else None
+        return ankama_id if ankama_id else item_name
+
     def _get_item_name_and_weapon_by_id(self, item_id):
         is_dofus_touch = self._is_item_dofus_touch(item_id)
         item_name = self.get_item_name_by_id(item_id, is_dofus_touch)
-        if is_dofus_touch:
-            w = self.dt_weapons_dict_by_name.get(item_name, None)
-        else:
-            w = self.weapons_dict_by_name.get(item_name, None)
+        by_key = (self.dt_weapons_by_key if is_dofus_touch
+                  else self.weapons_by_key)
+        by_name = (self.dt_weapons_dict_by_name if is_dofus_touch
+                   else self.weapons_dict_by_name)
+        key = self._weapon_key(item_id, is_dofus_touch, item_name)
+        w = by_key.get(key)
+        if w is None:
+            w = Weapon()
+            by_key[key] = w
+            by_name.setdefault(item_name, w)
         return item_name, w
-            
+
+    def get_weapon_for_item(self, item):
+        """The weapon of this exact item, where get_weapon_by_name can only
+        answer for the first item carrying the name."""
+        if item is None:
+            return None
+        is_dofus_touch = self._is_item_dofus_touch(item.id)
+        by_key = (self.dt_weapons_by_key if is_dofus_touch
+                  else self.weapons_by_key)
+        key = self._weapon_key(item.id, is_dofus_touch, item.name)
+        return by_key.get(key) or by_key.get(item.name)
+
     def read_weapon_hits_table(self):
         c = self.conn.cursor()
         self.weapons_dict_by_name = {}
         self.dt_weapons_dict_by_name = {}
+        self.weapons_by_key = {}
+        self.dt_weapons_by_key = {}
         for entry in c.execute('SELECT item, hit, min_value, max_value, steals, heals, element'
                                ' FROM weapon_hits'):
             item_id = entry[0]
@@ -489,12 +522,6 @@ class Structure:
             heals = entry[5]
             element = entry[6]
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
-            if w is None:
-                w = Weapon()
-                if self._is_item_dofus_touch(item_id):
-                    self.dt_weapons_dict_by_name[item_name] = w
-                else:
-                    self.weapons_dict_by_name[item_name] = w
             w.hits_dict[hit_index] = DamageDigest(min_value, max_value, element, steals == 1,
                                                   heals == 1)
 
@@ -502,12 +529,6 @@ class Structure:
             item_id = entry[0]
             crit_bonus = entry[1]
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
-            if w is None:
-                w = Weapon()
-                if self._is_item_dofus_touch(item_id):
-                    self.dt_weapons_dict_by_name[item_name] = w
-                else:
-                    self.weapons_dict_by_name[item_name] = w
             w.crit_bonus = crit_bonus
             #else:
                 #print '%s is missing weapon crit bonus' % item_name
@@ -516,12 +537,6 @@ class Structure:
             item_id = entry[0]
             crit_chance = entry[1]
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
-            if w is None:
-                w = Weapon()
-                if self._is_item_dofus_touch(item_id):
-                    self.dt_weapons_dict_by_name[item_name] = w
-                else:
-                    self.weapons_dict_by_name[item_name] = w
             w.crit_chance = crit_chance
             #else:
                 #print '%s is missing crit_chance' % item_name
@@ -530,28 +545,18 @@ class Structure:
             item_id = entry[0]
             ap = entry[1]
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
-            if w is None:
-                w = Weapon()
-                if self._is_item_dofus_touch(item_id):
-                    self.dt_weapons_dict_by_name[item_name] = w
-                else:
-                    self.weapons_dict_by_name[item_name] = w
             w.ap = ap
                 
         for entry in c.execute('SELECT item, weapontype FROM weapon_weapontype'):
             item_id = entry[0]
             weapon_type = entry[1]
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
-            if w is None:
-                w = Weapon()
-                if self._is_item_dofus_touch(item_id):
-                    self.dt_weapons_dict_by_name[item_name] = w
-                else:
-                    self.weapons_dict_by_name[item_name] = w
             w.weapon_type = weapon_type
                 
-        for weapon_name, w in itertools.chain(iter(self.weapons_dict_by_name.items()),
-                                              iter(self.dt_weapons_dict_by_name.items())):
+        # By key, not by name: the name index only holds the first weapon under
+        # each name, and every weapon needs its hits worked out.
+        for weapon_name, w in itertools.chain(iter(self.weapons_by_key.items()),
+                                              iter(self.dt_weapons_by_key.items())):
             w.has_crits = (w.crit_bonus is not None)
             # Some weapons just have no crit or type (magnifying glass, fishing
             # rod...), so this is debug, not a warning.
