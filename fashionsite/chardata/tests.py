@@ -11194,6 +11194,33 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                WHERE i.ankama_id = 12108 AND s.name IN ('AP', 'MP')""")
         self.assertEqual(0, rows[0][0])
 
+    def test_retro_keeps_the_bad_half_of_an_elemental_trade(self):
+        # 1.29 sells a resist in one element against a weakness in another, on
+        # 33 items. The decoder mapped the five resists and not the five
+        # weaknesses, so the solver saw the upside alone and over-valued them.
+        # La Bourgeonette pays 5% air for its 5% earth.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        connection = sqlite3.connect(
+            'file:%s?mode=ro' % get_items_db_path('retro'), uri=True)
+        try:
+            stats = dict(connection.execute(
+                'SELECT st.name, s.value FROM stats_of_item s'
+                ' JOIN stats st ON st.id = s.stat'
+                ' JOIN items i ON i.id = s.item'
+                ' WHERE i.ankama_id = 2394', ()))
+            weak = connection.execute(
+                'SELECT COUNT(DISTINCT s.item) FROM stats_of_item s'
+                ' JOIN stats st ON st.id = s.stat'
+                ' JOIN items i ON i.id = s.item'
+                " WHERE s.value < 0 AND st.name LIKE '%% Resist'"
+                ' AND COALESCE(i.removed, 0) = 0').fetchone()[0]
+        finally:
+            connection.close()
+        self.assertEqual(stats.get('% Earth Resist'), 5)
+        self.assertEqual(stats.get('% Air Resist'), -5)
+        self.assertGreaterEqual(weak, 30)
+
     def test_no_version_zeroes_a_stat_its_own_items_carry(self):
         # zero_stats tells the solver a stat does not exist in that version, so
         # gear carrying it is never valued. Retro listed Reflects because the

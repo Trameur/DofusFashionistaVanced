@@ -67,6 +67,13 @@ EFFECT_MAP = {
     99: ('Fire Damage', 1), 100: ('Neutral Damage', 1),
     210: ('% Earth Resist', 1), 211: ('% Water Resist', 1), 212: ('% Air Resist', 1),
     213: ('% Fire Resist', 1), 214: ('% Neutral Resist', 1),
+    # 215-219 are the same five as a malus, "X% de faiblesse face a ...". Thirty
+    # three items carry one, usually paying for a resist in another element, and
+    # no item is ever weak and resistant in the same one. Dropping them showed
+    # only the upside of the trade.
+    215: ('% Earth Resist', -1), 216: ('% Water Resist', -1),
+    217: ('% Air Resist', -1), 218: ('% Fire Resist', -1),
+    219: ('% Neutral Resist', -1),
     240: ('Earth Resist', 1), 241: ('Water Resist', 1), 242: ('Air Resist', 1),
     243: ('Fire Resist', 1), 244: ('Neutral Resist', 1),
     # malus (negative)
