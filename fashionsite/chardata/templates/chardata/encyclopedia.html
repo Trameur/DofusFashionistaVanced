@@ -56,7 +56,7 @@
                     <div>
                         <label>{{ t.stat_label }}</label>
                         <div class="encyclopedia-stat-select">
-                            <img class="encyclopedia-stat-select-icon {% if not stat_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if stat_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
+                            <img class="encyclopedia-stat-select-icon {% if not stat_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if stat_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="" width="18" height="18">
                             <select class="pretty-input" name="stat_key" aria-label="{{ t.stat_label }}">
                             <option value="" data-icon-url="">-</option>
                             {% for option in stat_options %}
@@ -88,7 +88,7 @@
                     <div>
                         <label>{{ t.stat_label }}</label>
                         <div class="encyclopedia-stat-select">
-                            <img class="encyclopedia-stat-select-icon {% if not order_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if order_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="">
+                            <img class="encyclopedia-stat-select-icon {% if not order_row.key %}encyclopedia-stat-select-icon-hidden{% endif %}" src="{% for option in stat_options %}{% if order_row.key == option.key %}{{ option.icon_url }}{% endif %}{% endfor %}" alt="" width="18" height="18">
                             <select class="pretty-input" name="order_key" aria-label="{{ t.stat_label }}">
                             <option value="" data-icon-url="">-</option>
                             {% for option in stat_options %}
@@ -126,7 +126,7 @@
             <div>
                 <label>{{ t.stat_label }}</label>
                 <div class="encyclopedia-stat-select">
-                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
+                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="" width="18" height="18">
                     <select class="pretty-input" name="stat_key" aria-label="{{ t.stat_label }}">
                     <option value="" data-icon-url="">-</option>
                     {% for option in stat_options %}
@@ -150,7 +150,7 @@
             <div>
                 <label>{{ t.stat_label }}</label>
                 <div class="encyclopedia-stat-select">
-                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="">
+                    <img class="encyclopedia-stat-select-icon encyclopedia-stat-select-icon-hidden" src="" alt="" width="18" height="18">
                     <select class="pretty-input" name="order_key" aria-label="{{ t.stat_label }}">
                     <option value="" data-icon-url="">-</option>
                     {% for option in stat_options %}

@@ -85,7 +85,7 @@
             <div class="encyclopedia-set-grid">
                 {% for set_item in set_items %}
                 <a class="encyclopedia-set-item" href="{{ set_item.detail_url }}">
-                    <img src="{{ set_item.image_url }}" alt="{{ set_item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <img src="{{ set_item.image_url }}" alt="{{ set_item.name }}" width="48" height="48" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                     <div>
                         <div class="encyclopedia-set-item-name">{{ set_item.name }}</div>
                         <div class="encyclopedia-item-meta">{{ set_item.type_name }} | {{ t.item_level }} {{ set_item.level }}</div>

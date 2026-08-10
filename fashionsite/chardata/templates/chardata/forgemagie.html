@@ -37,7 +37,7 @@
             <hr>
             <div class="fm-item-header">
                 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
-                <img id="fm-item-image" src="" alt=""
+                <img id="fm-item-image" src="" alt="" width="48" height="48" decoding="async"
                      onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                 <div>
                     <div class="fm-item-header-name" id="fm-item-name"></div>
@@ -228,7 +228,7 @@
                     <tr>
                         <td>
                             <span class="fm-stat-cell">
-                                {% if row.icon_url %}<img src="{{ row.icon_url }}" alt="">{% endif %}
+                                {% if row.icon_url %}<img src="{{ row.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">{% endif %}
                                 <span>{{ row.name }}</span>
                             </span>
                         </td>

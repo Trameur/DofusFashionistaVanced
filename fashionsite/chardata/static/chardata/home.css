@@ -277,6 +277,15 @@ h2:first-letter{
     cursor: pointer;
 }
 
+/* de.png is 50x37 where the other four flags are 24x24. It used to be squashed
+   into a square by a width/height attribute; the box below keeps every flag the
+   same size without distorting that one. */
+.flag-choose {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
 #flag {
     margin-top: -3px;
     z-index:5000;

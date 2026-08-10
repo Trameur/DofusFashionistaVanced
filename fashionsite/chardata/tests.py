@@ -5161,6 +5161,36 @@ class ImageWeightTests(TestCase):
             self.assertIn('width="60"', image)
             self.assertIn('height="60"', image)
 
+    def test_no_page_ships_a_crowd_of_unsized_images(self):
+        # What is left on purpose: the class mascot in the header, whose CSS is
+        # height-driven and which is hidden on mobile, and the three giant home
+        # buttons, whose CSS is responsive. A fixed width would fight both.
+        pages = {
+            '/': 4,
+            '/encyclopedia/': 1,
+            '/encyclopedia/item/equipment/233-kaiser/': 1,
+            '/encyclopedia/sets/': 1,
+            '/encyclopedia/monsters/': 1,
+            '/forgemagie/': 1,
+            '/guides/': 1,
+        }
+        for url, allowed in pages.items():
+            with self.subTest(url=url):
+                images = self._images(url)
+                self.assertTrue(images, url)
+                unsized = [i for i in images
+                           if 'width=' not in i or 'height=' not in i]
+                self.assertLessEqual(len(unsized), allowed, unsized[:3])
+
+    def test_the_german_flag_is_not_squashed_into_a_square(self):
+        # de.png is 50x37 where the other four are 24x24, and it used to declare
+        # 24x24 anyway. The list gives every flag the same box in CSS instead.
+        images = [i for i in self._images('/') if 'de.png' in i]
+        self.assertTrue(images)
+        for image in images:
+            self.assertIn('width="50"', image)
+            self.assertIn('height="37"', image)
+
 
 class ItemFlagTests(SimpleTestCase):
     """What the game says about an item beyond its stats. Only Hunting Weapon was
