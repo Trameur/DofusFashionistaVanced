@@ -509,6 +509,40 @@ class PublicRouteSmokeTests(TestCase):
         block = self._other_versions_block('/dofus2/encyclopedia/item/equipment/44-x/')
         self.assertIn('"/encyclopedia/item/equipment/44-', block)
 
+    def test_a_monster_or_ingredient_id_is_no_identity_either(self):
+        # Same reuse as items, on the two families the page links by id too:
+        # monster 62 is the Gob-Trotter on Dofus 3 and the Karne Rider on
+        # Retro, ingredient 2639 the Fake Claw of Ceangal against the Bwork
+        # Chief Helmet's neighbour. Neither may offer the other.
+        from chardata.encyclopedia_view import (_get_monster_version_links,
+                                                _other_versions_with_resource,
+                                                _version_resource_keys)
+        labels = [link['label']
+                  for link in _get_monster_version_links(62, 'dofus3', 'en')]
+        self.assertNotIn('Retro', labels)
+        self.assertIn('Beta', labels)
+        key = ('equipment', 6813)
+        self.assertEqual(_version_resource_keys('dofus3').get(key),
+                         'Bwork Chief Helmet')
+        self.assertEqual(_version_resource_keys('retro').get(key),
+                         'Chief Bwork Helmet')
+        labels = [link['label'] for link in _other_versions_with_resource(
+            'dofus3', key[0], key[1], 'Bwork Chief Helmet')]
+        self.assertNotIn('Retro', labels)
+
+    def test_a_name_that_only_differs_by_an_accent_is_the_same_item(self):
+        # The pools spell the same item differently: Vor'Om against Vôr'Om,
+        # Crystal O'Ball against Crystaloball. Word order still counts, or
+        # Bwork Chief and Chief Bwork would merge.
+        from fashionistapulp.fashion_util import is_same_item_name
+        self.assertTrue(is_same_item_name("Vor'Om Axe", 'Vôr’Om Axe'))
+        self.assertTrue(is_same_item_name("Crystal O'Ball", 'Crystaloball'))
+        self.assertTrue(is_same_item_name('Gelano', 'Gelano (#2)'))
+        self.assertFalse(is_same_item_name('Bwork Chief Helmet',
+                                           'Chief Bwork Helmet'))
+        self.assertFalse(is_same_item_name('Twiggy Sword', 'Powerful Twiggy Sword'))
+        self.assertFalse(is_same_item_name('Gelano', ''))
+
     def test_a_cross_version_link_survives_a_translated_page(self):
         # The page passes the name in the reader's language while both pools
         # store the english one. Comparing those two would drop every link as

@@ -22,6 +22,18 @@ import unidecode
 _DISAMBIGUATION = re.compile(r'\s*\(#\d+\)\s*$')
 
 
+def _comparable_name(name):
+    """The name with everything the versions spell differently taken out.
+
+    Accents and apostrophes drift between the pools for the same item, and
+    Retro writes Crystaloball where Dofus 3 writes Crystal O'Ball. Word order
+    still counts: Bwork Chief Helmet and Chief Bwork Helmet stay apart, since
+    guessing wrong here sends a reader to another item.
+    """
+    flat = _DISAMBIGUATION.sub('', name or '').casefold()
+    return re.sub(r'[^a-z0-9]', '', unidecode.unidecode(flat))
+
+
 def is_same_item_name(name, other):
     """Whether two versions naming an ankama id mean the same item.
 
@@ -31,8 +43,7 @@ def is_same_item_name(name, other):
     """
     if not name or not other:
         return False
-    return (_DISAMBIGUATION.sub('', name).casefold()
-            == _DISAMBIGUATION.sub('', other).casefold())
+    return _comparable_name(name) == _comparable_name(other)
 
 
 def normalize_name(s):
