@@ -24,9 +24,13 @@ logger = logging.getLogger(__name__)
 
 
 # Items the optimiser excludes by default: GM-only, event, joke and duplicate items
-# nobody wants the solver to pick. Keyed by Ankama item id (stable across versions and
-# localisations), with the item name in a trailing comment. Ids absent from the active
-# game version are skipped automatically, so a single list covers every version.
+# nobody wants the solver to pick, with the item name in a trailing comment. Ids
+# absent from the active game version are skipped automatically.
+# An id only belongs here when every version that has it means the SAME item.
+# Retro reuses 406 of its ids for something else, Touch 225, so anything found in
+# one version goes in the per-version list below or it forbids a real item
+# elsewhere: 11761 is Le Divhugalch on Retro and the Teroid Axe on the other
+# four, 11745 is the Epee Clipse against the Oracular Hammer.
 DEFAULT_EXCLUSION_ANKAMA_IDS = [
     9031,   # Gore Master's Ring (Gms Only)
     9202,   # Gore Master's Other Ring (Retro)
@@ -38,7 +42,6 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     2155,   # Jiva Necklace
     18853,  # Fiery Tongue Sword
     8575,   # First Blood Staff
-    11761,  # Le Divhugalch (unobtainable retro joke staff, +3 AP/+3 MP)
     8854,   # Crack Sparrow's Own Withered Hat
     2154,   # De Sendar's Ring
     27645,  # Basic Broom
@@ -57,7 +60,6 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     31812,  # Anneau de Ghaston (beta dev item: 99 AP/MP, 32767 Vitality)
     16340,  # Abuselet (Ankama: "cannot be equipped, it exists merely to be broken")
     16341,  # Bendant (same, forgemagie fodder carrying an AP bonus)
-    11745,  # Epee Clipse (retro GM sword: 5 AP/MP, 500 in every characteristic)
 ]
 
 # Per-version defaults: items that are in the game data but shouldn't be proposed
@@ -449,6 +451,8 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
                 # level 1 Dofus with +10% all resists, a real Dofus 2+ item)
         13171,  # Nolifishield / Grobouclier (Grobe dungeon key shield; a real
                 # item but not built with, so hidden by default and removable)
+        11761,  # Le Divhugalch (unobtainable joke staff, +3 AP/+3 MP)
+        11745,  # Epee Clipse (GM sword: 5 AP/MP, 500 in every characteristic)
     ],
 }
 

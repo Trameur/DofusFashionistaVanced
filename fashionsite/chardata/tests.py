@@ -11160,6 +11160,36 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                WHERE i.ankama_id = 12108 AND s.name IN ('AP', 'MP')""")
         self.assertEqual(0, rows[0][0])
 
+    def test_the_global_exclusions_forbid_the_same_item_everywhere(self):
+        # The list is keyed by ankama id, and an id is not an identity: Retro
+        # reuses 406 of them for something else, Touch 225. Two entries added
+        # for a Retro item were forbidding the Teroid Axe (11761) and the
+        # Oracular Hammer (11745) on the four other versions. An id whose
+        # versions disagree on the name belongs in the per-version list.
+        import sqlite3
+        from chardata.lock_forbid import DEFAULT_EXCLUSION_ANKAMA_IDS
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.fashion_util import is_same_item_name
+        names = {}
+        for version in self.VERSIONS:
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                names[version] = dict(connection.execute(
+                    'SELECT ankama_id, name FROM items'
+                    ' WHERE ankama_id IS NOT NULL'))
+            finally:
+                connection.close()
+        for ankama_id in DEFAULT_EXCLUSION_ANKAMA_IDS:
+            found = [(v, names[v][ankama_id]) for v in self.VERSIONS
+                     if ankama_id in names[v]]
+            for version, name in found[1:]:
+                with self.subTest(ankama_id=ankama_id, version=version):
+                    self.assertTrue(is_same_item_name(found[0][1], name),
+                                    '%d is %r on %s but %r on %s'
+                                    % (ankama_id, found[0][1], found[0][0],
+                                       name, version))
+
     def test_an_item_ankama_calls_unequippable_is_never_proposed(self):
         # Two beta amulets carry an AP bonus and the line "This object cannot
         # be equipped, it exists merely to be broken". The solver would have
