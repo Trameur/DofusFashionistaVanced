@@ -109,6 +109,18 @@ WEAPON_AP_REMOVAL_BY_EFFECT = {101}
 # damage. 81 shares the description and is unused by any current item.
 WEAPON_HEAL_BY_EFFECT = {108, 81}
 
+# What the client says about an item beyond its stats, under the names Dofus 3
+# already uses so the site's own translations apply. Only these two are certain:
+#   795 "Arme de chasse", kept when its value is 1. At 0 it sits on the Hunter's
+#       own tools (Couteau de Chasse, Arc de Chasse...); at 1 it names the same
+#       seventeen weapons Dofus 3 lists, which is the cross-check.
+#   981 "Lie au personnage", no parameter at all, on 241 items.
+# 983 "Echangeable : #1" is left out on purpose: it carries a parameter here
+# (0, 62, 63) where Dofus 3 only ever writes 0, so the two do not say the same
+# thing. 724 "Titre : #3" holds the title in a field the flag cannot carry.
+FLAG_BY_EFFECT = {795: 'Hunting Weapon', 981: 'Linked to the character'}
+FLAG_NEEDS_VALUE = {795: 1}
+
 # Equip-condition codes -> internal stat (the 6 primaries, like Retro;
 # alignment Ps/Pa and quest/flag codes are skipped to avoid mis-gating).
 CONDITION_MAP = {
@@ -182,6 +194,11 @@ def decode_effects(possible_effects, effects, is_weapon):
             continue
         if is_weapon and eid in WEAPON_HEAL_BY_EFFECT:
             hits.append([lo, hi, '(heals)'])
+            continue
+        if eid in FLAG_BY_EFFECT:
+            wanted = FLAG_NEEDS_VALUE.get(eid)
+            if wanted is None or pe.get('value') == wanted:
+                stats.append([None, None, FLAG_BY_EFFECT[eid]])
             continue
         resolved = stat_for_effect(eid, effects)
         if resolved is None:

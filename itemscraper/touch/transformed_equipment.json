@@ -134,6 +134,11 @@
                 "Critical Hits"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 6,
                 10,
                 "(Neutral damage)"
@@ -1378,6 +1383,11 @@
                 "Initiative"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 13,
                 17,
                 "(Fire damage)"
@@ -2035,6 +2045,11 @@
                 "Lock"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 16,
                 20,
                 "(Neutral damage)"
@@ -2229,6 +2244,11 @@
                 16,
                 20,
                 "Strength"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 21,
@@ -2819,6 +2839,11 @@
                 "Range"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 7,
                 16,
                 "(Neutral damage)"
@@ -2893,6 +2918,11 @@
                 2,
                 3,
                 "Critical Hits"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 11,
@@ -3233,6 +3263,11 @@
                 -20,
                 -20,
                 "Intelligence"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 16,
@@ -5176,6 +5211,11 @@
                 "Agility"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 11,
                 15,
                 "(Water damage)"
@@ -6711,6 +6751,11 @@
                 31,
                 40,
                 "Vitality"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 9,
@@ -9094,6 +9139,11 @@
                 "Range"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 31,
                 50,
                 "(Neutral damage)"
@@ -10154,6 +10204,11 @@
                 "Wisdom"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 6,
                 15,
                 "(Fire damage)"
@@ -11159,6 +11214,11 @@
                 -20,
                 -20,
                 "Strength"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 7,
@@ -12889,6 +12949,11 @@
                 11,
                 20,
                 "Agility"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 9,
@@ -28309,7 +28374,13 @@
         "name_de": "Capa Banala",
         "level": 1,
         "w_type": "Cloak",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -28323,6 +28394,11 @@
         "level": 10,
         "w_type": "Cloak",
         "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
             [
                 6,
                 10,
@@ -40837,6 +40913,11 @@
                 "Critical Hits"
             ],
             [
+                null,
+                null,
+                "Hunting Weapon"
+            ],
+            [
                 6,
                 15,
                 "(Neutral damage)"
@@ -42220,6 +42301,11 @@
                 11,
                 15,
                 "Agility"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 11,
@@ -50341,6 +50427,11 @@
                 20,
                 20,
                 "Intelligence"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -51117,6 +51208,11 @@
                 21,
                 30,
                 "Wisdom"
+            ],
+            [
+                null,
+                null,
+                "Hunting Weapon"
             ],
             [
                 14,
@@ -66551,6 +66647,11 @@
                 3,
                 3,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -66575,6 +66676,11 @@
                 10,
                 10,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -66599,6 +66705,11 @@
                 3,
                 3,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -66618,6 +66729,11 @@
                 3,
                 3,
                 "Vitality"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ],
             [
                 4,
@@ -66642,6 +66758,11 @@
         "level": 1,
         "w_type": "Shield",
         "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
             [
                 5,
                 5,
@@ -66670,6 +66791,11 @@
                 3,
                 3,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -66694,6 +66820,11 @@
                 3,
                 3,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -66718,6 +66849,11 @@
                 3,
                 3,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -86769,7 +86905,13 @@
         "name_de": "Mister Amaknas Amulett",
         "level": 1,
         "w_type": "Amulet",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -86782,7 +86924,13 @@
         "name_de": "Miss Amaknas Amulett",
         "level": 1,
         "w_type": "Amulet",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -86795,7 +86943,13 @@
         "name_de": "Mister Welt der Zwölfs Amulett",
         "level": 1,
         "w_type": "Amulet",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -86808,7 +86962,13 @@
         "name_de": "Miss Welt der Zwölfs Amulett",
         "level": 1,
         "w_type": "Amulet",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -87653,6 +87813,11 @@
                 31,
                 80,
                 "Pods"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -89192,6 +89357,11 @@
                 10,
                 10,
                 "Intelligence"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -92604,7 +92774,13 @@
         "name_de": "Amulett der Mini-Miss Amakna",
         "level": 1,
         "w_type": "Amulet",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -92617,7 +92793,13 @@
         "name_de": "Amulett des Mini-Mister Amakna",
         "level": 1,
         "w_type": "Amulet",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -93204,7 +93386,13 @@
         "name_de": "Troma des Alten Johns",
         "level": 10,
         "w_type": "Hat",
-        "stats": [],
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
         "conditions": []
     },
     {
@@ -99153,6 +99341,11 @@
                 -5,
                 -5,
                 "AP Loss Resist"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -103375,6 +103568,11 @@
                 -11,
                 -20,
                 "Agility"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ],
             [
                 21,
@@ -128486,6 +128684,11 @@
                 "Vitality"
             ],
             [
+                null,
+                null,
+                "Linked to the character"
+            ],
+            [
                 2,
                 3,
                 "(Earth damage)"
@@ -128527,6 +128730,11 @@
                 5,
                 5,
                 "Vitality"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128546,6 +128754,11 @@
                 5,
                 5,
                 "Vitality"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128561,6 +128774,11 @@
         "level": 5,
         "w_type": "Cloak",
         "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
             [
                 1,
                 1,
@@ -128594,6 +128812,11 @@
                 50,
                 50,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128623,6 +128846,11 @@
                 1,
                 1,
                 "Critical Hits"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128647,6 +128875,11 @@
                 5,
                 5,
                 "Strength"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128676,6 +128909,11 @@
                 4,
                 4,
                 "Dodge"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128705,6 +128943,11 @@
                 50,
                 50,
                 "Pods"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128729,6 +128972,11 @@
                 2,
                 2,
                 "Earth Damage"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ],
             [
                 8,
@@ -128762,6 +129010,11 @@
                 2,
                 2,
                 "Earth Resist"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128791,6 +129044,11 @@
                 50,
                 50,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128820,6 +129078,11 @@
                 50,
                 50,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128849,6 +129112,11 @@
                 50,
                 50,
                 "Initiative"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128864,6 +129132,11 @@
         "level": 5,
         "w_type": "Cloak",
         "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
             [
                 1,
                 1,
@@ -128884,6 +129157,11 @@
         "w_type": "Cloak",
         "stats": [
             [
+                null,
+                null,
+                "Linked to the character"
+            ],
+            [
                 1,
                 1,
                 "Range"
@@ -128902,6 +129180,11 @@
         "level": 5,
         "w_type": "Cloak",
         "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
             [
                 1,
                 1,
@@ -128930,6 +129213,11 @@
                 5,
                 5,
                 "Intelligence"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128954,6 +129242,11 @@
                 5,
                 5,
                 "Chance"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -128978,6 +129271,11 @@
                 5,
                 5,
                 "Agility"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129007,6 +129305,11 @@
                 50,
                 50,
                 "Pods"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129036,6 +129339,11 @@
                 50,
                 50,
                 "Pods"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129065,6 +129373,11 @@
                 50,
                 50,
                 "Pods"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129094,6 +129407,11 @@
                 1,
                 1,
                 "Critical Hits"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129123,6 +129441,11 @@
                 1,
                 1,
                 "Critical Hits"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129152,6 +129475,11 @@
                 1,
                 1,
                 "Critical Hits"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129181,6 +129509,11 @@
                 4,
                 4,
                 "Dodge"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129210,6 +129543,11 @@
                 4,
                 4,
                 "Dodge"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129239,6 +129577,11 @@
                 4,
                 4,
                 "Dodge"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129263,6 +129606,11 @@
                 2,
                 2,
                 "Fire Resist"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129287,6 +129635,11 @@
                 2,
                 2,
                 "Water Resist"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129311,6 +129664,11 @@
                 2,
                 2,
                 "Air Resist"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []
@@ -129335,6 +129693,11 @@
                 2,
                 2,
                 "Fire Damage"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ],
             [
                 8,
@@ -129370,6 +129733,11 @@
                 "Water Damage"
             ],
             [
+                null,
+                null,
+                "Linked to the character"
+            ],
+            [
                 8,
                 12,
                 "(Water damage)"
@@ -129403,6 +129771,11 @@
                 "Air Damage"
             ],
             [
+                null,
+                null,
+                "Linked to the character"
+            ],
+            [
                 8,
                 12,
                 "(Air damage)"
@@ -129425,6 +129798,11 @@
         "level": 5,
         "w_type": "Trophy",
         "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
             [
                 1,
                 1,
@@ -129468,6 +129846,11 @@
                 5,
                 5,
                 "Wisdom"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
             ]
         ],
         "conditions": []

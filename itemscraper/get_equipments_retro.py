@@ -122,6 +122,18 @@ STEAL_BY_EFFECT = {
 # heal (Arc Hidsad, Pelle Gicque, Baguette Rhon...) show only their damage line.
 HEAL_BY_EFFECT = {108, 81}
 
+# What the lang says about an item beyond its stats, under the names Dofus 3
+# already uses so the site's own translations apply. Only these two are certain:
+#   795 "Arme de chasse", kept when its value is 1. At 0 it sits on the Hunter's
+#       own tools; at 1 it names the weapons Dofus 3 lists as such.
+#   2151 "Lie au personnage", no parameter, six equippable items.
+# 983 "Lie au compte" is left out on purpose: 795 equippable items carry it, but
+# it takes a parameter this decoder cannot read with any confidence, and no
+# existing label means account-bound. 724 "Afficher le titre" holds the title in
+# a field a flag cannot carry.
+FLAG_BY_EFFECT = {795: 'Hunting Weapon', 2151: 'Linked to the character'}
+FLAG_NEEDS_VALUE = {795: 1}
+
 # 1.29 spell hats and capes carry no characteristic at all, only a modifier on
 # one named spell, so 302 items (755 lines) reached the page with nothing on
 # them. The optimizer has no notion of a per-spell modifier, so these are read
@@ -396,6 +408,11 @@ def decode_stats(ista_string, is_weapon=False):
             hi = jmax if jmax is not None else jmin
             if hi is not None:
                 hits.append([lo if lo is not None else 0, hi, hit_label])
+            continue
+        if eid in FLAG_BY_EFFECT:
+            wanted = FLAG_NEEDS_VALUE.get(eid)
+            if wanted is None or _hex(dice) == wanted:
+                stats.append([None, None, FLAG_BY_EFFECT[eid]])
             continue
         if eid not in EFFECT_MAP:
             continue

@@ -16505,6 +16505,21 @@ CREATE TABLE item_extra_info (
             FOREIGN KEY (item) REFERENCES items(id)
         );
 CREATE TABLE item_flags (item INTEGER, flag TEXT, FOREIGN KEY(item) REFERENCES items(id));
+INSERT INTO "item_flags" VALUES(58,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(251,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(271,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(332,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(334,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(742,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(1377,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(1504,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(2170,'Linked to the character');
+INSERT INTO "item_flags" VALUES(6975,'Linked to the character');
+INSERT INTO "item_flags" VALUES(8110,'Hunting Weapon');
+INSERT INTO "item_flags" VALUES(10158,'Linked to the character');
+INSERT INTO "item_flags" VALUES(13260,'Linked to the character');
+INSERT INTO "item_flags" VALUES(13261,'Linked to the character');
+INSERT INTO "item_flags" VALUES(13262,'Linked to the character');
 CREATE TABLE item_names (item INTEGER, language text, name text, FOREIGN KEY(item) REFERENCES items(id));
 INSERT INTO "item_names" VALUES(39,'fr','Petite Amulette du Hibou');
 INSERT INTO "item_names" VALUES(39,'es','Pequeño Amuleto del Búho');

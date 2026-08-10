@@ -5175,6 +5175,41 @@ class ItemFlagTests(SimpleTestCase):
                     if 'Fertile' in (getattr(item, 'flags', None) or [])]
         self.assertGreaterEqual(len(carriers), 100)
 
+    def test_retro_and_touch_carry_the_flags_their_client_declares(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        # The client marks more items than the site carries: 241 Touch items are
+        # bound to the character, 59 of them equipment.
+        for version, floors in (('retro', {'Hunting Weapon': 5,
+                                           'Linked to the character': 5}),
+                                ('touch', {'Hunting Weapon': 15,
+                                           'Linked to the character': 50})):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                counts = dict(connection.execute(
+                    'SELECT flag, COUNT(*) FROM item_flags GROUP BY flag'))
+            finally:
+                connection.close()
+            for flag, floor in floors.items():
+                with self.subTest(version=version, flag=flag):
+                    self.assertGreaterEqual(counts.get(flag, 0), floor)
+
+    def test_the_hunter_tools_are_not_called_hunting_weapons(self):
+        # The effect sits on both, and only its value tells them apart: 1 on the
+        # weapons Dofus 3 lists, 0 on the Hunter's own Couteau de Chasse and its
+        # seven siblings.
+        from fashionistapulp.structure import get_structure
+        for version in ('retro', 'touch'):
+            structure = get_structure(version)
+            for name in ('Hunting Knife', 'Hunting Axe', 'Hunting Bow'):
+                item = structure.get_item_by_name(name)
+                if item is None:
+                    continue
+                with self.subTest(version=version, item=name):
+                    self.assertNotIn('Hunting Weapon',
+                                     getattr(item, 'flags', None) or [])
+
 
 class SpellHatTests(SimpleTestCase):
     """The same family in the four versions that ship it: a hat or cape whose
