@@ -10993,6 +10993,35 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
             with self.subTest(version=version):
                 self.assertEqual(missing[:5], [])
 
+    def test_every_spell_icon_the_pages_ask_for_is_on_disk(self):
+        # Nothing catches a broken spell icon: the url is built from the name
+        # without touching the disk, so a rename in the game data just serves a
+        # 404. Only Tormenting Arrow is allowed to miss, and only because
+        # Dofus 3 dropped its icon and the Dofus 2 release ships none.
+        from urllib.parse import unquote
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spells_view import _spell_image_url
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                              'static')
+        allowed = {'dofus2': {'Tormenting Arrow'}}
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            names = set()
+            for spells in get_damage_spells_for_version(version).values():
+                for spell in spells:
+                    name = (spell.get('name') if isinstance(spell, dict)
+                            else getattr(spell, 'name', None))
+                    if name:
+                        names.add(name)
+            missing = sorted(
+                name for name in names
+                if not os.path.exists(os.path.join(
+                    static,
+                    unquote(_spell_image_url(name, version))
+                    .split('/static/', 1)[-1].replace('/', os.sep))))
+            with self.subTest(version=version):
+                self.assertEqual(missing, sorted(allowed.get(version, set())))
+
     def test_the_retro_placeholder_covers_no_more_items_than_it_has_to(self):
         # Retro shows a question mark when the 1.29 client carries no clip for
         # the item, and that file always exists, so the guard above cannot see

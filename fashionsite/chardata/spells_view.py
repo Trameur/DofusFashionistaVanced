@@ -18,7 +18,7 @@
 
 from chardata.encoded_char_id import decode_char_id
 from chardata.fashion_action import fashion
-from chardata.image_store import get_image_url
+from chardata.image_store import get_image_url, list_static_dir
 from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
@@ -128,9 +128,29 @@ def _localized_spell_name(name, language, game_version):
     return get_localized_spell_name(name, language)
 
 
+_dofus2_spell_icons = None
+
+
+def _dofus2_spell_icon_names():
+    """The spells Dofus 2 keeps its own icon for, one directory listing.
+
+    Its release ships no spell image archive, so it reads the Dofus 3 folder,
+    which has nothing under the eleven names Dofus 3 renamed. Those are stored
+    per version by store_dofus2_spell_icons.py; everything else is shared.
+    """
+    global _dofus2_spell_icons
+    if _dofus2_spell_icons is None:
+        _dofus2_spell_icons = frozenset(
+            name[:-4] for name in list_static_dir('chardata/spells/dofus2')
+            if name.endswith('.png'))
+    return _dofus2_spell_icons
+
+
 def _spell_image_url(spell_name, game_version):
     if game_version in ('beta', 'retro', 'touch'):
         spell_dir = 'chardata/spells/%s/' % game_version
+    elif game_version == 'dofus2' and spell_name in _dofus2_spell_icon_names():
+        spell_dir = 'chardata/spells/dofus2/'
     else:
         spell_dir = 'chardata/spells/'
     return static(spell_dir + spell_name + '.png')

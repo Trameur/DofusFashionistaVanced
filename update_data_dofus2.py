@@ -19,7 +19,7 @@ Pipeline steps:
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_dofus2.json
     spells/constants    generate_damage_spells.py -> dofus_constants_dofus2.py
-    spell-images        download_spell_images.py  -> static spell icons
+    spell-icons         store_dofus2_spell_icons.py -> spells/dofus2/ (the renamed ones)
     resize              resize_images.py      -> 60x60 thumbnails
 """
 
@@ -283,17 +283,12 @@ def main() -> None:
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
-        step("spell-images", [
-            PY, "-m", "itemscraper.download_spell_images",
-            "--version", version,
-            "--size", "96",
-            "--scope", "damage",
-            "--prune",
-            "--metadata", "itemscraper/transformed_spells_dofus2.json",
-            "--constants", "fashionistapulp/fashionistapulp/dofus_constants_dofus2.py",
-            "--static-dir", "fashionsite/chardata/static/chardata/spells/dofus2",
-            "--extra-static-dirs", "fashionsite/staticfiles/chardata/spells/dofus2",
-        ])
+        # download_spell_images cannot run here: the Dofus 2 release ships no
+        # spell image archive, only items and mounts. The icons are addressed by
+        # id though, so the ids from the 2.73 lang pick the right images out of
+        # the Dofus 3 pool, and only the names Dofus 3 renamed are stored per
+        # version. The rest is read from the shared directory.
+        step("spell-icons", [PY, "store_dofus2_spell_icons.py"], cwd=ITEMSCRAPER)
 
     if do_images and not args.no_resize:
         step("resize", [PY, "resize_images.py"])
