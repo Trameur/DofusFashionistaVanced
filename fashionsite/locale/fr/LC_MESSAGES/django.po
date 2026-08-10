@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 14:18+0200\n"
+"POT-Creation-Date: 2026-08-10 07:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,97 +75,97 @@ msgstr "Tu ne peux pas signaler ton propre commentaire"
 msgid "You already reported this comment"
 msgstr "Tu as déjà signalé ce commentaire"
 
-#: .\chardata\compare_sets_view.py:112
+#: .\chardata\compare_sets_view.py:133
 #: .\chardata\templates\chardata\solution.html:293
 #: .\chardata\templates\chardata\solution_item.html:24
 msgid "Saved generation"
 msgstr "Génération sauvegardée"
 
-#: .\chardata\compare_sets_view.py:250 .\chardata\dynamic_translations.py:150
+#: .\chardata\compare_sets_view.py:276 .\chardata\dynamic_translations.py:150
 #: .\chardata\exclusions_view.py:29 .\chardata\solution_view.py:114
 msgid "Weapon"
 msgstr "Arme"
 
-#: .\chardata\compare_sets_view.py:270
+#: .\chardata\compare_sets_view.py:296
 msgid "All damage spells"
 msgstr "Tous les sorts de dégâts"
 
-#: .\chardata\compare_sets_view.py:400
+#: .\chardata\compare_sets_view.py:426
 msgid "My builds"
 msgstr "Mes builds"
 
-#: .\chardata\compare_sets_view.py:401
+#: .\chardata\compare_sets_view.py:427
 msgid "No saved builds with a solution yet."
 msgstr "Aucun build enregistré avec une solution pour le moment."
 
-#: .\chardata\compare_sets_view.py:406
+#: .\chardata\compare_sets_view.py:432
 #: .\chardata\templates\chardata\shared_builds.html:258
 #: .\chardata\templates\chardata\solution.html:242
 msgid "Favorites"
 msgstr "Favoris"
 
-#: .\chardata\compare_sets_view.py:407
+#: .\chardata\compare_sets_view.py:433
 msgid "No favorite builds for this version yet."
 msgstr "Aucun build favori pour cette version pour le moment."
 
-#: .\chardata\compare_sets_view.py:413
+#: .\chardata\compare_sets_view.py:439
 #: .\chardata\templates\chardata\shared_builds.html:254
 #: .\chardata\templates\chardata\solution.html:241
 msgid "Likes"
 msgstr "J'aime"
 
-#: .\chardata\compare_sets_view.py:414
+#: .\chardata\compare_sets_view.py:440
 msgid "No liked builds for this version yet."
 msgstr "Aucun build liké pour cette version pour le moment."
 
-#: .\chardata\compare_sets_view.py:453 .\chardata\compare_sets_view.py:463
-#: .\chardata\compare_sets_view.py:467
+#: .\chardata\compare_sets_view.py:479 .\chardata\compare_sets_view.py:489
+#: .\chardata\compare_sets_view.py:493
 msgid "Paste links of at least 2 projects to compare"
 msgstr "Colle les liens d'au moins 2 projets à comparer"
 
-#: .\chardata\compare_sets_view.py:469
+#: .\chardata\compare_sets_view.py:495
 #: .\chardata\templates\chardata\choose_compare_sets.html:81
 msgid "Choose at most 4 builds to compare"
 msgstr "Choisis au maximum 4 builds à comparer"
 
-#: .\chardata\compare_sets_view.py:475 .\chardata\compare_sets_view.py:501
+#: .\chardata\compare_sets_view.py:501 .\chardata\compare_sets_view.py:527
 #, python-format
 msgid "%s is not a valid share link"
 msgstr "%s n'est pas un lien de partage valide"
 
-#: .\chardata\compare_sets_view.py:479 .\chardata\compare_sets_view.py:489
-#: .\chardata\compare_sets_view.py:504
+#: .\chardata\compare_sets_view.py:505 .\chardata\compare_sets_view.py:515
+#: .\chardata\compare_sets_view.py:530
 #, python-format
 msgid "%s does not refer to a valid project"
 msgstr "%s ne fait pas référence à un projet valide"
 
-#: .\chardata\compare_sets_view.py:482 .\chardata\compare_sets_view.py:492
+#: .\chardata\compare_sets_view.py:508 .\chardata\compare_sets_view.py:518
 #, python-format
 msgid "%s refers to someone else's project"
 msgstr "%s se réfère au projet de quelqu'un d'autre"
 
-#: .\chardata\compare_sets_view.py:507
+#: .\chardata\compare_sets_view.py:533
 #, python-format
 msgid "%s is not shared"
 msgstr "%s n'est pas partagé"
 
-#: .\chardata\compare_sets_view.py:529
+#: .\chardata\compare_sets_view.py:555
 msgid "Saved generations cannot be shared directly."
 msgstr ""
 "Les générations sauvegardées ne peuvent pas être partagées directement."
 
-#: .\chardata\compare_sets_view.py:539
+#: .\chardata\compare_sets_view.py:565
 #, python-format
 msgid "Project %s is not in this game version."
 msgstr "Le projet %s n'existe pas dans cette version du jeu."
 
-#: .\chardata\compare_sets_view.py:551
+#: .\chardata\compare_sets_view.py:577
 #, python-format
 msgid "Project %s is not shared."
 msgstr "Le projet %s n'est pas partagé."
 
 #: .\chardata\dynamic_translations.py:9
-#: .\chardata\templates\chardata\compare_sets.html:197
+#: .\chardata\templates\chardata\compare_sets.html:213
 #: .\chardata\templates\chardata\stats.html:79
 msgid "% Air Resist"
 msgstr "% Résistance Air"
@@ -175,7 +175,7 @@ msgid "% Air Resist in PVP"
 msgstr "% Résistance Air en PvP"
 
 #: .\chardata\dynamic_translations.py:11
-#: .\chardata\templates\chardata\compare_sets.html:194
+#: .\chardata\templates\chardata\compare_sets.html:210
 #: .\chardata\templates\chardata\stats.html:76
 msgid "% Earth Resist"
 msgstr "% Résistance Terre"
@@ -185,7 +185,7 @@ msgid "% Earth Resist in PVP"
 msgstr "% Résistance Terre en PvP"
 
 #: .\chardata\dynamic_translations.py:13
-#: .\chardata\templates\chardata\compare_sets.html:195
+#: .\chardata\templates\chardata\compare_sets.html:211
 #: .\chardata\templates\chardata\stats.html:77
 msgid "% Fire Resist"
 msgstr "% Résistance Feu"
@@ -207,7 +207,7 @@ msgid "% Melee Resist"
 msgstr "% Résistance Mêlée"
 
 #: .\chardata\dynamic_translations.py:17
-#: .\chardata\templates\chardata\compare_sets.html:193
+#: .\chardata\templates\chardata\compare_sets.html:209
 #: .\chardata\templates\chardata\stats.html:75
 msgid "% Neutral Resist"
 msgstr "% Résistance Neutre"
@@ -233,14 +233,14 @@ msgid "% Spell Damage"
 msgstr "% Dommages aux Sorts"
 
 #: .\chardata\dynamic_translations.py:22
-#: .\chardata\templates\chardata\compare_sets.html:166
+#: .\chardata\templates\chardata\compare_sets.html:182
 #: .\chardata\templates\chardata\stats.html:55
 #: .\chardata\translation_util.py:88 .\chardata\wizard_sliders.py:59
 msgid "% Trap Damage"
 msgstr "Puissance (Pièges)"
 
 #: .\chardata\dynamic_translations.py:23
-#: .\chardata\templates\chardata\compare_sets.html:196
+#: .\chardata\templates\chardata\compare_sets.html:212
 #: .\chardata\templates\chardata\stats.html:78
 msgid "% Water Resist"
 msgstr "% Résistance Eau"
@@ -394,7 +394,7 @@ msgid ": straight-line casting off"
 msgstr ": lancer en ligne désactivé"
 
 #: .\chardata\dynamic_translations.py:60 .\chardata\min_stats_view.py:94
-#: .\chardata\templates\chardata\compare_sets.html:144
+#: .\chardata\templates\chardata\compare_sets.html:160
 #: .\chardata\templates\chardata\solution.html:436
 #: .\chardata\templates\chardata\stats.html:36
 #: .\chardata\templates\chardata\wizard_min_stats.html:6
@@ -403,7 +403,7 @@ msgid "AP"
 msgstr "PA"
 
 #: .\chardata\dynamic_translations.py:61
-#: .\chardata\templates\chardata\compare_sets.html:159
+#: .\chardata\templates\chardata\compare_sets.html:175
 #: .\chardata\templates\chardata\solution.html:459
 #: .\chardata\templates\chardata\stats.html:48
 #: .\chardata\translation_util.py:81 .\chardata\wizard_sliders.py:79
@@ -411,7 +411,7 @@ msgid "AP Loss Resist"
 msgstr "Esquive PA"
 
 #: .\chardata\dynamic_translations.py:62
-#: .\chardata\templates\chardata\compare_sets.html:157
+#: .\chardata\templates\chardata\compare_sets.html:173
 #: .\chardata\templates\chardata\solution.html:455
 #: .\chardata\templates\chardata\stats.html:46
 #: .\chardata\translation_util.py:79 .\chardata\wizard_sliders.py:82
@@ -425,7 +425,7 @@ msgstr "Ajoute un sort temporaire"
 #: .\chardata\dynamic_translations.py:64 .\chardata\smart_build.py:79
 #: .\chardata\templates\chardata\chardata.html:36
 #: .\chardata\templates\chardata\chardata.html:84
-#: .\chardata\templates\chardata\compare_sets.html:138
+#: .\chardata\templates\chardata\compare_sets.html:154
 #: .\chardata\templates\chardata\solution.html:419
 #: .\chardata\templates\chardata\spells.html:67
 #: .\chardata\templates\chardata\spells.html:739
@@ -439,7 +439,7 @@ msgid "Air"
 msgstr "Air"
 
 #: .\chardata\dynamic_translations.py:66
-#: .\chardata\templates\chardata\compare_sets.html:176
+#: .\chardata\templates\chardata\compare_sets.html:192
 #: .\chardata\templates\chardata\solution.html:490
 #: .\chardata\templates\chardata\stats.html:62
 #: .\chardata\translation_util.py:94
@@ -447,7 +447,7 @@ msgid "Air Damage"
 msgstr "Dommages Air"
 
 #: .\chardata\dynamic_translations.py:67
-#: .\chardata\templates\chardata\compare_sets.html:188
+#: .\chardata\templates\chardata\compare_sets.html:204
 #: .\chardata\templates\chardata\solution.html:511
 #: .\chardata\templates\chardata\stats.html:72
 #: .\chardata\translation_util.py:102
@@ -481,7 +481,7 @@ msgstr "Arc"
 #: .\chardata\dynamic_translations.py:74 .\chardata\smart_build.py:78
 #: .\chardata\templates\chardata\chardata.html:35
 #: .\chardata\templates\chardata\chardata.html:81
-#: .\chardata\templates\chardata\compare_sets.html:137
+#: .\chardata\templates\chardata\compare_sets.html:153
 #: .\chardata\templates\chardata\solution.html:417
 #: .\chardata\templates\chardata\spells.html:71
 #: .\chardata\templates\chardata\spells.html:737
@@ -508,7 +508,7 @@ msgid "Cooperative crafting impossible"
 msgstr "Craft coopératif impossible"
 
 #: .\chardata\dynamic_translations.py:79
-#: .\chardata\templates\chardata\compare_sets.html:177
+#: .\chardata\templates\chardata\compare_sets.html:193
 #: .\chardata\templates\chardata\solution.html:495
 #: .\chardata\templates\chardata\stats.html:63
 #: .\chardata\translation_util.py:95 .\chardata\wizard_sliders.py:52
@@ -520,7 +520,7 @@ msgid "Critical Failure"
 msgstr "Échec Critique"
 
 #: .\chardata\dynamic_translations.py:81 .\chardata\smart_build.py:85
-#: .\chardata\templates\chardata\compare_sets.html:148
+#: .\chardata\templates\chardata\compare_sets.html:164
 #: .\chardata\templates\chardata\solution.html:444
 #: .\chardata\templates\chardata\stats.html:40
 #: .\chardata\translation_util.py:74 .\chardata\wizard_sliders.py:51
@@ -528,7 +528,7 @@ msgid "Critical Hits"
 msgstr "Coups critiques"
 
 #: .\chardata\dynamic_translations.py:82
-#: .\chardata\templates\chardata\compare_sets.html:162
+#: .\chardata\templates\chardata\compare_sets.html:178
 #: .\chardata\templates\chardata\solution.html:468
 #: .\chardata\templates\chardata\stats.html:51
 #: .\chardata\translation_util.py:84 .\chardata\wizard_sliders.py:71
@@ -544,7 +544,7 @@ msgid "Dagger"
 msgstr "Dagues"
 
 #: .\chardata\dynamic_translations.py:85
-#: .\chardata\templates\chardata\compare_sets.html:171
+#: .\chardata\templates\chardata\compare_sets.html:187
 #: .\chardata\templates\chardata\solution.html:480
 #: .\chardata\templates\chardata\spells.html:731
 #: .\chardata\templates\chardata\stats.html:57
@@ -553,7 +553,7 @@ msgid "Damage"
 msgstr "Dommages"
 
 #: .\chardata\dynamic_translations.py:86
-#: .\chardata\templates\chardata\compare_sets.html:156
+#: .\chardata\templates\chardata\compare_sets.html:172
 #: .\chardata\templates\chardata\solution.html:453
 #: .\chardata\templates\chardata\stats.html:45
 #: .\chardata\translation_util.py:78 .\chardata\wizard_sliders.py:77
@@ -569,7 +569,7 @@ msgid "Earth"
 msgstr "Terre"
 
 #: .\chardata\dynamic_translations.py:89
-#: .\chardata\templates\chardata\compare_sets.html:173
+#: .\chardata\templates\chardata\compare_sets.html:189
 #: .\chardata\templates\chardata\solution.html:484
 #: .\chardata\templates\chardata\stats.html:59
 #: .\chardata\translation_util.py:91
@@ -577,7 +577,7 @@ msgid "Earth Damage"
 msgstr "Dommages Terre"
 
 #: .\chardata\dynamic_translations.py:90
-#: .\chardata\templates\chardata\compare_sets.html:185
+#: .\chardata\templates\chardata\compare_sets.html:201
 #: .\chardata\templates\chardata\solution.html:505
 #: .\chardata\templates\chardata\stats.html:69
 #: .\chardata\translation_util.py:99
@@ -605,7 +605,7 @@ msgid "Fire"
 msgstr "Feu"
 
 #: .\chardata\dynamic_translations.py:96
-#: .\chardata\templates\chardata\compare_sets.html:174
+#: .\chardata\templates\chardata\compare_sets.html:190
 #: .\chardata\templates\chardata\solution.html:486
 #: .\chardata\templates\chardata\stats.html:60
 #: .\chardata\translation_util.py:92
@@ -613,7 +613,7 @@ msgid "Fire Damage"
 msgstr "Dommages Feu"
 
 #: .\chardata\dynamic_translations.py:97
-#: .\chardata\templates\chardata\compare_sets.html:186
+#: .\chardata\templates\chardata\compare_sets.html:202
 #: .\chardata\templates\chardata\solution.html:507
 #: .\chardata\templates\chardata\stats.html:70
 #: .\chardata\translation_util.py:100
@@ -633,7 +633,7 @@ msgid "Fire heals"
 msgstr "Soins Feu"
 
 #: .\chardata\dynamic_translations.py:101 .\chardata\min_stats_view.py:109
-#: .\chardata\templates\chardata\compare_sets.html:132
+#: .\chardata\templates\chardata\compare_sets.html:148
 #: .\chardata\templates\chardata\solution.html:407
 #: .\chardata\translation_util.py:61
 msgid "HP"
@@ -649,7 +649,7 @@ msgid "Hat"
 msgstr "Coiffe"
 
 #: .\chardata\dynamic_translations.py:104
-#: .\chardata\templates\chardata\compare_sets.html:179
+#: .\chardata\templates\chardata\compare_sets.html:195
 #: .\chardata\templates\chardata\solution.html:500
 #: .\chardata\templates\chardata\spells.html:609
 #: .\chardata\templates\chardata\spells.html:713
@@ -664,7 +664,7 @@ msgid "Hunting Weapon"
 msgstr "Arme de chasse"
 
 #: .\chardata\dynamic_translations.py:106
-#: .\chardata\templates\chardata\compare_sets.html:153
+#: .\chardata\templates\chardata\compare_sets.html:169
 #: .\chardata\templates\chardata\solution.html:447
 #: .\chardata\templates\chardata\stats.html:42
 #: .\chardata\translation_util.py:75 .\chardata\wizard_sliders.py:85
@@ -674,7 +674,7 @@ msgstr "Initiative"
 #: .\chardata\dynamic_translations.py:107 .\chardata\smart_build.py:77
 #: .\chardata\templates\chardata\chardata.html:34
 #: .\chardata\templates\chardata\chardata.html:78
-#: .\chardata\templates\chardata\compare_sets.html:136
+#: .\chardata\templates\chardata\compare_sets.html:152
 #: .\chardata\templates\chardata\solution.html:415
 #: .\chardata\templates\chardata\spells.html:75
 #: .\chardata\templates\chardata\spells.html:735
@@ -692,7 +692,7 @@ msgid "Linked to the character"
 msgstr "Lié au personnage"
 
 #: .\chardata\dynamic_translations.py:110
-#: .\chardata\templates\chardata\compare_sets.html:155
+#: .\chardata\templates\chardata\compare_sets.html:171
 #: .\chardata\templates\chardata\solution.html:451
 #: .\chardata\templates\chardata\stats.html:44
 #: .\chardata\translation_util.py:77 .\chardata\wizard_sliders.py:76
@@ -700,7 +700,7 @@ msgid "Lock"
 msgstr "Tacle"
 
 #: .\chardata\dynamic_translations.py:111 .\chardata\min_stats_view.py:99
-#: .\chardata\templates\chardata\compare_sets.html:145
+#: .\chardata\templates\chardata\compare_sets.html:161
 #: .\chardata\templates\chardata\solution.html:438
 #: .\chardata\templates\chardata\spells.html:755
 #: .\chardata\templates\chardata\stats.html:37
@@ -710,7 +710,7 @@ msgid "MP"
 msgstr "PM"
 
 #: .\chardata\dynamic_translations.py:112
-#: .\chardata\templates\chardata\compare_sets.html:160
+#: .\chardata\templates\chardata\compare_sets.html:176
 #: .\chardata\templates\chardata\solution.html:461
 #: .\chardata\templates\chardata\stats.html:49
 #: .\chardata\translation_util.py:82 .\chardata\wizard_sliders.py:80
@@ -718,7 +718,7 @@ msgid "MP Loss Resist"
 msgstr "Esquive PM"
 
 #: .\chardata\dynamic_translations.py:113
-#: .\chardata\templates\chardata\compare_sets.html:158
+#: .\chardata\templates\chardata\compare_sets.html:174
 #: .\chardata\templates\chardata\solution.html:457
 #: .\chardata\templates\chardata\stats.html:47
 #: .\chardata\translation_util.py:80 .\chardata\wizard_sliders.py:84
@@ -738,7 +738,7 @@ msgid "Neutral"
 msgstr "Neutre"
 
 #: .\chardata\dynamic_translations.py:117
-#: .\chardata\templates\chardata\compare_sets.html:172
+#: .\chardata\templates\chardata\compare_sets.html:188
 #: .\chardata\templates\chardata\solution.html:482
 #: .\chardata\templates\chardata\stats.html:58
 #: .\chardata\translation_util.py:90
@@ -746,7 +746,7 @@ msgid "Neutral Damage"
 msgstr "Dommages Neutre"
 
 #: .\chardata\dynamic_translations.py:118
-#: .\chardata\templates\chardata\compare_sets.html:184
+#: .\chardata\templates\chardata\compare_sets.html:200
 #: .\chardata\templates\chardata\solution.html:503
 #: .\chardata\templates\chardata\stats.html:68
 #: .\chardata\translation_util.py:98
@@ -770,7 +770,7 @@ msgid "Pickaxe"
 msgstr "Pioche"
 
 #: .\chardata\dynamic_translations.py:123 .\chardata\smart_build.py:96
-#: .\chardata\templates\chardata\compare_sets.html:163
+#: .\chardata\templates\chardata\compare_sets.html:179
 #: .\chardata\templates\chardata\solution.html:471
 #: .\chardata\templates\chardata\stats.html:52
 #: .\chardata\translation_util.py:85
@@ -778,7 +778,7 @@ msgid "Pods"
 msgstr "Pods"
 
 #: .\chardata\dynamic_translations.py:124
-#: .\chardata\templates\chardata\compare_sets.html:139
+#: .\chardata\templates\chardata\compare_sets.html:155
 #: .\chardata\templates\chardata\solution.html:421
 #: .\chardata\templates\chardata\spells.html:717
 #: .\chardata\templates\chardata\spells.html:719
@@ -793,7 +793,7 @@ msgid "Power"
 msgstr "Puissance"
 
 #: .\chardata\dynamic_translations.py:125 .\chardata\smart_build.py:95
-#: .\chardata\templates\chardata\compare_sets.html:154
+#: .\chardata\templates\chardata\compare_sets.html:170
 #: .\chardata\templates\chardata\solution.html:449
 #: .\chardata\templates\chardata\stats.html:43
 #: .\chardata\translation_util.py:76 .\chardata\wizard_sliders.py:99
@@ -801,7 +801,7 @@ msgid "Prospecting"
 msgstr "Prospection"
 
 #: .\chardata\dynamic_translations.py:126
-#: .\chardata\templates\chardata\compare_sets.html:178
+#: .\chardata\templates\chardata\compare_sets.html:194
 #: .\chardata\templates\chardata\solution.html:497
 #: .\chardata\templates\chardata\spells.html:741
 #: .\chardata\templates\chardata\stats.html:64
@@ -810,7 +810,7 @@ msgid "Pushback Damage"
 msgstr "Dommages Poussée"
 
 #: .\chardata\dynamic_translations.py:127
-#: .\chardata\templates\chardata\compare_sets.html:161
+#: .\chardata\templates\chardata\compare_sets.html:177
 #: .\chardata\templates\chardata\solution.html:466
 #: .\chardata\templates\chardata\stats.html:50
 #: .\chardata\translation_util.py:83
@@ -818,7 +818,7 @@ msgid "Pushback Resist"
 msgstr "Résistance Poussée"
 
 #: .\chardata\dynamic_translations.py:128 .\chardata\min_stats_view.py:104
-#: .\chardata\templates\chardata\compare_sets.html:146
+#: .\chardata\templates\chardata\compare_sets.html:162
 #: .\chardata\templates\chardata\solution.html:440
 #: .\chardata\templates\chardata\stats.html:38
 #: .\chardata\templates\chardata\wizard_min_stats.html:14
@@ -831,7 +831,7 @@ msgid "Received on"
 msgstr "Reçu le"
 
 #: .\chardata\dynamic_translations.py:130
-#: .\chardata\templates\chardata\compare_sets.html:164
+#: .\chardata\templates\chardata\compare_sets.html:180
 #: .\chardata\templates\chardata\solution.html:473
 #: .\chardata\templates\chardata\stats.html:53 .\chardata\tests.py:417
 #: .\chardata\translation_util.py:86
@@ -870,7 +870,7 @@ msgstr "Bâton"
 #: .\chardata\dynamic_translations.py:138 .\chardata\smart_build.py:76
 #: .\chardata\templates\chardata\chardata.html:33
 #: .\chardata\templates\chardata\chardata.html:75
-#: .\chardata\templates\chardata\compare_sets.html:135
+#: .\chardata\templates\chardata\compare_sets.html:151
 #: .\chardata\templates\chardata\solution.html:413
 #: .\chardata\templates\chardata\spells.html:79
 #: .\chardata\templates\chardata\spells.html:733
@@ -898,7 +898,7 @@ msgid "Title:"
 msgstr "Titre :"
 
 #: .\chardata\dynamic_translations.py:143
-#: .\chardata\templates\chardata\compare_sets.html:165
+#: .\chardata\templates\chardata\compare_sets.html:181
 #: .\chardata\templates\chardata\solution.html:475
 #: .\chardata\templates\chardata\stats.html:54
 #: .\chardata\translation_util.py:87 .\chardata\wizard_sliders.py:58
@@ -908,7 +908,7 @@ msgstr "Dommages (Pièges)"
 #: .\chardata\dynamic_translations.py:144 .\chardata\smart_build.py:80
 #: .\chardata\templates\chardata\chardata.html:31
 #: .\chardata\templates\chardata\chardata.html:69
-#: .\chardata\templates\chardata\compare_sets.html:133
+#: .\chardata\templates\chardata\compare_sets.html:149
 #: .\chardata\templates\chardata\solution.html:409
 #: .\chardata\templates\chardata\stats.html:24
 #: .\chardata\translation_util.py:62 .\chardata\wizard_sliders.py:64
@@ -924,7 +924,7 @@ msgid "Water"
 msgstr "Eau"
 
 #: .\chardata\dynamic_translations.py:147
-#: .\chardata\templates\chardata\compare_sets.html:175
+#: .\chardata\templates\chardata\compare_sets.html:191
 #: .\chardata\templates\chardata\solution.html:488
 #: .\chardata\templates\chardata\stats.html:61
 #: .\chardata\translation_util.py:93
@@ -932,7 +932,7 @@ msgid "Water Damage"
 msgstr "Dommages Eau"
 
 #: .\chardata\dynamic_translations.py:148
-#: .\chardata\templates\chardata\compare_sets.html:187
+#: .\chardata\templates\chardata\compare_sets.html:203
 #: .\chardata\templates\chardata\solution.html:509
 #: .\chardata\templates\chardata\stats.html:71
 #: .\chardata\translation_util.py:101
@@ -950,7 +950,7 @@ msgstr "Qu'y a-t-il à l'intérieur ?"
 #: .\chardata\dynamic_translations.py:152
 #: .\chardata\templates\chardata\chardata.html:32
 #: .\chardata\templates\chardata\chardata.html:72
-#: .\chardata\templates\chardata\compare_sets.html:134
+#: .\chardata\templates\chardata\compare_sets.html:150
 #: .\chardata\templates\chardata\solution.html:411
 #: .\chardata\templates\chardata\stats.html:25
 #: .\chardata\translation_util.py:63 .\chardata\wizard_sliders.py:98
@@ -987,19 +987,19 @@ msgstr "Créer un projet"
 msgid "Load a Project"
 msgstr "Ouvrir un projet"
 
-#: .\chardata\home_view.py:126 .\chardata\templates\chardata\base.html:170
+#: .\chardata\home_view.py:126 .\chardata\templates\chardata\base.html:174
 #: .\chardata\templates\chardata\login.html:8
 #: .\chardata\templates\chardata\login.html:15
 msgid "Login"
 msgstr "Connexion"
 
-#: .\chardata\home_view.py:133 .\chardata\templates\chardata\base.html:180
+#: .\chardata\home_view.py:133 .\chardata\templates\chardata\base.html:184
 msgid "FAQ"
 msgstr "Foire aux questions (FAQ)"
 
 #: .\chardata\home_view.py:140 .\chardata\templates\chardata\about.html:16
-#: .\chardata\templates\chardata\base.html:178
-#: .\chardata\templates\chardata\base.html:319
+#: .\chardata\templates\chardata\base.html:182
+#: .\chardata\templates\chardata\base.html:325
 msgid "Help & About"
 msgstr "Aide & À propos"
 
@@ -1288,7 +1288,7 @@ msgid "Traps"
 msgstr "Pièges"
 
 #: .\chardata\smart_build.py:93
-#: .\chardata\templates\chardata\compare_sets.html:147
+#: .\chardata\templates\chardata\compare_sets.html:163
 #: .\chardata\templates\chardata\solution.html:442
 #: .\chardata\templates\chardata\spells.html:832
 #: .\chardata\templates\chardata\spells.html:838
@@ -1420,7 +1420,7 @@ msgstr "Tag introuvable"
 #: .\chardata\templates\chardata\check_your_email.html:7
 #: .\chardata\templates\chardata\choose_compare_sets.html:8
 #: .\chardata\templates\chardata\coaching.html:6
-#: .\chardata\templates\chardata\compare_sets.html:9
+#: .\chardata\templates\chardata\compare_sets.html:10
 #: .\chardata\templates\chardata\contacts.html:37
 #: .\chardata\templates\chardata\edit_item.html:4
 #: .\chardata\templates\chardata\edit_set.html:4
@@ -1617,7 +1617,7 @@ msgstr ""
 "de ton équipe kolizéum, <a href=\"%(contact_url)s\">contacte-nous</a>."
 
 #: .\chardata\templates\chardata\about.html:31
-#: .\chardata\templates\chardata\base.html:323
+#: .\chardata\templates\chardata\base.html:329
 msgid "Copyright and License information"
 msgstr "Information de licence et de copyright"
 
@@ -1665,12 +1665,14 @@ msgstr "Sources des données et crédits"
 msgid ""
 "Dofus is a game by Ankama. Whenever possible, the data on this site comes "
 "first-hand from the official game data: Ankama's lang CDN for Dofus Retro, "
-"the Dofus Touch game files and the official Dofus Touch encyclopedia."
+"the Dofus Retro client itself for its item icons and monster artwork, the "
+"Dofus Touch game files and the official Dofus Touch encyclopedia."
 msgstr ""
 "Dofus est un jeu d'Ankama. Chaque fois que c'est possible, les données de ce "
 "site proviennent directement des données officielles du jeu : le CDN de "
-"langues d'Ankama pour Dofus Retro, les fichiers du jeu Dofus Touch et "
-"l'encyclopédie officielle de Dofus Touch."
+"langues d'Ankama pour Dofus Retro, le client Dofus Retro lui-même pour ses "
+"icônes d'objets et ses illustrations de monstres, les fichiers du jeu Dofus "
+"Touch et l'encyclopédie officielle de Dofus Touch."
 
 #: .\chardata\templates\chardata\about.html:44
 msgid ""
@@ -1711,8 +1713,8 @@ msgid "Dofus Retro set bonuses"
 msgstr "bonus de panoplies de Dofus Retro"
 
 #: .\chardata\templates\chardata\about.html:51
-msgid "Dofus Retro item and spell icons"
-msgstr "icônes d'objets et de sorts de Dofus Retro"
+msgid "Dofus Retro spell icons"
+msgstr "icônes de sorts de Dofus Retro"
 
 #: .\chardata\templates\chardata\about.html:52
 msgid "part of the Dofus Retro pet bonuses"
@@ -1754,19 +1756,19 @@ msgstr ""
 "Tu as des modifications non enregistrées. Elles seront perdues si tu quittes "
 "la page."
 
-#: .\chardata\templates\chardata\base.html:116
-#: .\chardata\templates\chardata\base.html:117
+#: .\chardata\templates\chardata\base.html:120
+#: .\chardata\templates\chardata\base.html:121
 msgid "Classic look"
 msgstr "Ancien look"
 
-#: .\chardata\templates\chardata\base.html:116
-#: .\chardata\templates\chardata\base.html:117
-#: .\chardata\templates\chardata\base.html:139
+#: .\chardata\templates\chardata\base.html:120
+#: .\chardata\templates\chardata\base.html:121
+#: .\chardata\templates\chardata\base.html:143
 msgid "New look"
 msgstr "Nouveau look"
 
-#: .\chardata\templates\chardata\base.html:135
-#: .\chardata\templates\chardata\base.html:177
+#: .\chardata\templates\chardata\base.html:139
+#: .\chardata\templates\chardata\base.html:181
 #: .\chardata\templates\chardata\encyclopedia_item.html:33
 #: .\chardata\templates\chardata\encyclopedia_missing.html:21
 #: .\chardata\templates\chardata\encyclopedia_monster.html:78
@@ -1779,17 +1781,17 @@ msgstr "Nouveau look"
 msgid "Home"
 msgstr "Accueil"
 
-#: .\chardata\templates\chardata\base.html:139
+#: .\chardata\templates\chardata\base.html:143
 msgid "Switch between the classic and new design"
 msgstr "Basculer entre l'ancien et le nouveau design"
 
-#: .\chardata\templates\chardata\base.html:141
-#: .\chardata\templates\chardata\base.html:651
+#: .\chardata\templates\chardata\base.html:145
+#: .\chardata\templates\chardata\base.html:657
 msgid "Comparison"
 msgstr "Comparaison"
 
-#: .\chardata\templates\chardata\base.html:154
-#: .\chardata\templates\chardata\base.html:157
+#: .\chardata\templates\chardata\base.html:158
+#: .\chardata\templates\chardata\base.html:161
 #, python-format
 msgid ""
 "Welcome, <a id=\"logged_user_alias\" "
@@ -1798,16 +1800,16 @@ msgstr ""
 "Bienvenue, <a id=\"logged_user_alias\" "
 "href=\"%(manage_account_link)s\">%(user)s</a> ! "
 
-#: .\chardata\templates\chardata\base.html:165
+#: .\chardata\templates\chardata\base.html:169
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: .\chardata\templates\chardata\base.html:174
+#: .\chardata\templates\chardata\base.html:178
 msgid "Menu"
 msgstr "Menu"
 
-#: .\chardata\templates\chardata\base.html:179
-#: .\chardata\templates\chardata\base.html:320
+#: .\chardata\templates\chardata\base.html:183
+#: .\chardata\templates\chardata\base.html:326
 #: .\chardata\templates\chardata\guide.html:42
 #: .\chardata\templates\chardata\guide.html:58
 #: .\chardata\templates\chardata\guides.html:16
@@ -1815,74 +1817,74 @@ msgstr "Menu"
 msgid "Guides & tips"
 msgstr "Guides & astuces"
 
-#: .\chardata\templates\chardata\base.html:191
+#: .\chardata\templates\chardata\base.html:195
 #: .\chardata\templates\chardata\guide.html:70
 #: .\chardata\templates\chardata\guides.html:49
 msgid "Create a project"
 msgstr "Créer un projet"
 
-#: .\chardata\templates\chardata\base.html:194
+#: .\chardata\templates\chardata\base.html:198
 #: .\chardata\templates\chardata\smart_build.html:6
 #: .\chardata\templates\chardata\smart_build.html:42
 msgid "Smart Build"
 msgstr "Build intelligent"
 
-#: .\chardata\templates\chardata\base.html:197
+#: .\chardata\templates\chardata\base.html:201
 msgid "Load a project"
 msgstr "Ouvrir un projet"
 
-#: .\chardata\templates\chardata\base.html:200
+#: .\chardata\templates\chardata\base.html:204
 #: .\chardata\templates\chardata\shared_builds.html:7
 #: .\chardata\templates\chardata\shared_builds.html:19
 msgid "Shared Builds"
 msgstr "Stuffs Partagés"
 
-#: .\chardata\templates\chardata\base.html:203
+#: .\chardata\templates\chardata\base.html:207
 msgid "Random Build"
 msgstr "Build aléatoire"
 
-#: .\chardata\templates\chardata\base.html:207
+#: .\chardata\templates\chardata\base.html:211
 #: .\chardata\templates\chardata\feed.html:6
 #: .\chardata\templates\chardata\feed.html:29
 msgid "My Feed"
 msgstr "Mon fil"
 
-#: .\chardata\templates\chardata\base.html:211
+#: .\chardata\templates\chardata\base.html:215
 msgid "Compare sets"
 msgstr "Comparer les panoplies"
 
-#: .\chardata\templates\chardata\base.html:215
+#: .\chardata\templates\chardata\base.html:219
 msgid "Workshop"
 msgstr "Atelier"
 
-#: .\chardata\templates\chardata\base.html:218
+#: .\chardata\templates\chardata\base.html:222
 #: .\chardata\templates\chardata\solution.html:1300
 #: .\chardata\templates\chardata\solution.html:1305
 msgid "Inventory"
 msgstr "Inventaire"
 
-#: .\chardata\templates\chardata\base.html:222
+#: .\chardata\templates\chardata\base.html:226
 msgid "Smithmagic"
 msgstr "Forgemagie"
 
-#: .\chardata\templates\chardata\base.html:225
+#: .\chardata\templates\chardata\base.html:229
 #: .\chardata\templates\chardata\changelog_content.html:374
 msgid "Encyclopedia"
 msgstr "Encyclopédie"
 
-#: .\chardata\templates\chardata\base.html:235
+#: .\chardata\templates\chardata\base.html:239
 #: .\chardata\templates\chardata\wizard.html:7
 #: .\chardata\templates\chardata\wizard.html:17
 msgid "Wizard"
 msgstr "Assistant"
 
-#: .\chardata\templates\chardata\base.html:239
+#: .\chardata\templates\chardata\base.html:243
 #: .\chardata\templates\chardata\chardata.html:7
 #: .\chardata\templates\chardata\chardata.html:13
 msgid "Base Characteristics"
 msgstr "Caractéristiques de base"
 
-#: .\chardata\templates\chardata\base.html:242
+#: .\chardata\templates\chardata\base.html:246
 #: .\chardata\templates\chardata\options.html:6
 #: .\chardata\templates\chardata\options.html:16
 #: .\chardata\templates\chardata\projdetails.html:71
@@ -1890,88 +1892,88 @@ msgstr "Caractéristiques de base"
 msgid "Options"
 msgstr "Options"
 
-#: .\chardata\templates\chardata\base.html:245
+#: .\chardata\templates\chardata\base.html:249
 #: .\chardata\templates\chardata\inclusions.html:5
 #: .\chardata\templates\chardata\inclusions.html:18
 msgid "Lock Items"
 msgstr "Verrouiller des items"
 
-#: .\chardata\templates\chardata\base.html:248
+#: .\chardata\templates\chardata\base.html:252
 #: .\chardata\templates\chardata\exclusions.html:7
 #: .\chardata\templates\chardata\exclusions.html:19
 msgid "Forbid Items"
 msgstr "Interdire des items"
 
-#: .\chardata\templates\chardata\base.html:251
+#: .\chardata\templates\chardata\base.html:255
 #: .\chardata\templates\chardata\min_stats.html:5
 #: .\chardata\templates\chardata\min_stats.html:35
 msgid "Minimum Characteristics"
 msgstr "Caractéristiques minimales"
 
-#: .\chardata\templates\chardata\base.html:254
+#: .\chardata\templates\chardata\base.html:258
 #: .\chardata\templates\chardata\stats.html:5
 #: .\chardata\templates\chardata\stats.html:15
 msgid "Characteristics Weights"
 msgstr "Poids des caractéristiques"
 
-#: .\chardata\templates\chardata\base.html:258
-#: .\chardata\templates\chardata\base.html:639
+#: .\chardata\templates\chardata\base.html:262
+#: .\chardata\templates\chardata\base.html:645
 msgid "Less"
 msgstr "Moins"
 
-#: .\chardata\templates\chardata\base.html:262
+#: .\chardata\templates\chardata\base.html:266
 #: .\chardata\templates\chardata\solution.html:346
 #: .\chardata\templates\chardata\wizard.html:46
 msgid "Tailor a New Set"
 msgstr "Générer un nouvel équipement"
 
-#: .\chardata\templates\chardata\base.html:278
+#: .\chardata\templates\chardata\base.html:282
 #: .\chardata\templates\chardata\solution.html:8
 #: .\chardata\templates\chardata\solution.html:42
 msgid "Outfit Suggestion"
 msgstr "Suggestion d'équipement"
 
-#: .\chardata\templates\chardata\base.html:291
+#: .\chardata\templates\chardata\base.html:295
 #: .\chardata\templates\chardata\spells.html:6
 #: .\chardata\templates\chardata\spells.html:15
 msgid "Spells Damage"
 msgstr "Dégâts des sorts"
 
-#: .\chardata\templates\chardata\base.html:315
+#: .\chardata\templates\chardata\base.html:321
 #, python-format
 msgid "Items up to %(game)s update %(version)s"
 msgstr "Items jusqu'à la mise à jour %(game)s %(version)s"
 
 # Changelog entries
-#: .\chardata\templates\chardata\base.html:318
+#: .\chardata\templates\chardata\base.html:324
 #: .\chardata\templates\chardata\changelog_modal.html:3
 #: .\chardata\templates\chardata\changelog_modal.html:5
 msgid "Changelog"
 msgstr "Changelog"
 
-#: .\chardata\templates\chardata\base.html:321
+#: .\chardata\templates\chardata\base.html:327
 #: .\chardata\templates\chardata\contacts.html:37
 #: .\chardata\templates\chardata\contacts.html:41
 msgid "Contact us"
 msgstr "Contactez-nous"
 
-#: .\chardata\templates\chardata\base.html:322
+#: .\chardata\templates\chardata\base.html:328
 #: .\chardata\templates\chardata\support.html:6
 #: .\chardata\templates\chardata\support.html:30
 msgid "Support the project"
 msgstr "Soutenir le projet"
 
-#: .\chardata\templates\chardata\base.html:324
+#: .\chardata\templates\chardata\base.html:330
 #: .\chardata\templates\chardata\privacy.html:7
 #: .\chardata\templates\chardata\privacy.html:17
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
-#: .\chardata\templates\chardata\base.html:340
+#: .\chardata\templates\chardata\base.html:346
 msgid "Support Fashionista"
 msgstr "Soutenir Fashionista"
 
-#: .\chardata\templates\chardata\base.html:432
+#: .\chardata\templates\chardata\base.html:438
 msgid ""
 "Since you are not logged in, this will replace your current project (if you "
 "have one). Continue?"
@@ -1979,34 +1981,34 @@ msgstr ""
 "Puisque vous n'êtes pas connecté, ceci va remplacer votre projet actuel (si "
 "vous en avez un). Voulez-vous continuer ?"
 
-#: .\chardata\templates\chardata\base.html:630
-#: .\chardata\templates\chardata\base.html:643
+#: .\chardata\templates\chardata\base.html:636
+#: .\chardata\templates\chardata\base.html:649
 msgid "More"
 msgstr "Plus"
 
-#: .\chardata\templates\chardata\base.html:652
+#: .\chardata\templates\chardata\base.html:658
 #: .\chardata\templates\chardata\choose_compare_sets.html:135
 #: .\chardata\templates\chardata\load_projects.html:61
 msgid "Compare"
 msgstr "Comparer"
 
-#: .\chardata\templates\chardata\base.html:653
+#: .\chardata\templates\chardata\base.html:659
 msgid "Clear"
 msgstr "Vider"
 
-#: .\chardata\templates\chardata\base.html:654
+#: .\chardata\templates\chardata\base.html:660
 msgid "Added to comparison"
 msgstr "Ajouté à la comparaison"
 
-#: .\chardata\templates\chardata\base.html:655
+#: .\chardata\templates\chardata\base.html:661
 msgid "Already in comparison"
 msgstr "Déjà dans la comparaison"
 
-#: .\chardata\templates\chardata\base.html:656
+#: .\chardata\templates\chardata\base.html:662
 msgid "You can compare up to 4 builds"
 msgstr "Vous pouvez comparer jusqu'à 4 builds"
 
-#: .\chardata\templates\chardata\base.html:657
+#: .\chardata\templates\chardata\base.html:663
 msgid "Add at least 2 builds to compare"
 msgstr "Ajoutez au moins 2 builds à comparer"
 
@@ -2964,7 +2966,7 @@ msgid "Points"
 msgstr "Points"
 
 #: .\chardata\templates\chardata\chardata.html:28
-#: .\chardata\templates\chardata\compare_sets.html:101
+#: .\chardata\templates\chardata\compare_sets.html:117
 #: .\chardata\templates\chardata\solution.html:373
 #: .\chardata\templates\chardata\solution.html:873
 msgid "Total"
@@ -3131,12 +3133,12 @@ msgstr "Vous voulez un contrôle total sur chaque caractéristique ?"
 msgid "Use the full builder instead"
 msgstr "Utilisez plutôt le générateur complet"
 
-#: .\chardata\templates\chardata\compare_sets.html:9
-#: .\chardata\templates\chardata\compare_sets.html:20
+#: .\chardata\templates\chardata\compare_sets.html:10
+#: .\chardata\templates\chardata\compare_sets.html:21
 msgid "Compare Sets"
 msgstr "Comparer les panoplies"
 
-#: .\chardata\templates\chardata\compare_sets.html:23
+#: .\chardata\templates\chardata\compare_sets.html:24
 msgid ""
 "This is a comparison between set suggestions. To share it, use the link "
 "below rather than the one in your browser."
@@ -3144,48 +3146,54 @@ msgstr ""
 "C'est une comparaison entre plusieurs suggestions d'équipement. Pour la "
 "partager, utilisez le lien ci-dessous plutôt que celui de votre navigateur."
 
-#: .\chardata\templates\chardata\compare_sets.html:43
-#: .\chardata\templates\chardata\compare_sets.html:68
-#: .\chardata\templates\chardata\compare_sets.html:126
-#: .\chardata\templates\chardata\compare_sets.html:240
+#: .\chardata\templates\chardata\compare_sets.html:44
+#: .\chardata\templates\chardata\solution.html:51
+msgid "Drag to turn your character"
+msgstr "Fais glisser pour tourner ton personnage"
+
+#: .\chardata\templates\chardata\compare_sets.html:45
+#: .\chardata\templates\chardata\compare_sets.html:59
+#: .\chardata\templates\chardata\compare_sets.html:84
+#: .\chardata\templates\chardata\compare_sets.html:142
+#: .\chardata\templates\chardata\compare_sets.html:256
 #, python-format
 msgid "Set %(n)s"
 msgstr "Équipement %(n)s"
 
-#: .\chardata\templates\chardata\compare_sets.html:58
+#: .\chardata\templates\chardata\compare_sets.html:74
 msgid "Change Sets"
 msgstr "Changer d'équipements"
 
-#: .\chardata\templates\chardata\compare_sets.html:106
+#: .\chardata\templates\chardata\compare_sets.html:122
 #: .\chardata\templates\chardata\solution.html:378
 #: .\chardata\templates\chardata\solution.html:870
 msgid "Equip"
 msgstr "Équip."
 
-#: .\chardata\templates\chardata\compare_sets.html:124
-#: .\chardata\templates\chardata\compare_sets.html:238
+#: .\chardata\templates\chardata\compare_sets.html:140
+#: .\chardata\templates\chardata\compare_sets.html:254
 msgid "Diff"
 msgstr "Diff."
 
-#: .\chardata\templates\chardata\compare_sets.html:207
+#: .\chardata\templates\chardata\compare_sets.html:223
 msgid "Spell damage preview"
 msgstr "Aperçu des dégâts des sorts"
 
-#: .\chardata\templates\chardata\compare_sets.html:210
+#: .\chardata\templates\chardata\compare_sets.html:226
 msgid "Spell class"
 msgstr "Classe des sorts"
 
-#: .\chardata\templates\chardata\compare_sets.html:221
+#: .\chardata\templates\chardata\compare_sets.html:237
 msgid "Spell"
 msgstr "Sort"
 
-#: .\chardata\templates\chardata\compare_sets.html:289
+#: .\chardata\templates\chardata\compare_sets.html:305
 #: .\chardata\templates\chardata\solution.html:929
 #: .\chardata\templates\chardata\solution.html:944
 msgid "Get link to share"
 msgstr "Obtenir le lien pour partager"
 
-#: .\chardata\templates\chardata\compare_sets.html:580
+#: .\chardata\templates\chardata\compare_sets.html:596
 msgid "Crit."
 msgstr "Crit."
 
@@ -5282,10 +5290,6 @@ msgid "build optimized on Dofus Fashionista. Like it, comment it, copy it."
 msgstr ""
 "build optimisé sur Dofus Fashionista. Aimez-le, commentez-le, copiez-le."
 
-#: .\chardata\templates\chardata\solution.html:51
-msgid "Drag to turn your character"
-msgstr "Fais glisser pour tourner ton personnage"
-
 #: .\chardata\templates\chardata\solution.html:56
 msgid "Male or female"
 msgstr "Masculin ou féminin"
@@ -5807,7 +5811,9 @@ msgstr "Verrouiller à vide"
 #: .\chardata\templates\chardata\solution_item.html:59
 msgid ""
 "This rune always lands, and locks the item against any further smithmagic."
-msgstr "Cette rune passe à tous les coups, et verrouille l’objet contre toute forgemagie ultérieure."
+msgstr ""
+"Cette rune passe à tous les coups, et verrouille l’objet contre toute "
+"forgemagie ultérieure."
 
 #: .\chardata\templates\chardata\solution_set.html:10
 #: .\chardata\templates\chardata\solution_set.html:12
@@ -6464,21 +6470,3 @@ msgstr "Objet introuvable"
 #: .\chardata\workshop_view.py:213 .\chardata\workshop_view.py:242
 msgid "Build has no solution yet"
 msgstr "Ce build n'a pas encore de solution"
-
-#~ msgid ""
-#~ "We will <b>never</b> post anything to either of your walls.<br> This step "
-#~ "is just an authentication so you are able to save and share projects."
-#~ msgstr ""
-#~ "Nous ne publierons <b>jamais</b> sur vos réseaux sociaux. Cette étape "
-#~ "sert uniquement d'identification pour pouvoir sauvegarder et partager des "
-#~ "projets."
-
-#, python-format
-#~ msgid ""
-#~ " You need to <a href=\"%(login_link)s\">login</a> before you can create "
-#~ "another project. Your current project can be found <a "
-#~ "href=\"%(load_proj_link)s\">here</a>. "
-#~ msgstr ""
-#~ "Vous devez <a href=\"%(login_link)s\">vous connecter</a> avant de pouvoir "
-#~ "créer d'autres projets. Votre trouverez votre projet actuel <a "
-#~ "href=\"%(load_proj_link)s\">ici</a>."
