@@ -5241,6 +5241,19 @@ class SpellHatTests(SimpleTestCase):
                 with self.subTest(version=version, language=language):
                     self.assertTrue(self._extras(version, 8619, language))
 
+    def test_touch_weapons_get_their_modifier_from_the_backend(self):
+        # Touch is the one version whose spell names are not in the downloaded
+        # data, so its line is written by a later step straight from the backend,
+        # which also hands over the sentence in five languages. Most of the family
+        # sits on the class Emblems, a slot the site does not carry, so only the
+        # weapons show up here.
+        lines = self._extras('touch', 8992, 'en')
+        self.assertTrue(lines)
+        self.assertIn("Reduces Moon Hammer's AP cost by 1", lines)
+        for language in ('fr', 'es', 'pt', 'de'):
+            with self.subTest(language=language):
+                self.assertEqual(len(lines), len(self._extras('touch', 8992, language)))
+
     def test_the_family_is_covered_in_every_version(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path

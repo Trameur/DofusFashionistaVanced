@@ -36,7 +36,18 @@ FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 UA = "Dofus/2 CFNetwork"
 
 # effect id -> (field holding the cast spell id, placeholder in the description).
+# 722, "Permet l'utilisation du sort: #3", is deliberately absent: the four spell
+# ids it points at on the Dofushu and the Cog of Infinity (21952, 24126, 24284,
+# 24286) are in none of the 7455 spells the backend serves, so the line could
+# only be printed with a bare number in place of a name.
 CAST_SPELL_EFFECTS = {2822: ('diceNum', '#1')}
+
+# The class Emblems and a handful of weapons carry no characteristic, only a
+# modifier on one named spell, so their page was blank. Same effects as the 1.29
+# spell hats; here the backend hands us the sentence in all five languages, so
+# nothing has to be worded by hand. The spell id sits in diceNum and the amount
+# in value: "Emblème Féca : Héroïsme" reduces spell 6801's cooldown by 2.
+SPELL_MODIFIER_EFFECTS = set(range(281, 292))
 
 
 def _data_url():
@@ -65,17 +76,21 @@ def main():
         if not isinstance(it, dict):
             continue
         for pe in (it.get('possibleEffects') or []):
-            spec = CAST_SPELL_EFFECTS.get(pe.get('effectId'))
-            if not spec:
+            effect_id = pe.get('effectId')
+            spec = CAST_SPELL_EFFECTS.get(effect_id)
+            is_modifier = effect_id in SPELL_MODIFIER_EFFECTS
+            if not spec and not is_modifier:
                 continue
-            field, placeholder = spec
+            field, placeholder = spec if spec else ('diceNum', '#1')
             spell_id = str(pe.get(field) or '')
             for lang in LANGUAGES:
                 spell = (spells[lang].get(spell_id) or {}).get('nameId')
-                template = (effects[lang].get(str(pe['effectId'])) or {}).get('descriptionId')
+                template = (effects[lang].get(str(effect_id)) or {}).get('descriptionId')
                 if not spell or not template:
                     continue
                 line = template.replace(placeholder, spell)
+                if is_modifier:
+                    line = line.replace('#3', str(pe.get('value') or 0))
                 lines_by_item.setdefault(int(ankama_id), {}).setdefault(lang, []).append(line)
 
     conn = _open_items_db(GAME_VERSION)
