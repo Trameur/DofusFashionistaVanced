@@ -14,6 +14,7 @@ Pipeline steps:
     items/transform     get_equipments2.py    -> itemscraper/dofus2/transformed_equipment.json
     items/dump          get_equipments3.py    -> item_db_dumped_dofus2.dump
     items/load-db       load_item_db.py       -> items_dofus2.db
+    items/obtainment    store_item_obtainment.py -> recipes/descriptions in items_dofus2.db
     item-images         get_equipments4.py    -> static item images (shared with dofus3)
     monsters/grades     store_dofus2_monster_grades.py -> monster_grades in items_dofus2.db
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
@@ -195,6 +196,16 @@ def main() -> None:
         step("items/transform", [PY, "get_equipments2.py", "--work-dir", DOFUS2_WORK_DIR], cwd=ITEMSCRAPER)
         step("items/dump", [PY, "get_equipments3.py", "--input-dir", DOFUS2_WORK_DIR, "--dump-output", DOFUS2_DUMP], cwd=ITEMSCRAPER)
         step("items/load-db", [PY, "load_item_db.py", "--game-version", "dofus2"])
+        # Descriptions and recipes, and with them the ingredient table drops/store
+        # reads to know which resources have a page of their own. Dofus 3 and the
+        # beta have always run this; Dofus 2 was left to a hand-typed command, so
+        # any rebuild came out with no description, no recipe and no resource drop
+        # at all, while still exiting 0.
+        step("items/obtainment", [
+            PY, "store_item_obtainment.py",
+            "--game-version", "dofus2",
+            str(ITEMSCRAPER / "dofus2"),
+        ], cwd=ITEMSCRAPER)
 
     if do_images:
         step("item-images", [

@@ -186,9 +186,9 @@ def main() -> None:
         # Must run after load-db: adds recipe / description / pods tables onto
         # the freshly-loaded items.db and re-dumps it. (load-db rebuilds the DB
         # from the dump, so running this earlier would be wiped out.)
-        # Other versions are populated out-of-band, e.g.:
-        #   python itemscraper/store_item_obtainment.py --game-version beta
-        #   python itemscraper/store_item_obtainment.py --game-version dofus2
+        # The beta and Dofus 2 run their own copy of this step, in their own
+        # pipeline; it used to be a command to type by hand and Dofus 2 lost its
+        # descriptions and recipes on every rebuild.
         # Retro recipes come from a different source (Ankama "crafts" lang SWF):
         #   python itemscraper/store_retro_recipes.py
         step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
