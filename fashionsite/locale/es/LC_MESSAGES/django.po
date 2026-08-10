@@ -595,6 +595,10 @@ msgstr "Emote"
 msgid "Exchangeable"
 msgstr "Intercambiable"
 
+#: fashionistapulp/fashionistapulp/item_flags.py:0
+msgid "Not exchangeable"
+msgstr "No intercambiable"
+
 #: .\chardata\dynamic_translations.py:94
 msgid "Fertile"
 msgstr "Fértil"

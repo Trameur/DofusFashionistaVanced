@@ -5121,6 +5121,61 @@ class RetroSpellHatTests(SimpleTestCase):
         self.assertEqual(items * 5, rows)
 
 
+class ItemFlagTests(SimpleTestCase):
+    """What the game says about an item beyond its stats. Only Hunting Weapon was
+    ever printed; Fertile, Linked to the character and Cooperative crafting
+    impossible were read, stored and translated into four languages, then never
+    shown, on 397 Dofus 3 items."""
+
+    def test_every_shown_flag_is_translated_everywhere(self):
+        # Fertile is the same word in French, so "differs from English" is no
+        # test at all here; the expected wording is spelled out instead.
+        from django.utils import translation as django_translation
+        from fashionistapulp.item_flags import flag_lines
+        flags = ['Hunting Weapon', 'Fertile', 'Linked to the character',
+                 'Exchangeable', 'Cooperative crafting impossible']
+        expected = {
+            'en': ['Hunting Weapon', 'Fertile', 'Linked to the character',
+                   'Not exchangeable', 'Cooperative crafting impossible'],
+            'fr': ['Arme de chasse', 'Fertile', 'Lié au personnage',
+                   'Non échangeable', 'Craft coopératif impossible'],
+            'es': ['Arma de caza', 'Fértil', 'Vinculado al personaje',
+                   'No intercambiable', 'Fabricación cooperativa imposible'],
+            'pt': ['Arma de caça', 'Fértil', 'Vinculado ao personagem',
+                   'Não trocável', 'Fabricação cooperativa impossível'],
+            'de': ['Jagdwaffe', 'Fruchtbar', 'Mit dem Charakter verknüpft',
+                   'Nicht tauschbar', 'Kooperatives Handwerk nicht möglich'],
+        }
+        for language, labels in expected.items():
+            with self.subTest(language=language):
+                with django_translation.override(language):
+                    self.assertEqual(
+                        labels, [label for label, _icon in flag_lines(flags)])
+
+    def test_the_slot_marker_is_not_a_line_to_read(self):
+        from fashionistapulp.item_flags import flag_lines
+        self.assertEqual([], flag_lines(['Trophy', '-special spell-']))
+
+    def test_a_bound_dofus_is_not_called_exchangeable(self):
+        # The source only ever writes "Exchangeable: 0", and the value is gone by
+        # the time it is a flag, so the bare word would say the opposite.
+        from fashionistapulp.item_flags import flag_lines
+        self.assertEqual([('Not exchangeable', None)],
+                         flag_lines(['Exchangeable']))
+
+    def test_the_item_page_and_the_solution_read_the_same_list(self):
+        from chardata import encyclopedia_view
+        from fashionistapulp import modelresult
+        self.assertIs(encyclopedia_view.flag_lines, modelresult.flag_lines)
+
+    def test_the_flags_reach_the_item_page(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        carriers = [item for item in structure.items_dict.values()
+                    if 'Fertile' in (getattr(item, 'flags', None) or [])]
+        self.assertGreaterEqual(len(carriers), 100)
+
+
 class SpellHatTests(SimpleTestCase):
     """The same family in the four versions that ship it: a hat or cape whose
     only content is a modifier on a named spell. Nothing was stored for it, so

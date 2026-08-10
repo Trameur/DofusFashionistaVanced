@@ -17,6 +17,7 @@ from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
+from fashionistapulp.item_flags import flag_lines
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 from chardata.stat_range import format_stat_range, get_stat_range
@@ -2040,6 +2041,9 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     extras = representative_item.localized_extras.get(language)
     if extras is None:
         extras = representative_item.localized_extras.get('en', [])
+    with translation.override(language):
+        extras = [label for label, _icon
+                  in flag_lines(getattr(representative_item, 'flags', []))] + extras
 
     extra_info = _get_item_extra_info(
         representative_item, language, t,

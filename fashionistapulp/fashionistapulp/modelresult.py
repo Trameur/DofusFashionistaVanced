@@ -21,6 +21,7 @@ from django.utils.translation import gettext as _
 from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS,
                              NEUTRAL, DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
                              calculate_damage, SLOT_NAME_TO_TYPE)
+from .item_flags import flag_lines
 from .structure import get_structure
 from .translation import get_supported_language
 from .violation import Violation
@@ -622,18 +623,7 @@ class ModelResultItem():
             localized_extras = item.localized_extras.get(get_supported_language())
             if localized_extras is None:
                 localized_extras = ['[!] ' + line for line in item.localized_extras.get('en', [])]
-            flag_labels = {
-                'Hunting Weapon': _('Hunting Weapon'),
-            }
-            flag_icons = {
-                'Hunting Weapon': 'chardata/hunting_weapon.png',
-            }
-            translated_flags = []
-            for f in getattr(item, 'flags', []):
-                if f not in flag_labels:
-                    continue
-                icon_key = flag_icons.get(f)
-                translated_flags.append((flag_labels[f], icon_key))
+            translated_flags = flag_lines(getattr(item, 'flags', []))
             self.extras = translated_flags + [(line, None) for line in localized_extras]
     
             if self.type == 'Weapon':

@@ -594,6 +594,10 @@ msgstr ""
 msgid "Exchangeable"
 msgstr ""
 
+#: fashionistapulp/fashionistapulp/item_flags.py:0
+msgid "Not exchangeable"
+msgstr ""
+
 #: .\chardata\dynamic_translations.py:94
 msgid "Fertile"
 msgstr ""
