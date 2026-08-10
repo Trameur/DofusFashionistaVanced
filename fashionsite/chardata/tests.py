@@ -1695,6 +1695,63 @@ class SolutionSetTemplateTests(SimpleTestCase):
             set_current_game_version('dofus3')
 
 
+class CompareSetsPreviewTests(TestCase):
+    """The point of the page is what the two builds look like, so it draws them."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.owner = User.objects.create_user('compareowner', 'cmp@test.local',
+                                              'pw-42-solid')
+        self.client.force_login(self.owner)
+
+    def _shared_char(self, name, char_class):
+        import pickle as _pickle
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        hat = next(item for item
+                   in get_structure('dofus3').get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed and item.ankama_id and item.skin)
+        return Char.objects.create(
+            name=name, char_name=name, char_class=char_class, char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'vit': 1}), options=b'', inclusions=b'',
+            exclusions=b'',
+            minimal_solution=_pickle.dumps(
+                ModelResultMinimal({'hat': hat.id}, self._base_input(), {})),
+            owner=self.owner, link_shared=True, game_version='dofus3')
+
+    @staticmethod
+    def _base_input():
+        return {'options': {'ap_exo': False, 'mp_exo': False},
+                'origin': 'generated', 'char_level': 200,
+                'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
+                                       'Intelligence': 0, 'Chance': 0, 'Agility': 0},
+                'locked_equips': {}}
+
+    def _compare(self, first, second, prefix=''):
+        return self.client.get('%s/compare_sets/%d/%d/' % (prefix, first.pk, second.pk))
+
+    def test_each_compared_set_gets_its_own_canvas(self):
+        resp = self._compare(self._shared_char('one', 'Iop'),
+                             self._shared_char('two', 'Sram'))
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertEqual(body.count('data-look='), 2)
+        self.assertIn('character_preview.js', body)
+
+    def test_a_version_without_art_draws_nothing_rather_than_empty_boxes(self):
+        from chardata.models import Char
+        first = self._shared_char('one', 'Iop')
+        second = self._shared_char('two', 'Sram')
+        Char.objects.filter(pk__in=(first.pk, second.pk)).update(game_version='retro')
+        resp = self._compare(first, second, prefix='/retro')
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertNotIn('compare-preview-canvas', body)
+        self.assertNotIn('character_preview.js', body)
+
+
 class SharedBuildCompareIdTests(TestCase):
     """Regression: a *shared* build added to the comparison cart must carry the
     's' prefix on its encoded id. Commit 496a717e shipped it without the prefix,

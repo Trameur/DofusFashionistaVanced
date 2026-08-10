@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      MOUNT_SLOT, SLOT_TO_NODE, UNDRAWN_SLOTS,
                                      breed_colors, get_character_look,
-                                     parse_colors, parse_hidden, preview_box)
+                                     parse_colors, parse_hidden, preview_box_for)
 from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
@@ -137,14 +137,6 @@ def _preview_pieces(char, look=None):
         slots.append(MOUNT_SLOT)
     return [{'slot': slot, 'label': _PIECE_LABELS[slot], 'hidden': slot in hidden}
             for slot in slots]
-
-
-def _preview_box_for(user):
-    """The reader's own size setting, not the build owner's."""
-    percent = 100
-    if user is not None and not user.is_anonymous:
-        percent = getattr(getattr(user, 'useralias', None), 'preview_size', 100)
-    return preview_box(percent)
 
 
 def _build_check(char, solution):
@@ -532,7 +524,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_asset_formats': json.dumps(asset_formats()),
               'character_preloads': preload_links(character_look),
               'canonical_path': shared_build_path(char) if char.link_shared else '',
-              'preview_box': _preview_box_for(request.user) if character_look else None,
+              'preview_box': preview_box_for(request.user) if character_look else None,
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,

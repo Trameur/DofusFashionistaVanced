@@ -119,6 +119,14 @@ def preview_box(percent):
             'scale': box['scale']}
 
 
+def preview_box_for(user):
+    """The reader's own size setting, not the build owner's."""
+    percent = 100
+    if user is not None and not user.is_anonymous:
+        percent = getattr(getattr(user, 'useralias', None), 'preview_size', 100)
+    return preview_box(percent)
+
+
 _looks = None
 _mount_looks = {}
 

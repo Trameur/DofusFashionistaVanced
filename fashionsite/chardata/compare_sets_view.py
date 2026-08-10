@@ -25,6 +25,8 @@ import json
 import jsonpickle
 from urllib.parse import urlencode, urlparse
 
+from chardata.character_assets import asset_formats, asset_token
+from chardata.character_look import get_character_look, preview_box_for
 from chardata.encoded_char_id import decode_char_id, encode_char_id
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from chardata.models import BuildVote, Char, SolutionGeneration
@@ -83,6 +85,25 @@ class _CompareBuild:
 
 def _process_parameters(sets_params):
     return [x for x in sets_params.split('/') if x]
+
+
+def _compare_previews(builds, game_version):
+    """The drawable look of each compared set, keyed to its own canvas.
+
+    All or nothing: a row where one build is drawn and the next is a blank box
+    reads as a broken page, and the only reason a look comes back empty is a
+    version with no art at all, which is the same answer for every build.
+    """
+    previews = []
+    for build in builds:
+        # The wrapper carries the solution; the colours and the hidden pieces
+        # belong to the character behind it.
+        look = get_character_look(build.char, build.solution, game_version)
+        if look is None:
+            return []
+        previews.append({'key': build.pk, 'name': build.name,
+                         'look': json.dumps(look)})
+    return previews
 
 
 def _resolve_compare_build(request, char_str):
@@ -166,9 +187,14 @@ def compare_sets(request, sets_params):
     get_compare_link_url = version_reverse(request, 'get_compare_sharing_link',
                                            sets_params)
 
+    character_previews = _compare_previews(chars, game_version)
     params = {'chars': chars,
               'char_ids': char_ids,
               'char_ids_cols': char_ids_cols,
+              'character_previews': character_previews,
+              'character_asset_version': asset_token() if character_previews else '',
+              'character_asset_formats': json.dumps(asset_formats()),
+              'preview_box': preview_box_for(request.user) if character_previews else None,
               'solutions': solutions,
               'items_sorted': _sort_items(solutions),
               'acquisition_by_char': _acquisition_by_char(solutions, game_version),

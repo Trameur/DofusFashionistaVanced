@@ -3,6 +3,7 @@
 {% load get_item %}
 {% load get_range %}
 {% load i18n %}
+{% load l10n %}
 {% load static_s3 %}
 {% load version_url %}
 
@@ -31,6 +32,21 @@
         </div>
     </div>
     <br>
+
+    {% if character_previews %}
+    <div class="compare-previews">
+        {% for preview in character_previews %}
+        <div class="compare-preview">
+            <canvas class="char-banner-preview compare-preview-canvas"
+                    data-look="{{ preview.look }}"
+                    width="{{ preview_box.canvas_width }}" height="{{ preview_box.canvas_height }}"
+                    style="width: {{ preview_box.css_width }}px; height: {{ preview_box.css_height }}px;"
+                    title="{% trans 'Drag to turn your character' %}"></canvas>
+            <div class="compare-preview-name">{% blocktrans with n=forloop.counter %}Set {{n}}{% endblocktrans %}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
         <table align="center" class="compare-page">
             <tr>
@@ -673,11 +689,40 @@ $(document).ready(function() {
          popupSeriously(top);
     });
     
-    $("#link_add_set").click(function() {               
+    $("#link_add_set").click(function() {
         $("#compare_form").submit();
     });
 });
 
 </script>
+{% if character_previews %}
+<script src="{% static 'chardata/character_preview.js' %}"></script>
+<script>
+(function () {
+    if (!window.CharacterPreview) { return; }
+    var canvases = document.querySelectorAll('.compare-preview-canvas');
+    Array.prototype.forEach.call(canvases, function (canvas) {
+        var look;
+        try {
+            look = JSON.parse(canvas.dataset.look);
+        } catch (e) {
+            canvas.style.display = 'none';
+            return;
+        }
+        var preview = new CharacterPreview(canvas, {
+            assetBase: '/character', look: look,
+            assetVersion: '{{ character_asset_version }}',
+            assetFormats: {{ character_asset_formats|default:"{}"|safe }},
+            colors: look.colors, scale: {{ preview_box.scale|unlocalize }}
+        });
+        preview.load().then(function () {
+            preview.start();
+        }).catch(function () {
+            canvas.style.display = 'none';
+        });
+    });
+})();
+</script>
+{% endif %}
     
 {% endblock %}

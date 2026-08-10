@@ -53,3 +53,27 @@
 .dark-theme-active .compare-spell-best {
     color: #a9e58f;
 }
+
+.compare-previews {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 26px;
+    margin: 0 auto 18px;
+}
+
+.compare-preview {
+    text-align: center;
+}
+
+.compare-preview-canvas {
+    display: block;
+    cursor: grab;
+}
+
+.compare-preview-name {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: 4px;
+}
