@@ -5121,6 +5121,54 @@ class RetroSpellHatTests(SimpleTestCase):
         self.assertEqual(items * 5, rows)
 
 
+class SpellHatTests(SimpleTestCase):
+    """The same family in the four versions that ship it: a hat or cape whose
+    only content is a modifier on a named spell. Nothing was stored for it, so
+    roughly 500 items reached their page with not a line on them. Dofus 3, the
+    beta and Dofus 2 hand us the sentence already written in five languages;
+    Retro has to be worded from its own effect table."""
+
+    def _extras(self, version, ankama_id, language):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure(version)
+        item = structure.get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item, 'missing %s item %s' % (version, ankama_id))
+        return item.localized_extras.get(language) or []
+
+    def test_the_ariutokinabot_hat_says_what_it_does(self):
+        for version in ('dofus3', 'beta', 'dofus2'):
+            with self.subTest(version=version):
+                lines = self._extras(version, 8619, 'en')
+                self.assertGreaterEqual(len(lines), 4)
+                joined = ' | '.join(lines)
+                self.assertIn('Pressure', joined)
+                for line in lines:
+                    self.assertFalse(line.strip()[0].isdigit(), line)
+
+    def test_the_line_is_written_in_every_language(self):
+        for version in ('dofus3', 'beta', 'dofus2', 'retro'):
+            for language in ('fr', 'en', 'es', 'pt', 'de'):
+                with self.subTest(version=version, language=language):
+                    self.assertTrue(self._extras(version, 8619, language))
+
+    def test_the_family_is_covered_in_every_version(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version, floor in (('dofus3', 100), ('beta', 100),
+                               ('dofus2', 100), ('retro', 60)):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                items, rows = connection.execute(
+                    'SELECT COUNT(DISTINCT item), COUNT(*)'
+                    ' FROM extra_lines').fetchone()
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertGreaterEqual(items, floor)
+                self.assertEqual(items * 5, rows)
+
+
 class WeaponsSharingANameTests(SimpleTestCase):
     """Retro and Touch let genuinely different weapons carry one name, where the
     Dofus 3 transform numbers its duplicates. Weapons were indexed by name, so

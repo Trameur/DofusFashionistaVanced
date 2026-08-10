@@ -177,6 +177,23 @@ LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 IN_FIGHT_REMOVAL_HITS = {'AP': '(removes ap)', 'MP': '(removes mp)'}
 
 
+# A spell hat writes a modifier on one named spell rather than a characteristic:
+# "Fracture: +2 Maximum Range", "Reduces the Conquest spell's AP cost by 1". The
+# optimizer has no notion of that, so nothing was stored and roughly 500 items
+# across the three versions reached their page blank. The source already formats
+# the sentence in all five languages, so it is kept as a read line.
+# Told apart by shape, not by name or id, both of which drift between dumps: the
+# effect puts the SPELL id in int_minimum, ignores int_maximum, and its formatted
+# text opens on the spell name where a characteristic opens on its number.
+def is_spell_modifier(eff):
+    if not eff.get('ignore_int_max') or eff.get('int_maximum'):
+        return False
+    if (eff.get('int_minimum') or 0) < 1000:
+        return False
+    text = (eff.get('formatted') or '').strip()
+    return bool(text) and not text[0].isdigit()
+
+
 def effect_row(eff):
     """One stats row, [min, max, description], as get_equipments3 reads them."""
     lo = eff["int_minimum"] if not eff["ignore_int_min"] else None
@@ -267,6 +284,10 @@ def load_data_for_language(lang, data_type):
     
 # Load equipment data for all languages
 equipment_data = {lang: load_data_for_language(lang, 'equipment') for lang in LANGUAGES}
+items_by_ankama_id = {
+    lang: {i.get('ankama_id'): i for i in data['items']}
+    for lang, data in equipment_data.items()
+}
 
 mount_data = {lang: load_data_for_language(lang, 'mounts') for lang in LANGUAGES}
 
@@ -363,6 +384,21 @@ for item in equipment_data['en']['items']:
                             lang_special_spell = next((e['formatted'] for e in lang_item.get('effects', []) if e['type']['name'] == '-special spell-'), None)
                             if lang_special_spell:
                                 transformed_item[f"special_spell_{lang}"] = lang_special_spell
+
+        if any(is_spell_modifier(eff) for eff in item["effects"]):
+            for lang in LANGUAGES:
+                lang_item = items_by_ankama_id[lang].get(item.get('ankama_id'))
+                if lang_item is None:
+                    continue
+                lines = [e['formatted'].strip()
+                         for e in (lang_item.get('effects') or [])
+                         if is_spell_modifier(e)]
+                if not lines:
+                    continue
+                key = f"special_spell_{lang}"
+                if transformed_item.get(key):
+                    lines.insert(0, transformed_item[key])
+                transformed_item[key] = '\n'.join(lines)
     else:
         transformed_item["stats"] = []
    
