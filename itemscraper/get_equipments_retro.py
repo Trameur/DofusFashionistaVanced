@@ -122,6 +122,71 @@ STEAL_BY_EFFECT = {
 # heal (Arc Hidsad, Pelle Gicque, Baguette Rhon...) show only their damage line.
 HEAL_BY_EFFECT = {108, 81}
 
+# 1.29 spell hats and capes carry no characteristic at all, only a modifier on
+# one named spell, so 302 items (755 lines) reached the page with nothing on
+# them. The optimizer has no notion of a per-spell modifier, so these are read
+# lines rather than stats. The French wording is the game's own, from
+# effects_fr.json; the other four are ours, since the lang ships no translated
+# effect table. Values are hex like the rest of an ISTA field, which the data
+# proves on its own: "#1e" is no decimal number.
+SPELL_EFFECT_TEMPLATES = {
+    281: {'fr': 'Augmente la portée du sort %(spell)s de %(value)d',
+          'en': 'Increases the range of %(spell)s by %(value)d',
+          'es': 'Aumenta el alcance de %(spell)s en %(value)d',
+          'pt': 'Aumenta o alcance de %(spell)s em %(value)d',
+          'de': 'Erhöht die Reichweite von %(spell)s um %(value)d'},
+    282: {'fr': 'Rend la portée du sort %(spell)s modifiable',
+          'en': 'Makes the range of %(spell)s modifiable',
+          'es': 'Hace modificable el alcance de %(spell)s',
+          'pt': 'Torna o alcance de %(spell)s modificável',
+          'de': 'Macht die Reichweite von %(spell)s veränderbar'},
+    283: {'fr': '+%(value)d de dommages sur le sort %(spell)s',
+          'en': '+%(value)d damage on %(spell)s',
+          'es': '+%(value)d de daños en %(spell)s',
+          'pt': '+%(value)d de danos em %(spell)s',
+          'de': '+%(value)d Schaden bei %(spell)s'},
+    284: {'fr': '+%(value)d de soins sur le sort %(spell)s',
+          'en': '+%(value)d healing on %(spell)s',
+          'es': '+%(value)d de curaciones en %(spell)s',
+          'pt': '+%(value)d de curas em %(spell)s',
+          'de': '+%(value)d Heilung bei %(spell)s'},
+    285: {'fr': 'Réduit de %(value)d le coût en PA du sort %(spell)s',
+          'en': 'Reduces the AP cost of %(spell)s by %(value)d',
+          'es': 'Reduce en %(value)d el coste en PA de %(spell)s',
+          'pt': 'Reduz em %(value)d o custo em PA de %(spell)s',
+          'de': 'Senkt die AP-Kosten von %(spell)s um %(value)d'},
+    286: {'fr': 'Réduit de %(value)d le délai de relance du sort %(spell)s',
+          'en': 'Reduces the cooldown of %(spell)s by %(value)d',
+          'es': 'Reduce en %(value)d el tiempo de reutilización de %(spell)s',
+          'pt': 'Reduz em %(value)d o tempo de recarga de %(spell)s',
+          'de': 'Senkt die Abklingzeit von %(spell)s um %(value)d'},
+    287: {'fr': '+%(value)d aux CC sur le sort %(spell)s',
+          'en': '+%(value)d critical hits on %(spell)s',
+          'es': '+%(value)d a los golpes críticos de %(spell)s',
+          'pt': '+%(value)d aos golpes críticos de %(spell)s',
+          'de': '+%(value)d kritische Treffer bei %(spell)s'},
+    288: {'fr': 'Désactive le lancer en ligne du sort %(spell)s',
+          'en': 'Removes the line-only casting of %(spell)s',
+          'es': 'Desactiva el lanzamiento en línea de %(spell)s',
+          'pt': 'Desativa o lançamento em linha de %(spell)s',
+          'de': 'Deaktiviert das Wirken in einer Linie von %(spell)s'},
+    289: {'fr': 'Désactive la ligne de vue du sort %(spell)s',
+          'en': 'Removes the line of sight requirement of %(spell)s',
+          'es': 'Desactiva la línea de visión de %(spell)s',
+          'pt': 'Desativa a linha de visão de %(spell)s',
+          'de': 'Deaktiviert die Sichtlinie von %(spell)s'},
+    290: {'fr': 'Augmente de %(value)d le nombre de lancer maximal par tour du sort %(spell)s',
+          'en': 'Increases the maximum casts per turn of %(spell)s by %(value)d',
+          'es': 'Aumenta en %(value)d el número máximo de lanzamientos por turno de %(spell)s',
+          'pt': 'Aumenta em %(value)d o número máximo de lançamentos por turno de %(spell)s',
+          'de': 'Erhöht die maximale Anzahl an Zaubern pro Runde von %(spell)s um %(value)d'},
+    291: {'fr': 'Augmente de %(value)d le nombre de lancer maximal par cible du sort %(spell)s',
+          'en': 'Increases the maximum casts per target of %(spell)s by %(value)d',
+          'es': 'Aumenta en %(value)d el número máximo de lanzamientos por objetivo de %(spell)s',
+          'pt': 'Aumenta em %(value)d o número máximo de lançamentos por alvo de %(spell)s',
+          'de': 'Erhöht die maximale Anzahl an Zaubern pro Ziel von %(spell)s um %(value)d'},
+}
+
 # Set bonuses are NOT in the Ankama lang CDN (1.29 set bonuses are server-side),
 # so they're sourced from a vendored community snapshot (retro-craft/scrapstuff,
 # scraped from barbok.eratz.fr). Those use French stat labels; map them here.
@@ -247,6 +312,51 @@ def _is_die_roll(dice):
     return bool(m) and int(m.group(2)) > 0
 
 
+def decode_spell_lines(ista_string, spell_names_by_lang):
+    """ISTA string -> {language: [read lines]} for the spell modifiers."""
+    lines = {}
+    for part in (ista_string or '').split(','):
+        if not part:
+            continue
+        fields = part.split('#')
+        eid = _hex(fields[0])
+        templates = SPELL_EFFECT_TEMPLATES.get(eid)
+        if templates is None:
+            continue
+        spell_id = _hex(fields[1]) if len(fields) > 1 and fields[1] != '' else None
+        value = _hex(fields[3]) if len(fields) > 3 and fields[3] != '' else None
+        if spell_id is None:
+            continue
+        for lang, template in templates.items():
+            spell = (spell_names_by_lang.get(lang) or {}).get(spell_id)
+            if not spell:
+                spell = (spell_names_by_lang.get('fr') or {}).get(spell_id)
+            if not spell:
+                continue
+            lines.setdefault(lang, []).append(
+                template % {'spell': spell, 'value': value or 0})
+    return lines
+
+
+def load_spell_names(raw_dir):
+    """language -> {spell id: name}, from the game's own per-language lang."""
+    by_lang = {}
+    for lang in ('fr', 'en', 'es', 'pt', 'de'):
+        path = raw_dir / f'spells_{lang}.json'
+        if not path.exists():
+            continue
+        spells = json.loads(path.read_text(encoding='utf-8')).get('S') or {}
+        names = {}
+        for sid, spell in spells.items():
+            if isinstance(spell, dict) and spell.get('n'):
+                try:
+                    names[int(sid)] = spell['n']
+                except (TypeError, ValueError):
+                    continue
+        by_lang[lang] = names
+    return by_lang
+
+
 def decode_stats(ista_string, is_weapon=False):
     """ISTA string -> (stats, hits).
 
@@ -346,10 +456,11 @@ def min_player_level(c_string):
 
 
 def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
-          set_names_by_lang=None):
+          set_names_by_lang=None, spell_names_by_lang=None):
     items = items_root['u']
     names_by_lang = names_by_lang or {}
     set_names_by_lang = set_names_by_lang or {}
+    spell_names_by_lang = spell_names_by_lang or {}
     set_bonuses = set_bonuses or []
     item_name_by_id = {iid: _ascii(it.get('n', ''))
                        for iid, it in items.items() if isinstance(it, dict)}
@@ -393,6 +504,9 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             'stats': stats + hits,
             'conditions': decode_conditions(it.get('c', '')),
         }
+        for lang, lines in decode_spell_lines(it.get('istats', ''),
+                                              spell_names_by_lang).items():
+            rec['special_spell_%s' % lang] = '\n'.join(lines)
         if weapon_type:
             rec['weapon_type'] = weapon_type
             rec.update(decode_weapon_e(it.get('e')))
@@ -498,7 +612,7 @@ def main(argv=None):
     set_bonuses = load_set_bonuses(args.set_bonuses)
 
     equipment, sets = build(items_root, sets_root, names_by_lang, set_bonuses,
-                            set_names_by_lang)
+                            set_names_by_lang, load_spell_names(raw))
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)

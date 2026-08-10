@@ -5068,6 +5068,59 @@ class ItemCorrectionsTests(SimpleTestCase):
             self.assertIn(version, data)
 
 
+class RetroSpellHatTests(SimpleTestCase):
+    """A 1.29 spell hat carries no characteristic, only a modifier on one named
+    spell, so 302 items reached the page with nothing written on them at all.
+    The wording is the game's own and the spell names come from its own lang, in
+    each of the five languages."""
+
+    def _extras(self, ankama_id, language):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('retro')
+        item = structure.get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item, 'missing retro item %s' % ankama_id)
+        return item.localized_extras.get(language) or []
+
+    def test_the_keutumedi_helmet_reads_like_the_game(self):
+        self.assertEqual(
+            ['+25 aux CC sur le sort Epée Divine',
+             'Réduit de 1 le délai de relance du sort Vitalité',
+             'Augmente la portée du sort Pression de 1',
+             "Réduit de 1 le coût en PA du sort Epée Destructrice"],
+            self._extras(8619, 'fr'))
+        self.assertEqual(
+            ['+25 critical hits on Divine Sword',
+             'Reduces the cooldown of Vitality by 1',
+             'Increases the range of Pressure by 1',
+             'Reduces the AP cost of Destructive Sword by 1'],
+            self._extras(8619, 'en'))
+
+    def test_every_language_names_the_spell(self):
+        for language in ('fr', 'en', 'es', 'pt', 'de'):
+            with self.subTest(language=language):
+                lines = self._extras(8619, language)
+                self.assertEqual(4, len(lines))
+                # The spell name, not its number.
+                for line in lines:
+                    self.assertNotRegex(line, r'\b(145|155|141|154)\b')
+
+    def test_the_whole_family_is_covered(self):
+        # 302 items in the 1.29 lang carry one of these effects, but 239 of them
+        # are Toniques, potions the site does not carry. The 63 equippable ones
+        # are hats, capes, belts, boots, rings and three weapons.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        connection = sqlite3.connect(
+            'file:%s?mode=ro' % get_items_db_path('retro'), uri=True)
+        try:
+            items, rows = connection.execute(
+                'SELECT COUNT(DISTINCT item), COUNT(*) FROM extra_lines').fetchone()
+        finally:
+            connection.close()
+        self.assertGreaterEqual(items, 60)
+        self.assertEqual(items * 5, rows)
+
+
 class WeaponsSharingANameTests(SimpleTestCase):
     """Retro and Touch let genuinely different weapons carry one name, where the
     Dofus 3 transform numbers its duplicates. Weapons were indexed by name, so
