@@ -11194,6 +11194,38 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                WHERE i.ankama_id = 12108 AND s.name IN ('AP', 'MP')""")
         self.assertEqual(0, rows[0][0])
 
+    def test_no_version_zeroes_a_stat_its_own_items_carry(self):
+        # zero_stats tells the solver a stat does not exist in that version, so
+        # gear carrying it is never valued. Retro listed Reflects because the
+        # item decoder had no entry for effect 220 and the data therefore said
+        # so: three items and a fed Tarzantula were losing the stat. A rule read
+        # off our own data is only as good as the scrape underneath it.
+        import sqlite3
+        from chardata.smart_build import VERSION_WEIGHT_TUNING
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
+        key_to_name = {key: name for name, key in STAT_NAME_TO_KEY.items()}
+        for version, tuning in VERSION_WEIGHT_TUNING.items():
+            zeroed = tuning.get('zero_stats', ())
+            if not zeroed:
+                continue
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                for key in zeroed:
+                    name = key_to_name.get(key)
+                    self.assertIsNotNone(name, key)
+                    carried = connection.execute(
+                        'SELECT COUNT(DISTINCT s.item) FROM stats_of_item s'
+                        ' JOIN stats st ON st.id = s.stat'
+                        ' JOIN items i ON i.id = s.item'
+                        ' WHERE st.name = ? AND COALESCE(i.removed, 0) = 0',
+                        (name,)).fetchone()[0]
+                    with self.subTest(version=version, stat=name):
+                        self.assertEqual(carried, 0)
+            finally:
+                connection.close()
+
     def test_the_global_exclusions_forbid_the_same_item_everywhere(self):
         # The list is keyed by ankama id, and an id is not an identity: Retro
         # reuses 406 of them for something else, Touch 225. Two entries added

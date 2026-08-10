@@ -59,7 +59,10 @@ VERSION_WEIGHT_TUNING = {
                        'respermee', 'resperran', 'resperwea'),
     },
     'retro': {
-        'zero_stats': ('ref', 'cridam', 'apred', 'mpred', 'apres', 'mpres',
+        # 'ref' used to be here: 1.29 does carry Reflects, on the Prespic ring
+        # and belt, on Sulik and on a fed Tarzantula. The stat was missing from
+        # the item decoder, so the data said it did not exist.
+        'zero_stats': ('cridam', 'apred', 'mpred', 'apres', 'mpres',
                        'lock', 'pshdam', 'pshres', 'crires',
                        'permedam', 'perrandam', 'perweadam', 'perspedam',
                        'respermee', 'resperran', 'resperwea'),

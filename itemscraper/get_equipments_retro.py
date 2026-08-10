@@ -58,6 +58,10 @@ EFFECT_MAP = {
     # the model's Power (its percent-damage stat) rather than dropping it.
     138: ('Power', 1),
     110: ('HP', 1), 174: ('Initiative', 1), 176: ('Prospecting', 1),
+    # 220 = 'Renvoie X dommages'. Only three items carry it (the Prespic
+    # ring and belt, and Sulik), which is why its absence went unnoticed;
+    # the set-bonus table already knew the stat under its french name.
+    220: ('Reflects', 1),
     178: ('Heals', 1), 182: ('Summon', 1), 111: ('AP', 1), 128: ('MP', 1),
     96: ('Water Damage', 1), 97: ('Earth Damage', 1), 98: ('Air Damage', 1),
     99: ('Fire Damage', 1), 100: ('Neutral Damage', 1),
