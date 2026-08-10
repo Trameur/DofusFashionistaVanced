@@ -5731,6 +5731,40 @@ class SolverSmokeTests(TestCase):
         self.assertGreaterEqual(equipped, 3,
                                 'a level 50 strength solve should equip several items')
 
+    def _solve_version(self, version):
+        """The same end-to-end chain, on a version that has its own database."""
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('solve' + version, '%s@test.local' % version,
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 50, {'str'}, version)
+        self.client.force_login(owner)
+        resp = self.client.get('/%s/fashion/%d/' % (version, char.pk))
+        self.assertIn(resp.status_code, (200, 302))
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, 'no solution stored after a %s solve' % version)
+        equipped = sum(1 for ri in solution.item_list if ri.item_added)
+        self.assertGreaterEqual(equipped, 3, version)
+
+    # Retro and Touch have their own solve tests; these two were the versions
+    # nothing ever solved for, so a rebuild could break them unnoticed.
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_full_solve_on_beta(self):
+        self._solve_version('beta')
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_full_solve_on_dofus2(self):
+        self._solve_version('dofus2')
+
+
 class TouchPetSolveTests(TestCase):
     """Maxed pet variants (scraped from the official Dofus Touch encyclopedia)
     must reach the solver: at level 50 no mount is equippable (all level 60)
