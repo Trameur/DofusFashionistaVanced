@@ -19359,6 +19359,11 @@
                 "((Neutral damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Initiative"
@@ -25198,6 +25203,11 @@
                 15,
                 29,
                 "((Neutral damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -36917,6 +36927,11 @@
         "crit_bonus": 5,
         "stats": [
             [
+                1,
+                2,
+                "(removes ap)"
+            ],
+            [
                 8,
                 12,
                 "((Fire healing))"
@@ -38327,6 +38342,11 @@
                 "((Fire damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Vitality"
@@ -38384,6 +38404,11 @@
                 3,
                 4,
                 "((Fire steal))"
+            ],
+            [
+                1,
+                2,
+                "(removes ap)"
             ],
             [
                 151,
@@ -38697,6 +38722,11 @@
                 2,
                 3,
                 "((Fire steal))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 6,
@@ -39580,6 +39610,11 @@
                 "Power"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 11,
                 15,
                 "Prospecting"
@@ -40025,6 +40060,11 @@
                 "((Water steal))"
             ],
             [
+                2,
+                3,
+                "(removes ap)"
+            ],
+            [
                 16,
                 20,
                 "Power"
@@ -40289,6 +40329,11 @@
                 5,
                 6,
                 "((Air steal))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 31,
@@ -40631,6 +40676,11 @@
                 "((Fire steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 18,
                 36,
                 "((Neutral damage))"
@@ -40765,6 +40815,11 @@
                 31,
                 50,
                 "Agility"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 300,
@@ -43156,6 +43211,11 @@
                 "((Fire steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 56,
                 75,
                 "Vitality"
@@ -43361,6 +43421,11 @@
                 15,
                 24,
                 "((Neutral damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 21,
@@ -44990,6 +45055,11 @@
         "crit_bonus": 10,
         "stats": [
             [
+                1,
+                2,
+                "(removes ap)"
+            ],
+            [
                 4,
                 8,
                 "((Air steal))"
@@ -45928,6 +45998,11 @@
                 16,
                 30,
                 "Agility"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 6,
@@ -53446,6 +53521,11 @@
                 "((Fire damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Initiative"
@@ -55656,6 +55736,11 @@
                 "((Neutral steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 41,
                 60,
                 "Agility"
@@ -56136,7 +56221,7 @@
     {
         "ankama_id": 8611,
         "ankama_type": "equipment",
-        "name_en": "Wand Else",
+        "name_en": "Wand Else?",
         "name_fr": "Bagdette Café",
         "name_es": "Vagdita Café",
         "name_pt": "Xicarinha de Café",
@@ -61530,6 +61615,11 @@
         "crit_bonus": 15,
         "stats": [
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 21,
                 40,
                 "((Neutral damage))"
@@ -64553,6 +64643,11 @@
                 "((Water steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 31,
                 50,
                 "Chance"
@@ -67333,6 +67428,11 @@
                 "((Fire steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 31,
                 50,
                 "Intelligence"
@@ -67498,6 +67598,11 @@
                 8,
                 14,
                 "((Air damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 31,
@@ -78221,6 +78326,11 @@
                 "((Air damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -81260,6 +81370,11 @@
                 "((Neutral damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 101,
                 150,
                 "Vitality"
@@ -81363,6 +81478,11 @@
                 12,
                 20,
                 "((Fire damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -83083,6 +83203,11 @@
                 8,
                 14,
                 "((Water steal))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 201,
@@ -86520,6 +86645,11 @@
                 "((Water steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 201,
                 250,
                 "Vitality"
@@ -86718,6 +86848,11 @@
                 8,
                 15,
                 "((Water damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -89065,6 +89200,11 @@
                 16,
                 25,
                 "((Neutral damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 7,
@@ -91573,6 +91713,11 @@
                 "((Fire steal))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 151,
                 200,
                 "Vitality"
@@ -92623,6 +92768,11 @@
                 5,
                 7,
                 "((Air steal))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 151,
@@ -105028,6 +105178,11 @@
                 9,
                 14,
                 "((Neutral damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 301,
@@ -138036,6 +138191,11 @@
                 "((Air damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -140733,6 +140893,11 @@
                 21,
                 25,
                 "((Fire damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ],
             [
                 301,
@@ -152283,6 +152448,11 @@
                 "((Fire damage))"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 301,
                 350,
                 "Vitality"
@@ -155632,6 +155802,11 @@
                 "Wisdom"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 16,
                 20,
                 "Dodge"
@@ -158368,7 +158543,7 @@
     {
         "ankama_id": 21506,
         "ankama_type": "equipment",
-        "name_en": "Plushy-Ball Drheller",
+        "name_en": "Plushy-Ball: Drheller",
         "name_fr": "Peluche-boule : Phorreur",
         "name_es": "Peluche ball: Perforatroz",
         "name_pt": "Peluciabola: Perfuratroz",
@@ -158407,7 +158582,7 @@
     {
         "ankama_id": 21507,
         "ankama_type": "equipment",
-        "name_en": "Plushy-Ball Gobball",
+        "name_en": "Plushy-Ball: Gobball",
         "name_fr": "Peluche-boule : Bouftou",
         "name_es": "Peluche ball: Jalató",
         "name_pt": "Peluciabola: Papatudo",
@@ -158446,7 +158621,7 @@
     {
         "ankama_id": 21508,
         "ankama_type": "equipment",
-        "name_en": "Plushy-Ball Tofu",
+        "name_en": "Plushy-Ball: Tofu",
         "name_fr": "Peluche-boule : Tofu",
         "name_es": "Peluche ball: Tofu",
         "name_pt": "Peluciabola: Tofu",
@@ -158485,7 +158660,7 @@
     {
         "ankama_id": 21509,
         "ankama_type": "equipment",
-        "name_en": "Plushy-Ball Bow Meow",
+        "name_en": "Plushy-Ball: Bow Meow",
         "name_fr": "Peluche-boule : Chacha",
         "name_es": "Peluche ball: Miaumiau",
         "name_pt": "Peluciabola: Miaw",
@@ -158524,7 +158699,7 @@
     {
         "ankama_id": 21510,
         "ankama_type": "equipment",
-        "name_en": "Plushy-Ball Minikron",
+        "name_en": "Plushy-Ball: Minikron",
         "name_fr": "Peluche-boule : Minikrone",
         "name_es": "Peluche ball: Minikornio",
         "name_pt": "Peluciabola: Minikrônio",
@@ -160521,6 +160696,11 @@
                 "Range"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 28,
                 32,
                 "((Water damage))"
@@ -160736,6 +160916,11 @@
                 46,
                 50,
                 "((Fire damage))"
+            ],
+            [
+                2,
+                2,
+                "(removes mp)"
             ],
             [
                 null,
@@ -162184,6 +162369,11 @@
                 2,
                 3,
                 "Critical Hits"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 14,
@@ -164877,6 +165067,11 @@
                 25,
                 28,
                 "((Air damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus2/img/item/22007-200.png",
@@ -165092,6 +165287,11 @@
                 17,
                 22,
                 "((Water damage))"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 301,
@@ -167102,6 +167302,11 @@
                 4,
                 5,
                 "((Water steal))"
+            ],
+            [
+                1,
+                1,
+                "(removes ap)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus2/img/item/22008-200.png",
@@ -167201,6 +167406,11 @@
                 4,
                 5,
                 "((Fire steal))"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus2/img/item/6753-200.png",
@@ -171171,6 +171381,11 @@
                 "% Air Resist"
             ],
             [
+                1,
+                1,
+                "(removes ap)"
+            ],
+            [
                 68,
                 75,
                 "((Neutral damage))"
@@ -171253,6 +171468,11 @@
                 5,
                 7,
                 "% Fire Resist"
+            ],
+            [
+                1,
+                1,
+                "(removes mp)"
             ],
             [
                 58,

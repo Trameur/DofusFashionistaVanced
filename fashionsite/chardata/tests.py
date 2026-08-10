@@ -231,6 +231,16 @@ class TranslationRegressionTests(SimpleTestCase):
                 self.assertEqual(gettext('Removes %(ap)d AP') % {'ap': 3}, exp,
                                  msg='Removes AP wrong for %s' % lang)
 
+    def test_removes_mp_translated_per_language(self):
+        # Its twin: 12 weapons per version take MP off the target (Crackler
+        # Blade, Mumminotor Hammer...) and the line had nowhere to come from.
+        expected = {'fr': 'Retire 3 PM', 'es': 'Quita 3 PM',
+                    'pt': 'Remove 3 PM', 'de': 'Entzieht 3 BP'}
+        for lang, exp in expected.items():
+            with translation.override(lang):
+                self.assertEqual(gettext('Removes %(mp)d MP') % {'mp': 3}, exp,
+                                 msg='Removes MP wrong for %s' % lang)
+
     def test_previously_untranslated_ui_strings(self):
         expected = {
             'Hunting Weapon': {'fr': 'Arme de chasse', 'es': 'Arma de caza',
@@ -6225,6 +6235,7 @@ class NonElementalWeaponHitTests(SimpleTestCase):
                  ("dofus3", "Blade O'Ven", 'Steals 1 MP'),
                  ('dofus3', 'Treestaff', 'Removes 1 AP'),
                  ('dofus3', 'Crackler Blade', 'Removes 1 MP'),
+                 ('dofus2', 'Treestaff', 'Removes 1 AP'),
                  ('touch', 'Treestaff', 'Removes 1 AP')]
         for version, name, expected in cases:
             with self.subTest(version=version, weapon=name):
@@ -6261,11 +6272,9 @@ class InFightAPAndMPRemovalTests(SimpleTestCase):
             connection.close()
 
     def test_the_removal_lines_reach_the_solver(self):
-        # Dofus 2 is not here yet: its pipeline cannot be re-run without losing
-        # unrelated tables, so its database still predates the transform fix.
-        for version in ('dofus3', 'beta'):
+        for version, floor in (('dofus3', 40), ('beta', 40), ('dofus2', 30)):
             with self.subTest(version=version):
-                self.assertGreaterEqual(self._hits(version, 'removes_ap'), 40)
+                self.assertGreaterEqual(self._hits(version, 'removes_ap'), floor)
                 self.assertGreaterEqual(self._hits(version, 'removes_mp'), 5)
         # Touch decodes its own client and already had the AP one.
         self.assertGreaterEqual(self._hits('touch', 'removes_ap'), 20)
@@ -11119,20 +11128,44 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     self.assertTrue(pieces, name)
                     self.assertLessEqual(top_tier, pieces, name)
 
-    def test_the_monster_tables_survive_a_rebuild(self):
-        # A rebuild has dropped these twice now: the stores write them onto the
-        # freshly loaded database and re-dump it, so a step that reloads an
-        # older dump takes them with it. The page tests catch it only through a
-        # rendering mismatch, which reads like a template bug.
-        expected = {'dofus3': ('monster_grades', 'monster_subareas'),
-                    'dofus2': ('monster_grades',),
-                    'touch': ('monster_grades', 'monster_subareas'),
-                    'retro': ('monster_grades',)}
-        for version, tables in expected.items():
-            for table in tables:
+    def test_the_tables_a_rebuild_must_not_gut(self):
+        # items/load-db rebuilds the database from the item dump and every later
+        # store writes its own table back on top, so one step that dies, or that
+        # was never in the pipeline at all, takes a whole table with it while the
+        # run still exits 0. It has happened three times: twice on the monster
+        # tables, and on 2026-08-10 Dofus 2 turned out to have no items/obtainment
+        # step whatsoever. Floors, not "more than zero": that run came back with
+        # 420 monster grades out of 7092 and 415 monster names out of 6675, and
+        # "more than zero" called it healthy.
+        floors = {
+            'dofus3': {'monster_grades': 20000, 'monster_subareas': 12000,
+                       'monster_spells': 10000, 'monster_names': 20000,
+                       'item_descriptions': 15000, 'item_recipes': 15000,
+                       'item_recipe_ingredient_names': 7000,
+                       'resource_drops': 6000, 'item_craft_jobs': 2500},
+            'beta': {'monster_grades': 20000, 'monster_subareas': 12000,
+                     'monster_spells': 10000, 'monster_names': 20000,
+                     'item_descriptions': 15000, 'item_recipes': 15000,
+                     'item_recipe_ingredient_names': 7000,
+                     'resource_drops': 6000, 'item_craft_jobs': 2500},
+            'dofus2': {'monster_grades': 5500, 'monster_names': 5000,
+                       'item_descriptions': 13000, 'item_recipes': 13000,
+                       'item_recipe_ingredient_names': 8000,
+                       'resource_drops': 2500, 'item_craft_jobs': 2300},
+            'touch': {'monster_grades': 10000, 'monster_subareas': 6000,
+                      'monster_names': 3500, 'item_descriptions': 12000,
+                      'item_recipes': 9000, 'item_recipe_ingredient_names': 4500,
+                      'resource_drops': 1800, 'item_craft_jobs': 1700},
+            'retro': {'monster_grades': 3000, 'monster_subareas': 2400,
+                      'monster_names': 1800, 'item_descriptions': 10000,
+                      'item_recipes': 6000, 'item_recipe_ingredient_names': 4500,
+                      'resource_drops': 2000, 'item_craft_jobs': 1200},
+        }
+        for version, tables in floors.items():
+            for table, floor in tables.items():
                 with self.subTest(version=version, table=table):
                     rows = self._rows(version, 'SELECT COUNT(*) FROM %s' % table)
-                    self.assertGreater(rows[0][0], 0)
+                    self.assertGreaterEqual(rows[0][0], floor)
 
     def test_every_version_that_matches_art_still_has_the_column(self):
         # store_item_skins is what creates items.skin, so a step that dies takes
