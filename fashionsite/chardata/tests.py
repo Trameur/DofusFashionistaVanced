@@ -10540,6 +10540,38 @@ class SpellCastingCostTests(SimpleTestCase):
         return [spell for spells in get_damage_spells_for_version(version).values()
                 for spell in spells]
 
+    def test_retro_and_touch_know_their_costs_too(self):
+        # Their decoders read past the cast data their own sources carry, so
+        # both shipped none of it and the combo panel silently never appeared
+        # on two of the five versions. Retro keeps it in the level array at 18
+        # (AP), 7 (per turn), 8 (per target) and 6 (cooldown); Touch names the
+        # same four fields in the level dict.
+        for version in ('retro', 'touch'):
+            with self.subTest(version=version):
+                spells = self._spells(version)
+                self.assertTrue(spells)
+                without = [spell.name for spell in spells if not spell.casting]
+                self.assertEqual([], without)
+                costs = [spell.ap_cost(0) for spell in spells]
+                self.assertTrue(all(1 <= cost <= 12 for cost in costs), version)
+
+    def test_a_turn_can_be_worked_out_on_retro_and_touch(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn, castable_spells, combat_ap
+        for version, char_class in (('retro', 'Iop'), ('touch', 'Cra')):
+            with self.subTest(version=version):
+                stats = {stat.key: 0
+                         for stat in get_structure(version).get_stats_list()}
+                stats.update({'str': 400, 'int': 400, 'pow': 80, 'dam': 40})
+                spells = castable_spells(char_class, 200, version)
+                self.assertTrue(spells, version)
+                ap = combat_ap(4, version)
+                total, order = best_turn(stats, spells, ap)
+                self.assertGreater(total, 0)
+                by_name = {spell.name: spell for spell in spells}
+                self.assertLessEqual(
+                    sum(by_name[name].cost for name, _damage in order), ap)
+
     def test_every_real_spell_knows_what_it_costs(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):

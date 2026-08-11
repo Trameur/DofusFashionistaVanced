@@ -130,9 +130,17 @@ def collect_damage(effect_list):
     return out
 
 
+# What a cast costs and how often the game allows it. The level dict carried
+# these all along and decode_spell read past them, so Touch shipped no casting
+# data at all and the combo panel never appeared on that version.
+CASTING_FIELDS = {'ap': 'apCost', 'per_turn': 'maxCastPerTurn',
+                  'per_target': 'maxCastPerTarget', 'cooldown': 'minCastInterval'}
+
+
 def decode_spell(spell, spell_levels):
     """Touch spell -> damage-spell dict, or None if it deals no elemental damage."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
+    casting_levels = []
     for lid in (spell.get('spellLevels') or []):
         lv = spell_levels.get(str(lid))
         if not lv:
@@ -148,6 +156,13 @@ def decode_spell(spell, spell_levels):
             stack = 0
         if stack > 1:
             stacks.append(stack)
+        level_casting = {}
+        for key, field in CASTING_FIELDS.items():
+            try:
+                level_casting[key] = int(lv.get(field) or 0)
+            except (TypeError, ValueError):
+                level_casting[key] = 0
+        casting_levels.append(level_casting)
         for elem in list(nc) + list(cr):
             if elem not in elements:
                 elements.append(elem)
@@ -173,6 +188,11 @@ def decode_spell(spell, spell_levels):
         # The buff can accumulate (maxStack in the game data): the damage
         # simulator shows the multiplier like on Dofus 3.
         'stacks': max(stacks) if stacks else None,
+        # A key only ships when some level uses it: a spell with no per-turn
+        # cap reads 0 everywhere, and an all-zero list would read as a limit.
+        'casting': {key: [level[key] for level in casting_levels]
+                    for key in CASTING_FIELDS
+                    if any(level[key] for level in casting_levels)} or None,
     }
 
 
@@ -227,10 +247,12 @@ def emit_module(by_class, spell_names, path):
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
+            tail = []
             if s.get('stacks'):
-                lines.append("        ), stacks=%d)," % s['stacks'])
-            else:
-                lines.append("        )),")
+                tail.append("stacks=%d" % s['stacks'])
+            if s.get('casting'):
+                tail.append("casting=%s" % json.dumps(s['casting'], sort_keys=True))
+            lines.append("        )%s)," % (", " + ", ".join(tail) if tail else ""))
         lines.append("    ],")
     lines.append("    'default': [],")
     lines.append("}")

@@ -86,15 +86,38 @@ def decode_level(level_arr):
     return result
 
 
+# Slots of the 21-wide level array that say what a cast costs and how often the
+# game allows it. Identified against the spells themselves: Magic Arrow reads 4
+# at 18 and 2 at 7, which is its AP cost and its famous two casts a turn;
+# Healing Word falls 6,6,5,5,4 at 18 as it ranks up; Iop's Wrath carries its
+# cooldown at 6. Without these the combo panel never appeared on Retro.
+CASTING_SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'ap': 18}
+
+
+def decode_casting(level_arr):
+    """The cast cost and limits of one spell level."""
+    out = {}
+    if not isinstance(level_arr, list):
+        return out
+    for key, index in CASTING_SLOTS.items():
+        if index < len(level_arr):
+            value = level_arr[index]
+            if isinstance(value, int) and not isinstance(value, bool):
+                out[key] = value
+    return out
+
+
 def decode_spell(spell):
     """Retro spell record -> damage-spell dict, or None if it deals no damage."""
     per_level = []
     elements = []
+    casting_levels = []
     for lv in LEVELS:
         if lv not in spell:
             continue
         decoded = decode_level(spell[lv])
         per_level.append(decoded)
+        casting_levels.append(decode_casting(spell[lv]))
         for elem in decoded:
             if elem not in elements:
                 elements.append(elem)
@@ -110,12 +133,20 @@ def decode_spell(spell):
             cr.append('%d-%d' % crit if crit else '0-0')
         non_crit_ranges.append(nc)
         crit_ranges.append(cr)
+    # A key only ships when some level uses it: a spell with no per-turn cap
+    # reads 0 everywhere, and an all-zero list would read as a real limit.
+    casting = {}
+    for key in CASTING_SLOTS:
+        values = [level.get(key, 0) for level in casting_levels]
+        if any(values):
+            casting[key] = values
     return {
         'name': spell.get('n') or '',
         'level_count': len(per_level),
         'elements': elements,
         'non_crit_ranges': non_crit_ranges,
         'crit_ranges': crit_ranges,
+        'casting': casting or None,
     }
 
 
@@ -154,7 +185,11 @@ def emit_module(by_class, spell_names, path):
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
-            lines.append("        )),")
+            if s.get('casting'):
+                lines.append("        ), casting=%s),"
+                             % json.dumps(s['casting'], sort_keys=True))
+            else:
+                lines.append("        )),")
         lines.append("    ],")
     lines.append("    'default': [],")
     lines.append("}")
