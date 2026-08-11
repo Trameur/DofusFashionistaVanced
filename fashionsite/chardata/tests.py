@@ -719,33 +719,51 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(set(seen_versions), {'retro'})
 
     def test_public_pages_ok(self):
-        for path in ['/', '/about/', '/faq/', '/privacy/', '/support/',
-                     '/license/', '/encyclopedia/', '/sharedbuilds/',
-                     '/quickstart/', '/smartbuild/', '/forgemagie/',
-                     '/guides/', '/guides/getting-started/',
-                     '/guides/beginner-mistakes/',
-                     '/guides/choosing-your-class/',
-                     '/guides/how-it-works/', '/guides/stats-explained/',
-                     '/guides/critical-hits/',
-                     '/guides/scrolls-and-characteristics/',
-                     '/guides/ap-mp-range-caps/',
-                     '/guides/game-modes/', '/guides/reading-an-item/',
-                     '/guides/set-bonuses/',
-                     '/guides/understanding-your-solution/',
-                     '/guides/tuning-your-weights/',
-                     '/guides/forgemagie-planning/',
-                     '/guides/mono-vs-multi-element/',
-                     '/guides/resistance-explained/',
-                     '/guides/vitality-and-hp/', '/guides/gearing-up/',
-                     '/guides/crafting-and-professions/',
-                     '/guides/prospecting-and-drops/',
-                     '/guides/comparing-builds/', '/guides/versions-explained/',
-                     '/offline/', '/robots.txt', '/manifest.webmanifest',
-                     '/sw.js', '/ads.txt']:
+        # The guide list comes from the content module, not a copy kept here:
+        # the copy had drifted and left monster-weaknesses untested.
+        from chardata.guides_content import ordered_slugs
+        paths = ['/', '/about/', '/faq/', '/privacy/', '/support/',
+                 '/license/', '/encyclopedia/', '/sharedbuilds/',
+                 '/quickstart/', '/smartbuild/', '/forgemagie/', '/guides/',
+                 '/offline/', '/robots.txt', '/manifest.webmanifest',
+                 '/sw.js', '/ads.txt']
+        paths.extend('/guides/%s/' % slug for slug in ordered_slugs())
+        for path in paths:
             with self.subTest(path=path):
                 resp = self.client.get(path)
                 self.assertEqual(resp.status_code, 200,
                                  msg='%s -> %s' % (path, resp.status_code))
+
+    def test_every_guide_answers_under_every_version(self):
+        # A guide is served under each version prefix and rewrites its own
+        # links per version, so answering on /guides/ proves nothing about
+        # /retro/guides/. These are the pages built to earn their own traffic.
+        from chardata.guides_content import ordered_slugs
+        for version in ('beta', 'dofus2', 'retro', 'touch'):
+            for slug in ordered_slugs():
+                path = '/%s/guides/%s/' % (version, slug)
+                with self.subTest(path=path):
+                    self.assertEqual(200, self.client.get(path).status_code)
+
+    def test_no_guide_points_at_a_page_that_is_gone(self):
+        import re
+        from chardata.guides_content import ordered_slugs
+        href = re.compile(r'href="(/[^"]*)"')
+        targets = {}
+        for version in ('dofus3', 'retro'):
+            prefix = '' if version == 'dofus3' else '/' + version
+            for slug in ordered_slugs():
+                body = self.client.get('%s/guides/%s/' % (prefix, slug))
+                html = body.content.decode('utf-8')
+                start = html.find('guide-body')
+                for link in href.findall(html[start:start + 60000] if start != -1 else ''):
+                    targets.setdefault(link, '%s/guides/%s/' % (prefix, slug))
+        self.assertGreater(len(targets), 20, 'the guide bodies carry no links')
+        dead = []
+        for link, seen_on in sorted(targets.items()):
+            if self.client.get(link, follow=True).status_code != 200:
+                dead.append('%s (on %s)' % (link, seen_on))
+        self.assertEqual([], dead)
 
     def test_the_solver_loading_screen_stays_off_the_reading_pages(self):
         # It carries loading.js, 23kB of tailoring quips, plus a marquee that
