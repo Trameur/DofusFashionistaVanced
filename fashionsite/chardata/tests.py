@@ -6658,6 +6658,85 @@ class SolvedBuildIsWearableTests(TestCase):
         self.assertGreater(exercised, 0, 'no set bonus was exercised')
 
 
+class DistributedPointsAreAffordableTests(TestCase):
+    """The cost tables are checked on their own numbers elsewhere. This checks
+    the bill: when the solver spends the characteristic points itself, a
+    character of that level has to be able to afford what comes back. Three
+    versions, because the three cost regimes are different games: modern's flat
+    wisdom, Retro's class-specific table, and Touch's 2.x-era one."""
+
+    TIER_COST = [0.5, 1, 2, 3, 4, 5]
+
+    def _bill(self, caps_for_stat, scrolled, spent):
+        """Capital the game charges for `spent` points, and any left unpriced."""
+        from fashionistapulp.dofus_constants import tier_widths_after_scroll
+        widths = tier_widths_after_scroll(caps_for_stat, scrolled)
+        remaining, cost = spent, 0.0
+        for index in range(6):
+            width = widths[index]
+            take = remaining if width is None else min(remaining, width)
+            cost += take * self.TIER_COST[index]
+            remaining -= take
+            if remaining <= 0:
+                break
+        return cost, remaining
+
+    def _solve_distributing(self, version, char_class, level):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        tag = '%s%s%d' % (version, char_class, level)
+        owner = User.objects.create_user('spend%s' % tag, 'spend%s@t.local' % tag,
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, char_class, level, {'str'}, version)
+        char.allow_points_distribution = True
+        char.save()
+        self.client.force_login(owner)
+        prefix = '' if version == 'dofus3' else '/' + version
+        self.client.get('%s/fashion/%d/' % (prefix, char.pk))
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, version)
+        return solution
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_the_character_can_pay_for_the_points_the_solver_spends(self):
+        from fashionistapulp.dofus_constants import (BASE_STATS, STAT_KEY_TO_NAME,
+                                                     get_soft_caps_for,
+                                                     scrolls_push_cost_curve)
+        for version, char_class, level in (('dofus3', 'Iop', 200),
+                                           ('retro', 'Iop', 200),
+                                           ('touch', 'Iop', 200)):
+            with self.subTest(version=version):
+                solution = self._solve_distributing(version, char_class, level)
+                spent_by_stat = solution.get_stats() or {}
+                entered = solution.input['base_stats_by_attr']
+                caps = get_soft_caps_for(version, char_class)
+                pushes = scrolls_push_cost_curve(version)
+                budget = 5 * (level - 1)
+                total = 0.0
+                unpriced = 0
+                for key in BASE_STATS:
+                    spent = spent_by_stat.get(key, 0) or 0
+                    if spent <= 0:
+                        continue
+                    scrolled = entered.get(STAT_KEY_TO_NAME[key], 0) if pushes else 0
+                    cost, left = self._bill(caps[key], scrolled, spent)
+                    total += cost
+                    unpriced += left
+                self.assertEqual(0, unpriced, '%s priced no tier for some points'
+                                              % version)
+                self.assertLessEqual(total, budget, version)
+                # Without this the test would pass on a build that spent nothing.
+                self.assertGreater(total, budget * 0.5, version)
+
+
 class SetMaxCapTests(TestCase):
     """Cire Momore's Curse is the one set that caps stats instead of raising
     them: the more pieces, the lower the MP, range and summon ceiling. The
