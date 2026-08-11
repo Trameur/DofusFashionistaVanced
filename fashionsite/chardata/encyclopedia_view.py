@@ -574,6 +574,22 @@ def _absolute_versioned_url(path, game_version='dofus3'):
     return 'https://dofusfashionista.gg%s' % path
 
 
+def _paginated_canonical(request, path, game_version, page_obj):
+    """A page of a list is its own page, not a copy of the first one.
+
+    Every page pointed at page 1, which tells a search engine that everything
+    past it is a duplicate; the list is the only crawl path into the four
+    thousand item pages. A filtered or sorted view still points at the plain
+    list, so the filter combinations do not each become a page of their own.
+    """
+    url = _absolute_versioned_url(path, game_version)
+    filters = {key for key in request.GET if key != 'page'}
+    number = getattr(page_obj, 'number', 1) or 1
+    if filters or number <= 1:
+        return url
+    return '%s?page=%d' % (url, number)
+
+
 def _stat_amount_text(item, stat_id, best_value):
     """"7 to 10" when the roll varies, plain "10" when it is fixed. The number
     shown alone stays the best roll, which is what the optimiser assumes."""
@@ -1745,7 +1761,8 @@ def encyclopedia(request):
             'char_id': 0,
             't': t,
             'mt': _monster_ui_text(),
-            'canonical_url': _absolute_versioned_url('/encyclopedia/', game_version),
+            'canonical_url': _paginated_canonical(
+                request, '/encyclopedia/', game_version, page_obj),
             'items_page': page_obj,
             'items_count': len(filtered_items),
             'resource_results': resource_results,
@@ -1921,8 +1938,9 @@ def encyclopedia_sets(request):
             'request': request,
             'char_id': 0,
             't': t,
-            'canonical_url': _absolute_versioned_url(
-                '/encyclopedia/sets/', getattr(request, 'game_version', 'dofus3')),
+            'canonical_url': _paginated_canonical(
+                request, '/encyclopedia/sets/',
+                getattr(request, 'game_version', 'dofus3'), sets_page),
             'sets_page': sets_page,
             'search_text': search_text,
             'sets_count': len(sets),
@@ -2882,7 +2900,8 @@ def encyclopedia_monsters(request):
             'char_id': 0,
             't': t,
             'mt': mt,
-            'canonical_url': _absolute_versioned_url('/encyclopedia/monsters/', game_version),
+            'canonical_url': _paginated_canonical(
+                request, '/encyclopedia/monsters/', game_version, page_obj),
             'monsters_page': page_obj,
             'monsters_count': len(monsters),
             'search_text': search_text,

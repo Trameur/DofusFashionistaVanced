@@ -5121,6 +5121,101 @@ class RetroSpellHatTests(SimpleTestCase):
         self.assertEqual(items * 5, rows)
 
 
+class PaginatedCanonicalTests(TestCase):
+    """Every page of a list pointed at page 1, which tells a search engine that
+    everything past it is a duplicate. The list is the only crawl path into the
+    four thousand item pages, so pages 2 and beyond were being disowned."""
+
+    def _canonical(self, url):
+        import re
+        html = self.client.get(url, follow=True).content.decode('utf-8', 'replace')
+        tag = re.search(r'<link[^>]*rel="canonical"[^>]*>', html)
+        self.assertIsNotNone(tag, url)
+        return re.search(r'href="([^"]+)"', tag.group(0)).group(1)
+
+    def test_a_page_of_the_list_points_at_itself(self):
+        for path in ('/encyclopedia/', '/encyclopedia/sets/',
+                     '/encyclopedia/monsters/'):
+            with self.subTest(path=path):
+                self.assertTrue(
+                    self._canonical('%s?page=2' % path).endswith('?page=2'),
+                    self._canonical('%s?page=2' % path))
+
+    def test_the_first_page_keeps_the_bare_url(self):
+        # Otherwise the list would live at two addresses.
+        for url in ('/encyclopedia/', '/encyclopedia/?page=1'):
+            with self.subTest(url=url):
+                self.assertEqual('https://dofusfashionista.gg/encyclopedia/',
+                                 self._canonical(url))
+
+    def test_a_filtered_view_still_points_at_the_plain_list(self):
+        # Or every filter combination becomes a page of its own.
+        self.assertEqual('https://dofusfashionista.gg/encyclopedia/',
+                         self._canonical('/encyclopedia/?q=kaiser&page=2'))
+
+    def test_a_version_keeps_its_own_prefix(self):
+        self.assertTrue(
+            self._canonical('/retro/encyclopedia/?page=2').startswith(
+                'https://dofusfashionista.gg/retro/encyclopedia/'))
+
+
+class PreviewArtBelongsToTheItemTests(SimpleTestCase):
+    """Dofus 2 and Touch have no art of their own: they borrow the Dofus 3 piece,
+    by ankama id when they share one and by name otherwise. Neither key is an
+    identity on its own, an id means another item across versions on 225 Touch
+    pieces and names collide too, so the piece drawn on a character has to be
+    checked against the item it is drawn for."""
+
+    @staticmethod
+    def _same_piece(name, owner):
+        from fashionistapulp.fashion_util import is_same_item_name
+        if is_same_item_name(name, owner):
+            return True
+        # Dofus 3 numbers its repeated names ("Ecaflip Paw 2"), Touch does not,
+        # and the counter is not part of the item. Stripping it in the shared
+        # matcher would be wrong: "Caracape 2" is a real item name.
+        import re
+        return is_same_item_name(name, re.sub(r'\s+\d+$', '', owner or ''))
+
+    def test_no_piece_wears_another_item_art(self):
+        import json
+        import os
+        import sqlite3
+        import chardata
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        root = os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.abspath(chardata.__file__))))
+        with open(os.path.join(root, 'itemscraper', 'item_skins.json'),
+                  encoding='utf-8') as fh:
+            skins = json.load(fh)
+
+        owners = {}
+        for ankama_id, entry in skins.items():
+            skin = entry if isinstance(entry, int) else entry.get('skin')
+            name = None if isinstance(entry, int) else entry.get('name')
+            if skin:
+                owners.setdefault(skin, []).append(name)
+
+        for version in ('dofus2', 'touch', 'beta', 'dofus3'):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                rows = connection.execute(
+                    "SELECT i.ankama_id, i.name, i.skin FROM items i"
+                    " JOIN item_types t ON t.id = i.type"
+                    " WHERE i.skin IS NOT NULL AND i.skin <> 0"
+                    " AND t.name IN ('Hat','Cloak','Shield','Weapon')").fetchall()
+            finally:
+                connection.close()
+            self.assertGreater(len(rows), 500, version)
+            wrong = [(a, n) for a, n, s in rows
+                     if not any(self._same_piece(n, owner)
+                                for owner in owners.get(s, []) if owner)]
+            with self.subTest(version=version):
+                self.assertEqual([], wrong[:5])
+
+
 class CrawlerUrlSpaceTests(TestCase):
     """A slug written ".*" swallows slashes, so every encyclopedia page answered
     200 under an endless set of paths: /233-kaiser/robots.txt, /233-kaiser/a/b/c/.
