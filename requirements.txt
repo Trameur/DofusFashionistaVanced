@@ -89,7 +89,7 @@ sqlparse==0.5.5
 #support-info==1.0
 tldextract==5.3.1
 typing_extensions==4.15.0
-tzdata==2026.2
+tzdata==2026.3
 Unidecode==1.3.6
 urllib3==2.7.0
 wcwidth==0.8.2
