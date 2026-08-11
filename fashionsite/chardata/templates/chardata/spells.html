@@ -516,6 +516,15 @@
         return shouldHideScalingBuff(spell, damageHit.element);
     }
     
+    // A row the spell does not have at this level is stored as 0 to 0, and the
+    // formula still hands it the flat damage bonus: max(0 + dam, 0). Friendship
+    // Word printed twelve such lines. The row keeps its place in finalDamage,
+    // because the aggregates index into it.
+    function isPaddingHit(rawHit) {
+        return rawHit && !rawHit.min_dam && !rawHit.max_dam
+               && rawHit.element.indexOf('buff') == -1;
+    }
+
     function getHits(spell, damage, isCrit) {
         var finalDamage = calculateFinalDamage(spell, damage, isCrit);
         var table = $("<table width='100%'></table>");
@@ -532,6 +541,9 @@
                     if (hit < finalDamage.length) {
                         var damageHit = finalDamage[hit];
                         if (shouldHideBuffHit(spell, damageHit)) {
+                            continue;
+                        }
+                        if (isPaddingHit(damage[hit])) {
                             continue;
                         }
                         damageInstances.push(damageHit);
@@ -632,6 +644,9 @@
             
         } else {
             for (var i = 0; i < finalDamage.length; i++) {
+                if (isPaddingHit(damage[i])) {
+                    continue;
+                }
                 if (shouldHideBuffHit(spell, finalDamage[i])) {
                     continue;
                 }
