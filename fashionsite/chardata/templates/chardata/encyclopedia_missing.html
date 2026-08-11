@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load static_s3 %}
 
-{% block title %}{{ missing.title }} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{{ missing.title }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% block meta_description %}{{ missing.message }}{% endblock %}
 

@@ -5121,6 +5121,55 @@ class RetroSpellHatTests(SimpleTestCase):
         self.assertEqual(items * 5, rows)
 
 
+class VersionInPageMetaTests(TestCase):
+    """Five versions were serving one title and one description on thousands of
+    encyclopedia URLs, so a result list could not tell the Retro Kaiser from the
+    Dofus 3 one. The canonicals were already right; only the wording was not."""
+
+    def _meta(self, url):
+        # The minifier reorders attributes, so the description meta can come out
+        # either way round; match the tag first, then read its content.
+        import re
+        html = self.client.get(url, follow=True).content.decode('utf-8', 'replace')
+        title = re.search(r'<title[^>]*>(.*?)</title>', html, re.S)
+        tag = re.search(r'<meta[^>]*name="description"[^>]*>', html)
+        desc = re.search(r'content="([^"]*)"', tag.group(0)) if tag else None
+        return (title.group(1).strip() if title else '',
+                desc.group(1).strip() if desc else '')
+
+    def test_each_version_names_itself_on_an_item_page(self):
+        expected = {'': None, 'retro/': 'Dofus Retro', 'touch/': 'Dofus Touch',
+                    'beta/': 'Dofus Beta', 'dofus2/': 'Dofus 2'}
+        seen = set()
+        for prefix, label in expected.items():
+            url = '/%sencyclopedia/item/equipment/233-kaiser/' % prefix
+            title, desc = self._meta(url)
+            with self.subTest(version=prefix or 'dofus3'):
+                self.assertIn('Kaiser', title)
+                if label is None:
+                    # The default version stays as it reads today.
+                    self.assertNotIn('(Dofus', title)
+                else:
+                    self.assertIn('(%s)' % label, title)
+                    self.assertTrue(desc.startswith(label + '.'), desc[:40])
+                self.assertNotIn(title, seen)
+                seen.add(title)
+        self.assertEqual(5, len(seen))
+
+    def test_no_two_pages_share_a_title(self):
+        urls = ['/', '/encyclopedia/', '/encyclopedia/sets/',
+                '/encyclopedia/monsters/', '/forgemagie/', '/guides/',
+                '/retro/encyclopedia/', '/retro/encyclopedia/sets/',
+                '/touch/encyclopedia/', '/dofus2/forgemagie/']
+        titles = [self._meta(url)[0] for url in urls]
+        self.assertEqual(len(titles), len(set(titles)), titles)
+
+    def test_the_smithmagic_page_says_where_it_lives(self):
+        # It was the one page whose title was a bare label, with no site name.
+        title, _desc = self._meta('/forgemagie/')
+        self.assertIn('The Dofus Fashionista', title)
+
+
 class ImageWeightTests(TestCase):
     """An image with no width and height moves the page under the reader as it
     loads, which is one of the three numbers Google grades a page on. The list
@@ -8235,9 +8284,9 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('Niveau %s - Monstre' % span, body)
-        # The minifier reorders attributes: match the content only. The meta
-        # description opens with the level span (a weakness line may follow).
-        self.assertIn('content="Niveau %s. ' % span, body)
+        # The minifier reorders attributes: match the content only. The version
+        # names itself first, then the level span (a weakness line may follow).
+        self.assertIn('content="Dofus Touch. Niveau %s. ' % span, body)
 
         # dofus2 carries its own span since its grades landed.
         conn = sqlite3.connect(get_items_db_path('dofus2'))

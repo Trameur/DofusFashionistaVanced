@@ -3,9 +3,9 @@
 {% load static_s3 %}
 {% load i18n %}
 
-{% block title %}{{ item.name }} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{{ item.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
 
 {# Version-prefixed item pages are canonical because each game version has distinct item data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}

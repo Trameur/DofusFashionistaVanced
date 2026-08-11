@@ -3,9 +3,9 @@
 {% load static_s3 %}
 {% load i18n %}
 
-{% block title %}{{ monster.name }} - {% if level_span %}{{ mt.level_label }} {{ level_span }} - {% endif %}{{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{{ monster.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {% if level_span %}{{ mt.level_label }} {{ level_span }} - {% endif %}{{ mt.monster_kind_label }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% if weakness_element_name %}{{ mt.weakness_label }}: {{ weakness_element_name }}. {% endif %}{% if spells %}{% blocktrans with monster_name=monster.name %}Dofus monster page for {{ monster_name }}: the spells it casts, the resources and items it drops, and their drop rates for this game version.{% endblocktrans %}{% else %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endif %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if level_span %}{{ mt.level_label }} {{ level_span }}. {% endif %}{% if weakness_element_name %}{{ mt.weakness_label }}: {{ weakness_element_name }}. {% endif %}{% if spells %}{% blocktrans with monster_name=monster.name %}Dofus monster page for {{ monster_name }}: the spells it casts, the resources and items it drops, and their drop rates for this game version.{% endblocktrans %}{% else %}{% blocktrans with monster_name=monster.name %}Dofus monster drops for {{ monster_name }}: resources, items and drop rates for this game version.{% endblocktrans %}{% endif %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 

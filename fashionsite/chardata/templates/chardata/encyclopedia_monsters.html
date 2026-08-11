@@ -2,9 +2,9 @@
 {% load version_url %}
 {% load i18n %}
 
-{% block title %}{{ mt.monsters_label }} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{{ mt.monsters_label }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% blocktrans %}Browse Dofus monsters, their drops and the resources or items they provide for each game version.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans %}Browse Dofus monsters, their drops and the resources or items they provide for each game version.{% endblocktrans %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
