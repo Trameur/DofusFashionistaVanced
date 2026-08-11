@@ -11646,6 +11646,57 @@ class SpellComboTests(SimpleTestCase):
             self.assertGreaterEqual(total, best, ap)
             best = total
 
+    def test_a_spell_on_a_cooldown_is_cast_once(self):
+        # Reported by a player: the panel showed four casts of Friendship Word
+        # for 14264. The source says maxCastPerTurn 0 and minCastInterval 1, so
+        # the only gate is the cooldown, which the panel read as no gate at all.
+        # 67 of the 536 Dofus 3 class spells are gated by nothing else.
+        spells = self._spells('Eniripsa')
+        friendship = next(s for s in spells if s.name == 'Friendship Word')
+        self.assertEqual(1, friendship.limit)
+        cooldown_only = [s for s in spells
+                         if (s.spell.casting or {}).get('cooldown')
+                         and not (s.spell.casting or {}).get('per_turn')]
+        self.assertTrue(cooldown_only)
+        for spell in cooldown_only:
+            self.assertEqual(1, spell.limit, spell.name)
+
+    def test_a_row_the_spell_does_not_have_earns_nothing(self):
+        # A level the spell has not reached is stored as 0 to 0, and the damage
+        # formula still handed it the flat bonus: max(int(mult * 0) + dam, 0).
+        # Twelve of Friendship Word's rows were padding worth 40% of its total.
+        for spell in self._spells('Eniripsa') + self._spells('Feca'):
+            for alternative in spell.alternatives:
+                for effect in alternative:
+                    self.assertTrue(effect.min_dam or effect.max_dam,
+                                    '%s keeps a 0 to 0 row' % spell.name)
+
+    def test_a_best_element_spell_is_scored_on_the_element_it_would_use(self):
+        # The generator writes such a spell as one single-row group per
+        # element, always in earth, fire, water, air order, and the panel kept
+        # group 0: every one of them was scored in Earth.
+        from chardata.spell_combo import best_turn
+        spells = self._spells()
+        intimidation = next(s for s in spells if s.name == 'Intimidation')
+        self.assertEqual(4, len(intimidation.alternatives))
+        self.assertEqual(['earth', 'fire', 'water', 'air'],
+                         [rows[0].element for rows in intimidation.alternatives])
+        fire = self._stats(int=800, firedam=200)
+        earth = self._stats(str=800, earthdam=200)
+        fire_total, _order = best_turn(fire, [intimidation], intimidation.cost)
+        earth_total, _order = best_turn(earth, [intimidation], intimidation.cost)
+        self.assertGreater(fire_total, 0)
+        self.assertGreater(earth_total, 0)
+
+    def test_a_stacking_spell_still_starts_from_nothing_built_up(self):
+        # Stacks look like best-element groups: one single row each. They are
+        # told apart by the element repeating, and picking the best of those
+        # would assume the stack is already full.
+        spells = self._spells('Cra')
+        stacked = next(s for s in spells if s.name == 'Immobilising Arrow')
+        self.assertGreater(stacked.stacks, 1)
+        self.assertEqual(1, len(stacked.alternatives))
+
     def test_a_spell_is_not_cast_more_often_than_the_game_allows(self):
         from chardata.spell_combo import best_turn
         spells = self._spells()

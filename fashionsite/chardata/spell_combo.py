@@ -41,6 +41,36 @@ def combat_ap(gear_ap, game_version):
     return min(total, cap) if cap else total
 
 
+def _element_alternatives(aggregates, effects):
+    """The groups of a best-element spell, or None when they are not that.
+
+    The generator writes a best-element hit as one single-row group per
+    element, and a stacking spell as one group per stack. They look identical
+    apart from the elements: four groups of earth/fire/water/air are one hit
+    the caster picks, five groups all of water are the same hit growing. Only
+    the first shape may be scored on its best row; keeping group 0 there meant
+    always scoring Earth, on 84 Dofus 3 spells.
+
+    A spell can carry several such runs, one per glyph grade or per state.
+    Those are alternatives too, but which one applies is not something the
+    panel knows, so it keeps the first, the way it already assumes nothing is
+    stacked yet.
+    """
+    if not aggregates or len(aggregates) < 2:
+        return None
+    run = []
+    seen = set()
+    for _label, indices in aggregates:
+        if len(indices) != 1 or indices[0] >= len(effects):
+            return None
+        element = effects[indices[0]].element
+        if element in seen:
+            break
+        seen.add(element)
+        run.append(set(indices))
+    return run if len(run) > 1 else None
+
+
 class Castable(object):
 
     def __init__(self, spell, level_index, crit):
@@ -56,14 +86,30 @@ class Castable(object):
                 if not effect.element.startswith('buff')]
         # Aggregate rows are alternatives, one per stack or element; a cast
         # lands one. First group = nothing built up.
-        if digest.aggregates:
-            wanted = set(digest.aggregates[0][1])
-            hits = [pair for pair in hits if pair[0] in wanted]
-        self.hits = [effect for _index, effect in hits]
+        groups = _element_alternatives(digest.aggregates, self.effects)
+        if groups is None:
+            groups = [set(digest.aggregates[0][1])] if digest.aggregates else [None]
+        # A row the spell does not have at this level is stored as 0 to 0, and
+        # the damage formula hands it the flat bonus anyway: max(0 + dam, 0).
+        # Friendship Word carried twelve of them, 40% of what it claimed.
+        self.alternatives = []
+        for wanted in groups:
+            kept = [effect for index, effect in hits
+                    if (wanted is None or index in wanted)
+                    and (effect.min_dam or effect.max_dam)]
+            if kept:
+                self.alternatives.append(kept)
+        self.hits = self.alternatives[0] if self.alternatives else []
         self.stacked = bool(digest.aggregates)
         casting = spell.casting or {}
         limits = [casting.get(key, [None] * (level_index + 1))[level_index]
                   for key in ('per_turn', 'per_target')]
+        # A spell on a cooldown cannot come back the same turn, and 67 of the
+        # 536 Dofus 3 class spells are gated by nothing else. No spell carries
+        # a cooldown together with a per-turn cap, so this cannot tighten one.
+        cooldown = casting.get('cooldown', [None] * (level_index + 1))[level_index]
+        if cooldown:
+            limits.append(1)
         limits = [limit for limit in limits if limit]
         self.limit = min(limits) if limits else None
         self.stacks = spell.stacks or 1
@@ -118,7 +164,7 @@ def best_turn(stats, spells, ap, crit=False):
         return 0.0, []
 
     def damage_of(spell, counts):
-        if not spell.hits:
+        if not spell.alternatives:
             return 0.0
         buffed = dict(stats)
         for index, other in enumerate(spells):
@@ -127,9 +173,15 @@ def best_turn(stats, spells, ap, crit=False):
             for stat, value in other.buff_deltas(counts[index]).items():
                 if stat in buffed:
                     buffed[stat] = buffed[stat] + value
-        # calculate_damage writes "best element" back into the row.
-        rows = [copy.copy(effect) for effect in spell.hits]
-        return _average(calculate_damage(rows, buffed, crit, True))
+        # A best-element spell offers one hit per element and the caster takes
+        # the one their gear favours, so it has to be scored after the buffs.
+        best_seen = 0.0
+        for alternative in spell.alternatives:
+            rows = [copy.copy(effect) for effect in alternative]
+            gained = _average(calculate_damage(rows, buffed, crit, True))
+            if gained > best_seen:
+                best_seen = gained
+        return best_seen
 
     best = {}
 
