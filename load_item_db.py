@@ -20,6 +20,7 @@ import argparse
 import os
 import platform
 import sqlite3
+import sys
 import importlib
 
 try:
@@ -110,7 +111,10 @@ def main():
                 os.remove(tmp_db_path)
             except OSError:
                 pass
-        return
+        # Every caller runs this as a subprocess and reads the exit code. It
+        # used to return 0 here, so a failed import left the old database in
+        # place and the pipeline printed the step as done.
+        sys.exit(1)
 
     # Ensure the file is writable (equivalent of chmod 666 on Windows).
     try:

@@ -12028,6 +12028,42 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
             character_assets.parts_manifest_view(None, '80', fmt=skin - 1)
 
 
+class LoadItemDbFailsLoudlyTests(SimpleTestCase):
+    """Every caller runs load_item_db.py as a subprocess and reads its exit
+    code: the pipelines mark the step failed on a non-zero one. It used to
+    print the error and return 0, so a failed import left the previous
+    database in place while the run reported the step as done. That is the
+    same silent shape as the gutted monster tables and the Dofus 2 rebuild
+    that lost its recipes."""
+
+    def test_a_failed_import_exits_non_zero(self):
+        import importlib
+        import sys
+        from unittest import mock
+        module = importlib.import_module('load_item_db')
+        with mock.patch.object(module, '_build_db_file',
+                               side_effect=RuntimeError('sqlite3 import failed')):
+            with mock.patch.object(sys, 'argv', ['load_item_db.py']):
+                with self.assertRaises(SystemExit) as caught:
+                    module.main()
+        self.assertNotEqual(0, caught.exception.code)
+
+    def test_the_temp_file_does_not_survive_a_failure(self):
+        import glob
+        import importlib
+        import sys
+        from unittest import mock
+        from fashionistapulp.fashionista_config import get_items_db_path
+        module = importlib.import_module('load_item_db')
+        pattern = '%s.tmp.%d' % (get_items_db_path('dofus3'), os.getpid())
+        with mock.patch.object(module, '_build_db_file',
+                               side_effect=RuntimeError('sqlite3 import failed')):
+            with mock.patch.object(sys, 'argv', ['load_item_db.py']):
+                with self.assertRaises(SystemExit):
+                    module.main()
+        self.assertEqual([], glob.glob(pattern))
+
+
 class ItemDatabaseIntegrityTests(SimpleTestCase):
     """A broken scrape shows up as a build the solver cannot explain, weeks after
     the run that caused it. These are the invariants every version's database
