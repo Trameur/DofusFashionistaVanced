@@ -936,6 +936,34 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Set bonuses')
 
+    def test_a_set_that_caps_says_so_on_its_page(self):
+        # The page listed the giving half only, so Cire Momore's Curse read as
+        # pure upside while it actually holds a six-piece wearer to 2 MP, under
+        # the 3 a character starts with.
+        from fashionistapulp.structure import get_structure
+        structure = get_structure()
+        item_set = structure.get_set_by_name("Cire Momore's Curse")
+        self.assertIsNotNone(item_set)
+        self.assertTrue(item_set.max_caps, 'the capping set lost its caps')
+
+        response = self.client.get('/encyclopedia/set/%d/' % item_set.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Caps this set imposes')
+        html = response.content.decode('utf-8')
+        for stat_name in ('MP', 'Range', 'Summon'):
+            self.assertIn('%s ≤ 2' % stat_name, html, stat_name)
+
+    def test_a_set_without_caps_gets_no_empty_cap_block(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure()
+        plain = next((s for s in structure.sets_dict.values()
+                      if getattr(s, 'bonus', None) and not getattr(s, 'max_caps', None)),
+                     None)
+        self.assertIsNotNone(plain, 'no capless set in the structure')
+        response = self.client.get('/encyclopedia/set/%d/' % plain.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'Caps this set imposes')
+
     def test_gobball_set_item_shows_dofus3_set_name_not_touch(self):
         # Regression: set id 1 is the dofus3 "Gobball Set" (with bonuses) AND, in
         # dt_sets_dict, the touch "Jellix Set". get_set_by_id() checks dt first, so
@@ -4206,6 +4234,18 @@ class TouchSoftCapsTests(SimpleTestCase):
             if remaining <= 0:
                 break
         return cost
+
+    def test_retro_is_the_only_version_where_scrolls_push_the_curve(self):
+        # The tempting mistake is to lump Touch in with Retro because it forked
+        # from 2.x before the October 2018 change. It adopted the rule on its
+        # own: a player's character scrolled to 51 Intelligence with 305 points
+        # invested was charged 925 in game, the flat curve, not the 1078 the
+        # pushed curve wants. Nothing else pins which versions push, so a
+        # one-word edit here would misprice every Touch build in silence.
+        from fashionistapulp.dofus_constants import scrolls_push_cost_curve
+        self.assertTrue(scrolls_push_cost_curve('retro'))
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            self.assertFalse(scrolls_push_cost_curve(version), version)
 
     def test_scrolls_push_points_up_the_cost_curve(self):
         # Reported bug: an Iop scrolled to 100 Intelligence was charged 1:1 for the

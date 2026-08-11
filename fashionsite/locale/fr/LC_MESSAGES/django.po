@@ -3315,6 +3315,11 @@ msgstr ""
 "recette de craft. Découvrez des builds utilisant %(item_name)s et optimisez "
 "votre panoplie avec le Dofus Fashionista."
 
+#: .\chardata\templates\chardata\encyclopedia_item.html:96
+#: .\chardata\templates\chardata\encyclopedia_set.html:118
+msgid "Caps this set imposes"
+msgstr "Plafonds imposés par la panoplie"
+
 #: .\chardata\templates\chardata\encyclopedia_item.html:79
 #: .\chardata\templates\chardata\encyclopedia_set.html:103
 msgid "Set bonuses"

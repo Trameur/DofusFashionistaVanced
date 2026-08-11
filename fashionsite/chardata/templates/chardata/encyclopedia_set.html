@@ -114,6 +114,19 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% if group.caps %}
+                <div class="encyclopedia-item-meta">{% trans "Caps this set imposes" %}</div>
+                <ul class="encyclopedia-list encyclopedia-set-caps">
+                    {% for line in group.caps %}
+                    <li>
+                        <div class="encyclopedia-list-stat">
+                            {% if line.icon_url %}<img class="encyclopedia-list-stat-icon" src="{{ line.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">{% endif %}
+                            <span>{{ line.name }} ≤ {{ line.value }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
             {% endfor %}
         </div>

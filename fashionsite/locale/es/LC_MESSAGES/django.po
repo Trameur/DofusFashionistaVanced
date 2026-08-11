@@ -3299,6 +3299,11 @@ msgstr ""
 "equipamiento y receta de fabricación. Descubre builds que usan %(item_name)s "
 "y optimiza tu set con el Dofus Fashionista."
 
+#: .\chardata\templates\chardata\encyclopedia_item.html:96
+#: .\chardata\templates\chardata\encyclopedia_set.html:118
+msgid "Caps this set imposes"
+msgstr "Topes que impone el conjunto"
+
 #: .\chardata\templates\chardata\encyclopedia_item.html:79
 #: .\chardata\templates\chardata\encyclopedia_set.html:103
 msgid "Set bonuses"

@@ -3064,6 +3064,11 @@ msgid ""
 "Fashionista."
 msgstr ""
 
+#: .\chardata\templates\chardata\encyclopedia_item.html:96
+#: .\chardata\templates\chardata\encyclopedia_set.html:118
+msgid "Caps this set imposes"
+msgstr "Caps this set imposes"
+
 #: .\chardata\templates\chardata\encyclopedia_item.html:79
 #: .\chardata\templates\chardata\encyclopedia_set.html:103
 msgid "Set bonuses"

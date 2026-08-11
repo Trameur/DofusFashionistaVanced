@@ -500,7 +500,8 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language):
 def _get_set_bonuses(structure, item_set, language):
     """The bonuses a panoply grants per number of pieces worn, grouped, for the item
     page. The data was already loaded (set_bonus table) but only the set name was shown."""
-    if item_set is None or not getattr(item_set, 'bonus', None):
+    if item_set is None or not (getattr(item_set, 'bonus', None)
+                                or getattr(item_set, 'max_caps', None)):
         return []
     by_pieces = {}
     for num_items, stat_id, value in item_set.bonus:
@@ -515,10 +516,30 @@ def _get_set_bonuses(structure, item_set, language):
                 'icon_url': _get_stat_icon_url(stat.key),
             },
         ))
+    # A few sets take instead of giving: Cire Momore's Curse holds the wearer
+    # to 2 MP on six pieces, under the 3 a character starts with. Listing only
+    # the bonus rows sold that set as pure upside.
+    caps_by_pieces = {}
+    for num_items, stat_id, max_value in getattr(item_set, 'max_caps', None) or []:
+        stat = structure.get_stat_by_id(stat_id)
+        if stat is None:
+            continue
+        caps_by_pieces.setdefault(num_items, []).append((
+            STAT_ORDER.get(stat.key, 9999),
+            {
+                'name': _localized_label(stat.name, language),
+                'value': int(round(max_value)),
+                'icon_url': _get_stat_icon_url(stat.key),
+            },
+        ))
+
     groups = []
-    for num_pieces in sorted(by_pieces):
-        lines = [line for _, line in sorted(by_pieces[num_pieces], key=lambda pair: pair[0])]
-        groups.append({'num_pieces': num_pieces, 'lines': lines})
+    for num_pieces in sorted(set(by_pieces) | set(caps_by_pieces)):
+        lines = [line for _, line in sorted(by_pieces.get(num_pieces, []),
+                                            key=lambda pair: pair[0])]
+        caps = [line for _, line in sorted(caps_by_pieces.get(num_pieces, []),
+                                           key=lambda pair: pair[0])]
+        groups.append({'num_pieces': num_pieces, 'lines': lines, 'caps': caps})
     return groups
 
 

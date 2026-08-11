@@ -3295,6 +3295,11 @@ msgstr ""
 "Handwerksrezept. Entdecken Sie Builds mit %(item_name)s und optimieren Sie "
 "Ihr Set mit dem Dofus Fashionista."
 
+#: .\chardata\templates\chardata\encyclopedia_item.html:96
+#: .\chardata\templates\chardata\encyclopedia_set.html:118
+msgid "Caps this set imposes"
+msgstr "Obergrenzen dieses Sets"
+
 #: .\chardata\templates\chardata\encyclopedia_item.html:79
 #: .\chardata\templates\chardata\encyclopedia_set.html:103
 msgid "Set bonuses"
