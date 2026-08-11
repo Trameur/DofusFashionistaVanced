@@ -78,5 +78,16 @@ fashionsite/staticfiles/
 # Environnements locaux volumineux
 .venv/
 
+# Icones pleine taille de Dofus 3 et de la beta : ce sont les ENTREES de
+# resize_images.py, qui fabrique les 60x60 que le site sert. Le conteneur ne
+# redimensionne jamais, il ne sert que les 60x60, donc ces 128 Mo n'y servent
+# a rien. Le motif s'arrete a ce niveau, les sous-dossiers 60x60 restent.
+# Touch et Retro n'apparaissent pas ici : ils redimensionnent en memoire et
+# n'ecrivent que le 60x60.
+fashionsite/chardata/static/chardata/items/*.png
+fashionsite/chardata/static/chardata/items/beta/*.png
+fashionsite/chardata/static/chardata/pets/*.png
+fashionsite/chardata/static/chardata/pets/beta/*.png
+
 # Metadonnees git
 .git/
