@@ -6466,7 +6466,7 @@ class SolvedBuildIsWearableTests(TestCase):
     SLOT_LIMITS = {'Hat': 1, 'Cloak': 1, 'Amulet': 1, 'Belt': 1, 'Boots': 1,
                    'Shield': 1, 'Weapon': 1, 'Pet': 1, 'Ring': 2, 'Dofus': 6}
 
-    def _solve(self, version, char_class, level, aspects):
+    def _solve(self, version, char_class, level, aspects, with_solution=False):
         from django.test import RequestFactory
         from django.contrib.auth.models import User
         from fashionistapulp.structure import set_current_game_version
@@ -6474,9 +6474,9 @@ class SolvedBuildIsWearableTests(TestCase):
         from chardata.solution import get_solution
         set_current_game_version(version)
         self.addCleanup(set_current_game_version, 'dofus3')
+        tag = '%s%s%d' % (version, char_class, level)
         owner = User.objects.create_user(
-            'wear%s%d' % (version, level), '%s%d@t.local' % (version, level),
-            'pw-42-solid')
+            'wear%s' % tag, '%s@t.local' % tag, 'pw-42-solid')
         request = RequestFactory().post('/')
         request.user = owner
         char = create_build(request, char_class, level, aspects, version)
@@ -6486,7 +6486,8 @@ class SolvedBuildIsWearableTests(TestCase):
         char.refresh_from_db()
         solution = get_solution(char)
         self.assertIsNotNone(solution, version)
-        return [ri for ri in solution.item_list if ri.item_added]
+        worn = [ri for ri in solution.item_list if ri.item_added]
+        return (worn, solution) if with_solution else worn
 
     def _check(self, version, char_class, level, aspects):
         from collections import Counter
@@ -6514,6 +6515,54 @@ class SolvedBuildIsWearableTests(TestCase):
     def test_a_retro_build_is_wearable(self):
         # 1.29 plays by its own rules, so it gets its own check.
         self._check('retro', 'Iop', 100, {'str'})
+
+    def _check_equip_conditions(self, version, char_class, level, aspects):
+        """A gated item is read on the FINAL total, its own bonus counted: that
+        is how the game chains gear, and how the AP and MP gates were settled."""
+        from fashionistapulp.structure import get_structure
+        worn, solution = self._solve(version, char_class, level, aspects,
+                                     with_solution=True)
+        structure = get_structure(version)
+        totals = solution.get_stats_total()
+        gates = 0
+        broken = []
+        for result_item in worn:
+            item = structure.get_item_by_id(getattr(result_item, 'id', None))
+            if item is None:
+                continue
+            for stat_id, needed in getattr(item, 'min_stats_to_equip', []):
+                stat = structure.get_stat_by_id(stat_id)
+                if stat is None:
+                    continue
+                gates += 1
+                if totals.get(stat.key, 0) < needed:
+                    broken.append('%s needs %s >= %d, the build has %d'
+                                  % (result_item.name, stat.key, needed,
+                                     totals.get(stat.key, 0)))
+            for stat_id, cap in getattr(item, 'max_stats_to_equip', []):
+                stat = structure.get_stat_by_id(stat_id)
+                if stat is None:
+                    continue
+                gates += 1
+                if totals.get(stat.key, 0) > cap:
+                    broken.append('%s needs %s <= %d, the build has %d'
+                                  % (result_item.name, stat.key, cap,
+                                     totals.get(stat.key, 0)))
+        return gates, broken
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_the_build_can_put_its_own_gated_gear_on(self):
+        # Touch and Retro are the two that reach for gated pieces: 12% of the
+        # Touch catalogue is gated and 65% of Retro's, against 6% on Dofus 3.
+        exercised = 0
+        for version, char_class in (('touch', 'Iop'), ('retro', 'Iop')):
+            gates, broken = self._check_equip_conditions(
+                version, char_class, 200, {'str'})
+            exercised += gates
+            with self.subTest(version=version):
+                self.assertEqual([], broken)
+        # Without this the test would pass by never meeting a gate at all.
+        self.assertGreater(exercised, 0, 'no equip condition was exercised')
 
 
 class RetroUncappedApSolveTests(TestCase):
