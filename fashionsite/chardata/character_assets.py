@@ -644,12 +644,28 @@ def parts_manifest_view(request, skin_id, fmt=None):
     return _forever(JsonResponse(manifest))
 
 
+def _served(path):
+    """The file to hand back, once it is proven to sit inside the cache.
+
+    Each of these three views already pins its id a different way: an int
+    cast, a \\d+ route, a regex. That is three separate arguments a reader has
+    to redo to convince themselves nothing escapes. This is the one argument,
+    made where the file is opened, and it holds even if a route is loosened
+    later.
+    """
+    root = os.path.realpath(cache_dir())
+    resolved = os.path.realpath(path)
+    if resolved != root and not resolved.startswith(root + os.sep):
+        raise Http404
+    if not os.path.isfile(resolved):
+        raise Http404
+    return resolved
+
+
 def atlas_view(request, skin_id):
     if ensure_skin(int(skin_id)) is None:
         raise Http404
-    path = os.path.join(_skin_cache(int(skin_id)), ATLAS_NAME)
-    if not os.path.exists(path):
-        raise Http404
+    path = _served(os.path.join(_skin_cache(int(skin_id)), ATLAS_NAME))
     return _forever(FileResponse(open(path, 'rb'), content_type='image/webp'))
 
 
@@ -666,9 +682,7 @@ def mount_part_view(request, bone_id, part):
     manifest = ensure_mount(bone_id)
     if manifest is None or part not in manifest['parts']:
         raise Http404
-    path = os.path.join(_mount_cache(bone_id), '%s.png' % part)
-    if not os.path.exists(path):
-        raise Http404
+    path = _served(os.path.join(_mount_cache(bone_id), '%s.png' % part))
     return _forever(FileResponse(open(path, 'rb'), content_type='image/png'))
 
 
@@ -678,4 +692,5 @@ def pose_view(request, bone_id, fmt=None):
     path = ensure_pose(bone_id)
     if path is None:
         raise Http404
-    return _forever(FileResponse(open(path, 'rb'), content_type='application/json'))
+    return _forever(FileResponse(open(_served(path), 'rb'),
+                                 content_type='application/json'))

@@ -12001,6 +12001,52 @@ class GameVersionWatchTests(SimpleTestCase):
                                          '9.9.9_newbundle'), 1)
 
 
+class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
+    """The three preview views open a file whose name comes from the url.
+
+    Each pinned its id a different way, an int cast, a \\d+ route, a regex, so
+    proving nothing escapes meant redoing three separate arguments, and a code
+    scanner could not follow any of them. The check now lives where the file is
+    opened and holds even if a route is loosened later."""
+
+    def test_nothing_outside_the_cache_is_ever_served(self):
+        import os
+        from django.http import Http404
+        from chardata import character_assets
+        root = character_assets.cache_dir()
+        escapes = [
+            os.path.join(os.path.dirname(root), 'manage.py'),
+            os.path.join(root, '..', 'manage.py'),
+            os.path.join(root, '..', '..', 'etc', 'passwd'),
+            os.path.abspath(__file__),
+            root,
+        ]
+        for path in escapes:
+            with self.subTest(path=path):
+                with self.assertRaises(Http404):
+                    character_assets._served(path)
+
+    def test_a_file_that_really_is_in_the_cache_is_served(self):
+        import os
+        import shutil
+        import tempfile
+        from unittest import mock
+        from chardata import character_assets
+        workdir = tempfile.mkdtemp()
+        try:
+            inside = os.path.join(workdir, 'poses')
+            os.makedirs(inside)
+            target = os.path.join(inside, '1-8-static-v1.json')
+            with open(target, 'w', encoding='utf-8') as handle:
+                handle.write('{}')
+            with mock.patch.object(character_assets, 'cache_dir',
+                                   return_value=workdir):
+                self.assertEqual(os.path.realpath(target),
+                                 character_assets._served(target))
+        finally:
+            shutil.rmtree(workdir, ignore_errors=True)
+
+
 class PreviewIsServedFromDiskTests(SimpleTestCase):
     """A build nobody has looked at is about a hundred baked pieces. nginx
     serves them, but only Django can bake the ones that are missing."""
