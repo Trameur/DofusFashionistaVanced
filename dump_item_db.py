@@ -59,6 +59,24 @@ def main():
         sys.exit(1)
 
 
+def _iterdump_to(items_db_path, target_path):
+    """The dump sqlite3 itself would write, from the standard library.
+
+    This replaced a hand-rolled serializer that wrote no index at all and
+    pushed blobs through str(), so its dump could not be read back. The rest
+    of the project already dumps through iterdump (store_item_obtainment), and
+    it handles both.
+    """
+    conn = sqlite3.connect(items_db_path)
+    try:
+        with open(target_path, 'w', encoding='utf-8') as out_file:
+            for statement in conn.iterdump():
+                out_file.write(statement)
+                out_file.write('\n')
+    finally:
+        conn.close()
+
+
 def _write_dump(items_db_path, target_path):
     """Write the SQL dump of items_db_path into target_path."""
     print(f"Dumping database from {items_db_path} to {target_path}")
@@ -83,58 +101,7 @@ def _write_dump(items_db_path, target_path):
                                text=True,
                                check=True)
         else:
-            # Utiliser le module sqlite3 Python si l'exécutable n'est pas disponible
-            conn = sqlite3.connect(items_db_path)
-            with open(target_path, 'w', encoding='utf-8') as f:
-                # Obtenir une liste de toutes les tables
-                cursor = conn.cursor()
-                cursor.execute("SELECT name FROM sqlite_master WHERE type='table' "
-                               "AND name <> 'sqlite_sequence';")
-                tables = cursor.fetchall()
-
-                # Exporter le schéma et les données pour chaque table
-                for table in tables:
-                    table_name = table[0]
-                    # Exporter le schéma (CREATE TABLE)
-                    cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}';")
-                    create_statement = cursor.fetchone()[0]
-                    f.write(f"{create_statement};\n")
-
-                    # Exporter les données (INSERT)
-                    cursor.execute(f"SELECT * FROM {table_name};")
-                    rows = cursor.fetchall()
-                    for row in rows:
-                        # Formater les valeurs pour SQL
-                        values = []
-                        for value in row:
-                            if value is None:
-                                values.append("NULL")
-                            elif isinstance(value, (bytes, bytearray)):
-                                # Les listes picklees d'extra_lines sont des
-                                # blobs. Les passer par str() ecrivait b'...'
-                                # dans le SQL et le dump ne se rechargeait pas.
-                                values.append("X'%s'" % value.hex())
-                            elif isinstance(value, str):
-                                # Échapper les apostrophes et guillemets
-                                escaped_value = value.replace("'", "''")
-                                values.append(f"'{escaped_value}'")
-                            else:
-                                values.append(str(value))
-                        # Créer la requête INSERT
-                        f.write(f"INSERT INTO {table_name} VALUES ({', '.join(values)});\n")
-
-                # Les index, sinon ce repli rend un dump plus pauvre que celui
-                # du CLI: cinq index par version disparaissaient, et toute base
-                # reconstruite depuis ce dump repartait sans eux. Les
-                # sqlite_autoindex sont recrees par SQLite avec la table.
-                cursor.execute(
-                    "SELECT sql FROM sqlite_master WHERE type IN "
-                    "('index', 'trigger', 'view') AND sql IS NOT NULL "
-                    "AND name NOT LIKE 'sqlite_autoindex%';")
-                for (statement,) in cursor.fetchall():
-                    f.write(f"{statement};\n")
-
-            conn.close()
+            _iterdump_to(items_db_path, target_path)
     else:
         # Méthode originale pour Linux/macOS, dont le code de retour etait
         # ignore: sqlite3 pouvait echouer et laisser un dump vide.
