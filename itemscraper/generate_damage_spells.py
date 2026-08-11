@@ -964,13 +964,14 @@ def _copy_damage_rows(rows: Optional[Sequence[Mapping[str, Any]]], level_count: 
         return []
     copied: List[Dict[str, Any]] = []
     for row in rows:
-        copied.append(
-            {
-                "element": row.get("element"),
-                "steals": row.get("steals"),
-                "ranges": _fit_ranges(list(row.get("ranges", [])), level_count),
-            }
-        )
+        # Rebuilding three keys dropped the rest. Friendship Word lands a glyph
+        # that heals allies as readily as it hits enemies, and it reached the
+        # site as 24 damage rows: no heals flag, so its twelve heal rows were
+        # counted as damage, and no best-element group, so its four elements
+        # were summed instead of being the one hit the caster picks.
+        carried = dict(row)
+        carried["ranges"] = _fit_ranges(list(row.get("ranges", [])), level_count)
+        copied.append(carried)
     return copied
 
 
