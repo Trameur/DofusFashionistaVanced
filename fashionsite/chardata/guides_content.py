@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
 
 
 GUIDES = {
@@ -3064,6 +3064,133 @@ GUIDES = {
 <p>Du rüstest nicht für jeden Kampf um, und manche Klassen sind auf ihr Element festgelegt. Die gute Nachricht: der größte Gewinn liegt schon darin, die stärkste Resistenz des Monsters zu meiden. Sein zweitbestes Element zu treffen ist meist völlig in Ordnung; deinen Schaden in das Element zu stecken, das es wegstecken soll, das kostet. Im Team überlass das schwache Element dem, der es ohnehin trifft, und denk an die umgekehrte Logik: die Elemente, mit denen Monster angreifen, entscheiden, welche <a href="/guides/resistance-explained/">deiner eigenen Resistenzen</a> zählen.</p>
 
 <p><em>Such dir einen Dungeon, den du ständig läufst, schau seine Monster im <a href="/encyclopedia/monsters/">Bestiarium</a> nach und <a href="/quickstart/">bau ein Set</a>, das ihre Schwäche voll ausnutzt.</em></p>
+''',
+            },
+        },
+    },
+
+    # ------------------------------------------------------------------ #
+    # The six dofus slots hold three different families in the modern game and
+    # only Dofus in Retro. Every figure below is counted from our own item
+    # tables (type 9), so it moves with the data instead of being asserted:
+    # 320 items on Dofus 3 and the beta, 266 on Touch, 17 on Retro. The
+    # example items are read from the same tables.
+    'dofus-and-trophies': {
+        'published': '2026-08-11',
+        'i18n': {
+            'en': {
+                'title': 'Dofus and trophies: how to fill your six slots',
+                'desc': "Six slots, and in modern Dofus three different families competing for them: trophies, Dofus and Prysmaradites. What goes where, and what it costs you.",
+                'lead': "Every character has six of these slots, and in the modern game they are the most crowded decision in your build. Here is what can go in them and how to choose.",
+                'body': '''
+<h2>Six slots, three families</h2>
+<p>Your character carries <strong>six</strong> of these slots, in every version of the game. What you can put in them is where the versions part ways. In Dofus 3, the beta and Dofus 2 there are over three hundred candidates, and they come in three families: <strong>trophies</strong>, <strong>Dofus</strong> proper, and <strong>Prysmaradites</strong>. On Dofus Touch the same three families exist with its own roster.</p>
+
+<h2>Trophies: a flat stat, then a price</h2>
+<p>Trophies arrive in tiers. The small ones ask for level 50 and give a plain bonus with no downside: a Minor Acrobat is simply +15 Agility. The next tier, at level 100, doubles it: an Acrobat is +30 Agility, still free of any cost. From the level 150 tier the deal changes, and this is where players get caught: an Arcanist gives +6% spell damage but takes <strong>6% melee resistance and 6% ranged resistance</strong> with it. The stronger the trophy, the more it asks back.</p>
+
+<h2>Dofus and Prysmaradites: the expensive end</h2>
+<p>The Dofus themselves sit at level 180 and are broad rather than sharp: an Ivory Dofus adds 4% resistance in all five elements, an Ice Dofus adds 25 damage in all five. They are the quest reward at the end of very long chains, and they are worth a slot for exactly that breadth. Prysmaradites, at level 200, go back to trading: a Caraprys hands you 2 summons and takes <strong>1 MP</strong>. Losing an MP is not a rounding error, so a Prysmaradite has to earn its slot against a Dofus that costs you nothing.</p>
+
+<h2>Dofus Retro plays a much simpler game</h2>
+<p>Retro has <strong>no trophies and no Prysmaradites at all</strong>. Its six slots are filled from seventeen items, and twelve of those are the classic level 6 Dofus: Emerald, Turquoise, Crimson, Vulbis, Ochre, Ivory, Cawwot, Ebony, Kaliptus and the rest. There is no tier ladder and no trade-off family to weigh. If you learned the modern trophy game, none of that thinking transfers to Retro, and the reverse is just as true.</p>
+
+<h2>Let the optimizer weigh the trade</h2>
+<p>This is a slot where counting by hand goes wrong fast, because the drawbacks are in different currencies from the gains: is 6% spell damage worth 6% melee resistance? Is 2 summons worth an MP? The optimizer already knows every candidate and every penalty attached to it, and it weighs them against your own priorities rather than against a tier list. Set what you care about, run it, and read what it put in those six slots.</p>
+
+<p><em>Curious what the six slots should hold for your character? <a href="/setup/">Build it here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': 'Dofus et trophées : comment remplir tes six emplacements',
+                'desc': "Six emplacements, et sur le Dofus moderne trois familles qui se les disputent : trophées, Dofus et Prysmaradites. Ce qui va où, et ce que ça te coûte.",
+                'lead': "Chaque personnage a six de ces emplacements, et sur le jeu moderne c'est la décision la plus disputée de ton build. Voilà ce qui peut y aller et comment choisir.",
+                'body': '''
+<h2>Six emplacements, trois familles</h2>
+<p>Ton personnage porte <strong>six</strong> de ces emplacements, dans toutes les versions du jeu. Ce que tu peux y mettre, en revanche, sépare les versions. Sur Dofus 3, la beta et Dofus 2, plus de trois cents candidats se présentent, répartis en trois familles : les <strong>trophées</strong>, les <strong>Dofus</strong> eux-mêmes, et les <strong>Prysmaradites</strong>. Dofus Touch a les mêmes trois familles avec son propre catalogue.</p>
+
+<h2>Les trophées : une stat sèche, puis une facture</h2>
+<p>Les trophées arrivent par paliers. Les petits demandent le niveau 50 et donnent un bonus simple, sans contrepartie : un Acrobate mineur, c'est +15 Agilité, point. Le palier suivant, au niveau 100, double la mise : un Acrobate donne +30 Agilité, toujours sans coût. À partir du palier 150, le marché change, et c'est là que les joueurs se font avoir : un Arcaniste donne +6% de dommages aux sorts mais emporte avec lui <strong>6% de résistance mêlée et 6% de résistance distance</strong>. Plus le trophée est fort, plus il réclame en échange.</p>
+
+<h2>Dofus et Prysmaradites : le haut du panier</h2>
+<p>Les Dofus eux-mêmes sont au niveau 180, et ils sont larges plutôt que pointus : un Dofus Ivoire ajoute 4% de résistance dans les cinq éléments, un Dofus Glace ajoute 25 dommages dans les cinq. Ce sont les récompenses de très longues quêtes, et c'est exactement cette largeur qui justifie un emplacement. Les Prysmaradites, au niveau 200, reviennent au troc : un Caraprys te donne 2 invocations et te prend <strong>1 PM</strong>. Perdre un PM n'est pas un détail, donc un Prysmaradite doit mériter sa place face à un Dofus qui, lui, ne coûte rien.</p>
+
+<h2>Dofus Retro joue à un jeu bien plus simple</h2>
+<p>Retro n'a <strong>ni trophées ni Prysmaradites</strong>. Ses six emplacements se remplissent parmi dix-sept objets, dont douze sont les Dofus classiques de niveau 6 : Émeraude, Turquoise, Pourpre, Vulbis, Ocre, Ivoire, Cawotte, Ébène, Kaliptus et les autres. Pas d'échelle de paliers, pas de famille à contrepartie à peser. Si tu as appris le jeu des trophées sur le moderne, rien de ce raisonnement ne se transpose sur Retro, et l'inverse est tout aussi vrai.</p>
+
+<h2>Laisse l'optimiseur peser l'échange</h2>
+<p>C'est un emplacement où le calcul à la main dérape vite, parce que les contreparties ne sont pas dans la même monnaie que les gains : est-ce que 6% de dommages aux sorts valent 6% de résistance mêlée ? Est-ce que 2 invocations valent un PM ? L'optimiseur connaît déjà chaque candidat et chaque malus qui y est attaché, et il les pèse selon tes propres priorités plutôt que selon une tier list. Règle ce qui compte pour toi, lance, et regarde ce qu'il a mis dans ces six emplacements.</p>
+
+<p><em>Curieux de savoir ce que devraient porter tes six emplacements ? <a href="/setup/">Construis-le ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'Dofus y trofeos: cómo llenar tus seis huecos',
+                'desc': "Seis huecos y, en el Dofus moderno, tres familias que se los disputan: trofeos, Dofus y Prysmaradites. Qué va en cada uno y qué te cuesta.",
+                'lead': "Todo personaje tiene seis de estos huecos y, en el juego moderno, son la decisión más disputada de tu build. Esto es lo que puede ir en ellos y cómo elegir.",
+                'body': '''
+<h2>Seis huecos, tres familias</h2>
+<p>Tu personaje lleva <strong>seis</strong> de estos huecos en todas las versiones del juego. Lo que puedes meter en ellos es donde las versiones se separan. En Dofus 3, la beta y Dofus 2 hay más de trescientos candidatos, repartidos en tres familias: <strong>trofeos</strong>, <strong>Dofus</strong> propiamente dichos y <strong>Prysmaradites</strong>. Dofus Touch tiene esas mismas tres familias con su propio catálogo.</p>
+
+<h2>Los trofeos: una estadística seca y luego la factura</h2>
+<p>Los trofeos llegan por niveles. Los pequeños piden nivel 50 y dan un bonus simple, sin contrapartida: un Acróbata menor son +15 de Agilidad y ya está. El siguiente escalón, en el nivel 100, dobla la apuesta: un Acróbata da +30 de Agilidad, todavía sin coste. A partir del escalón 150 el trato cambia, y ahí es donde pican los jugadores: un Arcanista da +6% de daño de hechizos pero se lleva por delante <strong>un 6% de resistencia cuerpo a cuerpo y un 6% de resistencia a distancia</strong>. Cuanto más fuerte es el trofeo, más pide a cambio.</p>
+
+<h2>Dofus y Prysmaradites: la parte cara</h2>
+<p>Los Dofus están en el nivel 180 y son amplios más que afilados: un Dofus Marfil añade un 4% de resistencia en los cinco elementos, un Dofus Hielo añade 25 de daño en los cinco. Son la recompensa de cadenas de misiones larguísimas, y esa amplitud es justo lo que justifica un hueco. Los Prysmaradites, en el nivel 200, vuelven al trueque: un Caraprys te da 2 invocaciones y te quita <strong>1 PM</strong>. Perder un PM no es un detalle, así que un Prysmaradite tiene que ganarse el hueco frente a un Dofus que no te cuesta nada.</p>
+
+<h2>Dofus Retro juega a algo mucho más sencillo</h2>
+<p>Retro no tiene <strong>ni trofeos ni Prysmaradites</strong>. Sus seis huecos se llenan con diecisiete objetos, y doce de ellos son los Dofus clásicos de nivel 6: Esmeralda, Turquesa, Púrpura, Vulbis, Ocre, Marfil, Cawotte, Ébano, Kaliptus y compañía. No hay escalera de niveles ni familia con contrapartida que sopesar. Si aprendiste el juego de los trofeos en el moderno, nada de ese razonamiento se traslada a Retro, y al revés igual.</p>
+
+<h2>Deja que el optimizador pese el intercambio</h2>
+<p>Es un hueco donde echar cuentas a mano se tuerce enseguida, porque las contrapartidas no están en la misma moneda que las ganancias: ¿vale un 6% de daño de hechizos lo que cuesta un 6% de resistencia cuerpo a cuerpo? ¿Valen 2 invocaciones un PM? El optimizador ya conoce cada candidato y cada penalización que lleva pegada, y los pesa según tus prioridades y no según una tier list. Ajusta lo que te importa, ejecútalo y mira qué ha puesto en esos seis huecos.</p>
+
+<p><em>¿Con curiosidad por lo que deberían llevar tus seis huecos? <a href="/setup/">Constrúyelo aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'Dofus e troféus: como preencher seus seis espaços',
+                'desc': "Seis espaços e, no Dofus moderno, três famílias disputando: troféus, Dofus e Prysmaradites. O que vai em cada um e quanto custa.",
+                'lead': "Todo personagem tem seis desses espaços e, no jogo moderno, são a decisão mais disputada do seu build. Aqui está o que pode entrar neles e como escolher.",
+                'body': '''
+<h2>Seis espaços, três famílias</h2>
+<p>Seu personagem carrega <strong>seis</strong> desses espaços, em todas as versões do jogo. O que dá para colocar neles é onde as versões se separam. No Dofus 3, no beta e no Dofus 2 há mais de trezentos candidatos, divididos em três famílias: <strong>troféus</strong>, <strong>Dofus</strong> propriamente ditos e <strong>Prysmaradites</strong>. O Dofus Touch tem as mesmas três famílias com o catálogo dele.</p>
+
+<h2>Troféus: um atributo seco e depois a conta</h2>
+<p>Os troféus vêm em degraus. Os pequenos pedem nível 50 e dão um bônus simples, sem contrapartida: um Acrobata menor são +15 de Agilidade e pronto. O degrau seguinte, no nível 100, dobra a aposta: um Acrobata dá +30 de Agilidade, ainda sem custo. A partir do degrau 150 o acordo muda, e é aí que os jogadores se dão mal: um Arcanista dá +6% de dano de feitiços mas leva junto <strong>6% de resistência corpo a corpo e 6% de resistência à distância</strong>. Quanto mais forte o troféu, mais ele cobra de volta.</p>
+
+<h2>Dofus e Prysmaradites: a ponta cara</h2>
+<p>Os Dofus ficam no nível 180 e são largos em vez de afiados: um Dofus Marfim soma 4% de resistência nos cinco elementos, um Dofus Gelo soma 25 de dano nos cinco. São a recompensa de cadeias de missões longuíssimas, e é exatamente essa largura que justifica um espaço. Os Prysmaradites, no nível 200, voltam à troca: um Caraprys te dá 2 invocações e tira <strong>1 PM</strong>. Perder um PM não é detalhe, então um Prysmaradite precisa merecer o espaço diante de um Dofus que não custa nada.</p>
+
+<h2>O Dofus Retro joga um jogo bem mais simples</h2>
+<p>O Retro não tem <strong>troféus nem Prysmaradites</strong>. Seus seis espaços são preenchidos entre dezessete itens, e doze deles são os Dofus clássicos de nível 6: Esmeralda, Turquesa, Púrpura, Vulbis, Ocre, Marfim, Cawotte, Ébano, Kaliptus e companhia. Não há escada de degraus nem família com contrapartida para pesar. Se você aprendeu o jogo dos troféus no moderno, nada desse raciocínio se transfere para o Retro, e o contrário também não.</p>
+
+<h2>Deixe o otimizador pesar a troca</h2>
+<p>É um espaço em que a conta na mão desanda rápido, porque as contrapartidas não estão na mesma moeda que os ganhos: 6% de dano de feitiços valem 6% de resistência corpo a corpo? 2 invocações valem um PM? O otimizador já conhece cada candidato e cada penalidade colada nele, e os pesa pelas suas prioridades em vez de por uma tier list. Ajuste o que importa para você, rode e veja o que ele colocou nesses seis espaços.</p>
+
+<p><em>Curioso sobre o que seus seis espaços deveriam levar? <a href="/setup/">Monte aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Dofus und Trophäen: wie du deine sechs Plätze füllst',
+                'desc': "Sechs Plätze, und im modernen Dofus streiten sich drei Familien darum: Trophäen, Dofus und Prysmaradite. Was wohin gehört und was es dich kostet.",
+                'lead': "Jeder Charakter hat sechs dieser Plätze, und im modernen Spiel sind sie die umkämpfteste Entscheidung deines Builds. Hier steht, was hineinkann und wie du wählst.",
+                'body': '''
+<h2>Sechs Plätze, drei Familien</h2>
+<p>Dein Charakter trägt in jeder Version <strong>sechs</strong> dieser Plätze. Was hineindarf, trennt die Versionen. In Dofus 3, im Beta und in Dofus 2 bewerben sich über dreihundert Gegenstände, verteilt auf drei Familien: <strong>Trophäen</strong>, die <strong>Dofus</strong> selbst und die <strong>Prysmaradite</strong>. Dofus Touch hat dieselben drei Familien mit eigenem Angebot.</p>
+
+<h2>Trophäen: ein trockener Wert, dann die Rechnung</h2>
+<p>Trophäen kommen in Stufen. Die kleinen verlangen Stufe 50 und geben einen schlichten Bonus ohne Gegenleistung: ein Kleiner Akrobat sind +15 Flinkheit, mehr nicht. Die nächste Stufe, auf 100, verdoppelt das: ein Akrobat gibt +30 Flinkheit, weiterhin kostenlos. Ab der Stufe 150 ändert sich der Handel, und genau da tappen Spieler hinein: ein Arkanist gibt +6% Zauberschaden, nimmt aber <strong>6% Nahkampfresistenz und 6% Fernkampfresistenz</strong> mit. Je stärker die Trophäe, desto mehr fordert sie zurück.</p>
+
+<h2>Dofus und Prysmaradite: das teure Ende</h2>
+<p>Die Dofus selbst liegen auf Stufe 180 und sind breit statt spitz: ein Elfenbein-Dofus gibt 4% Resistenz in allen fünf Elementen, ein Eis-Dofus 25 Schaden in allen fünf. Sie sind die Belohnung sehr langer Questketten, und genau diese Breite rechtfertigt einen Platz. Die Prysmaradite auf Stufe 200 kehren zum Tauschhandel zurück: ein Caraprys gibt dir 2 Beschwörungen und nimmt <strong>1 BP</strong>. Ein BP zu verlieren ist keine Kleinigkeit, also muss sich ein Prysmaradit seinen Platz gegen ein Dofus verdienen, das dich nichts kostet.</p>
+
+<h2>Dofus Retro spielt ein deutlich einfacheres Spiel</h2>
+<p>Retro hat <strong>weder Trophäen noch Prysmaradite</strong>. Seine sechs Plätze werden aus siebzehn Gegenständen gefüllt, zwölf davon die klassischen Dofus der Stufe 6: Smaragd, Türkis, Purpur, Vulbis, Ocker, Elfenbein, Cawotte, Ebenholz, Kaliptus und die übrigen. Keine Stufenleiter, keine Familie mit Gegenleistung zum Abwägen. Wer das Trophäenspiel im modernen Dofus gelernt hat, kann davon nichts nach Retro mitnehmen, und umgekehrt genauso wenig.</p>
+
+<h2>Lass den Optimierer den Tausch abwägen</h2>
+<p>Hier geht Kopfrechnen schnell schief, weil die Nachteile in einer anderen Währung stehen als die Gewinne: sind 6% Zauberschaden 6% Nahkampfresistenz wert? Sind 2 Beschwörungen ein BP wert? Der Optimierer kennt jeden Kandidaten und jeden Malus daran bereits und wägt sie nach deinen Prioritäten ab statt nach einer Tier-Liste. Stell ein, was dir wichtig ist, lass ihn laufen und schau, was er auf diese sechs Plätze gelegt hat.</p>
+
+<p><em>Neugierig, was auf deine sechs Plätze gehört? <a href="/setup/">Bau es hier.</a></em></p>
 ''',
             },
         },
