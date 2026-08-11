@@ -12,7 +12,7 @@ FASHIONISTA_TOUCH_VERSION = "1.73"
 # real build changes with every content patch, so those two are watched here
 # instead. Update them when the matching pipeline is re-run.
 WATCHED_RETRO_BUILD = "1.48.21.5572.434-2106199"
-WATCHED_TOUCH_ASSETS = "3.2.11_XmqR,JLRxKAo0jK41tA_EnsXKrTBc47Z"
+WATCHED_TOUCH_ASSETS = "3.2.12_cLlB,151J4Vd.fZX3eoz-xHi7Tx6Mw*3"
 
 
 def get_version() -> str:
