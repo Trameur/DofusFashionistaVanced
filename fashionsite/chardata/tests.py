@@ -1330,6 +1330,25 @@ class PublicRouteSmokeTests(TestCase):
         # not belong in a sitemap.
         self.assertNotIn('/random/', self._sitemap_body())
 
+    def test_every_page_the_sitemap_advertises_answers(self):
+        # Matching on a known path only caught the case someone remembered:
+        # /workshop/ sat in this list for a while and 302s to /login/ for the
+        # anonymous crawler, which Google files as a redirect and never indexes.
+        # This section is the hand-kept one, so it is where that drifts.
+        import re
+        response = self.client.get('/sitemap-pages.xml')
+        self.assertEqual(200, response.status_code)
+        urls = re.findall(r'<loc>([^<]+)</loc>',
+                          response.content.decode('utf-8'))
+        self.assertGreater(len(urls), 40, 'the pages section came back thin')
+        not_ok = []
+        for url in urls:
+            path = re.sub(r'^https?://[^/]+', '', url)
+            status = self.client.get(path).status_code
+            if status != 200:
+                not_ok.append('%s -> %s' % (path, status))
+        self.assertEqual([], not_ok)
+
     def test_sitemap_is_well_formed_xml(self):
         body = self._sitemap_body()
         self.assertIn('<?xml', body)
@@ -7300,16 +7319,19 @@ class RobotsTxtTests(TestCase):
         for url in ['/', '/guides/getting-started/', '/encyclopedia/',
                     '/encyclopedia/item/equipment/123-foo/', '/sharedbuilds/',
                     '/s/zobal/abc123/', '/user/someone/', '/setup/', '/about/',
-                    '/faq/', '/quickstart/', '/forgemagie/', '/workshop/',
+                    '/faq/', '/quickstart/', '/forgemagie/',
                     '/loadprojects/', '/compare_sets/s123/']:
             self.assertTrue(p.can_fetch('Googlebot', url),
                             'robots.txt must not block content page %s' % url)
 
     def test_action_endpoints_are_blocked(self):
+        # The workshop carries @login_required like the inventory beside it, so
+        # a crawler only ever gets the redirect to /login/. It sat on the
+        # crawlable list and in the sitemap while its twin was blocked.
         p, _ = self._parser()
         for url in ['/setup/170414/', '/beta/setup/170414/', '/postcomment/3048/',
                     '/beta/postcomment/3048/', '/touch/saveprojecttouser/',
-                    '/addtag/215413/', '/workshop/addsolution/7420/',
+                    '/addtag/215413/', '/workshop/', '/workshop/addsolution/7420/',
                     '/loadproject/223687/', '/solution/123/', '/spells/123/',
                     '/exchange/5/', '/setitemlocked/1/', '/manageaccount/',
                     '/fashion/123/', '/inventory/', '/login/']:

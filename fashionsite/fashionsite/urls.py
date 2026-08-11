@@ -452,7 +452,8 @@ def _sitemap_pages(base_url):
         ('/encyclopedia/', 'daily', '0.9'),
         ('/encyclopedia/sets/', 'weekly', '0.8'),
         ('/forgemagie/', 'weekly', '0.8'),
-        ('/workshop/', 'weekly', '0.6'),
+        # /workshop/ is behind the login, so a crawler only ever gets the
+        # redirect to /login/. Same reason /random/ is not here.
         ('/loadprojects/', 'weekly', '0.5'),
     ]
     for path, freq, prio in static_paths:

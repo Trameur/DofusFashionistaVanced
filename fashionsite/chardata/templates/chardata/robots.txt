@@ -76,8 +76,7 @@ Disallow: */reportcomment/
 Disallow: */votebuild/
 Disallow: */follow/
 Disallow: */unfollow/
-Disallow: */workshop/addsolution/
-Disallow: */workshop/solutioningredients/
+Disallow: */workshop/
 Disallow: */inventory/
 Disallow: */feed/
 
