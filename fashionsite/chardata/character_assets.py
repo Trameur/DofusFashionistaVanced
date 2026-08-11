@@ -349,13 +349,40 @@ class Mount(Bone):
         return out
 
 
+# A bone or skin id as it is allowed to appear in a file name. Ascii on
+# purpose: \w also matches letters no filesystem should have to reason about,
+# and it is what made this hard to be sure of at a glance.
+SAFE_ID = re.compile(r'\A[A-Za-z0-9_-]{1,64}\Z')
+
+
+class UnsafeAssetId(ValueError):
+    """An id that has no business being part of a path."""
+
+
+def _safe_id(value):
+    """The id, once it is proven to be a single harmless path component.
+
+    Every one of these ids reaches here from a url. Each route pins it and
+    each ensure_ function re-checks it, but that scattered the proof across
+    three files and left nothing at the place the path is actually built.
+    This is that place.
+    """
+    token = str(value)
+    if not SAFE_ID.match(token):
+        raise UnsafeAssetId(token)
+    return token
+
+
 def _mount_cache(bone_id):
-    return os.path.join(cache_dir(), 'mounts', str(bone_id))
+    return os.path.join(cache_dir(), 'mounts', _safe_id(bone_id))
 
 
 def has_bone(bone_id):
     """Drawable: already baked, or a bundle to bake from."""
-    bone_id = str(bone_id)
+    try:
+        bone_id = _safe_id(bone_id)
+    except UnsafeAssetId:
+        return False
     if os.path.exists(os.path.join(cache_dir(), 'poses',
                                    '%s-v%d.json' % (bone_id, POSE_FORMAT))):
         return True
@@ -372,6 +399,7 @@ def ensure_mount(bone_id):
     bone_id = str(bone_id)
     if not bone_id.isdigit():
         return None
+    bone_id = _safe_id(bone_id)
     target = _mount_cache(bone_id)
     manifest_path = os.path.join(target, 'mount-v%d.json' % MOUNT_FORMAT)
     if os.path.exists(manifest_path):
@@ -419,7 +447,7 @@ def ensure_mount(bone_id):
 
 
 def _skin_cache(skin_id):
-    return os.path.join(cache_dir(), 'parts', str(skin_id))
+    return os.path.join(cache_dir(), 'parts', _safe_id(skin_id))
 
 
 def pack_atlas(pieces, gap=1):
@@ -455,6 +483,10 @@ def _manifest_path(skin_id):
 
 def ensure_skin(skin_id):
     """Bake once, then read from the cache. None if the bundle is missing."""
+    try:
+        skin_id = int(skin_id)
+    except (TypeError, ValueError):
+        return None
     target = _skin_cache(skin_id)
     manifest_path = _manifest_path(skin_id)
     if os.path.exists(manifest_path):
@@ -501,7 +533,7 @@ BONE_NAME = re.compile(r'^[\w-]+$')
 
 def _pose_path(bone_id):
     return os.path.join(cache_dir(), 'poses',
-                        '%s-v%d.json' % (bone_id, POSE_FORMAT))
+                        '%s-v%d.json' % (_safe_id(bone_id), POSE_FORMAT))
 
 
 def ensure_pose(bone_id):

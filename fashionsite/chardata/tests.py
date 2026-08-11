@@ -12009,6 +12009,26 @@ class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
     scanner could not follow any of them. The check now lives where the file is
     opened and holds even if a route is loosened later."""
 
+    def test_an_id_that_could_be_a_path_never_becomes_one(self):
+        # The gate sits in the three path builders, so every name derived from
+        # an id is safe where it is made rather than three files away.
+        from chardata import character_assets
+        refused = ['..', '../etc/passwd', 'a/b', 'a\\b', 'C:\\Windows', '.',
+                   '', ' ', 'with space', 'e\u0301', 'x' * 65, '1;rm']
+        for value in refused:
+            with self.subTest(value=value):
+                with self.assertRaises(character_assets.UnsafeAssetId):
+                    character_assets._safe_id(value)
+        for value in ('639', '9582', '1-8-static', '1-9-static', '80'):
+            with self.subTest(value=value):
+                self.assertEqual(value, character_assets._safe_id(value))
+
+    def test_a_bone_that_is_not_an_id_is_simply_not_drawable(self):
+        # has_bone was the one entry that built a path with no check at all.
+        from chardata import character_assets
+        self.assertFalse(character_assets.has_bone('../../etc/passwd'))
+        self.assertFalse(character_assets.has_bone('a/b'))
+
     def test_nothing_outside_the_cache_is_ever_served(self):
         import os
         from django.http import Http404
