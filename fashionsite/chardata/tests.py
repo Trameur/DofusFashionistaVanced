@@ -12028,6 +12028,85 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
             character_assets.parts_manifest_view(None, '80', fmt=skin - 1)
 
 
+class DumpItemDbFallbackTests(SimpleTestCase):
+    """dump_item_db.py uses the sqlite3 CLI when it is on the PATH and a Python
+    fallback when it is not. The machine the pipelines run on has no sqlite3,
+    so the fallback is the one that would write the tracked dumps, and it wrote
+    a poorer file than the CLI: no indexes at all, and blobs pushed through
+    str() as b'...' so the dump could not even be read back. extra_lines holds
+    pickled lists, so that hit real data."""
+
+    def _sample_db(self, path):
+        import pickle
+        import sqlite3
+        connection = sqlite3.connect(path)
+        connection.execute('CREATE TABLE stuff (id INTEGER, name TEXT, line BLOB)')
+        connection.execute('CREATE INDEX idx_stuff_id ON stuff (id)')
+        connection.execute(
+            'INSERT INTO stuff VALUES (?, ?, ?)',
+            (1, "quote ' inside", pickle.dumps(['a line', 'another'])))
+        connection.execute('INSERT INTO stuff VALUES (?, ?, ?)', (2, 'plain', None))
+        connection.commit()
+        connection.close()
+
+    def test_the_fallback_dump_reloads_with_its_indexes_and_blobs(self):
+        import importlib
+        import pickle
+        import shutil
+        import sqlite3
+        import tempfile
+        from unittest import mock
+        module = importlib.import_module('dump_item_db')
+        workdir = tempfile.mkdtemp()
+        try:
+            source = os.path.join(workdir, 'source.db')
+            dump = os.path.join(workdir, 'source.dump')
+            rebuilt = os.path.join(workdir, 'rebuilt.db')
+            self._sample_db(source)
+            # Force the branch that runs when sqlite3 is not on the PATH.
+            with mock.patch.object(module.subprocess, 'run',
+                                   side_effect=FileNotFoundError):
+                module._write_dump(source, dump)
+            with open(dump, encoding='utf-8') as handle:
+                sql = handle.read()
+            self.assertIn('CREATE INDEX', sql)
+            self.assertNotIn("b'", sql, 'a blob leaked through str()')
+
+            connection = sqlite3.connect(rebuilt)
+            connection.executescript(sql)
+            connection.commit()
+            indexes = [name for (name,) in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='index'")
+                if not name.startswith('sqlite_autoindex')]
+            rows = connection.execute(
+                'SELECT id, name, line FROM stuff ORDER BY id').fetchall()
+            connection.close()
+
+            self.assertEqual(['idx_stuff_id'], indexes)
+            self.assertEqual(2, len(rows))
+            self.assertEqual("quote ' inside", rows[0][1])
+            self.assertEqual(['a line', 'another'], pickle.loads(rows[0][2]))
+            self.assertIsNone(rows[1][2])
+        finally:
+            shutil.rmtree(workdir, ignore_errors=True)
+
+    def test_a_failed_dump_exits_non_zero_and_leaves_no_temp(self):
+        import glob
+        import importlib
+        import sys
+        from unittest import mock
+        from fashionistapulp.fashionista_config import get_items_dump_path
+        module = importlib.import_module('dump_item_db')
+        pattern = '%s.tmp.%d' % (get_items_dump_path('dofus3'), os.getpid())
+        with mock.patch.object(module, '_write_dump',
+                               side_effect=RuntimeError('sqlite3 died')):
+            with mock.patch.object(sys, 'argv', ['dump_item_db.py']):
+                with self.assertRaises(SystemExit) as caught:
+                    module.main()
+        self.assertNotEqual(0, caught.exception.code)
+        self.assertEqual([], glob.glob(pattern))
+
+
 class LoadItemDbFailsLoudlyTests(SimpleTestCase):
     """Every caller runs load_item_db.py as a subprocess and reads its exit
     code: the pipelines mark the step failed on a non-zero one. It used to
