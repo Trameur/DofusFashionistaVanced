@@ -6516,6 +6516,49 @@ class SolvedBuildIsWearableTests(TestCase):
         # 1.29 plays by its own rules, so it gets its own check.
         self._check('retro', 'Iop', 100, {'str'})
 
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_fresh_build_never_wears_a_default_forbidden_item(self):
+        # The default exclusions hide GM gear and joke pieces. One of them in a
+        # first solve is something a player would report, and would never find
+        # in the item list to take out.
+        from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
+                                          DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
+        for version in ('dofus3', 'retro'):
+            banned = set(DEFAULT_EXCLUSION_ANKAMA_IDS) | set(
+                DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION.get(version, []))
+            worn = self._solve(version, 'Iop', 200, {'str'})
+            with self.subTest(version=version):
+                self.assertEqual(
+                    [], [ri.name for ri in worn
+                         if getattr(ri, 'ankama_id', None) in banned])
+
+    def test_no_default_exclusion_hides_another_version_item(self):
+        # The global list is written with Dofus 3 ankama ids, and an id is not an
+        # identity across versions: two real weapons were once forbidden because
+        # a Retro item shared theirs. Only a genuine clash counts here, an id
+        # simply absent from a version hides nothing.
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.fashion_util import is_same_item_name
+        from chardata.lock_forbid import DEFAULT_EXCLUSION_ANKAMA_IDS
+        reference = get_structure('dofus3')
+        known = {}
+        for ankama_id in DEFAULT_EXCLUSION_ANKAMA_IDS:
+            item = reference.get_item_by_ankama_id(ankama_id)
+            if item is not None:
+                known[ankama_id] = item.name
+        self.assertGreater(len(known), 10, 'no id left to compare')
+        for version in ('beta', 'dofus2', 'retro', 'touch'):
+            structure = get_structure(version)
+            clashes = []
+            for ankama_id, reference_name in known.items():
+                item = structure.get_item_by_ankama_id(ankama_id)
+                if item is None:
+                    continue
+                if not is_same_item_name(item.name, reference_name):
+                    clashes.append((ankama_id, reference_name, item.name))
+            with self.subTest(version=version):
+                self.assertEqual([], clashes)
+
     def _check_equip_conditions(self, version, char_class, level, aspects):
         """A gated item is read on the FINAL total, its own bonus counted: that
         is how the game chains gear, and how the AP and MP gates were settled."""
