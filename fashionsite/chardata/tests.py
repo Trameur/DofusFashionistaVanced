@@ -6607,6 +6607,124 @@ class SolvedBuildIsWearableTests(TestCase):
         # Without this the test would pass by never meeting a gate at all.
         self.assertGreater(exercised, 0, 'no equip condition was exercised')
 
+    def _check_set_bonus(self, version):
+        """The solver counts the set pieces itself and adds the matching tier.
+        A miscount or an off-by-one tier would quietly hand the build stats the
+        game never grants, and the totals are what the player reads."""
+        from collections import Counter
+        from fashionistapulp.structure import get_structure
+        worn, solution = self._solve(version, 'Iop', 200, {'str'},
+                                     with_solution=True)
+        structure = get_structure(version)
+
+        actual = Counter(ri.set for ri in worn if ri.set)
+        expected = {set_id: n for set_id, n in actual.items() if n > 1}
+        reported = {rs.id: rs.number_of_items for rs in solution.sets}
+        self.assertEqual(expected, reported,
+                         '%s counted its set pieces wrong' % version)
+
+        for result_set in solution.sets:
+            item_set = structure.get_set_by_id(result_set.id)
+            declared = item_set.bonus_per_num_items.get(
+                result_set.number_of_items, {})
+            self.assertEqual(dict(declared), dict(result_set.get_bonus()),
+                             '%s: %s at %d pieces'
+                             % (version, result_set.name,
+                                result_set.number_of_items))
+
+        manual = Counter()
+        for result_item in worn:
+            manual.update(result_item.stats)
+        for result_set in solution.sets:
+            manual.update(result_set.get_bonus())
+        options = solution.input['options']
+        for stat_key, option in (('ap', 'ap_exo'), ('mp', 'mp_exo'),
+                                 ('range', 'range_exo')):
+            if options.get(option):
+                manual[stat_key] += 1
+        gear = solution.get_stats_gear()
+        drifted = {key for key in set(manual) | set(gear)
+                   if manual.get(key, 0) != gear.get(key, 0)}
+        self.assertEqual(set(), drifted,
+                         '%s gear total is not items plus set bonuses' % version)
+        return len(solution.sets)
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_build_gets_the_set_bonus_for_the_pieces_it_wears(self):
+        exercised = 0
+        for version in ('dofus3', 'retro', 'touch'):
+            with self.subTest(version=version):
+                exercised += self._check_set_bonus(version)
+        self.assertGreater(exercised, 0, 'no set bonus was exercised')
+
+
+class SetMaxCapTests(TestCase):
+    """Cire Momore's Curse is the one set that caps stats instead of raising
+    them: the more pieces, the lower the MP, range and summon ceiling. The
+    optimizer never reaches for it on its own, so the cap code only runs when
+    a player locks the pieces in, and nothing exercised that path."""
+
+    SET_NAME = "Cire Momore's Curse"
+    SLOT_BY_ITEM = [('Heavy Burden', 'amulet'), ("Cire's Sorrow", 'hat'),
+                    ('Howling Souls', 'cloak'), ('Eternal Chase', 'belt'),
+                    ('Signet of Fate', 'ring1'), ('Claymomore', 'weapon')]
+
+    def _solve_wearing(self, pieces):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import (set_current_game_version,
+                                               get_structure)
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure('dofus3')
+        owner = User.objects.create_user('cap%d' % pieces, 'cap%d@t.local' % pieces,
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+
+        wanted = self.SLOT_BY_ITEM[:pieces]
+        inclusions = {slot: '' for _, slot in self.SLOT_BY_ITEM}
+        for name, slot in wanted:
+            inclusions[slot] = str(structure.get_item_by_name(name).id)
+        set_inclusions_dict_and_check_exclusions(char, inclusions)
+
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, '%d locked pieces gave no solution' % pieces)
+        equipped = {ri.name for ri in solution.item_list if ri.item_added}
+        self.assertEqual(set(), {name for name, _ in wanted} - equipped,
+                         'the locked pieces did not all reach the build')
+        return solution
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_the_curse_caps_the_build_it_is_worn_on(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        item_set = structure.get_set_by_name(self.SET_NAME)
+        caps_by_tier = {}
+        for num_items, stat_id, max_value in item_set.max_caps:
+            stat = structure.get_stat_by_id(stat_id)
+            caps_by_tier.setdefault(num_items, {})[stat.key] = max_value
+
+        # Two tiers, because a cap read off the wrong tier would still look
+        # capped: at two pieces MP stops at 4, at six it drops to 2, under the
+        # 3 MP the character starts with.
+        for pieces in (2, 6):
+            with self.subTest(pieces=pieces):
+                totals = self._solve_wearing(pieces).get_stats_total()
+                caps = caps_by_tier[pieces]
+                self.assertTrue(caps, 'no cap declared at %d pieces' % pieces)
+                over = {key: (totals.get(key), cap) for key, cap in caps.items()
+                        if totals.get(key, 0) > cap}
+                self.assertEqual({}, over)
+        self.assertEqual(2, caps_by_tier[6]['mp'])
+
 
 class RetroUncappedApSolveTests(TestCase):
     """Retro (1.29) has no 12/6/6 AP/MP/Range cap, so the optimizer leaves those
@@ -11830,24 +11948,29 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                        'monster_spells': 10000, 'monster_names': 20000,
                        'item_descriptions': 15000, 'item_recipes': 15000,
                        'item_recipe_ingredient_names': 7000,
-                       'resource_drops': 6000, 'item_craft_jobs': 2500},
+                       'resource_drops': 6000, 'item_craft_jobs': 2500,
+                       'sets': 850, 'set_bonus': 7000, 'set_names': 3300},
             'beta': {'monster_grades': 20000, 'monster_subareas': 12000,
                      'monster_spells': 10000, 'monster_names': 20000,
                      'item_descriptions': 15000, 'item_recipes': 15000,
                      'item_recipe_ingredient_names': 7000,
-                     'resource_drops': 6000, 'item_craft_jobs': 2500},
+                     'resource_drops': 6000, 'item_craft_jobs': 2500,
+                     'sets': 850, 'set_bonus': 7000, 'set_names': 3300},
             'dofus2': {'monster_grades': 5500, 'monster_names': 5000,
                        'item_descriptions': 13000, 'item_recipes': 13000,
                        'item_recipe_ingredient_names': 8000,
-                       'resource_drops': 2500, 'item_craft_jobs': 2300},
+                       'resource_drops': 2500, 'item_craft_jobs': 2300,
+                       'sets': 640, 'set_bonus': 5000, 'set_names': 2500},
             'touch': {'monster_grades': 10000, 'monster_subareas': 6000,
                       'monster_names': 3500, 'item_descriptions': 12000,
                       'item_recipes': 9000, 'item_recipe_ingredient_names': 4500,
-                      'resource_drops': 1800, 'item_craft_jobs': 1700},
+                      'resource_drops': 1800, 'item_craft_jobs': 1700,
+                      'sets': 260, 'set_bonus': 2800, 'set_names': 1000},
             'retro': {'monster_grades': 3000, 'monster_subareas': 2400,
                       'monster_names': 1800, 'item_descriptions': 10000,
                       'item_recipes': 6000, 'item_recipe_ingredient_names': 4500,
-                      'resource_drops': 2000, 'item_craft_jobs': 1200},
+                      'resource_drops': 2000, 'item_craft_jobs': 1200,
+                      'sets': 160, 'set_bonus': 2300, 'set_names': 640},
         }
         for version, tables in floors.items():
             for table, floor in tables.items():
