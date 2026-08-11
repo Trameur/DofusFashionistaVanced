@@ -12023,6 +12023,35 @@ class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
             with self.subTest(value=value):
                 self.assertEqual(value, character_assets._safe_id(value))
 
+    def test_an_id_the_route_lets_through_is_a_404_not_a_500(self):
+        # Django routes these with \w and \d, which in python also match
+        # unicode: a precomposed accent passes [\w-]+ and an arabic-indic
+        # digit passes \d+ and even isdigit(). Both must answer "no art",
+        # not raise on the way to building a file name.
+        from chardata import character_assets
+        import re
+        self.assertTrue(re.match(r'^[\w-]+$', '\xe1'))
+        self.assertTrue(re.match(r'^\d+$', '٣'))
+        self.assertTrue('٣'.isdigit())
+        for value in ('\xe1', '٣', '\xb2', 'aa\xe1bb', '..', 'a/b'):
+            with self.subTest(value=value):
+                self.assertIsNone(character_assets.ensure_pose(value))
+                self.assertIsNone(character_assets.ensure_mount(value))
+
+    def test_a_path_built_from_an_id_stays_under_its_root(self):
+        from chardata import character_assets
+        root = os.path.realpath(character_assets.cache_dir())
+        for parts in (('mounts', '..'), ('poses', '../../x.json'),
+                      ('parts', '..', '..', 'etc')):
+            with self.subTest(parts=parts):
+                with self.assertRaises(character_assets.UnsafeAssetId):
+                    character_assets._in_cache(*parts)
+        for parts in (('mounts', '639'), ('parts', '80'),
+                      ('poses', '1-8-static.json')):
+            with self.subTest(parts=parts):
+                built = character_assets._in_cache(*parts)
+                self.assertTrue(built.startswith(root + os.sep), built)
+
     def test_a_bone_that_is_not_an_id_is_simply_not_drawable(self):
         # has_bone was the one entry that built a path with no check at all.
         from chardata import character_assets

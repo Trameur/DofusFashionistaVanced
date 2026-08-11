@@ -373,8 +373,41 @@ def _safe_id(value):
     return token
 
 
+def _under(root, *parts):
+    """A path built under root, normalized, and proven to still start there.
+
+    _safe_id already refuses anything that could climb out, but that proof
+    lived in a regex several calls away from the open(). Saying it again here,
+    on the built path itself, puts the guarantee where it is read.
+    """
+    base = os.path.realpath(root)
+    path = os.path.normpath(os.path.join(base, *parts))
+    if not path.startswith(base + os.sep):
+        raise UnsafeAssetId(os.path.join(*parts))
+    return path
+
+
+def _in_cache(*parts):
+    return _under(cache_dir(), *parts)
+
+
+def _bundle(name):
+    """The bundle a name would be baked from, None when there is no set."""
+    source = bundle_dir()
+    return _under(source, name) if source else None
+
+
 def _mount_cache(bone_id):
-    return os.path.join(cache_dir(), 'mounts', _safe_id(bone_id))
+    return _in_cache('mounts', _safe_id(bone_id))
+
+
+def _mount_manifest(bone_id):
+    return _in_cache('mounts', _safe_id(bone_id),
+                     'mount-v%d.json' % MOUNT_FORMAT)
+
+
+def _bone_bundle(bone_id):
+    return _bundle('bones_assets_bone_%s.bundle' % _safe_id(bone_id))
 
 
 def has_bone(bone_id):
@@ -383,33 +416,29 @@ def has_bone(bone_id):
         bone_id = _safe_id(bone_id)
     except UnsafeAssetId:
         return False
-    if os.path.exists(os.path.join(cache_dir(), 'poses',
-                                   '%s-v%d.json' % (bone_id, POSE_FORMAT))):
+    if os.path.exists(_pose_path(bone_id)):
         return True
-    if os.path.exists(os.path.join(_mount_cache(bone_id),
-                                   'mount-v%d.json' % MOUNT_FORMAT)):
+    if os.path.exists(_mount_manifest(bone_id)):
         return True
-    source = bundle_dir()
-    return bool(source) and os.path.exists(
-        os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id))
+    bundle = _bone_bundle(bone_id)
+    return bool(bundle) and os.path.exists(bundle)
 
 
 def ensure_mount(bone_id):
     """Bake a mount's pieces and its standing pose. None if there is no bundle."""
-    bone_id = str(bone_id)
+    try:
+        bone_id = _safe_id(bone_id)
+    except UnsafeAssetId:
+        return None
     if not bone_id.isdigit():
         return None
-    bone_id = _safe_id(bone_id)
     target = _mount_cache(bone_id)
-    manifest_path = os.path.join(target, 'mount-v%d.json' % MOUNT_FORMAT)
+    manifest_path = _mount_manifest(bone_id)
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding='utf-8') as fh:
             return json.load(fh)
-    source = bundle_dir()
-    if not source:
-        return None
-    bundle = os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id)
-    if not os.path.exists(bundle):
+    bundle = _bone_bundle(bone_id)
+    if not bundle or not os.path.exists(bundle):
         return None
     with _lock:
         if os.path.exists(manifest_path):
@@ -447,7 +476,7 @@ def ensure_mount(bone_id):
 
 
 def _skin_cache(skin_id):
-    return os.path.join(cache_dir(), 'parts', _safe_id(skin_id))
+    return _in_cache('parts', _safe_id(skin_id))
 
 
 def pack_atlas(pieces, gap=1):
@@ -478,7 +507,8 @@ def pack_atlas(pieces, gap=1):
 
 
 def _manifest_path(skin_id):
-    return os.path.join(_skin_cache(skin_id), 'parts-v%d.json' % SKIN_FORMAT)
+    return _in_cache('parts', _safe_id(skin_id),
+                     'parts-v%d.json' % SKIN_FORMAT)
 
 
 def ensure_skin(skin_id):
@@ -492,11 +522,8 @@ def ensure_skin(skin_id):
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding='utf-8') as fh:
             return json.load(fh)
-    source = bundle_dir()
-    if not source:
-        return None
-    bundle = os.path.join(source, 'skin_%d.bundle' % skin_id)
-    if not os.path.exists(bundle):
+    bundle = _bundle('skin_%d.bundle' % skin_id)
+    if not bundle or not os.path.exists(bundle):
         return None
     with _lock:
         if os.path.exists(manifest_path):
@@ -528,27 +555,21 @@ MOUNT_FORMAT = 5
 SKIN_FORMAT = 6
 ATLAS_NAME = 'atlas.webp'
 
-BONE_NAME = re.compile(r'^[\w-]+$')
-
-
 def _pose_path(bone_id):
-    return os.path.join(cache_dir(), 'poses',
-                        '%s-v%d.json' % (_safe_id(bone_id), POSE_FORMAT))
+    return _in_cache('poses', '%s-v%d.json' % (_safe_id(bone_id), POSE_FORMAT))
 
 
 def ensure_pose(bone_id):
-    bone_id = str(bone_id)
-    if not BONE_NAME.match(bone_id):
+    try:
+        bone_id = _safe_id(bone_id)
+    except UnsafeAssetId:
         return None
-    target = os.path.join(cache_dir(), 'poses')
+    target = _in_cache('poses')
     path = _pose_path(bone_id)
     if os.path.exists(path):
         return path
-    source = bundle_dir()
-    if not source:
-        return None
-    bundle = os.path.join(source, 'bones_assets_bone_%s.bundle' % bone_id)
-    if not os.path.exists(bundle):
+    bundle = _bone_bundle(bone_id)
+    if not bundle or not os.path.exists(bundle):
         return None
     with _lock:
         if os.path.exists(path):
@@ -687,7 +708,7 @@ def _served(path):
     """
     root = os.path.realpath(cache_dir())
     resolved = os.path.realpath(path)
-    if resolved != root and not resolved.startswith(root + os.sep):
+    if not resolved.startswith(root + os.sep):
         raise Http404
     if not os.path.isfile(resolved):
         raise Http404
