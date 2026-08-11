@@ -144,6 +144,10 @@ urlpatterns = [
     re_path(r'^inventory/update/$', inventory_view.inventory_update, name='inventory_update'),
     re_path(r'^inventory/remove/$', inventory_view.inventory_remove, name='inventory_remove'),
 
+    re_path(r'^best_combo/(?P<char_id>\d+)/$', spells_view.best_combo_json,
+            name='best_combo'),
+    re_path(r'^best_combo_linked/(?P<encoded_char_id>.+)/$',
+            spells_view.best_combo_linked_json, name='best_combo_linked'),
     re_path(r'^spells/(?P<char_id>\d+)/', spells_view.spells, name='spells'),
     re_path(r'^spells_linked/(?P<char_name>.*)/(?P<encoded_char_id>.+)/', spells_view.spells_linked, name='spells_linked'),
 

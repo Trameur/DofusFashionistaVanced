@@ -140,6 +140,38 @@ def _average(damages):
     return total
 
 
+def buffs_in_force(char_class, char_level, game_version, buff_state):
+    """Stat deltas from the buffs the reader ticked on the spells page.
+
+    The page stores one entry per spell, 'n2' or 'c1': the letter says whether
+    the buff was read on its critical line, the digits how many stacks. The
+    panel used to be rendered once from the gear alone and never saw any of
+    this, so ticking Fully Buff changed every damage line except the combo.
+    Rebuilding the deltas here keeps one implementation of the rules.
+    """
+    deltas = {}
+    if not buff_state:
+        return deltas
+    by_class = get_damage_spells_for_version(game_version)
+    by_name = {spell.name: spell for spell in by_class.get(char_class, [])}
+    for name, value in buff_state.items():
+        spell = by_name.get(name)
+        if spell is None or not value:
+            continue
+        crit = str(value)[0] == 'c'
+        try:
+            stacks = int(str(value)[1:])
+        except ValueError:
+            continue
+        if not stacks or char_level < spell.level_req[0]:
+            continue
+        level_index = _decide_spell_level(spell.level_req, char_level)
+        castable = Castable(spell, level_index, crit)
+        for stat, delta in castable.buff_deltas(stacks).items():
+            deltas[stat] = deltas.get(stat, 0) + delta
+    return deltas
+
+
 def castable_spells(char_class, char_level, game_version, crit=False):
     """Class bucket only: the shared one is weapons, pies and Dofus effects."""
     by_class = get_damage_spells_for_version(game_version)

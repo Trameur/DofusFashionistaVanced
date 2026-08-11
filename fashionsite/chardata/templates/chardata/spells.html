@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Spells Damage" %}{% endblock %}
 
@@ -26,7 +27,9 @@
     {% endif %}
 
     {% if best_combo %}
-    <div id="best-combo">
+    <div id="best-combo"
+         data-combo-url="{% if encoded_char_id %}{% game_url 'best_combo_linked' encoded_char_id %}{% else %}{% game_url 'best_combo' char_id %}{% endif %}"
+         data-damage-label="{% trans "damage" %}">
         <div class="best-combo-head">
             <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
             <span class="best-combo-total">{{ best_combo.total }} {% trans "damage" %}</span>
@@ -43,7 +46,7 @@
             {% endfor %}
         </ol>
         <p class="best-combo-note">
-            {% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}
+            <span class="best-combo-ap-note">{% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}</span>
             {% trans "One turn on a single target, self buffs included." %}
         </p>
     </div>
@@ -1026,10 +1029,65 @@
         }
     }
     
+    var comboRequest = null;
+    var comboPending = null;
+
+    // The panel is worked out server side, so that the cast order, the AP
+    // budget and the per-turn limits stay in one place instead of being
+    // reimplemented here and drifting from it. Ticking a buff used to change
+    // every damage line on the page except this one.
+    function refreshBestCombo() {
+        var panel = $("#best-combo");
+        if (!panel.length) {
+            return;
+        }
+        var state = JSON.stringify(buffState);
+        if (state === comboPending) {
+            return;
+        }
+        comboPending = state;
+        if (comboRequest) {
+            comboRequest.abort();
+        }
+        comboRequest = $.post(panel.data('combo-url'),
+                              {buff_state: state,
+                               csrfmiddlewaretoken: getCsrfToken()})
+            .done(function(data) {
+                if (!data || !data.best_combo) {
+                    panel.hide();
+                    return;
+                }
+                panel.show();
+                var combo = data.best_combo;
+                panel.find('.best-combo-total')
+                     .text(combo.total + ' ' + panel.data('damage-label'));
+                var list = panel.find('.best-combo-casts').empty();
+                $.each(combo.casts, function(i, cast) {
+                    var line = $("<li></li>");
+                    $("<img class='best-combo-icon'>")
+                        .attr('src', cast.image_url).attr('alt', cast.name)
+                        .appendTo(line);
+                    $("<span class='best-combo-name'></span>").text(cast.name).appendTo(line);
+                    $("<span class='best-combo-ap'></span>").text(cast.ap + ' AP').appendTo(line);
+                    $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
+                    $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
+                    list.append(line);
+                });
+                panel.find('.best-combo-ap-note')
+                     .text(combo.ap_used + ' / ' + combo.ap_available + ' AP');
+            });
+    }
+
+    function getCsrfToken() {
+        var match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+        return match ? match[1] : '';
+    }
+
     function recalculateDamages() {
         $.each(spells, function(spellName, spell) {
             setCellContent(spell);
         });
+        refreshBestCombo();
     }
     
     function createLines(){

@@ -156,10 +156,15 @@ def _spell_image_url(spell_name, game_version):
     return static(spell_dir + spell_name + '.png')
 
 
-def _best_combo(char, solution, game_version):
+def _best_combo(char, solution, game_version, buff_state=None):
     """Best cast order for one turn, or None when there is nothing to say."""
-    from chardata.spell_combo import best_turn, castable_spells, combat_ap
-    stats = solution.get_stats_total()
+    from chardata.spell_combo import (best_turn, buffs_in_force,
+                                      castable_spells, combat_ap)
+    stats = dict(solution.get_stats_total())
+    for stat, delta in buffs_in_force(char.char_class, char.level,
+                                      game_version, buff_state).items():
+        if stat in stats:
+            stats[stat] = stats[stat] + delta
     ap = combat_ap(stats.get('ap'), game_version)
     spells = castable_spells(char.char_class, char.level, game_version)
     if not ap or not spells:
@@ -204,6 +209,41 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest['special'] = spell.special
     web_digest['buff_scaling'] = spell.buff_scaling
     return web_digest
+
+def best_combo_json(request, char_id=0):
+    """The combo panel again, for the buffs the reader has ticked."""
+    import json
+    from django.http import JsonResponse
+    char = get_char_or_raise(request, char_id)
+    return _best_combo_response(request, char)
+
+
+def best_combo_linked_json(request, encoded_char_id):
+    char_id = decode_char_id(encoded_char_id)
+    if char_id is None:
+        raise Http404('Could not decode char id: %s' % encoded_char_id)
+    char = get_object_or_404(Char, pk=char_id)
+    if not char.link_shared:
+        raise PermissionDenied
+    return _best_combo_response(request, char)
+
+
+def _best_combo_response(request, char):
+    import json
+    from django.http import JsonResponse
+    solution = get_solution(char)
+    if solution is None:
+        return JsonResponse({'best_combo': None})
+    try:
+        buff_state = json.loads(request.POST.get('buff_state') or '{}')
+    except ValueError:
+        buff_state = {}
+    if not isinstance(buff_state, dict):
+        buff_state = {}
+    game_version = getattr(request, 'game_version', 'dofus3')
+    return JsonResponse(
+        {'best_combo': _best_combo(char, solution, game_version, buff_state)})
+
 
 def spells(request, char_id=0):
     char = get_char_or_raise(request, char_id)

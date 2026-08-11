@@ -11814,6 +11814,83 @@ class SpellComboPageTests(TestCase):
         self.assertIn('id="best-combo"', page)
         self.assertIn(combo['casts'][0]['name'], page)
         self.assertIn(str(combo['total']), page)
+        # The page asks for the panel again whenever a buff is ticked.
+        self.assertIn('data-combo-url', page)
+
+    def _combo_char(self, username, link_shared=True):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        import pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        hat = next(item for item in
+                   structure.get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed and item.ankama_id)
+        owner = User.objects.create_user(username, '%s@test.local' % username,
+                                         'pw-42-solid')
+        solution = ModelResultMinimal({'hat': hat.id}, {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated', 'char_level': 200,
+            'base_stats_by_attr': {'AP': 7, 'MP': 3, 'Vitality': 0, 'Wisdom': 0,
+                                   'Strength': 300, 'Intelligence': 0,
+                                   'Chance': 0, 'Agility': 0},
+            'locked_equips': {}}, {})
+        char = Char.objects.create(
+            name='Combo', char_name='combo', char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=pickle.dumps({'vit': 1, 'str': 1, 'int': 1, 'cha': 1,
+                                       'agi': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=pickle.dumps(solution),
+            owner=owner, link_shared=link_shared, game_version='dofus3')
+        return owner, char
+
+    def test_a_ticked_buff_changes_the_panel(self):
+        # Reported by a player: Fully Buff changed every damage line on the
+        # page except this panel, because the panel was rendered once from the
+        # gear alone and nothing asked for it again.
+        import json
+        from django.test import Client
+        owner, char = self._combo_char('combobuff')
+        client = Client()
+        client.force_login(owner)
+        plain = client.post('/best_combo/%d/' % char.pk, {'buff_state': '{}'})
+        self.assertEqual(200, plain.status_code)
+        buffed = client.post('/best_combo/%d/' % char.pk,
+                             {'buff_state': json.dumps({'Power': 'n1'})})
+        self.assertEqual(200, buffed.status_code)
+        before = plain.json()['best_combo']
+        after = buffed.json()['best_combo']
+        self.assertTrue(before['casts'] and after['casts'])
+        self.assertGreater(after['total'], before['total'])
+        self.assertLessEqual(after['ap_used'], after['ap_available'])
+
+    def test_a_broken_buff_state_is_not_an_error(self):
+        from django.test import Client
+        owner, char = self._combo_char('combojunk')
+        client = Client()
+        client.force_login(owner)
+        for junk in ('', 'not json', '[]', '{"No Such Spell": "n9"}'):
+            with self.subTest(payload=junk):
+                response = client.post('/best_combo/%d/' % char.pk,
+                                       {'buff_state': junk})
+                self.assertEqual(200, response.status_code)
+                self.assertTrue(response.json()['best_combo']['casts'])
+
+    def test_the_panel_follows_the_same_sharing_rule_as_the_page(self):
+        from django.test import Client
+        from chardata.encoded_char_id import encode_char_id
+        _owner, shared = self._combo_char('comboshared', link_shared=True)
+        _owner2, private = self._combo_char('comboprivate', link_shared=False)
+        anonymous = Client()
+        ok = anonymous.post('/best_combo_linked/%s/' % encode_char_id(shared.pk),
+                            {'buff_state': '{}'})
+        self.assertEqual(200, ok.status_code)
+        refused = anonymous.post(
+            '/best_combo_linked/%s/' % encode_char_id(private.pk),
+            {'buff_state': '{}'})
+        self.assertEqual(403, refused.status_code)
 
 
 class GameVersionWatchTests(SimpleTestCase):
