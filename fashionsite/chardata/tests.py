@@ -9323,16 +9323,44 @@ class CharacterLookTests(TestCase):
         self.assertTrue(resp.json()['body'])
 
     def test_only_the_versions_sharing_this_art_get_a_preview(self):
-        # Dofus 2 kept the same equipment designs, so the skins matched once
-        # from the Dofus 3 art fit it by ankama id. Touch has a mapping against
-        # its own art, but the baked cache is a single Dofus 3 id space, so a
-        # Touch skin id there would draw another piece. Retro is 1.29 art.
+        # Dofus 2 and Touch kept the same equipment designs, so the skins
+        # matched once from the Dofus 3 art fit them. Retro is 1.29 art and
+        # shares nothing, so it draws nothing.
         from chardata.character_look import get_character_look
         char = self._char('Iop')
-        for version in ('dofus3', 'beta', 'dofus2'):
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
             self.assertIsNotNone(get_character_look(char, None, version), version)
-        for version in ('touch', 'retro'):
-            self.assertIsNone(get_character_look(char, None, version), version)
+        self.assertIsNone(get_character_look(char, None, 'retro'))
+
+    def test_a_shared_skin_never_points_at_another_piece(self):
+        # This is what kept Touch out of the preview: the cache is a single
+        # Dofus 3 id space, so a skin id meaning something else in another
+        # version would draw the wrong gear. No version stores art of its own,
+        # they replay the Dofus 3 decisions by name, and this holds them to it.
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.fashion_util import is_same_item_name
+        from chardata.character_look import VERSIONS_WITH_ART
+        owners = {}
+        for item in get_structure('dofus3').get_items_list():
+            if getattr(item, 'skin', None):
+                owners.setdefault(item.skin, []).append(item.name)
+        for version in VERSIONS_WITH_ART:
+            if version == 'dofus3':
+                continue
+            wrong = []
+            checked = 0
+            for item in get_structure(version).get_items_list():
+                skin = getattr(item, 'skin', None)
+                if not skin:
+                    continue
+                checked += 1
+                names = owners.get(skin)
+                if not names or not any(is_same_item_name(item.name, name)
+                                        for name in names):
+                    wrong.append((item.name, names))
+            with self.subTest(version=version):
+                self.assertEqual([], wrong)
+                self.assertGreater(checked, 100, version)
 
     def test_every_version_with_a_preview_knows_its_item_skins(self):
         from fashionistapulp.structure import get_structure
