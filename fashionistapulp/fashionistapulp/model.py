@@ -805,10 +805,12 @@ class Model:
         name_by_key = {stat.key: stat.name for stat in self.main_stats_list}
         push_curve = scrolls_push_cost_curve(game_version)
         for stat in caps:
-            # On retro/touch the scrolled base eats the cheap low tiers before
-            # any point is spent (see the retro Iop Intelligence case); since
-            # Dofus 2.48 scrolls are tracked separately, so on modern versions
-            # the cost curve only counts invested points.
+            # On retro the scrolled base eats the cheap low tiers before any
+            # point is spent (see the retro Iop Intelligence case). Everywhere
+            # else, Touch included, scrolls are tracked separately and the cost
+            # curve only counts invested points: scrolls_push_cost_curve holds
+            # the sources, and adding Touch back here would misprice every
+            # Touch build.
             scrolled = (base_stats_by_attr.get(name_by_key.get(stat), 0)
                         if push_curve else 0)
             widths = tier_widths_after_scroll(caps[stat], scrolled)
