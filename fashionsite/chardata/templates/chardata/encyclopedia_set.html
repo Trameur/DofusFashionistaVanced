@@ -37,6 +37,12 @@
 .encyclopedia-list-stat { display: flex; align-items: center; gap: 8px; }
 .encyclopedia-list-stat-icon { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
 .encyclopedia-set-bonus-group { margin-top: 6px; }
+/* A cap is the opposite of the bonuses right above it, so it must not read
+   like one. The encyclopedia red, darkened: at #d64d42 it sat at 3.17:1 on
+   the parchment background, under the 4.5:1 readable text needs. */
+.encyclopedia-set-caps span { color: #ad3025; }
+.dark-theme-active .encyclopedia-set-caps span,
+html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
 .encyclopedia-crumbs {
     font-size: 0.85em;
     opacity: 0.75;

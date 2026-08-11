@@ -37,6 +37,16 @@
     opacity: 0.7;
     font-size: 0.9em;
 }
+/* A cap is the opposite of the bonuses right above it, so it must not read
+   like one. The encyclopedia red, darkened: at #d64d42 it sat at 3.17:1 on
+   the parchment background, under the 4.5:1 readable text needs. */
+.encyclopedia-set-caps span {
+    color: #ad3025;
+}
+.dark-theme-active .encyclopedia-set-caps span,
+html.fm-dark .encyclopedia-set-caps span {
+    color: #f0837a;
+}
 .drop-level {
     opacity: 0.7;
     font-size: 0.9em;
