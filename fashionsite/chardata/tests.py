@@ -6456,6 +6456,66 @@ class TouchPetSolveTests(TestCase):
             pet.id, self.VARIANT_ID_BASE,
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
+class SolvedBuildIsWearableTests(TestCase):
+    """The smoke tests prove a solve happens and equips something. They never
+    checked that what comes back is a build a player could actually wear: an
+    item above the character's level, a third ring or a removed item would all
+    have gone through unnoticed, and the optimizer is the product."""
+
+    # One of each, except rings, which a character wears two of.
+    SLOT_LIMITS = {'Hat': 1, 'Cloak': 1, 'Amulet': 1, 'Belt': 1, 'Boots': 1,
+                   'Shield': 1, 'Weapon': 1, 'Pet': 1, 'Ring': 2, 'Dofus': 6}
+
+    def _solve(self, version, char_class, level, aspects):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user(
+            'wear%s%d' % (version, level), '%s%d@t.local' % (version, level),
+            'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, char_class, level, aspects, version)
+        self.client.force_login(owner)
+        prefix = '' if version == 'dofus3' else '/' + version
+        self.client.get('%s/fashion/%d/' % (prefix, char.pk))
+        char.refresh_from_db()
+        solution = get_solution(char)
+        self.assertIsNotNone(solution, version)
+        return [ri for ri in solution.item_list if ri.item_added]
+
+    def _check(self, version, char_class, level, aspects):
+        from collections import Counter
+        worn = self._solve(version, char_class, level, aspects)
+        self.assertGreaterEqual(len(worn), 8, version)
+        too_high = [(ri.name, ri.level) for ri in worn
+                    if ri.level is not None and ri.level > level]
+        self.assertEqual([], too_high, '%s: worn above the character level' % version)
+        removed = [ri.name for ri in worn if getattr(ri, 'removed', False)]
+        self.assertEqual([], removed, '%s: a removed item was equipped' % version)
+        slots = Counter(ri.type for ri in worn)
+        over = {slot: n for slot, n in slots.items()
+                if n > self.SLOT_LIMITS.get(slot, 1)}
+        self.assertEqual({}, over, '%s: more pieces than slots' % version)
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_low_level_build_is_wearable(self):
+        self._check('dofus3', 'Iop', 50, {'str'})
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_an_endgame_build_is_wearable(self):
+        self._check('dofus3', 'Cra', 200, {'agi'})
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_retro_build_is_wearable(self):
+        # 1.29 plays by its own rules, so it gets its own check.
+        self._check('retro', 'Iop', 100, {'str'})
+
+
 class RetroUncappedApSolveTests(TestCase):
     """Retro (1.29) has no 12/6/6 AP/MP/Range cap, so the optimizer leaves those
     stats uncapped there. A full retro solve must still complete (the LP stays
