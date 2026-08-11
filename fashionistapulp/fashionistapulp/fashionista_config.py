@@ -16,6 +16,7 @@
 
 import os
 import platform
+import subprocess
 import sys
 
 path = None
@@ -88,17 +89,17 @@ def save_items_db_to_dump():
     run_root_script('dump_item_db.py')
 
 def run_root_script(script_path):
-    python_cmd = "python" if platform.system() == 'Windows' else "python3"
-    env_var = f'PYTHONPATH={os.path.join(get_fashionista_path(), "fashionistapulp")}'
-    load_script_path = os.path.join(get_fashionista_path(), script_path)
-    
-    if platform.system() == 'Windows':
-        # Utiliser une méthode qui fonctionne sur Windows
-        os.environ['PYTHONPATH'] = os.path.join(get_fashionista_path(), "fashionistapulp")
-        os.system(f'{python_cmd} {load_script_path}')
-    else:
-        # Méthode originale pour Linux/macOS
-        os.system(f'{env_var} {load_script_path}')
+    """Run one of the root scripts and hand back its exit code.
+
+    It used to build a shell string: unquoted, so a checkout under a path with
+    a space would have split it, and on Linux it ran the file itself and leaned
+    on the shebang while the python3 it had picked went unused. A list and the
+    interpreter already running need neither quoting nor an execute bit.
+    """
+    package_path = os.path.join(get_fashionista_path(), 'fashionistapulp')
+    env = dict(os.environ, PYTHONPATH=package_path)
+    full_path = os.path.join(get_fashionista_path(), script_path)
+    return subprocess.run([sys.executable, full_path], env=env).returncode
 
 serve_static = None
 

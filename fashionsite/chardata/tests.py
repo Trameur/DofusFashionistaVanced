@@ -12028,6 +12028,70 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
             character_assets.parts_manifest_view(None, '80', fmt=skin - 1)
 
 
+class RunRootScriptTests(SimpleTestCase):
+    """structure.py rebuilds the items database through this on every import,
+    so it runs on every worker start. It used to build a shell string with the
+    path unquoted, and on Linux it ran the file itself through its shebang
+    while the python3 it had chosen went unused."""
+
+    def _script(self, directory, body):
+        path = os.path.join(directory, 'probe_script.py')
+        with open(path, 'w', encoding='utf-8') as handle:
+            handle.write(body)
+        return path
+
+    def test_it_hands_back_the_exit_code(self):
+        import shutil
+        import tempfile
+        from unittest import mock
+        from fashionistapulp import fashionista_config
+        workdir = tempfile.mkdtemp()
+        try:
+            self._script(workdir, 'import sys\nsys.exit(3)\n')
+            with mock.patch.object(fashionista_config, 'get_fashionista_path',
+                                   return_value=workdir):
+                code = fashionista_config.run_root_script('probe_script.py')
+            self.assertEqual(3, code)
+        finally:
+            shutil.rmtree(workdir, ignore_errors=True)
+
+    def test_a_path_with_a_space_still_runs(self):
+        import shutil
+        import tempfile
+        from unittest import mock
+        from fashionistapulp import fashionista_config
+        parent = tempfile.mkdtemp()
+        workdir = os.path.join(parent, 'a folder with spaces')
+        os.makedirs(workdir)
+        try:
+            self._script(workdir, 'import sys\nsys.exit(0)\n')
+            with mock.patch.object(fashionista_config, 'get_fashionista_path',
+                                   return_value=workdir):
+                code = fashionista_config.run_root_script('probe_script.py')
+            self.assertEqual(0, code)
+        finally:
+            shutil.rmtree(parent, ignore_errors=True)
+
+    def test_the_script_can_import_the_package(self):
+        # It is run out of process, so the package only resolves if PYTHONPATH
+        # carries it.
+        import shutil
+        import tempfile
+        from unittest import mock
+        from fashionistapulp import fashionista_config
+        workdir = tempfile.mkdtemp()
+        try:
+            self._script(workdir,
+                         'import fashionistapulp.fashionista_config\n')
+            real_root = fashionista_config.get_fashionista_path()
+            with mock.patch.object(fashionista_config, 'get_fashionista_path',
+                                   side_effect=[real_root, workdir]):
+                code = fashionista_config.run_root_script('probe_script.py')
+            self.assertEqual(0, code)
+        finally:
+            shutil.rmtree(workdir, ignore_errors=True)
+
+
 class DumpItemDbFallbackTests(SimpleTestCase):
     """dump_item_db.py uses the sqlite3 CLI when it is on the PATH and a Python
     fallback when it is not. The machine the pipelines run on has no sqlite3,
