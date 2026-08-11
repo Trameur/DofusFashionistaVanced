@@ -5121,6 +5121,60 @@ class RetroSpellHatTests(SimpleTestCase):
         self.assertEqual(items * 5, rows)
 
 
+class CrawlerUrlSpaceTests(TestCase):
+    """A slug written ".*" swallows slashes, so every encyclopedia page answered
+    200 under an endless set of paths: /233-kaiser/robots.txt, /233-kaiser/a/b/c/.
+    The canonical was right, so nothing was indexed twice, but a crawler could
+    walk forever. The last real production error mail was a crawler doing exactly
+    that on another route."""
+
+    JUNK = [
+        '/encyclopedia/item/equipment/233-kaiser/robots.txt',
+        '/encyclopedia/item/equipment/233-kaiser/a/b/c/',
+        '/encyclopedia/item/equipment/233-kaiser/.well-known/x/',
+        '/encyclopedia/resource/resources/311-x/robots.txt',
+        '/encyclopedia/monster/31-gobball/robots.txt',
+        '/retro/encyclopedia/item/equipment/233-kaiser/a/b/',
+    ]
+
+    def test_junk_below_a_real_page_is_not_a_page(self):
+        for url in self.JUNK:
+            with self.subTest(url=url):
+                self.assertEqual(404, self.client.get(url).status_code)
+
+    def test_the_real_pages_still_answer(self):
+        from chardata.official_site import get_item_link
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'retro', 'touch'):
+            structure = get_structure(version)
+            items = [i for i in structure.get_concatenated_items_lists()
+                     if i.ankama_id][:200]
+            tricky = [i for i in items
+                      if any(c in (i.name or '') for c in "'-()&.")][:4]
+            for item in (tricky + items[:2])[:6]:
+                link = get_item_link(item.ankama_type, item.ankama_id, item.name,
+                                     game_version=version)
+                if not link:
+                    continue
+                with self.subTest(version=version, item=item.name):
+                    self.assertEqual(
+                        200, self.client.get(link, follow=True).status_code)
+
+    def test_a_guessed_url_never_answers_with_a_server_error(self):
+        guesses = [
+            '/encyclopedia/item/equipment/0-nothing/',
+            '/encyclopedia/item/nosuchtype/233-kaiser/',
+            '/encyclopedia/set/99999999/',
+            '/encyclopedia/?page=abc',
+            '/encyclopedia/?page=-1',
+            '/encyclopedia/sets/?sort=nope&page=abc',
+            '/encyclopedia/monsters/?q=' + 'x' * 300,
+        ]
+        for url in guesses:
+            with self.subTest(url=url):
+                self.assertLess(self.client.get(url, follow=True).status_code, 500)
+
+
 class VersionInPageMetaTests(TestCase):
     """Five versions were serving one title and one description on thousands of
     encyclopedia URLs, so a result list could not tell the Retro Kaiser from the

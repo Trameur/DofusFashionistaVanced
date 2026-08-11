@@ -705,15 +705,18 @@ urlpatterns = [
     re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^support/', views.support, name='support'),
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
-    re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
+    # The slug stops at the next slash: as ".*" it swallowed them, so
+    # /233-kaiser/robots.txt and /233-kaiser/a/b/c/ served the item page
+    # with a 200, an endless set of URLs for a crawler to walk.
+    re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_item,
             name='encyclopedia_item'),
-    re_path(r'^encyclopedia/resource/(?P<subtype>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>.*)/$',
+    re_path(r'^encyclopedia/resource/(?P<subtype>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_resource,
             name='encyclopedia_resource'),
     re_path(r'^encyclopedia/monsters/$', encyclopedia_view.encyclopedia_monsters,
             name='encyclopedia_monsters'),
-    re_path(r'^encyclopedia/monster/(?P<monster_id>\d+)-(?P<slug>.*)/$',
+    re_path(r'^encyclopedia/monster/(?P<monster_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_monster,
             name='encyclopedia_monster'),
     re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets, name='encyclopedia_sets'),
