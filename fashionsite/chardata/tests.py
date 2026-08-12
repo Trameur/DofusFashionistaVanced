@@ -10099,6 +10099,18 @@ class MountLookTests(TestCase):
         self.assertEqual(
             parse_look('{5023||2=13173535,1=14877997,3=14575892|85}'),
             (5023, ['e3052d', 'c9031f', 'de6914'], 85))
+        # The client also writes hex behind a sigil: the Armoured Dragoturkey
+        # mixes both forms in one look and used to lose its three # colours.
+        self.assertEqual(
+            parse_look('{639|1247|1=#FFA433,2=#722B19,3=#7B4835,4=7758915|120}'),
+            (639, ['ffa433', '722b19', '7b4835', '766443'], 120))
+        # Bare decimals that HAPPEN to read as six hex digits stay decimal:
+        # 498894 tints 15 Rhineetles today and must remain 079cce.
+        self.assertEqual(
+            parse_look('{5023||1=498894,3=2605815,2=2605815|85}'),
+            (5023, ['079cce', '27c2f7', '27c2f7'], 85))
+        self.assertEqual(parse_look('{639||2=393216|120}'),
+                         (639, ['060000'], 120))
 
     def test_a_look_that_is_not_one_is_refused_rather_than_guessed(self):
         from store_dofusdb_mount_looks import parse_look

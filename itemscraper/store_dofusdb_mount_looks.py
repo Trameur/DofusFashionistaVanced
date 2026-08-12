@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sqlite3
 import sys
 import urllib.request
@@ -72,7 +73,15 @@ def parse_look(look):
         if '=' not in part:
             continue
         index, _, value = part.partition('=')
-        if index.strip().isdigit() and value.strip().lstrip('-').isdigit():
+        value = value.strip()
+        if not index.strip().isdigit():
+            continue
+        # The client writes two colour forms. Hex is accepted ONLY behind its
+        # sigil: bare decimals like 498894 are also six hex digits, and 16
+        # mounts would silently change colour if the sigil were optional.
+        if value.startswith('#') and re.fullmatch(r'#[0-9A-Fa-f]{6}', value):
+            packed.append((int(index), int(value[1:], 16)))
+        elif value.lstrip('-').isdigit():
             packed.append((int(index), int(value)))
     packed.sort()
     hexes = ['%06x' % (value & 0xFFFFFF) for _, value in packed]
@@ -144,6 +153,24 @@ def main():
                        (item_id, bone, ','.join(colours), scale))
         bones[bone] = bones.get(bone, 0) + 1
         matched += 1
+
+    # Say what got nothing, or a source that loses a third of a family reads
+    # as a success. 54 Seemyools shipped lookless for weeks that way: their
+    # four newest colours exist in no client file (checked against Ankama's
+    # own MountsDataRoot, 2026-08-12), so the shortfall is expected, but it
+    # has to stay visible and it has to be seen if it grows.
+    uncovered = {}
+    for item_id, name in cursor.execute(
+            "SELECT i.id, i.name FROM items i WHERE i.ankama_type = 'mounts' "
+            "AND i.id NOT IN (SELECT item FROM mount_looks)"):
+        family = next((word for word in ('Seemyool', 'Dragoturkey', 'Rhineetle',
+                                         'Kolophant', 'Skrot')
+                       if word in name), 'other')
+        uncovered[family] = uncovered.get(family, 0) + 1
+    if uncovered:
+        print('mount items left without a look: %d (%s)'
+              % (sum(uncovered.values()),
+                 ', '.join('%s %d' % pair for pair in sorted(uncovered.items()))))
     conn.commit()
     conn.close()
 
