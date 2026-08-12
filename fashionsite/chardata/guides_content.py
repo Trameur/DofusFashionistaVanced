@@ -14,7 +14,7 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'transcendence-runes', 'versions-explained']
 
 
 GUIDES = {
@@ -3195,6 +3195,306 @@ GUIDES = {
             },
         },
     },
+
+    # ------------------------------------------------------------------ #
+    # Transcendence runes are a modern-client system: Dofus 3, the beta and
+    # Dofus 2 have them, Touch and Retro do not, and those two do not even
+    # share a smithmagic ruleset with each other. So this guide carries three
+    # contents. Source: the rune catalogue the site itself ships
+    # (forgemagie_transcendance.json, 81 runes over three ranks) and the rules
+    # the forgemagie tool enforces.
+    'transcendence-runes': {
+        'published': '2026-08-12',
+        'version_groups': {'touch': 'touch', 'retro': 'retro'},
+        'i18n_by_group': {
+            'modern': {
+                'en': {
+                    'title': 'Transcendence runes: the last stat, and the last one you get',
+                    'desc': 'Transcendence runes never fail, but they only land on an untouched item and they lock it forever. When to spend one, and on what.',
+                    'lead': 'A transcendence rune is the one forgemagie that cannot fail. The price is that it goes on a clean item and closes it for good, so it is the last decision you make on a piece.',
+                    'body': '''
+<h2>What they are</h2>
+<p>Transcendence runes add one bonus to an item at <strong>100% success</strong>. There are 81 of them on the modern client, over three ranks: Ta, Pata and Rata. Rank decides the size, so Rune Ta Ine gives +10 Intelligence, Pata Ine +15 and Rata Ine +20. Almost every useful line has one: the four elements, Power, Vitality, damage and resistance per element, critical damage, AP and MP reduction and resistance, lock, dodge, initiative, pods and heals.</p>
+
+<h2>The two rules that decide everything</h2>
+<p>A transcendence rune only lands on an item that has <strong>never been smithmagicked</strong>. If the piece already carries an over, the rune refuses it, and you have to strip the over first. And once the rune is on, the item is <strong>locked</strong>: no further forgemagie, ever. Not a smaller over, not a fix, nothing.</p>
+<p>So the order is fixed. Either you forgemagie a piece and never transcend it, or you transcend it and never touch it again. There is no third path.</p>
+
+<h2>Which piece deserves one</h2>
+<p>Because the item has to be clean, the natural target is a piece you were going to leave alone: an item whose rolls are already good enough, or one where the over you wanted is too expensive to chase. Spending a rune on a piece you would have overed anyway costs you the over.</p>
+<p>Weight matters too. A Rata rune is the heaviest of its family, and heavy runes are the expensive ones. If the +15 from a Pata closes the gap you actually needed, the Rata is money spent on a number you will not feel.</p>
+
+<h2>Reading it as a budget</h2>
+<p>The honest way to see a transcendence rune is as one guaranteed bonus per item, bought once, never revisited. That makes it excellent at finishing a build and poor at experimenting with one. Settle the build first, then transcend.</p>
+
+<p><em>The <a href="/forgemagie/">forgemagie simulator</a> lists every rune by stat and refuses the ones your item cannot take. Not sure which piece is already final? <a href="/setup/">Solve the build first.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': 'Runes de transcendance : le dernier stat, et le dernier choix',
+                    'desc': 'Les runes de transcendance ne ratent jamais, mais elles ne se posent que sur un objet vierge et le verrouillent. Quand en dépenser une, et sur quoi.',
+                    'lead': "Une rune de transcendance, c'est la seule forgemagie qui ne peut pas rater. Le prix : elle se pose sur un objet propre et le referme définitivement. C'est donc la dernière décision que tu prends sur une pièce.",
+                    'body': '''
+<h2>Ce que c'est</h2>
+<p>Une rune de transcendance ajoute un bonus à un objet avec <strong>100 % de réussite</strong>. Il en existe 81 sur le client moderne, réparties en trois rangs : Ta, Pata et Rata. Le rang décide de la taille : la Rune Ta Ine donne +10 Intelligence, la Pata Ine +15 et la Rata Ine +20. Presque toutes les lignes utiles y sont : les quatre éléments, la Puissance, la Vitalité, les dommages et les résistances par élément, les dommages critiques, le retrait et la résistance PA et PM, le tacle, la fuite, l'initiative, les pods et les soins.</p>
+
+<h2>Les deux règles qui décident de tout</h2>
+<p>Une rune de transcendance ne se pose que sur un objet <strong>jamais forgemagié</strong>. Si la pièce porte déjà un over, la rune la refuse : il faut d'abord retirer l'over. Et une fois la rune posée, l'objet est <strong>verrouillé</strong> : plus aucune forgemagie, jamais. Ni un petit over, ni une retouche, rien.</p>
+<p>L'ordre est donc figé. Soit tu forgemagies une pièce et tu ne la transcendes jamais, soit tu la transcendes et tu n'y touches plus. Il n'y a pas de troisième voie.</p>
+
+<h2>Quelle pièce mérite une rune</h2>
+<p>Comme l'objet doit être vierge, la cible naturelle est une pièce que tu comptais laisser tranquille : un objet dont les jets sont déjà assez bons, ou un objet dont l'over visé coûte trop cher à courir. Dépenser une rune sur une pièce que tu aurais overée de toute façon, c'est perdre l'over.</p>
+<p>Le poids compte aussi. Une Rata est la plus lourde de sa famille, et les runes lourdes sont les chères. Si les +15 d'une Pata comblent le trou dont tu avais vraiment besoin, la Rata est de l'argent mis dans un chiffre que tu ne sentiras pas.</p>
+
+<h2>Le voir comme un budget</h2>
+<p>La façon honnête de voir une rune de transcendance : un bonus garanti par objet, acheté une fois, jamais repris. Ça la rend excellente pour finir un build, et mauvaise pour en essayer un. Fige le build d'abord, transcende ensuite.</p>
+
+<p><em>Le <a href="/forgemagie/">simulateur de forgemagie</a> liste chaque rune par caractéristique et refuse celles que ton objet ne peut pas prendre. Tu ne sais pas quelle pièce est déjà définitive ? <a href="/setup/">Calcule le build d'abord.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Runas de transcendencia: la última stat, y la última decisión',
+                    'desc': 'Las runas de transcendencia nunca fallan, pero solo entran en un objeto virgen y lo bloquean. Cuándo gastar una, y en qué pieza.',
+                    'lead': 'Una runa de transcendencia es la única forjamagia que no puede fallar. El precio: entra en un objeto limpio y lo cierra para siempre, así que es la última decisión que tomas sobre esa pieza.',
+                    'body': '''
+<h2>Qué son</h2>
+<p>Una runa de transcendencia añade un bono a un objeto con <strong>100 % de éxito</strong>. Hay 81 en el cliente moderno, repartidas en tres rangos: Ta, Pata y Rata. El rango decide el tamaño: la Runa Ta Ine da +10 de Inteligencia, la Pata Ine +15 y la Rata Ine +20. Están casi todas las líneas útiles: los cuatro elementos, la Potencia, la Vitalidad, los daños y las resistencias por elemento, los daños críticos, la reducción y la resistencia a PA y PM, la placada, la huida, la iniciativa, los pods y las curas.</p>
+
+<h2>Las dos reglas que lo deciden todo</h2>
+<p>Una runa de transcendencia solo entra en un objeto <strong>nunca forjamagiado</strong>. Si la pieza ya lleva un over, la runa la rechaza: primero hay que quitar el over. Y una vez puesta la runa, el objeto queda <strong>bloqueado</strong>: nada de forjamagia, nunca más. Ni un over pequeño, ni un retoque, nada.</p>
+<p>El orden queda fijo. O forjamagias una pieza y no la transciendes nunca, o la transciendes y no la vuelves a tocar. No hay tercera vía.</p>
+
+<h2>Qué pieza merece una</h2>
+<p>Como el objeto tiene que estar limpio, el objetivo natural es una pieza que ibas a dejar en paz: un objeto cuyas tiradas ya son suficientes, o uno cuyo over deseado sale demasiado caro de perseguir. Gastar una runa en una pieza que ibas a overear de todos modos es perder el over.</p>
+<p>El peso también cuenta. Una Rata es la más pesada de su familia, y las runas pesadas son las caras. Si los +15 de una Pata tapan el hueco que de verdad necesitabas, la Rata es dinero puesto en una cifra que no vas a notar.</p>
+
+<h2>Verlo como un presupuesto</h2>
+<p>La forma honesta de ver una runa de transcendencia: un bono garantizado por objeto, comprado una vez y nunca revisado. Eso la hace excelente para rematar una build y mala para experimentar con ella. Cierra la build primero y transciende después.</p>
+
+<p><em>El <a href="/forgemagie/">simulador de forjamagia</a> lista cada runa por característica y rechaza las que tu objeto no puede aceptar. ¿No sabes qué pieza ya es definitiva? <a href="/setup/">Calcula la build primero.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Runas de transcendência: o último atributo, e a última decisão',
+                    'desc': 'As runas de transcendência nunca falham, mas só entram num item virgem e o bloqueiam. Quando gastar uma, e em que peça.',
+                    'lead': 'Uma runa de transcendência é a única forjamagia que não pode falhar. O preço: entra num item limpo e fecha-o de vez, por isso é a última decisão que tomas sobre aquela peça.',
+                    'body': '''
+<h2>O que são</h2>
+<p>Uma runa de transcendência acrescenta um bónus a um item com <strong>100 % de sucesso</strong>. Existem 81 no cliente moderno, em três patamares: Ta, Pata e Rata. O patamar decide o tamanho: a Runa Ta Ine dá +10 de Inteligência, a Pata Ine +15 e a Rata Ine +20. Estão lá quase todas as linhas úteis: os quatro elementos, a Potência, a Vitalidade, os danos e as resistências por elemento, os danos críticos, a remoção e a resistência a PA e PM, o bloqueio, a fuga, a iniciativa, os pods e as curas.</p>
+
+<h2>As duas regras que decidem tudo</h2>
+<p>Uma runa de transcendência só entra num item <strong>nunca forjamagiado</strong>. Se a peça já leva um over, a runa recusa: é preciso tirar o over primeiro. E assim que a runa entra, o item fica <strong>bloqueado</strong>: nunca mais nenhuma forjamagia. Nem um over pequeno, nem um retoque, nada.</p>
+<p>A ordem fica fixa. Ou forjamagias uma peça e nunca a transcendes, ou transcendes e não lhe voltas a tocar. Não há terceira via.</p>
+
+<h2>Que peça merece uma</h2>
+<p>Como o item tem de estar limpo, o alvo natural é uma peça que ias deixar em paz: um item cujos valores já chegam, ou um cujo over desejado sai caro demais para perseguir. Gastar uma runa numa peça que ias overar de qualquer forma é perder o over.</p>
+<p>O peso também conta. Uma Rata é a mais pesada da sua família, e as runas pesadas são as caras. Se os +15 de uma Pata tapam o buraco de que precisavas mesmo, a Rata é dinheiro posto num número que não vais sentir.</p>
+
+<h2>Vê-la como um orçamento</h2>
+<p>A forma honesta de ver uma runa de transcendência: um bónus garantido por item, comprado uma vez e nunca revisto. Isso torna-a excelente para acabar uma build e má para experimentar com ela. Fecha a build primeiro, transcende depois.</p>
+
+<p><em>O <a href="/forgemagie/">simulador de forjamagia</a> lista cada runa por característica e recusa as que o teu item não pode aceitar. Não sabes que peça já é definitiva? <a href="/setup/">Calcula a build primeiro.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Transzendenzrunen: der letzte Wert, und die letzte Entscheidung',
+                    'desc': 'Transzendenzrunen scheitern nie, gehen aber nur auf ein unberührtes Item und sperren es danach. Wann sich eine lohnt, und auf welchem Teil.',
+                    'lead': 'Eine Transzendenzrune ist die einzige Schmiedemagie, die nicht scheitern kann. Der Preis: Sie geht auf ein sauberes Item und schließt es endgültig ab. Sie ist also die letzte Entscheidung für dieses Teil.',
+                    'body': '''
+<h2>Was sie sind</h2>
+<p>Eine Transzendenzrune legt einen Bonus mit <strong>100 % Erfolg</strong> auf ein Item. Auf dem modernen Client gibt es 81 davon, in drei Stufen: Ta, Pata und Rata. Die Stufe bestimmt die Größe: Rune Ta Ine gibt +10 Intelligenz, Pata Ine +15 und Rata Ine +20. Fast jede nützliche Zeile ist dabei: die vier Elemente, Kraft, Vitalität, Schaden und Widerstand je Element, kritischer Schaden, AP und BP Entzug und Widerstand, Fesseln, Ausweichen, Initiative, Pods und Heilung.</p>
+
+<h2>Die zwei Regeln, an denen alles hängt</h2>
+<p>Eine Transzendenzrune geht nur auf ein Item, das <strong>nie schmiedemagisch bearbeitet</strong> wurde. Trägt das Teil schon einen Over, verweigert die Rune den Dienst: erst muss der Over runter. Und sobald die Rune sitzt, ist das Item <strong>gesperrt</strong>: keine Schmiedemagie mehr, nie wieder. Kein kleiner Over, keine Korrektur, nichts.</p>
+<p>Die Reihenfolge steht damit fest. Entweder du bearbeitest ein Teil schmiedemagisch und transzendierst es nie, oder du transzendierst es und rührst es nicht mehr an. Einen dritten Weg gibt es nicht.</p>
+
+<h2>Welches Teil eine verdient</h2>
+<p>Weil das Item sauber sein muss, ist das natürliche Ziel ein Teil, das du ohnehin in Ruhe lassen wolltest: eines, dessen Werte schon reichen, oder eines, dessen gewünschter Over zu teuer zu jagen ist. Eine Rune auf ein Teil zu setzen, das du sowieso geovert hättest, kostet dich den Over.</p>
+<p>Auch das Gewicht zählt. Eine Rata ist die schwerste ihrer Familie, und schwere Runen sind die teuren. Wenn die +15 einer Pata die Lücke schließen, die dir wirklich gefehlt hat, ist die Rata Geld in einer Zahl, die du nicht spürst.</p>
+
+<h2>Als Budget lesen</h2>
+<p>Ehrlich betrachtet ist eine Transzendenzrune ein garantierter Bonus pro Item, einmal gekauft und nie wieder angefasst. Das macht sie stark zum Abschließen eines Builds und schwach zum Ausprobieren. Erst den Build festzurren, dann transzendieren.</p>
+
+<p><em>Der <a href="/forgemagie/">Schmiedemagie-Simulator</a> listet jede Rune nach Wert und lehnt die ab, die dein Item nicht nehmen kann. Du weißt nicht, welches Teil schon endgültig ist? <a href="/setup/">Rechne zuerst den Build.</a></em></p>
+''',
+                },
+            },
+            'touch': {
+                'en': {
+                    'title': 'Transcendence runes on Dofus Touch: why you will not find them',
+                    'desc': 'Dofus Touch has no transcendence runes. Its end game is classic smithmagic with its own rune weights. What that changes for your build.',
+                    'lead': 'If you came looking for transcendence runes on Touch, the short answer is that they do not exist here. Touch froze its own branch of the game before that system arrived.',
+                    'body': '''
+<h2>They are a modern-client system</h2>
+<p>Transcendence runes belong to Dofus 3, the beta and Dofus 2. Dofus Touch split off earlier and is balanced on its own, so its smithmagic has no 100% guaranteed rune and no lock. Nothing on Touch closes an item permanently.</p>
+
+<h2>What Touch has instead</h2>
+<p>On Touch the end game is classic smithmagic: you push a line with runes, you accept a failure rate, and you can keep going as long as the item survives. That is slower and riskier than a guaranteed bonus, but it is also reversible in a way transcendence never is. A Touch item is never final.</p>
+
+<h2>What it changes for your build</h2>
+<p>Practically, it means you can gear first and refine forever. There is no piece you have to leave untouched, and no decision you cannot walk back. Plan your overs around what you can afford to fail, not around a one-shot purchase.</p>
+
+<p><em>The <a href="/touch/forgemagie/">Touch forgemagie simulator</a> uses the Touch rune weights, not the modern ones. Curious how the versions differ? <a href="/guides/versions-explained/">Here is the map.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': 'Runes de transcendance sur Dofus Touch : pourquoi tu ne les trouveras pas',
+                    'desc': "Dofus Touch n'a pas de runes de transcendance. Son end game, c'est la forgemagie classique avec ses propres poids. Ce que ça change pour ton build.",
+                    'lead': "Si tu cherches les runes de transcendance sur Touch, la réponse courte est qu'elles n'existent pas ici. Touch a gelé sa propre branche du jeu avant l'arrivée de ce système.",
+                    'body': '''
+<h2>C'est un système du client moderne</h2>
+<p>Les runes de transcendance appartiennent à Dofus 3, à la bêta et à Dofus 2. Dofus Touch s'est séparé plus tôt et s'équilibre à part : sa forgemagie n'a aucune rune garantie à 100 % et aucun verrou. Rien, sur Touch, ne referme un objet définitivement.</p>
+
+<h2>Ce que Touch a à la place</h2>
+<p>Sur Touch, l'end game c'est la forgemagie classique : tu pousses une ligne à coups de runes, tu acceptes un taux d'échec, et tu peux continuer tant que l'objet tient. C'est plus lent et plus risqué qu'un bonus garanti, mais c'est aussi réversible comme la transcendance ne le sera jamais. Un objet Touch n'est jamais fini.</p>
+
+<h2>Ce que ça change pour ton build</h2>
+<p>Concrètement, tu peux t'équiper d'abord et affiner sans fin. Aucune pièce que tu dois laisser vierge, aucune décision sur laquelle tu ne peux pas revenir. Planifie tes overs selon ce que tu peux te permettre de rater, pas selon un achat unique.</p>
+
+<p><em>Le <a href="/touch/forgemagie/">simulateur de forgemagie Touch</a> utilise les poids de runes de Touch, pas ceux du moderne. Tu veux voir ce qui sépare les versions ? <a href="/guides/versions-explained/">La carte est ici.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Runas de transcendencia en Dofus Touch: por qué no las vas a encontrar',
+                    'desc': 'Dofus Touch no tiene runas de transcendencia. Su end game es la forjamagia clásica con sus propios pesos. Qué cambia eso para tu build.',
+                    'lead': 'Si viniste buscando runas de transcendencia en Touch, la respuesta corta es que aquí no existen. Touch congeló su propia rama del juego antes de que llegara ese sistema.',
+                    'body': '''
+<h2>Es un sistema del cliente moderno</h2>
+<p>Las runas de transcendencia son de Dofus 3, de la beta y de Dofus 2. Dofus Touch se separó antes y se equilibra por su cuenta: su forjamagia no tiene ninguna runa garantizada al 100 % ni ningún bloqueo. En Touch nada cierra un objeto para siempre.</p>
+
+<h2>Qué tiene Touch en su lugar</h2>
+<p>En Touch el end game es la forjamagia clásica: empujas una línea a base de runas, aceptas un porcentaje de fallo y puedes seguir mientras el objeto aguante. Es más lento y más arriesgado que un bono garantizado, pero también es reversible como la transcendencia nunca lo será. Un objeto de Touch nunca está terminado.</p>
+
+<h2>Qué cambia para tu build</h2>
+<p>En la práctica, puedes equiparte primero y pulir sin final. No hay ninguna pieza que debas dejar virgen, ni ninguna decisión sobre la que no puedas volver. Planifica tus overs según lo que puedas permitirte fallar, no según una compra única.</p>
+
+<p><em>El <a href="/touch/forgemagie/">simulador de forjamagia de Touch</a> usa los pesos de runas de Touch, no los modernos. ¿Quieres ver qué separa a las versiones? <a href="/guides/versions-explained/">El mapa está aquí.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Runas de transcendência no Dofus Touch: porque não as vais encontrar',
+                    'desc': 'O Dofus Touch não tem runas de transcendência. O seu end game é a forjamagia clássica com pesos próprios. O que isso muda na tua build.',
+                    'lead': 'Se vieste à procura de runas de transcendência no Touch, a resposta curta é que aqui não existem. O Touch congelou o seu próprio ramo do jogo antes de esse sistema chegar.',
+                    'body': '''
+<h2>É um sistema do cliente moderno</h2>
+<p>As runas de transcendência são do Dofus 3, da beta e do Dofus 2. O Dofus Touch separou-se antes e é equilibrado à parte: a sua forjamagia não tem nenhuma runa garantida a 100 % nem nenhum bloqueio. No Touch nada fecha um item para sempre.</p>
+
+<h2>O que o Touch tem em vez disso</h2>
+<p>No Touch o end game é a forjamagia clássica: empurras uma linha à custa de runas, aceitas uma taxa de falha e podes continuar enquanto o item aguentar. É mais lento e mais arriscado do que um bónus garantido, mas também é reversível como a transcendência nunca será. Um item do Touch nunca está acabado.</p>
+
+<h2>O que muda na tua build</h2>
+<p>Na prática, podes equipar-te primeiro e afinar sem fim. Não há nenhuma peça que tenhas de deixar virgem, nem nenhuma decisão sem volta. Planeia os teus overs pelo que podes dar-te ao luxo de falhar, não por uma compra única.</p>
+
+<p><em>O <a href="/touch/forgemagie/">simulador de forjamagia do Touch</a> usa os pesos de runas do Touch, não os modernos. Queres ver o que separa as versões? <a href="/guides/versions-explained/">O mapa está aqui.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Transzendenzrunen auf Dofus Touch: warum du sie nicht findest',
+                    'desc': 'Dofus Touch hat keine Transzendenzrunen. Sein Endgame ist klassische Schmiedemagie mit eigenen Gewichten. Was das für deinen Build ändert.',
+                    'lead': 'Wenn du wegen Transzendenzrunen auf Touch hier bist: Die kurze Antwort ist, dass es sie hier nicht gibt. Touch hat seinen eigenen Zweig des Spiels eingefroren, bevor dieses System kam.',
+                    'body': '''
+<h2>Ein System des modernen Clients</h2>
+<p>Transzendenzrunen gehören zu Dofus 3, zur Beta und zu Dofus 2. Dofus Touch hat sich früher abgespalten und wird getrennt ausbalanciert: Seine Schmiedemagie kennt keine Rune mit 100 % Erfolg und keine Sperre. Auf Touch schließt nichts ein Item endgültig ab.</p>
+
+<h2>Was Touch stattdessen hat</h2>
+<p>Auf Touch ist das Endgame klassische Schmiedemagie: Du treibst eine Zeile mit Runen hoch, nimmst eine Fehlerquote in Kauf und kannst weitermachen, solange das Item durchhält. Das ist langsamer und riskanter als ein garantierter Bonus, dafür umkehrbar, wie es Transzendenz nie sein wird. Ein Touch-Item ist nie fertig.</p>
+
+<h2>Was das für deinen Build ändert</h2>
+<p>Praktisch heißt das: erst ausrüsten, dann endlos verfeinern. Es gibt kein Teil, das du unberührt lassen musst, und keine Entscheidung ohne Rückweg. Plane deine Over nach dem, was du dir zu verpatzen leisten kannst, nicht nach einem einmaligen Kauf.</p>
+
+<p><em>Der <a href="/touch/forgemagie/">Touch-Schmiedemagie-Simulator</a> nutzt die Runengewichte von Touch, nicht die modernen. Neugierig, was die Versionen trennt? <a href="/guides/versions-explained/">Hier ist die Übersicht.</a></em></p>
+''',
+                },
+            },
+            'retro': {
+                'en': {
+                    'title': 'Transcendence runes on Dofus Retro: they do not exist in 1.29',
+                    'desc': 'Dofus Retro is the 1.29 game, from long before transcendence runes. Its smithmagic is the original one. What that means when you gear up.',
+                    'lead': 'Transcendence runes are not part of Dofus Retro. The 1.29 client predates them by years, and its smithmagic is the original system, with none of the modern safety nets.',
+                    'body': '''
+<h2>Retro is the older game, not a lighter one</h2>
+<p>Dofus Retro is 1.29, frozen deliberately. Transcendence runes arrived on the modern client long after that point, so there is nothing to look for here: no guaranteed rune, no locked item, no permanent bonus bought in one go.</p>
+
+<h2>What smithmagic is on 1.29</h2>
+<p>Retro keeps the original system: runes, a real failure rate, and an item that degrades when you push it too far. Every point above the natural roll is paid for in attempts, and nothing about it is guaranteed. That is the whole game on 1.29, and it is why era gear stays valuable.</p>
+
+<h2>What it means for your build</h2>
+<p>Since no bonus is ever locked in, the decision that matters on Retro is which base item to chase, not which rune to finish it with. Get the piece and the rolls right first; the rest is patience.</p>
+
+<p><em>The <a href="/retro/forgemagie/">Retro forgemagie simulator</a> runs on the 1.29 rules. Want the full picture of what separates the versions? <a href="/guides/versions-explained/">Start here.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Runes de transcendance sur Dofus Retro : elles n'existent pas en 1.29",
+                    'desc': "Dofus Retro, c'est le jeu 1.29, bien avant les runes de transcendance. Sa forgemagie est celle d'origine. Ce que ça implique quand tu t'équipes.",
+                    'lead': "Les runes de transcendance ne font pas partie de Dofus Retro. Le client 1.29 leur est antérieur de plusieurs années, et sa forgemagie est le système d'origine, sans aucun des filets modernes.",
+                    'body': '''
+<h2>Retro est le jeu plus ancien, pas une version allégée</h2>
+<p>Dofus Retro, c'est la 1.29, gelée volontairement. Les runes de transcendance sont arrivées sur le client moderne bien après : il n'y a donc rien à chercher ici. Pas de rune garantie, pas d'objet verrouillé, pas de bonus définitif acheté d'un coup.</p>
+
+<h2>Ce qu'est la forgemagie en 1.29</h2>
+<p>Retro garde le système d'origine : des runes, un vrai taux d'échec, et un objet qui se dégrade quand tu le pousses trop loin. Chaque point au-dessus du jet naturel se paie en tentatives, et rien n'y est garanti. C'est tout le jeu en 1.29, et c'est pour ça que l'équipement d'époque garde sa valeur.</p>
+
+<h2>Ce que ça veut dire pour ton build</h2>
+<p>Comme aucun bonus n'est jamais figé, la décision qui compte sur Retro, c'est quel objet de base courir, pas quelle rune viendra le finir. Trouve la bonne pièce et les bons jets d'abord ; le reste, c'est de la patience.</p>
+
+<p><em>Le <a href="/retro/forgemagie/">simulateur de forgemagie Retro</a> tourne sur les règles 1.29. Tu veux le tableau complet de ce qui sépare les versions ? <a href="/guides/versions-explained/">Commence ici.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Runas de transcendencia en Dofus Retro: no existen en 1.29',
+                    'desc': 'Dofus Retro es el juego 1.29, mucho antes de las runas de transcendencia. Su forjamagia es la original. Qué implica eso cuando te equipas.',
+                    'lead': 'Las runas de transcendencia no forman parte de Dofus Retro. El cliente 1.29 es años anterior, y su forjamagia es el sistema original, sin ninguna de las redes de seguridad modernas.',
+                    'body': '''
+<h2>Retro es el juego antiguo, no una versión recortada</h2>
+<p>Dofus Retro es la 1.29, congelada a propósito. Las runas de transcendencia llegaron al cliente moderno mucho después, así que aquí no hay nada que buscar: ninguna runa garantizada, ningún objeto bloqueado, ningún bono definitivo comprado de una vez.</p>
+
+<h2>Qué es la forjamagia en 1.29</h2>
+<p>Retro conserva el sistema original: runas, un porcentaje de fallo real y un objeto que se degrada cuando lo empujas demasiado. Cada punto por encima de la tirada natural se paga en intentos, y nada está garantizado. Ese es todo el juego en 1.29, y por eso el equipo de época mantiene su valor.</p>
+
+<h2>Qué significa para tu build</h2>
+<p>Como ningún bono queda fijado nunca, la decisión que importa en Retro es qué objeto base perseguir, no con qué runa rematarlo. Acierta primero con la pieza y con las tiradas; lo demás es paciencia.</p>
+
+<p><em>El <a href="/retro/forgemagie/">simulador de forjamagia de Retro</a> corre con las reglas 1.29. ¿Quieres el cuadro completo de lo que separa a las versiones? <a href="/guides/versions-explained/">Empieza aquí.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Runas de transcendência no Dofus Retro: não existem no 1.29',
+                    'desc': 'O Dofus Retro é o jogo 1.29, muito antes das runas de transcendência. A sua forjamagia é a original. O que isso implica quando te equipas.',
+                    'lead': 'As runas de transcendência não fazem parte do Dofus Retro. O cliente 1.29 é anterior em vários anos, e a sua forjamagia é o sistema original, sem nenhuma das redes de segurança modernas.',
+                    'body': '''
+<h2>O Retro é o jogo antigo, não uma versão reduzida</h2>
+<p>O Dofus Retro é o 1.29, congelado de propósito. As runas de transcendência chegaram ao cliente moderno muito depois, por isso aqui não há nada a procurar: nenhuma runa garantida, nenhum item bloqueado, nenhum bónus definitivo comprado de uma vez.</p>
+
+<h2>O que é a forjamagia no 1.29</h2>
+<p>O Retro mantém o sistema original: runas, uma taxa de falha real e um item que se degrada quando o forças demais. Cada ponto acima do valor natural paga-se em tentativas, e nada é garantido. É esse o jogo todo no 1.29, e é por isso que o equipamento da época mantém o valor.</p>
+
+<h2>O que significa para a tua build</h2>
+<p>Como nenhum bónus fica fixo, a decisão que conta no Retro é que item base perseguir, não com que runa o acabar. Acerta primeiro na peça e nos valores; o resto é paciência.</p>
+
+<p><em>O <a href="/retro/forgemagie/">simulador de forjamagia do Retro</a> corre com as regras 1.29. Queres o quadro completo do que separa as versões? <a href="/guides/versions-explained/">Começa aqui.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Transzendenzrunen auf Dofus Retro: in 1.29 gibt es sie nicht',
+                    'desc': 'Dofus Retro ist das Spiel 1.29, lange vor den Transzendenzrunen. Seine Schmiedemagie ist die ursprüngliche. Was das beim Ausrüsten bedeutet.',
+                    'lead': 'Transzendenzrunen gehören nicht zu Dofus Retro. Der Client 1.29 ist Jahre älter, und seine Schmiedemagie ist das ursprüngliche System, ohne die modernen Sicherheitsnetze.',
+                    'body': '''
+<h2>Retro ist das ältere Spiel, keine abgespeckte Fassung</h2>
+<p>Dofus Retro ist 1.29, absichtlich eingefroren. Transzendenzrunen kamen erst lange danach auf den modernen Client, hier gibt es also nichts zu suchen: keine garantierte Rune, kein gesperrtes Item, keinen dauerhaften Bonus auf einen Schlag.</p>
+
+<h2>Was Schmiedemagie in 1.29 ist</h2>
+<p>Retro behält das ursprüngliche System: Runen, eine echte Fehlerquote und ein Item, das leidet, wenn du es zu weit treibst. Jeder Punkt über dem natürlichen Wurf wird in Versuchen bezahlt, und garantiert ist nichts. Das ist das ganze Spiel in 1.29, und deshalb behält die Ausrüstung der Epoche ihren Wert.</p>
+
+<h2>Was das für deinen Build bedeutet</h2>
+<p>Weil nie ein Bonus festgeschrieben wird, zählt auf Retro die Frage, welchem Grundteil du nachjagst, nicht welche Rune es abschließt. Erst das Teil und die Würfe treffen, der Rest ist Geduld.</p>
+
+<p><em>Der <a href="/retro/forgemagie/">Retro-Schmiedemagie-Simulator</a> läuft nach den Regeln von 1.29. Willst du das ganze Bild der Unterschiede? <a href="/guides/versions-explained/">Fang hier an.</a></em></p>
+''',
+                },
+            },
+        },
+    },
 }
 
 
@@ -3221,7 +3521,8 @@ def ordered_slugs():
 # selected from the version the reader is on. Versions that share a system share
 # one canonical page (so distinct systems each rank, without duplicate content).
 _DEFAULT_GUIDE_GROUP = 'modern'
-_GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'retro': 'retro'}
+_GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'touch': 'touch',
+                            'retro': 'retro'}
 
 
 def _guide_group(guide, game_version):
