@@ -49,16 +49,22 @@
                     width="{{ preview_box.canvas_width }}" height="{{ preview_box.canvas_height }}"
                     style="width: {{ preview_box.css_width }}px; height: {{ preview_box.css_height }}px;"
                     title="{% trans 'Drag to turn your character' %}"></canvas>
-            {% if not is_guest %}
-            <div class="char-banner-buttons">
-                <button type="button" id="character-gender" class="char-banner-gender"
-                        data-gender="{{ char.gender }}"
-                        title="{% trans 'Male or female' %}">{% trans "Sex" %}</button>
-                <button type="button" id="character-colors-toggle" class="char-banner-gender"
-                        title="{% trans 'Pick your character colours' %}">{% trans "Colours" %}</button>
-                <button type="button" id="character-pieces-toggle" class="char-banner-gender"
-                        title="{% trans 'Choose which pieces show' %}">{% trans "Visible pieces" %}</button>
+        </div>
+        <div class="char-banner-controls">
+            <div class="char-banner-size">
+                <button type="button" id="character-smaller" class="char-banner-gender"
+                        title="{% trans 'Smaller preview' %}">-</button>
+                <button type="button" id="character-larger" class="char-banner-gender"
+                        title="{% trans 'Larger preview' %}">+</button>
             </div>
+            {% if not is_guest %}
+            <button type="button" id="character-gender" class="char-banner-gender"
+                    data-gender="{{ char.gender }}"
+                    title="{% trans 'Male or female' %}">{% trans "Sex" %}</button>
+            <button type="button" id="character-colors-toggle" class="char-banner-gender"
+                    title="{% trans 'Pick your character colours' %}">{% trans "Colours" %}</button>
+            <button type="button" id="character-pieces-toggle" class="char-banner-gender"
+                    title="{% trans 'Choose which pieces show' %}">{% trans "Visible pieces" %}</button>
             <div id="character-colors" class="char-banner-colors" hidden>
                 {% for color in character_colors %}
                 <input type="color" class="char-banner-swatch" value="#{{ color }}"
@@ -675,6 +681,24 @@
             var look = {{ character_look|safe }};
             var preview = null;
 
+            var previewBoxes = {{ preview_boxes|safe }};
+            var previewSizes = Object.keys(previewBoxes).map(Number)
+                                     .sort(function (a, b) { return a - b; });
+            var previewPercent = {{ preview_box.percent }};
+            var drawScale = {{ preview_box.scale|unlocalize }};
+
+            function fitPreview(percent) {
+                var box = previewBoxes[percent];
+                if (!box) { return false; }
+                previewPercent = percent;
+                drawScale = box.scale;
+                canvas.width = box.canvas_width;
+                canvas.height = box.canvas_height;
+                canvas.style.width = box.css_width + 'px';
+                canvas.style.height = box.css_height + 'px';
+                return true;
+            }
+
             function build(nextLook) {
                 if (preview) { preview.stop(); }
                 look = nextLook;
@@ -682,16 +706,41 @@
                     assetBase: '/character', look: look,
                     assetVersion: '{{ character_asset_version }}',
                     assetFormats: {{ character_asset_formats|default:"{}"|safe }},
-                    colors: look.colors, scale: {{ preview_box.scale|unlocalize }}
+                    colors: look.colors, scale: drawScale
                 });
                 return preview.load().then(function () { preview.start(); });
             }
+
+            // The page control wins over the account default, per browser.
+            try {
+                var stored = parseInt(localStorage.getItem('fashionistaPreviewSize'), 10);
+                if (stored && stored !== previewPercent) { fitPreview(stored); }
+            } catch (e) {}
 
             build(look).catch(function () {
                 canvas.style.display = 'none';
                 var fallback = document.querySelector('.char-banner-avatar');
                 if (fallback) { fallback.style.display = ''; }
             });
+
+            function stepPreview(direction) {
+                var at = previewSizes.indexOf(previewPercent);
+                var next = previewSizes[at + direction];
+                if (next === undefined || !fitPreview(next)) { return; }
+                try {
+                    localStorage.setItem('fashionistaPreviewSize', String(next));
+                } catch (e) {}
+                build(look);
+            }
+
+            var smaller = document.getElementById('character-smaller');
+            var larger = document.getElementById('character-larger');
+            if (smaller) {
+                smaller.addEventListener('click', function () { stepPreview(-1); });
+            }
+            if (larger) {
+                larger.addEventListener('click', function () { stepPreview(1); });
+            }
 
             var toggle = document.getElementById('character-gender');
             if (toggle) {

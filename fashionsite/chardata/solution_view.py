@@ -26,9 +26,10 @@ import pickle
 logger = logging.getLogger(__name__)
 
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
-                                     MOUNT_SLOT, SLOT_TO_NODE, UNDRAWN_SLOTS,
-                                     breed_colors, get_character_look,
-                                     parse_colors, parse_hidden, preview_box_for)
+                                     MOUNT_SLOT, PREVIEW_SIZES, SLOT_TO_NODE,
+                                     UNDRAWN_SLOTS, breed_colors,
+                                     get_character_look, parse_colors,
+                                     parse_hidden, preview_box, preview_box_for)
 from chardata.character_assets import asset_formats, asset_token, preload_links
 from chardata.encoded_char_id import encode_char_id
 from chardata.fashion_action import fashion, get_options
@@ -532,6 +533,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_preloads': preload_links(character_look),
               'canonical_path': shared_build_path(char) if char.link_shared else '',
               'preview_box': preview_box_for(request.user) if character_look else None,
+              'preview_boxes': json.dumps({percent: preview_box(percent)
+                                           for percent in PREVIEW_SIZES}),
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,

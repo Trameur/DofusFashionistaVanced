@@ -12,8 +12,9 @@
 
 .char-banner {
     display: flex;
-    align-items: center;
-    gap: 14px;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 6px 14px;
     max-width: 720px;
     margin: 4px auto 14px;
     padding: 6px 10px;
@@ -40,7 +41,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+}
+.char-banner-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 3px;
+    flex-shrink: 0;
+    max-width: 170px;
+}
+.char-banner-size {
+    display: flex;
+    gap: 4px;
+}
+.char-banner-size .char-banner-gender {
+    flex: 1;
+    font-weight: bold;
 }
 .char-banner-gender {
     font-size: 0.7em;

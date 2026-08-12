@@ -3493,6 +3493,33 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertEqual(len(kept_ids), 10)
         self.assertEqual(kept_ids, created_ids[-10:])
 
+    def test_the_owner_can_resize_the_preview_on_the_page(self):
+        # The preview shipped tiny with no way to grow it: the size lived in
+        # the account page only, behind the alias link nobody reads as a
+        # button. The banner now carries its own controls and the whole size
+        # table, so the client can rebuild the canvas without a round trip.
+        import json as json_module
+        from chardata.character_look import PREVIEW_SIZES, preview_box
+        owner, char, _ = self._build_char_with_items()
+        self.client.force_login(owner)
+        resp = self.client.get('/solution/%d/' % char.pk)
+        self.assertContains(resp, 'id="character-smaller"')
+        self.assertContains(resp, 'id="character-larger"')
+        self.assertContains(resp, 'char-banner-controls')
+        for percent in PREVIEW_SIZES:
+            self.assertContains(
+                resp, json_module.dumps(preview_box(percent))[1:-1])
+
+    def test_the_header_finally_says_settings(self):
+        # The account page always held the options, but its only entry was
+        # the alias link in the header, which reads as a name, not a button.
+        owner, char, _ = self._build_char_with_items()
+        self.client.force_login(owner)
+        resp = self.client.get('/solution/%d/' % char.pk,
+                               HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(resp, 'id="header_settings_link"')
+        self.assertContains(resp, '>Settings</a>')
+
     def test_a_project_page_still_carries_the_loading_screen(self):
         # The reading pages dropped it; the pages that can start a solve must
         # keep it, or the tailor button hides the content and shows nothing.

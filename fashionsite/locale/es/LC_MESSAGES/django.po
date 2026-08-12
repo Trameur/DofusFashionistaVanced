@@ -5316,6 +5316,22 @@ msgstr "Restablecer"
 msgid "No art yet: %(pieces)s."
 msgstr "Todavía sin apariencia: %(pieces)s."
 
+#: .\chardata\templates\chardata\base.html:163
+msgid "Settings"
+msgstr "Configuración"
+
+#: .\chardata\templates\chardata\manage_account.html:75
+msgid "Very large"
+msgstr "Muy grande"
+
+#: .\chardata\templates\chardata\solution.html:57
+msgid "Smaller preview"
+msgstr "Reducir la vista previa"
+
+#: .\chardata\templates\chardata\solution.html:59
+msgid "Larger preview"
+msgstr "Ampliar la vista previa"
+
 #: .\chardata\templates\chardata\solution.html:73
 msgid "Hide this piece on the preview"
 msgstr "Ocultar esta pieza en la vista previa"

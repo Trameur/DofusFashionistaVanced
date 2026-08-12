@@ -103,6 +103,7 @@ PREVIEW_BOXES = {
     75: {'canvas': (110, 154), 'css': (55, 77), 'scale': 0.455},
     100: {'canvas': (150, 210), 'css': (75, 105), 'scale': 0.62},
     150: {'canvas': (220, 308), 'css': (110, 154), 'scale': 0.909},
+    200: {'canvas': (300, 420), 'css': (150, 210), 'scale': 1.24},
 }
 PREVIEW_SIZES = tuple(sorted(PREVIEW_BOXES))
 
