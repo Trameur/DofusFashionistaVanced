@@ -3949,19 +3949,19 @@ msgstr ""
 
 #: .\chardata\templates\chardata\inventory_source.html:3
 msgid "Which items can the solver use?"
-msgstr "Welche Gegenstaende darf der Solver verwenden?"
+msgstr "Welche Gegenstände darf der Solver verwenden?"
 
 #: .\chardata\templates\chardata\inventory_source.html:4
 msgid "Only encyclopedia items"
-msgstr "Nur Enzyklopaedie-Gegenstaende"
+msgstr "Nur Enzyklopädie-Gegenstände"
 
 #: .\chardata\templates\chardata\inventory_source.html:5
 msgid "Encyclopedia items + my inventory"
-msgstr "Enzyklopaedie-Gegenstaende + mein Inventar"
+msgstr "Enzyklopädie-Gegenstände + mein Inventar"
 
 #: .\chardata\templates\chardata\inventory_source.html:6
 msgid "Only items from my inventory"
-msgstr "Nur Gegenstaende aus meinem Inventar"
+msgstr "Nur Gegenstände aus meinem Inventar"
 
 #: .\chardata\templates\chardata\language-selector.html:10
 #: .\chardata\templates\chardata\language-selector.html:27
