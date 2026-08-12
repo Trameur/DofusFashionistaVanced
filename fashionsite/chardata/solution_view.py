@@ -139,6 +139,12 @@ def _preview_pieces(char, look=None):
             for slot in slots]
 
 
+def _undrawn_pieces(look):
+    """The worn pieces the preview has no art for, named for the reader."""
+    return [_PIECE_LABELS[slot] for slot in sorted((look or {}).get('undrawn', []))
+            if slot in _PIECE_LABELS]
+
+
 def _build_check(char, solution):
     """Heuristic build review. For each equipped slot, score the equipped item
     against every item that fits the slot using the build's own stat weights and
@@ -520,6 +526,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_look': json.dumps(character_look) if character_look else '',
               'character_colors': parse_colors(char.colors, _default_colors(char)) if character_look else [],
               'character_pieces': _preview_pieces(char, character_look) if character_look else [],
+              'character_undrawn': _undrawn_pieces(character_look),
               'character_asset_version': asset_token() if character_look else '',
               'character_asset_formats': json.dumps(asset_formats()),
               'character_preloads': preload_links(character_look),

@@ -80,6 +80,12 @@
     margin-right: 2px;
     vertical-align: middle;
 }
+.char-banner-undrawn {
+    flex-basis: 100%;
+    font-size: 0.65em;
+    opacity: 0.6;
+    text-align: center;
+}
 .char-banner-swatch {
     width: 18px;
     height: 18px;

@@ -75,6 +75,9 @@
                            {% if piece.hidden %}checked{% endif %}>{{ piece.label }}
                 </label>
                 {% endfor %}
+                {% if character_undrawn %}
+                <div class="char-banner-undrawn">{% blocktrans with pieces=character_undrawn|join:", " %}No art yet: {{ pieces }}.{% endblocktrans %}</div>
+                {% endif %}
             </div>
             {% endif %}
         </div>

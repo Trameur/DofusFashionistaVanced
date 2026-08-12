@@ -10964,6 +10964,57 @@ class PreviewPieceBoxesTests(SimpleTestCase):
         hat = SLOT_TO_NODE['hat']
         self.assertEqual(['hat'], self._pieces('', {hat: 242}))
 
+    def test_a_worn_piece_with_no_art_is_named_instead_of_vanishing(self):
+        # A third of hats have no art, and the box for one simply is not
+        # drawn, so the reader is left wondering. get_character_look says
+        # which pieces it could not draw.
+        from chardata.character_look import get_character_look
+        from chardata.solution_view import _undrawn_pieces
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        drawable = next(i for i in structure.get_items_list()
+                        if structure.get_type_name_by_id(i.type) == 'Hat'
+                        and getattr(i, 'skin', None))
+        bare = next(i for i in structure.get_items_list()
+                    if structure.get_type_name_by_id(i.type) == 'Hat'
+                    and not getattr(i, 'skin', None))
+
+        class Item(object):
+            def __init__(self, slot, item_id):
+                self.slot, self.id, self.item_added = slot, item_id, True
+
+        class Char(object):
+            char_class, gender, hidden_parts, colors = 'Iop', 0, '', ''
+
+        class Solution(object):
+            def __init__(self, items):
+                self.item_list = items
+
+        look = get_character_look(Char(), Solution([Item('hat', bare.id)]))
+        self.assertEqual(['hat'], look['undrawn'])
+        self.assertEqual(['Hat'], [str(label) for label
+                                   in _undrawn_pieces(look)])
+
+        look = get_character_look(Char(), Solution([Item('hat', drawable.id)]))
+        self.assertEqual([], look['undrawn'])
+        self.assertEqual([], _undrawn_pieces(look))
+
+    def test_a_weapon_is_never_called_missing_art(self):
+        # It is not the matcher's fault: no pose places a weapon at all, so
+        # naming it here would report a permanent limit as a data gap.
+        from chardata.character_look import get_character_look
+
+        class Item(object):
+            slot, id, item_added = 'weapon', 1, True
+
+        class Char(object):
+            char_class, gender, hidden_parts, colors = 'Iop', 0, '', ''
+
+        class Solution(object):
+            item_list = [Item()]
+
+        self.assertEqual([], get_character_look(Char(), Solution())['undrawn'])
+
     def test_no_box_for_a_weapon_while_no_pose_can_place_one(self):
         from chardata.character_look import SLOT_TO_NODE
         arme = SLOT_TO_NODE['weapon']

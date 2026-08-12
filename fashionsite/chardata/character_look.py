@@ -183,7 +183,7 @@ def get_character_look(char, solution, game_version='dofus3'):
             'scale': round(int(entry['scale']) / REFERENCE_SCALE, 3),
             'colors': colors_as_rgb(getattr(char, 'colors', ''),
                                     breed_colors(breed, gender)),
-            'hidden': hidden, 'gear': {}, 'mount': None}
+            'hidden': hidden, 'gear': {}, 'mount': None, 'undrawn': []}
     model_result = getattr(solution, 'model_result', solution)
     items = getattr(model_result, 'item_list', None)
     if not items:
@@ -211,4 +211,9 @@ def get_character_look(char, solution, game_version='dofus3'):
         skin = getattr(item, 'skin', None) if item else None
         if skin:
             look['gear'][node] = skin
+        elif result_item.slot not in UNDRAWN_SLOTS:
+            # A third of hats and a quarter of capes have no art: the matcher
+            # cannot tell their two best candidates apart. Say which, or the
+            # piece just goes missing from the box with no explanation.
+            look['undrawn'].append(result_item.slot)
     return look
