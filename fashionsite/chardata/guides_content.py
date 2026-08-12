@@ -14,7 +14,8 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'best-turn-damage', 'transcendence-runes',
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'inventory-and-your-own-rolls',
+         'best-turn-damage', 'transcendence-runes',
          'versions-explained']
 
 
@@ -3783,6 +3784,158 @@ GUIDES = {
 <p><em>Gewichte setzen, rechnen, Zauberseite öffnen. <a href="/setup/">Starte hier einen Retro-Build.</a></em></p>
 ''',
                 },
+            },
+        },
+    },
+
+    # ------------------------------------------------------------------ #
+    # The inventory works the same on all five versions (it is your own items,
+    # not the game's rules), so this is a plain guide. Source: the feature
+    # itself, inventory_solver.py, which stores inventory_mode ('all' |
+    # 'mixed' | 'only') and a folder, and merges the folder's saved rolls into
+    # the stat overrides the solver runs with and the solution displays.
+    'inventory-and-your-own-rolls': {
+        'published': '2026-08-12',
+        'i18n': {
+            'en': {
+                'title': 'Build from what you own: the inventory and your own rolls',
+                'desc': 'Save the items you actually have, with the rolls you actually got, and the optimizer will judge your gear instead of an average item.',
+                'lead': 'By default the tool picks from the whole encyclopedia, using each item as the game describes it. If you tell it what you own, it stops guessing and starts working with your real gear.',
+                'body': '''
+<h2>What the inventory is</h2>
+<p>The inventory is a list of the items you actually have, kept per account and sorted into folders. A folder can be a character, a set you are farming, or a stash you are willing to sell. For each item you can save the <strong>rolls you got</strong>, not the average the encyclopedia shows.</p>
+
+<h2>Why the rolls matter</h2>
+<p>Every Dofus item rolls inside a range, so the encyclopedia number is a description, not your item. A hat listed at 41 to 50 Intelligence might be a 43 in your bag. Feed that in and the optimizer stops crediting your gear with points it does not have, which is the single most common reason a solved build looks better on screen than in game.</p>
+
+<h2>The three modes</h2>
+<p>Each project chooses how to use the inventory, in the options:</p>
+<ul>
+<li><strong>Only encyclopedia items</strong>: the inventory is ignored. Good for planning a build you have not farmed yet.</li>
+<li><strong>Encyclopedia items + my inventory</strong>: the whole catalogue stays available, but any item you own is judged on your saved rolls. This is the honest middle: it can still suggest something you do not have, and it will not lie about what you do.</li>
+<li><strong>Only items from my inventory</strong>: the pool shrinks to that folder. This answers a different question, which is the best build you can equip <em>tonight</em>, with no shopping.</li>
+</ul>
+
+<h2>Two details worth knowing</h2>
+<p>An item you locked stays allowed even in the restricted mode, so a piece you are set on is never dropped just because you have not entered it. And if you own several copies of the same item, the one you added last is the one used.</p>
+
+<h2>What it cannot do</h2>
+<p>It only knows what you type in. There is no game connection and no import, so an inventory is worth exactly the care you put into it. The upside is that the solution you get back is displayed with the same rolls it was optimized with, so what you read is what the solver actually used.</p>
+
+<p><em>Start a folder on the <a href="/inventory/">inventory page</a>, then pick a mode in your project options. New here? <a href="/setup/">Solve a build first.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': "Build avec ce que tu possèdes : l'inventaire et tes vrais jets",
+                'desc': "Enregistre les objets que tu as vraiment, avec les jets que tu as vraiment eus, et l'optimiseur jugera ton stuff au lieu d'un objet moyen.",
+                'lead': "Par défaut, l'outil pioche dans toute l'encyclopédie et prend chaque objet tel que le jeu le décrit. Si tu lui dis ce que tu possèdes, il arrête de supposer et travaille avec ton vrai stuff.",
+                'body': '''
+<h2>Ce qu'est l'inventaire</h2>
+<p>L'inventaire, c'est la liste des objets que tu as réellement, rangée par dossiers et gardée sur ton compte. Un dossier peut être un personnage, une panoplie que tu farmes, ou un stock que tu comptes revendre. Pour chaque objet, tu peux enregistrer <strong>les jets que tu as obtenus</strong>, pas la moyenne affichée par l'encyclopédie.</p>
+
+<h2>Pourquoi les jets comptent</h2>
+<p>Chaque objet Dofus tire dans une fourchette : le chiffre de l'encyclopédie est une description, pas ton objet. Une coiffe annoncée entre 41 et 50 Intelligence peut très bien être un 43 dans ton sac. Renseigne-le et l'optimiseur arrête de créditer ton stuff de points qu'il n'a pas, ce qui est la raison numéro un pour laquelle un build calculé a plus fière allure à l'écran qu'en jeu.</p>
+
+<h2>Les trois modes</h2>
+<p>Chaque projet choisit comment se servir de l'inventaire, dans les options :</p>
+<ul>
+<li><strong>Uniquement les objets de l'encyclopédie</strong> : l'inventaire est ignoré. Parfait pour préparer un build que tu n'as pas encore farmé.</li>
+<li><strong>Les objets de l'encyclopédie + mon inventaire</strong> : tout le catalogue reste disponible, mais un objet que tu possèdes est jugé sur tes jets. C'est le juste milieu honnête : il peut encore te proposer ce que tu n'as pas, et il ne mentira pas sur ce que tu as.</li>
+<li><strong>Uniquement les objets de mon inventaire</strong> : le pool se réduit à ce dossier. Ça répond à une autre question : le meilleur build que tu peux équiper <em>ce soir</em>, sans rien acheter.</li>
+</ul>
+
+<h2>Deux détails à connaître</h2>
+<p>Un objet que tu as verrouillé reste autorisé même en mode restreint : une pièce sur laquelle tu es décidé n'est jamais écartée parce que tu ne l'as pas saisie. Et si tu possèdes plusieurs exemplaires du même objet, c'est le dernier ajouté qui sert.</p>
+
+<h2>Ce qu'il ne sait pas faire</h2>
+<p>Il ne connaît que ce que tu tapes. Il n'y a aucune connexion au jeu et aucun import : un inventaire vaut exactement le soin que tu y mets. En échange, la solution qu'on te rend est affichée avec les jets qui ont servi à l'optimiser, donc ce que tu lis est bien ce que le solveur a utilisé.</p>
+
+<p><em>Crée un dossier sur la <a href="/inventory/">page inventaire</a>, puis choisis un mode dans les options de ton projet. Tu débutes ? <a href="/setup/">Calcule d'abord un build.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'Construye con lo que tienes: el inventario y tus propias tiradas',
+                'desc': 'Guarda los objetos que tienes de verdad, con las tiradas que te salieron, y el optimizador juzgará tu equipo en vez de un objeto medio.',
+                'lead': 'Por defecto la herramienta elige de toda la enciclopedia y toma cada objeto tal como lo describe el juego. Si le dices lo que tienes, deja de suponer y trabaja con tu equipo real.',
+                'body': '''
+<h2>Qué es el inventario</h2>
+<p>El inventario es la lista de los objetos que tienes realmente, ordenada en carpetas y guardada en tu cuenta. Una carpeta puede ser un personaje, un conjunto que estás farmeando o un alijo que piensas vender. De cada objeto puedes guardar <strong>las tiradas que te salieron</strong>, no la media que muestra la enciclopedia.</p>
+
+<h2>Por qué importan las tiradas</h2>
+<p>Cada objeto de Dofus tira dentro de un rango: la cifra de la enciclopedia es una descripción, no tu objeto. Un sombrero anunciado entre 41 y 50 de Inteligencia puede ser un 43 en tu bolsa. Introdúcelo y el optimizador dejará de acreditar a tu equipo puntos que no tiene, que es la razón número uno de que una build calculada luzca mejor en pantalla que en juego.</p>
+
+<h2>Los tres modos</h2>
+<p>Cada proyecto elige cómo usar el inventario, en las opciones:</p>
+<ul>
+<li><strong>Solo objetos de la enciclopedia</strong>: el inventario se ignora. Ideal para preparar una build que aún no has farmeado.</li>
+<li><strong>Objetos de la enciclopedia + mi inventario</strong>: sigue disponible todo el catálogo, pero un objeto que posees se juzga por tus tiradas. Es el término medio honesto: aún puede proponerte lo que no tienes, y no mentirá sobre lo que sí.</li>
+<li><strong>Solo objetos de mi inventario</strong>: el conjunto se reduce a esa carpeta. Responde a otra pregunta: la mejor build que puedes equipar <em>esta noche</em>, sin comprar nada.</li>
+</ul>
+
+<h2>Dos detalles que conviene saber</h2>
+<p>Un objeto que has bloqueado sigue permitido incluso en el modo restringido: una pieza que tienes decidida nunca se descarta por no haberla introducido. Y si tienes varias copias del mismo objeto, se usa la última que añadiste.</p>
+
+<h2>Qué no puede hacer</h2>
+<p>Solo sabe lo que escribes. No hay conexión con el juego ni importación: un inventario vale exactamente el cuidado que le pongas. A cambio, la solución que recibes se muestra con las mismas tiradas con las que se optimizó, así que lo que lees es lo que el solucionador usó.</p>
+
+<p><em>Crea una carpeta en la <a href="/inventory/">página de inventario</a> y luego elige un modo en las opciones del proyecto. ¿Empiezas ahora? <a href="/setup/">Calcula antes una build.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'Constrói com o que tens: o inventário e os teus próprios valores',
+                'desc': 'Guarda os itens que tens mesmo, com os valores que te saíram, e o otimizador julga o teu equipamento em vez de um item médio.',
+                'lead': 'Por omissão a ferramenta escolhe de toda a enciclopédia e usa cada item tal como o jogo o descreve. Se lhe disseres o que tens, deixa de adivinhar e trabalha com o teu equipamento real.',
+                'body': '''
+<h2>O que é o inventário</h2>
+<p>O inventário é a lista dos itens que tens mesmo, arrumada em pastas e guardada na tua conta. Uma pasta pode ser uma personagem, um conjunto que estás a farmar ou um lote que contas vender. De cada item podes guardar <strong>os valores que te saíram</strong>, e não a média que a enciclopédia mostra.</p>
+
+<h2>Porque é que os valores contam</h2>
+<p>Cada item de Dofus sai dentro de um intervalo: o número da enciclopédia é uma descrição, não o teu item. Um chapéu anunciado entre 41 e 50 de Inteligência pode ser um 43 na tua mochila. Mete lá isso e o otimizador deixa de creditar ao teu equipamento pontos que ele não tem, que é a razão número um para uma build calculada parecer melhor no ecrã do que no jogo.</p>
+
+<h2>Os três modos</h2>
+<p>Cada projeto escolhe como usar o inventário, nas opções:</p>
+<ul>
+<li><strong>Apenas itens da enciclopédia</strong>: o inventário é ignorado. Bom para preparar uma build que ainda não farmaste.</li>
+<li><strong>Itens da enciclopédia + meu inventário</strong>: todo o catálogo continua disponível, mas um item que tens é julgado pelos teus valores. É o meio-termo honesto: ainda te pode propor o que não tens, e não mente sobre o que tens.</li>
+<li><strong>Apenas itens do meu inventário</strong>: o conjunto encolhe para essa pasta. Responde a outra pergunta: a melhor build que consegues equipar <em>hoje à noite</em>, sem comprar nada.</li>
+</ul>
+
+<h2>Dois pormenores a saber</h2>
+<p>Um item que travaste continua permitido mesmo no modo restrito: uma peça que já decidiste nunca é posta de lado só porque não a inseriste. E se tens várias cópias do mesmo item, vale a última que acrescentaste.</p>
+
+<h2>O que não consegue fazer</h2>
+<p>Só sabe aquilo que escreves. Não há ligação ao jogo nem importação: um inventário vale exatamente o cuidado que lhe deres. Em troca, a solução que recebes é mostrada com os mesmos valores com que foi otimizada, por isso o que lês é o que o solucionador usou.</p>
+
+<p><em>Cria uma pasta na <a href="/inventory/">página do inventário</a> e escolhe depois um modo nas opções do projeto. Estás a começar? <a href="/setup/">Calcula primeiro uma build.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Bau mit dem, was du hast: das Inventar und deine echten Werte',
+                'desc': 'Trag die Items ein, die du wirklich hast, mit den Werten, die du gewürfelt hast, und der Optimierer bewertet deine Ausrüstung statt eines Durchschnittsitems.',
+                'lead': 'Standardmäßig wählt das Werkzeug aus der ganzen Enzyklopädie und nimmt jedes Item so, wie das Spiel es beschreibt. Sagst du ihm, was du besitzt, hört es auf zu raten und rechnet mit deiner echten Ausrüstung.',
+                'body': '''
+<h2>Was das Inventar ist</h2>
+<p>Das Inventar ist die Liste der Items, die du tatsächlich hast, in Ordnern sortiert und an deinem Konto gespeichert. Ein Ordner kann eine Figur sein, ein Set, das du gerade farmst, oder ein Lager, das du verkaufen willst. Zu jedem Item kannst du <strong>die Werte speichern, die du gewürfelt hast</strong>, nicht den Durchschnitt aus der Enzyklopädie.</p>
+
+<h2>Warum die Würfe zählen</h2>
+<p>Jedes Dofus-Item würfelt in einer Spanne: Die Zahl in der Enzyklopädie ist eine Beschreibung, nicht dein Item. Ein Hut mit 41 bis 50 Intelligenz kann in deiner Tasche eine 43 sein. Trag das ein, und der Optimierer schreibt deiner Ausrüstung keine Punkte mehr gut, die sie nicht hat. Genau daran liegt es meistens, wenn ein gerechneter Build am Bildschirm besser aussieht als im Spiel.</p>
+
+<h2>Die drei Modi</h2>
+<p>Jedes Projekt entscheidet in den Optionen, wie es das Inventar nutzt:</p>
+<ul>
+<li><strong>Nur Enzyklopädie-Gegenstände</strong>: Das Inventar wird ignoriert. Gut, um einen Build zu planen, den du noch nicht gefarmt hast.</li>
+<li><strong>Enzyklopädie-Gegenstände und mein Inventar</strong>: Der ganze Katalog bleibt verfügbar, aber ein Item, das du besitzt, wird mit deinen Werten bewertet. Das ist die ehrliche Mitte: Es darf dir weiter vorschlagen, was du nicht hast, und lügt nicht über das, was du hast.</li>
+<li><strong>Nur Gegenstände aus meinem Inventar</strong>: Die Auswahl schrumpft auf diesen Ordner. Das beantwortet eine andere Frage, nämlich den besten Build, den du <em>heute Abend</em> anlegen kannst, ohne einzukaufen.</li>
+</ul>
+
+<h2>Zwei Details, die man kennen sollte</h2>
+<p>Ein Item, das du festgelegt hast, bleibt auch im eingeschränkten Modus erlaubt: Ein Teil, auf das du dich festgelegt hast, fliegt nie raus, nur weil du es nicht eingetragen hast. Und besitzt du mehrere Exemplare desselben Items, zählt das zuletzt hinzugefügte.</p>
+
+<h2>Was es nicht kann</h2>
+<p>Es kennt nur, was du einträgst. Es gibt keine Verbindung zum Spiel und keinen Import: Ein Inventar ist genau so viel wert wie die Sorgfalt, die du hineinsteckst. Dafür wird die Lösung mit denselben Werten angezeigt, mit denen sie optimiert wurde, du liest also genau das, womit der Löser gerechnet hat.</p>
+
+<p><em>Leg einen Ordner auf der <a href="/inventory/">Inventarseite</a> an und wähl dann einen Modus in den Projektoptionen. Neu hier? <a href="/setup/">Rechne zuerst einen Build.</a></em></p>
+''',
             },
         },
     },
