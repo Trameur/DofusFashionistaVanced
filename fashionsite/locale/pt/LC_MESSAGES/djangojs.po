@@ -426,7 +426,7 @@ msgstr ""
 msgid ""
 "from <b> %(minNonCrit)s </b> to <b> %(maxNoncritDam)s </b> on a normal hit."
 msgstr ""
-"de <b> %(minNonCrit)d </b> a <b> %(maxNoncritDam)d </b> em um golpe normal."
+"de <b> %(minNonCrit)s </b> a <b> %(maxNoncritDam)s </b> em um golpe normal."
 
 #: .\chardata\static\chardata\stateengine.js:5
 msgid "Save"

@@ -9395,6 +9395,46 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn(monster_name, body)
 
 
+class PlaceholdersSurviveTranslationTests(SimpleTestCase):
+    """A translation has to carry the same placeholders as its source.
+
+    Seen live in Portuguese: "%(minNonCrit)d" where the string says
+    "%(minNonCrit)s". Django's javascript interpolate() only replaces
+    %(name)s, so the reader got the literal "%(minNonCrit)d" in a weapon
+    tooltip. msgfmt does not catch it, because a named placeholder with
+    another conversion is still valid gettext."""
+
+    LANGS = ('fr', 'es', 'pt', 'de')
+    CATALOGS = ('django.po', 'djangojs.po')
+    MARK = re.compile(r'%\(\w+\)[a-z]|%[sd]|\{\w+\}')
+
+    def test_every_translation_keeps_the_placeholders_of_its_source(self):
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        offenders = []
+        for lang in self.LANGS:
+            for catalog in self.CATALOGS:
+                path = os.path.join(os.path.dirname(__file__), '..', 'locale',
+                                    lang, 'LC_MESSAGES', catalog)
+                if not os.path.exists(path):
+                    continue
+                for entry in polib.pofile(path):
+                    if entry.obsolete or not entry.msgstr:
+                        continue
+                    wanted = sorted(self.MARK.findall(entry.msgid))
+                    for text in [entry.msgstr] + list(
+                            entry.msgstr_plural.values()):
+                        if text and sorted(self.MARK.findall(text)) != wanted:
+                            offenders.append(
+                                '%s/%s: %s -> %s' % (lang, catalog,
+                                                     entry.msgid[:40],
+                                                     text[:60]))
+        self.assertEqual(offenders, [],
+                         'a translation changed its placeholders: %s' % offenders)
+
+
 class NoMojibakeInTranslationsTests(SimpleTestCase):
     """Guard against encoding corruption in the .po catalogs: a tool writing them
     with the wrong encoding turns accents into literal question marks (seen live:
