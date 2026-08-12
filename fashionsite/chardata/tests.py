@@ -3493,6 +3493,48 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertEqual(len(kept_ids), 10)
         self.assertEqual(kept_ids, created_ids[-10:])
 
+    def test_a_piece_box_is_ticked_when_the_piece_is_shown(self):
+        # It read the other way round: ticking a box HID the piece, so a
+        # reader ticking "Hat" watched it vanish. A build reached us with
+        # cloak, hat and shield all hidden that way.
+        import re as _re
+        owner, char, _ = self._build_char_with_items()
+        self.client.force_login(owner)
+
+        # Whole tags: the minifier is free to reorder the attributes.
+        def ticked(response):
+            tags = _re.findall(r'<input[^>]*char-banner-piece-box[^>]*>',
+                               response.content.decode())
+            out = {}
+            for tag in tags:
+                slot = _re.search(r'data-slot="(\w+)"', tag)
+                if slot:
+                    out[slot.group(1)] = 'checked' in tag
+            return out
+
+        drawn = ticked(self.client.get('/solution/%d/' % char.pk))
+        self.assertTrue(drawn, 'no piece box on the page')
+        self.assertTrue(all(drawn.values()),
+                        'a worn, drawn piece came up unticked: %s' % drawn)
+
+        char.hidden_parts = 'hat'
+        char.save()
+        drawn = ticked(self.client.get('/solution/%d/' % char.pk))
+        self.assertFalse(drawn.get('hat', True), 'a hidden piece stayed ticked')
+
+    def test_the_two_banner_panels_can_actually_close(self):
+        # Both carry display:flex, which beats the [hidden] the browser sheet
+        # gives, so they stayed open for good and their buttons did nothing.
+        css = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
+                           'solution_overrides.css')
+        with open(css, encoding='utf-8') as handle:
+            body = handle.read()
+        for klass in ('.char-banner-colors', '.char-banner-pieces'):
+            self.assertIn('%s[hidden]' % klass, body,
+                          '%s can be told to hide but never obeys' % klass)
+        guard = body[body.index('.char-banner-colors[hidden]'):]
+        self.assertIn('display: none', guard.split('}')[0] + '}')
+
     def test_the_owner_can_resize_the_preview_on_the_page(self):
         # The preview shipped tiny with no way to grow it: the size lived in
         # the account page only, behind the alias link nobody reads as a

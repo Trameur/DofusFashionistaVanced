@@ -76,9 +76,9 @@
             </div>
             <div id="character-pieces" class="char-banner-pieces" hidden>
                 {% for piece in character_pieces %}
-                <label class="char-banner-piece" title="{% trans 'Hide this piece on the preview' %}">
+                <label class="char-banner-piece" title="{% trans 'Show this piece on the preview' %}">
                     <input type="checkbox" class="char-banner-piece-box" data-slot="{{ piece.slot }}"
-                           {% if piece.hidden %}checked{% endif %}>{{ piece.label }}
+                           {% if not piece.hidden %}checked{% endif %}>{{ piece.label }}
                 </label>
                 {% endfor %}
                 {% if character_undrawn %}
@@ -806,8 +806,9 @@
             }
             for (var j = 0; j < boxes.length; j++) {
                 boxes[j].addEventListener('change', function () {
+                    // Ticked means shown, so what travels is the unticked rest.
                     var hidden = Array.prototype.filter.call(boxes, function (box) {
-                        return box.checked;
+                        return !box.checked;
                     }).map(function (box) { return box.dataset.slot; });
                     $.post(apiBase + '/setcharhidden/{{char.id}}/', {hidden: hidden.join(',')},
                            function (nextLook) { build(nextLook); });
