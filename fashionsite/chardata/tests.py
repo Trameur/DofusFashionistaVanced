@@ -4248,6 +4248,33 @@ class RetroSoftCapsTests(SimpleTestCase):
                                  SOFT_CAPS[char_class],
                                  '%s / %s should be unchanged' % (version, char_class))
 
+    def test_the_workshop_prices_a_copy_like_the_item_it_copies(self):
+        # The encyclopedia keys its pages on the ankama id, so a copy has no
+        # page of its own; what it does have is a place in the solver pool.
+        # A build equipping one used to give the workshop nothing to buy.
+        from chardata.recipe_util import aggregate_ingredients
+        from fashionistapulp.structure import get_structure
+        pool = list(get_structure('dofus3').get_concatenated_items_lists())
+        by_ankama = {}
+        for item in pool:
+            by_ankama.setdefault(item.ankama_id, []).append(item)
+        pairs = [rows for rows in by_ankama.values() if len(rows) > 1]
+        self.assertTrue(pairs, 'no copy left to check')
+        checked = 0
+        for rows in pairs:
+            canonical = min(rows, key=lambda i: i.id)
+            wanted = aggregate_ingredients([(canonical.id, 1)], 'en', 'dofus3')
+            if not wanted.get('ingredients'):
+                continue
+            for other in rows:
+                if other.id == canonical.id:
+                    continue
+                got = aggregate_ingredients([(other.id, 1)], 'en', 'dofus3')
+                with self.subTest(item=other.name):
+                    self.assertEqual(wanted['ingredients'], got['ingredients'])
+                    checked += 1
+        self.assertGreater(checked, 10)
+
     def test_rows_of_the_same_item_carry_the_same_extra_data(self):
         # An item gated behind alternative conditions is flattened into
         # "(#1)" and "(#2)", and a fed pet into one row per bonus. The
