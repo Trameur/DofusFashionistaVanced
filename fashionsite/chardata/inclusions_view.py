@@ -132,13 +132,17 @@ def set_item_stat_override_view(request, char_id):
     if item_id is None or stat_id is None:
         return HttpResponseText('error')
 
-    item_id = int(item_id)
-    stat_id = int(stat_id)
+    try:
+        item_id = int(item_id)
+        stat_id = int(stat_id)
+        override = None if value is None or value == '' else int(value)
+    except ValueError:
+        return HttpResponseText('error')
 
-    if value is None or value == '':
+    if override is None:
         remove_item_stat_override(char, item_id, stat_id)
     else:
-        set_item_stat_override(char, item_id, stat_id, int(value))
+        set_item_stat_override(char, item_id, stat_id, override)
 
     return HttpResponseText('ok')
 

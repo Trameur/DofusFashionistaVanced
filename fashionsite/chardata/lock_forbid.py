@@ -474,14 +474,19 @@ def set_exclusions_list_and_check_inclusions(char, excluded_items):
     _remove_inclusions_by_id(char, excluded_items)
     _save_exclusion_list(char, excluded_items)
 
+def _as_item_id(value):
+    """A posted slot value as an item id, empty when it is not one."""
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return ''
+
 def set_inclusions_dict_and_check_exclusions(char, inclusions_dict):
-    remove_from_exclusion = []
-    for slot in SLOTS:
-        included_item = inclusions_dict.get(slot, None)
-        if included_item:
-            remove_from_exclusion.append(int(included_item))
-    remove_items_from_exclusions(char, remove_from_exclusion)
-    _save_inclusion_dict(char, inclusions_dict)
+    included = {slot: _as_item_id(value)
+                for slot, value in inclusions_dict.items()}
+    remove_items_from_exclusions(char, [item_id for item_id
+                                        in included.values() if item_id != ''])
+    _save_inclusion_dict(char, included)
 
 def get_all_inclusions_en_names(char):
     item_dict = get_inclusions_dict(char)

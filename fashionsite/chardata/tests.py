@@ -1690,6 +1690,55 @@ class ProjectActionRobustnessTests(TestCase):
         resp = self.client.get('/wizardpost/1/')
         self.assertNotEqual(resp.status_code, 500)
 
+    def _owned_char(self, username):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner = User.objects.create_user(username, '%s@t.local' % username,
+                                         'pw-42-solid')
+        char = Char.objects.create(
+            name='Lock Probe', char_name='lock-probe', char_class='Iop',
+            char_build='Damage', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'', minimal_solution=b'', owner=owner,
+            link_shared=False, game_version='dofus3')
+        self.client.force_login(owner)
+        return char
+
+    def test_a_slot_value_that_is_not_an_id_does_not_500(self):
+        # Prod: POST /inclusionspost/<id>/ with a slot carrying '\n' reached
+        # int() and answered 500. Anything unparseable leaves the slot empty.
+        from chardata.lock_forbid import get_inclusions_dict
+        char = self._owned_char('lockprobe')
+        for value in ('\n', ' ', 'abc', '1.5'):
+            with self.subTest(value=value):
+                resp = self.client.post('/inclusionspost/%d/' % char.pk,
+                                        {'hat': value})
+                self.assertEqual(200, resp.status_code)
+                char.refresh_from_db()
+                self.assertEqual({}, get_inclusions_dict(char))
+
+    def test_a_real_id_still_reaches_the_slot(self):
+        from chardata.lock_forbid import get_inclusions_dict
+        from fashionistapulp.structure import get_structure
+        char = self._owned_char('lockprobe2')
+        item = get_structure('dofus3').get_item_by_name('Pointed Hat')
+        resp = self.client.post('/inclusionspost/%d/' % char.pk,
+                                {'hat': str(item.id)})
+        self.assertEqual(200, resp.status_code)
+        char.refresh_from_db()
+        self.assertEqual(item.id, get_inclusions_dict(char)['hat'])
+
+    def test_a_stat_override_that_is_not_a_number_does_not_500(self):
+        char = self._owned_char('lockprobe3')
+        for payload in ({'item_id': 'x', 'stat_id': '1', 'value': '2'},
+                        {'item_id': '1', 'stat_id': 'y', 'value': '2'},
+                        {'item_id': '1', 'stat_id': '1', 'value': 'z'}):
+            with self.subTest(payload=payload):
+                resp = self.client.post(
+                    '/setitemstatoverride/%d/' % char.pk, payload)
+                self.assertEqual(200, resp.status_code)
+                self.assertEqual(b'error', resp.content)
+
     def test_set_min_stats_tolerates_none_caps(self):
         # Regression (prod /wizardpost/): a char whose *stored* AP/MP/Range min is
         # None reaches set_min_stats -> min(12, None) -> TypeError. The earlier
