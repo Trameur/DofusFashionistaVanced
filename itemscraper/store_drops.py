@@ -49,15 +49,20 @@ def store_drops(drops_path, game_version="dofus3"):
     conn = sqlite3.connect(items_db_path)
     try:
         cursor = conn.cursor()
-        # ankama_id -> internal item id (only items we actually carry).
-        # A few ankama_ids still have an old duplicate row (id = 100000000 +
-        # ankama_id); the canonical item is the low id, so keep that one or the
-        # drops end up on the copy and the real item shows none.
-        ankama_to_id = {}
-        for item_id, ankama_id in cursor.execute(
-                "SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL "
-                "ORDER BY id"):
-            ankama_to_id.setdefault(ankama_id, item_id)
+        # ankama_id -> every internal row that is this item. An item gated
+        # behind alternative conditions is flattened into "(#1)" and "(#2)",
+        # and a fed pet into one row per bonus; they all drop from the same
+        # monsters. Keeping only the canonical low id left the copy's page
+        # claiming the item drops nowhere. Touch and Retro reuse ids across
+        # kinds, so only the equipment rows are eligible.
+        ankama_to_ids = {}
+        columns = [row[1] for row in cursor.execute('PRAGMA table_info(items)')]
+        query = ("SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL"
+                 + (" AND ankama_type = 'equipment'"
+                    if 'ankama_type' in columns else '')
+                 + " ORDER BY id")
+        for item_id, ankama_id in cursor.execute(query):
+            ankama_to_ids.setdefault(ankama_id, []).append(item_id)
         # Crafting-ingredient resources have their own encyclopedia page, so their
         # drops get their own table (keyed by ankama_id, they are not items we carry).
         resource_ankama_ids = set()
@@ -92,11 +97,11 @@ def store_drops(drops_path, game_version="dofus3"):
         matched_resources = 0
         for object_id_str, monsters in drops.items():
             object_id = int(object_id_str)
-            item_id = ankama_to_id.get(object_id)
+            item_ids = ankama_to_ids.get(object_id) or []
             is_resource = object_id in resource_ankama_ids
-            if item_id is None and not is_resource:
+            if not item_ids and not is_resource:
                 continue  # a dropped thing we neither carry nor give a page to
-            if item_id is not None:
+            if item_ids:
                 matched_items += 1
             if is_resource:
                 matched_resources += 1
@@ -104,7 +109,7 @@ def store_drops(drops_path, game_version="dofus3"):
                 mid = m["monster_ankama_id"]
                 rate = max(m.get("rates") or [0]) or 0
                 conditions = m.get("conditions") or None
-                if item_id is not None:
+                for item_id in item_ids:
                     drop_rows.append((item_id, mid, rate, conditions))
                 if is_resource:
                     resource_drop_rows.append((object_id, mid, rate, conditions))

@@ -4265,7 +4265,7 @@ class RetroSoftCapsTests(SimpleTestCase):
                     groups.setdefault((ankama_id, ankama_type), []).append(item_id)
                 siblings = [rows for rows in groups.values() if len(rows) > 1]
                 for table in ('item_descriptions', 'item_extra_info',
-                              'item_recipes', 'item_craft_jobs'):
+                              'item_recipes', 'item_craft_jobs', 'item_drops'):
                     filled = {row[0] for row in conn.execute(
                         'SELECT DISTINCT item FROM %s' % table)}
                     split = [rows for rows in siblings
@@ -4597,14 +4597,15 @@ class OrItemPageTests(TestCase):
 
 
 class DropsOnCanonicalItemTests(SimpleTestCase):
-    """A few ankama_ids still carry an old duplicate row (id = 100000000 +
-    ankama_id). Drops must be stored on the canonical low id, otherwise the
-    real item page shows no "Dropped by" at all while the copy holds them."""
+    """A few ankama_ids carry more than one row (id = 100000000 + ankama_id,
+    and the fed pets). Whichever of them a page is asked for, it has to say
+    where the item drops: the copy is the same item. What must never happen
+    is the copy holding them while the canonical low id shows nothing."""
 
     DBS = {'dofus3': 'items.db', 'beta': 'items_beta.db',
            'touch': 'items_touch.db', 'retro': 'items_retro.db'}
 
-    def test_no_drops_land_on_a_duplicate_row(self):
+    def test_the_canonical_row_is_never_the_bare_one(self):
         import os
         import sqlite3
         from fashionistapulp import structure as structure_module
@@ -4615,16 +4616,19 @@ class DropsOnCanonicalItemTests(SimpleTestCase):
                 continue
             cur = sqlite3.connect(path).cursor()
             offenders = cur.execute("""
-                SELECT i.ankama_id, COUNT(*)
+                SELECT DISTINCT i.ankama_id
                 FROM item_drops d
                 JOIN items i ON i.id = d.item
-                WHERE i.id > i.ankama_id
-                  AND EXISTS (SELECT 1 FROM items c
-                              WHERE c.ankama_id = i.ankama_id AND c.id < i.id)
-                GROUP BY i.ankama_id""").fetchall()
+                WHERE EXISTS (SELECT 1 FROM items c
+                              WHERE c.ankama_id = i.ankama_id
+                                AND c.ankama_type IS i.ankama_type
+                                AND c.id < i.id
+                                AND c.id NOT IN (SELECT item FROM item_drops))
+                """).fetchall()
             with self.subTest(version=version):
                 self.assertEqual(offenders, [],
-                                 'drops attached to a duplicate row: %s' % offenders)
+                                 'the copy has drops the real item lacks: %s'
+                                 % offenders)
 
 
 class DropConditionsTests(TestCase):
