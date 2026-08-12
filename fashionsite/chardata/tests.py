@@ -4248,6 +4248,31 @@ class RetroSoftCapsTests(SimpleTestCase):
                                  SOFT_CAPS[char_class],
                                  '%s / %s should be unchanged' % (version, char_class))
 
+    def test_every_version_charges_what_its_own_files_say(self):
+        # A wrong tier silently changes every solve on that version, and the
+        # retro tables came from a wiki. Each game ships its own answer;
+        # itemscraper/export_characteristic_costs.py reads them out and this
+        # holds the constants to it. Rerun that script when a version moves.
+        import json
+        from fashionistapulp.dofus_constants import get_soft_caps_for
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'itemscraper',
+                            'characteristic_costs.json')
+        with open(path, encoding='utf-8') as fh:
+            expected = json.load(fh)
+        self.assertEqual({'dofus3', 'beta', 'dofus2', 'touch', 'retro'},
+                         set(expected))
+        checked = 0
+        for version, tables in sorted(expected.items()):
+            shared = tables.get('*')
+            classes = ['Iop'] if shared else sorted(tables)
+            for char_class in classes:
+                with self.subTest(version=version, char_class=char_class):
+                    self.assertEqual(shared or tables[char_class],
+                                     get_soft_caps_for(version, char_class))
+                    checked += 1
+        self.assertEqual(16, checked)
+
 
 class TouchSoftCapsTests(SimpleTestCase):
     """Dofus Touch keeps its own 2.x-era characteristic costs (from its game

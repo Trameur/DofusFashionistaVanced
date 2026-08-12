@@ -5091,7 +5091,11 @@ SOFT_CAPS = {'Cra' : DEFAULT_SOFT_CAPS,
 # unlike modern Dofus where every class shares DEFAULT_SOFT_CAPS. Each class has
 # "favoured" characteristics that are cheaper to raise; Sacrier even buys
 # Vitality at 1 point for 2 (the 0.5 tier, unused in modern).
-# Source: 129dofus wiki "Soft Cap" page, cross-checked against dofuzion (both agree).
+# These were first read off the 129dofus wiki "Soft Cap" page and cross-checked
+# against dofuzion. The game says the same: classes_fr.json carries b10..b15 per
+# class (str, vit, wis, cha, agi, int) and all 72 class/characteristic pairs
+# agree, the Sacrier's 1 for 2 included. itemscraper/characteristic_costs.json
+# holds that reading and the suite compares this table to it.
 # _retro_soft_cap converts the human-readable per-tier upper bounds into the
 # 6-slot width format the model uses. Bounds are ordered by cost tier
 # [1:2, 1:1, 2:1, 3:1, 4:1, 5:1] (capital points per stat point = 0.5,1,2,3,4,5);
