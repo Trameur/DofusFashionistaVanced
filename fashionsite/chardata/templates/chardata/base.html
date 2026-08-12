@@ -160,6 +160,7 @@
                     {# Neither set is the common case, and it read "Welcome, !" #}
                     {% blocktrans with user.get_full_name|default:user.username as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %}
                 {% endif %}
+                <a id="header_settings_link" href="{{manage_account_link}}">{% trans "Settings" %}</a> ·
             {% else %}
             <b><span style="color: red">[SUPER USER] </span></b>{{ user.get_full_name }}
             {% endif %}
