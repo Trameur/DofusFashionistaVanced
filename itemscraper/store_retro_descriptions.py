@@ -29,7 +29,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 
 from store_item_obtainment import (  # noqa: E402  (sys.path set above)
     get_items_db_path, _ensure_tables, _open_items_db, _save_db_to_dump,
-    _resolve_item_id)
+    _resolve_item_ids)
 
 GAME_VERSION = 'retro'
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
@@ -58,7 +58,7 @@ def main():
     known = {}
     for ankama_id, in conn.execute(
             'SELECT ankama_id FROM items WHERE ankama_id IS NOT NULL'):
-        known[str(ankama_id)] = _resolve_item_id(cursor, ankama_id, 'equipment')
+        known[str(ankama_id)] = _resolve_item_ids(cursor, ankama_id, 'equipment')
 
     # Rerunnable: drop what a previous run wrote before writing again.
     cursor.execute('DELETE FROM item_descriptions')
@@ -71,13 +71,16 @@ def main():
             if not isinstance(entry, dict):
                 continue
             description = (entry.get('d') or '').strip()
-            item_id = known.get(raw_id)
-            if not description or item_id is None or PLACEHOLDER.match(description):
+            item_ids = known.get(raw_id)
+            if not description or not item_ids or PLACEHOLDER.match(description):
                 continue
-            cursor.execute(
-                'INSERT OR REPLACE INTO item_descriptions(item, language, description)'
-                ' VALUES (?, ?, ?)', (item_id, lang, description))
-            count += 1
+            # A fed pet is a row of its own, "Bow Meow (+80 Vitality)", and it
+            # is the same creature: it reads the same description.
+            for item_id in item_ids:
+                cursor.execute(
+                    'INSERT OR REPLACE INTO item_descriptions(item, language, description)'
+                    ' VALUES (?, ?, ?)', (item_id, lang, description))
+                count += 1
         per_lang[lang] = count
         stored += count
 

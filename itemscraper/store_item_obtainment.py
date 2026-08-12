@@ -240,22 +240,35 @@ def _load_name_maps(base_dir):
     return maps
 
 
-def _resolve_item_id(cursor, ankama_id, ankama_type):
+def _resolve_item_ids(cursor, ankama_id, ankama_type):
+    """Every row that is this item.
+
+    An item gated behind alternative conditions is flattened into one row per
+    condition, "(#1)" and "(#2)", sharing its ankama id. They are the same
+    piece and read from the same entry, so all of them get it. Taking only the
+    first left the copy with no description, no pods, no recipe and no craft
+    job: 37 items on dofus3 and the beta, 110 on Touch, 48 on Retro.
+    """
     cursor.execute(
-        "SELECT id FROM items WHERE ankama_id = ? AND ankama_type = ? ORDER BY dofustouch ASC LIMIT 1",
+        "SELECT id FROM items WHERE ankama_id = ? AND ankama_type = ? ORDER BY dofustouch ASC",
         (ankama_id, ankama_type),
     )
-    row = cursor.fetchone()
-    if row is not None:
-        return row[0]
+    rows = cursor.fetchall()
+    if rows:
+        return [row[0] for row in rows]
 
     # Backward compatibility for older rows that do not have ankama_type populated.
     cursor.execute(
-        "SELECT id FROM items WHERE ankama_id = ? ORDER BY dofustouch ASC LIMIT 1",
+        "SELECT id FROM items WHERE ankama_id = ? ORDER BY dofustouch ASC",
         (ankama_id,),
     )
-    row = cursor.fetchone()
-    return row[0] if row is not None else None
+    return [row[0] for row in cursor.fetchall()]
+
+
+def _resolve_item_id(cursor, ankama_id, ankama_type):
+    """The first of those rows. Kept for the callers that write one row."""
+    rows = _resolve_item_ids(cursor, ankama_id, ankama_type)
+    return rows[0] if rows else None
 
 
 def _subtype_to_name_source(subtype):
@@ -360,11 +373,12 @@ def main(game_version='dofus3', base_dir=None):
             ankama_id = entry.get('ankama_id')
             if ankama_id is None:
                 continue
-            item_id = _resolve_item_id(cursor, int(ankama_id), 'equipment')
-            if item_id is None:
+            item_ids = _resolve_item_ids(cursor, int(ankama_id), 'equipment')
+            if not item_ids:
                 missing += 1
                 continue
-            _store_item_data(cursor, item_id, lang, entry, ingredient_name_map)
+            for item_id in item_ids:
+                _store_item_data(cursor, item_id, lang, entry, ingredient_name_map)
             upserts += 1
 
     conn.commit()

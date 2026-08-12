@@ -4248,6 +4248,34 @@ class RetroSoftCapsTests(SimpleTestCase):
                                  SOFT_CAPS[char_class],
                                  '%s / %s should be unchanged' % (version, char_class))
 
+    def test_rows_of_the_same_item_carry_the_same_extra_data(self):
+        # An item gated behind alternative conditions is flattened into
+        # "(#1)" and "(#2)", and a fed pet into one row per bonus. The
+        # writers resolved a single row, so the copy reached the
+        # encyclopedia with no description, no weight, no recipe, no craft
+        # job: 37 groups on dofus3 and the beta, 110 on Touch, 48 on Retro.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                groups = {}
+                for item_id, ankama_id, ankama_type in conn.execute(
+                        'SELECT id, ankama_id, ankama_type FROM items'):
+                    groups.setdefault((ankama_id, ankama_type), []).append(item_id)
+                siblings = [rows for rows in groups.values() if len(rows) > 1]
+                for table in ('item_descriptions', 'item_extra_info',
+                              'item_recipes', 'item_craft_jobs'):
+                    filled = {row[0] for row in conn.execute(
+                        'SELECT DISTINCT item FROM %s' % table)}
+                    split = [rows for rows in siblings
+                             if any(i in filled for i in rows)
+                             and any(i not in filled for i in rows)]
+                    with self.subTest(version=version, table=table):
+                        self.assertEqual([], split[:5])
+            finally:
+                conn.close()
+
     def test_every_version_charges_what_its_own_files_say(self):
         # A wrong tier silently changes every solve on that version, and the
         # retro tables came from a wiki. Each game ships its own answer;

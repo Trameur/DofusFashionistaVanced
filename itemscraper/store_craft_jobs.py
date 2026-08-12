@@ -42,11 +42,17 @@ def store_craft_jobs(jobs_path, game_version="dofus3"):
     conn = sqlite3.connect(items_db_path)
     try:
         cursor = conn.cursor()
-        ankama_to_id = {
-            ankama_id: item_id
-            for item_id, ankama_id in cursor.execute(
-                "SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL")
-        }
+        # Every row of an ankama id, not the last one seen: an item gated
+        # behind alternative conditions is flattened into "(#1)" and "(#2)"
+        # rows that craft the same way. Touch and Retro reuse ids across
+        # kinds, so only the equipment rows are eligible.
+        ankama_to_ids = {}
+        columns = [row[1] for row in cursor.execute('PRAGMA table_info(items)')]
+        query = ("SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL"
+                 + (" AND ankama_type = 'equipment'"
+                    if 'ankama_type' in columns else ''))
+        for item_id, ankama_id in cursor.execute(query):
+            ankama_to_ids.setdefault(ankama_id, []).append(item_id)
 
         cursor.execute("DROP TABLE IF EXISTS item_craft_jobs")
         cursor.execute("DROP TABLE IF EXISTS job_names")
@@ -59,11 +65,12 @@ def store_craft_jobs(jobs_path, game_version="dofus3"):
         name_rows = []
         seen_jobs = set()
         for result_ankama_id_str, info in index.items():
-            item_id = ankama_to_id.get(int(result_ankama_id_str))
-            if item_id is None:
+            item_ids = ankama_to_ids.get(int(result_ankama_id_str))
+            if not item_ids:
                 continue  # a crafted resource/consumable we don't carry
             job_id = info["job_ankama_id"]
-            job_rows.append((item_id, job_id, info.get("level") or 0))
+            for item_id in item_ids:
+                job_rows.append((item_id, job_id, info.get("level") or 0))
             if job_id not in seen_jobs:
                 seen_jobs.add(job_id)
                 for lang in LANGUAGES:
