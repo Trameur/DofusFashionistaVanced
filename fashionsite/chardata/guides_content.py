@@ -14,7 +14,8 @@ with root-relative URLs so the version namespace doesn't matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'transcendence-runes', 'versions-explained']
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'best-turn-damage', 'transcendence-runes',
+         'versions-explained']
 
 
 GUIDES = {
@@ -3495,6 +3496,296 @@ GUIDES = {
             },
         },
     },
+
+    # ------------------------------------------------------------------ #
+    # The best-turn panel exists on four versions and not on Dofus 2, whose
+    # archives carry no spell level table at all (0 castable spells against 31
+    # on Dofus 3). Retro also reads differently: it never got the AP/MP/range
+    # limitation, so its turn is not capped at 12 AP. Three contents.
+    # Source: the site's own solver (spell_combo.py: 6 base AP, cap from the
+    # version, 8 casts deep, per-turn / per-target / cooldown honoured).
+    'best-turn-damage': {
+        'published': '2026-08-12',
+        'version_groups': {'dofus2': 'dofus2', 'retro': 'retro'},
+        'i18n_by_group': {
+            'modern': {
+                'en': {
+                    'title': 'Best turn this turn: what the damage number really counts',
+                    'desc': 'The spells page totals the hardest turn your build can cast. Here is what goes into that number, and what it deliberately leaves out.',
+                    'lead': 'On the spells page of a build, the Fashionista works out the hardest single turn you could cast and shows the total. It is a useful number as long as you know what it does and does not count.',
+                    'body': '''
+<h2>What it searches</h2>
+<p>The panel takes your AP for the turn and tries every combination of your damage spells, up to eight casts deep, keeping the one that deals the most. It is a real search, not a rule of thumb: it will happily find that casting a cheap spell three times beats casting your signature spell once.</p>
+
+<h2>The AP it starts from</h2>
+<p>A character begins a turn with <strong>6 AP</strong>, and your gear adds to that. The total is capped at <strong>12</strong>, so once your build is at +6 AP the panel has nothing more to spend, no matter what else you stack. If your combo needs a breakpoint, lock the AP rather than weighting it: see <a href="/guides/ap-mp-range-caps/">the caps guide</a>.</p>
+
+<h2>The limits it respects</h2>
+<p>Each spell carries its own cast cost and its own limits, and the search honours all of them: how many times per turn it can be cast, how many times on the same target, and whether it goes on cooldown. A spell capped at two casts per turn is never counted three times, which is exactly the mistake a mental estimate makes.</p>
+
+<h2>What it does not model</h2>
+<p>It is one turn against one target, with no positioning, no line of sight and no enemy resistance. Buffs are yours to declare: tick the boosts you actually expect to have and the panel recomputes, so a build that snowballs through a first buff spell can show its real total. Treat the number as a ceiling for comparing two builds, not as a promise about a fight.</p>
+
+<p><em>Change your gear and the turn changes with it. <a href="/setup/">Solve a build</a> and open its spells page to see yours.</em></p>
+''',
+                },
+                'fr': {
+                    'title': 'Meilleur combo ce tour : ce que le chiffre compte vraiment',
+                    'desc': "La page des sorts calcule le tour le plus violent que ton build peut sortir. Voici ce qui entre dans ce chiffre, et ce qu'il laisse volontairement de côté.",
+                    'lead': "Sur la page des sorts d'un build, la Fashionista cherche le tour le plus violent que tu pourrais lancer et en affiche le total. C'est un chiffre utile, à condition de savoir ce qu'il compte et ce qu'il ne compte pas.",
+                    'body': '''
+<h2>Ce qu'elle cherche</h2>
+<p>Le panneau prend tes PA du tour et essaie toutes les combinaisons de tes sorts de dégâts, jusqu'à huit lancers de profondeur, en gardant celle qui tape le plus fort. C'est une vraie recherche, pas une règle de pouce : elle trouvera sans problème qu'enchaîner trois fois un petit sort bat un lancer de ton sort signature.</p>
+
+<h2>Les PA d'où elle part</h2>
+<p>Un personnage commence son tour avec <strong>6 PA</strong>, et ton stuff s'ajoute. Le total est plafonné à <strong>12</strong> : dès que ton build est à +6 PA, le panneau n'a plus rien de plus à dépenser, quoi que tu empiles derrière. Si ton combo a besoin d'un palier, verrouille les PA au lieu de les pondérer, voir <a href="/guides/ap-mp-range-caps/">le guide des plafonds</a>.</p>
+
+<h2>Les limites qu'elle respecte</h2>
+<p>Chaque sort porte son coût et ses propres limites, et la recherche les respecte toutes : combien de fois par tour, combien de fois sur la même cible, et s'il part en relance. Un sort limité à deux lancers par tour n'est jamais compté trois fois, ce qui est précisément l'erreur que fait une estimation de tête.</p>
+
+<h2>Ce qu'elle ne modélise pas</h2>
+<p>C'est un tour, sur une cible, sans placement, sans ligne de vue et sans résistance adverse. Les boosts, c'est toi qui les déclares : coche ceux que tu comptes vraiment avoir et le panneau recalcule, pour qu'un build qui snowball après un premier sort de buff montre son vrai total. Prends le chiffre comme un plafond pour comparer deux builds, pas comme une promesse sur un combat.</p>
+
+<p><em>Change ton stuff et le tour change avec. <a href="/setup/">Calcule un build</a> et ouvre sa page de sorts pour voir le tien.</em></p>
+''',
+                },
+                'es': {
+                    'title': 'Mejor turno: qué cuenta de verdad esa cifra de daño',
+                    'desc': 'La página de hechizos calcula el turno más fuerte que tu build puede lanzar. Esto es lo que entra en la cifra, y lo que deja fuera a propósito.',
+                    'lead': 'En la página de hechizos de una build, la Fashionista busca el turno más fuerte que podrías lanzar y muestra el total. Es una cifra útil siempre que sepas qué cuenta y qué no.',
+                    'body': '''
+<h2>Qué busca</h2>
+<p>El panel toma tus PA del turno y prueba todas las combinaciones de tus hechizos de daño, hasta ocho lanzamientos de profundidad, y se queda con la que más pega. Es una búsqueda de verdad, no una regla aproximada: encontrará sin problema que encadenar tres veces un hechizo barato supera un lanzamiento de tu hechizo estrella.</p>
+
+<h2>Los PA de los que parte</h2>
+<p>Un personaje empieza el turno con <strong>6 PA</strong>, y tu equipo se suma. El total está limitado a <strong>12</strong>: en cuanto tu build llega a +6 PA, el panel ya no tiene más que gastar, apiles lo que apiles. Si tu combo necesita un umbral, bloquea los PA en vez de ponderarlos, mira <a href="/guides/ap-mp-range-caps/">la guía de límites</a>.</p>
+
+<h2>Los límites que respeta</h2>
+<p>Cada hechizo lleva su coste y sus propios límites, y la búsqueda los respeta todos: cuántas veces por turno, cuántas sobre el mismo objetivo y si entra en reutilización. Un hechizo limitado a dos lanzamientos por turno nunca se cuenta tres veces, que es justo el error que comete un cálculo mental.</p>
+
+<h2>Qué no modela</h2>
+<p>Es un turno, contra un objetivo, sin posicionamiento, sin línea de visión y sin resistencia enemiga. Los bonos los declaras tú: marca los que esperas tener de verdad y el panel recalcula, para que una build que crece tras un primer hechizo de mejora enseñe su total real. Toma la cifra como un techo para comparar dos builds, no como una promesa sobre un combate.</p>
+
+<p><em>Cambia el equipo y el turno cambia con él. <a href="/setup/">Calcula una build</a> y abre su página de hechizos para ver el tuyo.</em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Melhor turno: o que o número de dano conta mesmo',
+                    'desc': 'A página de feitiços calcula o turno mais forte que a tua build consegue lançar. Isto é o que entra no número, e o que fica de fora de propósito.',
+                    'lead': 'Na página de feitiços de uma build, a Fashionista procura o turno mais forte que poderias lançar e mostra o total. É um número útil desde que saibas o que conta e o que não conta.',
+                    'body': '''
+<h2>O que procura</h2>
+<p>O painel pega nos teus PA do turno e testa todas as combinações dos teus feitiços de dano, até oito lançamentos de profundidade, ficando com a que bate mais forte. É uma procura a sério, não uma regra de bolso: vai descobrir sem problemas que encadear três vezes um feitiço barato supera um lançamento do teu feitiço principal.</p>
+
+<h2>Os PA de que parte</h2>
+<p>Uma personagem começa o turno com <strong>6 PA</strong>, e o teu equipamento soma-se. O total está limitado a <strong>12</strong>: assim que a tua build chega a +6 PA, o painel não tem mais nada para gastar, empilhes o que empilhares. Se o teu combo precisa de um patamar, trava os PA em vez de os ponderar, vê <a href="/guides/ap-mp-range-caps/">o guia dos limites</a>.</p>
+
+<h2>Os limites que respeita</h2>
+<p>Cada feitiço tem o seu custo e os seus limites, e a procura respeita-os todos: quantas vezes por turno, quantas sobre o mesmo alvo e se entra em recarga. Um feitiço limitado a dois lançamentos por turno nunca é contado três vezes, que é precisamente o erro de uma conta de cabeça.</p>
+
+<h2>O que não modela</h2>
+<p>É um turno, contra um alvo, sem posicionamento, sem linha de visão e sem resistência do inimigo. Os bónus és tu que os declaras: marca os que contas mesmo ter e o painel recalcula, para que uma build que cresce depois de um primeiro feitiço de reforço mostre o total real. Lê o número como um tecto para comparar duas builds, não como uma promessa sobre um combate.</p>
+
+<p><em>Muda o equipamento e o turno muda com ele. <a href="/setup/">Calcula uma build</a> e abre a página de feitiços para veres o teu.</em></p>
+''',
+                },
+                'de': {
+                    'title': 'Bester Zug: was die Schadenszahl wirklich zählt',
+                    'desc': 'Die Zauberseite rechnet den stärksten Zug aus, den dein Build wirken kann. Das steckt in der Zahl, und das lässt sie bewusst weg.',
+                    'lead': 'Auf der Zauberseite eines Builds sucht die Fashionista den stärksten Zug, den du wirken könntest, und zeigt die Summe. Eine nützliche Zahl, solange du weißt, was sie zählt und was nicht.',
+                    'body': '''
+<h2>Was sie sucht</h2>
+<p>Das Panel nimmt deine AP für den Zug und probiert alle Kombinationen deiner Schadenszauber durch, bis zu acht Würfe tief, und behält die stärkste. Das ist eine echte Suche, keine Faustregel: Sie findet ohne Weiteres, dass ein billiger Zauber dreimal gewirkt mehr bringt als ein einziger Wurf deines Paradezaubers.</p>
+
+<h2>Die AP, von denen sie ausgeht</h2>
+<p>Eine Figur startet den Zug mit <strong>6 AP</strong>, deine Ausrüstung kommt dazu. Die Summe ist auf <strong>12</strong> gedeckelt: Sobald dein Build bei +6 AP liegt, hat das Panel nichts mehr zu verteilen, egal was du sonst stapelst. Braucht dein Combo eine Schwelle, lege die AP fest, statt sie zu gewichten, siehe <a href="/guides/ap-mp-range-caps/">den Leitfaden zu den Obergrenzen</a>.</p>
+
+<h2>Die Grenzen, die sie einhält</h2>
+<p>Jeder Zauber hat seine Kosten und seine eigenen Grenzen, und die Suche hält sie alle ein: wie oft pro Zug, wie oft auf dasselbe Ziel, und ob er auf Abklingzeit geht. Ein Zauber mit höchstens zwei Würfen pro Zug wird nie dreimal gezählt, und genau das ist der Fehler einer Kopfrechnung.</p>
+
+<h2>Was sie nicht abbildet</h2>
+<p>Es ist ein Zug, gegen ein Ziel, ohne Positionierung, ohne Sichtlinie und ohne gegnerische Resistenz. Die Boni meldest du an: Hake die an, die du wirklich erwartest, und das Panel rechnet neu, damit ein Build, der nach einem ersten Verstärkungszauber aufdreht, seine echte Summe zeigt. Nimm die Zahl als Obergrenze zum Vergleich zweier Builds, nicht als Versprechen für einen Kampf.</p>
+
+<p><em>Ändere die Ausrüstung, und der Zug ändert sich mit. <a href="/setup/">Rechne einen Build</a> und öffne seine Zauberseite.</em></p>
+''',
+                },
+            },
+            'dofus2': {
+                'en': {
+                    'title': 'Why Dofus 2 builds have no best-turn panel',
+                    'desc': 'The best-turn damage panel is missing on Dofus 2, and it is not an oversight: the Dofus 2 archives ship no spell level table at all.',
+                    'lead': 'If you are on Dofus 2 and the spells page shows no best-turn total, nothing is broken. The data that panel needs does not exist in the Dofus 2 release.',
+                    'body': '''
+<h2>What is missing</h2>
+<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. On Dofus 3 that gives a level 200 Iop 31 usable spells. The same read on Dofus 2 returns <strong>zero</strong>, because the Dofus 2 archives carry no spell level table.</p>
+
+<h2>Why we do not fake it</h2>
+<p>We could copy the Dofus 3 numbers over and print a total. We will not: Dofus 2 is its own game, its spells were balanced separately, and a plausible number from the wrong version is worse than no number. The panel stays away rather than lie.</p>
+
+<h2>What still works on Dofus 2</h2>
+<p>Everything that comes from item data is intact: the optimizer, the encyclopedia, set bonuses, the workshop. Lock your AP and MP to the breakpoints your combo needs and build around them, exactly as the <a href="/guides/ap-mp-range-caps/">caps guide</a> describes. You lose the turn readout, not the build.</p>
+
+<p><em>Want the panel? It runs on Dofus 3, the beta, Touch and Retro. <a href="/guides/versions-explained/">Here is what separates the versions.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Pourquoi les builds Dofus 2 n'ont pas de panneau meilleur combo",
+                    'desc': "Le panneau du meilleur tour est absent sur Dofus 2, et ce n'est pas un oubli : les archives de Dofus 2 ne contiennent aucune table de niveaux de sorts.",
+                    'lead': "Si tu es sur Dofus 2 et que la page des sorts n'affiche aucun total de tour, rien n'est cassé. La donnée dont ce panneau a besoin n'existe pas dans la release Dofus 2.",
+                    'body': '''
+<h2>Ce qui manque</h2>
+<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Sur Dofus 3, ça donne 31 sorts utilisables pour un Iop niveau 200. La même lecture sur Dofus 2 renvoie <strong>zéro</strong>, parce que les archives de Dofus 2 ne portent aucune table de niveaux de sorts.</p>
+
+<h2>Pourquoi on ne bricole pas</h2>
+<p>On pourrait recopier les chiffres de Dofus 3 et afficher un total. On ne le fera pas : Dofus 2 est un jeu à part, ses sorts ont été équilibrés séparément, et un chiffre crédible venu de la mauvaise version est pire que pas de chiffre. Le panneau s'abstient plutôt que de mentir.</p>
+
+<h2>Ce qui marche quand même sur Dofus 2</h2>
+<p>Tout ce qui vient des objets est intact : l'optimiseur, l'encyclopédie, les bonus de panoplie, l'atelier. Verrouille tes PA et tes PM aux paliers dont ton combo a besoin et construis autour, exactement comme le décrit <a href="/guides/ap-mp-range-caps/">le guide des plafonds</a>. Tu perds la lecture du tour, pas le build.</p>
+
+<p><em>Tu veux le panneau ? Il tourne sur Dofus 3, la bêta, Touch et Retro. <a href="/guides/versions-explained/">Voilà ce qui sépare les versions.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Por qué las builds de Dofus 2 no tienen panel de mejor turno',
+                    'desc': 'El panel del mejor turno falta en Dofus 2, y no es un descuido: los archivos de Dofus 2 no incluyen ninguna tabla de niveles de hechizos.',
+                    'lead': 'Si estás en Dofus 2 y la página de hechizos no muestra ningún total de turno, no hay nada roto. El dato que ese panel necesita no existe en la release de Dofus 2.',
+                    'body': '''
+<h2>Qué falta</h2>
+<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño, cuántas veces se puede lanzar. En Dofus 3 eso da 31 hechizos utilizables para un Iop de nivel 200. La misma lectura en Dofus 2 devuelve <strong>cero</strong>, porque los archivos de Dofus 2 no llevan ninguna tabla de niveles de hechizos.</p>
+
+<h2>Por qué no lo inventamos</h2>
+<p>Podríamos copiar las cifras de Dofus 3 y enseñar un total. No lo haremos: Dofus 2 es un juego aparte, sus hechizos se equilibraron por separado, y una cifra creíble sacada de la versión equivocada es peor que ninguna cifra. El panel se abstiene en vez de mentir.</p>
+
+<h2>Qué sigue funcionando en Dofus 2</h2>
+<p>Todo lo que viene de los objetos está intacto: el optimizador, la enciclopedia, los bonos de conjunto, el taller. Bloquea tus PA y PM en los umbrales que tu combo necesita y construye alrededor, tal como explica <a href="/guides/ap-mp-range-caps/">la guía de límites</a>. Pierdes la lectura del turno, no la build.</p>
+
+<p><em>¿Quieres el panel? Funciona en Dofus 3, la beta, Touch y Retro. <a href="/guides/versions-explained/">Esto separa a las versiones.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Porque as builds de Dofus 2 não têm painel de melhor turno',
+                    'desc': 'O painel do melhor turno falta no Dofus 2, e não é um esquecimento: os arquivos do Dofus 2 não trazem nenhuma tabela de níveis de feitiços.',
+                    'lead': 'Se estás no Dofus 2 e a página de feitiços não mostra nenhum total de turno, não está nada avariado. O dado de que esse painel precisa não existe na release do Dofus 2.',
+                    'body': '''
+<h2>O que falta</h2>
+<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, os valores de dano, quantas vezes pode ser lançado. No Dofus 3 isso dá 31 feitiços utilizáveis para um Iop de nível 200. A mesma leitura no Dofus 2 devolve <strong>zero</strong>, porque os arquivos do Dofus 2 não trazem tabela de níveis de feitiços.</p>
+
+<h2>Porque não inventamos</h2>
+<p>Podíamos copiar os números do Dofus 3 e mostrar um total. Não o faremos: o Dofus 2 é um jogo à parte, os seus feitiços foram equilibrados em separado, e um número credível tirado da versão errada é pior do que número nenhum. O painel abstém-se em vez de mentir.</p>
+
+<h2>O que continua a funcionar no Dofus 2</h2>
+<p>Tudo o que vem dos itens está intacto: o otimizador, a enciclopédia, os bónus de conjunto, a oficina. Trava os teus PA e PM nos patamares de que o teu combo precisa e constrói à volta disso, tal como descreve <a href="/guides/ap-mp-range-caps/">o guia dos limites</a>. Perdes a leitura do turno, não a build.</p>
+
+<p><em>Queres o painel? Corre no Dofus 3, na beta, no Touch e no Retro. <a href="/guides/versions-explained/">É isto que separa as versões.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Warum Dofus-2-Builds kein Bester-Zug-Panel haben',
+                    'desc': 'Das Bester-Zug-Panel fehlt auf Dofus 2, und das ist kein Versehen: Die Dofus-2-Archive enthalten gar keine Zauberstufen-Tabelle.',
+                    'lead': 'Wenn du auf Dofus 2 bist und die Zauberseite keine Zugsumme zeigt, ist nichts kaputt. Die Daten, die dieses Panel braucht, gibt es im Dofus-2-Release nicht.',
+                    'body': '''
+<h2>Was fehlt</h2>
+<p>Um einen Zug zu durchsuchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: AP-Kosten, Schadenswürfe, wie oft er gewirkt werden darf. Auf Dofus 3 ergibt das für einen Iop auf Stufe 200 31 nutzbare Zauber. Dieselbe Abfrage auf Dofus 2 liefert <strong>null</strong>, weil die Dofus-2-Archive keine Zauberstufen-Tabelle enthalten.</p>
+
+<h2>Warum wir nichts erfinden</h2>
+<p>Wir könnten die Zahlen von Dofus 3 übernehmen und eine Summe anzeigen. Wir tun es nicht: Dofus 2 ist ein eigenes Spiel, seine Zauber wurden getrennt ausbalanciert, und eine glaubwürdige Zahl aus der falschen Version ist schlimmer als keine Zahl. Das Panel schweigt lieber, als zu lügen.</p>
+
+<h2>Was auf Dofus 2 weiterhin geht</h2>
+<p>Alles, was aus den Itemdaten kommt, ist intakt: der Optimierer, die Enzyklopädie, die Set-Boni, die Werkstatt. Lege AP und BP auf die Schwellen fest, die dein Combo braucht, und baue darum herum, genau wie es <a href="/guides/ap-mp-range-caps/">der Leitfaden zu den Obergrenzen</a> beschreibt. Du verlierst die Zuganzeige, nicht den Build.</p>
+
+<p><em>Du willst das Panel? Es läuft auf Dofus 3, der Beta, Touch und Retro. <a href="/guides/versions-explained/">Das unterscheidet die Versionen.</a></em></p>
+''',
+                },
+            },
+            'retro': {
+                'en': {
+                    'title': 'Best turn on Dofus Retro: no AP cap, and a smaller spell book',
+                    'desc': 'Retro reads the best-turn panel differently: 1.29 never got the AP limitation, so a turn is not stopped at 12 AP.',
+                    'lead': 'The best-turn panel runs on Dofus Retro, but two things about 1.29 change how you read it: there is no AP cap, and the spell book is much smaller.',
+                    'body': '''
+<h2>No cap on the turn</h2>
+<p>A Retro character starts at <strong>6 AP</strong> like everyone else, and gear adds on top. The difference is that 1.29 never got the AP, MP and range limitation the modern game introduced, so nothing stops the total at 12. Stack +10 AP and the panel really does search a 16 AP turn.</p>
+
+<h2>A smaller spell book</h2>
+<p>Retro classes carry far fewer damage spells than modern ones: a level 200 Iop reads 12 usable spells here against 31 on Dofus 3. Fewer options make the search shorter and the answer blunter, and they make AP breakpoints matter more, since there is less to fill a turn with.</p>
+
+<h2>What that means when you gear</h2>
+<p>Because AP is uncapped, AP keeps paying on Retro long after it would be wasted elsewhere. That is worth remembering when you weight your stats: the modern habit of stopping at +6 AP comes from a rule 1.29 does not have.</p>
+
+<p><em>Set your weights, solve, and open the spells page. <a href="/setup/">Start a Retro build here.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': 'Meilleur combo sur Dofus Retro : pas de plafond PA, et moins de sorts',
+                    'desc': "Retro lit le panneau du meilleur tour autrement : la 1.29 n'a jamais eu la limitation PA, donc le tour ne s'arrête pas à 12 PA.",
+                    'lead': "Le panneau du meilleur tour tourne sur Dofus Retro, mais deux choses propres à la 1.29 changent la lecture : il n'y a pas de plafond de PA, et le livre de sorts est bien plus court.",
+                    'body': '''
+<h2>Pas de plafond sur le tour</h2>
+<p>Un personnage Retro démarre à <strong>6 PA</strong> comme tout le monde, et le stuff s'ajoute. La différence, c'est que la 1.29 n'a jamais reçu la limitation PA, PM et portée introduite par le jeu moderne : rien n'arrête donc le total à 12. Empile +10 PA et le panneau cherche vraiment un tour à 16 PA.</p>
+
+<h2>Un livre de sorts plus court</h2>
+<p>Les classes Retro ont bien moins de sorts de dégâts que les modernes : un Iop niveau 200 lit 12 sorts utilisables ici, contre 31 sur Dofus 3. Moins d'options, donc une recherche plus courte et une réponse plus tranchée, et des paliers de PA qui comptent davantage puisqu'il y a moins de quoi remplir un tour.</p>
+
+<h2>Ce que ça change quand tu t'équipes</h2>
+<p>Comme les PA ne sont pas plafonnés, ils continuent de payer sur Retro bien après le point où ils seraient gaspillés ailleurs. Bon à garder en tête au moment de pondérer : le réflexe moderne de s'arrêter à +6 PA vient d'une règle que la 1.29 n'a pas.</p>
+
+<p><em>Pose tes poids, calcule, et ouvre la page des sorts. <a href="/setup/">Commence un build Retro ici.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Mejor turno en Dofus Retro: sin límite de PA y menos hechizos',
+                    'desc': 'Retro lee el panel del mejor turno de otra forma: la 1.29 nunca tuvo la limitación de PA, así que el turno no se para en 12 PA.',
+                    'lead': 'El panel del mejor turno funciona en Dofus Retro, pero dos cosas propias de la 1.29 cambian cómo se lee: no hay límite de PA y el libro de hechizos es mucho más corto.',
+                    'body': '''
+<h2>Sin límite en el turno</h2>
+<p>Un personaje de Retro empieza con <strong>6 PA</strong> como todos, y el equipo se suma. La diferencia es que la 1.29 nunca recibió la limitación de PA, PM y alcance que introdujo el juego moderno, así que nada detiene el total en 12. Apila +10 PA y el panel busca de verdad un turno de 16 PA.</p>
+
+<h2>Un libro de hechizos más corto</h2>
+<p>Las clases de Retro tienen muchos menos hechizos de daño que las modernas: un Iop de nivel 200 lee aquí 12 hechizos utilizables, frente a 31 en Dofus 3. Menos opciones significan una búsqueda más corta y una respuesta más tajante, y hacen que los umbrales de PA pesen más, porque hay menos con que llenar un turno.</p>
+
+<h2>Qué cambia al equiparte</h2>
+<p>Como los PA no están limitados, siguen rindiendo en Retro mucho después del punto en que se desperdiciarían en otras versiones. Conviene recordarlo al ponderar: la costumbre moderna de parar en +6 PA viene de una regla que la 1.29 no tiene.</p>
+
+<p><em>Pon tus pesos, calcula y abre la página de hechizos. <a href="/setup/">Empieza aquí una build de Retro.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Melhor turno no Dofus Retro: sem limite de PA e menos feitiços',
+                    'desc': 'O Retro lê o painel do melhor turno de outra forma: o 1.29 nunca teve a limitação de PA, por isso o turno não para nos 12 PA.',
+                    'lead': 'O painel do melhor turno funciona no Dofus Retro, mas duas coisas próprias do 1.29 mudam a leitura: não há limite de PA e o livro de feitiços é bem mais curto.',
+                    'body': '''
+<h2>Sem limite no turno</h2>
+<p>Uma personagem de Retro começa com <strong>6 PA</strong> como toda a gente, e o equipamento soma-se. A diferença é que o 1.29 nunca recebeu a limitação de PA, PM e alcance que o jogo moderno introduziu, por isso nada trava o total nos 12. Empilha +10 PA e o painel procura mesmo um turno de 16 PA.</p>
+
+<h2>Um livro de feitiços mais curto</h2>
+<p>As classes do Retro têm muito menos feitiços de dano do que as modernas: um Iop de nível 200 lê aqui 12 feitiços utilizáveis, contra 31 no Dofus 3. Menos opções dão uma procura mais curta e uma resposta mais seca, e fazem os patamares de PA contar mais, porque há menos com que encher um turno.</p>
+
+<h2>O que muda quando te equipas</h2>
+<p>Como os PA não têm limite, continuam a render no Retro muito depois do ponto em que seriam desperdiçados noutras versões. Vale a pena lembrar ao ponderar: o hábito moderno de parar nos +6 PA vem de uma regra que o 1.29 não tem.</p>
+
+<p><em>Define os teus pesos, calcula e abre a página de feitiços. <a href="/setup/">Começa aqui uma build de Retro.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Bester Zug auf Dofus Retro: keine AP-Grenze, weniger Zauber',
+                    'desc': 'Retro liest das Bester-Zug-Panel anders: 1.29 bekam nie die AP-Begrenzung, der Zug endet also nicht bei 12 AP.',
+                    'lead': 'Das Bester-Zug-Panel läuft auf Dofus Retro, aber zwei Eigenheiten von 1.29 ändern die Lesart: Es gibt keine AP-Obergrenze, und das Zauberbuch ist deutlich kürzer.',
+                    'body': '''
+<h2>Keine Grenze für den Zug</h2>
+<p>Eine Retro-Figur startet mit <strong>6 AP</strong> wie alle anderen, die Ausrüstung kommt dazu. Der Unterschied: 1.29 erhielt nie die Begrenzung von AP, BP und Reichweite, die das moderne Spiel eingeführt hat, also stoppt nichts die Summe bei 12. Stapel +10 AP, und das Panel durchsucht wirklich einen Zug mit 16 AP.</p>
+
+<h2>Ein kürzeres Zauberbuch</h2>
+<p>Retro-Klassen haben weit weniger Schadenszauber als moderne: Ein Iop auf Stufe 200 liest hier 12 nutzbare Zauber, gegenüber 31 auf Dofus 3. Weniger Optionen bedeuten eine kürzere Suche und eine schroffere Antwort, und sie machen AP-Schwellen wichtiger, weil weniger da ist, um einen Zug zu füllen.</p>
+
+<h2>Was das beim Ausrüsten bedeutet</h2>
+<p>Weil AP nicht gedeckelt sind, zahlen sie sich auf Retro noch lange aus, wo sie anderswo längst verschwendet wären. Das lohnt sich beim Gewichten zu merken: Die moderne Gewohnheit, bei +6 AP aufzuhören, stammt aus einer Regel, die 1.29 nicht kennt.</p>
+
+<p><em>Gewichte setzen, rechnen, Zauberseite öffnen. <a href="/setup/">Starte hier einen Retro-Build.</a></em></p>
+''',
+                },
+            },
+        },
+    },
 }
 
 
@@ -3522,7 +3813,7 @@ def ordered_slugs():
 # one canonical page (so distinct systems each rank, without duplicate content).
 _DEFAULT_GUIDE_GROUP = 'modern'
 _GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'touch': 'touch',
-                            'retro': 'retro'}
+                            'dofus2': 'dofus2', 'retro': 'retro'}
 
 
 def _guide_group(guide, game_version):
