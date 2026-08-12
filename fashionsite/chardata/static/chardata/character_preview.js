@@ -161,21 +161,38 @@
         return this.images[skinId];
     };
 
+    // The head is drawn whole at the Tete node, in its own local space. Some
+    // heads carry pieces named after other skeleton nodes (Chapeau, Natte,
+    // Cole), and entriesFor used to match those too, painting them a second
+    // time at that node, offset and oversized: on an Eliotrope the braid came
+    // back tinted by slot 5, a blue slab beside the head. Only skip the ones
+    // headEntries already draws for the orientation on screen, or a Sram
+    // loses the collar its own node carries.
+    CharacterPreview.prototype.headDrawn = function () {
+        if (this.headDrawnFor !== this.orientation) {
+            var seen = {};
+            var list = this.headEntries();
+            for (var i = 0; i < list.length; i++) { seen[list[i].part] = true; }
+            this.headDrawnParts = seen;
+            this.headDrawnFor = this.orientation;
+        }
+        return this.headDrawnParts;
+    };
+
     CharacterPreview.prototype.entriesFor = function (node) {
         var out = [];
         var lower = node.toLowerCase();
+        var drawn = this.headDrawn();
         for (var i = 0; i < this.skins.length; i++) {
             var id = this.skins[i];
             var manifest = this.manifests[id];
-            // The head is drawn whole at the Tete node by headEntries, in its
-            // own local space. Several heads carry pieces named after other
-            // skeleton nodes (Chapeau, Natte, Cole), and matching those here
-            // painted them a second time at that node, offset and oversized:
-            // on an Eliotrope the braid came back tinted by slot 5, a blue
-            // slab over the head. 21 of the 38 breed and gender pairs.
-            if (!manifest || id === this.look.head) { continue; }
-            if (manifest[node]) { out.push({ skin: id, part: node, slot: null }); }
+            var isHead = id === this.look.head;
+            if (!manifest) { continue; }
+            if (manifest[node] && !(isHead && drawn[node])) {
+                out.push({ skin: id, part: node, slot: null });
+            }
             for (var part in manifest) {
+                if (isHead && drawn[part]) { continue; }
                 var m = /^ColorGray_(\d+)_(.+)$/.exec(part);
                 if (m && m[2].toLowerCase() === lower) {
                     out.push({ skin: id, part: part, slot: parseInt(m[1], 10) });

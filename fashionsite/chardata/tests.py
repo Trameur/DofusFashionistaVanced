@@ -11152,13 +11152,70 @@ class HeadArtStaysOnTheHeadTests(SimpleTestCase):
     JS = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
                       'character_preview.js')
 
-    def test_the_renderer_skips_the_head_skin_for_a_body_node(self):
+    def test_the_renderer_skips_only_what_the_head_already_draws(self):
         with open(self.JS, encoding='utf-8') as handle:
             body = handle.read()
         start = body.index('CharacterPreview.prototype.entriesFor')
         block = body[start:body.index('};', start)]
-        self.assertIn('id === this.look.head', block,
-                      'entriesFor searches the head skin again')
+        self.assertIn('isHead && drawn[', block,
+                      'entriesFor no longer defers to headEntries')
+        self.assertNotIn('id === this.look.head) { continue; }', block,
+                         'a blanket skip drops the collar a Sram wears')
+
+    def test_a_blanket_skip_would_lose_art_the_head_never_redraws(self):
+        # Why the guard is narrow. Some heads place a piece at its own node
+        # under an orientation suffix headEntries never returns for the view
+        # being drawn: the Sram female's collar, the Sadida female's braid.
+        # Skipping the head skin outright would delete those for good, so the
+        # guard only skips what headEntries already puts on screen.
+        import json
+        from chardata import character_assets
+        from chardata.character_look import _breed_looks, player_bones
+        expression = re.compile(
+            r'^visage_(?!neutre|base)|_visage_(?!neutre)|^tete\d+$')
+
+        def head_drawn(manifest, orientation):
+            out = set()
+            for part in manifest:
+                if not part.endswith('_' + orientation):
+                    continue
+                bare = re.sub(r'^ColorGray_\d+_', '', part)
+                bare = re.sub(r'_\d+$', '', bare).lower()
+                if not expression.search(bare):
+                    out.add(part)
+            return out
+
+        cache = character_assets.cache_dir()
+        orphaned, checked = [], 0
+        for key, entry in sorted(_breed_looks().items()):
+            head = entry.get('head')
+            parts = os.path.join(cache, 'parts', str(head),
+                                 'parts-v%d.json' % character_assets.SKIN_FORMAT)
+            poses = os.path.join(cache, 'poses', '%s-v%d.json' % (
+                player_bones(int(key.split('-')[0])),
+                character_assets.POSE_FORMAT))
+            if not head or not os.path.exists(parts) or not os.path.exists(poses):
+                continue
+            checked += 1
+            with open(parts, encoding='utf-8') as handle:
+                manifest = json.load(handle)
+            with open(poses, encoding='utf-8') as handle:
+                pose = json.load(handle)
+            for orientation, frames in pose['orientations'].items():
+                drawn = head_drawn(manifest, orientation)
+                nodes = {row['node'] for frame in frames for row in frame
+                         if not row['node'].startswith('Tete')}
+                for part in manifest:
+                    if part in drawn:
+                        continue
+                    bare = re.sub(r'^ColorGray_\d+_', '', part)
+                    if bare in nodes:
+                        orphaned.append('%s/%s/%s %s' % (key, head,
+                                                         orientation, part))
+        self.assertGreater(checked, 10)
+        self.assertTrue(orphaned,
+                        'no head places a piece of its own any more, the '
+                        'guard could go back to skipping the head outright')
 
     def test_a_head_really_does_carry_a_body_node_name(self):
         # The guard above is only worth its line while this holds. It reads
