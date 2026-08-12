@@ -167,7 +167,13 @@
         for (var i = 0; i < this.skins.length; i++) {
             var id = this.skins[i];
             var manifest = this.manifests[id];
-            if (!manifest) { continue; }
+            // The head is drawn whole at the Tete node by headEntries, in its
+            // own local space. Several heads carry pieces named after other
+            // skeleton nodes (Chapeau, Natte, Cole), and matching those here
+            // painted them a second time at that node, offset and oversized:
+            // on an Eliotrope the braid came back tinted by slot 5, a blue
+            // slab over the head. 21 of the 38 breed and gender pairs.
+            if (!manifest || id === this.look.head) { continue; }
             if (manifest[node]) { out.push({ skin: id, part: node, slot: null }); }
             for (var part in manifest) {
                 var m = /^ColorGray_(\d+)_(.+)$/.exec(part);

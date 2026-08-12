@@ -11139,6 +11139,55 @@ class SkinMatchMarginTests(SimpleTestCase):
                 % (slot, len(data) - len(kept), len(data)))
 
 
+class HeadArtStaysOnTheHeadTests(SimpleTestCase):
+    """A head skin is drawn whole at the Tete node, in its own local space.
+
+    Several heads carry pieces named after OTHER skeleton nodes: the
+    Eliotrope's head holds Chapeau_1 and Natte_1, which are also the hat and
+    braid attachment points. The renderer used to look for a node's art in
+    every loaded skin, so those pieces were painted a second time at their
+    like-named node, offset and oversized, and the braid came back tinted by
+    colour slot 5, a blue slab across the head."""
+
+    JS = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
+                      'character_preview.js')
+
+    def test_the_renderer_skips_the_head_skin_for_a_body_node(self):
+        with open(self.JS, encoding='utf-8') as handle:
+            body = handle.read()
+        start = body.index('CharacterPreview.prototype.entriesFor')
+        block = body[start:body.index('};', start)]
+        self.assertIn('id === this.look.head', block,
+                      'entriesFor searches the head skin again')
+
+    def test_a_head_really_does_carry_a_body_node_name(self):
+        # The guard above is only worth its line while this holds. It reads
+        # the baked cache, so it also proves the collision is in real data.
+        import json
+        from chardata import character_assets
+        from chardata.character_look import SLOT_TO_NODE, _breed_looks
+        nodes = {name.lower() for name in SLOT_TO_NODE.values()}
+        root = os.path.join(character_assets.cache_dir(), 'parts')
+        if not os.path.isdir(root):
+            self.skipTest('no baked parts on this machine')
+        collisions = {}
+        for entry in _breed_looks().values():
+            head = entry.get('head')
+            path = os.path.join(root, str(head),
+                                'parts-v%d.json' % character_assets.SKIN_FORMAT)
+            if not head or not os.path.exists(path):
+                continue
+            with open(path, encoding='utf-8') as handle:
+                manifest = json.load(handle)
+            for part in manifest:
+                bare = re.sub(r'^ColorGray_\d+_', '', part)
+                bare = re.sub(r'_\d+$', '', bare).lower()
+                if bare in nodes:
+                    collisions.setdefault(str(head), set()).add(bare)
+        self.assertTrue(collisions,
+                        'no head names a body node any more, drop the guard')
+
+
 class PreviewPieceBoxesTests(SimpleTestCase):
     """A tickbox for a slot the preview cannot draw does nothing, and the
     matcher only found art for 64% of cloaks and 29% of weapons."""
