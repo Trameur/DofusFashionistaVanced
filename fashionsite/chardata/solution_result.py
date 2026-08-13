@@ -254,7 +254,8 @@ def attach_transcendence(result_item, weights):
     if not result_item.item_added or not weights:
         return
     rune = best_transcendence(get_current_game_version(),
-                              getattr(result_item, 'stats', None) or {}, weights)
+                              getattr(result_item, 'stats', None) or {}, weights,
+                              result_item.type)
     if rune is None:
         return
     # Ankama names its runes in French in every client.
