@@ -5915,42 +5915,47 @@ msgstr ""
 msgid "Build has no solution yet"
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "August 2026"
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The spells page now shows the best order of casts for one turn, with the damage each cast adds and the AP it costs."
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "It follows what you change: the buffs you tick, the rank you pick on a spell, and the Fully Buff button."
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Retro and Touch spells now carry their AP cost and their casting limits, so their spells page works like the others."
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "An item that casts or changes a spell used to give only its name. Hover the marker beside the line to read what the spell does."
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Monster pages do the same: every spell a monster casts now says what it does, on top of its AP cost and its range."
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Four new guides"
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Transcendence runes, reading the best turn panel, building around the gear you already own, and the six Dofus slots."
 msgstr ""
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Each one is written per version where the rule differs between them."
 msgstr ""
+
+#: .\chardata\templates\chardata\solution_item.html:1
+msgid "Suggested transcendence rune"
+msgstr ""
+

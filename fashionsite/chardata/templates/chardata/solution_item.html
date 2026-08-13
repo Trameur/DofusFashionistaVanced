@@ -54,6 +54,17 @@
             </span>
             <br>
         {% endfor %}
+        {% if item.transcendence %}
+            <span class="spell-tip transcendence-tip" tabindex="0" role="button"
+                  aria-label="{% trans 'Suggested transcendence rune' %}">
+                <span class="spell-tip-mark" aria-hidden="true">&#9670;</span>
+                <span class="spell-tip-panel" role="tooltip">
+                    <b class="spell-tip-name">{% trans "Suggested transcendence rune" %}</b>
+                    <span class="spell-tip-text">{{ item.transcendence }}</span>
+                    <span class="spell-tip-text">{% trans "This rune always lands, and locks the item against any further smithmagic." %}</span>
+                </span>
+            </span>
+        {% endif %}
         </div>
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />

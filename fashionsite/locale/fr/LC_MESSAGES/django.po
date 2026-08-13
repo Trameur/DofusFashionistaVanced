@@ -6510,42 +6510,47 @@ msgstr "Objet introuvable"
 msgid "Build has no solution yet"
 msgstr "Ce build n'a pas encore de solution"
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "August 2026"
 msgstr "Août 2026"
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The spells page now shows the best order of casts for one turn, with the damage each cast adds and the AP it costs."
 msgstr "La page des sorts affiche maintenant le meilleur ordre de lancers pour un tour, avec les dégâts que chaque lancer ajoute et les PA qu'il coûte."
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "It follows what you change: the buffs you tick, the rank you pick on a spell, and the Fully Buff button."
 msgstr "Il suit ce que vous changez : les boosts que vous cochez, le rang que vous choisissez sur un sort et le bouton Complètement boosté."
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Retro and Touch spells now carry their AP cost and their casting limits, so their spells page works like the others."
 msgstr "Les sorts de Retro et de Touch portent maintenant leur coût en PA et leurs limites de lancer, si bien que leur page des sorts fonctionne comme les autres."
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
 msgstr "Les sorts expliqués là où ils sont nommés"
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "An item that casts or changes a spell used to give only its name. Hover the marker beside the line to read what the spell does."
 msgstr "Un objet qui lance ou modifie un sort n'en donnait que le nom. Survolez le marqueur à côté de la ligne pour lire ce que fait le sort."
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Monster pages do the same: every spell a monster casts now says what it does, on top of its AP cost and its range."
 msgstr "Les pages de monstres font de même : chaque sort qu'un monstre lance dit maintenant ce qu'il fait, en plus de son coût en PA et de sa portée."
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Four new guides"
 msgstr "Quatre nouveaux guides"
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Transcendence runes, reading the best turn panel, building around the gear you already own, and the six Dofus slots."
 msgstr "Les runes de transcendance, la lecture de l'encadré du meilleur tour, l'équipement construit autour de ce que vous possédez déjà, et les six emplacements de Dofus."
 
-#: .\chardata	emplates\chardata\changelog_content.html:1
+#: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Each one is written per version where the rule differs between them."
 msgstr "Chacun est écrit par version là où la règle diffère de l'une à l'autre."
+
+#: .\chardata\templates\chardata\solution_item.html:1
+msgid "Suggested transcendence rune"
+msgstr "Rune de transcendance suggérée"
+

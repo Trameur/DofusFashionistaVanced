@@ -29,6 +29,7 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.spell_tips import spell_tip_for
+from chardata.transcendence_advice import best_transcendence
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
@@ -79,8 +80,7 @@ class SolutionResult:
         item_ids = {}
         for result_item in all_items:
             evolve_result_item(result_item, r)
-        # "Can I actually get this set?" answered on the page itself, one pass
-        # over the DB for the whole solution.
+            attach_transcendence(result_item, self.weights)
         attach_acquisition(all_items)
 
         for result_item in all_items:
@@ -249,6 +249,20 @@ def evolve_result_item(result_item, r=None):
 
 
 
+def attach_transcendence(result_item, weights):
+    result_item.transcendence = None
+    if not result_item.item_added or not weights:
+        return
+    rune = best_transcendence(get_current_game_version(),
+                              getattr(result_item, 'stats', None) or {}, weights)
+    if rune is None:
+        return
+    # Ankama names its runes in French in every client.
+    result_item.transcendence = '%s: +%d %s' % (
+        rune['name_fr'], rune['bonus'],
+        _(get_structure().get_stat_by_key(rune['stat_key']).name))
+
+
 class AttributeLine:
     
     def __init__(self, stat_key, stat_value, stat_name, stat_range=None):
@@ -304,8 +318,8 @@ class MaxConditionLine:
 class LightSetConditionLine:
 
     def __init__(self, model_result, cap=2):
-        # cap = max weighted set-bonuses the trophy allows: dofus3/beta "< 3" -> 2,
-        # the stricter touch "< 2" -> 1. Show the matching threshold.
+        # cap = max weighted set-bonuses the trophy allows: dofus3/beta "< 3"
+        # -> 2, touch "< 2" -> 1.
         cap = 2 if cap is True else cap
         self.text = _('Set bonus < 2') if cap <= 1 else _('Set bonus < 3')
         self.formatting = ''
