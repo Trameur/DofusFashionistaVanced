@@ -1117,46 +1117,74 @@
             weight = round2(weight - fromSink);
             var guard = 0;
             while (weight > 0.001 && guard++ < 300) {
-                var exoLines = [];
-                var overLines = [];
-                var normalLines = [];
-                session.rows.forEach(function(row, index) {
-                    if (index === excludeIndex || row.value <= 0) {
-                        return;
-                    }
-                    var info = statInfo(row.key);
-                    if (!info) {
-                        return;
-                    }
-                    if (row.exo) {
-                        exoLines.push(index);
-                    } else if (row.value > row.max) {
-                        overLines.push(index);
-                    } else {
-                        normalLines.push(index);
-                    }
-                });
-                var pool = exoLines.length ? exoLines
-                         : (overLines.length ? overLines : normalLines);
+                var pool = lossPool(excludeIndex);
                 if (!pool.length) {
                     break;
                 }
                 pool = lightestFirst(pool, runeWeight);
-                var index = pool[Math.floor(Math.random() * pool.length)];
-                var row = session.rows[index];
-                var density = statInfo(row.key).density;
-                var points = Math.min(row.value, Math.ceil((weight - 0.001) / density));
-                row.value -= points;
-                lost.push({name: row.name, points: points});
-                var removed = points * density;
-                if (removed >= weight) {
-                    session.sink = round2(Math.min(config.overCap,
-                                                   session.sink + (removed - weight)));
-                    weight = 0;
-                } else {
-                    weight = round2(weight - removed);
+                var fits = pool.filter(function(index) {
+                    return pointsThatFit(index, weight) >= 1;
+                });
+                if (fits.length) {
+                    // Heaviest first, then a finer line adjusts the rest: that
+                    // is how a loss lands on the rune's weight exactly.
+                    var index = heaviest(fits);
+                    var row = session.rows[index];
+                    var points = Math.min(row.value, pointsThatFit(index, weight));
+                    row.value -= points;
+                    lost.push({name: row.name, points: points});
+                    weight = round2(weight - points * statInfo(row.key).density);
+                    continue;
                 }
+                // Nothing left lands short, so the lightest line overshoots and
+                // the surplus goes back into the sink.
+                var pick = lightest(pool);
+                var picked = session.rows[pick];
+                var density = statInfo(picked.key).density;
+                picked.value -= 1;
+                lost.push({name: picked.name, points: 1});
+                session.sink = round2(Math.min(config.overCap,
+                                               session.sink + (density - weight)));
+                weight = 0;
             }
+        }
+
+        function lossPool(excludeIndex) {
+            var exoLines = [];
+            var overLines = [];
+            var normalLines = [];
+            session.rows.forEach(function(row, index) {
+                if (index === excludeIndex || row.value <= 0 || !statInfo(row.key)) {
+                    return;
+                }
+                if (row.exo) {
+                    exoLines.push(index);
+                } else if (row.value > row.max) {
+                    overLines.push(index);
+                } else {
+                    normalLines.push(index);
+                }
+            });
+            return exoLines.length ? exoLines
+                 : (overLines.length ? overLines : normalLines);
+        }
+
+        function pointsThatFit(index, weight) {
+            return Math.floor((weight + 0.001) / statInfo(session.rows[index].key).density);
+        }
+
+        function heaviest(pool) {
+            return pool.reduce(function(best, index) {
+                return statInfo(session.rows[index].key).density
+                       > statInfo(session.rows[best].key).density ? index : best;
+            }, pool[0]);
+        }
+
+        function lightest(pool) {
+            return pool.reduce(function(best, index) {
+                return statInfo(session.rows[index].key).density
+                       < statInfo(session.rows[best].key).density ? index : best;
+            }, pool[0]);
         }
 
         // The lines a rune of this weight can actually reach, or the whole pool
