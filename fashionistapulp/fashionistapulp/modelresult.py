@@ -22,6 +22,7 @@ from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_N
                              NEUTRAL, DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
                              calculate_damage, SLOT_NAME_TO_TYPE)
 from .item_flags import flag_lines
+from .spell_text import fold_spell_blocks
 from .structure import get_structure
 from .translation import get_supported_language
 from .violation import Violation
@@ -624,7 +625,13 @@ class ModelResultItem():
             if localized_extras is None:
                 localized_extras = ['[!] ' + line for line in item.localized_extras.get('en', [])]
             translated_flags = flag_lines(getattr(item, 'flags', []))
+            localized_extras, folded = fold_spell_blocks(localized_extras)
             self.extras = translated_flags + [(line, None) for line in localized_extras]
+            # An extra line names a spell and stops there, so carry what the
+            # spells it names actually do and let the page hang it off them.
+            self.spell_tooltips = dict(
+                getattr(item, 'spell_tooltips', {}).get(get_supported_language()) or {},
+                **folded)
     
             if self.type == 'Weapon':
                 # By item, not by name: Retro and Touch let several weapons share
