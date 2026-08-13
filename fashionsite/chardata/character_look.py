@@ -166,8 +166,17 @@ def _breed_looks():
     return _looks
 
 
+def preview_is_on():
+    """The one switch for the drawn character. Off ships the class avatar."""
+    from django.conf import settings
+    return bool(getattr(settings, 'CHARACTER_PREVIEW', False))
+
+
 def get_character_look(char, solution, game_version='dofus3'):
-    """None if the version has no art or the class is unknown."""
+    """None if the preview is off, the version has no art, or the class is
+    unknown. Every caller already draws the avatar instead."""
+    if not preview_is_on():
+        return None
     if game_version not in VERSIONS_WITH_ART:
         return None
     breed = CLASS_TO_BREED.get(char.char_class)

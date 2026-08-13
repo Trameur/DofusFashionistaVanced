@@ -427,6 +427,14 @@ EXPERIMENTS = {
     'ITEM_LINKS': True,
 }
 
+# The drawn character on a build page. Off while the art assembly is
+# reworked: a head ships every piece twice, an untinted copy and a colourable
+# twin whose bounds differ, and the renderer has no rule for choosing, so
+# pieces land beside their own outline and a hand or a shield drifts. The
+# class avatar stands in, which is what every page already falls back to.
+# Turn it on again once a whole character is right in all five orientations.
+CHARACTER_PREVIEW = False
+
 DEFAULT_THEME = 'lighttheme'
 
 # Donation buttons shown on the /support/ page (a list of {'label', 'url'}).

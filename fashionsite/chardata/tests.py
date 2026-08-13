@@ -1868,6 +1868,7 @@ class SolutionSetTemplateTests(SimpleTestCase):
             set_current_game_version('dofus3')
 
 
+@override_settings(CHARACTER_PREVIEW=True)
 class CompareSetsPreviewTests(TestCase):
     """The point of the page is what the two builds look like, so it draws them."""
 
@@ -3429,6 +3430,7 @@ class BuildScoreTests(SimpleTestCase):
         self.assertEqual(get_current_game_version(), 'dofus3')
 
 
+@override_settings(CHARACTER_PREVIEW=True)
 class SolutionGenerationHistoryTests(TestCase):
     """Generated sets should be kept as private, comparable snapshots."""
 
@@ -9663,6 +9665,88 @@ class StatRangeInThePickerTests(TestCase):
                       solution_result.format_stat_range)
 
 
+class CharacterPreviewIsOffTests(TestCase):
+    """The drawn character is switched off site-wide while its art assembly
+    is reworked. Every page already falls back to the class avatar, so the
+    switch is one flag and nothing downstream needs to know."""
+
+    def _shared_build(self, owner=None):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        hat = next(item for item
+                   in get_structure('dofus3').get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed and item.ankama_id)
+        tag = 'off%d' % (Char.objects.count() + 1)
+        if owner is None:
+            owner = User.objects.create_user(tag, '%s@test.local' % tag,
+                                             'pw-42-solid')
+        char = Char.objects.create(
+            name='OffBuild', char_name=tag, char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=_pickle.dumps({'str': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal(
+                {'hat': hat.id},
+                {'options': {'ap_exo': False, 'mp_exo': False},
+                 'origin': 'generated', 'char_level': 200,
+                 'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0,
+                                        'Strength': 0, 'Intelligence': 0,
+                                        'Chance': 0, 'Agility': 0},
+                 'locked_equips': {}}, {})),
+            owner=owner, link_shared=True, game_version='dofus3')
+        return owner, char
+
+    def test_the_setting_is_off_in_the_shipped_configuration(self):
+        # A release must not carry it on by accident; the tests that need it
+        # ask for it themselves with override_settings.
+        from django.conf import settings
+        self.assertFalse(getattr(settings, 'CHARACTER_PREVIEW', False))
+
+    @override_settings(CHARACTER_PREVIEW=False)
+    def test_no_look_is_built_while_it_is_off(self):
+        from chardata.character_look import get_character_look, preview_is_on
+        _owner, char = self._shared_build()
+        self.assertFalse(preview_is_on())
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            self.assertIsNone(get_character_look(char, None, version), version)
+
+    @override_settings(CHARACTER_PREVIEW=False)
+    def test_a_build_page_shows_the_avatar_and_no_canvas(self):
+        owner, char = self._shared_build()
+        self.client.force_login(owner)
+        resp = self.client.get('/solution/%d/' % char.pk)
+        self.assertEqual(200, resp.status_code)
+        body = resp.content.decode()
+        for marker in ('character-preview', 'char-banner-controls',
+                       'character_preview.js', 'char-banner-piece-box'):
+            self.assertNotIn(marker, body, marker)
+        self.assertIn('char-banner-avatar', body)
+        self.assertNotIn('display:none', body.split('char-banner-avatar')[1][:80])
+
+    @override_settings(CHARACTER_PREVIEW=False)
+    def test_the_comparison_page_draws_no_character_either(self):
+        owner, first = self._shared_build()
+        second = self._shared_build(owner)[1]
+        self.client.force_login(owner)
+        resp = self.client.get('/compare_sets/%d/%d/' % (first.pk, second.pk))
+        self.assertEqual(200, resp.status_code)
+        body = resp.content.decode()
+        self.assertNotIn('compare-preview-canvas', body)
+        self.assertNotIn('character_preview.js', body)
+
+    @override_settings(CHARACTER_PREVIEW=False)
+    def test_the_account_page_hides_the_size_it_can_no_longer_use(self):
+        owner, _char = self._shared_build()
+        self.client.force_login(owner)
+        resp = self.client.get('/manageaccount/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(200, resp.status_code)
+        self.assertNotIn('id="preview_size"', resp.content.decode())
+
+
+@override_settings(CHARACTER_PREVIEW=True)
 class CharacterLookTests(TestCase):
     """The preview needs a body and a head per class, and the skin of every
     piece that shows on the character."""
@@ -10063,6 +10147,7 @@ class CharacterLookTests(TestCase):
         self.assertEqual(char.colors, '')
 
 
+@override_settings(CHARACTER_PREVIEW=True)
 class MountLookTests(TestCase):
     """A mount's skeleton, colours and scale come from the look string the
     client is sent. Only a handful of skeletons cover every mount."""
@@ -11257,6 +11342,7 @@ class HeadArtStaysOnTheHeadTests(SimpleTestCase):
                         'no head names a body node any more, drop the guard')
 
 
+@override_settings(CHARACTER_PREVIEW=True)
 class PreviewPieceBoxesTests(SimpleTestCase):
     """A tickbox for a slot the preview cannot draw does nothing, and the
     matcher only found art for 64% of cloaks and 29% of weapons."""

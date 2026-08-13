@@ -22,7 +22,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.http import JsonResponse
 
-from chardata.character_look import PREVIEW_SIZES
+from chardata.character_look import PREVIEW_SIZES, preview_is_on
 from chardata.models import UserAlias
 from chardata.util import set_response
 
@@ -57,7 +57,8 @@ def manage_account(request):
                         {'user_social_name': json.dumps(full_name),
                          'notify_comments_json': json.dumps(notify_comments),
                          'email_language_json': json.dumps(email_language),
-                         'preview_size_json': json.dumps(preview_size)})
+                         'preview_size_json': json.dumps(preview_size),
+                         'preview_is_on': preview_is_on()})
 
 
 def save_account(request):
