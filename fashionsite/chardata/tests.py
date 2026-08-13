@@ -3554,15 +3554,26 @@ class SolutionGenerationHistoryTests(TestCase):
             self.assertContains(
                 resp, json_module.dumps(preview_box(percent))[1:-1])
 
-    def test_the_header_finally_says_settings(self):
-        # The account page always held the options, but its only entry was
-        # the alias link in the header, which reads as a name, not a button.
+    def test_the_header_links_the_name_to_the_account(self):
         owner, char, _ = self._build_char_with_items()
         self.client.force_login(owner)
         resp = self.client.get('/solution/%d/' % char.pk,
                                HTTP_ACCEPT_LANGUAGE='en')
-        self.assertContains(resp, 'id="header_settings_link"')
-        self.assertContains(resp, '>Settings</a>')
+        self.assertContains(resp, 'id="logged_user_alias"')
+        self.assertContains(resp, '/manageaccount/')
+
+    def test_a_super_user_can_reach_their_own_account(self):
+        # The header branched on the badge and printed the name with nothing
+        # to click, so an admin had no way into their own account page.
+        from unittest.mock import patch
+        owner, char, _ = self._build_char_with_items()
+        self.client.force_login(owner)
+        with patch('chardata.util.request_by_super_user', return_value=True):
+            resp = self.client.get('/solution/%d/' % char.pk,
+                                   HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(resp, '[SUPER USER]')
+        self.assertContains(resp, 'id="logged_user_alias"')
+        self.assertContains(resp, '/manageaccount/')
 
     def test_a_project_page_still_carries_the_loading_screen(self):
         # The reading pages dropped it; the pages that can start a solve must
@@ -11028,7 +11039,7 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
         'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
                'Hammer', 'Ring', 'optional', 'E', 'W',
                'April', 'August', 'September', 'November',
-               'April 2023', 'April 2026', 'November 2025',
+               'April 2023', 'April 2026', 'August 2026', 'November 2025',
                'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
                '%(ap)s AP'},
