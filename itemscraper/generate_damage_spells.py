@@ -5,6 +5,7 @@ import argparse
 from copy import deepcopy
 import json
 import pprint
+import re
 import sys
 import textwrap
 from dataclasses import dataclass, replace
@@ -885,20 +886,54 @@ def _fill_missing_row(values: Optional[Sequence[Optional[str]]]) -> List[str]:
     return filled
 
 
+_STACK_CAP_IN_TEXT = {
+    "fr": re.compile(r"cumulable\s+(\d+)\s+fois", re.IGNORECASE),
+    "en": re.compile(r"stackable\s+(\d+)\s+times?", re.IGNORECASE),
+}
+
+
+def _stack_limit_from_description(spell: Mapping[str, Any]) -> Optional[int]:
+    """The cap the spell text states, for the spells whose levels state none.
+
+    The Eliotrope's portals are the case that matters: every rank of Portail
+    and of Errance reads max_stack -1, undeclared, while the description says
+    "cumulable 10 fois" / "stackable 10 times". The site showed one portal
+    where the game allows ten. The two languages have to agree, so a stray
+    number in one translation cannot invent a cap on its own.
+    """
+    caps = set()
+    for lang, pattern in _STACK_CAP_IN_TEXT.items():
+        match = pattern.search(spell.get("description_%s" % lang) or "")
+        if not match:
+            return None
+        caps.add(int(match.group(1)))
+    if len(caps) != 1:
+        return None
+    cap = caps.pop()
+    return cap if cap > 1 else None
+
+
 def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
     levels = spell.get("levels") or []
     stack_values: List[int] = []
+    declared = False
     for level in levels:
         try:
             stack = int(level.get("max_stack"))
         except (TypeError, ValueError):
             continue
-        if stack <= 1:
+        if stack < 1:
             continue
-        stack_values.append(stack)
-    if not stack_values:
+        declared = True
+        if stack > 1:
+            stack_values.append(stack)
+    if stack_values:
+        return max(stack_values)
+    # A level that says 1 is saying the spell does not stack, and that beats
+    # any prose. Only silence at every rank is worth reading the text for.
+    if declared:
         return None
-    return max(stack_values)
+    return _stack_limit_from_description(spell)
 
 
 def _derive_glyph_damage(

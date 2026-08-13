@@ -1653,7 +1653,7 @@ DAMAGE_SPELLS = {
             [['2', '2', '2'], ['2', '2', '2']],
             None,
             ['buff_final', 'buff_finalheals'],
-        ), is_linked=(1, 'Wandering'), casting={'ap': [1, 1, 1], 'per_turn': [2, 2, 2]}, spell_id=14574),
+        ), stacks=10, is_linked=(1, 'Wandering'), casting={'ap': [1, 1, 1], 'per_turn': [2, 2, 2]}, spell_id=14574),
         Spell('Persiflage', [15, 82, 149], Effects(
             [['16-18', '20-23', '25-29']],
             [['19-22', '24-28', '30-35']],
@@ -1734,7 +1734,7 @@ DAMAGE_SPELLS = {
             [['2', '2'], ['2', '2']],
             None,
             ['buff_final', 'buff_finalheals'],
-        ), is_linked=(2, 'Portal'), casting={'ap': [1, 1], 'per_turn': [3, 3]}, spell_id=14604),
+        ), stacks=10, is_linked=(2, 'Portal'), casting={'ap': [1, 1], 'per_turn': [3, 3]}, spell_id=14604),
         Spell('Sinecure', [125, 192], Effects(
             [['9-11', '12-14'], ['9-11', '12-14']],
             [['12-14', '15-17'], ['12-14', '15-17']],
