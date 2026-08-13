@@ -5959,3 +5959,43 @@ msgstr ""
 msgid "Suggested transcendence rune"
 msgstr ""
 
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Monster pages now list every spell a monster casts, with its AP cost, its range and what the spell does."
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "A much better smithmagic workshop"
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "A failed throw now behaves like the game: several stats can drop at once, the sink pays first, and the surplus goes back into the sink."
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "The odds are computed for finishing the whole line rather than landing one rune, with critical success, neutral success and critical failure shown apart."
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Rune weights and densities were checked against each game's own encyclopedia, and the runes that were missing from the modern roster are in."
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Transcendence runes: the game's own rules are enforced, and each item of a generated build suggests the rune it gains most from."
+msgstr ""
+
+
+
+
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Touch shields and equipment conditions"
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Shields now carry the stats they reach once fed to level 100, so the optimizer stops undervaluing them, and ten shields that are still obtainable are back."
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
+msgstr ""

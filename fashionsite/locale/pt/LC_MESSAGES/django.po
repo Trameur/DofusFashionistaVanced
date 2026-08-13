@@ -6496,3 +6496,43 @@ msgstr "Cada um é escrito por versão onde a regra difere de uma para a outra."
 msgid "Suggested transcendence rune"
 msgstr "Runa de transcendência sugerida"
 
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Monster pages now list every spell a monster casts, with its AP cost, its range and what the spell does."
+msgstr "As páginas de monstros agora listam cada feitiço que o monstro lança, com o seu custo em PA, o seu alcance e o que faz."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "A much better smithmagic workshop"
+msgstr "Uma oficina de forjamagia bem melhor"
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "A failed throw now behaves like the game: several stats can drop at once, the sink pays first, and the surplus goes back into the sink."
+msgstr "Um lançamento falhado comporta-se agora como no jogo: vários atributos podem cair de uma vez, o poço paga primeiro e o excedente volta para o poço."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "The odds are computed for finishing the whole line rather than landing one rune, with critical success, neutral success and critical failure shown apart."
+msgstr "As probabilidades são calculadas para terminar a linha inteira e não para acertar uma só runa, com sucesso crítico, sucesso neutro e falha crítica em separado."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Rune weights and densities were checked against each game's own encyclopedia, and the runes that were missing from the modern roster are in."
+msgstr "Os pesos e densidades das runas foram verificados na enciclopédia de cada jogo, e as runas que faltavam na lista moderna já estão lá."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Transcendence runes: the game's own rules are enforced, and each item of a generated build suggests the rune it gains most from."
+msgstr "Runas de transcendência: as regras do jogo são aplicadas, e cada item de um equipamento gerado sugere a runa que mais lhe aproveita."
+
+
+
+
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Touch shields and equipment conditions"
+msgstr "Escudos e condições de equipamento no Touch"
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Shields now carry the stats they reach once fed to level 100, so the optimizer stops undervaluing them, and ten shields that are still obtainable are back."
+msgstr "Os escudos trazem agora os atributos que atingem depois de alimentados até ao nível 100, por isso o otimizador deixa de os subestimar, e voltam dez escudos que ainda são obteníveis."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
+msgstr "As condições de PA e PM do equipamento de Touch chegam agora ao otimizador, verificadas nos totais que o próprio equipamento atinge, por isso um equipamento gerado é um que a sua personagem consegue mesmo usar."

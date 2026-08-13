@@ -6554,3 +6554,43 @@ msgstr "Chacun est écrit par version là où la règle diffère de l'une à l'a
 msgid "Suggested transcendence rune"
 msgstr "Rune de transcendance suggérée"
 
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Monster pages now list every spell a monster casts, with its AP cost, its range and what the spell does."
+msgstr "Les pages de monstres listent maintenant chaque sort que lance le monstre, avec son coût en PA, sa portée et ce que le sort fait."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "A much better smithmagic workshop"
+msgstr "Un atelier de forgemagie nettement meilleur"
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "A failed throw now behaves like the game: several stats can drop at once, the sink pays first, and the surplus goes back into the sink."
+msgstr "Un jet raté se comporte maintenant comme en jeu : plusieurs statistiques peuvent sauter à la fois, le puits paie en premier, et l’excédent y retourne."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "The odds are computed for finishing the whole line rather than landing one rune, with critical success, neutral success and critical failure shown apart."
+msgstr "Les probabilités portent sur la ligne entière plutôt que sur une seule rune, avec le succès critique, le succès neutre et l’échec critique affichés séparément."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Rune weights and densities were checked against each game's own encyclopedia, and the runes that were missing from the modern roster are in."
+msgstr "Les poids et densités des runes ont été vérifiés dans l’encyclopédie de chaque jeu, et les runes qui manquaient à la liste moderne sont là."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Transcendence runes: the game's own rules are enforced, and each item of a generated build suggests the rune it gains most from."
+msgstr "Runes de transcendance : les règles du jeu sont appliquées, et chaque objet d’un équipement généré suggère la rune dont il profite le plus."
+
+
+
+
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Touch shields and equipment conditions"
+msgstr "Boucliers et conditions d’équipement sur Touch"
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "Shields now carry the stats they reach once fed to level 100, so the optimizer stops undervaluing them, and ten shields that are still obtainable are back."
+msgstr "Les boucliers portent maintenant les statistiques qu’ils atteignent une fois nourris au niveau 100, si bien que l’optimiseur ne les sous-estime plus, et dix boucliers toujours obtenables sont de retour."
+
+#: .\chardata\templates\chardata\changelog_content.html:1
+msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
+msgstr "Les conditions en PA et PM des équipements Touch arrivent maintenant jusqu’à l’optimiseur, vérifiées sur les totaux que l’équipement atteint lui-même, si bien qu’un équipement généré est un équipement que votre personnage peut réellement porter."
