@@ -152,18 +152,14 @@
        {% include "chardata/version-selector.html" %}
        {% if user and not user.is_anonymous %}
          <div class="login">
-            {% if not is_super_user %}
             {% game_url 'manage_account' as manage_account_link %}
+            {% if is_super_user %}<b><span style="color: red">[SUPER USER] </span></b>{% endif %}
                 {% if useralias %}
-                    {% blocktrans with useralias as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %} 
+                    {% blocktrans with useralias as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %}
                 {% else %}
-                    {# Neither set is the common case, and it read "Welcome, !" #}
                     {% blocktrans with user.get_full_name|default:user.username as user %}Welcome, <a id="logged_user_alias" href="{{manage_account_link}}">{{user}}</a>! {% endblocktrans %}
                 {% endif %}
-                <a id="header_settings_link" href="{{manage_account_link}}">{% trans "Settings" %}</a> ·
-            {% else %}
-            <b><span style="color: red">[SUPER USER] </span></b>{{ user.get_full_name }}
-            {% endif %}
+                ·
                          <form action="{% url 'auth:logout' %}" method="post" style="display: inline; margin: 0;">
                              {% csrf_token %}
                              <input type="hidden" name="next" value="/">
