@@ -1,11 +1,6 @@
-{% load i18n %}{% comment %}
-An item line names a spell and stops there. This is the info marker that says
-what the spell does. Hover opens it, and so does a tap: the site's only
-touch-aware popover is the comparison cart, and this follows it rather than a
-bare title attribute, which shows nothing on a phone.
-{% endcomment %}<span class="spell-tip" tabindex="0" role="button"
+{% load i18n %}<span class="spell-tip" tabindex="0" role="button"
       aria-label="{% blocktrans with spell=tip.spell %}What {{ spell }} does{% endblocktrans %}">
-    <span class="spell-tip-mark" aria-hidden="true">i</span>
+    <span class="spell-tip-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg></span>
     <span class="spell-tip-panel" role="tooltip">
         <b class="spell-tip-name">{{ tip.spell }}</b>
         <span class="spell-tip-text">{{ tip.description }}</span>

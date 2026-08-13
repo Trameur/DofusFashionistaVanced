@@ -6,6 +6,11 @@
     'use strict';
 
     var OPEN = 'st-open';
+    // The same info icon the sidebar uses, so the popups match the pages.
+    var MARK = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none"'
+             + ' stroke="currentColor" stroke-width="1.8" stroke-linecap="round"'
+             + ' stroke-linejoin="round"><circle cx="12" cy="12" r="9"/>'
+             + '<path d="M12 11v5"/><path d="M12 8h.01"/></svg>';
     var hoverCapable = !(window.matchMedia
                          && window.matchMedia('(hover: none)').matches);
 
@@ -79,7 +84,7 @@
             return '';
         }
         return '<span class="spell-tip" tabindex="0" role="button">'
-             + '<span class="spell-tip-mark" aria-hidden="true">i</span>'
+             + '<span class="spell-tip-mark" aria-hidden="true">' + MARK + '</span>'
              + '<span class="spell-tip-panel" role="tooltip">'
              + '<b class="spell-tip-name">' + esc(tip.spell) + '</b>'
              + '<span class="spell-tip-text">' + esc(tip.description) + '</span>'
